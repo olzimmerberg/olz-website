@@ -1,0 +1,282 @@
+/*
+CLASS
+box: Boxen [z.B. für Bilder]
+nobox: kein Rahmen [z.B. rechte Seite (Schema <h2>TITEL</h2><div class='nobox'>INHALT</div>)]
+tablebar: Zwischentitel in Tabelle [z.B. Forum, Monatstitel]
+dropdown: Knopf mit Rahmen [z.B. in "admin_db.php"]
+button: Knopf ohne Rahmen [z.B. Forum "Neuer Eintrag"]
+thumbs (für tr oder table): Thumbnails vierspaltig [z.B. Galerie Vorschau Startseite]
+foto (für tr oder table): Bild (einspaltig) [z.B. Flash-Video Anzeige]
+galerie_kopf (für tr oder table): Zellen vierspaltig [z.B. Galerie Header]
+liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
+image (für table): Linksbündiges Bild [z.B. Aktuell]
+*/
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url('icns/fonts/OpenSans400.woff') format('woff'), url('icns/fonts/OpenSans400.svg#OpenSans') format('svg');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('icns/fonts/OpenSans700.woff') format('woff'), url('icns/fonts/OpenSans700.svg#OpenSans-Bold') format('svg');
+}
+
+
+html 
+    {height: 100%;
+    margin-bottom: 0.1px;}
+
+/*Nur IE 4-6*/
+* html #ie 
+    {width:1200px;}
+
+body
+    {z-index:-2;
+    background-image:url(icns/brushedbgschwarz.png);}
+
+*
+    {margin:0px;
+    padding:0px;
+    border:0px;
+    font-family:'Open Sans', Verdana, sans-serif;
+    font-size:12px;
+    color:#000000;
+    text-align:left;
+    vertical-align:top;}
+
+table
+    {width:100%;
+    empty-cells:show; 
+    border-collapse:separate;
+    table-layout:auto;
+    border-spacing:0px;}
+
+table.image
+    {float: left; 
+    padding:0px 10px 5px 0px;}
+thead td
+	{background-color:#e6e6e6;
+	font-weight:bold;
+	border:1px solid grey;}
+.kartenstatistik td, .kartenstatistik span
+	{padding:3px;
+	font-weight:bold;
+	font-size:16px;}    
+h2, h3
+    {clear:left;}
+#content_wrapper
+    {height:100%;
+    position:relative;
+    background-repeat:repeat;
+    background-image:url(icns/mainbg.png);
+    border-radius:3px;}
+#content_mitte
+    {height:100%;
+    position:relative;
+    margin:0px 300px 0px 180px;
+    padding:10px 10px 10px 10px;
+    border-right:solid 2px white;
+    border-left:solid 2px white;}
+#content_rechts
+    {width:300px;
+    height:100%;
+    float:right;
+    padding-top:10px;}
+#content_menu
+    {width:180px;
+    height:0px;
+    float:left;
+    padding-top:10px;}
+#content_double
+    {height:100%;
+    position:relative;
+    margin:0px 0px 0px 180px;
+    padding:10px;}
+
+ul
+    {list-style-type:none}
+.thumbs td
+    {height:120px;
+    width:25%;
+    padding:5px;}
+
+.foto td
+    {height:625px;
+    padding:10px;}
+.paragraf
+    {display:block;
+	padding-top:10px;}
+.result_kat
+    {border:solid 1px white!important;
+    text-align:center;overflow:hidden;
+    background-color:#DDD;}
+#countdown
+    {border-collapse:separate collapse;
+	border-spacing:10px 1px;}
+#countdown td
+    {text-align:center;
+	border:1px solid #FFF;
+    background-color:#DDD;}
+.kartenstatistik td
+    {border:solid 1px grey;
+    background-color:#DDD;}
+.result_kat a
+    {color:black;font-size:80%;font-weight:bold;margin:0px;}
+.zeit, .rang
+    {text-align:right;padding-right:10px !important;}
+
+.box_ganz > div
+    { width:222px; height:133px; background-image:url(icns/mainbg.png); background-repeat:repeat; border-radius:3px; border-left:5px solid;}
+.heute
+    {background-color:#D4E7CE;
+    margin:0px;}
+p.heute > a
+    {color:black;}
+p.heute
+    {padding:5px 8px 8px 8px;}
+tr.off *
+	{color:grey !important;}
+/*-----------AUSSCHREIBUNG-------------*/
+.hide
+	{display:none;}
+.menu_aus
+	{text-align:center;
+	background-color:#D4E7CE;
+	border:solid 1px #007521;
+	padding:3px;
+	font-weight:bold;}
+.trenner
+	{background-color:#D4E7CE;height:10px;}
+
+/*-----------ABSTAENDE-------------*/
+h2, h3, .buttonbar
+    {margin:8px 0px 6px 0px;
+     padding-left:3px;padding-top:5px;}
+h6, .section, li, .nobox, .tablebar
+    {margin:0px 0px 4px 0px;
+    padding:0px;}
+p, ul, div.thumb, .paragraf
+    {margin:4px 6px 8px 8px;}
+.liste td, .liste_ftp td, .galerie_kopf td, .tablebar, .AccordionTitle
+    {padding:1px 8px 2px 8px;}
+.titel
+    {padding-bottom:0px;}
+        
+/*-----------RAHMEN-------------*/
+.nobox, .noborder, input.button
+    {border:0px;}
+.titel, h2, h3, .buttonbar
+    {border-bottom:1px solid #007521;}
+img, input, textarea, .box, .thumbs img
+    {border-top:1px solid #444444; border-right:1px solid #aaaaaa; border-bottom:1px solid #aaaaaa; border-left:1px solid #444444;}
+.dropdown
+    {border-top:1px solid #dddddd; border-right:1px solid #999999; border-bottom:1px solid #999999; border-left:1px solid #dddddd;}
+.liste td, .liste_ftp td
+    {border-right:1px solid #999999; border-bottom:1px solid #999999;}
+
+/*-----------HINTERGRUND-------------*/
+.menu_column
+    {background-image:url(icns/brushedbggrau.png);
+    border-bottom:1px solid #888888;
+    background-repeat:repeat;}
+.tablebar, .galerie_kopf td, .AccordionTitle
+    {background-image:url(icns/listheaderbg.png) !important;
+    background-repeat:repeat;}
+.dropdown
+    {background-color:#ddeedd;}
+a, span, div, li
+    {background:no-repeat left top;}
+input.button
+    {background-color:transparent;}
+.olz_text_insert
+    {background-color:#f5b8b7;
+    border:solid 1px;}
+.selected
+	{background-color:#f5b8b7;}
+.karten
+    {background-color:#ddeedd;}
+
+
+/*-------SCHRIFTEIGENSCHAFTEN--------*/
+.titel
+    {font-size:115%;
+    vertical-align:bottom;}
+a
+    {color:#007521;
+    text-decoration:none;}
+a.text
+    {color:#000000;}
+a:hover, .AccordionTitle
+    {color:#000000;}
+.passe *
+    {color:#999999; }
+.error
+    {color:#ee1111 !important;}
+.dropdown, input.button
+    {color:#007521; }
+h2, h3, .buttonbar, .dropdown, .button, .tablebar, .titel, .galerie_kopf td, .AccordionTitle
+    {font-weight:bold;}
+h2, h3, h2 a, .tablebar
+    {font-size:115%;}
+h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
+    {vertical-align:middle;
+    text-align:center;}
+.blog td
+    {font-weight:bold;
+    font-size:110%;}
+.bahndaten td:first-child
+    {font-weight:bold;}
+
+/*-----------------LINKS------------------*/
+/* für a, span, div, li */
+.linkblack,.linkedit,.linkext,.linkimg,.linkint,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev
+	{padding:0px 6px 0px 17px;
+	background-position: left center;}
+.linkblack
+    {background-image:url(icns/pfeil_schwarz.png);}
+.linkedit
+    {background-image:url(icns/edit.gif);}
+.linkext
+    {background-image:url(icns/pfeil_ext.png);}
+.linkimg
+    {background-image:url(icns/slides.gif);}
+.linkint
+    {background-image:url(icns/pfeil_gruen.png);}
+.linkmap
+    {background-image:url(icns/map.gif);}
+.linkmail
+    {background-image:url(icns/mail.png);}
+.linkmovie
+    {background-image:url(icns/movie.gif);}
+.linkneu
+    {background-image:url(icns/neu.gif);}
+.linkoev
+    {background-image:url(icns/oev.gif);}
+.linkpdf, a[href$='.pdf']
+    {background-image:url(icns/pdf.gif);
+    padding:0px 6px 0px 19px;}
+.liste_ftp a[href$='.pdf']
+    {background-image:url('');
+    padding-left:0px;}
+
+/*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/
+.AccordionTitle, .AccordionContent, .AccordionContainer
+    {position: relative;}
+.AccordionTitle
+    {overflow: hidden;
+    cursor: pointer;
+    -moz-user-select: none;
+    font-size:115%;}
+.AccordionContent
+    {height: 1px;/* IE Erlaubt 0px nicht */
+    overflow: hidden;
+width:100%;}
+.AccordionContent_
+    {height: auto;}
+.AccordionContainer
+    {
+    }

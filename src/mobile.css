@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url('icns/fonts/OpenSans400.woff') format('woff'), url('icns/fonts/OpenSans400.svg#OpenSans') format('svg');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('icns/fonts/OpenSans700.woff') format('woff'), url('icns/fonts/OpenSans700.svg#OpenSans-Bold') format('svg');
+}
+
+body {
+    background-image:url(icns/mainbg.png);
+    margin:0px;
+    font-family:OpenSans, sans-serif;
+}
+a {
+    text-decoration:none;
+    color:rgb(0,0,0);
+}
+.header {
+    height:36px;
+    line-height:36px;
+    background-image:url(icns/listheaderbg.png);
+    color:rgb(0,0,0);
+    border-bottom:1px solid rgb(200,200,200);
+    padding:0px 10px 0px 10px;
+    margin:10px 0px 0px 0px;
+}
+.entry {
+    background-color:rgb(252,252,252);
+    border-bottom:1px solid rgb(200,200,200);
+    padding:1px 3px 1px 3px;
+    height:64px;
+    overflow:hidden;
+}
+.date {
+    font-size:10px;
+    font-weight:normal;
+    color:rgb(150,150,150);
+}
+.title {
+    font-size:14px;
+    font-weight:bold;
+}
+.text {
+    font-size:12px;
+    font-weight:normal;
+}

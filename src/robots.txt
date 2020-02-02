@@ -1,0 +1,8 @@
+User-agent:  *
+Disallow: /img/
+User-agent:  *
+Disallow: /olz_mitglieder/
+User-agent:  *
+Disallow: /trainingphotos/
+User-agent: Googlebot-Image
+Disallow: /

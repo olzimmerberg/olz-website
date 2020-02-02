@@ -1,0 +1,1 @@
+<iframe src="library/svg-edit-2.7/svg-editor.html?lang=de&img_save=embed&bkgd_url=../../../OLZimmerbergAblage/OLZ Dokumente/Karten/au/Au_2012_6000.jpg" width="100%" height="800" style='overflow:hidden;'></iframe>

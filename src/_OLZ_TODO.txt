@@ -1,0 +1,43 @@
+***************************
+PRIORITÄT 1
+***************************
+
+Bugfixes
+--------
+- (sh/17.05.2014) on_off vereinheitlichen (z.B. im Forum nicht anzeigen, da bei submit autom. Aktiv)
+- (sh/19.05.2014) Aktuell => Spezial: ist veraltet, Bilder werden nicht gefunden, ich habe ein Backup. Was tun?
+- (sh/19.05.2014) Kaderblog: Wieso nicht wie bei Aktuell mit History rechts?
+- (sh/19.05.2014) Forum: Wieso nicht wie bei Aktuell mit History rechts?
+
+
+
+***************************
+PRIORITÄT 2
+***************************
+
+Termine
+-------
+- (uu/30.10.2012) Spezailseite für Admin-Tools einrichten
+Beschreibung: Zusammenfassen von Tool für die Bearbeitung/Administration der Termine auf einer Seite
+(Synchronisierung bzw. Import von SOLV-Termindaten, Tool für wiederkehrende Termine (Trainings))
+- (sh/19.05.2014) Idee von Simon: Aktuell & Galerien mit Termin verlinken, auf Startseite Aktuell, Galerie, Rangliste & Link auf Termin beisammen anzeigen
+
+Files
+-----
+- (sh/18.04.2014) Reihenfolge ändern per Drag & Drop
+
+
+
+***************************
+Erledigt. Testen!
+***************************
+
+Bilder
+------
+- (sh/01.05.2014) Galerien zusammenfügen => einfach Drag & Drop Galerie von rechts in Dropzone
+- (sh/18.04.2014) Alten Code löschen (auskommentiert)
+- (uu/08.08.2011) Bilderreihenfolge ändern => testen!!!
+
+Files
+-----
+- (uu/17.05.2014) Files Funktionieren nicht => bugfix (war Copy & Paste Fehler)

@@ -1,3 +1,4 @@
+deploy/
 dev-server/*
 !dev-server/_
 !dev-server/config.template.php

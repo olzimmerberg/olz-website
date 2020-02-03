@@ -62,9 +62,12 @@ while ($row = mysqli_fetch_array($result))
     // Dateicode einfügen
     $textlang = $row["textlang"];
     preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $textlang, $matches);
-    //print_r(htmlentities($textlang)); echo "<br>";
+    //preg_match_all("/<datei([0-9]+)[^>]*(\s+file=(\"|\')([^\"\']+)(\"|\'))[^>]*>/i", $textlang, $matches_file);
+
     for ($i=0; $i<count($matches[0]); $i++) {
         $tmptext = $matches[4][$i];
+        $tmpfile = $matches_file[4][$i];
+		//if($_SESSION['auth']=='all') echo $i."***2".$matches_file[4][$i]."<br>";
         if (mb_strlen($tmptext)<1) $tmptext = "Datei ".$matches[1][$i];
         $tmp_html = olz_file($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
         $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
@@ -98,7 +101,7 @@ if($statistik){
 
     // OLZ JOM-Counter 2019
     $jom_solv_uids = array(9610, 9543, 9781, 9636, 9542, 9541, 9380, 9390, 9950, 9815, 9821);
-    $sql = "SELECT sp1.name AS name, COUNT(*) AS cnt, GROUP_CONCAT(se.name SEPARATOR '\n') AS events FROM solv_results sr LEFT JOIN solv_people sp ON (sr.person=sp.id) LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id) LEFT JOIN solv_events se ON (sr.event=se.solv_uid) WHERE sr.event IN ('".implode("', '", $jom_solv_uids)."') AND sr.class IN ('H10', 'H12', 'H14', 'H16', 'H18', 'D10', 'D12', 'D14', 'D16', 'D18') GROUP BY sp1.id ORDER BY cnt DESC, se.date ASC";
+    $sql = "SELECT sp1.name AS name, COUNT(*) AS cnt, GROUP_CONCAT(se.name SEPARATOR '\n') AS events FROM solv_results sr LEFT JOIN solv_people sp ON (sr.person=sp.id) LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id) LEFT JOIN solv_events se ON (sr.event=se.solv_uid) WHERE sr.event IN ('".implode("', '", $jom_solv_uids)."') AND sr.class IN ('H10', 'H12', 'H14', 'H16', 'H18', 'D10', 'D12', 'D14', 'D16', 'D18') GROUP BY sp1.id ORDER BY cnt DESC"; // cnt DESC, se.date ASC
     $result = $db->query($sql);
     $num_people = $result->num_rows;
     $sum_starts = 0;
@@ -152,7 +155,7 @@ function htmlbox($entry,$typ) {
     $edit_admin = ($zugriff)?"<a href='index.php?page=2&amp;id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>":"";
     if (!$entry) return "<div class='box_ganz'>&nbsp;</div>";
     $titel = ($entry["titel"]!="") ? $edit_admin.$entry["titel"] : ""; // Wieso???
-    return "<div class='box_ganz'><div style='border-color:#".$colors[$entry["wichtig"]].";'><h3>".$titel."</h3><div style='padding:0px 5px;'>".olz_br($entry["textlang"])."</div></div></div>";
+    return "<div class='box_ganz'><div style='border-color:#".$colors[$entry["wichtig"]].";'><h3>".$titel."</h3><div style='padding:0px 5px;' class='box_content'>".olz_br($entry["textlang"])."</div></div></div>";
 }
 
 ?>

@@ -1,6 +1,7 @@
 <!--<h2>Karten</h2>-->
 <!--<script type="text/javascript" src="http://map.search.ch/api/map.js"></script>--> <!-- >>> Probleme mit neuer API und Firefox)-->
-<script type="text/javascript" src="http://map.classic.search.ch/api/map.js"></script>
+<!-- <script type="text/javascript" src="https://map.classic.search.ch/api/map.js"></script>-->
+<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>
 <?php
 $db_table = "karten";
 

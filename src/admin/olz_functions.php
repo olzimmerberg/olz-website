@@ -283,7 +283,7 @@ if (checkdate(substr($datum,5,2),substr($datum,8,2),substr($datum,0,4)))
 else
     {//Unix-Datum
     }
-return str_replace(array("tt","t","mm","m","MM","M","xxxxx","jjjj","jj","w","WW","W"),array(date("d",$datum),date("j",$datum),date("m",$datum),date("n",$datum),"xxxxx",$monate[date("n",$datum)-1],utf8_encode(strftime("%B",$datum)),date("Y",$datum),date("y",$datum),date("w",$datum),$wochentage_lang[date("w",$datum)],$wochentage[date("w",$datum)]),$format);
+return str_replace(array("tt","t","mm","m","MM","M","xxxxx","jjjj","jj","w","WW","W"),array(date("d",$datum),date("j",$datum),date("m",$datum),date("n",$datum),"xxxxx",$monate[date("n",$datum)-1],strftime("%B",$datum),date("Y",$datum),date("y",$datum),date("w",$datum),$wochentage_lang[date("w",$datum)],$wochentage[date("w",$datum)]),$format);
 
 }
 

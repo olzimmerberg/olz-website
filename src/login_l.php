@@ -1,5 +1,4 @@
 <h2>Login</h2>
-<script src="scripts/md5.js" type="text/javascript"></script>
 <table>
 	<tr>
 		<td style="width:20%;padding-top:4px;font-weight:bold;">Benutzername:</td>

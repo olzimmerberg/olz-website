@@ -104,7 +104,7 @@ $mail_from = "noreply@olzimmerberg.ch"; // Absenderadresse wird als additional h
 //-------------------------------------------
 // Sprache für Datum-/Zeitangaben setzen
 //-------------------------------------------
-setlocale(LC_ALL, 'de_DE@euro','de_DE');
+setlocale(LC_ALL, 'de_DE@euro','de_DE','de_DE.UTF8');
 
 //-----------------------------------------
 //Ampersand Output

@@ -154,8 +154,11 @@ tr.off *
 
 /*-----------ABSTAENDE-------------*/
 h2, h3, .buttonbar
-    {margin:8px 0px 6px 0px;
-     padding-left:3px;padding-top:5px;}
+    {margin:8px 0px 4px 0px;
+     padding-left:5px;padding-top:5px;}
+.box_content h3
+	{margin:0px -5px 4px -5px;
+	padding-top:0px;}
 h6, .section, li, .nobox, .tablebar
     {margin:0px 0px 4px 0px;
     padding:0px;}
@@ -233,13 +236,18 @@ h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
 
 /*-----------------LINKS------------------*/
 /* für a, span, div, li */
+.linkblack,.linkedit,.linkext,.linkimg,.linkint,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev,.linkduplicate
+	{background-position: left center;}
 .linkblack,.linkedit,.linkext,.linkimg,.linkint,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev
-	{padding:0px 6px 0px 17px;
-	background-position: left center;}
+	{padding:0px 6px 0px 14px;}
+.linkedit2
+	{padding:0px 0px 0px 14px;}
 .linkblack
     {background-image:url(icns/pfeil_schwarz.png);}
 .linkedit
     {background-image:url(icns/edit.gif);}
+.linkduplicate
+    {background-image:url(icns/duplicate.gif);}
 .linkext
     {background-image:url(icns/pfeil_ext.png);}
 .linkimg

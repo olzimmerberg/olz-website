@@ -69,6 +69,7 @@ if ($zugriff)
                 'save' => 'Speichern',
                 'delete' => 'Löschen',
                 'start' => 'start',
+                'duplicate' => 'duplicate',
                 'undo' => 'undo');
     }
 else
@@ -161,7 +162,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
     // USER Mysql-Abfrage definieren
     else
         {if (isset($id)) $sql = "WHERE (id = '$id')";
-        else $sql = "WHERE (datum >= '".$_SESSION[$db_table.'jahr_']."-01-01') AND ((datum_off>='".date("Y-m-d")."') OR (datum_off='0000-00-00')) AND (on_off = '1')";
+        else $sql = "WHERE (datum >= '".$_SESSION[$db_table.'jahr_']."-01-01') AND ((datum_off>='".date("Y-m-d")."') OR (datum_off='0000-00-00') OR datum_off IS NULL) AND (on_off = '1')";
         }
     if ($show == "0") $sql .= " AND ((datum >= '$heute') OR (datum_end >= '$heute'))";
     if (isset($uid)) $sql .= " OR (id=$uid)";
@@ -259,7 +260,8 @@ if (($db_edit=="0") OR ($do=="vorschau"))
             {$link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm=$id'>Online-Anmeldung</a></div>".$link; }
 
         if ($zugriff AND ($do != 'vorschau'))
-            {$edit_admin = "<a href='index.php?id=$id&$button_name=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a>";
+        	//Berbeiten-/Duplizieren-Button
+            {$edit_admin = "<a href='index.php?id=$id&$button_name=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='index.php?id=$id&$button_name=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
             if (($datum_anmeldung!='') AND ($datum_anmeldung!='0000-00-00'))
                 {$edit_anm = "<a href='index.php?page=14&amp;id_anm=$id&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";}
             else

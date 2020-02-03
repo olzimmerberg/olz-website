@@ -22,7 +22,7 @@ if ($sql1 > "")
 	$sql = "select * from termine WHERE ($sql1) AND (on_off = 1) ORDER BY datum DESC";
 	$result = $db->query($sql);
 	$num = mysqli_num_rows($result);
-	if ($num>0) $result_termine .= "<tr class=\"listdiv\"><td colspan='2'>Termine...</td></tr>";
+	if ($num>0) $result_termine .= "<tr><td colspan='2'><h3 class='tablebar'>Termine...</h3></td></tr>";
 
 	for ($i=0;$i<$num;$i++)
 		{$row = mysqli_fetch_array($result);
@@ -31,7 +31,7 @@ if ($sql1 > "")
 		$text = strip_tags($row['text']);
 		$id = $row['id'];
 		$jahr = date("Y",$datum);
-		$datum = date("j. ",$datum).utf8_encode(strftime("%B",$datum)).date(" Y",$datum);
+		$datum = date("j. ",$datum).strftime("%B",$datum).date(" Y",$datum);
 		cutout($text);
 		$result_termine .= "<tr><td><a href=\"index.php?page=3&amp;show=1&amp;id=$id&amp;jahr=$jahr\" class=\"linkint\"><b>$datum</b></a></td><td><b><a href=\"index.php?page=3&amp;show=1&amp;id=$id&amp;jahr=$jahr\" class=\"linkint\">".$titel."</a></b><br>$prefix".$text."$suffix</td></tr>";
 		}
@@ -39,7 +39,7 @@ if ($sql1 > "")
 	//AKTUELL
 	$result = $db->query("select * from aktuell WHERE ($sql1) AND (on_off = 1) ORDER BY datum DESC");
 	$num = mysqli_num_rows($result);
-	if ($num>0) $result_aktuell = "<tr class=\"listdiv\"><td colspan='2'>Aktuell...</td></tr>";
+	if ($num>0) $result_aktuell = "<tr><td colspan='2'><h3 class='tablebar'>Aktuell...</h3></td></tr>";
 
 	for ($i=0;$i<$num;$i++)
 		{$row = mysqli_fetch_array($result);
@@ -47,7 +47,7 @@ if ($sql1 > "")
 		$titel = strip_tags($row['titel']);
 		$text = strip_tags($row['text']).strip_tags($row['textlang']);
 		$id = $row['id'];
-		$datum = date("j. ",$datum).utf8_encode(strftime("%B",$datum)).date(" Y",$datum);
+		$datum = date("j. ",$datum).strftime("%B",$datum).date(" Y",$datum);
 		cutout($text);
 		$result_aktuell .= "<tr><td><a href=\"index.php?page=2&amp;id=$id\" class=\"linkint\"><b>$datum</b></a></td><td><b><a href=\"index.php?page=2&amp;id=$id\" class=\"linkint\">".$titel."</a></b><br>$prefix".$text."$suffix</td></tr>";
 		}
@@ -55,7 +55,7 @@ if ($sql1 > "")
 	//FORUM
 	$result = $db->query("select * from forum WHERE ($sql2) AND (on_off = 1) ORDER BY datum DESC");
 	$num = mysqli_num_rows($result);
-	if ($num>0) $result_forum = "<tr class=\"listdiv\"><td colspan='2'>Forum...</td></tr>";
+	if ($num>0) $result_forum = "<tr><td colspan='2'><h3 class='tablebar'>Forum...</h3></td></tr>";
 
 	for ($i=0;$i<$num;$i++)
 		{$row = mysqli_fetch_array($result);
@@ -63,7 +63,7 @@ if ($sql1 > "")
 		$titel = strip_tags($row['name']);
 		$text = strip_tags($row['eintrag']);
 		$id = $row['id'];
-		$datum = date("j. ",$datum).utf8_encode(strftime("%B",$datum)).date(" Y",$datum);
+		$datum = date("j. ",$datum).strftime("%B",$datum).date(" Y",$datum);
 		cutout($text);
 		$result_forum .= "<tr><td><a href=\"index.php?page=5&amp;id_forum=$id\" class=\"linkint\"><b>$datum</b></a></td><td><b><a href=\"index.php?page=5&amp;id_forum=$id\" class=\"linkint\">".$titel."</a></b><br>$prefix".$text."$suffix</td></tr>";
 		}
@@ -71,7 +71,7 @@ if ($sql1 > "")
 	// GALERIE
 	$result = $db->query("select * from galerie WHERE $sql3 AND (on_off = 1) ORDER BY datum DESC");
 	$num = mysqli_num_rows($result);
-	if ($num>0) $result_galerie = "<tr class=\"listdiv\"><td colspan='2'>Galerien...</td></tr>";
+	if ($num>0) $result_galerie = "<tr><td colspan='2'><h3 class='tablebar'>Galerien...</h3></td></tr>";
 
 	for ($i=0;$i<$num;$i++)
 		{$row = mysqli_fetch_array($result);
@@ -79,7 +79,7 @@ if ($sql1 > "")
 		$datum_ = $row['datum'];
 		$titel = strip_tags($row['titel']);
 		$id = $row['id'];
-		$datum = date("j. ",$datum).utf8_encode(strftime("%B",$datum)).date(" Y",$datum);
+		$datum = date("j. ",$datum).strftime("%B",$datum).date(" Y",$datum);
 		cutout($text);
 		$result_galerie .= "<tr><td><a href=\"index.php?page=4&amp;id=$id\" class=\"linkint\"><b>$datum</b></a></td><td><b><a href=\"index.php?page=4&amp;id=$id\" class=\"linkint\">".$titel."</a></b></td></tr>";
 		}

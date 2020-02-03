@@ -27,7 +27,7 @@ $pages = array(
     "17"=>array("svgeditor.php"),
     "18"=>array("fuer_einsteiger_l.php", "fuer_einsteiger_r.php"),
     "19"=>array("zol/karten.php"),
-    "20"=>array("trophy2019.php"),
+    "20"=>array("trophy2020.php"),
     "21"=>array("material.php"),
     "99"=>array("results.php","startseite_r.php"),
     "mail"=>array("divmail_l.php","divmail_r.php"),
@@ -134,7 +134,7 @@ if($page=='ftp'){
     }
     // Datei herunterladen
     if($ftp_mode=='get_file'){
-        $pfad = "http://".$ftp_user.":".$ftp_pw."@".substr($_GET['pfad'],7);
+        $pfad = "https://".$ftp_user.":".$ftp_pw."@".substr($_GET['pfad'],8);
         header('Location: '.$pfad);
     }
 
@@ -160,7 +160,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <script type='text/javascript' src='scripts/fader.js'></script>
 <script type='text/javascript' src='scripts/accordion.js'></script>
 <script type='text/javascript' src='scripts/xns.js'></script>
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.min.js'></script>
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
 <!--[if lt IE 9]>
   <script type='text/javascript' src='library/lightview-3.4.0/js/excanvas/excanvas.js'></script>
 <![endif]-->
@@ -176,8 +176,6 @@ if ( window.self !== window.top ) {
 echo "</head>";
 if (preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) OR preg_match('/Win/i',$_SERVER['HTTP_USER_AGENT']))  echo "<body style='font-size:70%'>\n";
 else echo "<body style='font-size:100%;'>\n";
-
-
 
 //<body class='layout' onload='init()'>
 echo "<a name='top'></a>
@@ -350,14 +348,14 @@ echo "</div>";
 if (count($pages[$page])==2) {
     echo "
 <div id='content_rechts'>
-<form name='Formularr' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data' onsubmit='passwort.value = hex_md5(passwort.value+challenge.value)'>
+<form name='Formularr' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
 <div>";
     include $pages[$page][1];
     echo "</div>
 </form>
 </div>
 <div id='content_mitte'>
-<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data' onsubmit='passwort.value = hex_md5(passwort.value+challenge.value)'>";
+<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
     include $pages[$page][0];
     echo "</form>
 </div>
@@ -367,7 +365,7 @@ if (count($pages[$page])==2) {
 // 1-spaltiges Layout
 else {
     echo "<div id='content_double'>
-<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data' onsubmit='passwort.value = hex_md5(passwort.value+challenge.value)'>
+<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
 <div>";
 	include $pages[$page][0];
     echo "</div>

@@ -152,7 +152,6 @@ while($row = $result->fetch_assoc())
 	}
 if (isset($subject['forum'])) $subject['forum'] = $linie."Neue Forumbeiträge auf olzimmerberg.ch\r\n".$linie.$items;
 
-
 // Mail verschicken
 if (isset($subject))
 	{$sql = "select * from newsletter WHERE (on_off = '1') AND (email > '') ORDER BY email DESC";
@@ -187,6 +186,7 @@ if (isset($subject))
 				mail($email,"=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
 				//echo "email:".$email."<br>betreff:".$betreff."<br>mailtext:".$mailtext."<br>mailheader:".$mail_header;
 				array_push($mail_to,$email);
+				sleep(1);
 				}
 			}
 		}

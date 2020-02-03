@@ -322,6 +322,7 @@ $db_felder = array(
 $_SESSION['edit']['button'] = $$button_name;
 
 if ($function == "start") $do = "getdata";
+elseif ($function == "duplicate") $do = "duplicate";
 elseif ($function == "start_user") $do = "getdata";
 elseif ($function == "neu") $do = "neu";
 elseif ($function == "edit") $do = "edit";
@@ -357,6 +358,32 @@ if ($do=="code")
         <input type='text' name='uid'  style='width:100%;'></td></tr></table>";
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Weiter","1"),array("Abbrechen","2")),"")."</div>";
     unset($_SESSION['edit']['button']);
+    }
+//-------------------------------------------------------------
+// DS duplizieren
+//-------------------------------------------------------------
+if ($do == "duplicate")
+    {$sql = "SELECT * from $db_table WHERE (id = '".$id."') ORDER BY id ASC";
+    $result = $db->query($sql);
+    if ($result->num_rows==0)
+        {$do = "abbruch";
+		$alert = "Kein Datensatz gewählt.";
+        }
+    else
+        {$row = $result->fetch_assoc();
+		unset($row["id"]); //Remove ID from array
+		$row = array_filter($row,'strlen'); // Null-/Leerwerte herausfiltern
+		$sql = "INSERT INTO $db_table";
+		$sql .= " ( " .implode(", ",array_keys($row)).") ";
+		$sql .= " VALUES ('".implode("', '",array_values($row)). "')";
+    	$result = $db->query($sql);
+    	$id = $db->insert_id;
+		$_SESSION[$db_table."id_"] = $id;
+		$_SESSION['edit']['modus'] = "neuedit";
+        $do = "getdata";
+        }
+    if ($_SESSION['edit']['modus'] != "neuedit") $_SESSION['edit']['modus'] = "";
+
     }
 
 //-------------------------------------------------------------
@@ -526,7 +553,11 @@ if ($do == "submit")
     }
     foreach ($db_felder as $tmp_feld)
         {$var = $tmp_feld[0];
-        if (is_array($_SESSION[$db_table.$var]))
+		//uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+        if (is_array($_SESSION[$db_table.$var]) AND $tmp_feld[2]=='boolean')
+            {$_SESSION[$db_table.$var] = $_SESSION[$db_table.$var][0];
+            }
+        elseif (is_array($_SESSION[$db_table.$var]))
             {$_SESSION[$db_table.$var] = explode(" ",$_SESSION[$db_table.$var]);
             }
         array_push($sql_tmp,$delimiter.$var." = ".user2db($tmp_feld[2], $_SESSION[$db_table.$var]));
@@ -629,8 +660,13 @@ if ($do == "vorschau")
                     }
                 }
             }
-        $vorschau[$var] = stripslashes($_SESSION[$db_table.$var]);
+
+		//uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+		$wert = ($tmp_feld[2]=='boolean') ? $_SESSION[$db_table.$var][0] : $_SESSION[$db_table.$var];
+        $vorschau[$var] = stripslashes($wert);
+
         }
+
     if (isset($_SESSION['edit']['replace']))
         {$do = "edit";
         }
@@ -651,6 +687,9 @@ if ($do == "edit")
     {// Eingabe-Formular aufbauen
     $html_input = "";
     $html_hidden = "";
+	if($function == "duplicate") $html_input = "<h2 style='margin-bottom:15px;'>Duplikat bearbeiten</h2>";
+	elseif($function == "neu") $html_input = "<h2 style='margin-bottom:15px;'>Neuer Datensatz bearbeiten</h2>";
+	else $html_input = "<h2 style='margin-bottom:15px;'>Datensatz bearbeiten</h2>";
     // Datenbankfelder
 
     foreach ($db_felder as $tmp_feld)

@@ -1,0 +1,22 @@
+on: push
+name: Publish test.olzimmerberg.ch
+jobs:
+  deploy-test:
+    name: Deploy to test.olzimmerberg.ch
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build deployment
+      run: ./build-deployment.sh
+    - name: Deploy over SFTP
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        METHOD: sftp
+        FTP_SERVER: lx7.hoststar.hosting
+        PORT: 5544
+        FTP_USERNAME: deploytest.olzimmerberg.ch
+        FTP_PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
+        ARGS: --parallel=4 --delete --verbose
+        # --delete arg will delete files on the server if you've deleted them in git
+        LOCAL_DIR: ./deploy
+        REMOTE_DIR: .

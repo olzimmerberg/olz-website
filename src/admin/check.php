@@ -32,17 +32,19 @@ if (isset($_POST["username"])) // Login überprüfen
 		{return false;}
 		$nutzer = trim($_POST["username"]);
 		$pwd  = trim($_POST["passwort"]);
+		$challenge  = trim($_POST["challenge"]);
 		$sql = "SELECT * FROM user WHERE (benutzername = '$nutzer')";
 		$result = $db->query($sql);
 		$row = $result->fetch_assoc();
-		if ($pwd == md5($row['passwort'].$_SESSION["challenge"]))
+		// if ($pwd == md5($row['passwort'].$_SESSION["challenge"]))
+		if ($pwd == $row['passwort'] && $challenge == $_SESSION["challenge"])
 			{$_SESSION["auth"]=$row['zugriff']; // Eingaben korrekt
 			$_SESSION["root"] = $row["root"];
 			if ($_SESSION["root"]=="") $_SESSION["root"] = "OLZimmerbergAblage";
 			// Mögliche Werte für 'zugriff': all, ftp, termine, mail
 			$page = $_SESSION["page"];
 			$_SESSION['user'] = $nutzer;
-			unset($_SESSION["challenge"]);
+			//unset($_SESSION["challenge"]);
 			return true;}
 		else
 			{$page = "10"; // Eingaben falsch

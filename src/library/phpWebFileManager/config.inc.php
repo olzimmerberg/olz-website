@@ -39,10 +39,10 @@
  *   require_once 'plugins/auth.php';
  */
 
-/* 
- * Original variables 
+/*
+ * Original variables
  *
- * Keep this CGI variables while proccessing phpWebFileManager. 
+ * Keep this CGI variables while proccessing phpWebFileManager.
  * If there are more than one variable, separate it with '&'.
  * Example: action=show_files&user=12&key=1234567890abcdef
  */
@@ -63,7 +63,7 @@ $fm_cfg['lang'] = 'ger';
 
 /*
  * Directories constants
- * 
+ *
  * First constant defines root directory. phpWebFileManager guarantee
  * that is impossible to get to the higher level. This parameter could
  * be only relative to the phpWebFileManager script on the same web
@@ -77,7 +77,7 @@ $fm_cfg['lang'] = 'ger';
 	if ($local)
 		{$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
 	elseif (in_array('all',split(' ',$_SESSION['auth'])))*/
-	
+
 	/*if (in_array('all',split(' ',$_SESSION['auth'])))
 		{$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
 	else
@@ -88,8 +88,8 @@ else
 	{$fm_cfg['dir']['root'] = $root;
 	}*/
 //$fm_cfg['dir']['root']  = '';
-$fm_cfg['dir']['root'] = (in_array('all',explode(' ',$_SESSION['auth']))) ? '' : "OLZimmerbergAblage";
-$fm_cfg['dir']['start'] = 'OLZimmerbergAblage'; // = http://olzimmerberg.ch/html/OLZimmerbergAblage
+$fm_cfg['dir']['root'] = $data_path."OLZimmerbergAblage";
+$fm_cfg['dir']['start'] = $data_path.'OLZimmerbergAblage'; // = http://olzimmerberg.ch/html/OLZimmerbergAblage
 
 /*
  * CGI variables prefix
@@ -101,10 +101,10 @@ $fm_cfg['cgi'] = 'fm_';
 
 /*
  * Links prefix
- * 
+ *
  * First option specifies prefix component used to build links
  * (A HREF references) for View feature.
- * 
+ *
  * Second option will be used for building image references
  * (<IMG SRC ...>). On most from the systems you can use /icns/
  * to use default Apache icons. By default is icns/ used, what
@@ -126,7 +126,7 @@ $fm_cfg['url']['icons'] = 'icns/';
  *
  * First constant specifies creation mode of new directories. It must
  * be set. If unsure, leave default value of 0777.
- * 
+ *
  * Second constant specifies creation mode of new files or mode for
  * uploaded files. Set it to 0 if you want to create files with
  * default premissions.
@@ -141,7 +141,7 @@ $fm_cfg['mode']['file'] = 0;
  * Every language has its own date format string. You can override it
  * here by specifing new date format. It will be in exact form passed
  * to date() function. Leave this variable empty, if you want to use
- * language specific date format. 
+ * language specific date format.
  *
  * Examples:
  *   'M&\n\b\s\p;d,&\n\b\s\p;Y'  // Mar 24, 2002

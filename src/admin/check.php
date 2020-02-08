@@ -40,7 +40,7 @@ if (isset($_POST["username"])) // Login überprüfen
         if ($pwd == $row['passwort'] && $challenge == $_SESSION["challenge"])
             {$_SESSION["auth"]=$row['zugriff']; // Eingaben korrekt
             $_SESSION["root"] = $row["root"];
-            if ($_SESSION["root"]=="") $_SESSION["root"] = "OLZimmerbergAblage";
+            if ($_SESSION["root"]=="") $_SESSION["root"] = "./";
             // Mögliche Werte für 'zugriff': all, ftp, termine, mail
             $page = $_SESSION["page"];
             $_SESSION['user'] = $nutzer;

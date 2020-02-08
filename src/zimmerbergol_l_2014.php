@@ -107,7 +107,7 @@ if ($groesse != 0)
         <td><b>Laufform</b></td>
         <td>Stadt-OL, Mitteldistanz</td>
     </tr>
- 	<tr>
+    <tr>
         <td><b>Bahnlegung/Kontrolle</b></td>
         <td>Jan Hug / Hansjörg Gasser</td>
     </tr>

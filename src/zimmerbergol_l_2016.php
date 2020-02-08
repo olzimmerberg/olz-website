@@ -139,7 +139,7 @@ if ($groesse != 0)
         <td><b>Karte</b></td>
         <td>Buchenegg, 1:10'000, Februar 2016<br>eingedruckte Bahnen</td>
     </tr>
- 	<tr>
+    <tr>
         <td><b>Bahnlegung/Kontrolle</b></td>
         <td>Priska Badertscher, Hansjörg Gasser / Urs Utzinger</td>
     </tr>

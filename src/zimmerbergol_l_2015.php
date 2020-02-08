@@ -134,7 +134,7 @@ if ($groesse != 0)
         <td><b>Karte</b></td>
         <td>Richterswil, 1:4'000, neue Karte Mai 2015</td>
     </tr>
- 	<tr>
+    <tr>
         <td><b>Bahnlegung/Kontrolle</b></td>
         <td>Julia Gross / Fabio Würmli</td>
     </tr>

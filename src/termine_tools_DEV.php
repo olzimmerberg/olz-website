@@ -64,19 +64,19 @@ return;
 
 if ($zugriff == "1") {
     include_once "parsers.php"; // functions 'solvdataforyear($year)', 'go2oldata()', load_url($url)
-	echo "<table><tr><td>";
-	if ($status=="Hinzufügen") {
-		$sql = "INSERT into termine (datum,datum_end,datum_off,titel,text,typ,link,xkoord,ykoord,on_off,go2ol,solv_uid) VALUES ('".$_POST["datum"]."','".$_POST["datum_end"]."','".$_POST["datum_off"]."','".$_POST["titel"]."','".$_POST["text"]."','".$_POST["typ"]."','".$_POST["link"]."','".$_POST["xkoord"]."','".$_POST["ykoord"]."','".$_POST["on_off"]."','".$_POST["go2ol"]."','".$_POST["solv_uid"]."')";
+    echo "<table><tr><td>";
+    if ($status=="Hinzufügen") {
+        $sql = "INSERT into termine (datum,datum_end,datum_off,titel,text,typ,link,xkoord,ykoord,on_off,go2ol,solv_uid) VALUES ('".$_POST["datum"]."','".$_POST["datum_end"]."','".$_POST["datum_off"]."','".$_POST["titel"]."','".$_POST["text"]."','".$_POST["typ"]."','".$_POST["link"]."','".$_POST["xkoord"]."','".$_POST["ykoord"]."','".$_POST["on_off"]."','".$_POST["go2ol"]."','".$_POST["solv_uid"]."')";
         $db->query($sql);
-		echo "<div style='position:absolute; margin-top:20px; background-color:#ffffff;'>".$sql."</div>";
+        echo "<div style='position:absolute; margin-top:20px; background-color:#ffffff;'>".$sql."</div>";
     }
 
-	if ($status=="IDs setzen") {
-		$keys = array_keys($_POST);
-		for ($i=0; $i<count($keys); $i++) {
-			if (substr($keys[$i],0,3)=="olz") {
-				$sql = "UPDATE termine SET solv_uid='".$_POST[$keys[$i]]."' WHERE id='".substr($keys[$i],3)."'";
-				$db->query($sql,$conn_id);
+    if ($status=="IDs setzen") {
+        $keys = array_keys($_POST);
+        for ($i=0; $i<count($keys); $i++) {
+            if (substr($keys[$i],0,3)=="olz") {
+                $sql = "UPDATE termine SET solv_uid='".$_POST[$keys[$i]]."' WHERE id='".substr($keys[$i],3)."'";
+                $db->query($sql,$conn_id);
             }
         }
     }    
@@ -186,20 +186,20 @@ if ($zugriff == "1") {
 //echo $solv[$i]["uniqueid"]."<br>";
             $result = $db->query("SELECT * FROM termine WHERE solv_uid='".intval($solv[$i]["uniqueid"])."'", $conn_id);
             if (0<mysqli_num_rows($result)) {
-				$solvbyid[$solv[$i]["uniqueid"]] = $solv[$i];
-				$row = mysqli_fetch_array($result);
-				// Koordinaten aktualisieren
-				if($solv[$i]["coordx"]>0 AND $solv[$i]["coordy"]>0){
-					$sql = "UPDATE termine SET xkoord=".$solv[$i]["coordx"].",ykoord=".$solv[$i]["coordy"]." WHERE id=".$row['id'];
-					$result = $db->query($sql);
-					echo "Koordinaten aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["coordx"].",".$solv[$i]["coordy"]."<br>";}
-				
-				if($solv[$i]["link"]>""){
-					$sql = "UPDATE termine SET solv_event_link='".$solv[$i]["link"]."' WHERE id=".$row['id'];
-					echo $sql;
-					$result = $db->query($sql);
-					echo "Ausschreibung aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["link"]."<br>";}
-				}
+                $solvbyid[$solv[$i]["uniqueid"]] = $solv[$i];
+                $row = mysqli_fetch_array($result);
+                // Koordinaten aktualisieren
+                if($solv[$i]["coordx"]>0 AND $solv[$i]["coordy"]>0){
+                    $sql = "UPDATE termine SET xkoord=".$solv[$i]["coordx"].",ykoord=".$solv[$i]["coordy"]." WHERE id=".$row['id'];
+                    $result = $db->query($sql);
+                    echo "Koordinaten aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["coordx"].",".$solv[$i]["coordy"]."<br>";}
+                
+                if($solv[$i]["link"]>""){
+                    $sql = "UPDATE termine SET solv_event_link='".$solv[$i]["link"]."' WHERE id=".$row['id'];
+                    echo $sql;
+                    $result = $db->query($sql);
+                    echo "Ausschreibung aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["link"]."<br>";}
+                }
         }
         print_r(array_keys($solvbyid));
         echo "<br><br>";
@@ -398,7 +398,7 @@ table.raster tr {height:2em;}
     // SOLV UIDs
     
     if ($_SESSION["termine_helper"]=="solvuids") {
-		$year = date("Y");
+        $year = date("Y");
         if (8<date("m")) $year++;
         $sql_tmp = ($alle_zeigen) ? "" : "(solv_uid='0' OR solv_uid IS NULL) AND" ;
         $sql = "SELECT * FROM termine WHERE $sql_tmp datum>='".$year."-01-01' AND datum<='".$year."-12-31' AND (typ LIKE '%ol%') AND (titel NOT LIKE '%Meldeschluss%')";

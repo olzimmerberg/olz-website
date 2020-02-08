@@ -49,8 +49,8 @@ $organigramm = array(
     ),
     array(
         "<h6>Nachwuchs &<br>Leistungssport</h6>".olz_funktion_insert(49, 1),
-    	"<h6>Trainer Leistungssport</h6><div class='section'>".olz_funktion_insert(52, 0, "<br>")."</div>",
-    	"<h6>Team Gold</h6><div class='section'><i>Hauptleitung</i><br>".olz_funktion_insert(53, 0, "<br>")."<br><i>Leiterteam</i><br>".olz_funktion_insert(54, 0, "<br>")."</div>",
+        "<h6>Trainer Leistungssport</h6><div class='section'>".olz_funktion_insert(52, 0, "<br>")."</div>",
+        "<h6>Team Gold</h6><div class='section'><i>Hauptleitung</i><br>".olz_funktion_insert(53, 0, "<br>")."<br><i>Leiterteam</i><br>".olz_funktion_insert(54, 0, "<br>")."</div>",
     ),
     array(
         "<h6>Training &<br>Technik</h6>".olz_funktion_insert(7, 1),

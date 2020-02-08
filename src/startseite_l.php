@@ -7,20 +7,20 @@ ev.cancelBubble = true;
 </script>
 <!--EINSTEIGER-->
 <div style='padding-bottom:10px; text-align:center; font-size:14px; font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>
-	Neu hier? <a href='?page=18' class='linkint' style='font-size:14px;'>Hier gehts zur Seite für Einsteiger</a>
+    Neu hier? <a href='?page=18' class='linkint' style='font-size:14px;'>Hier gehts zur Seite für Einsteiger</a>
 </div>
 
 <!--ZIMMERBERG OL-->
 
 <!--<div style='margin:0px;padding-bottom:10px;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>
-	<div style='padding:0px;margin:0px;margin-left:auto;margin-right:auto;text-align:center;font-size:14px;border:solid 0px;overflow:hidden;'>
-		<div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-bottom:20px;'>
-		<a href='?page=11' style='font-size:18px;' class='linkint'>2. Nationaler OL - 12. Zimmerberg OL - Sprint-Staffel für alle</a></div>
+    <div style='padding:0px;margin:0px;margin-left:auto;margin-right:auto;text-align:center;font-size:14px;border:solid 0px;overflow:hidden;'>
+        <div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-bottom:20px;'>
+        <a href='?page=11' style='font-size:18px;' class='linkint'>2. Nationaler OL - 12. Zimmerberg OL - Sprint-Staffel für alle</a></div>
 
-		<table style='table-layout:fixed;'>
-			<tr>
-				<td style='width:100%;padding:0px 5px;'>
-					<div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;'>-->
+        <table style='table-layout:fixed;'>
+            <tr>
+                <td style='width:100%;padding:0px 5px;'>
+                    <div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;'>-->
 <?php
 /* 4 Zufallsbilder aus Gallerie anzeigen */
 /*$id = "1239";
@@ -29,28 +29,28 @@ $text = "";
 $rand = array();
 $pfad_galerie = $root_path."img/galerie/";
 for ($i=1; is_file($pfad_galerie.$id."/img/".str_pad($i ,3, '0', STR_PAD_LEFT).".jpg"); $i++);$groesse = ($i-1);
-	for ($i=0; $i<((4<$groesse)?4:$groesse); $i++) {
-		$randtmp = str_pad(rand(1,$groesse),3,"0",STR_PAD_LEFT);
-		while (array_search($randtmp,$rand)!==false) {
-			$randtmp = rand(1,$groesse);}
-		array_push($rand,$randtmp);
-		$text .= "<td style='border:0px;margin:0px;padding:0px;height:80px;text-align:center;'>".olz_image("galerie", $id, $randtmp, 110, "image")."</td>";
-	}
+    for ($i=0; $i<((4<$groesse)?4:$groesse); $i++) {
+        $randtmp = str_pad(rand(1,$groesse),3,"0",STR_PAD_LEFT);
+        while (array_search($randtmp,$rand)!==false) {
+            $randtmp = rand(1,$groesse);}
+        array_push($rand,$randtmp);
+        $text .= "<td style='border:0px;margin:0px;padding:0px;height:80px;text-align:center;'>".olz_image("galerie", $id, $randtmp, 110, "image")."</td>";
+    }
 $text = "<table><tr>".$text."</tr></table>";
 echo $text;*/
 ?>
 <!--<a href='http://olzimmerberg.ch/?page=4&id=1239' class='linkint' style='font-size:18px;'>mehr Bilder...</a>
 <div style='text-align:center;padding-top:20px;'><a href='https://vimeo.com/camedia/review/336365663/a86a7e1946' target='_blank'><img src='/img/zol_richterswil_2019/zol_movie_1.png' style='width:200px;margin-right:5px;'></a><a href='https://www.dropbox.com/s/oab0bzqgueqpe1q/12.Zimmerberg%20OL.mp4?dl=0' target='_blank'><img src='/img/zol_richterswil_2019/zol_movie_2.png' style='width:200px;margin-left:5px;'></a></div>
 </div>
-	<div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-top:20px;'>
-		<a href='https://www.o-l.ch/cgi-bin/results?rl_id=4971' class='linkext' style='font-size:18px;'>Resultate 2. Nat. OL</a>
-		<a href='https://www.o-l.ch/cgi-bin/results?rl_id=4976' class='linkext' style='font-size:18px;' target='_blank'>Resultate Sprintstaffel</a></div>
-	<div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-top:20px;'>
-		<a href='?page=11&typ=fundgegenstaende' class='linkext' style='font-size:18px;'>Fundgegenstände/Objets trouvés</a></div>
-				</td>
-			</tr>
-		</table>
-	</div>
+    <div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-top:20px;'>
+        <a href='https://www.o-l.ch/cgi-bin/results?rl_id=4971' class='linkext' style='font-size:18px;'>Resultate 2. Nat. OL</a>
+        <a href='https://www.o-l.ch/cgi-bin/results?rl_id=4976' class='linkext' style='font-size:18px;' target='_blank'>Resultate Sprintstaffel</a></div>
+    <div style='padding:0px;margin:auto;text-align:center;font-weight:bold;overflow:auto;padding-top:20px;'>
+        <a href='?page=11&typ=fundgegenstaende' class='linkext' style='font-size:18px;'>Fundgegenstände/Objets trouvés</a></div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>-->
 
 <!--<div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521'><a href='?page=11' class='linkint' style='font-size:14px;'>8. Zimmerberg OL - 10. Mai 2015 > Auflösung Foto-OL, Fundgegenstände</a>
@@ -134,7 +134,7 @@ while ($row = $result->fetch_assoc())
         $icon = "icns/blog.png";
         $titel = "Kaderblog ".ucwords($autor).": ".$titel;
 
-		// Dateicode aus Text entfernen
+        // Dateicode aus Text entfernen
         preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
         for ($i=0; $i<count($matches[0]); $i++) {
             $tmptext = $matches[4][$i];
@@ -159,7 +159,7 @@ while ($row = $result->fetch_assoc())
         }
     else if ($thistype=="forum") // Tabelle 'forum'
         {$titel = $row['f1'];
-		$name = ($row['f2']>"") ? "(".$row['f2'].") " : "" ;
+        $name = ($row['f2']>"") ? "(".$row['f2'].") " : "" ;
         $text = make_expandable($name.$text);
         $link = "?page=5#id".$id;
         $icon = "icns/bubble.png";

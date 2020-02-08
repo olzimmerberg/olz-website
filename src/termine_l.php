@@ -11,7 +11,7 @@
     breite = document.getElementById('Spalte1').offsetWidth-20;
 
     // Neue Mapbox Karte
-	var lat = CHtoWGSlat(xkoord, ykoord);
+    var lat = CHtoWGSlat(xkoord, ykoord);
     var lng = CHtoWGSlng(xkoord, ykoord);
     // Link (im Moment wird noch auf Search.ch verlinkt, denn dort sieht man öV Haltestellen): https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/page.html?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q#15/"+lat+"/"+lng+"
     div.innerHTML="<a href='http://map.search.ch/"+xkoord+","+ykoord+"' target='_blank'><img src='https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/pin-l+009000("+lng+","+lat+")/"+lng+","+lat+",13/"+breite+"x300.png?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q' class='noborder' style='margin:0px;padding:0px;align:center;border:1px solid #000000;'><\/a>";
@@ -209,22 +209,22 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         //Karte zeigen
         if ($xkoord > 0 AND $datum >= $heute)
             {$link .= "<div id='map_$id'><a href='http://map.search.ch/$xkoord,$ykoord' target='_blank' onclick=\"map('$id',$xkoord,$ykoord);return false;\" class='linkmap'>Karte zeigen</a></div>";
-			}
+            }
         //SOLV-Karte zeigen
         else if ($row_solv["coord_x"] > 0 AND $datum >= $heute)
             {$link .= "<div id='map_$id'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"map('$id',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";}
         //Anmeldungs-Link zeigen
-		//Manueller Anmeldungs-Link entfernen
-		if(($go2ol>"" OR $row_solv["entryportal"] == 1 OR $row_solv["entryportal"] == 2)){
-			$var = "Anmeldung";
-			$pos1 = strpos($link,$var) ;
-			if($pos1>0){
-				$pos2 = strrpos(substr($link,0,$pos1),"<");
-				$pos3 = strpos(substr($link,$pos1),">");
-				$search = substr($link,$pos2,($pos1-$pos2+$pos3+strlen($var)));
-				$link = str_replace($search,"",$link);
-			}
-		}
+        //Manueller Anmeldungs-Link entfernen
+        if(($go2ol>"" OR $row_solv["entryportal"] == 1 OR $row_solv["entryportal"] == 2)){
+            $var = "Anmeldung";
+            $pos1 = strpos($link,$var) ;
+            if($pos1>0){
+                $pos2 = strrpos(substr($link,0,$pos1),"<");
+                $pos3 = strpos(substr($link,$pos1),">");
+                $search = substr($link,$pos2,($pos1-$pos2+$pos3+strlen($var)));
+                $link = str_replace($search,"",$link);
+            }
+        }
 
         if ($go2ol>"" AND $datum >= $heute) {
             $link .= "<div class='linkext'><a href='http://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
@@ -233,11 +233,11 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         } else if ($row_solv["entryportal"] == 2 AND $datum >= $heute) {
             $link .= "<div class='linkext'><a href='http://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
         }
-		if(strpos($row['link'],'Ausschreibung')==0 AND $row['solv_event_link']>""){
-		$class = strpos($row['solv_event_link'],".pdf")>0 ? 'linkpdf' : 'linkext' ;
-		$umbruch = $row['link']=="" ? "" : "<br>" ;
-		 $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='$class'>Ausschreibung</a>";
-		}
+        if(strpos($row['link'],'Ausschreibung')==0 AND $row['solv_event_link']>""){
+        $class = strpos($row['solv_event_link'],".pdf")>0 ? 'linkpdf' : 'linkext' ;
+        $umbruch = $row['link']=="" ? "" : "<br>" ;
+         $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='$class'>Ausschreibung</a>";
+        }
         if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"]!="0000-00-00") {
             $text .= ($text=="" ? "" : "<br />") . "Meldeschluss: ".olz_date("t. MM ",$row_solv["deadline"]);
         }
@@ -260,7 +260,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
             {$link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm=$id'>Online-Anmeldung</a></div>".$link; }
 
         if ($zugriff AND ($do != 'vorschau'))
-        	//Berbeiten-/Duplizieren-Button
+            //Berbeiten-/Duplizieren-Button
             {$edit_admin = "<a href='index.php?id=$id&$button_name=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='index.php?id=$id&$button_name=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
             if (($datum_anmeldung!='') AND ($datum_anmeldung!='0000-00-00'))
                 {$edit_anm = "<a href='index.php?page=14&amp;id_anm=$id&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";}
@@ -279,10 +279,10 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         if (($datum_end==$datum) OR ($datum_end=="0000-00-00")) {
             $datum_tmp = olz_date("t. MM ",$datum).olz_date(" (W)",$datum);
             if ($zeit!="00:00:00") {
-            	$datum_tmp .= "<br />".date("H:i", strtotime($zeit));
-            	if ($zeit_end!="00:00:00") {
-	            	$datum_tmp .= " &ndash; ".date("H:i", strtotime($zeit_end));
-            	}
+                $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
+                if ($zeit_end!="00:00:00") {
+                    $datum_tmp .= " &ndash; ".date("H:i", strtotime($zeit_end));
+                }
             }
         }
         //Mehrtägig innerhalb Monat
@@ -290,7 +290,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
             {$datum_tmp =olz_date("t.-",$datum). olz_date("t. ",$datum_end). olz_date("MM",$datum).olz_date(" (W-",$datum).olz_date("W)",$datum_end);}
         //Mehrtägig monatsübergreifend
         else {$datum_tmp = olz_date("t.m.-",$datum). olz_date("t.m. ",$datum_end). olz_date("jjjj",$datum).olz_date(" (W-",$datum).olz_date("W)",$datum_end);}
-		if($uid==$row['id']) $class = " class='selected'" ;
+        if($uid==$row['id']) $class = " class='selected'" ;
         elseif ($datum_end < $heute) $class = " class='passe'";
         elseif ($on_off==0) $class = " class='off'";
         else $class = "";

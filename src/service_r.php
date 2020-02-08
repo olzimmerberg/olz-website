@@ -28,30 +28,30 @@ else $id = $_SESSION[$db_table."id_"];
 //-------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff)
-	{$functions = array('neu' => 'Anmelden',
-				'code' => 'Einstellungen ändern',
-				'edit' => 'Bearbeiten',
-				'start_user' => 'Weiter',
-				'abbruch' => 'Abbrechen',
-				'vorschau' => 'Vorschau',
-				'save' => 'Speichern',
-				'undo' => 'undo',
-				'delete' => 'Löschen');
-	}
+    {$functions = array('neu' => 'Anmelden',
+                'code' => 'Einstellungen ändern',
+                'edit' => 'Bearbeiten',
+                'start_user' => 'Weiter',
+                'abbruch' => 'Abbrechen',
+                'vorschau' => 'Vorschau',
+                'save' => 'Speichern',
+                'undo' => 'undo',
+                'delete' => 'Löschen');
+    }
 else
-	{$functions = array('neu' => 'Anmelden',
-				'code' => 'Einstellungen ändern',
-				'edit' => 'Bearbeiten',
-				'start_user' => 'Weiter',
-				'abbruch' => 'Abbrechen',
-				'vorschau' => 'Vorschau',
-				'save' => 'Speichern',
-				'undo' => 'undo',
-				'delete' => 'Löschen');
-	}
+    {$functions = array('neu' => 'Anmelden',
+                'code' => 'Einstellungen ändern',
+                'edit' => 'Bearbeiten',
+                'start_user' => 'Weiter',
+                'abbruch' => 'Abbrechen',
+                'vorschau' => 'Vorschau',
+                'save' => 'Speichern',
+                'undo' => 'undo',
+                'delete' => 'Löschen');
+    }
 $function = array_search($$button_name,$functions);
 if ($function!="")
-	{include 'admin/admin_db.php';}
+    {include 'admin/admin_db.php';}
 if ($_SESSION['edit']['table']==$db_table) $db_edit = "1";
 else $db_edit = "0";
 $_SESSION[$db_table.'id_'] = $id;
@@ -59,49 +59,49 @@ $_SESSION[$db_table.'id_'] = $id;
 //-------------------------------------------------------------
 // MENÜ
 if ($db_edit=="0")
-	{echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Anmelden","0"),array("Einstellungen ändern","1")),"")."</div>";
-	}
+    {echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Anmelden","0"),array("Einstellungen ändern","1")),"")."</div>";
+    }
 if ($zugriff)
-	{echo "<div class='buttonbar'><a href='index.php?page=mail&buttonrundmail=Neues Rundmail'>Rundmail verschicken</a></div>";
-	}
+    {echo "<div class='buttonbar'><a href='index.php?page=mail&buttonrundmail=Neues Rundmail'>Rundmail verschicken</a></div>";
+    }
 
 //-------------------------------------------------------------
 // VORSCHAU
 if ($do=="vorschau")
-	{$row = $vorschau;
-	echo "<table class='liste'><tr>";
-	$tmp_html = "";
-	$name = $row['name'];
-	$email = $row['email'];
-	$kategorie = explode(" ",$row['kategorie']);
-	$code = $row['uid'];
+    {$row = $vorschau;
+    echo "<table class='liste'><tr>";
+    $tmp_html = "";
+    $name = $row['name'];
+    $email = $row['email'];
+    $kategorie = explode(" ",$row['kategorie']);
+    $code = $row['uid'];
 
-	foreach ($kategorien as $tmp_kategorie)
-		{if (in_array($tmp_kategorie[0],$kategorie)) $tmp_html .= "<div class='linkint' style='font-weight:normal;'> ".$tmp_kategorie[1]."</div>";
-		}
-	echo "<td><b>Vorname, Name:</b> <span style='font-weight:normal;'>$name</span></td></tr>";
-	echo "<td><b>Email-Adresse:</b> <span style='font-weight:normal;'>$email</span></td></tr>";
-	echo "<td><b>Benachrichtigung bei:</b>$tmp_html</td></tr>";
-	echo "<td><b>Code:</b> <span style='font-weight:normal;'>$code</span></td></tr>";
-	echo "</table>";
-	}
+    foreach ($kategorien as $tmp_kategorie)
+        {if (in_array($tmp_kategorie[0],$kategorie)) $tmp_html .= "<div class='linkint' style='font-weight:normal;'> ".$tmp_kategorie[1]."</div>";
+        }
+    echo "<td><b>Vorname, Name:</b> <span style='font-weight:normal;'>$name</span></td></tr>";
+    echo "<td><b>Email-Adresse:</b> <span style='font-weight:normal;'>$email</span></td></tr>";
+    echo "<td><b>Benachrichtigung bei:</b>$tmp_html</td></tr>";
+    echo "<td><b>Code:</b> <span style='font-weight:normal;'>$code</span></td></tr>";
+    echo "</table>";
+    }
 
 if (isset($feedback))
-	{echo "<div class='buttonbar error'>".$feedback."</div>";
-	$feedback = "";
-	}
+    {echo "<div class='buttonbar error'>".$feedback."</div>";
+    $feedback = "";
+    }
 /*
 simon, 20.4.2011, RSS war ünnötig. und es existiert ja sowieso nicht mehr.
 echo "<p style='height:15px;'>
 <h2>Was ist \"RSS\"?</h2>
 <p>
-	RSS ist ein Service auf Webseiten, der ähnlich einem Nachrichtenticker die Überschriften mit einem kurzen Textanriss und einen Link zur Originalseite enthält. Die Bereitstellung von Daten im RSS-Format bezeichnet man auch als RSS-Feed. Er liefert dem Leser, wenn er einmal abonniert wurde, automatisch neue Einträge.
+    RSS ist ein Service auf Webseiten, der ähnlich einem Nachrichtenticker die Überschriften mit einem kurzen Textanriss und einen Link zur Originalseite enthält. Die Bereitstellung von Daten im RSS-Format bezeichnet man auch als RSS-Feed. Er liefert dem Leser, wenn er einmal abonniert wurde, automatisch neue Einträge.
 </p>
 <p>
-	Den RSS-Feed der OLZ-Homepage erreichst du über das RSS-Symbol <img src='icns/rss_marke.gif' style='height:12px;' class='noborder' alt=''> unten in der Menüspalte.
+    Den RSS-Feed der OLZ-Homepage erreichst du über das RSS-Symbol <img src='icns/rss_marke.gif' style='height:12px;' class='noborder' alt=''> unten in der Menüspalte.
 </p>
 <p>
-	Mehr Informationen dazu findest du auf <a href='http://de.wikipedia.org/wiki/RSS' target='_blank'>Wikipedia</a>.
+    Mehr Informationen dazu findest du auf <a href='http://de.wikipedia.org/wiki/RSS' target='_blank'>Wikipedia</a>.
 </p>";
 */
 ?>

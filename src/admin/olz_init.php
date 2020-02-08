@@ -22,19 +22,19 @@ $wochentage_lang = array("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","
 $monate = array ("Jan.","Feb.","März","April","Mai","Juni","Juli","Aug.","Sept.","Okt.","Nov.","Dez.","alle");
 /*
 do
-	{array_push($jahre,end($jahre)-1);
-	}
+    {array_push($jahre,end($jahre)-1);
+    }
 while (end($jahre)>"2006");
 */
 // Spezialkategorien Aktuell
 $aktuell_special = array(
-				"OL-Lager Tesserete 2011" => "lager11",
-				"OL-Lager Vinelz 2010" => "lager10",
-				"OL-Lager Mannenbach 2009" => "lager09",
-				"JWOC 2008" => "jwoc2008",
-				"OL-Lager Schwarzenegg 2008" => "lager08",
-				"JWOC 2006" => "jwoc",
-				"1. Zimmerberg OL 2006" => "zimmerbergol2006");
+                "OL-Lager Tesserete 2011" => "lager11",
+                "OL-Lager Vinelz 2010" => "lager10",
+                "OL-Lager Mannenbach 2009" => "lager09",
+                "JWOC 2008" => "jwoc2008",
+                "OL-Lager Schwarzenegg 2008" => "lager08",
+                "JWOC 2006" => "jwoc",
+                "1. Zimmerberg OL 2006" => "zimmerbergol2006");
 
 //-------------------------------------------
 // UMGEBUNG
@@ -62,17 +62,17 @@ $s->set_std_sonderbehandlung(array("terminelink" => "sql_safe"));
 $s->check_REQUEST();
 
 if (isset($_GET))
-	{reset($_GET);
-	foreach($_GET as $key => $element)
-		{$$key = $element;
-		}
-	}
+    {reset($_GET);
+    foreach($_GET as $key => $element)
+        {$$key = $element;
+        }
+    }
 if (isset($_POST))
-	{reset($_POST);
-	foreach($_POST as $key => $element)
-		{$$key = $element;
-		}
-	}
+    {reset($_POST);
+    foreach($_POST as $key => $element)
+        {$$key = $element;
+        }
+    }
 
 $tmp = array ("5"=>"forum","8"=>"newsletter","13"=>"anmeldung");
 $var = "button".$tmp[$page];

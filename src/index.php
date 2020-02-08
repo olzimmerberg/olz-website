@@ -68,7 +68,7 @@ if (isset($_SESSION["edit"]))
     if (!isset($$button_name) OR isset($id))
         {$alert = "Bearbeitung muss zuerst abgeschlossen werden.";
         $$button_name = $_SESSION["edit"]["button"];
-		$db_table = $_SESSION["edit"]["db_table"];
+        $db_table = $_SESSION["edit"]["db_table"];
         $id = $_SESSION[$db_table."id"];
         //$id = $_SESSION["id"];
         $id_edit = $_SESSION["id_text"];
@@ -122,10 +122,10 @@ if($page=='ftp'){
             }
         else $_GET['fm_dir'] = $var;
 
-	// User 'olzkarten' > darf Daten nicht umbenennen/löschen
+    // User 'olzkarten' > darf Daten nicht umbenennen/löschen
     if($_SESSION['user']=='olzkarten'){
         $var = $_GET['fm_action'];
-	    if(in_array($var,array('confirm_rename_file','confirm_rename_directory','confirm_delete_file','confirm_remove_directory'))){
+        if(in_array($var,array('confirm_rename_file','confirm_rename_directory','confirm_delete_file','confirm_remove_directory'))){
             $_GET['fm_action'] = "";
             $_GET['fm_filename'] = "";
             $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
@@ -367,7 +367,7 @@ else {
     echo "<div id='content_double'>
 <form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
 <div>";
-	include $pages[$page][0];
+    include $pages[$page][0];
     echo "</div>
 </form>
 </div>";

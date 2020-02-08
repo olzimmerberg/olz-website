@@ -18,7 +18,7 @@ $id_training = $row['id'];
 
 $datum = date("j. ",$datum).utf8_encode(strftime("%B",$datum));
 if ($titel == "") $titel = substr(str_replace("<br>"," ",$text),0,$textlaenge);
-	
+    
 if($row['datum']>0) echo "<p><b>Nächstes Training: </b>$datum<br>$titel, $text</p>";
 olz_text_insert(1);
 echo "<h2>Downloads und Links</h2>";

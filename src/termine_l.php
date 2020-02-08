@@ -142,7 +142,7 @@ if($function=='save' AND $_SESSION[$db_table]['repeat']=='repeat'){
                     array_push($sql_tmp,$var." = '".$_SESSION[$db_table.$var]."'");
                     }
                 }
-            $sql = "INSERT $db_table SET ".implode($sql_tmp,",");
+            $sql = "INSERT $db_table SET ".implode(",", $sql_tmp);
             $result = $db->query($sql);
             }
         unset($_SESSION[$db_table]);

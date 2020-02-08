@@ -9,17 +9,7 @@ ev.cancelBubble = true;
 <div style='padding-bottom:10px; text-align:center; font-size:14px; font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>
 	Neu hier? <a href='?page=18' class='linkint' style='font-size:14px;'>Hier gehts zur Seite für Einsteiger</a>
 </div>
-<!-- PANINI 2016 -->
-<?php
-require_once("panini2016.php");
-?>
 
-
-<!--JUBILÄUM-->
-<!--
-<div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521'><img src='img/olz_10jahre.jpg' style='width:400px;'>
-</div>
--->
 <!--ZIMMERBERG OL-->
 
 <!--<div style='margin:0px;padding-bottom:10px;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>

@@ -27,7 +27,7 @@ ev.cancelBubble = true;
 $link = "?page=4&amp;id=".$id;
 $text = "";
 $rand = array();
-$pfad_galerie = $root_path."img/galerie/";
+$pfad_galerie = $data_path."img/galerie/";
 for ($i=1; is_file($pfad_galerie.$id."/img/".str_pad($i ,3, '0', STR_PAD_LEFT).".jpg"); $i++);$groesse = ($i-1);
     for ($i=0; $i<((4<$groesse)?4:$groesse); $i++) {
         $randtmp = str_pad(rand(1,$groesse),3,"0",STR_PAD_LEFT);

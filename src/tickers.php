@@ -10,7 +10,7 @@ function termine_ticker($settings) {
     $heute_highlight = isset($settings["heute_highlight"])?$settings["heute_highlight"]:true;
     //Konstanten
     $db_table = "termine";
-    $heute = date("Y-m-d");    
+    $heute = date("Y-m-d");
     echo "<div class='layout'>";
     echo "<div class='tablebar'>".$titel."</div>";
     //Tabelle auslesen
@@ -24,7 +24,7 @@ function termine_ticker($settings) {
     if ($wotag==0) $wotag = 7;
     $sections = array("Heute","Diese Woche","Nächste Woche","In [x] Tagen","Spätere Termine");
     $flag = 1;
-    
+
     while ($row = mysqli_fetch_array($result))
     {
         $datum_tmp = $row['datum'];
@@ -78,15 +78,15 @@ function termine_ticker($settings) {
             $titel = mb_substr($titel,0,mb_strrpos($titel," "));
             $mehr = " ...";
         }
-        
+
         if ($zugriff) $edit_admin = "<a href='index.php?page=3&amp;id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
         else $edit_admin = "";
-        
+
         if ($time<86400*3) {
             if ($pulse!="") $pulse .= ",";
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
-        
+
         echo "<p$class_heute>".$edit_admin."<a href='index.php?page=3#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>
@@ -157,15 +157,15 @@ function aktuell_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     global $conn_id;
     echo "<!-- AKTUELL TICKER -->
 <h2><a href='index.php?page=2' style=' color:#003508;'>Aktuell ...</a></h2>";
-    
+
     //Konstanten
     $db_table = "aktuell";
     $heute = date("Y-m-d");
-    
+
     //Tabelle auslesen
     $sql = "select * from $db_table WHERE (datum <= '$heute') AND (typ LIKE '%aktuell%') AND (on_off = 1) ORDER BY datum DESC LIMIT $offset,1";
     $result = $db->query ($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum_tmp = strtotime($row['datum']);
     $titel = $row['titel'];
@@ -178,7 +178,7 @@ function aktuell_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
         $text = mb_substr($text,0,mb_strrpos($text," "));
         $mehr = " ...";
     }
-    
+
     echo "<p><h2><a href='index.php?page=2&amp;id=".$id_tmp."' style='color:#003508; padding-left:7px;'><b>".$datum_tmp.":</b> ".$titel."</a></h2>".$text.$mehr."</p>";
 }
 
@@ -311,11 +311,11 @@ function forum_fan($index) {
     //Konstanten
     $db_table = "forum";
     $textlaenge_def = 60;
-    
+
     //Tabelle daten auslesen
     $sql = "SELECT * from $db_table WHERE (on_off = '1') AND (email > '') AND (name > '') AND (eintrag > '') ORDER BY datum DESC, zeit DESC LIMIT $index,1";
     $result = $db->query($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $name = $row['name'];
     $eintrag = $row['eintrag'];
@@ -336,11 +336,11 @@ function blog_fan($index) {
     //Konstanten
     $db_table = "blog";
     $textlaenge_def = 60;
-    
+
     //Tabelle daten auslesen
     $sql = "SELECT * from $db_table WHERE (datum <= '".date("Y-m-d")."') AND (on_off = 1) ORDER BY datum DESC LIMIT $index,1";
     $result = $db->query($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum = strtotime($row['datum']);
     $autor = $row['autor'];
@@ -371,11 +371,11 @@ function aktuell_fan($index) {
     //Konstanten
     $db_table = "aktuell";
     $textlaenge_def = 60;
-    
+
     //Tabelle daten auslesen
     $sql = "SELECT * from $db_table WHERE (datum <= '".date("Y-m-d")."') AND (typ LIKE '%aktuell%') AND (on_off = 1) ORDER BY datum DESC LIMIT $index,1";
     $result = $db->query($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum = strtotime($row['datum']);
     $titel = ucfirst($row['titel']);
@@ -402,11 +402,11 @@ function termine_fan($index) {
     $db_table = "termine";
     $textlaenge_def = 60;
     $heute = date("Y-m-d");
-    
+
     //Tabelle daten auslesen
     $sql = "SELECT * from $db_table WHERE ((datum >= '$heute') OR (datum_end >= '$heute')) AND (on_off = 1) ORDER BY datum ASC LIMIT $index,1";
     $result = $db->query($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum = strtotime($row['datum']);
     $titel = str_replace("<br>",", ",$row['titel']);
@@ -433,17 +433,17 @@ function termine_fan($index) {
 }
 
 function galerie_fan($index) {
-    global $conn_id,$root_path;
+    global $conn_id,$data_path;
     //Konstanten
     $db_table = "galerie";
     $textlaenge_def = 60;
-    $pfad_galerie = $root_path."galerie/";
+    $pfad_galerie = $data_path."galerie/";
     $heute = date("Y-m-d");
-    
+
     //Tabelle daten auslesen
     $sql = "SELECT * from $db_table WHERE (datum <= '$heute') AND (on_off = '1') ORDER BY datum DESC LIMIT $index,1";
     $result = $db->query($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum = strtotime($row['datum']);
     $titel = str_replace("<br>",", ",$row['titel']);
@@ -539,14 +539,14 @@ function forum_ticker($textlaenge_def=60,$nowrap=false,$listenlaenge=4) {
     echo "<!-- FORUM TICKER -->
 <h2><a href='index.php?page=5' style=' color:#003508;'>Forum ...</a></h2>
 <ul class='layout'".$html_tmp.">";
-    
+
     //Konstanten
     $db_table = "forum";
-    
+
     //Tabelle daten auslesen
     $sql = "select * from $db_table WHERE (on_off = '1') AND (email > '') AND (name > '') AND (eintrag > '') ORDER BY datum DESC, zeit DESC LIMIT $listenlaenge";
     $result = $db->query($sql);
-    
+
     while ($row = mysqli_fetch_array($result))
     {$name = $row['name'];
         $eintrag = $row['eintrag'];
@@ -557,7 +557,7 @@ function forum_ticker($textlaenge_def=60,$nowrap=false,$listenlaenge=4) {
         $eintrag = mb_substr($eintrag,0,mb_strrpos($eintrag," "));
         if ($zugriff) $edit_admin = "<a href='index.php?page=5&amp;id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
         else $edit_admin = "";
-        
+
         echo "<li>".$edit_admin."<a href='index.php?page=5#id".$id_tmp."' style='color:#003508; padding-left:7px;'><b>".$datum_tmp.": (".$name.")</b> ".$eintrag." ...</a></li>";
     }
     echo "</ul>";
@@ -567,15 +567,15 @@ function blog_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     global $conn_id;
     echo "<!-- BLOG TICKER -->
 <h2><a href='index.php?page=7' style=' color:#003508;'>Blog ...</a></h2>";
-    
+
     //Konstanten
     $db_table = "blog";
     $heute = date("Y-m-d");
-    
+
     //Tabelle auslesen
     $sql = "select * from $db_table WHERE (datum <= '$heute') AND (on_off = 1) ORDER BY datum DESC LIMIT $offset,1";
     $result = $db->query ($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum_tmp = strtotime($row['datum']);
     $titel = $row['titel'];
@@ -588,25 +588,25 @@ function blog_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
         $text = mb_substr($text,0,mb_strrpos($text," "));
         $mehr = " ...";
     }
-    
+
     echo "<p><h2><a href='index.php?page=7&amp;id=".$id_tmp."#id".$id_tmp."' style='color:#003508; padding-left:7px;'><b>".$datum_tmp.":</b> ".$titel."</a></h2>".$text.$mehr."</p>";
 }
 
 
 function galerie_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
-    global $conn_id,$root_path;
+    global $conn_id,$data_path;
     echo "<!-- GALERIE TICKER -->
 <h2><a href='index.php?page=4' style=' color:#003508;'>Galerie ...</a></h2>";
-    
+
     //Konstanten
     $db_table = "galerie";
-    $pfad_galerie = $root_path."galerie/";
+    $pfad_galerie = $data_path."galerie/";
     $heute = date("Y-m-d");
-    
+
     //Tabelle auslesen
     $sql = "select * from $db_table WHERE (datum <= '$heute') AND (on_off = 1) ORDER BY datum DESC LIMIT $offset,1";
     $result = $db->query ($sql);
-    
+
     $row = mysqli_fetch_array($result);
     $datum_tmp = strtotime($row['datum']);
     $titel = $row['titel'];
@@ -626,7 +626,7 @@ function galerie_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
         $indexes[$i] = str_pad($indexes[$i] ,3, '0', STR_PAD_LEFT);
     }
     $datum_tmp = date("j. ",$datum_tmp).utf8_encode(strftime("%B",$datum_tmp));
-    
+
     echo "<p><h2><a href='index.php?page=4' style='color:#003508; padding-left:7px;'><b>".$datum_tmp.":</b> ".$titel." (".$autor.")</a></h2>";
     for ($i=0; $i<count($indexes); $i++) {
         echo "<img src='".$pfad_galerie."foto".$foto_datum."/thumb/".$foto_datum."_th_".$indexes[$i].".jpg' style='height:55px; padding:5px;' alt='zufallsbild'>";

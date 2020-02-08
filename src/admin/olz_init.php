@@ -1,6 +1,4 @@
 <?php
-if (strpos($_SERVER["SCRIPT_NAME"],"test")) {$root_path="http://olzimmerberg.ch/";} else {$root_path="";}
-
 if (isset($_GET['unset'])) unset($_SESSION['edit']);
 
 //-----------------------------------------

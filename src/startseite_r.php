@@ -62,17 +62,12 @@ if (($db_edit=="0") OR ($do=="vorschau"))
     $text = $row['text'];
     $titel = $row['titel'];
     $id_tmp = $row['id'];
-    
+
     if ($zugriff AND ($db_edit=="0")) $edit_admin = "<a href='index.php?id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
     else $edit_admin = "";
 
     if (substr($bild1,0,4)!='img/') $bild1 = 'img/'.$bild1;
 
-    /*
-            {if (substr($bild2,0,4)!='img/') $bild2 = 'img/'.$bild2;
-        echo "<img src='".$root_path."".$bild1."' style='height:100%;' name='bdw' alt='' title='".$titel."' onmouseover='Bildwechsel(Bild2,\"$bild1\",\"$bild2\")' onmouseout='Bildwechsel(Bild1,\"$bild1\",\"$bild2\")' class='box'></div><p style='text-align:center; font-weight:bold;'>".$edit_admin.$text."</p>";
-        }
-    */
     $img2 = olz_image($db_table, $id_tmp, 2, 256);
     if ($img2=="Bild nicht vorhanden (in olz_image)") {
         echo olz_image($db_table, $id_tmp, 1, 256)."<p style='text-align:center;font-weight:bold;clear:left;'>".$edit_admin.$text."</p>";

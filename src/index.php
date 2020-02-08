@@ -24,7 +24,6 @@ $pages = array(
     "14"=>array("anm_felder_l.php","anm_felder_r.php"),
     "15"=>array("termine_tools_DEV.php"),
     "16"=>array("zol/index.php"),
-    "17"=>array("svgeditor.php"),
     "18"=>array("fuer_einsteiger_l.php", "fuer_einsteiger_r.php"),
     "19"=>array("zol/karten.php"),
     "20"=>array("trophy2020.php"),

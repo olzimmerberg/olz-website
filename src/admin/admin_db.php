@@ -140,7 +140,7 @@ $db_felder = array(
                 array("id","ID","hidden","''","","","",""),
                 array("datum","Datum","hidden","date('Y-m-d');","","","",""),
                 array("name","Bezeichnung","text","''","","","",""),
-                array("position","Position","hidden","''","","","","","",""),
+                array("position","Position","hidden","'0'","","","",""),
                 array("on_off","Aktiv","boolean","1","","","","")
                 );
 }
@@ -207,7 +207,7 @@ elseif ($db_table == "links")
 $db_felder = array(
                 array("id","ID","hidden","''","","","",""),
                 array("datum","Datum","hidden","date('Y-m-d');","","","",""),
-                array("position","Position","hidden","'$next_pos'","","","",""),
+                array("position","Position","hidden","'0'","","","",""),
                 array("name","Bezeichnung","text","''","","","","","!empty","Bitte Download-Bezeichnung angeben."),
                 array("url","URL","text","'http://'","","","","","!empty","Bitte URL angeben."),
                 array("on_off","Aktiv","boolean","1","","","","")
@@ -230,7 +230,7 @@ $db_felder = array(
 }
 
 elseif ($db_table == "rundmail")
-{// DB DOWNLOADS
+{// DB RUNDMAIL
 $db_felder = array(
                 array("id","ID","hidden","''","","","",""),
                 array("datum","Datum","hidden","date('Y-m-d');","","","",""),
@@ -401,7 +401,7 @@ if ($do=="neu")
             }
         }
     if(!isset($_SESSION['edit']['modus'])){
-    $sql = "INSERT $db_table SET ".implode($sql_tmp,",");
+    $sql = "INSERT $db_table SET ".implode(",", $sql_tmp);
     if ($_SESSION['auth'] == 'all') echo "### HOSTSTAR DEBUG ###<br>SQL: ".htmlentities($sql)."<br>";
         $result = $db->query($sql);
         $id = $db->insert_id;
@@ -564,7 +564,7 @@ if ($do == "submit")
 
         }
 
-    $sql = "UPDATE $db_table SET ".implode($sql_tmp,",")." WHERE (id = '".$_SESSION[$db_table."id"]."')";
+    $sql = "UPDATE $db_table SET ".implode(",", $sql_tmp)." WHERE (id = '".$_SESSION[$db_table."id"]."')";
     if ($_SESSION['auth'] == 'all') echo "### HOSTSTAR DEBUG ###<br>SQL: ".htmlentities($sql)."<br>";
     $result = $db->query($sql);
 

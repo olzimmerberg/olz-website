@@ -74,19 +74,19 @@ $fm_cfg['lang'] = 'ger';
  * directory is relative to root directory.
  */
 /*if ($root == '') {
-	if ($local)
-		{$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
-	elseif (in_array('all',split(' ',$_SESSION['auth'])))*/
-	
-	/*if (in_array('all',split(' ',$_SESSION['auth'])))
-		{$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
-	else
-		{$fm_cfg['dir']['root'] = 'OLZimmerbergAblage';} // = http://olzimmerberg.ch/html/OLZimmerbergAblage
-	$fm_cfg['dir']['root'] = "OLZimmerbergAblage";
-	}
+    if ($local)
+        {$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
+    elseif (in_array('all',split(' ',$_SESSION['auth'])))*/
+    
+    /*if (in_array('all',split(' ',$_SESSION['auth'])))
+        {$fm_cfg['dir']['root'] = "";} // = http://localhost:8888/olzimmerberg.ch/
+    else
+        {$fm_cfg['dir']['root'] = 'OLZimmerbergAblage';} // = http://olzimmerberg.ch/html/OLZimmerbergAblage
+    $fm_cfg['dir']['root'] = "OLZimmerbergAblage";
+    }
 else
-	{$fm_cfg['dir']['root'] = $root;
-	}*/
+    {$fm_cfg['dir']['root'] = $root;
+    }*/
 //$fm_cfg['dir']['root']  = '';
 $fm_cfg['dir']['root'] = (in_array('all',explode(' ',$_SESSION['auth']))) ? '' : "OLZimmerbergAblage";
 $fm_cfg['dir']['start'] = 'OLZimmerbergAblage'; // = http://olzimmerberg.ch/html/OLZimmerbergAblage
@@ -198,14 +198,14 @@ $fm_cfg['perm']['file']['save']   = 1;
  */
 
 $fm_cfg['res']['mime_types'] = array(
-		'/etc/httpd/conf/apache-mime.types',		// Linux Mandrake 8.2
-		'/etc/htdig/mime.types',
-		'/usr/lib/mime.types',
-		'/var/lib/apache/conf/mime.types',			// Slackware
-		'/var/lib/apache/conf/mime.types.default',
-		'/etc/mime.types',							// Debian
-		'/etc/apache/mime.types',
-		);
+        '/etc/httpd/conf/apache-mime.types',        // Linux Mandrake 8.2
+        '/etc/htdig/mime.types',
+        '/usr/lib/mime.types',
+        '/var/lib/apache/conf/mime.types',            // Slackware
+        '/var/lib/apache/conf/mime.types.default',
+        '/etc/mime.types',                            // Debian
+        '/etc/apache/mime.types',
+        );
 
 /*
  * Colors constats

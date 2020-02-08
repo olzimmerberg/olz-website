@@ -70,7 +70,7 @@ while ($tmp_jahr >= $end_jahr)
 
             if ($typ == "movie") {
                 $res0 = preg_match("/^https\:\/\/(www\.)?youtu\.be\/([a-zA-Z0-9]{6,})/", $content);
-        		$res1 = preg_match("/^https\:\/\/(www\.)?youtube\.com/watch\?v\=([a-zA-Z0-9]{6,})/", $content);
+                $res1 = preg_match("/^https\:\/\/(www\.)?youtube\.com/watch\?v\=([a-zA-Z0-9]{6,})/", $content);
                 $groesse = $res0 || $res1 ? "YouTube" : $content;
                 $linkclass = "linkmovie" ;
             }

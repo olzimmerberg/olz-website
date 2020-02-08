@@ -15,7 +15,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.     See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -23,7 +23,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301  USA
  *
- * @Author	Konstantin Riabitsev <icon@linux.duke.edu>
+ * @Author    Konstantin Riabitsev <icon@linux.duke.edu>
  * @Author  Jim Jagielski <jim@jaguNET.com / jimjag@gmail.com>
  * @Version 1.1 ($Date$)
  */
@@ -64,7 +64,7 @@ function tln_tagprint($tagname, $attary, $tagtype)
  * value and makes it lowercase.
  *
  * @param string $val a value passed by-ref.
- * @return		void since it modifies a by-ref value.
+ * @return        void since it modifies a by-ref value.
  */
 function tln_casenormalize(&$val)
 {
@@ -77,9 +77,9 @@ function tln_casenormalize(&$val)
  *
  * @param string $body the string
  * @param integer $offset the offset within the string where we should start
- *				   looking for the next non-whitespace character.
+ *                   looking for the next non-whitespace character.
  * @return integer          the location within the $body where the next
- *				   non-whitespace char is located.
+ *                   non-whitespace char is located.
  */
 function tln_skipspace($body, $offset)
 {
@@ -92,7 +92,7 @@ function tln_skipspace($body, $offset)
 }
 
 /**
- * This function looks for the next character within a string.	It's
+ * This function looks for the next character within a string.    It's
  * really just a glorified "strpos", except it catches the failures
  * nicely.
  *
@@ -100,7 +100,7 @@ function tln_skipspace($body, $offset)
  * @param integer $offset Start looking from this position.
  * @param string $needle The character/string to look for.
  * @return integer           location of the next occurrence of the needle, or
- *				   strlen($body) if needle wasn't found.
+ *                   strlen($body) if needle wasn't found.
  */
 function tln_findnxstr($body, $offset, $needle)
 {
@@ -119,10 +119,10 @@ function tln_findnxstr($body, $offset, $needle)
  * @param integer $offset Start looking from here.
  * @param string $reg       A PCRE-style regex to match.
  * @return array|boolean  Returns a false if no matches found, or an array
- *				   with the following members:
- *				   - integer with the location of the match within $body
- *				   - string with whatever content between offset and the match
- *				   - string with whatever it is we matched
+ *                   with the following members:
+ *                   - integer with the location of the match within $body
+ *                   - string with whatever content between offset and the match
+ *                   - string with whatever it is we matched
  */
 function tln_findnxreg($body, $offset, $reg)
 {
@@ -146,13 +146,13 @@ function tln_findnxreg($body, $offset, $reg)
  * @param string $body   String where to look for the next tag.
  * @param integer $offset Start looking from here.
  * @return array|boolean false if no more tags exist in the body, or
- *				   an array with the following members:
- *				   - string with the name of the tag
- *				   - array with attributes and their values
- *				   - integer with tag type (1, 2, or 3)
- *				   - integer where the tag starts (starting "<")
- *				   - integer where the tag ends (ending ">")
- *				   first three members will be false, if the tag is invalid.
+ *                   an array with the following members:
+ *                   - string with the name of the tag
+ *                   - array with attributes and their values
+ *                   - integer with tag type (1, 2, or 3)
+ *                   - integer where the tag starts (starting "<")
+ *                   - integer where the tag ends (ending ">")
+ *                   first three members will be false, if the tag is invalid.
  */
 function tln_getnxtag($body, $offset)
 {
@@ -175,11 +175,11 @@ function tln_getnxtag($body, $offset)
     /**
      * There are 3 kinds of tags:
      * 1. Opening tag, e.g.:
-     *	  <a href="blah">
+     *      <a href="blah">
      * 2. Closing tag, e.g.:
-     *	  </a>
+     *      </a>
      * 3. XHTML-style content-less tag, e.g.:
-     *	  <img src="blah"/>
+     *      <img src="blah"/>
      */
     switch (substr($body, $pos, 1)) {
     case '/':
@@ -224,9 +224,9 @@ function tln_getnxtag($body, $offset)
 
     /**
      * $match can be either of these:
-     * '>'	indicating the end of the tag entirely.
+     * '>'    indicating the end of the tag entirely.
      * '\s' indicating the end of the tag name.
-     * '/'	indicating that this is type-3 xhtml tag.
+     * '/'    indicating that this is type-3 xhtml tag.
      *
      * Whatever else we find there indicates an invalid tag.
      */
@@ -265,7 +265,7 @@ function tln_getnxtag($body, $offset)
 
     /**
      * At this point we're here:
-     * <tagname	 attribute='blah'>
+     * <tagname     attribute='blah'>
      * \-------^
      *
      * At this point we loop in order to find all attributes.
@@ -301,13 +301,13 @@ function tln_getnxtag($body, $offset)
          * There are several types of attributes, with optional
          * [:space:] between members.
          * Type 1:
-         *	 attrname[:space:]=[:space:]'CDATA'
+         *     attrname[:space:]=[:space:]'CDATA'
          * Type 2:
-         *	 attrname[:space:]=[:space:]"CDATA"
+         *     attrname[:space:]=[:space:]"CDATA"
          * Type 3:
-         *	 attr[:space:]=[:space:]CDATA
+         *     attr[:space:]=[:space:]CDATA
          * Type 4:
-         *	 attrname
+         *     attrname
          *
          * We leave types 1 and 2 the same, type 3 we check for
          * '"' and convert to "&quot" if needed, then wrap in
@@ -326,10 +326,10 @@ function tln_getnxtag($body, $offset)
         /**
          * We arrived at the end of attribute name. Several things possible
          * here:
-         * '>'	means the end of the tag and this is attribute type 4
-         * '/'	if followed by '>' means the same thing as above
+         * '>'    means the end of the tag and this is attribute type 4
+         * '/'    if followed by '>' means the same thing as above
          * '\s' means a lot of things -- look what it's followed by.
-         *		anything else means the attribute is invalid.
+         *        anything else means the attribute is invalid.
          */
         switch ($match) {
         case '/':
@@ -370,8 +370,8 @@ function tln_getnxtag($body, $offset)
                 $pos = tln_skipspace($body, $pos);
                 /**
                  * Here are 3 possibilities:
-                 * "'"	attribute type 1
-                 * '"'	attribute type 2
+                 * "'"    attribute type 1
+                 * '"'    attribute type 2
                  * everything else is the content of tag type 3
                  */
                 $quot = substr($body, $pos, 1);
@@ -511,7 +511,7 @@ function tln_unspace(&$attvalue)
  * @param array $add_attr_to_tag See description for tln_sanitize
  * @param string $trans_image_path
  * @param boolean $block_external_images
- * @return					Array with modified attributes.
+ * @return                    Array with modified attributes.
  */
 function tln_fixatts(
     $tagname,
@@ -868,7 +868,7 @@ function tln_sanitize(
     /**
      * See if tag_list is of tags to remove or tags to allow.
      * false  means remove these tags
-     * true	  means allow these tags
+     * true      means allow these tags
      */
     $curpos = 0;
     $open_tags = array();

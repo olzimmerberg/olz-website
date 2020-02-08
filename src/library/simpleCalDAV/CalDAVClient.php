@@ -356,15 +356,15 @@ class CalDAVClient {
       $this->headers['disable_expect'] = 'Expect:';
       curl_setopt($this->ch, CURLOPT_HTTPHEADER,
               array_values($this->headers));
-			  
+              
       curl_setopt($this->ch, CURLOPT_USERPWD, $this->user . ':' .
               $this->pass);
 
       // Request body
       curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->body);
-	  
-	  // Save Request
-	  curl_setopt($this->ch, CURLINFO_HEADER_OUT, TRUE);
+      
+      // Save Request
+      curl_setopt($this->ch, CURLINFO_HEADER_OUT, TRUE);
 
       $response = curl_exec($this->ch);
 
@@ -376,9 +376,9 @@ class CalDAVClient {
       }
 
       $info = curl_getinfo($this->ch);
-	  
-	  // Save request
-	  $this->httpRequest = $info['request_header'];
+      
+      // Save request
+      $this->httpRequest = $info['request_header'];
 
       // Get headers (idea from SabreDAV WebDAV client)
       $this->httpResponseHeaders = substr($response, 0, $info['header_size']);
@@ -486,7 +486,7 @@ class CalDAVClient {
 
       $etag = null;
       if ( preg_match( '{^ETag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
-	  else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
+      else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
       if ( !isset($etag) || $etag == '' ) {
           // Try with HEAD
           $save_request = $this->httpRequest;
@@ -494,7 +494,7 @@ class CalDAVClient {
           $save_http_result = $this->httpResultCode;
           $this->DoHEADRequest( $url );
           if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
-		  else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
+          else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
           /*
              if ( !isset($etag) || $etag == '' ) {
              printf( "Still No etag in:\n%s\n", $this->httpResponseHeaders );
@@ -756,7 +756,7 @@ class CalDAVClient {
                   'http://apple.com/ns/ical/:calendar-order',
                );
       $this->DoPROPFINDRequest( $this->first_url_part.$this->calendar_home_set[0], $properties, 1);
-	  
+      
       return $this->parse_calendar_info();
   }
 
@@ -849,7 +849,7 @@ EOXML;
       $this->SetContentType("text/xml");
       $response = $this->DoRequest( $this->calendar_url );
       
-	  $report = array();
+      $report = array();
       foreach( $this->xmlnodes as $k => $v ) {
           switch( $v['tag'] ) {
               case 'DAV::response':
@@ -871,7 +871,7 @@ EOXML;
                         break;
           }
       }
-	  
+      
       return $report;
   }
 
@@ -988,33 +988,33 @@ EOFILTER;
    * @return array An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()
    */
   function GetTodos( $start = null, $finish = null, $completed = null, $cancelled = null, $relative_url = "" ) {
-  	$this->SetDepth('1');
-  	
-  	if ( isset($start) && isset($finish) )
-  		$range = "<C:comp-filter name=\"VALARM\"><C:time-range start=\"$start\" end=\"$finish\"/></C:comp-filter>";
-  	elseif ( isset($start) && ! isset($finish) )
-  		$range = "<C:comp-filter name=\"VALARM\"><C:time-range start=\"$start\"/></C:comp-filter>";
-  	elseif ( ! isset($start) && isset($finish) )
-  		$range = "<C:comp-filter name=\"VALARM\"><C:time-range end=\"$finish\"/></C:comp-filter>";
-  	else
-  		$range = '';
+      $this->SetDepth('1');
+      
+      if ( isset($start) && isset($finish) )
+          $range = "<C:comp-filter name=\"VALARM\"><C:time-range start=\"$start\" end=\"$finish\"/></C:comp-filter>";
+      elseif ( isset($start) && ! isset($finish) )
+          $range = "<C:comp-filter name=\"VALARM\"><C:time-range start=\"$start\"/></C:comp-filter>";
+      elseif ( ! isset($start) && isset($finish) )
+          $range = "<C:comp-filter name=\"VALARM\"><C:time-range end=\"$finish\"/></C:comp-filter>";
+      else
+          $range = '';
 
-  	
-  	// Warning!  May contain traces of double negatives...
-  	if(isset($completed) && $completed == true)
-  		$completed_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="no">COMPLETED</C:text-match></C:prop-filter>';
-  	else if(isset($completed) && $completed == false)
-  		$completed_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="yes">COMPLETED</C:text-match></C:prop-filter>';
-  	else
-  		$completed_filter = '';
-  	
-  	if(isset($cancelled) && $cancelled == true)
-  		$cancelled_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="no">CANCELLED</C:text-match></C:prop-filter>';
-  	else if(isset($cancelled) && $cancelled == false)
-  		$cancelled_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="yes">CANCELLED</C:text-match></C:prop-filter>';
-  	else
-  		$cancelled_filter = '';
-  	
+      
+      // Warning!  May contain traces of double negatives...
+      if(isset($completed) && $completed == true)
+          $completed_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="no">COMPLETED</C:text-match></C:prop-filter>';
+      else if(isset($completed) && $completed == false)
+          $completed_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="yes">COMPLETED</C:text-match></C:prop-filter>';
+      else
+          $completed_filter = '';
+      
+      if(isset($cancelled) && $cancelled == true)
+          $cancelled_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="no">CANCELLED</C:text-match></C:prop-filter>';
+      else if(isset($cancelled) && $cancelled == false)
+          $cancelled_filter = '<C:prop-filter name="STATUS"><C:text-match negate-condition="yes">CANCELLED</C:text-match></C:prop-filter>';
+      else
+          $cancelled_filter = '';
+      
       $filter = <<<EOFILTER
 <C:filter>
 <C:comp-filter name="VCALENDAR">
@@ -1070,14 +1070,14 @@ EOFILTER;
   function GetEntryByHref( $href ) {
       //$href = str_replace( rawurlencode('/'),'/',rawurlencode($href));
       $response = $this->DoGETRequest( $href );
-	  
-	  $report = array();
-	  
-	  if ( $this->GetHttpResultCode() == '404' ) { return $report; }
-	  
+      
+      $report = array();
+      
+      if ( $this->GetHttpResultCode() == '404' ) { return $report; }
+      
       $etag = null;
       if ( preg_match( '{^ETag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
-	  else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
+      else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
       if ( !isset($etag) || $etag == '' ) {
           // Try with HEAD
           $save_request = $this->httpRequest;
@@ -1085,8 +1085,8 @@ EOFILTER;
           $save_http_result = $this->httpResultCode;
           $this->DoHEADRequest( $href );
           if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
-		  else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
-		  
+          else if ( preg_match( '{^ETag:\s+([^\s]*)\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
+          
           /*
              if ( !isset($etag) || $etag == '' ) {
              printf( "Still No etag in:\n%s\n", $this->httpResponseHeaders );
@@ -1096,8 +1096,8 @@ EOFILTER;
           $this->httpResponseHeaders = $save_response_headers;
           $this->httpResultCode = $save_http_result;
       }
-	  
-	  $report = array(array('etag'=>$etag));
+      
+      $report = array(array('etag'=>$etag));
 
       return $report;
   }
@@ -1146,7 +1146,7 @@ EOFILTER;
                           break;
                       case 'http://apple.com/ns/ical/:calendar-color':
                           $calendar->setRBGcolor((isset($v['value']) ? 
-                          		$this->_rgba2rgb($v['value']) : '-'));
+                                  $this->_rgba2rgb($v['value']) : '-'));
                           break;
                       case 'http://apple.com/ns/ical/:calendar-order':
                           $calendar->setOrder((isset($v['value']) ?
@@ -1264,35 +1264,35 @@ EOFILTER;
       }
   }
   
-	public function printLastMessages() {
-		$string = '';
-		$dom = new DOMDocument();
-		$dom->preserveWhiteSpace = FALSE;
-		$dom->formatOutput = TRUE;
-		
-		$string .= '<pre>';
-		$string .= 'last request:<br><br>';
-		
-		$string .= $this->httpRequest;
-		 
-		if(!empty($this->body)) {
-			$dom->loadXML($this->body);
-			$string .= htmlentities($dom->saveXml());
-		}
-		
-		$string .= '<br>last response:<br><br>';
-		
-		$string .= $this->httpResponse;
-		 
-		if(!empty($this->xmlResponse)) {
-			$dom->loadXML($this->xmlResponse);
-			$string .= htmlentities($dom->saveXml());
-		}
-		
-		$string .= '</pre>';
-		 
-		echo $string;
-	}
+    public function printLastMessages() {
+        $string = '';
+        $dom = new DOMDocument();
+        $dom->preserveWhiteSpace = FALSE;
+        $dom->formatOutput = TRUE;
+        
+        $string .= '<pre>';
+        $string .= 'last request:<br><br>';
+        
+        $string .= $this->httpRequest;
+         
+        if(!empty($this->body)) {
+            $dom->loadXML($this->body);
+            $string .= htmlentities($dom->saveXml());
+        }
+        
+        $string .= '<br>last response:<br><br>';
+        
+        $string .= $this->httpResponse;
+         
+        if(!empty($this->xmlResponse)) {
+            $dom->loadXML($this->xmlResponse);
+            $string .= htmlentities($dom->saveXml());
+        }
+        
+        $string .= '</pre>';
+         
+        echo $string;
+    }
 }
 
   /**
@@ -1302,8 +1302,8 @@ EOFILTER;
 $debug = TRUE;
    
 function log_message ($type, $message) {
-	global $debug;
-	if ($debug) {
-		echo '['.$type.'] '.$message.'\n';
-	}
+    global $debug;
+    if ($debug) {
+        echo '['.$type.'] '.$message.'\n';
+    }
 }

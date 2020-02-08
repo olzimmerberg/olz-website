@@ -11,44 +11,44 @@ $result = $db->query($sql);
 $pois = "" ;
 
 while ($row = mysqli_fetch_array($result))
-	{$name = $row['name'];
-	$massstab = $row['massstab'];
-	$center_x = $row['center_x'];
-	$center_y = $row['center_y'];
-	$typ = $row['typ'];
-	if ($typ=='ol') $icon='ol.gif';
-	elseif ($typ=='stadt') $icon='ol2.gif';
-	elseif ($typ=='scool') $icon='ol1.gif';
+    {$name = $row['name'];
+    $massstab = $row['massstab'];
+    $center_x = $row['center_x'];
+    $center_y = $row['center_y'];
+    $typ = $row['typ'];
+    if ($typ=='ol') $icon='ol.gif';
+    elseif ($typ=='stadt') $icon='ol2.gif';
+    elseif ($typ=='scool') $icon='ol1.gif';
 
-	$pois .= "Map.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
-	}
+    $pois .= "Map.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
+    }
 
 echo "<script type=\"text/javascript\">
-	var Map = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
-	".$pois."\n"."function goto(x,y,z,name) {
-	var x=x;
-	var x0 = Number(window.localStorage.getItem('x0'));
-	var y=y;
-	var y0 = Number(window.localStorage.getItem('y0'));
-	var z=z;
-	var name=name;
-	window.location.hash=\"top\";
-	//Map.removeAllPOIs();
+    var Map = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
+    ".$pois."\n"."function goto(x,y,z,name) {
+    var x=x;
+    var x0 = Number(window.localStorage.getItem('x0'));
+    var y=y;
+    var y0 = Number(window.localStorage.getItem('y0'));
+    var z=z;
+    var name=name;
+    window.location.hash=\"top\";
+    //Map.removeAllPOIs();
 
-	x0 = (x0>'') ? x0 : 687500 ;
-	y0 = (y0>'') ? y0 : 237000 ;
-	x1 = Math.round((x+x0)/2);
-	y1 = Math.round((y+y0)/2);
-	z1 = 32;
-	Map.go({ center:[x1,y1], zoom:z1, animated:true });
+    x0 = (x0>'') ? x0 : 687500 ;
+    y0 = (y0>'') ? y0 : 237000 ;
+    x1 = Math.round((x+x0)/2);
+    y1 = Math.round((y+y0)/2);
+    z1 = 32;
+    Map.go({ center:[x1,y1], zoom:z1, animated:true });
 
-	window.localStorage.setItem('x0', x);
-	window.localStorage.setItem('y0', y);
+    window.localStorage.setItem('x0', x);
+    window.localStorage.setItem('y0', y);
 
-	// Add a custom POI
-	//Map.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/ol.gif\" }));\n
-	setTimeout(\"Map.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
-	}
+    // Add a custom POI
+    //Map.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/ol.gif\" }));\n
+    setTimeout(\"Map.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
+    }
 </script>";
 ?>
 
@@ -67,15 +67,15 @@ echo "<tr class='tablebar'><td style='width:46%;'>Kartentyp</td><td style='width
 olz_text_insert(12);
 ?>
 <!--<div class="nobox">
-	Silvia Baumann<br>Seegartenstrasse 26<br>8810 Horgen<br>Tel. 044 726 06 94<br>
-	<script type="text/javascript">document.write(MailTo("kartenverkauf", "olzimmerberg.ch", "Karten bestellen", "Bestellung%20OL-Karten"));
-	</script>
+    Silvia Baumann<br>Seegartenstrasse 26<br>8810 Horgen<br>Tel. 044 726 06 94<br>
+    <script type="text/javascript">document.write(MailTo("kartenverkauf", "olzimmerberg.ch", "Karten bestellen", "Bestellung%20OL-Karten"));
+    </script>
 </div>
 
 <h2>Links</h2>
 <div class="nobox">
-	<div class="linkext"><a href="http://www.swiss-orienteering.ch/karten/index.php" target="_blank">
-			Kartenverzeichnis swiss orienteering
-		</a>
-	</div>
+    <div class="linkext"><a href="http://www.swiss-orienteering.ch/karten/index.php" target="_blank">
+            Kartenverzeichnis swiss orienteering
+        </a>
+    </div>
 </div>-->

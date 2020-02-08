@@ -28,10 +28,10 @@ echo "<div style='margin-bottom:10px;'><b>Anleitung:</b><br>1. Neuer Datensatz f
 
 $event = (isset($_GET['event'])) ? $_GET['event'] : $event;
 if($_GET['modus']=='import'){
-	$pfad_event = "zol/";
-	include('zol/parse_result.php');
-	echo "<p>";
-	}
+    $pfad_event = "zol/";
+    include('zol/parse_result.php');
+    echo "<p>";
+    }
 $db_table = "event";
 
 //-------------------------------------------------------------
@@ -49,60 +49,60 @@ else $id = $_SESSION[$db_table."id_"];
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff)
-	{$functions = array('neu' => 'Neuer Eintrag',
-				'edit' => 'Bearbeiten',
-				'abbruch' => 'Abbrechen',
-				'vorschau' => 'Vorschau',
-				'save' => 'Speichern',
-				'delete' => 'Löschen',
-				'start' => 'start',
-				'undo' => 'undo');
-	}
+    {$functions = array('neu' => 'Neuer Eintrag',
+                'edit' => 'Bearbeiten',
+                'abbruch' => 'Abbrechen',
+                'vorschau' => 'Vorschau',
+                'save' => 'Speichern',
+                'delete' => 'Löschen',
+                'start' => 'start',
+                'undo' => 'undo');
+    }
 else
-	{$functions = array();
-	}
+    {$functions = array();
+    }
 
 $function = array_search($$button_name,$functions);
 if ($zugriff AND ($function!=""))
-	{include 'admin/admin_db.php';
-	}
+    {include 'admin/admin_db.php';
+    }
 if ($_SESSION['edit']['table']==$db_table) $db_edit = "1";
 else $db_edit = "0";
 
 //-------------------------------------------------------------
 // MENÜ
 if ($zugriff AND $db_edit=="0")
-	{echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Neuer Eintrag","0")),"")."</div>";
-	}
+    {echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Neuer Eintrag","0")),"")."</div>";
+    }
 
 //echo "Um Resultate anzeigen zu können, muss eine Exportdatei aus der Auswertungssoftware im Verzeichnis 'zol/' vorhanden sein.<br>Anleitung:<br>1. Neuer Datensatz in der Mysql-Tabelle<p>";
 // Verzeichnis 'zol/' auslesen
 if ($handle = opendir('zol/')){
     while (false !== ($file = readdir($handle))){
-		$info = pathinfo($file);
-		if($info['extension']=="txt"){
-			$afile[]=$info['filename'];
-			}
-		}
+        $info = pathinfo($file);
+        if($info['extension']=="txt"){
+            $afile[]=$info['filename'];
+            }
+        }
     closedir($handle);
-	}
+    }
 //var_dump($vorschau);
 if($db_edit==0 OR $do=='vorschau'){
-	if($do=='vorschau')	$sql = "SELECT * FROM event ORDER BY datum DESC LIMIT 1";
-	else $sql = "SELECT * FROM event ORDER BY datum DESC";
-	$result = $db->query($sql);
+    if($do=='vorschau')    $sql = "SELECT * FROM event ORDER BY datum DESC LIMIT 1";
+    else $sql = "SELECT * FROM event ORDER BY datum DESC";
+    $result = $db->query($sql);
 
-	while($row = mysqli_fetch_array($result)){
-		if ($do=="vorschau") $row = $vorschau;
-		$id_event = $row['id'];
-		$name_kurz = $row['name_kurz'];
-		$name_event = $row['name'];
-		$datum_event = $row['datum'];
-		$file_event = (in_array($name_kurz,$afile) OR $local)? "<a href='zol/parse_result.php?event=".$name_kurz."' class='linkint'>Daten importieren</a> | <a href='zol/show_result.php?event=".$name_kurz."&time=".date("U")."' target='_blank' class='linkint'>Resultate zeigen (Loop)</a> | <a href='index.php?page=99&event=".$name_kurz."&time=".date("U")."' class='linkint'>Resultate zeigen (Homepage)</a> | <a href='?page=19&event=$name_kurz' class='linkint'>Kartenstatistik</a>":"Keine Resultatdatei vorhanden!";
-		if($do!='vorschau') $edit_admin = "<a href='index.php?id=$id_event&$button_name=start' class='linkedit' title='Event bearbeiten'>&nbsp;</a>";
-//http://olzimmerberg.ch/zol/parse_result.php?event=zol_180527		
-		echo "<div style='margin-bottom:20px;'><b>".$edit_admin.$datum_event.": ".$name_event."</b><br>".$file_event."</div>";
-	}
-	}
-	}
+    while($row = mysqli_fetch_array($result)){
+        if ($do=="vorschau") $row = $vorschau;
+        $id_event = $row['id'];
+        $name_kurz = $row['name_kurz'];
+        $name_event = $row['name'];
+        $datum_event = $row['datum'];
+        $file_event = (in_array($name_kurz,$afile) OR $local)? "<a href='zol/parse_result.php?event=".$name_kurz."' class='linkint'>Daten importieren</a> | <a href='zol/show_result.php?event=".$name_kurz."&time=".date("U")."' target='_blank' class='linkint'>Resultate zeigen (Loop)</a> | <a href='index.php?page=99&event=".$name_kurz."&time=".date("U")."' class='linkint'>Resultate zeigen (Homepage)</a> | <a href='?page=19&event=$name_kurz' class='linkint'>Kartenstatistik</a>":"Keine Resultatdatei vorhanden!";
+        if($do!='vorschau') $edit_admin = "<a href='index.php?id=$id_event&$button_name=start' class='linkedit' title='Event bearbeiten'>&nbsp;</a>";
+//http://olzimmerberg.ch/zol/parse_result.php?event=zol_180527        
+        echo "<div style='margin-bottom:20px;'><b>".$edit_admin.$datum_event.": ".$name_event."</b><br>".$file_event."</div>";
+    }
+    }
+    }
 ?>

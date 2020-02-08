@@ -30,11 +30,11 @@ $ModName       = null;
 $PN_PathPrefix = '';
 
 if (defined('LOADED_AS_MODULE')) {
-	$ModName = basename(dirname(__FILE__));
-	$PN_PathPrefix = "modules/$ModName/";
+    $ModName = basename(dirname(__FILE__));
+    $PN_PathPrefix = "modules/$ModName/";
 } else {
-	$PN_PathPrefix  = dirname(__FILE__);
-	$PN_PathPrefix .= '/';
+    $PN_PathPrefix  = dirname(__FILE__);
+    $PN_PathPrefix .= '/';
 }
 
 /*
@@ -42,7 +42,7 @@ if (defined('LOADED_AS_MODULE')) {
  */
 
 if (! @file_exists($PN_PathPrefix . 'config.inc.php')) {
-	exit;
+    exit;
 }
 
 require_once $PN_PathPrefix . 'config.inc.php';
@@ -52,7 +52,7 @@ require_once $PN_PathPrefix . 'config.inc.php';
  */
 
 if (@file_exists($PN_PathPrefix . 'config-local.inc.php')) {
-	require_once $PN_PathPrefix . 'config-local.inc.php';
+    require_once $PN_PathPrefix . 'config-local.inc.php';
 }
 
 /*
@@ -60,7 +60,7 @@ if (@file_exists($PN_PathPrefix . 'config-local.inc.php')) {
  */
 
 if ($fm_cfg['show']['icons']) {
-	include_once $PN_PathPrefix . 'icons.inc.php';
+    include_once $PN_PathPrefix . 'icons.inc.php';
 }
 
 /*
@@ -69,31 +69,31 @@ if ($fm_cfg['show']['icons']) {
 
 if (defined('LOADED_AS_MODULE')) {
 
-	/*
-	 * PostNuke use original variables feature for correct module calls.
-	 */
+    /*
+     * PostNuke use original variables feature for correct module calls.
+     */
 
-	if (strlen($fm_cfg['origvars']) > 0)
-		$fm_cfg['origvars'] .= '&';
+    if (strlen($fm_cfg['origvars']) > 0)
+        $fm_cfg['origvars'] .= '&';
 
-	$fm_cfg['origvars'] .= "op=modload&name=$ModName&file=index";
+    $fm_cfg['origvars'] .= "op=modload&name=$ModName&file=index";
 
-	/*
-	 * Icons URL
-	 */
+    /*
+     * Icons URL
+     */
 
-	if ($fm_cfg['url']['icons'][0] != '/') {
-		$fm_cfg['url']['icons'] = "modules/$ModName/".$fm_cfg['url']['icons'];
-	}
+    if ($fm_cfg['url']['icons'][0] != '/') {
+        $fm_cfg['url']['icons'] = "modules/$ModName/".$fm_cfg['url']['icons'];
+    }
 
-	/*
-	 * Assign theme settings from PostNuke theme.
-	 */
+    /*
+     * Assign theme settings from PostNuke theme.
+     */
 
-	$fm_cfg['color']['even'] = $bgcolor2;
-	$fm_cfg['color']['odd']  = $bgcolor1;
+    $fm_cfg['color']['even'] = $bgcolor2;
+    $fm_cfg['color']['odd']  = $bgcolor1;
 
-	include 'header.php';
+    include 'header.php';
 }
 
 
@@ -102,13 +102,13 @@ if (defined('LOADED_AS_MODULE')) {
  */
 
 if (defined('LOADED_AS_MODULE') && function_exists('modules_get_language')) {
-	modules_get_language();
+    modules_get_language();
 } else {
-	if (file_exists($PN_PathPrefix.'lang/'.$fm_cfg['lang'].'/global.php')) {
-		include $PN_PathPrefix.'lang/'.$fm_cfg['lang'].'/global.php';
-	} else {
-		include $PN_PathPrefix.'lang/eng/global.php';
-	} 
+    if (file_exists($PN_PathPrefix.'lang/'.$fm_cfg['lang'].'/global.php')) {
+        include $PN_PathPrefix.'lang/'.$fm_cfg['lang'].'/global.php';
+    } else {
+        include $PN_PathPrefix.'lang/eng/global.php';
+    } 
 }
 
 ?>

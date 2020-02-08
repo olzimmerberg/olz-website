@@ -68,17 +68,17 @@ if ( !function_exists('fatal') ) {
     @error_log( $c->sysabbr.": FATAL: $component:". vsprintf( $format, $args ) );
     
     @error_log( "================= Stack Trace ===================" );
-	
-  	$trace = array_reverse(debug_backtrace());
+    
+      $trace = array_reverse(debug_backtrace());
     array_pop($trace);
     foreach( $trace AS $k => $v ) {
- 	  @error_log( sprintf(" ===>  %s[%d] calls %s%s%s()",
-	               $v['file'],
-	               $v['line'],
-	               (isset($v['class'])?$v['class']:''),
-	               (isset($v['type'])?$v['type']:''),
-	               (isset($v['function'])?$v['function']:'')
-	      ));
+       @error_log( sprintf(" ===>  %s[%d] calls %s%s%s()",
+                   $v['file'],
+                   $v['line'],
+                   (isset($v['class'])?$v['class']:''),
+                   (isset($v['type'])?$v['type']:''),
+                   (isset($v['function'])?$v['function']:'')
+          ));
     }
     echo "Fatal Error";
     exit();
@@ -103,17 +103,17 @@ if ( !function_exists('trace_bug') ) {
     @error_log( $c->sysabbr.": BUG: $component:". vsprintf( $format, $args ) );
     
     @error_log( "================= Stack Trace ===================" );
-	
-  	$trace = array_reverse(debug_backtrace());
+    
+      $trace = array_reverse(debug_backtrace());
     array_pop($trace);
     foreach( $trace AS $k => $v ) {
- 	  @error_log( sprintf(" ===>  %s[%d] calls %s%s%s()",
-	               $v['file'],
-	               $v['line'],
-	               (isset($v['class'])?$v['class']:''),
-	               (isset($v['type'])?$v['type']:''),
-	               (isset($v['function'])?$v['function']:'')
-	      ));
+       @error_log( sprintf(" ===>  %s[%d] calls %s%s%s()",
+                   $v['file'],
+                   $v['line'],
+                   (isset($v['class'])?$v['class']:''),
+                   (isset($v['type'])?$v['type']:''),
+                   (isset($v['function'])?$v['function']:'')
+          ));
     }
   }
 }

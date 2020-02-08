@@ -214,8 +214,8 @@ function set_current_value($new_value) {
 * @since Version 1.8
 */
 function set_max_length($new_value) {
-	if (!$new_value>=1) die ("Konfigurationsfehler: Der Wert für max_length muss mindestens 1 betragen");
-	else $this->max_length=$new_value;
+    if (!$new_value>=1) die ("Konfigurationsfehler: Der Wert für max_length muss mindestens 1 betragen");
+    else $this->max_length=$new_value;
 }
 
 /**
@@ -281,16 +281,16 @@ function get_error($method="",$varname="") {
 * @since Version 1.0
 */
 function check($ueberpruefen,$nicht_ueberpruefen,$sonderbehandlung) {
-		// Ggfs. Parameter in Arrays umwandeln
-		if (!is_array($ueberpruefen)) {
-			$ueberpruefen=array($ueberpruefen);
-		}
-		if (!is_array($nicht_ueberpruefen)) {
-			$nicht_ueberpruefen=array($nicht_ueberpruefen);
-		}
-		if (!is_array($sonderbehandlung)) {
-			$sonderbehandlung=array($sonderbehandlung);
-		}
+        // Ggfs. Parameter in Arrays umwandeln
+        if (!is_array($ueberpruefen)) {
+            $ueberpruefen=array($ueberpruefen);
+        }
+        if (!is_array($nicht_ueberpruefen)) {
+            $nicht_ueberpruefen=array($nicht_ueberpruefen);
+        }
+        if (!is_array($sonderbehandlung)) {
+            $sonderbehandlung=array($sonderbehandlung);
+        }
         // Die übergebenen Werte werden mit den Standardwerten zusammengefügt. Ggfs. werden Standard-Elemente von übergebenen Elementen mit gleichem Namen überschrieben
         $sonderbehandlung=array_merge($this->std_sonderbehandlung,$sonderbehandlung);
         $nicht_ueberpruefen=array_merge($this->std_nicht_ueberpruefen,$nicht_ueberpruefen);
@@ -729,13 +729,13 @@ function is_rrze_kennung($v) {
 * @since Version 1.0
 */
 function check_POST($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
-		// Ggfs. Parameter in Arrays umwandeln
-		if (!is_array($nicht_ueberpruefen)) {
-			$nicht_ueberpruefen=array($nicht_ueberpruefen);
-		}
-		if (!is_array($sonderbehandlung)) {
-			$sonderbehandlung=array($sonderbehandlung);
-		}
+        // Ggfs. Parameter in Arrays umwandeln
+        if (!is_array($nicht_ueberpruefen)) {
+            $nicht_ueberpruefen=array($nicht_ueberpruefen);
+        }
+        if (!is_array($sonderbehandlung)) {
+            $sonderbehandlung=array($sonderbehandlung);
+        }
         $_POST=$this->check($_POST,$nicht_ueberpruefen,$sonderbehandlung);
         foreach ($_POST as $k=>$v) {
                 $erg=$this->check(array($k=>$v),$nicht_ueberpruefen,$sonderbehandlung);
@@ -756,13 +756,13 @@ function check_POST($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
 * @since Version 1.0
 */
 function check_GET($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
-		// Ggfs. Parameter in Arrays umwandeln
-		if (!is_array($nicht_ueberpruefen)) {
-			$nicht_ueberpruefen=array($nicht_ueberpruefen);
-		}
-		if (!is_array($sonderbehandlung)) {
-			$sonderbehandlung=array($sonderbehandlung);
-		}
+        // Ggfs. Parameter in Arrays umwandeln
+        if (!is_array($nicht_ueberpruefen)) {
+            $nicht_ueberpruefen=array($nicht_ueberpruefen);
+        }
+        if (!is_array($sonderbehandlung)) {
+            $sonderbehandlung=array($sonderbehandlung);
+        }
         $_GET=$this->check($_GET,$nicht_ueberpruefen,$sonderbehandlung);
         foreach ($_GET as $k=>$v) {
                 $erg=$this->check(array($k=>$v),$nicht_ueberpruefen,$sonderbehandlung);
@@ -783,21 +783,21 @@ function check_GET($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
 * @since Version 1.0
 */
 function check_REQUEST($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
-		// Ggfs. Parameter in Arrays umwandeln
-		if (!is_array($nicht_ueberpruefen)) {
-			$nicht_ueberpruefen=array($nicht_ueberpruefen);
-		}
-		if (!is_array($sonderbehandlung)) {
-			$sonderbehandlung=array($sonderbehandlung);
-		}
+        // Ggfs. Parameter in Arrays umwandeln
+        if (!is_array($nicht_ueberpruefen)) {
+            $nicht_ueberpruefen=array($nicht_ueberpruefen);
+        }
+        if (!is_array($sonderbehandlung)) {
+            $sonderbehandlung=array($sonderbehandlung);
+        }
         $_REQUEST=$this->check($_REQUEST,$nicht_ueberpruefen,$sonderbehandlung);
         foreach ($_REQUEST as $k=>$v) {
                 if (isset($_POST[$k])) {
-					$_POST[$k]=$v;
-				}
+                    $_POST[$k]=$v;
+                }
                 if (isset($_GET[$k])) {
-					$_GET[$k]=$v;
-				}
+                    $_GET[$k]=$v;
+                }
         }
 }
 
@@ -813,13 +813,13 @@ function check_REQUEST($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
 * @since Version 1.0
 */
 function check_SESSION($nicht_ueberpruefen=array(),$sonderbehandlung=array()) {
-		// Ggfs. Parameter in Arrays umwandeln
-		if (!is_array($nicht_ueberpruefen)) {
-			$nicht_ueberpruefen=array($nicht_ueberpruefen);
-		}
-		if (!is_array($sonderbehandlung)) {
-			$sonderbehandlung=array($sonderbehandlung);
-		}
+        // Ggfs. Parameter in Arrays umwandeln
+        if (!is_array($nicht_ueberpruefen)) {
+            $nicht_ueberpruefen=array($nicht_ueberpruefen);
+        }
+        if (!is_array($sonderbehandlung)) {
+            $sonderbehandlung=array($sonderbehandlung);
+        }
         $_SESSION=$this->check($_SESSION,$nicht_ueberpruefen,$sonderbehandlung);
 }
 

@@ -10,7 +10,7 @@ function map(xkoord, ykoord) {
     var breite = 400;
 
     // Neue Mapbox Karte
-	var lat = CHtoWGSlat(xkoord, ykoord);
+    var lat = CHtoWGSlat(xkoord, ykoord);
     var lng = CHtoWGSlng(xkoord, ykoord);
 
     // Link (im Moment wird noch auf Search.ch verlinkt, denn dort sieht man öV Haltestellen): https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/page.html?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q#15/"+lat+"/"+lng+"

@@ -1,17 +1,17 @@
 <h2>Login</h2>
 <table>
-	<tr>
-		<td style="width:20%;padding-top:4px;font-weight:bold;">Benutzername:</td>
-		<td style="width:80%">
-			<input type="text" name="username" style="width:95%;" id="focusonload">
-		</td>
-	</tr>
-	<tr>
-		<td style="width:20%;padding-top:4px;font-weight:bold;">Passwort:</td>
-		<td style="width:80%">
-			<input type="password" name="passwort" style="width:95%;">
-		</td>
-	</tr>
+    <tr>
+        <td style="width:20%;padding-top:4px;font-weight:bold;">Benutzername:</td>
+        <td style="width:80%">
+            <input type="text" name="username" style="width:95%;" id="focusonload">
+        </td>
+    </tr>
+    <tr>
+        <td style="width:20%;padding-top:4px;font-weight:bold;">Passwort:</td>
+        <td style="width:80%">
+            <input type="password" name="passwort" style="width:95%;">
+        </td>
+    </tr>
 </table>
 <script type="text/javascript">
 document.getElementById("focusonload").focus();

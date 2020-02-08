@@ -84,40 +84,40 @@ END:VCALENDAR';*/
 $client = new SimpleCalDAVClient();
 
 try {
-	/*
-	 * To establish a connection and to choose a calendar on the server, use
-	 * connect()
-	 * findCalendars()
-	 * setCalendar()
-	 */
-	
-	$client->connect('https://utzinger-planung.ch/mycloud/remote.php/dav/', 'test', '1234');
-	$arrayOfCalendars = $client->findCalendars(); // Returns an array of all accessible calendars on the server.
-	$client->setCalendar($arrayOfCalendars["olz-termine_shared_by_ursu"]); // Here: Use the calendar ID of your choice. If you don't know which calendar ID to use, try config/listCalendars.php
+    /*
+     * To establish a connection and to choose a calendar on the server, use
+     * connect()
+     * findCalendars()
+     * setCalendar()
+     */
     
-	/*
-	 * You can create calendar objects (e.g. events, todos,...) on the server with create().
-	 * Just pass a string with the iCalendar-data which should be saved on the server.
-	 * The function returns a CalDAVObject (see CalDAVObject.php) with the stored information about the new object on the server
-	 */
-//	$firstNewEventOnServer = $client->create($firstNewEvent); // Creates $firstNewEvent on the server and a CalDAVObject representing the event.
+    $client->connect('https://utzinger-planung.ch/mycloud/remote.php/dav/', 'test', '1234');
+    $arrayOfCalendars = $client->findCalendars(); // Returns an array of all accessible calendars on the server.
+    $client->setCalendar($arrayOfCalendars["olz-termine_shared_by_ursu"]); // Here: Use the calendar ID of your choice. If you don't know which calendar ID to use, try config/listCalendars.php
     
-	/*
-	 * You can getEvents with getEvents()
-	 */
-	
-	$events = $client->getEvents('20160401T103000Z', '20160419T200000Z'); // Returns array($secondNewEventOnServer);
+    /*
+     * You can create calendar objects (e.g. events, todos,...) on the server with create().
+     * Just pass a string with the iCalendar-data which should be saved on the server.
+     * The function returns a CalDAVObject (see CalDAVObject.php) with the stored information about the new object on the server
+     */
+//    $firstNewEventOnServer = $client->create($firstNewEvent); // Creates $firstNewEvent on the server and a CalDAVObject representing the event.
+    
+    /*
+     * You can getEvents with getEvents()
+     */
+    
+    $events = $client->getEvents('20160401T103000Z', '20160419T200000Z'); // Returns array($secondNewEventOnServer);
 
-	foreach ( $events as $_event ){
-		echo $_event->getEtag(); // Prints $secondNewEvent. See CalDAVObject.php
-		echo '<br>';
-		}
-	
+    foreach ( $events as $_event ){
+        echo $_event->getEtag(); // Prints $secondNewEvent. See CalDAVObject.php
+        echo '<br>';
+        }
+    
 
 }
 
 catch (Exception $e) {
-	echo $e->__toString();
+    echo $e->__toString();
 }
 
 ?>

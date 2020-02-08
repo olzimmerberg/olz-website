@@ -32,12 +32,12 @@
  */
 
 $fm_init_file = dirname(__FILE__)
-	. (strlen(dirname(__FILE__)) > 0 ? '/' : '')
-	. '../init.inc.php';
+    . (strlen(dirname(__FILE__)) > 0 ? '/' : '')
+    . '../init.inc.php';
 
-	if (! @file_exists($fm_init_file)) {
-		exit;
-	}
+    if (! @file_exists($fm_init_file)) {
+        exit;
+    }
 
 require_once $fm_init_file;
 require_once $PN_PathPrefix . 'functions.inc.php';
@@ -68,98 +68,98 @@ chdir($fm_file_plugin_orig_dir);
 
 function fm_parse_apache_mime_types($file)
 {
-	$mimes_by_ext = array();
-	$mime_types   = file($file);
+    $mimes_by_ext = array();
+    $mime_types   = file($file);
 
-	if (is_array($mime_types)) {
-		while (list(,$line) = each($mime_types)) {
-			if ($line[0] == '#')
-				continue;
+    if (is_array($mime_types)) {
+        while (list(,$line) = each($mime_types)) {
+            if ($line[0] == '#')
+                continue;
 
-			$parts = preg_split('/(\s+)/', $line);
-			if (is_array($parts) && sizeof($parts) > 2) {
-				list(,$mime) = each($parts);
-				while (list(,$ext) = each($parts)) {
-					if (trim($ext) != '')
-						$mimes_by_ext[$ext] = $mime;
-				}
-			}
-		}
-	}
+            $parts = preg_split('/(\s+)/', $line);
+            if (is_array($parts) && sizeof($parts) > 2) {
+                list(,$mime) = each($parts);
+                while (list(,$ext) = each($parts)) {
+                    if (trim($ext) != '')
+                        $mimes_by_ext[$ext] = $mime;
+                }
+            }
+        }
+    }
 
-	return $mimes_by_ext;
+    return $mimes_by_ext;
 }
 
 function fm_main()
 {
-	global $fm_cfg;
-	global $HTTP_GET_VARS;
+    global $fm_cfg;
+    global $HTTP_GET_VARS;
 
-	/*
-	 * Permission check
-	 */
+    /*
+     * Permission check
+     */
 
-	if (! $fm_cfg['perm']['file']['view']) {
-		echo 'Insufficient privileges for file viewing.';
-		return false;
-	}
+    if (! $fm_cfg['perm']['file']['view']) {
+        echo 'Insufficient privileges for file viewing.';
+        return false;
+    }
 
-	/*
-	 * Creating $file variable from CGI $fm_path variable
-	 */
+    /*
+     * Creating $file variable from CGI $fm_path variable
+     */
 
-	if (! isset($HTTP_GET_VARS[$fm_cfg['cgi'].'path'])) {
-		echo 'CGI variable "'.$fm_cfg['cgi'].'path" is not present.';
-		return false;
-	} 
+    if (! isset($HTTP_GET_VARS[$fm_cfg['cgi'].'path'])) {
+        echo 'CGI variable "'.$fm_cfg['cgi'].'path" is not present.';
+        return false;
+    } 
 
-	$file = $HTTP_GET_VARS[$fm_cfg['cgi'].'path'];
-	if ($file{0} != '/') {
-		echo 'Incorrect "'.$fm_cfg['cgi'].'path" CGI variable.';
-		return false;
-	}
+    $file = $HTTP_GET_VARS[$fm_cfg['cgi'].'path'];
+    if ($file{0} != '/') {
+        echo 'Incorrect "'.$fm_cfg['cgi'].'path" CGI variable.';
+        return false;
+    }
 
-	$file = substr($file, 1);
-	$file = preg_replace('|\.\./|', '', $file);
-	$file = preg_replace('|\.\.$|', '', $file);
-	$file = fm_append_slash($fm_cfg['dir']['root']).$file;
+    $file = substr($file, 1);
+    $file = preg_replace('|\.\./|', '', $file);
+    $file = preg_replace('|\.\.$|', '', $file);
+    $file = fm_append_slash($fm_cfg['dir']['root']).$file;
 
-	/*
-	 * Testing file
-	 */
+    /*
+     * Testing file
+     */
 
-	if (! @file_exists($file) || ! @is_readable($file)) {
-		echo 'File "'.$file.'" not found or is not readable.';
-		return false;
-	}
+    if (! @file_exists($file) || ! @is_readable($file)) {
+        echo 'File "'.$file.'" not found or is not readable.';
+        return false;
+    }
 
-	/*
-	 * Parsing of apache-mime.types file
-	 */
+    /*
+     * Parsing of apache-mime.types file
+     */
 
-	$mimes_by_ext = array();
-	foreach ($fm_cfg['res']['mime_types'] as $mimes_fname) {
-		if (@file_exists($mimes_fname) && @is_readable($mimes_fname)) {
-			$mimes_by_ext = fm_parse_apache_mime_types($mimes_fname);
-			break;
-		}
-	}
+    $mimes_by_ext = array();
+    foreach ($fm_cfg['res']['mime_types'] as $mimes_fname) {
+        if (@file_exists($mimes_fname) && @is_readable($mimes_fname)) {
+            $mimes_by_ext = fm_parse_apache_mime_types($mimes_fname);
+            break;
+        }
+    }
 
-	/*
-	 * Writting file on output
-	 */
+    /*
+     * Writting file on output
+     */
 
-	if (preg_match('/.*\.([a-z]{2,5})$/i', $file, $matches)
-			&& trim($mimes_by_ext[$matches[1]]) != '') {
-		header('Content-Type: '.trim($mimes_by_ext[$matches[1]]));
-	} else {
-		header('Content-Type: text/plain');
-	}
-	header('Content-Length: '.filesize($file));
-	header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    if (preg_match('/.*\.([a-z]{2,5})$/i', $file, $matches)
+            && trim($mimes_by_ext[$matches[1]]) != '') {
+        header('Content-Type: '.trim($mimes_by_ext[$matches[1]]));
+    } else {
+        header('Content-Type: text/plain');
+    }
+    header('Content-Length: '.filesize($file));
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
 
-	@readfile($file);
-	return true;
+    @readfile($file);
+    return true;
 }
 
 ?>

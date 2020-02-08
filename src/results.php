@@ -3,36 +3,36 @@
 // Counter mit Textdatei
 //-------------------------------------------
 if($_SESSION['auth']!='all'){
-	$DateinameIP= "zol/counter.txt"; // Track-Datei
-	$Zeitsperre = 3600; // Zeitsperre in Sekunden
-	$Gefunden = FALSE;
-	$IPListe = file($DateinameIP);
-	if(count($IPListe) > 0){
-		foreach($IPListe as $Zeile){ // IP prüfen
-			$GesplitteteZeile = explode("|", $Zeile);
-			if(($GesplitteteZeile[0]+$Zeitsperre) > time()){
-				$NeueIPListe[] = trim($Zeile)."\n";} // neue IP
-		}
-		if(count($NeueIPListe) > 0){
-			foreach($NeueIPListe as $Zeile){
-				$GesplitteteZeile = explode("|", $Zeile);
-				if(trim($GesplitteteZeile[1]) == session_id()){ //IP Prüfung
-					$Gefunden = TRUE;}
-			}
-		}
-	}
-	$FilePointerIP = fopen($DateinameIP, "w"); // IP-Track-Datei öffnen
-	if(count($IPListe) > 0 && count($NeueIPListe) > 0){
-		foreach($NeueIPListe as $Zeile){ // IP-Liste ändern
-			fwrite($FilePointerIP, trim($Zeile)."\n");}
-	}
-	if(!$Gefunden){
-		fwrite($FilePointerIP, time()."|".session_id()."\n");} //IP-Liste ergänzen
-	fclose($FilePointerIP);
-	
-	if(!$Gefunden) $db->query("UPDATE event SET counter_ip_web = (counter_ip_web+1) WHERE (name_kurz = '$event')",$conn_id);
-	$db->query("UPDATE event SET counter_hit_web = (counter_hit_web+1) WHERE (name_kurz = '$event')",$conn_id);
-	}
+    $DateinameIP= "zol/counter.txt"; // Track-Datei
+    $Zeitsperre = 3600; // Zeitsperre in Sekunden
+    $Gefunden = FALSE;
+    $IPListe = file($DateinameIP);
+    if(count($IPListe) > 0){
+        foreach($IPListe as $Zeile){ // IP prüfen
+            $GesplitteteZeile = explode("|", $Zeile);
+            if(($GesplitteteZeile[0]+$Zeitsperre) > time()){
+                $NeueIPListe[] = trim($Zeile)."\n";} // neue IP
+        }
+        if(count($NeueIPListe) > 0){
+            foreach($NeueIPListe as $Zeile){
+                $GesplitteteZeile = explode("|", $Zeile);
+                if(trim($GesplitteteZeile[1]) == session_id()){ //IP Prüfung
+                    $Gefunden = TRUE;}
+            }
+        }
+    }
+    $FilePointerIP = fopen($DateinameIP, "w"); // IP-Track-Datei öffnen
+    if(count($IPListe) > 0 && count($NeueIPListe) > 0){
+        foreach($NeueIPListe as $Zeile){ // IP-Liste ändern
+            fwrite($FilePointerIP, trim($Zeile)."\n");}
+    }
+    if(!$Gefunden){
+        fwrite($FilePointerIP, time()."|".session_id()."\n");} //IP-Liste ergänzen
+    fclose($FilePointerIP);
+    
+    if(!$Gefunden) $db->query("UPDATE event SET counter_ip_web = (counter_ip_web+1) WHERE (name_kurz = '$event')",$conn_id);
+    $db->query("UPDATE event SET counter_hit_web = (counter_hit_web+1) WHERE (name_kurz = '$event')",$conn_id);
+    }
 //-------------------------------------------
 
 //-------------------------------------------
@@ -56,20 +56,20 @@ $kat3 = array();
 $kat4 = array();
 while ($row = mysqli_fetch_array($result)){
 //echo $row[0]."/".substr($row[0],-1)."<br>";
-	if(substr($row[0],-1)=="T") array_push($kat4,$row[0]);
-	elseif(substr($row[0],0,1)=="H") array_push($kat1,$row[0]);
-	elseif(substr($row[0],0,1)=="D") array_push($kat2,$row[0]);
-	else array_push($kat3,$row[0]);
-	}
+    if(substr($row[0],-1)=="T") array_push($kat4,$row[0]);
+    elseif(substr($row[0],0,1)=="H") array_push($kat1,$row[0]);
+    elseif(substr($row[0],0,1)=="D") array_push($kat2,$row[0]);
+    else array_push($kat3,$row[0]);
+    }
 
 foreach($kat1 as $_kat){
-	$kategorien1 = $kategorien1."<td style='border:solid 0px;width:".round(100/count($kat1))."%' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
+    $kategorien1 = $kategorien1."<td style='border:solid 0px;width:".round(100/count($kat1))."%' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
 foreach($kat2 as $_kat){
-	$kategorien2 = $kategorien2."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
+    $kategorien2 = $kategorien2."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
 foreach($kat3 as $_kat){
-	$kategorien3 = $kategorien3."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
+    $kategorien3 = $kategorien3."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
 foreach($kat4 as $_kat){
-	$kategorien4 = $kategorien4."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
+    $kategorien4 = $kategorien4."<td style='border:solid 0px;' class='result_kat'><a href='?page=$page&amp;kat=$_kat&event=$event'>$_kat</a></td>";}
 
 $result_file = "zol/".$event.".txt";
 $datum = olz_date("t.m.jj",filemtime($result_file));
@@ -104,31 +104,31 @@ $sql = "SELECT * FROM $db_table WHERE kat='$kat' AND event='$event' ORDER BY ran
 $result = $db->query($sql);
 $counter = 1;
 while ($row = mysqli_fetch_array($result)){
-	$rang = $row['rang'];
-	$name = $row['name'];
+    $rang = $row['rang'];
+    $name = $row['name'];
     $jg = $row['jg'];
-	$club = $row['club'];
-	$zeit = $row['zeit'];
-	$stand = $row['stand'];
-	$anzahl = $row['anzahl'];
+    $club = $row['club'];
+    $zeit = $row['zeit'];
+    $stand = $row['stand'];
+    $anzahl = $row['anzahl'];
 
-	$jg = (strlen($jg)==1)?"0".$jg:$jg;
-	$rang = ($rang==9999)?'---':$rang;
-	$rang = ($rang==9998)?'AK':$rang;
+    $jg = (strlen($jg)==1)?"0".$jg:$jg;
+    $rang = ($rang==9999)?'---':$rang;
+    $rang = ($rang==9998)?'AK':$rang;
 
-	$style = ($counter%2==0) ? "background-color:white;" : "";
+    $style = ($counter%2==0) ? "background-color:white;" : "";
 
-	echo "<tr>";
-	foreach($spalten as $_spalte){
-		echo "<td style='width:".$_spalte[1]."%;padding:2px;$style' class=".$_spalte[0].">".${$_spalte[0]}."</td>";
-		}		
-	echo "</tr>";
-	$counter = $counter+1;
-	}
+    echo "<tr>";
+    foreach($spalten as $_spalte){
+        echo "<td style='width:".$_spalte[1]."%;padding:2px;$style' class=".$_spalte[0].">".${$_spalte[0]}."</td>";
+        }        
+    echo "</tr>";
+    $counter = $counter+1;
+    }
 
 echo "</tr></table>";
 
 ?>
 
-	</body>
+    </body>
 </html>

@@ -22,61 +22,61 @@ else $id = $_SESSION[$db_table.'id_'];
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff AND $_SESSION['edit']['db_table']==$db_table)
-	{$functions = array('neu' => 'Neuer Eintrag',
-				'edit' => 'Bearbeiten',
-				'abbruch' => 'Abbrechen',
-				'vorschau' => 'Vorschau',
-				'save' => 'Speichern',
-				'delete' => 'Löschen',
-				'start' => 'start',
-				'upload' => 'Upload',
-				'deletebild1' => 'Bild entfernen',
-				'undo' => 'undo');
-	}
+    {$functions = array('neu' => 'Neuer Eintrag',
+                'edit' => 'Bearbeiten',
+                'abbruch' => 'Abbrechen',
+                'vorschau' => 'Vorschau',
+                'save' => 'Speichern',
+                'delete' => 'Löschen',
+                'start' => 'start',
+                'upload' => 'Upload',
+                'deletebild1' => 'Bild entfernen',
+                'undo' => 'undo');
+    }
 else
-	{$functions = array();}
+    {$functions = array();}
 $function = array_search($$button_name,$functions);
 if ($function!="")
-	{include 'admin/admin_db.php';}
+    {include 'admin/admin_db.php';}
 if ($_SESSION['edit']['table']==$db_table) $db_edit = "1";
 else $db_edit = "0";
 
 //-------------------------------------------------------------
 // MENÜ
 if ($zugriff AND ($db_edit=='0'))
-	{echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table,array(array("Neuer Eintrag","0")),"")."</div>";}
+    {echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table,array(array("Neuer Eintrag","0")),"")."</div>";}
 
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
 if (($db_edit=="0") OR ($do=="vorschau"))
-	{echo "<table>";
-	if ($do=="vorschau") $sql = "SELECT * FROM $db_table WHERE (on_off = '1') AND (id = ".$_SESSION[$db_table.'id'].") ORDER BY position ASC";
-	else $sql = "SELECT * FROM $db_table WHERE (on_off = '1') ORDER BY position ASC";
-	$result = mysql_query($sql);
-	$counter = 0;
+    {echo "<table>";
+    if ($do=="vorschau") $sql = "SELECT * FROM $db_table WHERE (on_off = '1') AND (id = ".$_SESSION[$db_table.'id'].") ORDER BY position ASC";
+    else $sql = "SELECT * FROM $db_table WHERE (on_off = '1') ORDER BY position ASC";
+    $result = mysql_query($sql);
+    $counter = 0;
 
-	while ($row = mysql_fetch_array($result))
-		{if ($do=="vorschau") $row = $vorschau;
-		$counter = $counter + 1;
-		$id_tmp = $row['id'];
-		$name = $row['name'];
-		$funktion = $row['funktion'];
-		$email = $row['email'];
-		$bild = $row['bild'];
-		if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='index.php?id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
-		else $edit_admin = "";
-		if(bcmod($counter-1,4)==0) echo "<tr class='thumbs'>";
-		echo "<td style='width:25%;vertical-align:top;'><img src='".$root_path."olz_mitglieder/".$bild."' title='$name' alt=''><br>
-		$edit_admin<strong>$name</strong><br>$funktion<br>".olz_mask_email($email,"Email","")."</script></td>";
-		if(bcmod($counter,4)==0) echo "</tr>";
-		}
-	$counter = 4-$counter;
-	while ($counter>0)
-		{echo "<td style='width:25%;'>&nbsp;</td>";
-		$counter = $counter-1;
-		}
-	echo "</table>";
-	}
+    while ($row = mysql_fetch_array($result))
+        {if ($do=="vorschau") $row = $vorschau;
+        $counter = $counter + 1;
+        $id_tmp = $row['id'];
+        $name = $row['name'];
+        $funktion = $row['funktion'];
+        $email = $row['email'];
+        $bild = $row['bild'];
+        if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='index.php?id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
+        else $edit_admin = "";
+        if(bcmod($counter-1,4)==0) echo "<tr class='thumbs'>";
+        echo "<td style='width:25%;vertical-align:top;'><img src='".$root_path."olz_mitglieder/".$bild."' title='$name' alt=''><br>
+        $edit_admin<strong>$name</strong><br>$funktion<br>".olz_mask_email($email,"Email","")."</script></td>";
+        if(bcmod($counter,4)==0) echo "</tr>";
+        }
+    $counter = 4-$counter;
+    while ($counter>0)
+        {echo "<td style='width:25%;'>&nbsp;</td>";
+        $counter = $counter-1;
+        }
+    echo "</table>";
+    }
 
 ?>
 
@@ -138,25 +138,25 @@ $reihen = ($groesse - ($groesse%$breite))/$breite;
 if ($groesse%$breite != 0) $reihen = $reihen + 1;
 
 for ($i=0;$i<$reihen;$i++)
-	{echo '<tr class=\'thumbs\' style=\'height:130px;\'>';
-	for ($n=0; $n<$breite; $n++)
-		{$nr = ($i*$breite+$n);
-		$file = strtolower(strtr($poeple[$nr][0],$array)).'_'.strtolower(strtr($poeple[$nr][1],$array)).'_'.strtolower(strtr($poeple[$nr][2],$array)).'.jpg';
-		if (($i*$breite+$n+1) > $groesse)
-			{echo '<td>&nbsp;</td>\n';
-			}
-		else
-			{echo '<td><img src=\'".$root_path."olz_mitglieder/' . $file . '\' title=\'' . $poeple[$nr][0] . ' ' . $poeple[$nr][1] . ', ' . $poeple[$nr][2]. '\' alt=\'\'></td>\n';
-			}
-		if ($i >= $groesse) break;
-		}
-	echo '</tr>\n';
-	}
+    {echo '<tr class=\'thumbs\' style=\'height:130px;\'>';
+    for ($n=0; $n<$breite; $n++)
+        {$nr = ($i*$breite+$n);
+        $file = strtolower(strtr($poeple[$nr][0],$array)).'_'.strtolower(strtr($poeple[$nr][1],$array)).'_'.strtolower(strtr($poeple[$nr][2],$array)).'.jpg';
+        if (($i*$breite+$n+1) > $groesse)
+            {echo '<td>&nbsp;</td>\n';
+            }
+        else
+            {echo '<td><img src=\'".$root_path."olz_mitglieder/' . $file . '\' title=\'' . $poeple[$nr][0] . ' ' . $poeple[$nr][1] . ', ' . $poeple[$nr][2]. '\' alt=\'\'></td>\n';
+            }
+        if ($i >= $groesse) break;
+        }
+    echo '</tr>\n';
+    }
 echo '<tr class=\'listmenu\'>';
 for ($i=0;$i<$breite;$i++)
-	{echo '<td>&nbsp;</td>\n';
-	}
-echo '</tr>';		
+    {echo '<td>&nbsp;</td>\n';
+    }
+echo '</tr>';        
 
 echo "</table>-->";
 ?>

@@ -67,7 +67,7 @@ while ($row = mysqli_fetch_array($result))
     for ($i=0; $i<count($matches[0]); $i++) {
         $tmptext = $matches[4][$i];
         $tmpfile = $matches_file[4][$i];
-		//if($_SESSION['auth']=='all') echo $i."***2".$matches_file[4][$i]."<br>";
+        //if($_SESSION['auth']=='all') echo $i."***2".$matches_file[4][$i]."<br>";
         if (mb_strlen($tmptext)<1) $tmptext = "Datei ".$matches[1][$i];
         $tmp_html = olz_file($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
         $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);

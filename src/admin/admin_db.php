@@ -22,16 +22,16 @@ $_SESSION['edit']['table'] = $db_table;
 $tmp_folder = "temp";
 
 $markup_notice = (
-	"Hinweise:<br>"
-	. "<div style='font-weight:normal;'>1. Internet-Link in Text einbauen: Internet-Adresse mit 'http://' beginnen, "
-	. "Bsp.: 'http://www.olzimmerberg.ch' wird zu  <a href='http://www.olzimmerberg.ch' class='linkext' target='blank'><b>www.olzimmerberg.ch</b></a><br>"
-	. "2. Text mit Fettschrift hervorheben: Fetten Text mit '&lt;b>' beginnen und mit '&lt;/b>' beenden, "
-	. "Bsp: '&lt;b>dies ist fetter Text&lt;/b>' wird zu '<b>dies ist fetter Text</b>'<br>"
-	. "3. Bilder:<br><table><tr class='tablebar'><td><b>Bildnummer</b></td><td><b>Wie einbinden?</b></td></tr>"
-	. "<tr><td>1. Bild</td><td>&lt;BILD1></td></tr><tr><td>2. Bild</td><td>&lt;BILD2></td></tr></table><br>"
-	. "4. Dateien:<br><table><tr class='tablebar'><td><b>Dateinummer</b></td><td><b>Wie einbinden?</b></td><td><b>Wie wird's aussehen?</b></td></tr>"
-	. "<tr><td>1. Datei</td><td>&lt;DATEI1 text=&quot;OL Karte&quot;></td><td><a style='padding-left:17px; background-image:url(img/fileicons/image-16.png); background-repeat:no-repeat;'>OL Karte</a></td></tr>"
-	. "<tr><td>2. Datei</td><td>&lt;DATEI2 text=&quot;Ausschreibung als PDF&quot;></td><td><a style='padding-left:17px; background-image:url(img/fileicons/pdf-16.png); background-repeat:no-repeat;'>Ausschreibung als PDF</a></td></tr></table></div>"
+    "Hinweise:<br>"
+    . "<div style='font-weight:normal;'>1. Internet-Link in Text einbauen: Internet-Adresse mit 'http://' beginnen, "
+    . "Bsp.: 'http://www.olzimmerberg.ch' wird zu  <a href='http://www.olzimmerberg.ch' class='linkext' target='blank'><b>www.olzimmerberg.ch</b></a><br>"
+    . "2. Text mit Fettschrift hervorheben: Fetten Text mit '&lt;b>' beginnen und mit '&lt;/b>' beenden, "
+    . "Bsp: '&lt;b>dies ist fetter Text&lt;/b>' wird zu '<b>dies ist fetter Text</b>'<br>"
+    . "3. Bilder:<br><table><tr class='tablebar'><td><b>Bildnummer</b></td><td><b>Wie einbinden?</b></td></tr>"
+    . "<tr><td>1. Bild</td><td>&lt;BILD1></td></tr><tr><td>2. Bild</td><td>&lt;BILD2></td></tr></table><br>"
+    . "4. Dateien:<br><table><tr class='tablebar'><td><b>Dateinummer</b></td><td><b>Wie einbinden?</b></td><td><b>Wie wird's aussehen?</b></td></tr>"
+    . "<tr><td>1. Datei</td><td>&lt;DATEI1 text=&quot;OL Karte&quot;></td><td><a style='padding-left:17px; background-image:url(img/fileicons/image-16.png); background-repeat:no-repeat;'>OL Karte</a></td></tr>"
+    . "<tr><td>2. Datei</td><td>&lt;DATEI2 text=&quot;Ausschreibung als PDF&quot;></td><td><a style='padding-left:17px; background-image:url(img/fileicons/pdf-16.png); background-repeat:no-repeat;'>Ausschreibung als PDF</a></td></tr></table></div>"
 );
 
 if ($db_table == "aktuell")
@@ -276,7 +276,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 </select>
 <input name='help_set_link' value='' style='width: 56%;' type='text'>",""," rows='4'"),
                 array("teilnehmer","TeilnehmerInnen","number","","","","",""),
-                array("xkoord","X-Koordinate","number","","","<input type='button' name='' onclick='koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"	263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>","width:150px;",""),
+                array("xkoord","X-Koordinate","number","","","<input type='button' name='' onclick='koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"    263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>","width:150px;",""),
                 array("ykoord","Y-Koordinate","number","","","","width:150px;",""),
                 array("on_off","Aktiv","boolean","1","","","",""),
                 array("newsletter","Newsletter","boolean","0","","","",""),
@@ -367,19 +367,19 @@ if ($do == "duplicate")
     $result = $db->query($sql);
     if ($result->num_rows==0)
         {$do = "abbruch";
-		$alert = "Kein Datensatz gewählt.";
+        $alert = "Kein Datensatz gewählt.";
         }
     else
         {$row = $result->fetch_assoc();
-		unset($row["id"]); //Remove ID from array
-		$row = array_filter($row,'strlen'); // Null-/Leerwerte herausfiltern
-		$sql = "INSERT INTO $db_table";
-		$sql .= " ( " .implode(", ",array_keys($row)).") ";
-		$sql .= " VALUES ('".implode("', '",array_values($row)). "')";
-    	$result = $db->query($sql);
-    	$id = $db->insert_id;
-		$_SESSION[$db_table."id_"] = $id;
-		$_SESSION['edit']['modus'] = "neuedit";
+        unset($row["id"]); //Remove ID from array
+        $row = array_filter($row,'strlen'); // Null-/Leerwerte herausfiltern
+        $sql = "INSERT INTO $db_table";
+        $sql .= " ( " .implode(", ",array_keys($row)).") ";
+        $sql .= " VALUES ('".implode("', '",array_values($row)). "')";
+        $result = $db->query($sql);
+        $id = $db->insert_id;
+        $_SESSION[$db_table."id_"] = $id;
+        $_SESSION['edit']['modus'] = "neuedit";
         $do = "getdata";
         }
     if ($_SESSION['edit']['modus'] != "neuedit") $_SESSION['edit']['modus'] = "";
@@ -397,7 +397,7 @@ if ($do=="neu")
             eval("$start_value;");
             //echo $start_value;
             if ($tmp_feld[0] != 'id')
-            	array_push($sql_tmp,$tmp_feld[0]." = '".$start_value."'");
+                array_push($sql_tmp,$tmp_feld[0]." = '".$start_value."'");
             }
         }
     if(!isset($_SESSION['edit']['modus'])){
@@ -553,7 +553,7 @@ if ($do == "submit")
     }
     foreach ($db_felder as $tmp_feld)
         {$var = $tmp_feld[0];
-		//uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+        //uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
         if (is_array($_SESSION[$db_table.$var]) AND $tmp_feld[2]=='boolean')
             {$_SESSION[$db_table.$var] = $_SESSION[$db_table.$var][0];
             }
@@ -628,7 +628,7 @@ if ($do == "submit")
     // MAIL SENDEN
     foreach($mail_adress as $mailadress_tmp)
         {mail($mailadress_tmp,$mail_subject,base64_encode($mail_text),$mail_header,$mail_from);
-		//echo $mail_from;
+        //echo $mail_from;
         }
     }
     unset($_SESSION['edit']);
@@ -661,8 +661,8 @@ if ($do == "vorschau")
                 }
             }
 
-		//uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
-		$wert = ($tmp_feld[2]=='boolean') ? $_SESSION[$db_table.$var][0] : $_SESSION[$db_table.$var];
+        //uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+        $wert = ($tmp_feld[2]=='boolean') ? $_SESSION[$db_table.$var][0] : $_SESSION[$db_table.$var];
         $vorschau[$var] = stripslashes($wert);
 
         }
@@ -687,9 +687,9 @@ if ($do == "edit")
     {// Eingabe-Formular aufbauen
     $html_input = "";
     $html_hidden = "";
-	if($function == "duplicate") $html_input = "<h2 style='margin-bottom:15px;'>Duplikat bearbeiten</h2>";
-	elseif($function == "neu") $html_input = "<h2 style='margin-bottom:15px;'>Neuer Datensatz bearbeiten</h2>";
-	else $html_input = "<h2 style='margin-bottom:15px;'>Datensatz bearbeiten</h2>";
+    if($function == "duplicate") $html_input = "<h2 style='margin-bottom:15px;'>Duplikat bearbeiten</h2>";
+    elseif($function == "neu") $html_input = "<h2 style='margin-bottom:15px;'>Neuer Datensatz bearbeiten</h2>";
+    else $html_input = "<h2 style='margin-bottom:15px;'>Datensatz bearbeiten</h2>";
     // Datenbankfelder
 
     foreach ($db_felder as $tmp_feld)

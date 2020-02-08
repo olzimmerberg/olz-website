@@ -52,6 +52,13 @@ else $data_path = $_SERVER['DOCUMENT_ROOT'].'/';
 
 if($local) $data_href = 'TODO: not implemented';
 else $data_href = '/';
+
+if($local) $code_path = 'TODO: not implemented';
+else $code_path = dirname(realpath(__DIR__));
+
+if($local) $code_href = 'TODO: not implemented';
+else $code_href = '/_/';
+
 //-------------------------------------------
 // POST/GET-Variable
 //-------------------------------------------

@@ -55,25 +55,26 @@ return $monatstitel;
 //----------------------------------
 //FUNKTION Button-Menu
 //----------------------------------
-function olz_buttons($name,$buttons,$off)
-{// Icons: 0=neu, 1=edit, 2=Abbrechen, 3=Vorschau
-$icons = array("neu.gif","edit.gif","cancel.gif","preview.gif","save.gif","delete.gif");
-$html_menu = array();
-foreach ($buttons as $tmp_button)
-    {if (is_array($tmp_button))
-        {$button = $tmp_button[0];
-        $icon_nr = $tmp_button[1];
-        $icon = "<img src=\"".$root_path."icns/".$icons[$icon_nr]."\" class=\"noborder\" style='vertical-align:middle;padding-left:2px;' alt=''>";
+function olz_buttons($name,$buttons,$off) {
+    global $code_href;
+    // Icons: 0=neu, 1=edit, 2=Abbrechen, 3=Vorschau
+    $icons = array("neu.gif","edit.gif","cancel.gif","preview.gif","save.gif","delete.gif");
+    $html_menu = array();
+    foreach ($buttons as $tmp_button)
+        {if (is_array($tmp_button))
+            {$button = $tmp_button[0];
+            $icon_nr = $tmp_button[1];
+            $icon = "<img src=\"".$code_href."icns/".$icons[$icon_nr]."\" class=\"noborder\" style='vertical-align:middle;padding-left:2px;' alt=''>";
+            }
+        else
+            {$button = $tmp_button;
+            $icon = "";}
+        if ($tmp_button == $off)
+            {array_push($html_menu,$icon."<input type='submit' value='".$button."' name='".$name."' class='button' style='color:black;'>");}
+        else
+            {array_push($html_menu,$icon."<input type='submit' value='".$button."' name='".$name."' class='button'>");}
         }
-    else
-        {$button = $tmp_button;
-        $icon = "";}
-    if ($tmp_button == $off)
-        {array_push($html_menu,$icon."<input type='submit' value='".$button."' name='".$name."' class='button' style='color:black;'>");}
-    else
-        {array_push($html_menu,$icon."<input type='submit' value='".$button."' name='".$name."' class='button'>");}
-    }
-return "|".implode("|", $html_menu)."|";
+    return "|".implode("|", $html_menu)."|";
 }
 
 //----------------------------------
@@ -151,7 +152,7 @@ echo "</div>";
 //VORSTANDSPERSON ANZEIGEN
 //----------------------------------
 function olz_vorstand_insert($id, $mode=0) {
-    global $db, $root_path;
+    global $db, $data_path, $data_href, $code_href;
     $result = $db->query("SELECT * FROM vorstand WHERE id='".intval($id)."'");
     $row = $result->fetch_assoc();
     if ($mode==0) {
@@ -159,9 +160,9 @@ function olz_vorstand_insert($id, $mode=0) {
         return "<div style='position:absolute; display:none; padding:5px 10px 5px 5px; background-color:#D4E7CE; border:1px solid #007521;' id='popup".$ident."'>".olz_vorstand_insert($id, 2)."</div><a href='javascript:olz_toggle_vorstand(&quot;".$ident."&quot;)' id='source".$ident."'>".$row["name"]."</a>";
     } else if ($mode==1) {
         $ident = md5(rand().$id.rand().microtime(true));
-        return "<div style='position:relative;'><div style='position:absolute; display:none; padding:5px 10px 5px 5px; background-color:#D4E7CE; border:1px solid #007521; white-space:nowrap;' id='popup".$ident."'>".olz_vorstand_insert($id, 2)."</div></div><a href='javascript:olz_toggle_vorstand(&quot;".$ident."&quot;)' id='source".$ident."' style='display:block; text-align:center;'><img src='".$root_path.($row["bild"]?"olz_mitglieder/".$row["bild"]:"icns/user.jpg")."' alt=''><br><div style='text-align:center;'>".$row["name"]."</div></a>";
+        return "<div style='position:relative;'><div style='position:absolute; display:none; padding:5px 10px 5px 5px; background-color:#D4E7CE; border:1px solid #007521; white-space:nowrap;' id='popup".$ident."'>".olz_vorstand_insert($id, 2)."</div></div><a href='javascript:olz_toggle_vorstand(&quot;".$ident."&quot;)' id='source".$ident."' style='display:block; text-align:center;'><img src='".($row["bild"]?$data_href."olz_mitglieder/".$row["bild"]:$code_href."icns/user.jpg")."' alt=''><br><div style='text-align:center;'>".$row["name"]."</div></a>";
     } else if ($mode==2) {
-        return "<table><tr><td style='width:1px;'>".(is_file($root_path."olz_mitglieder/".$row["bild"])?"<img src='".$root_path."olz_mitglieder/".$row["bild"]."' alt='' style='height:64px;'>":"&nbsp;")."</td><td style='padding-left:10px;'><b>".$row["name"]."</b>".($row["adresse"]?"<br>".$row["adresse"]:"").($row["tel"]?"<br>Tel. ".$row["tel"]:"").($row["email"]?"<br>".olz_mask_email($row["email"], "Email", ""):"")."</td></tr></table>";
+        return "<table><tr><td style='width:1px;'>".(is_file($data_path."olz_mitglieder/".$row["bild"])?"<img src='".$data_href."olz_mitglieder/".$row["bild"]."' alt='' style='height:64px;'>":"&nbsp;")."</td><td style='padding-left:10px;'><b>".$row["name"]."</b>".($row["adresse"]?"<br>".$row["adresse"]:"").($row["tel"]?"<br>Tel. ".$row["tel"]:"").($row["email"]?"<br>".olz_mask_email($row["email"], "Email", ""):"")."</td></tr></table>";
     } else {
         return "person_anzeigen: mode ".$mode." nicht definiert";
     }

@@ -174,7 +174,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         else $class = "";
 
         include 'library/phpWebFileManager/icons.inc.php';
-		$var = explode(".",$file1);
+        $var = explode(".",$file1);
         $ext = strtolower(end($var));
         $icon = $fm_cfg['icons']['ext'][$ext];
         if ($ext!="" AND $ext!=='pdf') $icon = "<img src='icns/".$icon."' class='noborder' style='margin-right:6px;vertical-align:middle;'>";

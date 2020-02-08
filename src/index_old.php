@@ -27,7 +27,7 @@ $pages = array(
     "17"=>array("svgeditor.php"),
     "18"=>array("fuer_einsteiger_l.php", "fuer_einsteiger_r.php"),
     "19"=>array("zol/karten.php"),
-	"99"=>array("results.php","startseite_r.php"),
+    "99"=>array("results.php","startseite_r.php"),
     "mail"=>array("divmail_l.php","divmail_r.php"),
     "ftp"=>array("library/phpWebFileManager/start.php"),
     "tools"=>array("termine_helper.php"),
@@ -96,8 +96,8 @@ if($page=='ftp'){
         $var = (isset($_POST['fm_dir']) || isset($_GET['fm_dir'])) ? $fm_dir : $_SESSION['root'];
         $var2 = explode('/',$var);
         $var = (substr($var,-3)=='/..') ? implode('/',array_splice($var2,0,count($var2)-2)) : $var; // Übergeordnetes Verzeichnis
-		//header('Authorization: Basic '.base64_encode('web276' . ":" . '123456'));
-		//include 'library/phpWebFileManager/plugins/auth.php';
+        //header('Authorization: Basic '.base64_encode('web276' . ":" . '123456'));
+        //include 'library/phpWebFileManager/plugins/auth.php';
 
         if(isset($_POST['fm_dir'])){
             if(substr($var,0,strlen($_SESSION['root']))!==$_SESSION['root']){
@@ -116,18 +116,18 @@ if($page=='ftp'){
     if($_SESSION['user']=='olzkarten'){
         $var = $_GET['fm_action'];
 
-	if(in_array($var,array('confirm_rename_file','confirm_rename_directory','confirm_delete_file','confirm_remove_directory'))){
+    if(in_array($var,array('confirm_rename_file','confirm_rename_directory','confirm_delete_file','confirm_remove_directory'))){
             $_GET['fm_action'] = "";
             $_GET['fm_filename'] = "";
             $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
             }
         }
     }
-	// Datei herunterladen
-	if($ftp_mode=='get_file'){
-		$pfad = "http://".$ftp_user.":".$ftp_pw."@".substr($_GET['pfad'],7);
-		header('Location: '.$pfad);
-	}
+    // Datei herunterladen
+    if($ftp_mode=='get_file'){
+        $pfad = "http://".$ftp_user.":".$ftp_pw."@".substr($_GET['pfad'],7);
+        header('Location: '.$pfad);
+    }
 
 }
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"

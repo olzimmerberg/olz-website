@@ -559,7 +559,7 @@ table.raster tr {height:2em;}
     // SOLV UIDs
     
     if ($_SESSION["termine_helper"]=="solvuids") {
-		$year = date("Y");
+        $year = date("Y");
         if (8<date("m")) $year++;
         $sql_tmp = ($alle_zeigen) ? "" : "(solv_uid='0' OR solv_uid IS NULL) AND" ;
         $sql = "SELECT * FROM termine WHERE $sql_tmp datum>='".$year."-01-01' AND datum<='".$year."-12-31' AND (typ LIKE '%ol%') AND (titel NOT LIKE '%Meldeschluss%')";

@@ -22,24 +22,24 @@ $ical = "BEGIN:VCALENDAR".
 
 // Termine
 while ($row = mysqli_fetch_array($result))
-	{// Links extrahieren
-	$links = $row['link'];
-	$dom = new domdocument;
-	$dom->loadHTML($links);
-	$_links = "OLZ-Termin: http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
-	$_attach = "\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
-	foreach ($dom->getElementsByTagName("a") as $a) {
-		$text = $a->textContent;
-		$url = $a->getAttribute("href");
-		$_links .= "\\n".$text.": ".$url;
-		$_attach .= "\r\nATTACH;VALUE=URI:".$url;
-	}
-	$_links .= ($row['solv_uid']>0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
-	$_attach .= ($row['solv_uid']>0) ? "\r\nATTACH;VALUE=URI:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
+    {// Links extrahieren
+    $links = $row['link'];
+    $dom = new domdocument;
+    $dom->loadHTML($links);
+    $_links = "OLZ-Termin: http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
+    $_attach = "\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
+    foreach ($dom->getElementsByTagName("a") as $a) {
+        $text = $a->textContent;
+        $url = $a->getAttribute("href");
+        $_links .= "\\n".$text.": ".$url;
+        $_attach .= "\r\nATTACH;VALUE=URI:".$url;
+    }
+    $_links .= ($row['solv_uid']>0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
+    $_attach .= ($row['solv_uid']>0) ? "\r\nATTACH;VALUE=URI:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
 
-	$datum = $row['datum'];
-	$datum_end = ($row['datum_end']> "0000-00-00") ? $row['datum_end'] : $datum;
-	$ical .= 
+    $datum = $row['datum'];
+    $datum_end = ($row['datum_end']> "0000-00-00") ? $row['datum_end'] : $datum;
+    $ical .= 
 "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".olz_date('jjjjmmtt',$datum).
 "\r\nDTEND;VALUE=DATE:".olz_date('jjjjmmtt',$datum_end).
 "\r\nDTSTAMP:".date('Ymd\THis\Z').
@@ -48,14 +48,14 @@ while ($row = mysqli_fetch_array($result))
 "\r\nSUMMARY:".$row['titel'].
 "\r\nDESCRIPTION:".str_replace("\r\n","\\n",$row['text']).
 "\\n".$_links;
-	$ical .=
+    $ical .=
 "\r\nCATEGORIES:".$row['typ'].
 $_attach.//"\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'].
 "\r\nCLASS:PUBLIC".
 "\r\nUID:olz_termin_".$row['id']."@olzimmerberg.ch".
 "\r\nEND:VEVENT";
-	}
-	
+    }
+    
 $ical .= "\r\nEND:VCALENDAR";
 //echo "<pre>".$ical."</pre>";
 

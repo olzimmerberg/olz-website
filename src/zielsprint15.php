@@ -35,7 +35,7 @@ if ($_SESSION["auth"]=="all") {
     if (isset($_GET["year"]) && isset($_GET["event"])) {
         echo "<a href='?year=".$_GET["year"]."'>Zurück</a><br>";
         if ($_GET["action"]=="reevaluate") {
-			$sql = "SELECT id from solvlaufe WHERE jahr LIKE '".intval($_GET["year"])."' AND name LIKE '".mysqli_real_escape_string($_GET["event"])."'";
+            $sql = "SELECT id from solvlaufe WHERE jahr LIKE '".intval($_GET["year"])."' AND name LIKE '".mysqli_real_escape_string($_GET["event"])."'";
             $result_l = $db->query($sql);
             $num_l = mysqli_num_rows($result_l);
             if ($num_l==1) {
@@ -44,7 +44,7 @@ if ($_SESSION["auth"]=="all") {
                 $db->query("DELETE from solvresults WHERE lauf='".$row_l["id"]."'");
             }
         }
-		$sql = "SELECT id from solvlaufe WHERE jahr LIKE '".intval($_GET["year"])."' AND name LIKE '".mysqli_real_escape_string($_GET["event"])."'";
+        $sql = "SELECT id from solvlaufe WHERE jahr LIKE '".intval($_GET["year"])."' AND name LIKE '".mysqli_real_escape_string($_GET["event"])."'";
         $result_l = $db->query($sql);
         $num_l = mysqli_num_rows($result_l);
         if ($num_l==1) {
@@ -299,14 +299,14 @@ if ($_SESSION["auth"]=="all") {
     }
 } else {
     $wertung = array();
-	$sql = "SELECT * from solvpeople";
+    $sql = "SELECT * from solvpeople";
     $result_p = $db->query($sql);
     $num_p = mysqli_num_rows($result_p);
     for ($i=0; $i<$num_p; $i++) {
         $row_p = mysqli_fetch_array($result_p);
         $wertung[$row_p["id"]] = array();
     }
-	$sql = "SELECT * from solvlaufe WHERE jahr='2015'";
+    $sql = "SELECT * from solvlaufe WHERE jahr='2015'";
     $result_l = $db->query($sql);
     $num_l = mysqli_num_rows($result_l);
     for ($i=0; $i<$num_l; $i++) {

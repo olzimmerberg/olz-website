@@ -23,17 +23,17 @@ $sql = "SELECT * from termine WHERE (datum <= '$search_date') AND (newsletter = 
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc())
-	{$datum = $row['datum'];
-	$titel = $row['titel'];
-	$text = substr($row['text'],0,200);
-	$id = $row['id'];
-	$datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
-	$subject['termine']= $datum.": ".$titel;
-	if ($text != "" ) $subject['termine'] = $subject['termine']."\r\n".$text;
-	$items = $items.$subject['termine']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id$id\r\n\r\n";
-	$sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
-	$db->query($sql);
-	}
+    {$datum = $row['datum'];
+    $titel = $row['titel'];
+    $text = substr($row['text'],0,200);
+    $id = $row['id'];
+    $datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
+    $subject['termine']= $datum.": ".$titel;
+    if ($text != "" ) $subject['termine'] = $subject['termine']."\r\n".$text;
+    $items = $items.$subject['termine']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id$id\r\n\r\n";
+    $sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
+    $db->query($sql);
+    }
 
 // Simon, 2017-03-30
 $sql = "SELECT
@@ -41,9 +41,9 @@ $sql = "SELECT
     t.titel AS titel,
     t.id AS id
 FROM
-    termine t 
+    termine t
     JOIN solv_events se ON (se.solv_uid=t.solv_uid)
-WHERE 
+WHERE
     se.deadline <= '".date("Y-m-d", strtotime($limit))."' AND
     se.deadline > '".date("Y-m-d")."' AND
     on_off = 1 AND
@@ -52,18 +52,18 @@ ORDER BY se.deadline DESC, t.id DESC";
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc())
-	{$deadline = $row['deadline'];
-	$titel = $row['titel'];
-	$id = $row['id'];
-	$deadline = utf8_encode(strftime("%d.%m.%y",strtotime($deadline)));
-	$subject['termine']= $deadline.": Meldeschluss ".$titel;
-	$items = $items.$subject['termine']."\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id$id\r\n\r\n";
-	$sql = "UPDATE
-	termine
+    {$deadline = $row['deadline'];
+    $titel = $row['titel'];
+    $id = $row['id'];
+    $deadline = utf8_encode(strftime("%d.%m.%y",strtotime($deadline)));
+    $subject['termine']= $deadline.": Meldeschluss ".$titel;
+    $items = $items.$subject['termine']."\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id$id\r\n\r\n";
+    $sql = "UPDATE
+    termine
 SET newsletter_anmeldung = '$timestamp'
 WHERE (id = '$id')";
-	$db->query($sql);
-	}
+    $db->query($sql);
+    }
 if (isset($subject['termine'])) $subject['termine'] = $linie."Terminerinnerung olzimmerberg.ch\r\n".$linie.$items;
 
 //Aktuell
@@ -74,32 +74,32 @@ $sql = "select * from $db_table WHERE ((newsletter_datum IS NULL) OR (newsletter
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc())
-	{$datum = $row['datum'];
-	$zeit = $row['zeit'];
-	$typ = $row['typ'];
-	$link = $row['link'];
-	$titel = strip_tags($row['titel']);
-	$text = substr(strip_tags($row['text'],'<br>'),0,200);
-	$text = trim(str_replace(array('/BILD1/','/BILD2/','/BILD3/','<BILD1>','<BILD2>','<BILD3>',chr(13),chr(10),'<br>'),array('','','','','','','','',' / '),$text)); //Umbrüche umwandeln
-	$id = $row['id'];
-	$datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
-	$zeit = date("G:i",strtotime($zeit));
+    {$datum = $row['datum'];
+    $zeit = $row['zeit'];
+    $typ = $row['typ'];
+    $link = $row['link'];
+    $titel = strip_tags($row['titel']);
+    $text = substr(strip_tags($row['text'],'<br>'),0,200);
+    $text = trim(str_replace(array('/BILD1/','/BILD2/','/BILD3/','<BILD1>','<BILD2>','<BILD3>',chr(13),chr(10),'<br>'),array('','','','','','','','',' / '),$text)); //Umbrüche umwandeln
+    $id = $row['id'];
+    $datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
+    $zeit = date("G:i",strtotime($zeit));
 
-	if ($typ == "aktuell")
-		{if ($link == "") $link = "id=$id";
-		$link = "?page=2&amp;$link";
-		}
-	elseif ($typ == "termin") $link = "?page=3#$link";
-	elseif ($typ == "galerie") $link = "?page=4&amp;datum=$link";
-	elseif ($typ == "forum") $link = "?page=5#$link";
-	elseif ($typ == "jwoc") $link = "?page=7";
-	else $link = "";
+    if ($typ == "aktuell")
+        {if ($link == "") $link = "id=$id";
+        $link = "?page=2&amp;$link";
+        }
+    elseif ($typ == "termin") $link = "?page=3#$link";
+    elseif ($typ == "galerie") $link = "?page=4&amp;datum=$link";
+    elseif ($typ == "forum") $link = "?page=5#$link";
+    elseif ($typ == "jwoc") $link = "?page=7";
+    else $link = "";
 
-	$subject['aktuell']= $datum.", ".$zeit.": ".$titel."\r\n".$text;
-	$items = $items.$subject['aktuell']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php$link\r\n\r\n";
-	$sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
-	$db->query($sql);
-	}
+    $subject['aktuell']= $datum.", ".$zeit.": ".$titel."\r\n".$text;
+    $items = $items.$subject['aktuell']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php$link\r\n\r\n";
+    $sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
+    $db->query($sql);
+    }
 if (isset($subject['aktuell'])) $subject['aktuell'] = $linie."Neue Nachrichten auf olzimmerberg.ch\r\n".$linie.$items;
 
 //Kaderblog
@@ -110,23 +110,23 @@ $sql = "select * from $db_table WHERE ((newsletter_datum IS NULL) OR (newsletter
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc())
-	{$datum = $row['datum'];
-	$zeit = $row['zeit'];
-	$titel = $row['titel'];
-	$text = substr(strip_tags($row['text'],'<br>'),0,200);
-	$text = trim(str_replace(array('<BILD1>','<BILD2>',chr(13),chr(10),'<br>'),array('','','','',' / '),$text)); //Umbrüche umwandeln
-	$id = $row['id'];
-	$datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
-	$zeit = date("G:i",strtotime($zeit));
+    {$datum = $row['datum'];
+    $zeit = $row['zeit'];
+    $titel = $row['titel'];
+    $text = substr(strip_tags($row['text'],'<br>'),0,200);
+    $text = trim(str_replace(array('<BILD1>','<BILD2>',chr(13),chr(10),'<br>'),array('','','','',' / '),$text)); //Umbrüche umwandeln
+    $id = $row['id'];
+    $datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
+    $zeit = date("G:i",strtotime($zeit));
 
-	$link = "?page=7";
+    $link = "?page=7";
 
-	$subject['blog'] = $datum.", ".$zeit.": ".$titel."\r\n".$text;
-	$items = $items.$subject['blog']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php$link\r\n\r\n";
-	echo "*".$items."<br>";
-	$sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
-	$db->query($sql);
-	}
+    $subject['blog'] = $datum.", ".$zeit.": ".$titel."\r\n".$text;
+    $items = $items.$subject['blog']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php$link\r\n\r\n";
+    echo "*".$items."<br>";
+    $sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
+    $db->query($sql);
+    }
 if (isset($subject['blog'])) $subject['blog'] = $linie."Neuer Kaderblogeintrag auf olzimmerberg.ch\r\n".$linie.$items;
 
 //Forum
@@ -137,60 +137,60 @@ $sql = "select * from $db_table WHERE ((newsletter_datum IS NULL) OR (newsletter
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc())
-	{$datum = $row['datum'];
-	$zeit = $row['zeit'];
-	$name = $row['name'];
-	$eintrag = substr($row['eintrag'],0,200);
-	$eintrag = str_replace(array(chr(10),chr(13)),array('',' '),$eintrag);
-	$id = $row['id'];
-	$datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
-	$zeit = date("G:i",strtotime($zeit));
-	$subject['forum']= $datum.", ".$zeit."/".$name.":\r\n".$eintrag;
-	$items = $items.$subject['forum']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=5#id$id\r\n\r\n";
-	$sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
-	$db->query($sql);
-	}
+    {$datum = $row['datum'];
+    $zeit = $row['zeit'];
+    $name = $row['name'];
+    $eintrag = substr($row['eintrag'],0,200);
+    $eintrag = str_replace(array(chr(10),chr(13)),array('',' '),$eintrag);
+    $id = $row['id'];
+    $datum = utf8_encode(strftime("%d.%m.%y",strtotime($datum)));
+    $zeit = date("G:i",strtotime($zeit));
+    $subject['forum']= $datum.", ".$zeit."/".$name.":\r\n".$eintrag;
+    $items = $items.$subject['forum']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=5#id$id\r\n\r\n";
+    $sql = "UPDATE $db_table SET newsletter_datum = '$timestamp' WHERE (id = '$id')";
+    $db->query($sql);
+    }
 if (isset($subject['forum'])) $subject['forum'] = $linie."Neue Forumbeiträge auf olzimmerberg.ch\r\n".$linie.$items;
 
 // Mail verschicken
 if (isset($subject))
-	{$sql = "select * from newsletter WHERE (on_off = '1') AND (email > '') ORDER BY email DESC";
+    {$sql = "select * from newsletter WHERE (on_off = '1') AND (email > '') ORDER BY email DESC";
 
-	$result = $db->query($sql);
-	$num_rows = $result->num_rows;
-	$mail_to = array();
-	$mailtext = "";
-	$betreff = "Newsletter OL Zimmerberg - ".date("d.m.y",strtotime('-1 day'));
+    $result = $db->query($sql);
+    $num_rows = $result->num_rows;
+    $mail_to = array();
+    $mailtext = "";
+    $betreff = "Newsletter OL Zimmerberg - ".date("d.m.y",strtotime('-1 day'));
 
-	if ($local)
-		{$mail_to = array_push($mail_to,$admin_mail);
-		$mailtext = "\r\n".$subject['termine']."\r\n".$subject['aktuell']."\r\n".$subject['blog']."\r\n".$subject['forum']."\r\n".$text_nachspann;
-		mail($mail_to,"=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
-		}
-	else
-		{while($row = $result->fetch_assoc())
-			{$mailtext1 = '';
-			$mailtext2 = '';
-			$mailtext3 = '';
-			$mailtext4 = '';
-			$email = $row['email'];
-			$name = $row['name'];
-			$kategorie = explode(' ',$row['kategorie']);
-			$uid = $row['uid'];
-			if (in_array('termine',$kategorie) AND (isset($subject['termine']))) $mailtext1= $subject['termine']."\r\n";
-			if (in_array('aktuell',$kategorie) AND (isset($subject['aktuell']))) $mailtext2= $subject['aktuell']."\r\n";
-			if (in_array('aktuell',$kategorie) AND (isset($subject['blog']))) $mailtext4= $subject['blog']."\r\n";
-			if (in_array('forum',$kategorie) AND (isset($subject['forum']))) $mailtext3= $subject['forum']."\r\n";
-			if (!empty($mailtext1) OR !empty($mailtext2) OR !empty($mailtext3) OR !empty($mailtext4))
-				{$mailtext = "\r\n".$mailtext1.$mailtext2.$mailtext3.$mailtext4.$text_nachspann.$uid;
-				mail($email,"=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
-				//echo "email:".$email."<br>betreff:".$betreff."<br>mailtext:".$mailtext."<br>mailheader:".$mail_header;
-				array_push($mail_to,$email);
-				sleep(1);
-				}
-			}
-		}
-	}
+    if ($local)
+        {$mail_to = array_push($mail_to,$admin_mail);
+        $mailtext = "\r\n".$subject['termine']."\r\n".$subject['aktuell']."\r\n".$subject['blog']."\r\n".$subject['forum']."\r\n".$text_nachspann;
+        mail($mail_to,"=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
+        }
+    else
+        {while($row = $result->fetch_assoc())
+            {$mailtext1 = '';
+            $mailtext2 = '';
+            $mailtext3 = '';
+            $mailtext4 = '';
+            $email = $row['email'];
+            $name = $row['name'];
+            $kategorie = explode(' ',$row['kategorie']);
+            $uid = $row['uid'];
+            if (in_array('termine',$kategorie) AND (isset($subject['termine']))) $mailtext1= $subject['termine']."\r\n";
+            if (in_array('aktuell',$kategorie) AND (isset($subject['aktuell']))) $mailtext2= $subject['aktuell']."\r\n";
+            if (in_array('aktuell',$kategorie) AND (isset($subject['blog']))) $mailtext4= $subject['blog']."\r\n";
+            if (in_array('forum',$kategorie) AND (isset($subject['forum']))) $mailtext3= $subject['forum']."\r\n";
+            if (!empty($mailtext1) OR !empty($mailtext2) OR !empty($mailtext3) OR !empty($mailtext4))
+                {$mailtext = "\r\n".$mailtext1.$mailtext2.$mailtext3.$mailtext4.$text_nachspann.$uid;
+                mail($email,"=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
+                //echo "email:".$email."<br>betreff:".$betreff."<br>mailtext:".$mailtext."<br>mailheader:".$mail_header;
+                array_push($mail_to,$email);
+                sleep(1);
+                }
+            }
+        }
+    }
 //mail("u.utzinger@sunrise.ch","=?UTF-8?B?".base64_encode($betreff)."?=",base64_encode($mailtext),$mail_header,$mail_from);
 //REPORT-MAIL
 if(is_array($mail_to)) $mail_to = implode(', ',$mail_to);

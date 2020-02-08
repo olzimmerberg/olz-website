@@ -5,7 +5,7 @@
 //$kader = array(array("lilly","Lilly Gross"),array("julia","<a href='http://juliagross.ch' class='linkext' target='blank'>Julia Gross</a>"),array("florian","Florian Attinger"),array("paula","Paula Gross"),array("michael","Michael Felder"));
 //shuffle($kader);
 //foreach($kader as $member)
-//    {echo "<td><img src='".$root_path."img/".$member[0].".jpg' alt=''><div style='padding-top:5px;text-align:center;'>".$member[1]."</div></td>";
+//    {echo "<td><img src='".$data_href."img/".$member[0].".jpg' alt=''><div style='padding-top:5px;text-align:center;'>".$member[1]."</div></td>";
 //    }
 //echo "</tr></table></div><h2></h2>";
 

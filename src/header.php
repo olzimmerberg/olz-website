@@ -136,7 +136,7 @@ if($statistik){
 
 
 /*function htmlboxhalbe($entry) {
-    global $zugriff,$root_path,$colors;
+    global $zugriff,$colors;
     $edit_admin = ($zugriff)?"<a href='index.php?page=2&amp;id=".$entry["id"]."&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>":"";
 
     if (!$entry){

@@ -153,7 +153,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <link rel='stylesheet' type='text/css' href='styles.css'>
 <link rel='stylesheet' type='text/css' href='library/lightview-3.4.0/css/lightview/lightview.css'>
 <link rel='stylesheet' type='text/css' href='library/datepicker/datepicker.css'>
-<link rel='shortcut icon' href='".$root_path."favicon.ico'>
+<link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='library/datepicker/datepicker.js'></script>
 <script type='text/javascript' src='scripts/jscripts.js'></script>
 <script type='text/javascript' src='scripts/fader.js'></script>
@@ -379,32 +379,5 @@ echo "<div style='clear:both;'>&nbsp;</div></div>
 </html>";
 
 include "admin/counter.php";
-/*
 
-//MOMENTAN DEAKTIVIERT
-
-function zufallsbild () {
-    global $conn_id,$root_path;
-    // ZUFALLSBILD
-    $pfad_galerie = "galerie/";
-    $gal_table = "galerie";
-    mt_srand((double)microtime() * 1000000);
-    //Filme, Diashow ausschliessen
-    do
-        {$result = mysql_query("SELECT * FROM $gal_table ORDER BY RAND() LIMIT 1",$conn_id);
-        $row = mysql_fetch_array($result);
-        }
-    while ($row["typ"] == "movie");
-
-    $datum_tmp =  $row["datum"];
-    $gal_titel =  $row["titel"];
-    $groesse =  $row["groesse"];
-
-    $foto_datum = strftime("%y%m%d",strtotime($datum_tmp));
-    $rand_pic = mt_rand(1, $groesse);
-    $foto_000 = str_pad($rand_pic ,3, "0", STR_PAD_LEFT);
-
-    return "<a href='index.php?page=4&amp;datum=" . $datum_tmp . "&amp;foto=" . $rand_pic . "'><img src='".$root_path."".$pfad_galerie."foto" . $foto_datum . "/thumb/".$foto_datum."_th_" . $foto_000 . ".jpg' title='" . $gal_titel . "' alt=''></a>";
-}
-*/
 ?>

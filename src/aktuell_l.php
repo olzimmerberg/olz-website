@@ -69,7 +69,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         $datum = olz_date("tt.mm.jj",$datum);
 
         $edit_admin = ($zugriff AND ($do != 'vorschau')) ? "<a href='index.php?id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>" : "" ;
-        
+
         // Bildercode einfügen
         if ($do=='vorschau') {
             preg_match_all("/<bild([0-9]+)(\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
@@ -87,7 +87,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
             $tmp_html = olz_image($db_table, $id, intval($matches[1][$i]), $size, "gallery[myset]", " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
             $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
         }
-        
+
         // Dateicode einfügen
         preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
         for ($i=0; $i<count($matches[0]); $i++) {
@@ -118,7 +118,7 @@ if (($db_edit=="0") OR ($do=="vorschau"))
         foreach ($bilder as $tmp_bild)
             {//echo $tmp_bild[0]."*";
             if (substr($tmp_bild[0],0,1) == '/')
-                {$tmp_html = "<img src='".$root_path."img/".$db_table."/".$id."/img/".str_pad(substr($tmp_bild[0],5,1), 3, "0", STR_PAD_LEFT).".jpg' width='".$tmp_bild[2]."px' alt='' class='box'>";
+                {$tmp_html = "<img src='".$data_href."img/".$db_table."/".$id."/img/".str_pad(substr($tmp_bild[0],5,1), 3, "0", STR_PAD_LEFT).".jpg' width='".$tmp_bild[2]."px' alt='' class='box'>";
                 }
             else
                 {$tmp_html = olz_image($db_table, $id, substr($tmp_bild[0],5,1), $tmp_bild[2], true, " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");

@@ -126,8 +126,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
         if ($id<=0) {echo json_encode(array(0, "!id")); return;}
         if (!isset($_SESSION[$db_table."id"]) || $_SESSION[$db_table."id"]!=$id) {echo json_encode(array(0, "!permission")); return;}
         $part = intval($_POST["part"]);
-        if ($part<0 || 100<$part) {echo json_encode(array(0, "!part<100")); return;}
-        $temppath = "temp/".md5($data_path.$db_filepath)."-".$id."-".$part;
+        if ($part<0 || 1000<$part) {echo json_encode(array(0, "!part<1000")); return;}
+        $temppath = $data_path."temp/".md5($data_path.$db_filepath)."-".$id."-".$part;
         $fp = fopen($temppath, "w+");
         fwrite($fp, deobfuscate_upload($_POST["content"]));
         fclose($fp);
@@ -137,7 +137,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
             $abspath = $data_path.$db_filepath."/".$id;
             if (!is_dir($abspath."/")) mkdir($abspath."/");
 
-            $temppath = "temp/".md5($data_path.$db_filepath)."-".$id."-";
+            $temppath = $data_path."temp/".md5($data_path.$db_filepath)."-".$id."-";
             $firstcontent = file_get_contents($temppath."0");
             @unlink($temppath."0");
             $res = preg_match("/^data\:([^\;]*)\;base64\,(.+)$/", $firstcontent, $matches);

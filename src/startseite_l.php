@@ -194,9 +194,9 @@ while ($row = $result->fetch_assoc())
             {$text = "<table><tr class='thumbs'>".$text."</tr></table>";
             $titel = "Galerie: ".$titel;}
         elseif ($typ=='movie')
-            {$text = "<a href='".$link."' style='width:144px;background-color:#000;' class='thumb paragraf'>\n
+            {$text = "<a href='".$link."' style='width:144px;background-color:#000;padding-top:0;' class='thumb paragraf'>\n
             <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            <span style='display:block;text-align:center;'><img src='movies/".substr($pfad,0,6).".jpg' style='width:110px;' class='noborder' alt=''></span>\n
+            <span style='display:block;text-align:center;'><img src='".$data_href."img/galerie/".$id."/img/001.jpg' style='width:110px;' class='noborder' alt=''></span>\n
             <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
             </a>";
             $titel = "Film: ".$titel;

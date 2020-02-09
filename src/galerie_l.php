@@ -122,7 +122,7 @@ if ($db_edit=="0" OR $do=="vorschau")
         $pfad = "movies/";
         $movie = $foto_datum.".flv";
         $res0 = preg_match("/^https\:\/\/(www\.)?youtu\.be\/([a-zA-Z0-9]{6,})/", $content, $matches0);
-        $res1 = preg_match("/^https\:\/\/(www\.)?youtube\.com/watch\?v\=([a-zA-Z0-9]{6,})/", $content, $matches1);
+        $res1 = preg_match("/^https\:\/\/(www\.)?youtube\.com\/watch\?v\=([a-zA-Z0-9]{6,})/", $content, $matches1);
         $youtube_match = null;
         if ($res0) $youtube_match = $matches0[2];
         if ($res1) $youtube_match = $matches1[2];

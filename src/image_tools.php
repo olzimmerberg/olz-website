@@ -90,7 +90,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
         $imgdata = base64_decode(str_replace(" ","+",$matches[1]));
         if (!$imgdata) {echo json_encode(array(0,"!imgdata")); return;}
         if (!is_numeric($_GET["id"])) {echo json_encode(array(0,"!id")); return;}
-        $filename = "temp/".md5(time().$imgdata);
+        $filename = $data_path."temp/".md5(time().$imgdata);
         $abspath = $data_path.$db_imgpath."/".$id;
         $newindex = 0;
         for ($i=0; true; $i++) {

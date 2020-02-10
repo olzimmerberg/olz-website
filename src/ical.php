@@ -1,14 +1,15 @@
 <?php
+
 // ical-Datei generieren mit Terminen des aktuellen Jahres
 // Dieses Script wird immer beim Sichern und beim Löschen eines Termins aufgerufen
 include_once "admin/olz_init.php";
 include_once "admin/olz_functions.php";
 
-$fileName= "olz_ical.ics";
+$fileName = "olz_ical.ics";
 $jahr = date('Y');
 
 // Termine abfragen
-$sql = "SELECT * FROM termine WHERE (datum >= '$jahr-01-01') AND on_off=1";
+$sql = "SELECT * FROM termine WHERE (datum >= '{$jahr}-01-01') AND on_off=1";
 $result = $db->query($sql);
 
 // ical-Kalender
@@ -21,10 +22,9 @@ $ical = "BEGIN:VCALENDAR".
 "\r\nX-WR-TIMEZONE:Europe/Zurich";
 
 // Termine
-while ($row = mysqli_fetch_array($result))
-    {// Links extrahieren
+while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $links = $row['link'];
-    $dom = new domdocument;
+    $dom = new domdocument();
     $dom->loadHTML($links);
     $_links = "OLZ-Termin: http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
     $_attach = "\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
@@ -34,19 +34,19 @@ while ($row = mysqli_fetch_array($result))
         $_links .= "\\n".$text.": ".$url;
         $_attach .= "\r\nATTACH;VALUE=URI:".$url;
     }
-    $_links .= ($row['solv_uid']>0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
-    $_attach .= ($row['solv_uid']>0) ? "\r\nATTACH;VALUE=URI:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
+    $_links .= ($row['solv_uid'] > 0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
+    $_attach .= ($row['solv_uid'] > 0) ? "\r\nATTACH;VALUE=URI:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
 
     $datum = $row['datum'];
-    $datum_end = ($row['datum_end']> "0000-00-00") ? $row['datum_end'] : $datum;
-    $ical .= 
-"\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".olz_date('jjjjmmtt',$datum).
-"\r\nDTEND;VALUE=DATE:".olz_date('jjjjmmtt',$datum_end).
+    $datum_end = ($row['datum_end'] > "0000-00-00") ? $row['datum_end'] : $datum;
+    $ical .=
+"\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".olz_date('jjjjmmtt', $datum).
+"\r\nDTEND;VALUE=DATE:".olz_date('jjjjmmtt', $datum_end).
 "\r\nDTSTAMP:".date('Ymd\THis\Z').
-"\r\nLAST-MODIFIED:".date('Ymd\THis\Z',strtotime($row['modified'])).
-"\r\nCREATED:".date('Ymd\THis\Z',strtotime($row['created'])).
+"\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['modified'])).
+"\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created'])).
 "\r\nSUMMARY:".$row['titel'].
-"\r\nDESCRIPTION:".str_replace("\r\n","\\n",$row['text']).
+"\r\nDESCRIPTION:".str_replace("\r\n", "\\n", $row['text']).
 "\\n".$_links;
     $ical .=
 "\r\nCATEGORIES:".$row['typ'].
@@ -54,15 +54,14 @@ $_attach.//"\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$
 "\r\nCLASS:PUBLIC".
 "\r\nUID:olz_termin_".$row['id']."@olzimmerberg.ch".
 "\r\nEND:VEVENT";
-    }
-    
+}
+
 $ical .= "\r\nEND:VCALENDAR";
 //echo "<pre>".$ical."</pre>";
 
 // Datei schreiben
 $f = fopen($fileName, "w+");
-fwrite($f,$ical);
+fwrite($f, $ical);
 fclose($f);
 
 //echo "<pre>".$ical."</pre>";
-?>

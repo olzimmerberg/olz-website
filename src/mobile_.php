@@ -21,7 +21,7 @@ echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 TRANSITIONAL//EN'>
     </head>
     <body>";
 
-if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
+if ($_GET["page"] == "aktuell" && isset($_GET["id"])) {
     echo "<div class='header' style='margin-top:0px; text-align:center;'><a href='?'><img src='icns/olzschatten.png' style='height:32px; margin:2px;'></a></div>";
 
     $res = mysql_query("SELECT id, datum, zeit, titel, text, textlang FROM aktuell WHERE id='".intval($_GET["id"])."'");
@@ -29,11 +29,10 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
     echo "<div class='date'>".date("d.m.Y", strtotime($row["datum"]))."</div>";
     echo "<div class='title'>".$row["titel"]."</div>";
     echo "<div class='text'>".$row["text"]."<br><br>".$row["textlang"]."</div>";
-} else if ($_GET["page"]=="galerie" && isset($_GET["id"])) {
+} elseif ($_GET["page"] == "galerie" && isset($_GET["id"])) {
     echo "<div class='header' style='margin-top:0px; text-align:center;'><a href='?'><img src='icns/olzschatten.png' style='height:32px; margin:2px;'></a></div>";
 
-    for ($i=1; $i<1000; $i++) {
-        
+    for ($i = 1; $i < 1000; $i++) {
         echo $i."<br>";
     }
 } else {
@@ -41,10 +40,12 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
 
     echo "<div class='header'>Aktuell</div>";
     $res = mysql_query("SELECT id, datum, zeit, titel, text FROM aktuell WHERE (on_off='1' AND typ NOT LIKE 'box%') ORDER BY datum DESC");
-    for ($i=0; $i<5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $row = mysql_fetch_array($res);
         echo "<a href='?page=aktuell&id=".$row["id"]."'><div class='entry'>";
-        if (is_file("img/aktuell/".$row["id"]."/img/001.jpg")) echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("aktuell", $row["id"], 1, 64, false)."</div>";
+        if (is_file("img/aktuell/".$row["id"]."/img/001.jpg")) {
+            echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("aktuell", $row["id"], 1, 64, false)."</div>";
+        }
         echo "<div class='date'>".date("d.m.Y", strtotime($row["datum"]))."</div>";
         echo "<div class='title'>".$row["titel"]."</div>";
         echo "</div></a>";
@@ -52,10 +53,12 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
 
     echo "<div class='header'>Galerie</div>";
     $res = mysql_query("SELECT id, datum, titel, autor FROM galerie WHERE (on_off='1' AND typ='foto') ORDER BY datum DESC");
-    for ($i=0; $i<5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $row = mysql_fetch_array($res);
         echo "<a href='?page=galerie&id=".$row["id"]."'><div style='overflow-x:hidden;' class='entry'>";
-        if (is_file("img/galerie/".$row["id"]."/img/001.jpg")) echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("galerie", $row["id"], 1, 64, false)."</div>";
+        if (is_file("img/galerie/".$row["id"]."/img/001.jpg")) {
+            echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("galerie", $row["id"], 1, 64, false)."</div>";
+        }
         echo "<div class='date'>".date("d.m.Y", strtotime($row["datum"]))."</div>";
         echo "<div class='title'>".$row["titel"]."</div>";
         echo "</div></a>";
@@ -63,7 +66,7 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
 
     echo "<div class='header'>Forum</div>";
     $res = mysql_query("SELECT id, datum, name, eintrag FROM forum WHERE on_off='1' ORDER BY datum DESC");
-    for ($i=0; $i<5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $row = mysql_fetch_array($res);
         echo "<div style='overflow-x:hidden;' class='entry'>";
         echo "<div class='date'>".date("d.m.Y", strtotime($row["datum"]))."</div>";
@@ -74,10 +77,12 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
 
     echo "<div class='header'>Termine</div>";
     $res = mysql_query("SELECT id, datum, zeit, titel, text FROM termine WHERE (on_off='1' AND typ NOT LIKE 'box%') ORDER BY datum DESC");
-    for ($i=0; $i<5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $row = mysql_fetch_array($res);
         echo "<div class='entry'>";
-        if (is_file("img/aktuell/".$row["id"]."/img/001.jpg")) echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("aktuell", $row["id"], 1, 64, false)."</div>";
+        if (is_file("img/aktuell/".$row["id"]."/img/001.jpg")) {
+            echo "<div style='width:64px; height:64px; float:left; margin:0px 5px 0px 0px;'>".olz_image("aktuell", $row["id"], 1, 64, false)."</div>";
+        }
         echo "<div class='date'>".date("d.m.Y", strtotime($row["datum"]))."</div>";
         echo "<div class='title'>".$row["titel"]."</div>";
         echo "</div>";
@@ -87,21 +92,18 @@ if ($_GET["page"]=="aktuell" && isset($_GET["id"])) {
 echo "  </body>
 </html>";
 
-
 // Funktionen
 
 function textbeginn($text, $maxlen) {
-    if (strlen($text) <= $maxlen OR $maxlen==0) {
+    if (strlen($text) <= $maxlen or $maxlen == 0) {
         return $text;
-    } else {
-        $text_tmp = substr($text,0,$maxlen-2);
-        for ($i=strlen($text_tmp)-1; $i>0; $i--) {
-            if (substr($text_tmp,$i,1)==" ") {
-                return substr($text_tmp,0,$i)."...";
-            }
+    }
+    $text_tmp = substr($text, 0, $maxlen - 2);
+    for ($i = strlen($text_tmp) - 1; $i > 0; $i--) {
+        if (substr($text_tmp, $i, 1) == " ") {
+            return substr($text_tmp, 0, $i)."...";
         }
     }
+
     return "...";
 }
-
-?>

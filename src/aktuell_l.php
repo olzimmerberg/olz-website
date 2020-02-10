@@ -6,100 +6,114 @@
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
-if ($zugriff)
-    {$functions = array('neu' => 'Neuer Eintrag',
-                'edit' => 'Bearbeiten',
-                'abbruch' => 'Abbrechen',
-                'vorschau' => 'Vorschau',
-                'save' => 'Speichern',
-                'delete' => 'Löschen',
-                'start' => 'start',
-                'upload' => 'Upload',
-                'deletebild1' => 'BILD 1 entfernen',
-                'deletebild2' => 'BILD 2 entfernen',
-                'deletebild3' => 'BILD 3 entfernen',
-                'undo' => 'undo');
-    }
-else
-    {$functions = array();}
-$function = array_search($$button_name,$functions);
-if ($function!="")
-    {include 'admin/admin_db.php';}
-if ($_SESSION['edit']['table']==$db_table) $db_edit = "1";
-else $db_edit = "0";
+if ($zugriff) {
+    $functions = ['neu' => 'Neuer Eintrag',
+        'edit' => 'Bearbeiten',
+        'abbruch' => 'Abbrechen',
+        'vorschau' => 'Vorschau',
+        'save' => 'Speichern',
+        'delete' => 'Löschen',
+        'start' => 'start',
+        'upload' => 'Upload',
+        'deletebild1' => 'BILD 1 entfernen',
+        'deletebild2' => 'BILD 2 entfernen',
+        'deletebild3' => 'BILD 3 entfernen',
+        'undo' => 'undo', ];
+} else {
+    $functions = [];
+}
+$function = array_search(${$button_name}, $functions);
+if ($function != "") {
+    include 'admin/admin_db.php';
+}
+if ($_SESSION['edit']['table'] == $db_table) {
+    $db_edit = "1";
+} else {
+    $db_edit = "0";
+}
 
 //-------------------------------------------------------------
 // MENÜ
-if ($zugriff AND ($db_edit=='0'))
-    {echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table,array(array("Neuer Eintrag","0")),"")."</div>";}
+if ($zugriff and ($db_edit == '0')) {
+    echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
+}
 
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
-if (($db_edit=="0") OR ($do=="vorschau"))
-    {if (in_array($_SESSION[$db_table.'id_'],$aktuell_special))
-        {// Spezial
-        $sql = "SELECT * FROM $db_table WHERE (typ LIKE '$id') ORDER BY datum DESC";
-        $titel_special = array_search($id,$aktuell_special);
+if (($db_edit == "0") or ($do == "vorschau")) {
+    if (in_array($_SESSION[$db_table.'id_'], $aktuell_special)) {// Spezial
+        $sql = "SELECT * FROM {$db_table} WHERE (typ LIKE '{$id}') ORDER BY datum DESC";
+        $titel_special = array_search($id, $aktuell_special);
         echo "<h2>".$titel_special."</h2>";
         $_SESSION[$db_table.'jahr_'] = "special";
         $jahr = $_SESSION[$db_table.'jahr_'];
-        }
-    else
-        {// Nachricht nach ID
-        $sql = "SELECT * FROM $db_table WHERE (id = '$id') ORDER BY datum DESC";
+    } else {// Nachricht nach ID
+        $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
         $row = mysqli_fetch_array($result);
-        if(mysqli_num_rows($result)>0 )$_SESSION[$db_table.'jahr_'] = date("Y",strtotime($row["datum"]));
-        $jahr = $_SESSION[$db_table.'jahr_'];
+        if (mysqli_num_rows($result) > 0) {
+            $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row["datum"]));
         }
+        $jahr = $_SESSION[$db_table.'jahr_'];
+    }
 
     $result = $db->query($sql);
 
     // Aktuelle Nachricht
-    while ($row = mysqli_fetch_array($result))
-        {if ($do=="vorschau") $row = $vorschau;
+    while ($row = mysqli_fetch_array($result)) {
+        if ($do == "vorschau") {
+            $row = $vorschau;
+        }
         $id_tmp = $row['id'];
         $titel = $row['titel'];
         $text = olz_amp($row['text']);
         $textlang = olz_br($row['textlang']);
         //$textlang = str_replace(array("\n\n","\n"),array("<p>","<br>"),$row['textlang']);
-        $autor = ($row['autor']>'') ? $row['autor'] : "..";
-        $datum =$row['datum'];
+        $autor = ($row['autor'] > '') ? $row['autor'] : "..";
+        $datum = $row['datum'];
 
-        $datum = olz_date("tt.mm.jj",$datum);
+        $datum = olz_date("tt.mm.jj", $datum);
 
-        $edit_admin = ($zugriff AND ($do != 'vorschau')) ? "<a href='index.php?id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>" : "" ;
+        $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='index.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
         // Bildercode einfügen
-        if ($do=='vorschau') {
-            preg_match_all("/<bild([0-9]+)(\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
-            for ($i=0; $i<count($matches[0]); $i++) {
+        if ($do == 'vorschau') {
+            preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
+            for ($i = 0; $i < count($matches[0]); $i++) {
                 $size = intval($matches[3][$i]);
-                if ($size<1) $size = 110;
+                if ($size < 1) {
+                    $size = 110;
+                }
                 $tmp_html = olz_image($db_table, $id, intval($matches[1][$i]), $size, "gallery[myset]", " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
                 $text = str_replace($matches[0][$i], $tmp_html, $text);
             }
         }
-        preg_match_all("/<bild([0-9]+)(\s+size=([0-9]+))?([^>]*)>/i", $textlang, $matches);
-        for ($i=0; $i<count($matches[0]); $i++) {
+        preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $textlang, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
             $size = intval($matches[3][$i]);
-            if ($size<1) $size = 240;
+            if ($size < 1) {
+                $size = 240;
+            }
             $tmp_html = olz_image($db_table, $id, intval($matches[1][$i]), $size, "gallery[myset]", " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
             $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
         }
 
         // Dateicode einfügen
-        preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
-        for ($i=0; $i<count($matches[0]); $i++) {
+        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
             $tmptext = $matches[4][$i];
-            if (mb_strlen($tmptext)<1) $tmptext = "Datei ".$matches[1][$i];
+            if (mb_strlen($tmptext) < 1) {
+                $tmptext = "Datei ".$matches[1][$i];
+            }
             $tmp_html = olz_file($db_table, $id, intval($matches[1][$i]), $tmptext);
             $text = str_replace($matches[0][$i], $tmp_html, $text);
         }
-        preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $textlang, $matches);
-        for ($i=0; $i<count($matches[0]); $i++) {
+        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $textlang, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
             $tmptext = $matches[4][$i];
-            if (mb_strlen($tmptext)<1) $tmptext = "Datei ".$matches[1][$i];
+            if (mb_strlen($tmptext) < 1) {
+                $tmptext = "Datei ".$matches[1][$i];
+            }
             $tmp_html = olz_file($db_table, $id, intval($matches[1][$i]), $tmptext);
             $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
         }
@@ -130,6 +144,6 @@ if (($db_edit=="0") OR ($do=="vorschau"))
             */
         echo "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
         echo "<p><b>".$text."</b><p>".$textlang."</p>\n";
-        }
     }
+}
 ?>

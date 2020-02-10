@@ -20,8 +20,8 @@ function map(xkoord, ykoord) {
 
 <?php
 
-$etappen = array(
-    array("Dienstag, 31.03.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Richterswil", "Jugendherberge", 695990, 229630,
+$etappen = [
+    ["Dienstag, 31.03.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Richterswil", "Jugendherberge", 695990, 229630,
         "Bahnhof Richterswil",
         "Tiefgarage Horn",
         "Keine, im Freien; WC vorhanden",
@@ -30,8 +30,8 @@ $etappen = array(
         "gratis",
         "2020-trophy-richti",
         5753,
-        false),
-    array("Dienstag, 28.04.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
+        false, ],
+    ["Dienstag, 28.04.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
         "Bushaltestelle Schmiedstube",
         "Tiefgarage Schulhaus Rotweg",
         "Keine, im Freien; WC vorhanden",
@@ -40,8 +40,8 @@ $etappen = array(
         "gratis",
         "2020-trophy-waedi",
         5745,
-        false),
-    array("Mittwoch, 13.05.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Kopfholz", "Schulhaus Chopfholz", 682760, 240270,
+        false, ],
+    ["Mittwoch, 13.05.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Kopfholz", "Schulhaus Chopfholz", 682760, 240270,
         "Bushaltestellen Kopfholz oder Loorain",
         "wenige im Quartier",
         "Keine, im Freien; WC vorhanden",
@@ -50,8 +50,8 @@ $etappen = array(
         "gratis",
         "2020-trophy-kopfholz",
         5721,
-        false),
-    array("Dienstag, 30.06.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
+        false, ],
+    ["Dienstag, 30.06.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
         "Bahnhof Au ZH",
         "wenige im Quartier",
         "Keine, im Freien; WC vorhanden",
@@ -60,30 +60,30 @@ $etappen = array(
         "gratis",
         "2020-trophy-au",
         5751,
-        false),
-);
+        false, ],
+];
 
-$gemeindeduell = array(
-);
+$gemeindeduell = [
+];
 
 echo "<table>";
-for ($i=0; $i<count($etappen); $i++) {
+for ($i = 0; $i < count($etappen); $i++) {
     $etappe = $etappen[$i];
     echo "<tr><td id='id".$etappe[13]."' style='padding:5px 0px;'><div style='font-size:1.2em;'><h4 style='font-size:1.3em;'>".$etappe[2]."</h4><table>
     <tr><td style='width:100px;'>Datum:</td><td><b style='font-size:inherit;'>".$etappe[0]."</b></td></tr>
     <tr><td>Besammlung:</td><td>".$etappe[3]."</td></tr>
     <tr><td>Anmeldung:</td><td>".$etappe[1]."</td></tr>
-    ".($etappe[14]?"<tr><td></td><td>".$etappe[14]."</td></tr>":"")."
+    ".($etappe[14] ? "<tr><td></td><td>".$etappe[14]."</td></tr>" : "")."
     <tr><td>Kategorien:</td><td>".$etappe[10]."</td></tr>
     <tr><td>Kosten:</td><td>".$etappe[11]."</td></tr>
     <tr><td>öV:</td><td>".$etappe[6]."</td></tr>
     <tr><td>Parkplätze:</td><td>".$etappe[7]."</td></tr>
     <tr><td>Garderobe:</td><td>".$etappe[8]."</td></tr>
-    <tr><td></td><td><a href='?page=3#id".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9]?"</td></tr>
-    <tr><td></td><td><a href='".$etappe[9]."' style='font-size:inherit;' class='linkext'>weitere Infos</a>":"").($etappe[12] && is_file("resultate/data/".$etappe[12].".xml")?"</td></tr>
-    <tr><td></td><td><a href='resultate/?file=data/".$etappe[12].".xml' style='font-size:inherit;' class='linkint'>Resultate</a>":"")."</td></tr>
-    </table></div></td><td style='width:20%; padding:5px 0px 5px 10px;'>" . ($etappe[4] != 0 ? "<script>document.write(map(".$etappe[4].",".$etappe[5]."))</script>" : "") . "</td></tr>";
-    if (isset($_SESSION['auth']) && $_SESSION['auth']=='all' && $etappe[12]) {
+    <tr><td></td><td><a href='?page=3#id".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
+    <tr><td></td><td><a href='".$etappe[9]."' style='font-size:inherit;' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("resultate/data/".$etappe[12].".xml") ? "</td></tr>
+    <tr><td></td><td><a href='resultate/?file=data/".$etappe[12].".xml' style='font-size:inherit;' class='linkint'>Resultate</a>" : "")."</td></tr>
+    </table></div></td><td style='width:20%; padding:5px 0px 5px 10px;'>".($etappe[4] != 0 ? "<script>document.write(map(".$etappe[4].",".$etappe[5]."))</script>" : "")."</td></tr>";
+    if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'all' && $etappe[12]) {
         if (isset($_FILES["resultate_upload_".$etappe[13]])) {
             move_uploaded_file($_FILES["resultate_upload_".$etappe[13]]['tmp_name'], $etappe[12]);
         }
@@ -105,7 +105,9 @@ echo "</table>";
     <table><tr><th style='width:1%;'>Gemeinde</th><th style='width:40px;'>&nbsp;</th><th style='width:auto;'>Starts</th></tr><?php
     arsort($gemeindeduell);
     foreach ($gemeindeduell as $k => $v) {
-        if (0<strlen($k)) echo "<tr><td>".$k."</td><td></td><td>".$v."</td></tr>";
+        if (strlen($k) > 0) {
+            echo "<tr><td>".$k."</td><td></td><td>".$v."</td></tr>";
+        }
     }
     ?></table><br><br></td></tr>-->
 <tr><td>Preise:</td><td style='padding-left:10px;'>In allen Kategorien gibt es eine Einzelrangliste für jeden Lauf, dem Sieger gebührt Ruhm und Ehre.<br>

@@ -1,93 +1,114 @@
 <?php
 
-
 function termine_ticker($settings) {
     global $db;
-    $textlaenge_def = isset($settings["eintrag_laenge"])?intval($settings["eintrag_laenge"]):80;
-    $listenlaenge = isset($settings["eintrag_anzahl"])?intval($settings["eintrag_anzahl"]):8;
-    $sql_where = isset($settings["sql_where"])?$settings["sql_where"]:"";
-    $titel = isset($settings["titel"])?$settings["titel"]:"Termine";
-    $heute_highlight = isset($settings["heute_highlight"])?$settings["heute_highlight"]:true;
+    $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;
+    $listenlaenge = isset($settings["eintrag_anzahl"]) ? intval($settings["eintrag_anzahl"]) : 8;
+    $sql_where = isset($settings["sql_where"]) ? $settings["sql_where"] : "";
+    $titel = isset($settings["titel"]) ? $settings["titel"] : "Termine";
+    $heute_highlight = isset($settings["heute_highlight"]) ? $settings["heute_highlight"] : true;
     //Konstanten
     $db_table = "termine";
     $heute = date("Y-m-d");
     echo "<div class='layout'>";
     echo "<div class='tablebar'>".$titel."</div>";
     //Tabelle auslesen
-    $sql = "select * from $db_table WHERE ((datum >= '$heute') OR (datum_end >= '$heute')) AND (on_off = 1)".$sql_where." ORDER BY datum ASC LIMIT $listenlaenge";
+    $sql = "select * from {$db_table} WHERE ((datum >= '{$heute}') OR (datum_end >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY datum ASC LIMIT {$listenlaenge}";
     $result = $db->query($sql);
 
-// TEST uu/1.4.2011
-// Was, wenn ein mehrtägiger Event vor x Tagen begonnen hat? simon/23.5.2011
+    // TEST uu/1.4.2011
+    // Was, wenn ein mehrtägiger Event vor x Tagen begonnen hat? simon/23.5.2011
     $pulse = "";
     $wotag = date("w");
-    if ($wotag==0) $wotag = 7;
-    $sections = array("Heute","Diese Woche","Nächste Woche","In [x] Tagen","Spätere Termine");
+    if ($wotag == 0) {
+        $wotag = 7;
+    }
+    $sections = ["Heute", "Diese Woche", "Nächste Woche", "In [x] Tagen", "Spätere Termine"];
     $flag = 1;
 
-    while ($row = mysqli_fetch_array($result))
-    {
+    while ($row = mysqli_fetch_array($result)) {
         $datum_tmp = $row['datum'];
         $datum_end = $row['datum_end'];
-        $diff = (strtotime($datum_tmp)-strtotime($heute))/86400;
-        $diff_end = (strtotime($datum_end)-strtotime($datum_tmp))/86400;
-        $time = $diff*86400;
+        $diff = (strtotime($datum_tmp) - strtotime($heute)) / 86400;
+        $diff_end = (strtotime($datum_end) - strtotime($datum_tmp)) / 86400;
+        $time = $diff * 86400;
         $class_heute = "";
-        if ( $diff<(0.95) ) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
-            $case_tmp = 1 ;
-            if($datum_end!='0000-00-00' AND $diff_end>6) $datum_end = '(bis '.olz_date('WW t.m.',$datum_end).')' ;
-            elseif($datum_end!='0000-00-00' AND $diff_end>0) $datum_end = '(bis '.olz_date('WW',$datum_end).')' ;
-            else $datum_end = '';
-            $datum = $datum_end;
-            if ($heute_highlight) $class_heute = " class='heute'";
+        if ($diff < (0.95)) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
+            $case_tmp = 1;
+            if ($datum_end != '0000-00-00' and $diff_end > 6) {
+                $datum_end = '(bis '.olz_date('WW t.m.', $datum_end).')';
+            } elseif ($datum_end != '0000-00-00' and $diff_end > 0) {
+                $datum_end = '(bis '.olz_date('WW', $datum_end).')';
+            } else {
+                $datum_end = '';
             }
-        elseif ( $diff<(7.95-$wotag)) {
-            $case_tmp = 2 ;
-            if($datum_end!='0000-00-00' AND $diff_end>6) $datum_end = '-'.olz_date('WW (t.m.)',$datum_end) ;
-            elseif($datum_end!='0000-00-00' AND $diff_end>0) $datum_end = '-'.olz_date('WW',$datum_end) ;
-            else $datum_end = '';
+            $datum = $datum_end;
+            if ($heute_highlight) {
+                $class_heute = " class='heute'";
+            }
+        } elseif ($diff < (7.95 - $wotag)) {
+            $case_tmp = 2;
+            if ($datum_end != '0000-00-00' and $diff_end > 6) {
+                $datum_end = '-'.olz_date('WW (t.m.)', $datum_end);
+            } elseif ($datum_end != '0000-00-00' and $diff_end > 0) {
+                $datum_end = '-'.olz_date('WW', $datum_end);
+            } else {
+                $datum_end = '';
+            }
             //$datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.olz_date('W',$datum_end) : '' ;
-            $datum = olz_date('WW',$datum_tmp).$datum_end.":";}
-        elseif ( $diff<(14.95-$wotag)) {
-            $case_tmp = 3 ;
-            $datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.olz_date('t.m.(W)',$datum_end) : '' ;
-            $datum = olz_date('W, t.m.',$datum_tmp).$datum_end;}
-        elseif ($flag==1) {
-            $case_tmp = 4 ;
-            $datum = olz_date('t.m.',$datum_tmp);}
-        else {
+            $datum = olz_date('WW', $datum_tmp).$datum_end.":";
+        } elseif ($diff < (14.95 - $wotag)) {
+            $case_tmp = 3;
+            $datum_end = ($datum_end != '0000-00-00' and $datum_end != $datum_tmp) ? '-'.olz_date('t.m.(W)', $datum_end) : '';
+            $datum = olz_date('W, t.m.', $datum_tmp).$datum_end;
+        } elseif ($flag == 1) {
+            $case_tmp = 4;
+            $datum = olz_date('t.m.', $datum_tmp);
+        } else {
             $case_tmp = 5;
-            $datum = olz_date('t.m.',$datum_tmp);}
-        if ($case_tmp<4) $flag = 0;
+            $datum = olz_date('t.m.', $datum_tmp);
+        }
+        if ($case_tmp < 4) {
+            $flag = 0;
+        }
         //if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<div class='tablebar'>".str_replace("[x]",$diff,$sections[$case_tmp-1])."</div>";
-        if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<h2$class_heute style='margin-top:15px;'>".str_replace("[x]",$diff,$sections[$case_tmp-1])."</h2>";
+        if ($case != $case_tmp and strlen($sections[$case_tmp - 1]) > 0) {
+            echo "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", $diff, $sections[$case_tmp - 1])."</h2>";
+        }
         $case = $case_tmp;
-// ENDE TEST
+        // ENDE TEST
 
-
-        $titel = strip_tags(str_replace("<br>",", ",$row['titel']));
-        $text = strip_tags(str_replace("<br>",", ",$row['text']));
+        $titel = strip_tags(str_replace("<br>", ", ", $row['titel']));
+        $text = strip_tags(str_replace("<br>", ", ", $row['text']));
         $id_tmp = $row['id'];
         //$datum_tmp = zeitintervall(strtotime($datum_tmp));
         $datum_tmp = $datum;
-        if ($titel == "") $titel = $text;
-        else if ($text != "") $titel = $titel." - ".$text;
+        if ($titel == "") {
+            $titel = $text;
+        } elseif ($text != "") {
+            $titel = $titel." - ".$text;
+        }
         $mehr = "";
-        if ($textlaenge_def<strlen($datum_tmp)+strlen($titel)) {
-            $titel = mb_substr($titel,0,($textlaenge_def-strlen($datum_tmp)));
-            $titel = mb_substr($titel,0,mb_strrpos($titel," "));
+        if ($textlaenge_def < strlen($datum_tmp) + strlen($titel)) {
+            $titel = mb_substr($titel, 0, ($textlaenge_def - strlen($datum_tmp)));
+            $titel = mb_substr($titel, 0, mb_strrpos($titel, " "));
             $mehr = " ...";
         }
 
-        if ($zugriff) $edit_admin = "<a href='index.php?page=3&amp;id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
-        else $edit_admin = "";
+        if ($zugriff) {
+            $edit_admin = "<a href='index.php?page=3&amp;id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+        } else {
+            $edit_admin = "";
+        }
 
-        if ($time<86400*3) {
-            if ($pulse!="") $pulse .= ",";
+        if ($time < 86400 * 3) {
+            if ($pulse != "") {
+                $pulse .= ",";
+            }
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p$class_heute>".$edit_admin."<a href='index.php?page=3#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}>".$edit_admin."<a href='index.php?page=3#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>
 <!--<script type='text/javascript'>
@@ -119,36 +140,33 @@ function mouseout(id) {
 
 function zeitintervall($datum) {
     $today = strtotime(date("Y-m-d"));
-    $towday = date("w",$today);
-    if ($towday==0) $towday = 7;
-    $tage = round(($datum-$today)/86400,0);
-    $wday = date("w",$datum);
-    if ($wday==0) $wday = 7;
-    $wochentage = array("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag");
+    $towday = date("w", $today);
+    if ($towday == 0) {
+        $towday = 7;
+    }
+    $tage = round(($datum - $today) / 86400, 0);
+    $wday = date("w", $datum);
+    if ($wday == 0) {
+        $wday = 7;
+    }
+    $wochentage = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
     if ($tage == -1) {
         return "Gestern";
-    } else if ($tage == 0) {
-        return "Heute";
-    } else if ($tage == 1) {
-        return "Morgen";
-    } else if (-7<$tage && $tage<0) {
-        return "Letzten ".$wochentage[$wday];
-    } else if ($tage<(15-$wday)) {
-        return $wochentage[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
-    } else {
-        return olz_date("tt.mm.",$datum);
     }
+    if ($tage == 0) {
+        return "Heute";
+    }
+    if ($tage == 1) {
+        return "Morgen";
+    }
+    if ($tage > -7 && $tage < 0) {
+        return "Letzten ".$wochentage[$wday];
+    }
+    if ($tage < (15 - $wday)) {
+        return $wochentage[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
+    }
+    return olz_date("tt.mm.", $datum);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
 
@@ -634,5 +652,3 @@ function galerie_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     echo "</p>";
 }
 */
-
-?>

@@ -101,72 +101,79 @@ $_SESSION['event'] = $event;
 $_GET['event'] = $event;
 
 $include_param = "karten";
-include_once("parse_result.php");
-$sql = "SELECT * FROM event WHERE name_kurz='$event'";
+include_once "parse_result.php";
+$sql = "SELECT * FROM event WHERE name_kurz='{$event}'";
 $result = $db->query($sql);
 $row = mysqli_fetch_array($result);
-$gruppen = explode(";",$row['kat_gruppen']);
-$bahnen = array();
-foreach($gruppen as $gruppe_tmp){
-    array_push($bahnen,explode(" ",$gruppe_tmp));
+$gruppen = explode(";", $row['kat_gruppen']);
+$bahnen = [];
+foreach ($gruppen as $gruppe_tmp) {
+    array_push($bahnen, explode(" ", $gruppe_tmp));
 }
-$karten = explode(";",$row['karten']);
+$karten = explode(";", $row['karten']);
 $event_name = $row['name'];
 
 $result_file = "zol/".$event.".txt";
 $var = filemtime($result_file);
-$datum = olz_date("t.m.jj",$var).date(", H:i:s",$var);
+$datum = olz_date("t.m.jj", $var).date(", H:i:s", $var);
 $zeit = date("H:i:s");
 
-echo "<div class='titel' style='margin:10px 0px 10px 0px;'>$event_name / Stand Resultatdatei: $datum / Seite aktualisiert: $zeit</div>";
+echo "<div class='titel' style='margin:10px 0px 10px 0px;'>{$event_name} / Stand Resultatdatei: {$datum} / Seite aktualisiert: {$zeit}</div>";
 echo "<button style='height:30px;text-align:center;border:solid 1px grey;padding:3px;margin-bottom:10px;margin-right:5px;' type='button' onclick='KartenStandReset()'>Zähler zurücksetzen</button><button style='height:30px;text-align:center;border:solid 1px grey;padding:3px;margin-bottom:10px;' type='button' onclick='window.location.reload()'>Seite neu laden</button><span style='vertical-align:text-bottom;margin-left:20px;'>(Seite lädt sich automatisch neu alle 60 Sekunden.)</span>";
 echo "<table style='table-layout:fixed;' class='kartenstatistik'><tr><td>Kategorien/Bahnen</td><td>gedruckt</td><td>angemeldet</td><td>Nachdruck</td><td>Differenz</td><tr>";
 $count = 0;
 
-foreach($bahnen as $_bahn){
-    $kat = implode("' OR kat='",$_bahn);
+foreach ($bahnen as $_bahn) {
+    $kat = implode("' OR kat='", $_bahn);
     $kat = "kat='".$kat."'";
-    $sql = "SELECT distinct kat,stand,anzahl FROM $db_table WHERE event='$event' AND ($kat)";
+    $sql = "SELECT distinct kat,stand,anzahl FROM {$db_table} WHERE event='{$event}' AND ({$kat})";
     //echo $sql;
     $result = $db->query($sql);
     $sum1 = 0;
     $sum2 = 0;
-    $var1 = array();
-    while ($row = mysqli_fetch_array($result)){
-        $var = explode('/',$row['anzahl']);
+    $var1 = [];
+    while ($row = mysqli_fetch_array($result)) {
+        $var = explode('/', $row['anzahl']);
         //echo $row['anzahl']."***";
-        $angem = ereg_replace("[^0-9]", "",$var[0]);
-        $ausgel = ereg_replace("[^0-9]", "",$var[1]);
+        $angem = ereg_replace("[^0-9]", "", $var[0]);
+        $ausgel = ereg_replace("[^0-9]", "", $var[1]);
         //echo $_bahn."/".$ausgel."***";
         $var1[] = $row['kat'];
-        $sum1 = $sum1+$ausgel ;
-        $sum2 = $sum2+$angem ;
-        }
-    $style = ($sum1>=$karten[$count]) ? "color:red;" : "" ;
-    echo "<tr><td style='width:100px;'>".implode("/",$_bahn)."</td><td style='width:60px;'>".$karten[$count]."</td><td style='width:60px;'>".$sum1."</td><td style='width:100px;'><button style='width:30px;height:30px;text-align:center;font-size:18px;border:solid 1px grey;margin-right:5px;' type='button' onclick='KartenIncr($count)'>+</button><button style='width:30px;height:30px;text-align:center;font-size:18px;border:solid 1px grey;margin-right:5px;' type='button' onclick='KartenDecr($count)'>-</button><span id='kat$count'>0</span></td><td style='width:60px;$style'><span id='diff$count'>".($karten[$count]-$sum1)."</span></td></tr>";
-    $count = $count+1;
+        $sum1 = $sum1 + $ausgel;
+        $sum2 = $sum2 + $angem;
     }
+    $style = ($sum1 >= $karten[$count]) ? "color:red;" : "";
+    echo "<tr><td style='width:100px;'>".implode("/", $_bahn)."</td><td style='width:60px;'>".$karten[$count]."</td><td style='width:60px;'>".$sum1."</td><td style='width:100px;'><button style='width:30px;height:30px;text-align:center;font-size:18px;border:solid 1px grey;margin-right:5px;' type='button' onclick='KartenIncr({$count})'>+</button><button style='width:30px;height:30px;text-align:center;font-size:18px;border:solid 1px grey;margin-right:5px;' type='button' onclick='KartenDecr({$count})'>-</button><span id='kat{$count}'>0</span></td><td style='width:60px;{$style}'><span id='diff{$count}'>".($karten[$count] - $sum1)."</span></td></tr>";
+    $count = $count + 1;
+}
 echo "</table>";
 
 $kat = (empty($_GET['kat'])) ? "" : $_GET['kat'];
-$sql = "SELECT distinct kat,stand,anzahl FROM $db_table WHERE event='$event'";
+$sql = "SELECT distinct kat,stand,anzahl FROM {$db_table} WHERE event='{$event}'";
 $result = $db->query($sql);
-$kat1 = array();
-$kat2 = array();
-$kat3 = array();
+$kat1 = [];
+$kat2 = [];
+$kat3 = [];
 
-while ($row = mysqli_fetch_array($result)){
-    if(substr($row[0],0,1)=="H") $kategorien1 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
-    elseif(substr($row[0],0,1)=="D") $kategorien2 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
-    else $kategorien3 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
+while ($row = mysqli_fetch_array($result)) {
+    if (substr($row[0], 0, 1) == "H") {
+        $kategorien1 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
+    } elseif (substr($row[0], 0, 1) == "D") {
+        $kategorien2 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
+    } else {
+        $kategorien3 .= "<tr><td style='border:solid 0px;'>".$row[0]."</td><td>".$row[2]."</td></tr>";
     }
+}
 sort($kategorien1);
 sort($kategorien2);
 sort($kategorien3);
 
 $temp = $kategorien1.$kategorien2.$kategorien3;
-if(empty($temp)) echo "<div style='margin-left:10px;'>Es sind noch keine Resultate verfügbar.</div>";
-else echo "<div class='titel' style='margin:10px 0px 10px 0px;'>Kategorien (angemeldet/ausgelesen) / Stand: $datum</div>";
+if (empty($temp)) {
+    echo "<div style='margin-left:10px;'>Es sind noch keine Resultate verfügbar.</div>";
+} else {
+    echo "<div class='titel' style='margin:10px 0px 10px 0px;'>Kategorien (angemeldet/ausgelesen) / Stand: {$datum}</div>";
+}
 
 echo "<table style='margin-bottom:20px;border-collapse:collapse;'>".$kategorien1.$kategorien2.$kategorien3."</tr></table>";
 ?>

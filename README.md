@@ -8,6 +8,7 @@
 ## Development-Server konfigurieren
 
 - Installiere `PHP`
+- Installiere `composer`
 - Installiere `MySQL`
 - Erstelle eine MySQL Datenbank
 - Importiere einen Export der Online-Datenbank

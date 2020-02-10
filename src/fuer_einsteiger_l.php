@@ -55,13 +55,13 @@ echo "</div>
 Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='?page=3' onmouseover='highlight_menu(3)' onmouseout='unhighlight_menu(3)' class='linkint'>Termine-Seite</a>.
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'>";
-termine_ticker(array(
-    "eintrag_laenge"=>80,
-    "eintrag_anzahl"=>3,
-    "titel"=>"Die nächsten 3 Trainings",
-    "sql_where"=>" AND typ LIKE '%training%'",
-    "heute_highlight"=>false,
-));
+termine_ticker([
+    "eintrag_laenge" => 80,
+    "eintrag_anzahl" => 3,
+    "titel" => "Die nächsten 3 Trainings",
+    "sql_where" => " AND typ LIKE '%training%'",
+    "heute_highlight" => false,
+]);
 echo "</div>
 <br>
 <h3>Wo finden die OL-Trainings statt?</h3>

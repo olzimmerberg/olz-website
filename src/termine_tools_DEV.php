@@ -20,18 +20,21 @@ echo "<h3><a href='?mode=compare' class='linkint'>SOLV Vergleichen/Anpassen</a><
 echo "OLZ-Termine und SOLV-Termine synchronisieren<br>Typischerweise durch Link im Mail</div>";
 echo "</div>";
 
-
 // LINKE SPALTE
 echo "<div style='float:left;width:80%;'>";
 
 $start = microtime(1);
-$timestamp = (strtotime(date("Y-m-d H:i:s"))-strtotime(date("Y-m-d")));
+$timestamp = (strtotime(date("Y-m-d H:i:s")) - strtotime(date("Y-m-d")));
 
-if ($_GET["visitor"]=="map") $_GET["mode"] = "kml";
-if ($_GET["visitor"]=="cronjob") $_GET["mode"] = "check";
-if (($_SESSION['auth'] == "all") OR (in_array("termine" ,preg_split("/ /",$_SESSION['auth'])))) {
+if ($_GET["visitor"] == "map") {
+    $_GET["mode"] = "kml";
+}
+if ($_GET["visitor"] == "cronjob") {
+    $_GET["mode"] = "check";
+}
+if (($_SESSION['auth'] == "all") or (in_array("termine", preg_split("/ /", $_SESSION['auth'])))) {
     $zugriff = "1";
-} else if ($_GET["mode"]=="kml" && $_GET["visitor"]=="map") {
+} elseif ($_GET["mode"] == "kml" && $_GET["visitor"] == "map") {
     header("Content-Type:application/vnd.google-earth.kml+xml");
     echo "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/kml/2.2 https://developers.google.com/kml/schema/kml22gx.xsd\">
     <Placemark>
@@ -50,82 +53,83 @@ if (($_SESSION['auth'] == "all") OR (in_array("termine" ,preg_split("/ /",$_SESS
     </Point>
     </Placemark>
 </kml>";
-return;
-} else if ($_GET["mode"]=="check" && $_GET["visitor"]=="cronjob") {
+    return;
+} elseif ($_GET["mode"] == "check" && $_GET["visitor"] == "cronjob") {
     $zugriff = "1";
     include "admin/olz_init.php";
 } else {
-    if ($_GET["visitor"]=="cronjob") {
-        mail("simon.hatt@olzimmerberg.ch","CronJob nicht ausgeführt","Der CronJob konnte um ".date("H:i:s")." am ".date("d.m.Y")." nicht ausgeführt werden","From: OL Zimmerberg<system@olzimmerberg.ch>");
+    if ($_GET["visitor"] == "cronjob") {
+        mail("simon.hatt@olzimmerberg.ch", "CronJob nicht ausgeführt", "Der CronJob konnte um ".date("H:i:s")." am ".date("d.m.Y")." nicht ausgeführt werden", "From: OL Zimmerberg<system@olzimmerberg.ch>");
     }
-    echo "Kein Zugriff. <br>".(strtotime(date("Y-m-d H:i:s"))-strtotime(date("Y-m-d")))."<br>";
+    echo "Kein Zugriff. <br>".(strtotime(date("Y-m-d H:i:s")) - strtotime(date("Y-m-d")))."<br>";
     $zugriff = "0";
 }
 
 if ($zugriff == "1") {
     include_once "parsers.php"; // functions 'solvdataforyear($year)', 'go2oldata()', load_url($url)
     echo "<table><tr><td>";
-    if ($status=="Hinzufügen") {
+    if ($status == "Hinzufügen") {
         $sql = "INSERT into termine (datum,datum_end,datum_off,titel,text,typ,link,xkoord,ykoord,on_off,go2ol,solv_uid) VALUES ('".$_POST["datum"]."','".$_POST["datum_end"]."','".$_POST["datum_off"]."','".$_POST["titel"]."','".$_POST["text"]."','".$_POST["typ"]."','".$_POST["link"]."','".$_POST["xkoord"]."','".$_POST["ykoord"]."','".$_POST["on_off"]."','".$_POST["go2ol"]."','".$_POST["solv_uid"]."')";
         $db->query($sql);
         echo "<div style='position:absolute; margin-top:20px; background-color:#ffffff;'>".$sql."</div>";
     }
 
-    if ($status=="IDs setzen") {
+    if ($status == "IDs setzen") {
         $keys = array_keys($_POST);
-        for ($i=0; $i<count($keys); $i++) {
-            if (substr($keys[$i],0,3)=="olz") {
-                $sql = "UPDATE termine SET solv_uid='".$_POST[$keys[$i]]."' WHERE id='".substr($keys[$i],3)."'";
-                $db->query($sql,$conn_id);
+        for ($i = 0; $i < count($keys); $i++) {
+            if (substr($keys[$i], 0, 3) == "olz") {
+                $sql = "UPDATE termine SET solv_uid='".$_POST[$keys[$i]]."' WHERE id='".substr($keys[$i], 3)."'";
+                $db->query($sql, $conn_id);
             }
         }
-    }    
+    }
 
-    
-    if ($_GET["mode"]=="show") {
+    if ($_GET["mode"] == "show") {
         $_SESSION["termine_helper"] = "show";
     }
-    
-    if ($_GET["mode"]=="import") {
+
+    if ($_GET["mode"] == "import") {
         $_SESSION["termine_helper"] = "import";
     }
-    
-    if ($_GET["mode"]=="check") {
+
+    if ($_GET["mode"] == "check") {
         $_SESSION["termine_helper"] = "check";
     }
-    
-    if ($_GET["mode"]=="compare") {
+
+    if ($_GET["mode"] == "compare") {
         $_SESSION["termine_helper"] = "compare";
     }
-    
-    if ($_GET["mode"]=="add") {
+
+    if ($_GET["mode"] == "add") {
         $_SESSION["termine_helper"] = "add";
         $_SESSION["termine_helper_add_step"] = "0";
         $year = date("Y");
-        if (8<date("m")) $year++;
+        if (date("m") > 8) {
+            $year++;
+        }
         echo "YEAR: ".$year."<br>";
         $_SESSION["termine_helper_add_termine"] = solvdataforyear($year);
     }
-    
-    if ($_GET["mode"]=="solvuids" OR $mode=="Alle zeigen") {
+
+    if ($_GET["mode"] == "solvuids" or $mode == "Alle zeigen") {
         $_SESSION["termine_helper"] = "solvuids";
         //$_SESSION["termine_helper_solvuids_termine"] = solvdataforyear(false);
-        $alle_zeigen = ($mode=="Alle zeigen");
+        $alle_zeigen = ($mode == "Alle zeigen");
     }
-    
+
     // SHOW
-    if ($_SESSION["termine_helper"]=="show") {
+    if ($_SESSION["termine_helper"] == "show") {
         $sql = "select * from termine WHERE solv_uid!='0' ORDER BY datum DESC";
         // DB-ABFRAGE
         $result = $db->query($sql);
-        
+
         echo "<table class='liste'>";
-        while ($row = mysqli_fetch_array($result))
-        {$datum = $row['datum'];
+        while ($row = mysqli_fetch_array($result)) {
+            $datum = $row['datum'];
             $datum_end = $row['datum_end'];
             $titel = $row['titel'];
             $text = $row['text'];
-            $text = olz_mask_email($text,"","");
+            $text = olz_mask_email($text, "", "");
             $link = $row['link'];
             $id = $row['id'];
             $on_off = $row['on_off'];
@@ -134,93 +138,116 @@ if ($zugriff == "1") {
             $xkoord = $row['xkoord'];
             $ykoord = $row['ykoord'];
             $go2ol = $row['go2ol'];
-            
-            if ($datum_end == "0000-00-00") $datum_end = $datum;
-            if ($titel > "") $text = "<b>".$titel."</b><br>".$text;
-            if ($link == "") $link = "&nbsp;";
-            else $link = str_replace("&","&amp;",str_replace("&amp;","&",$link));
-            $link = str_replace("www.solv.ch","www.o-l.ch",$link);
-            
-            if (($datum_anmeldung!='0000-00-00') AND ($datum_anmeldung<>'') AND ($zugriff) AND ($datum_anm>$heute))
-        {$link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm=$id'>Online-Anmeldung</a></div>".$link; }
-            
-            if ($newsletter) $icn_newsletter = "<img src='icns/mail2.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
-            else $icn_newsletter = "";
-            
+
+            if ($datum_end == "0000-00-00") {
+                $datum_end = $datum;
+            }
+            if ($titel > "") {
+                $text = "<b>".$titel."</b><br>".$text;
+            }
+            if ($link == "") {
+                $link = "&nbsp;";
+            } else {
+                $link = str_replace("&", "&amp;", str_replace("&amp;", "&", $link));
+            }
+            $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
+
+            if (($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
+                $link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm={$id}'>Online-Anmeldung</a></div>".$link;
+            }
+
+            if ($newsletter) {
+                $icn_newsletter = "<img src='icns/mail2.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
+            } else {
+                $icn_newsletter = "";
+            }
+
             //Tagesanlass
-            if (($datum_end==$datum) OR ($datum_end=="0000-00-00"))
-        {$datum_tmp = olz_date("t. MM ",$datum).olz_date(" (W)",$datum);}
+            if (($datum_end == $datum) or ($datum_end == "0000-00-00")) {
+                $datum_tmp = olz_date("t. MM ", $datum).olz_date(" (W)", $datum);
+            }
             //Mehrtägig innerhalb Monat
-            elseif (olz_date ("m",$datum)==olz_date("m",$datum_end))
-        {$datum_tmp =olz_date("t.-",$datum). olz_date("t. ",$datum_end). olz_date("MM",$datum).olz_date(" (W-",$datum).olz_date("W)",$datum_end);}
+            elseif (olz_date("m", $datum) == olz_date("m", $datum_end)) {
+                $datum_tmp = olz_date("t.-", $datum).olz_date("t. ", $datum_end).olz_date("MM", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+            }
             //Mehrtägig monatsübergreifend
-        else {$datum_tmp = olz_date("t.m.-",$datum). olz_date("t.m. ",$datum_end). olz_date("jjjj",$datum).olz_date(" (W-",$datum).olz_date("W)",$datum_end);}
-            
-            if ($on_off==0) $class = " class='off'";
-            elseif ($datum_end < $heute) $class = " class='passe'";
-            else $class = "";
-            
+            else {
+                $datum_tmp = olz_date("t.m.-", $datum).olz_date("t.m. ", $datum_end).olz_date("jjjj", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+            }
+
+            if ($on_off == 0) {
+                $class = " class='off'";
+            } elseif ($datum_end < $heute) {
+                $class = " class='passe'";
+            } else {
+                $class = "";
+            }
+
             // HTML-Ausgabe
-            if (($xkoord > 0) AND ($datum_end > $heute))
-        {$maplink = "<div id='map_$id'><a href='http://map.search.ch/$xkoord,$ykoord' target='_blank' onclick=\"map('$id',$xkoord,$ykoord);return false;\" class='linkmap'>Karte zeigen</a></div>";}
-            else
-        {$maplink = "";}
-            if ((0 < strlen($go2ol)) AND ($datum_end > $heute))
-        {$go2ollink = "<div><a href='http://www.go2ol.ch/".$go2ol."' target='_blank' class='linkext'>GO2OL</a></div>";}
-            else
-        {$go2ollink = "";}
-            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$datum_tmp.$icn_newsletter."</td><td style='width:55%;'$id_spalte>".$text."<div id='map$id' style='display:none;width=100%;text-align:left;margin:0px;padding-top:4px;'></div></td><td style='width:20%;'>".$maplink.$go2ollink.$link."</td>\n</tr>\n";
+            if (($xkoord > 0) and ($datum_end > $heute)) {
+                $maplink = "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"map('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
+            } else {
+                $maplink = "";
+            }
+            if ((strlen($go2ol) > 0) and ($datum_end > $heute)) {
+                $go2ollink = "<div><a href='http://www.go2ol.ch/".$go2ol."' target='_blank' class='linkext'>GO2OL</a></div>";
+            } else {
+                $go2ollink = "";
+            }
+            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width=100%;text-align:left;margin:0px;padding-top:4px;'></div></td><td style='width:20%;'>".$maplink.$go2ollink.$link."</td>\n</tr>\n";
         }
         echo "</table>";
     }
-    
-    
+
     // CHECK
-    
-    if ($_SESSION["termine_helper"]=="check") {
+
+    if ($_SESSION["termine_helper"] == "check") {
         $infos = "";
         $console = "";
         $solv = solvdataforyear(false);
-        $solvbyid = array();
-        for ($i=0; $i<count($solv); $i++) {
-//echo $solv[$i]["uniqueid"]."<br>";
+        $solvbyid = [];
+        for ($i = 0; $i < count($solv); $i++) {
+            //echo $solv[$i]["uniqueid"]."<br>";
             $result = $db->query("SELECT * FROM termine WHERE solv_uid='".intval($solv[$i]["uniqueid"])."'", $conn_id);
-            if (0<mysqli_num_rows($result)) {
+            if (mysqli_num_rows($result) > 0) {
                 $solvbyid[$solv[$i]["uniqueid"]] = $solv[$i];
                 $row = mysqli_fetch_array($result);
                 // Koordinaten aktualisieren
-                if($solv[$i]["coordx"]>0 AND $solv[$i]["coordy"]>0){
+                if ($solv[$i]["coordx"] > 0 and $solv[$i]["coordy"] > 0) {
                     $sql = "UPDATE termine SET xkoord=".$solv[$i]["coordx"].",ykoord=".$solv[$i]["coordy"]." WHERE id=".$row['id'];
                     $result = $db->query($sql);
-                    echo "Koordinaten aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["coordx"].",".$solv[$i]["coordy"]."<br>";}
-                
-                if($solv[$i]["link"]>""){
+                    echo "Koordinaten aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["coordx"].",".$solv[$i]["coordy"]."<br>";
+                }
+
+                if ($solv[$i]["link"] > "") {
                     $sql = "UPDATE termine SET solv_event_link='".$solv[$i]["link"]."' WHERE id=".$row['id'];
                     echo $sql;
                     $result = $db->query($sql);
-                    echo "Ausschreibung aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["link"]."<br>";}
+                    echo "Ausschreibung aktualisiert: ".$row['datum']." > ".$row['titel']." > ".$solv[$i]["link"]."<br>";
                 }
+            }
         }
         print_r(array_keys($solvbyid));
         echo "<br><br>";
-        
+
         $go2ol = go2oldata();
-        $go2olbyid = array();
-        for ($i=0; $i<count($go2ol); $i++) {
+        $go2olbyid = [];
+        for ($i = 0; $i < count($go2ol); $i++) {
             $result = $db->query("SELECT id FROM termine WHERE solv_uid='".intval($go2ol[$i]["solv_uid"])."'", $conn_id);
-            if (0<mysqli_num_rows($result)) $go2olbyid[$solv[$i]["uniqueid"]] = $go2ol[$i];
+            if (mysqli_num_rows($result) > 0) {
+                $go2olbyid[$solv[$i]["uniqueid"]] = $go2ol[$i];
+            }
         }
         print_r(array_keys($go2olbyid));
         echo "<br><br>";
-        
+
         $result = $db->query("SELECT * FROM termine WHERE solv_uid IN ('".implode("', '", array_merge(array_keys($solvbyid), array_keys($go2olbyid)))."')", $conn_id);
         $num = mysqli_num_rows($result);
-        for ($i=0; $i<$num; $i++) {
+        for ($i = 0; $i < $num; $i++) {
             $row = mysqli_fetch_array($result);
         }
-
     }
-    
+
     // COMPARE
     /*
     if ($_SESSION["termine_helper"]=="compare") {
@@ -339,15 +366,15 @@ if ($zugriff == "1") {
         echo "</table>";
     }
     */
-    
+
     // ADD
-    
-    if ($_SESSION["termine_helper"]=="add") {
-        if ($status=="Weiter") {
-            $_SESSION["termine_helper_add_step"] += 1;
+
+    if ($_SESSION["termine_helper"] == "add") {
+        if ($status == "Weiter") {
+            $_SESSION["termine_helper_add_step"]++;
         }
-        if ($status=="Zurück") {
-            $_SESSION["termine_helper_add_step"] -= 1;
+        if ($status == "Zurück") {
+            $_SESSION["termine_helper_add_step"]--;
         }
         $solv_termine = $_SESSION["termine_helper_add_termine"];
         echo "<style type='text/css'>
@@ -362,24 +389,24 @@ table.raster tr {height:2em;}
 <input type='submit' name='status' value='Zurück'> | <input type='submit' name='status' value='Hinzufügen'><input type='submit' name='status' value='Weiter'>
 ";
         $i = $_SESSION["termine_helper_add_step"];
-        if ($i<count($solv_termine)) {
+        if ($i < count($solv_termine)) {
             $class = "no";
             $checked = "";
-            $abkletters = array("S","O","M");
-            for ($j=0; $j<count($abkletters); $j++) {
-                if (!is_bool(strpos($solv_termine[$i]["abk"],strtoupper($abkletters[$j]))) || !is_bool(strpos($solv_termine[$i]["abk"],strtolower($abkletters[$j])))) {
+            $abkletters = ["S", "O", "M"];
+            for ($j = 0; $j < count($abkletters); $j++) {
+                if (!is_bool(strpos($solv_termine[$i]["abk"], strtoupper($abkletters[$j]))) || !is_bool(strpos($solv_termine[$i]["abk"], strtolower($abkletters[$j])))) {
                     $class = "maybe";
                 }
             }
-            if (!is_bool(strpos($solv_termine[$i]["abk"],"**A")) || $solv_termine[$i]["region"]=="ZH/SH") {
+            if (!is_bool(strpos($solv_termine[$i]["abk"], "**A")) || $solv_termine[$i]["region"] == "ZH/SH") {
                 $class = "yes";
                 $checked = " checked";
             }
-            echo "<div class='bg$class'><div class='$class' style='font-weight:bold; padding:5px;'>".date("d.m.Y",$solv_termine[$i]["datum"])." - ".$solv_termine[$i]["name"]." - ".$solv_termine[$i]["region"]." - ".$solv_termine[$i]["verein"]." - ".$solv_termine[$i]["karte"]." - ".$solv_termine[$i]["abk"]."</div>";
+            echo "<div class='bg{$class}'><div class='{$class}' style='font-weight:bold; padding:5px;'>".date("d.m.Y", $solv_termine[$i]["datum"])." - ".$solv_termine[$i]["name"]." - ".$solv_termine[$i]["region"]." - ".$solv_termine[$i]["verein"]." - ".$solv_termine[$i]["karte"]." - ".$solv_termine[$i]["abk"]."</div>";
             $coordinates = parse_map($solv_termine[$i]["map"]);
             echo "<table class='raster'>
-<tr><td style='width:30%;'>Datum (Beginn)</td><td style='width:70%;'><input type='text' name='datum' value='".date("Y-m-d",$solv_termine[$i]["datum"])."' style='width:10em;'></td></tr>
-<tr><td>Datum (Ende)</td><td><input type='text' name='datum_end' value='".date("Y-m-d",$solv_termine[$i]["datum"])."' style='width:10em;'></td></tr>
+<tr><td style='width:30%;'>Datum (Beginn)</td><td style='width:70%;'><input type='text' name='datum' value='".date("Y-m-d", $solv_termine[$i]["datum"])."' style='width:10em;'></td></tr>
+<tr><td>Datum (Ende)</td><td><input type='text' name='datum_end' value='".date("Y-m-d", $solv_termine[$i]["datum"])."' style='width:10em;'></td></tr>
 <tr><td>Datum (Ausschalten)</td><td><input type='text' name='datum_off' value='0000-00-00' style='width:10em;'></td></tr>
 <tr><td>Titel</td><td><input type='text' name='titel' value='".$solv_termine[$i]["name"]."' style='width:90%;'></td></tr>
 <tr><td>Text</td><td><textarea name='text' style='width:90%; height:5em;'>Veranstalter: ".$solv_termine[$i]["verein"]."\nKarte: ".$solv_termine[$i]["karte"]."</textarea></td></tr>
@@ -394,64 +421,65 @@ table.raster tr {height:2em;}
             $rechts = "<img src='http://map.search.ch/chmap.de.jpg?layer=bg,fg,copy,ruler,circle&amp;zd=32&amp;x=0m&amp;y=0m&amp;w=360&amp;h=360&amp;base=".$coordinates["x"].",".$coordinates["y"]."' alt='Keine Koordinaten angegeben'>";
         }
     }
-    
+
     // SOLV UIDs
-    
-    if ($_SESSION["termine_helper"]=="solvuids") {
+
+    if ($_SESSION["termine_helper"] == "solvuids") {
         $year = date("Y");
-        if (8<date("m")) $year++;
-        $sql_tmp = ($alle_zeigen) ? "" : "(solv_uid='0' OR solv_uid IS NULL) AND" ;
-        $sql = "SELECT * FROM termine WHERE $sql_tmp datum>='".$year."-01-01' AND datum<='".$year."-12-31' AND (typ LIKE '%ol%') AND (titel NOT LIKE '%Meldeschluss%')";
-        $result = $db->query($sql,$conn_id);
+        if (date("m") > 8) {
+            $year++;
+        }
+        $sql_tmp = ($alle_zeigen) ? "" : "(solv_uid='0' OR solv_uid IS NULL) AND";
+        $sql = "SELECT * FROM termine WHERE {$sql_tmp} datum>='".$year."-01-01' AND datum<='".$year."-12-31' AND (typ LIKE '%ol%') AND (titel NOT LIKE '%Meldeschluss%')";
+        $result = $db->query($sql, $conn_id);
 
         echo "<table style='border-collapse:collapse;' cellspacing='0' class='liste'><thead><tr><td>OLZ Termin</td><td>SOLV Termin</td><td>ID</td></tr></thead>";
         while ($row = mysqli_fetch_array($result)) {
-            $solv_uid = ($row['solv_uid']>0) ? $row['solv_uid'] : "" ;
-            $matching = array();
+            $solv_uid = ($row['solv_uid'] > 0) ? $row['solv_uid'] : "";
+            $matching = [];
             $maxsimval = -1;
             $maxsimind = -1;
             $sql_solv = "SELECT * FROM solv_events WHERE date='".$row["datum"]."'";
 
-            $result_solv = $db->query($sql_solv,$conn_id);
+            $result_solv = $db->query($sql_solv, $conn_id);
             $num_solv = mysqli_num_rows($result_solv);
-            for ($i=0; $i<$num_solv; $i++) {
+            for ($i = 0; $i < $num_solv; $i++) {
                 $row_solv = mysqli_fetch_array($result_solv);
                 $sim = is_similar($row["titel"], $row_solv["name"]);
 
-                array_push($matching,array($row_solv,$sim));
-                if ($maxsimval<$sim || $maxsimval==-1) {
+                array_push($matching, [$row_solv, $sim]);
+                if ($maxsimval < $sim || $maxsimval == -1) {
                     $maxsimval = $sim;
-                    $maxsimind = count($matching)-1;
+                    $maxsimind = count($matching) - 1;
                 }
             }
 
-            if (0<count($matching)) {
-                $color = ($solv_uid>0)? "#c6ff8e" : "#fdb4b5" ;
-                echo "<tr><td style='background-color:$color;width:270px;'>".olz_date('t.m.jj / ',$row['datum']).$row["titel"]."</td><td style='background-color:$color;width:100px;'>";
+            if (count($matching) > 0) {
+                $color = ($solv_uid > 0) ? "#c6ff8e" : "#fdb4b5";
+                echo "<tr><td style='background-color:{$color};width:270px;'>".olz_date('t.m.jj / ', $row['datum']).$row["titel"]."</td><td style='background-color:{$color};width:100px;'>";
                 echo "<select name='olz".$row["id"]."' style='width:280px;'><option value='0'>---</option>";
-                for ($i=0; $i<count($matching); $i++) {
+                for ($i = 0; $i < count($matching); $i++) {
                     $selected = "";
-                    if ($maxsimind == $i && 0.0002<$maxsimval) {
+                    if ($maxsimind == $i && $maxsimval > 0.0002) {
                         $selected = " selected";
                     }
                     $similarity = $matching[$i][1];
-                    echo "<option value='".$matching[$i][0]["solv_uid"]."'".$selected.">".round($similarity*100,0)." - ".$matching[$i][0]["name"]."</option>";
+                    echo "<option value='".$matching[$i][0]["solv_uid"]."'".$selected.">".round($similarity * 100, 0)." - ".$matching[$i][0]["name"]."</option>";
                 }
-                echo "</select></td><td style='padding-left:4px;width:30px;background-color:$color;'>$solv_uid</td>";
+                echo "</select></td><td style='padding-left:4px;width:30px;background-color:{$color};'>{$solv_uid}</td>";
             } else {
-                echo "<tr><td>".olz_date('t.m.jj / ',$row['datum']).$row["titel"]."</td><td></td><td></td>";
+                echo "<tr><td>".olz_date('t.m.jj / ', $row['datum']).$row["titel"]."</td><td></td><td></td>";
             }
             echo "</tr>\n";
         }
         echo "</table><p><input type='submit' name='status' value='IDs setzen' class='dropdown'><input type='submit' name='mode' value='Alle zeigen' style='margin-left:10px;' class='dropdown'></p>";
     }
-    
-    echo "</td><td style='width:10px;'></td><td style='width:25%;'>";
-    
-    echo "</td></tr></table>";
-echo "/<div>";
-}
 
+    echo "</td><td style='width:10px;'></td><td style='width:25%;'>";
+
+    echo "</td></tr></table>";
+    echo "/<div>";
+}
 
 // ---
 
@@ -460,10 +488,9 @@ echo "/<div>";
 function is_similar($str1, $str2) {
     $str1 = trim(strtolower($str1));
     $str2 = trim(strtolower($str2));
-    $maxlen = strlen($str1)+strlen($str2);
-    $diff = levenshtein($str1, $str2)/$maxlen;
-    return 1-$diff;
+    $maxlen = strlen($str1) + strlen($str2);
+    $diff = levenshtein($str1, $str2) / $maxlen;
+    return 1 - $diff;
 }
 
-echo "Dauer: ".(microtime(1)-$start)
-?>
+echo "Dauer: ".(microtime(1) - $start);

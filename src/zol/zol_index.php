@@ -13,19 +13,22 @@ $event_default = "zol_190512";
 //-------------------------------------------
 // UMGEBUNG
 //-------------------------------------------
-if ($_SERVER['REMOTE_ADDR']=="::1") $local = 1;
+if ($_SERVER['REMOTE_ADDR'] == "::1") {
+    $local = 1;
+}
 $local = 0; // 1 im lokalen WLAN, 0 auf dem olzimmberg.ch-Server
 
 //-------------------------------------------
 // Datenbankverbindung
 //-------------------------------------------
-if ( $local )
-    {$db = new mysqli($db_server_local, $db_user_local, $db_pw_local, $db_name_local);
-    }
-else
-    {$db = new mysqli("localhost", "db12229638-1", "Atjiz2ZYty6bN3Tw", "db12229638-1");
-    }
-if ($db->connect_error) die("Connect Error (".$db->connect_errno.") ".$db->connect_error);
+if ($local) {
+    $db = new mysqli($db_server_local, $db_user_local, $db_pw_local, $db_name_local);
+} else {
+    $db = new mysqli("localhost", "db12229638-1", "Atjiz2ZYty6bN3Tw", "db12229638-1");
+}
+if ($db->connect_error) {
+    die("Connect Error (".$db->connect_errno.") ".$db->connect_error);
+}
 $db->query("SET NAMES utf8");
 function DBEsc($str) {
     global $db;
@@ -48,7 +51,7 @@ error_reporting(0);
 //-------------------------------------------
 $event = (isset($_GET['event'])) ? $_GET['event'] : $_SESSION['event'];
 $event = empty($event) ? $event_default : $event;
-$_SESSION['event']=$event;
+$_SESSION['event'] = $event;
 $breite = "450"; // Tabellenbreite gesamt
 
 $db_table = "olz_result";
@@ -114,71 +117,77 @@ function getCookie(name) {
 
 
     </head>
-<?php 
+<?php
 
 // Counter mit Textdatei
-$DateinameIP= "counter.txt"; // Track-Datei
+$DateinameIP = "counter.txt"; // Track-Datei
 $Zeitsperre = 10; // Zeitsperre in Sekunden
-$Gefunden = FALSE;
+$Gefunden = false;
 $IPListe = file($DateinameIP);
-if(count($IPListe) > 0){
-    foreach($IPListe as $Zeile){ // IP prüfen
+if (count($IPListe) > 0) {
+    foreach ($IPListe as $Zeile) { // IP prüfen
         $GesplitteteZeile = explode("|", $Zeile);
-        if(($GesplitteteZeile[0]+$Zeitsperre) > time()){
-            $NeueIPListe[] = trim($Zeile)."\n";} // neue IP
-        }
-    if(count($NeueIPListe) > 0){
-        foreach($NeueIPListe as $Zeile){
+        if (time() < ($GesplitteteZeile[0] + $Zeitsperre)) {
+            $NeueIPListe[] = trim($Zeile)."\n";
+        } // neue IP
+    }
+    if (count($NeueIPListe) > 0) {
+        foreach ($NeueIPListe as $Zeile) {
             $GesplitteteZeile = explode("|", $Zeile);
-            if(trim($GesplitteteZeile[1]) == session_id()){ //IP Prüfung
-                $Gefunden = TRUE;}
+            if (trim($GesplitteteZeile[1]) == session_id()) { //IP Prüfung
+                $Gefunden = true;
             }
         }
     }
+}
 $FilePointerIP = fopen($DateinameIP, "w"); // IP-Track-Datei öffnen
-if(count($IPListe) > 0 && count($NeueIPListe) > 0){
-    foreach($NeueIPListe as $Zeile){ // IP-Liste ändern
-        fwrite($FilePointerIP, trim($Zeile)."\n");}
+if (count($IPListe) > 0 && count($NeueIPListe) > 0) {
+    foreach ($NeueIPListe as $Zeile) { // IP-Liste ändern
+        fwrite($FilePointerIP, trim($Zeile)."\n");
     }
-    if(!$Gefunden){
-        fwrite($FilePointerIP, time()."|".session_id()."\n");} //IP-Liste ergänzen
+}
+    if (!$Gefunden) {
+        fwrite($FilePointerIP, time()."|".session_id()."\n");
+    } //IP-Liste ergänzen
     fclose($FilePointerIP);
-    
-if(!$Gefunden) $db->query("UPDATE event SET counter_ip_lan = (counter_ip_lan+1) WHERE (name_kurz = '$event')");
-$db->query("UPDATE event SET counter_hit_lan = (counter_hit_lan+1) WHERE (name_kurz = '$event')");
+
+if (!$Gefunden) {
+    $db->query("UPDATE event SET counter_ip_lan = (counter_ip_lan+1) WHERE (name_kurz = '{$event}')");
+}
+$db->query("UPDATE event SET counter_hit_lan = (counter_hit_lan+1) WHERE (name_kurz = '{$event}')");
 
 echo "<body style='height:99%; background-repeat:repeat; background-image:url(olzimmerberg.ch/icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
 
 //-------------------------------------------
 // EINSTELLUNGEN
 //-------------------------------------------
-$spalten = array(array('rang',5),array('name',40),array('jg',5),array('club',35),array('zeit',15));
+$spalten = [['rang', 5], ['name', 40], ['jg', 5], ['club', 35], ['zeit', 15]];
 $spalten_count = count($spalten);
 
-$sql = "SELECT distinct kat,stand FROM $db_table WHERE event='$event'";
+$sql = "SELECT distinct kat,stand FROM {$db_table} WHERE event='{$event}'";
 $result = $db->query($sql);
-$kat1 = array();
-while ($row = mysqli_fetch_array($result)){
-    array_push($kat1,$row[0]);
-    }
+$kat1 = [];
+while ($row = mysqli_fetch_array($result)) {
+    array_push($kat1, $row[0]);
+}
 
-$sql = "SELECT * FROM event WHERE name_kurz='$event'";
+$sql = "SELECT * FROM event WHERE name_kurz='{$event}'";
 $result = $db->query($sql);
 $row = mysqli_fetch_array($result);
 $name = $row['name'];
 $stand = $row['stand'];
 
-$stand = (is_null($stand)) ? "" : "<span style='float:right;font-weight:normal;font-size:80%;margin-top:2px;'>Stand: ".date("d.n.y H:i:s",strtotime($stand)).date(" | H:i:s")."</span>" ;
-echo "<div class='title'>$name</div><div style='padding:0 5 0 5;'>Live-Resultate".$stand."</div>";
+$stand = (is_null($stand)) ? "" : "<span style='float:right;font-weight:normal;font-size:80%;margin-top:2px;'>Stand: ".date("d.n.y H:i:s", strtotime($stand)).date(" | H:i:s")."</span>";
+echo "<div class='title'>{$name}</div><div style='padding:0 5 0 5;'>Live-Resultate".$stand."</div>";
 
 echo "<table style='width:100%;'>";
 
-$sql = "SELECT * FROM $db_table WHERE event='$event' ORDER BY kat ASC, rang ASC";
+$sql = "SELECT * FROM {$db_table} WHERE event='{$event}' ORDER BY kat ASC, rang ASC";
 $result = $db->query($sql);
 
-$kat_tmp = "" ;
+$kat_tmp = "";
 $bg = "#FFF";
-while ($row = mysqli_fetch_array($result)){
+while ($row = mysqli_fetch_array($result)) {
     $kat = $row['kat'];
     $rang = $row['rang'];
     $name = $row['name'];
@@ -188,20 +197,23 @@ while ($row = mysqli_fetch_array($result)){
     $stand = $row['stand'];
     $anzahl = $row['anzahl'];
 
-    $jg = str_pad ( $row['jg'], 2, '0', STR_PAD_LEFT );
-    $rang = ($rang==9999)?'---':$rang;
+    $jg = str_pad($row['jg'], 2, '0', STR_PAD_LEFT);
+    $rang = ($rang == 9999) ? '---' : $rang;
 
-    if($kat_tmp!= $kat){
-        if($kat_tmp>"") echo "</tbody>";
+    if ($kat_tmp != $kat) {
+        if ($kat_tmp > "") {
+            echo "</tbody>";
+        }
         $kat_tmp = $kat;
-        echo "<tr class='head'><td colspan=".count($spalten)."><a href='javascript:;' style='text-decoration:none;color:black;' onclick='toggleKat(\"$kat\")'><div style='width:100%;'>".$kat_tmp."<span style='margin-left:30px;float:right;'>".$anzahl."</span></div></a></td></tr><tbody id='$kat' style='display:none;'>";}
-    echo "<tr style='background-color:$bg;'>";
-    $bg = ($bg=="#FFF") ? "#DDD" : "#FFF" ;
-    foreach($spalten as $_spalte){
-        echo "<td class='".$_spalte[0]."' style='width:".$_spalte[1]."%'>".${$_spalte[0]}."</td>";
-        }		
-    echo "</tr>";
+        echo "<tr class='head'><td colspan=".count($spalten)."><a href='javascript:;' style='text-decoration:none;color:black;' onclick='toggleKat(\"{$kat}\")'><div style='width:100%;'>".$kat_tmp."<span style='margin-left:30px;float:right;'>".$anzahl."</span></div></a></td></tr><tbody id='{$kat}' style='display:none;'>";
     }
+    echo "<tr style='background-color:{$bg};'>";
+    $bg = ($bg == "#FFF") ? "#DDD" : "#FFF";
+    foreach ($spalten as $_spalte) {
+        echo "<td class='".$_spalte[0]."' style='width:".$_spalte[1]."%'>".${$_spalte[0]}."</td>";
+    }
+    echo "</tr>";
+}
 echo "</tbody>";
 echo "</table>";
 ?>

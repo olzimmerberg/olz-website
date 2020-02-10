@@ -18,13 +18,19 @@ document.getElementById("focusonload").focus();
 </script>
 
 <?php
-srand ( (double)microtime () * 1000000 );
-$_SESSION["challenge"] = rand(100000,999999) ;
+srand((float) microtime() * 1000000);
+$_SESSION["challenge"] = rand(100000, 999999);
 echo "<input type='hidden' name='challenge' value='".$_SESSION["challenge"]."'>";
 
-if ($_SESSION["versuch"]==2) $alert = "Falsches Passwort! Du hast noch 1 Versuch zur Verfügung!";
-elseif ($_SESSION["versuch"]==1) $alert = "Falsches Passwort! Du hast noch 2 Versuche zur Verfügung!";
-elseif ($_SESSION["versuch"]>= $maxversuche) $alert = "Sorry, keine weiteren Versuche!";
-if ($alert > "" ) echo "<div class='buttonbar error'>".$alert."</div>";
-echo "<div class='buttonbar'>".olz_buttons("button",array("Login"),"")."</div>";
+if ($_SESSION["versuch"] == 2) {
+    $alert = "Falsches Passwort! Du hast noch 1 Versuch zur Verfügung!";
+} elseif ($_SESSION["versuch"] == 1) {
+    $alert = "Falsches Passwort! Du hast noch 2 Versuche zur Verfügung!";
+} elseif ($_SESSION["versuch"] >= $maxversuche) {
+    $alert = "Sorry, keine weiteren Versuche!";
+}
+if ($alert > "") {
+    echo "<div class='buttonbar error'>".$alert."</div>";
+}
+echo "<div class='buttonbar'>".olz_buttons("button", ["Login"], "")."</div>";
 ?>

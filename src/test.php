@@ -1,15 +1,14 @@
 <?php
 
-
 //SOLV Terminliste in Mysql-Tabelle abspeichern
 $year = "2014";
 $url = "http://www.o-l.ch/cgi-bin/fixtures?&year=".$year."&csv=1";
 $file = $url;
-    if ($file>""){
-        $handle = fopen($file,"r");    
+    if ($file > "") {
+        $handle = fopen($file, "r");
         //loop through the csv file and insert into database
-        $header = 1 ;
-        do{
+        $header = 1;
+        do {
             if ($data[0]) {
                 $sql = "INSERT INTO solv_termine (unique_id,date,duration,kind,day_night,national,region,type,event_name,event_link,club,map,location,coord_x,coord_y,deadline,entryportal,last_modification) VALUES
                 (
@@ -33,10 +32,12 @@ $file = $url;
                     '".addslashes($data[17])."'
                 )
             ";
-// 1. Zeile ausschliessen
-if ($header==0) echo $sql."<br>";
-else $header = 0;
+                // 1. Zeile ausschliessen
+                if ($header == 0) {
+                    echo $sql."<br>";
+                } else {
+                    $header = 0;
+                }
             }
-        } while ($data = fgetcsv($handle,1000,";","'"));
+        } while ($data = fgetcsv($handle, 1000, ";", "'"));
     }
-?>

@@ -8,10 +8,8 @@ function deobfuscate_upload($obfuscated) {
     $content = '';
     $current = $iv;
     for ($i = 0; $i < strlen($obfuscontent); $i++) {
-        $content = $content . chr(ord($obfuscontent[$i]) ^ (($current >> 8) & 0xFF));
+        $content = $content.chr(ord($obfuscontent[$i]) ^ (($current >> 8) & 0xFF));
         $current = (($current << 5) - $current) & 0xFFFF;
     }
     return $content;
 }
-
-?>

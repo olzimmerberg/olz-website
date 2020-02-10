@@ -10,4 +10,4 @@
     <p>Regula Bernhard<br>
     <script type="text/javascript">document.write(MailTo("regula.bernhard", "olzimmerberg.ch", "Mitglied werden", "Anmeldung%20OLZ-Mitglied"));
     </script></p>-->
-<?php olz_text_insert(7);?>
+<?php olz_text_insert(7); ?>

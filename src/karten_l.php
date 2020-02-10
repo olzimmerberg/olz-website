@@ -6,22 +6,26 @@
 $db_table = "karten";
 
 // Karte von mapserch.ch initialisieren
-$sql = "SELECT * FROM $db_table ORDER BY typ ASC";
+$sql = "SELECT * FROM {$db_table} ORDER BY typ ASC";
 $result = $db->query($sql);
-$pois = "" ;
+$pois = "";
 
-while ($row = mysqli_fetch_array($result))
-    {$name = $row['name'];
+while ($row = mysqli_fetch_array($result)) {
+    $name = $row['name'];
     $massstab = $row['massstab'];
     $center_x = $row['center_x'];
     $center_y = $row['center_y'];
     $typ = $row['typ'];
-    if ($typ=='ol') $icon='ol.gif';
-    elseif ($typ=='stadt') $icon='ol2.gif';
-    elseif ($typ=='scool') $icon='ol1.gif';
+    if ($typ == 'ol') {
+        $icon = 'ol.gif';
+    } elseif ($typ == 'stadt') {
+        $icon = 'ol2.gif';
+    } elseif ($typ == 'scool') {
+        $icon = 'ol1.gif';
+    }
 
     $pois .= "Map.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
-    }
+}
 
 echo "<script type=\"text/javascript\">
     var Map = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
@@ -56,7 +60,7 @@ echo "<script type=\"text/javascript\">
 <br>
 
 <?php
-echo "<h2>Kartenverkauf</h2>" ;
+echo "<h2>Kartenverkauf</h2>";
 echo "<div style='margin-top:10px;'>";
 echo "<table class='liste'>";
 echo "<tr class='tablebar'><td style='width:46%;'>Kartentyp</td><td style='width:18%;'>Format</td><td style='width:18%;'>Karte gedruckt</td><td style='width:18%;'>Karte digital</td></tr>

@@ -1,6 +1,6 @@
 <?php
 
-require_once("admin/olz_init.php");
+require_once "admin/olz_init.php";
 
 $result = $db->query("SELECT v FROM facebook_settings WHERE k='token'");
 $row = mysqli_fetch_array($result);
@@ -11,7 +11,7 @@ $olz_fb_api_url = "https://graph.facebook.com";
 $olz_fb_api_version = "v2.3";
 $olz_fb_redirect_url = "http://olzimmerberg.ch/facebook_tools.php";
 
-function fb_api($request, $options="") {
+function fb_api($request, $options = "") {
     global $olz_fb_api_url, $olz_fb_api_version, $olz_fb_access_token;
     $ch = curl_init($olz_fb_api_url."/".$olz_fb_api_version."/".$request."?access_token=".$olz_fb_access_token.$options);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -20,8 +20,7 @@ function fb_api($request, $options="") {
     return json_decode($file, true);
 }
 
-
-if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
+if ($_SERVER['SCRIPT_FILENAME'] == __FILE__) {
     $me = fb_api("/me");
     if (isset($me["error"])) {
         $result = $db->query("SELECT v FROM facebook_settings WHERE k='client_id'");
@@ -69,15 +68,14 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
     $events = fb_api("/me/events");
     $pic = fb_api("/me/picture", "&redirect=false");
 
-
     // Statuses
     echo "<h2>Statuses</h2>";
-    for ($i=0; $i<count($feed["data"]); $i++) {
+    for ($i = 0; $i < count($feed["data"]); $i++) {
         $post = $feed["data"][$i];
         echo "<div>".date("j.n.Y", strtotime($post["updated_time"]))." <a href=''>".$post["from"]["name"]."</a> [".$post["type"]."]";
-        if ($post["type"]=="status") {
+        if ($post["type"] == "status") {
             echo $post["message"];
-        } else if ($post["type"]=="link") {
+        } elseif ($post["type"] == "link") {
             echo $post["message"]."<a href='".$post["link"]."'>Link</a>";
         }
         echo "</div>";
@@ -85,7 +83,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
 
     // Events
     echo "<h2>Events</h2>";
-    for ($i=0; $i<count($events["data"]); $i++) {
+    for ($i = 0; $i < count($events["data"]); $i++) {
         $event = $events["data"][$i];
         echo "<div>".date("j.n.Y", strtotime($event["start_time"]))." ".$event["name"]."<br>".$event["description"]."</div>";
     }
@@ -106,4 +104,3 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) {
     echo "<img src='".$pic["data"]["url"]."' />";
     */
 }
-?>

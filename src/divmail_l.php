@@ -9,49 +9,61 @@ $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Versio
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if (($_SESSION['auth'] == "all") OR (in_array($db_table ,split(' ',$_SESSION['auth'])))) $zugriff = "1";
-else $zugriff = "0";
+if (($_SESSION['auth'] == "all") or (in_array($db_table, split(' ', $_SESSION['auth'])))) {
+    $zugriff = "1";
+} else {
+    $zugriff = "0";
+}
 $button_name = "button".$db_table;
-if(isset($$button_name)) $_SESSION['edit']['db_table'] = $db_table;
+if (isset(${$button_name})) {
+    $_SESSION['edit']['db_table'] = $db_table;
+}
 
 echo "<h2>Rundmail verschicken</h2>";
 
 //-------------------------------------------------------------
 // BEARBEITEN
-if ($zugriff)
-    {$functions = array('neu' => 'Neues Rundmail',
-                'edit' => 'Bearbeiten',
-                'abbruch' => 'Abbrechen',
-                'vorschau' => 'Vorschau',
-                'submit' => 'Abschicken');
-    }
-else
-    {$functions = array();}
-$function = array_search($$button_name,$functions);
-if ($function!="")
-    {include 'admin/admin_db.php';}
-if ($_SESSION['edit']['table']==$db_table) $db_edit = "1";
-else $db_edit = "0";
-
+if ($zugriff) {
+    $functions = ['neu' => 'Neues Rundmail',
+        'edit' => 'Bearbeiten',
+        'abbruch' => 'Abbrechen',
+        'vorschau' => 'Vorschau',
+        'submit' => 'Abschicken', ];
+} else {
+    $functions = [];
+}
+$function = array_search(${$button_name}, $functions);
+if ($function != "") {
+    include 'admin/admin_db.php';
+}
+if ($_SESSION['edit']['table'] == $db_table) {
+    $db_edit = "1";
+} else {
+    $db_edit = "0";
+}
 
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
-if ($do=="vorschau")
-    {$row = $vorschau;
+if ($do == "vorschau") {
+    $row = $vorschau;
     $id = $row['id'];
     $betreff = $row['betreff'];
     $mailtext = $row['mailtext'];
-    echo "<table class='liste'><tr><td$style>Betreff:</td><td>".$row['betreff']."</td></tr>";
-    echo "<tr><td$style>Mailtext:</td><td>".$row['mailtext']."</td></tr></table>";
+    echo "<table class='liste'><tr><td{$style}>Betreff:</td><td>".$row['betreff']."</td></tr>";
+    echo "<tr><td{$style}>Mailtext:</td><td>".$row['mailtext']."</td></tr></table>";
 
     $sql = "SELECT * FROM newsletter WHERE (kategorie LIKE '%vorstand%') AND (on_off = '1') ORDER BY email DESC";
     $result = mysql_query($sql);
     $num_rows = mysql_numrows($result);
-    if ($num_rows == 0) $feedback = "Dieses Mail wird an keine Adresse verschickt.";
-    elseif ($num_rows == 1) $feedback = "Dieses Mail wird an 1 Adresse verschickt.";
-    else $feedback = "Dieses Mail wird an ".$num_rows." Adressen verschickt.";
-    echo "<div class='buttonbar'>".$feedback."</div>";
+    if ($num_rows == 0) {
+        $feedback = "Dieses Mail wird an keine Adresse verschickt.";
+    } elseif ($num_rows == 1) {
+        $feedback = "Dieses Mail wird an 1 Adresse verschickt.";
+    } else {
+        $feedback = "Dieses Mail wird an ".$num_rows." Adressen verschickt.";
     }
+    echo "<div class='buttonbar'>".$feedback."</div>";
+}
 
 /*//Neuer Eintrag
 if ($function == "edit")
@@ -71,31 +83,35 @@ elseif ($function == "vorschau")
     $input = form_mail("vorschau","","","");
     $menu = "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Abschicken","0"),array("Bearbeiten","1"),array("Abbrechen","2")),"")."</div>";
     }*/
-        
+
 //Eintrag abschicken (submit)
-if ($function == "submit")
-    {$sql = "SELECT * FROM newsletter WHERE (kategorie LIKE '%vorstand%') AND (on_off = '1') AND (email > '') ORDER BY email DESC";
+if ($function == "submit") {
+    $sql = "SELECT * FROM newsletter WHERE (kategorie LIKE '%vorstand%') AND (on_off = '1') AND (email > '') ORDER BY email DESC";
     $result = mysql_query($sql);
     $num_rows = mysql_numrows($result);
-    $mail_to = array();
-    while($row = mysql_fetch_array($result))
-        {$email = $row['email'];
+    $mail_to = [];
+    while ($row = mysql_fetch_array($result)) {
+        $email = $row['email'];
         $name = $row['name'];
         $uid = $row['uid'];
         $mail_text = "Newsletter OL Zimmerberg\n************************\n".$text.$text_nachspann.$uid;
         //mail($email,$betreff_vorspann.$betrefff,base64_encode($mail_text),$mail_header);
-        array_push($mail_to,$email);
-        }
-    if ($num_rows == 0) $feedback = "Dein Mail wurde an keine Adresse verschickt.";
-    elseif ($num_rows == 1) $feedback = "Dein Mail wurde an 1 Adresse verschickt.";
-    else $feedback = "Dein Mail wurde an ".$num_rows." Adressen verschickt.";
+        array_push($mail_to, $email);
+    }
+    if ($num_rows == 0) {
+        $feedback = "Dein Mail wurde an keine Adresse verschickt.";
+    } elseif ($num_rows == 1) {
+        $feedback = "Dein Mail wurde an 1 Adresse verschickt.";
+    } else {
+        $feedback = "Dein Mail wurde an ".$num_rows." Adressen verschickt.";
+    }
     echo "<div class='buttonbar'>".$feedback."</div>";
     // Kontrollmail
-    mail("u.utzinger@sunrise.ch","OLZ Rundmail","Datum: ".date("Y-m-d")."/".date("H:i:s")."\nAdressen: ".implode(', ',$mail_to)."\n".$feedback,$mail_header);
+    mail("u.utzinger@sunrise.ch", "OLZ Rundmail", "Datum: ".date("Y-m-d")."/".date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\n".$feedback, $mail_header);
     //echo $result.implode(', ',$mail_to);
-    echo "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Neues Rundmail","0")),"")."</div>";
-include 'service_01.php';
-    }
+    echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neues Rundmail", "0"]], "")."</div>";
+    include 'service_01.php';
+}
 /*
 //Abbruch oder löschen(abbruch)
 elseif ($function == "abbruch")
@@ -114,7 +130,6 @@ echo "<input type=hidden name=edit value='$edit'>\n";
 echo "<input type=hidden name=status value='$status'>\n";
 echo "<input type=hidden name=uid value='$uid'>";
 echo $input . $menu;*/
-
 
 //-------------------------------------------------------------
 // FUNKTION: FORMULAR GENERIEREN

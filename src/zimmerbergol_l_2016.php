@@ -72,37 +72,38 @@ Bitte melden bei Marlies Laager, zol@olzimmerberg.ch</td></tr></table>
 <?php
 // Bilder als 'BildnameBildnr_thumb.jpg' (110x73) und 'BildnameBildnr_gross.jpg' (800x533) abspeichern
 
-
 echo "<table class='liste'>";
 $groesse = 12;
 $breite = 4;
 $bild_name = "Buchenegg";
-$pfad_galerie = "img/zol_buchenegg_2016/" ;
-$reihen = ($groesse - ($groesse%$breite))/$breite;
-if ($groesse%$breite != 0) $reihen = $reihen + 1;
+$pfad_galerie = "img/zol_buchenegg_2016/";
+$reihen = ($groesse - ($groesse % $breite)) / $breite;
+if ($groesse % $breite != 0) {
+    $reihen = $reihen + 1;
+}
 echo "<tbody id='galerieindex'>";
-if ($groesse != 0)
-    {for ($i=0;$i<$reihen;$i++)
-        {echo "<tr class='thumbs'>";
-        for ($n=0; $n<$breite; $n++)
-            {$foto_000 = str_pad(($i*$breite+$n+1) ,3, '0', STR_PAD_LEFT);
-            if (($i*$breite+$n+1) > $groesse)
-                {echo "<td id='galerietd".($i*$breite+$n+1)."'>&nbsp;</td>";
-                }
-            else
-                {
-                $bild_nr = substr("0".($i*$breite+$n+1),-2);
+if ($groesse != 0) {
+    for ($i = 0; $i < $reihen; $i++) {
+        echo "<tr class='thumbs'>";
+        for ($n = 0; $n < $breite; $n++) {
+            $foto_000 = str_pad(($i * $breite + $n + 1), 3, '0', STR_PAD_LEFT);
+            if (($i * $breite + $n + 1) > $groesse) {
+                echo "<td id='galerietd".($i * $breite + $n + 1)."'>&nbsp;</td>";
+            } else {
+                $bild_nr = substr("0".($i * $breite + $n + 1), -2);
                 $pfad_thumb = $pfad_galerie.$bild_name.$bild_nr."_thumb.jpg";
                 $pfad_img = $pfad_galerie.$bild_name.$bild_nr."_gross.jpg";
-                echo "<td id='galerietd".($i*$breite+$n+1)."'>";
+                echo "<td id='galerietd".($i * $breite + $n + 1)."'>";
                 echo "<a href='".$pfad_img."' class='lightview' rel='gallery[myset]'><img src='".$pfad_thumb."' alt='' onerror='onimageloaderror(this)' id='".($foto_000)."'></a>";
                 echo "</td>";
-                }
             }
-        if ($i >= $groesse) break;
         }
-    echo "</tr></table>";
+        if ($i >= $groesse) {
+            break;
+        }
     }
+    echo "</tr></table>";
+}
 
 ?>
 

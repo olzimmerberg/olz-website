@@ -131,14 +131,12 @@ $fm_cfg['icons']['ext'] = array(
 
 	'bmp'    => 'image.gif',
 	'pcx'    => 'image.gif',
-
-	'gif'    => 'image2.gif',
-	'tiff'   => 'image2.gif',
-	'tif'    => 'image2.gif',
-
-	'jpg'    => 'jpg.gif',
-	'jpe'    => 'jpg.gif',
-	'jpeg'   => 'jpg.gif',
+	'gif'    => 'image.gif',
+	'tiff'   => 'image.gif',
+	'tif'    => 'image.gif',
+	'jpg'    => 'image.gif',
+	'jpe'    => 'image.gif',
+	'jpeg'   => 'image.gif',
 
 	'js'     => 'js.gif',
 
@@ -178,7 +176,7 @@ $fm_cfg['icons']['ext'] = array(
 	'phtml'  => 'php.gif',
 	'inc'    => 'php.gif',
 
-	'png'    => 'png.gif',
+	'png'    => 'image.gif',
 
 	'ps'     => 'ps.gif',
 	'eps'    => 'ps.gif',
@@ -212,7 +210,7 @@ $fm_cfg['icons']['ext'] = array(
 	'xls'    => 'excel.gif',
 	'xlsx'    => 'excel.gif',
 	'ppt'    => 'powerpoint.gif',
-	
+
 	'zip'    => 'zip.gif'
 	);
 

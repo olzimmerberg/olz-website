@@ -78,7 +78,8 @@ echo "<form name='Suche' method='post' action='index.php?page=9' style='white-sp
 echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 <script type='text/javascript'>document.write(MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"webmaster\", \"Homepage%20OL%20Zimmerberg\"));</script>
 <a href='https://www.facebook.com/olzimmerberg' target='_blank' title='OL Zimmerberg auf Facebook' style='float:right;'><img src='icns/facebook_16.png' alt='f' class='noborder' /></a>
-<a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.png' alt='Y' class='noborder' /></a>
+<a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.png' alt='Y' class='noborder' /></a>
+<a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.png' alt='g' class='noborder' /></a>
 </div>";
 echo "</div>
 <script type='text/javascript'>

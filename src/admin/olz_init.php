@@ -66,7 +66,7 @@ if ($local) {
 if ($local) {
     $code_path = 'TODO: not implemented';
 } else {
-    $code_path = dirname(realpath(__DIR__));
+    $code_path = dirname(realpath(__DIR__)).'/';
 }
 
 if ($local) {

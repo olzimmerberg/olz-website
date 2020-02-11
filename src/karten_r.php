@@ -107,7 +107,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         //$thumb_name = strtolower(str_replace(array("ä","ö","ü","-"," ","/"),array("ae","oe","ue","_","_","_"),$name)."_".$jahr."_".preg_replace("[^0-9]", "",substr($massstab,2))).".jpg";
         //if (file_exists("img/karten/".$thumb_name)){
         if ($thumb > "") {
-            $img_info_gross = getimagesize("img/karten/".$thumb);
+            $img_info_gross = getimagesize($data_path."img/karten/".$thumb);
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
             $map = "<img src='icns/lupe.gif' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/{$thumb}','{$name}','{$jahr}','','','','','{$img_width}','{$img_height}','','','".str_replace("'", "\\'", $massstab)."',".$kartennr.");\" onmouseout=\"hidetrail();\">";

@@ -3,6 +3,8 @@ dev-server/*
 !dev-server/_
 !dev-server/config.template.php
 !dev-server/deploy
+!dev-server/dump.php
 !dev-server/index.php
+!dev-server/reset.php
 vendor/
 .php_cs.cache

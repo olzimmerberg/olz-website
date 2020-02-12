@@ -11,8 +11,6 @@
 - Installiere `composer`
 - Installiere `MySQL`
 - Erstelle eine MySQL Datenbank
-- Importiere einen Export der Online-Datenbank
-- Öffne ein Terminal im Repository-Klon-Ordner
 - Kopiere `dev-server/config.template.php` nach `dev-server/config.php`
 - Gib die Zugangsdaten zur lokalen Datenbank in `dev-server/config.php` ein
 - Achte darauf, dass `dev-server/config.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
@@ -21,6 +19,13 @@
 
 - Öffne ein Terminal im Repository-Klon-Ordner
 - Starte den Development-Server: `./run.sh`
+- Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
+
+## Development-Daten laden
+
+- Starte den Development-Server (siehe oben)
+- Gehe in einem Browser zur URL [`http://127.0.0.1:30270/reset.php`](http://127.0.0.1:30270/reset.php)
+- Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
 ## Code beitragen
 

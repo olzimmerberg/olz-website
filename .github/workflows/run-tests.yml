@@ -2,13 +2,16 @@ on: push
 name: Run tests
 jobs:
   run-php-tests:
-    name: PHP tests
+    strategy:
+      matrix:
+        php-version: ['7.2', '7.4']
+    name: PHP tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: shivammathur/setup-php@v1
       with:
-        php-version: '7.4'
+        php-version: ${{ matrix.php-version }}
     - name: Get composer cache
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"

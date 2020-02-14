@@ -6,5 +6,5 @@ DEPLOYMENT_NAME='current'
 rm -Rf ./deploy/$DEPLOYMENT_NAME
 mkdir -p ./deploy/$DEPLOYMENT_NAME
 cp -R ./src/* ./deploy/$DEPLOYMENT_NAME/
-rm -f ./deploy/current
+mkdir -p ./deploy/$DEPLOYMENT_NAME/screenshots/generated
 echo $DEPLOYMENT_NAME >> ./deploy/CURRENT_NAME

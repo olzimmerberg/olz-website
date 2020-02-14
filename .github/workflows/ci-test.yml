@@ -1,0 +1,100 @@
+on: push
+name: CI:test
+jobs:
+  take-screenshots:
+    name: Take screenshots
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db-username
+          MYSQL_PASSWORD: db-password
+          MYSQL_DATABASE: db-schema
+          MYSQL_ROOT_PASSWORD: db-password
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+    steps:
+    - uses: actions/checkout@v2
+    - uses: shivammathur/setup-php@v1
+      with:
+        php-version: '7.4'
+    - name: Take Screenshots
+      env:
+        DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+      run: ./take-screenshots.sh
+    - uses: actions/upload-artifact@v1
+      with:
+        name: test-screenshots
+        path: ./screenshots
+  run-php-tests:
+    strategy:
+      matrix:
+        php-version: ['7.2', '7.4']
+    name: PHP tests (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: Get composer cache
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: Install dependencies
+      run: composer install --prefer-dist
+    - name: Lint PHP
+      run: cd ./tests; ./php-lint.sh
+    - name: Indented with spaces
+      run: cd ./tests; ./php-indent-spaces.sh
+    - name: Code style check
+      run: cd ./tests; ./php-code-style.sh
+  deploy-test:
+    name: Deploy to test.olzimmerberg.ch
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build deployment
+      run: ./build-deployment.sh
+    - name: Deploy over SFTP
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        METHOD: sftp
+        FTP_SERVER: lx7.hoststar.hosting
+        PORT: 5544
+        FTP_USERNAME: deploytest.olzimmerberg.ch
+        FTP_PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
+        ARGS: --parallel=4 --delete --verbose
+        # --delete arg will delete files on the server if you've deleted them in git
+        LOCAL_DIR: ./deploy
+        REMOTE_DIR: .
+    - name: Load dev data
+      run: wget https://test.olzimmerberg.ch/reset.php
+  upload-screenshots:
+    name: Upload screenshots to test.olzimmerberg.ch
+    runs-on: ubuntu-latest
+    needs: [deploy-test, take-screenshots]
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: test-screenshots
+        path: ./screenshots
+    - name: Upload over SFTP
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
+      env:
+        METHOD: sftp
+        FTP_SERVER: lx7.hoststar.hosting
+        PORT: 5544
+        FTP_USERNAME: deploytest.olzimmerberg.ch
+        FTP_PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
+        ARGS: --parallel=4 --delete --verbose
+        # --delete arg will delete files on the server if you've deleted them in git
+        LOCAL_DIR: ./screenshots
+        REMOTE_DIR: ./current/screenshots/generated

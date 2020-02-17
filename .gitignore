@@ -1,4 +1,4 @@
-/deploy/
+/deploy
 /dev-server/*
 !/dev-server/_
 !/dev-server/config.template.php
@@ -6,7 +6,7 @@
 !/dev-server/dump.php
 !/dev-server/index.php
 !/dev-server/reset.php
-/screenshots/
-/src/screenshots/generated/
-/vendor/
+/screenshots
+/src/screenshots/generated
+/vendor
 .php_cs.cache

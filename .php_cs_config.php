@@ -1,8 +1,8 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('library/')
-    ->in(__DIR__.'/src/')
+    ->exclude('src/library/')
+    ->in(__DIR__.'/')
 ;
 
 return PhpCsFixer\Config::create()

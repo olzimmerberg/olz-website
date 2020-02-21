@@ -1,0 +1,201 @@
+unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
+2973;2006-01-07;1;foot;day;0;GL/GR;*1;4. Churer Stadt-OL;http://www.solv.ch/olg-chur/index.php;OLG Chur;Stadt Chur;;;;;0;2005-08-08 15:55:01
+2987;2006-01-08;1;foot;day;0;BE/SO;*2;28. Balsthaler OL;http://www.olgbalsthalgaeu.ch;OLG Balsthal-Gäu;Stadt Olten;Olten;;;;0;2005-08-31 23:26:28
+3230;2006-01-15;1;foot;day;1;ZH/SH;**A;1. Nationaler OL A/10.Effretiker Stadt OL;http://www.s-sport.ch/;OLV Illnau-Effretikon;Effretikon;;;;;0;2005-12-07 23:31:36
+3215;2006-01-22;1;foot;day;0;AG;101S;30. Treslag-Staffel;http://www.olgcordoba.ch;OLG CORDOBA;Baldegg;Niederrohrdorf;;;;0;2005-12-05 23:36:19
+3182;2006-01-28;1;ski;day;0;BE/SO;201;Ski-OL Schweizermeisterschaft Lang;http://www.solv.ch/ski-ol/ausschreibung-beob.html;Ski-O Swiss;Lenk;;;;;0;2005-12-05 22:32:34
+3181;2006-01-29;1;ski;day;0;BE/SO;202;Simmentaler Staffel Ski-OL;http://www.solv.ch/ski-ol/ausschreibung-beob.html;Ski-O Swiss;Lenk;;;;;0;2005-12-05 22:32:19
+2870;2006-02-05;1;foot;day;0;NWS;102;9. Swiss Billygoat Run;http://olv-baselland.ch/;OLV Baselland;Schafmatt;;;;;0;2005-03-13 15:00:34
+3183;2006-02-11;1;ski;day;0;ZS;203;Urner Ski-OL;http://olg.ktv-altdorf.ch/skiol2006/;OLG KTV Altdorf;Haldi;;;;;0;2005-12-05 22:33:26
+3184;2006-02-12;1;ski;day;0;ZS;204;Ski-OL Schweizermeisterschaft Kurz;http://olg.ktv-altdorf.ch/skiol2006/;OLG KTV Altdorf;Realp;;;;;0;2005-12-05 22:33:40
+2875;2006-02-18;1;foot;day;0;NWS;*3;34. muba-OL;http://www.rolv-nws.ch/Default.aspx?tabid=96;OLC Binningen;;;;;;0;2005-03-14 21:35:36
+2858;2006-03-04;1;foot;day;0;ZH/SH;*4;42. Winterthurer OL;http://www.olcw.ch/termine/wintiol.php;OLC Winterthur;Eschenberg;Winterthur;;;;0;2005-02-15 01:15:50
+3373;2006-03-05;1;foot;day;0;NOS;*5;54. Amriswiler OL *ABGESAGT*;http://www.solv.ch/olr-amriswil/;OLR Amriswil;Güttingerwald-Ost;;;;;0;2006-03-04 11:22:26
+2423;2006-03-11;1;foot;day;0;ZH/SH;*7;28. Säuliämtler OL;http://www.olg-saeuliamt.ch/saeuliaemtler2006.php;OLG Säuliamt;Homberg;Mettmenstetten;;;;0;2004-07-07 21:47:24
+3044;2006-03-12;1;foot;day;0;ZS;*9;33. Luzerner Einzel OL;http://www.solv.ch/olv-luzern;OLV Luzern;Bireggwald;Luzern;;;;0;2005-09-22 07:39:51
+3069;2006-03-12;1;foot;day;0;TI;104;1. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;GOLD Savosa;Manno;Manno;;;;0;2005-10-14 13:33:46
+3413;2006-03-12;1;foot;day;0;NOS;*8;46. Kreuzlinger OL *VERSCHOBEN*;;OLG Kreuzlingen;Tägerwilerwald;;;;;0;2006-04-04 01:36:12
+3241;2006-03-17;1;foot;night;0;NWS;155;3. Oberbaselbieter Nacht Team OL;http://www.kakowa.ch/;OLG Kakowa;Limperg-Halmet;;;;;0;2005-12-29 20:03:45
+3257;2006-03-17;1;foot;night;0;ZH/SH;158;1. Lauf Zürcher Nacht OL Serie;http://www.olvz.ch/;COMPASS ZOS / OLG Zürich;Zürichberg;Läufergarderobe Zürich-Fluntern;;;;0;2006-01-17 22:06:15
+3134;2006-03-18;1;foot;day;0;BE/SO;;Kartenaufnehmer Kurs;;BOLV/Kommission Karten;Oberwil b. Büren;;;;;0;2005-11-16 23:14:44
+3185;2006-03-18;1;ski;day;0;ZS;205;Langis Sprint Ski-OL;http://www.solv.ch/ski-ol/ausschreibung-langis.pdf;Ski-O Swiss;Langis;;;;;0;2005-12-05 22:36:55
+3186;2006-03-19;1;foot;day;1;ZH/SH;**A;2. Nationaler OL A/38. Welsiker OL;http://www.dataway.ch/olg-welsikon/;OLG Welsikon;Hünikerwald;;;;;0;2005-12-05 22:27:40
+2989;2006-03-24;1;foot;night;0;BE/SO;*10;7. Oberaargauer Nacht OL;http://www.impols.ch/olgherzogenbuchsee/index.html;OLG Herzogenbuchsee;Unterwald-Badwald;;;;;0;2005-08-31 23:25:26
+3332;2006-03-24;1;foot;night;0;ZH/SH;105;2. Lauf der Zürcher Nacht-OL Serie;http://www.olvz.ch/;OLG Dachsen;Ellikerholz;;;;;0;2006-01-31 23:56:45
+2872;2006-03-25;1;foot;day;0;NWS;*11;31. Therwiler OL;;elch ok;Gempen;;;;;0;2005-03-14 21:28:28
+3023;2006-03-25;1;foot;day;0;ZH/SH;*12;Wisliger OL;http://www.solv.ch/olg-wislig/pdfarchiv/wisliger06.pdf;OLG Weisslingen;Weisslingen-Kyburg;;;;;0;2005-09-05 21:32:21
+3019;2006-03-26;1;foot;day;0;NOS;*14;51. Weinfelder OL; http://www.thurgorienta.ch/component/option,com_events/task,view_detail/agid,59;thurgorienta;Wellenberg 04;;;;;0;2005-09-05 08:43:40
+3070;2006-03-26;1;foot;day;0;TI;106;2. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;SAM/UNITAS;Mondini;Pura;;;;0;2005-10-14 13:36:33
+3342;2006-03-31;1;foot;night;0;ZH/SH;*17;Pfäffiker Nacht OL, 3. Lauf ZH NOL Serie;http://www.solv.ch/olg-pfaeffikon/jahr06/nachtol06.html;OLG Pfäffikon;Pfaffberg;Pfäffikon;;;;0;2006-02-04 17:02:53
+3352;2006-03-31;1;foot;night;0;BE/SO;*18;Hondricher-Nacht-OL;http://www.solv.ch/olg-hondrich/;OLG Hondrich;Lattigen;;;;;0;2006-02-11 19:51:24
+3188;2006-04-01;1;bike;day;0;BE/SO;301;2. Thömus Bike-O / 1. Bike-O Swiss Cup;http://www.bike-o.ch/thoemus;Bike-O Swiss;Oberried BE;Oberried BE;;;;0;2005-12-05 22:40:44
+3341;2006-04-02;1;foot;day;1;SR;**A;3. Course nat. A/23. Mémorial C. Marina;http://www.anco-ne.ch/nata;ANCO;Tête Plumée;;;;;0;2006-02-04 17:00:50
+3354;2006-04-04;1;foot;day;0;;159;4. Lauf der Zürcher Nacht-OL Serie;http://www.olvz.ch/;OLG Stäfa;Seeweidsee;;;;;0;2006-02-26 00:40:04
+3035;2006-04-08;1;foot;day;0;AG;107;5. bussola Schüler / Sie&Er OL;http://www.bussola-ok.ch/wettkampfe.php?a0018;bussola ok;Meiengrün;;;;;0;2005-09-14 15:52:26
+3071;2006-04-08;1;foot;day;0;TI;108;3. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;SCOM Mendrisio;Coldrerio-Mendrisio;Mendrisio;;;;0;2005-10-14 13:38:30
+3135;2006-04-08;1;foot;day;0;BE/SO;;Kartenaufnehmer Kurs;;BOLV/Kommission Karten;Oberwil b. Büren;;;;;0;2005-11-16 23:15:19
+3174;2006-04-08;1;foot;day;1;BE/SO;NOM;37. Schweizer Nacht-OL-Meisterschaft;http://www.nom2006.ch/;OLG Biberist Solothurn;Pfaffenweiher;;;;;0;2005-12-02 23:04:51
+2945;2006-04-09;1;foot;day;0;ZH/SH;*19;36. Schaffhauser OL;http://www.sh-sport.ch/olg/;OLG Schaffhausen;Eschheimertal;;;;;0;2005-06-11 12:48:28
+3140;2006-04-09;1;foot;day;0;BE/SO;*20;34. Biberister OL;http://www.solv.ch/olgbiberistso/;OLG Biberist SO;Pfaffenweiher;;;;;0;2005-11-22 23:53:19
+3337;2006-04-13;1;foot;night;0;BE/SO;*21;45. Münchenbuchsee-Nacht-OL;http://www.tvbuchsi.ch/TVM_Nacht_OL_2006.pdf;TV Aktive Münchenbuchsee;Junkholz;Etzelkofen;;;;0;2006-02-02 22:18:59
+2991;2006-04-15;1;foot;day;0;AG;109;Seetaler Schüler OL;http://www.olkargus.ch/;OLK Argus;Liebegg Nord;;;;;0;2005-09-01 15:45:56
+3331;2006-04-15;1;foot;day;0;BE/SO;110;29. Osterstaffel;http://www.olgskandia.ch;OLG Skandia;Chapf-Eggiwil;;;;;0;2006-01-31 21:32:34
+3148;2006-04-17;1;foot;day;0;BE/SO;*23;51. Huttwiler;http://www.olghuttwil.ch;OLG Huttwil;Chleinegg;Forum Sumiswald;;;;0;2005-11-24 21:55:59
+3381;2006-04-17;1;foot;day;0;NOS;*22;32. Wängi OL / Stöff Memorial OL;http://www.olregiowil.ch/divdat/waengi06.pdf;OL Regio Wil;Wildberg;;;;;0;2006-03-10 22:17:33
+2873;2006-04-22;1;foot;day;0;NWS;*24;19. OL-Galoppen;;Nachwuchskader NWS;Bubendorf-Murenberg;;;;;0;2005-03-14 21:30:05
+2969;2006-04-22;1;foot;day;0;AG;*25;52. Badener-Kreis-OL;http://www.olgcordoba.ch/;Badener Kreiturnverband;Buechberg;Stetten;;;;0;2005-07-27 16:32:19
+2809;2006-04-23;1;foot;day;0;NOS;*26;39. Engelburger OL;http://www.olgsga.ch/;OLG St. Gallen/Appenzell;Tannenberg;;;;;0;2005-01-16 10:06:01
+3001;2006-04-23;1;foot;day;0;BE/SO;*27;45. Bieler-OL;http://www.o-l.ch/olg-biel/;OLG Biel;Malleray-Bévilard;;;;;0;2005-09-02 22:58:03
+3072;2006-04-23;1;foot;day;0;TI;*28;4. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;ASCO Lugano;Brinzio;Brinzio (Italien);;;;0;2005-10-14 13:40:17
+3264;2006-04-30;1;foot;day;0;BE/SO;*29;47. Hindelbanker-OL;http://www.solv.ch/olv-hindelbank/;OLV Hindelbank;Grafenried süd;SH Gyrisberg Jegenstorf;;;;0;2006-01-19 22:07:16
+3387;2006-04-30;1;foot;day;0;AG;103;37. Suhrer Schüler/Sie+Er OL / 3.GIGA OL;http://www.olg-suhr.ch;OLG Suhr;Gönhard/Rund um Suhr;Suhr;;;;0;2006-03-17 09:47:39
+3414;2006-04-30;1;foot;day;0;NOS;*69;46. Kreuzlinger OL;;OLG Kreuzlingen;Tägerwilerwald;;;;;0;2006-04-04 00:43:27
+3191;2006-05-06;1;bike;day;0;BE/SO;302;Bike-O Bern / 2.Bike-O Swiss Cup;http://www.bike-o.ch/aus/bern2006.pdf;OK Bike-O OLG Bern;Jegenstorf West;Urtenen-Schönbühl;;;;0;2005-12-05 22:44:28
+3073;2006-05-07;1;foot;day;0;TI;111;5. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;CO UTOE Bellinzona;Pizzo di Claro;Claro;;;;0;2005-10-14 13:42:05
+3192;2006-05-07;1;bike;day;0;BE/SO;303;Bike-O Bern / 3.Bike-O Swiss Cup;http://www.bike-o.ch/aus/bern2006.pdf;OK Bike-O OLG Bern;Hindelbank Ost;Urtenen-Schönbühl;;;;0;2005-12-05 22:44:54
+3378;2006-05-07;1;foot;day;0;NOS;160;2. Amriswiler Stadt OL;http://www.solv.ch/olr-amriswil;OLR Amriswil;Stadt Amriswil 05;Amriswil;;;;0;2006-03-09 14:33:42
+3663;2006-05-09;1;foot;day;0;NOS;*;45. Hinterthurgauer OL / Sprint OL;;OL Regio Wil;Aadorf;;;;;0;2006-12-01 20:36:31
+3269;2006-05-13;1;foot;day;0;TI;112;6. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;GOV Valle Maggia;Aurigeno;Aurigeno;;;;0;2006-01-23 22:13:19
+3430;2006-05-13;1;bike;day;0;NOS;304;regiObike / 4.Bike-O Swiss Cup;http://www.pip.ch/data/Ausschreibung_thurgorienta_regiObike_2006.pdf;OL Regio Wil;Stammerberg;Hüttwilen TG;;;;0;2006-04-25 11:26:12
+2961;2006-05-14;1;foot;day;0;SR;*30;47. CO du CA Rosé;http://www.teddies.ch/ca-rose/;CA Rosé;Les Arbognes;Prez-vers-Noréaz;;;;0;2005-06-29 00:28:57
+3431;2006-05-14;1;bike;day;0;NOS;305;thurgorienta open / 5.Bike-O Swiss Cup;http://www.pip.ch/data/Ausschreibung_thurgorienta_regiObike_2006.pdf;thurgorienta;Hörnliwald;Hüttwilen TG;;;;0;2006-04-25 11:26:48
+3133;2006-05-20;1;foot;day;0;NWS;;Kartenaufnahme und Zeichnung;;J+S Wahlmodul/Kommission Karten;NWS;;;;;0;2005-11-16 23:14:25
+3307;2006-05-20;1;foot;day;0;BE/SO;113;23. Lysser-OL;http://lysser-ol.brathaz.ch/;OLG Seeland;Wierezwil Ost;;;;;0;2006-01-25 21:33:52
+3095;2006-05-21;1;foot;day;0;ZH/SH;*31;30. Galgener OL;http://www.olg-galgenen.ch/page.php?module_id=8;OLG Galgenen;Buechberg;Einsiedeln;;;;0;2005-10-22 23:59:42
+3131;2006-05-21;1;foot;day;0;NWS;;Kartenaufnahme und Zeichnung;;J+S Wahlmodul/Kommission Karten;NWS;;;;;0;2005-11-16 22:20:30
+3231;2006-05-25;1;foot;day;0;BE/SO;115;24. Jura 3er Staffel;http://www.ubol.ch;UBOL;Cocelles/Crémines;Solothurn HB;;;;0;2005-12-07 23:33:44
+3351;2006-05-25;1;foot;day;0;TI;114;Staffetta Sele;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;Selezione Ticino C.O.;Novaggio;Novaggio;;;;0;2006-02-08 16:37:45
+2995;2006-05-27;1;foot;day;0;TI;*32;2. Giorni Ticino;http://www.mypage.bluewin.ch/coaget/index_deu.htm;CO AGET Lugano;Dino;Dino;;;;0;2005-09-02 13:22:26
+2994;2006-05-28;1;foot;day;0;TI;*32;2. Giorni Ticino;http://www.mypage.bluewin.ch/coaget/index_deu.htm;CO AGET Lugano;Davesco;Davesco;;;;0;2005-09-02 13:20:57
+3443;2006-06-01;1;foot;day;0;GL/GR;168;Engadiner Abend OL;http://www.engadinol.org;SC Corvatsch;Ftan;Ftan;;;;0;2006-05-11 09:34:56
+3122;2006-06-03;1;foot;day;0;ZH/SH;156;Teamathlon;http://www.teamathlon.ch/;teamAthlon ok;Wald Dorf;Wald ZH;;;;0;2005-11-14 03:19:56
+3216;2006-06-03;1;foot;day;0;SR;116S;42. Relais de Pentecôte;http://www.pfista06.ch.vu/;OLG Huttwil;Col des Planches/VS;Col des Planches/VS;;;;0;2005-12-05 23:36:59
+3217;2006-06-04;1;foot;day;0;SR;116S;42. Relais de Pentecôte;http://www.pfista06.ch.vu/;OLG Huttwil;Col des Planches/VS;Col des Planches/VS;;;;0;2005-12-05 23:38:00
+2959;2006-06-05;1;foot;day;0;SR;*34;33. Murtner-OL;http://www.olgmurten.ch;OLG Murten;Bois de Chandossel;;;;;0;2005-06-29 00:26:37
+3434;2006-06-10;1;bike;day;0;BE/SO;306;Emmentaler Bike-O 2006/6.Bike-O Swiss Cup;http://www.elks.ch;ol norska & ELKS Sports Ass.;Chapf;Schulanlage Signau;;;;0;2006-05-08 10:22:53
+3223;2006-06-11;1;bike;day;0;BE/SO;307;4. Bike-O Thun / 7.Bike-O Swiss Cup;http://www.bike-o.ch/thun;OLG Thun;;Mühlethurnen BE;;;;0;2005-12-07 23:29:22
+3254;2006-06-11;1;foot;day;0;SR;*33;30. Sensler OL;http://www.omstrom.ch/;OLC Omström;Freiburg Süd;;;;;0;2006-01-11 08:12:00
+3270;2006-06-11;1;foot;day;0;TI;*35;8. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;O-92;Arcegno;S.Bernardino;;;;0;2006-01-23 22:13:49
+3262;2006-06-14;1;foot;day;0;BE/SO;117;1. Berner Abend-OL;http://www.olgbern.ch;OLG Bern;Könizbergwald;;;;;0;2006-01-19 22:07:08
+3392;2006-06-15;1;foot;day;0;GL/GR;161;1. Engadiner Abend-OL;http://www.engadinol.org;SC Corvatsch;;;;;;0;2006-03-25 12:12:15
+3224;2006-06-17;1;foot;day;0;GL/GR;*36;10. Bonaduzer-OL (35.Bündner OL-Weekend);http://www.solv.ch/olg-chur/bueolwe/35/Ausschreibung.pdf;OLG Chur;Bonaduz;;;;;0;2005-12-07 23:25:19
+3225;2006-06-17;1;foot;day;0;BE/SO;118;Jubiläum 50 Jahre OLG Bern;http://www.olgbern.ch;OLG Bern;Neufeld/Bremgartenwald;Bern-Neufeld;;;;0;2005-12-07 23:30:47
+3406;2006-06-18;1;foot;day;0;GL/GR;*37;46. Churer-OL (35. Bündner OL-Weekend);http://www.solv.ch/olg-chur/bueolwe/35/Ausschreibung.pdf;OLG Chur;Fürstenwald;;;;;0;2006-03-29 14:50:50
+3419;2006-06-18;1;foot;day;0;BE/SO;*6;47. Seeländer-OL *NEUES DATUM*;http://seelaender-ol.brathaz.ch/;OLG Seeland;Chalchgrabe;;;;;0;2006-04-08 22:01:10
+3168;2006-06-21;1;foot;day;0;NWS;119;Baselbieter Abend OL;;OLV Baselland;Birsfelderhard;;;;;0;2005-11-25 10:20:49
+3259;2006-06-21;1;foot;day;0;BE/SO;120;2. Berner Abend-OL;http://www.olgbern.ch;ol norska;Locheberg;;;;;0;2006-01-19 22:03:37
+3308;2006-06-22;1;foot;day;0;BE/SO;121;1. Lauf impOLs OL-Cup;http://www.impols.ch/;Bucheggberger OL;Felli-Ichertswil;;;;;0;2006-01-25 21:37:54
+3201;2006-06-24;1;bike;day;0;ZH/SH;308;1. Welsi Bike-O / 8.Bike-O Swiss Cup;http://www.dataway.ch/olg-welsikon/;OLG Welsikon;Weinland Süd;noch offen;;;;0;2005-12-05 23:01:13
+3202;2006-06-25;1;foot;day;0;ZH/SH;151b;50. Schweizer 5er-Staffel;http://www.kapreolo.ch;OLC Kapreolo;Hardwald;;;;;0;2005-12-05 22:47:48
+3169;2006-06-28;1;foot;day;0;AG;152;Fricktaler Abend-OL;http://www.olkfricktal.ch/;OLK Fricktal;Rheinfelderberg;vorauss. Rheinfelden;;;;0;2005-11-25 10:33:44
+3263;2006-06-28;1;foot;day;0;BE/SO;153;3. Berner Abend-OL;http://www.olgbern.ch;OLG Bern;Bremgartenwald;;;;;0;2006-01-19 22:07:35
+3309;2006-06-29;1;foot;day;0;BE/SO;122;2. Lauf impOLs OL-Cup;http://www.impols.ch;OLG Balsthal-Gäu;Bannwald;;;;;0;2006-01-25 21:38:40
+3393;2006-06-29;1;foot;day;0;GL/GR;162;2. Engadiner Abend-OL;http://www.engadinol.org;SC Corvatsch;;;;;;0;2006-03-25 12:13:12
+3203;2006-07-01;1;foot;day;0;BE/SO;123;2-Tage Berg-OL;http://www.olg-thun.ch/;OLG Thun;Adelboden/Gemmi;Adelboden;;;;0;2005-12-05 23:01:01
+2946;2006-07-02;1;foot;day;0;ZH/SH;*38;Zürcher Einzel-OL;http://www.olgzurich.ch/ausschreibung.pdf;OLG Zürich;;;;;;0;2005-06-12 15:43:40
+3159;2006-07-02;1;foot;day;0;BE/SO;*39;51. Bucheggberger OL;http://www.bucheggbergerol.ch;Bucheggberger OL;Junkholz;Rapperswil;;;;0;2005-11-24 22:29:30
+3220;2006-07-02;1;foot;day;0;BE/SO;123;2-Tage Berg-OL;http://www.olg-thun.ch/;OLG Thun;Adelboden/Gemmi;Adelboden;;;;0;2005-12-07 23:20:00
+3261;2006-07-05;1;foot;day;0;BE/SO;124;4. Berner Abend-OL;http://www.olgbern.ch;OLG Bern;Dählhölzli;;;;;0;2006-01-19 22:05:00
+3310;2006-07-06;1;foot;day;0;BE/SO;125;3. Lauf impOLs OL-Cup;http://www.impols.ch;OLV Langenthal;Sängeli;;;;;0;2006-01-25 21:39:16
+3228;2006-07-08;1;foot;day;0;GL/GR;126;2. Davoser Stadtsprint (36. Bü-OL-We);http://www.solv.ch/olg-davos/;OLG Davos;Davos;;;;;0;2005-12-07 23:32:29
+3249;2006-07-09;1;foot;day;0;;b;2. Tour O Swiss 8. - 15.7.2006;http://www.tour-o-swiss.ch;;;;;;;0;2006-01-06 15:47:11
+3250;2006-07-09;1;foot;day;1;GL/GR;**A;4. Nationaler OL A /20.Davoser-OL/Tour O Swiss;http://www.solv.ch/ski-o-swiss/davoser-ol;Ski-O Swiss;Drusatscha;;;;;0;2006-01-06 15:48:14
+3246;2006-07-11;1;foot;day;0;BE/SO;*40;Grindelwaldner-OL/2. Tour O Swiss;http://www.olgbern.ch;OLG Bern;Grosse Scheidegg (Westseite);Grindelwald;;;;0;2006-01-04 18:04:40
+3251;2006-07-13;1;foot;day;0;SR;*41;Park OL Lausanne/ 2. Tour O Swiss;http://www.colj.ch;CO Lausanne-Jorat;Lausanne-Vidy;Lausanne-Vidy;;;;0;2006-01-06 15:48:28
+3394;2006-07-13;1;foot;day;0;GL/GR;163;3. Engadiner Abend-OL;http://www.engadinol.org;SC Corvatsch;;;;;;0;2006-03-25 12:13:50
+3253;2006-07-14;1;foot;day;0;SR;*42;OL Mont Pélerin / 2. Tour O Swiss;http://www.care-vevey-orientation.ch;CARE Vevey Orientation;Mont-Chesau;Mont-Pèlerin;;;;0;2006-01-06 15:53:12
+2688;2006-07-15;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 11:55:13
+2689;2006-07-16;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 11:59:38
+2690;2006-07-17;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:00:52
+2691;2006-07-18;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:01:50
+2692;2006-07-19;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:02:46
+2693;2006-07-20;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:03:40
+2694;2006-07-21;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:04:34
+2695;2006-07-22;1;foot;day;0;SR;127M;Swiss O Week 15. - 22.7.06;http://www.sow2006zermatt.ch;;;;;;;0;2004-11-24 12:05:31
+3395;2006-07-27;1;foot;day;0;GL/GR;164;4. Engadiner Abend-OL;http://www.engadinol.org;SC Corvatsch;;;;;;0;2006-03-25 12:14:25
+3161;2006-08-06;1;foot;day;0;BE/SO;*43;36. Urseller-OL;http://www.solv.ch/ol-norska/;ol norska;Geissrügge;Arni;;;;0;2005-11-24 23:16:43
+3455;2006-08-06;1;foot;day;0;ZS;*16;37. Zuger Frühlings OL *NEUES DATUM*;http://www.solv.ch/olv-zug/;OLV Zug;Schneitwald;Oberägeri, Schulhaus;;;;0;2006-05-31 09:39:03
+3265;2006-08-09;1;foot;day;0;BE/SO;128;1. Hindelbanker Abendlauf;http://www.solv.ch/olv-hindelbank/;OLV Hindelbank;Stadt Burgdorf;;;;;0;2006-01-19 22:05:48
+3396;2006-08-10;1;foot;day;0;GL/GR;165;5. Engadiner Abend-OL;http://www.engadinol.org;SC Corvatsch;;;;;;0;2006-03-25 12:15:06
+2942;2006-08-11;1;foot;day;0;AG;129M;Aargauer 3-Tage-OL; http://www.aargauerol.ch/ag3days;OLG Suhr/OLG Kölliken;Roggehuse Süd;Kölliken;;;;0;2005-06-10 15:02:08
+2940;2006-08-12;1;foot;day;0;AG;129M;Aargauer 3-Tage-OL;http://www.aargauerol.ch/ag3days;OLG Suhr/OLG Kölliken;Schorüti-Hochwacht;Kölliken;;;;0;2005-06-10 14:54:57
+2954;2006-08-12;1;foot;day;0;ZS;130M;RADYS MOUNTAIN MARATHON;http://www.mimm.ch;OK RADYS Mountain Marathon;;;;;;0;2005-06-18 20:54:35
+3022;2006-08-12;1;foot;day;0;NOS;131S;16. Ostschweizer OL / ROLV-Staffel;http://www.thurgorienta.ch/component/option,com_events/task,view_detail/agid,7/;thurgorienta;Gugel;;;;;0;2005-09-05 08:54:31
+2941;2006-08-13;1;foot;day;0;AG;129M;Aargauer 3-Tage-OL; http://www.aargauerol.ch/ag3days;OLG Suhr/OLG Kölliken;Roggehuse Nord;Kölliken;;;;0;2005-06-10 14:55:25
+2955;2006-08-13;1;foot;day;0;ZS;130M;RADYS MOUNTAIN MARATHON;http://www.mimm.ch;OK RADYS Mountain Marathon;;;;;;0;2005-06-18 20:55:10
+3005;2006-08-13;1;foot;day;0;BE/SO;*44;46. Oberwiler-OL;http://www.solv.ch/olg-oberwil/;OLG Oberwil;;;;;;0;2005-09-03 08:57:54
+3266;2006-08-16;1;foot;day;0;BE/SO;154;2. Hindelbanker Abendlauf;http://www.solv.ch/olv-hindelbank/;OLV Hindelbank;Binzberg;;;;;0;2006-01-19 22:06:40
+3155;2006-08-17;1;foot;day;0;BE/SO;132;4. Lauf impOLs OL-Cup;http://www.impols.ch;OLG Biberist;Buechhof;;;;;0;2005-11-24 22:33:37
+3445;2006-08-17;1;foot;day;0;GL/GR;166;Davoser Abend-OL;;OLG Davos;Drusatschawald;;;;;0;2006-05-11 09:40:43
+2850;2006-08-19;1;foot;day;1;SR;SPM;4. Schweizer Sprint-OL Meisterschaft;http://www.solv.ch/covalais/CS-2006/cs-2006.html;OLG Wallis;Crans-Montana;;;;;0;2005-02-06 22:35:01
+2851;2006-08-20;1;foot;day;1;SR;LOM;58. Schweizer Einzel-OL-Meisterschaft;http://www.solv.ch/covalais/CS-2006/cs-2006.html;OLG Wallis;Crans-Montana;;;;;0;2005-02-06 22:35:18
+2878;2006-08-23;1;foot;day;0;NWS;133;Basler Abend OL;http://www.olg-basel.ch/;;Herrenmatt;;;;;0;2005-03-15 17:48:13
+3242;2006-08-23;1;foot;day;0;GL/GR;157;3. Städtli-OL Weesen;;Pro Weesen und Glarner OLG;Zentrum Weesen;Speerhalle Weesen;;;;0;2005-12-29 20:09:00
+3267;2006-08-23;1;foot;day;0;BE/SO;134;3. Hindelbanker Abendlauf;http://www.solv.ch/olv-hindelbank/;OLV Hindelbank;Hambüel;;;;;0;2006-01-19 22:07:21
+3311;2006-08-24;1;foot;day;0;BE/SO;135;5. Lauf impOLs OL-Cup;http://www.impols.ch;OLG Herzogenbuchsee;Oenzberg;;;;;0;2006-01-25 21:40:24
+3425;2006-08-26;1;foot;day;0;BE/SO;*15;28. Langenthaler OL *NEUES DATUM*;http://www.olv-langenthal.ch;OLV Langenthal;Rappenchopf;SH Obersteckholz (prov.);;;;0;2006-04-11 23:04:24
+2921;2006-08-27;1;foot;day;1;AG;SOM;39. Schweizer Staffel-OL-Meisterschaft;http://www.olkargus.ch/;OLK Argus;Wampfle-Homberg;;;;;0;2005-05-30 22:45:12
+3157;2006-08-31;1;foot;day;0;BE/SO;136;6. Lauf impOLs OL-Cup;http://www.impols.ch;OLG Huttwil;Hunze;;;;;0;2005-11-24 22:35:27
+3206;2006-09-02;1;foot;day;1;BE/SO;**A;5. Nationaler OL A;http://ol-kandersteg.resultservice.ch/;BeOb OK, OLG Thun, UBOL;Sunnbüel, Öschinen;Kandersteg;;;;0;2005-12-05 23:11:14
+3207;2006-09-03;1;foot;day;1;BE/SO;**A;6. Nationaler OL A;http://ol-kandersteg.resultservice.ch/;BeOb OK, OLG Thun, UBOL;Sunnbüel, Öschinen;Kandersteg;;;;0;2005-12-05 23:11:29
+3052;2006-09-08;1;foot;night;0;BE/SO;*45;norska-Nacht-OL;http://www.solv.ch/ol-norska/;ol norska;Bütschelegg;;;;;0;2005-09-30 23:45:07
+3487;2006-09-09;1;foot;day;0;ZS;167T;56. Schwyzer Mannschafts-OL;http://www.olg-galgenen.ch/page.php?module_id=19;Sportverband Kanton Schwyz;Buechberg West;;;;;0;2006-07-14 21:14:04
+3233;2006-09-10;1;foot;day;1;ZH/SH;MOM;12. Schweizer Mitteldistanz-OL Meister.;http://www.olkrafzerfeld.ch/mom06;OLK Rafzerfeld-Bülach;Strassberg/Ämperg;;;;;0;2005-12-07 23:35:18
+2992;2006-09-15;1;foot;night;0;AG;137S;Argus Nachtstaffel;http://www.olkargus.ch/;OLK Argus;Liebegg Süd;;;;;0;2005-09-01 15:48:14
+3209;2006-09-15;1;foot;night;0;TI;138;Lui+Lei;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;CO AGET Lugano;Gorduno-Galbisio;Gorduno;;;;0;2005-12-05 23:19:56
+2880;2006-09-16;1;foot;day;0;NWS;*48;Oristaler OL;http://www.kakowa.ch/;OLG Kakowa;Bärenfels;;;;;0;2005-03-15 18:37:21
+3030;2006-09-16;1;foot;day;0;ZS;139;Urner OL;;OLG KTV Altdorf;Erstfeld;Erstfeld;;;;0;2005-09-13 23:42:11
+3229;2006-09-16;1;foot;day;0;ZH/SH;*47;25. Nürensdorfer OL;http://olvz.ch/dateien/aktuell/Nueri-OL%2006.pdf;Sportclub Nürensdorf;Mülberg;Nürensdorf, Schulhaus noch unklar;;;;0;2005-12-07 23:22:20
+3235;2006-09-16;1;foot;day;0;NOS;140T;64. Thurgauer OL/44. Hinterthurgauer OL;http://www.olregiowil.ch/divdat/tgol2006.pdf;OL Regio Wil/Sportamt Thurgau;Hackenberg;;;;;0;2005-12-07 23:34:20
+3480;2006-09-16;1;foot;day;0;SR;*46;2. Freiburger OL-Weekend (23. Freib. Einzel-OL);http://www.olcskog.ch;OLC SKOG Fribourg;Burgerwald-Cousimbert;;;;;0;2006-06-29 21:52:46
+3081;2006-09-17;1;foot;day;0;TI;*50;9. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;GOLD Savosa;Gorda;Gorda;;;;0;2005-10-14 13:54:37
+3481;2006-09-17;1;foot;day;0;SR;*49;2. Freiburger OL-Weekend (24. Freib. Einzel-OL);http://www.olcskog.ch;OLC SKOG Fribourg;Tschärluuschwand-Ärgera;;;;;0;2006-06-29 21:53:43
+3268;2006-09-22;1;foot;night;0;BE/SO;*51;Hindelbanker-Nacht-OL;http://www.solv.ch/olv-hindelbank/;OLV Hindelbank;Fängleberg;Koppigen;;;;0;2006-01-19 22:10:50
+2881;2006-09-23;1;foot;day;0;NWS;*52;Basler Einzel OL;http://www.olg-basel.ch/LinkClick.aspx?link=220&tabid=87&mid=482;OLG Basel;Chrischona;;;;;0;2005-03-15 17:50:17
+2892;2006-09-23;1;foot;day;0;NOS;141T;30. Oberthurgauer OL;http://www.solv.ch/olr-amriswil/;OLR Amriswil;Emmerzenwald;;;;;0;2005-04-11 09:27:09
+2966;2006-09-23;1;foot;day;0;AG;*53;Rymenzburger OL;http://www.olg-rymenzburg.ch/typo3/index.php?id=138;OLG Rymenzburg;Schiltwald;Rickenbach LU;;;;0;2005-07-27 16:23:49
+3211;2006-09-23;1;bike;day;0;BE/SO;309;Bike-O Schweizermeisterschaft (Einzel);http://www.bucheggbergerol.ch/mtbo;Bucheggberger Orientierungsläufer;Buechhof/Leuzigenwald;Lüterkofen / SO;;;;0;2005-12-05 23:24:30
+3452;2006-09-23;1;foot;day;0;ZS;169T;61. Zuger OL;http://www.solv.ch/olv-zug/Verein/zuger06.htm;OLV Zug;Steinhauser Wald;Steinhausen;;;;0;2006-05-24 22:06:32
+3492;2006-09-23;1;foot;day;0;SR;*54;18. CO de la Riviera *ABGESAGT*;http://www.care-vevey-orientation.ch/;CARE Vevey Orientation;Les Granges Jaccard;;;;;0;2006-08-03 08:41:51
+3024;2006-09-24;1;foot;day;0;BE/SO;*55;48. Herzogenbuchser OL;http://www.impols.ch/olgherzogenbuchsee/index.html;OLG Herzogenbuchsee;Riederewald-Ischberg;;;;;0;2005-09-06 21:56:52
+3080;2006-09-24;1;foot;day;0;TI;*56;10. TMO, CTCO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;CO UTOE Bellinzona;Curzutt;Curzutt;;;;0;2005-10-14 13:53:20
+3093;2006-09-24;1;foot;day;0;SR;*57;39. CO Vaudoise / week-end vaudois;http://www.colj.ch;CO Lausanne-Jorat;La Combe Noire;;;;;0;2005-10-18 22:50:45
+3210;2006-09-24;1;foot;day;0;ZH/SH;142T;65. Zürcher OL;http://www.zuercherol.ch;Koordinationsstelle Sport;;;;;;0;2005-12-05 23:05:18
+3212;2006-09-24;1;bike;day;0;BE/SO;310;Bike-O Staffel-Schweizermeisterschaft;http://www.bucheggbergerol.ch/mtbo;Bucheggberger Orientierungsläufer;Ichertswil/Wolftürli;Lüterkofen / SO;;;;0;2005-12-05 23:25:45
+3319;2006-09-29;1;foot;day;0;BE/SO;;Qualifikation PostFinance Sprint;http://www.postfinancesprint.ch/;Verein Swiss Cup;Mamishaus;;;;;0;2006-01-26 23:20:05
+3322;2006-09-30;1;foot;day;0;BE/SO;;PostFinance Sprint;http://www.postfinancesprint.ch/;Verein Swiss Cup;Stadt Bern;;;;;0;2006-01-26 23:14:14
+3536;2006-09-30;1;foot;day;0;TI;;Notturna Ufficiali;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;Circolo Ufficiali;Bellinzona;;;;;0;2006-08-27 20:25:45
+3213;2006-10-01;1;foot;day;1;ZS;**A;7. Nationaler OL A;http://olg.go2ol.ch/anlaesse/index_anl.asp;OLG Goldau/OLG Galgenen;Hoch Ybrig;;;;;0;2005-12-05 23:23:36
+3036;2006-10-07;1;foot;day;0;AG;*58;3. bussola OL;http://www.bussola-ok.ch/wettkampfe.php?a0019;bussola ok;Chestenberg;;;;;0;2005-09-14 16:24:05
+3458;2006-10-07;1;foot;day;0;NOS;;Arge Alp;;;Salzburg;Salzburg;;;;0;2006-06-12 14:35:10
+3489;2006-10-07;1;foot;day;0;SR;S;18. Harzer-Staffel;http://fr.educanet2.ch/daniel.jungo/.ws_gen/;SV Giffers-Tentlingen;Schwyberg;Ab Plaffeien markiert;;;;0;2006-07-28 23:03:51
+3238;2006-10-08;1;foot;day;0;ZH/SH;*59;28. Pfäffiker OL;http://www.solv.ch/olg-pfaeffikon/jahr06/pfaeffiker06.pdf;OLG Pfäffikon;Schlossberg;;;;;0;2005-12-18 01:57:04
+3353;2006-10-08;1;foot;day;0;BE/SO;*60;33. Hondricher-OL;http://www.solv.ch/olg-hondrich/;OLG Hondrich;Ballenberg;;;;;0;2006-02-11 19:49:34
+3459;2006-10-08;1;foot;day;0;NOS;;Arge Alp;;;Salzburg;Salzburg;;;;0;2006-06-12 14:35:59
+3451;2006-10-14;1;foot;day;0;GL/GR;;26. Jugend-Cup Staffel;;OLG Chur;Brambrüesch;Brambrüesch;;;;0;2006-05-22 11:33:18
+3450;2006-10-15;1;foot;day;1;GL/GR;**A;8. Nat. OL A  /2. Trinser-OL /Jugend-Cup Einzel;http://solv.ch/olg-chur/bueolwe/2006/;OLG Chur;Trin;;;;;0;2006-05-22 12:24:22
+3491;2006-10-21;1;foot;day;0;;170T;61. Course fribourgeoise par équipe;http://www.teddies.ch/ca-rose;Sportamt Freiburg/CA Rosé;Lossy;;;;;0;2006-07-29 00:07:11
+3493;2006-10-21;1;foot;day;0;ZS;145;Schlusslauf ZJOM;http://www.zsolv.ch.vu;ZSOLV;;;;;;0;2006-08-04 13:00:53
+2924;2006-10-22;1;foot;day;0;ZH/SH;*61;Glattal-OL;http://www.kapreolo.ch/?sCatID=84;OLC Kapreolo;Rümlangerwald;Rümlang;;;;0;2005-06-01 22:28:13
+2978;2006-10-22;1;foot;day;0;NOS;*63;58. St. Galler OL;http://www.olgsga.ch/;OLG St. Gallen/Appenzell;Eggen;;;;;0;2005-08-17 09:10:23
+3107;2006-10-22;1;foot;day;0;NWS;*64;40. Baselbieter Einzel OL;http://www.olv-baselland.ch/bl_einzel_ol_2006.htm;OLV Baselland;Röseren;;;;;0;2005-11-08 20:14:03
+3163;2006-10-22;1;foot;day;0;BE/SO;*65;38. Emmentaler-OL;http://www.olgskandia.ch;OLG Skandia;Blasenfluh;Signau;;;;0;2005-11-24 23:38:37
+3243;2006-10-22;1;foot;day;0;AG;*62;59. Zurzacher OL;http://www.ktv-zurzach.ch/cont/;Kreisturnverband Zurzach;Sennhof-Oedenholz;;;;;0;2006-01-01 12:49:42
+3535;2006-10-22;1;foot;day;0;TI;144;11. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;SCOM Mendrisio;Serpiano;;;;;0;2006-08-27 21:13:46
+3234;2006-10-28;1;foot;day;0;AG;*66;27. Fricktaler Einzel-OL/ASJM Schlusslauf;http://www.olkfricktal.ch/;OLK Fricktal;Steppberg;vorauss. Rheinfelden;;;;0;2005-12-07 23:30:22
+2958;2006-10-29;1;foot;day;0;NWS;146T;54. Baselbieter Team OL;http://www.baselland.ch/docs/ekd/sportamt/kalender/team-ol.htm;Sportamt BL;Bruderholz;;;;;0;2005-06-23 22:15:03
+3125;2006-10-29;1;foot;day;0;NOS;*68;50. Wiler OL;http://www.olregiowil.ch/divdat/wiler06.pdf;UOV Wil;Hofberg;;;;;0;2005-11-14 14:42:11
+3164;2006-10-29;1;foot;day;0;BE/SO;147T;64. Berner Mannschafts-OL;http://www.o-l.ch/olg-biel/;OLG Biel;;;;;;0;2005-11-24 23:43:25
+3482;2006-10-29;1;foot;day;0;ZH/SH;*67;1. Zimmerberg OL / JOM-Schlusslauf;http://www.olzimmerberg.ch/;OL Zimmerberg;Landforst;Gattikon;;;;0;2006-06-30 23:10:49
+3534;2006-10-29;1;foot;day;0;TI;143;12. TMO *NEUES DATUM*;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;O-92;Isone Nord;Isone;;;;0;2006-08-27 21:19:01
+3272;2006-11-04;1;foot;day;0;TI;148;13. TMO;http://www.asti-ticino.ch/co/index.php?folder=program&main=volantino;ASCO Lugano;Lugano;Lugano;;;;0;2006-01-23 22:14:30
+2899;2006-11-05;1;foot;day;1;NWS;TOM;61. Schweizer Team-OL-Meisterschaft;http://www.kakowa.ch/tom06/;OLG Kakowa;Zunzgerhard;;;;;0;2005-04-28 00:10:18
+3137;2006-11-12;1;foot;day;0;NOS;149;2. Schlusslauf ROLV NOS;http://www.pip.ch/data/Ausschreibung_Finallauf_06.pdf;Nachwuchskader NOS;Bätershausen;;;;;0;2005-11-21 15:04:01
+3132;2006-11-18;1;foot;day;0;AG;;SOLV Kärtelertagung;http://solv.ch/karten/2006/Ausschreibung_KaertelerTagung2006-1.pdf;Kommission Karten;Aarau;;;;;0;2005-11-16 22:21:16
+3427;2006-11-18;1;foot;day;0;;;OL Gala;http://www.solv.ch/swissogala/;;;;;;;0;2006-04-13 11:46:35
+3410;2006-11-24;1;foot;day;0;BE/SO;;SOLV Zentralkurs;http://www.solv.ch/?section=3;SOLV Kommission Ausbildung;Ins;Ins;;;;0;2006-04-02 21:00:08
+3411;2006-11-25;1;foot;day;0;BE/SO;;SOLV Zentralkurs;http://www.solv.ch/?section=3;SOLV Kommission Ausbildung;Ins;Ins;;;;0;2006-04-02 20:05:59
+3412;2006-11-26;1;foot;day;0;BE/SO;;SOLV Zentralkurs;http://www.solv.ch/?section=3;SOLV Kommission Ausbildung;Ins;Ins;;;;0;2006-04-02 20:07:30
+3126;2006-12-02;1;foot;day;0;NOS;150;Chlaus OL;http://www.olregiowil.ch/divdat/samichlaus06.pdf;OL Regio Wil;Landsberg;;;;;0;2005-11-14 14:42:48
+3567;2006-12-29;1;ski;day;0;SR;*;Gommer Ski-OL;http://www.solv.ch/ski-ol/ausschreibung_gommer.html;Ski-O Swiss;;;;;;0;2006-10-02 15:12:35
+3568;2006-12-30;1;ski;day;0;SR;*;Gommer Ski-OL;http://www.solv.ch/ski-ol/ausschreibung_gommer.html;Ski-O Swiss;;;;;;0;2006-10-02 15:13:43

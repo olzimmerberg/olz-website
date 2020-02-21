@@ -40,16 +40,16 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: test-screenshots
-        path: ./tests/screenshots
+        path: ./ci/screenshots
     - uses: shivammathur/setup-php@v1
       with:
         php-version: '7.4'
     - name: Test screenshots for modifications
-      run: cd ./tests; php ./screenshot-modifications.php
+      run: cd ./ci; php ./screenshot-modifications.php
   run-php-tests:
     strategy:
       matrix:
-        php-version: ['7.2', '7.4']
+        php-version: ['7.3', '7.4']
     name: PHP tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     steps:
@@ -69,11 +69,13 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist
     - name: Lint PHP
-      run: cd ./tests; ./php-lint.sh
+      run: cd ./ci; ./php-lint.sh
     - name: Indented with spaces
-      run: cd ./tests; ./php-indent-spaces.sh
+      run: cd ./ci; ./php-indent-spaces.sh
     - name: Code style check
-      run: cd ./tests; ./php-code-style.sh
+      run: cd ./ci; ./php-code-style.sh
+    - name: PHP Unit Tests
+      run: cd ./ci; ./php-unit-tests.sh
   deploy-test:
     name: Deploy to test.olzimmerberg.ch
     runs-on: ubuntu-latest

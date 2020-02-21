@@ -1,0 +1,11 @@
+on:
+  schedule:
+    # daily at 13:49
+    - cron:  '49 13 * * *'
+name: CI:scheduled
+jobs:
+  ping:
+    name: Ping olzimmerberg.ch
+    runs-on: ubuntu-latest
+    steps:
+    - run: ping -c 3 olzimmerberg.ch

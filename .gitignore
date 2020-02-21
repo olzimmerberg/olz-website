@@ -8,5 +8,7 @@
 !/dev-server/reset.php
 /screenshots
 /src/screenshots/generated
+/tests/document-root/*
+!/tests/document-root/config.template.php
 /vendor
 .php_cs.cache

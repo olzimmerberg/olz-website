@@ -29,7 +29,7 @@ CREATE TABLE `aktuell` (
   `zeit` time DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO aktuell
     (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`)
@@ -51,7 +51,7 @@ CREATE TABLE `anm_felder` (
   `test` tinytext DEFAULT NULL,
   `test_result` tinytext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `anmeldung`;
 CREATE TABLE `anmeldung` (
@@ -69,7 +69,7 @@ CREATE TABLE `anmeldung` (
   `feld3` text DEFAULT NULL,
   `feld4` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `bild_der_woche`;
 CREATE TABLE `bild_der_woche` (
@@ -84,7 +84,7 @@ CREATE TABLE `bild_der_woche` (
   `bild2_breite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO bild_der_woche
     (`datum`, `bild1`, `bild2`, `on_off`, `text`, `titel`, `id`, `bild1_breite`, `bild2_breite`)
@@ -115,7 +115,7 @@ CREATE TABLE `blog` (
   `bild2_breite` int(11) DEFAULT NULL,
   `linkext` tinytext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `counter`;
 CREATE TABLE `counter` (
@@ -130,7 +130,7 @@ CREATE TABLE `counter` (
   `counter_ip_bak` int(11) DEFAULT NULL,
   `bak_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `downloads`;
 CREATE TABLE `downloads` (
@@ -141,7 +141,7 @@ CREATE TABLE `downloads` (
   `file1` tinytext DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
@@ -158,14 +158,14 @@ CREATE TABLE `event` (
   `karten` text DEFAULT NULL,
   `locked` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `facebook_settings`;
 CREATE TABLE `facebook_settings` (
   `k` varchar(64) COLLATE latin1_german2_ci NOT NULL,
   `v` text COLLATE latin1_german2_ci NOT NULL,
   PRIMARY KEY (`k`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `forum`;
 CREATE TABLE `forum` (
@@ -184,7 +184,7 @@ CREATE TABLE `forum` (
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`),
   KEY `on_off` (`on_off`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO forum
     (`name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `id`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
@@ -206,7 +206,7 @@ CREATE TABLE `galerie` (
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`),
   KEY `on_off` (`on_off`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO galerie
     (`termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `id`, `content`)
@@ -222,7 +222,7 @@ CREATE TABLE `images` (
   `pfad` tinytext DEFAULT NULL,
   `bild_name` tinytext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `jwoc`;
 CREATE TABLE `jwoc` (
@@ -240,7 +240,7 @@ CREATE TABLE `jwoc` (
   `starttime` tinytext DEFAULT NULL,
   `cat` tinytext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `karten`;
 CREATE TABLE `karten` (
@@ -257,7 +257,7 @@ CREATE TABLE `karten` (
   `typ` varchar(50) DEFAULT NULL,
   `vorschau` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links` (
@@ -268,7 +268,7 @@ CREATE TABLE `links` (
   `datum` date DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `newsletter`;
 CREATE TABLE `newsletter` (
@@ -280,7 +280,7 @@ CREATE TABLE `newsletter` (
   `name` varchar(100) DEFAULT NULL,
   `on_off` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `olz_result`;
 CREATE TABLE `olz_result` (
@@ -303,7 +303,7 @@ CREATE TABLE `olz_text` (
   `text` text DEFAULT NULL,
   `on_off` int(1) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `rundmail`;
 CREATE TABLE `rundmail` (
@@ -312,7 +312,7 @@ CREATE TABLE `rundmail` (
   `mailtext` text DEFAULT NULL,
   `datum` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `solv_events`;
 CREATE TABLE `solv_events` (
@@ -331,13 +331,13 @@ CREATE TABLE `solv_events` (
   `location` text NOT NULL,
   `coord_x` int(11) NOT NULL,
   `coord_y` int(11) NOT NULL,
-  `deadline` date NOT NULL,
+  `deadline` date NULL,
   `entryportal` int(11) NOT NULL,
   `start_link` text DEFAULT NULL,
   `rank_link` text DEFAULT NULL,
   `last_modification` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`solv_uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `solv_people`;
 CREATE TABLE `solv_people` (
@@ -348,7 +348,7 @@ CREATE TABLE `solv_people` (
   `residence` text NOT NULL,
   `member` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `solv_results`;
 CREATE TABLE `solv_results` (
@@ -358,7 +358,7 @@ CREATE TABLE `solv_results` (
   `class` text NOT NULL,
   `result` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `termine`;
 CREATE TABLE `termine` (
@@ -393,7 +393,7 @@ CREATE TABLE `termine` (
   KEY `on_off` (`on_off`),
   KEY `datum_end` (`datum_end`),
   KEY `datum_off` (`datum_off`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `termine_go2ol`;
 CREATE TABLE `termine_go2ol` (
@@ -407,7 +407,7 @@ CREATE TABLE `termine_go2ol` (
   `meldeschluss1` date NOT NULL,
   `meldeschluss2` date NOT NULL,
   PRIMARY KEY (`solv_uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `termine_solv`;
 CREATE TABLE `termine_solv` (
@@ -429,7 +429,7 @@ CREATE TABLE `termine_solv` (
   `deadline` date DEFAULT NULL,
   `entryportal` int(11) DEFAULT NULL,
   `last_modification` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `trainingsphotos`;
 CREATE TABLE `trainingsphotos` (
@@ -438,7 +438,7 @@ CREATE TABLE `trainingsphotos` (
   `datum` date NOT NULL,
   `pfad` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -448,7 +448,7 @@ CREATE TABLE `user` (
   `zugriff` text DEFAULT NULL,
   `root` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO user
     (`id`, `benutzername`, `passwort`, `zugriff`, `root`)
@@ -469,10 +469,10 @@ CREATE TABLE `vorstand` (
   `on_off` int(1) DEFAULT 1,
   `position` int(11) DEFAULT NULL COMMENT 'alt',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `vorstand_funktion`;
 CREATE TABLE `vorstand_funktion` (
   `vorstand` int(11) NOT NULL,
   `funktion` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

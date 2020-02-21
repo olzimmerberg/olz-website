@@ -7,6 +7,7 @@
 !/dev-server/index.php
 !/dev-server/reset.php
 /screenshots
+/src/olz_ical.ics
 /src/screenshots/generated
 /tests/document-root/*
 !/tests/document-root/config.template.php

@@ -155,7 +155,7 @@ if ($function == 'save' and $_SESSION[$db_table]['repeat'] == 'repeat') {
     }
     foreach ($termin_ as $tmp_termin) {
         if ($tmp_termin == $_SESSION[$db_table."datum"]) { // UPDATE Startdatum
-            $sql = "UPDATE {$db_table} SET datum_end='0000-00-00' WHERE id='".$_SESSION[$db_table."id"]."'";
+            $sql = "UPDATE {$db_table} SET datum_end=NULL WHERE id='".$_SESSION[$db_table."id"]."'";
             $result = $db->query($sql);
         } else { // TERMIN speichern
             $sql_tmp = [];
@@ -163,7 +163,7 @@ if ($function == 'save' and $_SESSION[$db_table]['repeat'] == 'repeat') {
                 if ($tmp_feld[0] == 'datum') {
                     array_push($sql_tmp, $tmp_feld[0]." = '".date("Y-m-d", $tmp_termin)."'");
                 } elseif ($tmp_feld[0] == 'datum_end') {
-                    array_push($sql_tmp, $tmp_feld[0]." = '0000-00-00'");
+                    array_push($sql_tmp, $tmp_feld[0]." = NULL");
                 } elseif ($tmp_feld[0] !== 'id') {
                     $var = $tmp_feld[0];
                     array_push($sql_tmp, $var." = '".$_SESSION[$db_table.$var]."'");
@@ -283,7 +283,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $umbruch = $row['link'] == "" ? "" : "<br>";
             $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='{$class}'>Ausschreibung</a>";
         }
-        if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] != "0000-00-00") {
+        if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] && $row_solv["deadline"] != "0000-00-00") {
             $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".olz_date("t. MM ", $row_solv["deadline"]);
         }
         //Ranglisten-Link zeigen
@@ -296,7 +296,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
         }
 
-        if ($datum_end == "0000-00-00") {
+        if ($datum_end == "0000-00-00" || !$datum_end) {
             $datum_end = $datum;
         }
         if ($titel > "") {
@@ -309,14 +309,14 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         }
         $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
-        if (($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
+        if ($datum_anmeldung and ($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
             $link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm={$id}'>Online-Anmeldung</a></div>".$link;
         }
 
         if ($zugriff and ($do != 'vorschau')) {
             //Berbeiten-/Duplizieren-Button
             $edit_admin = "<a href='index.php?id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='index.php?id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
-            if (($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
+            if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
                 $edit_anm = "<a href='index.php?page=14&amp;id_anm={$id}&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";
             } else {
                 $edit_anm = "";
@@ -333,7 +333,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         }
 
         //Tagesanlass
-        if (($datum_end == $datum) or ($datum_end == "0000-00-00")) {
+        if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
             $datum_tmp = olz_date("t. MM ", $datum).olz_date(" (W)", $datum);
             if ($zeit != "00:00:00") {
                 $datum_tmp .= "<br />".date("H:i", strtotime($zeit));

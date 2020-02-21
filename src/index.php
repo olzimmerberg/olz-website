@@ -408,7 +408,9 @@ else {
 echo "<div style='clear:both;'>&nbsp;</div></div>
 </div>
 </div>
-<script>
+";
+if ($_GET['test'] == 1) {
+    echo "<script>
 function hideFlaky() {
     var flakyElements = document.querySelectorAll('.test-flaky');
     for (var i=0; i<flakyElements.length; i++) {
@@ -431,7 +433,9 @@ function hideFlaky() {
 hideFlaky();
 setInterval(hideFlaky, 0);
 </script>
-</body>
+";
+}
+echo "</body>
 </html>";
 
 include "admin/counter.php";

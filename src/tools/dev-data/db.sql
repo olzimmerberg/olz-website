@@ -29,12 +29,12 @@ CREATE TABLE `aktuell` (
   `zeit` time DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO aktuell
     (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`)
 VALUES
-    ('1', '0', '2020-01-01', '1', '0000-00-00 00:00:00', 'Frohes neues Jahr!', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr!', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:
+    ('1', '0', '2020-01-01', '1', '', 'Frohes neues Jahr!', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr!', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:
 
 <BILD2>', '', 'prä', '', '1', '', '0', '', '', '0', '', '0', '00:00:00');
 
@@ -84,7 +84,7 @@ CREATE TABLE `bild_der_woche` (
   `bild2_breite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO bild_der_woche
     (`datum`, `bild1`, `bild2`, `on_off`, `text`, `titel`, `id`, `bild1_breite`, `bild2_breite`)
@@ -162,8 +162,8 @@ CREATE TABLE `event` (
 
 DROP TABLE IF EXISTS `facebook_settings`;
 CREATE TABLE `facebook_settings` (
-  `k` varchar(64) COLLATE latin1_german2_ci NOT NULL,
-  `v` text COLLATE latin1_german2_ci NOT NULL,
+  `k` varchar(64) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `v` text CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   PRIMARY KEY (`k`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -184,12 +184,12 @@ CREATE TABLE `forum` (
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`),
   KEY `on_off` (`on_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO forum
     (`name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `id`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
 VALUES
-    ('Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', '0000-00-00 00:00:00', 'hd35lm6glq', '1', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
+    ('Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', '', 'hd35lm6glq', '1', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
 
 DROP TABLE IF EXISTS `galerie`;
 CREATE TABLE `galerie` (
@@ -206,13 +206,13 @@ CREATE TABLE `galerie` (
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`),
   KEY `on_off` (`on_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO galerie
     (`termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `id`, `content`)
 VALUES
-    ('0', 'Neujahrsgalerie 2020', '2020-01-01', '0000-00-00', 'sh', '1', 'foto', '0', '1', ''),
-    ('0', 'Berchtoldstagsgalerie 2020', '2020-01-02', '0000-00-00', 'sh', '1', 'foto', '0', '2', '');
+    ('0', 'Neujahrsgalerie 2020', '2020-01-01', '', 'sh', '1', 'foto', '0', '1', ''),
+    ('0', 'Berchtoldstagsgalerie 2020', '2020-01-02', '', 'sh', '1', 'foto', '0', '2', '');
 
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
@@ -331,7 +331,7 @@ CREATE TABLE `solv_events` (
   `location` text NOT NULL,
   `coord_x` int(11) NOT NULL,
   `coord_y` int(11) NOT NULL,
-  `deadline` date NULL,
+  `deadline` date DEFAULT NULL,
   `entryportal` int(11) NOT NULL,
   `start_link` text DEFAULT NULL,
   `rank_link` text DEFAULT NULL,
@@ -393,7 +393,12 @@ CREATE TABLE `termine` (
   KEY `on_off` (`on_off`),
   KEY `datum_end` (`datum_end`),
   KEY `datum_off` (`datum_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO termine
+    (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `newsletter`, `newsletter_datum`, `newsletter_anmeldung`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `datum_anmeldung`, `text_anmeldung`, `email_anmeldung`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`)
+VALUES
+    ('1', '2020-01-02', '', '', '00:00:00', '00:00:00', '0', '0', '', '', 'Berchtoldstag', '', '', '', '', '', '1', '', '', '', '0', '0', '0', '', '2020-02-21 23:17:43', '2020-02-21 23:17:09');
 
 DROP TABLE IF EXISTS `termine_go2ol`;
 CREATE TABLE `termine_go2ol` (
@@ -448,7 +453,7 @@ CREATE TABLE `user` (
   `zugriff` text DEFAULT NULL,
   `root` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 INSERT INTO user
     (`id`, `benutzername`, `passwort`, `zugriff`, `root`)

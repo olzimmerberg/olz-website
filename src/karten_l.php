@@ -56,7 +56,7 @@ echo "<script type=\"text/javascript\">
 </script>";
 ?>
 
-<div class="box" id="mapcontainer" style="position:relative;height:650px;z-index:1;"></div>
+<div class="box test-flaky" id="mapcontainer" style="position:relative;height:650px;z-index:1;"></div>
 <br>
 
 <?php

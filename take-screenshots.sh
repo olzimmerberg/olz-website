@@ -41,20 +41,20 @@ else # e.g. on Simon's computer
 fi
 
 # Take screenshots
-$FIREFOX_CMD --screenshot ./screenshots/startseite.png "http://$DOMAIN/_/?page=1"
-$FIREFOX_CMD --screenshot ./screenshots/aktuell.png "http://$DOMAIN/_/?page=2&id=1"
-$FIREFOX_CMD --screenshot ./screenshots/leistungssport.png "http://$DOMAIN/_/?page=7"
-$FIREFOX_CMD --screenshot ./screenshots/termine.png "http://$DOMAIN/_/?page=3"
-$FIREFOX_CMD --screenshot ./screenshots/galerie.png "http://$DOMAIN/_/?page=4&id=2"
-$FIREFOX_CMD --screenshot ./screenshots/forum.png "http://$DOMAIN/_/?page=5"
-$FIREFOX_CMD --screenshot ./screenshots/karten.png "http://$DOMAIN/_/?page=12"
-$FIREFOX_CMD --screenshot ./screenshots/material.png "http://$DOMAIN/_/?page=21"
-$FIREFOX_CMD --screenshot ./screenshots/service.png "http://$DOMAIN/_/?page=8"
-$FIREFOX_CMD --screenshot ./screenshots/kontakt.png "http://$DOMAIN/_/?page=6"
-$FIREFOX_CMD --screenshot ./screenshots/trophy.png "http://$DOMAIN/_/?page=20"
-$FIREFOX_CMD --screenshot ./screenshots/error.png "http://$DOMAIN/_/?page=0"
-$FIREFOX_CMD --screenshot ./screenshots/search.png "http://$DOMAIN/_/?page=9"
-$FIREFOX_CMD --screenshot ./screenshots/fuer_einsteiger.png "http://$DOMAIN/_/?page=18"
+$FIREFOX_CMD --screenshot ./screenshots/startseite.png "http://$DOMAIN/_/?test=1&page=1"
+$FIREFOX_CMD --screenshot ./screenshots/aktuell.png "http://$DOMAIN/_/?test=1&page=2&id=1"
+$FIREFOX_CMD --screenshot ./screenshots/leistungssport.png "http://$DOMAIN/_/?test=1&page=7"
+$FIREFOX_CMD --screenshot ./screenshots/termine.png "http://$DOMAIN/_/?test=1&page=3"
+$FIREFOX_CMD --screenshot ./screenshots/galerie.png "http://$DOMAIN/_/?test=1&page=4&id=2"
+$FIREFOX_CMD --screenshot ./screenshots/forum.png "http://$DOMAIN/_/?test=1&page=5"
+$FIREFOX_CMD --screenshot ./screenshots/karten.png "http://$DOMAIN/_/?test=1&page=12"
+$FIREFOX_CMD --screenshot ./screenshots/material.png "http://$DOMAIN/_/?test=1&page=21"
+$FIREFOX_CMD --screenshot ./screenshots/service.png "http://$DOMAIN/_/?test=1&page=8"
+$FIREFOX_CMD --screenshot ./screenshots/kontakt.png "http://$DOMAIN/_/?test=1&page=6"
+$FIREFOX_CMD --screenshot ./screenshots/trophy.png "http://$DOMAIN/_/?test=1&page=20"
+$FIREFOX_CMD --screenshot ./screenshots/error.png "http://$DOMAIN/_/?test=1&page=0"
+$FIREFOX_CMD --screenshot ./screenshots/search.png "http://$DOMAIN/_/?test=1&page=9"
+$FIREFOX_CMD --screenshot ./screenshots/fuer_einsteiger.png "http://$DOMAIN/_/?test=1&page=18"
 chmod +r ./screenshots/*
 
 # Kill dev server

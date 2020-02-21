@@ -36,7 +36,7 @@ echo "
 <h3>Was ist OL?</h3>
 <div>
 Das erklären wir dir in unserem kurzen Youtube Video:<br><br>
-<iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/JVL0vgcnM6c' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>
+<iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/JVL0vgcnM6c' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen class='test-flaky'></iframe>
 </div>
 <h3>Was tun?</h3>
 <div>

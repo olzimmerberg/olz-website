@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../admin/olz_init.php';
+require_once __DIR__.'/../config/paths.php';
 
 $master_href = 'https://olzimmerberg.ch/_/';
 

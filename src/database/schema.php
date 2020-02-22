@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../admin/olz_init.php';
+require_once __DIR__.'/../config/database.php';
 
 class DbTable {
     public $db_name;

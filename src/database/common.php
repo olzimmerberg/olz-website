@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__.'/../admin/olz_init.php';
-
 function get_insert_sql($db_table, $obj) {
     $sql_fields = [];
     $sql_values = [];

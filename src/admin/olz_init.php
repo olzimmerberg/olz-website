@@ -40,40 +40,7 @@ $aktuell_special = [
     "JWOC 2006" => "jwoc",
     "1. Zimmerberg OL 2006" => "zimmerbergol2006", ];
 
-//-------------------------------------------
-// UMGEBUNG
-//-------------------------------------------
-/*$local = 0;
-if (preg_match("/127\.0\.0/",$_SERVER['REMOTE_ADDR'])) $local = 1;
-if ($_SERVER['REMOTE_ADDR']=="::1") $local = 1;*/
-$local = 0; //uu, 11.8.2016 Umgebungsabfrage funktioniert so nicht mehr
-
-// if($local) $root = $_SERVER["DOCUMENT_ROOT"].'/olzimmerberg.ch';
-// else $root = $_SERVER["DOCUMENT_ROOT"];
-
-if ($local) {
-    $data_path = 'TODO: not implemented';
-} else {
-    $data_path = $_SERVER['DOCUMENT_ROOT'].'/';
-}
-
-if ($local) {
-    $data_href = 'TODO: not implemented';
-} else {
-    $data_href = '/';
-}
-
-if ($local) {
-    $code_path = 'TODO: not implemented';
-} else {
-    $code_path = dirname(realpath(__DIR__)).'/';
-}
-
-if ($local) {
-    $code_href = 'TODO: not implemented';
-} else {
-    $code_href = '/_/';
-}
+require_once __DIR__.'/../config/paths.php';
 
 //-------------------------------------------
 // POST/GET-Variable
@@ -107,25 +74,7 @@ if (isset($button)) {
 } // für alte Links bei Forumseinträgen und Newsletter-Anmeldung
 //echo $var."=".$$var;
 
-//-------------------------------------------
-// Datenbankverbindung
-//-------------------------------------------
-$config_path = $_SERVER['DOCUMENT_ROOT'].'/config.php';
-if (!is_file($config_path)) {
-    die('Config file not found');
-}
-require_once $config_path;
-if ($db->connect_error) {
-    die("Connect Error (".$db->connect_errno.") ".$db->connect_error);
-}
-//mysql_query('SET NAMES utf8');
-$db->query("SET NAMES utf8");
-$db_name = "db12229638-1";
-//mysql_select_db($db_name);
-function DBEsc($str) {
-    global $db;
-    return $db->escape_string($str);
-}
+require_once __DIR__.'/../config/database.php';
 
 //-------------------------------------------
 // Sendmail

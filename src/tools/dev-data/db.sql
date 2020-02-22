@@ -355,9 +355,17 @@ CREATE TABLE `solv_results` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person` int(11) NOT NULL,
   `event` int(11) NOT NULL,
-  `class` text NOT NULL,
+  `class` varchar(15) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `name` varchar(31) NOT NULL,
+  `birth_year` varchar(3) NOT NULL,
+  `domicile` varchar(31) NOT NULL,
+  `club` varchar(31) NOT NULL,
   `result` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `splits` text NOT NULL,
+  `finish_split` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`person`, `event`, `class`, `name`, `birth_year`, `domicile`, `club`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `termine`;

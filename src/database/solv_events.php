@@ -40,6 +40,18 @@ function get_solv_events_modification_index_for_year($year) {
     return $yearly_index;
 }
 
+function get_solv_known_result_index_for_year($year) {
+    global $db;
+    $sane_year = DBEsc($year);
+    $res = $db->query("SELECT solv_uid, rank_link FROM solv_events WHERE YEAR(date)='{$sane_year}'");
+    $yearly_index = [];
+    for ($i = 0; $i < $res->num_rows; $i++) {
+        $row = $res->fetch_assoc();
+        $yearly_index[$row['solv_uid']] = ($row['rank_link'] !== null) ? 1 : 0;
+    }
+    return $yearly_index;
+}
+
 function insert_solv_event($solv_event) {
     global $db, $solv_events_table;
     $sql = get_insert_sql($solv_events_table, $solv_event);

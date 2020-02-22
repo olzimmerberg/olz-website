@@ -1,0 +1,2643 @@
+{
+  "ResultLists" : [
+     {
+      "UniqueID"  : 8891,
+      "EventDate" : "2018-01-14",
+      "EventName" : "Effretiker-OL",
+      "EventCity" : "Pfäffikon UJ",
+      "EventMap"  : "Pfäffikon ZH",
+      "EventClub" : "OLG Pfäffikon",
+      "EventType" : "reg",
+      "SubTitle"  : "Sprint",
+      "ResultListID"  : 4491,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180320T235538"
+    }
+    , {
+      "UniqueID"  : 8891,
+      "EventDate" : "2018-01-14",
+      "EventName" : "Effretiker-OL",
+      "EventCity" : "Pfäffikon UJ",
+      "EventMap"  : "Pfäffikon ZH",
+      "EventClub" : "OLG Pfäffikon",
+      "EventType" : "reg",
+      "SubTitle"  : "Teamsprint",
+      "ResultListID"  : 4448,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180114T141846"
+    }
+    , {
+      "UniqueID"  : 8891,
+      "EventDate" : "2018-01-14",
+      "EventName" : "Effretiker-OL",
+      "EventCity" : "Pfäffikon UJ",
+      "EventMap"  : "Pfäffikon ZH",
+      "EventClub" : "OLG Pfäffikon",
+      "EventType" : "reg",
+      "SubTitle"  : "Teamsprint Strecken",
+      "ResultListID"  : 4449,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180114T142017"
+    }
+    , {
+      "UniqueID"  : 9288,
+      "EventDate" : "2018-01-20",
+      "EventName" : "Bachtel Ski-OL Weekend in Davos, SM Lang",
+      "EventCity" : "",
+      "EventMap"  : "Davos Flüelatal",
+      "EventClub" : "OLG Zürich",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4453,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180121T120437"
+    }
+    , {
+      "UniqueID"  : 9091,
+      "EventDate" : "2018-01-27",
+      "EventName" : "Basler Winter-OL ",
+      "EventCity" : "Reinach BL",
+      "EventMap"  : "Bruederholz",
+      "EventClub" : "OLG Basel",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4456,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180127T180009"
+    }
+    , {
+      "UniqueID"  : 9092,
+      "EventDate" : "2018-02-03",
+      "EventName" : "muba-OL",
+      "EventCity" : "Binngingen",
+      "EventMap"  : "Allschwilerwald Nord",
+      "EventClub" : "OLC Binningen",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4458,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180203T170308"
+    }
+    , {
+      "UniqueID"  : 9291,
+      "EventDate" : "2018-02-10",
+      "EventName" : "Ski-OL Magglingen, SM Kurzdistanz",
+      "EventCity" : "Magglingen",
+      "EventMap"  : "Magglingen",
+      "EventClub" : "ol.biel.seeland",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4460,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180210T163426"
+    }
+    , {
+      "UniqueID"  : 9293,
+      "EventDate" : "2018-02-11",
+      "EventName" : "Ski-OL Magglingen",
+      "EventCity" : "Magglingen",
+      "EventMap"  : "Magglingen",
+      "EventClub" : "ol.biel.seeland",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4461,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180211T140813"
+    }
+    , {
+      "UniqueID"  : 9294,
+      "EventDate" : "2018-02-24",
+      "EventName" : "Ski-O du Valais",
+      "EventCity" : "Evolène",
+      "EventMap"  : "Evolène",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4462,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180224T160849"
+    }
+    , {
+      "UniqueID"  : 9236,
+      "EventDate" : "2018-02-24",
+      "EventName" : "Murtner Nacht OL",
+      "EventCity" : "Gurmels",
+      "EventMap"  : "Gurmelsholz",
+      "EventClub" : "OLG Murten",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4463,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180224T230721"
+    }
+    , {
+      "UniqueID"  : 9295,
+      "EventDate" : "2018-02-25",
+      "EventName" : "Ski-OL Evolene",
+      "EventCity" : "Evolène",
+      "EventMap"  : "Evolène - Les Haudères",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4464,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180225T131233"
+    }
+    , {
+      "UniqueID"  : 9352,
+      "EventDate" : "2018-03-02",
+      "EventName" : "Bieler Nacht-OL",
+      "EventCity" : "Brüttelen",
+      "EventMap"  : "Schaltenrain",
+      "EventClub" : "ol.biel.seeland",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4466,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180302T223529"
+    }
+    , {
+      "UniqueID"  : 9150,
+      "EventDate" : "2018-03-04",
+      "EventName" : "Huttwiler OL",
+      "EventCity" : "Schwarzenbach/Huttwil",
+      "EventMap"  : "Chaltenegg",
+      "EventClub" : "OLG Huttwil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4470,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180304T142956"
+    }
+    , {
+      "UniqueID"  : 8892,
+      "EventDate" : "2018-03-04",
+      "EventName" : "Winterthurer-OL",
+      "EventCity" : "Winterthur-Zinzikon",
+      "EventMap"  : "Lindberg",
+      "EventClub" : "OLC Winterthur",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4471,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180304T151458"
+    }
+    , {
+      "UniqueID"  : 9203,
+      "EventDate" : "2018-03-04",
+      "EventName" : "Badener OL",
+      "EventCity" : "",
+      "EventMap"  : "Baldegg-Horn",
+      "EventClub" : "OLG Cordoba",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4469,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180304T142548"
+    }
+    , {
+      "UniqueID"  : 8893,
+      "EventDate" : "2018-03-10",
+      "EventName" : "Saeuliaemtler-OL",
+      "EventCity" : "Obfelden",
+      "EventMap"  : "Wolserholz",
+      "EventClub" : "OLG Säuliamt",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4476,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180310T171635"
+    }
+    , {
+      "UniqueID"  : 9155,
+      "EventDate" : "2018-03-10",
+      "EventName" : "Oberaargauer Nacht OL",
+      "EventCity" : "Oenz/Schulanlage",
+      "EventMap"  : "Oenzberg",
+      "EventClub" : "OLG Herzogenbuchsee",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4478,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180310T223232"
+    }
+    , {
+      "UniqueID"  : 9310,
+      "EventDate" : "2018-03-11",
+      "EventName" : "2. TMO Sonvico",
+      "EventCity" : "Sonvico",
+      "EventMap"  : "Sonvico",
+      "EventClub" : "C.O. Aget Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4485,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180311T193519"
+    }
+    , {
+      "UniqueID"  : 9153,
+      "EventDate" : "2018-03-11",
+      "EventName" : "Herzogenbuchser OL",
+      "EventCity" : "Oenz/Schulanlage",
+      "EventMap"  : "Steinhof",
+      "EventClub" : "OLG Herzogenbuchsee",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4483,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180311T144305"
+    }
+    , {
+      "UniqueID"  : 9110,
+      "EventDate" : "2018-03-11",
+      "EventName" : "bussola OL",
+      "EventCity" : "Niederwil, Mehrzeckhalle",
+      "EventMap"  : "Wagenrain Nord",
+      "EventClub" : "bussola ok",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4482,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180311T142152"
+    }
+    , {
+      "UniqueID"  : 9093,
+      "EventDate" : "2018-03-11",
+      "EventName" : "Swiss Billygoat Run",
+      "EventCity" : "Sissach",
+      "EventMap"  : "Sissacherflue",
+      "EventClub" : "OLV Baselland",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4480,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180311T135918"
+    }
+    , {
+      "UniqueID"  : 9189,
+      "EventDate" : "2018-03-11",
+      "EventName" : "Stoeff Memorial OL",
+      "EventCity" : "Wuppenau",
+      "EventMap"  : "Greutersberg",
+      "EventClub" : "OL Regio Wil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4479,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180311T134756"
+    }
+    , {
+      "UniqueID"  : 9214,
+      "EventDate" : "2018-03-17",
+      "EventName" : "Langenthaler OL",
+      "EventCity" : "Schulhaus St. Urban",
+      "EventMap"  : "Langenthal Ost",
+      "EventClub" : "OLV Langenthal",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4489,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180317T143229"
+    }
+    , {
+      "UniqueID"  : 8598,
+      "EventDate" : "2018-03-18",
+      "EventName" : "1. Nationaler, verkuerzte Langdistanz",
+      "EventCity" : "Ermensee",
+      "EventMap"  : "Erlosen",
+      "EventClub" : "OLG Rymenzburg",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4490,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180318T154725"
+    }
+    , {
+      "UniqueID"  : 8599,
+      "EventDate" : "2018-03-24",
+      "EventName" : "Schweizer Meisterschaft im Nacht OL",
+      "EventCity" : "Gelterkinden",
+      "EventMap"  : "Gelterkinderberg",
+      "EventClub" : "",
+      "EventType" : "nom",
+      "SubTitle"  : "",
+      "ResultListID"  : 4492,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180325T001354"
+    }
+    , {
+      "UniqueID"  : 8600,
+      "EventDate" : "2018-03-25",
+      "EventName" : "2. Nationaler Mitteldistanz",
+      "EventCity" : "Gelterkinden",
+      "EventMap"  : "Grossholz",
+      "EventClub" : "",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4493,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180325T160838"
+    }
+    , {
+      "UniqueID"  : 9408,
+      "EventDate" : "2018-03-31",
+      "EventName" : "Osterstaffel",
+      "EventCity" : "Arni",
+      "EventMap"  : "Brandiswald",
+      "EventClub" : "ol norska",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4495,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180331T152611"
+    }
+    , {
+      "UniqueID"  : 9408,
+      "EventDate" : "2018-03-31",
+      "EventName" : "Osterstaffel",
+      "EventCity" : "Arni",
+      "EventMap"  : "Brandiswald",
+      "EventClub" : "ol norska",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4496,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180331T152639"
+    }
+    , {
+      "UniqueID"  : 9190,
+      "EventDate" : "2018-04-02",
+      "EventName" : "Amriswiler OL",
+      "EventCity" : "Romanshorn",
+      "EventMap"  : "Romanshornerwald",
+      "EventClub" : "OL Amriswil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4501,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180402T144329"
+    }
+    , {
+      "UniqueID"  : 9212,
+      "EventDate" : "2018-04-02",
+      "EventName" : "Thuner OL",
+      "EventCity" : "OSS Heimberg",
+      "EventMap"  : "Heimberg-Hartlisberg / Heimberg",
+      "EventClub" : "OLG Thun",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4502,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180402T150717"
+    }
+    , {
+      "UniqueID"  : 9322,
+      "EventDate" : "2018-04-06",
+      "EventName" : "WRE -Testlauf Sprint",
+      "EventCity" : "Novaggio ",
+      "EventMap"  : "Novaggio Paese",
+      "EventClub" : "Swiss Orienteering",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4507,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180406T124805"
+    }
+    , {
+      "UniqueID"  : 9209,
+      "EventDate" : "2018-04-07",
+      "EventName" : "Fricktaler Einzel-OL",
+      "EventCity" : "Möhlin",
+      "EventMap"  : "Forst",
+      "EventClub" : "OLK Fricktal",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4511,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180407T163117"
+    }
+    , {
+      "UniqueID"  : 9323,
+      "EventDate" : "2018-04-07",
+      "EventName" : "WRE -Testlauf Middle",
+      "EventCity" : "",
+      "EventMap"  : "Villa Luganese",
+      "EventClub" : "Swiss Orienteering",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4510,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180407T153854"
+    }
+    , {
+      "UniqueID"  : 8601,
+      "EventDate" : "2018-04-08",
+      "EventName" : "3. Nationaler Langdistanz",
+      "EventCity" : "Unterstammheim",
+      "EventMap"  : "Stammerberg",
+      "EventClub" : "OLG Dachsen",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4517,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180408T154807"
+    }
+    , {
+      "UniqueID"  : 8751,
+      "EventDate" : "2018-04-14",
+      "EventName" : "4. Nationaler Mitteldistanz",
+      "EventCity" : "Rapperswil (BE)",
+      "EventMap"  : "Junkholz Süd",
+      "EventClub" : "Bucheggberger OL",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4519,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180414T180053"
+    }
+    , {
+      "UniqueID"  : 8752,
+      "EventDate" : "2018-04-15",
+      "EventName" : "Schweizer Meisterschaften im Staffel OL",
+      "EventCity" : "Bäriswil",
+      "EventMap"  : "Wannental",
+      "EventClub" : "OLV Hindelbank",
+      "EventType" : "som",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4521,
+      "ResultType"    : 16,
+      "ResultModTime" : "20180417T213234"
+    }
+    , {
+      "UniqueID"  : 8752,
+      "EventDate" : "2018-04-15",
+      "EventName" : "Schweizer Meisterschaften im Staffel OL",
+      "EventCity" : "Bäriswil",
+      "EventMap"  : "Wannental",
+      "EventClub" : "OLV Hindelbank",
+      "EventType" : "som",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4520,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180418T010519"
+    }
+    , {
+      "UniqueID"  : 9514,
+      "EventDate" : "2018-04-18",
+      "EventName" : "Milchsuppe-Abend-OL 2018",
+      "EventCity" : "Rest. Luegeten Pfäffikon SZ",
+      "EventMap"  : "Etzel",
+      "EventClub" : "OLG Galgenen",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4530,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180418T202344"
+    }
+    , {
+      "UniqueID"  : 9096,
+      "EventDate" : "2018-04-18",
+      "EventName" : "Sprint Cup NWS 1.Lauf",
+      "EventCity" : "Sissach",
+      "EventMap"  : "Sissach",
+      "EventClub" : "OLV Baselland",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4529,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180418T195605"
+    }
+    , {
+      "UniqueID"  : 9207,
+      "EventDate" : "2018-04-21",
+      "EventName" : "Seetaler Schueler OL",
+      "EventCity" : "Sportanlange Wilmatten, Lenzburg",
+      "EventMap"  : "Stadt Lenzburg",
+      "EventClub" : "OLK Argus",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4531,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180421T150623"
+    }
+    , {
+      "UniqueID"  : 9355,
+      "EventDate" : "2018-04-21",
+      "EventName" : "Lysser OL",
+      "EventCity" : "Tennisklubhaus Lyss",
+      "EventMap"  : "Rikartsholz",
+      "EventClub" : "ol.biel.seeland",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4532,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180421T160340"
+    }
+    , {
+      "UniqueID"  : 8673,
+      "EventDate" : "2018-04-22",
+      "EventName" : "Galgener-OL",
+      "EventCity" : "Pfäffikon SZ",
+      "EventMap"  : "Eichholz",
+      "EventClub" : "OLG Galgenen",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4540,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180422T144901"
+    }
+    , {
+      "UniqueID"  : 9194,
+      "EventDate" : "2018-04-22",
+      "EventName" : "St.Galler OL",
+      "EventCity" : "",
+      "EventMap"  : "Rorschacherberg",
+      "EventClub" : "OLG St. Gallen/App.",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4539,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180422T142537"
+    }
+    , {
+      "UniqueID"  : 9152,
+      "EventDate" : "2018-04-22",
+      "EventName" : "Oberwiler OL",
+      "EventCity" : "Grossaffoltern",
+      "EventMap"  : "Homet",
+      "EventClub" : "OLG Oberwil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4543,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180423T221158"
+    }
+    , {
+      "UniqueID"  : 9311,
+      "EventDate" : "2018-04-22",
+      "EventName" : "3. TMO Aurigeno",
+      "EventCity" : "",
+      "EventMap"  : "Aurigeno",
+      "EventClub" : "GOV",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4541,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180422T153128"
+    }
+    , {
+      "UniqueID"  : 9099,
+      "EventDate" : "2018-04-24",
+      "EventName" : "sCOOL-Cup NWS",
+      "EventCity" : "Sissach",
+      "EventMap"  : "sissach zunzgen",
+      "EventClub" : "",
+      "EventType" : "uebr",
+      "SubTitle"  : "1. Etappe Dorf",
+      "ResultListID"  : 4545,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180424T182845"
+    }
+    , {
+      "UniqueID"  : 9099,
+      "EventDate" : "2018-04-24",
+      "EventName" : "sCOOL-Cup NWS",
+      "EventCity" : "Sissach",
+      "EventMap"  : "sissach zunzgen",
+      "EventClub" : "",
+      "EventType" : "uebr",
+      "SubTitle"  : "2. Etappe Wald",
+      "ResultListID"  : 4546,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180424T183241"
+    }
+    , {
+      "UniqueID"  : 9625,
+      "EventDate" : "2018-04-28",
+      "EventName" : "Biberister Bike-OL/SM Massenstart",
+      "EventCity" : "Riedholz SO",
+      "EventMap"  : "Martinsflue",
+      "EventClub" : "OLG Biberist SO",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4552,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180428T164449"
+    }
+    , {
+      "UniqueID"  : 8603,
+      "EventDate" : "2018-04-29",
+      "EventName" : "41. Innerschwyzer OL",
+      "EventCity" : "Brunnen",
+      "EventMap"  : "Axenstein/Brunnen",
+      "EventClub" : "OLG Goldau",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4554,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180429T151150"
+    }
+    , {
+      "UniqueID"  : 9097,
+      "EventDate" : "2018-04-29",
+      "EventName" : "Baselbieter Dorf-OL / Sprint Cup",
+      "EventCity" : "Kaiseraugst",
+      "EventMap"  : "Augusta Raurica",
+      "EventClub" : "OLG Kakowa",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4553,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180429T150949"
+    }
+    , {
+      "UniqueID"  : 9275,
+      "EventDate" : "2018-04-29",
+      "EventName" : "Regio Olten OL",
+      "EventCity" : "Starrkirch-Wil",
+      "EventMap"  : "Säli-Engelberg",
+      "EventClub" : "OL Regio Olten",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4557,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180429T154541"
+    }
+    , {
+      "UniqueID"  : 9317,
+      "EventDate" : "2018-04-29",
+      "EventName" : "4. TMO Cademario Arosio",
+      "EventCity" : "Magliaso",
+      "EventMap"  : "Cademario Arosio",
+      "EventClub" : "Societa Unitas Malcantone",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4558,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180429T205648"
+    }
+    , {
+      "UniqueID"  : 9148,
+      "EventDate" : "2018-05-06",
+      "EventName" : "Hondricher OL",
+      "EventCity" : "Spiez",
+      "EventMap"  : "Dorf Spiez",
+      "EventClub" : "OLG Hondrich",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4563,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180506T133755"
+    }
+    , {
+      "UniqueID"  : 8894,
+      "EventDate" : "2018-05-06",
+      "EventName" : "Glattal-OL",
+      "EventCity" : "Opfikon-Glattbrugg",
+      "EventMap"  : "Glattpark",
+      "EventClub" : "OLC Kapreolo",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4565,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180506T134601"
+    }
+    , {
+      "UniqueID"  : 8619,
+      "EventDate" : "2018-05-06",
+      "EventName" : "EOC Sprint Final",
+      "EventCity" : "Mendrisio",
+      "EventMap"  : "Mendrisio",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4566,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180506T194813"
+    }
+    , {
+      "UniqueID"  : 8618,
+      "EventDate" : "2018-05-06",
+      "EventName" : "EOC Sprint Qualification",
+      "EventCity" : "Bellinzona",
+      "EventMap"  : "Bellinzona",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4567,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180506T211642"
+    }
+    , {
+      "UniqueID"  : 9162,
+      "EventDate" : "2018-05-08",
+      "EventName" : "1.Etappe EGK Schweizer 5-Tage OL",
+      "EventCity" : "",
+      "EventMap"  : "Carona",
+      "EventClub" : "",
+      "EventType" : "metap",
+      "SubTitle"  : "",
+      "ResultListID"  : 4577,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180508T215452"
+    }
+    , {
+      "UniqueID"  : 8620,
+      "EventDate" : "2018-05-08",
+      "EventName" : "EOC Middle Qualification",
+      "EventCity" : "Carona",
+      "EventMap"  : "Carona",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4572,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180508T131538"
+    }
+    , {
+      "UniqueID"  : 8621,
+      "EventDate" : "2018-05-09",
+      "EventName" : "EOC Middle Final",
+      "EventCity" : "Meride-Serpiano",
+      "EventMap"  : "Monte San Giorgio",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4578,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180509T134831"
+    }
+    , {
+      "UniqueID"  : 9164,
+      "EventDate" : "2018-05-09",
+      "EventName" : "2.Etappe EGK Schweizer 5-Tage OL",
+      "EventCity" : "",
+      "EventMap"  : "Serpiano",
+      "EventClub" : "",
+      "EventType" : "metap",
+      "SubTitle"  : "",
+      "ResultListID"  : 4579,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180509T193811"
+    }
+    , {
+      "UniqueID"  : 8604,
+      "EventDate" : "2018-05-10",
+      "EventName" : "WRE - Schweizer Meistersch. Sprint/3.Eta",
+      "EventCity" : "",
+      "EventMap"  : "Capriasca paese",
+      "EventClub" : "",
+      "EventType" : "spm",
+      "SubTitle"  : "",
+      "ResultListID"  : 4588,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180512T214904"
+    }
+    , {
+      "UniqueID"  : 8622,
+      "EventDate" : "2018-05-10",
+      "EventName" : "EOC Sprint Relay",
+      "EventCity" : "Tesserete",
+      "EventMap"  : "Capriasca paese",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "Overall",
+      "ResultListID"  : 4582,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180510T200430"
+    }
+    , {
+      "UniqueID"  : 8622,
+      "EventDate" : "2018-05-10",
+      "EventName" : "EOC Sprint Relay",
+      "EventCity" : "Tesserete",
+      "EventMap"  : "Capriasca paese",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "Legs",
+      "ResultListID"  : 4581,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180510T200411"
+    }
+    , {
+      "UniqueID"  : 8605,
+      "EventDate" : "2018-05-12",
+      "EventName" : "5. Nationaler Mitteldist./4.Etappe EGK S",
+      "EventCity" : "",
+      "EventMap"  : "Capriasca",
+      "EventClub" : "",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4585,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180512T164227"
+    }
+    , {
+      "UniqueID"  : 8624,
+      "EventDate" : "2018-05-12",
+      "EventName" : "EOC Relay",
+      "EventCity" : "Vaglio",
+      "EventMap"  : "Tesserete",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "Overall",
+      "ResultListID"  : 4587,
+      "ResultType"    : 16,
+      "ResultModTime" : "20180512T193858"
+    }
+    , {
+      "UniqueID"  : 8624,
+      "EventDate" : "2018-05-12",
+      "EventName" : "EOC Relay",
+      "EventCity" : "Vaglio",
+      "EventMap"  : "Tesserete",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "Legs",
+      "ResultListID"  : 4586,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180512T193845"
+    }
+    , {
+      "UniqueID"  : 8606,
+      "EventDate" : "2018-05-13",
+      "EventName" : "6. Nationaler Langdist./5.Etappe EGK Sch",
+      "EventCity" : "",
+      "EventMap"  : "Tesserete",
+      "EventClub" : "",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4593,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180513T162635"
+    }
+    , {
+      "UniqueID"  : 8626,
+      "EventDate" : "2018-05-13",
+      "EventName" : "EOC Long",
+      "EventCity" : "Tesserete",
+      "EventMap"  : "Capriasca",
+      "EventClub" : "ASTi EOC 2018",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4592,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180513T154145"
+    }
+    , {
+      "UniqueID"  : 9525,
+      "EventDate" : "2018-05-19",
+      "EventName" : "Kinderpfingststaffel",
+      "EventCity" : "Trin",
+      "EventMap"  : "Bot Fiena",
+      "EventClub" : "ol norska",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4595,
+      "ResultType"    : 16,
+      "ResultModTime" : "20180520T000003"
+    }
+    , {
+      "UniqueID"  : 9525,
+      "EventDate" : "2018-05-19",
+      "EventName" : "Kinderpfingststaffel",
+      "EventCity" : "Trin",
+      "EventMap"  : "Bot Fiena",
+      "EventClub" : "ol norska",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4594,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180519T235952"
+    }
+    , {
+      "UniqueID"  : 9526,
+      "EventDate" : "2018-05-20",
+      "EventName" : "Pfingststaffel",
+      "EventCity" : "",
+      "EventMap"  : "Bot Fiena",
+      "EventClub" : "",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4597,
+      "ResultType"    : 15,
+      "ResultModTime" : "20180520T160020"
+    }
+    , {
+      "UniqueID"  : 9526,
+      "EventDate" : "2018-05-20",
+      "EventName" : "Pfingststaffel",
+      "EventCity" : "",
+      "EventMap"  : "Bot Fiena",
+      "EventClub" : "",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4598,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180520T160036"
+    }
+    , {
+      "UniqueID"  : 9497,
+      "EventDate" : "2018-05-21",
+      "EventName" : "Murtner OL",
+      "EventCity" : "Courtepin",
+      "EventMap"  : "La Corbaz",
+      "EventClub" : "OLG Murten",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4600,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180521T165340"
+    }
+    , {
+      "UniqueID"  : 9100,
+      "EventDate" : "2018-05-22",
+      "EventName" : "Sprint Cup NWS 3.Lauf",
+      "EventCity" : "",
+      "EventMap"  : "Riehen",
+      "EventClub" : "OLC Binningen",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4602,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180522T201553"
+    }
+    , {
+      "UniqueID"  : 9515,
+      "EventDate" : "2018-05-23",
+      "EventName" : "Michsuppe-Abend-OL",
+      "EventCity" : "",
+      "EventMap"  : "Arth",
+      "EventClub" : "OLG Goldau",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4605,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180523T203324"
+    }
+    , {
+      "UniqueID"  : 9661,
+      "EventDate" : "2018-05-23",
+      "EventName" : "Zuercher sCOOL-Cup",
+      "EventCity" : "Wädenswil",
+      "EventMap"  : "Halbinsel Au",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4606,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180523T221117"
+    }
+    , {
+      "UniqueID"  : 9703,
+      "EventDate" : "2018-05-24",
+      "EventName" : "sCOOL-Cup 2018",
+      "EventCity" : "Rotkreuz",
+      "EventMap"  : "Rotkreuz",
+      "EventClub" : "OLV Zug",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4607,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180524T185031"
+    }
+    , {
+      "UniqueID"  : 9560,
+      "EventDate" : "2018-05-26",
+      "EventName" : "FM Bike-OL Langdistanz/Swiss Cup",
+      "EventCity" : "Buhl, Elsass (F)",
+      "EventMap"  : "Buhl",
+      "EventClub" : "CO Buhl et Florival",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4617,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180531T212542"
+    }
+    , {
+      "UniqueID"  : 9562,
+      "EventDate" : "2018-05-27",
+      "EventName" : "FM Bike-OL Sprint/Swiss Cup",
+      "EventCity" : "Leimbach, Elsass (F)",
+      "EventMap"  : "Leimbach",
+      "EventClub" : "CO Buhl et Florival",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4618,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180531T212840"
+    }
+    , {
+      "UniqueID"  : 8895,
+      "EventDate" : "2018-05-27",
+      "EventName" : "Zimmerberg-OL / Sprintstaffel",
+      "EventCity" : "Wädenswil",
+      "EventMap"  : "Stadt Wädenswil",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "reg",
+      "SubTitle"  : "Zimmerberg-OL",
+      "ResultListID"  : 4608,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180527T155515"
+    }
+    , {
+      "UniqueID"  : 8895,
+      "EventDate" : "2018-05-27",
+      "EventName" : "Zimmerberg-OL / Sprintstaffel",
+      "EventCity" : "Wädenswil",
+      "EventMap"  : "Stadt Wädenswil",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "reg",
+      "SubTitle"  : "Sprintstaffel Gesamt",
+      "ResultListID"  : 4609,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180528T095158"
+    }
+    , {
+      "UniqueID"  : 8895,
+      "EventDate" : "2018-05-27",
+      "EventName" : "Zimmerberg-OL / Sprintstaffel",
+      "EventCity" : "Wädenswil",
+      "EventMap"  : "Stadt Wädenswil",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "reg",
+      "SubTitle"  : "Sprintstaffel Strecken",
+      "ResultListID"  : 4610,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180528T095210"
+    }
+    , {
+      "UniqueID"  : 8895,
+      "EventDate" : "2018-05-27",
+      "EventName" : "Zimmerberg-OL / Sprintstaffel",
+      "EventCity" : "Wädenswil",
+      "EventMap"  : "Stadt Wädenswil",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "reg",
+      "SubTitle"  : "Sprintstaffel Zwischenzeiten",
+      "ResultListID"  : 4611,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180528T095219"
+    }
+    , {
+      "UniqueID"  : 9705,
+      "EventDate" : "2018-06-01",
+      "EventName" : "Simone Niggli Challenge / k.o.-Sprint",
+      "EventCity" : "Kirchberg",
+      "EventMap"  : "Burgdorf",
+      "EventClub" : "",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4622,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180602T140438"
+    }
+    , {
+      "UniqueID"  : 9626,
+      "EventDate" : "2018-06-01",
+      "EventName" : "1. Fragori",
+      "EventCity" : "Lugano-Massagno",
+      "EventMap"  : "Massaggio",
+      "EventClub" : "C.O. Aget Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4621,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180602T101751"
+    }
+    , {
+      "UniqueID"  : 9320,
+      "EventDate" : "2018-06-03",
+      "EventName" : "8. TMO Claro - Cavri",
+      "EventCity" : "",
+      "EventMap"  : "Claro - Cavrì",
+      "EventClub" : "O-92 Piano di Magadino",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4623,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180603T144558"
+    }
+    , {
+      "UniqueID"  : 9276,
+      "EventDate" : "2018-06-03",
+      "EventName" : "UBOL 3er-Staffel",
+      "EventCity" : "Bole",
+      "EventMap"  : "Plan du Bois",
+      "EventClub" : "UBOL",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4624,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180603T165739"
+    }
+    , {
+      "UniqueID"  : 9276,
+      "EventDate" : "2018-06-03",
+      "EventName" : "UBOL 3er-Staffel",
+      "EventCity" : "Bole",
+      "EventMap"  : "Plan du Bois",
+      "EventClub" : "UBOL",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4626,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180603T230417"
+    }
+    , {
+      "UniqueID"  : 9276,
+      "EventDate" : "2018-06-03",
+      "EventName" : "UBOL 3er-Staffel",
+      "EventCity" : "Bole",
+      "EventMap"  : "Plan du Bois",
+      "EventClub" : "UBOL",
+      "EventType" : "staf",
+      "SubTitle"  : "Offen",
+      "ResultListID"  : 4625,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180603T174543"
+    }
+    , {
+      "UniqueID"  : 9101,
+      "EventDate" : "2018-06-06",
+      "EventName" : "Sprint Cup NWS 4.Lauf",
+      "EventCity" : "Arlesheim",
+      "EventMap"  : "Arlesheim",
+      "EventClub" : "OLV Baselland",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4631,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180606T222858"
+    }
+    , {
+      "UniqueID"  : 9516,
+      "EventDate" : "2018-06-06",
+      "EventName" : "3. Milchsuppe-Abend-OL",
+      "EventCity" : "Schulhaus Gallenbühl",
+      "EventMap"  : "Aeugsterberg",
+      "EventClub" : "OLG Säuliamt",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4630,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180606T201911"
+    }
+    , {
+      "UniqueID"  : 9237,
+      "EventDate" : "2018-06-08",
+      "EventName" : "Swiss O Day Cols du Valais 1",
+      "EventCity" : "Col des Planches",
+      "EventMap"  : "Col des Planches",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4632,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180608T211914"
+    }
+    , {
+      "UniqueID"  : 9238,
+      "EventDate" : "2018-06-09",
+      "EventName" : "Swiss O Day Cols du Valais 2",
+      "EventCity" : "Col du Lein",
+      "EventMap"  : "Col du Lein",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4634,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180609T185929"
+    }
+    , {
+      "UniqueID"  : 9373,
+      "EventDate" : "2018-06-09",
+      "EventName" : "48. Buendn. OL-Weekend / 13. Oberlaender",
+      "EventCity" : "Flims",
+      "EventMap"  : "Uaul Grond Flims",
+      "EventClub" : "OLG Chur",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4633,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180609T175712"
+    }
+    , {
+      "UniqueID"  : 9374,
+      "EventDate" : "2018-06-10",
+      "EventName" : "48. Buendn. OL-Weekend / 37. Flimser-OL",
+      "EventCity" : "Flims",
+      "EventMap"  : "La Mutta Laax",
+      "EventClub" : "OLG Chur",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4635,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180610T143855"
+    }
+    , {
+      "UniqueID"  : 9239,
+      "EventDate" : "2018-06-10",
+      "EventName" : "Swiss O Day Cols du Valais 3",
+      "EventCity" : "Mont de l'Arpille",
+      "EventMap"  : "Finhaut",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4636,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180610T191501"
+    }
+    , {
+      "UniqueID"  : 9630,
+      "EventDate" : "2018-06-13",
+      "EventName" : "2. Fragori",
+      "EventCity" : "Camignolo",
+      "EventMap"  : "Camignolo",
+      "EventClub" : "C.O. Aget Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4637,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180613T215013"
+    }
+    , {
+      "UniqueID"  : 9443,
+      "EventDate" : "2018-06-13",
+      "EventName" : "1. Berner Abendlauf",
+      "EventCity" : "Bern",
+      "EventMap"  : "Schosshalde / Wittigkofen",
+      "EventClub" : "OLG Bern",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4638,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180614T091542"
+    }
+    , {
+      "UniqueID"  : 9564,
+      "EventDate" : "2018-06-16",
+      "EventName" : "Zuercher Bike-OL/2. Etappe Tri-O-Cup 201",
+      "EventCity" : "Bertschikon",
+      "EventMap"  : "Drumlin Nord",
+      "EventClub" : "OLG Zürich",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4639,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180616T213236"
+    }
+    , {
+      "UniqueID"  : 9272,
+      "EventDate" : "2018-06-17",
+      "EventName" : "Luzerner Fruehlings OL",
+      "EventCity" : "Sursee",
+      "EventMap"  : "Stadt Sursee",
+      "EventClub" : "OLV Luzern",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4643,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180617T175239"
+    }
+    , {
+      "UniqueID"  : 9191,
+      "EventDate" : "2018-06-17",
+      "EventName" : "thurgorienta OL",
+      "EventCity" : "",
+      "EventMap"  : "Salen Reutenen",
+      "EventClub" : "thurgorienta",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4642,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180617T152238"
+    }
+    , {
+      "UniqueID"  : 9717,
+      "EventDate" : "2018-06-17",
+      "EventName" : "CO Vaudoise",
+      "EventCity" : "Chéseaux",
+      "EventMap"  : "Bois de Plamont",
+      "EventClub" : "CO Lausanne-Jorat",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4641,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180617T144717"
+    }
+    , {
+      "UniqueID"  : 9605,
+      "EventDate" : "2018-06-20",
+      "EventName" : "Zuercher Abend OL",
+      "EventCity" : "Oberembrach",
+      "EventMap"  : "Breitenloo",
+      "EventClub" : "OLC Kapreolo",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4645,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180620T213905"
+    }
+    , {
+      "UniqueID"  : 9445,
+      "EventDate" : "2018-06-20",
+      "EventName" : "2. Berner Abendlauf",
+      "EventCity" : "Worb",
+      "EventMap"  : "Worb Dorf",
+      "EventClub" : "ol norska",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4644,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180620T202810"
+    }
+    , {
+      "UniqueID"  : 9436,
+      "EventDate" : "2018-06-21",
+      "EventName" : "1. impOLs Huttwiler Abend OL",
+      "EventCity" : "Huttwil",
+      "EventMap"  : "Städtli Huttwil",
+      "EventClub" : "OLG Huttwil",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4648,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180623T172410"
+    }
+    , {
+      "UniqueID"  : 9234,
+      "EventDate" : "2018-06-23",
+      "EventName" : "1.Schaffhauser Sprint-Staffel",
+      "EventCity" : "Munot",
+      "EventMap"  : "Stadt Schaffhausen",
+      "EventClub" : "OLG Schaffhausen",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4650,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180623T193005"
+    }
+    , {
+      "UniqueID"  : 9234,
+      "EventDate" : "2018-06-23",
+      "EventName" : "1.Schaffhauser Sprint-Staffel",
+      "EventCity" : "Munot",
+      "EventMap"  : "Stadt Schaffhausen",
+      "EventClub" : "OLG Schaffhausen",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4649,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180623T192954"
+    }
+    , {
+      "UniqueID"  : 8607,
+      "EventDate" : "2018-06-24",
+      "EventName" : "Fuenferstaffel",
+      "EventCity" : "Seuzach",
+      "EventMap"  : "Mörsburg",
+      "EventClub" : "OLG Welsikon",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4654,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180624T163941"
+    }
+    , {
+      "UniqueID"  : 8607,
+      "EventDate" : "2018-06-24",
+      "EventName" : "Fuenferstaffel",
+      "EventCity" : "Seuzach",
+      "EventMap"  : "Mörsburg",
+      "EventClub" : "OLG Welsikon",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4653,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180624T164017"
+    }
+    , {
+      "UniqueID"  : 8607,
+      "EventDate" : "2018-06-24",
+      "EventName" : "Fuenferstaffel",
+      "EventCity" : "Seuzach",
+      "EventMap"  : "Mörsburg",
+      "EventClub" : "OLG Welsikon",
+      "EventType" : "staf",
+      "SubTitle"  : "Kids Gesamt",
+      "ResultListID"  : 4652,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180624T132909"
+    }
+    , {
+      "UniqueID"  : 8607,
+      "EventDate" : "2018-06-24",
+      "EventName" : "Fuenferstaffel",
+      "EventCity" : "Seuzach",
+      "EventMap"  : "Mörsburg",
+      "EventClub" : "OLG Welsikon",
+      "EventType" : "staf",
+      "SubTitle"  : "Kids Strecken",
+      "ResultListID"  : 4651,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180624T132858"
+    }
+    , {
+      "UniqueID"  : 9103,
+      "EventDate" : "2018-06-26",
+      "EventName" : "Basler Sommer-OL",
+      "EventCity" : "",
+      "EventMap"  : "Blauenpass",
+      "EventClub" : "OLG Basel",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4660,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180630T114731"
+    }
+    , {
+      "UniqueID"  : 9446,
+      "EventDate" : "2018-06-27",
+      "EventName" : "3. Berner Abendlauf",
+      "EventCity" : "Bern",
+      "EventMap"  : "Zähringer",
+      "EventClub" : "OLG Bern",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4657,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180627T234545"
+    }
+    , {
+      "UniqueID"  : 9518,
+      "EventDate" : "2018-06-27",
+      "EventName" : "4. Milchsuppe-Abend-OL",
+      "EventCity" : "Waldhütte Steinhausen",
+      "EventMap"  : "Steinhauserwald",
+      "EventClub" : "OLV Zug",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4656,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180627T205046"
+    }
+    , {
+      "UniqueID"  : 9437,
+      "EventDate" : "2018-06-28",
+      "EventName" : "2. impOLs OL",
+      "EventCity" : "Olten",
+      "EventMap"  : "Bannwald-Hügert",
+      "EventClub" : "OL Regio Olten",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4659,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180628T203054"
+    }
+    , {
+      "UniqueID"  : 9325,
+      "EventDate" : "2018-07-01",
+      "EventName" : "Sensler OL",
+      "EventCity" : "Ueberstorf",
+      "EventMap"  : "Grossholz-Albligen",
+      "EventClub" : "OLC Omström Sense",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4666,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180701T145326"
+    }
+    , {
+      "UniqueID"  : 8896,
+      "EventDate" : "2018-07-01",
+      "EventName" : "Buelacher OL",
+      "EventCity" : "Glattfelden",
+      "EventMap"  : "Laubbberg",
+      "EventClub" : "OLK Rafzerfeld",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4664,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180701T140727"
+    }
+    , {
+      "UniqueID"  : 9447,
+      "EventDate" : "2018-07-04",
+      "EventName" : "4. Berner Abendlauf",
+      "EventCity" : "Wynigen",
+      "EventMap"  : "Wynigen",
+      "EventClub" : "OLV Hindelbank",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4667,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180704T211136"
+    }
+    , {
+      "UniqueID"  : 9438,
+      "EventDate" : "2018-07-05",
+      "EventName" : "3. impOLs OL",
+      "EventCity" : "",
+      "EventMap"  : "Junkholz",
+      "EventClub" : "Bucheggberger OL",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4670,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180705T202345"
+    }
+    , {
+      "UniqueID"  : 9243,
+      "EventDate" : "2018-07-06",
+      "EventName" : "Swiss O Day Berguen Filisur 1",
+      "EventCity" : "Filisur",
+      "EventMap"  : "Filisur",
+      "EventClub" : "Swiss O Week 2019 Gstaad",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4671,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180706T204857"
+    }
+    , {
+      "UniqueID"  : 9241,
+      "EventDate" : "2018-07-07",
+      "EventName" : "Swiss O Day Berguen Filisur 2",
+      "EventCity" : "Albula",
+      "EventMap"  : "Albulapass",
+      "EventClub" : "Swiss O Week 2019 Gstaad",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4672,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180707T165532"
+    }
+    , {
+      "UniqueID"  : 9242,
+      "EventDate" : "2018-07-08",
+      "EventName" : "Swiss O Day Berguen Filisur 3",
+      "EventCity" : "Bergün",
+      "EventMap"  : "Bergün",
+      "EventClub" : "Swiss O Week 2019 Gstaad",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4673,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180708T135539"
+    }
+    , {
+      "UniqueID"  : 9606,
+      "EventDate" : "2018-08-01",
+      "EventName" : "mia Engiadina Sprint OL Ardez",
+      "EventCity" : "Pfäffikon ZH",
+      "EventMap"  : "Ardez",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4674,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180801T165118"
+    }
+    , {
+      "UniqueID"  : 9448,
+      "EventDate" : "2018-08-08",
+      "EventName" : "5. Berner Abendlauf",
+      "EventCity" : "Wahlendorf",
+      "EventMap"  : "Frienisberg",
+      "EventClub" : "OLG Bern",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4682,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180810T091536"
+    }
+    , {
+      "UniqueID"  : 8864,
+      "EventDate" : "2018-08-10",
+      "EventName" : "Aargauer 3-Tage-OL Fr",
+      "EventCity" : "Unterentfelden",
+      "EventMap"  : "Binzenhof",
+      "EventClub" : "OLG Suhr",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4684,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180810T221005"
+    }
+    , {
+      "UniqueID"  : 8865,
+      "EventDate" : "2018-08-11",
+      "EventName" : "Aargauer 3-Tage-OL Sa",
+      "EventCity" : "Unterentfelden",
+      "EventMap"  : "Dägermoos",
+      "EventClub" : "OLG Suhr",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4685,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180811T173441"
+    }
+    , {
+      "UniqueID"  : 8834,
+      "EventDate" : "2018-08-12",
+      "EventName" : "43. Swiss International Mountain Maratho",
+      "EventCity" : "",
+      "EventMap"  : "Emmetten",
+      "EventClub" : "",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4691,
+      "ResultType"    : 7,
+      "ResultModTime" : "20180816T200412"
+    }
+    , {
+      "UniqueID"  : 9409,
+      "EventDate" : "2018-08-12",
+      "EventName" : "Urseller OL",
+      "EventCity" : "Stafelalp",
+      "EventMap"  : "Gurnigelwald",
+      "EventClub" : "ol norska",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4690,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180812T154512"
+    }
+    , {
+      "UniqueID"  : 8866,
+      "EventDate" : "2018-08-12",
+      "EventName" : "Aargauer 3-Tage-OL So",
+      "EventCity" : "Unterentfelden",
+      "EventMap"  : "Distelberg",
+      "EventClub" : "OLG Suhr",
+      "EventType" : "uebr",
+      "SubTitle"  : "Sonntag",
+      "ResultListID"  : 4688,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180812T140537"
+    }
+    , {
+      "UniqueID"  : 8866,
+      "EventDate" : "2018-08-12",
+      "EventName" : "Aargauer 3-Tage-OL So",
+      "EventCity" : "Unterentfelden",
+      "EventMap"  : "Distelberg",
+      "EventClub" : "OLG Suhr",
+      "EventType" : "uebr",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4689,
+      "ResultType"    : 6,
+      "ResultModTime" : "20180812T233842"
+    }
+    , {
+      "UniqueID"  : 9104,
+      "EventDate" : "2018-08-15",
+      "EventName" : "Baselbieter Sommer-OL",
+      "EventCity" : "Sissach",
+      "EventMap"  : "Grammet-Limperg",
+      "EventClub" : "OLV Baselland",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4695,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180815T221414"
+    }
+    , {
+      "UniqueID"  : 9449,
+      "EventDate" : "2018-08-15",
+      "EventName" : "6. Berner Abendlauf",
+      "EventCity" : "Willadingen",
+      "EventMap"  : "Lutermoos-Fängleberg",
+      "EventClub" : "OLV Hindelbank",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4693,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180815T203046"
+    }
+    , {
+      "UniqueID"  : 9440,
+      "EventDate" : "2018-08-16",
+      "EventName" : "4. impOLs OL",
+      "EventCity" : "Busswil b/Melchnau",
+      "EventMap"  : "Rappenchopf",
+      "EventClub" : "OLV Langenthal",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4698,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180816T220110"
+    }
+    , {
+      "UniqueID"  : 9621,
+      "EventDate" : "2018-08-16",
+      "EventName" : "Engadiner Abend-OL",
+      "EventCity" : "Lavin",
+      "EventMap"  : "Lavin",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4697,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180816T194956"
+    }
+    , {
+      "UniqueID"  : 9624,
+      "EventDate" : "2018-08-17",
+      "EventName" : "Special Sprint",
+      "EventCity" : "Scuol",
+      "EventMap"  : "Scuol",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4700,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180818T181405"
+    }
+    , {
+      "UniqueID"  : 8608,
+      "EventDate" : "2018-08-18",
+      "EventName" : "7. Nationaler Mitteldistanz",
+      "EventCity" : "Tarasp",
+      "EventMap"  : "Tarasp",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4701,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180819T095720"
+    }
+    , {
+      "UniqueID"  : 8609,
+      "EventDate" : "2018-08-19",
+      "EventName" : "WRE - Schweizer Meisterschaft im Langdis",
+      "EventCity" : "Ftan",
+      "EventMap"  : "Ftan",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "lom",
+      "SubTitle"  : "",
+      "ResultListID"  : 4702,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180819T164745"
+    }
+    , {
+      "UniqueID"  : 9441,
+      "EventDate" : "2018-08-23",
+      "EventName" : "5. impOLs OL",
+      "EventCity" : "Inkwil",
+      "EventMap"  : "Oenzberg",
+      "EventClub" : "OLG Herzogenbuchsee",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4703,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180823T201526"
+    }
+    , {
+      "UniqueID"  : 9371,
+      "EventDate" : "2018-08-25",
+      "EventName" : "Zuger OL",
+      "EventCity" : "Unterägeri",
+      "EventMap"  : "Dorf Unterägeri",
+      "EventClub" : "OLV Zug",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4704,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180825T162849"
+    }
+    , {
+      "UniqueID"  : 8610,
+      "EventDate" : "2018-08-26",
+      "EventName" : "WRE - Schweizer Meisterschaften im Mitte",
+      "EventCity" : "Unterägeri",
+      "EventMap"  : "Brandhöchi",
+      "EventClub" : "OLV Zug",
+      "EventType" : "mom",
+      "SubTitle"  : "",
+      "ResultListID"  : 4706,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180826T160234"
+    }
+    , {
+      "UniqueID"  : 9519,
+      "EventDate" : "2018-08-29",
+      "EventName" : "5. Milchsuppe-Abend-OL",
+      "EventCity" : "",
+      "EventMap"  : "Horgen Waldegg",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4709,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180829T213514"
+    }
+    , {
+      "UniqueID"  : 9631,
+      "EventDate" : "2018-08-29",
+      "EventName" : "3. Fragori",
+      "EventCity" : "Villa Luganese",
+      "EventMap"  : "Villa Luganese",
+      "EventClub" : "C.O. Aget Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4708,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180829T211504"
+    }
+    , {
+      "UniqueID"  : 9442,
+      "EventDate" : "2018-08-30",
+      "EventName" : "6. impOLs OL",
+      "EventCity" : "Biberist",
+      "EventMap"  : "Biberist Sued",
+      "EventClub" : "OLG Biberist SO",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4711,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180830T194209"
+    }
+    , {
+      "UniqueID"  : 9563,
+      "EventDate" : "2018-09-01",
+      "EventName" : "Winterthurer Bike-OL",
+      "EventCity" : "Winterthur",
+      "EventMap"  : "Eschenberg",
+      "EventClub" : "OLC Winterthur",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4712,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180901T163800"
+    }
+    , {
+      "UniqueID"  : 9429,
+      "EventDate" : "2018-09-01",
+      "EventName" : "Jugendcup Staffel",
+      "EventCity" : "Monte Generoso Bellavista",
+      "EventMap"  : "Monte Generoso",
+      "EventClub" : "SCOM Mendrisio",
+      "EventType" : "uebr",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4715,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180901T214839"
+    }
+    , {
+      "UniqueID"  : 9429,
+      "EventDate" : "2018-09-01",
+      "EventName" : "Jugendcup Staffel",
+      "EventCity" : "Monte Generoso Bellavista",
+      "EventMap"  : "Monte Generoso",
+      "EventClub" : "SCOM Mendrisio",
+      "EventType" : "uebr",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4716,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180901T214848"
+    }
+    , {
+      "UniqueID"  : 9429,
+      "EventDate" : "2018-09-01",
+      "EventName" : "Jugendcup Staffel",
+      "EventCity" : "Monte Generoso Bellavista",
+      "EventMap"  : "Monte Generoso",
+      "EventClub" : "SCOM Mendrisio",
+      "EventType" : "uebr",
+      "SubTitle"  : "Zwischenzeiten",
+      "ResultListID"  : 4717,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180901T214858"
+    }
+    , {
+      "UniqueID"  : 8912,
+      "EventDate" : "2018-09-02",
+      "EventName" : "Schaffhauser-OL",
+      "EventCity" : "Stein am Rhein",
+      "EventMap"  : "Hohenklingen",
+      "EventClub" : "OLG Schaffhausen",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4723,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180902T190340"
+    }
+    , {
+      "UniqueID"  : 9326,
+      "EventDate" : "2018-09-02",
+      "EventName" : "9. TMO Gribbio / JC Einzel",
+      "EventCity" : "Gribbio",
+      "EventMap"  : "Gribbio",
+      "EventClub" : "SCOM Mendrisio",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4719,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180902T155811"
+    }
+    , {
+      "UniqueID"  : 9254,
+      "EventDate" : "2018-09-08",
+      "EventName" : "Wiggertaler OL",
+      "EventCity" : "Murgenthal",
+      "EventMap"  : "Fätzholz",
+      "EventClub" : "OLK Wiggertal",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4726,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180908T155929"
+    }
+    , {
+      "UniqueID"  : 8630,
+      "EventDate" : "2018-09-09",
+      "EventName" : "8. Nationaler Sprint ",
+      "EventCity" : "Stäfa",
+      "EventMap"  : "Oberhausen-Oetikon",
+      "EventClub" : "OLG Stäfa",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4727,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180909T135733"
+    }
+    , {
+      "UniqueID"  : 9421,
+      "EventDate" : "2018-09-09",
+      "EventName" : "Elite Sprint-Staffel SM",
+      "EventCity" : "Stäfa",
+      "EventMap"  : "Dorf Stäfa",
+      "EventClub" : "OLG Stäfa",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4733,
+      "ResultType"    : 14,
+      "ResultModTime" : "20180910T103507"
+    }
+    , {
+      "UniqueID"  : 9421,
+      "EventDate" : "2018-09-09",
+      "EventName" : "Elite Sprint-Staffel SM",
+      "EventCity" : "Stäfa",
+      "EventMap"  : "Dorf Stäfa",
+      "EventClub" : "OLG Stäfa",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4732,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180910T103455"
+    }
+    , {
+      "UniqueID"  : 9537,
+      "EventDate" : "2018-09-12",
+      "EventName" : "Staedtli-OL Weesen",
+      "EventCity" : "Weesen",
+      "EventMap"  : "Weesen",
+      "EventClub" : "",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4742,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180913T081959"
+    }
+    , {
+      "UniqueID"  : 9327,
+      "EventDate" : "2018-09-15",
+      "EventName" : "10. TMO San Bernardino Passo",
+      "EventCity" : "San Bernardino Passo",
+      "EventMap"  : "San Bernardino Passo",
+      "EventClub" : "GOLD Savosa",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4744,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180915T144245"
+    }
+    , {
+      "UniqueID"  : 9187,
+      "EventDate" : "2018-09-15",
+      "EventName" : "Laufentaler-OL",
+      "EventCity" : "Büsserach",
+      "EventMap"  : "Lingenberg",
+      "EventClub" : "OLG Laufental-Thierstein",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4745,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180915T155611"
+    }
+    , {
+      "UniqueID"  : 9426,
+      "EventDate" : "2018-09-15",
+      "EventName" : "Harzer-Staffel",
+      "EventCity" : "Hapferen, Plaffeien",
+      "EventMap"  : "Schwyberg Nord",
+      "EventClub" : "OLC Omström Sense",
+      "EventType" : "staf",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4752,
+      "ResultType"    : 9,
+      "ResultModTime" : "20180915T212402"
+    }
+    , {
+      "UniqueID"  : 9426,
+      "EventDate" : "2018-09-15",
+      "EventName" : "Harzer-Staffel",
+      "EventCity" : "Hapferen, Plaffeien",
+      "EventMap"  : "Schwyberg Nord",
+      "EventClub" : "OLC Omström Sense",
+      "EventType" : "staf",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4756,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180915T225423"
+    }
+    , {
+      "UniqueID"  : 9426,
+      "EventDate" : "2018-09-15",
+      "EventName" : "Harzer-Staffel",
+      "EventCity" : "Hapferen, Plaffeien",
+      "EventMap"  : "Schwyberg Nord",
+      "EventClub" : "OLC Omström Sense",
+      "EventType" : "staf",
+      "SubTitle"  : "Offen",
+      "ResultListID"  : 4755,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180915T225153"
+    }
+    , {
+      "UniqueID"  : 9196,
+      "EventDate" : "2018-09-16",
+      "EventName" : "Engelburger OL",
+      "EventCity" : "Gais",
+      "EventMap"  : "Hirschberg",
+      "EventClub" : "OLG St. Gallen/App.",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4759,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180916T144301"
+    }
+    , {
+      "UniqueID"  : 9224,
+      "EventDate" : "2018-09-16",
+      "EventName" : "11. TMO CT San Bernardino Villaggio",
+      "EventCity" : "San Bernardino Villaggio",
+      "EventMap"  : "San Bernardino Villaggio",
+      "EventClub" : "GOLD Savosa",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4760,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180916T150009"
+    }
+    , {
+      "UniqueID"  : 9566,
+      "EventDate" : "2018-09-16",
+      "EventName" : "Bike-OL SM Mitteldistanz",
+      "EventCity" : "Region Bern",
+      "EventMap"  : "Region Bern",
+      "EventClub" : "-",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4758,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180916T142946"
+    }
+    , {
+      "UniqueID"  : 9324,
+      "EventDate" : "2018-09-18",
+      "EventName" : "WRE-Testlauf Sprint",
+      "EventCity" : "Lenzburg",
+      "EventMap"  : "Lenzburg",
+      "EventClub" : "Swiss Orienteering",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4761,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180918T194334"
+    }
+    , {
+      "UniqueID"  : 9511,
+      "EventDate" : "2018-09-22",
+      "EventName" : "Zuger OL / Schlusslauf ZJOM",
+      "EventCity" : "Steinhausen",
+      "EventMap"  : "Dorf",
+      "EventClub" : "OLV Zug",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4763,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180922T142223"
+    }
+    , {
+      "UniqueID"  : 9213,
+      "EventDate" : "2018-09-22",
+      "EventName" : "Thuner Nacht OL",
+      "EventCity" : "Allmendingen",
+      "EventMap"  : "Guntelsey",
+      "EventClub" : "OLG Thun",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4765,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180923T094456"
+    }
+    , {
+      "UniqueID"  : 9105,
+      "EventDate" : "2018-09-23",
+      "EventName" : "Oristaler-OL",
+      "EventCity" : "Gempen",
+      "EventMap"  : "Gempen",
+      "EventClub" : "OLG Kakowa",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4766,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180923T141048"
+    }
+    , {
+      "UniqueID"  : 8631,
+      "EventDate" : "2018-09-23",
+      "EventName" : "Zuercher OL",
+      "EventCity" : "Bülach",
+      "EventMap"  : "Bülach",
+      "EventClub" : "",
+      "EventType" : "team",
+      "SubTitle"  : "",
+      "ResultListID"  : 4771,
+      "ResultType"    : 10,
+      "ResultModTime" : "20180924T100515"
+    }
+    , {
+      "UniqueID"  : 9351,
+      "EventDate" : "2018-09-23",
+      "EventName" : "OL.Biel.Seeland",
+      "EventCity" : "Sutz-Lattrigen",
+      "EventMap"  : "Oberholz",
+      "EventClub" : "ol.biel.seeland",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4772,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180926T100709"
+    }
+    , {
+      "UniqueID"  : 9595,
+      "EventDate" : "2018-09-29",
+      "EventName" : "3. Etappe Tri-O-Cup",
+      "EventCity" : "Zürich",
+      "EventMap"  : "Zürichberg",
+      "EventClub" : "OLG Zürich",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4775,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180929T194955"
+    }
+    , {
+      "UniqueID"  : 9192,
+      "EventDate" : "2018-09-30",
+      "EventName" : "Weinfelder OL",
+      "EventCity" : "Salenstein",
+      "EventMap"  : "Seerücken West",
+      "EventClub" : "thurgorienta",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4778,
+      "ResultType"    : 0,
+      "ResultModTime" : "20180930T143746"
+    }
+    , {
+      "UniqueID"  : 9332,
+      "EventDate" : "2018-09-30",
+      "EventName" : "12TMO-CTSprint",
+      "EventCity" : "Bellinzona",
+      "EventMap"  : "Bellinzona",
+      "EventClub" : "CO UTOE Bellinzona",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4789,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181005T135034"
+    }
+    , {
+      "UniqueID"  : 9452,
+      "EventDate" : "2018-10-04",
+      "EventName" : "CO regionale JEC Monthey",
+      "EventCity" : "Monthey",
+      "EventMap"  : "Monthey Ville",
+      "EventClub" : "CA Rosé / CO Valais ",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4783,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181004T183631"
+    }
+    , {
+      "UniqueID"  : 9453,
+      "EventDate" : "2018-10-05",
+      "EventName" : "CO regionale JEC Villars",
+      "EventCity" : "Villars-sur-Ollon",
+      "EventMap"  : "Villars-sur-Ollon",
+      "EventClub" : "CA Rosé / CARE Vevey ",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4794,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181005T185246"
+    }
+    , {
+      "UniqueID"  : 9454,
+      "EventDate" : "2018-10-05",
+      "EventName" : "JEC Mixed Sprint Relay",
+      "EventCity" : "Villars-sur-Ollon",
+      "EventMap"  : "Villars-sur-Ollon",
+      "EventClub" : "CA Rosé",
+      "EventType" : "uebr",
+      "SubTitle"  : "Gesamt",
+      "ResultListID"  : 4791,
+      "ResultType"    : 14,
+      "ResultModTime" : "20181005T171542"
+    }
+    , {
+      "UniqueID"  : 9454,
+      "EventDate" : "2018-10-05",
+      "EventName" : "JEC Mixed Sprint Relay",
+      "EventCity" : "Villars-sur-Ollon",
+      "EventMap"  : "Villars-sur-Ollon",
+      "EventClub" : "CA Rosé",
+      "EventType" : "uebr",
+      "SubTitle"  : "Strecken",
+      "ResultListID"  : 4790,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181005T215049"
+    }
+    , {
+      "UniqueID"  : 9455,
+      "EventDate" : "2018-10-06",
+      "EventName" : "JEC Middle Distance",
+      "EventCity" : "Monthey",
+      "EventMap"  : "Monthey/Collombey-Muraz",
+      "EventClub" : "CA Rosé",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4796,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181006T173855"
+    }
+    , {
+      "UniqueID"  : 8611,
+      "EventDate" : "2018-10-06",
+      "EventName" : "9. Nationaler Langdistanz",
+      "EventCity" : "Monthey",
+      "EventMap"  : "Collombey - Muraz/Monthey",
+      "EventClub" : "OLG/CO Wallis/Valais",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4797,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181006T183039"
+    }
+    , {
+      "UniqueID"  : 9456,
+      "EventDate" : "2018-10-07",
+      "EventName" : "JEC Long Distance",
+      "EventCity" : "Villars-sur-Ollon",
+      "EventMap"  : "Bretaye",
+      "EventClub" : "CA Rosé",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4798,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181007T162329"
+    }
+    , {
+      "UniqueID"  : 8612,
+      "EventDate" : "2018-10-07",
+      "EventName" : "10. Nationaler Langdistanz",
+      "EventCity" : "Villars-sur-Ollon",
+      "EventMap"  : "Bretaye",
+      "EventClub" : "CARE Vevey / CA Rosé",
+      "EventType" : "nata",
+      "SubTitle"  : "",
+      "ResultListID"  : 4799,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181007T171956"
+    }
+    , {
+      "UniqueID"  : 9598,
+      "EventDate" : "2018-10-13",
+      "EventName" : "Weekend Haut-Jura Middle",
+      "EventCity" : "La Givrine",
+      "EventMap"  : "Givrine Nord",
+      "EventClub" : "CO CERN",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4809,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181015T204204"
+    }
+    , {
+      "UniqueID"  : 9599,
+      "EventDate" : "2018-10-14",
+      "EventName" : "Weekend Haut-Jura Long",
+      "EventCity" : "La Givrine",
+      "EventMap"  : "Combe Grasse",
+      "EventClub" : "CO CERN",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4810,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181015T204939"
+    }
+    , {
+      "UniqueID"  : 9410,
+      "EventDate" : "2018-10-14",
+      "EventName" : "Biberister OL",
+      "EventCity" : "ab Crémines Zoo markiert",
+      "EventMap"  : "Corcelles",
+      "EventClub" : "OLG Biberist SO",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4800,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181014T143918"
+    }
+    , {
+      "UniqueID"  : 9107,
+      "EventDate" : "2018-10-14",
+      "EventName" : "OL-Galoppen 2018",
+      "EventCity" : "Arisdorf",
+      "EventMap"  : "Bärenfels",
+      "EventClub" : "NWK Nordwestschweiz",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4802,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181014T150725"
+    }
+    , {
+      "UniqueID"  : 9333,
+      "EventDate" : "2018-10-20",
+      "EventName" : "13. TMO Capriasca",
+      "EventCity" : "",
+      "EventMap"  : "Capriasca",
+      "EventClub" : "ASCO Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4819,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181020T143135"
+    }
+    , {
+      "UniqueID"  : 9407,
+      "EventDate" : "2018-10-20",
+      "EventName" : "Skandia Nacht OL",
+      "EventCity" : "Schulanlage Eggiwil",
+      "EventMap"  : "Horben",
+      "EventClub" : "OLG Skandia",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4820,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181020T224702"
+    }
+    , {
+      "UniqueID"  : 9205,
+      "EventDate" : "2018-10-21",
+      "EventName" : "Zurzacher OL/ ASJM Schlusslauf",
+      "EventCity" : "",
+      "EventMap"  : "Achenberg",
+      "EventClub" : "OLG Cordoba",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4823,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181021T152028"
+    }
+    , {
+      "UniqueID"  : 9405,
+      "EventDate" : "2018-10-21",
+      "EventName" : "Emmentaler OL",
+      "EventCity" : "Schulanlage Eggiwil",
+      "EventMap"  : "Chapf-Eggiwil",
+      "EventClub" : "OLG Skandia",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4824,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181021T154701"
+    }
+    , {
+      "UniqueID"  : 9197,
+      "EventDate" : "2018-10-21",
+      "EventName" : "Wiler OL",
+      "EventCity" : "",
+      "EventMap"  : "Hofberg",
+      "EventClub" : "OL Regio Wil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4825,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181021T180747"
+    }
+    , {
+      "UniqueID"  : 9307,
+      "EventDate" : "2018-10-21",
+      "EventName" : "1. TMO Villa Luganese",
+      "EventCity" : "",
+      "EventMap"  : "Villa Luganese",
+      "EventClub" : "ASCO Lugano",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4822,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181021T141344"
+    }
+    , {
+      "UniqueID"  : 9591,
+      "EventDate" : "2018-10-27",
+      "EventName" : "Schlusslauf, Buendner OL Cup 5",
+      "EventCity" : "Bergün",
+      "EventMap"  : "Bergün",
+      "EventClub" : "CO Engiadina",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4830,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181027T153354"
+    }
+    , {
+      "UniqueID"  : 9571,
+      "EventDate" : "2018-10-27",
+      "EventName" : "Bike-O Lausanne-Jorat/Schlusswettkampf S",
+      "EventCity" : "Lausanne",
+      "EventMap"  : "Grand Jorat",
+      "EventClub" : "CO Lausanne-Jorat",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4831,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181027T164925"
+    }
+    , {
+      "UniqueID"  : 9411,
+      "EventDate" : "2018-10-27",
+      "EventName" : "Berner Einzel OL",
+      "EventCity" : "Bern",
+      "EventMap"  : "Brünnen Betlehem",
+      "EventClub" : "OLG Bern",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4836,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181028T164717"
+    }
+    , {
+      "UniqueID"  : 9193,
+      "EventDate" : "2018-10-28",
+      "EventName" : "Finallauf ROLV NOS",
+      "EventCity" : "",
+      "EventMap"  : "Biessenhoferwald",
+      "EventClub" : "OL Amriswil",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4832,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181028T134727"
+    }
+    , {
+      "UniqueID"  : 8897,
+      "EventDate" : "2018-10-28",
+      "EventName" : "Wisliger-OL/ JOM-Schlusslauf",
+      "EventCity" : "Weisslingen ZH",
+      "EventMap"  : "Gsang-Furtbüel",
+      "EventClub" : "OLG Weisslingen",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 4835,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181028T152118"
+    }
+    , {
+      "UniqueID"  : 9337,
+      "EventDate" : "2018-10-28",
+      "EventName" : "14. TMO Sonogno",
+      "EventCity" : "Sonogno",
+      "EventMap"  : "Sonogno",
+      "EventClub" : "O-92 Piano di Magadino",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4833,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181028T135822"
+    }
+    , {
+      "UniqueID"  : 8635,
+      "EventDate" : "2018-10-28",
+      "EventName" : "Baselbieter Team-OL",
+      "EventCity" : "Magden",
+      "EventMap"  : "Rheinfelderberg",
+      "EventClub" : "",
+      "EventType" : "team",
+      "SubTitle"  : "",
+      "ResultListID"  : 4834,
+      "ResultType"    : 10,
+      "ResultModTime" : "20181028T145648"
+    }
+    , {
+      "UniqueID"  : 8636,
+      "EventDate" : "2018-10-28",
+      "EventName" : "Berner Team OL",
+      "EventCity" : "Tscharnergut",
+      "EventMap"  : "Bremgartenwald",
+      "EventClub" : "OLG Bern",
+      "EventType" : "team",
+      "SubTitle"  : "Team",
+      "ResultListID"  : 4837,
+      "ResultType"    : 10,
+      "ResultModTime" : "20181028T165005"
+    }
+    , {
+      "UniqueID"  : 8636,
+      "EventDate" : "2018-10-28",
+      "EventName" : "Berner Team OL",
+      "EventCity" : "Tscharnergut",
+      "EventMap"  : "Bremgartenwald",
+      "EventClub" : "OLG Bern",
+      "EventType" : "team",
+      "SubTitle"  : "Offen",
+      "ResultListID"  : 4838,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181028T165225"
+    }
+    , {
+      "UniqueID"  : 8613,
+      "EventDate" : "2018-11-04",
+      "EventName" : "Schweizer Meisterschaft im Team OL",
+      "EventCity" : "Embrach",
+      "EventMap"  : "Blauen",
+      "EventClub" : "OLC Kapreolo",
+      "EventType" : "tom",
+      "SubTitle"  : "",
+      "ResultListID"  : 4840,
+      "ResultType"    : 10,
+      "ResultModTime" : "20181104T154657"
+    }
+    , {
+      "UniqueID"  : 8498,
+      "EventDate" : "2018-11-10",
+      "EventName" : "Grand-Slam-Final",
+      "EventCity" : "Pfäffikon ZH",
+      "EventMap"  : "Pfäffikon ZH/ Römerkastell",
+      "EventClub" : "Swiss Orienteering",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4842,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181110T165719"
+    }
+    , {
+      "UniqueID"  : 9594,
+      "EventDate" : "2018-12-08",
+      "EventName" : "Samichlaus-OL",
+      "EventCity" : "",
+      "EventMap"  : "Steinhauserwald",
+      "EventClub" : "OLV Zug",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 4847,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181208T180730"
+    }
+    , {
+      "UniqueID"  : 9880,
+      "EventDate" : "2018-12-29",
+      "EventName" : "Gomer Ski-OL",
+      "EventCity" : "Biel VS",
+      "EventMap"  : "Biel",
+      "EventClub" : "Ski-O Swiss",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4850,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181229T181919"
+    }
+    , {
+      "UniqueID"  : 9881,
+      "EventDate" : "2018-12-30",
+      "EventName" : "Baschi Sprint Ski-OL",
+      "EventCity" : "Biel / VS",
+      "EventMap"  : "Biel",
+      "EventClub" : "Ski-O Swiss",
+      "EventType" : "sc",
+      "SubTitle"  : "",
+      "ResultListID"  : 4851,
+      "ResultType"    : 0,
+      "ResultModTime" : "20181230T180235"
+    }
+  ]
+}

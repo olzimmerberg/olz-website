@@ -6,8 +6,8 @@ function time_str_to_seconds($time_str) {
     if (!$res) {
         return -1;
     }
-    $h = $matches[2];
-    $m = $matches[3];
-    $s = $matches[4];
+    $h = intval($matches[2]);
+    $m = intval($matches[3]);
+    $s = intval($matches[4]);
     return $h * 3600 + $m * 60 + $s;
 }

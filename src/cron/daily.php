@@ -1,5 +1,12 @@
 <?php
 
-require_once __DIR__.'/../tasks/sync_solv_events.php';
+require_once __DIR__.'/common.php';
+require_once __DIR__.'/../tasks/SyncSolvTask.php';
 
-sync_solv_events();
+function run_daily() {
+    $job = new SyncSolvTask();
+    $job->run();
+}
+
+throttle('cron_daily', 'run_daily', [], 12 * 3600);
+// run_daily();

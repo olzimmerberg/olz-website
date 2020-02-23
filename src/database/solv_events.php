@@ -52,6 +52,14 @@ function get_solv_known_result_index_for_year($year) {
     return $yearly_index;
 }
 
+function set_result_for_solv_event($solv_uid, $rank_link) {
+    global $db;
+    $sane_solv_uid = DBEsc($solv_uid);
+    $sane_rank_link = DBEsc($rank_link);
+    $sql = "UPDATE solv_events SET rank_link='{$sane_rank_link}' WHERE solv_uid='{$sane_solv_uid}'";
+    return $db->query($sql);
+}
+
 function insert_solv_event($solv_event) {
     global $db, $solv_events_table;
     $sql = get_insert_sql($solv_events_table, $solv_event);

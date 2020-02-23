@@ -21,5 +21,8 @@ function throttle($ident, $function, $args, $interval) {
         $throttling['last-call'] = $now;
         file_put_contents($throttle_file, json_encode($throttling));
         call_user_func_array($function, $args);
+    } else {
+        http_response_code(429);
+        echo "HTTP Error 429 Too Many Requests";
     }
 }

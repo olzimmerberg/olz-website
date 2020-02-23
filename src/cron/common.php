@@ -11,7 +11,7 @@ function throttle($ident, $function, $args, $interval) {
     $throttle_file = "{$throttle_dir}{$ident}.json";
     $throttling = ['last-call' => 0];
     if (is_file($throttle_file)) {
-        $throttling_content = json_decode(file_get_contents($throttle_file));
+        $throttling_content = json_decode(file_get_contents($throttle_file), true);
         if ($throttling_content) {
             $throttling = $throttling_content;
         }

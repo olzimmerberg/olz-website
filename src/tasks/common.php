@@ -12,6 +12,24 @@ abstract class BackgroundTask {
             mkdir(dirname($this->log_path), 0777, true);
         }
         $this->log_file = fopen($this->log_path, 'a');
+
+        ignore_user_abort(true);
+        ob_end_clean();
+        header("Connection: close");
+        ignore_user_abort(true);
+        ob_start();
+        echo 'Task will run in the background. Bye.';
+        $size = ob_get_length();
+        header("Content-Length: {$size}");
+        ob_end_flush();
+        flush();
+        ob_end_clean();
+        if (session_id()) {
+            session_write_close();
+        }
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        }
     }
 
     private function teardown() {

@@ -21,7 +21,6 @@ $solv_results_table = new DbTable('SolvResult', 'solv_results', [
 function insert_solv_result($solv_result) {
     global $db, $solv_results_table;
     $sql = get_insert_sql($solv_results_table, $solv_result);
-    echo "{$sql}<br>\n";
     return $db->query($sql);
 }
 

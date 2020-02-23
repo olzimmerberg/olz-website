@@ -73,15 +73,21 @@ class SyncSolvTask extends BackgroundTask {
     private function import_solv_results_for_year($result_id_by_uid, $known_result_index) {
         global $db;
         $solv_uid_still_exists = [];
-        foreach ($result_id_by_uid as $solv_uid => $result) {
-            if (!$known_result_index[$solv_uid] && $result['result_list_id']) {
-                $html = fetch_solv_event_results_html($result['result_list_id']);
+        foreach ($result_id_by_uid as $solv_uid => $event_result) {
+            if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
+                $this->log_info("Event with SOLV ID {$solv_uid} has new results.");
+                $html = fetch_solv_event_results_html($event_result['result_list_id']);
                 $results = parse_solv_event_result_html($html, $solv_uid);
+                $results_count = count($results);
+                $this->log_info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {
                     $res = insert_solv_result($result);
-                    $dbstr = json_encode($db);
-                    echo "{$res} {$dbstr}<br>\n";
+                    if (!$res) {
+                        $result_str = json_encode($result);
+                        $this->log_warning("Result could not be inserted: {$result_str}");
+                    }
                 }
+                set_result_for_solv_event($solv_uid, $event_result['result_list_id']);
             }
         }
     }

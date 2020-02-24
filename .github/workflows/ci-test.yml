@@ -84,37 +84,24 @@ jobs:
     - name: Build deployment
       run: ./build-deployment.sh
     - name: Deploy over SFTP
-      uses: SamKirkland/FTP-Deploy-Action@2.0.0
       env:
-        METHOD: sftp
-        FTP_SERVER: lx7.hoststar.hosting
-        PORT: 5544
-        FTP_USERNAME: deploytest.olzimmerberg.ch
-        FTP_PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
-        ARGS: --parallel=4 --delete --verbose
-        # --delete arg will delete files on the server if you've deleted them in git
-        LOCAL_DIR: ./deploy
-        REMOTE_DIR: .
+        SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
+      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploytest.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-deploy
+    - name: Activate deployment
+      run: wget -O - https://test.olzimmerberg.ch/deploy/deploy.php
     - name: Load dev data
-      run: wget https://test.olzimmerberg.ch/reset.php
+      run: wget -O - https://test.olzimmerberg.ch/reset.php
   upload-screenshots:
     name: Upload screenshots to test.olzimmerberg.ch
     runs-on: ubuntu-latest
     needs: [deploy-test, take-screenshots]
     steps:
+    - uses: actions/checkout@v2
     - uses: actions/download-artifact@v1
       with:
         name: test-screenshots
         path: ./screenshots
     - name: Upload over SFTP
-      uses: SamKirkland/FTP-Deploy-Action@2.0.0
       env:
-        METHOD: sftp
-        FTP_SERVER: lx7.hoststar.hosting
-        PORT: 5544
-        FTP_USERNAME: deploytest.olzimmerberg.ch
-        FTP_PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
-        ARGS: --parallel=4 --delete --verbose
-        # --delete arg will delete files on the server if you've deleted them in git
-        LOCAL_DIR: ./screenshots
-        REMOTE_DIR: ./current/screenshots/generated
+        SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
+      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploytest.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-upload-screenshots

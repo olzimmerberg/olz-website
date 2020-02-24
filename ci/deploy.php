@@ -1,0 +1,53 @@
+<?php
+/**
+ * Deploy code on our hoster.
+ *
+ * Premise: CI has connected to the hoster and uploaded this file and
+ * `deploy.zip` (containing all code) to the deploy directory (the directory
+ * the CI has access to) and has started an HTTP connection to invoke this file.
+ */
+
+// Constants
+$date = date('Y-m-d_H_i_s');
+$php_path = './deploy.php';
+$zip_path = './deploy.zip';
+$unzip_path = './unzip/';
+$current_deployment_unzip_path = "{$unzip_path}deploy/";
+$current_deployment_destination_path = "./{$date}";
+$current_link_path = './current';
+
+// Unzip the uploaded file with all the code to be deployed.
+$zip = new ZipArchive();
+$res = $zip->open($zip_path);
+if (!$res) {
+    // Keep the zip (for debugging purposes).
+    rename($zip_path, "./invalid_deploy_{$date}.zip");
+    unlink($php_path);
+    die("Could not unzip deploy.zip\n");
+}
+mkdir($unzip_path, 0777, true);
+$zip->extractTo($unzip_path);
+$zip->close();
+unlink($zip_path);
+
+// Quickly verify the unzipped content.
+if (!is_dir($current_deployment_unzip_path)) {
+    // Keep the unzipped directory (for debugging purposes).
+    rename($unzip_path, "./invalid_unzip_{$date}");
+    unlink($php_path);
+    die("Invalid zip content: unzip/deploy/ not found\n");
+}
+
+// Move the code to the appropriate destination.
+rename(
+    $current_deployment_unzip_path,
+    $current_deployment_destination_path,
+);
+
+// Redirect users to the new code.
+unlink($current_link_path);
+symlink($current_deployment_destination_path, $current_link_path);
+
+// Clean up.
+rmdir($unzip_path);
+unlink($php_path);

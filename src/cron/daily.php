@@ -9,4 +9,3 @@ function run_daily() {
 }
 
 throttle('cron_daily', 'run_daily', [], 12 * 3600);
-// run_daily();

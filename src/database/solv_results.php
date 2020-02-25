@@ -16,6 +16,10 @@ $solv_results_table = new DbTable('SolvResult', 'solv_results', [
     new DbInteger('result', 'result', []),
     new DbString('splits', 'splits', []),
     new DbInteger('finish_split', 'finish_split', []),
+    new DbInteger('class_distance', 'class_distance', []),
+    new DbInteger('class_elevation', 'class_elevation', []),
+    new DbInteger('class_control_count', 'class_control_count', []),
+    new DbInteger('class_competitor_count', 'class_competitor_count', []),
 ]);
 
 function insert_solv_result($solv_result) {

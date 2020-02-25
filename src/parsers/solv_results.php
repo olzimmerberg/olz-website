@@ -36,6 +36,14 @@ function parse_solv_event_result_html($html_content, $event_uid) {
         $class_body_length = $class_body_ends_at - $class_header_ends_at;
         $class_body = mb_substr($html_content, $class_header_ends_at, $class_body_length);
 
+        $does_class_info_match = preg_match("/^\\s*\\(\\s*([0-9\\.]+)\\s*km\\s*,\\s*([0-9]+)\\s*m\\s*,\\s*([0-9]+)\\s*Po\\.\\s*\\)\\s*([0-9]+)\\s*Teilnehmer/", $class_body, $class_info_matches);
+        $class_info = [
+            'distance' => $does_class_info_match ? intval(floatval($class_info_matches[1]) * 1000) : 0,
+            'elevation' => $does_class_info_match ? intval($class_info_matches[2]) : 0,
+            'control_count' => $does_class_info_match ? intval($class_info_matches[3]) : 0,
+            'competitor_count' => $does_class_info_match ? intval($class_info_matches[4]) : 0,
+        ];
+
         $competitors_count = preg_match_all('/<b>([^<]+)<\\/b>/', $class_body, $competitor_matches);
         for ($competitor_ind = 0; $competitor_ind < $competitors_count; $competitor_ind++) {
             $competitor_line = $competitor_matches[1][$competitor_ind];
@@ -70,6 +78,10 @@ function parse_solv_event_result_html($html_content, $event_uid) {
                 $solv_result->result = $result;
                 $solv_result->splits = $splits;
                 $solv_result->finish_split = $finish_split;
+                $solv_result->class_distance = $class_info['distance'];
+                $solv_result->class_elevation = $class_info['elevation'];
+                $solv_result->class_control_count = $class_info['control_count'];
+                $solv_result->class_competitor_count = $class_info['competitor_count'];
                 $results[] = $solv_result;
             }
         }

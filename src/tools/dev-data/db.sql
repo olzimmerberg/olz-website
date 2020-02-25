@@ -364,6 +364,10 @@ CREATE TABLE `solv_results` (
   `result` int(11) NOT NULL,
   `splits` text NOT NULL,
   `finish_split` int(11) NOT NULL,
+  `class_distance` int(11) NOT NULL,
+  `class_elevation` int(11) NOT NULL,
+  `class_control_count` int(11) NOT NULL,
+  `class_competitor_count` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE (`person`, `event`, `class`, `name`, `birth_year`, `domicile`, `club`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

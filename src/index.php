@@ -31,6 +31,7 @@ $pages = [
     "21" => ["material.php"],
     "99" => ["results.php", "startseite_r.php"],
     "mail" => ["divmail_l.php", "divmail_r.php"],
+    "30" => ["zielsprint20.php"],
     "ftp" => ["library/phpWebFileManager/start.php"],
     "tools" => ["termine_helper.php"],
     // Test

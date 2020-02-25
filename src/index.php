@@ -165,8 +165,8 @@ if ($page == 'ftp') {
     }
     // Datei herunterladen
     if ($ftp_mode == 'get_file') {
-        $pfad = "https://".$ftp_user.":".$ftp_pw."@".substr($_GET['pfad'], 8);
-        header('Location: '.$pfad);
+        $pfad = urldecode($_GET['pfad']);
+        header("Location: {$data_href}OLZimmerbergAblage/{$pfad}");
     }
 }
 header('Cache-Control: max-age=600');

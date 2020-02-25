@@ -214,7 +214,9 @@ if (preg_match('/MSIE/i', $_SERVER['HTTP_USER_AGENT']) or preg_match('/Win/i', $
 echo "<a name='top'></a>
 <div style='background-image:url(icns/headerbg.png); background-repeat:repeat-x;'>
 <div style='max-width:1200px; margin-left:auto; margin-right:auto; height:101%;'>
-<div style='position:relative; height:160px; padding:0px; background-image:url(icns/headerbg.png); background-repeat:repeat-x; overflow-x:auto; overflow-y:hidden;'><img src='icns/olzschatten.".$bildart."' alt='' style='float:left; margin-top:10px;' class='noborder' id='olzlogo'><div style='position:relative; height:150px; overflow:hidden;'>";
+<div style='position:relative; height:160px; padding:0px; background-image:url(icns/headerbg.png); background-repeat:repeat-x; overflow-x:auto; overflow-y:hidden;'>
+<img src='icns/olzschatten.".$bildart."' alt='' style='float:left; margin-top:10px;' class='noborder' id='olzlogo'>
+<div style='position:relative; height:150px; overflow:hidden;'>";
 include "header.php";
 echo "</div></div>
 

@@ -103,7 +103,7 @@ if (! function_exists('fm_footer')) {
 		}
 		if (defined('LOADED_AS_MODULE')) {
 			CloseTable();
-			include 'footer.php'; 
+			include 'footer.php';
 		} else {
 			echo "\n", '</td></tr></table>', "\n";
 		}
@@ -171,7 +171,7 @@ function fm_main() /* {{{ */
 		$fm_dir = $fm_cfg['dir']['start'];
 	}
 
-	/* 
+	/*
 	 * Directory modifying. Dirty, but safe.
 	 */
 
@@ -313,7 +313,7 @@ function fm_main() /* {{{ */
 					$action_message[] = _FM_DIR_CREATE_OK;
 				}
 			} else {
-				if (file_exists($fm_new_filename)) 
+				if (file_exists($fm_new_filename))
 					$action_message[] = _FM_FILE_CREATE_ERR1;
 				else {
 					if (($fh = @fopen($fm_new_filename, 'w')) == false) {
@@ -572,7 +572,7 @@ function fm_main() /* {{{ */
 				} else {
 					$view_url = parse_url((strcasecmp($_SERVER['HTTPS'], 'on') ? 'http' : 'https')
 							.'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
-					$view_url['path'] = fm_get_path_without_scriptname($view_url) 
+					$view_url['path'] = fm_get_path_without_scriptname($view_url)
 						. (strlen($fm_cfg['url']['root']) > 0 ? $fm_cfg['url']['root'] : $fm_cfg['dir']['root'])
 						. $fm_dir_ue;
 					unset($view_url['fragment']);
@@ -580,7 +580,7 @@ function fm_main() /* {{{ */
 					$view_url_prefix_ue = fm_glue_url($view_url);
 					unset($view_url);
 					//if($_SESSION['auth']=='all') echo $fm_cfg['dir']['root']."***";
-					
+
 				}
 				$view_url_prefix_ue = str_replace('%2F', '/', $view_url_prefix_ue);
 				$view_url_prefix_ue = htmlspecialchars($view_url_prefix_ue);
@@ -692,7 +692,7 @@ function fm_main() /* {{{ */
 							}
 							echo '<img alt="'._FM_DIR.'" title="'._FM_DIR.'" border="0" class="noborder" src="'
 								. $fm_cfg['url']['icons'].$fm_cfg['icons']['sys']['DIR'].'">';
-							if ($fm_cfg['perm']['dir']['enter']) 
+							if ($fm_cfg['perm']['dir']['enter'])
 								echo '</a>';
 						}
 						echo '</td>',"\n";
@@ -728,9 +728,9 @@ function fm_main() /* {{{ */
 							} else {
 								if ($fm_cfg['perm']['file']['view'])  {
 									//echo '<a target="_blank" href="'.$view_url_prefix_ue.$entry_ue.'">';
-									echo '<a target="_blank" href="index.php?ftp_mode=get_file&pfad='.urlencode($view_url_prefix_ue.$entry_ue).'">';
+									echo '<a target="_blank" href="index.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">';
 									//echo $view_url_prefix_ue."***".$entry_ue;
-									
+
 								}
 								echo '<img alt="'.$icon_alt.'" title="'.$icon_alt.'" border="0" class="noborder" src="'
 									. $fm_cfg['url']['icons'].$icon_file.'">';
@@ -795,7 +795,7 @@ function fm_main() /* {{{ */
 					if ($view_column) {
 						echo '<td><small>';
 						if ($fm_cfg['perm']['file']['view']) {
-							echo '[<a target="_blank" href="'.$view_url_prefix_ue.$entry_ue.'">'
+							echo '[<a target="_blank" href="index.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">'
 								. _FM_FILE_VIEW.'</a>]';
 						}
 						echo '</small></td>',"\n";

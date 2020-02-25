@@ -47,7 +47,7 @@ final class SolvEventResultsHtmlParserTest extends TestCase {
     public function testParseResults2006(): void {
         $result_2006 = file_get_contents($this->result_2006_path);
 
-        $results = parse_solv_event_result_html($result_2006);
+        $results = parse_solv_event_result_html($result_2006, 3230);
 
         // Those old rankings cannot be parsed
         $this->assertSame(0, count($results));
@@ -56,7 +56,7 @@ final class SolvEventResultsHtmlParserTest extends TestCase {
     public function testParseResults2018(): void {
         $result_2018 = file_get_contents($this->result_2018_path);
 
-        $results = parse_solv_event_result_html($result_2018);
+        $results = parse_solv_event_result_html($result_2018, 8891);
 
         $this->assertSame(52, count($results));
 
@@ -80,6 +80,9 @@ final class SolvEventResultsHtmlParserTest extends TestCase {
    16.  10.07 (4) 17.  10.33 (4)      11.04 (4)
    177   0.53 (2) 190   0.26 (3)  Zi   0.31(10)
          0.02           0.05           0.06', $first_result->splits);
-        $this->assertSame(31, $first_result->finish_split);
+        $this->assertSame(1600, $first_result->class_distance);
+        $this->assertSame(10, $first_result->class_elevation);
+        $this->assertSame(17, $first_result->class_control_count);
+        $this->assertSame(14, $first_result->class_competitor_count);
     }
 }

@@ -12,4 +12,8 @@ class SolvResult {
     public $result;
     public $splits;
     public $finish_split;
+    public $class_distance;
+    public $class_elevation;
+    public $class_control_count;
+    public $class_competitor_count;
 }

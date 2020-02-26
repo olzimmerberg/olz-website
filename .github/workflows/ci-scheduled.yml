@@ -4,8 +4,11 @@ on:
     - cron:  '49 13 * * *'
 name: CI:scheduled
 jobs:
-  ping:
-    name: Ping olzimmerberg.ch
+  fetch:
+    name: HTTP fetch
     runs-on: ubuntu-latest
     steps:
-    - run: ping -c 3 olzimmerberg.ch
+    - name: olzimmerberg.ch
+      run: wget -O - https://olzimmerberg.ch
+    - name: test.olzimmerberg.ch
+      run: wget -O - https://test.olzimmerberg.ch

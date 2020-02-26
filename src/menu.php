@@ -19,7 +19,7 @@ $menu = [
     ["", "", 1],
 ];
 
-echo "<div id='menu' style='width:180px;'>";
+echo "<div id='menu' style='position: sticky; position: -webkit-sticky; top: 10px; width:180px;'>";
 // LIVE-RESULTATE
 $live_json_path = $root.'/resultate/data/_live.json';
 if (is_file($live_json_path)) {
@@ -80,16 +80,18 @@ echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 <a href='https://www.facebook.com/olzimmerberg' target='_blank' title='OL Zimmerberg auf Facebook' style='float:right;'><img src='icns/facebook_16.png' alt='f' class='noborder' /></a>
 <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.png' alt='Y' class='noborder' /></a>
 <a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.png' alt='g' class='noborder' /></a>
+</div>
 </div>";
-echo "</div>
-<script type='text/javascript'>
-document.getElementById(\"menu\").style.position = \"absolute\";
-var origy = document.getElementById(\"menu\").getBoundingClientRect().top;
-function menuonscroll(e) {
-    document.getElementById(\"menu\").style.top = Math.max(window.pageYOffset-origy+20, 10)+\"px\";
+if (preg_match('/(\; MSIE (8|9|10|11))|(\; Trident)/', $_SERVER['HTTP_USER_AGENT'])) {
+    echo "<script type='text/javascript'>
+    document.getElementById(\"menu\").style.position = \"absolute\";
+    var origy = document.getElementById(\"menu\").getBoundingClientRect().top;
+    function menuonscroll(e) {
+        document.getElementById(\"menu\").style.top = Math.max(window.pageYOffset-origy+20, 10)+\"px\";
+    }
+    document.onscroll = menuonscroll;
+    </script>";
 }
-document.onscroll = menuonscroll;
-</script>";
 echo "<div style='width:180px;'>&nbsp;</div>";
 
 function echomenu($menu, $identifier) {

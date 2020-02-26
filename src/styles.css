@@ -26,12 +26,12 @@ image (für table): Linksbündiges Bild [z.B. Aktuell]
 }
 
 
-html 
+html
     {height: 100%;
     margin-bottom: 0.1px;}
 
 /*Nur IE 4-6*/
-* html #ie 
+* html #ie
     {width:1200px;}
 
 body
@@ -50,13 +50,13 @@ body
 
 table
     {width:100%;
-    empty-cells:show; 
+    empty-cells:show;
     border-collapse:separate;
     table-layout:auto;
     border-spacing:0px;}
 
 table.image
-    {float: left; 
+    {float: left;
     padding:0px 10px 5px 0px;}
 thead td
 	{background-color:#e6e6e6;
@@ -65,7 +65,7 @@ thead td
 .kartenstatistik td, .kartenstatistik span
 	{padding:3px;
 	font-weight:bold;
-	font-size:16px;}    
+	font-size:16px;}
 h2, h3
     {clear:left;}
 #content_wrapper
@@ -87,9 +87,11 @@ h2, h3
     float:right;
     padding-top:10px;}
 #content_menu
-    {width:180px;
-    height:0px;
-    float:left;
+    {position: absolute;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    width:180px;
     padding-top:10px;}
 #content_double
     {height:100%;
@@ -168,7 +170,7 @@ p, ul, div.thumb, .paragraf
     {padding:1px 8px 2px 8px;}
 .titel
     {padding-bottom:0px;}
-        
+
 /*-----------RAHMEN-------------*/
 .nobox, .noborder, input.button
     {border:0px;}

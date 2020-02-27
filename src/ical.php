@@ -5,7 +5,7 @@
 include_once "admin/olz_init.php";
 include_once "admin/olz_functions.php";
 
-$fileName = "olz_ical.ics";
+$file_path = "{$data_path}olz_ical.ics";
 $jahr = date('Y');
 
 // Termine abfragen
@@ -60,7 +60,7 @@ $ical .= "\r\nEND:VCALENDAR";
 //echo "<pre>".$ical."</pre>";
 
 // Datei schreiben
-$f = fopen($fileName, "w+");
+$f = fopen($file_path, "w+");
 fwrite($f, $ical);
 fclose($f);
 

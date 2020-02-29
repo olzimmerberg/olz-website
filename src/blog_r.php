@@ -18,9 +18,9 @@ echo "<div class='tablebar'>Elite</div>
 <br />
 <div class='tablebar'>Team Gold</div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gratian.jpg' class='noborder' style='width: 64px;'> <b>Gratian Böhi</b></div>
-<div style='line-height: 64px;'><img src='{$data_href}img/gold_lena.jpg' class='noborder' style='width: 64px;'> <b>Lena Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_lukas.jpg' class='noborder' style='width: 64px;'> <b>Lukas Gasser</b></div>
-<div style='line-height: 64px;'><img src='{$data_href}img/gold_silvan.jpg' class='noborder' style='width: 64px;'> <b>Silvan Ghirlanda</b></div>
+<div style='line-height: 64px;'><img src='{$data_href}img/gold_manuel.jpg' class='noborder' style='width: 64px;'> <b>Manuel Gasser</b></div>
+<div style='line-height: 64px;'><img src='{$data_href}img/gold_andrina.jpg' class='noborder' style='width: 64px;'> <b>Andrina Hotz</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_anna.jpg' class='noborder' style='width: 64px;'> <b>Anna Rettich</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_flurin.jpg' class='noborder' style='width: 64px;'> <b>Flurin Rettich</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gian.jpg' class='noborder' style='width: 64px;'> <b>Gian Rettich</b></div>

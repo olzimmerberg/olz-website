@@ -63,6 +63,9 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     while ($row = mysqli_fetch_array($result)) {
         if ($do == "vorschau") {
             $row = $vorschau;
+        } else {
+            $id_tmp = intval($row['id']);
+            $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id_tmp}'");
         }
         $id_tmp = $row['id'];
         $titel = $row['titel'];

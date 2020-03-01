@@ -27,16 +27,15 @@ CREATE TABLE `aktuell` (
   `bild3` tinytext DEFAULT NULL,
   `bild3_breite` int(5) DEFAULT NULL,
   `zeit` time DEFAULT NULL,
+  `counter` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `datum` (`datum`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO aktuell
-    (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`)
+    (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`)
 VALUES
-    ('1', '0', '2020-01-01', '1', '', 'Frohes neues Jahr!', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr!', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:
-
-<BILD2>', '', 'prä', '', '1', '', '0', '', '', '0', '', '0', '00:00:00');
+    ('1', '0', '2020-01-01', '1', NULL, 'Frohes neues Jahr!', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr!', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>', '', 'prä', '', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0');
 
 DROP TABLE IF EXISTS `anm_felder`;
 CREATE TABLE `anm_felder` (
@@ -189,7 +188,7 @@ CREATE TABLE `forum` (
 INSERT INTO forum
     (`name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `id`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
 VALUES
-    ('Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', '', 'hd35lm6glq', '1', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
+    ('Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', NULL, 'hd35lm6glq', '1', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
 
 DROP TABLE IF EXISTS `galerie`;
 CREATE TABLE `galerie` (
@@ -211,8 +210,8 @@ CREATE TABLE `galerie` (
 INSERT INTO galerie
     (`termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `id`, `content`)
 VALUES
-    ('0', 'Neujahrsgalerie 2020', '2020-01-01', '', 'sh', '1', 'foto', '0', '1', ''),
-    ('0', 'Berchtoldstagsgalerie 2020', '2020-01-02', '', 'sh', '1', 'foto', '0', '2', '');
+    ('0', 'Neujahrsgalerie 2020', '2020-01-01', NULL, 'sh', '1', 'foto', '0', '1', ''),
+    ('0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', '2', '');
 
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
@@ -359,10 +358,10 @@ CREATE TABLE `solv_people` (
 INSERT INTO solv_people
     (`id`, `same_as`, `name`, `birthyear`, `residence`, `member`)
 VALUES
-    ('1', '', 'Toni Thalwiler', '00', 'Thalwil', '1'),
-    ('2', '', 'Hanna Horgener', '70', 'Horgen', '1'),
-    ('3', '', 'Walter Wädenswiler', '83', 'Wädenswil', '1'),
-    ('4', '', 'Regula Richterswiler', '96', 'Richterswil', '1');
+    ('1', NULL, 'Toni Thalwiler', '00', 'Thalwil', '1'),
+    ('2', NULL, 'Hanna Horgener', '70', 'Horgen', '1'),
+    ('3', NULL, 'Walter Wädenswiler', '83', 'Wädenswil', '1'),
+    ('4', NULL, 'Regula Richterswiler', '96', 'Richterswil', '1');
 
 DROP TABLE IF EXISTS `solv_results`;
 CREATE TABLE `solv_results` (
@@ -434,7 +433,7 @@ CREATE TABLE `termine` (
 INSERT INTO termine
     (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `newsletter`, `newsletter_datum`, `newsletter_anmeldung`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `datum_anmeldung`, `text_anmeldung`, `email_anmeldung`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`)
 VALUES
-    ('1', '2020-01-02', '', '', '00:00:00', '00:00:00', '0', '0', '', '', 'Berchtoldstag', '', '', '', '', '', '1', '', '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09');
+    ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Berchtoldstag', '', '', '', '', '', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09');
 
 DROP TABLE IF EXISTS `termine_go2ol`;
 CREATE TABLE `termine_go2ol` (

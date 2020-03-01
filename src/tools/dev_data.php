@@ -99,7 +99,7 @@ function mkimg($source_path, $destination_path, $width, $height) {
 }
 
 function dump_dev_db() {
-    require_once __DIR__.'/../admin/olz_init.php';
+    require_once __DIR__.'/../config/database.php';
 
     set_time_limit(120); // This might take some time...
 
@@ -144,10 +144,16 @@ function dump_dev_db() {
                 }
                 $field_values = [];
                 foreach ($field_names as $name) {
-                    $field_values[] = $row_contents[$name];
+                    $content = $row_contents[$name];
+                    if ($content === null) {
+                        $field_values[] = 'NULL';
+                    } else {
+                        $sane_content = DBEsc("{$content}");
+                        $field_values[] = "'{$sane_content}'";
+                    }
                 }
-                $field_values_sql = implode('\', \'', $field_values);
-                $sql_content .= "    ('{$field_values_sql}')";
+                $field_values_sql = implode(', ', $field_values);
+                $sql_content .= "    ({$field_values_sql})";
             }
             $sql_content .= ";\n";
         }

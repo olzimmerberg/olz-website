@@ -103,31 +103,156 @@ if ($_SESSION['user'] == 'ursu' and 0) {
         // OLZ Trophy 2017
         echo "<div style='float:right;'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:10px;' class='noborder' /></a></div>";
 
-        // OLZ JOM-Counter 2019
-        $jom_solv_uids = [9610, 9543, 9781, 9636, 9542, 9541, 9380, 9390, 9950, 9815, 9821];
-        $sql = "SELECT sp1.name AS name, COUNT(*) AS cnt, GROUP_CONCAT(se.name SEPARATOR '\n') AS events FROM solv_results sr LEFT JOIN solv_people sp ON (sr.person=sp.id) LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id) LEFT JOIN solv_events se ON (sr.event=se.solv_uid) WHERE sr.event IN ('".implode("', '", $jom_solv_uids)."') AND sr.class IN ('H10', 'H12', 'H14', 'H16', 'H18', 'D10', 'D12', 'D14', 'D16', 'D18') GROUP BY sp1.id ORDER BY cnt DESC"; // cnt DESC, se.date ASC
-        $result = $db->query($sql);
-        $num_people = $result->num_rows;
-        $sum_starts = 0;
-        $htmlout = "<table>";
-        $htmlout .= "<tr><th>Name</th><th style='text-align:right;'>Starts</th></tr>";
-        for ($i = 0; $i < $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $htmlout .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
-            $sum_starts += $row['cnt'];
+        // OLZ JOM-Counter 2020
+        // --------------------
+        // Chris Seitz - 15
+        // Daniel Rohr - 12
+        // Dominik Badertscher - 16
+        // Giulia Borner - 45
+        // Jan Hug - 17
+        // Jonas Junker - 22
+        // Julia Jakob - 489
+        // Liliane Suter - 239
+        // Lilly Gross - 42
+        // Marc Bitterli - 9
+        // Marc Breitenmoser - 8
+        // Anik Bachmann - 68
+        // Michael Laager - 64
+        // Miriam Isenring - 69
+        // Moritz Oetiker - 275
+        // Philipp Tschannen - 249
+        // Priska Badertscher - 51
+        // Roger Fluri - 23
+        // Simon Hatt - 20
+        // Tiziana Rigamonti - 650
+        $jom_solv_uids_2019 = [9610, 9543, 9781, 9636, 9542, 9541, 9380, 9390, 9950, 9815, 9821];
+        $jom_solv_uids_2020 = [10086, 10228, 9901, 10049, 10197, 10201, 10239, 10253, 9915, 10247, 10317];
+        $sql_kids = "
+        SELECT
+            sp1.name AS name,
+            COUNT(*) AS cnt,
+            GROUP_CONCAT(se.name SEPARATOR '\n') AS events
+        FROM solv_results sr
+            LEFT JOIN solv_people sp ON (sr.person=sp.id)
+            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id)
+            LEFT JOIN solv_events se ON (sr.event=se.solv_uid)
+        WHERE
+            sr.event IN ('%%PLACEHOLDER_FOR_SOLV_UIDS%%')
+            AND sr.class IN ('H10', 'H12', 'H14', 'H16', 'H18', 'D10', 'D12', 'D14', 'D16', 'D18')
+        GROUP BY sp1.id
+        ORDER BY cnt DESC"; // cnt DESC, se.date ASC
+        $sql_j_und_s = "
+        SELECT
+            sp1.name AS name,
+            COUNT(*) AS cnt,
+            GROUP_CONCAT(se.name SEPARATOR '\n') AS events
+        FROM solv_results sr
+            LEFT JOIN solv_people sp ON (sr.person=sp.id)
+            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id)
+            LEFT JOIN solv_events se ON (sr.event=se.solv_uid)
+        WHERE
+            sr.event IN ('%%PLACEHOLDER_FOR_SOLV_UIDS%%')
+            AND sp1.id IN ('15', '12', '16', '45', '17', '22', '489', '239', '42', '9', '8', '68', '64', '69', '275', '249', '51', '23', '20', '650')
+        GROUP BY sp1.id
+        ORDER BY cnt DESC"; // cnt DESC, se.date ASC
+
+        $htmlout_before = "<div style='position:absolute; top:0px; right:252px; z-index:1000; display:none;' id='%%PLACEHOLDER_FOR_ID%%'><div class='box_ganz'><div style='margin-top:8px; border:0px; overflow-y:scroll;'><div style='padding:5px;'><table>";
+        $htmlout_before .= "<tr><th>Name</th><th style='text-align:right;'>Starts</th></tr>";
+        $htmlout_after = "</table></div></div></div></div>";
+
+        $sql_kids_2019 = str_replace(
+            '%%PLACEHOLDER_FOR_SOLV_UIDS%%',
+            implode("', '", $jom_solv_uids_2019),
+            $sql_kids,
+        );
+        $result_kids_2019 = $db->query($sql_kids_2019);
+        $starts_kids_2019 = 0;
+        $htmlout_kids_2019 = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-kids-2019', $htmlout_before);
+        while ($row = $result_kids_2019->fetch_assoc()) {
+            $starts_kids_2019 += intval($row['cnt']);
+            $htmlout_kids_2019 .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
         }
-        $htmlout .= "</table>";
-        $sql = "SELECT name FROM solv_events se WHERE se.solv_uid IN ('".implode("', '", $jom_solv_uids)."') AND se.date<=DATE(CURRENT_TIMESTAMP)";
-        $result = $db->query($sql);
-        $num_JOMs = $result->num_rows;
-        echo "<a href='' onclick='var elem = document.getElementById(&quot;jom-counter-ranking&quot;); elem.style.display = (elem.style.display==&quot;block&quot;?&quot;none&quot;:&quot;block&quot;); return false;'><div style='position:absolute; top:0px; right:150px;'><div style='width:80px;' class='box_ganz'><div style='width:80px; border:0px;'><h2 style='font-size:12px; border:0px; text-align:center;'>JOM-Zähler</h2>";
-        echo "<div style='margin-top:5px; font-size:20px; text-align:center;' title='Anzahl Starts von OLZ-JOM-Läufern'>&#9651;".$sum_starts."</div>";
-        echo "<div style='margin-top:5px; font-size:20px; text-align:center;' title='Durchschnittliche Anzahl OLZ-JOM-Läufer pro Anlass'>&#216;".number_format($sum_starts / $num_JOMs, 1, ".", "")."</div>";
-        echo "<div style='margin-top:5px; font-size:20px; text-align:center;' title='Anzahl OLZ-JOM-Läufer'>&#9786;".$num_people."</div>";
-        echo "</div></div></div></a>";
-        echo "<div style='position:absolute; top:0px; right:252px; z-index:1000; display:none;' id='jom-counter-ranking'><div class='box_ganz'><div style='margin-top:8px; border:0px; overflow-y:scroll;'><div style='padding:5px;'>";
-        echo $htmlout;
-        echo "</div></div></div></div>";
+        $htmlout_kids_2019 .= $htmlout_after;
+
+        $sql_j_und_s_2019 = str_replace(
+            '%%PLACEHOLDER_FOR_SOLV_UIDS%%',
+            implode("', '", $jom_solv_uids_2019),
+            $sql_j_und_s,
+        );
+        $result_j_und_s_2019 = $db->query($sql_j_und_s_2019);
+        $starts_j_und_s_2019 = 0;
+        $htmlout_j_und_s_2019 = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-junds-2019', $htmlout_before);
+        while ($row = $result_j_und_s_2019->fetch_assoc()) {
+            $starts_j_und_s_2019 += intval($row['cnt']);
+            $htmlout_j_und_s_2019 .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
+        }
+        $htmlout_j_und_s_2019 .= $htmlout_after;
+
+        $sql_kids_2020 = str_replace(
+            '%%PLACEHOLDER_FOR_SOLV_UIDS%%',
+            implode("', '", $jom_solv_uids_2020),
+            $sql_kids,
+        );
+        $result_kids_2020 = $db->query($sql_kids_2020);
+        $starts_kids_2020 = 0;
+        $htmlout_kids_2020 = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-kids-2020', $htmlout_before);
+        while ($row = $result_kids_2020->fetch_assoc()) {
+            $starts_kids_2020 += intval($row['cnt']);
+            $htmlout_kids_2020 .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
+        }
+        $htmlout_kids_2020 .= $htmlout_after;
+
+        $sql_j_und_s_2020 = str_replace(
+            '%%PLACEHOLDER_FOR_SOLV_UIDS%%',
+            implode("', '", $jom_solv_uids_2020),
+            $sql_j_und_s,
+        );
+        $result_j_und_s_2020 = $db->query($sql_j_und_s_2020);
+        $starts_j_und_s_2020 = 0;
+        $htmlout_j_und_s_2020 = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-junds-2020', $htmlout_before);
+        while ($row = $result_j_und_s_2020->fetch_assoc()) {
+            $starts_j_und_s_2020 += intval($row['cnt']);
+            $htmlout_j_und_s_2020 .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
+        }
+        $htmlout_j_und_s_2020 .= $htmlout_after;
+
+        $percent_j_und_s = $starts_j_und_s_2020 * 100 / ($starts_j_und_s_2019 + 0.00000001);
+        $percent_kids = $starts_kids_2020 * 100 / ($starts_kids_2019 + 0.00000001);
+        $are_kids_winners = ($percent_kids > $percent_j_und_s);
+
+        $color_kids = $are_kids_winners ? 'rgb(0,100,0)' : 'rgb(180,0,0)';
+        $color_j_und_s = $are_kids_winners ? 'rgb(180,0,0)' : 'rgb(0,100,0)';
+
+        echo "<script>";
+        echo "function toggle(ident) {";
+        echo "var elem = document.getElementById(ident);";
+        echo "var isShown = (elem.style.display == 'block');";
+        echo "document.getElementById('ranking-kids-2020').style.display = 'none';";
+        echo "document.getElementById('ranking-kids-2019').style.display = 'none';";
+        echo "document.getElementById('ranking-junds-2020').style.display = 'none';";
+        echo "document.getElementById('ranking-junds-2019').style.display = 'none';";
+        echo "elem.style.display = (isShown ? 'none' : 'block');";
+        echo "return false;";
+        echo "}";
+        echo "</script>";
+        echo "<div style='position:absolute; top:0px; right:150px;'><div style='width:80px;' class='box_ganz'><div style='width:80px; border:0px;'>";
+        echo "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center;'>JOM-Jugend</h2>";
+        echo "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu 2019'>".round($percent_kids, 2)."%</div>";
+        echo "<div style='margin-top:-2px; font-size:12px; text-align:center; color:".$color_kids."' title='Anzahl Starts von Jugndlichen 2020 / 2019'>";
+        echo "<a href='javascript:' onclick='toggle(&quot;ranking-kids-2020&quot;); return false;'>{$starts_kids_2020}</a> / ";
+        echo "<a href='javascript:' onclick='toggle(&quot;ranking-kids-2019&quot;); return false;'>{$starts_kids_2019}</a>";
+        echo "</div>";
+        echo "<h2 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h2>";
+        echo "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_j_und_s."' title='Wie viele J&S-Leiter im Vergleich zu 2019'>".round($percent_j_und_s, 2)."%</div>";
+        echo "<div style='margin-top:-2px; font-size:12px; text-align:center; color:".$color_j_und_s."' title='Anzahl Starts von OLZ-J&S-Leitern 2020 / 2019'>";
+        echo "<a href='javascript:' onclick='toggle(&quot;ranking-junds-2020&quot;); return false;'>{$starts_j_und_s_2020}</a> / ";
+        echo "<a href='javascript:' onclick='toggle(&quot;ranking-junds-2019&quot;); return false;'>{$starts_j_und_s_2019}</a>";
+        echo "</div>";
+        echo "</div></div></div>";
+        echo $htmlout_kids_2019;
+        echo $htmlout_kids_2020;
+        echo $htmlout_j_und_s_2019;
+        echo $htmlout_j_und_s_2020;
 
         /*
         // OLZ JOM Team Challenge 2015

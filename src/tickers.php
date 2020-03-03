@@ -35,9 +35,9 @@ function termine_ticker($settings) {
         $class_heute = "";
         if ($diff < (0.95)) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
             $case_tmp = 1;
-            if ($datum_end != '0000-00-00' and $diff_end > 6) {
+            if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
                 $datum_end = '(bis '.olz_date('WW t.m.', $datum_end).')';
-            } elseif ($datum_end != '0000-00-00' and $diff_end > 0) {
+            } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
                 $datum_end = '(bis '.olz_date('WW', $datum_end).')';
             } else {
                 $datum_end = '';
@@ -48,9 +48,9 @@ function termine_ticker($settings) {
             }
         } elseif ($diff < (7.95 - $wotag)) {
             $case_tmp = 2;
-            if ($datum_end != '0000-00-00' and $diff_end > 6) {
+            if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
                 $datum_end = '-'.olz_date('WW (t.m.)', $datum_end);
-            } elseif ($datum_end != '0000-00-00' and $diff_end > 0) {
+            } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
                 $datum_end = '-'.olz_date('WW', $datum_end);
             } else {
                 $datum_end = '';
@@ -59,7 +59,7 @@ function termine_ticker($settings) {
             $datum = olz_date('WW', $datum_tmp).$datum_end.":";
         } elseif ($diff < (14.95 - $wotag)) {
             $case_tmp = 3;
-            $datum_end = ($datum_end != '0000-00-00' and $datum_end != $datum_tmp) ? '-'.olz_date('t.m.(W)', $datum_end) : '';
+            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.olz_date('t.m.(W)', $datum_end) : '';
             $datum = olz_date('W, t.m.', $datum_tmp).$datum_end;
         } elseif ($flag == 1) {
             $case_tmp = 4;

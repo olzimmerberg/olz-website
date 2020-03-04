@@ -1,9 +1,10 @@
 <?php
 
 require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/server.php';
 
 function throttle($ident, $function, $args, $interval) {
-    global $data_path;
+    global $data_path, $_CONFIG;
     $throttle_dir = "{$data_path}throttle/";
     if (!is_dir($throttle_dir)) {
         mkdir($throttle_dir, 0777, true);
@@ -17,7 +18,7 @@ function throttle($ident, $function, $args, $interval) {
         }
     }
     $now = microtime(true);
-    if ($throttling['last-call'] < $now - $interval) {
+    if ($throttling['last-call'] < $now - $interval || $_CONFIG['unlimited_cron']) {
         $throttling['last-call'] = $now;
         file_put_contents($throttle_file, json_encode($throttling));
         call_user_func_array($function, $args);

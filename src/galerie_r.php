@@ -75,7 +75,7 @@ while ($tmp_jahr >= $end_jahr) {
         $content = $row['content'];
         $on_off = $row['on_off'];
 
-        $groesse = galerie_groesse($db_imgpath."/".$id_tmp."/img/");
+        $groesse = galerie_groesse($data_path.$db_imgpath."/".$id_tmp."/img/");
 
         if ($typ == "movie") {
             $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $content);

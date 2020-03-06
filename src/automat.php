@@ -1,5 +1,7 @@
 <?php
 
+die('DEPRECATED');
+
 session_start();
 
 require_once 'admin/olz_init.php';
@@ -32,21 +34,21 @@ function automat_solv_view() {
             }
         }
     }
-    $res_p = $db->query("SELECT p1.name AS name1, p1.birthyear AS birthyear1, p1.residence AS residence1, p1.id AS id1, p2.name AS name2, p2.birthyear AS birthyear2, p2.residence AS residence2, p2.id AS id2 FROM solv_people p1 JOIN solv_people p2 ON (p1.same_as<p2.same_as)");
+    $res_p = $db->query("SELECT p1.name AS name1, p1.birth_year AS birth_year1, p1.domicile AS domicile1, p1.id AS id1, p2.name AS name2, p2.birth_year AS birth_year2, p2.domicile AS domicile2, p2.id AS id2 FROM solv_people p1 JOIN solv_people p2 ON (p1.same_as<p2.same_as)");
     $dists = [];
     for ($i = 0; $i < $res_p->num_rows; $i++) {
         $dist_name = levenshtein($row_p['name1'], $row_p['name2']);
-        $dist_birthyear = levenshtein(str_pad($row_p['birthyear1'], 4, "0", STR_PAD_LEFT), str_pad($row_p['birthyear2'], 4, "0", STR_PAD_LEFT));
-        $dist_residence = levenshtein($row_p['residence1'], $row_p['residence2']);
-        if ($dist_residence > 2) {
-            $dist_residence = 2;
+        $dist_birth_year = levenshtein(str_pad($row_p['birth_year1'], 4, "0", STR_PAD_LEFT), str_pad($row_p['birth_year2'], 4, "0", STR_PAD_LEFT));
+        $dist_domicile = levenshtein($row_p['domicile1'], $row_p['domicile2']);
+        if ($dist_domicile > 2) {
+            $dist_domicile = 2;
         }
-        $dist = ($dist_name + $dist_birthyear + $dist_residence);
+        $dist = ($dist_name + $dist_birth_year + $dist_domicile);
         if ($dist < 10) {
             if (!isset($dists[$dist])) {
                 $dists[$dist] = [];
             }
-            $dists[$dist][] = [$row_p['name1'], $row_p['birthyear1'], $row_p['residence1'], $row_p['id1'], $row_p['name2'], $row_p['birthyear2'], $row_p['residence2'], $row_p['id2']];
+            $dists[$dist][] = [$row_p['name1'], $row_p['birth_year1'], $row_p['domicile1'], $row_p['id1'], $row_p['name2'], $row_p['birth_year2'], $row_p['domicile2'], $row_p['id2']];
         }
         $row_p = $res_p->fetch_assoc();
     }
@@ -229,16 +231,16 @@ function automat_solv_update($incr = true) {
                     }
                     $cur_rang = intval($matches[2]);
                     $cur_name = $matches[3];
-                    $cur_birthyear = $matches[5];
-                    $cur_residence = $matches[6];
+                    $cur_birth_year = $matches[5];
+                    $cur_domicile = $matches[6];
                     $cur_club = $matches[9];
                     $cur_zeit = zeitins($matches[11]);
-                    echo $cur_rand." - ".$cur_name." - ".$cur_birthyear." - ".$cur_residence." - ".$cur_club." - ".$cur_zeit."<br>";
-                    $member = preg_match("/zimmerb/i", $cur_residence.$cur_club);
+                    echo $cur_rand." - ".$cur_name." - ".$cur_birth_year." - ".$cur_domicile." - ".$cur_club." - ".$cur_zeit."<br>";
+                    $member = preg_match("/zimmerb/i", $cur_domicile.$cur_club);
                     if ($member) {
-                        $res_p = $db->query("SELECT id FROM solv_people WHERE name LIKE '".DBEsc($cur_name)."' AND residence LIKE '".DBEsc($cur_residence)."' AND birthyear='".intval($cur_birthyear)."'");
+                        $res_p = $db->query("SELECT id FROM solv_people WHERE name LIKE '".DBEsc($cur_name)."' AND domicile LIKE '".DBEsc($cur_domicile)."' AND birth_year='".intval($cur_birth_year)."'");
                         if ($res_p->num_rows == 0) {
-                            $db->query("INSERT INTO solv_people (same_as, name, birthyear, residence, member) VALUES (NULL, '".DBEsc($cur_name)."', '".intval($cur_birthyear)."', '".DBEsc($cur_residence)."', '1')");
+                            $db->query("INSERT INTO solv_people (same_as, name, birth_year, domicile, member) VALUES (NULL, '".DBEsc($cur_name)."', '".intval($cur_birth_year)."', '".DBEsc($cur_domicile)."', '1')");
                             $person = $db->insert_id;
                             $db->query("UPDATE solv_people SET same_as='".intval($person)."' WHERE id='".intval($person)."' AND same_as IS NULL");
                         } else {

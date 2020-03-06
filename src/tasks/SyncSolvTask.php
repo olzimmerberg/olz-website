@@ -3,11 +3,14 @@
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/common.php';
 require_once __DIR__.'/../database/solv_events.php';
+require_once __DIR__.'/../database/solv_people.php';
 require_once __DIR__.'/../database/solv_results.php';
 require_once __DIR__.'/../fetchers/solv_events.php';
 require_once __DIR__.'/../fetchers/solv_results.php';
 require_once __DIR__.'/../parsers/solv_events.php';
 require_once __DIR__.'/../parsers/solv_results.php';
+
+$solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
     protected static function get_ident() {
@@ -17,6 +20,7 @@ class SyncSolvTask extends BackgroundTask {
     protected function run_specific_task() {
         $this->sync_solv_events();
         $this->sync_solv_results();
+        $this->sync_solv_people();
     }
 
     private function sync_solv_events() {
@@ -90,5 +94,69 @@ class SyncSolvTask extends BackgroundTask {
                 set_result_for_solv_event($solv_uid, $event_result['result_list_id']);
             }
         }
+    }
+
+    private function sync_solv_people() {
+        $res_solv_results = get_unassigned_solv_results();
+        while ($row_solv_result = $res_solv_results->fetch_assoc()) {
+            $solv_result = solv_result_from_row($row_solv_result);
+            $person = get_exact_person_id($solv_result);
+            if ($person == 0) {
+                $this->log_info("Person not exactly matched:");
+                $this->log_info(json_encode($solv_result, JSON_PRETTY_PRINT));
+                $person = $this->find_or_create_solv_person($solv_result);
+            }
+            if ($person != 0) {
+                $solv_result->person = $person;
+                update_solv_result($solv_result);
+            }
+        }
+    }
+
+    private function find_or_create_solv_person($solv_result) {
+        $result = get_all_assigned_solv_result_person_data();
+        $least_difference = strlen($solv_result->name);
+        $rows_with_least_difference = [];
+        while ($row = $result->fetch_assoc()) {
+            $name_difference = levenshtein($solv_result->name, $row['name']);
+            $int_birth_year = intval($solv_result->birth_year);
+            $int_birth_year_row = intval($row['birth_year']);
+            $birth_year_difference = levenshtein("{$int_birth_year}", "{$int_birth_year_row}");
+            $trim_domicile = trim($solv_result->domicile);
+            $trim_domicile_row = trim($row['domicile']);
+            $domicile_difference = levenshtein($trim_domicile, $trim_domicile_row);
+            if ($trim_domicile == '' || $trim_domicile_row == '') {
+                $domicile_difference = min($domicile_difference, 2);
+            }
+            $difference = $name_difference + $birth_year_difference + $domicile_difference;
+            if ($difference < $least_difference) {
+                $least_difference = $difference;
+                $rows_with_least_difference = [$row];
+            } elseif ($difference == $least_difference) {
+                $rows_with_least_difference[] = $row;
+            }
+        }
+        if ($least_difference < 3 && count($rows_with_least_difference) == 1) {
+            $this->log_info("Fuzzily matched persons (difference {$least_difference}, take first):");
+            $this->log_info(json_encode($rows_with_least_difference, JSON_PRETTY_PRINT));
+            return intval($rows_with_least_difference[0]['person']);
+        }
+        $solv_person = new SolvPerson();
+        $solv_person->name = $solv_result->name;
+        $solv_person->birth_year = $solv_result->birth_year;
+        $solv_person->domicile = $solv_result->domicile;
+        $solv_person->member = 1;
+        $insert_id = insert_solv_person($solv_person);
+
+        $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
+        $closest_matches_str = json_encode($rows_with_least_difference, JSON_PRETTY_PRINT);
+        $this->log_info("Created new person (id {$insert_id}):");
+        $this->log_info($person_str);
+        $this->log_info("Closest matches (difference {$least_difference}) were:");
+        $this->log_info($closest_matches_str);
+        if ($least_difference < 6 && count($rows_with_least_difference) > 0) {
+            $this->log_info("Unclear case. TODO: Send mail in this case.");
+        }
+        return $insert_id;
     }
 }

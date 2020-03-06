@@ -63,7 +63,7 @@ function set_result_for_solv_event($solv_uid, $rank_link) {
 function insert_solv_event($solv_event) {
     global $db, $solv_events_table;
     $sql = get_insert_sql($solv_events_table, $solv_event);
-    return $db->query($sql);
+    return $db->query($sql) ? $db->insert_id : null;
 }
 
 function update_solv_event($solv_event) {

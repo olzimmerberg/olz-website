@@ -349,14 +349,14 @@ CREATE TABLE `solv_people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `same_as` int(11) DEFAULT NULL,
   `name` text NOT NULL,
-  `birthyear` text NOT NULL,
-  `residence` text NOT NULL,
+  `birth_year` text NOT NULL,
+  `domicile` text NOT NULL,
   `member` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 INSERT INTO solv_people
-    (`id`, `same_as`, `name`, `birthyear`, `residence`, `member`)
+    (`id`, `same_as`, `name`, `birth_year`, `domicile`, `member`)
 VALUES
     ('1', NULL, 'Toni Thalwiler', '00', 'Thalwil', '1'),
     ('2', NULL, 'Hanna Horgener', '70', 'Horgen', '1'),

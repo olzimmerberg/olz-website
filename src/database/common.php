@@ -1,5 +1,17 @@
 <?php
 
+function get_obj_from_assoc($db_table, $assoc_row) {
+    $class_name = $db_table->obj_name;
+    $obj = new $class_name();
+    foreach ($db_table->fields as $field) {
+        $obj_field = $field->obj_name;
+        $db_field = $field->db_name;
+        $sane_value = $field->value_for_obj($assoc_row[$db_field]);
+        $obj->{$obj_field} = $sane_value;
+    }
+    return $obj;
+}
+
 function get_insert_sql($db_table, $obj) {
     $sql_fields = [];
     $sql_values = [];
@@ -7,8 +19,10 @@ function get_insert_sql($db_table, $obj) {
         $obj_field = $field->obj_name;
         $db_field = $field->db_name;
         $sane_value = $field->value_for_db($obj->{$obj_field});
-        $sql_fields[] = "`{$db_field}`";
-        $sql_values[] = $sane_value;
+        if (!$field->auto_increment) {
+            $sql_fields[] = "`{$db_field}`";
+            $sql_values[] = $sane_value;
+        }
     }
     $sql_fields_str = implode(', ', $sql_fields);
     $sql_values_str = implode(', ', $sql_values);
@@ -32,7 +46,7 @@ function get_update_sql($db_table, $obj) {
         return ";";
     }
     $sql_assignments_str = implode(', ', $sql_assignments);
-    $sql_constraints_str = implode(', ', $sql_constraints);
+    $sql_constraints_str = implode(' AND ', $sql_constraints);
     return "UPDATE `{$db_table->db_name}` SET {$sql_assignments_str} WHERE {$sql_constraints_str}";
 }
 
@@ -50,6 +64,6 @@ function get_delete_sql_from_primary_key($db_table, $primary_key) {
     if (count($sql_constraints) == 0) {
         return ";";
     }
-    $sql_constraints_str = implode(', ', $sql_constraints);
+    $sql_constraints_str = implode(' AND ', $sql_constraints);
     return "DELETE FROM `{$db_table->db_name}` WHERE {$sql_constraints_str}";
 }

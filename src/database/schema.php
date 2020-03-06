@@ -72,6 +72,7 @@ class DbField {
         $config = array_merge($default_config, $specific_config);
         $this->nullable = $config['nullable'];
         $this->primary_key = $config['primary_key'];
+        $this->auto_increment = $config['auto_increment'];
         $this->default = $config['default'];
     }
 

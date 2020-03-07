@@ -180,11 +180,12 @@ class SyncSolvTask extends BackgroundTask {
                     $this->log_error("Merge failed!");
                 }
             }
-            if (solv_person_has_results_assigned($id)) {
-                $this->log_warning("There are still results assigned to person {$id}.");
+            if (!solv_person_has_results_assigned($id)) {
+                delete_solv_person_by_id($id);
+            } elseif ($id == $same_as) {
                 solv_person_reset_same_as($id);
             } else {
-                delete_solv_person_by_id($id);
+                $this->log_warning("There are still results assigned to person {$id}.");
             }
         }
     }

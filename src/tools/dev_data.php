@@ -1,15 +1,43 @@
 <?php
 
 /** DO NOT CALL THIS FUNCTION ON PROD! */
-function init_dev_data() {
-    require_once __DIR__.'/../admin/olz_init.php';
-
-    set_time_limit(120); // This might take some time...
-
+function init_dev_data($db, $data_path) {
     // Overwrite database with dev content.
-    $sql_content = file_get_contents(__DIR__.'/dev-data/db.sql');
-    $db->multi_query($sql_content);
+    $dev_data_dir = __DIR__.'/dev-data/';
+    init_dev_data_db_structure($db, $dev_data_dir);
+    init_dev_data_db_content($db, $dev_data_dir);
 
+    // Initialize the non-code data file system at $data_path
+    init_dev_data_filesystem($data_path);
+}
+
+function init_dev_data_db_structure($db, $dev_data_dir) {
+    // Overwrite database structure with dev content.
+    $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
+    if ($db->multi_query($sql_content)) {
+        while ($db->next_result()) {
+            $result = $db->store_result();
+            if ($result) {
+                $result->free();
+            }
+        }
+    }
+}
+
+function init_dev_data_db_content($db, $dev_data_dir) {
+    // Insert dev content into database.
+    $sql_content = file_get_contents("{$dev_data_dir}db_content.sql");
+    if ($db->multi_query($sql_content)) {
+        while ($db->next_result()) {
+            $result = $db->store_result();
+            if ($result) {
+                $result->free();
+            }
+        }
+    }
+}
+
+function init_dev_data_filesystem($data_path) {
     // Remove existing data.
     remove_r("{$data_path}downloads");
     remove_r("{$data_path}files");
@@ -98,13 +126,9 @@ function mkimg($source_path, $destination_path, $width, $height) {
     imagedestroy($destination);
 }
 
-function dump_dev_db() {
-    require_once __DIR__.'/../config/database.php';
-
-    set_time_limit(120); // This might take some time...
-
+function dump_db_structure_sql($db) {
     $sql_content = (
-        "-- Die Datenbank der Webseite der OL Zimmerberg\n"
+        "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
         ."\n"
         ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
         ."SET AUTOCOMMIT = 0;\n"
@@ -115,17 +139,36 @@ function dump_dev_db() {
     $res_tables = $db->query('SHOW TABLES');
     while ($row_tables = $res_tables->fetch_row()) {
         $table_name = $row_tables[0];
-
         $sql_content .= "\n";
+        $sql_content .= "-- Table {$table_name}\n";
         $sql_content .= "DROP TABLE IF EXISTS `{$table_name}`;\n";
         $res_structure = $db->query("SHOW CREATE TABLE `{$table_name}`");
         $row_structure = $res_structure->fetch_assoc();
         $structure_sql = $row_structure['Create Table'];
         $sql_content .= "{$structure_sql};\n";
+    }
+    $sql_content .= "\n";
+    $sql_content .= "COMMIT;\n";
+    return $sql_content;
+}
 
+function dump_db_content_sql($db) {
+    $sql_content = (
+        "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
+        ."\n"
+        ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
+        ."SET AUTOCOMMIT = 0;\n"
+        ."START TRANSACTION;\n"
+        ."SET time_zone = \"+00:00\";\n"
+    );
+
+    $res_tables = $db->query('SHOW TABLES');
+    while ($row_tables = $res_tables->fetch_row()) {
+        $table_name = $row_tables[0];
+        $sql_content .= "\n";
+        $sql_content .= "-- Table {$table_name}\n";
         $res_contents = $db->query("SELECT * FROM `{$table_name}`");
         if ($res_contents->num_rows > 0) {
-            $sql_content .= "\n";
             $sql_content .= "INSERT INTO {$table_name}\n";
             $content_fields = $res_contents->fetch_fields();
             $field_names = [];
@@ -158,6 +201,7 @@ function dump_dev_db() {
             $sql_content .= ";\n";
         }
     }
-
-    file_put_contents(__DIR__.'/dev-data/db.sql', $sql_content);
+    $sql_content .= "\n";
+    $sql_content .= "COMMIT;\n";
+    return $sql_content;
 }

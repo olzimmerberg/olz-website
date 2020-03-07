@@ -57,23 +57,23 @@ function set_result_for_solv_event($solv_uid, $rank_link) {
     $sane_solv_uid = DBEsc($solv_uid);
     $sane_rank_link = DBEsc($rank_link);
     $sql = "UPDATE solv_events SET rank_link='{$sane_rank_link}' WHERE solv_uid='{$sane_solv_uid}'";
-    return $db->query($sql);
+    return get_update_result($db->query($sql), $db);
 }
 
 function insert_solv_event($solv_event) {
     global $db, $solv_events_table;
     $sql = get_insert_sql($solv_events_table, $solv_event);
-    return $db->query($sql) ? $db->insert_id : null;
+    return get_insert_result($db->query($sql), $db);
 }
 
 function update_solv_event($solv_event) {
     global $db, $solv_events_table;
     $sql = get_update_sql($solv_events_table, $solv_event);
-    return $db->query($sql);
+    return get_update_result($db->query($sql), $db);
 }
 
 function delete_solv_event_by_uid($solv_uid) {
     global $db, $solv_events_table;
     $sql = get_delete_sql_from_primary_key($solv_events_table, $solv_uid);
-    return $db->query($sql);
+    return get_delete_result($db->query($sql), $db);
 }

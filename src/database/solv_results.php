@@ -71,20 +71,28 @@ function get_exact_person_id($solv_result) {
     return intval($row['person']);
 }
 
+function solv_results_merge_person($id, $new_id) {
+    global $db, $solv_results_table;
+    $sane_id = intval($id);
+    $sane_new_id = intval($new_id);
+    $sql = "UPDATE `{$solv_results_table->db_name}` SET `person`='{$sane_new_id}' WHERE `person`='{$sane_id}'";
+    return get_update_result($db->query($sql), $db);
+}
+
 function insert_solv_result($solv_result) {
     global $db, $solv_results_table;
     $sql = get_insert_sql($solv_results_table, $solv_result);
-    return $db->query($sql) ? $db->insert_id : null;
+    return get_insert_result($db->query($sql), $db);
 }
 
 function update_solv_result($solv_result) {
     global $db, $solv_results_table;
     $sql = get_update_sql($solv_results_table, $solv_result);
-    return $db->query($sql);
+    return get_update_result($db->query($sql), $db);
 }
 
 function delete_solv_result_by_uid($solv_uid) {
     global $db, $solv_results_table;
     $sql = get_delete_sql_from_primary_key($solv_results_table, $solv_uid);
-    return $db->query($sql);
+    return get_delete_result($db->query($sql), $db);
 }

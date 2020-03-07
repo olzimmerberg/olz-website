@@ -21,6 +21,7 @@ class SyncSolvTask extends BackgroundTask {
         $this->sync_solv_events();
         $this->sync_solv_results();
         $this->sync_solv_people();
+        $this->merge_solv_people();
     }
 
     private function sync_solv_events() {
@@ -86,9 +87,10 @@ class SyncSolvTask extends BackgroundTask {
                 $this->log_info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {
                     $res = insert_solv_result($result);
-                    if (!$res) {
+                    if ($res['has_error']) {
+                        $res_str = json_encode($res);
                         $result_str = json_encode($result);
-                        $this->log_warning("Result could not be inserted: {$result_str}");
+                        $this->log_warning("Result could not be inserted: {$res_str} {$result_str}");
                     }
                 }
                 set_result_for_solv_event($solv_uid, $event_result['result_list_id']);
@@ -142,11 +144,13 @@ class SyncSolvTask extends BackgroundTask {
             return intval($rows_with_least_difference[0]['person']);
         }
         $solv_person = new SolvPerson();
+        $solv_person->same_as = null;
         $solv_person->name = $solv_result->name;
         $solv_person->birth_year = $solv_result->birth_year;
         $solv_person->domicile = $solv_result->domicile;
         $solv_person->member = 1;
-        $insert_id = insert_solv_person($solv_person);
+        $res = insert_solv_person($solv_person);
+        $insert_id = $res['insert_id'];
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
         $closest_matches_str = json_encode($rows_with_least_difference, JSON_PRETTY_PRINT);
@@ -158,5 +162,20 @@ class SyncSolvTask extends BackgroundTask {
             $this->log_info("Unclear case. TODO: Send mail in this case.");
         }
         return $insert_id;
+    }
+
+    private function merge_solv_people() {
+        $res_merge = get_solv_people_marked_for_merge();
+        while ($row = $res_merge->fetch_assoc()) {
+            $id = $row['id'];
+            $same_as = $row['same_as'];
+            $this->log_info("Merge person {$id} into {$same_as}.");
+            $merge_result = solv_results_merge_person($id, $same_as);
+            if ($merge_result['has_error']) {
+                $this->log_error("Merge failed!");
+            } else {
+                delete_solv_person_by_id($id);
+            }
+        }
     }
 }

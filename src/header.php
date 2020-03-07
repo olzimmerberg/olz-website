@@ -134,7 +134,7 @@ if ($_SESSION['user'] == 'ursu' and 0) {
             GROUP_CONCAT(se.name SEPARATOR '\n') AS events
         FROM solv_results sr
             LEFT JOIN solv_people sp ON (sr.person=sp.id)
-            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id)
+            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id OR (sp.same_as IS NULL AND sp.id=sp1.id))
             LEFT JOIN solv_events se ON (sr.event=se.solv_uid)
         WHERE
             sr.event IN ('%%PLACEHOLDER_FOR_SOLV_UIDS%%')
@@ -148,7 +148,7 @@ if ($_SESSION['user'] == 'ursu' and 0) {
             GROUP_CONCAT(se.name SEPARATOR '\n') AS events
         FROM solv_results sr
             LEFT JOIN solv_people sp ON (sr.person=sp.id)
-            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id)
+            LEFT JOIN solv_people sp1 ON (sp.same_as=sp1.id OR (sp.same_as IS NULL AND sp.id=sp1.id))
             LEFT JOIN solv_events se ON (sr.event=se.solv_uid)
         WHERE
             sr.event IN ('%%PLACEHOLDER_FOR_SOLV_UIDS%%')

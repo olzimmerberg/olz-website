@@ -29,6 +29,22 @@ function get_insert_sql($db_table, $obj) {
     return "INSERT INTO `{$db_table->db_name}` ({$sql_fields_str}) VALUES ({$sql_values_str})";
 }
 
+function get_insert_result($result, $db) {
+    $has_error = !$result || $db->errno !== 0;
+    if ($has_error) {
+        return [
+            'has_error' => true,
+            'error' => $db->error,
+            'code' => $db->errno,
+        ];
+    }
+    return [
+        'has_error' => false,
+        'insert_id' => $db->insert_id,
+        'affected_rows' => $db->affected_rows,
+    ];
+}
+
 function get_update_sql($db_table, $obj) {
     $sql_assignments = [];
     $sql_constraints = [];
@@ -50,6 +66,21 @@ function get_update_sql($db_table, $obj) {
     return "UPDATE `{$db_table->db_name}` SET {$sql_assignments_str} WHERE {$sql_constraints_str}";
 }
 
+function get_update_result($result, $db) {
+    $has_error = !$result || $db->errno !== 0;
+    if ($has_error) {
+        return [
+            'has_error' => true,
+            'error' => $db->error,
+            'code' => $db->errno,
+        ];
+    }
+    return [
+        'has_error' => false,
+        'affected_rows' => $db->affected_rows,
+    ];
+}
+
 function get_delete_sql_from_primary_key($db_table, $primary_key) {
     $sql_constraints = [];
     foreach ($db_table->fields as $field) {
@@ -66,4 +97,19 @@ function get_delete_sql_from_primary_key($db_table, $primary_key) {
     }
     $sql_constraints_str = implode(' AND ', $sql_constraints);
     return "DELETE FROM `{$db_table->db_name}` WHERE {$sql_constraints_str}";
+}
+
+function get_delete_result($result, $db) {
+    $has_error = !$result || $db->errno !== 0;
+    if ($has_error) {
+        return [
+            'has_error' => true,
+            'error' => $db->error,
+            'code' => $db->errno,
+        ];
+    }
+    return [
+        'has_error' => false,
+        'affected_rows' => $db->affected_rows,
+    ];
 }

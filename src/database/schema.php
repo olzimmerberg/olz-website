@@ -116,6 +116,9 @@ class DbBoolean extends DbField {
     }
 
     public function value_for_db($value) {
+        if ($this->nullable && $value === null) {
+            return 'NULL';
+        }
         $str = DBEsc(intval($value));
         return "'{$str}'";
     }
@@ -127,6 +130,9 @@ class DbInteger extends DbField {
     }
 
     public function value_for_db($value) {
+        if ($this->nullable && $value === null) {
+            return 'NULL';
+        }
         $str = DBEsc(intval($value));
         return "'{$str}'";
     }
@@ -138,6 +144,9 @@ class DbString extends DbField {
     }
 
     public function value_for_db($value) {
+        if ($this->nullable && $value === null) {
+            return 'NULL';
+        }
         $str = DBEsc($value);
         return "'{$str}'";
     }
@@ -155,6 +164,9 @@ class DbEnum extends DbField {
     }
 
     public function value_for_db($value) {
+        if ($this->nullable && $value === null) {
+            return 'NULL';
+        }
         $str = DBEsc($value);
         return "'{$str}'";
     }

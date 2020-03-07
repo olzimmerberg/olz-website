@@ -16,8 +16,15 @@ $solv_people_table = new DbTable('SolvPerson', 'solv_people', [
 
 function get_solv_people_marked_for_merge() {
     global $db, $solv_people_table;
-    $sql = "SELECT `id`, `same_as` FROM `{$solv_people_table->db_name}` WHERE `same_as` IS NOT NULL AND `same_as`>0";
+    $sql = "SELECT `id`, `same_as` FROM `{$solv_people_table->db_name}` WHERE `same_as` IS NOT NULL";
     return $db->query($sql);
+}
+
+function solv_person_reset_same_as($id) {
+    global $db, $solv_people_table;
+    $sane_id = intval($id);
+    $sql = "UPDATE `{$solv_people_table->db_name}` SET `same_as`=NULL WHERE `id`='{$sane_id}'";
+    return get_update_result($db->query($sql), $db);
 }
 
 function get_all_solv_people() {

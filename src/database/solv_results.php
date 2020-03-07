@@ -79,6 +79,14 @@ function solv_results_merge_person($id, $new_id) {
     return get_update_result($db->query($sql), $db);
 }
 
+function solv_person_has_results_assigned($id) {
+    global $db, $solv_results_table;
+    $sane_id = intval($id);
+    $sql = "SELECT id FROM `{$solv_results_table->db_name}` WHERE `person`='{$sane_id}'";
+    $result = $db->query($sql);
+    return $result->num_rows > 0;
+}
+
 function insert_solv_result($solv_result) {
     global $db, $solv_results_table;
     $sql = get_insert_sql($solv_results_table, $solv_result);

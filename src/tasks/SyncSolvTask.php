@@ -170,9 +170,19 @@ class SyncSolvTask extends BackgroundTask {
             $id = $row['id'];
             $same_as = $row['same_as'];
             $this->log_info("Merge person {$id} into {$same_as}.");
-            $merge_result = solv_results_merge_person($id, $same_as);
-            if ($merge_result['has_error']) {
-                $this->log_error("Merge failed!");
+            if (intval($same_as) <= 0) {
+                $this->log_warning("Invalid same_as for person {$id}: {$same_as}.");
+            } elseif (!solv_person_has_results_assigned($same_as)) {
+                $this->log_warning("same_as ({$same_as}) without any results assigned for person {$id}.");
+            } else {
+                $merge_result = solv_results_merge_person($id, $same_as);
+                if ($merge_result['has_error']) {
+                    $this->log_error("Merge failed!");
+                }
+            }
+            if (solv_person_has_results_assigned($id)) {
+                $this->log_warning("There are still results assigned to person {$id}.");
+                solv_person_reset_same_as($id);
             } else {
                 delete_solv_person_by_id($id);
             }

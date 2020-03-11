@@ -10,7 +10,13 @@
 /screenshots
 /src/olz_ical.ics
 /src/screenshots/generated
-/tests/document-root/*
-!/tests/document-root/config.template.php
+
+# PHP tooling
 /vendor
 .php_cs.cache
+/tests/document-root/*
+!/tests/document-root/config.template.php
+
+# JavaScript tooling
+/node_modules/
+/src/jsbuild/

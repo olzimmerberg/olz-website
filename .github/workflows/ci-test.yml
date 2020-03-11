@@ -23,6 +23,8 @@ jobs:
     - uses: shivammathur/setup-php@v1
       with:
         php-version: '7.4'
+    - name: Install JavaScript dependencies
+      run: npm install
     - name: Take Screenshots
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
@@ -81,6 +83,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install JavaScript dependencies
+      run: npm install
     - name: Build deployment
       run: ./build-deployment.sh
     - name: Deploy over SFTP

@@ -14,6 +14,9 @@ else
     echo "Dev server configuration preserved."
 fi
 
+# Build JavaScript code
+npm run webpack-build
+
 # Run dev server
 php -S "$DOMAIN" -t ./dev-server/ &
 

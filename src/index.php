@@ -171,6 +171,7 @@ if ($page == 'ftp') {
     }
 }
 header('Cache-Control: max-age=600');
+$js_modified = filemtime("{$code_path}jsbuild/olz.min.js");
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/loose.dtd\">
 <html>
@@ -187,7 +188,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <link rel='stylesheet' type='text/css' href='library/datepicker/datepicker.css'>
 <link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='library/datepicker/datepicker.js'></script>
-<script type='text/javascript' src='jsbuild/olz.min.js' onload='olz.loaded()'></script>
+<script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
 <!--[if lt IE 9]>
   <script type='text/javascript' src='library/lightview-3.4.0/js/excanvas/excanvas.js'></script>
 <![endif]-->

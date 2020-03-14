@@ -74,16 +74,26 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
             $change = 'MODIFIED';
             $local_img = imagecreatefromstring($local_screenshot);
             $remote_img = imagecreatefromstring($remote_screenshot);
-            $max_wid = max(imagesx($local_img), imagesx($remote_img));
-            $max_hei = max(imagesy($local_img), imagesy($remote_img));
+            $local_wid = imagesx($local_img);
+            $remote_wid = imagesx($remote_img);
+            $local_hei = imagesy($local_img);
+            $remote_hei = imagesy($remote_img);
+            $max_wid = max($local_wid, $remote_wid);
+            $max_hei = max($local_hei, $remote_hei);
+            $min_wid = min($local_wid, $remote_wid);
+            $min_hei = min($local_hei, $remote_hei);
             $diff_img = imagecreatetruecolor($max_wid, $max_hei);
             $diff_color = imagecolorallocate($diff_img, 255, 100, 100);
             for ($y = 0; $y < $max_hei; $y++) {
                 for ($x = 0; $x < $max_wid; $x++) {
-                    $local_rgb = imagecolorat($local_img, $x, $y);
-                    $remote_rgb = imagecolorat($remote_img, $x, $y);
-                    if ($local_rgb != $remote_rgb) {
+                    if ($x > $min_wid || $y > $min_hei) {
                         imagesetpixel($diff_img, $x, $y, $diff_color);
+                    } else {
+                        $local_rgb = imagecolorat($local_img, $x, $y);
+                        $remote_rgb = imagecolorat($remote_img, $x, $y);
+                        if ($local_rgb != $remote_rgb) {
+                            imagesetpixel($diff_img, $x, $y, $diff_color);
+                        }
                     }
                 }
             }

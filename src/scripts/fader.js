@@ -1,6 +1,6 @@
 // main function to process the fade request //
 export function colorFade(id,element,start,end,steps,speed) {
-  var startrgb,endrgb,er,eg,eb,step,rint,gint,bint,step;
+  var startrgb,endrgb,r,g,b,er,eg,eb,step,rint,gint,bint,step;
   var target = document.getElementById(id);
   steps = steps || 20;
   speed = speed || 20;

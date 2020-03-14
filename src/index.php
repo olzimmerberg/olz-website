@@ -184,16 +184,10 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 ".(isset($_GET["archiv"]) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
 <title>OL Zimmerberg{$html_titel}</title>
 <link rel='stylesheet' type='text/css' href='styles.css'>
-<link rel='stylesheet' type='text/css' href='library/lightview-3.4.0/css/lightview/lightview.css'>
 <link rel='stylesheet' type='text/css' href='library/datepicker/datepicker.css'>
 <link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='library/datepicker/datepicker.js'></script>
 <script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
-<!--[if lt IE 9]>
-  <script type='text/javascript' src='library/lightview-3.4.0/js/excanvas/excanvas.js'></script>
-<![endif]-->
-<script type='text/javascript' src='library/lightview-3.4.0/js/spinners/spinners.min.js'></script>
-<script type='text/javascript' src='library/lightview-3.4.0/js/lightview/lightview.js'></script>
 <script type='text/javascript'>
 if ( window.self !== window.top ) {
     window.top.location.href=window.location.href;

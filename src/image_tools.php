@@ -355,7 +355,11 @@ function olz_image($db_table, $id, $index, $dim, $lightview = "image", $attrs = 
         $hei = $dim;
         $wid = intval($hei * $swid / $shei);
     }
-    return ($lightview ? "<a href='".$data_href.$imgfile."' class='lightview'".($lightview == "image" ? "" : " data-lightview-group='".$lightview."'")." data-lightview-caption='&lt;a href=&#39;".$data_href.$imgfile."&#39;&gt;Download&lt;/a&gt;' data-lightview-group-options=\"controls:{close:false}\">" : "")."<img src='image_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=".$dim."' alt='' width='".$wid."' height='".$hei."'".$attrs.">".($lightview ? "</a>" : "");
+    $span_before = $lightview == "image" ? "<span class='lightgallery'>" : "";
+    $span_after = $lightview == "image" ? "</span>" : "";
+    $a_before = $lightview ? "<a href='".$data_href.$imgfile."' data-src='".$data_href.$imgfile."' data-lightview-caption='&lt;a href=&#39;".$data_href.$imgfile."&#39;&gt;Download&lt;/a&gt;'>" : "";
+    $a_after = $lightview ? "</a>" : "";
+    return $span_before.$a_before."<img src='image_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=".$dim."' alt='' width='".$wid."' height='".$hei."'".$attrs.">".$a_after.$span_after;
 }
 
 function olz_images_edit($db_table, $id) {

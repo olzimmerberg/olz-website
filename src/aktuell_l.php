@@ -146,7 +146,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             }
             */
         echo "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
-        echo "<p><b>".$text."</b><p>".$textlang."</p>\n";
+        echo "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
     }
 }
 ?>

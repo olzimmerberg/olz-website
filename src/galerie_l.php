@@ -94,7 +94,7 @@ if ($db_edit == "0" or $do == "vorschau") {
     if (mysqli_num_rows($result)) {
         echo "<h2>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum))])." ".date("Y", strtotime($datum)).": ".$titel.$autor."</h2>";
     }
-    echo "<div style='overflow:auto;'><table class='liste'>";
+    echo "<div class='lightgallery' style='overflow:auto;'><table class='liste'>";
 
     if ($typ == "foto") {
         // INDEX anzeigen

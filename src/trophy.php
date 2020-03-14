@@ -1,9 +1,9 @@
-<h2 style='font-size:2em; border:0px; text-align:center;'>OL Zimmerberg Trophy 2020</h2>
-<p style='text-align:center; font-size:1.3em; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
-<p style='text-align:center;'><i style='font-size:1.4em;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>
+<h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2020</h2>
+<p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
+<p style='text-align:center;'><i style='font-size:17px;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>
 <p style='text-align:center;'>Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.</p>
 
-<h3 style='font-size:1.7em;'>Etappen</h3>
+<h3 style='font-size:18px;'>Etappen</h3>
 <script type="text/javascript" src="library/wgs84_ch1903/wgs84_ch1903.js"></script>
 <script type="text/javascript">
 function map(xkoord, ykoord) {
@@ -69,8 +69,8 @@ $gemeindeduell = [
 echo "<table>";
 for ($i = 0; $i < count($etappen); $i++) {
     $etappe = $etappen[$i];
-    echo "<tr><td id='id".$etappe[13]."' style='padding:5px 0px;'><div style='font-size:1.2em;'><h4 style='font-size:1.3em;'>".$etappe[2]."</h4><table>
-    <tr><td style='width:100px;'>Datum:</td><td><b style='font-size:inherit;'>".$etappe[0]."</b></td></tr>
+    echo "<tr><td id='id".$etappe[13]."' style='padding:5px 0px;'><div><h4 style='font-size:18px;'>".$etappe[2]."</h4><table>
+    <tr><td style='width:100px;'>Datum:</td><td><b>".$etappe[0]."</b></td></tr>
     <tr><td>Besammlung:</td><td>".$etappe[3]."</td></tr>
     <tr><td>Anmeldung:</td><td>".$etappe[1]."</td></tr>
     ".($etappe[14] ? "<tr><td></td><td>".$etappe[14]."</td></tr>" : "")."
@@ -80,8 +80,8 @@ for ($i = 0; $i < count($etappen); $i++) {
     <tr><td>Parkplätze:</td><td>".$etappe[7]."</td></tr>
     <tr><td>Garderobe:</td><td>".$etappe[8]."</td></tr>
     <tr><td></td><td><a href='?page=3#id".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
-    <tr><td></td><td><a href='".$etappe[9]."' style='font-size:inherit;' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("resultate/data/".$etappe[12].".xml") ? "</td></tr>
-    <tr><td></td><td><a href='resultate/?file=data/".$etappe[12].".xml' style='font-size:inherit;' class='linkint'>Resultate</a>" : "")."</td></tr>
+    <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("resultate/data/".$etappe[12].".xml") ? "</td></tr>
+    <tr><td></td><td><a href='resultate/?file=data/".$etappe[12].".xml' class='linkint'>Resultate</a>" : "")."</td></tr>
     </table></div></td><td style='width:20%; padding:5px 0px 5px 10px;'>".($etappe[4] != 0 ? "<script>document.write(map(".$etappe[4].",".$etappe[5]."))</script>" : "")."</td></tr>";
     if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'all' && $etappe[12]) {
         if (isset($_FILES["resultate_upload_".$etappe[13]])) {
@@ -94,7 +94,7 @@ echo "</table>";
 
 ?>
 
-<h3 style='font-size:1.7em;'>Weitere Informationen</h3>
+<h3>Weitere Informationen</h3>
 <table style='max-width:600px; margin:0px auto;'>
 <tr><td>Ausrüstung:</td><td style='padding-left:10px;'> Joggingdress und Joggingschuhe genügen.</td></tr>
 <tr><td>Trophy:</td><td style='padding-left:10px;'>Jeder Lauf ist eine eigene abgeschlossene Veranstaltung.<br>

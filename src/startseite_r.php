@@ -67,7 +67,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     $sql = "SELECT * from {$db_table} WHERE (on_off = 1) ORDER BY id ASC LIMIT 1";
     $result = $db->query($sql);
 
-    echo "<div class='tablebar'>Bild der Woche</div>";
+    echo "<h4 class='tablebar'>Bild der Woche</h4>";
     // simon, 13.4.2011, damit man mehr von den terminen sieht
     // urs, 17.4.2012, finde ich grafisch nicht überzeigend und der Gewinn an Höhe ist minimal
     echo "<div style='text-align:center;'>";

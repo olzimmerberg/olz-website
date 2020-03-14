@@ -86,7 +86,7 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
             $diff_color = imagecolorallocate($diff_img, 255, 100, 100);
             for ($y = 0; $y < $max_hei; $y++) {
                 for ($x = 0; $x < $max_wid; $x++) {
-                    if ($x > $min_wid || $y > $min_hei) {
+                    if ($x >= $min_wid || $y >= $min_hei) {
                         imagesetpixel($diff_img, $x, $y, $diff_color);
                     } else {
                         $local_rgb = imagecolorat($local_img, $x, $y);

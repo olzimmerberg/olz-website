@@ -172,6 +172,7 @@ if ($page == 'ftp') {
 }
 header('Cache-Control: max-age=600');
 $js_modified = filemtime("{$code_path}jsbuild/olz.min.js");
+$css_modified = filemtime("{$code_path}styles.css");
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/loose.dtd\">
 <html>
@@ -183,7 +184,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <meta name='Content-Language' content='de'>".$refresh."
 ".(isset($_GET["archiv"]) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
 <title>OL Zimmerberg{$html_titel}</title>
-<link rel='stylesheet' type='text/css' href='styles.css'>
+<link rel='stylesheet' type='text/css' href='styles.css?modified={$css_modified}'>
 <link rel='stylesheet' type='text/css' href='library/datepicker/datepicker.css'>
 <link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='library/datepicker/datepicker.js'></script>
@@ -195,13 +196,7 @@ if ( window.self !== window.top ) {
 </script>";
 
 echo "</head>";
-if (preg_match('/MSIE/i', $_SERVER['HTTP_USER_AGENT']) or preg_match('/Win/i', $_SERVER['HTTP_USER_AGENT'])) {
-    echo "<body style='font-size:70%'>\n";
-} else {
-    echo "<body style='font-size:100%;'>\n";
-}
-
-//<body class='layout' onload='init()'>
+echo "<body class='olz-override-root'>\n";
 echo "<a name='top'></a>
 <div style='background-image:url(icns/headerbg.png); background-repeat:repeat-x;'>
 <div style='max-width:1200px; margin-left:auto; margin-right:auto; height:101%;'>

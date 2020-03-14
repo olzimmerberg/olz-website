@@ -1,6 +1,6 @@
 <?php
 
-echo "<div class='tablebar'>Elite</div>
+echo "<h4 class='tablebar'>Elite</h4>
 <div>
 <h3>Julia Jakob</h3>
 <img src='{$data_href}img/elite_julia.jpg' class='noborder' style='max-width: 300px;'>
@@ -16,7 +16,7 @@ echo "<div class='tablebar'>Elite</div>
 <div>Strava: <a href='https://www.strava.com/athletes/3997545' class='linkext'>Profil</a></div>
 </div>
 <br />
-<div class='tablebar'>Team Gold</div>
+<h4 class='tablebar'>Team Gold</h4>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gratian.jpg' class='noborder' style='width: 64px;'> <b>Gratian Böhi</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_lukas.jpg' class='noborder' style='width: 64px;'> <b>Lukas Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_manuel.jpg' class='noborder' style='width: 64px;'> <b>Manuel Gasser</b></div>
@@ -25,7 +25,7 @@ echo "<div class='tablebar'>Elite</div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_flurin.jpg' class='noborder' style='width: 64px;'> <b>Flurin Rettich</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gian.jpg' class='noborder' style='width: 64px;'> <b>Gian Rettich</b></div>
 <br />
-<div class='tablebar'>Trainer Team Gold</div>
+<h4 class='tablebar'>Trainer Team Gold</h4>
 <div><img src='{$data_href}img/gold_trainer.jpg' class='noborder' style='width: 100%;'></div>
 <div><b>Hauptleitung</b></div>
 <script>document.write(MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold'))</script>

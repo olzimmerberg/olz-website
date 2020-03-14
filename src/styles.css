@@ -34,17 +34,26 @@ html
 * html #ie
     {width:1200px;}
 
-body
-    {z-index:-2;
-    background-image:url(icns/brushedbgschwarz.png);}
+body {
+    background-image:url(icns/brushedbgschwarz.png);
+    z-index:-2;
+    color:rgb(0,0,0);
+    font-size:12px;
+}
+
+input {
+    font-size:12px;
+}
+
+h6 {
+    font-size: 12px;
+}
 
 *
     {margin:0px;
     padding:0px;
     border:0px;
     font-family:'Open Sans', Verdana, sans-serif;
-    font-size:12px;
-    color:#000000;
     text-align:left;
     vertical-align:top;}
 
@@ -225,7 +234,7 @@ a:hover, .AccordionTitle
     {color:#007521; }
 h2, h3, .buttonbar, .dropdown, .button, .tablebar, .titel, .galerie_kopf td, .AccordionTitle
     {font-weight:bold;}
-h2, h3, h2 a, .tablebar
+h2, h3, h2 a, h4.tablebar
     {font-size:115%;}
 h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
     {vertical-align:middle;
@@ -290,3 +299,7 @@ width:100%;}
 .AccordionContainer
     {
     }
+
+.olz-override-root .lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}

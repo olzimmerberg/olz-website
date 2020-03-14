@@ -1,5 +1,5 @@
 // main function to process the fade request //
-function colorFade(id,element,start,end,steps,speed) {
+export function colorFade(id,element,start,end,steps,speed) {
   var startrgb,endrgb,er,eg,eb,step,rint,gint,bint,step;
   var target = document.getElementById(id);
   steps = steps || 20;
@@ -78,8 +78,8 @@ function animateColor(id,element,steps,er,eg,eb,rint,gint,bint) {
 
 // convert the color to rgb from hex //
 function colorConv(color) {
-  var rgb = [parseInt(color.substring(0,2),16), 
-    parseInt(color.substring(2,4),16), 
+  var rgb = [parseInt(color.substring(0,2),16),
+    parseInt(color.substring(2,4),16),
     parseInt(color.substring(4,6),16)];
   return rgb;
 }

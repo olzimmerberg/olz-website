@@ -1,0 +1,32 @@
+{
+  "name": "olz-website",
+  "version": "1.0.0",
+  "description": "Der Client-Code der Website der OL Zimmerberg",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack-build": "webpack --mode='production'",
+    "webpack-watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olzimmerberg/olz-website.git"
+  },
+  "author": "Urs Utzinger, Simon Hatt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olzimmerberg/olz-website/issues"
+  },
+  "homepage": "https://github.com/olzimmerberg/olz-website#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

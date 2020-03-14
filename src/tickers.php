@@ -11,7 +11,7 @@ function termine_ticker($settings) {
     $db_table = "termine";
     $heute = date("Y-m-d");
     echo "<div class='layout'>";
-    echo "<div class='tablebar'>".$titel."</div>";
+    echo "<h4 class='tablebar'>".$titel."</h4>";
     //Tabelle auslesen
     $sql = "select * from {$db_table} WHERE ((datum >= '{$heute}') OR (datum_end >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY datum ASC LIMIT {$listenlaenge}";
     $result = $db->query($sql);

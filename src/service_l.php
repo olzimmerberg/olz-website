@@ -247,10 +247,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     echo "</ul>";
 }
     echo "</td></tr></table><br><br>";
-    /*
-    // 2015
-    olz_text_insert(9);
-    include 'zielsprint15.php';
-    */
 
+    // Zielsprint 2020
+    include 'zielsprint20.php';
 ?>

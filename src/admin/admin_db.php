@@ -748,7 +748,7 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einbelndkalender
-            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='dateformat-Y-ds-m-ds-d highlight-days-67' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "checkbox") { //Input-Typ 'checkbox'

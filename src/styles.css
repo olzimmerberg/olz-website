@@ -303,3 +303,7 @@ width:100%;}
 .olz-override-root .lg-backdrop {
     background-color: rgba(0, 0, 0, 0.75);
 }
+
+.olz-override-root .ui-datepicker {
+    background-color: rgb(255, 255, 255);
+}

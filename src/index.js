@@ -1,11 +1,13 @@
 import 'lightgallery/dist/css/lightgallery.css';
+import 'jquery-ui/themes/base/theme.css';
+import 'jquery-ui/themes/base/datepicker.css';
 
 export * from './scripts/jscripts';
 export * from './scripts/fader';
 export * from './scripts/accordion';
 export * from 'lightgallery';
-
-export const $ = jQuery;
+export * from 'jquery';
+export * from 'jquery-ui/ui/widgets/datepicker';
 
 export function loaded() {
     // TODO: remove this!
@@ -14,9 +16,13 @@ export function loaded() {
     }
 
     $(document).ready(() => {
-        $(".lightgallery").lightGallery({
+        $('.lightgallery').lightGallery({
             selector: 'a[data-src]',
         });
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+        });
+        $('.datepicker').datepicker();
     });
     console.log('OLZ loaded!');
 }

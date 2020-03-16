@@ -37,9 +37,17 @@ module.exports = [
         },
         plugins: [
             new webpack.ProvidePlugin({
-                'jQuery': 'jquery',
+                '$':'jquery',
+                'jQuery':'jquery',
+                'window.jQuery':'jquery',
             }),
         ],
+        // resolve : {
+        //     alias: {
+        //         "jquery-ui": "jquery-ui/ui/jquery-1-7.js",
+        //         modules: path.join(__dirname, "node_modules"),
+        //     },
+        // },
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000,

@@ -1,6 +1,8 @@
 import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
+import 'typeface-open-sans';
+import './styles.css';
 
 export * from './scripts/jscripts';
 export * from './scripts/fader';

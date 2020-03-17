@@ -12,20 +12,6 @@ liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
 image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
 
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'), url('icns/fonts/OpenSans400.woff') format('woff'), url('icns/fonts/OpenSans400.svg#OpenSans') format('svg');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('icns/fonts/OpenSans700.woff') format('woff'), url('icns/fonts/OpenSans700.svg#OpenSans-Bold') format('svg');
-}
-
-
 html
     {height: 100%;
     margin-bottom: 0.1px;}
@@ -53,7 +39,7 @@ h6 {
     {margin:0px;
     padding:0px;
     border:0px;
-    font-family:'Open Sans', Verdana, sans-serif;
+    font-family:'Open Sans', arial, sans-serif;
     text-align:left;
     vertical-align:top;}
 

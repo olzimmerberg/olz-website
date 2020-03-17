@@ -29,7 +29,7 @@ module.exports = [
                     use: ['file-loader'],
                 },
                 {
-                    test: /\.(ttf|woff|eot|svg)$/,
+                    test: /\.(ttf|woff(|2)|eot|svg)$/,
                     use: ['file-loader'],
 
                 },
@@ -42,12 +42,6 @@ module.exports = [
                 'window.jQuery':'jquery',
             }),
         ],
-        // resolve : {
-        //     alias: {
-        //         "jquery-ui": "jquery-ui/ui/jquery-1-7.js",
-        //         modules: path.join(__dirname, "node_modules"),
-        //     },
-        // },
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000,

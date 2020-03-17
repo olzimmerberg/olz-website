@@ -172,7 +172,6 @@ if ($page == 'ftp') {
 }
 header('Cache-Control: max-age=600');
 $js_modified = filemtime("{$code_path}jsbuild/olz.min.js");
-$css_modified = filemtime("{$code_path}styles.css");
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/loose.dtd\">
 <html>
@@ -184,7 +183,6 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <meta name='Content-Language' content='de'>".$refresh."
 ".(isset($_GET["archiv"]) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
 <title>OL Zimmerberg{$html_titel}</title>
-<link rel='stylesheet' type='text/css' href='styles.css?modified={$css_modified}'>
 <link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
 </head>";

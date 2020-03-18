@@ -35,7 +35,7 @@ function fm_get_cgi_var($name, $default_value = null) /* {{{ */
 {
     static $magic_quotes_gpc = null;
     if ($magic_quotes_gpc === null) {
-        $magic_quotes_gpc = get_magic_quotes_gpc();
+        $magic_quotes_gpc = false;
     }
     $var = @$_GET[$name];
     if (! isset($var)) {
@@ -122,7 +122,7 @@ function fm_get_origvars_html($origvars, $method = 'POST', $default = '') /* {{{
     return $ret;
 } /* }}} */
 
-/** 
+/**
  * Appends slash at the end of string if it is not empty and slash is not
  * already present at the end of string.
  *
@@ -136,7 +136,7 @@ function fm_append_slash($string, $char = '/') /* {{{ */
         return false;
     }
     if (strlen($string) > 0) {
-        if ($string[strlen($string) - 1] != $char[0]) 
+        if ($string[strlen($string) - 1] != $char[0])
             $string .= $char[0];
     }
     return $string;
@@ -158,7 +158,7 @@ function fm_get_path_without_scriptname($url) /* {{{ */
     return $path;
 } /* }}} */
 
-/** 
+/**
  * Creates URL string from components; components are array as it is
  * returned from glue_url() function.
  *
@@ -168,30 +168,30 @@ function fm_get_path_without_scriptname($url) /* {{{ */
  * @date    19/Feb/2001
  */
 function fm_glue_url($url) /* {{{ */
-{ 
+{
     if (! is_array($url))
-        return false; 
-    // scheme 
+        return false;
+    // scheme
     $uri = empty($url['scheme']) ? '' : $url['scheme'] . '://';
-    // user and pass 
-    if (! empty($url['user'])) { 
-        $uri .= $url['user'].':'.$url['pass'].'@'; 
-    } 
-    // host 
-    $uri .= $url['host']; 
-    // port 
-    $port = empty($url['port']) ? '' : ':'.$url['port']; 
-    $uri .= $port; 
-    // path 
-    $uri .= $url['path']; 
-    // fragment or query 
-    if (isset($url['fragment'])) { 
-        $uri .= '#' . $url['fragment']; 
-    } 
-    elseif (isset($url['query'])) {  
-        $uri .= '?' . $url['query']; 
-    } 
-    return $uri; 
+    // user and pass
+    if (! empty($url['user'])) {
+        $uri .= $url['user'].':'.$url['pass'].'@';
+    }
+    // host
+    $uri .= $url['host'];
+    // port
+    $port = empty($url['port']) ? '' : ':'.$url['port'];
+    $uri .= $port;
+    // path
+    $uri .= $url['path'];
+    // fragment or query
+    if (isset($url['fragment'])) {
+        $uri .= '#' . $url['fragment'];
+    }
+    elseif (isset($url['query'])) {
+        $uri .= '?' . $url['query'];
+    }
+    return $uri;
 } /* }}} */
 
 /* vim: set expandtab tabstop=4 shiftwidth=4:

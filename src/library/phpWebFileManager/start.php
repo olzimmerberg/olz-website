@@ -567,7 +567,7 @@ function fm_main() /* {{{ */
 			 * Setting up view URL
 			 */
 			if ($view_column && $fm_cfg['perm']['file']['view']) {
-				if (strlen($fm_cfg['url']['root']) > 0 && $fm_cfg['url']['root']{0} == '/') {
+				if (strlen($fm_cfg['url']['root']) > 0 && $fm_cfg['url']['root'][0] == '/') {
 					$view_url_prefix_ue = $fm_cfg['url']['root'].$fm_dir_ue;
 				} else {
 					$view_url = parse_url((strcasecmp($_SERVER['HTTPS'], 'on') ? 'http' : 'https')

@@ -14,8 +14,8 @@
 # PHP tooling
 /vendor
 .php_cs.cache
-/tests/document-root/*
-!/tests/document-root/config.template.php
+/tests/unit_tests/document-root/*
+!/tests/unit_tests/document-root/config.template.php
 
 # JavaScript tooling
 /node_modules/

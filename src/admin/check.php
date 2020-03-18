@@ -28,11 +28,11 @@ function check_nutzer() {
         return false;
     }
     if (isset($_POST["username"])) { // Login überprüfen
-    if (!isset($_SESSION["versuch"])) { // Versuche zählen
-        $_SESSION["versuch"] = 1;
-    } else {
-        $_SESSION["versuch"]++;
-    }
+        if (!isset($_SESSION["versuch"])) { // Versuche zählen
+            $_SESSION["versuch"] = 1;
+        } else {
+            $_SESSION["versuch"]++;
+        }
         if (!isset($_COOKIE[session_name()])) {
             return false;
         }

@@ -23,6 +23,17 @@ jobs:
     - uses: shivammathur/setup-php@v1
       with:
         php-version: '7.4'
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: Install dependencies
+      run: composer install --prefer-dist
     - name: Get npm cache directory
       id: npm-cache
       run: |
@@ -38,7 +49,8 @@ jobs:
     - name: Take Screenshots
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-      run: ./take-screenshots.sh
+        MOZ_HEADLESS: 1
+      run: ./integration-test.sh
     - uses: actions/upload-artifact@v1
       with:
         name: test-screenshots
@@ -69,7 +81,7 @@ jobs:
     - uses: shivammathur/setup-php@v1
       with:
         php-version: ${{ matrix.php-version }}
-    - name: Get composer cache
+    - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
     - name: Cache dependencies

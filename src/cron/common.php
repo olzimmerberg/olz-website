@@ -18,7 +18,7 @@ function throttle($ident, $function, $args, $interval) {
         }
     }
     $now = microtime(true);
-    if ($throttling['last-call'] < $now - $interval || $_CONFIG['unlimited_cron']) {
+    if ($throttling['last-call'] < $now - $interval || $_CONFIG->unlimited_cron) {
         $throttling['last-call'] = $now;
         file_put_contents($throttle_file, json_encode($throttling));
         call_user_func_array($function, $args);

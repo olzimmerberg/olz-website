@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 $_SERVER['DOCUMENT_ROOT'] = realpath(__DIR__.'/../document-root/');
 
-require_once __DIR__.'/../../src/database/common.php';
-require_once __DIR__.'/../../src/database/schema.php';
+require_once __DIR__.'/../../../src/database/common.php';
+require_once __DIR__.'/../../../src/database/schema.php';
 
 class ObjectWithZeroFields {
 }

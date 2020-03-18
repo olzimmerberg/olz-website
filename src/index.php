@@ -2,10 +2,10 @@
 
 session_start();
 
-include_once "admin/check.php";
-include_once "admin/olz_init.php";
-include_once "admin/olz_functions.php";
-include_once "tickers.php";
+require_once 'admin/check.php';
+require_once 'admin/olz_init.php';
+require_once 'admin/olz_functions.php';
+require_once 'tickers.php';
 
 $pages = [
     "0" => ["error_l.php", "error_r.php"], // TO DO

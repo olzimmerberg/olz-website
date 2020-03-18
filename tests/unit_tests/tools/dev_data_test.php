@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 $_SERVER['DOCUMENT_ROOT'] = realpath(__DIR__.'/../document-root/');
 
-require_once __DIR__.'/../../src/config/database.php';
-require_once __DIR__.'/../../src/tools/dev_data.php';
+require_once __DIR__.'/../../../src/config/database.php';
+require_once __DIR__.'/../../../src/tools/dev_data.php';
 
 /**
  * @internal
@@ -15,8 +15,8 @@ require_once __DIR__.'/../../src/tools/dev_data.php';
  */
 final class DevDataTest extends TestCase {
     private $dev_data_path = __DIR__.'/../document-root/';
-    private $dev_db_structure_path = __DIR__.'/../../src/tools/dev-data/db_structure.sql';
-    private $dev_db_content_path = __DIR__.'/../../src/tools/dev-data/db_content.sql';
+    private $dev_db_structure_path = __DIR__.'/../../../src/tools/dev-data/db_structure.sql';
+    private $dev_db_content_path = __DIR__.'/../../../src/tools/dev-data/db_content.sql';
 
     public function testInitAndDump(): void {
         global $db;

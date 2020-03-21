@@ -4,6 +4,7 @@ import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
 import './styles.css';
 
+export * from './results/index';
 export * from './scripts/jscripts';
 export * from './scripts/fader';
 export * from './scripts/accordion';

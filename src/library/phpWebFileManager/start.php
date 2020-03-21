@@ -766,7 +766,7 @@ function fm_main() /* {{{ */
 						echo '</small></td>',"\n";
 					}
 					if ($fm_cfg['show']['date']) {
-						echo '<td align="center" nowrap="nowrap"><small>';
+						echo '<td align="center" nowrap="nowrap" class="test-flaky"><small>';
 						echo date($fm_cfg['format']['date'], @filemtime($entry));
 						echo '</small></td>',"\n";
 					}

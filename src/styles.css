@@ -94,6 +94,10 @@ h2, h3
     margin:0px 0px 0px 180px;
     padding:10px;}
 
+.mainbg {
+    background-repeat:repeat;
+    background-image:url(icns/mainbg.png);
+}
 ul
     {list-style-type:none}
 .thumbs td

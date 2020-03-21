@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/config/paths.php';
+
 $fontsize = "16";
 $menu = [
     ["Startseite", "1", $fontsize], // Menüpunkt ('Name','Link')
@@ -21,7 +23,7 @@ $menu = [
 
 echo "<div id='menu' style='position: sticky; position: -webkit-sticky; top: 10px; width:180px;'>";
 // LIVE-RESULTATE
-$live_json_path = $root.'/resultate/data/_live.json';
+$live_json_path = "{$data_path}/results/_live.json";
 if (is_file($live_json_path)) {
     $content = file_get_contents($live_json_path);
     if ($content) {
@@ -29,7 +31,7 @@ if (is_file($live_json_path)) {
         $last_updated_at = strtotime($live['last_updated_at']);
         $now = strtotime(date('Y-m-d H:i:s'));
         if ($live && $last_updated_at > $now - 3600) {
-            echo "<div".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")."><a href='resultate/?file=".$live['file']."'><div style='color:#550000;background-color:#cc0000;font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a></div>";
+            echo "<div".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")."><a href='{$code_href}results/?file=".$live['file']."'><div style='color:#550000;background-color:#cc0000;font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a></div>";
         }
     }
 }

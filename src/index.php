@@ -126,7 +126,7 @@ if (preg_match("/MSIE/", $_SERVER["HTTP_USER_AGENT"]) and preg_match("/Win/", $_
 } else {
     $bildart = "png";
 }
-if ($page == 19) {
+if ($page == 19 && false) {  // TODO: reenable after corona
     $refresh = "<meta http-equiv='refresh' content='60'>";
 } // Stand Karten/Anmeldungen
 else {

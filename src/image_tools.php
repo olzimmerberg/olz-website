@@ -1,7 +1,7 @@
 <?php
 
-require_once "./admin/olz_init.php";
-require_once "./upload_tools.php";
+require_once __DIR__."/config/paths.php";
+require_once __DIR__."/upload_tools.php";
 
 $tables_img_dirs = [
     "galerie" => "img/galerie/",
@@ -11,14 +11,13 @@ $tables_img_dirs = [
 ];
 
 if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
-    session_start();
     if (!isset($_GET["request"])) {
         header("Content-type:text/plain");
         echo "HIER IST NIX";
-        print_r($_SESSION);
     }
 
     if ($_GET["request"] == "thumb") {
+        session_write_close();
         $db_table = $_GET["db_table"];
         if (!isset($tables_img_dirs[$db_table])) {
             echo "Invalid db_table";
@@ -93,6 +92,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "uploadresized") {
+        session_start();
         // Data sanitization & initialization
         $db_table = $_GET["db_table"];
         if (!isset($tables_img_dirs[$db_table])) {
@@ -190,6 +190,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "change") {
+        session_start();
         $index = intval($_POST["index"]);
         $db_table = $_GET["db_table"];
         if (!isset($tables_img_dirs[$db_table])) {
@@ -236,6 +237,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "reorder") {
+        session_start();
         $db_table = $_GET["db_table"];
         if (!isset($tables_img_dirs[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);
@@ -301,6 +303,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "merge") {
+        session_start();
         $db_table = $_GET["db_table"];
         if (!isset($tables_img_dirs[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);

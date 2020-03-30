@@ -1,6 +1,6 @@
 <?php
 
-$local = "1";
+$local = "0";
 $admin_mail = "uhu1277@gmail.com";
 $mail_from = "newsletter@olzimmerberg.ch";
 set_include_path("../");

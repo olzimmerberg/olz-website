@@ -97,7 +97,7 @@ function highlight_organigramm_color(id) {
 }
 </script>";
 
-$colwid = 120;
+$colwid = 111;
 $org = "<div style='width:100%; overflow-x:scroll;'><table style='table-layout:fixed; width:".($colwid * count($organigramm))."px;'>";
 for ($i = 0; $i < count($organigramm); $i++) {
     $ressort = $organigramm[$i];

@@ -11,6 +11,14 @@ olz_text_insert(15);
 
 olz_text_insert(16);
 
+olz_text_insert(17);
+
+olz_text_insert(18);
+
+olz_text_insert(19);
+
+olz_text_insert(20);
+
 echo "<style>.corona .buttonbar { display: none; }</style>";
 echo "<h3>Der Posten</h3>";
 echo "<p>Ideen an <script>document.write(MailTo('jan.waldmann', 'olzimmerberg.ch', 'Jan Waldmann', 'Der Posten'))</script></p>";

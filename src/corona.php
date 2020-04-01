@@ -20,8 +20,7 @@ olz_text_insert(19);
 olz_text_insert(20);
 
 echo "<style>.corona .buttonbar { display: none; }</style>";
-echo "<h3>Der Posten</h3>";
-echo "<p>Ideen an <script>document.write(MailTo('jan.waldmann', 'olzimmerberg.ch', 'Jan Waldmann', 'Der Posten'))</script></p>";
+olz_text_insert(21);
 $id = 1329;
 include_once __DIR__.'/galerie_l.php';
 ?>

@@ -40,11 +40,11 @@ $organigramm = [
     ],
     [
         "<h6>Nachwuchs &amp;<br>Ausbildung</h6>".olz_funktion_insert(3, 1),
-        "<h6>J&S Coach</h6><div class='section'>".olz_funktion_insert(32, 0, "<br>")."</div>",
-        //"<h6>J&S Expertin</h6><div class='section'>".olz_funktion_insert(33, 0, "<br>")."</div>",
-        "<h6>J&S Leiter</h6><div class='section'>".olz_funktion_insert(34, 0, "<br>")."</div>",
+        "<h6>J+S Coach</h6><div class='section'>".olz_funktion_insert(32, 0, "<br>")."</div>",
+        //"<h6>J+S Expertin</h6><div class='section'>".olz_funktion_insert(33, 0, "<br>")."</div>",
+        "<h6>J+S Leitende</h6><div class='section'>".olz_funktion_insert(34, 0, "<br>")."</div>",
         //"<h6>Regionale Nachwuchs Kontaktpersonen</h6><div class='section'><i>Adliswil</i><br>".olz_funktion_insert(35, 0, "<br>")."</div><div class='section'><i>Horgen</i><br>".olz_funktion_insert(36, 0, "<br>")."</div><div class='section'><i>Langnau</i><br>".olz_funktion_insert(37, 0, "<br>")."</div><div class='section'><i>Richterswil</i><br>".olz_funktion_insert(38, 0, "<br>")."</div><div class='section'><i>Schönenberg, Hirzel, Samstagern</i><br>".olz_funktion_insert(39, 0, "<br>")."</div><div class='section'><i>Thalwil</i><br>".olz_funktion_insert(40, 0, "<br>")."</div><div class='section'><i>Wädenswil</i><br>".olz_funktion_insert(41, 0, "<br>")."</div><div class='section'><i>Zürich</i><br>".olz_funktion_insert(42, 0, "<br>")."</div>",
-        "<h6>J&S Kids</h6><div class='section'>".olz_funktion_insert(43, 0, "<br>")."</div>",
+        "<h6>J+S Kids</h6><div class='section'>".olz_funktion_insert(43, 0, "<br>")."</div>",
         "<h6>sCOOL</h6><div class='section'>".olz_funktion_insert(44, 0, "<br>")."</div>",
     ],
     [

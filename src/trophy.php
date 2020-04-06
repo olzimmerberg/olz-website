@@ -14,7 +14,7 @@ function map(xkoord, ykoord) {
     var lng = CHtoWGSlng(xkoord, ykoord);
 
     // Link (im Moment wird noch auf Search.ch verlinkt, denn dort sieht man öV Haltestellen): https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/page.html?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q#15/"+lat+"/"+lng+"
-    return "<a href='http://map.search.ch/"+xkoord+","+ykoord+"' target='_blank'><img src='https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/pin-l+009000("+lng+","+lat+")/"+lng+","+lat+",13/"+breite+"x300.png?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q' class='noborder' style='margin:0px;padding:0px;align:center;border:1px solid #000000;'><\/a>";
+    return "<a href='http://map.search.ch/"+xkoord+","+ykoord+"' target='_blank'><img src='https://api.tiles.mapbox.com/v4/allestuetsmerweh.m35pe3he/pin-l+009000("+lng+","+lat+")/"+lng+","+lat+",13/"+breite+"x300.png?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q' class='noborder test-flaky' style='margin:0px;padding:0px;align:center;border:1px solid #000000;'><\/a>";
 }
 </script>
 

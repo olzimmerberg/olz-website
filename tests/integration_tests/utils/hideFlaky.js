@@ -6,7 +6,7 @@ for (var i=0; i<flakyElements.length; i++) {
         var cover = document.createElement('div');
         document.documentElement.appendChild(cover);
         cover.id = 'flaky-' + i;
-        cover.style.position = 'absolute';
+        cover.style.position = 'fixed';
         cover.style.backgroundColor = 'black';
         cover.style.zIndex = 999999;
     }

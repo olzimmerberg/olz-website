@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="bild_der_woche",
- *   indexes={@ORM\Index(name="datum_index", columns={"datum"})},
+ *     name="bild_der_woche",
+ *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
  * )
  */
 class bild_der_woche {
@@ -23,7 +23,7 @@ class bild_der_woche {
      */
     private $bild2;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $on_off;
     /**

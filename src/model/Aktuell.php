@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="aktuell",
- *   indexes={@ORM\Index(name="datum_index", columns={"datum"})},
+ *     name="aktuell",
+ *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
  * )
  */
 class aktuell {
@@ -23,7 +23,7 @@ class aktuell {
      */
     private $datum;
     /**
-     * @ORM\Column(type="integer", options={"default":1})
+     * @ORM\Column(type="integer", options={"default": 1})
      */
     private $newsletter;
     /**
@@ -55,7 +55,7 @@ class aktuell {
      */
     private $typ;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $on_off;
     /**
@@ -91,7 +91,7 @@ class aktuell {
      */
     private $zeit;
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(type="integer", nullable=false, options={"default": 0})
      */
     private $counter;
     // PRIMARY KEY (`id`),

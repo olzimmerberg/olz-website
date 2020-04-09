@@ -17,10 +17,10 @@ VALUES
 
 -- Table bild_der_woche
 INSERT INTO bild_der_woche
-    (`datum`, `bild1`, `bild2`, `on_off`, `text`, `titel`, `id`, `bild1_breite`, `bild2_breite`)
+    (`id`, `datum`, `bild1`, `bild2`, `on_off`, `text`, `titel`, `bild1_breite`, `bild2_breite`)
 VALUES
-    ('2020-01-01', '', '', '0', 'Neujahrs-Impression vom Sihlwald', 'Titel 1', '1', '0', '0'),
-    ('2020-01-02', '', '', '1', 'Berchtoldstag im Sihlwald', 'Titel 2', '2', '0', '0');
+    ('1', '2020-01-01', '', '', '0', 'Neujahrs-Impression vom Sihlwald', 'Titel 1', '0', '0'),
+    ('2', '2020-01-02', '', '', '1', 'Berchtoldstag im Sihlwald', 'Titel 2', '0', '0');
 
 -- Table blog
 
@@ -34,16 +34,16 @@ VALUES
 
 -- Table forum
 INSERT INTO forum
-    (`name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `id`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
+    (`id`, `name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
 VALUES
-    ('Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', NULL, 'hd35lm6glq', '1', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
+    ('1', 'Guets Nois!', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois!', '1', NULL, 'hd35lm6glq', '2020-01-01', '21:45:37', '1', '0', 'Bruno Beispielmitglied');
 
 -- Table galerie
 INSERT INTO galerie
-    (`termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `id`, `content`)
+    (`id`, `termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `content`)
 VALUES
-    ('0', 'Neujahrsgalerie 2020', '2020-01-01', NULL, 'sh', '1', 'foto', '0', '1', ''),
-    ('0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', '2', '');
+    ('1', '0', 'Neujahrsgalerie 2020', '2020-01-01', NULL, 'sh', '1', 'foto', '0', ''),
+    ('2', '0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', '');
 
 -- Table images
 

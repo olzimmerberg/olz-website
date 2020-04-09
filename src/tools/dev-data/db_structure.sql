@@ -1,5 +1,7 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
 
+-- DEPRECATED: Database structure is managed by doctrine migrations
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -31,7 +33,7 @@ CREATE TABLE `aktuell` (
   `counter` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table anm_felder
 DROP TABLE IF EXISTS `anm_felder`;
@@ -82,7 +84,7 @@ CREATE TABLE `bild_der_woche` (
   `bild2_breite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table blog
 DROP TABLE IF EXISTS `blog`;
@@ -124,6 +126,14 @@ CREATE TABLE `counter` (
   `counter_ip_bak` int(11) DEFAULT NULL,
   `bak_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Table doctrine_migration_versions
+DROP TABLE IF EXISTS `doctrine_migration_versions`;
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(14) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table downloads
@@ -181,7 +191,7 @@ CREATE TABLE `forum` (
   `name2` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table galerie
 DROP TABLE IF EXISTS `galerie`;
@@ -198,7 +208,7 @@ CREATE TABLE `galerie` (
   `content` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table images
 DROP TABLE IF EXISTS `images`;
@@ -344,7 +354,7 @@ CREATE TABLE `solv_people` (
   `domicile` longtext COLLATE utf8_unicode_ci NOT NULL,
   `member` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table solv_results
 DROP TABLE IF EXISTS `solv_results`;
@@ -367,7 +377,7 @@ CREATE TABLE `solv_results` (
   `class_competitor_count` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `person_run_unique` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table termine
 DROP TABLE IF EXISTS `termine`;
@@ -400,7 +410,7 @@ CREATE TABLE `termine` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table termine_go2ol
 DROP TABLE IF EXISTS `termine_go2ol`;
@@ -460,7 +470,7 @@ CREATE TABLE `user` (
   `zugriff` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `root` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table vorstand
 DROP TABLE IF EXISTS `vorstand`;

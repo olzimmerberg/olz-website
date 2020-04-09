@@ -7,6 +7,7 @@ run_tools(
         'dump' => [],
         'reset' => [],
         'deploy-cleanup' => [],
+        'migrate' => [],
     ],
     $_SERVER,
 );

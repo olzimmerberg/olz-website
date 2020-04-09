@@ -4,6 +4,7 @@ require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/deploy_cleanup.php';
+require_once __DIR__.'/doctrine_migrations.php';
 
 function run_tools($command_config, $server) {
     global $db, $data_path, $deploy_path;
@@ -25,12 +26,15 @@ function run_tools($command_config, $server) {
     if ($command === 'deploy-cleanup') {
         return run_command($command, 'deploy_cleanup', [$deploy_path]);
     }
+    if ($command === 'migrate') {
+        return run_command($command, 'migrate_to_latest', []);
+    }
     // No command to execute => show index
     echo "<h1>Tools</h1>";
     echo "<h2>Available commands</h2>";
     $base_uri = $server['REQUEST_URI'];
     foreach ($command_config as $key => $value) {
-        echo "<div><a href='{$base_uri}/{$key}'><pre>{$key}</pre></a></div>";
+        echo "<p><a href='{$base_uri}/{$key}'><code>{$key}</code></a></p>";
     }
 }
 

@@ -16,7 +16,7 @@ class olz_text {
      */
     private $text;
     /**
-     * @ORM\Column(type="integer", options={"default":1})
+     * @ORM\Column(type="integer", options={"default": 1})
      */
     private $on_off;
     // PRIMARY KEY (`id`)

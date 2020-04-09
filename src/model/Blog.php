@@ -12,7 +12,7 @@ class blog {
      */
     private $id;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $counter;
     /**

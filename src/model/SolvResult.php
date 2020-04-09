@@ -4,7 +4,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="solv_results")
+ * @ORM\Table(
+ *   name="solv_results",
+ *   uniqueConstraints={@ORM\UniqueConstraint(name="person_run_unique", columns={"person", "event", "class", "name", "birth_year", "domicile", "club"})}
+ * )
  */
 class solv_results {
     /**
@@ -20,7 +23,7 @@ class solv_results {
      */
     private $event;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=15)
      */
     private $class;
     /**
@@ -28,19 +31,19 @@ class solv_results {
      */
     private $rank;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=31)
      */
     private $name;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=3)
      */
     private $birth_year;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=31)
      */
     private $domicile;
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length=31)
      */
     private $club;
     /**

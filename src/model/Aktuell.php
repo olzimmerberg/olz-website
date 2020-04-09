@@ -4,7 +4,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="aktuell")
+ * @ORM\Table(
+ *   name="aktuell",
+ *   indexes={@ORM\Index(name="datum_index", columns={"datum"})},
+ * )
  */
 class aktuell {
     /**

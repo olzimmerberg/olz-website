@@ -4,7 +4,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="bild_der_woche")
+ * @ORM\Table(
+ *   name="bild_der_woche",
+ *   indexes={@ORM\Index(name="datum_index", columns={"datum"})},
+ * )
  */
 class bild_der_woche {
     /**

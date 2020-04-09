@@ -11,27 +11,27 @@ CREATE TABLE `aktuell` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `newsletter` int(1) DEFAULT 1,
+  `newsletter` int(11) NOT NULL DEFAULT 1,
   `newsletter_datum` datetime DEFAULT NULL,
-  `titel` tinytext DEFAULT NULL,
-  `text` text DEFAULT NULL,
-  `textlang` text DEFAULT NULL,
-  `link` tinytext DEFAULT NULL,
-  `autor` varchar(50) DEFAULT NULL,
-  `typ` tinytext NOT NULL,
-  `on_off` int(1) DEFAULT 0,
-  `bild1` tinytext DEFAULT NULL,
-  `bild1_breite` int(5) DEFAULT NULL,
-  `bild1_text` tinytext DEFAULT NULL,
-  `bild2` tinytext DEFAULT NULL,
-  `bild2_breite` int(5) DEFAULT NULL,
-  `bild3` tinytext DEFAULT NULL,
-  `bild3_breite` int(5) DEFAULT NULL,
+  `titel` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `textlang` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `link` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `autor` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `typ` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
+  `bild1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild1_breite` int(11) DEFAULT NULL,
+  `bild1_text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild2_breite` int(11) DEFAULT NULL,
+  `bild3` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild3_breite` int(11) DEFAULT NULL,
   `zeit` time DEFAULT NULL,
   `counter` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `datum` (`datum`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `datum_index` (`datum`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table anm_felder
 DROP TABLE IF EXISTS `anm_felder`;
@@ -40,82 +40,82 @@ CREATE TABLE `anm_felder` (
   `event_id` int(11) DEFAULT NULL,
   `position` int(11) DEFAULT NULL,
   `zeigen` int(11) DEFAULT NULL,
-  `label` tinytext DEFAULT NULL,
-  `typ` tinytext DEFAULT NULL,
-  `info` tinytext DEFAULT NULL,
-  `standard` tinytext DEFAULT NULL,
-  `test` tinytext DEFAULT NULL,
-  `test_result` tinytext DEFAULT NULL,
+  `label` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `typ` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `info` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `standard` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `test` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `test_result` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table anmeldung
 DROP TABLE IF EXISTS `anmeldung`;
 CREATE TABLE `anmeldung` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` varchar(100) DEFAULT NULL,
+  `event_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `zeit` time DEFAULT NULL,
   `anzahl` int(11) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `uid` varchar(10) DEFAULT NULL,
-  `on_off` tinyint(1) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `feld1` text DEFAULT NULL,
-  `feld2` text DEFAULT NULL,
-  `feld3` text DEFAULT NULL,
-  `feld4` text DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `feld1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `feld2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `feld3` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `feld4` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table bild_der_woche
 DROP TABLE IF EXISTS `bild_der_woche`;
 CREATE TABLE `bild_der_woche` (
-  `datum` date DEFAULT NULL,
-  `bild1` tinytext DEFAULT NULL,
-  `bild2` tinytext DEFAULT NULL,
-  `on_off` int(11) DEFAULT 0,
-  `text` text DEFAULT NULL,
-  `titel` text DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `datum` date DEFAULT NULL,
+  `bild1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
+  `text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `titel` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `bild1_breite` int(11) DEFAULT NULL,
   `bild2_breite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `datum` (`datum`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `datum_index` (`datum`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table blog
 DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `counter` int(11) DEFAULT 0,
+  `counter` int(11) NOT NULL DEFAULT 0,
   `datum` date DEFAULT NULL,
-  `autor` tinytext DEFAULT NULL,
-  `titel` tinytext DEFAULT NULL,
-  `text` text DEFAULT NULL,
-  `bild1` tinytext DEFAULT NULL,
-  `bild2` tinytext DEFAULT NULL,
+  `autor` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `titel` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
   `zeit` time DEFAULT NULL,
   `dummy` int(11) DEFAULT NULL,
-  `file1` tinytext DEFAULT NULL,
-  `file1_name` tinytext DEFAULT NULL,
-  `file2` tinytext DEFAULT NULL,
-  `file2_name` tinytext DEFAULT NULL,
+  `file1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file1_name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file2_name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `newsletter` int(11) DEFAULT NULL,
-  `newsletter_datum` timestamp NULL DEFAULT NULL,
+  `newsletter_datum` datetime DEFAULT NULL,
   `bild1_breite` int(11) DEFAULT NULL,
   `bild2_breite` int(11) DEFAULT NULL,
-  `linkext` tinytext DEFAULT NULL,
+  `linkext` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table counter
 DROP TABLE IF EXISTS `counter`;
 CREATE TABLE `counter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `page` tinytext DEFAULT NULL,
-  `name` tinytext DEFAULT NULL,
+  `page` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `counter` int(11) DEFAULT NULL,
   `counter_ip` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
@@ -124,113 +124,111 @@ CREATE TABLE `counter` (
   `counter_ip_bak` int(11) DEFAULT NULL,
   `bak_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table downloads
 DROP TABLE IF EXISTS `downloads`;
 CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date DEFAULT NULL,
-  `name` tinytext DEFAULT NULL,
-  `position` decimal(11,1) DEFAULT NULL,
-  `file1` tinytext DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  `file1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table event
 DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name_kurz` char(100) DEFAULT NULL,
-  `name` tinytext DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_kurz` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `datum` date DEFAULT NULL,
-  `counter_ip_lan` int(11) DEFAULT 0,
-  `counter_hit_lan` int(11) DEFAULT 0,
-  `counter_ip_web` int(11) DEFAULT 0,
-  `counter_hit_web` int(11) DEFAULT 0,
+  `counter_ip_lan` int(11) NOT NULL DEFAULT 0,
+  `counter_hit_lan` int(11) NOT NULL DEFAULT 0,
+  `counter_ip_web` int(11) NOT NULL DEFAULT 0,
+  `counter_hit_web` int(11) NOT NULL DEFAULT 0,
   `stand` datetime DEFAULT NULL,
-  `kat_gruppen` text DEFAULT NULL,
-  `karten` text DEFAULT NULL,
+  `kat_gruppen` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `karten` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `locked` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table facebook_settings
 DROP TABLE IF EXISTS `facebook_settings`;
 CREATE TABLE `facebook_settings` (
-  `k` varchar(64) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `v` text CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `k` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `v` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`k`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table forum
 DROP TABLE IF EXISTS `forum`;
 CREATE TABLE `forum` (
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `email` varchar(100) NOT NULL,
-  `eintrag` text NOT NULL,
-  `newsletter` int(1) DEFAULT 1,
-  `newsletter_datum` datetime DEFAULT NULL,
-  `uid` varchar(10) NOT NULL DEFAULT '',
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `eintrag` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `newsletter` int(11) NOT NULL DEFAULT 1,
+  `newsletter_datum` datetime DEFAULT NULL,
+  `uid` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `datum` date DEFAULT NULL,
   `zeit` time DEFAULT NULL,
-  `on_off` tinyint(1) DEFAULT NULL,
-  `allowHTML` tinyint(1) DEFAULT NULL,
-  `name2` varchar(100) NOT NULL DEFAULT '',
+  `on_off` int(11) DEFAULT NULL,
+  `allowHTML` int(11) DEFAULT NULL,
+  `name2` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `datum` (`datum`),
-  KEY `on_off` (`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table galerie
 DROP TABLE IF EXISTS `galerie`;
 CREATE TABLE `galerie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` int(11) NOT NULL,
-  `titel` text NOT NULL,
+  `titel` longtext COLLATE utf8_unicode_ci NOT NULL,
   `datum` date DEFAULT NULL,
   `datum_end` date DEFAULT NULL,
-  `autor` tinytext DEFAULT NULL,
-  `on_off` int(11) DEFAULT 0,
-  `typ` tinytext DEFAULT NULL,
+  `autor` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
+  `typ` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `counter` int(11) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` tinytext DEFAULT NULL,
+  `content` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `datum` (`datum`),
-  KEY `on_off` (`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table images
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) DEFAULT NULL,
-  `table_parent` tinytext DEFAULT NULL,
-  `pfad` tinytext DEFAULT NULL,
-  `bild_name` tinytext DEFAULT NULL,
+  `table_parent` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pfad` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild_name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table jwoc
 DROP TABLE IF EXISTS `jwoc`;
 CREATE TABLE `jwoc` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nr` int(11) DEFAULT NULL,
-  `name` tinytext DEFAULT NULL,
-  `nation` char(3) DEFAULT NULL,
-  `pos` decimal(11,3) DEFAULT NULL,
-  `time1` tinytext DEFAULT NULL,
-  `time2` tinytext DEFAULT NULL,
-  `time3` tinytext DEFAULT NULL,
-  `time4` tinytext DEFAULT NULL,
-  `time5` tinytext DEFAULT NULL,
-  `diff` tinytext DEFAULT NULL,
-  `starttime` tinytext DEFAULT NULL,
-  `cat` tinytext DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pos` int(11) DEFAULT NULL,
+  `time1` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time2` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time3` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time4` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time5` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diff` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `starttime` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cat` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table karten
 DROP TABLE IF EXISTS `karten`;
@@ -238,77 +236,77 @@ CREATE TABLE `karten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` int(11) DEFAULT NULL,
   `kartennr` int(11) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `center_x` int(11) DEFAULT NULL,
   `center_y` int(11) DEFAULT NULL,
-  `jahr` varchar(100) DEFAULT NULL,
-  `massstab` varchar(100) DEFAULT NULL,
-  `ort` varchar(100) DEFAULT NULL,
+  `jahr` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `massstab` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ort` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zoom` int(11) DEFAULT NULL,
-  `typ` varchar(50) DEFAULT NULL,
-  `vorschau` varchar(100) DEFAULT NULL,
+  `typ` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vorschau` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table links
 DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` tinytext DEFAULT NULL,
-  `url` tinytext DEFAULT NULL,
-  `position` decimal(10,1) DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table newsletter
 DROP TABLE IF EXISTS `newsletter`;
 CREATE TABLE `newsletter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) DEFAULT NULL,
-  `kategorie` tinytext DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `kategorie` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `reg_date` date DEFAULT NULL,
-  `uid` varchar(10) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `on_off` int(1) DEFAULT NULL,
+  `uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table olz_result
 DROP TABLE IF EXISTS `olz_result`;
 CREATE TABLE `olz_result` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `rang` int(11) DEFAULT NULL,
-  `name` char(100) DEFAULT NULL,
-  `club` char(100) DEFAULT NULL,
-  `jg` int(4) DEFAULT NULL,
-  `zeit` char(100) DEFAULT NULL,
-  `kat` char(100) DEFAULT NULL,
-  `stand` char(100) DEFAULT NULL,
-  `anzahl` char(100) DEFAULT NULL,
-  `event` char(100) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `club` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `jg` int(11) DEFAULT NULL,
+  `zeit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `kat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stand` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `anzahl` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `event` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table olz_text
 DROP TABLE IF EXISTS `olz_text`;
 CREATE TABLE `olz_text` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `text` text DEFAULT NULL,
-  `on_off` int(1) DEFAULT 1,
+  `text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table rundmail
 DROP TABLE IF EXISTS `rundmail`;
 CREATE TABLE `rundmail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `betreff` tinytext DEFAULT NULL,
-  `mailtext` text DEFAULT NULL,
+  `betreff` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mailtext` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `datum` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table solv_events
 DROP TABLE IF EXISTS `solv_events`;
@@ -316,37 +314,37 @@ CREATE TABLE `solv_events` (
   `solv_uid` int(11) NOT NULL,
   `date` date NOT NULL,
   `duration` int(11) NOT NULL,
-  `kind` text NOT NULL,
-  `day_night` text NOT NULL,
+  `kind` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `day_night` longtext COLLATE utf8_unicode_ci NOT NULL,
   `national` int(11) NOT NULL,
-  `region` text NOT NULL,
-  `type` text NOT NULL,
-  `name` text NOT NULL,
-  `link` text NOT NULL,
-  `club` text NOT NULL,
-  `map` text NOT NULL,
-  `location` text NOT NULL,
+  `region` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `type` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `link` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `club` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `map` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `location` longtext COLLATE utf8_unicode_ci NOT NULL,
   `coord_x` int(11) NOT NULL,
   `coord_y` int(11) NOT NULL,
   `deadline` date DEFAULT NULL,
   `entryportal` int(11) NOT NULL,
-  `start_link` text DEFAULT NULL,
-  `rank_link` text DEFAULT NULL,
-  `last_modification` timestamp NOT NULL DEFAULT current_timestamp(),
+  `start_link` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rank_link` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `last_modification` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`solv_uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table solv_people
 DROP TABLE IF EXISTS `solv_people`;
 CREATE TABLE `solv_people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `same_as` int(11) DEFAULT NULL,
-  `name` text NOT NULL,
-  `birth_year` text NOT NULL,
-  `domicile` text NOT NULL,
+  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `birth_year` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `domicile` longtext COLLATE utf8_unicode_ci NOT NULL,
   `member` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table solv_results
 DROP TABLE IF EXISTS `solv_results`;
@@ -354,22 +352,22 @@ CREATE TABLE `solv_results` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person` int(11) NOT NULL,
   `event` int(11) NOT NULL,
-  `class` varchar(15) NOT NULL,
+  `class` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `rank` int(11) NOT NULL,
-  `name` varchar(31) NOT NULL,
-  `birth_year` varchar(3) NOT NULL,
-  `domicile` varchar(31) NOT NULL,
-  `club` varchar(31) NOT NULL,
+  `name` varchar(31) COLLATE utf8_unicode_ci NOT NULL,
+  `birth_year` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
+  `domicile` varchar(31) COLLATE utf8_unicode_ci NOT NULL,
+  `club` varchar(31) COLLATE utf8_unicode_ci NOT NULL,
   `result` int(11) NOT NULL,
-  `splits` text NOT NULL,
+  `splits` longtext COLLATE utf8_unicode_ci NOT NULL,
   `finish_split` int(11) NOT NULL,
   `class_distance` int(11) NOT NULL,
   `class_elevation` int(11) NOT NULL,
   `class_control_count` int(11) NOT NULL,
   `class_competitor_count` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `person` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `person_run_unique` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table termine
 DROP TABLE IF EXISTS `termine`;
@@ -378,114 +376,114 @@ CREATE TABLE `termine` (
   `datum` date DEFAULT NULL,
   `datum_end` date DEFAULT NULL,
   `datum_off` date DEFAULT NULL,
-  `zeit` time DEFAULT '00:00:00',
-  `zeit_end` time DEFAULT '00:00:00',
-  `teilnehmer` int(11) DEFAULT 0,
-  `newsletter` int(1) DEFAULT NULL,
+  `zeit` time NOT NULL DEFAULT '00:00:00',
+  `zeit_end` time NOT NULL DEFAULT '00:00:00',
+  `teilnehmer` int(11) NOT NULL DEFAULT 0,
+  `newsletter` int(11) DEFAULT NULL,
   `newsletter_datum` datetime DEFAULT NULL,
   `newsletter_anmeldung` datetime DEFAULT NULL,
-  `titel` tinytext DEFAULT NULL,
-  `go2ol` tinytext DEFAULT NULL,
-  `text` text DEFAULT NULL,
-  `link` text DEFAULT NULL,
-  `solv_event_link` text DEFAULT NULL,
-  `typ` varchar(50) DEFAULT NULL,
-  `on_off` int(1) DEFAULT 0,
+  `titel` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `go2ol` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `link` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `solv_event_link` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `typ` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
   `datum_anmeldung` date DEFAULT NULL,
-  `text_anmeldung` text DEFAULT NULL,
-  `email_anmeldung` tinytext DEFAULT NULL,
+  `text_anmeldung` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email_anmeldung` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `xkoord` int(11) DEFAULT NULL,
   `ykoord` int(11) DEFAULT NULL,
   `solv_uid` int(11) DEFAULT NULL,
-  `ical_uid` char(50) DEFAULT NULL,
-  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ical_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `modified` datetime NOT NULL DEFAULT current_timestamp(),
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `datum` (`datum`),
-  KEY `on_off` (`on_off`),
-  KEY `datum_end` (`datum_end`),
-  KEY `datum_off` (`datum_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table termine_go2ol
 DROP TABLE IF EXISTS `termine_go2ol`;
 CREATE TABLE `termine_go2ol` (
   `solv_uid` int(11) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `ident` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `post` varchar(255) NOT NULL,
-  `verein` varchar(255) NOT NULL,
-  `datum` varchar(255) NOT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ident` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `post` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `verein` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `datum` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `meldeschluss1` date NOT NULL,
   `meldeschluss2` date NOT NULL,
   PRIMARY KEY (`solv_uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table termine_solv
 DROP TABLE IF EXISTS `termine_solv`;
 CREATE TABLE `termine_solv` (
-  `solv_uid` int(11) DEFAULT NULL,
+  `solv_uid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
-  `kind` varchar(255) DEFAULT NULL,
-  `day_night` varchar(255) DEFAULT NULL,
+  `kind` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `day_night` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `national` int(11) DEFAULT NULL,
-  `region` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `event_name` varchar(255) DEFAULT NULL,
-  `event_link` varchar(255) DEFAULT NULL,
-  `club` varchar(255) DEFAULT NULL,
-  `map` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `region` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `event_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `event_link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `club` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `map` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `coord_x` int(11) DEFAULT NULL,
   `coord_y` int(11) DEFAULT NULL,
   `deadline` date DEFAULT NULL,
   `entryportal` int(11) DEFAULT NULL,
-  `last_modification` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `last_modification` datetime DEFAULT NULL,
+  PRIMARY KEY (`solv_uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table trainingsphotos
 DROP TABLE IF EXISTS `trainingsphotos`;
 CREATE TABLE `trainingsphotos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
+  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
   `datum` date NOT NULL,
-  `pfad` text NOT NULL,
+  `pfad` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table user
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `benutzername` varchar(100) DEFAULT NULL,
-  `passwort` varchar(100) DEFAULT NULL,
-  `zugriff` text DEFAULT NULL,
-  `root` text DEFAULT NULL,
+  `benutzername` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `passwort` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zugriff` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `root` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table vorstand
 DROP TABLE IF EXISTS `vorstand`;
 CREATE TABLE `vorstand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` tinytext DEFAULT NULL,
-  `funktion` tinytext DEFAULT NULL COMMENT 'alt',
-  `adresse` text NOT NULL,
-  `tel` tinytext NOT NULL,
-  `email` tinytext DEFAULT NULL,
-  `bild` tinytext DEFAULT NULL,
-  `on_off` int(1) DEFAULT 1,
+  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `funktion` longtext COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'alt',
+  `adresse` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `tel` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `email` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bild` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
   `position` int(11) DEFAULT NULL COMMENT 'alt',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table vorstand_funktion
 DROP TABLE IF EXISTS `vorstand_funktion`;
 CREATE TABLE `vorstand_funktion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `vorstand` int(11) NOT NULL,
-  `funktion` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `funktion` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 COMMIT;

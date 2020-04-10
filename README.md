@@ -24,7 +24,7 @@
 ## Development-Daten laden
 
 - Starte den Development-Server (siehe oben)
-- Gehe in einem Browser zur URL [`http://127.0.0.1:30270/reset.php`](http://127.0.0.1:30270/reset.php)
+- Gehe in einem Browser zur URL [`http://127.0.0.1:30270/tools.php/reset`](http://127.0.0.1:30270/tools.php/reset)
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
 ## Code beitragen

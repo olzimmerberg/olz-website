@@ -28,10 +28,10 @@ DEVSERVER_PID=$!
 # Load dev data
 WGET_RESULT=""
 ITERATION=0
-while [ "$WGET_RESULT" != "RESET:SUCCESS" ]
+while [ "$WGET_RESULT" != "reset:SUCCESS" ]
 do
     sleep 0.5
-    WGET_RESULT=$(wget --no-verbose -O - "http://$DOMAIN/reset.php")
+    WGET_RESULT=$(wget --no-verbose -O - "http://$DOMAIN/tools.php/reset")
     ITERATION=$((ITERATION+1))
     if [ $ITERATION -gt 50 ]; then
         exit 1;

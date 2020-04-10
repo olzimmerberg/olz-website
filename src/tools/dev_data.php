@@ -1,14 +1,35 @@
 <?php
 
+require_once __DIR__.'/common.php';
+
 /** DO NOT CALL THIS FUNCTION ON PROD! */
+/** TODO: DELETE (only used in reset.php) */
 function init_dev_data($db, $data_path) {
-    // Overwrite database with dev content.
+    return reset_db($db, $data_path);
+}
+
+/** DO NOT CALL THIS FUNCTION ON PROD! */
+function reset_db($db, $data_path) {
     $dev_data_dir = __DIR__.'/dev-data/';
+
+    // Overwrite database with dev content.
     init_dev_data_db_structure($db, $dev_data_dir);
     init_dev_data_db_content($db, $dev_data_dir);
 
     // Initialize the non-code data file system at $data_path
     init_dev_data_filesystem($data_path);
+}
+
+function dump_db($db) {
+    $dev_data_dir = __DIR__.'/dev-data/';
+
+    // Get SQL dumps
+    $sql_structure = dump_db_structure_sql($db);
+    $sql_content = dump_db_content_sql($db);
+
+    // Save SQL dumps
+    file_put_contents("{$dev_data_dir}db_structure.sql", $sql_structure);
+    file_put_contents("{$dev_data_dir}db_content.sql", $sql_content);
 }
 
 function init_dev_data_db_structure($db, $dev_data_dir) {
@@ -96,18 +117,6 @@ function init_dev_data_filesystem($data_path) {
     // Build pdf/
     mkdir("{$data_path}pdf");
     copy("{$sample_path}sample-document.pdf", "{$data_path}pdf/trainingsprogramm.pdf");
-}
-
-function remove_r($path) {
-    if (is_dir($path)) {
-        $contents = glob("{$path}/*");
-        foreach ($contents as &$entry) {
-            remove_r($entry);
-        }
-        rmdir($path);
-    } elseif (is_file($path)) {
-        unlink($path);
-    }
 }
 
 function mkimg($source_path, $destination_path, $width, $height) {

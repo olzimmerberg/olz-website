@@ -110,7 +110,8 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $img_info_gross = getimagesize($data_path."img/karten/".$thumb);
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
-            $map = "<img src='icns/lupe.gif' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/{$thumb}','{$name}','{$jahr}','','','','','{$img_width}','{$img_height}','','','".str_replace("'", "\\'", $massstab)."',".$kartennr.");\" onmouseout=\"hidetrail();\">";
+            $img_href = "{$data_href}img/karten/{$thumb}";
+            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='icns/lupe.gif' style='float:right;border:none;'></a></span>";
         //$map = "<img src='icns/lupe.gif' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
         } else {
             $map = '';

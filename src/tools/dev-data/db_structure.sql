@@ -256,7 +256,7 @@ CREATE TABLE `karten` (
   `typ` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `vorschau` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table links
 DROP TABLE IF EXISTS `links`;

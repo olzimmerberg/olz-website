@@ -30,10 +30,10 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composerdev-
     - name: Install dependencies
-      run: composer install --prefer-dist
+      run: composer install --dev --prefer-dist
     - name: Get npm cache directory
       id: npm-cache
       run: |
@@ -73,10 +73,10 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composerdev-
     - name: Install dependencies
-      run: composer install --prefer-dist
+      run: composer install --dev --prefer-dist
     - name: Lint PHP
       run: cd ./ci; ./php-lint.sh
     - name: Indented with spaces
@@ -103,7 +103,7 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Install dependencies
-      run: composer install --prefer-dist
+      run: composer install --no-dev --prefer-dist
     - name: Get npm cache directory
       id: npm-cache
       run: |

@@ -4,6 +4,7 @@ on:
       - master
 name: CI:prod
 jobs:
+
   take-screenshots:
     name: Take screenshots
     runs-on: ubuntu-latest
@@ -55,6 +56,9 @@ jobs:
       with:
         name: prod-screenshots
         path: ./screenshots
+    - name: Check database migrations
+      run: cd ./ci; ./check-migrations.sh
+
   run-php-tests:
     strategy:
       matrix:
@@ -85,6 +89,7 @@ jobs:
       run: cd ./ci; ./php-code-style.sh
     - name: PHP Unit Tests
       run: cd ./ci; ./php-unit-tests.sh
+
   deploy-prod:
     name: Deploy to olzimmerberg.ch
     runs-on: ubuntu-latest
@@ -124,6 +129,7 @@ jobs:
       run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploy.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-deploy
     - name: Activate deployment
       run: wget -O - https://olzimmerberg.ch/deploy/deploy.php
+
   upload-screenshots:
     name: Upload screenshots to olzimmerberg.ch
     runs-on: ubuntu-latest

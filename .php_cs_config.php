@@ -7,6 +7,7 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
+        '@DoctrineAnnotation' => true,
         '@PSR1' => true,
         '@PSR2' => true,
         '@PhpCsFixer' => true,

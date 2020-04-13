@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="termine",
- *   indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
+ *     name="termine",
+ *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
  * )
  */
 class termine {
@@ -27,15 +27,15 @@ class termine {
      */
     private $datum_off;
     /**
-     * @ORM\Column(type="time", options={"default":"00:00:00"})
+     * @ORM\Column(type="time", options={"default": "00:00:00"})
      */
     private $zeit;
     /**
-     * @ORM\Column(type="time", options={"default":"00:00:00"})
+     * @ORM\Column(type="time", options={"default": "00:00:00"})
      */
     private $zeit_end;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $teilnehmer;
     /**
@@ -75,7 +75,7 @@ class termine {
      */
     private $typ;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $on_off;
     /**
@@ -107,11 +107,11 @@ class termine {
      */
     private $ical_uid;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", nullable=false, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $modified; // ON UPDATE current_timestamp(),
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", nullable=false, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $created;
     // PRIMARY KEY (`id`),

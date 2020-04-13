@@ -132,19 +132,19 @@ class Event {
      */
     private $datum;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $counter_ip_lan;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $counter_hit_lan;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $counter_ip_web;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $counter_hit_web;
     /**
@@ -507,7 +507,7 @@ class Vorstand {
      */
     private $name;
     /**
-     * @ORM\Column(type="text", nullable=true, options={"comment":"alt"})
+     * @ORM\Column(type="text", nullable=true, options={"comment": "alt"})
      */
     private $funktion;
     /**
@@ -527,11 +527,11 @@ class Vorstand {
      */
     private $bild;
     /**
-     * @ORM\Column(type="integer", options={"default":1})
+     * @ORM\Column(type="integer", options={"default": 1})
      */
     private $on_off;
     /**
-     * @ORM\Column(type="integer", nullable=true, options={"comment":"alt"})
+     * @ORM\Column(type="integer", nullable=true, options={"comment": "alt"})
      */
     private $position;
     // PRIMARY KEY (`id`)

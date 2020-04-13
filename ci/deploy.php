@@ -23,6 +23,7 @@ if (!$res) {
     // Keep the zip (for debugging purposes).
     rename($zip_path, "./invalid_deploy_{$date}.zip");
     unlink($php_path);
+    http_response_code(500);
     die("Could not unzip deploy.zip\n");
 }
 mkdir($unzip_path, 0777, true);
@@ -35,6 +36,7 @@ if (!is_dir($current_deployment_unzip_path)) {
     // Keep the unzipped directory (for debugging purposes).
     rename($unzip_path, "./invalid_unzip_{$date}");
     unlink($php_path);
+    http_response_code(500);
     die("Invalid zip content: unzip/deploy/ not found\n");
 }
 
@@ -44,6 +46,9 @@ rename(
     $current_deployment_destination_path,
 );
 
+// Run database migrations
+// TODO: Could not be implemented as of 2020-04-11
+
 // Redirect users to the new code.
 unlink($current_link_path);
 symlink($current_deployment_destination_path, $current_link_path);
@@ -51,3 +56,5 @@ symlink($current_deployment_destination_path, $current_link_path);
 // Clean up.
 rmdir($unzip_path);
 unlink($php_path);
+
+echo "deploy:SUCCESS";

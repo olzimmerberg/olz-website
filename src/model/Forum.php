@@ -5,13 +5,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="forum",
- *   indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
+ *     name="forum",
+ *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
  * )
  */
 class forum {
     /**
-     * @ORM\Column(type="string", nullable=false, options={"default":""})
+     * @ORM\Column(type="string", nullable=false, options={"default": ""})
      */
     private $name;
     /**
@@ -23,7 +23,7 @@ class forum {
      */
     private $eintrag;
     /**
-     * @ORM\Column(type="integer", options={"default":1})
+     * @ORM\Column(type="integer", options={"default": 1})
      */
     private $newsletter;
     /**
@@ -31,7 +31,7 @@ class forum {
      */
     private $newsletter_datum;
     /**
-     * @ORM\Column(type="string", nullable=false, options={"default":""})
+     * @ORM\Column(type="string", nullable=false, options={"default": ""})
      */
     private $uid;
     /**
@@ -55,7 +55,7 @@ class forum {
      */
     private $allowHTML;
     /**
-     * @ORM\Column(type="string", nullable=false, options={"default":""})
+     * @ORM\Column(type="string", nullable=false, options={"default": ""})
      */
     private $name2;
     // PRIMARY KEY (`id`),

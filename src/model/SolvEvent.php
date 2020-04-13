@@ -84,7 +84,7 @@ class SolvEvent {
      */
     private $rank_link;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", nullable=false, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $last_modification;
     // PRIMARY KEY (`solv_uid`)

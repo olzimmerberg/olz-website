@@ -13,6 +13,7 @@ function reset_db($db, $data_path) {
     $dev_data_dir = __DIR__.'/dev-data/';
 
     // Overwrite database with dev content.
+    clear_db($db);
     init_dev_data_db_structure($db, $dev_data_dir);
     init_dev_data_db_content($db, $dev_data_dir);
 
@@ -23,26 +24,27 @@ function reset_db($db, $data_path) {
 function dump_db($db) {
     $dev_data_dir = __DIR__.'/dev-data/';
 
-    // Get SQL dumps
     $sql_structure = dump_db_structure_sql($db);
     $sql_content = dump_db_content_sql($db);
+    $sql_structure_path = "{$dev_data_dir}db_structure.sql";
+    $sql_content_path = "{$dev_data_dir}db_content.sql";
+    file_put_contents($sql_structure_path, $sql_structure);
+    file_put_contents($sql_content_path, $sql_content);
+}
 
-    // Save SQL dumps
-    file_put_contents("{$dev_data_dir}db_structure.sql", $sql_structure);
-    file_put_contents("{$dev_data_dir}db_content.sql", $sql_content);
+function clear_db($db) {
+    // Remove all database tables.
+    $result = $db->query("SHOW TABLES");
+    while ($row = $result->fetch_array()) {
+        $table_name = $row[0];
+        $db->query("DROP TABLE `{$table_name}`");
+    }
 }
 
 function init_dev_data_db_structure($db, $dev_data_dir) {
-    // Overwrite database structure with dev content.
-    $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
-    if ($db->multi_query($sql_content)) {
-        while ($db->next_result()) {
-            $result = $db->store_result();
-            if ($result) {
-                $result->free();
-            }
-        }
-    }
+    // Migrate database to latest state.
+    require_once __DIR__.'/doctrine_migrations.php';
+    migrate_to_latest();
 }
 
 function init_dev_data_db_content($db, $dev_data_dir) {
@@ -139,6 +141,8 @@ function dump_db_structure_sql($db) {
     $sql_content = (
         "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
         ."\n"
+        ."-- DEPRECATED: Database structure is managed by doctrine migrations\n"
+        ."\n"
         ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
         ."SET AUTOCOMMIT = 0;\n"
         ."START TRANSACTION;\n"
@@ -162,6 +166,8 @@ function dump_db_structure_sql($db) {
 }
 
 function dump_db_content_sql($db) {
+    $migration_config = require __DIR__.'/../config/migrations.php';
+    $migrations_table_name = $migration_config['table_name'];
     $sql_content = (
         "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
         ."\n"
@@ -174,6 +180,9 @@ function dump_db_content_sql($db) {
     $res_tables = $db->query('SHOW TABLES');
     while ($row_tables = $res_tables->fetch_row()) {
         $table_name = $row_tables[0];
+        if ($table_name === $migrations_table_name) {
+            continue;
+        }
         $sql_content .= "\n";
         $sql_content .= "-- Table {$table_name}\n";
         $res_contents = $db->query("SELECT * FROM `{$table_name}`");

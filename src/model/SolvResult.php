@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="solv_results",
- *   uniqueConstraints={@ORM\UniqueConstraint(name="person_run_unique", columns={"person", "event", "class", "name", "birth_year", "domicile", "club"})}
+ *     name="solv_results",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="person_run_unique", columns={"person", "event", "class", "name", "birth_year", "domicile", "club"})}
  * )
  */
 class solv_results {

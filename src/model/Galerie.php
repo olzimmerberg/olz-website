@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *   name="galerie",
- *   indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
+ *     name="galerie",
+ *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
  * )
  */
 class galerie {
@@ -31,7 +31,7 @@ class galerie {
      */
     private $autor;
     /**
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     private $on_off;
     /**

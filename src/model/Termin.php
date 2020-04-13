@@ -27,11 +27,11 @@ class termine {
      */
     private $datum_off;
     /**
-     * @ORM\Column(type="time", options={"default": "00:00:00"})
+     * @ORM\Column(type="time", nullable=true, options={"default": "00:00:00"})
      */
     private $zeit;
     /**
-     * @ORM\Column(type="time", options={"default": "00:00:00"})
+     * @ORM\Column(type="time", nullable=true, options={"default": "00:00:00"})
      */
     private $zeit_end;
     /**

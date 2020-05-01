@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__.'/../admin/olz_init.php';
+require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../model/SolvEvent.php';
 require_once __DIR__.'/common.php';
 require_once __DIR__.'/schema.php';
 

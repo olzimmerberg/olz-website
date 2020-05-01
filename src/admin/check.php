@@ -36,14 +36,14 @@ function check_nutzer() {
         if (!isset($_COOKIE[session_name()])) {
             return false;
         }
-        $nutzer = trim($_POST["username"]);
-        $pwd = trim($_POST["passwort"]);
+        $username = DBEsc(trim($_POST["username"]));
+        $pwd = $_POST["passwort"];
         $challenge = trim($_POST["challenge"]);
-        $sql = "SELECT * FROM user WHERE (benutzername = '{$nutzer}')";
+        $sql = "SELECT * FROM users WHERE (username = '{$username}')";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
         // if ($pwd == md5($row['passwort'].$_SESSION["challenge"]))
-        if ($pwd == $row['passwort'] && $challenge == $_SESSION["challenge"]) {
+        if (password_verify($pwd, $row['password']) && $challenge == $_SESSION["challenge"]) {
             $_SESSION["auth"] = $row['zugriff']; // Eingaben korrekt
             $_SESSION["root"] = $row["root"];
             if ($_SESSION["root"] == "") {
@@ -51,7 +51,7 @@ function check_nutzer() {
             }
             // Mögliche Werte für 'zugriff': all, ftp, termine, mail
             $page = $_SESSION["page"];
-            $_SESSION['user'] = $nutzer;
+            $_SESSION['user'] = $username;
             //unset($_SESSION["challenge"]);
             return true;
         }

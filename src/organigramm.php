@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/config/database.php';
+
 $db_table = "vorstand";
 
 $organigramm = [
@@ -99,6 +101,33 @@ function highlight_organigramm_color(id) {
 
 $colwid = 111;
 $org = "<div style='width:100%; overflow-x:scroll;'><table style='table-layout:fixed; width:".($colwid * count($organigramm))."px;'>";
+// $vorstand_result = $db->query('SELECT * FROM roles WHERE parent_role IS NULL');
+// for ($vorstand_index = 0; $vorstand_index < $vorstand_result->num_rows; $vorstand_index++) {
+//     $vorstand_row = $vorstand_result->fetch_assoc();
+//     $vorstand_role_name = nl2br($vorstand_row['name']);
+//     $org .= "<td style='width:".$colwid."px; vertical-align:top;'>";
+//     $org .= "<div style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
+//     $org .= "<h6>{$vorstand_role_name}</h6>";
+//     $org .= "</div>";
+//     $vorstand_id = intval($vorstand_row['id']);
+//     $charge_result = $db->query("SELECT * FROM roles WHERE parent_role='{$vorstand_id}'");
+//     for ($charge_index = 0; $charge_index < $charge_result->num_rows; $charge_index++) {
+//         $charge_row = $charge_result->fetch_assoc();
+//         $charge_role_name = nl2br($charge_row['name']);
+//         $org .= "<div style='text-align:center; height:20px; overflow:hidden;'><span style='border-left:1px solid #000000; font-size:20px;'></span></div>";
+//         $org .= "<div style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
+//         $org .= "<h6>{$charge_role_name}</h6>";
+//         $charge_id = intval($charge_row['id']);
+//         $subcharge_result = $db->query("SELECT * FROM roles WHERE parent_role='{$charge_id}'");
+//         for ($subcharge_index = 0; $subcharge_index < $subcharge_result->num_rows; $subcharge_index++) {
+//             $subcharge_row = $subcharge_result->fetch_assoc();
+//             $subcharge_role_name = nl2br($subcharge_row['name']);
+//             $org .= "<div style='text-align:center; font-style:italic;'>{$subcharge_role_name}</div>";
+//         }
+//         $org .= "</div>";
+//     }
+//     $org .= "</td>";
+// }
 for ($i = 0; $i < count($organigramm); $i++) {
     $ressort = $organigramm[$i];
     $org .= "<td style='width:".$colwid."px; vertical-align:top;'>";

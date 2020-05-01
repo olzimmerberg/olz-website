@@ -1,6 +1,7 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
 
--- DEPRECATED: Database structure is managed by doctrine migrations
+-- NOTE: Database structure is managed by doctrine migrations.
+--       This file is only used if migrations bootstrap fails.
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -308,6 +309,20 @@ CREATE TABLE `olz_text` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- Table roles
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `old_username` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `parent_role` int(11) DEFAULT NULL,
+  `index_within_parent` int(11) DEFAULT NULL,
+  `featured_index` int(11) DEFAULT NULL,
+  `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- Table rundmail
 DROP TABLE IF EXISTS `rundmail`;
 CREATE TABLE `rundmail` (
@@ -386,8 +401,8 @@ CREATE TABLE `termine` (
   `datum` date DEFAULT NULL,
   `datum_end` date DEFAULT NULL,
   `datum_off` date DEFAULT NULL,
-  `zeit` time NOT NULL DEFAULT '00:00:00',
-  `zeit_end` time NOT NULL DEFAULT '00:00:00',
+  `zeit` time DEFAULT '00:00:00',
+  `zeit_end` time DEFAULT '00:00:00',
   `teilnehmer` int(11) NOT NULL DEFAULT 0,
   `newsletter` int(11) DEFAULT NULL,
   `newsletter_datum` datetime DEFAULT NULL,
@@ -471,6 +486,33 @@ CREATE TABLE `user` (
   `root` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Table users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `old_username` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `email` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `first_name` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `last_name` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `zugriff` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `root` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Table users_roles
+DROP TABLE IF EXISTS `users_roles`;
+CREATE TABLE `users_roles` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `IDX_51498A8EA76ED395` (`user_id`),
+  KEY `IDX_51498A8ED60322AC` (`role_id`),
+  CONSTRAINT `FK_51498A8EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_51498A8ED60322AC` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Table vorstand
 DROP TABLE IF EXISTS `vorstand`;

@@ -57,10 +57,12 @@ function get_database_backup($db, $key) {
 function clear_db($db) {
     // Remove all database tables.
     $result = $db->query("SHOW TABLES");
+    $db->query('SET foreign_key_checks = 0');
     while ($row = $result->fetch_array()) {
         $table_name = $row[0];
         $db->query("DROP TABLE `{$table_name}`");
     }
+    $db->query('SET foreign_key_checks = 1');
 }
 
 function init_dev_data_db_structure($db, $dev_data_dir) {
@@ -69,6 +71,7 @@ function init_dev_data_db_structure($db, $dev_data_dir) {
     try {
         migrate_to_latest();
     } catch (Exception $exc) {
+        echo "Doctrine migrations failed. Manually resetting structure...\n";
         // Overwrite database structure with dev content.
         $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
         if ($db->multi_query($sql_content)) {

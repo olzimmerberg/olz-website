@@ -1,13 +1,14 @@
 <?php
 
 require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/server.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/deploy_cleanup.php';
 require_once __DIR__.'/doctrine_migrations.php';
 
 function run_tools($command_config, $server) {
-    global $db, $data_path, $deploy_path;
+    global $db, $data_path, $deploy_path, $DATABASE_BACKUP_KEY;
     set_time_limit(120); // This might take some time...
     $has_command = preg_match('/^\/([a-z0-9\-]+)$/i', $server['PATH_INFO'], $matches);
     $command = $has_command ? $matches[1] : null;
@@ -22,6 +23,9 @@ function run_tools($command_config, $server) {
     }
     if ($command === 'dump') {
         return run_command($command, 'dump_db', [$db]);
+    }
+    if ($command === 'get-database-backup') {
+        return run_command($command, 'get_database_backup', [$db, $DATABASE_BACKUP_KEY]);
     }
     if ($command === 'deploy-cleanup') {
         return run_command($command, 'deploy_cleanup', [$deploy_path]);

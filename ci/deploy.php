@@ -48,14 +48,6 @@ rename(
 
 // Run database migrations
 // TODO: Could not be implemented as of 2020-04-11
-$doctrine_migrations_lib_path = "{$current_deployment_destination_path}/tools/doctrine_migrations.php";
-if (is_file($doctrine_migrations_lib_path)) {
-    require_once $doctrine_migrations_lib_path;
-    migrate_to_latest();
-    echo "SUCCESSFULLY MIGRATED\n";
-} else {
-    echo "NOT MIGRATED\n";
-}
 
 // Redirect users to the new code.
 unlink($current_link_path);

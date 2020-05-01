@@ -9,3 +9,7 @@ $MYSQL_SCHEMA = "db-schema";
 
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', 1);
+
+$_CONFIG->unlimited_cron = true;
+
+$DATABASE_BACKUP_KEY = 'aaaaaaaaaaaaaaaaaaaa';

@@ -32,6 +32,28 @@ function dump_db($db) {
     file_put_contents($sql_content_path, $sql_content);
 }
 
+function get_database_backup($db, $key) {
+    if (!$key || strlen($key) < 10) {
+        throw new Exception("No valid key");
+    }
+    $sql = '';
+    $sql .= dump_db_structure_sql($db);
+    $sql .= "\n\n----------\n\n\n";
+    $sql .= dump_db_content_sql($db);
+
+    $plaintext = $sql;
+    $algo = 'aes-256-gcm';
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
+    $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
+    echo json_encode([
+        'algo' => $algo,
+        'iv' => base64_encode($iv),
+        'tag' => base64_encode($tag),
+        'ciphertext' => base64_encode($ciphertext),
+    ]);
+    echo "\n";
+}
+
 function clear_db($db) {
     // Remove all database tables.
     $result = $db->query("SHOW TABLES");
@@ -44,7 +66,20 @@ function clear_db($db) {
 function init_dev_data_db_structure($db, $dev_data_dir) {
     // Migrate database to latest state.
     require_once __DIR__.'/doctrine_migrations.php';
-    migrate_to_latest();
+    try {
+        migrate_to_latest();
+    } catch (Exception $exc) {
+        // Overwrite database structure with dev content.
+        $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
+        if ($db->multi_query($sql_content)) {
+            while ($db->next_result()) {
+                $result = $db->store_result();
+                if ($result) {
+                    $result->free();
+                }
+            }
+        }
+    }
 }
 
 function init_dev_data_db_content($db, $dev_data_dir) {
@@ -144,7 +179,8 @@ function dump_db_structure_sql($db) {
     $sql_content = (
         "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
         ."\n"
-        ."-- DEPRECATED: Database structure is managed by doctrine migrations\n"
+        ."-- NOTE: Database structure is managed by doctrine migrations.\n"
+        ."--       This file is only used if migrations bootstrap fails.\n"
         ."\n"
         ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
         ."SET AUTOCOMMIT = 0;\n"

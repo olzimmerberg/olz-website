@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Zeigt geplante und vergangene Termine an.
+// =============================================================================
+
+?>
+
 <!--<script type="text/javascript" src="http://map.search.ch/api/map.js"></script>-->
 <script type="text/javascript" src="library/wgs84_ch1903/wgs84_ch1903.js"></script>
 <!--<h2>Termine</h2>-->

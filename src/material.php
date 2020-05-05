@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Informationsseite zum klubeigenen Material.
+// =============================================================================
+
+?>
+
 <h2>Leihmaterial</h2>
 <b>Zur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung</b>
 <table>

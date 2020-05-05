@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Neuigkeiten von unseren Leistungssportlern.
+// =============================================================================
+
 //echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
 //$kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
 //$kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("florian","Florian Attinger"),array("sara","Sara Würmli"),array("paula","Paula Gross"));

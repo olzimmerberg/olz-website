@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
+// =============================================================================
+
+?>
+
 <h2>Regeln</h2>
 <!--<p>
     <b>Im Forum k&ouml;nnen Mitteilungen aller Art platziert werden (Kommentare, Fragen, Hinweise usw.). Dabei ist folgendes zu beachten:

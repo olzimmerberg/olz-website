@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Das Organigramm unseres Vereins.
+// TODO(simon): Neues Benutzer- & Rollenmodell nutzen.
+// =============================================================================
+
 require_once __DIR__.'/config/database.php';
 
 $db_table = "vorstand";

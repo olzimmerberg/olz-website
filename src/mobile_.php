@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Proof-of-Concept für eine mobile Version der Website. Veraltet.
+// DEPRECATED
+// =============================================================================
+
 include_once "admin/check.php";
 include_once "admin/olz_init.php";
 include_once "admin/olz_functions.php";

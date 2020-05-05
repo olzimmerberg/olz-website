@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Tool-Sammlung, um das Verwalten der Termine zu vereinfachen.
+// TODO(simon): Was davon funktioniert überhaupt noch? Tests?
+// =============================================================================
+
 $start = microtime(1);
 
 $timestamp = (strtotime(date("Y-m-d H:i:s")) - strtotime(date("Y-m-d")));

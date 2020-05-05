@@ -1,3 +1,8 @@
+// =============================================================================
+// Der Index von allem Frontend Code.
+// Webpack generiert daraus den Ordner `jsbuild/`.
+// =============================================================================
+
 import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';

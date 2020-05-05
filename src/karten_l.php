@@ -1,8 +1,11 @@
-<!--<h2>Karten</h2>-->
-<!--<script type="text/javascript" src="http://map.search.ch/api/map.js"></script>--> <!-- >>> Probleme mit neuer API und Firefox)-->
-<!-- <script type="text/javascript" src="https://map.classic.search.ch/api/map.js"></script>-->
-<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>
 <?php
+
+// =============================================================================
+// Das Verzeichnis unserer Karten.
+// =============================================================================
+
+echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
+
 $db_table = "karten";
 
 // Karte von mapserch.ch initialisieren

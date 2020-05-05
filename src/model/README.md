@@ -1,8 +1,14 @@
-# OLZ Data Model
+# `model/`: Daten-Modell
 
-## Caveats
+Hier ist definiert, was in der Datenbank gespeichert werden soll.
+Beim Verändern dieser Modelle muss eine Datenbank-Migration erstellt werden,
+falls sich die Datenbank-Struktur verändert hat, oder Daten transformiert
+werden müssen.
+
+## Gut zu wissen
 
 ### `unique=true`
 
-Do not use `unique=true`, at least not on `text` type fields.
-The Hoststar Database can not handle the resulting SQL.
+`unique=true` sollte nicht verwendet werden, zumindest nicht bei Feldern des
+Typs `text`. Die Datenbank von unserem Hoster unterstützt das resultierende SQL
+dann  nämlich nicht, und die Migration wird nicht ausgeführt.

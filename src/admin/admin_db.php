@@ -1,6 +1,15 @@
-<script src="scripts/admin_db.js" type="text/javascript"></script>
-
 <?php
+
+// =============================================================================
+// Urs' Content Management System. Jegliches Bearbeiten von Daten geschieht über
+// diese Definitionen.
+// Es ist noch nicht klar, wie sich die Doctrine-Einführung auf diesen Code
+// auswirken wird. Möglicherweise können hier Dinge vereinfacht oder einfacher
+// getestet werden.
+// =============================================================================
+
+echo '<script src="scripts/admin_db.js" type="text/javascript"></script>';
+
 //***************************************************
 //Formular zur Verwaltung der Mysql-Datenbanken
 //***************************************************
@@ -869,5 +878,3 @@ $alert = "";
 if ($html_input.$html_hidden > "") {
     echo "<table class='liste'>".$html_input."</table>".$html_hidden;
 }
-
-?>

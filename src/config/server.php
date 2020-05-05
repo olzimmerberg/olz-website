@@ -1,5 +1,11 @@
 <?php
 
+// =============================================================================
+// Server-spezifische Konfiguration. Überall wo der Code ausgeführt werden soll,
+// z.B. Production, Staging, Dev-Server, Integration-Test-Server, muss eine
+// Datei `config.php` vorhanden sein, die von hier aus importiert wird.
+// =============================================================================
+
 class ServerConfig {
     public $unlimited_cron = false;
 }

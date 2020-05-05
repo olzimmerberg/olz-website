@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Zeigt Informationen zur Zielsprint-Challenge 2020 an.
+// =============================================================================
+
 echo "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 
 //echo "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";

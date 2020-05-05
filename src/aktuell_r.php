@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Aktuelle Berichte von offiziellen Vereinsorganen.
+// =============================================================================
+
 require_once "file_tools.php";
 require_once "image_tools.php";
 $db_table = "aktuell";

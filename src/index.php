@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Der Eintrittspunkt (fast) jeder Benutzeranfrage.
+// Von hier aus wird der für die angefragte Seite benötigte Code importiert.
+// =============================================================================
+
 session_start();
 
 require_once 'admin/check.php';
@@ -35,8 +40,6 @@ $pages = [
     "30" => ["zielsprint20.php", "startseite_r.php"],
     "ftp" => ["library/phpWebFileManager/start.php"],
     "tools" => ["termine_helper.php"],
-    // Test
-    "organigramm" => ["vorstand_l.php", "vorstand_r.php"],
 ];
 
 //http://YOUR-SITE.COM/FILERUN/?page=login&action=login&nonajax=1&username=test&password=1234

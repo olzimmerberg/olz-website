@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Zeigt die wichtigsten Informationen möglichst übersichtlich an.
+// =============================================================================
+
+?>
+
 <script type='text/javascript'>
 function handleClick(ev) {
 ev = ev || window.event;

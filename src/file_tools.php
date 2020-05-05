@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Funktionen für Datei-Upload, z.B. PDFs in Aktuell-Einträgen.
+// =============================================================================
+
 require_once __DIR__."/config/paths.php";
 require_once __DIR__."/upload_tools.php";
 

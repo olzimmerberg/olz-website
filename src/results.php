@@ -1,4 +1,11 @@
 <?php
+
+// =============================================================================
+// Kann am Zimmerberg OL Resultate anzeigen.
+// Diese Datei wurde unabhängig von `results/` entwickelt. Es existieren
+// Doppelspurigkeiten.
+// =============================================================================
+
 //-------------------------------------------
 // Counter mit Textdatei
 //-------------------------------------------

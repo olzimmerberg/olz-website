@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Tool-Sammlung, um das Verwalten der Termine zu vereinfachen.
+// TODO(simon): Was davon funktioniert überhaupt noch? Tests?
+// =============================================================================
+
 // $_GET["visitor"]=="map"
 // $_GET["visitor"]=="cronjob"
 

@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Facebook-Integration
+// DEPRECATED
+// =============================================================================
+
 require_once "admin/olz_init.php";
 
 $result = $db->query("SELECT v FROM facebook_settings WHERE k='token'");

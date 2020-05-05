@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Die Informationsseite für Anfänger, Einsteiger, Neulinge.
+// =============================================================================
+
+?>
+
 <script type='text/javascript'>
 
 function highlight_menu(page) {

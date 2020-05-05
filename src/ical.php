@@ -1,7 +1,11 @@
 <?php
 
-// ical-Datei generieren mit Terminen des aktuellen Jahres
-// Dieses Script wird immer beim Sichern und beim Löschen eines Termins aufgerufen
+// =============================================================================
+// iCal-Datei generieren mit Terminen des aktuellen Jahres.
+// Dieses Script wird immer beim Sichern und beim Löschen eines Termins
+// aufgerufen.
+// =============================================================================
+
 include_once "admin/olz_init.php";
 include_once "admin/olz_functions.php";
 

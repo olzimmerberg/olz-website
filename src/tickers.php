@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Versuch, die verschiedenen Typen von Einträgen irgendwie zu vereinheitlichen.
+// TODO(simon): Was davon ist in Gebrauch? Was soll geschehen?
+// =============================================================================
+
 function termine_ticker($settings) {
     global $db;
     $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;

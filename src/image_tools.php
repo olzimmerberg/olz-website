@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Funktionen für Bild-Upload, z.B. Bilder in Aktuell-Einträgen.
+// =============================================================================
+
 require_once __DIR__."/config/paths.php";
 require_once __DIR__."/upload_tools.php";
 

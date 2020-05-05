@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Kann gewisse Daten vom SOLV und von GO2OL lesen.
+// TODO(simon): DEPRECATED?
+// =============================================================================
+
 function solvdataforyear($year) {
     global $db;
     if (!$year) {

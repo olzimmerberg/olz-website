@@ -1,5 +1,10 @@
-    
 <?php
+
+// =============================================================================
+// Ungenutztes Feature, um Rundmails vom Vorstand zu verschicken, z.B. die
+// MV-Einladung.
+// =============================================================================
+
 //-------------------------------------------------------------
 // KONSTANTEN
 $db_table = "rundmail";
@@ -149,4 +154,3 @@ elseif ($input == "vorschau")
     }
 return $input_tmp;
 }*/
-?>

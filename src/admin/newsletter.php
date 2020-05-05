@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Versendet per E-Mail eine Zusammenfassung, was für Neuigkeiten auf der
+// Webseite erschienen sind.
+// =============================================================================
+
 $local = "0";
 $admin_mail = "uhu1277@gmail.com";
 $mail_from = "newsletter@olzimmerberg.ch";

@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Fehlerseite für HTTP Status 404 Not Found.
+// =============================================================================
+
 echo "<h2>Fehler 404: Die gewünschte Seite konnte nicht gefunden werden.</h2>
     <p><b>Hier bist du voll im Schilf !</b></p>
     <p>Kein Posten weit und breit.</p>

@@ -1,5 +1,10 @@
 <?php
 
+// =============================================================================
+// Kompatibilitäts-Layer, falls der Hoster eine bescheuerte Content Security
+// Policy haben sollte (hat er).
+// =============================================================================
+
 function deobfuscate_upload($obfuscated) {
     $semipos = strpos($obfuscated, ';');
     $iv = intval(substr($obfuscated, 0, $semipos));

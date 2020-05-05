@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Konfiguration Doctrine-Datenbank-Migrationen.
+// =============================================================================
+
 return [
     'name' => 'OLZ Migrations',
     'migrations_namespace' => 'OLZ\Migrations',

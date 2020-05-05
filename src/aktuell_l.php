@@ -1,8 +1,8 @@
-<!--<script type='text/javascript' src='scripts/lightview/js/prototype.js'></script>
-<script type='text/javascript' src='scripts/lightview/js/scriptaculous.js?load=effects'></script>
-<script type='text/javascript' src='scripts/lightview/js/lightview.js'></script>-->
-
 <?php
+
+// =============================================================================
+// Aktuelle Berichte von offiziellen Vereinsorganen.
+// =============================================================================
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
@@ -149,4 +149,3 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         echo "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
     }
 }
-?>

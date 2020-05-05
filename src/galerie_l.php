@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Fotogalerie mit Bildern von Anlässen.
+// =============================================================================
+
 require_once "image_tools.php";
 $db_table = "galerie";
 $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"];

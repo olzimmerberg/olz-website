@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Zeigt Informationen zur OLZ Trophy an.
+// =============================================================================
+
+?>
+
 <h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2020</h2>
 <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
 <p style='text-align:center;'><i style='font-size:17px;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>

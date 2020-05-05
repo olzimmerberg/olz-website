@@ -1,5 +1,9 @@
 <?php
 
+// =============================================================================
+// Konfiguration für die Benützung von Doctrine im Code.
+// =============================================================================
+
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 

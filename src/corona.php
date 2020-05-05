@@ -1,3 +1,11 @@
+<?php
+
+// =============================================================================
+// Für Unterhaltung während der COVID-19 Krise.
+// =============================================================================
+
+?>
+
 <h2 style='font-size:24px; border:0px; text-align:center;'>OLZ Corona-Lifehacks 2020</h2>
 <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Wie wir die OL-Krise überstehen</p>
 <div class='corona'>

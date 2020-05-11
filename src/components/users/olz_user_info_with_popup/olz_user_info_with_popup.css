@@ -1,0 +1,7 @@
+.olz-user-info-with-popup {
+    color: rgb(0,120,0);
+    text-align: center;
+}
+.olz-user-info-with-popup:hover {
+    color: rgb(0,0,0);
+}

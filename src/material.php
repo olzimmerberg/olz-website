@@ -79,7 +79,18 @@
 <br>
 <b>Kontakt für Bestellung, Abholung und Rückgabe des Materials:</b>
 <?php
-echo olz_vorstand_insert(8, 2);
+
+require_once __DIR__.'/model/Role.php';
+require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
+
+$role_repo = $entityManager->getRepository(Role::class);
+$sportident_role = $role_repo->findOneBy(['username' => 'sportident']);
+
+$sportident_assignees = $sportident_role->getUsers();
+foreach ($sportident_assignees as $sportident_assignee) {
+    echo olz_user_info_card($sportident_assignee);
+}
+
 ?>
 <div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen an OL Zimmerberg, PC-Konto 85-256448-8 zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben.</div>
 <div><b>Verlorenes, beschädigtes Material: </b>Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.</div>

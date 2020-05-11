@@ -4,6 +4,9 @@
 // Die Informationsseite für Anfänger, Einsteiger, Neulinge.
 // =============================================================================
 
+require_once __DIR__.'/model/Role.php';
+require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
+
 ?>
 
 <script type='text/javascript'>
@@ -38,6 +41,10 @@ function unhighlight_menu(page) {
 </script>
 
 <?php
+
+$role_repo = $entityManager->getRepository(Role::class);
+$buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
+$aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
 
 echo "
 <p style='text-align:center;background-color:#D4E7CE;padding-top:10px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>Du bist neu beim OL oder in unserem Klub? <br><b>Dann ist diese Seite genau für dich!</b></p>
@@ -83,14 +90,24 @@ Entweder du kommst zu Fuss, mit dem Velo, mit dem eigenen Auto, mit einer Fahrge
 Das Büssli fährt an <b>jedes Training</b> und nimmt Jugendliche aus Wädenswil, Richterswil und Horgen mit. <br>
 Für die Jugendlichen aus der Region Adliswil/Langnau gibt es jeweils eine Fahrgemeinschaft. <br>
 Fürs Büssli anmelden kannst du dich bei:
-<div style='padding-left:50px;'>".olz_vorstand_insert(3, 2)."</div>
+<div style='padding-left:50px;'>";
+$buessli_assignees = $buessli_role->getUsers();
+foreach ($buessli_assignees as $buessli_assignee) {
+    echo olz_user_info_card($buessli_assignee);
+}
+echo "</div>
 </div>
 <br>
 <h3>Wie reise ich zum OL?</h3>
 <div>
 Bei manchen Läufen wird im <b><a href='?page=5' onmouseover='highlight_menu(5)' onmouseout='unhighlight_menu(5)' class='linkint'>Forum</a></b> ein <b>Zug</b> bestimmt, mit dem die meisten anreisen werden.<br>
 Unser <b>Clubbüssli</b> fährt auch zu manchen Anlässen. Ob es zum nächsten OL fährt, erfährst du bei:
-<div style='padding-left:50px;'>".olz_vorstand_insert(3, 2)."</div>
+<div style='padding-left:50px;'>";
+$buessli_assignees = $buessli_role->getUsers();
+foreach ($buessli_assignees as $buessli_assignee) {
+    echo olz_user_info_card($buessli_assignee);
+}
+echo "</div>
 </div>
 <br>
 <h3>Wie erkenne ich andere OL Zimmerberg Mitglieder?</h3>
@@ -101,7 +118,12 @@ An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausen
 <h3>Wie werde ich OL Zimmerberg Mitglied?</h3>
 <div>
 Melde dich bei:
-<div style='padding-left:50px;'>".olz_funktion_insert(4, 2)."</div>
+<div style='padding-left:50px;'>";
+$aktuariat_assignees = $aktuariat_role->getUsers();
+foreach ($aktuariat_assignees as $aktuariat_assignee) {
+    echo olz_user_info_card($aktuariat_assignee);
+}
+echo "</div>
 </div>
 <br>
 <h3>Gibt es auch schnelle Läufer in der OL Zimmerberg?</h3>
@@ -120,6 +142,11 @@ Porträts unseres Vorstandes sind auf der <b><a href='?page=6' onmouseover='high
 </div>
 <br>
 <h3>Wen kann ich fragen, wenn ich weitere Fragen habe?</h3>
-<div style='padding-left:50px;'>".olz_vorstand_insert(3, 2)."</div>";
+<div style='padding-left:50px;'>";
+$buessli_assignees = $buessli_role->getUsers();
+foreach ($buessli_assignees as $buessli_assignee) {
+    echo olz_user_info_card($buessli_assignee);
+}
+echo "</div>";
 
 ?>

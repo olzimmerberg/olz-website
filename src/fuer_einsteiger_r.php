@@ -5,6 +5,7 @@
 // =============================================================================
 
 require_once __DIR__.'/model/Role.php';
+require_once __DIR__.'/model/User.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 
 $role_repo = $entityManager->getRepository(Role::class);

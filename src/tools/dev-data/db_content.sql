@@ -26,6 +26,14 @@ VALUES
 
 -- Table counter
 
+-- Table doctrine_migration_versions
+INSERT INTO doctrine_migration_versions
+    (`version`, `executed_at`)
+VALUES
+    ('20200409192051', '2020-05-11 22:04:20'),
+    ('20200423071546', '2020-05-11 22:04:20'),
+    ('20200511211417', '2020-05-11 22:08:43');
+
 -- Table downloads
 
 -- Table event
@@ -159,14 +167,6 @@ VALUES
 
 -- Table trainingsphotos
 
--- Table user
-INSERT INTO user
-    (`id`, `benutzername`, `passwort`, `zugriff`, `root`)
-VALUES
-    ('1', 'admin', 'adm1n', 'all', ''),
-    ('2', 'vorstand', 'v0r57and', 'ftp olz_text_1 aktuell galerie bild_der_woche', 'vorstand'),
-    ('3', 'karten', 'kar73n', 'ftp', 'karten');
-
 -- Table users
 INSERT INTO users
     (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`)
@@ -183,9 +183,5 @@ VALUES
     ('2', '4'),
     ('2', '17'),
     ('3', '16');
-
--- Table vorstand
-
--- Table vorstand_funktion
 
 COMMIT;

@@ -476,17 +476,6 @@ CREATE TABLE `trainingsphotos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Table user
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `benutzername` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `passwort` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `zugriff` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `root` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 -- Table users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -512,30 +501,6 @@ CREATE TABLE `users_roles` (
   KEY `IDX_51498A8ED60322AC` (`role_id`),
   CONSTRAINT `FK_51498A8EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_51498A8ED60322AC` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- Table vorstand
-DROP TABLE IF EXISTS `vorstand`;
-CREATE TABLE `vorstand` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `funktion` longtext COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'alt',
-  `adresse` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `tel` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `email` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bild` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
-  `position` int(11) DEFAULT NULL COMMENT 'alt',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- Table vorstand_funktion
-DROP TABLE IF EXISTS `vorstand_funktion`;
-CREATE TABLE `vorstand_funktion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vorstand` int(11) NOT NULL,
-  `funktion` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 COMMIT;

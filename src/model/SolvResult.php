@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="person_run_unique", columns={"person", "event", "class", "name", "birth_year", "domicile", "club"})}
  * )
  */
-class solv_results {
+class SolvResult {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */

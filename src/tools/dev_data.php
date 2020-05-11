@@ -16,6 +16,7 @@ function reset_db($db, $data_path) {
     clear_db($db);
     init_dev_data_db_structure($db, $dev_data_dir);
     init_dev_data_db_content($db, $dev_data_dir);
+    apply_db_migrations();
 
     // Initialize the non-code data file system at $data_path
     init_dev_data_filesystem($data_path);
@@ -66,20 +67,13 @@ function clear_db($db) {
 }
 
 function init_dev_data_db_structure($db, $dev_data_dir) {
-    // Migrate database to latest state.
-    require_once __DIR__.'/doctrine_migrations.php';
-    try {
-        migrate_to_latest();
-    } catch (Exception $exc) {
-        echo "Doctrine migrations failed. Manually resetting structure...\n";
-        // Overwrite database structure with dev content.
-        $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
-        if ($db->multi_query($sql_content)) {
-            while ($db->next_result()) {
-                $result = $db->store_result();
-                if ($result) {
-                    $result->free();
-                }
+    // Overwrite database structure with dev content.
+    $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
+    if ($db->multi_query($sql_content)) {
+        while ($db->next_result()) {
+            $result = $db->store_result();
+            if ($result) {
+                $result->free();
             }
         }
     }
@@ -96,6 +90,12 @@ function init_dev_data_db_content($db, $dev_data_dir) {
             }
         }
     }
+}
+
+function apply_db_migrations() {
+    // Migrate database to latest state.
+    require_once __DIR__.'/doctrine_migrations.php';
+    migrate_to_latest();
 }
 
 function init_dev_data_filesystem($data_path) {
@@ -211,8 +211,6 @@ function dump_db_structure_sql($db) {
 }
 
 function dump_db_content_sql($db) {
-    $migration_config = require __DIR__.'/../config/migrations.php';
-    $migrations_table_name = $migration_config['table_name'];
     $sql_content = (
         "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
         ."\n"
@@ -225,9 +223,6 @@ function dump_db_content_sql($db) {
     $res_tables = $db->query('SHOW TABLES');
     while ($row_tables = $res_tables->fetch_row()) {
         $table_name = $row_tables[0];
-        if ($table_name === $migrations_table_name) {
-            continue;
-        }
         $sql_content .= "\n";
         $sql_content .= "-- Table {$table_name}\n";
         $res_contents = $db->query("SELECT * FROM `{$table_name}`");

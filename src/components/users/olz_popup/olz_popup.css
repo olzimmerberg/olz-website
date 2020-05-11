@@ -1,0 +1,10 @@
+.olz-popup .popup {
+    position: absolute;
+    display: none;
+    padding: 5px 10px 5px 5px;
+    background-color: #D4E7CE;
+    border: 1px solid #007521;
+}
+.olz-popup .trigger {
+    cursor: pointer;
+}

@@ -1,9 +1,12 @@
 <?php
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+require_once __DIR__.'/../config/doctrine.php';
+
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="users")
  */
 class User {
@@ -51,5 +54,34 @@ class User {
 
     public function __construct() {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getFirstName() {
+        return $this->first_name;
+    }
+
+    public function getLastName() {
+        return $this->last_name;
+    }
+
+    public function getFullName() {
+        return "{$this->getFirstName()} {$this->getLastName()}";
+    }
+}
+
+class UserRepository extends EntityRepository {
+    public function getUsersForRole($roleId) {
+        $dql = "SELECT r, u FROM Role r JOIN r.users u ORDER BY u.first_name, u.last_name ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        return $query->getResult();
     }
 }

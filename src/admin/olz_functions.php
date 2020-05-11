@@ -174,44 +174,6 @@ function olz_text_insert($id_text, $editable = true) {
 }
 
 //----------------------------------
-//VORSTANDSPERSON ANZEIGEN
-//----------------------------------
-function olz_vorstand_insert($id, $mode = 0) {
-    global $db, $data_path, $data_href, $code_href;
-    $result = $db->query("SELECT * FROM vorstand WHERE id='".intval($id)."'");
-    $row = $result->fetch_assoc();
-    if ($mode == 0) {
-        $ident = md5(rand().$id.rand().microtime(true));
-        return "<div style='position:absolute; display:none; padding:5px 10px 5px 5px; background-color:#D4E7CE; border:1px solid #007521;' id='popup".$ident."'>".olz_vorstand_insert($id, 2)."</div><a href='javascript:olz_toggle_vorstand(&quot;".$ident."&quot;)' id='source".$ident."'>".$row["name"]."</a>";
-    }
-    if ($mode == 1) {
-        $ident = md5(rand().$id.rand().microtime(true));
-        return "<div style='position:relative;'><div style='position:absolute; display:none; padding:5px 10px 5px 5px; background-color:#D4E7CE; border:1px solid #007521; white-space:nowrap;' id='popup".$ident."'>".olz_vorstand_insert($id, 2)."</div></div><a href='javascript:olz_toggle_vorstand(&quot;".$ident."&quot;)' id='source".$ident."' style='display:block; text-align:center;'><img src='".($row["bild"] ? $data_href."olz_mitglieder/".$row["bild"] : $code_href."icns/user.jpg")."' alt=''><br><div style='text-align:center;'>".$row["name"]."</div></a>";
-    }
-    if ($mode == 2) {
-        return "<table><tr><td style='width:1px;'>".(is_file($data_path."olz_mitglieder/".$row["bild"]) ? "<img src='".$data_href."olz_mitglieder/".$row["bild"]."' alt='' style='height:64px;'>" : "&nbsp;")."</td><td style='padding-left:10px;'><b>".$row["name"]."</b>".($row["adresse"] ? "<br>".$row["adresse"] : "").($row["tel"] ? "<br>Tel. ".$row["tel"] : "").($row["email"] ? "<br>".olz_mask_email($row["email"], "Email", "") : "")."</td></tr></table>";
-    }
-    return "person_anzeigen: mode ".$mode." nicht definiert";
-}
-function olz_funktion_insert($id, $mode = 0, $sep = " ") {
-    global $db;
-    $result = $db->query("SELECT vf.vorstand FROM vorstand_funktion vf JOIN vorstand v ON (vf.vorstand = v.id) WHERE vf.funktion='".intval($id)."' ORDER BY v.name ASC");
-    $out = "";
-    $bisher = [];
-    while ($row = $result->fetch_assoc()) {
-        if ($out != "") {
-            $out .= $sep;
-        }
-        $bisher[] = intval($row["vorstand"]);
-        $out .= olz_vorstand_insert($row["vorstand"], $mode);
-    }
-    if (($_SESSION['auth'] == "all") || (in_array("vorstand", preg_split("/ /", $_SESSION['auth'])))) {
-        $out .= "<div>ID: ".$id."</div>";
-    }
-    return $out;
-}
-
-//----------------------------------
 //NEWS-FEED ANZEIGEN
 //----------------------------------
 function get_eintrag($icon, $datum, $titel, $text, $link, $pic = "") {

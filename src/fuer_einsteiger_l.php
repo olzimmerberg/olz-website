@@ -13,6 +13,12 @@ require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.ph
 <script type='text/javascript'>
 
 function highlight_menu(page) {
+    var menuContainerElem = document.getElementById('menu-container');
+    var menuContainerStyle = window.getComputedStyle(menuContainerElem);
+    var menuContainerOpacity = menuContainerStyle.getPropertyValue('opacity');
+    if (menuContainerOpacity < 0.5) {
+        return;
+    }
     var elem = document.getElementById("menu_a_page"+page);
     var rect = elem.getBoundingClientRect();
     var pointer = document.createElement("img");
@@ -37,7 +43,9 @@ function highlight_menu_ani(page, step) {
 }
 function unhighlight_menu(page) {
     var elem = document.getElementById("highlight_menu_"+page);
-    elem.parentElement.removeChild(elem);
+    if (elem) {
+        elem.parentElement.removeChild(elem);
+    }
 }
 </script>
 

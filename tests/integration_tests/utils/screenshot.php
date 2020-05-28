@@ -5,6 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/window.php';
 
 function take_pageshot($driver, $name) {
+    adjust_css_for_pageshot($driver);
     $browser_name = $driver->getCapabilities()->getBrowserName();
     $screenshots_path = __DIR__.'/../../../screenshots/';
     $screenshot_filename = "{$name}-{$browser_name}.png";
@@ -40,6 +41,13 @@ function take_screenshot($driver, $name) {
     $screenshots_path = __DIR__.'/../../../screenshots/';
     $screenshot_filename = "{$name}-{$browser_name}.png";
     $driver->takeScreenshot("{$screenshots_path}{$screenshot_filename}");
+}
+
+function adjust_css_for_pageshot($driver) {
+    $adjust_for_pageshot = file_get_contents(__DIR__.'/adjust_for_pageshot.css');
+    $css_string = json_encode($adjust_for_pageshot);
+    $js_code = "document.head.innerHTML += '<style>'+{$css_string}+'</style>';";
+    $driver->executeScript($js_code);
 }
 
 function hide_flaky_elements($driver) {

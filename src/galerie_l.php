@@ -125,7 +125,7 @@ if ($db_edit == "0" or $do == "vorschau") {
                 break;
             }
         }
-        echo "<tr class='galerie_kopf'><td style='padding:auto;'><a href='index.php?datum={$datum}&amp;foto=1' style='display:block;'><img src='icns/slides.gif' class='noborder' alt='' title='Bild für Bild'></a></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie_kopf'><td style='padding:auto;'><a href='index.php?datum={$datum}&amp;foto=1' style='display:block;'><img src='icns/link_slides_16.svgs_16.svg' class='noborder' alt='' title='Bild für Bild'></a></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;

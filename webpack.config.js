@@ -17,7 +17,7 @@ const defaultConfig = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.(png|gif)$/,
+                test: /\.(svg|png|gif)$/,
                 use: ['file-loader'],
             },
             {

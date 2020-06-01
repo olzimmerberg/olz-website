@@ -115,18 +115,18 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
             $img_href = "{$data_href}img/karten/{$thumb}";
-            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='icns/lupe.gif' style='float:right;border:none;'></a></span>";
-        //$map = "<img src='icns/lupe.gif' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
+            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='icns/lupe_16.svg' style='float:right;border:none;'></a></span>";
+        //$map = "<img src='icns/lupe_16.svg' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
         } else {
             $map = '';
         }
 
         if ($typ == 'ol') {
-            $icon = 'ol.gif';
+            $icon = 'ol_16.svg';
         } elseif ($typ == 'stadt') {
-            $icon = 'ol2.gif';
+            $icon = 'ol2_16.svg';
         } elseif ($typ == 'scool') {
-            $icon = 'ol1.gif';
+            $icon = 'ol1_16.svg';
         }
         if ($typ != $tmp_typ) {
             echo $tmp_tag."<h2><img src='icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";

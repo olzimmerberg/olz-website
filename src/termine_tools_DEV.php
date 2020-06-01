@@ -257,7 +257,7 @@ if ($zugriff == "1") {
     /*
     if ($_SESSION["termine_helper"]=="compare") {
         echo "<table class='liste'>
-<tr><td style='background-color:#cccccc;'></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='favicon.gif' alt='' class='noborder'> OLZ</h3></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='icns/ol.gif' alt='' class='noborder'> SOLV</h3></td></tr>";
+<tr><td style='background-color:#cccccc;'></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='favicon.gif' alt='' class='noborder'> OLZ</h3></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='icns/ol_16.svg' alt='' class='noborder'> SOLV</h3></td></tr>";
         $sql_tmp = "";
         if (isset($ids) && is_array($ids)) {
             $_SESSION["termine_helper_compare_limit"] = count($ids);

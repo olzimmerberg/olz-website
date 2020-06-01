@@ -31,7 +31,7 @@ function highlight_menu(page) {
     pointer.style.left = (rect.left+rect.width)+"px";
     pointer.style.height = "100px";
     pointer.style.border = "0px";
-    pointer.src = "icns/pfeil_rot.png";
+    pointer.src = "icns/link_rot.svg";
     pointer.id = "highlight_menu_"+page;
     document.documentElement.appendChild(pointer);
     window.setTimeout("highlight_menu_ani("+page+", 0)", 100);

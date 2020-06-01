@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   height="16"
+   width="16"
+   version="1.1"
+   id="Layer_1"
+   viewBox="0 0 16 16">
+  <g
+     style="display:inline"
+     transform="matrix(0.03125,0,0,0.03125,-0.124999,6.0365159e-7)"
+     id="g856">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#676767;stroke-width:15.7569;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 127.89869,7.8784306 c -17.61114,0 -32.020259,13.9568384 -32.020259,31.0151964 V 473.10637 c 0,17.05836 14.409119,31.0152 32.020259,31.0152 h 320.20262 c 17.61114,0 32.02026,-13.95684 32.02026,-31.0152 V 131.93922 L 352.04052,7.8784306 Z"
+       id="path2" />
+    <path
+       style="fill:#b0b7bd;stroke-width:0.984804"
+       d="m 384.06078,131.93922 h 96.06079 L 352.04052,7.8784306 V 100.92402 c 0,17.05836 14.40912,31.0152 32.02026,31.0152 z"
+       id="path4" />
+    <polygon
+       transform="matrix(1.0006332,0,0,0.96922488,-0.18235413,7.8784306)"
+       style="fill:#cad1d8"
+       points="384,128 480,128 480,224 "
+       id="polygon6" />
+  </g>
+  <path
+     id="path8"
+     d="m 12.874999,12.999999 c 0,0.275 -0.225,0.5 -0.5,0.5 H 1.375 c -0.275,0 -0.5,-0.225 -0.5,-0.5 V 7.9999994 c 0,-0.275 0.225,-0.5 0.5,-0.5 h 10.999999 c 0.275,0 0.5,0.225 0.5,0.5 z"
+     style="display:inline;fill:#f04f4f;fill-opacity:1;stroke-width:0.03125" />
+  <path
+     id="path18"
+     d="M 12.374999,13.499999 H 2.875 v 0.5 h 9.499999 c 0.275,0 0.5,-0.225 0.5,-0.5 v -0.5 c 0,0.275 -0.225,0.5 -0.5,0.5 z"
+     style="display:inline;fill:#cad1d8;stroke-width:0.03125" />
+  <g
+     transform="matrix(0.03125,0,0,0.03125,-0.125,0)"
+     aria-label="&lt;/&gt;"
+     id="text853"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:192px;line-height:1.25;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Bold';letter-spacing:-10px;word-spacing:0px;fill:#ffffff;fill-opacity:1">
+    <path
+       d="m 168.81255,390.78094 -87.562497,-39.9375 v -15.1875 l 87.562497,-41.90625 v 22.3125 l -62.4375,26.71875 v 0.5625 l 62.4375,25.125 z"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Bold'"
+       id="path837" />
+    <path
+       d="m 270.18755,262.24969 -65.53125,156.75 h -26.4375 l 65.25,-156.75 z"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Bold'"
+       id="path839" />
+    <path
+       d="m 369.68755,349.62469 -87.5625,39.9375 v -22.21875 l 62.625,-25.03125 v -0.375 l -62.625,-26.8125 v -22.3125 l 87.5625,41.625 z"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI Bold'"
+       id="path841" />
+  </g>
+</svg>

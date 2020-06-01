@@ -208,33 +208,33 @@ h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
 .linkblack,.linkedit,.linkext,.linkimg,.linkint,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev,.linkduplicate
 	{background-position: left center;}
 .linkblack,.linkedit,.linkext,.linkimg,.linkint,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev
-	{padding:0px 6px 0px 14px;}
+	{padding:0px 6px 0px 16px;}
 .linkedit2
-	{padding:0px 0px 0px 14px;}
+	{padding:0px 0px 0px 16px;}
 .linkblack
-    {background-image:url(icns/pfeil_schwarz.png);}
+    {background-image:url(icns/link_internal_selected_16.svg);}
 .linkedit
-    {background-image:url(icns/edit.gif);}
+    {background-image:url(icns/edit_16.svg);}
 .linkduplicate
-    {background-image:url(icns/duplicate.gif);}
+    {background-image:url(icns/duplicate_16.svg);}
 .linkext
-    {background-image:url(icns/pfeil_ext.png);}
+    {background-image:url(icns/link_external_16.svg);}
 .linkimg
-    {background-image:url(icns/slides.gif);}
+    {background-image:url(icns/link_slides_16.svg);}
 .linkint
-    {background-image:url(icns/pfeil_gruen.png);}
+    {background-image:url(icns/link_internal_16.svg);}
 .linkmap
-    {background-image:url(icns/map.gif);}
+    {background-image:url(icns/link_map_16.svg);}
 .linkmail
-    {background-image:url(icns/mail.png);}
+    {background-image:url(icns/link_mail_16.svg);}
 .linkmovie
-    {background-image:url(icns/movie.gif);}
+    {background-image:url(icns/link_movie_16.svg);}
 .linkneu
-    {background-image:url(icns/neu.gif);}
+    {background-image:url(icns/neu_16.svg);}
 .linkoev
-    {background-image:url(icns/oev.gif);}
+    {background-image:url(icns/oev_16.svg);}
 .linkpdf, a[href$='.pdf']
-    {background-image:url(icns/pdf.gif);
+    {background-image:url(icns/link_pdf_16.svg);
     padding:0px 6px 0px 19px;}
 .liste_ftp a[href$='.pdf']
     {background-image:url('');

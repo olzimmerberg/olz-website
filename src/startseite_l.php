@@ -156,7 +156,7 @@ while ($row = $result->fetch_assoc()) {
         $pfad = $row['id'];
         $typ = $row['f3'];
         $link = "?page=4&amp;id=".$id;
-        $icon = "icns/entry_type_photos_20.svg";
+        $icon = "icns/entry_type_gallery_20.svg";
         if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"index.php?page=5&amp;id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }

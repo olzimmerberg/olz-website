@@ -7,7 +7,9 @@ require_once __DIR__.'/../config/doctrine.php';
 
 /**
  * @ORM\Entity(repositoryClass="UserRepository")
- * @ORM\Table(name="users")
+ * @ORM\Table(
+ *     name="users",
+ * )
  */
 class User {
     /**

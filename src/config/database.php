@@ -16,7 +16,8 @@ if ($db->connect_error) {
     die("Connect Error (".$db->connect_errno.") ".$db->connect_error);
 }
 
-$db->query("SET NAMES utf8");
+$db->set_charset('utf8mb4');
+$db->query("SET NAMES utf8mb4");
 $db->query("SET time_zone = '+00:00';");
 
 function DBEsc($str) {

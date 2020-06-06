@@ -7,7 +7,9 @@ require_once __DIR__.'/../config/doctrine.php';
 
 /**
  * @ORM\Entity(repositoryClass="RoleRepository")
- * @ORM\Table(name="roles")
+ * @ORM\Table(
+ *     name="roles",
+ * )
  */
 class Role {
     /**

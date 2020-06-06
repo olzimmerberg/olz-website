@@ -4,7 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="solv_people")
+ * @ORM\Table(
+ *     name="solv_people",
+ * )
  */
 class solv_people {
     /**

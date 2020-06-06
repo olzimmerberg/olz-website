@@ -4,7 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="rundmail")
+ * @ORM\Table(
+ *     name="rundmail",
+ * )
  */
 class rundmail {
     /**

@@ -4,7 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="counter")
+ * @ORM\Table(
+ *     name="counter",
+ * )
  */
 class counter {
     /**

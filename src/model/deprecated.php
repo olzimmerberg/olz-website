@@ -4,7 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="anm_felder")
+ * @ORM\Table(
+ *     name="anm_felder",
+ * )
  */
 class AnmFelder {
     /**
@@ -52,7 +54,9 @@ class AnmFelder {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="anmeldung")
+ * @ORM\Table(
+ *     name="anmeldung",
+ * )
  */
 class Anmeldung {
     /**
@@ -112,7 +116,9 @@ class Anmeldung {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="event")
+ * @ORM\Table(
+ *     name="event",
+ * )
  */
 class Event {
     /**
@@ -168,7 +174,9 @@ class Event {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="facebook_settings")
+ * @ORM\Table(
+ *     name="facebook_settings",
+ * )
  */
 class FacebookSetting {
     /**
@@ -184,7 +192,9 @@ class FacebookSetting {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="images")
+ * @ORM\Table(
+ *     name="images",
+ * )
  */
 class Image {
     /**
@@ -212,7 +222,9 @@ class Image {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="jwoc")
+ * @ORM\Table(
+ *     name="jwoc",
+ * )
  */
 class Jwoc {
     /**
@@ -272,7 +284,9 @@ class Jwoc {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="olz_result")
+ * @ORM\Table(
+ *     name="olz_result",
+ * )
  */
 class OlzResult {
     /**
@@ -320,7 +334,9 @@ class OlzResult {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="termine_go2ol")
+ * @ORM\Table(
+ *     name="termine_go2ol",
+ * )
  */
 class TerminGo2ol {
     /**
@@ -364,7 +380,9 @@ class TerminGo2ol {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="termine_solv")
+ * @ORM\Table(
+ *     name="termine_solv",
+ * )
  */
 class TerminSolv {
     /**
@@ -443,7 +461,9 @@ class TerminSolv {
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="trainingsphotos")
+ * @ORM\Table(
+ *     name="trainingsphotos",
+ * )
  */
 class Trainingsphoto {
     /**

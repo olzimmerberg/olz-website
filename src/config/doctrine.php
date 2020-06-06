@@ -24,6 +24,7 @@ $conn = [
     'user' => $MYSQL_USERNAME,
     'password' => $MYSQL_PASSWORD,
     'host' => $MYSQL_SERVER,
+    'charset' => 'utf8mb4',
 ];
 
 $entityManager = EntityManager::create($conn, $config);

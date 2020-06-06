@@ -31,6 +31,18 @@
 
 [Mit git](https://git-scm.com/book/en/v2)
 
+### Namen / Sprache
+
+Wo Umlaute zu Problemen führen könnten, sollen englische Namen verwendet werden.
+Für den Benutzer sichtbarer Inhalt sollte immer deutsch sein.
+Bei einem Konflikt der beiden vorherigen Regeln sollten deutsche Namen mit Zwei-Buchstaben-Umlauten verwendet werden.
+
+Beispiele:
+- Variablennamen: englisch
+- Dateiname von Icons: englisch
+- Was der Benutzer in der URL-Leiste des Browsers sehen kann: deutsch mit Zwei-Buchstaben-Umlauten
+- Text eines Menu-Eintrags: deutsch
+
 ## Automatische Veröffentlichung
 
 - Wenn ein neuer Branch gepusht wird, werden diese Änderungen automatisch auf [test.olzimmerberg.ch](https://test.olzimmerberg.ch) veröffentlicht.

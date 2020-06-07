@@ -34,7 +34,7 @@ CREATE TABLE `aktuell` (
   `counter` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table anm_felder
 DROP TABLE IF EXISTS `anm_felder`;

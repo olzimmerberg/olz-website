@@ -29,36 +29,6 @@ function map(xkoord, ykoord) {
 <?php
 
 $etappen = [
-    ["Dienstag, 31.03.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Richterswil", "Jugendherberge", 695990, 229630,
-        "Bahnhof Richterswil",
-        "Tiefgarage Horn",
-        "Keine, im Freien; WC vorhanden",
-        false,
-        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
-        "gratis",
-        "2020-trophy-richti",
-        5753,
-        false, ],
-    ["Dienstag, 28.04.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
-        "Bushaltestelle Schmiedstube",
-        "Tiefgarage Schulhaus Rotweg",
-        "Keine, im Freien; WC vorhanden",
-        false,
-        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
-        "gratis",
-        "2020-trophy-waedi",
-        5745,
-        false, ],
-    ["Mittwoch, 13.05.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Kopfholz", "Schulhaus Chopfholz", 682760, 240270,
-        "Bushaltestellen Kopfholz oder Loorain",
-        "wenige im Quartier",
-        "Keine, im Freien; WC vorhanden",
-        false,
-        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
-        "gratis",
-        "2020-trophy-kopfholz",
-        5721,
-        false, ],
     ["Dienstag, 30.06.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
         "Bahnhof Au ZH",
         "wenige im Quartier",
@@ -68,6 +38,26 @@ $etappen = [
         "gratis",
         "2020-trophy-au",
         5751,
+        false, ],
+    ["Dienstag, 28.07.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Richterswil", "Jugendherberge", 695990, 229630,
+        "Bahnhof Richterswil",
+        "Tiefgarage Horn",
+        "Keine, im Freien; WC vorhanden",
+        false,
+        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
+        "gratis",
+        "2020-trophy-richti",
+        5753,
+        false, ],
+    ["Mittwoch, 12.08.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
+        "Bushaltestelle Schmiedstube",
+        "Tiefgarage Schulhaus Rotweg",
+        "Keine, im Freien; WC vorhanden",
+        false,
+        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
+        "gratis",
+        "2020-trophy-waedi",
+        5745,
         false, ],
 ];
 
@@ -123,7 +113,6 @@ echo "</table>";
     ?></table><br><br></td></tr>-->
 <tr><td>Preise:</td><td style='padding-left:10px;'>In allen Kategorien gibt es eine Einzelrangliste für jeden Lauf, dem Sieger gebührt Ruhm und Ehre.<br>
     Wer drei oder mehr Läufe absolviert, erhält am dritten Lauf einen Erinnerungspreis.</td></tr>
-<tr><td>sCOOL-Cup:</td><td style='padding-left:10px;'>Der 3. Lauf der OL Zimmerberg Trophy ist zugleich ein sCOOL-Cup.</td></tr>
 <tr><td>Auskunft:</td><td style='padding-left:10px;'>Martin Gross, Kirchstrasse 7, 8805 Richterswil<br>
 044 784 59 77 / <script>document.write(MailTo('martin.gross', 'olzimmerberg.ch', 'E-Mail', 'OL Zimmerberg Trophy'));</script></td></tr>
 </table>

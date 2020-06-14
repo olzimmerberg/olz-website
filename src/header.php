@@ -105,8 +105,7 @@ if ($_SESSION['user'] == 'ursu' and 0) {
     </div></div></div>";
 
         // OLZ Trophy 2017
-        echo "<div style='float:right;'><a href='?page=19'><img src='".$data_href."img/corona_lifehacks.png' alt='Corona-Lifehacks' title='Corona-Lifehacks' style='position:relative; top:10px;' class='noborder' /></a></div>";
-        // echo "<div style='float:right;'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:10px;' class='noborder' /></a></div>";
+        echo "<div style='float:right;'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:10px;' class='noborder' /></a></div>";
 
         // OLZ JOM-Counter 2020
         // --------------------

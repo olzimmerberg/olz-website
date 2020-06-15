@@ -29,7 +29,7 @@ function map(xkoord, ykoord) {
 <?php
 
 $etappen = [
-    ["Dienstag, 30.06.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
+    ["Dienstag, 30.06.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
         "Bahnhof Au ZH",
         "wenige im Quartier",
         "Keine, im Freien; WC vorhanden",
@@ -37,9 +37,9 @@ $etappen = [
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
         "2020-trophy-au",
-        5751,
-        false, ],
-    ["Dienstag, 28.07.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Richterswil", "Jugendherberge", 695990, 229630,
+        5792,
+        "<a href='https://forms.gle/GP3vRpzG9rpvBrD98' class='linkext'>Online-Anmeldung</a>", ],
+    ["Dienstag, 28.07.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Richterswil", "Jugendherberge", 695990, 229630,
         "Bahnhof Richterswil",
         "Tiefgarage Horn",
         "Keine, im Freien; WC vorhanden",
@@ -47,9 +47,9 @@ $etappen = [
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
         "2020-trophy-richti",
-        5753,
+        5791,
         false, ],
-    ["Mittwoch, 12.08.2020", "18:00 &ndash; 19:30 (Anmeldung vor Ort)", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
+    ["Mittwoch, 12.08.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
         "Bushaltestelle Schmiedstube",
         "Tiefgarage Schulhaus Rotweg",
         "Keine, im Freien; WC vorhanden",

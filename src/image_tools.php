@@ -170,7 +170,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
 
         // Create Full-size image
         $maxdim = 800;
-        if ($wid * $maxdim >= $swid && $hei * $maxdim >= $shei) {
+        if ($info[2] == IMAGETYPE_JPEG && $wid * $maxdim >= $swid && $hei * $maxdim >= $shei) {
             copy($filename, $abspath."/img/".str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT).".jpg");
         } else {
             $img = imagecreatetruecolor($wid * $maxdim, $hei * $maxdim);

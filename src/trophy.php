@@ -59,6 +59,16 @@ $etappen = [
         "2020-trophy-waedi",
         5745,
         false, ],
+    ["Mittwoch, 26.08.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Kopfholz", "Schulhaus Chopfholz", 682760, 240270,
+        "Bushaltestellen Kopfholz oder Loorain",
+        "wenige im Quartier",
+        "Keine, im Freien; WC vorhanden",
+        false,
+        "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
+        "gratis",
+        "2020-trophy-kopfholz",
+        5790,
+        false, ],
 ];
 
 $gemeindeduell = [

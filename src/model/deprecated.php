@@ -175,24 +175,6 @@ class Event {
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="facebook_settings",
- * )
- */
-class FacebookSetting {
-    /**
-     * @ORM\Id @ORM\Column(type="string", nullable=false)
-     */
-    private $k;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
-    private $v;
-    // PRIMARY KEY (`k`)
-}
-
-/**
- * @ORM\Entity
- * @ORM\Table(
  *     name="images",
  * )
  */

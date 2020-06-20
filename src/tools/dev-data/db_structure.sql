@@ -167,14 +167,6 @@ CREATE TABLE `event` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table facebook_settings
-DROP TABLE IF EXISTS `facebook_settings`;
-CREATE TABLE `facebook_settings` (
-  `k` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `v` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`k`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- Table forum
 DROP TABLE IF EXISTS `forum`;
 CREATE TABLE `forum` (

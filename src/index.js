@@ -7,9 +7,13 @@ import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
+import './header.css';
+import './index.css';
+import './menu.css';
 import './styles.css';
 
 export * from './components/index';
+export * from './header';
 export * from './results/index';
 export * from './scripts/jscripts';
 export * from './scripts/fader';

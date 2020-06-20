@@ -25,7 +25,7 @@ $menu = [
     ["", "", 1],
 ];
 
-echo "<div id='menu' style='position: sticky; position: -webkit-sticky; top: 10px; width:180px;'>";
+echo "<div id='menu' class='menu'>";
 // LIVE-RESULTATE
 $live_json_path = "{$data_path}/results/_live.json";
 if (is_file($live_json_path)) {

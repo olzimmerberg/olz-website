@@ -46,7 +46,9 @@ VALUES
 INSERT INTO forum
     (`id`, `name`, `email`, `eintrag`, `newsletter`, `newsletter_datum`, `uid`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`)
 VALUES
-    ('1', 'Guets Nois! 🎉', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois! 🎉', '1', NULL, 'hd35lm6glq', '2020-01-01', '21:45:37', '1', '0', 'Bruno 😃 Beispielmitglied');
+    ('1', 'Guets Nois! 🎉', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois! 🎉', '1', NULL, 'hd35lm6glq', '2020-01-01', '21:45:37', '1', '0', 'Bruno 😃 Beispielmitglied'),
+    ('2', 'Verspätete Neujahrsgrüsse', 'beispiel@olzimmerberg.ch', 'Has vergesse, aber au vo mier no Guets Nois!', '1', NULL, 'bQjNZ2sy', '2020-01-03', '18:42:01', '1', '0', 'Erwin Exempel'),
+    ('3', 'Hallo', 'beispiel@olzimmerberg.ch', 'Mir hend paar OL-Usrüschtigs-Gegeständ us ferne Länder mitbracht, schriibed doch es Mail wenn er öppis devoo wetted', '1', NULL, 'bQjNZ2sy', '2020-01-06', '06:07:08', '1', '0', 'Drei Könige');
 
 -- Table galerie
 INSERT INTO galerie

@@ -185,23 +185,16 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 <meta name='Description' content='Homepage der OrientierungsläuferInnen Zimmerberg'>
 <meta name='Content-Language' content='de'>".$refresh."
 ".(isset($_GET["archiv"]) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>OL Zimmerberg{$html_titel}</title>
 <link rel='shortcut icon' href='".$code_href."favicon.ico'>
 <script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
 </head>";
 echo "<body class='olz-override-root'>\n";
-echo "<a name='top'></a>
-<div style='background-image:url(icns/headerbg.png); background-repeat:repeat-x;'>
-<div style='max-width:1200px; margin-left:auto; margin-right:auto; height:101%;'>
-<div style='position:relative; height:160px; padding:0px; background-image:url(icns/headerbg.png); background-repeat:repeat-x; overflow-x:auto; overflow-y:hidden;'>
-<img src='icns/olzschatten.".$bildart."' alt='' style='float:left; margin-top:10px;' class='noborder' id='olzlogo'>
-<div style='position:relative; height:150px; overflow:hidden;'>";
+echo "<a name='top'></a>";
 include "header.php";
-echo "</div></div>
-<div id='content_wrapper'>
-<div id='content_menu'>";
-include "menu.php";
-echo "</div>";
+echo "<div class='site-container'>";
+echo "<div id='content_wrapper'>";
 
 // 2-spaltiges Layout
 if (count($pages[$page]) == 2) {
@@ -233,7 +226,6 @@ else {
 }
 
 echo "<div style='clear:both;'>&nbsp;</div></div>
-</div>
 </div>
 ";
 if ($_GET['test'] == 1) {

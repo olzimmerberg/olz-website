@@ -75,7 +75,7 @@ echo $text;*/
 <?php
 require_once "image_tools.php";
 require_once "file_tools.php";
-require_once "facebook_tools.php";
+
 // Konstanten
 $listenlaenge = 20;
 $textlaenge_def = 300;
@@ -96,40 +96,9 @@ ORDER BY datum DESC, zeit DESC LIMIT {$listenlaenge}";
 }
 
 $result = $db->query($sql);
-if ($_SESSION["auth"] == "all") {
-    $fb_feed = fb_api("/me/feed");
-    $fb_feed_pointer = 0;
-}
 while ($row = $result->fetch_assoc()) {
     $datum = $row['datum'];
     $zeit = $row['zeit'];
-    if ($_SESSION["auth"] == "all") {
-        while (strtotime($datum." ".$zeit) < strtotime($fb_feed["data"][$fb_feed_pointer]["updated_time"]) && $fb_feed_pointer < $fb_feed["data"]) {
-            $entry = $fb_feed["data"][$fb_feed_pointer];
-            echo "<!-- ".$_SESSION["auth"]." Facebook Entry: ".json_encode($entry)." -->";
-            $pic = "";
-            if ($entry["type"] == "status") {
-                $text = make_expandable($entry["message"]);
-            } elseif ($entry["type"] == "link") {
-                $text = make_expandable($entry["message"]);
-            } elseif ($entry["type"] == "photo") {
-                $ch = curl_init($entry["picture"]);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $pic = curl_exec($ch);
-                curl_close($ch);
-                $text = $entry["message"];
-                $img = fb_api("/".$entry["object_id"]);
-                $pic = "<a href='".$img["source"]."' class='lightview'><img src='data:image/jpeg;base64,".base64_encode($pic)."' style='height:50px;' /></a>";
-            //$text = /*"<img src='".$img["source"]."' /><br>".*/$img["width"]."x".$img["height"];
-                //echo "<pre>";print_r($entry);echo "</pre>";
-            } else {
-                $text = "Unknown Entry Type: ".$entry["type"];
-            }
-            echo get_eintrag("icns/facebook_20.png", $entry["updated_time"], $entry["from"]["name"], $text, "https://www.facebook.com/".$entry["id"], $pic);
-            $fb_feed_pointer++;
-        }
-    }
-    echo "<!-- TIME: ".json_encode($datum." ".$zeit)." -->";
     $zugriff = "0";
     $edit_admin = "";
     $id = $row['id'];

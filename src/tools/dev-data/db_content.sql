@@ -34,13 +34,12 @@ INSERT INTO doctrine_migration_versions
 VALUES
     ('20200409192051', '2020-05-11 22:04:20'),
     ('20200423071546', '2020-05-11 22:04:20'),
-    ('20200511211417', '2020-05-11 22:08:43');
+    ('20200511211417', '2020-05-11 22:08:43'),
+    ('20200620113946', '2020-06-20 11:40:19');
 
 -- Table downloads
 
 -- Table event
-
--- Table facebook_settings
 
 -- Table forum
 INSERT INTO forum

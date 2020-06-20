@@ -263,7 +263,7 @@ echo "</form></div></div></div>";
 }*/
 
 // OLZ Trophy 2017
-echo "<div style='float:right;'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:10px;' class='noborder' /></a></div>";
+echo "<div class='header-box'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
 
 function htmlbox($entry, $typ) {
     global $zugriff,$colors,$button_name;

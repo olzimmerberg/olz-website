@@ -114,5 +114,6 @@
 
     .menu-closed .menu-container {
         opacity: 0;
+        pointer-events: none;
     }
 }

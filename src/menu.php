@@ -88,16 +88,6 @@ echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 <a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.png' alt='g' class='noborder' /></a>
 </div>
 </div>";
-if (preg_match('/(\; MSIE (8|9|10|11))|(\; Trident)/', $_SERVER['HTTP_USER_AGENT'])) {
-    echo "<script type='text/javascript'>
-    document.getElementById(\"menu\").style.position = \"absolute\";
-    var origy = document.getElementById(\"menu\").getBoundingClientRect().top;
-    function menuonscroll(e) {
-        document.getElementById(\"menu\").style.top = Math.max(window.pageYOffset-origy+20, 10)+\"px\";
-    }
-    document.onscroll = menuonscroll;
-    </script>";
-}
 echo "<div style='width:180px;'>&nbsp;</div>";
 
 function echomenu($menu, $identifier) {

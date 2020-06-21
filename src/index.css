@@ -61,6 +61,7 @@
     }
 
     #content_rechts {
-        display: none;
+        width: auto;
+        float: none;
     }
 }

@@ -92,7 +92,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         array_push($db_felder, ["{$var}", "{$label}", $typ, "'{$standard}'", "{$info}", "", "", "", "{$test}", "{$test_result}"]);
     }
     array_push($db_felder, ["on_off", "on_off", "hidden", "'0'", "", "", "", "", "", ""]);
-    array_push($db_felder, ["uid", "Code", ["text", " readonly"], "olz_create_uid({$db_table})", "", "", "", ""]);
+    array_push($db_felder, ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", ""]);
 } elseif ($db_table == "anm_felder") {// DB ANM_FELDER (Zusatzfelder Anmeldung)
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
@@ -150,7 +150,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["eintrag", "Text", "textarea", "''", "", "", "", " rows='8'", "!empty", "Hast du nichts mitzuteilen ?"],
         ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "'1'", "", "", "", ""],
-        ["uid", "Code", ["text", " readonly"], "olz_create_uid({$db_table})", "", "", "", ""],
+        ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", ""],
     ];
     if ($_SESSION['auth'] == "all") {
         array_push($db_felder,
@@ -201,11 +201,11 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["reg_date", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
-        ["on_off", "Aktiv", "hidden", "''", "", "", "", ""],
+        ["on_off", "Aktiv", "hidden", "'1'", "", "", "", ""],
         ["name", "Vorname, Name", "text", "''", "", "", "", "", "!empty", "Bitte einen Namen angeben."],
         ["email", "Email-Adresse", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angeben."],
         ["kategorie", "Benachrichtigung bei", ["checkbox", [["Neuen Nachrichten", "aktuell"], ["Neuen Forumsbeiträgen", "forum"], ["Wichtige Termine (z.B. Meldeschluss)", "termine"], ["Vorstandsmitteilungen", "vorstand"]]], "'vorstand'", "", "", "display:block;", ""],
-        ["uid", "Code", ["text", " readonly"], "olz_create_uid({$db_table})", "", "", "", ""],
+        ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
     ];
 } elseif ($db_table == "rundmail") {// DB RUNDMAIL
     $db_felder = [
@@ -755,7 +755,7 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
 
         if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit") { //Input-Typ 'text'
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einbelndkalender
             $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'

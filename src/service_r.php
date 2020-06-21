@@ -104,7 +104,7 @@ if ($do == "vorschau") {
     echo "<td><b>Vorname, Name:</b> <span style='font-weight:normal;'>{$name}</span></td></tr>";
     echo "<td><b>Email-Adresse:</b> <span style='font-weight:normal;'>{$email}</span></td></tr>";
     echo "<td><b>Benachrichtigung bei:</b>{$tmp_html}</td></tr>";
-    echo "<td><b>Code:</b> <span style='font-weight:normal;'>{$code}</span></td></tr>";
+    echo "<td><b>Code:</b> <span style='font-weight:normal;' class='test-flaky'>{$code}</span></td></tr>";
     echo "</table>";
 }
 

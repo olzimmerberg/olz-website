@@ -21,6 +21,7 @@ require_once __DIR__.'/modules/forum.php';
 require_once __DIR__.'/modules/karten.php';
 require_once __DIR__.'/modules/material.php';
 require_once __DIR__.'/modules/service.php';
+require_once __DIR__.'/modules/newsletter.php';
 require_once __DIR__.'/modules/kontakt.php';
 require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
@@ -49,6 +50,7 @@ try {
     test_karten($driver, $base_url);
     test_material($driver, $base_url);
     test_service($driver, $base_url);
+    test_newsletter($driver, $base_url);
     test_kontakt($driver, $base_url);
     test_trophy($driver, $base_url);
     test_error($driver, $base_url);

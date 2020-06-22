@@ -27,6 +27,7 @@ require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
 require_once __DIR__.'/modules/search.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
+require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/webftp.php';
 
 // For Selenium 4, Chromedriver or Geckodriver, use http://localhost:4444/
@@ -56,6 +57,7 @@ try {
     test_error($driver, $base_url);
     test_search($driver, $base_url);
     test_fuer_einsteiger($driver, $base_url);
+    test_divmail($driver, $base_url);
     test_webftp($driver, $base_url);
 
     // $driver->get('http://127.0.0.1:30270/_/');

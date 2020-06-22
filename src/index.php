@@ -13,32 +13,29 @@ require_once 'admin/olz_functions.php';
 require_once 'tickers.php';
 
 $pages = [
-    "0" => ["error_l.php", "error_r.php"], // TO DO
-    "1" => ["startseite_l.php", "startseite_r.php"],
-    "2" => ["aktuell_l.php", "aktuell_r.php"],
-    "3" => ["termine_l.php", "termine_r.php"],
-    "4" => ["galerie_l.php", "galerie_r.php"],
-    "5" => ["forum_l.php", "forum_r.php"],
-    "6" => ["organigramm.php"],
-    "7" => ["blog_l.php", "blog_r.php"],
-    "8" => ["service_l.php", "service_r.php"],
-    "9" => ["search_l.php", "startseite_r.php"],
-    "10" => ["login_l.php", "startseite_r.php"],
-    "11" => ["zimmerbergol_l.php", "zimmerbergol_r.php"],
-    "12" => ["karten_l.php", "karten_r.php"],
-    "13" => ["anmeldung_l.php", "anmeldung_r.php"],
-    "14" => ["anm_felder_l.php", "anm_felder_r.php"],
-    "15" => ["termine_tools_DEV.php"],
-    "16" => ["zol/index.php"],
-    "18" => ["fuer_einsteiger_l.php", "fuer_einsteiger_r.php"],
-    "19" => ["zol/karten.php"],
-    "20" => ["trophy.php"],
-    "21" => ["material.php"],
-    "99" => ["results.php", "startseite_r.php"],
-    "mail" => ["divmail_l.php", "divmail_r.php"],
-    "30" => ["zielsprint20.php", "startseite_r.php"],
-    "ftp" => ["library/phpWebFileManager/start.php"],
-    "tools" => ["termine_helper.php"],
+    "0" => "error.php", // TO DO
+    "1" => "startseite.php",
+    "2" => "aktuell.php",
+    "3" => "termine.php",
+    "4" => "galerie.php",
+    "5" => "forum.php",
+    "6" => "kontakt.php",
+    "7" => "blog.php",
+    "8" => "service.php",
+    "9" => "search.php",
+    "10" => "login.php",
+    "11" => "zimmerbergol.php",
+    "12" => "karten.php",
+    "15" => "termine_tools_DEV.php",
+    "16" => "zol/index.php",
+    "18" => "fuer_einsteiger.php",
+    "19" => "zol/karten.php",
+    "20" => "trophy.php",
+    "21" => "material.php",
+    "99" => "results.php",
+    "mail" => "divmail.php",
+    "ftp" => "webftp.php",
+    "tools" => "termine_helper.php",
 ];
 
 //http://YOUR-SITE.COM/FILERUN/?page=login&action=login&nonajax=1&username=test&password=1234
@@ -196,65 +193,12 @@ include "header.php";
 echo "<div class='site-container'>";
 echo "<div id='content_wrapper'>";
 
-// 2-spaltiges Layout
-if (count($pages[$page]) == 2) {
-    echo "
-<div id='content_rechts'>
-<form name='Formularr' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
-<div>";
-    include $pages[$page][1];
-    echo "</div>
-</form>
-</div>
-<div id='content_mitte'>
-<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
-    include $pages[$page][0];
-    echo "</form>
-</div>
-";
-}
-
-// 1-spaltiges Layout
-else {
-    echo "<div id='content_double'>
-<form name='Formularl' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
-<div>";
-    include $pages[$page][0];
-    echo "</div>
-</form>
-</div>";
-}
+// Dynamisches Layout
+include $pages[$page];
 
 echo "<div style='clear:both;'>&nbsp;</div></div>
 </div>
-";
-if ($_GET['test'] == 1) {
-    echo "<script>
-function hideFlaky() {
-    var flakyElements = document.querySelectorAll('.test-flaky');
-    for (var i=0; i<flakyElements.length; i++) {
-        var rect = flakyElements[i].getBoundingClientRect();
-        var cover = document.getElementById('flaky-' + i);
-        if (!cover) {
-            var cover = document.createElement('div');
-            document.documentElement.appendChild(cover);
-            cover.id = 'flaky-' + i;
-            cover.style.position = 'absolute';
-            cover.style.backgroundColor = 'black';
-            cover.style.zIndex = 999999;
-        }
-        cover.style.width = Math.ceil(rect.width+1) + 'px';
-        cover.style.height = Math.ceil(rect.height+1) + 'px';
-        cover.style.top = Math.floor(rect.top) + 'px';
-        cover.style.left = Math.floor(rect.left) + 'px';
-    }
-}
-hideFlaky();
-setInterval(hideFlaky, 0);
-</script>
-";
-}
-echo "</body>
+</body>
 </html>";
 
 include "admin/counter.php";

@@ -42,8 +42,9 @@
     transition: opacity 0.5s;
 }
 
-.header-bar.minified .header-content {
+.header-bar.minified .header-content-container {
     opacity: 0;
+    pointer-events: none;
 }
 
 .header-box {

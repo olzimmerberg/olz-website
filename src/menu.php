@@ -88,7 +88,6 @@ echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 <a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.png' alt='g' class='noborder' /></a>
 </div>
 </div>";
-echo "<div style='width:180px;'>&nbsp;</div>";
 
 function echomenu($menu, $identifier) {
     for ($i = 0; $i < count($menu); $i++) {

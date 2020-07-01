@@ -38,7 +38,7 @@ $etappen = [
         "gratis",
         "2020-trophy-au",
         5792,
-        "<a href='https://forms.gle/GP3vRpzG9rpvBrD98' class='linkext'>Online-Anmeldung</a><br><a href='https://docs.google.com/spreadsheets/d/1N-D3b-59ZTDPhyoRc2BIIXWBxCO7dDJem3wC108P-vE/edit?usp=sharing' class='linkext'>Startliste</a>",
+        "<a href='https://forms.gle/GP3vRpzG9rpvBrD98' class='linkext'>Online-Anmeldung</a><br><a href='https://docs.google.com/spreadsheets/d/1N-D3b-59ZTDPhyoRc2BIIXWBxCO7dDJem3wC108P-vE/edit?usp=sharing' class='linkext'>Startliste</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791965&type=info' class='linkext'>3d Rerun Rot</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791967&type=info' class='linkext'>3d Rerun Blau</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791966&type=info' class='linkext'>3d Rerun Grün</a>",
     ],
     ["Dienstag, 28.07.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Richterswil", "Jugendherberge", 695990, 229630,
         "Bahnhof Richterswil",
@@ -111,6 +111,7 @@ echo "</table>";
 
 <h3>Weitere Informationen</h3>
 <table style='max-width:600px; margin:0px auto;'>
+<tr><td>Gesamtrangliste:</td><td style='padding-left:10px;'><a href='https://docs.google.com/spreadsheets/d/19aXk_aJZ954Ub-vBBQkexAjIIK_LXlvSohZBB0C2bQc/edit#gid=0' class='linkext'>Gesamtrangliste (alle Etappen)</a></td></tr>
 <tr><td>Ausrüstung:</td><td style='padding-left:10px;'> Joggingdress und Joggingschuhe genügen.</td></tr>
 <tr><td>Trophy:</td><td style='padding-left:10px;'>Jeder Lauf ist eine eigene abgeschlossene Veranstaltung.<br>
     Zusammen bilden sie die OL Zimmerberg Trophy.</td></tr>

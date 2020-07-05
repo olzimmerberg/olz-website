@@ -29,6 +29,10 @@ require_once __DIR__.'/modules/search.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
 require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/webftp.php';
+require_once __DIR__.'/modules/live_results.php';
+require_once __DIR__.'/modules/resultate.php';
+
+date_default_timezone_set('Europe/Zurich');
 
 // For Selenium 4, Chromedriver or Geckodriver, use http://localhost:4444/
 $host = 'http://localhost:4444/';
@@ -59,6 +63,8 @@ try {
     test_fuer_einsteiger($driver, $base_url);
     test_divmail($driver, $base_url);
     test_webftp($driver, $base_url);
+    test_live_results($driver, $base_url);
+    test_resultate($driver, $base_url);
 
     // $driver->get('http://127.0.0.1:30270/_/');
     // $login_menu = $driver->findElement(WebDriverBy::id('menu_a_page10'));

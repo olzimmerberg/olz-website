@@ -252,7 +252,7 @@ function showRanking(classInd) {
     htmlout += (climb ? climb.textContent : "?");
     htmlout += " m, ";
     htmlout += (numberOfControls ? numberOfControls.textContent : "?");
-    htmlout += " Posten)</div><div class='mobileonly'><br /><a href='javascript:setHash(&quot;grafik&quot;, 2)' id='grafiklink'>Grafik</a></div><br /><table>";
+    htmlout += " Posten)</div><div class='mobileonly'><br /><a href='javascript:olzResults.setHash(&quot;grafik&quot;, 2)' id='grafiklink'>Grafik</a></div><br /><table>";
     for (var i=0; i<ranking.length; i++) {
         var position = ranking[i].querySelector('Result > Position');
         var firstName = ranking[i].querySelector('Person > Name > Given');
@@ -289,7 +289,7 @@ function showClasses(res) {
     for (var i=0; i<classes.length; i++) {
         var shortName = classes[i].querySelector('ShortName');
         var name = classes[i].querySelector('Name');
-        htmlout += "<a class='classlink" + (i==res ? " selected" : "") + "' href='javascript:setHash(&quot;class" + i + "&quot;, 1)'>" + (shortName ? shortName.textContent : name.textContent) + "</a>";
+        htmlout += "<a class='classlink" + (i==res ? " selected" : "") + "' href='javascript:olzResults.setHash(&quot;class" + i + "&quot;, 1)'>" + (shortName ? shortName.textContent : name.textContent) + "</a>";
     }
     document.getElementById('classes-box').innerHTML = htmlout;
 }
@@ -309,44 +309,43 @@ function updateContent() {
     document.getElementById('content-box').className = (classInd>=0 && !grafik ? "active" : "inactive");
     document.getElementById('grafik-box').className = (grafik ? "active" : "inactive");
 }
-if (filePath !== undefined) {
-    var lastUpdate = {};
-    function checkUpdate() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', filePath, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState!=4) return;
-            var etag = xhr.getResponseHeader('ETag');
-            var lastModified = xhr.getResponseHeader('Last-modified');
-            if (etag != lastUpdate.etag || lastModified != lastUpdate.lastModified) {
-                loadUpdate();
-            }
-            lastUpdate.etag = etag
-            lastUpdate.lastModified = lastModified;
-        };
-        xhr.send();
-    }
-    function loadUpdate() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', filePath, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState!=4) return;
-            var parser = new DOMParser();
-            var etag = xhr.getResponseHeader('ETag');
-            var lastModified = xhr.getResponseHeader('Last-modified');
-            lastUpdate.etag = etag;
-            lastUpdate.lastModified = lastModified;
-            window.xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
-            console.log("XML", xmlDoc);
-            var eventName = xmlDoc.querySelector('ResultList > Event > Name').textContent;
-            document.getElementById('title').innerHTML = eventName;
-            updateContent();
-        };
-        xhr.send();
-    }
-    window.addEventListener('hashchange', updateContent);
-    window.addEventListener('load', function () {
-        window.setInterval(checkUpdate, 15000);
-        loadUpdate();
-    });
+
+var lastUpdate = {};
+function checkUpdate() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('HEAD', filePath, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState!=4) return;
+        var etag = xhr.getResponseHeader('ETag');
+        var lastModified = xhr.getResponseHeader('Last-modified');
+        if (etag != lastUpdate.etag || lastModified != lastUpdate.lastModified) {
+            loadUpdate();
+        }
+        lastUpdate.etag = etag
+        lastUpdate.lastModified = lastModified;
+    };
+    xhr.send();
+}
+function loadUpdate() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', filePath, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState!=4) return;
+        var parser = new DOMParser();
+        var etag = xhr.getResponseHeader('ETag');
+        var lastModified = xhr.getResponseHeader('Last-modified');
+        lastUpdate.etag = etag;
+        lastUpdate.lastModified = lastModified;
+        window.xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
+        console.log("XML", xmlDoc);
+        var eventName = xmlDoc.querySelector('ResultList > Event > Name').textContent;
+        document.getElementById('title').innerHTML = eventName;
+        updateContent();
+    };
+    xhr.send();
+}
+window.addEventListener('hashchange', updateContent);
+export function loaded() {
+    window.setInterval(checkUpdate, 15000);
+    loadUpdate();
 }

@@ -59,7 +59,7 @@ if res == 0:
 elif res == 1:
     gui_url = 'index.html?file=data/export.xml'
     server_url = (
-        'http://olzimmerberg.ch/_/results/update.php?file=' +
+        'https://olzimmerberg.ch/_/resultate/update.php?file=' +
         ask_string('How should the online file be called?') + '.xml'
     )
     upload_file = os.path.realpath(os.path.join(

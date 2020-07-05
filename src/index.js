@@ -14,7 +14,6 @@ import './styles.css';
 
 export * from './components/index';
 export * from './header';
-export * from './results/index';
 export * from './scripts/jscripts';
 export * from './scripts/fader';
 export * from './scripts/accordion';

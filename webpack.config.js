@@ -55,4 +55,14 @@ module.exports = [
             library: 'olz',
         },
     },
+    {
+        ...defaultConfig,
+        entry: './src/resultate/index.js',
+        output: {
+            path: path.resolve(__dirname, 'src/resultate/jsbuild'),
+            publicPath: '/_/resultate/jsbuild/',
+            filename: 'olz-results.min.js',
+            library: 'olzResults',
+        },
+    },
 ];

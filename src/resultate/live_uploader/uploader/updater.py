@@ -90,7 +90,7 @@ def _run_updater(server_url, file_path):
                             else:
                                 raise Exception("Server error")
                     except Exception as exc:
-                        print("Failed raw-update. No idea what to do...")
+                        print("Failed raw-update. No idea what to do...", server_url)
                         print(exc)
                         os.unlink(previous_file_path)
         else:

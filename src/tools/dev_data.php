@@ -107,6 +107,7 @@ function init_dev_data_filesystem($data_path) {
     remove_r("{$data_path}olz_mitglieder");
     remove_r("{$data_path}OLZimmerbergAblage");
     remove_r("{$data_path}pdf");
+    remove_r("{$data_path}results");
 
     $sample_path = __DIR__.'/dev-data/sample-data/';
 
@@ -163,6 +164,10 @@ function init_dev_data_filesystem($data_path) {
     // Build pdf/
     mkdir("{$data_path}pdf");
     copy("{$sample_path}sample-document.pdf", "{$data_path}pdf/trainingsprogramm.pdf");
+
+    // Build results/
+    mkdir("{$data_path}results");
+    copy("{$sample_path}sample-results.xml", "{$data_path}results/results.xml");
 }
 
 function mkimg($source_path, $destination_path, $width, $height) {

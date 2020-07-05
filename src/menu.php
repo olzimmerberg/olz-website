@@ -35,7 +35,7 @@ if (is_file($live_json_path)) {
         $last_updated_at = strtotime($live['last_updated_at']);
         $now = strtotime(date('Y-m-d H:i:s'));
         if ($live && $last_updated_at > $now - 3600) {
-            echo "<div".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")."><a href='{$code_href}results/?file=".$live['file']."'><div style='color:#550000;background-color:#cc0000;font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a></div>";
+            echo "<div".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")."><a href='{$code_href}resultate/?file=".$live['file']."' id='live-results-link'><div style='color:#550000;background-color:#cc0000;font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a></div>";
         }
     }
 }

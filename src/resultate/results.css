@@ -1,3 +1,17 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family:'Open Sans', arial, sans-serif;
+}
+
+.mainbg {
+    background-repeat:repeat;
+    background-image:url(../icns/mainbg.png);
+}
+
 #title-box {
     position:absolute;
     top:0px;

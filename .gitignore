@@ -8,6 +8,7 @@
 !/dev-server/tools.php
 /screenshots
 /src/olz_ical.ics
+/src/resultate/live_uploader/public_html/data
 /src/screenshots/generated
 
 # PHP tooling
@@ -18,4 +19,4 @@
 
 # JavaScript tooling
 /node_modules/
-/src/jsbuild/
+/src/**/jsbuild/

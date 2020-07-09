@@ -65,4 +65,14 @@ module.exports = [
             library: 'olzResults',
         },
     },
+    {
+        ...defaultConfig,
+        entry: './src/resultate/live_uploader/public_html/index.js',
+        output: {
+            path: path.resolve(__dirname, 'src/resultate/live_uploader/public_html/jsbuild'),
+            publicPath: './jsbuild/',
+            filename: 'olz-results.min.js',
+            library: 'olzResults',
+        },
+    },
 ];

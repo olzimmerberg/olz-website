@@ -4,7 +4,11 @@ if (window.location.search) {
     const match = /\?file\=([^&#]+)/.exec(window.location.search);
     if (match) {
         const filename = match[1];
-        filePath = `/results/${filename}`;
+        if (window.location.hostname === 'localhost') { // Lokale version
+            filePath = `./${filename}`;
+        } else {
+            filePath = `/results/${filename}`;
+        }
     }
 }
 

@@ -14,7 +14,10 @@ def ask_server_url(question):
         print(question)
         url = input()
         try:
-            with urlopen(url) as fh:
+            with urlopen(Request(
+                url=url,
+                headers={'User-Agent': 'Mozilla'},
+            )) as fh:
                 res = fh.read()
                 if res != b'OK':
                     print(res)
@@ -82,6 +85,7 @@ def _run_updater(server_url, file_path):
                             data=b'new=' + urlencode(
                                 base64.b64encode(new_content),
                             ).encode(),
+                            headers={'User-Agent': 'Mozilla'},
                         )) as fh:
                             result = json.loads(fh.read().decode())
                             if result[0]:
@@ -126,6 +130,7 @@ def _run_updater(server_url, file_path):
                                 data=b'diff=' + urlencode(
                                     base64.b64encode(diff_content),
                                 ).encode(),
+                                headers={'User-Agent': 'Mozilla'},
                             )) as fh:
                                 result = json.loads(fh.read().decode())
                                 if result[0]:

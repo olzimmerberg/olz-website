@@ -26,7 +26,12 @@ echo "<div class='header-content-container'>";
 echo "<div class='header-content-scroller'>";
 echo "<div class='header-content'>";
 
-echo "<img src='icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+// TODO: Remove switch as soon as Safari properly supports SVGs.
+if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'])) {
+    echo "<img src='icns/olzschatten.png' alt='' class='noborder' id='olz-logo' />";
+} else {
+    echo "<img src='icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+}
 echo "<div style='flex-grow:1;'></div>";
 
 // OLZ Statistik Trainings/Wettkämpfe 2014

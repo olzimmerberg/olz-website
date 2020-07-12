@@ -61,13 +61,13 @@ final class SolvEventResultsHtmlParserTest extends TestCase {
         $this->assertSame(52, count($results));
 
         $first_result = $results[0];
-        $this->assertSame('H10', $first_result->class);
-        $this->assertSame(4, $first_result->rank);
-        $this->assertSame('Manuel Gasser', $first_result->name);
-        $this->assertSame('08', $first_result->birth_year);
-        $this->assertSame('Horgen', $first_result->domicile);
-        $this->assertSame('OL Zimmerberg', $first_result->club);
-        $this->assertSame(664, $first_result->result);
+        $this->assertSame('H10', $first_result->getClass());
+        $this->assertSame(4, $first_result->getRank());
+        $this->assertSame('Manuel Gasser', $first_result->getName());
+        $this->assertSame('08', $first_result->getBirthYear());
+        $this->assertSame('Horgen', $first_result->getDomicile());
+        $this->assertSame('OL Zimmerberg', $first_result->getClub());
+        $this->assertSame(664, $first_result->getResult());
         $this->assertSame('1.   0.38 (2)  2.   1.06 (2)  3.   1.40 (3)  4.   1.41 (3)  5.   2.10 (4)
    131   0.38 (2) 164   0.28 (2) 140   0.34 (6) 145   0.01 (1) 180   0.29 (7)
          0.04           0.04           0.07           0.00           0.10
@@ -79,10 +79,11 @@ final class SolvEventResultsHtmlParserTest extends TestCase {
          0.03           0.05           0.28           0.00           0.21
    16.  10.07 (4) 17.  10.33 (4)      11.04 (4)
    177   0.53 (2) 190   0.26 (3)  Zi   0.31(10)
-         0.02           0.05           0.06', $first_result->splits);
-        $this->assertSame(1600, $first_result->class_distance);
-        $this->assertSame(10, $first_result->class_elevation);
-        $this->assertSame(17, $first_result->class_control_count);
-        $this->assertSame(14, $first_result->class_competitor_count);
+         0.02           0.05           0.06', $first_result->getSplits());
+        $this->assertSame(31, $first_result->getFinishSplit());
+        $this->assertSame(1600, $first_result->getClassDistance());
+        $this->assertSame(10, $first_result->getClassElevation());
+        $this->assertSame(17, $first_result->getClassControlCount());
+        $this->assertSame(14, $first_result->getClassCompetitorCount());
     }
 }

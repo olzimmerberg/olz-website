@@ -34,4 +34,44 @@ class solv_people {
      */
     private $member;
     // PRIMARY KEY (`id`)
+
+    public function getSameAs() {
+        return $this->same_as;
+    }
+
+    public function setSameAs($new_same_as) {
+        $this->same_as = $new_same_as;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($new_name) {
+        $this->name = $new_name;
+    }
+
+    public function getBirthYear() {
+        return $this->birth_year;
+    }
+
+    public function setBirthYear($new_birth_year) {
+        $this->birth_year = $new_birth_year;
+    }
+
+    public function getDomicile() {
+        return $this->domicile;
+    }
+
+    public function setDomicile($new_domicile) {
+        $this->domicile = $new_domicile;
+    }
+
+    public function getMember() {
+        return $this->member;
+    }
+
+    public function setMember($new_member) {
+        $this->member = $new_member;
+    }
 }

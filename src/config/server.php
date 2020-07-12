@@ -16,7 +16,8 @@ if (!isset($_SERVER['DOCUMENT_ROOT']) || !$_SERVER['DOCUMENT_ROOT']) {
     $config_path = __DIR__.'/../../dev-server/config.php';
 }
 if (!is_file($config_path)) {
-    die('Config file not found');
+    echo 'Config file not found';
+    exit(1);
 }
 $_CONFIG = new ServerConfig();
 require_once $config_path;

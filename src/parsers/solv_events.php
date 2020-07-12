@@ -41,7 +41,7 @@ function parse_solv_events_csv($csv_content) {
             $csv_column_name = $header[$col_index];
             $solv_event_field = $field_by_csv_column[$csv_column_name];
             $field_value = $row[$col_index];
-            $solv_event->{$solv_event_field} = $field_value;
+            $solv_event->setFieldValue($solv_event_field, $field_value);
         }
         $solv_events[] = $solv_event;
     }

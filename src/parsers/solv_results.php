@@ -68,20 +68,20 @@ function parse_solv_event_result_html($html_content, $event_uid) {
 
             if ($rank !== 1 || preg_match('/zimmerberg/i', $club)) {
                 $solv_result = new SolvResult();
-                $solv_result->event = $event_uid;
-                $solv_result->class = $class_name;
-                $solv_result->rank = $rank;
-                $solv_result->name = $name;
-                $solv_result->birth_year = $birth_year;
-                $solv_result->domicile = $domicile;
-                $solv_result->club = $club;
-                $solv_result->result = $result;
-                $solv_result->splits = $splits;
-                $solv_result->finish_split = $finish_split;
-                $solv_result->class_distance = $class_info['distance'];
-                $solv_result->class_elevation = $class_info['elevation'];
-                $solv_result->class_control_count = $class_info['control_count'];
-                $solv_result->class_competitor_count = $class_info['competitor_count'];
+                $solv_result->setEvent($event_uid);
+                $solv_result->setClass($class_name);
+                $solv_result->setRank($rank);
+                $solv_result->setName($name);
+                $solv_result->setBirthYear($birth_year);
+                $solv_result->setDomicile($domicile);
+                $solv_result->setClub($club);
+                $solv_result->setResult($result);
+                $solv_result->setSplits($splits);
+                $solv_result->setFinishSplit($finish_split);
+                $solv_result->setClassDistance($class_info['distance']);
+                $solv_result->setClassElevation($class_info['elevation']);
+                $solv_result->setClassControlCount($class_info['control_count']);
+                $solv_result->setClassCompetitorCount($class_info['competitor_count']);
                 $results[] = $solv_result;
             }
         }

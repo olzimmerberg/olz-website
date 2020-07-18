@@ -51,6 +51,10 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         MOZ_HEADLESS: 1
+      run: ./take-screenshots.sh
+    - name: PHP Integration Tests
+      env:
+        DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       run: ./integration-test.sh
     - uses: actions/upload-artifact@v1
       with:
@@ -88,7 +92,7 @@ jobs:
     - name: Code style check
       run: cd ./ci; ./php-code-style.sh
     - name: PHP Unit Tests
-      run: cd ./ci; ./php-unit-tests.sh
+      run: ./unit-test.sh
 
   deploy-prod:
     name: Deploy to olzimmerberg.ch

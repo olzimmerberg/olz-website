@@ -3,7 +3,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SolvPersonRepository")
  * @ORM\Table(
  *     name="solv_people",
  * )
@@ -43,6 +43,10 @@ class SolvPerson {
         'member' => true,
     ];
     // PRIMARY KEY (`id`)
+
+    public function getId() {
+        return $this->id;
+    }
 
     public function getSameAs() {
         return $this->same_as;

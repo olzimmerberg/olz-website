@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="solv_people",
  * )
  */
-class solv_people {
+class SolvPerson {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */
@@ -33,6 +33,15 @@ class solv_people {
      * @ORM\Column(type="integer", nullable=false)
      */
     private $member;
+
+    private $valid_field_names = [
+        'id' => true,
+        'same_as' => true,
+        'name' => true,
+        'birth_year' => true,
+        'domicile' => true,
+        'member' => true,
+    ];
     // PRIMARY KEY (`id`)
 
     public function getSameAs() {
@@ -73,5 +82,19 @@ class solv_people {
 
     public function setMember($new_member) {
         $this->member = $new_member;
+    }
+
+    public function getFieldValue($field_name) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        return $this->{$field_name};
+    }
+
+    public function setFieldValue($field_name, $new_field_value) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        $this->{$field_name} = $new_field_value;
     }
 }

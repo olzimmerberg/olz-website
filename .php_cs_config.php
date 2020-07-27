@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('src/library/')
+    ->exclude('deploy/')
     ->in(__DIR__.'/')
 ;
 

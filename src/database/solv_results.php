@@ -50,9 +50,9 @@ function get_all_assigned_solv_result_person_data() {
 
 function get_exact_person_id($solv_result) {
     global $db, $solv_results_table;
-    $sane_name = DBEsc($solv_result->name);
-    $sane_birth_year = DBEsc($solv_result->{$birth_year});
-    $sane_domicile = DBEsc($solv_result->{$domicile});
+    $sane_name = DBEsc($solv_result->getName());
+    $sane_birth_year = DBEsc($solv_result->getBirthYear());
+    $sane_domicile = DBEsc($solv_result->getDomicile());
     $sql = "
         SELECT
             person

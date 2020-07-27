@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/common.php';
+require_once __DIR__.'/../model/SolvPerson.php';
 require_once __DIR__.'/../database/solv_events.php';
 require_once __DIR__.'/../database/solv_people.php';
 require_once __DIR__.'/../database/solv_results.php';
@@ -45,14 +46,14 @@ class SyncSolvTask extends BackgroundTask {
             $solv_uid_still_exists[$solv_uid] = false;
         }
         foreach ($solv_events as $solv_event) {
-            $solv_uid_still_exists[$solv_event->solv_uid] = true;
-            $existed = isset($modification_index[$solv_event->solv_uid]);
+            $solv_uid_still_exists[$solv_event->getSolvUid()] = true;
+            $existed = isset($modification_index[$solv_event->getSolvUid()]);
             if (!$existed) {
                 insert_solv_event($solv_event);
-                $this->log_info("INSERTED {$solv_event->solv_uid}");
-            } elseif ($solv_event->last_modification > $modification_index[$solv_event->solv_uid]) {
+                $this->log_info("INSERTED {$solv_event->getSolvUid()}");
+            } elseif ($solv_event->getLastModification() > $modification_index[$solv_event->getSolvUid()]) {
                 update_solv_event($solv_event);
-                $this->log_info("UPDATED {$solv_event->solv_uid}");
+                $this->log_info("UPDATED {$solv_event->getSolvUid()}");
             }
         }
         foreach ($solv_uid_still_exists as $solv_uid => $still_exists) {
@@ -109,7 +110,7 @@ class SyncSolvTask extends BackgroundTask {
                 $person = $this->find_or_create_solv_person($solv_result);
             }
             if ($person != 0) {
-                $solv_result->person = $person;
+                $solv_result->setPerson($person);
                 update_solv_result($solv_result);
             }
         }
@@ -117,14 +118,14 @@ class SyncSolvTask extends BackgroundTask {
 
     private function find_or_create_solv_person($solv_result) {
         $result = get_all_assigned_solv_result_person_data();
-        $least_difference = strlen($solv_result->name);
+        $least_difference = strlen($solv_result->getName());
         $rows_with_least_difference = [];
         while ($row = $result->fetch_assoc()) {
-            $name_difference = levenshtein($solv_result->name, $row['name']);
-            $int_birth_year = intval($solv_result->birth_year);
+            $name_difference = levenshtein($solv_result->getName(), $row['name']);
+            $int_birth_year = intval($solv_result->getBirthYear());
             $int_birth_year_row = intval($row['birth_year']);
             $birth_year_difference = levenshtein("{$int_birth_year}", "{$int_birth_year_row}");
-            $trim_domicile = trim($solv_result->domicile);
+            $trim_domicile = trim($solv_result->getDomicile());
             $trim_domicile_row = trim($row['domicile']);
             $domicile_difference = levenshtein($trim_domicile, $trim_domicile_row);
             if ($trim_domicile == '' || $trim_domicile_row == '') {
@@ -144,11 +145,11 @@ class SyncSolvTask extends BackgroundTask {
             return intval($rows_with_least_difference[0]['person']);
         }
         $solv_person = new SolvPerson();
-        $solv_person->same_as = null;
-        $solv_person->name = $solv_result->name;
-        $solv_person->birth_year = $solv_result->birth_year;
-        $solv_person->domicile = $solv_result->domicile;
-        $solv_person->member = 1;
+        $solv_person->setSameAs(null);
+        $solv_person->setName($solv_result->getName());
+        $solv_person->setBirthYear($solv_result->getBirthYear());
+        $solv_person->setDomicile($solv_result->getDomicile());
+        $solv_person->setMember(1);
         $res = insert_solv_person($solv_person);
         $insert_id = $res['insert_id'];
 

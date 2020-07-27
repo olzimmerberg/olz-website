@@ -7,7 +7,7 @@ function get_obj_from_assoc($db_table, $assoc_row) {
         $obj_field = $field->obj_name;
         $db_field = $field->db_name;
         $sane_value = $field->value_for_obj($assoc_row[$db_field]);
-        $obj->{$obj_field} = $sane_value;
+        $obj->setFieldValue($obj_field, $sane_value);
     }
     return $obj;
 }
@@ -18,7 +18,7 @@ function get_insert_sql($db_table, $obj) {
     foreach ($db_table->fields as $field) {
         $obj_field = $field->obj_name;
         $db_field = $field->db_name;
-        $sane_value = $field->value_for_db($obj->{$obj_field});
+        $sane_value = $field->value_for_db($obj->getFieldValue($obj_field));
         if (!$field->auto_increment) {
             $sql_fields[] = "`{$db_field}`";
             $sql_values[] = $sane_value;
@@ -51,7 +51,7 @@ function get_update_sql($db_table, $obj) {
     foreach ($db_table->fields as $field) {
         $obj_field = $field->obj_name;
         $db_field = $field->db_name;
-        $sane_value = $field->value_for_db($obj->{$obj_field});
+        $sane_value = $field->value_for_db($obj->getFieldValue($obj_field));
         if ($field->primary_key) {
             $sql_constraints[] = "`{$db_field}`={$sane_value}";
         } else {

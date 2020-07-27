@@ -74,6 +74,25 @@ class SolvResult {
      * @ORM\Column(type="integer", nullable=false)
      */
     private $class_competitor_count;
+
+    private $valid_field_names = [
+        'id' => true,
+        'person' => true,
+        'event' => true,
+        'class' => true,
+        'rank' => true,
+        'name' => true,
+        'birth_year' => true,
+        'domicile' => true,
+        'club' => true,
+        'result' => true,
+        'splits' => true,
+        'finish_split' => true,
+        'class_distance' => true,
+        'class_elevation' => true,
+        'class_control_count' => true,
+        'class_competitor_count' => true,
+    ];
     // PRIMARY KEY (`id`),
     // UNIQUE KEY `person` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
 
@@ -195,5 +214,19 @@ class SolvResult {
 
     public function setClassCompetitorCount($new_class_competitor_count) {
         $this->class_competitor_count = $new_class_competitor_count;
+    }
+
+    public function getFieldValue($field_name) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        return $this->{$field_name};
+    }
+
+    public function setFieldValue($field_name, $new_field_value) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        $this->{$field_name} = $new_field_value;
     }
 }

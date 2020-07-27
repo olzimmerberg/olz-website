@@ -1,11 +1,13 @@
 <?php
 
 require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/doctrine.php';
 require_once __DIR__.'/common.php';
+require_once __DIR__.'/../model/SolvEvent.php';
 require_once __DIR__.'/../model/SolvPerson.php';
+require_once __DIR__.'/../model/SolvResult.php';
 require_once __DIR__.'/../database/solv_events.php';
 require_once __DIR__.'/../database/solv_people.php';
-require_once __DIR__.'/../database/solv_results.php';
 require_once __DIR__.'/../fetchers/solv_events.php';
 require_once __DIR__.'/../fetchers/solv_results.php';
 require_once __DIR__.'/../parsers/solv_events.php';
@@ -77,7 +79,7 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function import_solv_results_for_year($result_id_by_uid, $known_result_index) {
-        global $db;
+        global $entityManager;
         $solv_uid_still_exists = [];
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
@@ -87,11 +89,11 @@ class SyncSolvTask extends BackgroundTask {
                 $results_count = count($results);
                 $this->log_info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {
-                    $res = insert_solv_result($result);
-                    if ($res['has_error']) {
-                        $res_str = json_encode($res);
-                        $result_str = json_encode($result);
-                        $this->log_warning("Result could not be inserted: {$res_str} {$result_str}");
+                    try {
+                        $entityManager->persist($result);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $this->log_warning("Result could not be inserted: {$result->getName()}");
                     }
                 }
                 set_result_for_solv_event($solv_uid, $event_result['result_list_id']);
@@ -100,10 +102,11 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_people() {
-        $res_solv_results = get_unassigned_solv_results();
-        while ($row_solv_result = $res_solv_results->fetch_assoc()) {
-            $solv_result = solv_result_from_row($row_solv_result);
-            $person = get_exact_person_id($solv_result);
+        global $entityManager;
+        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+        $solv_results = $solv_result_repo->getUnassignedSolvResults();
+        foreach ($solv_results as $solv_result) {
+            $person = $solv_result_repo->getExactPersonId($solv_result);
             if ($person == 0) {
                 $this->log_info("Person not exactly matched:");
                 $this->log_info(json_encode($solv_result, JSON_PRETTY_PRINT));
@@ -111,16 +114,19 @@ class SyncSolvTask extends BackgroundTask {
             }
             if ($person != 0) {
                 $solv_result->setPerson($person);
-                update_solv_result($solv_result);
+                $entityManager->flush();
             }
         }
     }
 
     private function find_or_create_solv_person($solv_result) {
-        $result = get_all_assigned_solv_result_person_data();
+        global $entityManager;
+        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+        $solv_result_data = $solv_result_repo->getAllAssignedSolvResultPersonData();
+
         $least_difference = strlen($solv_result->getName());
         $rows_with_least_difference = [];
-        while ($row = $result->fetch_assoc()) {
+        foreach ($solv_result_data as $row) {
             $name_difference = levenshtein($solv_result->getName(), $row['name']);
             $int_birth_year = intval($solv_result->getBirthYear());
             $int_birth_year_row = intval($row['birth_year']);
@@ -166,6 +172,9 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function merge_solv_people() {
+        global $entityManager;
+        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+
         $res_merge = get_solv_people_marked_for_merge();
         while ($row = $res_merge->fetch_assoc()) {
             $id = $row['id'];
@@ -173,15 +182,15 @@ class SyncSolvTask extends BackgroundTask {
             $this->log_info("Merge person {$id} into {$same_as}.");
             if (intval($same_as) <= 0) {
                 $this->log_warning("Invalid same_as for person {$id}: {$same_as}.");
-            } elseif (!solv_person_has_results_assigned($same_as)) {
+            } elseif (!$solv_result_repo->solvPersonHasResults($same_as)) {
                 $this->log_warning("same_as ({$same_as}) without any results assigned for person {$id}.");
             } else {
-                $merge_result = solv_results_merge_person($id, $same_as);
-                if ($merge_result['has_error']) {
-                    $this->log_error("Merge failed!");
+                $merge_result = $solv_result_repo->mergePerson($id, $same_as);
+                if (!$merge_result) {
+                    $this->log_error("Merge failed! {$merge_result}");
                 }
             }
-            if (!solv_person_has_results_assigned($id)) {
+            if (!$solv_result_repo->solvPersonHasResults($id)) {
                 delete_solv_person_by_id($id);
             } elseif ($id == $same_as) {
                 solv_person_reset_same_as($id);

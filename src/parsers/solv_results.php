@@ -68,6 +68,7 @@ function parse_solv_event_result_html($html_content, $event_uid) {
 
             if ($rank !== 1 || preg_match('/zimmerberg/i', $club)) {
                 $solv_result = new SolvResult();
+                $solv_result->setPerson(0);
                 $solv_result->setEvent($event_uid);
                 $solv_result->setClass($class_name);
                 $solv_result->setRank($rank);

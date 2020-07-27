@@ -16,7 +16,25 @@ $zero_fields_table = new DbTable('ObjectWithZeroFields', 'zero_fielders', [
 ]);
 
 class ObjectWithOneField {
-    public $one_and_only;
+    private $one_and_only;
+
+    private $valid_field_names = [
+        'one_and_only' => true,
+    ];
+
+    public function getFieldValue($field_name) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        return $this->{$field_name};
+    }
+
+    public function setFieldValue($field_name, $new_field_value) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        $this->{$field_name} = $new_field_value;
+    }
 }
 
 $one_field_table = new DbTable('ObjectWithOneField', 'one_fielders', [
@@ -24,9 +42,29 @@ $one_field_table = new DbTable('ObjectWithOneField', 'one_fielders', [
 ]);
 
 class ObjectWithMultipleFields {
-    public $first;
-    public $second;
-    public $third;
+    private $first;
+    private $second;
+    private $third;
+
+    private $valid_field_names = [
+        'first' => true,
+        'second' => true,
+        'third' => true,
+    ];
+
+    public function getFieldValue($field_name) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        return $this->{$field_name};
+    }
+
+    public function setFieldValue($field_name, $new_field_value) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        $this->{$field_name} = $new_field_value;
+    }
 }
 
 $multiple_fields_table = new DbTable('ObjectWithMultipleFields', 'multiple_fielders', [

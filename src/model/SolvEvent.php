@@ -89,6 +89,29 @@ class SolvEvent {
      * @ORM\Column(type="datetime", nullable=false, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $last_modification;
+
+    private $valid_field_names = [
+        'solv_uid' => true,
+        'date' => true,
+        'duration' => true,
+        'kind' => true,
+        'day_night' => true,
+        'national' => true,
+        'region' => true,
+        'type' => true,
+        'name' => true,
+        'link' => true,
+        'club' => true,
+        'map' => true,
+        'location' => true,
+        'coord_x' => true,
+        'coord_y' => true,
+        'deadline' => true,
+        'entryportal' => true,
+        'start_link' => true,
+        'rank_link' => true,
+        'last_modification' => true,
+    ];
     // PRIMARY KEY (`solv_uid`)
 
     public function getSolvUid() {
@@ -251,30 +274,15 @@ class SolvEvent {
         $this->last_modification = $new_last_modification;
     }
 
+    public function getFieldValue($field_name) {
+        if (!isset($this->valid_field_names[$field_name])) {
+            throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
+        }
+        return $this->{$field_name};
+    }
+
     public function setFieldValue($field_name, $new_field_value) {
-        $valid_field_names = [
-            'solv_uid' => true,
-            'date' => true,
-            'duration' => true,
-            'kind' => true,
-            'day_night' => true,
-            'national' => true,
-            'region' => true,
-            'type' => true,
-            'name' => true,
-            'link' => true,
-            'club' => true,
-            'map' => true,
-            'location' => true,
-            'coord_x' => true,
-            'coord_y' => true,
-            'deadline' => true,
-            'entryportal' => true,
-            'start_link' => true,
-            'rank_link' => true,
-            'last_modification' => true,
-        ];
-        if (!isset($valid_field_names[$field_name])) {
+        if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }
         $this->{$field_name} = $new_field_value;

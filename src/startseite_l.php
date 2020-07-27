@@ -61,16 +61,16 @@ echo $text;*/
     </div>
 </div>-->
 
-<!--<div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521'><a href='?page=11' class='linkint' style='font-size:14px;'>8. Zimmerberg OL - 10. Mai 2015 > Auflösung Foto-OL, Fundgegenstände</a>
+<div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521'><a href='/files/aktuell/504/009.pdf' class='linkint' style='font-size:14px;'>1. Zimmerberg Berg-OL - 15. August 2020</a>
 </div>
-<div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;height:110px;'><img src='img/richterswil10_thumb.jpg' style='margin-left:25px;float:left;'><img src='img/richterswil07_thumb.jpg' style='margin-right:25px;float:right;'>
+<!-- <div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;height:110px;'><img src='img/richterswil10_thumb.jpg' style='margin-left:25px;float:left;'><img src='img/richterswil07_thumb.jpg' style='margin-right:25px;float:right;'>
 <div style='margin-left:140px;margin-right:140px;text-align:center;font-size:14px;border:solid 0px;'>9. Zimmerberg OL - 10. April 2016<br>
 <a href='http://www.o-l.ch/cgi-bin/results?rl_id=3373' class='linkext' style='font-size:14px;' target='_blank'>Resultate</a><br>
 <a href='?page=4&id=663' class='linkint' style='font-size:14px;'>Fotos</a><br>
 <a href='?page=11#fotool' class='linkint' style='font-size:14px;'>Auflösung Foto-OL</a><br>
 <a href='?page=11#fundsachen' class='linkint' style='font-size:14px;'>Fundgegenstände</a>
 </div>
-</div>-->
+</div> -->
 
 <?php
 require_once "image_tools.php";

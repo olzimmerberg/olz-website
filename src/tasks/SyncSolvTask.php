@@ -156,8 +156,9 @@ class SyncSolvTask extends BackgroundTask {
         $solv_person->setBirthYear($solv_result->getBirthYear());
         $solv_person->setDomicile($solv_result->getDomicile());
         $solv_person->setMember(1);
-        $res = insert_solv_person($solv_person);
-        $insert_id = $res['insert_id'];
+        $entityManager->persist($solv_person);
+        $entityManager->flush();
+        $insert_id = $solv_person->getId();
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
         $closest_matches_str = json_encode($rows_with_least_difference, JSON_PRETTY_PRINT);
@@ -173,10 +174,11 @@ class SyncSolvTask extends BackgroundTask {
 
     private function merge_solv_people() {
         global $entityManager;
+        $solv_person_repo = $entityManager->getRepository(SolvPerson::class);
         $solv_result_repo = $entityManager->getRepository(SolvResult::class);
 
-        $res_merge = get_solv_people_marked_for_merge();
-        while ($row = $res_merge->fetch_assoc()) {
+        $solv_persons = $solv_person_repo->getSolvPersonsMarkedForMerge();
+        foreach ($solv_persons as $row) {
             $id = $row['id'];
             $same_as = $row['same_as'];
             $this->log_info("Merge person {$id} into {$same_as}.");
@@ -191,9 +193,9 @@ class SyncSolvTask extends BackgroundTask {
                 }
             }
             if (!$solv_result_repo->solvPersonHasResults($id)) {
-                delete_solv_person_by_id($id);
+                $solv_person_repo->deleteById($id);
             } elseif ($id == $same_as) {
-                solv_person_reset_same_as($id);
+                $solv_person_repo->resetSolvPersonSameAs($id);
             } else {
                 $this->log_warning("There are still results assigned to person {$id}.");
             }

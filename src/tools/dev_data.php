@@ -116,6 +116,9 @@ function init_dev_data_filesystem($data_path) {
 
     // Build files/
     mkdir("{$data_path}files");
+    mkdir("{$data_path}files/blog");
+    mkdir("{$data_path}files/blog/1");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
 
     // Build img/
     mkdir("{$data_path}img");
@@ -125,6 +128,10 @@ function init_dev_data_filesystem($data_path) {
     mkdir("{$data_path}img/aktuell/3/img");
     mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/aktuell/3/img/001.jpg", 800, 600);
     mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/aktuell/3/img/002.jpg", 800, 600);
+    mkdir("{$data_path}img/blog");
+    mkdir("{$data_path}img/blog/1");
+    mkdir("{$data_path}img/blog/1/img");
+    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/blog/1/img/001.jpg", 800, 600);
     mkdir("{$data_path}img/bild_der_woche");
     mkdir("{$data_path}img/bild_der_woche/2");
     mkdir("{$data_path}img/bild_der_woche/2/img");

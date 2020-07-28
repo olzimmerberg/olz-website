@@ -111,7 +111,7 @@ CREATE TABLE `blog` (
   `bild2_breite` int(11) DEFAULT NULL,
   `linkext` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table counter
 DROP TABLE IF EXISTS `counter`;

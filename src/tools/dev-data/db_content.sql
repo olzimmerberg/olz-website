@@ -25,6 +25,10 @@ VALUES
     ('2', '2020-01-02', '', '', '1', 'Berchtoldstag im Sihlwald 🌳🌲🌴', 'Titel 2 🌳🌲🌴', '0', '0');
 
 -- Table blog
+INSERT INTO blog
+    (`id`, `counter`, `datum`, `autor`, `titel`, `text`, `bild1`, `bild2`, `on_off`, `zeit`, `dummy`, `file1`, `file1_name`, `file2`, `file2_name`, `newsletter`, `newsletter_datum`, `bild1_breite`, `bild2_breite`, `linkext`)
+VALUES
+    ('1', '0', '2020-01-01', 'Gold Junge', 'Saisonstart 2020!', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL);
 
 -- Table counter
 

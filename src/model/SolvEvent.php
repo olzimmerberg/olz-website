@@ -2,8 +2,10 @@
 
 use Doctrine\ORM\Mapping as ORM;
 
+require_once __DIR__.'/common.php';
+
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SolvEventRepository")
  * @ORM\Table(
  *     name="solv_events",
  * )
@@ -127,7 +129,7 @@ class SolvEvent {
     }
 
     public function setDate($new_date) {
-        $this->date = $new_date;
+        $this->date = sanitize_date_value($new_date);
     }
 
     public function getDuration() {
@@ -239,7 +241,7 @@ class SolvEvent {
     }
 
     public function setDeadline($new_deadline) {
-        $this->deadline = $new_deadline;
+        $this->deadline = sanitize_date_value($new_deadline);
     }
 
     public function getEntryportal() {
@@ -271,7 +273,7 @@ class SolvEvent {
     }
 
     public function setLastModification($new_last_modification) {
-        $this->last_modification = $new_last_modification;
+        $this->last_modification = sanitize_datetime_value($new_last_modification);
     }
 
     public function getFieldValue($field_name) {

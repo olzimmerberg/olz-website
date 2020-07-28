@@ -6,8 +6,6 @@ require_once __DIR__.'/common.php';
 require_once __DIR__.'/../model/SolvEvent.php';
 require_once __DIR__.'/../model/SolvPerson.php';
 require_once __DIR__.'/../model/SolvResult.php';
-require_once __DIR__.'/../database/solv_events.php';
-require_once __DIR__.'/../database/solv_people.php';
 require_once __DIR__.'/../fetchers/solv_events.php';
 require_once __DIR__.'/../fetchers/solv_results.php';
 require_once __DIR__.'/../parsers/solv_events.php';
@@ -42,26 +40,66 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function import_solv_events_for_year($solv_events, $year) {
-        $modification_index = get_solv_events_modification_index_for_year($year);
+        global $entityManager;
+        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
+        $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
+        $existing_solv_events_index = [];
+        foreach ($existing_solv_events as $existing_solv_event) {
+            $solv_uid = $existing_solv_event->getSolvUid();
+            $existing_solv_events_index[$solv_uid] = $existing_solv_event;
+        }
         $solv_uid_still_exists = [];
-        foreach ($modification_index as $solv_uid => $last_modification) {
+        foreach ($existing_solv_events_index as $solv_uid => $existing_solv_event) {
             $solv_uid_still_exists[$solv_uid] = false;
         }
         foreach ($solv_events as $solv_event) {
-            $solv_uid_still_exists[$solv_event->getSolvUid()] = true;
-            $existed = isset($modification_index[$solv_event->getSolvUid()]);
+            $solv_uid = $solv_event->getSolvUid();
+            $solv_uid_still_exists[$solv_uid] = true;
+            $existed = isset($existing_solv_events_index[$solv_uid]);
+            $existing_solv_event = $existed ? $existing_solv_events_index[$solv_uid] : null;
+            $outdated = $existed ? $solv_event->getLastModification() > $existing_solv_event->getLastModification() : false;
             if (!$existed) {
-                insert_solv_event($solv_event);
-                $this->log_info("INSERTED {$solv_event->getSolvUid()}");
-            } elseif ($solv_event->getLastModification() > $modification_index[$solv_event->getSolvUid()]) {
-                update_solv_event($solv_event);
-                $this->log_info("UPDATED {$solv_event->getSolvUid()}");
+                try {
+                    $entityManager->persist($solv_event);
+                    $entityManager->flush();
+                    $this->log_info("INSERTED {$solv_event->getSolvUid()}");
+                } catch (\Exception $e) {
+                    $this->log_info("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
+                }
+            } elseif ($outdated) {
+                $existing_solv_event->setDate($solv_event->getDate());
+                $existing_solv_event->setDuration($solv_event->getDuration());
+                $existing_solv_event->setKind($solv_event->getKind());
+                $existing_solv_event->setDayNight($solv_event->getDayNight());
+                $existing_solv_event->setNational($solv_event->getNational());
+                $existing_solv_event->setRegion($solv_event->getRegion());
+                $existing_solv_event->setType($solv_event->getType());
+                $existing_solv_event->setName($solv_event->getName());
+                $existing_solv_event->setLink($solv_event->getLink());
+                $existing_solv_event->setClub($solv_event->getClub());
+                $existing_solv_event->setMap($solv_event->getMap());
+                $existing_solv_event->setLocation($solv_event->getLocation());
+                $existing_solv_event->setCoordX($solv_event->getCoordX());
+                $existing_solv_event->setCoordY($solv_event->getCoordY());
+                $existing_solv_event->setDeadline($solv_event->getDeadline());
+                $existing_solv_event->setEntryportal($solv_event->getEntryportal());
+                $existing_solv_event->setLastModification($solv_event->getLastModification());
+                try {
+                    $entityManager->flush();
+                    $this->log_info("UPDATED {$solv_event->getSolvUid()}");
+                } catch (\Exception $e) {
+                    $this->log_info("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
+                }
             }
         }
         foreach ($solv_uid_still_exists as $solv_uid => $still_exists) {
             if (!$still_exists) {
-                delete_solv_event_by_uid($solv_uid);
-                $this->log_info("DELETED {$solv_uid}");
+                try {
+                    $solv_event_repo->deleteBySolvUid($solv_uid);
+                    $this->log_info("DELETED {$solv_uid}");
+                } catch (\Exception $e) {
+                    $this->log_info("DELETE FAILED {$solv_uid}: {$e}");
+                }
             }
         }
     }
@@ -72,14 +110,23 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_results_for_year($year) {
+        global $entityManager;
+        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
         $json = fetch_solv_yearly_results_json($year);
         $result_id_by_uid = parse_solv_yearly_results_json($json);
-        $known_result_index = get_solv_known_result_index_for_year($year);
+        $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
+        $known_result_index = [];
+        foreach ($existing_solv_events as $existing_solv_event) {
+            $solv_uid = $existing_solv_event->getSolvUid();
+            $rank_link = $existing_solv_event->getRankLink();
+            $known_result_index[$solv_uid] = ($rank_link !== null) ? 1 : 0;
+        }
         $this->import_solv_results_for_year($result_id_by_uid, $known_result_index);
     }
 
     private function import_solv_results_for_year($result_id_by_uid, $known_result_index) {
         global $entityManager;
+        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
         $solv_uid_still_exists = [];
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
@@ -96,7 +143,7 @@ class SyncSolvTask extends BackgroundTask {
                         $this->log_warning("Result could not be inserted: {$result->getName()}");
                     }
                 }
-                set_result_for_solv_event($solv_uid, $event_result['result_list_id']);
+                $solv_event_repo->setResultForSolvEvent($solv_uid, $event_result['result_list_id']);
             }
         }
     }

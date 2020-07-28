@@ -1,30 +1,30 @@
 unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
-8270;2018-01-13;1;foot;day;0;;;Kärtelertagung;https://www.swiss-orienteering.ch/php_includes/pages/courseware/?id=25;Swiss Orienteering;Olten;;;;;0;2018-12-13 09:07:27
-8891;2018-01-14;1;foot;day;0;ZH/SH;*1;22. Effretiker-OL;http://www.olg-pfaeffikon.ch/files/News/2018/Effi_OL/ausschreibung_2018.pdf;OLG Pfäffikon;Pfäffikon ZH;;702300;246700;;2;2017-12-12 23:58:25
-9288;2018-01-20;1;ski;day;0;GL/GR;SC201;Ski-OL Davos, SM Langdistanz;https://www.ski-o-swiss.ch/termine/eventdetail/108/-/ski-o-weekend-am-bachtel;OLG Zürich/Davos/Ski-O Sw.;Davos Flüelatal;;782850;185850;2018-01-17;3;2018-10-29 08:35:32
-9289;2018-01-21;1;ski;day;0;GL/GR;SC202;Ski-OL Davos, Middle ;https://www.ski-o-swiss.ch/termine/eventdetail/108/-/ski-o-weekend-am-bachtel;OLG Zürich/Davos/Ski-O Sw.;Davos Flüelatal;;782875;185825;2018-01-17;3;2018-10-29 08:35:42
+8270;2018-01-13;1;foot;day;0;;;Kï¿½rtelertagung;https://www.swiss-orienteering.ch/php_includes/pages/courseware/?id=25;Swiss Orienteering;Olten;;;;;0;2018-12-13 09:07:27
+8891;2018-01-14;1;foot;day;0;ZH/SH;*1;22. Effretiker-OL;http://www.olg-pfaeffikon.ch/files/News/2018/Effi_OL/ausschreibung_2018.pdf;OLG Pfï¿½ffikon;Pfï¿½ffikon ZH;;702300;246700;;2;2017-12-12 23:58:25
+9288;2018-01-20;1;ski;day;0;GL/GR;SC201;Ski-OL Davos, SM Langdistanz;https://www.ski-o-swiss.ch/termine/eventdetail/108/-/ski-o-weekend-am-bachtel;OLG Zï¿½rich/Davos/Ski-O Sw.;Davos Flï¿½elatal;;782850;185850;2018-01-17;3;2018-10-29 08:35:32
+9289;2018-01-21;1;ski;day;0;GL/GR;SC202;Ski-OL Davos, Middle ;https://www.ski-o-swiss.ch/termine/eventdetail/108/-/ski-o-weekend-am-bachtel;OLG Zï¿½rich/Davos/Ski-O Sw.;Davos Flï¿½elatal;;782875;185825;2018-01-17;3;2018-10-29 08:35:42
 9091;2018-01-27;1;foot;day;0;NWS;101;Basler Winter-OL ;http://www.olg-basel.ch/?id=201808;OLG Basel;Bruederholz;;611500;261950;;0;2018-01-19 14:10:13
 9092;2018-02-03;1;foot;day;0;NWS;*2;102. muba-OL;http://www.olg-basel.ch/?id=201802;OLC Binningen;Allschwilerwald;;608975;265500;2018-01-31;2;2017-11-27 10:52:49
 9291;2018-02-10;1;ski;day;0;BE/SO;SC203;Ski-OL Magglingen, SM Kurz;https://www.ski-o-swiss.ch/alle-termine/eventdetail/109;ol.biel.seeland;Magglingen;;581775;220575;2018-02-05;3;2018-10-29 08:38:13
 9293;2018-02-11;1;ski;day;0;BE/SO;SC204;Ski-OL Magglingen;https://www.ski-o-swiss.ch/alle-termine/eventdetail/109;ol.biel.seeland;Magglingen;Magglingen;581775;220575;2018-02-05;3;2018-10-29 08:38:22
 9236;2018-02-24;1;foot;night;0;SR;*3;Murtner Nacht OL;http://www.olgmurten.ch;OLG Murten;Gurmelsholz;Gurmels;;;;0;2017-11-27 10:52:57
-9294;2018-02-24;1;ski;day;0;SR;SC205;Sci Orientation Evolène;https://www.ski-o-swiss.ch/alle-termine/eventdetail/110;CO Valais;Evolène;;604550;106450;2018-02-19;3;2018-10-29 08:38:35
-9295;2018-02-25;1;ski;day;0;SR;SC206;Sci Orientation Evolène;https://www.ski-o-swiss.ch/alle-termine/eventdetail/110;CO Valais;Evolène;;604550;106450;2018-02-19;3;2018-10-29 08:38:44
-9352;2018-03-02;1;foot;night;0;BE/SO;*4;18. Bieler Nacht-OL;https://olbielseeland.ch/ol-biel-seeland/wettkaempfe/bieler-nacht-ol/index.php;ol.biel.seeland;Schaltenrain;Brüttelen;577775;208300;;0;2018-02-21 09:36:39
+9294;2018-02-24;1;ski;day;0;SR;SC205;Sci Orientation Evolï¿½ne;https://www.ski-o-swiss.ch/alle-termine/eventdetail/110;CO Valais;Evolï¿½ne;;604550;106450;2018-02-19;3;2018-10-29 08:38:35
+9295;2018-02-25;1;ski;day;0;SR;SC206;Sci Orientation Evolï¿½ne;https://www.ski-o-swiss.ch/alle-termine/eventdetail/110;CO Valais;Evolï¿½ne;;604550;106450;2018-02-19;3;2018-10-29 08:38:44
+9352;2018-03-02;1;foot;night;0;BE/SO;*4;18. Bieler Nacht-OL;https://olbielseeland.ch/ol-biel-seeland/wettkaempfe/bieler-nacht-ol/index.php;ol.biel.seeland;Schaltenrain;Brï¿½ttelen;577775;208300;;0;2018-02-21 09:36:39
 9343;2018-03-02;1;foot;night;0;;401S;Argus Nachtstaffel *abgesagt*;http://entry.picoevents.ch/;OLK Argus;Lindenberg;;665025;234975;2018-02-28;2;2018-03-02 13:42:33
 8496;2018-03-03;1;foot;day;0;BE/SO;;40. Delegiertenversammlung;;Swiss Orienteering;Solothurn;;;;;0;2017-09-18 16:28:14
 9150;2018-03-04;1;foot;day;0;BE/SO;*5;63. Huttwiler OL;http://www.olghuttwil.ch;OLG Huttwil;Chaltenegg;Schwarzenbach/Huttwil;629725;217800;;0;2017-11-27 10:53:18
 8892;2018-03-04;1;foot;day;0;ZH/SH;*7;52. Winterthurer-OL;https://www.olcw.ch/winterthurer-ol.html;OLC Winterthur;Lindberg;;699025;263925;;2;2018-01-17 23:44:21
 9203;2018-03-04;1;foot;day;0;AG;*6;64. Badener OL;http://www.badener-ol.ch;OLG Cordoba;Baldegg-Horn;;661350;256950;;2;2018-02-03 00:11:02
-9155;2018-03-10;1;foot;night;0;BE/SO;*8;19. Oberaargauer Nacht OL;http://www.olgherzogenbuchsee.ch;OLG Herzogenbuchsee;Oenzberg;Niederönz/Schulanlage;619425;225950;;0;2017-12-31 01:48:15
-8893;2018-03-10;1;foot;day;0;ZH/SH;*9;40. Säuliämtler-OL;https://www.olg-saeuliamt.ch/ausschreibungen/saeuliaemtler-ol-2018/;OLG Säuliamt;Wolserholz;Obfelden;674575;235125;2018-03-09;3;2018-02-02 00:45:56
+9155;2018-03-10;1;foot;night;0;BE/SO;*8;19. Oberaargauer Nacht OL;http://www.olgherzogenbuchsee.ch;OLG Herzogenbuchsee;Oenzberg;Niederï¿½nz/Schulanlage;619425;225950;;0;2017-12-31 01:48:15
+8893;2018-03-10;1;foot;day;0;ZH/SH;*9;40. Sï¿½uliï¿½mtler-OL;https://www.olg-saeuliamt.ch/ausschreibungen/saeuliaemtler-ol-2018/;OLG Sï¿½uliamt;Wolserholz;Obfelden;674575;235125;2018-03-09;3;2018-02-02 00:45:56
 9093;2018-03-11;1;foot;day;0;NWS;103;20. Swiss Billygoat Run;https://www.olv-baselland.ch/event/20-swiss-billygoat-run/;OLV Baselland;Sissacherflue;;627475;258550;2018-02-26;0;2018-01-19 14:11:43
-9189;2018-03-11;1;foot;day;0;NOS;*11;13. Stöff Memorial OL;http://www.olregiowil.ch/ol/Dokumente/Ausschreibungen/2018/2018-03-11_Stoeff-memOriaL.pdf;OL Regio Wil;Greutersberg;;726150;261925;;0;2017-12-24 03:01:16
-9153;2018-03-11;1;foot;day;0;BE/SO;*12;60. Herzogenbuchser OL;http://www.olgherzogenbuchsee.ch;OLG Herzogebuchsee;Steinhof;Niederönz/Schulanlage;619425;225950;;0;2017-12-31 01:48:30
+9189;2018-03-11;1;foot;day;0;NOS;*11;13. Stï¿½ff Memorial OL;http://www.olregiowil.ch/ol/Dokumente/Ausschreibungen/2018/2018-03-11_Stoeff-memOriaL.pdf;OL Regio Wil;Greutersberg;;726150;261925;;0;2017-12-24 03:01:16
+9153;2018-03-11;1;foot;day;0;BE/SO;*12;60. Herzogenbuchser OL;http://www.olgherzogenbuchsee.ch;OLG Herzogebuchsee;Steinhof;Niederï¿½nz/Schulanlage;619425;225950;;0;2017-12-31 01:48:30
 9310;2018-03-11;1;foot;day;0;TI;104;2. TMO Sonvico;http://www.asti-ticino.ch/co/;CO AGET Lugano;Sonvico;;;;2018-03-04;1;2018-01-19 14:11:52
 9110;2018-03-11;1;foot;day;0;AG;*10;bussola OL;http://bussola-ok.ch/?rssid=T1RJME5nPT0=&mid=T0RBek5nPT0=;bussola ok;Wagenrain Nord;Niederwil, Mehrzeckhalle;664525;247900;;0;2018-01-27 02:09:40
 9214;2018-03-17;1;foot;day;0;BE/SO;*13;39. Langenthaler OL;http://www.olv-langenthal.ch/wettkaempfe;OLV Langenthal;Langenthal Ost;Schulhaus St. Urban;630250;230900;;0;2018-02-21 09:36:33
-8598;2018-03-18;1;foot;day;1;AG;**A;1. Nationaler, verkürzte Langdistanz;http://erlosen18.olg-rymenzburg.ch;OLG Rymenzburg;Erlosen;;661150;230850;2018-03-05;1;2018-04-09 11:52:36
+8598;2018-03-18;1;foot;day;1;AG;**A;1. Nationaler, verkï¿½rzte Langdistanz;http://erlosen18.olg-rymenzburg.ch;OLG Rymenzburg;Erlosen;;661150;230850;2018-03-05;1;2018-04-09 11:52:36
 8599;2018-03-24;1;foot;night;1;NWS;NOM;Schweizer Meisterschaft im Nacht OL;https://olweekend-nws-2018.ch/;OLG Basel / OLV Baselland;Gelterkinderberg;;631250;257000;2018-03-12;1;2018-03-09 23:03:25
 8600;2018-03-25;1;foot;day;1;NWS;**A;2. Nationaler Mitteldistanz;https://olweekend-nws-2018.ch/;OLV Baselland / OLG Basel;Grossholz;;631250;257000;2018-03-12;1;2018-04-10 00:05:51
 9408;2018-03-31;1;foot;day;0;BE/SO;402S;Osterstaffel;https://www.olnorska.ch/karussell/ausschreibung-osterstaffel/;ol norska;Brandiswald;;615650;200350;2018-03-26;2;2018-03-22 10:00:20
@@ -32,23 +32,23 @@ unique_id;date;duration;kind;day_night;national;region;type;event_name;event_lin
 9212;2018-04-02;1;foot;day;0;BE/SO;*15;55. Thuner OL;http://www.olg-thun.ch;OLG Thun;Heimberg-Hartlisberg / Heimberg;OSS Heimberg;610675;182725;;0;2018-02-24 19:53:06
 9322;2018-04-06;1;foot;day;0;TI;;WRE -Testlauf Sprint;https://eventor.orienteering.org/Events/Show/5878;Swiss Orienteering;Novaggio Paese;Novaggio ;;;;0;2018-02-01 09:44:46
 9323;2018-04-07;1;foot;day;0;TI;;WRE -Testlauf Middle;https://eventor.orienteering.org/Events/Show/5879;Swiss Orienteering;Villa Luganese;;;;;0;2018-02-01 09:46:19
-9209;2018-04-07;1;foot;day;0;AG;*16;35. Fricktaler Einzel-OL;http://www.olkfricktal.ch/de/veranstaltungen/35-fricktaler-einzel-ol-1;OLK Fricktal;Forst;Möhlin;630525;268825;;0;2018-02-06 17:29:34
+9209;2018-04-07;1;foot;day;0;AG;*16;35. Fricktaler Einzel-OL;http://www.olkfricktal.ch/de/veranstaltungen/35-fricktaler-einzel-ol-1;OLK Fricktal;Forst;Mï¿½hlin;630525;268825;;0;2018-02-06 17:29:34
 8601;2018-04-08;1;foot;day;1;ZH/SH;**A;3. Nationaler Langdistanz;http://www.olgdachsen.ch/?p=1266;OLG Dachsen;Stammerberg;;701700;276875;2018-03-26;1;2018-04-10 00:06:59
-8751;2018-04-14;1;foot;day;1;BE/SO;**A;4. Nationaler Mitteldistanz;http://www.bucheggbergerol.ch/joomla/index.php/component/content/article/113/431;Bucheggberger OL;Junkholz Süd;;597875;212425;2018-04-02;1;2018-04-10 00:07:10
+8751;2018-04-14;1;foot;day;1;BE/SO;**A;4. Nationaler Mitteldistanz;http://www.bucheggbergerol.ch/joomla/index.php/component/content/article/113/431;Bucheggberger OL;Junkholz Sï¿½d;;597875;212425;2018-04-02;1;2018-04-10 00:07:10
 8752;2018-04-15;1;foot;day;1;BE/SO;SOM;Schweizer Meisterschaften im Staffel OL;http://olv-hindelbank.ch/2-ol-erlebnisse-im-berner-mittelland/;OLV Hindelbank;Wannental;;606725;207600;2018-04-02;1;2018-02-02 00:45:29
 9096;2018-04-18;1;foot;day;0;NWS;106;Sprint Cup NWS 1.Lauf;https://www.olv-baselland.ch/event/sprint-cup-sissach/;OLV Baselland;Sissach;;628400;257125;;0;2018-04-10 01:33:25
-9514;2018-04-18;1;foot;day;0;ZH/SH;107;1. Milchsuppe-Abend-OL 2018;http://olg-galgenen.ch/index.php/milchsuppen-ol;OLG Galgenen;Etzel;Rest. Luegeten Pfäffikon SZ;701225;227600;;0;2018-04-30 12:43:23
+9514;2018-04-18;1;foot;day;0;ZH/SH;107;1. Milchsuppe-Abend-OL 2018;http://olg-galgenen.ch/index.php/milchsuppen-ol;OLG Galgenen;Etzel;Rest. Luegeten Pfï¿½ffikon SZ;701225;227600;;0;2018-04-30 12:43:23
 9355;2018-04-21;1;foot;day;0;BE/SO;108;34. Lysser OL;https://olbielseeland.ch/ol-biel-seeland/wettkaempfe/lysser-ol/index.php;ol.biel.seeland;Rikartsholz;Tennisklubhaus Lyss;590650;212550;;0;2018-03-22 10:00:33
-9207;2018-04-21;1;foot;day;0;AG;175;Seetaler Schüler OL;http://olkargus.ch/cms/images/2018/Seetaler_Schueler_OL_2018.pdf;OLK Argus;Stadt Lenzburg;Sportanlange Wilmatten, Lenzburg;2655500;1247825;;0;2018-03-19 13:53:41
-8673;2018-04-22;1;foot;day;0;ZH/SH;*18;44. Galgener-OL;http://www.olg-galgenen.ch/index.php/ausschreibung;OLG Galgenen;Eichholz;Pfäffikon SZ;701025;228125;;0;2017-11-27 10:56:25
+9207;2018-04-21;1;foot;day;0;AG;175;Seetaler Schï¿½ler OL;http://olkargus.ch/cms/images/2018/Seetaler_Schueler_OL_2018.pdf;OLK Argus;Stadt Lenzburg;Sportanlange Wilmatten, Lenzburg;2655500;1247825;;0;2018-03-19 13:53:41
+8673;2018-04-22;1;foot;day;0;ZH/SH;*18;44. Galgener-OL;http://www.olg-galgenen.ch/index.php/ausschreibung;OLG Galgenen;Eichholz;Pfï¿½ffikon SZ;701025;228125;;0;2017-11-27 10:56:25
 9152;2018-04-22;1;foot;day;0;BE/SO;*19;57. Oberwiler OL;http://www.olgoberwil.ch;OLG Oberwil;Homet;Grossaffoltern;593900;212525;;0;2018-04-10 01:33:03
 9194;2018-04-22;1;foot;day;0;NOS;*20;70. St.Galler OL;http://www.olgsga.ch/?smd_process_download=1&download_id=12349;OLG St.Gallen/Appenzell;Rorschacherberg;;756350;257825;;0;2018-03-28 00:12:17
 9311;2018-04-22;1;foot;day;0;TI;109;3. TMO Aurigeno;http://www.asti-ticino.ch/co/;GOV Vallemaggia;Aurigeno;;;;2018-04-15;0;2018-01-19 14:13:10
 9099;2018-04-24;1;foot;day;0;NWS;;sCOOL-Cup NWS;;ROLV NWS;Sissach;;;;;0;2018-03-12 09:17:17
-9586;2018-04-28;1;foot;day;0;GL/GR;154;OL für Alle, Bündner OL-Cup 1;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/2018OfA_Ausschreibung.pdf;OLG Chur;Fürstenwald;;760500;193250;;0;2018-04-24 01:18:00
+9586;2018-04-28;1;foot;day;0;GL/GR;154;OL fï¿½r Alle, Bï¿½ndner OL-Cup 1;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/2018OfA_Ausschreibung.pdf;OLG Chur;Fï¿½rstenwald;;760500;193250;;0;2018-04-24 01:18:00
 9625;2018-04-28;1;bike;day;0;BE/SO;301;3. Biberister Bike-OL/SM Massenstart;http://www.mtbo-sui.com/ausschreibungen.html;OLG Biberist SO;Martinsflue;Riedholz SO;;;;0;2018-03-28 12:31:05
 9097;2018-04-29;1;foot;day;0;NWS;*21;11. Baselbieter Dorf-OL / Sprint Cup;http://kakowa.ch/joomla/index.php/anlaesse/dorf-ol;OLG Kakowa;Augusta Raurica;;621875;264875;;0;2018-01-23 23:25:08
-9275;2018-04-29;1;foot;day;0;BE/SO;*22;9. Regio Olten OL;https://olregioolten.ch/intern/doc.php?id=609;OL Regio Olten;Säli-Engelberg;;636925;244275;;0;2018-04-24 01:18:14
+9275;2018-04-29;1;foot;day;0;BE/SO;*22;9. Regio Olten OL;https://olregioolten.ch/intern/doc.php?id=609;OL Regio Olten;Sï¿½li-Engelberg;;636925;244275;;0;2018-04-24 01:18:14
 9317;2018-04-29;1;foot;day;0;TI;111;4. TMO Cademario Arosio;http://www.asti-ticino.ch/co/;UNITAS Malcantone;Cademario Arosio;;;;2018-04-22;1;2018-01-19 14:13:30
 8603;2018-04-29;1;foot;day;0;ZS;*53;41. Innerschwyzer OL;http://www.olggoldau.ch/index.php/anlaesse/innerschwyzer-ol;OLG Goldau;Axenstein/Brunnen;;689250;205900;;0;2018-03-01 23:42:59
 9148;2018-05-06;1;foot;day;0;BE/SO;*23;45. Hondricher OL;http://www.olg-hondrich.ch;OLG Hondrich;Dorf Spiez;Spiez;618075;171125;;0;2017-11-27 10:58:27
@@ -70,50 +70,50 @@ unique_id;date;duration;kind;day_night;national;region;type;event_name;event_lin
 9497;2018-05-21;1;foot;day;0;SR;*54;45. Murtner OL;http://www.olgmurten.ch;OLG Murten;La Corbaz;Courtepin;576050;190625;;0;2018-05-19 00:01:12
 9100;2018-05-22;1;foot;day;0;NWS;114;Sprint Cup NWS 3.Lauf;http://www.olg-basel.ch/ausschreibungen/2018/as_sprintcup_18.pdf;OLC Binningen;Riehen;;615100;270025;;2;2018-05-20 18:03:31
 9515;2018-05-23;1;foot;day;0;ZH/SH;115;2. Michsuppe-Abend-OL;http://www.olggoldau.ch;OLG Goldau;Arth;;682525;213025;;0;2018-05-04 21:09:54
-9661;2018-05-23;1;foot;day;0;ZH/SH;;Zürcher sCOOL-Cup;http://www.scool.ch/files/cups2018/sCOOL_Cup_ZH_2018_Ausschreibung.pdf;KZS / OL Zimmerberg / OLVZ;Halbinsel Au;Wädenswil;;;;0;2018-02-28 19:30:42
+9661;2018-05-23;1;foot;day;0;ZH/SH;;Zï¿½rcher s&#39;COOL-Cup;http://www.scool.ch/files/cups2018/sCOOL_Cup_ZH_2018_Ausschreibung.pdf;KZS / OL Zimmerberg / OLVZ;Halbinsel Au;Wï¿½denswil;;;;0;2018-02-28 19:30:42
 9703;2018-05-24;1;foot;day;0;ZS;;sCOOL-Cup 2018;https://www.olv-zug.ch/;OLV Zug;Rotkreuz;Rotkreuz;;;;0;2018-04-12 19:17:03
-9217;2018-05-25;1;foot;day;0;BE/SO;;Berner sCOOL Cup;http://www.scool.ch;OLV Hindelbank;Urtenen-Schönbühl;Urtenen-Schönbühl;;;;0;2018-01-24 11:35:02
+9217;2018-05-25;1;foot;day;0;BE/SO;;Berner sCOOL Cup;http://www.scool.ch;OLV Hindelbank;Urtenen-Schï¿½nbï¿½hl;Urtenen-Schï¿½nbï¿½hl;;;;0;2018-01-24 11:35:02
 9560;2018-05-26;1;bike;day;0;AUSL.;302;FM Bike-OL Langdistanz/Swiss Cup;http://www.mtbo-sui.com/swiss-cup.html;CO Buhl et Florival;Buhl, Elsass (Frankreich);Buhl, Elsass (Frankreich);;;;0;2018-03-12 09:03:19
-9588;2018-05-26;1;foot;day;0;GL/GR;155;OL für Alle, Bündner OL-Cup 2;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/2018OfA_Ausschreibung.pdf;OLG Chur;Bonaduz;Bonaduz;748800;186475;;0;2018-04-24 01:17:58
+9588;2018-05-26;1;foot;day;0;GL/GR;155;OL fï¿½r Alle, Bï¿½ndner OL-Cup 2;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/2018OfA_Ausschreibung.pdf;OLG Chur;Bonaduz;Bonaduz;748800;186475;;0;2018-04-24 01:17:58
 9562;2018-05-27;1;bike;day;0;AUSL.;303;FM Bike-OL Sprint/Swiss Cup;http://www.mtbo-sui.com/swiss-cup.html;CO Buhl et Florival;Leimbach, Elsass (Frankreich);Leimbach, Elsass (Frankreich);;;;2;2018-05-23 23:25:26
-8895;2018-05-27;1;foot;day;0;ZH/SH;*25;11. Zimmerberg-OL und Sprint-Staffel;http://olzimmerberg.ch/index.php?page=11;OL Zimmerberg;Stadt Wädenswil;Wädenswil;693400;231525;;2;2018-05-23 23:22:25
+8895;2018-05-27;1;foot;day;0;ZH/SH;*25;11. Zimmerberg-OL und Sprint-Staffel;http://olzimmerberg.ch/index.php?page=11;OL Zimmerberg;Stadt Wï¿½denswil;Wï¿½denswil;693400;231525;;2;2018-05-23 23:22:25
 9626;2018-06-01;1;foot;day;0;TI;156;1. Fragori;http://www.asti-ticino.ch/co/;CO AGET Lugano;Massaggio;;;;;0;2018-03-12 09:04:12
 9705;2018-06-01;1;foot;day;0;BE/SO;173;10. Simone Niggli Challenge / k.o.-Sprint;http://olv-hindelbank.ch/simone-niggli-challenge/;Simone Niggli Challenge;Burgdorf;Burgdorf Gymnasium;613750;211700;;2;2018-08-27 13:43:32
 9276;2018-06-03;1;foot;day;0;SR;404S;UBOL 3er-Staffel;http://www.ubol.ch;UBOL;Plan du Bois;Bole;554275;202175;2018-05-28;1;2018-02-27 23:53:47
-9320;2018-06-03;1;foot;day;0;TI;116;8. TMO Claro - Cavrì;http://www.asti-ticino.ch/co/;O-92 Piano di Magadino;Claro - Cavrì;;;;2018-05-27;1;2018-01-19 14:15:55
+9320;2018-06-03;1;foot;day;0;TI;116;8. TMO Claro - Cavrï¿½;http://www.asti-ticino.ch/co/;O-92 Piano di Magadino;Claro - Cavrï¿½;;;;2018-05-27;1;2018-01-19 14:15:55
 9101;2018-06-06;1;foot;day;0;NWS;117;Sprint Cup NWS 4.Lauf;https://www.olv-baselland.ch/event/sprint-cup-4-arlesheim/;OLV Baselland;Arlesheim;;613200;260800;;0;2018-05-29 01:20:07
-9516;2018-06-06;1;foot;day;0;ZH/SH;118;3. Milchsuppe-Abend-OL;https://www.olg-saeuliamt.ch/ausschreibungen/milchsuppe-abend-ol-2018-06-06/;OLG Säuliamt;Aeugsterberg;Schulhaus Gallenbühl;679575;235950;;3;2018-05-20 11:11:50
+9516;2018-06-06;1;foot;day;0;ZH/SH;118;3. Milchsuppe-Abend-OL;https://www.olg-saeuliamt.ch/ausschreibungen/milchsuppe-abend-ol-2018-06-06/;OLG Sï¿½uliamt;Aeugsterberg;Schulhaus Gallenbï¿½hl;679575;235950;;3;2018-05-20 11:11:50
 9237;2018-06-08;1;foot;day;0;SR;119;Swiss O Day Cols du Valais 1;http://www.swiss-o-days.ch/;SOW / CO Valais / NWK NOS;Col des Planches;Col des Planches;575675;105100;2018-06-01;1;2018-05-31 23:21:09
 9238;2018-06-09;1;foot;day;0;SR;120;Swiss O Day Cols du Valais 2;http://www.swiss-o-days.ch/;SOW / CO Valais / NWK NOS;Col du Lein;Col du Lein;578350;106500;2018-06-01;1;2018-05-31 01:02:06
-9373;2018-06-09;1;foot;day;0;GL/GR;*26;48. Bündn. OL-Weekend / 13. Oberländer-OL;https://www.olg-chur.ch/aktivitaeten/veranstaltungen/buendner-ol-weekend-sp-1919207208.html;OLG Chur;Flims;;740275;187475;2018-06-04;2;2018-03-09 23:03:13
-9374;2018-06-10;1;foot;day;0;GL/GR;*27;48. Bündn. OL-Weekend / 37. Flimser-OL;https://www.olg-chur.ch/aktivitaeten/veranstaltungen/buendner-ol-weekend-sp-1919207208.html;OLG Chur;Flims;;740275;187475;2018-06-04;2;2018-03-09 23:03:13
+9373;2018-06-09;1;foot;day;0;GL/GR;*26;48. Bï¿½ndn. OL-Weekend / 13. Oberlï¿½nder-OL;https://www.olg-chur.ch/aktivitaeten/veranstaltungen/buendner-ol-weekend-sp-1919207208.html;OLG Chur;Flims;;740275;187475;2018-06-04;2;2018-03-09 23:03:13
+9374;2018-06-10;1;foot;day;0;GL/GR;*27;48. Bï¿½ndn. OL-Weekend / 37. Flimser-OL;https://www.olg-chur.ch/aktivitaeten/veranstaltungen/buendner-ol-weekend-sp-1919207208.html;OLG Chur;Flims;;740275;187475;2018-06-04;2;2018-03-09 23:03:13
 9239;2018-06-10;1;foot;day;0;SR;121;Swiss O Day Cols du Valais 3;http://www.swiss-o-days.ch/;SOW / CO Valais / NWK NOS;Finhaut;Finhaut;566150;100800;2018-06-01;1;2018-06-12 23:11:59
 9208;2018-06-12;1;foot;day;0;AG;;15. Aargauer sCOOL-Cup;;AOLV;Rennbahn;Aarau;;;;0;2018-03-12 09:04:58
 9630;2018-06-13;1;foot;day;0;TI;157;2. Fragori;http://www.asti-ticino.ch/co/;CO AGET Lugano;Camignolo;;;;;0;2018-03-12 09:05:21
 9443;2018-06-13;1;foot;day;0;BE/SO;122;1. Berner Abendlauf;http://baol.olgbern.ch/auschreibung.html;OLG Bern ;Schosshalde / Wittkofen;;603375;198600;;0;2018-06-09 00:31:48
-9564;2018-06-16;1;bike;day;0;ZH/SH;305;Zürcher Bike-OL/2. Etappe Tri-O-Cup 2018;http://www.olgzurich.ch/pdf/ausschreibung_zuercher_bike_ol_2018.pdf;OLG Zürich;Drumlin Nord;Bertschikon;;;;0;2018-06-05 10:32:13
+9564;2018-06-16;1;bike;day;0;ZH/SH;305;Zï¿½rcher Bike-OL/2. Etappe Tri-O-Cup 2018;http://www.olgzurich.ch/pdf/ausschreibung_zuercher_bike_ol_2018.pdf;OLG Zï¿½rich;Drumlin Nord;Bertschikon;;;;0;2018-06-05 10:32:13
 9191;2018-06-17;1;foot;day;0;NOS;*28;7. thurgorienta OL;https://thurgorienta.ch/wp-content/uploads/2018/06/thurgorienta-OL-2018-Weisungen.pdf;thurgorienta;Salen Reutenen;;718825;278825;;0;2018-06-08 00:01:33
-9272;2018-06-17;1;foot;day;0;ZS;*29;41. Luzerner Frühlings OL;http://www.olv-luzern.ch/luzerner-ol;OLV Luzern;Stadt Sursee;Sursee;650725;224400;;0;2018-05-04 21:09:55
-9717;2018-06-17;1;foot;day;0;SR;*56;51. CO Vaudoise;http://www.colj.ch/courses.html#;CO Lausanne-Jorat;Bois de Plamont;Chéseaux;536275;159675;;0;2018-08-27 13:44:18
+9272;2018-06-17;1;foot;day;0;ZS;*29;41. Luzerner Frï¿½hlings OL;http://www.olv-luzern.ch/luzerner-ol;OLV Luzern;Stadt Sursee;Sursee;650725;224400;;0;2018-05-04 21:09:55
+9717;2018-06-17;1;foot;day;0;SR;*56;51. CO Vaudoise;http://www.colj.ch/courses.html#;CO Lausanne-Jorat;Bois de Plamont;Chï¿½seaux;536275;159675;;0;2018-08-27 13:44:18
 9445;2018-06-20;1;foot;day;0;BE/SO;123;2. Berner Abendlauf;https://www.olnorska.ch/;ol norska;Worb;;609900;197125;;0;2018-03-22 10:00:22
-9605;2018-06-20;1;foot;day;0;ZH/SH;*55;Zürcher Abend OL;https://kapreolo.ch/files/Dokumente/2018-03/Ausschreibung Abend-OL.pdf;OLC Kapreolo;Breitenloo;;689025;259675;2018-06-16;2;2018-03-12 16:02:01
-9436;2018-06-21;1;foot;day;0;BE/SO;124;1. impOLs OL;;OLG Huttwil;Städtli Huttwil;;;;;0;2018-06-21 23:28:00
+9605;2018-06-20;1;foot;day;0;ZH/SH;*55;Zï¿½rcher Abend OL;https://kapreolo.ch/files/Dokumente/2018-03/Ausschreibung Abend-OL.pdf;OLC Kapreolo;Breitenloo;;689025;259675;2018-06-16;2;2018-03-12 16:02:01
+9436;2018-06-21;1;foot;day;0;BE/SO;124;1. impOLs OL;;OLG Huttwil;Stï¿½dtli Huttwil;;;;;0;2018-06-21 23:28:00
 9234;2018-06-23;1;foot;day;0;ZH/SH;405S;Sprint-Staffel;http://olgsh.ch/?page_id=3408;OLG Schaffhausen;Stadt Schaffhausen;Munot;690250;283800;2018-06-17;2;2018-05-03 00:29:59
-8607;2018-06-24;1;foot;day;0;ZH/SH;406S;62. Fünferstaffel;http://www.olg-welsikon.ch;OLG Welsikon;Mörsburg;Seuzach;698400;266250;2018-06-04;1;2018-03-20 01:27:18
+8607;2018-06-24;1;foot;day;0;ZH/SH;406S;62. Fï¿½nferstaffel;http://www.olg-welsikon.ch;OLG Welsikon;Mï¿½rsburg;Seuzach;698400;266250;2018-06-04;1;2018-03-20 01:27:18
 9103;2018-06-26;1;foot;day;0;NWS;125;Basler Sommer-OL;http://www.olg-basel.ch/?id=201811;OLG Basel;Blauenpass;;607325;258300;;0;2018-05-27 17:29:04
-9518;2018-06-27;1;foot;day;0;ZS;127;4. Milchsuppe-Abend-OL;http://www.olggoldau.ch/images/pdf/Milchsuppe_Abend_OL_2018.pdf;OLV Zug;Steinhauserwald;Waldhütte Steinhausen;679900;228925;;0;2018-06-03 14:17:46
-9446;2018-06-27;1;foot;day;0;BE/SO;126;3. Berner Abendlauf;http://baol.olgbern.ch/auschreibung.html;OLG Bern ;Länggasse Ost;;;;;0;2018-05-27 13:52:44
-9437;2018-06-28;1;foot;day;0;BE/SO;128;2. impOLs OL;https://olregioolten.ch/intern/doc.php?id=613&.pdf;OL Regio Olten;Bannwald-Hügert;;634175;244675;;0;2018-06-26 17:03:30
-9589;2018-06-30;1;foot;day;0;GL/GR;158;3. Brambrüesch OL, Bündner OL-Cup 3;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/Ofa3_Weisungen.pdf;OLG Chur;Brambrüesch;;758450;187850;;0;2018-06-27 23:04:45
-9325;2018-07-01;1;foot;day;0;SR;*30;42. Sensler OL;http://www.omstrom.ch;OLC Omström Sense;Grossholz-Albligen;;590550;190625;;0;2018-06-23 21:22:33
-8896;2018-07-01;1;foot;day;0;ZH/SH;*31;38. Bülacher;https://www.olkrafzerfeld.ch/start/;OLK Rafzerfeld-Bülach;Laubbberg;;680375;267600;;0;2018-05-28 11:23:00
-9345;2018-07-01;1;foot;day;0;GL/GR;129;Swiss O Day Kesch;http://www.swiss-o-days.ch;SOW / OLG Davos / SAC Kesch-Hütte;Kesch;Kesch-Hütte;;;;0;2018-01-19 14:18:39
+9518;2018-06-27;1;foot;day;0;ZS;127;4. Milchsuppe-Abend-OL;http://www.olggoldau.ch/images/pdf/Milchsuppe_Abend_OL_2018.pdf;OLV Zug;Steinhauserwald;Waldhï¿½tte Steinhausen;679900;228925;;0;2018-06-03 14:17:46
+9446;2018-06-27;1;foot;day;0;BE/SO;126;3. Berner Abendlauf;http://baol.olgbern.ch/auschreibung.html;OLG Bern ;Lï¿½nggasse Ost;;;;;0;2018-05-27 13:52:44
+9437;2018-06-28;1;foot;day;0;BE/SO;128;2. impOLs OL;https://olregioolten.ch/intern/doc.php?id=613&.pdf;OL Regio Olten;Bannwald-Hï¿½gert;;634175;244675;;0;2018-06-26 17:03:30
+9589;2018-06-30;1;foot;day;0;GL/GR;158;3. Brambrï¿½esch OL, Bï¿½ndner OL-Cup 3;https://www.olg-chur.ch/images/downloads/OL_fuer_Alle/2018/Ofa3_Weisungen.pdf;OLG Chur;Brambrï¿½esch;;758450;187850;;0;2018-06-27 23:04:45
+9325;2018-07-01;1;foot;day;0;SR;*30;42. Sensler OL;http://www.omstrom.ch;OLC Omstrï¿½m Sense;Grossholz-Albligen;;590550;190625;;0;2018-06-23 21:22:33
+8896;2018-07-01;1;foot;day;0;ZH/SH;*31;38. Bï¿½lacher;https://www.olkrafzerfeld.ch/start/;OLK Rafzerfeld-Bï¿½lach;Laubbberg;;680375;267600;;0;2018-05-28 11:23:00
+9345;2018-07-01;1;foot;day;0;GL/GR;129;Swiss O Day Kesch;http://www.swiss-o-days.ch;SOW / OLG Davos / SAC Kesch-Hï¿½tte;Kesch;Kesch-Hï¿½tte;;;;0;2018-01-19 14:18:39
 9447;2018-07-04;1;foot;day;0;BE/SO;130;4. Berner Abendlauf;http://www.olv-hindelbank.ch;OLV Hindelbank;Wynigen;;616775;216825;;0;2018-06-13 23:08:25
 9438;2018-07-05;1;foot;day;0;BE/SO;131;3. impOLs OL;http://www.bucheggbergerol.ch/joomla/index.php/wettkaempfe/impols-cup;Bucheggberger OL;Junkholz;;601950;214400;;0;2018-06-20 00:17:55
 9616;2018-07-05;1;foot;day;0;GL/GR;159;Engadiner Abend-OL;http://www.engadinol.ch;CO Engiadina;Sils;;778700;144775;;0;2018-06-29 10:06:03
-9243;2018-07-06;1;foot;day;0;GL/GR;132;Swiss O Day Bergün Filisur 1;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Filisur;;776722;167017;;1;2018-03-05 17:14:22
-9241;2018-07-07;1;foot;day;0;GL/GR;133;Swiss O Day Bergün Filisur 2;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Albulapass;;779197;162343;;1;2018-03-05 17:14:37
-9242;2018-07-08;1;foot;day;0;GL/GR;134;Swiss O Day Bergün Filisur 3;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Bergün;;779197;162343;;1;2018-03-05 17:14:51
+9243;2018-07-06;1;foot;day;0;GL/GR;132;Swiss O Day Bergï¿½n Filisur 1;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Filisur;;776722;167017;;1;2018-03-05 17:14:22
+9241;2018-07-07;1;foot;day;0;GL/GR;133;Swiss O Day Bergï¿½n Filisur 2;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Albulapass;;779197;162343;;1;2018-03-05 17:14:37
+9242;2018-07-08;1;foot;day;0;GL/GR;134;Swiss O Day Bergï¿½n Filisur 3;http://www.swiss-o-days.ch;SOW + Kader Espoir GR;Bergï¿½n;;779197;162343;;1;2018-03-05 17:14:51
 9617;2018-07-12;1;foot;day;0;GL/GR;160;Engadiner Abend-OL;http://www.engadinol.ch;CO Engiadina;offen;;797700;168425;;0;2018-05-20 19:40:26
 9618;2018-07-19;1;foot;day;0;GL/GR;161;Engadiner Abend-OL;http://www.engadinol.ch;CO Engiadina;Celerina, Bhf Staz;;786200;153825;;0;2018-05-20 21:08:55
 9619;2018-07-26;1;foot;day;0;GL/GR;162;Engadiner Abend-OL;http://www.engadinol.ch;CO Engiadina;Surlej;;782275;148100;;0;2018-05-20 21:08:54
@@ -123,36 +123,36 @@ unique_id;date;duration;kind;day_night;national;region;type;event_name;event_lin
 9448;2018-08-08;1;foot;day;0;BE/SO;135;5. Berner Abendlauf;http://baol.olgbern.ch/auschreibung.html;OLG Bern;Frienisberg;;;;;0;2018-05-27 13:53:12
 9613;2018-08-08;1;foot;day;0;GL/GR;166;2. Davoser Abend-OL;http://www.olg-davos.ch;OLG Davos;Davos Laret;;;;;0;2018-06-19 02:19:48
 8864;2018-08-10;1;foot;day;0;AG;136;Aargauer 3-Tage-OL;http://3days.ch/;OLG Suhr;Binzenhof;Unterentfelden;645525;246400;;0;2018-01-19 14:25:45
-8865;2018-08-11;1;foot;day;0;AG;137;Aargauer 3-Tage-OL;http://3days.ch/;OLG Suhr;Dägermoos;Unterentfelden;645525;246400;;0;2018-01-19 14:25:57
+8865;2018-08-11;1;foot;day;0;AG;137;Aargauer 3-Tage-OL;http://3days.ch/;OLG Suhr;Dï¿½germoos;Unterentfelden;645525;246400;;0;2018-01-19 14:25:57
 8833;2018-08-11;1;foot;day;0;;139;43. Swiss International Mountain Marathon;http://www.thesimm.ch;OK SIMM;Emmetten;;624975;171100;;3;2018-06-07 22:38:03
 9409;2018-08-12;1;foot;day;0;BE/SO;*32;Urseller OL;https://www.olnorska.ch/wp-content/uploads/2018/06/Ausschreibung_Urseller-OL_2018.pdf;ol norska;Gurnigelwald;Stafelalp;605175;179425;;0;2018-06-12 23:31:25
 8866;2018-08-12;1;foot;day;0;AG;138;Aargauer 3-Tage-OL;http://3days.ch/;OLG Suhr;Distelberg;Unterentfelden;645525;246400;2018-07-23;1;2018-06-26 00:38:01
 8834;2018-08-12;1;foot;day;0;BE/SO;139;43. Swiss International Mountain Marathon;http://www.thesimm.ch;OK SIMM;Emmetten;;;;;3;2018-06-07 22:38:43
 9104;2018-08-15;1;foot;day;0;NWS;140;Baselbieter Sommer-OL;http://rolv-nws.ch/wp-content/uploads/2018/07/AusschreibungBLSommerOL18.pdf;OLV Baselland;Grammet-Limperg;;627500;258550;;0;2018-07-23 21:35:49
-9449;2018-08-15;1;foot;day;0;BE/SO;141;6. Berner Abendlauf;http://www.olv-hindelbank.ch;OLV Hindelbank;Lutermoos-Fängleberg;;613450;221600;;0;2018-06-13 23:08:29
-9590;2018-08-15;1;foot;day;0;GL/GR;167;3. Davoser Abend-OL, Bündner OL-Cup 4;http://www.olg-davos.ch;OLG Davos;Davos Wolfgang, Drusetscha;;;;;0;2018-06-19 02:19:51
+9449;2018-08-15;1;foot;day;0;BE/SO;141;6. Berner Abendlauf;http://www.olv-hindelbank.ch;OLV Hindelbank;Lutermoos-Fï¿½ngleberg;;613450;221600;;0;2018-06-13 23:08:29
+9590;2018-08-15;1;foot;day;0;GL/GR;167;3. Davoser Abend-OL, Bï¿½ndner OL-Cup 4;http://www.olg-davos.ch;OLG Davos;Davos Wolfgang, Drusetscha;;;;;0;2018-06-19 02:19:51
 9440;2018-08-16;1;foot;day;0;BE/SO;142;4. impOLs OL;;OLV Langenthal;Rappenchopf;;629850;226200;;0;2018-06-27 00:38:31
 9621;2018-08-16;1;foot;day;0;GL/GR;168;Engadiner Abend-OL;;CO Engiadina;Lavin;;;;;0;2018-03-12 09:09:16
 9624;2018-08-17;1;foot;day;0;GL/GR;169;Special Sprint;https://www.engadinol.ch/index.php/lom-2018/vorbereitungswettkaempfe;Quak OK;Scuol;;818475;186950;;0;2018-08-03 02:20:50
 8608;2018-08-18;1;foot;day;1;GL/GR;**A;7. Nationaler Mitteldistanz;http://www.engadinol.ch;CO Engiadina / Ski-O Swiss;Tarasp;;818200;186200;2018-07-30;1;2018-06-12 23:31:08
 8609;2018-08-19;1;foot;day;1;GL/GR;LOM;WRE - Schweizer Meisterschaft im Langdistanz OL;http://www.engadinol.ch;CO Engiadina / Ski-O Swiss;Ftan;;818200;186200;2018-07-30;1;2018-06-12 23:31:02
 9441;2018-08-23;1;foot;day;0;BE/SO;143;5. impOLs OL;http://olgherzogenbuchsee.ch;OLG Herzogenbuchsee;Oenzberg;;617975;227350;;0;2018-06-12 23:28:04
-9371;2018-08-25;1;foot;day;0;ZS;*33;Zuger OL;https://www.olv-zug.ch/index.php/mom;OLV Zug;Dorf Unterägeri;Unterägeri;687025;220775;;0;2018-07-07 00:03:28
-8610;2018-08-26;1;foot;day;1;ZS;MOM;WRE - Schweizer Meisterschaften im Mitteldistanz OL;https://www.olv-zug.ch/mom;OLV Zug;Brandhöchi;;687025;220775;2018-08-13;1;2018-08-21 22:07:11
+9371;2018-08-25;1;foot;day;0;ZS;*33;Zuger OL;https://www.olv-zug.ch/index.php/mom;OLV Zug;Dorf Unterï¿½geri;Unterï¿½geri;687025;220775;;0;2018-07-07 00:03:28
+8610;2018-08-26;1;foot;day;1;ZS;MOM;WRE - Schweizer Meisterschaften im Mitteldistanz OL;https://www.olv-zug.ch/mom;OLV Zug;Brandhï¿½chi;;687025;220775;2018-08-13;1;2018-08-21 22:07:11
 9519;2018-08-29;1;foot;day;0;ZH/SH;144;5. Milchsuppe-Abend-OL;http://www.olzimmerberg.ch;OL Zimmerberg;Horgen Waldegg;;688375;233750;;0;2018-07-03 00:16:18
-9614;2018-08-29;1;foot;day;0;GL/GR;170;4. Davoser Abend-OL;http://www.olg-davos.ch;OLG Davos;Davos Flüelapass;;;;;0;2018-06-19 02:19:47
+9614;2018-08-29;1;foot;day;0;GL/GR;170;4. Davoser Abend-OL;http://www.olg-davos.ch;OLG Davos;Davos Flï¿½elapass;;;;;0;2018-06-19 02:19:47
 9631;2018-08-29;1;foot;day;0;TI;171;3. Fragori;http://www.asti-ticino.ch/co/;CO AGET Lugano;Villa Luganese;;;;;0;2018-03-12 09:10:03
 9442;2018-08-30;1;foot;day;0;BE/SO;145;6. impOLs OL;http://www.olgbiberistso.ch/images/olg/pdf/Ausschreibung2018_V2.pdf;OLG Biberist SO;Buechhof;;609125;225350;;0;2018-08-21 22:07:04
 9429;2018-09-01;1;foot;day;0;TI;;38. Jugendcup Staffel;http://www.swiss-orienteering.ch;SCOM Mendrisio;Monte Generoso;Monte Generoso Bellavista;721240;85136;;1;2018-03-12 09:18:31
 9563;2018-09-01;1;bike;day;0;ZH/SH;304;7. Winterthurer Bike-OL;https://www.olcw.ch/bike-ol.html;OLC Winterthur;Eschenberg;Winterthur;697800;260925;2018-08-27;2;2018-08-15 00:15:00
 8912;2018-09-02;1;foot;day;0;ZH/SH;*34;48. Schaffhauser-OL;http://olgsh.ch/wp-content/uploads/2014/02/Ausschreibung-SH-OL-02.09.2018.pdf;OLG Schaffhausen;Hohenklingen;Stein am Rhein;706875;279775;;0;2018-08-27 22:38:22
 9326;2018-09-02;1;foot;day;0;TI;146;9. TMO Gribbio + Jugendcup Einzellauf ;http://www.asti-ticino.ch/co/;SCOM Mendrisio;Gribbio;;704400;145975;2018-08-26;1;2018-08-27 22:37:50
-9254;2018-09-08;1;foot;day;0;AG;147;Wiggertaler OL;http://www.olkwiggertal.ch/index.php/wiggertaler-ol;OLK Wiggertal;Fätzholz;Murgenthal;630250;235325;;0;2018-08-21 22:06:51
-9421;2018-09-09;1;foot;day;0;ZH/SH;407S;Elite Sprint-Staffel Schweizer Meisterschaften;https://sprintevent.olgstaefa.ch/;OLG Stäfa;Dorf Stäfa;Stäfa;697875;233125;2018-08-27;1;2018-05-29 01:25:56
-8630;2018-09-09;1;foot;day;1;ZH/SH;**A;8. Nationaler Sprint ;https://sprintevent.olgstaefa.ch/;OLG Stäfa;Stäfa;Stäfa;697875;233125;2018-08-27;1;2018-05-29 01:25:59
-9537;2018-09-12;1;foot;day;0;GL/GR;148;15. Städtli-OL Weesen;;OK-Städtli-OL;Weesen;Weesen;725400;221625;;0;2018-01-19 14:29:45
+9254;2018-09-08;1;foot;day;0;AG;147;Wiggertaler OL;http://www.olkwiggertal.ch/index.php/wiggertaler-ol;OLK Wiggertal;Fï¿½tzholz;Murgenthal;630250;235325;;0;2018-08-21 22:06:51
+9421;2018-09-09;1;foot;day;0;ZH/SH;407S;Elite Sprint-Staffel Schweizer Meisterschaften;https://sprintevent.olgstaefa.ch/;OLG Stï¿½fa;Dorf Stï¿½fa;Stï¿½fa;697875;233125;2018-08-27;1;2018-05-29 01:25:56
+8630;2018-09-09;1;foot;day;1;ZH/SH;**A;8. Nationaler Sprint ;https://sprintevent.olgstaefa.ch/;OLG Stï¿½fa;Stï¿½fa;Stï¿½fa;697875;233125;2018-08-27;1;2018-05-29 01:25:59
+9537;2018-09-12;1;foot;day;0;GL/GR;148;15. Stï¿½dtli-OL Weesen;;OK-Stï¿½dtli-OL;Weesen;Weesen;725400;221625;;0;2018-01-19 14:29:45
 9187;2018-09-15;1;foot;day;0;NWS;*35;32. Laufentaler-OL;https://www.ol-laufental-thierstein.ch/;OL Laufental-Thierstein;Lingenberg;;607800;249200;;2;2018-05-17 01:07:38
-9426;2018-09-15;1;foot;day;0;SR;408S;28. Harzer-Staffel;http://www.omstrom.ch;OLC Omström Sense;Freiburger Voralpen;;587900;175300;2018-09-09;2;2018-08-14 12:08:15
+9426;2018-09-15;1;foot;day;0;SR;408S;28. Harzer-Staffel;http://www.omstrom.ch;OLC Omstrï¿½m Sense;Freiburger Voralpen;;587900;175300;2018-09-09;2;2018-08-14 12:08:15
 9327;2018-09-15;1;foot;day;0;TI;149;10. TMO San Bernardino Passo;http://www.asti-ticino.ch/co/;GOLD Savosa ;San Bernardino Passo;;;;2018-09-09;1;2018-01-19 14:30:06
 9196;2018-09-16;1;foot;day;0;NOS;*36;51. Engelburger OL;http://www.olgsga.ch/wp-content/uploads/2018_Engelburger_OL_Ausschreibung.pdf;OLG St.Gallen/Appenzell;Hirschberg;;752275;247400;;0;2018-09-06 00:36:42
 9224;2018-09-16;1;foot;day;0;TI;*37;11. TMO CT San Bernardino Villaggio;http://www.asti-ticino.ch/co/;GOLD Savosa ;San Bernardino Villaggio;;;;2018-09-09;1;2017-12-21 22:20:53
@@ -162,22 +162,22 @@ unique_id;date;duration;kind;day_night;national;region;type;event_name;event_lin
 9511;2018-09-22;1;foot;day;0;ZS;150;72. Zuger OL / Schlusslauf ZJOM;https://www.olv-zug.ch/sites/default/files/veranstaltungen/Ausschreibung_ZugerOL2018_0.pdf;OLV Zug / ZesOLNak;Dorf;Steinhausen;679575;227925;;0;2018-09-06 00:37:53
 9105;2018-09-23;1;foot;day;0;NWS;*39;44. Oristaler-OL;http://www.kakowa.ch/joomla/images/dokumente/2018-oristaler-ol-aus.pdf;OLG Kakowa;Gempen;;617100;258375;;0;2018-08-14 12:08:15
 9351;2018-09-23;1;foot;day;0;BE/SO;*40;12. OL.Biel.Seeland;https://olbielseeland.ch/ol-biel-seeland/wettkaempfe/ol-biel-seeland-ol/;ol.biel.seeland;Oberholz;Hermrigen Merzligen;582925;216375;;0;2018-09-02 20:24:03
-8631;2018-09-23;1;foot;day;0;ZH/SH;409T;Zürcher OL;https://www.zuerchersportfest.ch/orientierungslauf/;Sportamt Kanton Zürich;Bülach;;681750;264075;2018-09-10;1;2018-08-14 12:08:14
-9595;2018-09-29;1;foot;day;0;ZH/SH;172;3. Etappe Tri-O-Cup;http://www.olgzurich.ch;OLG Zürich;Zürichberg;Zürich;685700;248675;2018-09-24;3;2018-07-29 00:41:19
-9192;2018-09-30;1;foot;day;0;NOS;*41;64. Weinfelder OL;https://thurgorienta.ch/klubleben/ausschreibungen/;thurgorienta;Seerücken west;;721675;280850;;0;2018-09-06 00:36:33
+8631;2018-09-23;1;foot;day;0;ZH/SH;409T;Zï¿½rcher OL;https://www.zuerchersportfest.ch/orientierungslauf/;Sportamt Kanton Zï¿½rich;Bï¿½lach;;681750;264075;2018-09-10;1;2018-08-14 12:08:14
+9595;2018-09-29;1;foot;day;0;ZH/SH;172;3. Etappe Tri-O-Cup;http://www.olgzurich.ch;OLG Zï¿½rich;Zï¿½richberg;Zï¿½rich;685700;248675;2018-09-24;3;2018-07-29 00:41:19
+9192;2018-09-30;1;foot;day;0;NOS;*41;64. Weinfelder OL;https://thurgorienta.ch/klubleben/ausschreibungen/;thurgorienta;Seerï¿½cken west;;721675;280850;;0;2018-09-06 00:36:33
 9332;2018-09-30;1;foot;day;0;TI;151;12. TMO CT Sprint Bellinzona;http://www.asti-ticino.ch/co/program/info/2018/12tmo_info.pdf;CO UTOE Bellinzona;Bellinzona;;721875;117800;2018-09-23;1;2018-09-27 22:19:28
-9452;2018-10-04;1;foot;day;0;SR;*42;CO régionale JEC;http://www.jec2018.ch;CA Rosé/CO Valais/CARE Vevey;Monthey Ville;Monthey;;;;0;2017-11-27 11:05:21
-9453;2018-10-05;1;foot;day;0;SR;*43;CO régionale JEC;http://www.jec2018.ch;CA Rosé/CO Valais/CARE Vevey;Villars-sur-Ollon;Villars-sur-Ollon;;;;0;2017-11-27 11:05:34
+9452;2018-10-04;1;foot;day;0;SR;*42;CO rï¿½gionale JEC;http://www.jec2018.ch;CA Rosï¿½/CO Valais/CARE Vevey;Monthey Ville;Monthey;;;;0;2017-11-27 11:05:21
+9453;2018-10-05;1;foot;day;0;SR;*43;CO rï¿½gionale JEC;http://www.jec2018.ch;CA Rosï¿½/CO Valais/CARE Vevey;Villars-sur-Ollon;Villars-sur-Ollon;;;;0;2017-11-27 11:05:34
 9454;2018-10-05;1;foot;day;0;SR;;JEC Mixed Sprint Relay;http://www.jec2018.ch;JEC 2018;Villars-sur-Ollon;Villars-sur-Ollon;;;;0;2018-01-19 14:31:02
 9455;2018-10-06;1;foot;day;0;SR;;JEC Middle Distance;http://www.jec2018.ch;JEC 2018;Monthey/Collombey-Muraz;Monthey;;;;0;2017-11-21 22:49:07
 8611;2018-10-06;1;foot;day;1;SR;**A;9. Nationaler Langdistanz;http://www.covalais.ch;OLG Wallis;Monthey;;562500;123250;2018-09-24;1;2018-04-10 00:09:12
 9456;2018-10-07;1;foot;day;0;SR;;JEC Long Distance;http://www.jec2018.ch;JEC 2018;Bretaye;Villars-sur-Ollon;;;;0;2017-11-21 22:51:00
-8612;2018-10-07;1;foot;day;1;SR;**A;10. Nationaler Langdistanz;http://www.jec2018.ch;CA Rosé / CARE Vevey;Bretaye;;571955;130284;2018-09-24;0;2018-09-25 09:23:55
-9598;2018-10-13;1;foot;day;0;SR;*57;Weekend Haut-Jura;http://club-orienteering.web.cern.ch/sites/club-orienteering.web.cern.ch/files/annonce_samedi_131018_1.pdf;COC Genève;Givrine Nord;La Givrine;497950;145775;;2;2018-10-09 19:32:00
+8612;2018-10-07;1;foot;day;1;SR;**A;10. Nationaler Langdistanz;http://www.jec2018.ch;CA Rosï¿½ / CARE Vevey;Bretaye;;571955;130284;2018-09-24;0;2018-09-25 09:23:55
+9598;2018-10-13;1;foot;day;0;SR;*57;Weekend Haut-Jura;http://club-orienteering.web.cern.ch/sites/club-orienteering.web.cern.ch/files/annonce_samedi_131018_1.pdf;COC Genï¿½ve;Givrine Nord;La Givrine;497950;145775;;2;2018-10-09 19:32:00
 9886;2018-10-13;1;foot;day;0;NOS;S;Arge Alp OL Staffel;http://www.olgsga.ch/argealp/;OL Regio Wil/OLG St.Gallen/Appenzell;Flumserberg;Flumserberg;740356;215571;;0;2018-10-13 00:11:57
-9107;2018-10-14;1;foot;day;0;NWS;*44;OL-Galoppen;https://www.nwk-nws.ch/wp-content/uploads/2018/09/Ausschreibung-OL-Galoppen.pdf;Kader ROLV NWS;Bärenfels;;624525;262200;;0;2018-09-21 23:10:50
-9410;2018-10-14;1;foot;day;0;BE/SO;*45;Biberister OL;http://www.olgbiberistso.ch;OLG Biberist SO;Corcelles;ab Crémines Zoo markiert;;;;0;2017-11-27 11:06:57
-9599;2018-10-14;1;foot;day;0;SR;*58;Weekend Haut-Jura;http://club-orienteering.web.cern.ch/sites/club-orienteering.web.cern.ch/files/annonce_dimanche_141018.pdf;COC Genève;Combe Grasse;La Givrine;497950;145775;;2;2018-10-16 00:01:39
+9107;2018-10-14;1;foot;day;0;NWS;*44;OL-Galoppen;https://www.nwk-nws.ch/wp-content/uploads/2018/09/Ausschreibung-OL-Galoppen.pdf;Kader ROLV NWS;Bï¿½renfels;;624525;262200;;0;2018-09-21 23:10:50
+9410;2018-10-14;1;foot;day;0;BE/SO;*45;Biberister OL;http://www.olgbiberistso.ch;OLG Biberist SO;Corcelles;ab Crï¿½mines Zoo markiert;;;;0;2017-11-27 11:06:57
+9599;2018-10-14;1;foot;day;0;SR;*58;Weekend Haut-Jura;http://club-orienteering.web.cern.ch/sites/club-orienteering.web.cern.ch/files/annonce_dimanche_141018.pdf;COC Genï¿½ve;Combe Grasse;La Givrine;497950;145775;;2;2018-10-16 00:01:39
 8632;2018-10-14;1;foot;day;0;NOS;;Arge Alp OL Einzel;http://www.olgsga.ch/argealp/;OL Regio Wil/OLG St.Gallen/Appenzell;Flumserberg;Flumserberg;739805;217311;;0;2018-10-13 00:13:52
 9407;2018-10-20;1;foot;night;0;BE/SO;*46;Skandia Nacht OL;http://www.olgskandia.ch;OLG Skandia;Horben;Schulanlage Horben;627350;191750;;0;2018-02-24 18:26:29
 9333;2018-10-20;1;foot;day;0;TI;152;13. TMO Capriasca;http://www.asti-ticino.ch/co/;ASCO Lugano;Capriasca;;;;2018-10-14;1;2018-07-23 09:22:30
@@ -185,18 +185,18 @@ unique_id;date;duration;kind;day_night;national;region;type;event_name;event_lin
 9205;2018-10-21;1;foot;day;0;AG;*48;71. Zurzacher OL/ ASJM Schlusslauf;http://www.olgcordoba.ch/index.php/zurzacher-ol/;OLG Cordoba;Achenberg;;661100;270150;;0;2018-09-06 00:37:51
 9405;2018-10-21;1;foot;day;0;BE/SO;*49;50. Emmentaler OL;http://www.olgskandia.ch;OLG Skandia;Chapf-Eggiwil;Schulanlage Horben;627075;191600;;0;2018-02-24 19:52:52
 9307;2018-10-21;1;foot;day;0;TI;102;1. TMO Villa Luganese;http://www.asti-ticino.ch/co/;ASCO Lugano;Villa Luganese;;;;2018-02-25;1;2018-07-23 09:22:44
-9570;2018-10-21;1;bike;day;0;ZH/SH;308;Bike-OL-SM Lang  ABGESAGT!;http://velbossity.ch/;Velbossity / OLG Stäfa;Wangenerwald;Region Zürcher Oberland;;;;2;2018-09-21 16:51:22
-9411;2018-10-27;1;foot;day;0;BE/SO;*50;Berner Einzel OL;http://www.olgbern.ch;OLG Bern;Gäbelbach / Westside;;;;;0;2017-11-27 11:07:58
+9570;2018-10-21;1;bike;day;0;ZH/SH;308;Bike-OL-SM Lang  ABGESAGT!;http://velbossity.ch/;Velbossity / OLG Stï¿½fa;Wangenerwald;Region Zï¿½rcher Oberland;;;;2;2018-09-21 16:51:22
+9411;2018-10-27;1;foot;day;0;BE/SO;*50;Berner Einzel OL;http://www.olgbern.ch;OLG Bern;Gï¿½belbach / Westside;;;;;0;2017-11-27 11:07:58
 9571;2018-10-27;1;bike;day;0;SR;309;Bike-O Lausanne-Jorat/Schlusswettkampf Swiss Cup;http://www.colj.ch/courses.html?nocache=271;CO Lausanne-Jorat;Grand Jorat;Lausanne;542525;157325;2018-10-22;2;2018-09-06 00:37:04
-9591;2018-10-27;1;foot;day;0;GL/GR;173;Schlusslauf, Bündner OL Cup 5;http://https://www.engadinol.ch/index.php/termine-graubuenden;?;Albulapass;;782450;161400;2018-10-22;2;2018-10-10 16:38:28
+9591;2018-10-27;1;foot;day;0;GL/GR;173;Schlusslauf, Bï¿½ndner OL Cup 5;http://https://www.engadinol.ch/index.php/termine-graubuenden;?;Albulapass;;782450;161400;2018-10-22;2;2018-10-10 16:38:28
 8635;2018-10-28;1;foot;day;0;NWS;410T;66. Baselbieter Team-OL;http://www.team-ol.ch;Sportamt Baselland;Rheinfelderberg;;628250;264250;2018-10-08;0;2018-08-08 23:24:35
 9193;2018-10-28;1;foot;day;0;NOS;*51;15. Finallauf ROLV NOS;https://www.ol-amriswil.ch/index.php/agenda/42-oberthurgauer-ol;OL Amriswil;Biessenhoferwald;;738075;267550;;0;2018-09-30 13:40:07
-8897;2018-10-28;1;foot;day;0;ZH/SH;*52;41. Wisliger-OL/ JOM-Schlusslauf;http://www.olg-wislig.ch/wislig/wisliger_ol/index.html;OLG Weisslingen;Gsang-Furtbüel;;699950;254425;;2;2018-10-09 19:31:10
+8897;2018-10-28;1;foot;day;0;ZH/SH;*52;41. Wisliger-OL/ JOM-Schlusslauf;http://www.olg-wislig.ch/wislig/wisliger_ol/index.html;OLG Weisslingen;Gsang-Furtbï¿½el;;699950;254425;;2;2018-10-09 19:31:10
 8636;2018-10-28;1;foot;day;0;BE/SO;411T;76. Berner Team OL;http://bernerteamol.ch;OLG Bern / BOLV;Bremgartenwald;Quartierzentrum Tscharnergut;;;;0;2018-01-24 11:37:31
 9337;2018-10-28;1;foot;day;0;TI;153;14. TMO Sonogno;http://www.asti-ticino.ch/co/;O-92 Paino di Magadino;Sonogno;;;;2018-10-21;1;2018-02-17 20:54:53
-8497;2018-11-03;1;foot;day;0;AG;;Präsidentenkonferenz;;Swiss Orienteering;Aarau;;;;;0;2017-11-27 10:47:34
+8497;2018-11-03;1;foot;day;0;AG;;Prï¿½sidentenkonferenz;;Swiss Orienteering;Aarau;;;;;0;2017-11-27 10:47:34
 8613;2018-11-04;1;foot;day;1;ZH/SH;TOM;Schweizer Meisterschaft im Team OL;https://tom2018.kapreolo.ch;OLC Kapreolo;Blauen;;687250;262075;2018-10-22;1;2018-08-27 22:37:44
-8498;2018-11-10;1;foot;day;0;ZH/SH;;Swiss Orienteering Fest;;Swiss Orienteering;Zürich / Umgebung;;;;;0;2017-11-27 10:46:41
+8498;2018-11-10;1;foot;day;0;ZH/SH;;Swiss Orienteering Fest;;Swiss Orienteering;Zï¿½rich / Umgebung;;;;;0;2017-11-27 10:46:41
 8499;2018-11-17;1;foot;day;0;BE/SO;;Zentralkurs;;Swiss Orienteering;Magglingen;;;;;0;2017-11-27 10:45:36
 8500;2018-11-18;1;foot;day;0;BE/SO;;Zentralkurs;;Swiss Orienteering;Magglingen;;;;;0;2017-11-27 10:46:10
 8501;2018-11-24;1;foot;day;0;AG;;Veranstaltertagung;;Swiss Orienteering;FHNW Olten;;;;;0;2017-11-27 10:47:03

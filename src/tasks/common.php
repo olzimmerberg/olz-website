@@ -26,6 +26,7 @@ abstract class BackgroundTask {
         try {
             $this->run_specific_task();
         } catch (Exception $exc) {
+            $this->log_error("{$exc}");
         } finally {
             $this->teardown();
         }

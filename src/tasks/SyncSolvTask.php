@@ -1,19 +1,20 @@
 <?php
 
-require_once __DIR__.'/../config/database.php';
-require_once __DIR__.'/../config/doctrine.php';
 require_once __DIR__.'/common.php';
 require_once __DIR__.'/../model/SolvEvent.php';
 require_once __DIR__.'/../model/SolvPerson.php';
 require_once __DIR__.'/../model/SolvResult.php';
-require_once __DIR__.'/../fetchers/solv_events.php';
-require_once __DIR__.'/../fetchers/solv_results.php';
 require_once __DIR__.'/../parsers/solv_events.php';
 require_once __DIR__.'/../parsers/solv_results.php';
 
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
+    public function __construct($entityManager, $solvFetcher) {
+        $this->entityManager = $entityManager;
+        $this->solvFetcher = $solvFetcher;
+    }
+
     protected static function get_ident() {
         return "SyncSolv";
     }
@@ -34,14 +35,13 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_events_for_year($year) {
-        $csv = fetch_solv_events_csv_for_year($year);
+        $csv = $this->solvFetcher->fetchEventsCsvForYear($year);
         $solv_events = parse_solv_events_csv($csv);
         $this->import_solv_events_for_year($solv_events, $year);
     }
 
     private function import_solv_events_for_year($solv_events, $year) {
-        global $entityManager;
-        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
+        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $existing_solv_events_index = [];
         foreach ($existing_solv_events as $existing_solv_event) {
@@ -60,8 +60,8 @@ class SyncSolvTask extends BackgroundTask {
             $outdated = $existed ? $solv_event->getLastModification() > $existing_solv_event->getLastModification() : false;
             if (!$existed) {
                 try {
-                    $entityManager->persist($solv_event);
-                    $entityManager->flush();
+                    $this->entityManager->persist($solv_event);
+                    $this->entityManager->flush();
                     $this->log_info("INSERTED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
                     $this->log_info("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
@@ -85,7 +85,7 @@ class SyncSolvTask extends BackgroundTask {
                 $existing_solv_event->setEntryportal($solv_event->getEntryportal());
                 $existing_solv_event->setLastModification($solv_event->getLastModification());
                 try {
-                    $entityManager->flush();
+                    $this->entityManager->flush();
                     $this->log_info("UPDATED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
                     $this->log_info("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
@@ -110,9 +110,8 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_results_for_year($year) {
-        global $entityManager;
-        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
-        $json = fetch_solv_yearly_results_json($year);
+        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
+        $json = $this->solvFetcher->fetchYearlyResultsJson($year);
         $result_id_by_uid = parse_solv_yearly_results_json($json);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $known_result_index = [];
@@ -125,20 +124,19 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function import_solv_results_for_year($result_id_by_uid, $known_result_index) {
-        global $entityManager;
-        $solv_event_repo = $entityManager->getRepository(SolvEvent::class);
+        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $solv_uid_still_exists = [];
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
                 $this->log_info("Event with SOLV ID {$solv_uid} has new results.");
-                $html = fetch_solv_event_results_html($event_result['result_list_id']);
+                $html = $this->solvFetcher->fetchEventResultsHtml($event_result['result_list_id']);
                 $results = parse_solv_event_result_html($html, $solv_uid);
                 $results_count = count($results);
                 $this->log_info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {
                     try {
-                        $entityManager->persist($result);
-                        $entityManager->flush();
+                        $this->entityManager->persist($result);
+                        $this->entityManager->flush();
                     } catch (\Exception $e) {
                         $this->log_warning("Result could not be inserted: {$result->getName()}");
                     }
@@ -149,8 +147,7 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_people() {
-        global $entityManager;
-        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+        $solv_result_repo = $this->entityManager->getRepository(SolvResult::class);
         $solv_results = $solv_result_repo->getUnassignedSolvResults();
         foreach ($solv_results as $solv_result) {
             $person = $solv_result_repo->getExactPersonId($solv_result);
@@ -161,14 +158,13 @@ class SyncSolvTask extends BackgroundTask {
             }
             if ($person != 0) {
                 $solv_result->setPerson($person);
-                $entityManager->flush();
+                $this->entityManager->flush();
             }
         }
     }
 
     private function find_or_create_solv_person($solv_result) {
-        global $entityManager;
-        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+        $solv_result_repo = $this->entityManager->getRepository(SolvResult::class);
         $solv_result_data = $solv_result_repo->getAllAssignedSolvResultPersonData();
 
         $least_difference = strlen($solv_result->getName());
@@ -203,8 +199,8 @@ class SyncSolvTask extends BackgroundTask {
         $solv_person->setBirthYear($solv_result->getBirthYear());
         $solv_person->setDomicile($solv_result->getDomicile());
         $solv_person->setMember(1);
-        $entityManager->persist($solv_person);
-        $entityManager->flush();
+        $this->entityManager->persist($solv_person);
+        $this->entityManager->flush();
         $insert_id = $solv_person->getId();
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
@@ -220,9 +216,8 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function merge_solv_people() {
-        global $entityManager;
-        $solv_person_repo = $entityManager->getRepository(SolvPerson::class);
-        $solv_result_repo = $entityManager->getRepository(SolvResult::class);
+        $solv_person_repo = $this->entityManager->getRepository(SolvPerson::class);
+        $solv_result_repo = $this->entityManager->getRepository(SolvResult::class);
 
         $solv_persons = $solv_person_repo->getSolvPersonsMarkedForMerge();
         foreach ($solv_persons as $row) {

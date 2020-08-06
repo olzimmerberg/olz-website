@@ -5,6 +5,9 @@ require_once __DIR__.'/../model/SolvResult.php';
 
 function parse_solv_yearly_results_json($json_content) {
     $data = json_decode($json_content, true);
+    if (!$data || !isset($data['ResultLists']) || !is_array($data['ResultLists'])) {
+        return [];
+    }
 
     $result_by_uid = [];
     for ($res_ind = 0; $res_ind < count($data['ResultLists']); $res_ind++) {

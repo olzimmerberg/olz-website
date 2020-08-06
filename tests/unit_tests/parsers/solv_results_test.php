@@ -32,6 +32,26 @@ final class SolvYearlyResultsJsonParserTest extends TestCase {
 
         $this->assertSame(['result_list_id' => 4491], $solv_events_2018[8891]);
     }
+
+    public function testParseResultsInvalidJson(): void {
+        $solv_events_2018 = parse_solv_yearly_results_json('invalid-json');
+        $this->assertSame([], $solv_events_2018);
+    }
+
+    public function testParseResultsEmptyRootDict(): void {
+        $solv_events_2018 = parse_solv_yearly_results_json('{}');
+        $this->assertSame([], $solv_events_2018);
+    }
+
+    public function testParseResultsListsNotAnArray(): void {
+        $solv_events_2018 = parse_solv_yearly_results_json('{"ResultLists": 3}');
+        $this->assertSame([], $solv_events_2018);
+    }
+
+    public function testParseResultsListsEmpty(): void {
+        $solv_events_2018 = parse_solv_yearly_results_json('{"ResultLists": []}');
+        $this->assertSame([], $solv_events_2018);
+    }
 }
 
 /**

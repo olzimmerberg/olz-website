@@ -9,4 +9,4 @@ else
     echo "Dev server configuration preserved."
 fi
 
-./vendor/bin/phpunit --bootstrap vendor/autoload.php --test-suffix '_test.php,Test.php' tests/integration_tests
+./vendor/bin/phpunit --bootstrap vendor/autoload.php --test-suffix '_test.php,Test.php' $@ tests/integration_tests

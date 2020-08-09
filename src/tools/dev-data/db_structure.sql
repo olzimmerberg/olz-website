@@ -132,8 +132,9 @@ CREATE TABLE `counter` (
 -- Table doctrine_migration_versions
 DROP TABLE IF EXISTS `doctrine_migration_versions`;
 CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

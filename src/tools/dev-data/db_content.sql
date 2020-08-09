@@ -34,12 +34,12 @@ VALUES
 
 -- Table doctrine_migration_versions
 INSERT INTO doctrine_migration_versions
-    (`version`, `executed_at`)
+    (`version`, `executed_at`, `execution_time`)
 VALUES
-    ('20200409192051', '2020-05-11 22:04:20'),
-    ('20200423071546', '2020-05-11 22:04:20'),
-    ('20200511211417', '2020-05-11 22:08:43'),
-    ('20200620113946', '2020-06-20 11:40:19');
+    ('OLZ\\Migrations\\Version20200409192051', '2020-05-11 22:04:20', NULL),
+    ('OLZ\\Migrations\\Version20200423071546', '2020-05-11 22:04:20', NULL),
+    ('OLZ\\Migrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
+    ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL);
 
 -- Table downloads
 

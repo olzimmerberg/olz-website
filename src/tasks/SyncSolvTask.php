@@ -2,8 +2,11 @@
 
 require_once __DIR__.'/common.php';
 require_once __DIR__.'/../model/SolvEvent.php';
+require_once __DIR__.'/../model/SolvEventRepository.php';
 require_once __DIR__.'/../model/SolvPerson.php';
+require_once __DIR__.'/../model/SolvPersonRepository.php';
 require_once __DIR__.'/../model/SolvResult.php';
+require_once __DIR__.'/../model/SolvResultRepository.php';
 require_once __DIR__.'/../parsers/solv_events.php';
 require_once __DIR__.'/../parsers/solv_results.php';
 
@@ -35,8 +38,19 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_events_for_year($year) {
+        $this->logger->info("Syncing SOLV events for {$year}...");
+
         $csv = $this->solvFetcher->fetchEventsCsvForYear($year);
+
+        $csv_excerpt = substr($csv, 0, 255);
+        $csv_length = strlen($csv);
+        $this->logger->info("Successfully read CSV: {$csv_excerpt}... ({$csv_length}).");
+
         $solv_events = parse_solv_events_csv($csv);
+
+        $solv_event_count = count($solv_events);
+        $this->logger->info("Parsed {$solv_event_count} events out of CSV.");
+
         $this->import_solv_events_for_year($solv_events, $year);
     }
 
@@ -110,8 +124,14 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_results_for_year($year) {
+        $this->logger->info("Syncing SOLV results for {$year}...");
         $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $json = $this->solvFetcher->fetchYearlyResultsJson($year);
+
+        $json_excerpt = substr($json, 0, 255);
+        $json_length = strlen($json);
+        $this->logger->info("Successfully read JSON: {$json_excerpt}... ({$json_length}).");
+
         $result_id_by_uid = parse_solv_yearly_results_json($json);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $known_result_index = [];

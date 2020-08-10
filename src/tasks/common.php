@@ -1,33 +1,41 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
 require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/vendor/autoload.php';
 
 abstract class BackgroundTask {
-    private $log_path;
-    private $log_file;
+    use Psr\Log\LoggerAwareTrait;
 
     private function setup() {
-        $this->log_path = $this->generate_log_path();
-        if (!is_dir(dirname($this->log_path))) {
-            mkdir(dirname($this->log_path), 0777, true);
-        }
-        $this->log_file = fopen($this->log_path, 'a');
     }
 
     private function teardown() {
-        fclose($this->log_file);
     }
 
-    // public function __construct() {
-    // }
+    public function setDefaultFileLogger() {
+        $log_path = $this->generate_log_path();
+        if (!is_dir(dirname($log_path))) {
+            mkdir(dirname($log_path), 0777, true);
+        }
+        $logger = new Logger($this->get_ident());
+        $logger->pushHandler(new StreamHandler($log_path, Logger::INFO));
+        $this->setLogger($logger);
+    }
 
     public function run() {
+        $this->logger->info("Setup task {$this->get_ident()}...");
         $this->setup();
         try {
+            $this->logger->info("Running task {$this->get_ident()}...");
             $this->run_specific_task();
+            $this->logger->info("Finished task {$this->get_ident()}.");
         } catch (Exception $exc) {
-            $this->log_error("{$exc}");
+            $this->logger->error("Error running task {$this->get_ident()}.", [$exc]);
         } finally {
+            $this->logger->info("Teardown task {$this->get_ident()}...");
             $this->teardown();
         }
     }
@@ -41,24 +49,4 @@ abstract class BackgroundTask {
     abstract protected static function get_ident();
 
     abstract protected function run_specific_task();
-
-    protected function log_info($message) {
-        $timestamp = date('Y-m-d H:i:s');
-        $this->log_line("[ INFO] {$timestamp} {$message}");
-    }
-
-    protected function log_warning($message) {
-        $timestamp = date('Y-m-d H:i:s');
-        $this->log_line("[ WARN] {$timestamp} {$message}");
-    }
-
-    protected function log_error($message) {
-        $timestamp = date('Y-m-d H:i:s');
-        $this->log_line("[ERROR] {$timestamp} {$message}");
-    }
-
-    protected function log_line($line) {
-        fwrite($this->log_file, "{$line}\n");
-        fflush($this->log_file);
-    }
 }

@@ -9,6 +9,7 @@ function run_daily() {
     global $entityManager;
     $solv_fetcher = new SolvFetcher();
     $job = new SyncSolvTask($entityManager, $solv_fetcher);
+    $job->setDefaultFileLogger();
     $job->run();
 }
 

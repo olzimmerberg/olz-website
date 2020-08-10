@@ -20,14 +20,15 @@ while ($row_event = $res_events->fetch_assoc()) {
     for ($points = 1; $points <= $res_results->num_rows; $points++) {
         $row_results = $res_results->fetch_assoc();
         $person_id = intval($row_results['person']);
-        $person_points = isset($points_by_person[$person_id]) ? $points_by_person[$person_id] : 0;
-        $points_by_person[$person_id] = $person_points + $points;
+        $person_points = isset($points_by_person[$person_id]) ? $points_by_person[$person_id] : ['points' => 0, 'calculation' => []];
+        $points_by_person[$person_id]['points'] = $person_points['points'] + $points;
+        $points_by_person[$person_id]['calculation'][] = ['event_name' => $row_event['name'], 'points' => $points];
         // echo "<div>".json_encode($row_results)."</div>";
     }
 }
 $ranking = [];
 foreach ($points_by_person as $person_id => $points) {
-    $ranking[] = ['person_id' => $person_id, 'points' => $points];
+    $ranking[] = ['person_id' => $person_id, 'points' => $points['points'], 'calculation' => $points['calculation']];
 }
 function ranking_compare($a, $b) {
     return $b['points'] - $a['points'];
@@ -49,8 +50,14 @@ for ($index = 0; $index < count($ranking); $index++) {
     $res_person = $db->query($sql);
     $row_person = $res_person->fetch_assoc();
     $person_name = $row_person['name'];
+    $calculation = "{$person_name}\\n---\\n";
+    foreach ($ranking_entry['calculation'] as $event_points) {
+        $event_name = $event_points['event_name'];
+        $event_points = $event_points['points'];
+        $calculation .= "{$event_name}: {$event_points}\\n";
+    }
     $bgcolor = ($index % 2 === 0) ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)';
-    echo "<tr style='background-color:{$bgcolor};'>";
+    echo "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$calculation}&quot;)'>";
     echo "<td style='text-align: right;'>{$rank}.&nbsp;</td>";
     echo "<td>{$person_name}</td>";
     echo "<td style='text-align: right;'>{$points}</td>";

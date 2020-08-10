@@ -3,8 +3,8 @@
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/vendor/autoload.php';
+require_once __DIR__.'/../config/paths.php';
 
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;

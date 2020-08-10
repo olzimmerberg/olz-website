@@ -62,9 +62,9 @@ class SyncSolvTask extends BackgroundTask {
                 try {
                     $this->entityManager->persist($solv_event);
                     $this->entityManager->flush();
-                    $this->log_info("INSERTED {$solv_event->getSolvUid()}");
+                    $this->logger->info("INSERTED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
-                    $this->log_info("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logger->info("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
                 }
             } elseif ($outdated) {
                 $existing_solv_event->setDate($solv_event->getDate());
@@ -86,9 +86,9 @@ class SyncSolvTask extends BackgroundTask {
                 $existing_solv_event->setLastModification($solv_event->getLastModification());
                 try {
                     $this->entityManager->flush();
-                    $this->log_info("UPDATED {$solv_event->getSolvUid()}");
+                    $this->logger->info("UPDATED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
-                    $this->log_info("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logger->info("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
                 }
             }
         }
@@ -96,9 +96,9 @@ class SyncSolvTask extends BackgroundTask {
             if (!$still_exists) {
                 try {
                     $solv_event_repo->deleteBySolvUid($solv_uid);
-                    $this->log_info("DELETED {$solv_uid}");
+                    $this->logger->info("DELETED {$solv_uid}");
                 } catch (\Exception $e) {
-                    $this->log_info("DELETE FAILED {$solv_uid}: {$e}");
+                    $this->logger->info("DELETE FAILED {$solv_uid}: {$e}");
                 }
             }
         }
@@ -128,17 +128,17 @@ class SyncSolvTask extends BackgroundTask {
         $solv_uid_still_exists = [];
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
-                $this->log_info("Event with SOLV ID {$solv_uid} has new results.");
+                $this->logger->info("Event with SOLV ID {$solv_uid} has new results.");
                 $html = $this->solvFetcher->fetchEventResultsHtml($event_result['result_list_id']);
                 $results = parse_solv_event_result_html($html, $solv_uid);
                 $results_count = count($results);
-                $this->log_info("Number of results fetched & parsed: {$results_count}");
+                $this->logger->info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {
                     try {
                         $this->entityManager->persist($result);
                         $this->entityManager->flush();
                     } catch (\Exception $e) {
-                        $this->log_warning("Result could not be inserted: {$result->getName()}");
+                        $this->logger->warning("Result could not be inserted: {$result->getName()}");
                     }
                 }
                 $solv_event_repo->setResultForSolvEvent($solv_uid, $event_result['result_list_id']);
@@ -152,8 +152,8 @@ class SyncSolvTask extends BackgroundTask {
         foreach ($solv_results as $solv_result) {
             $person = $solv_result_repo->getExactPersonId($solv_result);
             if ($person == 0) {
-                $this->log_info("Person not exactly matched:");
-                $this->log_info(json_encode($solv_result, JSON_PRETTY_PRINT));
+                $this->logger->info("Person not exactly matched:");
+                $this->logger->info(json_encode($solv_result, JSON_PRETTY_PRINT));
                 $person = $this->find_or_create_solv_person($solv_result);
             }
             if ($person != 0) {
@@ -189,8 +189,8 @@ class SyncSolvTask extends BackgroundTask {
             }
         }
         if ($least_difference < 3 && count($rows_with_least_difference) == 1) {
-            $this->log_info("Fuzzily matched persons (difference {$least_difference}, take first):");
-            $this->log_info(json_encode($rows_with_least_difference, JSON_PRETTY_PRINT));
+            $this->logger->info("Fuzzily matched persons (difference {$least_difference}, take first):");
+            $this->logger->info(json_encode($rows_with_least_difference, JSON_PRETTY_PRINT));
             return intval($rows_with_least_difference[0]['person']);
         }
         $solv_person = new SolvPerson();
@@ -205,12 +205,12 @@ class SyncSolvTask extends BackgroundTask {
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
         $closest_matches_str = json_encode($rows_with_least_difference, JSON_PRETTY_PRINT);
-        $this->log_info("Created new person (id {$insert_id}):");
-        $this->log_info($person_str);
-        $this->log_info("Closest matches (difference {$least_difference}) were:");
-        $this->log_info($closest_matches_str);
+        $this->logger->info("Created new person (id {$insert_id}):");
+        $this->logger->info($person_str);
+        $this->logger->info("Closest matches (difference {$least_difference}) were:");
+        $this->logger->info($closest_matches_str);
         if ($least_difference < 6 && count($rows_with_least_difference) > 0) {
-            $this->log_info("Unclear case. TODO: Send mail in this case.");
+            $this->logger->info("Unclear case. TODO: Send mail in this case.");
         }
         return $insert_id;
     }
@@ -223,15 +223,15 @@ class SyncSolvTask extends BackgroundTask {
         foreach ($solv_persons as $row) {
             $id = $row['id'];
             $same_as = $row['same_as'];
-            $this->log_info("Merge person {$id} into {$same_as}.");
+            $this->logger->info("Merge person {$id} into {$same_as}.");
             if (intval($same_as) <= 0) {
-                $this->log_warning("Invalid same_as for person {$id}: {$same_as}.");
+                $this->logger->warning("Invalid same_as for person {$id}: {$same_as}.");
             } elseif (!$solv_result_repo->solvPersonHasResults($same_as)) {
-                $this->log_warning("same_as ({$same_as}) without any results assigned for person {$id}.");
+                $this->logger->warning("same_as ({$same_as}) without any results assigned for person {$id}.");
             } else {
                 $merge_result = $solv_result_repo->mergePerson($id, $same_as);
                 if (!$merge_result) {
-                    $this->log_error("Merge failed! {$merge_result}");
+                    $this->logger->error("Merge failed! {$merge_result}");
                 }
             }
             if (!$solv_result_repo->solvPersonHasResults($id)) {
@@ -239,7 +239,7 @@ class SyncSolvTask extends BackgroundTask {
             } elseif ($id == $same_as) {
                 $solv_person_repo->resetSolvPersonSameAs($id);
             } else {
-                $this->log_warning("There are still results assigned to person {$id}.");
+                $this->logger->warning("There are still results assigned to person {$id}.");
             }
         }
     }

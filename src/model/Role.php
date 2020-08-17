@@ -1,9 +1,6 @@
 <?php
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
-
-require_once __DIR__.'/../config/doctrine.php';
 
 /**
  * @ORM\Entity(repositoryClass="RoleRepository")
@@ -63,19 +60,5 @@ class Role {
 
     public function getUsers() {
         return $this->users;
-    }
-}
-
-class RoleRepository extends EntityRepository {
-    public function getRolesWithParent($roleId, $limit = 100) {
-        if ($roleId === null) {
-            $dql = "SELECT r FROM Role r WHERE r.parent_role IS NULL ORDER BY r.index_within_parent ASC";
-            $query = $this->getEntityManager()->createQuery($dql);
-        } else {
-            $dql = "SELECT r FROM Role r WHERE r.parent_role = ?1 ORDER BY r.index_within_parent ASC";
-            $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $roleId);
-        }
-        $query->setMaxResults($limit);
-        return $query->getResult();
     }
 }

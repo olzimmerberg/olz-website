@@ -45,7 +45,9 @@ function highlight_organigramm_color(id) {
 </script>";
 
 require_once __DIR__.'/model/Role.php';
+require_once __DIR__.'/model/RoleRepository.php';
 require_once __DIR__.'/model/User.php';
+require_once __DIR__.'/model/UserRepository.php';
 require_once __DIR__.'/components/users/olz_user_info_with_popup/olz_user_info_with_popup.php';
 
 $role_repo = $entityManager->getRepository(Role::class);

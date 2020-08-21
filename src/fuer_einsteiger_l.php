@@ -5,7 +5,9 @@
 // =============================================================================
 
 require_once __DIR__.'/model/Role.php';
+require_once __DIR__.'/model/RoleRepository.php';
 require_once __DIR__.'/model/User.php';
+require_once __DIR__.'/model/UserRepository.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 
 ?>

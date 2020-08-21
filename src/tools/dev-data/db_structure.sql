@@ -71,6 +71,18 @@ CREATE TABLE `anmeldung` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table auth_requests
+DROP TABLE IF EXISTS `auth_requests`;
+CREATE TABLE `auth_requests` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `timestamp` datetime DEFAULT NULL,
+  `action` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ip_address_timestamp_index` (`ip_address`,`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Table bild_der_woche
 DROP TABLE IF EXISTS `bild_der_woche`;
 CREATE TABLE `bild_der_woche` (

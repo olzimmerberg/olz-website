@@ -17,6 +17,8 @@ VALUES
 
 -- Table anmeldung
 
+-- Table auth_requests
+
 -- Table bild_der_woche
 INSERT INTO bild_der_woche
     (`id`, `datum`, `bild1`, `bild2`, `on_off`, `text`, `titel`, `bild1_breite`, `bild2_breite`)
@@ -39,7 +41,8 @@ VALUES
     ('OLZ\\Migrations\\Version20200409192051', '2020-05-11 22:04:20', NULL),
     ('OLZ\\Migrations\\Version20200423071546', '2020-05-11 22:04:20', NULL),
     ('OLZ\\Migrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
-    ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL);
+    ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
+    ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48');
 
 -- Table downloads
 

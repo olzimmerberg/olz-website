@@ -1,0 +1,6 @@
+{
+    "search.exclude": {
+        "dev-server/_/**": true,
+        "dev-server/deploy/**": true
+    }
+}

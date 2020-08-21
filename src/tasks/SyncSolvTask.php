@@ -13,9 +13,10 @@ require_once __DIR__.'/../parsers/solv_results.php';
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
-    public function __construct($entityManager, $solvFetcher) {
+    public function __construct($entityManager, $solvFetcher, $dateUtils) {
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;
+        $this->dateUtils = $dateUtils;
     }
 
     protected static function get_ident() {
@@ -30,7 +31,7 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_events() {
-        $current_year = date('Y');
+        $current_year = $this->dateUtils->getCurrentDateInFormat('Y');
         $this->sync_solv_events_for_year($current_year);
         $this->sync_solv_events_for_year($current_year - 1);
         $this->sync_solv_events_for_year($current_year + 1);
@@ -119,7 +120,7 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function sync_solv_results() {
-        $current_year = date('Y');
+        $current_year = $this->dateUtils->getCurrentDateInFormat('Y');
         $this->sync_solv_results_for_year($current_year);
     }
 

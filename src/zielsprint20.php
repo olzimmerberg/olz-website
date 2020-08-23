@@ -15,24 +15,39 @@ $points_by_person = [];
 while ($row_event = $res_events->fetch_assoc()) {
     // echo "<h3>".json_encode($row_event)."</h3>";
     $event_id = intval($row_event['solv_uid']);
-    $sql = "SELECT person, finish_split FROM solv_results WHERE event='{$event_id}' ORDER BY finish_split DESC";
+    $sql = "SELECT person, finish_split FROM solv_results WHERE event='{$event_id}' ORDER BY finish_split ASC";
     $res_results = $db->query($sql);
-    for ($points = 1; $points <= $res_results->num_rows; $points++) {
+    $last_finish_split = null;
+    $last_actual_points = null;
+    for ($points = $res_results->num_rows; $points > 0; $points--) {
         $row_results = $res_results->fetch_assoc();
         $person_id = intval($row_results['person']);
-        $person_points = isset($points_by_person[$person_id]) ? $points_by_person[$person_id] : ['points' => 0, 'calculation' => []];
-        $points_by_person[$person_id]['points'] = $person_points['points'] + $points;
+        $finish_split = $row_results['finish_split'];
+        $actual_points = ($last_finish_split === $finish_split)
+            ? $last_actual_points
+            : $points;
+        $person_points = isset($points_by_person[$person_id])
+            ? $points_by_person[$person_id]
+            : ['points' => 0, 'calculation' => []];
+        $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
         $points_by_person[$person_id]['calculation'][] = [
             'event_name' => $row_event['name'],
-            'points' => $points,
+            'points' => $actual_points,
+            'finish_split' => $finish_split,
             'max_points' => $res_results->num_rows,
         ];
+        $last_finish_split = $finish_split;
+        $last_actual_points = $actual_points;
         // echo "<div>".json_encode($row_results)."</div>";
     }
 }
 $ranking = [];
 foreach ($points_by_person as $person_id => $points) {
-    $ranking[] = ['person_id' => $person_id, 'points' => $points['points'], 'calculation' => $points['calculation']];
+    $ranking[] = [
+        'person_id' => $person_id,
+        'points' => $points['points'],
+        'calculation' => $points['calculation'],
+    ];
 }
 function ranking_compare($a, $b) {
     return $b['points'] - $a['points'];
@@ -45,11 +60,16 @@ echo "<th style='border-bottom: 1px solid black; text-align: right;'>Rang&nbsp;<
 echo "<th style='border-bottom: 1px solid black;'>Name</th>";
 echo "<th style='border-bottom: 1px solid black; text-align: right;'>Punkte</th>";
 echo "</tr>";
+$last_points = null;
+$last_actual_rank = 1;
 for ($index = 0; $index < count($ranking); $index++) {
     $rank = $index + 1;
     $ranking_entry = $ranking[$index];
     $person_id = intval($ranking_entry['person_id']);
     $points = intval($ranking_entry['points']);
+    $actual_rank = ($last_points === $points)
+        ? $last_actual_rank
+        : $rank;
     $sql = "SELECT name FROM solv_people WHERE id='{$person_id}'";
     $res_person = $db->query($sql);
     $row_person = $res_person->fetch_assoc();
@@ -59,13 +79,19 @@ for ($index = 0; $index < count($ranking); $index++) {
         $event_name = $event_calculation['event_name'];
         $event_points = $event_calculation['points'];
         $event_max_points = $event_calculation['max_points'];
-        $calculation .= "{$event_name}: {$event_points} / {$event_max_points}\\n";
+        $finish_split = $event_calculation['finish_split'];
+        $finish_minutes = floor($finish_split / 60);
+        $finish_seconds = str_pad($finish_split % 60, 2, '0');
+        $pretty_finish_split = "{$finish_minutes}:{$finish_seconds}";
+        $calculation .= "{$event_name}: {$event_points} / {$event_max_points} ({$pretty_finish_split})\\n";
     }
     $bgcolor = ($index % 2 === 0) ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)';
     echo "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$calculation}&quot;)'>";
-    echo "<td style='text-align: right;'>{$rank}.&nbsp;</td>";
+    echo "<td style='text-align: right;'>{$actual_rank}.&nbsp;</td>";
     echo "<td>{$person_name}</td>";
     echo "<td style='text-align: right;'>{$points}</td>";
     echo "</tr>";
+    $last_points = $points;
+    $last_actual_rank = $actual_rank;
 }
 echo "</table>";

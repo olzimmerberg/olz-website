@@ -22,7 +22,11 @@ while ($row_event = $res_events->fetch_assoc()) {
         $person_id = intval($row_results['person']);
         $person_points = isset($points_by_person[$person_id]) ? $points_by_person[$person_id] : ['points' => 0, 'calculation' => []];
         $points_by_person[$person_id]['points'] = $person_points['points'] + $points;
-        $points_by_person[$person_id]['calculation'][] = ['event_name' => $row_event['name'], 'points' => $points];
+        $points_by_person[$person_id]['calculation'][] = [
+            'event_name' => $row_event['name'],
+            'points' => $points,
+            'max_points' => $res_results->num_rows,
+        ];
         // echo "<div>".json_encode($row_results)."</div>";
     }
 }
@@ -51,10 +55,11 @@ for ($index = 0; $index < count($ranking); $index++) {
     $row_person = $res_person->fetch_assoc();
     $person_name = $row_person['name'];
     $calculation = "{$person_name}\\n---\\n";
-    foreach ($ranking_entry['calculation'] as $event_points) {
-        $event_name = $event_points['event_name'];
-        $event_points = $event_points['points'];
-        $calculation .= "{$event_name}: {$event_points}\\n";
+    foreach ($ranking_entry['calculation'] as $event_calculation) {
+        $event_name = $event_calculation['event_name'];
+        $event_points = $event_calculation['points'];
+        $event_max_points = $event_calculation['max_points'];
+        $calculation .= "{$event_name}: {$event_points} / {$event_max_points}\\n";
     }
     $bgcolor = ($index % 2 === 0) ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)';
     echo "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$calculation}&quot;)'>";

@@ -96,6 +96,14 @@ class SolvResult {
     // PRIMARY KEY (`id`),
     // UNIQUE KEY `person` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
 
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($new_id) {
+        $this->id = $new_id;
+    }
+
     public function getPerson() {
         return $this->person;
     }

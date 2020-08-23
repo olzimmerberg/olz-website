@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/../../src/model/SolvEvent.php';
+
 function get_fake_solv_event() {
     $solv_event = new SolvEvent();
     $solv_event->setSolvUid(1);
@@ -10,7 +12,7 @@ function get_fake_solv_event() {
     $solv_event->setNational(0);
     $solv_event->setRegion('ZH/SH');
     $solv_event->setType('*1');
-    $solv_event->setName("Fake Event {$solv_uid}");
+    $solv_event->setName("Fake Event");
     $solv_event->setLink('https://test.olzimmerberg.ch/');
     $solv_event->setClub('OL Zimmerberg');
     $solv_event->setMap('Landforst');

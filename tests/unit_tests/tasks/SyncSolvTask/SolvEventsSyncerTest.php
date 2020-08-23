@@ -5,21 +5,18 @@ declare(strict_types=1);
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../fake/fake_solv_event.php';
-require_once __DIR__.'/../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../src/tasks/SyncSolvTask.php';
-require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/fake_solv_event.php';
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvEventsSyncer.php';
 
-class FakeEntityManager {
-    private $persisted = [];
-    private $flushed = [];
+class FakeSolvEventsSyncerEntityManager {
+    public $persisted = [];
+    public $flushed = [];
     private $repositories = [];
 
     public function __construct() {
         $this->repositories = [
-            'SolvEvent' => new FakeSolvEventRepository(),
-            'SolvPerson' => new FakeSolvPersonRepository(),
-            'SolvResult' => new FakeSolvResultRepository(),
+            'SolvEvent' => new FakeSolvEventsSyncerSolvEventRepository(),
         ];
     }
 
@@ -34,37 +31,30 @@ class FakeEntityManager {
     public function flush() {
         $this->flushed = $this->persisted;
     }
-
-    public function getFlushed() {
-        return $this->flushed;
-    }
 }
 
-class FakeSolvEventRepository {
-    private $modified_event;
-    private $deleted_event;
-
-    private $deleted_solv_uids = [];
-
+class FakeSolvEventsSyncerSolvEventRepository {
     public function __construct() {
         $modified_event = get_fake_solv_event();
         $modified_event->setSolvUid(20202);
         $modified_event->setName('Modified Event (before)');
         $modified_event->setLastModification('2020-01-11 21:48:36');
-        $this->modified_event = $modified_event;
+        $modified_event->setRankLink(1235);
+        $this->modifiedEvent = $modified_event;
+
         $deleted_event = get_fake_solv_event();
         $deleted_event->setSolvUid(20203);
         $deleted_event->setName('Deleted Event');
         $deleted_event->setLastModification('2020-01-11 21:36:48');
-        $this->deleted_event = $deleted_event;
+        $this->deletedEvent = $deleted_event;
     }
 
     public function getSolvEventsForYear($year) {
         switch ($year) {
             case '2020':
                 return [
-                    $this->modified_event,
-                    $this->deleted_event,
+                    $this->modifiedEvent,
+                    $this->deletedEvent,
                 ];
             default:
                 return [];
@@ -72,31 +62,11 @@ class FakeSolvEventRepository {
     }
 
     public function deleteBySolvUid($solv_uid) {
-        $this->deleted_solv_uids[] = $solv_uid;
-    }
-
-    public function getModifiedEvent() {
-        return $this->modified_event;
-    }
-
-    public function getDeletedSolvUids() {
-        return $this->deleted_solv_uids;
+        $this->deletedSolvUids[] = $solv_uid;
     }
 }
 
-class FakeSolvPersonRepository {
-    public function getSolvPersonsMarkedForMerge() {
-        return [];
-    }
-}
-
-class FakeSolvResultRepository {
-    public function getUnassignedSolvResults() {
-        return [];
-    }
-}
-
-class FakeSolvFetcher {
+class FakeSolvEventsSyncerSolvFetcher {
     public function fetchEventsCsvForYear($year) {
         switch ($year) {
             case '2020':
@@ -109,37 +79,33 @@ class FakeSolvFetcher {
                 return "unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification\n";
         }
     }
-
-    public function fetchYearlyResultsJson($year) {
-        return "{}";
-    }
 }
 
 /**
  * @internal
  * @coversNothing
  */
-final class SyncSolvTaskTest extends TestCase {
-    public function testSyncSolvTask(): void {
-        $entity_manager = new FakeEntityManager();
-        $solv_fetcher = new FakeSolvFetcher();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('SyncSolvTaskTest');
+final class SolvEventsSyncerTest extends TestCase {
+    public function testSolvEventsSyncer(): void {
+        $entity_manager = new FakeSolvEventsSyncerEntityManager();
+        $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();
+        $logger = new Logger('SolvEventsSyncerTest');
+        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
-        $job = new SyncSolvTask($entity_manager, $solv_fetcher, $date_utils);
+        $job = new SolvEventsSyncer($entity_manager, $solv_fetcher);
         $job->setLogger($logger);
-        $job->run();
+        $job->syncSolvEventsForYear('2020');
 
-        $flushed = $entity_manager->getFlushed();
+        $flushed = $entity_manager->flushed;
         $this->assertSame(1, count($flushed));
         $this->assertSame('20201', $flushed[0]->getSolvUid());
         $this->assertSame('Inserted Event', $flushed[0]->getName());
         $this->assertSame('2020-03-13 09:13:27', $flushed[0]->getLastModification()->format('Y-m-d H:i:s'));
         $solv_event_repo = $entity_manager->getRepository('SolvEvent');
-        $modified_event = $solv_event_repo->getModifiedEvent();
+        $modified_event = $solv_event_repo->modifiedEvent;
         $this->assertSame(20202, $modified_event->getSolvUid());
         $this->assertSame('Modified Event (after)', $modified_event->getName());
         $this->assertSame('2020-03-13 13:09:27', $modified_event->getLastModification()->format('Y-m-d H:i:s'));
-        $this->assertSame([20203], $solv_event_repo->getDeletedSolvUids());
+        $this->assertSame([20203], $solv_event_repo->deletedSolvUids);
     }
 }

@@ -48,6 +48,10 @@ class SolvPerson {
         return $this->id;
     }
 
+    public function setId($new_id) {
+        $this->id = $new_id;
+    }
+
     public function getSameAs() {
         return $this->same_as;
     }

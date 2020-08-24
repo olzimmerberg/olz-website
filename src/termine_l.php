@@ -335,7 +335,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         }
 
         if ($newsletter) {
-            $icn_newsletter = "<img src='icns/newsletter.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
+            $icn_newsletter = "<img src='icns/newsletter_16.svg' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
         } else {
             $icn_newsletter = "";
         }

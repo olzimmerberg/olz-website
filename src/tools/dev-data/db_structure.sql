@@ -418,7 +418,7 @@ CREATE TABLE `termine` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table termine_go2ol
 DROP TABLE IF EXISTS `termine_go2ol`;

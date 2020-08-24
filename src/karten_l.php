@@ -20,11 +20,11 @@ while ($row = mysqli_fetch_array($result)) {
     $center_y = $row['center_y'];
     $typ = $row['typ'];
     if ($typ == 'ol') {
-        $icon = 'ol.gif';
+        $icon = 'orienteering_forest_16.svg';
     } elseif ($typ == 'stadt') {
-        $icon = 'ol2.gif';
+        $icon = 'orienteering_village_16.svg';
     } elseif ($typ == 'scool') {
-        $icon = 'ol1.gif';
+        $icon = 'orienteering_scool_16.svg';
     }
 
     $pois .= "Map.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
@@ -53,7 +53,7 @@ echo "<script type=\"text/javascript\">
     window.localStorage.setItem('y0', y);
 
     // Add a custom POI
-    //Map.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/ol.gif\" }));\n
+    //Map.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/orienteering_forest_16.svg\" }));\n
     setTimeout(\"Map.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
     }
 </script>";

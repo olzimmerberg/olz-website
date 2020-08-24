@@ -28,8 +28,8 @@
    also CVS files in CVS/ subdirectory, other files such as .cvsignore, etc. */
 
 $fm_cfg['icons']['sys'] = array(
-		'UP-DIR' => 'back.gif',
-		'DIR'    => 'dir.gif'
+		'UP-DIR' => 'back_16.svg',
+		'DIR'    => 'folder_16.svg'
 		);
 
 $fm_cfg['icons']['name'] = array(
@@ -90,30 +90,30 @@ $fm_cfg['icons']['ext'] = array(
 		 */
 
 	/* These small icons I have. */
-	'bin'    => 'binary.gif',
-	'exe'    => 'binary.gif',
-	'hqx'    => 'binhex.gif',
-	'tar'    => 'tar.gif',
-	'Z'      => 'compressed.gif',
-	'z'      => 'compressed.gif',
-	'tgz'    => 'compressed.gif',
-	'gz'     => 'compressed.gif',
-	'bz2'    => 'compressed.gif',
-	'txt'    => 'txt.gif',
+	'bin'    => 'link_any_16.svg',
+	'exe'    => 'link_any_16.svg',
+	'hqx'    => 'link_any_16.svg',
+	'tar'    => 'link_zip_16.svg',
+	'Z'      => 'link_zip_16.svg',
+	'z'      => 'link_zip_16.svg',
+	'tgz'    => 'link_zip_16.svg',
+	'gz'     => 'link_zip_16.svg',
+	'bz2'    => 'link_zip_16.svg',
+	'txt'    => 'link_txt_16.svg',
 	/* End of Apache extraction */
 
 	/* Now phpWebFileManager specific. It needs to improve anyway. */
-	'sit'    => 'sit.gif',
-	'sitx'   => 'sitx.gif',
-	'psd'    => 'photoshop.gif',
-	'indd'   => 'in-design.gif',
-	'qxd'    => 'quark.gif',
-	'dmg'    => 'imm-disco.gif',
-	'ai'     => 'illustrator.gif',
+	'sit'    => 'link_any_16.svg',
+	'sitx'   => 'link_any_16.svg',
+	'psd'    => 'link_any_16.svg',
+	'indd'   => 'link_any_16.svg',
+	'qxd'    => 'link_any_16.svg',
+	'dmg'    => 'link_any_16.svg',
+	'ai'     => 'link_any_16.svg',
 
-	'css'    => 'css.gif',
+	'css'    => 'link_css_16.svg',
 
-	'csv'    => 'csv.gif',
+	'csv'    => 'link_any_16.svg',
 
 	'bz'     => 'compressed.gif',
 	'rar'    => 'compressed.gif',
@@ -121,83 +121,83 @@ $fm_cfg['icons']['ext'] = array(
 	'uc'     => 'compressed.gif', /* Ultra compressor */
 	'uc2'    => 'compressed.gif',
 
-	'uu'     => 'uu.gif',
+	'uu'     => 'link_any_16.svg',
 
-	'sdw'    => 'doc.gif',
-	'sgml'   => 'doc.gif',
-	'xml'    => 'doc.gif',
+	'sdw'    => 'link_doc_16.svg',
+	'sgml'   => 'link_doc_16.svg',
+	'xml'    => 'link_doc_16.svg',
 
-	'html'   => 'html.gif',
+	'html'   => 'link_html_16.svg',
 
-	'bmp'    => 'image.gif',
-	'pcx'    => 'image.gif',
-	'gif'    => 'image.gif',
-	'tiff'   => 'image.gif',
-	'tif'    => 'image.gif',
-	'jpg'    => 'image.gif',
-	'jpe'    => 'image.gif',
-	'jpeg'   => 'image.gif',
+	'bmp'    => 'link_image_16.svg',
+	'pcx'    => 'link_image_16.svg',
+	'gif'    => 'link_image_16.svg',
+	'tiff'   => 'link_image_16.svg',
+	'tif'    => 'link_image_16.svg',
+	'jpg'    => 'link_image_16.svg',
+	'jpe'    => 'link_image_16.svg',
+	'jpeg'   => 'link_image_16.svg',
 
-	'js'     => 'js.gif',
+	'js'     => 'link_js_16.svg',
 
-	'avi'    => 'movie.gif',
-	'rm'     => 'movie.gif',
-	'mpg'    => 'movie.gif',
-	'mpeg'   => 'movie.gif',
-	'wmv'    => 'movie.gif',
+	'avi'    => 'link_movie_16.svg',
+	'rm'     => 'link_movie_16.svg',
+	'mpg'    => 'link_movie_16.svg',
+	'mpeg'   => 'link_movie_16.svg',
+	'wmv'    => 'link_movie_16.svg',
 
-	'mov'    => 'quicktime.gif',
-	'qt'     => 'quicktime.gif',
+	'mov'    => 'link_movie_16.svg',
+	'qt'     => 'link_movie_16.svg',
 
-	'mp3'    => 'mp3.gif',
-	'mp2'    => 'mp3.gif',
-	'mp1'    => 'mp3.gif',
+	'mp3'    => 'link_any_16.svg',
+	'mp2'    => 'link_any_16.svg',
+	'mp1'    => 'link_any_16.svg',
 
-	'md5'    => 'key.gif',
-	'md5sum' => 'key.gif',
-	'md5key' => 'key.gif',
+	'md5'    => 'link_any_16.svg',
+	'md5sum' => 'link_any_16.svg',
+	'md5key' => 'link_any_16.svg',
 
-	'patch'  => 'patch.gif',
-	'diff'   => 'patch.gif',
+	'patch'  => 'link_any_16.svg',
+	'diff'   => 'link_any_16.svg',
 
-	'ocd'    => 'ocad.gif',
+	'ocd'    => 'link_ocd_16.svg',
 
-	'pdf'    => 'pdf.gif',
+	'pdf'    => 'link_pdf_16.svg',
 
-	'perl'   => 'perl.gif', // not used, but just for sure
-	'pl'     => 'perl.gif',
-	'pm'     => 'perl.gif',
-	'cgi'    => 'perl.gif', // temporary entry?
-	'fcgi'   => 'perl.gif',
+	'perl'   => 'link_any_16.svg', // not used, but just for sure
+	'pl'     => 'link_any_16.svg',
+	'pm'     => 'link_any_16.svg',
+	'cgi'    => 'link_any_16.svg', // temporary entry?
+	'fcgi'   => 'link_any_16.svg',
 
-	'php'    => 'php.gif',
-	'php3'   => 'php.gif',
-	'php4'   => 'php.gif',
-	'phtml'  => 'php.gif',
-	'inc'    => 'php.gif',
+	'php'    => 'link_any_16.svg',
+	'php3'   => 'link_any_16.svg',
+	'php4'   => 'link_any_16.svg',
+	'phtml'  => 'link_any_16.svg',
+	'inc'    => 'link_any_16.svg',
 
-	'png'    => 'image.gif',
+	'png'    => 'link_image_16.svg',
 
-	'ps'     => 'ps.gif',
-	'eps'    => 'ps.gif',
-	'dvi'    => 'ps.gif',
+	'ps'     => 'link_any_16.svg',
+	'eps'    => 'link_any_16.svg',
+	'dvi'    => 'link_any_16.svg',
 
-	'rtf'    => 'rtf.gif',
+	'rtf'    => 'link_doc_16.svg',
 
-	'wma'    => 'sound.gif',
-	'wav'    => 'sound.gif',
+	'wma'    => 'link_any_16.svg',
+	'wav'    => 'link_any_16.svg',
 
-	'xm'     => 'sound2.gif',
-	'mod'    => 'sound2.gif',
-	'mid'    => 'sound2.gif',
+	'xm'     => 'link_any_16.svg',
+	'mod'    => 'link_any_16.svg',
+	'mid'    => 'link_any_16.svg',
 
-	'sub'    => 'sub.gif',
+	'sub'    => 'link_any_16.svg',
 
-	'sql'    => 'sql.gif',
-	'pks'    => 'sql.gif',
-	'pkb'    => 'sql.gif',
-	'fnc'    => 'sql.gif',
-	'proc'   => 'sql.gif',
+	'sql'    => 'link_any_16.svg',
+	'pks'    => 'link_any_16.svg',
+	'pkb'    => 'link_any_16.svg',
+	'fnc'    => 'link_any_16.svg',
+	'proc'   => 'link_any_16.svg',
 
 	'tmpl'   => 'tmpl.gif',
 	'tpl'    => 'tmpl.gif',
@@ -205,13 +205,13 @@ $fm_cfg['icons']['ext'] = array(
 	'tpl.php'=> 'tmpl.gif',
 	'tt2'    => 'tmpl.gif',
 
-	'doc'    => 'word.gif',
-	'docx'    => 'word.gif',
-	'xls'    => 'excel.gif',
-	'xlsx'    => 'excel.gif',
-	'ppt'    => 'powerpoint.gif',
+	'doc'    => 'link_doc_16.svg',
+	'docx'    => 'link_doc_16.svg',
+	'xls'    => 'link_xls_16.svg',
+	'xlsx'    => 'link_xls_16.svg',
+	'ppt'    => 'link_ppt_16.svg',
 
-	'zip'    => 'zip.gif'
+	'zip'    => 'link_zip_16.svg'
 	);
 
 ?>

@@ -1,4 +1,4 @@
-<a href='#top' name='ausschreibung'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top.png' class='noborder' style='height:18px;float:right;margin-right:5px;'>Ausschreibung 2. Nationaler OL (Sprint) / 12. Zimmerberg-OL**, Sonntag 12. Mai 2019</h3></a>
+<a href='#top' name='ausschreibung'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Ausschreibung 2. Nationaler OL (Sprint) / 12. Zimmerberg-OL**, Sonntag 12. Mai 2019</h3></a>
 <table class='liste'>
     <tr><td style='width:20%;'><b>Veranstalter</b></td><td style='width:80%;'>OL Zimmerberg</td></tr>
     <tr>
@@ -207,7 +207,7 @@
     </tr>
 
 </table>
-<a href='#top' name='ausschreibung_ss'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top.png' class='noborder' style='height:18px;float:right;margin-right:5px;'>Ausschreibung Sprint-Staffel</h3></a>
+<a href='#top' name='ausschreibung_ss'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Ausschreibung Sprint-Staffel</h3></a>
 <table class='liste'>
     <tr>
         <td style='width:20%;'><b>Veranstalter</b></td>

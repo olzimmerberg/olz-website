@@ -142,7 +142,7 @@ foreach ($jahre as $tmp_jahr) {
     } else {
         $sql = "SELECT * FROM aktuell WHERE (on_off='1') AND (typ = 'aktuell') AND (datum >= '{$tmp_jahr}-01-01') AND (datum<= '{$tmp_jahr}-12-31') ORDER BY datum DESC, id DESC";
     }
-    //"<h2><img src='icns/ab.gif' class='noborder' style='margin-right:10px;' alt=''>".$tmp_jahr."</h2>";
+    //"<h2><img src='icns/down_16.svg' class='noborder' style='margin-right:10px;' alt=''>".$tmp_jahr."</h2>";
     echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;' name='accordionlink'><div class='AccordionTitle' onselectstart='return false;'>".$tmp_jahr."</div></a>
 <div id='Accordion".$tmp_jahr."Content' class='AccordionContent'".($_SESSION[$db_table.'jahr_'] == $tmp_jahr ? " style='height:auto;'" : " style='height:1px;'")."><div id='Accordion".$tmp_jahr."Content_' class='AccordionContent_'>".olz_aktuell_liste($sql)."</div></div>";
 }

@@ -65,7 +65,7 @@ function olz_monate($datum) {
 function olz_buttons($name, $buttons, $off) {
     global $code_href;
     // Icons: 0=neu, 1=edit, 2=Abbrechen, 3=Vorschau
-    $icons = ["neu.gif", "edit.gif", "cancel.gif", "preview.gif", "save.gif", "delete.gif"];
+    $icons = ["new_16.svg", "edit_16.svg", "cancel_16.svg", "preview_16.svg", "save_16.svg", "delete_16.svg"];
     $html_menu = [];
     foreach ($buttons as $tmp_button) {
         if (is_array($tmp_button)) {

@@ -54,8 +54,10 @@ sort($screenshot_paths);
 
 echo "<div id='root' class='local'>";
 foreach ($screenshot_paths as $screenshot_path) {
+    $has_screenshot_id = preg_match('/^([a-z0-9\\-\\_]+)\\.png$/', $screenshot_path, $matches);
+    $screenshot_id = $has_screenshot_id ? " id='{$matches[1]}'" : "";
     echo "<div class='pair'>\n";
-    echo "<h2>{$screenshot_path}</h2>\n";
+    echo "<h2{$screenshot_id}>{$screenshot_path}</h2>\n";
     echo "<img src='{$code_href}screenshots/generated/{$screenshot_path}' class='local' />\n";
     echo "<img src='{$master_href}screenshots/generated/{$screenshot_path}' class='master' />\n";
     echo "<div class='after-pair'></div>\n";

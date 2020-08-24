@@ -93,11 +93,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                 if (intval($matches[1]) == $index) {
-                    $thumbfile = $data_path."img/fileicons/".$extension_icons[$matches[2]]."-".$dim.".png";
+                    $thumbfile = $code_path."icns/link_".$extension_icons[$matches[2]]."_16.svg";
                     if (!is_file($thumbfile)) {
-                        $thumbfile = $data_path."img/fileicons/unknown-".$dim.".png";
+                        $thumbfile = $code_path."icns/link_any_16.svg";
                     }
-                    header("Content-Type:image/png");
+                    header("Content-Type: image/svg+xml");
                     $fp = fopen($thumbfile, "r");
                     $buf = fread($fp, 1024);
                     while ($buf) {

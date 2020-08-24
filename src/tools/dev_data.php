@@ -116,9 +116,11 @@ function init_dev_data_filesystem($data_path) {
 
     // Build files/
     mkdir("{$data_path}files");
+    mkdir("{$data_path}files/aktuell");
     mkdir("{$data_path}files/blog");
     mkdir("{$data_path}files/blog/1");
     copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
+    mkdir("{$data_path}files/downloads");
 
     // Build img/
     mkdir("{$data_path}img");

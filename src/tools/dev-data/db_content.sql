@@ -166,7 +166,8 @@ VALUES
 INSERT INTO termine
     (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `newsletter`, `newsletter_datum`, `newsletter_anmeldung`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `datum_anmeldung`, `text_anmeldung`, `email_anmeldung`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`)
 VALUES
-    ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Berchtoldstag 🥈', '', '', '', '', '', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09');
+    ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Berchtoldstag 🥈', '', '', '', '', '', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('2', '2020-06-06', NULL, NULL, '10:15:00', '12:30:00', '0', '1', NULL, NULL, 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä! <DATEI1> ', 'Infos', 'http://127.0.0.1:30270/', '', '1', NULL, '', '', '685000', '236100', '0', '', '2020-06-01 07:17:09', '2020-06-01 07:17:09');
 
 -- Table termine_go2ol
 

@@ -174,17 +174,17 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "karten") {// DB KARTEN
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["position", "Position", "text", "''", "", "", "", ""],
-        ["kartennr", "Kartennummer", "text", "''", "", "", "", ""],
+        ["position", "Position", "text", "'0'", "", "", "", ""],
+        ["kartennr", "Kartennummer", "text", "'0'", "", "", "", ""],
         ["name", "Kartenname", "text", "''", "", "", "", ""],
         ["vorschau", "Dateiname Vorschau", "text", "''", "", "", "", ""],
         ["typ", "Kartentyp", ["select", [["Normalkarte", "ol"], ["Dorfkarte", "stadt"], ["Schulhauskarte", "scool"]]], "'ol'", "", "", "", ""],
-        ["center_x", "X-Koordinate", "text", "''", "", "", "", ""],
-        ["center_y", "Y-Koordinate", "text", "''", "", "", "", ""],
+        ["center_x", "X-Koordinate", "text", "'0'", "", "", "", ""],
+        ["center_y", "Y-Koordinate", "text", "'0'", "", "", "", ""],
         ["jahr", "Kartenjahr", "text", "''", "", "", "", ""],
         ["ort", "Ort", "text", "''", "", "", "", ""],
         ["massstab", "Massstab", "text", "''", "", "", "", ""],
-        ["zoom", "Zoomfaktor", ["select", [["1 Pixel = 2m", "2"], ["1 Pixel = 8m", "8"], ["1 Pixel = 32m", "32"]]], "''", "Zoomfaktor für Anzeige auf map.search.ch", "", "", ""],
+        ["zoom", "Zoomfaktor", ["select", [["1 Pixel = 2m", "2"], ["1 Pixel = 8m", "8"], ["1 Pixel = 32m", "32"]]], "'8'", "Zoomfaktor für Anzeige auf map.search.ch", "", "", ""],
     ];
 } elseif ($db_table == "links") {// DB LINKS
     $db_felder = [

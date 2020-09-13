@@ -61,13 +61,9 @@ echo $text;*/
     </div>
 </div>-->
 
-<!--
 <div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521'>
-    <a href='/files/aktuell/504/008.pdf?modified=1596523116' class='linkpdf' style='font-size:14px;'>1. Zimmerberg Berg-OL - 15. August 2020 (Stand 3.8.2020)</a><br>
-    <a href='/files/aktuell/504/009.pdf?modified=1596523121' class='linkpdf' style='font-size:14px;'>Schutzkonzept</a><br>
-    <a href='https://www.o-l.ch/cgi-bin/results?type=start&rl_id=5371' class='linkext' style='font-size:14px;'>Startliste</a>
+    <a href='/pdf/2020_zol_ausschreibung.pdf' class='linkpdf' style='font-size:14px;'>13. Zimmerberg OL - 25. Oktober 2020 (Stand 13.9.2020)</a>
 </div>
--->
 
 <!-- <div style='padding-bottom:10px; text-align:center;font-weight:bold;background-color:#D4E7CE;padding-top:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;height:110px;'><img src='img/richterswil10_thumb.jpg' style='margin-left:25px;float:left;'><img src='img/richterswil07_thumb.jpg' style='margin-right:25px;float:right;'>
 <div style='margin-left:140px;margin-right:140px;text-align:center;font-size:14px;border:solid 0px;'>9. Zimmerberg OL - 10. April 2016<br>

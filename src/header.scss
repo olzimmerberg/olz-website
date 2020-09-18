@@ -21,6 +21,7 @@
 }
 
 .header-content-container {
+    position: relative;
     height: 180px;
     max-width: 1200px;
     margin: -15px auto;
@@ -41,13 +42,20 @@
     transition: opacity 0.5s;
 }
 
-.header-bar.minified .header-content-container {
+.header-bar.minified .header-content {
     opacity: 0;
     pointer-events: none;
 }
 
 .header-box {
     margin: 10px 5px;
+}
+
+.above-header {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 1; /* account menu in front of header content */
 }
 
 .below-header {
@@ -101,6 +109,11 @@
 
 .menu-closed .menu-close {
     opacity: 0;
+}
+
+.account-menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 @media screen and (max-width: 1024px) {

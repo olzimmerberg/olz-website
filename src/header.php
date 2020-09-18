@@ -7,9 +7,13 @@
 require_once "image_tools.php";
 require_once "file_tools.php";
 
-// echo "<br/>";
-// echo "<div class='header-bar-container'>";
 echo "<div id='header-bar' class='header-bar menu-closed'>";
+
+echo "<div class='above-header'>";
+echo "<div class='account-menu-container'>";
+include __DIR__.'/account.php';
+echo "</div>";
+echo "</div>";
 
 echo "<div class='below-header'>";
 echo "<div id='menu-container' class='menu-container'>";
@@ -284,4 +288,3 @@ echo "</div>"; // header-content
 echo "</div>"; // header-content-scroller
 echo "</div>"; // header-content-container
 echo "</div>"; // header-bar
-// echo "</div>";

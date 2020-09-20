@@ -3,14 +3,15 @@
 // Webpack generiert daraus den Ordner `jsbuild/`.
 // =============================================================================
 
+import 'bootstrap';
 import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
-import './header.css';
-import './index.css';
-import './menu.css';
-import './styles.css';
+import './header.scss';
+import './index.scss';
+import './menu.scss';
+import './styles.scss';
 
 export * from './components/index';
 export * from './header';
@@ -27,7 +28,7 @@ export function loaded() {
         window[key] = olz[key];
     }
 
-    $(document).ready(() => {
+    $(() => {
         $('.lightgallery').lightGallery({
             selector: 'a[data-src]',
         });

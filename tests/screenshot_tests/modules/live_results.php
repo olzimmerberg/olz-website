@@ -16,6 +16,7 @@ function test_live_results($driver, $base_url) {
     file_put_contents($live_file_path, $live_file_content);
 
     $driver->get("{$base_url}{$startseite_url}");
+    $driver->navigate()->refresh();
     take_pageshot($driver, 'live_results_link');
 
     unlink($live_file_path);

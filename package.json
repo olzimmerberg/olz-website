@@ -29,14 +29,18 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.0",
     "file-loader": "^6.0.0",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
     "style-loader": "^1.2.1",
-    "webpack": "^4.44.1",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
     "lightgallery": "^1.7.3",
+    "popper.js": "^1.16.1",
     "typeface-open-sans": "0.0.75"
   }
 }

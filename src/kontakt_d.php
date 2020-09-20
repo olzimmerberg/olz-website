@@ -60,7 +60,7 @@ foreach ($root_roles as $root_role) {
     $root_role_name = nl2br($root_role->getName());
     $org .= "<td style='width:".$colwid."px; vertical-align:top;'>";
     $org .= "<div id='link-role-{$root_role->getId()}' style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
-    $org .= "<h6 style='min-height:36px;'>{$root_role_name}</h6>";
+    $org .= "<h6 style='font-weight:bold; min-height:36px;'>{$root_role_name}</h6>";
     $root_role_assignees = $root_role->getUsers();
     foreach ($root_role_assignees as $root_role_assignee) {
         $org .= olz_user_info_with_popup($root_role_assignee, 'name_picture');

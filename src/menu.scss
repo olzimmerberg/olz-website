@@ -1,0 +1,46 @@
+.menu {
+    position: absolute;
+    width: 180px;
+    padding-top: 15px;
+}
+
+.menu-link {
+    display: block;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    > div, > h1 {
+        margin: 0px;
+        font-weight: bold;
+    }
+
+    &.font-size-large {
+        > div, > h1 {
+            height: 34px;
+            line-height: 32px;
+            font-size: 16px;
+            padding: 0 5px 0 10px;
+        }
+    }
+
+    &.font-size-small {
+        > div, > h1 {
+            height: 24px;
+            line-height: 22px;
+            font-size: 11px;
+            padding: 0 5px 0 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .menu {
+        background-image: url('icns/mainbg.png');
+        background-repeat: repeat;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+        -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    	-webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    }
+}

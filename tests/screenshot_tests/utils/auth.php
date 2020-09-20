@@ -8,6 +8,7 @@ $logout_url = '/?page=Logout';
 function login($driver, $base_url, $username, $password) {
     global $login_url;
     $driver->get("{$base_url}{$login_url}");
+    $driver->navigate()->refresh();
     $username_elem = $driver->findElement(
         WebDriverBy::cssSelector('input[name="username"]')
     );
@@ -25,4 +26,5 @@ function login($driver, $base_url, $username, $password) {
 function logout($driver, $base_url) {
     global $logout_url;
     $driver->get("{$base_url}{$logout_url}");
+    $driver->navigate()->refresh();
 }

@@ -6,28 +6,27 @@
 
 require_once __DIR__.'/config/paths.php';
 
-$fontsize = "16";
 $menu = [
-    ["Startseite", "1", $fontsize], // Menüpunkt ('Name','Link')
-    ["", "", 1],
-    ["Aktuell", "2", $fontsize],
-    ["Leistungssport", "7", $fontsize],
-    ["Termine", "3", $fontsize],
-    ["", "", 1],
-    ["Galerie", "4", $fontsize],
-    ["Forum", "5", $fontsize],
-    ["Karten", "12", $fontsize],
-    ["", "", 1],
-    ["Material & Kleider", "21", $fontsize],
-    ["Service", "8", $fontsize],
+    ["Startseite", "1", 'large'], // Menüpunkt ('Name','Link')
+    ["", "", ''],
+    ["Aktuell", "2", 'large'],
+    ["Leistungssport", "7", 'large'],
+    ["Termine", "3", 'large'],
+    ["", "", ''],
+    ["Galerie", "4", 'large'],
+    ["Forum", "5", 'large'],
+    ["Karten", "12", 'large'],
+    ["", "", ''],
+    ["Material & Kleider", "21", 'large'],
+    ["Service", "8", 'large'],
     //array("Anmeldungen","13",15),
-    ["Kontakt", "6", $fontsize],
-    ["", "", 1],
+    ["Kontakt", "6", 'large'],
+    ["", "", ''],
 ];
 
 echo "<div id='menu' class='menu'>";
 // LIVE-RESULTATE
-$live_json_path = "{$data_path}/results/_live.json";
+$live_json_path = "{$data_path}results/_live.json";
 if (is_file($live_json_path)) {
     $content = file_get_contents($live_json_path);
     if ($content) {
@@ -35,24 +34,24 @@ if (is_file($live_json_path)) {
         $last_updated_at = strtotime($live['last_updated_at']);
         $now = strtotime(date('Y-m-d H:i:s'));
         if ($live && $last_updated_at > $now - 3600) {
-            echo "<div".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")."><a href='{$code_href}resultate/?file=".$live['file']."' id='live-results-link'><div style='color:#550000;background-color:#cc0000;font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a></div>";
+            echo "<a href='{$code_href}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
         }
     }
 }
 // ADMIN
 if (in_array('ftp', preg_split("/ /", $_SESSION['auth'])) or ($_SESSION['auth'] == 'all')) {
-    array_push($menu, ["WebFTP", "ftp", 11]);
+    array_push($menu, ["WebFTP", "ftp", 'small']);
 }
 if ($_SESSION['auth'] == 'all') {
-    array_push($menu, ["Online-Resultate", "16", 11]);
+    array_push($menu, ["Online-Resultate", "16", 'small']);
 }
 if ($_SESSION['auth'] == 'all') {
-    array_push($menu, ["SVG-Editor", "17", 11]);
+    array_push($menu, ["SVG-Editor", "17", 'small']);
 }
 if (isset($_SESSION["auth"])) {
-    array_push($menu, ["Logout", "Logout", 11]);
+    array_push($menu, ["Logout", "Logout", 'small']);
 } else {
-    array_push($menu, ["Admin", "10", 11]);
+    array_push($menu, ["Admin", "10", 'small']);
 }
 echomenu($menu, "mainmenu");
 
@@ -116,7 +115,7 @@ function echomenu($menu, $identifier) {
             $border_tmp = " border-top:1px solid #".$linecolor.";";
         }
         if ($menupunkt[0] != "" && $menupunkt[1] != "") {
-            echo "<div><a href='index.php?page=".$menupunkt[1]."' id='menu_a_page".$menupunkt[1]."'><".$tag." style='".$color."background-color:#".$bgcolor.";font-weight:bold;font-size:".floor($fontsize)."px;padding:".floor($fontsize / 3)."px 5px ".floor($fontsize / 3)."px 10px;margin:0px;border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a></div>";
+            echo "<a href='index.php?page=".$menupunkt[1]."' id='menu_a_page".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
         } else {
             //echo "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
             echo "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";

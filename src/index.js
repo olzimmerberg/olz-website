@@ -8,6 +8,8 @@ import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
+import './account.scss';
+import './bootstrap.scss';
 import './header.scss';
 import './index.scss';
 import './menu.scss';

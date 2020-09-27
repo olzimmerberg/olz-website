@@ -8,15 +8,16 @@ import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
-import './account.scss';
 import './bootstrap.scss';
 import './header.scss';
 import './index.scss';
 import './menu.scss';
+import './profile.scss';
 import './styles.scss';
 
 export * from './components/index';
 export * from './header';
+export * from './profile';
 export * from './scripts/jscripts';
 export * from './scripts/fader';
 export * from './scripts/accordion';

@@ -1,0 +1,11 @@
+#login-modal {
+    #login-message {
+        &:empty {
+            display: none;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+}

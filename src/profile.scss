@@ -1,0 +1,13 @@
+#profile-form {
+    #profile-update-error-message,
+    #profile-update-success-message {
+        &:empty {
+            display: none;
+        }
+    }
+
+    .col.change-password-cell {
+        align-self: flex-end;
+        margin-bottom: 1rem;
+    }
+}

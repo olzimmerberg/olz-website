@@ -11,7 +11,7 @@ echo "<div id='header-bar' class='header-bar menu-closed'>";
 
 echo "<div class='above-header'>";
 echo "<div class='account-menu-container'>";
-include __DIR__.'/account.php';
+include __DIR__.'/components/auth/olz_account_menu/olz_account_menu.php';
 echo "</div>";
 echo "</div>";
 

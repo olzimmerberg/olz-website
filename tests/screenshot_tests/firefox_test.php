@@ -27,6 +27,8 @@ require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
 require_once __DIR__.'/modules/search.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
+require_once __DIR__.'/modules/login_logout.php';
+require_once __DIR__.'/modules/profile.php';
 require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/webftp.php';
 require_once __DIR__.'/modules/live_results.php';
@@ -61,6 +63,8 @@ try {
     test_error($driver, $base_url);
     test_search($driver, $base_url);
     test_fuer_einsteiger($driver, $base_url);
+    test_login_logout($driver, $base_url);
+    test_profile($driver, $base_url);
     test_divmail($driver, $base_url);
     test_webftp($driver, $base_url);
     test_live_results($driver, $base_url);

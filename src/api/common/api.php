@@ -6,7 +6,7 @@ function api_respond($http_code, $response) {
 }
 
 function sanitized_endpoint_name_from_path_info($path_info) {
-    $has_path_info = preg_match('/^\/([a-z0-9_]+)$/', $path_info, $path_info_matches);
+    $has_path_info = preg_match('/^\/([a-zA-Z0-9]+)$/', $path_info, $path_info_matches);
     if (!$has_path_info) {
         api_respond(400, 'No path info');
     }

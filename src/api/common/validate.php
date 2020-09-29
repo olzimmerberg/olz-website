@@ -13,6 +13,10 @@ class ValidationError extends Exception {
     public function getValidationErrors() {
         return $this->validationErrors;
     }
+
+    public function getStructuredAnswer() {
+        return $this->validationErrors;
+    }
 }
 
 function backend_validate($fields, $input) {

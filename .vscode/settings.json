@@ -1,6 +1,8 @@
 {
     "search.exclude": {
         "dev-server/_/**": true,
-        "dev-server/deploy/**": true
+        "dev-server/deploy/**": true,
+        "src/config/vendor/**": true,
+        "src/library/**": true,
     }
 }

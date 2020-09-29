@@ -21,7 +21,6 @@ $menu = [
     ["Service", "8", 'large'],
     //array("Anmeldungen","13",15),
     ["Kontakt", "6", 'large'],
-    ["", "", ''],
 ];
 
 echo "<div id='menu' class='menu'>";
@@ -37,21 +36,6 @@ if (is_file($live_json_path)) {
             echo "<a href='{$code_href}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
         }
     }
-}
-// ADMIN
-if (in_array('ftp', preg_split("/ /", $_SESSION['auth'])) or ($_SESSION['auth'] == 'all')) {
-    array_push($menu, ["WebFTP", "ftp", 'small']);
-}
-if ($_SESSION['auth'] == 'all') {
-    array_push($menu, ["Online-Resultate", "16", 'small']);
-}
-if ($_SESSION['auth'] == 'all') {
-    array_push($menu, ["SVG-Editor", "17", 'small']);
-}
-if (isset($_SESSION["auth"])) {
-    array_push($menu, ["Logout", "Logout", 'small']);
-} else {
-    array_push($menu, ["Admin", "10", 'small']);
 }
 echomenu($menu, "mainmenu");
 

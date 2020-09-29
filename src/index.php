@@ -7,7 +7,6 @@
 
 session_start();
 
-require_once 'admin/check.php';
 require_once 'admin/olz_init.php';
 require_once 'admin/olz_functions.php';
 require_once 'tickers.php';
@@ -33,6 +32,7 @@ $pages = [
     "20" => "trophy.php",
     "21" => "material.php",
     "99" => "results.php",
+    "100" => "profile.php",
     "mail" => "divmail.php",
     "ftp" => "webftp.php",
     "tools" => "termine_helper.php",
@@ -79,9 +79,6 @@ if (isset($_SESSION["edit"])) {
 }
 if ($unset == 'unset') {
     unset($_SESSION["edit"]);
-}
-if (($button == "Login") or ($page == "Logout")) {
-    check_nutzer();
 }
 
 if (($page == "14") and (in_array(["all", "anm_felder"], explode(" ", $_SESSION["auth"])))) {
@@ -196,9 +193,12 @@ echo "<div id='content_wrapper'>";
 // Dynamisches Layout
 include $pages[$page];
 
-echo "<div style='clear:both;'>&nbsp;</div></div>
-</div>
-</body>
+echo "<div style='clear:both;'>&nbsp;</div></div>";
+echo "</div>";
+
+include __DIR__."/components/auth/olz_login_modal/olz_login_modal.php";
+
+echo "</body>
 </html>";
 
 include "admin/counter.php";

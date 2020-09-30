@@ -31,6 +31,8 @@ function test_login_logout($driver, $base_url) {
         );
         return $login_modal->getCssValue('opacity') == 1;
     });
+    sleep(0.2);
+
     take_pageshot($driver, 'login_modal');
 
     $username_elem = $driver->findElement(

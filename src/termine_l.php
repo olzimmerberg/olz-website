@@ -4,41 +4,6 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
-?>
-
-<!--<script type="text/javascript" src="http://map.search.ch/api/map.js"></script>-->
-<script type="text/javascript" src="library/wgs84_ch1903/wgs84_ch1903.js"></script>
-<!--<h2>Termine</h2>-->
-<script type="text/javascript">
-    function map(id,xkoord,ykoord) {
-    var div;
-    mapid = "map"+id;
-    div = document.getElementById(mapid);
-    if(div.style.display=="none") {
-    div.style.display="";
-    breite = document.getElementById('Spalte1').offsetWidth-20;
-
-    // Neue Mapbox Karte
-    var lat = CHtoWGSlat(xkoord, ykoord);
-    var lng = CHtoWGSlng(xkoord, ykoord);
-    // Link (im Moment wird noch auf Search.ch verlinkt, denn dort sieht man öV Haltestellen)
-    div.innerHTML="<a href='http://map.search.ch/"+xkoord+","+ykoord+"' target='_blank'><img src='https://api.mapbox.com/styles/v1/allestuetsmerweh/ckgf9qdzm1pn319ohqghudvbz/static/pin-l+009000("+lng+","+lat+")/"+lng+","+lat+",13,0/"+breite+"x300?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q' class='noborder' style='margin:0px;padding:0px;align:center;border:1px solid #000000;'><\/a>";
-
-    mapid = "map_"+id;
-    div = document.getElementById(mapid);
-    div.innerHTML="<a href='' onclick=\"map('"+id+"',"+xkoord+","+ykoord+");return false;\" class='linkmap'>Karte ausblenden<\/a >"
-    }
-    else {
-    div.style.display="none";
-    div.innerHTML="";
-    mapid = "map_"+id;
-    div = document.getElementById(mapid);
-    div.innerHTML="<a href='' onclick=\"map('"+id+"',"+xkoord+","+ykoord+");return false;\" class='linkmap'>Karte zeigen<\/a >"
-        }
-    return false;}
-</script>
-
-<?php
 $db_table = "termine";
 $ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["resultat", "Resultate"], ["club", "Vereinsanlässe"]];
 
@@ -260,11 +225,11 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         $tn = ($zugriff == 1) ? "(".$row['teilnehmer'].($solv_uid > 0 ? ";SOLV" : "").") " : "";
         //Karte zeigen
         if ($xkoord > 0 and $datum >= $heute) {
-            $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"map('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
+            $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
         }
         //SOLV-Karte zeigen
         elseif ($row_solv["coord_x"] > 0 and $datum >= $heute) {
-            $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"map('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
+            $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
         }
         //Anmeldungs-Link zeigen
         //Manueller Anmeldungs-Link entfernen
@@ -407,4 +372,3 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
     echo "<tr><td style='width:20%;padding-top:4px;'><b>Termin wiederholen</b></td><td style='width:80%'><p><input type='checkbox' name='modus_termin' value='repeat'{$checked}><span style='margin-left:20px;'>(Achtung: Für das Wiederholen von Terminen muss ein Enddatum angegeben werden)</span></p></td></tr>";
     echo "<tr><td style='width:20%;padding-top:4px;'><b>Intervall (Tage)</b></td><td style='width:80%'><input type='text' name='intervall_termin' value='{$intervall}'></td></tr></table>";
 }
-?>

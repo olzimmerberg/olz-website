@@ -115,32 +115,7 @@ function termine_ticker($settings) {
 
         echo "<p{$class_heute}>".$edit_admin."<a href='index.php?page=3#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
-    echo "</div>
-<!--<script type='text/javascript'>
-var pulseids = new Array(".$pulse.");
-var mouseid = -1;
-window.setTimeout(\"animate(0.0)\",120);
-function animate(step) {
-    var offset = (Math.sin(step)+1)/5;
-    //alert(offset);
-    for (var i=0; i<pulseids.length; i++) {
-        if (pulseids[i]!=mouseid) {
-            document.getElementById(pulseids[i]).style.color = \"rgb(\"+Math.round(offset/2*255,0)+\",\"+Math.round(117+offset*(255-117),0)+\",\"+Math.round(39+offset/2*(255-39),0)+\")\";
-        } else {
-            document.getElementById(pulseids[i]).style.color = \"rgb(\"+Math.round(65+offset*(255-190),0)+\",\"+Math.round(65+offset*(255-190),0)+\",\"+Math.round(65+offset*(255-190),0)+\")\";
-        }
-    }
-    window.setTimeout(\"animate(\"+(step+0.5)+\")\",120);
-}
-function mousein(id) {
-    mouseid = id;
-    document.getElementById(id).style.color = \"rgb(0,0,0)\";
-}
-function mouseout(id) {
-    mouseid = -1;
-    document.getElementById(id).style.color = \"rgb(0,110,25)\";
-}
-</script>-->";
+    echo "</div>";
 }
 
 function zeitintervall($datum) {

@@ -16,11 +16,14 @@ import './profile.scss';
 import './styles.scss';
 
 export * from './components/index';
+export * from './fuer_einsteiger';
 export * from './header';
+export * from './kontakt';
 export * from './profile';
 export * from './scripts/jscripts';
 export * from './scripts/fader';
 export * from './scripts/accordion';
+export * from './termine';
 export * from 'lightgallery';
 export * from 'jquery';
 export * from 'jquery-ui/ui/widgets/datepicker';

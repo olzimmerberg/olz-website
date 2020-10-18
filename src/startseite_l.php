@@ -6,13 +6,6 @@
 
 ?>
 
-<script type='text/javascript'>
-function handleClick(ev) {
-ev = ev || window.event;
-ev.stopPropagation();
-ev.cancelBubble = true;
-}
-</script>
 <!--EINSTEIGER-->
 <div class='banner'>
     Neu hier? <a href='?page=18' class='linkint'>Hier gehts zur Seite für Einsteiger</a>

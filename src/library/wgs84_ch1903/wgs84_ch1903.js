@@ -2,19 +2,19 @@
 // Updated 9 dec 2014
 // Please validate your results with NAVREF on-line service: http://www.swisstopo.admin.ch/internet/swisstopo/en/home/apps/calc/navref.html (difference ~ 1-2m)
 
-// Convert WGS lat/long (° dec) to CH y
-function WGStoCHy(lat, lng) {
+// Convert WGS lat/long (ï¿½ dec) to CH y
+export function WGStoCHy(lat, lng) {
 
   // Convert decimal degrees to sexagesimal seconds
-  lat = DECtoSEX(lat);
-  lng = DECtoSEX(lng);
+  const sexLat = DECtoSEX(lat);
+  const sexLng = DECtoSEX(lng);
 
   // Auxiliary values (% Bern)
-  var lat_aux = (lat - 169028.66)/10000;
-  var lng_aux = (lng - 26782.5)/10000;
+  const lat_aux = (sexLat - 169028.66)/10000;
+  const lng_aux = (sexLng - 26782.5)/10000;
   
   // Process Y
-  y = 600072.37 
+  const y = 600072.37 
      + 211455.93 * lng_aux 
      -  10938.51 * lng_aux * lat_aux
      -      0.36 * lng_aux * Math.pow(lat_aux,2)
@@ -23,19 +23,19 @@ function WGStoCHy(lat, lng) {
   return y;
 }
 
-// Convert WGS lat/long (° dec) to CH x
-function WGStoCHx(lat, lng) {
+// Convert WGS lat/long (ï¿½ dec) to CH x
+export function WGStoCHx(lat, lng) {
   
   // Convert decimal degrees to sexagesimal seconds
-  lat = DECtoSEX(lat);
-  lng = DECtoSEX(lng);
+  const sexLat = DECtoSEX(lat);
+  const sexLng = DECtoSEX(lng);
   
   // Auxiliary values (% Bern)
-  var lat_aux = (lat - 169028.66)/10000;
-  var lng_aux = (lng - 26782.5)/10000;
+  const lat_aux = (sexLat - 169028.66)/10000;
+  const lng_aux = (sexLng - 26782.5)/10000;
 
   // Process X
-  x = 200147.07
+  const x = 200147.07
      + 308807.95 * lat_aux 
      +   3745.25 * Math.pow(lng_aux,2)
      +     76.63 * Math.pow(lat_aux,2)
@@ -47,7 +47,7 @@ function WGStoCHx(lat, lng) {
 }
 
 // Convert CH y/x to WGS lat
-function CHtoWGSlat(y, x) {
+export function CHtoWGSlat(y, x) {
 
   // Converts military to civil and  to unit = 1000km
   // Auxiliary values (% Bern)
@@ -55,7 +55,7 @@ function CHtoWGSlat(y, x) {
   var x_aux = (x - 200000)/1000000;
   
   // Process lat
-  lat = 16.9023892
+  const lat = 16.9023892
        +  3.238272 * x_aux
        -  0.270978 * Math.pow(y_aux,2)
        -  0.002528 * Math.pow(x_aux,2)
@@ -63,14 +63,14 @@ function CHtoWGSlat(y, x) {
        -  0.0140   * Math.pow(x_aux,3);
     
   // Unit 10000" to 1 " and converts seconds to degrees (dec)
-  lat = lat * 100/36;
+  const latDec = lat * 100/36;
   
-  return lat;
+  return latDec;
   
 }
 
 // Convert CH y/x to WGS long
-function CHtoWGSlng(y, x) {
+export function CHtoWGSlng(y, x) {
 
   // Converts military to civil and  to unit = 1000km
   // Auxiliary values (% Bern)
@@ -78,21 +78,21 @@ function CHtoWGSlng(y, x) {
   var x_aux = (x - 200000)/1000000;
   
   // Process long
-  lng = 2.6779094
+  const lng = 2.6779094
         + 4.728982 * y_aux
         + 0.791484 * y_aux * x_aux
         + 0.1306   * y_aux * Math.pow(x_aux,2)
         - 0.0436   * Math.pow(y_aux,3);
      
   // Unit 10000" to 1 " and converts seconds to degrees (dec)
-  lng = lng * 100/36;
+  const lngDec = lng * 100/36;
      
-  return lng;
+  return lngDec;
   
 }
 
 // Convert angle in decimal degrees to sexagesimal seconds
-function DECtoSEX(angle) {
+export function DECtoSEX(angle) {
 
   // Extract DMS
   var deg = parseInt(angle);

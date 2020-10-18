@@ -25,7 +25,6 @@ function test_profile($driver, $base_url) {
         );
         return $change_password_modal->getCssValue('opacity') == 1;
     });
-    sleep(0.5);
 
     take_pageshot($driver, 'change_password_admin');
 

@@ -75,7 +75,7 @@ Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Ki
 Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='?page=3' onmouseover='highlight_menu(3)' onmouseout='unhighlight_menu(3)' class='linkint'>Termine-Seite</a></b> bekannt gegeben. <br>Auf der rechten Seite bei den <a href='?page=3' onmouseover='highlight_menu(3)' onmouseout='unhighlight_menu(3)' class='linkint'>Terminen</a> findest du auch diese <b>Übersicht über unsere Trainings</b>:
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>";
-olz_text_insert(1);
+echo get_olz_text(1);
 echo "</div>
 <div>
 Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='?page=3' onmouseover='highlight_menu(3)' onmouseout='unhighlight_menu(3)' class='linkint'>Termine-Seite</a>.

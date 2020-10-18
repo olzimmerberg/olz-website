@@ -254,7 +254,7 @@ echo $htmlout_j_und_s_2020;
 /*
 // OLZ JOM Team Challenge 2015
 echo "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
-olz_text_insert(9, false);
+echo get_olz_text(9, false);
 echo "</form></div></div></div>";
 */
 //echo $statistik_text;

@@ -42,7 +42,6 @@ h6 {
     padding:0px;
     border:0px;
     font-family:'Open Sans', arial, sans-serif;
-    text-align:left;
     vertical-align:top;}
 
 table
@@ -126,6 +125,17 @@ tr.off *
 	{background-color:#D4E7CE;height:10px;}
 
 /*-----------ABSTAENDE-------------*/
+.banner {
+    padding-bottom: 10px; 
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #D4E7CE;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #007521;
+    border-top: 1px solid #007521;
+}
 h2, h3, .buttonbar
     {margin:8px 0px 4px 0px;
      padding-left:5px;padding-top:5px;}

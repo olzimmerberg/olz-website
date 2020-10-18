@@ -82,6 +82,10 @@ VALUES
 -- Table olz_result
 
 -- Table olz_text
+INSERT INTO olz_text
+    (`id`, `text`, `on_off`)
+VALUES
+    ('22', '⚠️ Wichtige Information! ⚠️', '1');
 
 -- Table roles
 INSERT INTO roles

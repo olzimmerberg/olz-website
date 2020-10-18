@@ -29,8 +29,8 @@ if ($titel == "") {
 if ($row['datum'] > 0) {
     echo "<p><b>Nächstes Training: </b>{$datum}<br>{$titel}, {$text}</p>";
 }
-olz_text_insert(1);
+echo get_olz_text(1);
 echo "<h2>Downloads und Links</h2>";
-olz_text_insert(2);
+echo get_olz_text(2);
 echo "<h2>Newsletter</h2>";
-olz_text_insert(3);
+echo get_olz_text(3);

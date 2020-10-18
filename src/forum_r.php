@@ -19,5 +19,5 @@
     </ul>
 </p>-->
 <?php
-olz_text_insert(4);
+echo get_olz_text(4);
 ?>

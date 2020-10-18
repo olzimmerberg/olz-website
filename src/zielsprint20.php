@@ -7,7 +7,7 @@
 echo "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 
 //echo "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";
-olz_text_insert(9);
+echo get_olz_text(9);
 
 $sql = "SELECT solv_uid, name, date FROM solv_events WHERE date>'2020-03-13' AND date<'2021-01-01' AND kind='foot' ORDER BY date ASC";
 $res_events = $db->query($sql);

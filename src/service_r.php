@@ -13,7 +13,7 @@
 <b>Datenschutz: Alle Angaben werden vertraulich behandelt und keinesfalls an Dritte weitergegeben. Sie werden ausschliesslich für diesen Newsletter-Versand verwendet.</b>
 </p>-->
 
-<?php olz_text_insert(6); ?>
+<?php echo get_olz_text(6); ?>
 
 <?php
 $db_table = "newsletter";

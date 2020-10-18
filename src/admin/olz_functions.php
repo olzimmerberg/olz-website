@@ -95,8 +95,11 @@ function olz_amp($text) {
 //----------------------------------
 // Variablen Text editieren
 //----------------------------------
-function olz_text_insert($id_text, $editable = true) {
+function get_olz_text($id_text, $editable = true) {
     global $id_edit,$db_edit,$db,$buttonolz_text;
+
+    $html_out = "";
+
     //Konstanten
     $db_table = "olz_text";
 
@@ -117,12 +120,6 @@ function olz_text_insert($id_text, $editable = true) {
     }
     $_SESSION['id_edit'] = $_SESSION[$db_table.'id_text_'];
 
-    if ($zugriff && $editable) {
-        echo "<div class='olz_text_insert' id='id_edit".$id_text."'>";
-    } else {
-        echo "<div>";
-    }
-
     if ($_SESSION[$db_table.'id_text_'] == $id_text) {// DATENSATZ EDITIEREN
         $id = $id_edit;
         if ($zugriff) {
@@ -139,7 +136,10 @@ function olz_text_insert($id_text, $editable = true) {
 
         $function = array_search(${$button_name}, $functions);
         if ($zugriff && ($function != "") && $editable) {
+            ob_start();
             include 'admin/admin_db.php';
+            $html_out .= ob_get_contents();
+            ob_end_clean();
         }
         if ($_SESSION['edit']['table'] == $db_table) {
             $db_edit = "1";
@@ -156,6 +156,17 @@ function olz_text_insert($id_text, $editable = true) {
     $result = $db->query($sql);
     $row = $result->fetch_assoc();
 
+    $is_empty = !$row || !$row['text'] || strlen($row['text']) == 0;
+
+    if ($zugriff && $editable) {
+        $html_out .= "<div class='olz_text_insert' id='id_edit".$id_text."'>";
+    } else {
+        if ($is_empty) {
+            return '';
+        }
+        $html_out .= "<div>";
+    }
+
     // Anzeige - Vorschau
     if (($db_edit == "0") || ($do == "vorschau") || $_SESSION[$db_table.'id_text_'] != $id_text || !$editable) {
         if ($do == "vorschau") {
@@ -168,9 +179,10 @@ function olz_text_insert($id_text, $editable = true) {
         } else {
             $edit_admin = "";
         }
-        echo $edit_admin.$text;
+        $html_out .= $edit_admin.$text;
     }
-    echo "</div>";
+    $html_out .= "</div>";
+    return $html_out;
 }
 
 //----------------------------------

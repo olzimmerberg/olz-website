@@ -312,7 +312,7 @@ CREATE TABLE `olz_text` (
   `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table roles
 DROP TABLE IF EXISTS `roles`;

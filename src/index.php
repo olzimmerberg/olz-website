@@ -11,6 +11,8 @@ require_once 'admin/olz_init.php';
 require_once 'admin/olz_functions.php';
 require_once 'tickers.php';
 
+define('CALLED_THROUGH_INDEX', 1);
+
 $pages = [
     "0" => "error.php", // TO DO
     "1" => "startseite.php",

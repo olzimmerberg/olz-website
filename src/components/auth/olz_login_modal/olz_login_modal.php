@@ -1,6 +1,14 @@
 <?php
 
-echo <<<'ZZZZZZZZZZ'
+require_once __DIR__.'/../../../utils/auth/GoogleUtils.php';
+require_once __DIR__.'/../../../utils/auth/StravaUtils.php';
+
+$strava_utils = getStravaUtilsFromEnv();
+$google_utils = getGoogleUtilsFromEnv();
+$strava_url = $strava_utils->getAuthUrl();
+$google_url = $google_utils->getAuthUrl();
+
+echo <<<ZZZZZZZZZZ
 <div class='modal fade' id='login-modal' tabindex='-1' aria-labelledby='login-modal-label' aria-hidden='true'>
     <div class='modal-dialog'>
         <div class='modal-content'>
@@ -12,6 +20,11 @@ echo <<<'ZZZZZZZZZZ'
                     </button>
                 </div>
                 <div class='modal-body'>
+                    <div class='feature external-login'>
+                        <div><a href='{$strava_url}'>Login mit Strava</a></div>
+                        <div><a href='{$google_url}'>Login mit Google</a></div>
+                        <br />
+                    </div>
                     <div class='form-group'>
                         <label for='login-username-input'>Benutzername</label>
                         <input type='text' class='form-control test-flaky' id='login-username-input' autofocus />

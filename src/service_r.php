@@ -82,7 +82,7 @@ if ($db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Anmelden", "0"], ["Einstellungen ändern", "1"]], "")."</div>";
 }
 if ($zugriff) {
-    echo "<div class='buttonbar'><a href='index.php?page=mail&buttonrundmail=Neues Rundmail'>Rundmail verschicken</a></div>";
+    echo "<div class='buttonbar'><a href='divmail.php?buttonrundmail=Neues Rundmail'>Rundmail verschicken</a></div>";
 }
 
 //-------------------------------------------------------------

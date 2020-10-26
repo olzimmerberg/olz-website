@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$service_url = '/?page=8';
+$service_url = '/service.php';
 
 function test_service($driver, $base_url) {
     global $service_url;

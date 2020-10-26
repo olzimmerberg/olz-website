@@ -158,7 +158,7 @@ if ($zugriff == "1") {
             $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
             if (($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
-                $link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm={$id}'>Online-Anmeldung</a></div>".$link;
+                $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
             }
 
             if ($newsletter) {

@@ -6,10 +6,10 @@
 
 require_once __DIR__.'/tickers.php';
 
-echo "<!--<form name='Formular2' method='post' action='index.php' enctype='multipart/form-data'>
-<h2>GESUCHT 'BILD DER WOCHE'</h2>
-<p>Ihr habt sicher gemerkt, dass hier seit unzähligen Wochen dasselbe Bild erschienen ist. Leider hat niemand den Wink mit dem Zaunpfahl bemerkt. Deshalb nun hier explizit der Aufruf: Bitte liefert mir Bilder, am liebsten natürlich von irgendeinem OL, einem Training oder sonst einem Klubanlass. Format, Grösse und Qualität sind nicht so wichtig (ich nehme auch Handybilder). Zückt also eure Kameras und schiesst los ...</p>
-<script type='text/javascript'>document.write(MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"Bild mailen\", \"Bild%20der%20Woche\"));</script>-->";
+// echo "<form name='Formular2' method='post' action='index.php' enctype='multipart/form-data'>
+// <h2>GESUCHT 'BILD DER WOCHE'</h2>
+// <p>Ihr habt sicher gemerkt, dass hier seit unzähligen Wochen dasselbe Bild erschienen ist. Leider hat niemand den Wink mit dem Zaunpfahl bemerkt. Deshalb nun hier explizit der Aufruf: Bitte liefert mir Bilder, am liebsten natürlich von irgendeinem OL, einem Training oder sonst einem Klubanlass. Format, Grösse und Qualität sind nicht so wichtig (ich nehme auch Handybilder). Zückt also eure Kameras und schiesst los ...</p>
+// <script type='text/javascript'>document.write(MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"Bild mailen\", \"Bild%20der%20Woche\"));</script>";
 require_once "image_tools.php";
 //Konstanten
 $db_table = "bild_der_woche";
@@ -87,7 +87,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     $id_tmp = $row['id'];
 
     if ($zugriff and ($db_edit == "0")) {
-        $edit_admin = "<a href='index.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+        $edit_admin = "<a href='startseite.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
     } else {
         $edit_admin = "";
     }

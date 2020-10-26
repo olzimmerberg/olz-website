@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$service_url = '/?page=8';
+$service_url = '/service.php';
 $name = 'Test, User';
 $email = 'newsletter-test@olzimmerberg.ch';
 

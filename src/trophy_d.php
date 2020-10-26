@@ -78,7 +78,7 @@ for ($i = 0; $i < count($etappen); $i++) {
     <tr><td>öV:</td><td>".$etappe[6]."</td></tr>
     <tr><td>Parkplätze:</td><td>".$etappe[7]."</td></tr>
     <tr><td>Garderobe:</td><td>".$etappe[8]."</td></tr>
-    <tr><td></td><td><a href='?page=3#id".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
+    <tr><td></td><td><a href='termine.php#id".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
     <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("{$data_path}results/{$etappe[12]}.xml") ? "</td></tr>
     <tr><td></td><td><a href='{$code_href}resultate/?file=".$etappe[12].".xml' class='linkint'>Resultate</a>" : "")."</td></tr>
     </table></div></td><td style='width:20%; padding:5px 0px 5px 10px;'>".($etappe[4] != 0 ? "<script>document.write(getMapHtml(".$etappe[4].",".$etappe[5]."))</script>" : "")."</td></tr>";

@@ -49,7 +49,7 @@ if ($sql1 > "") {// TERMINE
         $jahr = date("Y", $datum);
         $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
         cutout($text);
-        $result_termine .= "<tr><td><a href=\"index.php?page=3&amp;show=1&amp;id={$id}&amp;jahr={$jahr}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"index.php?page=3&amp;show=1&amp;id={$id}&amp;jahr={$jahr}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_termine .= "<tr><td><a href=\"termine.php?show=1&amp;id={$id}&amp;jahr={$jahr}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php?show=1&amp;id={$id}&amp;jahr={$jahr}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     //AKTUELL
@@ -67,7 +67,7 @@ if ($sql1 > "") {// TERMINE
         $id = $row['id'];
         $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
         cutout($text);
-        $result_aktuell .= "<tr><td><a href=\"index.php?page=2&amp;id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"index.php?page=2&amp;id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_aktuell .= "<tr><td><a href=\"aktuell.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"aktuell.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     //FORUM
@@ -85,7 +85,7 @@ if ($sql1 > "") {// TERMINE
         $id = $row['id'];
         $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
         cutout($text);
-        $result_forum .= "<tr><td><a href=\"index.php?page=5&amp;id_forum={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"index.php?page=5&amp;id_forum={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_forum .= "<tr><td><a href=\"forum.php?id_forum={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"forum.php?id_forum={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     // GALERIE
@@ -103,7 +103,7 @@ if ($sql1 > "") {// TERMINE
         $id = $row['id'];
         $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
         cutout($text);
-        $result_galerie .= "<tr><td><a href=\"index.php?page=4&amp;id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"index.php?page=4&amp;id={$id}\" class=\"linkint\">".$titel."</a></b></td></tr>";
+        $result_galerie .= "<tr><td><a href=\"galerie.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"galerie.php?id={$id}\" class=\"linkint\">".$titel."</a></b></td></tr>";
     }
 
     $text = $result_termine.$result_aktuell.$result_galerie.$result_forum;

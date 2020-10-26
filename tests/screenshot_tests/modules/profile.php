@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$profile_url = '/?page=100';
+$profile_url = '/profile.php';
 
 function test_profile($driver, $base_url) {
     global $profile_url;

@@ -120,9 +120,9 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $zeit = date("G:i", strtotime($zeit));
 
         if (($do != 'vorschau') and (($_SESSION['auth'] == "all") or (ucwords($_SESSION['user']) == ucwords($autor)))) {
-            $edit_admin = "<a href='index.php?page=7&amp;id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='blog.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         }
-        //if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='index.php?page=7&amp;id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
+        //if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
         else {
             $edit_admin = "";
         }

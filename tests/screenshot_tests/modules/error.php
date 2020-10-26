@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$error_url = '/?page=0';
+$error_url = '/error.php';
 
 function test_error($driver, $base_url) {
     global $error_url;

@@ -19,13 +19,12 @@ echo "<img src='{$image_path}' class='account-thumbnail' />";
 echo "</a>";
 echo "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='account-menu-link'>";
 if ($user) {
-    echo "<a class='dropdown-item' href='?page=100'>Profil</a>";
+    echo "<a class='dropdown-item' href='profil.php'>Profil</a>";
     if (in_array('ftp', preg_split("/ /", $_SESSION['auth'])) || ($_SESSION['auth'] == 'all')) {
-        echo "<a class='dropdown-item' href='?page=ftp'>WebFTP</a>";
+        echo "<a class='dropdown-item' href='webftp.php'>WebFTP</a>";
     }
     if ($_SESSION['auth'] == 'all') {
-        echo "<a class='dropdown-item' href='?page=16'>Online-Resultate</a>";
-        echo "<a class='dropdown-item' href='?page=17'>SVG-Editor</a>";
+        echo "<a class='dropdown-item' href='results.php'>Online-Resultate</a>";
     }
     echo <<<'ZZZZZZZZZZ'
 <a

@@ -131,44 +131,6 @@ else {
     $refresh = "";
 }
 
-//-----------------------------------------
-// WebFTP-Zugriff  prüfen (Berechtigung und Root-Verzeichnis)
-//-----------------------------------------
-if ($page == 'ftp') {
-    if (in_array('ftp', explode(' ', $_SESSION['auth'])) or $_SESSION['auth'] == 'all') {
-        $var = (isset($_POST['fm_dir']) || isset($_GET['fm_dir'])) ? $fm_dir : $_SESSION['root'];
-        $var2 = explode('/', $var);
-        $var = (substr($var, -3) == '/..') ? implode('/', array_splice($var2, 0, count($var2) - 2)) : $var; // Übergeordnetes Verzeichnis
-        if (isset($_POST['fm_dir'])) {
-            if (substr($var, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and $_SESSION['auth'] != 'all') {
-                $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
-                $_POST['fm_dir'] = $_SESSION['root'];
-            }
-        } elseif (isset($_GET['fm_dir'])) {
-            if (substr($var, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and $_SESSION['auth'] != 'all') {
-                $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
-                $_GET['fm_dir'] = $_SESSION['root'];
-            }
-        } else {
-            $_GET['fm_dir'] = $var;
-        }
-
-        // User 'olzkarten' > darf Daten nicht umbenennen/löschen
-        if ($_SESSION['user'] == 'olzkarten') {
-            $var = $_GET['fm_action'];
-            if (in_array($var, ['confirm_rename_file', 'confirm_rename_directory', 'confirm_delete_file', 'confirm_remove_directory'])) {
-                $_GET['fm_action'] = "";
-                $_GET['fm_filename'] = "";
-                $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
-            }
-        }
-    }
-    // Datei herunterladen
-    if ($ftp_mode == 'get_file') {
-        $pfad = urldecode($_GET['pfad']);
-        header("Location: {$data_href}OLZimmerbergAblage/{$pfad}");
-    }
-}
 header('Cache-Control: max-age=600');
 
 include "components/page/olz_header/olz_header.php";

@@ -312,7 +312,7 @@ if ($zugriff == "1") {
             $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
             if (($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
-                $link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm={$id}'>Online-Anmeldung</a></div>".$link;
+                $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
             }
 
             if ($newsletter) {
@@ -414,7 +414,7 @@ if ($zugriff == "1") {
         }
 
         //mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Update ausgeführt","From: OL Zimmerberg<system@olzimmerberg.ch>");
-        //mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Einloggen: http://www.olzimmerberg.ch/index.php?page=10\nAlle Updaten:\n".$update_all_link."\n".$infos."\n\n--------------------------------------------------\n\n\n".$console,"From: OL Zimmerberg<system@olzimmerberg.ch>");
+        //mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Einloggen: https://www.olzimmerberg.ch/_/termine_tools.php\nAlle Updaten:\n".$update_all_link."\n".$infos."\n\n--------------------------------------------------\n\n\n".$console,"From: OL Zimmerberg<system@olzimmerberg.ch>");
     }
 
     // COMPARE

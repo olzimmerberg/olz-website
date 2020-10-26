@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$startseite_url = '/?page=1';
+$startseite_url = '/startseite.php';
 $username = 'admin';
 $password = 'adm1n';
 

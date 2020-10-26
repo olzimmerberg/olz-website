@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$material_url = '/?page=21';
+$material_url = '/material.php';
 
 function test_material($driver, $base_url) {
     global $material_url;

@@ -7,20 +7,20 @@
 require_once __DIR__.'/../../../config/paths.php';
 
 $menu = [
-    ["Startseite", "1", 'large'], // Menüpunkt ('Name','Link')
+    ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
     ["", "", ''],
-    ["Aktuell", "2", 'large'],
-    ["Leistungssport", "7", 'large'],
-    ["Termine", "3", 'large'],
+    ["Aktuell", "aktuell.php", 'large'],
+    ["Leistungssport", "blog.php", 'large'],
+    ["Termine", "termine.php", 'large'],
     ["", "", ''],
-    ["Galerie", "4", 'large'],
-    ["Forum", "5", 'large'],
-    ["Karten", "12", 'large'],
+    ["Galerie", "galerie.php", 'large'],
+    ["Forum", "forum.php", 'large'],
+    ["Karten", "karten.php", 'large'],
     ["", "", ''],
-    ["Material & Kleider", "21", 'large'],
-    ["Service", "8", 'large'],
+    ["Material & Kleider", "material.php", 'large'],
+    ["Service", "service.php", 'large'],
     //array("Anmeldungen","13",15),
-    ["Kontakt", "6", 'large'],
+    ["Kontakt", "kontakt.php", 'large'],
 ];
 
 echo "<div id='menu' class='menu'>";
@@ -61,7 +61,7 @@ function color ($red,$green,$blue) {
     return "rgb(".floor($red).",".floor($green).",".floor($blue).")";
 }
 */
-echo "<form name='Suche' method='post' action='index.php?page=9' style='white-space:nowrap; width:180px;'>
+echo "<form name='Suche' method='post' action='search.php' style='white-space:nowrap; width:180px;'>
 <input type='text' name='search_key' style='width:172px;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.search_key.style.color = \"#006516\"; this.form.search_key.value = \"\"; ' onblur='this.form.search_key.style.color = \"#888888\"; this.form.search_key.value = \"Suchen...\"; '>
 </form>";
 echo "<div style='padding:2em 0.5em 0em 0.5em;'>
@@ -73,6 +73,7 @@ echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 </div>";
 
 function echomenu($menu, $identifier) {
+    global $code_href;
     for ($i = 0; $i < count($menu); $i++) {
         $menupunkt = $menu[$i];
         $fontsize = $menupunkt[2];
@@ -87,7 +88,7 @@ function echomenu($menu, $identifier) {
         $bluelin = 255 * 1 / 8;
         $linecolor = color($redlin, $greenlin, $bluelin);
         $tag = "div";
-        if ($_SESSION['page'] == $menupunkt[1]) {
+        if ($_SESSION['page'] == $menupunkt[1] || $_SERVER['SCRIPT_NAME'] == $code_href.$menupunkt[1]) {
             $color = "color:#".color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
             $bgcolor = $bgcolorhover;
             $tag = "h1";
@@ -99,7 +100,7 @@ function echomenu($menu, $identifier) {
             $border_tmp = " border-top:1px solid #".$linecolor.";";
         }
         if ($menupunkt[0] != "" && $menupunkt[1] != "") {
-            echo "<a href='index.php?page=".$menupunkt[1]."' id='menu_a_page".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
+            echo "<a href='".$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
         } else {
             //echo "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
             echo "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";

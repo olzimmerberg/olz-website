@@ -125,7 +125,7 @@ if ($db_edit == "0" or $do == "vorschau") {
                 break;
             }
         }
-        echo "<tr class='galerie_kopf'><td style='padding:auto;'><a href='index.php?datum={$datum}&amp;foto=1' style='display:block;'><img src='icns/link_slides_16.svg' class='noborder' alt='' title='Bild für Bild'></a></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie_kopf'><td style='padding:auto;'><a href='galerie.php?datum={$datum}&amp;foto=1' style='display:block;'><img src='icns/link_slides_16.svg' class='noborder' alt='' title='Bild für Bild'></a></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;
@@ -201,5 +201,5 @@ if ($db_edit == "0" or $do == "vorschau") {
     echo "</table></div>";
 }
 if ($do == "submit" && !$zugriff) {
-    mail("simon.hatt@olzimmerberg.ch", "Neue Galerie", "Link: http://olzimmerberg.ch/index.php?page=4&id=".$_SESSION[$db_table."id"]);
+    mail("simon.hatt@olzimmerberg.ch", "Neue Galerie", "Link: https://olzimmerberg.ch/_/galerie.php?id=".$_SESSION[$db_table."id"]);
 }

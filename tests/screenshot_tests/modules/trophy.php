@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$trophy_url = '/?page=20';
+$trophy_url = '/trophy.php';
 
 function test_trophy($driver, $base_url) {
     global $trophy_url;

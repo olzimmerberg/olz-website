@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$startseite_url = '/?page=1';
+$startseite_url = '/startseite.php';
 
 function test_startseite($driver, $base_url) {
     global $startseite_url;

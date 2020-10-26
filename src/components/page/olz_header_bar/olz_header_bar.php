@@ -250,7 +250,7 @@ echo "</form></div></div></div>";
 
 /*function htmlboxhalbe($entry) {
     global $zugriff,$colors;
-    $edit_admin = ($zugriff)?"<a href='index.php?page=2&amp;id=".$entry["id"]."&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>":"";
+    $edit_admin = ($zugriff)?"<a href='aktuell.php?id=".$entry["id"]."&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>":"";
 
     if (!$entry){
         return "<td rowspan='2' style='vertical-align:middle;'><div class='box_halb'></div></td>";
@@ -261,11 +261,11 @@ echo "</form></div></div></div>";
 }*/
 
 // OLZ Trophy 2017
-echo "<div class='header-box'><a href='?page=20'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
+echo "<div class='header-box'><a href='trophy.php'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
 
 function htmlbox($entry, $typ) {
     global $zugriff,$colors,$button_name;
-    $edit_admin = ($zugriff) ? "<a href='index.php?page=2&amp;id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>" : "";
+    $edit_admin = ($zugriff) ? "<a href='aktuell.php?id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>" : "";
     if (!$entry) {
         return "<div class='box_ganz'>&nbsp;</div>";
     }

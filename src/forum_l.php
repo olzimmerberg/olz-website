@@ -163,7 +163,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $zeit = date("G:i", strtotime($zeit));
 
         if ($zugriff and ($do != 'vorschau')) {
-            $edit_admin = "<a href='index.php?id={$id}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='forum.php?id={$id}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }

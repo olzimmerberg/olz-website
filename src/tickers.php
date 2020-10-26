@@ -101,7 +101,7 @@ function termine_ticker($settings) {
         }
 
         if ($zugriff) {
-            $edit_admin = "<a href='index.php?page=3&amp;id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='termine.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
@@ -113,7 +113,7 @@ function termine_ticker($settings) {
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p{$class_heute}>".$edit_admin."<a href='index.php?page=3#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}>".$edit_admin."<a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>";
 }

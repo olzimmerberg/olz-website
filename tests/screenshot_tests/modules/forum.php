@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$forum_url = '/?page=5';
+$forum_url = '/forum.php';
 
 function test_forum($driver, $base_url) {
     global $forum_url;

@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$karten_url = '/?page=12';
+$karten_url = '/karten.php';
 
 function test_karten($driver, $base_url) {
     global $karten_url;

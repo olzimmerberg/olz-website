@@ -93,7 +93,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $name = $row['name'];
         $url = $row['url'];
         if ($zugriff and ($do != 'vorschau')) {
-            $edit_admin = "<a href='index.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='index.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='index.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
@@ -214,7 +214,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $typ = $row['typ'];
         $file1 = $row['file1'];
         if ($zugriff and ($do != 'vorschau')) {
-            $edit_admin = "<a href='index.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='index.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='index.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }

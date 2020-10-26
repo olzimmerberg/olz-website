@@ -4,20 +4,20 @@
 // Die Kopfzeile der Website.
 // =============================================================================
 
-require_once "image_tools.php";
-require_once "file_tools.php";
+require_once __DIR__.'/../../../image_tools.php';
+require_once __DIR__.'/../../../file_tools.php';
 
 echo "<div id='header-bar' class='header-bar menu-closed'>";
 
 echo "<div class='above-header'>";
 echo "<div class='account-menu-container'>";
-include __DIR__.'/components/auth/olz_account_menu/olz_account_menu.php';
+include __DIR__.'/../../auth/olz_account_menu/olz_account_menu.php';
 echo "</div>";
 echo "</div>";
 
 echo "<div class='below-header'>";
 echo "<div id='menu-container' class='menu-container'>";
-include "menu.php";
+include __DIR__."/../olz_menu/olz_menu.php";
 echo "</div>"; // menu-container
 echo "</div>"; // below-header
 

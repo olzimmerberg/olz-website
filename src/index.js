@@ -9,15 +9,12 @@ import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
 import './bootstrap.scss';
-import './header.scss';
 import './index.scss';
-import './menu.scss';
 import './profile.scss';
 import './styles.scss';
 
 export * from './components/index';
 export * from './fuer_einsteiger';
-export * from './header';
 export * from './kontakt';
 export * from './profile';
 export * from './scripts/jscripts';

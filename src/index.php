@@ -168,37 +168,10 @@ if ($page == 'ftp') {
     }
 }
 header('Cache-Control: max-age=600');
-$js_modified = filemtime("{$code_path}jsbuild/olz.min.js");
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
-        \"http://www.w3.org/TR/html4/loose.dtd\">
-<html>
-<head>
-<meta http-equiv='cache-control' content='public'>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='Keywords' content='OL Orientierungslauf Zimmerberg'>
-<meta name='Description' content='Homepage der OrientierungsläuferInnen Zimmerberg'>
-<meta name='Content-Language' content='de'>".$refresh."
-".(isset($_GET["archiv"]) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>OL Zimmerberg{$html_titel}</title>
-<link rel='shortcut icon' href='".$code_href."favicon.ico'>
-<script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
-</head>";
-echo "<body class='olz-override-root'>\n";
-echo "<a name='top'></a>";
-include "header.php";
-echo "<div class='site-container'>";
-echo "<div id='content_wrapper'>";
+
+include "components/page/olz_header/olz_header.php";
 
 // Dynamisches Layout
 include $pages[$page];
 
-echo "<div style='clear:both;'>&nbsp;</div></div>";
-echo "</div>";
-
-include __DIR__."/components/auth/olz_login_modal/olz_login_modal.php";
-
-echo "</body>
-</html>";
-
-include "admin/counter.php";
+include "components/page/olz_footer/olz_footer.php";

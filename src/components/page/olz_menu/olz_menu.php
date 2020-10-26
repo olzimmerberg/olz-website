@@ -4,7 +4,7 @@
 // Das Navigationsmenu der Website.
 // =============================================================================
 
-require_once __DIR__.'/config/paths.php';
+require_once __DIR__.'/../../../config/paths.php';
 
 $menu = [
     ["Startseite", "1", 'large'], // Menüpunkt ('Name','Link')

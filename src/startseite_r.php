@@ -4,6 +4,8 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
+require_once __DIR__.'/tickers.php';
+
 echo "<!--<form name='Formular2' method='post' action='index.php' enctype='multipart/form-data'>
 <h2>GESUCHT 'BILD DER WOCHE'</h2>
 <p>Ihr habt sicher gemerkt, dass hier seit unzähligen Wochen dasselbe Bild erschienen ist. Leider hat niemand den Wink mit dem Zaunpfahl bemerkt. Deshalb nun hier explizit der Aufruf: Bitte liefert mir Bilder, am liebsten natürlich von irgendeinem OL, einem Training oder sonst einem Klubanlass. Format, Grösse und Qualität sind nicht so wichtig (ich nehme auch Handybilder). Zückt also eure Kameras und schiesst los ...</p>

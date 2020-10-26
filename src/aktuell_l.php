@@ -24,7 +24,7 @@ if ($zugriff) {
 }
 $function = array_search(${$button_name}, $functions);
 if ($function != "") {
-    include 'admin/admin_db.php';
+    include __DIR__.'/admin/admin_db.php';
 }
 if ($_SESSION['edit']['table'] == $db_table) {
     $db_edit = "1";

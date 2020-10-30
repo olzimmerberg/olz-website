@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$divmail_url = '/?page=mail';
+$divmail_url = '/divmail.php';
 
 function test_divmail($driver, $base_url) {
     global $divmail_url;

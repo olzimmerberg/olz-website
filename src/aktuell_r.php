@@ -72,23 +72,23 @@ function olz_aktuell_liste($sql) {
         $datum = olz_date("tt.mm.jjjj", $datum);
 
         if ($link == "") {
-            $link = "page=2&amp;id={$id_tmp}";
+            $link = "id={$id_tmp}";
         }
         if ($typ == "aktuell") {
-            $link = "?{$link}";
+            $link = "aktuell.php?{$link}";
         } elseif ($typ == "termin") {
-            $link = "?page=3#{$link}";
+            $link = "termine.php#{$link}";
         } elseif ($typ == "galerie") {
-            $link = "?page=4&amp;datum={$link}";
+            $link = "galerie.php?datum={$link}";
         } elseif ($typ == "forum") {
-            $link = "?page=5#{$link}";
+            $link = "forum.php#{$link}";
         } else {
-            $link = "?page=2&amp;{$link}";
+            $link = "aktuell.php?{$link}";
         }
         $link .= (isset($_GET["archiv"]) ? "&amp;archiv" : "");
 
         if ($zugriff) {
-            $edit_admin = "<a href='index.php?id={$id_tmp}&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='aktuell.php?id={$id_tmp}&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
@@ -102,7 +102,7 @@ function olz_aktuell_liste($sql) {
         if ($id == $id_tmp) {
             $html_out .= "<li>{$edit_admin}<span class='linkblack' style='font-weight:bold;'>".$titel." (".$datum."/".$autor.")</span></li>";
         } else {
-            $html_out .= "<li>{$edit_admin}<a href='index.php".$link."'{$style} class='linkint'>".$titel." (".$datum."/".$autor.")</a></li>";
+            $html_out .= "<li>{$edit_admin}<a href='".$link."'{$style} class='linkint'>".$titel." (".$datum."/".$autor.")</a></li>";
         }
     }
     $html_out .= "</ul>";
@@ -128,7 +128,7 @@ foreach ($aktuell_special as $special_lang => $special_kurz) {
     if ($id == $special_kurz) {
         $special_html .= "<li><span><b>".$special_lang."</b></span></li>";
     } else {
-        $special_html .= "<li><a href='index.php?id=".$special_kurz."'>".$special_lang."</a></li>";
+        $special_html .= "<li><a href='aktuell.php?id=".$special_kurz."'>".$special_lang."</a></li>";
     }
 }
 $special_html .= "</ul>";

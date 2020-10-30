@@ -728,7 +728,7 @@ function fm_main() /* {{{ */
 							} else {
 								if ($fm_cfg['perm']['file']['view'])  {
 									//echo '<a target="_blank" href="'.$view_url_prefix_ue.$entry_ue.'">';
-									echo '<a target="_blank" href="index.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">';
+									echo '<a target="_blank" href="webftp.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">';
 									//echo $view_url_prefix_ue."***".$entry_ue;
 
 								}
@@ -795,7 +795,7 @@ function fm_main() /* {{{ */
 					if ($view_column) {
 						echo '<td><small>';
 						if ($fm_cfg['perm']['file']['view']) {
-							echo '[<a target="_blank" href="index.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">'
+							echo '[<a target="_blank" href="webftp.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">'
 								. _FM_FILE_VIEW.'</a>]';
 						}
 						echo '</small></td>',"\n";

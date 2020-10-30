@@ -82,7 +82,7 @@ if ($_SESSION['edit']['table'] == $db_table) {
 //-------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
-    echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span class='linkint'><a href='?page=15'>Termine-Tools</a></span></div>";
+    echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span class='linkint'><a href='termine_tools.php'>Termine-Tools</a></span></div>";
     echo "<div class='buttonbar'>".olz_buttons("jahr", $jahre, $jahr)."</div>";
     echo "<div class='buttonbar'>".olz_buttons("monat", $monate, $monat)."</div>";
 }
@@ -283,14 +283,14 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
         if ($datum_anmeldung and ($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
-            $link = "<div class='linkint'><a href='index.php?page=13&amp;id_anm={$id}'>Online-Anmeldung</a></div>".$link;
+            $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
         }
 
         if ($zugriff and ($do != 'vorschau')) {
             //Berbeiten-/Duplizieren-Button
-            $edit_admin = "<a href='index.php?id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='index.php?id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
+            $edit_admin = "<a href='termine.php?id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
             if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
-                $edit_anm = "<a href='index.php?page=14&amp;id_anm={$id}&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";
+                $edit_anm = "<a href='anmeldung.php?id_anm={$id}&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";
             } else {
                 $edit_anm = "";
             }

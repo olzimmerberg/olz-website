@@ -604,7 +604,11 @@ if ($do == "submit") {
     }
     // BESTAETIGUNGSMAIL
     if ($send_mail == "on") {
-        $page_link = array_search($db_table, ["", "", "", "", "", "forum", "", "newsletter", "", "", "", "", "", "anmeldung"]);
+        $page_links = [
+            'forum' => 'forum.php',
+            'newsletter' => 'service.php',
+        ];
+        $page_link = $page_links[$db_table];
         $mail_text = ucfirst($db_table)." OL Zimmerberg\n************************\n";
         $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8 \nContent-Transfer-Encoding: base64";
         $mail_subject = "OL Zimmerberg - ".ucfirst($db_table);
@@ -644,7 +648,7 @@ if ($do == "submit") {
             $label = $feld_tmp[1];
             $mail_text .= $label.": ".$_SESSION[$var]."\n";
         }
-        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".date("Y-m-d")."/".date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: http://www.olzimmerberg.ch/index.php?page=".$page_link."&button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
+        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".date("Y-m-d")."/".date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: https://www.olzimmerberg.ch/".$page_link."?button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
 
         // MAIL SENDEN
         foreach ($mail_adress as $mailadress_tmp) {

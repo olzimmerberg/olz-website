@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$startseite_url = '/?page=1';
+$startseite_url = '/startseite.php';
 $live_file_path = './dev-server/results/_live.json';
 
 function test_live_results($driver, $base_url) {

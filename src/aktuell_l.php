@@ -77,7 +77,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
 
         $datum = olz_date("tt.mm.jj", $datum);
 
-        $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='index.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
+        $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
         // Bildercode einfügen
         if ($do == 'vorschau') {

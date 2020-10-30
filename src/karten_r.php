@@ -99,7 +99,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         }
 
         if ($zugriff) {
-            $edit_admin = "<a href='index.php?id={$id}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='karten.php?id={$id}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }

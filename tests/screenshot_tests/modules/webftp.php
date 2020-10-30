@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$webftp_url = '/?page=ftp';
+$webftp_url = '/webftp.php';
 
 function test_webftp($driver, $base_url) {
     global $webftp_url;

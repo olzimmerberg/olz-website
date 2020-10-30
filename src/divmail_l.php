@@ -9,7 +9,7 @@
 // KONSTANTEN
 $db_table = "rundmail";
 $betreff_vorspann = "Newsletter OLZimmerberg - ";
-$text_nachspann = "\n\n-------------------------------\nHINWEIS\nDu erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: http://www.olzimmerberg.ch/index.php?page=8&buttonnewsletter=Weiter&uid=";
+$text_nachspann = "\n\n-------------------------------\nHINWEIS\nDu erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: https://www.olzimmerberg.ch/_/service.php?buttonnewsletter=Weiter&uid=";
 $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8 \nContent-Transfer-Encoding: base64";
 
 //-------------------------------------------------------------

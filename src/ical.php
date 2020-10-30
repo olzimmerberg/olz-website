@@ -30,8 +30,8 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $links = $row['link'];
     $dom = new domdocument();
     $dom->loadHTML($links);
-    $_links = "OLZ-Termin: http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
-    $_attach = "\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'];
+    $_links = "OLZ-Termin: https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
+    $_attach = "\r\nATTACH;VALUE=URI:https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
     foreach ($dom->getElementsByTagName("a") as $a) {
         $text = $a->textContent;
         $url = $a->getAttribute("href");
@@ -54,7 +54,7 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
 "\\n".$_links;
     $ical .=
 "\r\nCATEGORIES:".$row['typ'].
-$_attach.//"\r\nATTACH;VALUE=URI:http://olzimmerberg.ch/index.php?page=3&uid=".$row['id']."#id".$row['id'].
+$_attach.//"\r\nATTACH;VALUE=URI:https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'].
 "\r\nCLASS:PUBLIC".
 "\r\nUID:olz_termin_".$row['id']."@olzimmerberg.ch".
 "\r\nEND:VEVENT";

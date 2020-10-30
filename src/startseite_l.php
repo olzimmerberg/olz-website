@@ -8,7 +8,7 @@
 
 <!--EINSTEIGER-->
 <div class='banner'>
-    Neu hier? <a href='?page=18' class='linkint'>Hier gehts zur Seite für Einsteiger</a>
+    Neu hier? <a href='fuer_einsteiger.php' class='linkint'>Hier gehts zur Seite für Einsteiger</a>
 </div>
 
 <?php
@@ -56,7 +56,7 @@ while ($row = $result->fetch_assoc()) {
     if ($thistype == "blog") { // Tabelle 'blog'
         $autor = $row['f1'];
         $linkext = $row['linkext'];
-        $link = ($linkext > "") ? $linkext : "index.php?page=7&amp;id=".$id."#id".$id;
+        $link = ($linkext > "") ? $linkext : "blog.php?id=".$id."#id".$id;
         $icon = "icns/entry_type_blog_20.svg";
         $titel = "Kaderblog ".ucwords($autor).": ".$titel;
 
@@ -71,7 +71,7 @@ while ($row = $result->fetch_assoc()) {
         $text = mb_substr($text, 0, mb_strrpos($text, " "));
         $text = $text." (...)";
         if (($_SESSION['auth'] == "all") or ((in_array($thistype, preg_split("/ /", $_SESSION['auth']))) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"index.php?page=7&amp;id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
         $bild = olz_image("blog", $id, 1, 110, false, " style='float:left; margin:0px 5px 0px 0px;'");
@@ -87,19 +87,19 @@ while ($row = $result->fetch_assoc()) {
         $titel = $row['f1'];
         $name = ($row['f2'] > "") ? "(".$row['f2'].") " : "";
         $text = make_expandable($name.$text);
-        $link = "?page=5#id".$id;
+        $link = "forum.php#id".$id;
         $icon = "icns/entry_type_forum_20.svg";
         $titel = "Forum: ".$titel;
         if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"index.php?page=5&amp;id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
     } elseif ($thistype == "galerie") { // Tabelle 'galerie'
         $pfad = $row['id'];
         $typ = $row['f3'];
-        $link = "?page=4&amp;id=".$id;
+        $link = "galerie.php?id=".$id;
         $icon = "icns/entry_type_gallery_20.svg";
         if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"index.php?page=5&amp;id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
         $text = "";
         if ($pfad && $typ == "foto") {
@@ -130,11 +130,11 @@ while ($row = $result->fetch_assoc()) {
         }
     } else { // Tabelle 'aktuell'
         $textlang = $row['f7'];
-        $link = "?page=2&amp;id=".$id;
+        $link = "aktuell.php?id=".$id;
         $icon = "icns/entry_type_aktuell_20.svg";
         $titel = "Aktuell: ".$titel;
         if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"index.php?page=2&amp;id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
         }
         if ($aktuell_typ != 'aktuell') {
             $text = $row['textlang'];

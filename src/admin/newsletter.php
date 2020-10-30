@@ -18,7 +18,7 @@ $start = microtime(1);
 $subject = [];
 $mail_header = "From: OL Zimmerberg <newsletter@olzimmerberg.ch>\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8 \r\nContent-Transfer-Encoding: base64";
 $linie = "------------------------------------------------------------------------\r\n";
-$text_nachspann = $linie."HINWEIS\r\n".$linie."Du erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: http://www.olzimmerberg.ch/index.php?page=8&status=Weiter&uid=";
+$text_nachspann = $linie."HINWEIS\r\n".$linie."Du erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: https://www.olzimmerberg.ch/_/service.php?status=Weiter&uid=";
 $timestamp = date("Y-m-d")." ".date("H:i:s");
 
 //Termine
@@ -38,7 +38,7 @@ while ($row = $result->fetch_assoc()) {
     if ($text != "") {
         $subject['termine'] = $subject['termine']."\r\n".$text;
     }
-    $items = $items.$subject['termine']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id{$id}\r\n\r\n";
+    $items = $items.$subject['termine']." (...)\r\nDirekter Link: https://www.olzimmerberg.ch/_/termine.php#id{$id}\r\n\r\n";
     $sql = "UPDATE {$db_table} SET newsletter_datum = '{$timestamp}' WHERE (id = '{$id}')";
     $db->query($sql);
 }
@@ -65,7 +65,7 @@ while ($row = $result->fetch_assoc()) {
     $id = $row['id'];
     $deadline = utf8_encode(strftime("%d.%m.%y", strtotime($deadline)));
     $subject['termine'] = $deadline.": Meldeschluss ".$titel;
-    $items = $items.$subject['termine']."\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=3#id{$id}\r\n\r\n";
+    $items = $items.$subject['termine']."\r\nDirekter Link: https://www.olzimmerberg.ch/_/termine.php#id{$id}\r\n\r\n";
     $sql = "UPDATE
     termine
 SET newsletter_anmeldung = '{$timestamp}'
@@ -99,21 +99,21 @@ while ($row = $result->fetch_assoc()) {
         if ($link == "") {
             $link = "id={$id}";
         }
-        $link = "?page=2&amp;{$link}";
+        $link = "aktuell.php?{$link}";
     } elseif ($typ == "termin") {
-        $link = "?page=3#{$link}";
+        $link = "termine.php#{$link}";
     } elseif ($typ == "galerie") {
-        $link = "?page=4&amp;datum={$link}";
+        $link = "galerie.php?datum={$link}";
     } elseif ($typ == "forum") {
-        $link = "?page=5#{$link}";
+        $link = "forum.php#{$link}";
     } elseif ($typ == "jwoc") {
-        $link = "?page=7";
+        $link = "blog.php";
     } else {
         $link = "";
     }
 
     $subject['aktuell'] = $datum.", ".$zeit.": ".$titel."\r\n".$text;
-    $items = $items.$subject['aktuell']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php{$link}\r\n\r\n";
+    $items = $items.$subject['aktuell']." (...)\r\nDirekter Link: https://www.olzimmerberg.ch/_/{$link}\r\n\r\n";
     $sql = "UPDATE {$db_table} SET newsletter_datum = '{$timestamp}' WHERE (id = '{$id}')";
     $db->query($sql);
 }
@@ -138,10 +138,10 @@ while ($row = $result->fetch_assoc()) {
     $datum = utf8_encode(strftime("%d.%m.%y", strtotime($datum)));
     $zeit = date("G:i", strtotime($zeit));
 
-    $link = "?page=7";
+    $link = "blog.php";
 
     $subject['blog'] = $datum.", ".$zeit.": ".$titel."\r\n".$text;
-    $items = $items.$subject['blog']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php{$link}\r\n\r\n";
+    $items = $items.$subject['blog']." (...)\r\nDirekter Link: https://www.olzimmerberg.ch/_/{$link}\r\n\r\n";
     echo "*".$items."<br>";
     $sql = "UPDATE {$db_table} SET newsletter_datum = '{$timestamp}' WHERE (id = '{$id}')";
     $db->query($sql);
@@ -167,7 +167,7 @@ while ($row = $result->fetch_assoc()) {
     $datum = utf8_encode(strftime("%d.%m.%y", strtotime($datum)));
     $zeit = date("G:i", strtotime($zeit));
     $subject['forum'] = $datum.", ".$zeit."/".$name.":\r\n".$eintrag;
-    $items = $items.$subject['forum']." (...)\r\nDirekter Link: http://www.olzimmerberg.ch/index.php?page=5#id{$id}\r\n\r\n";
+    $items = $items.$subject['forum']." (...)\r\nDirekter Link: https://www.olzimmerberg.ch/_/forum.php#id{$id}\r\n\r\n";
     $sql = "UPDATE {$db_table} SET newsletter_datum = '{$timestamp}' WHERE (id = '{$id}')";
     $db->query($sql);
 }

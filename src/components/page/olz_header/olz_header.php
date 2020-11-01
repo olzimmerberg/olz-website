@@ -24,4 +24,4 @@ echo "<a name='top'></a>";
 include __DIR__.'/../olz_header_bar/olz_header_bar.php';
 
 echo "<div class='site-container'>";
-echo "<div id='content_wrapper'>";
+echo "<div class='site-background'>";

@@ -494,7 +494,7 @@ CREATE TABLE `users` (
   `zugriff` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `root` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table users_roles
 DROP TABLE IF EXISTS `users_roles`;

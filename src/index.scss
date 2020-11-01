@@ -1,27 +1,3 @@
-.site-container {
-    max-width: 1200px;
-    margin: 0px auto 20px;
-    padding-top: 180px;
-    background-image: url('icns/mainbg.png');
-    background-repeat: repeat;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-@media screen and (max-width: 1200px) {
-    .site-container {
-        min-height: 100%;
-        margin: 0px auto 0;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-}
-
-#content_wrapper {
-    height:100%;
-    position:relative;
-}
-
 #content_mitte {
     height:100%;
     position:relative;

@@ -1,0 +1,11 @@
+.footer {
+    padding: 10px 0 15px;
+
+    a {
+        color: rgb(200,200,200);
+
+        &:hover {
+            color: rgb(255,255,255);
+        }
+    }
+}

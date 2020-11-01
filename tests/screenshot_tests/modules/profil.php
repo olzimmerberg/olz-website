@@ -5,15 +5,15 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$profile_url = '/profile.php';
+$profil_url = '/profil.php';
 
-function test_profile($driver, $base_url) {
-    global $profile_url;
+function test_profil($driver, $base_url) {
+    global $profil_url;
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$profile_url}");
+    $driver->get("{$base_url}{$profil_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$profile_url}");
-    take_pageshot($driver, 'profile_admin');
+    $driver->get("{$base_url}{$profil_url}");
+    take_pageshot($driver, 'profil_admin');
 
     $change_password_button_elem = $driver->findElement(
         WebDriverBy::cssSelector('#change-password-button')

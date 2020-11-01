@@ -188,15 +188,18 @@ INSERT INTO users
 VALUES
     ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', '', 'Armin 😂', 'Admin 🤣', 'all', ''),
     ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp olz_text_1 aktuell galerie bild_der_woche', 'vorstand'),
-    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp', 'karten');
+    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp', 'karten'),
+    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '');
 
 -- Table users_roles
 INSERT INTO users_roles
     (`user_id`, `role_id`)
 VALUES
     ('1', '5'),
+    ('1', '25'),
     ('2', '4'),
     ('2', '17'),
-    ('3', '16');
+    ('3', '16'),
+    ('4', '25');
 
 COMMIT;

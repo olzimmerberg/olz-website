@@ -13,3 +13,6 @@ ini_set('display_errors', 1);
 $_CONFIG->unlimited_cron = true;
 
 $DATABASE_BACKUP_KEY = 'aaaaaaaaaaaaaaaaaaaa';
+
+$STRAVA_CLIENT_ID = '123456';
+$STRAVA_CLIENT_SECRET = '0123456789abcdef0123456789abcdef01234567';

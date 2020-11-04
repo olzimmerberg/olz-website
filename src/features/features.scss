@@ -1,0 +1,9 @@
+.feature {
+    &.external-login {
+        display: none;
+
+        &.enabled {
+            display: block;
+        }
+    }
+}

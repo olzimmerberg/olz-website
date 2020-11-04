@@ -14,6 +14,7 @@ import './profil.scss';
 import './styles.scss';
 
 export * from './components/index';
+export * from './features/index';
 export * from './fuer_einsteiger';
 export * from './kontakt';
 export * from './profil';

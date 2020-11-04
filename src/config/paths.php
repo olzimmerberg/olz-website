@@ -12,3 +12,6 @@ $code_href = '/_/';
 
 $deploy_path = $_SERVER['DOCUMENT_ROOT'].'/deploy/';
 $deploy_href = '/deploy/';
+
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https://' : 'http://';
+$base_href = "{$protocol}{$_SERVER['HTTP_HOST']}";

@@ -8,4 +8,59 @@
     .hidden {
         display: none;
     }
+
+    .login-button {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgb(200,200,200);
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 8px;
+        margin-right: 8px;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        img {
+            border: 0;
+            padding-right: 8px;
+        }
+    }
+
+    .strava-button {
+        background-color: rgb(252, 82, 0);
+        border-color: rgb(252, 82, 0);
+        color: rgb(255,255,255);
+
+        &:hover,
+        &:active {
+            background-color: rgb(204, 66, 0);
+            border-color: rgb(204, 66, 0);
+        }
+    }
+
+    .google-button {
+        background-color: rgb(255, 255, 255);
+        border-color:rgb(200,200,200);
+        color: rgb(135,135,135);
+
+        &:hover,
+        &:active {
+            background-color: rgb(238, 238, 238);
+            border-color: rgb(238, 238, 238);
+        }
+    }
+
+    .facebook-button {
+        background-color: rgb(24,119,242);
+        border-color: rgb(24,119,242);
+        color: rgb(255,255,255);
+
+        &:hover,
+        &:active {
+            background-color: rgb(18,90,181);
+            border-color: rgb(18,90,181);
+        }
+    }
 }

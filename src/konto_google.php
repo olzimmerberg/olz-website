@@ -16,8 +16,9 @@ $code = $_GET['code'];
 $google_utils = getGoogleUtilsFromEnv();
 $token_data = $google_utils->getTokenDataForCode($code);
 $user_data = $google_utils->getUserData($token_data);
+echo "<pre>";
 print_r($user_data);
-echo "<br/>";
+echo "</pre><br/>";
 
 echo "</div>
 </div>";

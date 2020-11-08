@@ -36,7 +36,7 @@ class GoogleUtils {
             'response_type' => 'code',
             'scope' => implode(' ', $google_scopes),
         ];
-        return "{$google_auth_url}?".http_build_query($data);
+        return "{$google_auth_url}?".http_build_query($data, '', '&');
     }
 
     public function getTokenDataForCode($code) {
@@ -57,16 +57,16 @@ class GoogleUtils {
         $token_result = curl_exec($ch);
         $token_response = json_decode($token_result, true);
 
+        curl_reset($ch);
+
         $google_userinfo_url = 'https://www.googleapis.com/oauth2/v1/userinfo';
         $userinfo_request_data = [
             'alt' => 'json',
         ];
-        curl_setopt($ch, CURLOPT_URL, $google_userinfo_url.'?'.http_build_query($token_request_data));
+        curl_setopt($ch, CURLOPT_URL, $google_userinfo_url.'?'.http_build_query($userinfo_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: {$token_response['token_type']} {$token_response['access_token']}",
         ]);
-        curl_setopt($ch, CURLOPT_POST, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, '');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $userinfo_result = curl_exec($ch);
         $userinfo_response = json_decode($userinfo_result, true);
@@ -94,7 +94,7 @@ class GoogleUtils {
         $data = [
             'personFields' => 'phoneNumbers,names,genders,coverPhotos,addresses,birthdays,emailAddresses',
         ];
-        curl_setopt($ch, CURLOPT_URL, $google_token_url.'?'.http_build_query($data));
+        curl_setopt($ch, CURLOPT_URL, $google_token_url.'?'.http_build_query($data, '', '&'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: {$token_data['token_type']} {$token_data['access_token']}",
         ]);

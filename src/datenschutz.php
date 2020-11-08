@@ -39,7 +39,11 @@ echo "</ul>
     <h3>Speicherungsdauer</h3>
     <p>Wir speichern deine Daten, bis du dein Konto löschst, oder sie nicht mehr für mindestens einen der angegebenen Zwecke benötigt werden.</p>
     <h3>Weitergabe von Daten</h3>
-    <p>Wir geben deine Daten nicht weiter.</p>
+    <p>Wir geben deine Daten nicht weiter, mit Ausnahme der folgenden Fälle:</p>
+    <ul>
+        <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Kontaktdaten (Mitgliederliste) zur Ermöglichung der klubinternen Kommunikation anderen Klubmitgliedern zur Verfügung stellen</li>
+        <li>Wenn du dich für einen Anlass anmeldest, werden wir die benötigten Daten dem Veranstalter übermitteln</li>
+    </ul>
     <p>Unser Hoster, <a href='https://www.hoststar.ch/de'>Hoststar</a> speichert alle Daten in der Schweiz, Deutschland oder Österreich.</p>
     <h3>Cookies</h3>
     <p>Wenn du dich einloggst, muss aus technischen Gründen in deinem Browser ein Cookie gespeichert werden.</p>

@@ -32,36 +32,37 @@ class StravaUtils {
     }
 
     public function getTokenDataForCode($code) {
+        $ch = curl_init();
+
         $strava_token_url = 'https://www.strava.com/api/v3/oauth/token';
-        $data = [
+        $token_request_data = [
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
             'code' => $code,
             'grant_type' => 'authorization_code',
         ];
-
-        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $strava_token_url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
+        $token_result = curl_exec($ch);
+        $token_response = json_decode($token_result, true);
+
         curl_close($ch);
 
-        $response = json_decode($result, true);
         return [
-            'token_type' => $response['token_type'],
-            'expires_at' => $response['expires_at'],
-            'refresh_token' => $response['refresh_token'],
-            'access_token' => $response['access_token'],
-            'user_identifier' => $response['athlete']['id'],
-            'first_name' => $response['athlete']['firstname'],
-            'last_name' => $response['athlete']['lastname'],
-            'gender' => $response['athlete']['sex'],
-            'city' => $response['athlete']['city'],
-            'region' => $response['athlete']['state'],
-            'country' => $response['athlete']['country'],
-            'profile_picture_url' => $response['athlete']['profile'],
+            'token_type' => $token_response['token_type'],
+            'expires_at' => $token_response['expires_at'],
+            'refresh_token' => $token_response['refresh_token'],
+            'access_token' => $token_response['access_token'],
+            'user_identifier' => $token_response['athlete']['id'],
+            'first_name' => $token_response['athlete']['firstname'],
+            'last_name' => $token_response['athlete']['lastname'],
+            'gender' => $token_response['athlete']['sex'],
+            'city' => $token_response['athlete']['city'],
+            'region' => $token_response['athlete']['state'],
+            'country' => $token_response['athlete']['country'],
+            'profile_picture_url' => $token_response['athlete']['profile'],
         ];
     }
 

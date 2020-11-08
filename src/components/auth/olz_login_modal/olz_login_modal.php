@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/../../../config/paths.php';
 require_once __DIR__.'/../../../utils/auth/GoogleUtils.php';
 require_once __DIR__.'/../../../utils/auth/FacebookUtils.php';
 require_once __DIR__.'/../../../utils/auth/StravaUtils.php';
@@ -23,10 +24,10 @@ echo <<<ZZZZZZZZZZ
                     </button>
                 </div>
                 <div class='modal-body'>
-                    <div class='feature external-login'>
-                        <div><a href='{$strava_url}'>Login mit Strava</a></div>
-                        <div><a href='{$google_url}'>Login mit Google</a></div>
-                        <div><a href='{$facebook_url}'>Login mit Facebook</a></div>
+                    <div class='feature external-login form-group'>
+                        <a href='{$strava_url}' class='login-button strava-button'><img src='{$code_href}icns/login_strava.svg' alt=''>Strava</a>
+                        <a href='{$google_url}' class='login-button google-button'><img src='{$code_href}icns/login_google.svg' alt=''>Google</a>
+                        <a href='{$facebook_url}' class='login-button facebook-button'><img src='{$code_href}icns/login_facebook.svg' alt=''>Facebook</a>
                         <br />
                     </div>
                     <div class='form-group'>

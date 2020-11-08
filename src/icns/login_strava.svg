@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g id="Strava-Button" transform="scale(0.03515625)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M226,25 L360,287 L280,287 L226,184 L170,287 L90,287 Z" fill="rgb(255,255,255)"></path>
+        <path d="M321,484 L220,287 L280,287 L321,366 L360,287 L421,287 Z" fill="rgba(255,255,255, 0.5)"></path>
+    </g>
+</svg>

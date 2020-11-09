@@ -9,13 +9,26 @@ echo "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 //echo "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";
 echo get_olz_text(9);
 
-$sql = "SELECT solv_uid, name, date FROM solv_events WHERE date>'2020-03-13' AND date<'2021-01-01' AND kind='foot' ORDER BY date ASC";
+$sql = "
+    SELECT solv_uid, name, date
+    FROM solv_events
+    WHERE
+        date>'2020-03-13'
+        AND date<'2021-01-01'
+        AND kind='foot'
+    ORDER BY date ASC";
 $res_events = $db->query($sql);
 $points_by_person = [];
 while ($row_event = $res_events->fetch_assoc()) {
     // echo "<h3>".json_encode($row_event)."</h3>";
     $event_id = intval($row_event['solv_uid']);
-    $sql = "SELECT person, finish_split FROM solv_results WHERE event='{$event_id}' ORDER BY finish_split ASC";
+    $sql = "
+        SELECT person, finish_split
+        FROM solv_results
+        WHERE
+            event='{$event_id}'
+            AND finish_split > '0'
+        ORDER BY finish_split ASC";
     $res_results = $db->query($sql);
     $last_finish_split = null;
     $last_actual_points = null;
@@ -70,7 +83,10 @@ for ($index = 0; $index < count($ranking); $index++) {
     $actual_rank = ($last_points === $points)
         ? $last_actual_rank
         : $rank;
-    $sql = "SELECT name FROM solv_people WHERE id='{$person_id}'";
+    $sql = "
+        SELECT name
+        FROM solv_people
+        WHERE id='{$person_id}'";
     $res_person = $db->query($sql);
     $row_person = $res_person->fetch_assoc();
     $person_name = $row_person['name'];

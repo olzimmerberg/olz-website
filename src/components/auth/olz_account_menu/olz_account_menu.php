@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../config/doctrine.php';
+require_once __DIR__.'/../../../config/doctrine_db.php';
 require_once __DIR__.'/../../../model/index.php';
 
 $user_repo = $entityManager->getRepository(User::class);

@@ -3,7 +3,6 @@
 use Doctrine\ORM\EntityRepository;
 
 require_once __DIR__.'/AuthRequest.php';
-require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/doctrine.php';
 
 class AuthRequestRepository extends EntityRepository {

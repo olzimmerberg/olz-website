@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.'/common.php';
-require_once __DIR__.'/../config/doctrine.php';
+require_once __DIR__.'/../config/doctrine_db.php';
 require_once __DIR__.'/../fetchers/SolvFetcher.php';
 require_once __DIR__.'/../model/index.php';
 require_once __DIR__.'/../tasks/SyncSolvTask.php';

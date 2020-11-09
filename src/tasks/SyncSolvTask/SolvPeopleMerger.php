@@ -1,8 +1,7 @@
 <?php
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
-require_once __DIR__.'/../../model/SolvPerson.php';
-require_once __DIR__.'/../../model/SolvResult.php';
+require_once __DIR__.'/../../model/index.php';
 
 class SolvPeopleMerger {
     use Psr\Log\LoggerAwareTrait;

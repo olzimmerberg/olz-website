@@ -26,7 +26,7 @@ try {
 function call_api($endpoint_name, $input) {
     switch ($endpoint_name) {
         case 'login':
-            require_once __DIR__.'/../config/doctrine.php';
+            require_once __DIR__.'/../config/doctrine_db.php';
             require_once __DIR__.'/../model/index.php';
             require_once __DIR__.'/endpoints/LoginEndpoint.php';
             $endpoint = new LoginEndpoint($entityManager);
@@ -38,14 +38,14 @@ function call_api($endpoint_name, $input) {
             $endpoint->setSession(new StandardSession());
             break;
         case 'updateUser':
-            require_once __DIR__.'/../config/doctrine.php';
+            require_once __DIR__.'/../config/doctrine_db.php';
             require_once __DIR__.'/../model/index.php';
             require_once __DIR__.'/endpoints/UpdateUserEndpoint.php';
             $endpoint = new UpdateUserEndpoint($entityManager);
             $endpoint->setSession(new StandardSession());
             break;
         case 'updatePassword':
-            require_once __DIR__.'/../config/doctrine.php';
+            require_once __DIR__.'/../config/doctrine_db.php';
             require_once __DIR__.'/../model/index.php';
             require_once __DIR__.'/endpoints/UpdateUserPasswordEndpoint.php';
             $endpoint = new UpdateUserPasswordEndpoint($entityManager);

@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
-require_once __DIR__.'/../../model/SolvEvent.php';
+require_once __DIR__.'/../../model/index.php';
 require_once __DIR__.'/../../parsers/solv_results.php';
 
 class SolvResultsSyncer {

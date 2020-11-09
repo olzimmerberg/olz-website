@@ -62,7 +62,7 @@ class SolvResultRepository extends EntityRepository {
     public function solvPersonHasResults($id) {
         $sane_id = intval($id);
         $dql = "
-            SELECT COUNT(id)
+            SELECT COUNT(sr.id)
             FROM SolvResult sr
             WHERE sr.person = '{$sane_id}'";
         $query = $this->getEntityManager()->createQuery($dql);

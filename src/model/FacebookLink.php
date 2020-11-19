@@ -3,15 +3,15 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="StravaLinkRepository")
+ * @ORM\Entity(repositoryClass="FacebookLinkRepository")
  * @ORM\Table(
- *     name="strava_links",
+ *     name="facebook_links",
  *     indexes={
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *     },
  * )
  */
-class StravaLink {
+class FacebookLink {
     /**
      * @ORM\Column(type="text", nullable=false)
      */
@@ -32,7 +32,7 @@ class StravaLink {
     /**
      * @ORM\Column(type="text", nullable=false)
      */
-    private $strava_user;
+    private $facebook_user;
     /**
      * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
      */
@@ -78,11 +78,11 @@ class StravaLink {
         $this->user = $new_user;
     }
 
-    public function getStravaUser() {
-        return $this->strava_user;
+    public function getFacebookUser() {
+        return $this->facebook_user;
     }
 
-    public function setStravaUser($new_strava_user) {
-        $this->strava_user = $new_strava_user;
+    public function setFacebookUser($new_facebook_user) {
+        $this->facebook_user = $new_facebook_user;
     }
 }

@@ -2,8 +2,7 @@
 
 EXIT_CODE=0
 cd ../src/config
-# Create migration, but if there is one, remove it again, immediately.
-./vendor/bin/doctrine-migrations migrations:diff --editor-cmd=rm
+./vendor/bin/doctrine-migrations migrations:diff
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 1 ]; then # Could not create migration, as diff is empty.
     echo "Migrations are complete."

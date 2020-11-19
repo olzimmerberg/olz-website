@@ -1,4 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
+-- MIGRATION: OLZ\Migrations\Version20201123220256
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,11 +43,14 @@ VALUES
     ('OLZ\\Migrations\\Version20200423071546', '2020-05-11 22:04:20', NULL),
     ('OLZ\\Migrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
     ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
-    ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48');
+    ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48'),
+    ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584');
 
 -- Table downloads
 
 -- Table event
+
+-- Table facebook_links
 
 -- Table forum
 INSERT INTO forum
@@ -62,6 +66,8 @@ INSERT INTO galerie
 VALUES
     ('1', '0', 'Neujahrsgalerie 📷 2020', '2020-01-01', NULL, 'sh😄', '1', 'foto', '0', ''),
     ('2', '0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', '');
+
+-- Table google_links
 
 -- Table images
 
@@ -169,6 +175,8 @@ VALUES
     ('5', '3', '7411', 'HAK', '13', 'Walti Wädischwiiler', '83', 'Wädenswil', 'OL Zimmerberg', '4231', '', '32', '2300', '140', '17', '35'),
     ('6', '4', '7411', 'DAK', '6', 'Regula Richterswiler', '96', 'Richterswil', 'OL Zimmerberg', '4321', '', '43', '3200', '120', '15', '45');
 
+-- Table strava_links
+
 -- Table termine
 INSERT INTO termine
     (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `newsletter`, `newsletter_datum`, `newsletter_anmeldung`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `datum_anmeldung`, `text_anmeldung`, `email_anmeldung`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`)
@@ -184,12 +192,12 @@ VALUES
 
 -- Table users
 INSERT INTO users
-    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`)
+    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`)
 VALUES
-    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', '', 'Armin 😂', 'Admin 🤣', 'all', ''),
-    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp olz_text_1 aktuell galerie bild_der_woche', 'vorstand'),
-    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp', 'karten'),
-    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '');
+    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', '', 'Armin 😂', 'Admin 🤣', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp olz_text_1 aktuell galerie bild_der_woche', 'vorstand', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp', 'karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Table users_roles
 INSERT INTO users_roles

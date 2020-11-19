@@ -14,6 +14,7 @@ function reset_db($db, $data_path) {
 
     // Overwrite database with dev content.
     clear_db($db);
+    // init_dev_data_db_structure_for_content($db, $dev_data_dir);
     init_dev_data_db_structure($db, $dev_data_dir);
     init_dev_data_db_content($db, $dev_data_dir);
     apply_db_migrations();
@@ -58,10 +59,15 @@ function get_database_backup($db, $key) {
 function clear_db($db) {
     // Remove all database tables.
     $result = $db->query("SHOW TABLES");
-    $db->query('SET foreign_key_checks = 0');
+    $table_names = [];
     while ($row = $result->fetch_array()) {
         $table_name = $row[0];
-        $db->query("DROP TABLE `{$table_name}`");
+        $table_names[] = $table_name;
+    }
+    $db->query('SET foreign_key_checks = 0');
+    foreach ($table_names as $table_name) {
+        $sql = "DROP TABLE `{$table_name}`";
+        $db->query($sql);
     }
     $db->query('SET foreign_key_checks = 1');
 }
@@ -77,6 +83,19 @@ function init_dev_data_db_structure($db, $dev_data_dir) {
             }
         }
     }
+}
+
+function init_dev_data_db_structure_for_content($db, $dev_data_dir) {
+    // Insert dev content into database.
+    $sql_content = file_get_contents("{$dev_data_dir}db_content.sql");
+    $has_migration = preg_match('/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/', $sql_content, $matches);
+    if (!$has_migration) {
+        throw new Exception("The db_content.sql file MUST contain the migration version", 1);
+    }
+    $version = $matches[1];
+
+    require_once __DIR__.'/doctrine_migrations.php';
+    migrate_to($version);
 }
 
 function init_dev_data_db_content($db, $dev_data_dir) {
@@ -95,7 +114,7 @@ function init_dev_data_db_content($db, $dev_data_dir) {
 function apply_db_migrations() {
     // Migrate database to latest state.
     require_once __DIR__.'/doctrine_migrations.php';
-    migrate_to_latest();
+    migrate_to('latest');
 }
 
 function init_dev_data_filesystem($data_path) {
@@ -195,38 +214,51 @@ function mkimg($source_path, $destination_path, $width, $height) {
     imagedestroy($destination);
 }
 
+function get_current_migration($db) {
+    $migrations_config = require __DIR__.'/../config/migrations.php';
+    $migrations_table_name = $migrations_config['table_storage']['table_name'];
+
+    $current_migration_result = $db->query("
+        SELECT version
+        FROM `{$migrations_table_name}`
+        ORDER BY `version` DESC
+        LIMIT 1");
+    $current_migration = $current_migration_result->fetch_assoc()['version'];
+    return $current_migration;
+}
+
 function dump_db_structure_sql($db) {
+    $current_migration = get_current_migration($db);
     $sql_content = (
         "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
+        ."-- MIGRATION: {$current_migration}\n"
         ."\n"
-        ."-- NOTE: Database structure is managed by doctrine migrations.\n"
-        ."--       This file is only used if migrations bootstrap fails.\n"
-        ."\n"
-        ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
-        ."SET AUTOCOMMIT = 0;\n"
-        ."START TRANSACTION;\n"
-        ."SET time_zone = \"+00:00\";\n"
     );
+    global $MYSQL_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $MYSQL_SCHEMA;
+    require_once __DIR__.'/../config/database.php';
+    require_once __DIR__.'/../../vendor/autoload.php';
+    $dump_filename = tempnam('/tmp', 'OLZ');
+    $dump = new Ifsnop\Mysqldump\Mysqldump(
+        "mysql:host={$MYSQL_SERVER};dbname={$MYSQL_SCHEMA}",
+        $MYSQL_USERNAME,
+        $MYSQL_PASSWORD,
+        [
+            'skip-comments' => true,
+            'no-data' => true,
+        ],
+    );
+    $dump->start($dump_filename);
+    $sql_content .= file_get_contents($dump_filename);
+    unlink($dump_filename);
 
-    $res_tables = $db->query('SHOW TABLES');
-    while ($row_tables = $res_tables->fetch_row()) {
-        $table_name = $row_tables[0];
-        $sql_content .= "\n";
-        $sql_content .= "-- Table {$table_name}\n";
-        $sql_content .= "DROP TABLE IF EXISTS `{$table_name}`;\n";
-        $res_structure = $db->query("SHOW CREATE TABLE `{$table_name}`");
-        $row_structure = $res_structure->fetch_assoc();
-        $structure_sql = $row_structure['Create Table'];
-        $sql_content .= "{$structure_sql};\n";
-    }
-    $sql_content .= "\n";
-    $sql_content .= "COMMIT;\n";
     return $sql_content;
 }
 
 function dump_db_content_sql($db) {
+    $current_migration = get_current_migration($db);
     $sql_content = (
         "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
+        ."-- MIGRATION: {$current_migration}\n"
         ."\n"
         ."SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n"
         ."SET AUTOCOMMIT = 0;\n"

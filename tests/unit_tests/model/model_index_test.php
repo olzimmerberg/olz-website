@@ -33,7 +33,7 @@ final class ModelIndexTest extends TestCase {
         foreach ($model_files as $model_file) {
             $pattern = '/require_once __DIR__\\.\'\/'.preg_quote($model_file).'\';/';
             $res = preg_match($pattern, $index_content, $matches);
-            $this->assertSame(1, $res);
+            $this->assertSame(1, $res, "Missing import for {$model_file} in src/model/index.php");
         }
     }
 }

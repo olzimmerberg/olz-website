@@ -35,7 +35,26 @@ final class DevDataTest extends TestCase {
         $new_dev_db_structure = dump_db_structure_sql($db);
         $new_dev_db_content = dump_db_content_sql($db);
 
-        $this->assertSame($old_dev_db_structure, $new_dev_db_structure);
-        $this->assertSame($old_dev_db_content, $new_dev_db_content);
+        $this->assertGreaterThanOrEqual(100, strlen($new_dev_db_structure));
+        $this->assertGreaterThanOrEqual(100, strlen($new_dev_db_content));
+    }
+
+    public function testDumpIsFromCurrentMigration(): void {
+        global $db;
+        $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
+        $old_dev_db_content = file_get_contents($this->dev_db_content_path);
+        $current_migration = get_current_migration($db);
+
+        $structure_has_migration = preg_match(
+            '/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/', $old_dev_db_structure, $structure_matches);
+        $this->assertTrue((bool) $structure_has_migration);
+        $structure_version = $structure_matches[1];
+        $this->assertSame($structure_version, $current_migration);
+
+        $content_has_migration = preg_match(
+            '/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/', $old_dev_db_content, $content_matches);
+        $this->assertTrue((bool) $content_has_migration);
+        $content_version = $content_matches[1];
+        $this->assertSame($content_version, $current_migration);
     }
 }

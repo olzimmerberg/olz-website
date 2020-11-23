@@ -1,15 +1,19 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
+-- MIGRATION: OLZ\Migrations\Version20201123220256
 
--- NOTE: Database structure is managed by doctrine migrations.
---       This file is only used if migrations bootstrap fails.
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
--- Table aktuell
-DROP TABLE IF EXISTS `aktuell`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `aktuell` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` int(11) NOT NULL,
@@ -35,9 +39,10 @@ CREATE TABLE `aktuell` (
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table anm_felder
-DROP TABLE IF EXISTS `anm_felder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anm_felder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) DEFAULT NULL,
@@ -51,9 +56,10 @@ CREATE TABLE `anm_felder` (
   `test_result` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table anmeldung
-DROP TABLE IF EXISTS `anmeldung`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anmeldung` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -70,9 +76,10 @@ CREATE TABLE `anmeldung` (
   `feld4` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table auth_requests
-DROP TABLE IF EXISTS `auth_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_requests` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -82,9 +89,10 @@ CREATE TABLE `auth_requests` (
   PRIMARY KEY (`id`),
   KEY `ip_address_timestamp_index` (`ip_address`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table bild_der_woche
-DROP TABLE IF EXISTS `bild_der_woche`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bild_der_woche` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date DEFAULT NULL,
@@ -98,9 +106,10 @@ CREATE TABLE `bild_der_woche` (
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table blog
-DROP TABLE IF EXISTS `blog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `blog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `counter` int(11) NOT NULL DEFAULT 0,
@@ -124,9 +133,10 @@ CREATE TABLE `blog` (
   `linkext` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table counter
-DROP TABLE IF EXISTS `counter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `counter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -140,18 +150,20 @@ CREATE TABLE `counter` (
   `bak_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table doctrine_migration_versions
-DROP TABLE IF EXISTS `doctrine_migration_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `doctrine_migration_versions` (
   `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table downloads
-DROP TABLE IF EXISTS `downloads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date DEFAULT NULL,
@@ -161,9 +173,10 @@ CREATE TABLE `downloads` (
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table event
-DROP TABLE IF EXISTS `event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name_kurz` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -179,9 +192,10 @@ CREATE TABLE `event` (
   `locked` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table forum
-DROP TABLE IF EXISTS `forum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `forum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -198,9 +212,10 @@ CREATE TABLE `forum` (
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table galerie
-DROP TABLE IF EXISTS `galerie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `galerie` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` int(11) NOT NULL,
@@ -215,9 +230,10 @@ CREATE TABLE `galerie` (
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table images
-DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) DEFAULT NULL,
@@ -226,9 +242,10 @@ CREATE TABLE `images` (
   `bild_name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table jwoc
-DROP TABLE IF EXISTS `jwoc`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jwoc` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nr` int(11) DEFAULT NULL,
@@ -245,9 +262,10 @@ CREATE TABLE `jwoc` (
   `cat` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table karten
-DROP TABLE IF EXISTS `karten`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `karten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` int(11) DEFAULT NULL,
@@ -263,9 +281,10 @@ CREATE TABLE `karten` (
   `vorschau` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table links
-DROP TABLE IF EXISTS `links`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -275,9 +294,10 @@ CREATE TABLE `links` (
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table newsletter
-DROP TABLE IF EXISTS `newsletter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `newsletter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -288,9 +308,10 @@ CREATE TABLE `newsletter` (
   `on_off` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table olz_result
-DROP TABLE IF EXISTS `olz_result`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `olz_result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rang` int(11) DEFAULT NULL,
@@ -304,18 +325,20 @@ CREATE TABLE `olz_result` (
   `event` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table olz_text
-DROP TABLE IF EXISTS `olz_text`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `olz_text` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table roles
-DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -327,9 +350,10 @@ CREATE TABLE `roles` (
   `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table rundmail
-DROP TABLE IF EXISTS `rundmail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rundmail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `betreff` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -337,9 +361,10 @@ CREATE TABLE `rundmail` (
   `datum` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table solv_events
-DROP TABLE IF EXISTS `solv_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `solv_events` (
   `solv_uid` int(11) NOT NULL,
   `date` date NOT NULL,
@@ -363,9 +388,10 @@ CREATE TABLE `solv_events` (
   `last_modification` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`solv_uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table solv_people
-DROP TABLE IF EXISTS `solv_people`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `solv_people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `same_as` int(11) DEFAULT NULL,
@@ -375,9 +401,10 @@ CREATE TABLE `solv_people` (
   `member` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table solv_results
-DROP TABLE IF EXISTS `solv_results`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `solv_results` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person` int(11) NOT NULL,
@@ -398,9 +425,10 @@ CREATE TABLE `solv_results` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `person_run_unique` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table termine
-DROP TABLE IF EXISTS `termine`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termine` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date DEFAULT NULL,
@@ -431,9 +459,10 @@ CREATE TABLE `termine` (
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table termine_go2ol
-DROP TABLE IF EXISTS `termine_go2ol`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termine_go2ol` (
   `solv_uid` int(11) NOT NULL,
   `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -446,9 +475,10 @@ CREATE TABLE `termine_go2ol` (
   `meldeschluss2` date NOT NULL,
   PRIMARY KEY (`solv_uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table termine_solv
-DROP TABLE IF EXISTS `termine_solv`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termine_solv` (
   `solv_uid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
@@ -470,9 +500,10 @@ CREATE TABLE `termine_solv` (
   `last_modification` datetime DEFAULT NULL,
   PRIMARY KEY (`solv_uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table trainingsphotos
-DROP TABLE IF EXISTS `trainingsphotos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `trainingsphotos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -480,9 +511,68 @@ CREATE TABLE `trainingsphotos` (
   `pfad` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table users
-DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users_roles` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `IDX_51498A8EA76ED395` (`user_id`),
+  KEY `IDX_51498A8ED60322AC` (`role_id`),
+  CONSTRAINT `FK_51498A8EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_51498A8ED60322AC` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `facebook_links` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `access_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `refresh_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `facebook_user` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`),
+  CONSTRAINT `FK_3444E616A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `google_links` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `access_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `refresh_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `google_user` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`),
+  CONSTRAINT `FK_486FA817A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `strava_links` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `access_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `refresh_token` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `strava_user` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`),
+  CONSTRAINT `FK_72D84739A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -493,19 +583,26 @@ CREATE TABLE `users` (
   `last_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `zugriff` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `root` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_is_verified` tinyint(1) NOT NULL,
+  `email_verification_token` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'M(ale), F(emale), or O(ther)',
+  `street` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `postal_code` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `region` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country_code` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'two-letter code (ISO-3166-alpha-2)',
+  `birthdate` date DEFAULT NULL,
+  `phone` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Table users_roles
-DROP TABLE IF EXISTS `users_roles`;
-CREATE TABLE `users_roles` (
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `IDX_51498A8EA76ED395` (`user_id`),
-  KEY `IDX_51498A8ED60322AC` (`role_id`),
-  CONSTRAINT `FK_51498A8EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_51498A8ED60322AC` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-COMMIT;

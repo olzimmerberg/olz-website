@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     name="google_links",
  *     indexes={
- *         @ORM\Index(name="google_user_index", columns={"google_user"}),
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *     },
  * )

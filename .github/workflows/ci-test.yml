@@ -146,11 +146,7 @@ jobs:
     - name: Deploy over SFTP
       env:
         SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
-      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploytest.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-deploy
-    - name: Activate deployment
-      run: wget -O - https://test.olzimmerberg.ch/deploy/deploy.php
-    - name: Load dev data
-      run: wget -O - https://test.olzimmerberg.ch/reset.php
+      run: ./deploy.sh hoststar-test
 
   upload-screenshots:
     name: Upload screenshots to test.olzimmerberg.ch
@@ -165,4 +161,4 @@ jobs:
     - name: Upload over SFTP
       env:
         SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
-      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploytest.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-upload-screenshots
+      run: ./deploy.sh hoststar-test ./ci/ftp-upload-screenshots

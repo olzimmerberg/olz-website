@@ -29,20 +29,19 @@ abstract class Endpoint {
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
         } catch (ValidationError $verr) {
-            throw new HttpError(400, "TODO: structured answer", $verr);
+            throw new HttpError(400, "TODO: request structured answer", $verr);
         }
 
         try {
             $raw_result = $this->handle($validated_input);
         } catch (\Exception $exc) {
-            print_r($exc);
-            throw new HttpError(500, "TODO: structured answer", $exc);
+            throw new HttpError(500, "TODO: error structured answer", $exc);
         }
 
         try {
             $validated_result = backend_validate($this->getResponseFields(), $raw_result);
         } catch (ValidationError $verr) {
-            throw new HttpError(500, "TODO: structured answer", $verr);
+            throw new HttpError(500, "TODO: response structured answer", $verr);
         }
 
         return $validated_result;

@@ -15,7 +15,6 @@ class LoginEndpoint extends Endpoint {
     public function getResponseFields() {
         return [
             new EnumField('status', ['allowed_values' => [
-                'INVALID_SESSION',
                 'INVALID_CREDENTIALS',
                 'BLOCKED',
                 'AUTHENTICATED',

@@ -29,6 +29,7 @@ require_once __DIR__.'/SolvPersonRepository.php';
 require_once __DIR__.'/SolvResult.php';
 require_once __DIR__.'/SolvResultRepository.php';
 require_once __DIR__.'/StravaLink.php';
+require_once __DIR__.'/StravaLinkRepository.php';
 require_once __DIR__.'/Termin.php';
 require_once __DIR__.'/User.php';
 require_once __DIR__.'/UserRepository.php';

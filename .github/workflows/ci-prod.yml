@@ -130,9 +130,7 @@ jobs:
     - name: Deploy over SFTP
       env:
         SSHPASS: ${{ secrets.PROD_FTP_PASSWORD }}
-      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploy.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-deploy
-    - name: Activate deployment
-      run: wget -O - https://olzimmerberg.ch/deploy/deploy.php
+      run: ./deploy.sh hoststar-prod
 
   upload-screenshots:
     name: Upload screenshots to olzimmerberg.ch
@@ -147,4 +145,4 @@ jobs:
     - name: Upload over SFTP
       env:
         SSHPASS: ${{ secrets.PROD_FTP_PASSWORD }}
-      run: sshpass -e sftp -o StrictHostKeyChecking=no -P 5544 deploy.olzimmerberg.ch@lx7.hoststar.hosting < ./ci/ftp-upload-screenshots
+      run: ./deploy.sh hoststar-prod ./ci/ftp-upload-screenshots

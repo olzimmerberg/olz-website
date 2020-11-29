@@ -49,3 +49,11 @@ Beispiele:
 - Wenn ein Pull-Request gemerged wird, werden diese Änderungen automatisch auf [olzimmerberg.ch](https://olzimmerberg.ch) veröffentlicht.
 
 Der Fortschritt dieser automatischen Veröffentlichungen kann [auf GitHub](https://github.com/olzimmerberg/olz-website/actions) verfolgt werden.
+
+### Manuelle Veröffentlichung
+
+Falls die automatische Veröffentlichung *nicht* funktionieren sollte, z.B. weil GitHub Actions nicht funktionieren, kann auch manuell veröffentlicht werden:
+
+- `./build-deployment.sh`
+- `./deploy.sh hoststar-test`
+- FTP Passwort für `deploy.olzimmerberg.ch` eingeben

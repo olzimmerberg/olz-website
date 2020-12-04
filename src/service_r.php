@@ -16,7 +16,7 @@
 <?php echo get_olz_text(6); ?>
 
 <?php
-$db_table = "newsletter";
+$db_table = 'newsletter';
 $kategorien = [['aktuell', 'Neuen Nachrichten', ''], ['forum', 'Neuen Forumsbeiträgen', ''], ['termine', 'Wichtige Termine (z.B. Meldeschluss)', ''], ['vorstand', 'Vorstandsmitteilungen', '1']];
 
 //-------------------------------------------------------------
@@ -26,8 +26,8 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SES
 } else {
     $zugriff = "0";
 }
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
+$button_name = 'button'.$db_table;
+if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
@@ -65,7 +65,7 @@ if ($zugriff) {
         'undo' => 'undo',
         'delete' => 'Löschen', ];
 }
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

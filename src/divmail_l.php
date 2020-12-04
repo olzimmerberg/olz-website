@@ -7,7 +7,6 @@
 
 //-------------------------------------------------------------
 // KONSTANTEN
-$db_table = "rundmail";
 $betreff_vorspann = "Newsletter OLZimmerberg - ";
 $text_nachspann = "\n\n-------------------------------\nHINWEIS\nDu erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: https://www.olzimmerberg.ch/_/service.php?buttonnewsletter=Weiter&uid=";
 $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8 \nContent-Transfer-Encoding: base64";
@@ -18,10 +17,6 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, split(' ', $_SESSION['a
     $zugriff = "1";
 } else {
     $zugriff = "0";
-}
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
-    $_SESSION['edit']['db_table'] = $db_table;
 }
 
 echo "<h2>Rundmail verschicken</h2>";
@@ -37,7 +32,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

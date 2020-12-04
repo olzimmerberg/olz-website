@@ -4,21 +4,6 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
-require_once __DIR__.'/file_tools.php';
-require_once __DIR__.'/image_tools.php';
-
-$db_table = "aktuell";
-
-//-------------------------------------------------------------
-// ZUGRIFF
-/*if (($_SESSION['auth']=="all") OR (in_array($db_table ,preg_split("/ /",$_SESSION['auth'])))) $zugriff = "1";
-else $zugriff = "0";*/
-$zugriff = (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) ? "1" : "0";
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
-    $_SESSION['edit']['db_table'] = $db_table;
-}
-
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($_GET["id"]) and (is_ganzzahl($_GET["id"]) or in_array($_GET["id"], $aktuell_special))) {

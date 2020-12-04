@@ -5,7 +5,6 @@
 // =============================================================================
 
 // KONSTANTEN
-$db_table = "galerie";
 $tmp_jahr = olz_date("jjjj", "");
 $db_imgpath = $tables_img_dirs[$db_table];
 
@@ -15,10 +14,6 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SES
     $zugriff = "1";
 } else {
     $zugriff = "0";
-}
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
-    $_SESSION['edit']['db_table'] = $db_table;
 }
 
 //-------------------------------------------------------------

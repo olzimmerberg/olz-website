@@ -14,8 +14,8 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SES
 } else {
     $zugriff = "0";
 }
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
+$button_name = 'button'.$db_table;
+if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
@@ -69,7 +69,7 @@ if ($zugriff) {
     $functions = [];
 }
 
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($zugriff and ($function != "")) {
     include 'admin/admin_db.php';
 }

@@ -59,8 +59,8 @@ $POST_MAX_SIZE = ini_get("post_max_size");
 $mul = substr($POST_MAX_SIZE, -1);
 $mul = ($mul == "M" ? 1048576 : ($mul == "K" ? 1024 : ($mul == "G" ? 1073741824 : 1)));
 if ($_SERVER["CONTENT_LENGTH"] > $mul * (int) $POST_MAX_SIZE && $POST_MAX_SIZE) {
-    $button_name = "button".$_SESSION["edit"]["db_table"];
-    ${$button_name} = $_SESSION["edit"]["button"];
+    $button_name = 'button'.$_SESSION["edit"]["db_table"];
+    $_POST[$button_name] = $_SESSION["edit"]["button"];
     $alert = "Fehler: Upload-Datei ist zu gross (".round($_SERVER["CONTENT_LENGTH"] / pow(2, 20), 1)."MB). Maximale Dateigrösse ist ".$POST_MAX_SIZE."B.";
 }
 
@@ -68,10 +68,10 @@ if ($_SERVER["CONTENT_LENGTH"] > $mul * (int) $POST_MAX_SIZE && $POST_MAX_SIZE) 
 // BEARBEITUNGS-STATUS PRÜFEN
 //-----------------------------------------
 if (isset($_SESSION["edit"])) {
-    $button_name = "button".$_SESSION["edit"]["db_table"];
-    if (!isset(${$button_name}) or isset($id)) {
+    $button_name = 'button'.$_SESSION["edit"]["db_table"];
+    if (!isset($_POST[$button_name]) or isset($id)) {
         $alert = "Bearbeitung muss zuerst abgeschlossen werden.";
-        ${$button_name} = $_SESSION["edit"]["button"];
+        $_POST[$button_name] = $_SESSION["edit"]["button"];
         $db_table = $_SESSION["edit"]["db_table"];
         $id = $_SESSION[$db_table."id"];
         //$id = $_SESSION["id"];

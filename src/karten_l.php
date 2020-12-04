@@ -6,8 +6,6 @@
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
 
-$db_table = "karten";
-
 // Karte von mapserch.ch initialisieren
 $sql = "SELECT * FROM {$db_table} ORDER BY typ ASC";
 $result = $db->query($sql);

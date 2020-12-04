@@ -4,8 +4,6 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
-require_once "image_tools.php";
-$db_table = "galerie";
 $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"];
 $breite = 4;
 $pfad_galerie = $data_path."img/galerie/";
@@ -44,7 +42,7 @@ if ($zugriff) {
         'upload' => 'Upload',
         'undo' => 'undo', ];
 }
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
@@ -63,7 +61,7 @@ $res = preg_match("/MSIE ([0-9\\.]+)/", $_SERVER["HTTP_USER_AGENT"], $matches);
     echo "<div class='buttonbar'><span id='userneuegalerie'></span>".($zugriff?($row["on_off"]!=1?$btn_aktivieren:""):"")."</div>\n<!-- Dies ist nötig, damit Bots nicht dauernd neue Galerien erstellen --><script type='text/javascript'>document.getElementById(\"userneuegalerie\").innerHTML = ".json_encode(olz_buttons("button".$db_table,$btns,"")).";</script>";}*/
 if ($db_edit == '0' && ($zugriff || !$res)) {
     $btns = [["Neue Galerie", "0"]];
-    if ($row['on_off'] != '1' and ${$button_name} != 'Aktivieren' && $zugriff) {
+    if ($row['on_off'] != '1' and $_POST[$button_name] != 'Aktivieren' && $zugriff) {
         array_push($btns, ["Aktivieren", "1"]);
     }
     echo "<div class='buttonbar'><span id='userneuegalerie'></span></div>\n<!-- Dies ist nötig, damit Bots nicht dauernd neue Galerien erstellen --><script type='text/javascript'>document.getElementById(\"userneuegalerie\").innerHTML = ".json_encode(olz_buttons("button".$db_table, $btns, "")).";</script>";

@@ -110,8 +110,8 @@ function get_olz_text($id_text, $editable = true) {
     } else {
         $zugriff = "0";
     }
-    $button_name = "button".$db_table;
-    if (isset(${$button_name}) and $_SESSION[$db_table.'id_text_'] == $id_text) {
+    $button_name = 'button'.$db_table;
+    if (isset($_POST[$button_name]) and $_SESSION[$db_table.'id_text_'] == $id_text) {
         $_SESSION['edit']['db_table'] = $db_table;
     }
     if (isset($id_edit) and is_ganzzahl($id_edit)) {
@@ -135,7 +135,7 @@ function get_olz_text($id_text, $editable = true) {
             $functions = [];
         }
 
-        $function = array_search(${$button_name}, $functions);
+        $function = array_search($_POST[$button_name], $functions);
         if ($zugriff && ($function != "") && $editable) {
             ob_start();
             include 'admin/admin_db.php';

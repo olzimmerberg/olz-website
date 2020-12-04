@@ -174,8 +174,8 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $class = "";
         }
 
-        echo olz_monate($datum);
-        echo "<tr{$class}><td style='{$style}'>".$edit_admin."<a name='id{$id}'></a><b>".olz_date("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto; {$style}'><b>\n";
+        echo "<div class='test-flaky'>".olz_monate($datum)."</div>";
+        echo "<tr{$class}><td style='{$style}' class='test-flaky'>".$edit_admin."<a name='id{$id}'></a><b>".olz_date("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto; {$style}'><b>\n";
         //echo olz_mask_email($email,$titel,"Forumeintrag OL Zimmerberg")."</b><p>".$name.$eintrag."</p></td></tr>\n";
         if ($name > "") {
             echo $titel."</b><p>".olz_mask_email($email, $name, $titel)."| ".$eintrag."</p></td></tr>\n";

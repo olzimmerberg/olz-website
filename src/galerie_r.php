@@ -97,9 +97,9 @@ while ($tmp_jahr >= $end_jahr) {
         }
 
         if ($id == $id_tmp) {
-            echo "{$edit_admin}<span class='linkblack' style='font-weight:bold;'>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum)) - 1]).": ".$titel." (".$groesse.")</span></li>";
+            echo "{$edit_admin}<span class='linkblack test-flaky' style='font-weight:bold;'>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum)) - 1]).": ".$titel." (".$groesse.")</span></li>";
         } else {
-            echo "<li>{$edit_admin}<a href='galerie.php?id=".$id_tmp."".(isset($_GET["archiv"]) ? "&amp;archiv" : "")."' class='{$linkclass}' id='galerie_r_a_".$id_tmp."'>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum)) - 1]).": ".$titel." (".$groesse.")</a></li>";
+            echo "<li>{$edit_admin}<a href='galerie.php?id=".$id_tmp."".(isset($_GET["archiv"]) ? "&amp;archiv" : "")."' class='{$linkclass} test-flaky' id='galerie_r_a_".$id_tmp."'>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum)) - 1]).": ".$titel." (".$groesse.")</a></li>";
         }
         if ($do == "edit") {
             $ident = "olzimgedit".md5($db_table."-".$id);

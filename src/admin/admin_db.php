@@ -48,7 +48,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240;
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
         ["typ", "Typ", "text", "aktuell", "", "", "", ""],
@@ -111,7 +111,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240; //maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["on_off", "Aktiv", "hidden", "1", "", "", "", ""],
         ["titel", "Mouseover-Text", "text", "''", "", "", "", ""],
         ["text", "Bildlegende", "textarea", "''", "", "", "", " rows='4'"],
@@ -122,9 +122,9 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240; //maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["newsletter", "Newsletter", "hidden", "1", "", "", "", ""],
-        ["zeit", "Zeit", "text", "date('H:i:s');", "", "", "", ""],
+        ["zeit", "Zeit", "text", "date('H:i:s');", "", "", "", " class='test-flaky'"],
         ["autor", "Autor", ["text", $nutzer == "gold" ? "" : " readonly"], "ucwords('{$nutzer}')", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", "", "!empty", "Bitte Titel angeben."],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
@@ -134,7 +134,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "downloads") {// DB DOWNLOADS
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["name", "Bezeichnung", "text", "''", "", "", "", ""],
         ["position", "Position", "hidden", "'0'", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
@@ -143,7 +143,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $send_mail = "on";
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["name", "Titel", "text", "''", "", "", "", "", "!empty", "Bitte einen Titel angeben."],
         ["name2", "Name", "text", "''", "", "", "", "", "!empty", "Bitte einen Namen angeben."],
         ["email", "Email", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angeben."],
@@ -159,7 +159,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "galerie") {// DB GALERIE
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["titel", "Titel", "text", "''", "", "", "", ""],
         ["autor", "Autor", "text", "''", "", "", "", "", "", ""],
         ["counter", "Counter", "hidden", "'0'", "", "", "", "", "", ""],
@@ -189,7 +189,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "links") {// DB LINKS
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["position", "Position", "hidden", "'0'", "", "", "", ""],
         ["name", "Bezeichnung", "text", "''", "", "", "", "", "!empty", "Bitte Download-Bezeichnung angeben."],
         ["url", "URL", "text", "'http://'", "", "", "", "", "!empty", "Bitte URL angeben."],
@@ -218,7 +218,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     //include 'parse_solv_ranglisten.php';
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum (Beginn)", "datum", "date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", ""],
+        ["datum", "Datum (Beginn)", "datum", "date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", " class='test-flaky'"],
         ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
         ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
         ["titel", "Titel", "text", "''", "", "<select name='set_titel' style='width:33%;margin-left:10px;' size='1'
@@ -395,7 +395,7 @@ if ($do == "neu") {
     if (!isset($_SESSION['edit']['modus'])) {
         $sql = "INSERT {$db_table} SET ".implode(",", $sql_tmp);
         if ($_SESSION['auth'] == 'all') {
-            echo "### HOSTSTAR DEBUG ###<br>SQL: ".htmlentities($sql)."<br>";
+            echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTSTAR DEBUG</a> ###<br>";
         }
         $result = $db->query($sql);
         $id = $db->insert_id;
@@ -585,7 +585,7 @@ if ($do == "submit") {
 
     $sql = "UPDATE {$db_table} SET ".implode(",", $sql_tmp)." WHERE (id = '".$_SESSION[$db_table."id"]."')";
     if ($_SESSION['auth'] == 'all') {
-        echo "### HOSTSTAR DEBUG ###<br>SQL: ".htmlentities($sql)."<br>";
+        echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTSTAR DEBUG</a> ###<br>";
     }
     $result = $db->query($sql);
 
@@ -759,11 +759,11 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
 
         if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit") { //Input-Typ 'text'
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einbelndkalender
-            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker test-flaky' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "checkbox") { //Input-Typ 'checkbox'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code;
             $feld_wert = explode(" ", $feld_wert);
@@ -775,7 +775,7 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
                 } else {
                     $checked = "";
                 }
-                $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='{$value}'><span style='vertical-align:bottom;'>{$text}".$feld_spezial.$feld_kommentar."</span></span>";
+                $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='{$value}'><span style='vertical-align:bottom;'>{$text}".$feld_spezial.$feld_kommentar."</span></span>";
             }
             $html_input .= "</td></tr>\n";
         } elseif ($feld_typ == "boolean") { //Input-Typ 'boolean'
@@ -785,10 +785,10 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
             } else {
                 $checked = "";
             }
-            $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='1'><span style='vertical-align:bottom;'>".$feld_spezial.$feld_kommentar."</span></span>";
+            $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='1'><span style='vertical-align:bottom;'>".$feld_spezial.$feld_kommentar."</span></span>";
             $html_input .= "</td></tr>\n";
         } elseif ($feld_typ == "select") { //Input-Typ 'select'
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<select size='1' name='".$feld_name."[]'>";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<select size='1' id='".$feld_name."' name='".$feld_name."[]'>";
             $feld_wert = explode(" ", $feld_wert);
             foreach ($tmp_feld[2][1] as $option) {
                 $value = $option[1];
@@ -802,7 +802,7 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
             }
             $html_input .= "</select></td></tr>\n";
         } elseif ($feld_typ == "hidden") { //Input-Typ 'hidden'
-            $html_hidden .= "<input type='hidden' name='".$feld_name."' value='".stripslashes($feld_wert)."'>\n";
+            $html_hidden .= "<input type='hidden' id='".$feld_name."' name='".$feld_name."' value='".stripslashes($feld_wert)."'>\n";
         }
         /*
         elseif ($feld_typ == "image") //Input-Typ 'image'

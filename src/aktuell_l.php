@@ -145,7 +145,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $tmp_html = "";
             }
             */
-        echo "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
+        echo "<h2 class='test-flaky'>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
         echo "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
     }
 }

@@ -76,10 +76,11 @@ function olz_buttons($name, $buttons, $off) {
             $button = $tmp_button;
             $icon = "";
         }
+        $id = $name.'-'.str_replace(' ', '-', strtolower($button));
         if ($tmp_button == $off) {
-            array_push($html_menu, $icon."<input type='submit' value='".$button."' name='".$name."' class='button' style='color:black;'>");
+            array_push($html_menu, $icon."<input type='submit' value='".$button."' name='".$name."' id='".$id."' class='button' style='color:black;'>");
         } else {
-            array_push($html_menu, $icon."<input type='submit' value='".$button."' name='".$name."' class='button'>");
+            array_push($html_menu, $icon."<input type='submit' value='".$button."' name='".$name."' id='".$id."' class='button'>");
         }
     }
     return "|".implode("|", $html_menu)."|";
@@ -190,7 +191,7 @@ function get_olz_text($id_text, $editable = true) {
 //----------------------------------
 function get_eintrag($icon, $datum, $titel, $text, $link, $pic = "") {
     echo "<div style='position:relative; clear:left; overflow:hidden; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";'>
-    <span style='position:relative; float:right; padding-left:2px; text-align:right; color:#000;'><span style='float:left; margin-right:10px;'>".$pic."</span><span style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'>".olz_date("tt.mm.jj", $datum)."</span></span>
+    <span style='position:relative; float:right; padding-left:2px; text-align:right; color:#000;'><span style='float:left; margin-right:10px;'>".$pic."</span><span style='cursor:pointer;' class='titel test-flaky' onclick='javascript:location.href=\"".$link."\";return false;'>".olz_date("tt.mm.jj", $datum)."</span></span>
     <div style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'><img src='".$icon."' style='width:20px; height:20px;' class='noborder' alt='' /> ".$titel."</div>
     <div style='clear:left; margin-top:0px;' class='paragraf'>".$text."</div></div>";
 }

@@ -51,7 +51,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
         ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
-        ["typ", "Typ", "text", "aktuell", "", "", "", ""],
+        ["typ", "Typ", "text", "'aktuell'", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", ""],
         ["text", "Kurztext", "textarea", "''", "", "", "", " rows='4'"],
         ["textlang", "Haupttext", "textarea", "''", $markup_notice, "", "", " rows='8'"],
@@ -150,7 +150,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["eintrag", "Text", "textarea", "''", "", "", "", " rows='8'", "!empty", "Hast du nichts mitzuteilen ?"],
         ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "'1'", "", "", "", ""],
-        ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", ""],
+        ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
     ];
     if ($_SESSION['auth'] == "all") {
         array_push($db_felder,

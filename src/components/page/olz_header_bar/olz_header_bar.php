@@ -47,6 +47,9 @@ $colors = ["dd0000", "00cc00", "005500"]; // Farbe Randbalken
 $db_table = "aktuell";
 $zugriff = (($_SESSION['auth'] == "all") or (in_array($db_table, explode(' ', $_SESSION['auth'])))) ? true : false;
 $button_name = 'button'.$db_table;
+if (isset($_GET[$button_name])) {
+    $_POST[$button_name] = $_GET[$button_name];
+}
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }

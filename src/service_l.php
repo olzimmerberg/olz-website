@@ -18,6 +18,9 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SES
     $zugriff = "0";
 }
 $button_name = 'button'.$db_table;
+if (isset($_GET[$button_name])) {
+    $_POST[$button_name] = $_GET[$button_name];
+}
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
@@ -135,6 +138,9 @@ if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SES
     $zugriff = "0";
 }
 $button_name = 'button'.$db_table;
+if (isset($_GET[$button_name])) {
+    $_POST[$button_name] = $_GET[$button_name];
+}
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }

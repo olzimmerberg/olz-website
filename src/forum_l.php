@@ -4,18 +4,12 @@
 // Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
 // =============================================================================
 
-$db_table = "forum";
-
 //-------------------------------------------------------------
 // ZUGRIFF
 if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
-}
-$button_name = "button".$db_table;
-if (isset(${$button_name})) {
-    $_SESSION['edit']['db_table'] = $db_table;
 }
 
 //-------------------------------------------------------------
@@ -73,7 +67,7 @@ if ($zugriff) {
         'delete' => 'Löschen',
         'undo' => 'undo', ];
 }
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

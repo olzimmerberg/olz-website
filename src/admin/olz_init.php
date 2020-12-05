@@ -13,8 +13,6 @@ if (isset($_GET['unset'])) {
 //-----------------------------------------
 // KONSTANTEN - DEFAULTS
 //-----------------------------------------
-$ftp_user = "web276";
-$ftp_pw = "123456";
 date_default_timezone_set('Europe/Zurich');
 $heute = date("Y-m-d");
 if ($heute >= (date("Y")."-01-01") and isset($_SESSION["auth"])) {
@@ -30,12 +28,7 @@ for ($jahr = $start_jahr; $end_jahr <= $jahr; $jahr--) {
 $wochentage = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 $wochentage_lang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 $monate = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez.", "alle"];
-/*
-do
-    {array_push($jahre,end($jahre)-1);
-    }
-while (end($jahre)>"2006");
-*/
+
 // Spezialkategorien Aktuell
 $aktuell_special = [
     "OL-Lager Tesserete 2011" => "lager11",
@@ -51,24 +44,10 @@ require_once __DIR__.'/../config/paths.php';
 //-------------------------------------------
 // POST/GET-Variable
 //-------------------------------------------
-//echo $_SESSION["version"]."*";
 require_once dirname(__DIR__)."/library/webtool/class_security.php";
 $s = new security();
 $s->set_std_sonderbehandlung(["terminelink" => "sql_safe"]);
 $s->check_REQUEST();
-
-if (isset($_GET)) {
-    reset($_GET);
-    foreach ($_GET as $key => $element) {
-        ${$key} = $element;
-    }
-}
-if (isset($_POST)) {
-    reset($_POST);
-    foreach ($_POST as $key => $element) {
-        ${$key} = $element;
-    }
-}
 
 $tmp = ["5" => "forum", "8" => "newsletter", "13" => "anmeldung"];
 $var = "button".$tmp[$page];

@@ -17,6 +17,16 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     include __DIR__.'/components/page/olz_header/olz_header.php';
 }
 
+require_once __DIR__.'/image_tools.php';
+
+$db_table = 'galerie';
+$id = $_GET['id'];
+
+$button_name = 'button'.$db_table;
+if (isset($_POST[$button_name])) {
+    $_SESSION['edit']['db_table'] = $db_table;
+}
+
 echo "
 <div id='content_rechts'>
 <form name='Formularr' method='post' action='galerie.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>

@@ -22,7 +22,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search(${$button_name}, $functions);
+$function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include __DIR__.'/admin/admin_db.php';
 }

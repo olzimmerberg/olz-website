@@ -287,7 +287,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 //-------------------------------------------------------------
 // Button-Rückgabe modulieren
 //-------------------------------------------------------------
-$_SESSION['edit']['button'] = ${$button_name};
+$_SESSION['edit']['button'] = $_POST[$button_name];
 
 if ($function == "start") {
     $do = "getdata";

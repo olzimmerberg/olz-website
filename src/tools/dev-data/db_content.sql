@@ -12,7 +12,7 @@ INSERT INTO aktuell
 VALUES
     ('1', '0', '2006-01-13', '1', NULL, 'Ausschreibungen 📍', '', '<div><a href=\"\" class=\"linkint\">Interner Link</a></div><div><a href=\"\" class=\"linkext\">Externer Link</a></div><div><a href=\"\" class=\"linkpdf\">PDF-Link</a></div><div><a href=\"\" class=\"linkmail\">E-Mail-Link</a></div><div><a href=\"\" class=\"linkmap\">Karten-Link</a></div>', '', 'prä', 'box0', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0'),
     ('2', '0', '2006-01-13', '1', NULL, 'Weekends', '', '<div><a href=\"\" class=\"linkimg\">Bild-Link</a></div><h3>Lager</h3><div><a href=\"\" class=\"linkmovie\">Film-Link</a></div>', '', 'prä', 'box1', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0'),
-    ('3', '0', '2020-01-01', '1', NULL, 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr! 🎆', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.', '', 'prä', '', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0');
+    ('3', '0', '2020-01-01', '1', NULL, 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr! 🎆', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.', '', 'prä', 'aktuell', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0');
 
 -- Table anm_felder
 

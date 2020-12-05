@@ -100,9 +100,9 @@ function olz_aktuell_liste($sql) {
         }
 
         if ($id == $id_tmp) {
-            $html_out .= "<li>{$edit_admin}<span class='linkblack' style='font-weight:bold;'>".$titel." (".$datum."/".$autor.")</span></li>";
+            $html_out .= "<li class='test-flaky'>{$edit_admin}<span class='linkblack' style='font-weight:bold;'>".$titel." (".$datum."/".$autor.")</span></li>";
         } else {
-            $html_out .= "<li>{$edit_admin}<a href='".$link."'{$style} class='linkint'>".$titel." (".$datum."/".$autor.")</a></li>";
+            $html_out .= "<li class='test-flaky'>{$edit_admin}<a href='".$link."'{$style} class='linkint'>".$titel." (".$datum."/".$autor.")</a></li>";
         }
     }
     $html_out .= "</ul>";

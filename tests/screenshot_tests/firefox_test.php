@@ -13,6 +13,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/utils/window.php';
 
 require_once __DIR__.'/modules/startseite.php';
+require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/aktuell.php';
 require_once __DIR__.'/modules/leistungssport.php';
 require_once __DIR__.'/modules/termine.php';
@@ -52,6 +53,7 @@ try {
     set_window_size($driver, 1280, 1024);
 
     test_startseite($driver, $base_url);
+    test_bild_der_woche($driver, $base_url);
     test_aktuell($driver, $base_url);
     test_leistungssport($driver, $base_url);
     test_termine($driver, $base_url);

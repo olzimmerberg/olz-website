@@ -335,7 +335,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
 
         // HTML-Ausgabe
         if (($_SESSION['termin_filter'] == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or ($_SESSION['termin_filter'] != "resultat")) {
-            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;' class='test-flaky'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
         }
         $id_spalte = "";
     }

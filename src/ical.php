@@ -29,7 +29,7 @@ $ical = "BEGIN:VCALENDAR".
 while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $links = $row['link'];
     $dom = new domdocument();
-    $dom->loadHTML($links);
+    $dom->loadHTML($links || ' ');
     $_links = "OLZ-Termin: https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
     $_attach = "\r\nATTACH;VALUE=URI:https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
     foreach ($dom->getElementsByTagName("a") as $a) {

@@ -22,15 +22,15 @@
   },
   "homepage": "https://github.com/olzimmerberg/olz-website#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "babel-loader": "^8.1.0",
-    "css-loader": "^5.0.0",
+    "@babel/preset-env": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
-    "sass": "^1.28.0",
-    "sass-loader": "^10.0.4",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
@@ -39,7 +39,7 @@
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
-    "lightgallery": "^1.9.0",
+    "lightgallery": "^1.10.0",
     "popper.js": "^1.16.1",
     "typeface-open-sans": "1.1.13"
   }

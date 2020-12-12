@@ -15,3 +15,13 @@ for (var i=0; i<flakyElements.length; i++) {
     cover.style.top = Math.floor(rect.top) + 'px';
     cover.style.left = Math.floor(rect.left) + 'px';
 }
+
+var inputElements = document.querySelectorAll('input');
+for (var i=0; i<inputElements.length; i++) {
+    inputElements[i].setAttribute('spellcheck', 'false');
+}
+
+var textareaElements = document.querySelectorAll('textarea');
+for (var i=0; i<textareaElements.length; i++) {
+    textareaElements[i].setAttribute('spellcheck', 'false');
+}

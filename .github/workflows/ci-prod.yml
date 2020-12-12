@@ -21,7 +21,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
     - uses: actions/checkout@v2
-    - uses: shivammathur/setup-php@v1
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
     - name: Get composer cache directory
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: shivammathur/setup-php@v1
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
     - name: Get composer cache directory
@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: shivammathur/setup-php@v1
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
     - name: Get composer cache directory

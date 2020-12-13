@@ -185,9 +185,13 @@ function init_dev_data_filesystem($data_path) {
     // Build OLZimmerbergAblage/
     mkdir("{$data_path}OLZimmerbergAblage");
     mkdir("{$data_path}OLZimmerbergAblage/vorstand");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/protokoll.pdf");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/mitgliederliste.pdf");
+    mkdir("{$data_path}OLZimmerbergAblage/vorstand/protokolle");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/protokolle/protokoll.pdf");
     mkdir("{$data_path}OLZimmerbergAblage/karten");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/buchstabenwald.pdf");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/uebersicht.pdf");
+    mkdir("{$data_path}OLZimmerbergAblage/karten/wald");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/wald/buchstabenwald.pdf");
 
     // Build pdf/
     mkdir("{$data_path}pdf");

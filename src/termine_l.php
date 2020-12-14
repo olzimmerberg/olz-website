@@ -30,7 +30,8 @@ if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
 } else {
     $id = $_SESSION[$db_table."id_"];
 }
-if (isset($jahr) and in_array($jahr, $jahre)) {
+if (isset($_POST['jahr']) and in_array($_POST['jahr'], $jahre)) {
+    $jahr = $_POST['jahr'];
     $_SESSION[$db_table."jahr_"] = $jahr;
 } else {
     $jahr = $_SESSION[$db_table."jahr_"];
@@ -38,7 +39,8 @@ if (isset($jahr) and in_array($jahr, $jahre)) {
 if ($jahr == "") {
     $_SESSION[$db_table.'jahr_'] = olz_date("jjjj", "");
 }
-if (isset($monat) and in_array($monat, $monate)) {
+if (isset($_POST['monat']) and in_array($_POST['monat'], $monate)) {
+    $monat = $_POST['monat'];
     $_SESSION[$db_table."monat_"] = $monat;
 } else {
     $monat = $_SESSION[$db_table."monat_"];
@@ -46,11 +48,18 @@ if (isset($monat) and in_array($monat, $monate)) {
 if ($monat == "") {
     $_SESSION[$db_table.'monat_'] = "alle";
 }
+if (isset($_POST['filter'])) {
+    $filter = $_POST['filter'];
+}
 if (isset($filter) and in_array($filter, ['alle', 'training', 'ol', 'club', 'resultat'])) {
     $_SESSION['termin_filter'] = $filter;
 } elseif (!isset($_SESSION['termin_filter'])) {
     $_SESSION['termin_filter'] = "alle";
 }
+if (isset($_POST['show'])) {
+    $show = $_POST['show'];
+}
+
 $id = $_SESSION[$db_table.'id_'];
 $jahr = $_SESSION[$db_table.'jahr_'];
 $monat = $_SESSION[$db_table.'monat_'];

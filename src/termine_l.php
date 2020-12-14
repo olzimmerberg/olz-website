@@ -24,7 +24,8 @@ if (isset($_POST[$button_name])) {
 
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
-if (isset($id) and is_ganzzahl($id)) {
+if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
+    $id = $_GET['id'];
     $_SESSION[$db_table."id_"] = $id;
 } else {
     $id = $_SESSION[$db_table."id_"];

@@ -4,6 +4,8 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 // KONSTANTEN
 $tmp_jahr = olz_date("jjjj", "");
 $db_imgpath = $tables_img_dirs[$db_table];

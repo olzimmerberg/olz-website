@@ -4,6 +4,8 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 echo "<h2>Trainings</h2>";
 
 // NÄCHSTES TRAINIG

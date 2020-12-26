@@ -4,6 +4,8 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($_GET["id"]) and (is_ganzzahl($_GET["id"]) or in_array($_GET["id"], $aktuell_special))) {

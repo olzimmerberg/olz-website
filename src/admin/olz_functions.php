@@ -98,6 +98,7 @@ function olz_amp($text) {
 //----------------------------------
 function get_olz_text($id_text, $editable = true) {
     global $id_edit,$db_edit,$db,$buttonolz_text;
+    require_once __DIR__.'/../config/database.php';
 
     $html_out = "";
 
@@ -267,6 +268,9 @@ function olz_is_email($v) {
 //----------------------------------
 function olz_create_uid($db_table) {
     global $db;
+
+    require_once __DIR__.'/../config/database.php';
+
     $uid = "";
     do {
         for ($f = 1; $f <= 10; $f++) {

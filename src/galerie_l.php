@@ -4,6 +4,8 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"];
 $breite = 4;
 $pfad_galerie = $data_path."img/galerie/";

@@ -5,6 +5,8 @@
 // TODO(simon): DEPRECATED?
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 function solvdataforyear($year) {
     global $db;
     if (!$year) {

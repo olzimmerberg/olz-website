@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/../config/init.php';
+require_once __DIR__.'/../config/database.php';
 
 session_start();
 
@@ -20,24 +21,6 @@ if ($_SERVER['REMOTE_ADDR'] == "::1") {
     $local = 1;
 }
 $local = 0; // 1 im lokalen WLAN, 0 auf dem olzimmberg.ch-Server
-
-//-------------------------------------------
-// Datenbankverbindung
-//-------------------------------------------
-if ($local) {
-    $db = new mysqli($db_server_local, $db_user_local, $db_pw_local, $db_name_local);
-} else {
-    $db = new mysqli("localhost", "db12229638-1", "Atjiz2ZYty6bN3Tw", "db12229638-1");
-}
-if ($db->connect_error) {
-    die("Connect Error (".$db->connect_errno.") ".$db->connect_error);
-}
-$db->query("SET NAMES utf8");
-function DBEsc($str) {
-    global $db;
-    return $db->escape_string($str);
-}
-error_reporting(0);
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">

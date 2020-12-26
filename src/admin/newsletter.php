@@ -6,6 +6,7 @@
 // =============================================================================
 
 require_once __DIR__.'/../config/init.php';
+require_once __DIR__.'/../config/database.php';
 
 $local = "0";
 $admin_mail = "uhu1277@gmail.com";

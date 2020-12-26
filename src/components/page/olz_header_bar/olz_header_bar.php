@@ -4,6 +4,7 @@
 // Die Kopfzeile der Website.
 // =============================================================================
 
+require_once __DIR__.'/../../../config/database.php';
 require_once __DIR__.'/../../../admin/olz_functions.php';
 require_once __DIR__.'/../../../image_tools.php';
 require_once __DIR__.'/../../../file_tools.php';

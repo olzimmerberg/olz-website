@@ -95,6 +95,9 @@ function getCookie(name) {
 
 
 <?php
+
+require_once __DIR__.'/../config/database.php';
+
 $db_table = "olz_result";
 $event = (isset($_GET['event'])) ? $_GET['event'] : $_SESSION['event'];
 $_SESSION['event'] = $event;

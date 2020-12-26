@@ -4,6 +4,8 @@
 // Zeigt Informationen zur Zielsprint-Challenge 2020 an.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 echo "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 
 //echo "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";

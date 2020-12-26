@@ -4,6 +4,8 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {

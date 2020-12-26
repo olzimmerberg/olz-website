@@ -33,7 +33,7 @@ if (isset($_POST[$button_name])) {
 
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
-if (isset($id) and (is_ganzzahl($id) or in_array($id, $aktuell_special))) {
+if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
 $id = $_SESSION[$db_table.'id_'];

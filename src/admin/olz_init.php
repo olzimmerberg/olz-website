@@ -9,8 +9,3 @@
 if (isset($_GET['unset'])) {
     unset($_SESSION['edit']);
 }
-
-//-----------------------------------------
-// KONSTANTEN - DEFAULTS
-//-----------------------------------------
-require_once __DIR__.'/../config/date.php';

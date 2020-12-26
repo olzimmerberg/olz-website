@@ -5,6 +5,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 echo "<h2>Trainings</h2>";
 

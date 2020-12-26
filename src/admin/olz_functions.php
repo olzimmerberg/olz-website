@@ -288,6 +288,7 @@ function olz_create_uid($db_table) {
 //----------------------------------
 function olz_date($format, $datum) {
     global $monate, $wochentage_lang,$wochentage;
+    require_once __DIR__.'/../config/date.php';
     if ($datum == "") {
         $datum = date("Y-m-d");
     }

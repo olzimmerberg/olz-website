@@ -6,6 +6,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 $start = microtime(1);
 

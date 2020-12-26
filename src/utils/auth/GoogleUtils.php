@@ -255,11 +255,15 @@ class GoogleUtils {
 }
 
 function getGoogleUtilsFromEnv() {
-    global $base_href, $code_href, $GOOGLE_CLIENT_ID, $GOOGLE_CLIENT_SECRET;
+    global $base_href, $code_href, $_CONFIG;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
 
     $redirect_url = $base_href.$code_href.'konto_google.php';
 
-    return new GoogleUtils($GOOGLE_CLIENT_ID, $GOOGLE_CLIENT_SECRET, $redirect_url);
+    return new GoogleUtils(
+        $_CONFIG->getGoogleClientId(),
+        $_CONFIG->getGoogleClientSecret(),
+        $redirect_url
+    );
 }

@@ -7,6 +7,7 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
+require_once __DIR__.'/server.php';
 require_once __DIR__.'/database.php';
 require_once __DIR__.'/doctrine.php';
 
@@ -20,10 +21,10 @@ $config = Setup::createAnnotationMetadataConfiguration(
 );
 $conn = [
     'driver' => 'pdo_mysql',
-    'dbname' => $MYSQL_SCHEMA,
-    'user' => $MYSQL_USERNAME,
-    'password' => $MYSQL_PASSWORD,
-    'host' => $MYSQL_SERVER,
+    'dbname' => $_CONFIG->getMysqlSchema(),
+    'user' => $_CONFIG->getMysqlUsername(),
+    'password' => $_CONFIG->getMysqlPassword(),
+    'host' => $_CONFIG->getMysqlServer(),
     'charset' => 'utf8mb4',
 ];
 

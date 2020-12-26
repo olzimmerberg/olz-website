@@ -26,8 +26,3 @@ $aktuell_special = [
     "1. Zimmerberg OL 2006" => "zimmerbergol2006", ];
 
 require_once __DIR__.'/../config/paths.php';
-
-//-------------------------------------------
-// Sendmail
-//-------------------------------------------
-require_once __DIR__.'/../config/mail.php';

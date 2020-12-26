@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/config/init.php';
+
 session_start();
 
 require_once __DIR__.'/admin/olz_init.php';

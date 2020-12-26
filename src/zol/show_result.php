@@ -6,6 +6,7 @@
 
 <?php
 
+require_once __DIR__.'/../config/init.php';
 include '../admin/olz_init.php';
 include 'parse_result.php';
 

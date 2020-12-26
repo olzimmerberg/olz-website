@@ -5,9 +5,12 @@
 // Webseite erschienen sind.
 // =============================================================================
 
+require_once __DIR__.'/../config/init.php';
+
 $local = "0";
 $admin_mail = "uhu1277@gmail.com";
 $mail_from = "newsletter@olzimmerberg.ch";
+
 set_include_path("../");
 include_once 'olz_init.php';
 include_once 'olz_functions.php';

@@ -109,20 +109,6 @@ if ($zugriff) {
 }
 
 //-------------------------------------------------------------
-// SPEZIAL
-$special_html = "<ul>";
-foreach ($aktuell_special as $special_lang => $special_kurz) {
-    if ($id == $special_kurz) {
-        $special_html .= "<li><span><b>".$special_lang."</b></span></li>";
-    } else {
-        $special_html .= "<li><a href='aktuell.php?id=".$special_kurz."'>".$special_lang."</a></li>";
-    }
-}
-$special_html .= "</ul>";
-echo "<a href='?jahr=special' onclick='runAccordion(\"special\"); return false;' name='accordionlink'><div class='AccordionTitle' onselectstart='return false;'>Spezial</div></a>
-<div id='AccordionspecialContent' class='AccordionContent'".($_SESSION[$db_table.'jahr_'] == "special" ? " style='height:auto;'" : " style='height:1px;'")."><div id='AccordionspecialContent_' class='AccordionContent_'>".$special_html."</div></div>";
-
-//-------------------------------------------------------------
 // JAHRE
 foreach ($jahre as $tmp_jahr) {
     if ($zugriff) {

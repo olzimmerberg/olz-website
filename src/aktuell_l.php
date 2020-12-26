@@ -43,21 +43,13 @@ if ($zugriff and ($db_edit == '0')) {
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
 if (($db_edit == "0") or ($do == "vorschau")) {
-    if (in_array($_SESSION[$db_table.'id_'], $aktuell_special)) {// Spezial
-        $sql = "SELECT * FROM {$db_table} WHERE (typ LIKE '{$id}') ORDER BY datum DESC";
-        $titel_special = array_search($id, $aktuell_special);
-        echo "<h2>".$titel_special."</h2>";
-        $_SESSION[$db_table.'jahr_'] = "special";
-        $jahr = $_SESSION[$db_table.'jahr_'];
-    } else {// Nachricht nach ID
-        $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
-        $result = $db->query($sql);
-        $row = mysqli_fetch_array($result);
-        if (mysqli_num_rows($result) > 0) {
-            $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row["datum"]));
-        }
-        $jahr = $_SESSION[$db_table.'jahr_'];
+    $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
+    $result = $db->query($sql);
+    $row = mysqli_fetch_array($result);
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row["datum"]));
     }
+    $jahr = $_SESSION[$db_table.'jahr_'];
 
     $result = $db->query($sql);
 

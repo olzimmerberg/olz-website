@@ -5,6 +5,7 @@
 // TODO(simon): Was davon ist in Gebrauch? Was soll geschehen?
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 function termine_ticker($settings) {

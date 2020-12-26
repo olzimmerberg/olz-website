@@ -4,6 +4,7 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 ?>

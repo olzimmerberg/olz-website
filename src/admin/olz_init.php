@@ -14,5 +14,3 @@ if (isset($_GET['unset'])) {
 // KONSTANTEN - DEFAULTS
 //-----------------------------------------
 require_once __DIR__.'/../config/date.php';
-
-require_once __DIR__.'/../config/paths.php';

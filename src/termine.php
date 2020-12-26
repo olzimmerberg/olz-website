@@ -5,7 +5,6 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     session_start();
 
-    require_once __DIR__.'/admin/olz_init.php';
     require_once __DIR__.'/admin/olz_functions.php';
     $html_titel = " - Termine";
     include __DIR__.'/components/page/olz_header/olz_header.php';

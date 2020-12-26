@@ -43,7 +43,6 @@ if (($_SESSION['auth'] == "all") or (in_array("termine", preg_split("/ /", $_SES
 } elseif ($_GET["mode"] == "check" && $_GET["visitor"] == "cronjob") {
     $zugriff = "1";
     require_once __DIR__.'/config/init.php';
-    include "admin/olz_init.php";
 } else {
     if ($_GET["visitor"] == "cronjob") {
         mail("simon.hatt@olzimmerberg.ch", "CronJob nicht ausgeführt", "Der CronJob konnte um ".date("H:i:s")." am ".date("d.m.Y")." nicht ausgeführt werden", "From: OL Zimmerberg<system@olzimmerberg.ch>");

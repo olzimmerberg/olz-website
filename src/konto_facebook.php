@@ -4,7 +4,6 @@ require_once __DIR__.'/config/init.php';
 
 session_start();
 
-require_once __DIR__.'/admin/olz_init.php';
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 require_once __DIR__.'/utils/auth/FacebookUtils.php';

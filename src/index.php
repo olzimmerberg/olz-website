@@ -10,7 +10,6 @@ require_once __DIR__.'/config/database.php';
 
 session_start();
 
-require_once 'admin/olz_init.php';
 require_once 'admin/olz_functions.php';
 require_once 'tickers.php';
 

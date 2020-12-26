@@ -4,6 +4,8 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 $db_table = "termine";
 $ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["resultat", "Resultate"], ["club", "Vereinsanlässe"]];
 

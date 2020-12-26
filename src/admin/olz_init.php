@@ -28,21 +28,6 @@ $aktuell_special = [
 require_once __DIR__.'/../config/paths.php';
 
 //-------------------------------------------
-// POST/GET-Variable
-//-------------------------------------------
-require_once dirname(__DIR__)."/library/webtool/class_security.php";
-$s = new security();
-$s->set_std_sonderbehandlung(["terminelink" => "sql_safe"]);
-$s->check_REQUEST();
-
-require_once __DIR__.'/../config/database.php';
-
-//-------------------------------------------
 // Sendmail
 //-------------------------------------------
 require_once __DIR__.'/../config/mail.php';
-
-//-----------------------------------------
-//Speicher für Bildbearbeitung (gdlib)
-//-----------------------------------------
-require_once __DIR__.'/../config/limits.php';

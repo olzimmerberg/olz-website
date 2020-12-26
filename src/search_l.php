@@ -4,6 +4,8 @@
 // Kann auf der Website nach einem Suchbegriff suchen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 $length_a = 40;
 $length_b = 40;
 $search_key = trim(str_replace([",", ".", ";", "   ", "  "], [" ", " ", " ", " ", " "], $search_key));

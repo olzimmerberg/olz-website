@@ -5,6 +5,8 @@
 // TODO(simon): Was davon funktioniert überhaupt noch? Tests?
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 // $_GET["visitor"]=="map"
 // $_GET["visitor"]=="cronjob"
 

@@ -3,6 +3,8 @@
 // DEBUGBLOCK: wenn diese Datei als Standalone getestet wird
 //$event = "zol_160410";
 
+require_once __DIR__.'/../config/database.php';
+
 if ($local) {
     $db = new mysqli("localhost:8889", "root", "root", "db12229638-1");
 } else {

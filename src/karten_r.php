@@ -4,6 +4,8 @@
 // Das Verzeichnis unserer Karten.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 $karten_typ = [
     'OL-Karten' => 'ol',
     'Dorf-Karten' => 'stadt',

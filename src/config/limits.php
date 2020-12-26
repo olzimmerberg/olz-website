@@ -1,5 +1,7 @@
 <?php
 
+// TODO: currently unused
+
 //ini_set('memory_limit', '32M');
 //ini_set('post_max_size', '100M'); // nur lokal möglich
 //ini_set('upload_max_filesize', '100M'); // nur lokal möglich

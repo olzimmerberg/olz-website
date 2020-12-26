@@ -4,6 +4,7 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
 echo "<table><tr><td style='width:50%'><h2>Links</h2>";

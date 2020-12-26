@@ -4,6 +4,8 @@
 // Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
 // =============================================================================
 
+require_once __DIR__.'/config/database.php';
+
 //-------------------------------------------------------------
 // ZUGRIFF
 if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {

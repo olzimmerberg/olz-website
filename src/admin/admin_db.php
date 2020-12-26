@@ -8,6 +8,8 @@
 // getestet werden.
 // =============================================================================
 
+require_once __DIR__.'/../config/database.php';
+
 echo '<script src="scripts/admin_db.js" type="text/javascript"></script>';
 
 //***************************************************

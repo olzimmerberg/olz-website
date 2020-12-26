@@ -9,7 +9,6 @@
 require_once __DIR__.'/../config/init.php';
 require_once __DIR__.'/../config/database.php';
 
-include '../admin/olz_init.php';
 include 'parse_result.php';
 
 //-------------------------------------------

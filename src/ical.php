@@ -7,6 +7,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 include_once "admin/olz_init.php";

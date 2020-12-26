@@ -4,6 +4,8 @@
 // Zeigt Informationen zur OLZ Trophy an.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
+
 ?>
 
 <h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2020</h2>

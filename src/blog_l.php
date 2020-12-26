@@ -4,6 +4,7 @@
 // Neuigkeiten von unseren Leistungssportlern.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 //echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";

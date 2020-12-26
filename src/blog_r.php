@@ -4,6 +4,8 @@
 // Neuigkeiten von unseren Leistungssportlern.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
+
 echo "<h4 class='tablebar'>Elite</h4>
 <div>
 <h3>Julia Jakob</h3>

@@ -4,6 +4,7 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 // KONSTANTEN

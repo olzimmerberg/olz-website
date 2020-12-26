@@ -4,6 +4,7 @@
 // Das Verzeichnis unserer Karten.
 // =============================================================================
 
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
 $karten_typ = [

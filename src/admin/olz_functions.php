@@ -4,6 +4,8 @@
 // Wiederverwendbare Komponenten der Website.
 // =============================================================================
 
+require_once __DIR__.'/../config/paths.php';
+
 //----------------------------------
 //EMAILADRESSE MASKIEREN
 //----------------------------------

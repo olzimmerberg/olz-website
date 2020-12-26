@@ -68,7 +68,7 @@ class StravaUtils {
 }
 
 function getStravaUtilsFromEnv() {
-    global $base_href, $code_href, $STRAVA_CLIENT_ID, $STRAVA_CLIENT_SECRET;
+    global $base_href, $code_href, $_CONFIG;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
     require_once __DIR__.'/../../fetchers/StravaFetcher.php';
@@ -76,5 +76,10 @@ function getStravaUtilsFromEnv() {
     $redirect_url = $base_href.$code_href.'konto_strava.php';
     $strava_fetcher = new StravaFetcher();
 
-    return new StravaUtils($STRAVA_CLIENT_ID, $STRAVA_CLIENT_SECRET, $redirect_url, $strava_fetcher);
+    return new StravaUtils(
+        $_CONFIG->getStravaClientId(),
+        $_CONFIG->getStravaClientSecret(),
+        $redirect_url,
+        $strava_fetcher
+    );
 }

@@ -12,7 +12,7 @@ GECKODRIVER_PID=$!
 # Configure dev server
 if [ ! -z DB_PORT ] && [ ! -f ./dev-server/config.php ]; then
     cp ./dev-server/config.template.php ./dev-server/config.php
-    sed -i "s/localhost:3306/127.0.0.1:$DB_PORT/g" ./dev-server/config.php
+    sed -i "s/3306/$DB_PORT/g" ./dev-server/config.php
     echo "Dev server configured."
 else
     echo "Dev server configuration preserved."

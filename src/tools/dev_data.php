@@ -238,14 +238,16 @@ function dump_db_structure_sql($db) {
         ."-- MIGRATION: {$current_migration}\n"
         ."\n"
     );
-    global $MYSQL_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $MYSQL_SCHEMA;
+    global $_CONFIG;
     require_once __DIR__.'/../config/database.php';
     require_once __DIR__.'/../../vendor/autoload.php';
     $dump_filename = tempnam('/tmp', 'OLZ');
+    $mysql_server = $_CONFIG->getMysqlServer();
+    $mysql_schema = $_CONFIG->getMysqlSchema();
     $dump = new Ifsnop\Mysqldump\Mysqldump(
-        "mysql:host={$MYSQL_SERVER};dbname={$MYSQL_SCHEMA}",
-        $MYSQL_USERNAME,
-        $MYSQL_PASSWORD,
+        "mysql:host={$mysql_server};dbname={$mysql_schema}",
+        $_CONFIG->getMysqlUsername(),
+        $_CONFIG->getMysqlPassword(),
         [
             'skip-comments' => true,
             'no-data' => true,

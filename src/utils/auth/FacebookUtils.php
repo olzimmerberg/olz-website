@@ -93,11 +93,15 @@ class FacebookUtils {
 }
 
 function getFacebookUtilsFromEnv() {
-    global $base_href, $code_href, $FACEBOOK_APP_ID, $FACEBOOK_APP_SECRET;
+    global $base_href, $code_href, $_CONFIG;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
 
     $redirect_url = $base_href.$code_href.'konto_facebook.php';
 
-    return new FacebookUtils($FACEBOOK_APP_ID, $FACEBOOK_APP_SECRET, $redirect_url);
+    return new FacebookUtils(
+        $_CONFIG->getFacebookAppId(),
+        $_CONFIG->getFacebookAppSecret(),
+        $redirect_url
+    );
 }

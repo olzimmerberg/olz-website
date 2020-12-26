@@ -4,12 +4,17 @@
 // Konfiguration der Datenbank-Verbindung
 // =============================================================================
 
-require_once __DIR__.'/server.php';
-
 global $db;
 
 if (!isset($db)) {
-    $db = new mysqli($MYSQL_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $MYSQL_SCHEMA);
+    require_once __DIR__.'/server.php';
+
+    $db = new mysqli(
+        $_CONFIG->getMysqlServer(),
+        $_CONFIG->getMysqlUsername(),
+        $_CONFIG->getMysqlPassword(),
+        $_CONFIG->getMysqlSchema()
+    );
 }
 
 if ($db->connect_error) {

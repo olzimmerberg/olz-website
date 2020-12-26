@@ -4,11 +4,13 @@ class StravaUtils {
     private $client_id;
     private $client_secret;
     private $redirect_url;
+    private $strava_fetcher;
 
-    public function __construct($client_id, $client_secret, $redirect_url) {
+    public function __construct($client_id, $client_secret, $redirect_url, $strava_fetcher) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
         $this->redirect_url = $redirect_url;
+        $this->strava_fetcher = $strava_fetcher;
     }
 
     public function setClientId($client_id) {
@@ -32,23 +34,17 @@ class StravaUtils {
     }
 
     public function getTokenDataForCode($code) {
-        $ch = curl_init();
-
-        $strava_token_url = 'https://www.strava.com/api/v3/oauth/token';
         $token_request_data = [
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
             'code' => $code,
             'grant_type' => 'authorization_code',
         ];
-        curl_setopt($ch, CURLOPT_URL, $strava_token_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $token_result = curl_exec($ch);
-        $token_response = json_decode($token_result, true);
+        $token_response = $this->strava_fetcher->fetchTokenDataForCode($token_request_data);
 
-        curl_close($ch);
+        if (!isset($token_response['token_type'])) {
+            return null;
+        }
 
         return [
             'token_type' => $token_response['token_type'],
@@ -75,8 +71,10 @@ function getStravaUtilsFromEnv() {
     global $base_href, $code_href, $STRAVA_CLIENT_ID, $STRAVA_CLIENT_SECRET;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
+    require_once __DIR__.'/../../fetchers/StravaFetcher.php';
 
     $redirect_url = $base_href.$code_href.'konto_strava.php';
+    $strava_fetcher = new StravaFetcher();
 
-    return new StravaUtils($STRAVA_CLIENT_ID, $STRAVA_CLIENT_SECRET, $redirect_url);
+    return new StravaUtils($STRAVA_CLIENT_ID, $STRAVA_CLIENT_SECRET, $redirect_url, $strava_fetcher);
 }

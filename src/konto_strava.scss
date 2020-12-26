@@ -1,0 +1,17 @@
+#sign-up-with-strava-form {
+    &.hidden {
+        display: none;
+    }
+
+    #sign-up-with-strava-error-message,
+    #sign-up-with-strava-success-message {
+        &:empty {
+            display: none;
+        }
+    }
+
+    .col.change-password-cell {
+        align-self: flex-end;
+        margin-bottom: 1rem;
+    }
+}

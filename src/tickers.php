@@ -122,6 +122,8 @@ function termine_ticker($settings) {
 }
 
 function zeitintervall($datum) {
+    global $wochentage_lang;
+    require_once __DIR__.'/config/date.php';
     $today = strtotime(date("Y-m-d"));
     $towday = date("w", $today);
     if ($towday == 0) {
@@ -132,7 +134,6 @@ function zeitintervall($datum) {
     if ($wday == 0) {
         $wday = 7;
     }
-    $wochentage = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
     if ($tage == -1) {
         return "Gestern";
     }
@@ -143,10 +144,10 @@ function zeitintervall($datum) {
         return "Morgen";
     }
     if ($tage > -7 && $tage < 0) {
-        return "Letzten ".$wochentage[$wday];
+        return "Letzten ".$wochentage_lang[$wday];
     }
     if ($tage < (15 - $wday)) {
-        return $wochentage[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
+        return $wochentage_lang[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
     }
     return olz_date("tt.mm.", $datum);
 }

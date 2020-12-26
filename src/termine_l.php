@@ -5,6 +5,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 $db_table = "termine";
 $ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["resultat", "Resultate"], ["club", "Vereinsanlässe"]];

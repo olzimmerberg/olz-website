@@ -39,6 +39,7 @@ if (($_SESSION['auth'] == "all") or (in_array("termine", preg_split("/ /", $_SES
     return;
 } elseif ($_GET["mode"] == "check" && $_GET["visitor"] == "cronjob") {
     $zugriff = "1";
+    require_once __DIR__.'/config/init.php';
     include "admin/olz_init.php";
 } else {
     if ($_GET["visitor"] == "cronjob") {

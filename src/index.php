@@ -5,6 +5,8 @@
 // Von hier aus wird der für die angefragte Seite benötigte Code importiert.
 // =============================================================================
 
+require_once __DIR__.'/config/init.php';
+
 session_start();
 
 require_once 'admin/olz_init.php';

@@ -6,6 +6,8 @@
 // aufgerufen.
 // =============================================================================
 
+require_once __DIR__.'/config/init.php';
+
 include_once "admin/olz_init.php";
 include_once "admin/olz_functions.php";
 

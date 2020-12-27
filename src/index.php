@@ -8,7 +8,7 @@
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/config/database.php';
 
-session_start();
+session_start_if_cookie_set();
 
 require_once 'admin/olz_functions.php';
 require_once 'tickers.php';
@@ -41,6 +41,7 @@ $pages = [
     "ftp" => "webftp.php",
     "tools" => "termine_helper.php",
 ];
+$page = $_GET['page'];
 
 //http://YOUR-SITE.COM/FILERUN/?page=login&action=login&nonajax=1&username=test&password=1234
 // Seiten-Titel

@@ -99,9 +99,10 @@ function olz_amp($text) {
 // Variablen Text editieren
 //----------------------------------
 function get_olz_text($id_text, $editable = true) {
-    global $id_edit,$db_edit,$db,$buttonolz_text;
+    global $db_edit,$db,$buttonolz_text;
     require_once __DIR__.'/../config/database.php';
 
+    $id_edit = $_GET['id_edit'];
     $html_out = "";
 
     //Konstanten
@@ -114,7 +115,8 @@ function get_olz_text($id_text, $editable = true) {
         $zugriff = "0";
     }
     $button_name = 'button'.$db_table;
-    if (isset($_POST[$button_name]) and $_SESSION[$db_table.'id_text_'] == $id_text) {
+    $button_value = $_POST[$button_name] ?? $_GET[$button_name] ?? null;
+    if ($button_value != null and $_SESSION[$db_table.'id_text_'] == $id_text) {
         $_SESSION['edit']['db_table'] = $db_table;
     }
     if (isset($id_edit) and is_ganzzahl($id_edit)) {
@@ -138,7 +140,7 @@ function get_olz_text($id_text, $editable = true) {
             $functions = [];
         }
 
-        $function = array_search($_POST[$button_name], $functions);
+        $function = array_search($button_value, $functions);
         if ($zugriff && ($function != "") && $editable) {
             ob_start();
             include 'admin/admin_db.php';
@@ -179,7 +181,7 @@ function get_olz_text($id_text, $editable = true) {
         $id_tmp = $row['id'];
         $text = $row['text'];
         if ($zugriff && ($do != 'vorschau') && $editable) {
-            $edit_admin = "<p style='border-bottom:solid 1px;'><a href='index.php?id_edit={$id_text}&amp;button{$db_table}=start#id_edit{$id_text}' class='linkedit'>Text bearbeiten (ID:{$id_text})</a></p>";
+            $edit_admin = "<p style='border-bottom:solid 1px;'><a href='?id_edit={$id_text}&amp;button{$db_table}=start#id_edit{$id_text}' class='linkedit' id='olz-text-edit-{$id_text}'>Text bearbeiten (ID:{$id_text})</a></p>";
         } else {
             $edit_admin = "";
         }

@@ -26,6 +26,8 @@ export function getMapHtml(xkoord, ykoord, width = 400) {
     return "<a href='http://map.search.ch/"+xkoord+","+ykoord+"' target='_blank'><img src='https://api.mapbox.com/styles/v1/allestuetsmerweh/ckgf9qdzm1pn319ohqghudvbz/static/pin-l+009000("+lng+","+lat+")/"+lng+","+lat+",13,0/"+width+"x300?access_token=pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q' class='noborder test-flaky' style='margin:0px;padding:0px;align:center;border:1px solid #000000;'><\/a>";
 }
 
+let mouseid;
+
 export function mousein(id) {
     mouseid = id;
     document.getElementById(id).style.color = "rgb(0,0,0)";

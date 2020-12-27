@@ -12,3 +12,10 @@ mb_internal_encoding('UTF-8');
 // Session-Sicherheit
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 1);
+
+// Session start
+function session_start_if_cookie_set() {
+    if (isset($_COOKIE[session_name()])) {
+        session_start();
+    }
+}

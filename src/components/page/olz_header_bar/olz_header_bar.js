@@ -1,4 +1,4 @@
-function resizeHeaderBar() {
+export function resizeHeaderBar() {
     const headerBarElem = document.getElementById('header-bar');
     const isMinified = headerBarElem.className.indexOf('minified') !== -1;
     const shouldBeMinified = window.pageYOffset > 100;

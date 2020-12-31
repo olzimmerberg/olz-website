@@ -1,14 +1,42 @@
 <?php
 
+// =============================================================================
+// Konfiguration der Datums- und Zeitfunktionen
+// =============================================================================
+
+global $_DATE_UTILS;
+
+if (!isset($_DATE_UTILS)) {
+    require_once __DIR__.'/server.php';
+
+    $class_name = $_CONFIG->getDateUtilsClassName();
+    $class_args = $_CONFIG->getDateUtilsClassArgs();
+
+    if ($class_name == 'FixedDateUtils') {
+        require_once __DIR__.'/../utils/date/FixedDateUtils.php';
+        $_DATE_UTILS = new FixedDateUtils($class_args[0]);
+    } elseif ($class_name == 'LiveDateUtils') {
+        require_once __DIR__.'/../utils/date/LiveDateUtils.php';
+        $_DATE_UTILS = new LiveDateUtils();
+    } else {
+        die("Invalid date utils class name: {$class_name}");
+    }
+}
+
 date_default_timezone_set('Europe/Zurich');
 
-$heute = date("Y-m-d");
-if ($heute >= (date("Y")."-01-01") and isset($_SESSION["auth"])) {
-    $start_jahr = date("Y") + 1;
-} else {
-    $start_jahr = date("Y");
+function olz_current_date($format) {
+    global $_DATE_UTILS;
+    return $_DATE_UTILS->getCurrentDateInFormat($format);
 }
-$end_jahr = (isset($_GET["archiv"]) ? 2005 : date("Y") - 5);
+
+$heute = $_DATE_UTILS->getIsoToday();
+if ($heute >= ($_DATE_UTILS->getCurrentDateInFormat('Y')."-01-01") and isset($_SESSION["auth"])) {
+    $start_jahr = $_DATE_UTILS->getCurrentDateInFormat('Y') + 1;
+} else {
+    $start_jahr = $_DATE_UTILS->getCurrentDateInFormat('Y');
+}
+$end_jahr = (isset($_GET["archiv"]) ? 2005 : $_DATE_UTILS->getCurrentDateInFormat('Y') - 5);
 $jahre = [];
 for ($jahr = $start_jahr; $end_jahr <= $jahr; $jahr--) {
     array_push($jahre, $jahr);

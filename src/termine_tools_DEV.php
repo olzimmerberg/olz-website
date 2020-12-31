@@ -172,15 +172,15 @@ if ($zugriff == "1") {
 
             //Tagesanlass
             if (($datum_end == $datum) or ($datum_end == "0000-00-00")) {
-                $datum_tmp = olz_date("t. MM ", $datum).olz_date(" (W)", $datum);
+                $datum_tmp = $_DATE_UTILS->olzDate("t. MM ", $datum).$_DATE_UTILS->olzDate(" (W)", $datum);
             }
             //Mehrtägig innerhalb Monat
-            elseif (olz_date("m", $datum) == olz_date("m", $datum_end)) {
-                $datum_tmp = olz_date("t.-", $datum).olz_date("t. ", $datum_end).olz_date("MM", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+            elseif ($_DATE_UTILS->olzDate("m", $datum) == $_DATE_UTILS->olzDate("m", $datum_end)) {
+                $datum_tmp = $_DATE_UTILS->olzDate("t.-", $datum).$_DATE_UTILS->olzDate("t. ", $datum_end).$_DATE_UTILS->olzDate("MM", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
             }
             //Mehrtägig monatsübergreifend
             else {
-                $datum_tmp = olz_date("t.m.-", $datum).olz_date("t.m. ", $datum_end).olz_date("jjjj", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+                $datum_tmp = $_DATE_UTILS->olzDate("t.m.-", $datum).$_DATE_UTILS->olzDate("t.m. ", $datum_end).$_DATE_UTILS->olzDate("jjjj", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
             }
 
             if ($on_off == 0) {
@@ -464,7 +464,7 @@ table.raster tr {height:2em;}
 
             if (count($matching) > 0) {
                 $color = ($solv_uid > 0) ? "#c6ff8e" : "#fdb4b5";
-                echo "<tr><td style='background-color:{$color};width:270px;'>".olz_date('t.m.jj / ', $row['datum']).$row["titel"]."</td><td style='background-color:{$color};width:100px;'>";
+                echo "<tr><td style='background-color:{$color};width:270px;'>".$_DATE_UTILS->olzDate('t.m.jj / ', $row['datum']).$row["titel"]."</td><td style='background-color:{$color};width:100px;'>";
                 echo "<select name='olz".$row["id"]."' style='width:280px;'><option value='0'>---</option>";
                 for ($i = 0; $i < count($matching); $i++) {
                     $selected = "";
@@ -476,7 +476,7 @@ table.raster tr {height:2em;}
                 }
                 echo "</select></td><td style='padding-left:4px;width:30px;background-color:{$color};'>{$solv_uid}</td>";
             } else {
-                echo "<tr><td>".olz_date('t.m.jj / ', $row['datum']).$row["titel"]."</td><td></td><td></td>";
+                echo "<tr><td>".$_DATE_UTILS->olzDate('t.m.jj / ', $row['datum']).$row["titel"]."</td><td></td><td></td>";
             }
             echo "</tr>\n";
         }

@@ -40,7 +40,7 @@ if (isset($_POST['jahr']) and in_array($_POST['jahr'], $jahre)) {
     $jahr = $_SESSION[$db_table."jahr_"];
 }
 if ($jahr == "") {
-    $_SESSION[$db_table.'jahr_'] = olz_date("jjjj", "");
+    $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj");
 }
 if (isset($_POST['monat']) and in_array($_POST['monat'], $monate)) {
     $monat = $_POST['monat'];
@@ -116,7 +116,7 @@ if ($db_edit == "0") {
         $selected = "";
     }
     // Vergangene ein-/ausblenden
-    if (($_SESSION['termin_filter'] == "resultat") or ($periode < date("Y-m-d"))) {
+    if (($_SESSION['termin_filter'] == "resultat") or ($periode < $_DATE_UTILS->getIsoToday())) {
         $show = "1";
         $_SESSION['show_bak'] = $_SESSION['show'];
     } elseif (isset($_SESSION['show_bak'])) {
@@ -129,7 +129,7 @@ if ($db_edit == "0") {
     if ($show == "1") {
         $checked = " checked";
     }
-    echo "<span style='float:right;'><input type='checkbox' name='show' value='1' onclick='submit()'".$checked." style='vertical-align:middle;margin:0 0.5em 0em 0em;'>Vergangene einblenden</span></div>\n";
+    echo "<span style='float:right;'><input type='checkbox' id='show-past-checkbox' name='show' value='1' onclick='submit()'".$checked." style='vertical-align:middle;margin:0 0.5em 0em 0em;'>Vergangene einblenden</span></div>\n";
 } else {
     echo "<input type='hidden' name='show' value='".$_SESSION['show']."'>";
 }
@@ -181,11 +181,11 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         if (isset($id)) {
             $sql = "WHERE (id = '{$id}')";
         } else {
-            $sql = "WHERE (datum >= '".$_SESSION[$db_table.'jahr_']."-01-01') AND ((datum_off>='".date("Y-m-d")."') OR (datum_off='0000-00-00') OR datum_off IS NULL) AND (on_off = '1')";
+            $sql = "WHERE (datum >= '".$_SESSION[$db_table.'jahr_']."-01-01') AND ((datum_off>='".$_DATE_UTILS->getIsoToday()."') OR (datum_off='0000-00-00') OR datum_off IS NULL) AND (on_off = '1')";
         }
     }
     if ($show == "0") {
-        $sql .= " AND ((datum >= '{$heute}') OR (datum_end >= '{$heute}'))";
+        $sql .= " AND ((datum >= '{$_DATE_UTILS->getIsoToday()}') OR (datum_end >= '{$_DATE_UTILS->getIsoToday()}'))";
     }
     if (isset($uid)) {
         $sql .= " OR (id={$uid})";
@@ -195,7 +195,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
     }
     //elseif ($_SESSION['termin_filter'] == "resultat") $sql = $sql." AND ((link LIKE '%resultat%') OR (link LIKE '%rangliste%')) ORDER BY datum DESC";
     elseif ($_SESSION['termin_filter'] == "resultat") {
-        $sql = $sql." AND ((typ LIKE '%ol%') AND (datum <= '{$heute}')) ORDER BY datum DESC";
+        $sql = $sql." AND ((typ LIKE '%ol%') AND (datum <= '{$_DATE_UTILS->getIsoToday()}')) ORDER BY datum DESC";
     } else {
         $sql = $sql." AND (typ LIKE '%".$_SESSION['termin_filter']."%') ORDER BY datum ASC";
     }
@@ -273,7 +273,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='{$class}'>Ausschreibung</a>";
         }
         if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] && $row_solv["deadline"] != "0000-00-00") {
-            $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".olz_date("t. MM ", $row_solv["deadline"]);
+            $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE_UTILS->olzDate("t. MM ", $row_solv["deadline"]);
         }
         //Ranglisten-Link zeigen
         if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
@@ -323,7 +323,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
 
         //Tagesanlass
         if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
-            $datum_tmp = olz_date("t. MM ", $datum).olz_date(" (W)", $datum);
+            $datum_tmp = $_DATE_UTILS->olzDate("t. MM ", $datum).$_DATE_UTILS->olzDate(" (W)", $datum);
             if ($zeit != "00:00:00") {
                 $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
                 if ($zeit_end != "00:00:00") {
@@ -332,12 +332,12 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             }
         }
         //Mehrtägig innerhalb Monat
-        elseif (olz_date("m", $datum) == olz_date("m", $datum_end)) {
-            $datum_tmp = olz_date("t.-", $datum).olz_date("t. ", $datum_end).olz_date("MM", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+        elseif ($_DATE_UTILS->olzDate("m", $datum) == $_DATE_UTILS->olzDate("m", $datum_end)) {
+            $datum_tmp = $_DATE_UTILS->olzDate("t.-", $datum).$_DATE_UTILS->olzDate("t. ", $datum_end).$_DATE_UTILS->olzDate("MM", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
         }
         //Mehrtägig monatsübergreifend
         else {
-            $datum_tmp = olz_date("t.m.-", $datum).olz_date("t.m. ", $datum_end).olz_date("jjjj", $datum).olz_date(" (W-", $datum).olz_date("W)", $datum_end);
+            $datum_tmp = $_DATE_UTILS->olzDate("t.m.-", $datum).$_DATE_UTILS->olzDate("t.m. ", $datum_end).$_DATE_UTILS->olzDate("jjjj", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
         }
         if ($uid == $row['id']) {
             $class = " class='selected'";
@@ -351,7 +351,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
 
         // HTML-Ausgabe
         if (($_SESSION['termin_filter'] == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or ($_SESSION['termin_filter'] != "resultat")) {
-            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;' class='test-flaky'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+            echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
         }
         $id_spalte = "";
     }

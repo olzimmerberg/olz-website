@@ -9,7 +9,7 @@ require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
 // KONSTANTEN
-$tmp_jahr = olz_date("jjjj", "");
+$tmp_jahr = $_DATE_UTILS->olzDate("jjjj", "");
 $db_imgpath = $tables_img_dirs[$db_table];
 
 //-------------------------------------------------------------
@@ -42,7 +42,7 @@ if (isset($_GET["jahr"])) {
 } else {
     $jahr = $_SESSION[$db_table.'jahr_'];
 }
-//if ($jahr = "") $_SESSION[$db_table.'jahr_'] = olz_date("jjjj","");
+//if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj","");
 if ($id == "") { // Jüngste Nachricht
     $sql = "SELECT id,datum FROM {$db_table} WHERE (on_off = '1') ORDER BY datum DESC LIMIT 1";
     $result = $db->query($sql);
@@ -90,9 +90,9 @@ while ($tmp_jahr >= $end_jahr) {
         }
 
         if ($zugriff and ($do != 'vorschau')) {
-            $edit_admin = "<li style='opacity:".($on_off ? "1" : "0.5").";' class='test-flaky'><a href='galerie.php?id=".$id_tmp."&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<li style='opacity:".($on_off ? "1" : "0.5").";'><a href='galerie.php?id=".$id_tmp."&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
         } else {
-            $edit_admin = "<li class='test-flaky'>";
+            $edit_admin = "<li>";
         }
 
         if ($id == $id_tmp) {

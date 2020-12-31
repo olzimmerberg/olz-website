@@ -15,6 +15,9 @@ class ServerConfig {
 
     private $has_unlimited_cron = false;
 
+    private $date_utils_class_name = 'LiveDateUtils';
+    private $date_utils_class_args = [];
+
     private $database_backup_key;
 
     private $strava_client_id;
@@ -34,6 +37,9 @@ class ServerConfig {
         $this->mysql_schema = $config_dict['mysql_schema'] ?? $this->mysql_schema;
 
         $this->has_unlimited_cron = $config_dict['has_unlimited_cron'] ?? $this->has_unlimited_cron;
+
+        $this->date_utils_class_name = $config_dict['date_utils_class_name'] ?? $this->date_utils_class_name;
+        $this->date_utils_class_args = $config_dict['date_utils_class_args'] ?? $this->date_utils_class_args;
 
         $this->database_backup_key = $config_dict['database_backup_key'] ?? $this->database_backup_key;
 
@@ -73,6 +79,14 @@ class ServerConfig {
 
     public function hasUnlimitedCron() {
         return $this->has_unlimited_cron;
+    }
+
+    public function getDateUtilsClassName() {
+        return $this->date_utils_class_name;
+    }
+
+    public function getDateUtilsClassArgs() {
+        return $this->date_utils_class_args;
     }
 
     public function getDatabaseBackupKey() {

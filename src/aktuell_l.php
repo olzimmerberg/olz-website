@@ -6,6 +6,7 @@
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
@@ -70,7 +71,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $autor = ($row['autor'] > '') ? $row['autor'] : "..";
         $datum = $row['datum'];
 
-        $datum = olz_date("tt.mm.jj", $datum);
+        $datum = $_DATE_UTILS->olzDate("tt.mm.jj", $datum);
 
         $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
@@ -140,7 +141,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $tmp_html = "";
             }
             */
-        echo "<h2 class='test-flaky'>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
+        echo "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
         echo "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
     }
 }

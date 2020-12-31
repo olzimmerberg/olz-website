@@ -6,6 +6,7 @@
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 ?>
 
@@ -169,12 +170,12 @@ while ($row = $result->fetch_assoc()) {
     echo get_eintrag($icon, $datum, $edit_admin.$titel, $text, $link);
     /*
     echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
-    <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".olz_date("tt.mm.jj",$datum)."</span></a>
+    <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE_UTILS->olzDate("tt.mm.jj",$datum)."</span></a>
     ".$text."</div>";
     */
 /* TEST ICONS
     echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;background-image:url(icns/_$icon);background-position:3% 6%;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
-    <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".olz_date("tt.mm.jj",$datum)."</span></a>
+    <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE_UTILS->olzDate("tt.mm.jj",$datum)."</span></a>
     ".$text."</div>";*/
 }
 ?>

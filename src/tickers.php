@@ -7,9 +7,10 @@
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 function termine_ticker($settings) {
-    global $db;
+    global $db, $_DATE_UTILS;
     $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;
     $listenlaenge = isset($settings["eintrag_anzahl"]) ? intval($settings["eintrag_anzahl"]) : 8;
     $sql_where = isset($settings["sql_where"]) ? $settings["sql_where"] : "";
@@ -44,9 +45,9 @@ function termine_ticker($settings) {
         if ($diff < (0.95)) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
             $case_tmp = 1;
             if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '(bis '.olz_date('WW t.m.', $datum_end).')';
+                $datum_end = '(bis '.$_DATE_UTILS->olzDate('WW t.m.', $datum_end).')';
             } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '(bis '.olz_date('WW', $datum_end).')';
+                $datum_end = '(bis '.$_DATE_UTILS->olzDate('WW', $datum_end).')';
             } else {
                 $datum_end = '';
             }
@@ -57,24 +58,24 @@ function termine_ticker($settings) {
         } elseif ($diff < (7.95 - $wotag)) {
             $case_tmp = 2;
             if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '-'.olz_date('WW (t.m.)', $datum_end);
+                $datum_end = '-'.$_DATE_UTILS->olzDate('WW (t.m.)', $datum_end);
             } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '-'.olz_date('WW', $datum_end);
+                $datum_end = '-'.$_DATE_UTILS->olzDate('WW', $datum_end);
             } else {
                 $datum_end = '';
             }
-            //$datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.olz_date('W',$datum_end) : '' ;
-            $datum = olz_date('WW', $datum_tmp).$datum_end.":";
+            //$datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$_DATE_UTILS->olzDate('W',$datum_end) : '' ;
+            $datum = $_DATE_UTILS->olzDate('WW', $datum_tmp).$datum_end.":";
         } elseif ($diff < (14.95 - $wotag)) {
             $case_tmp = 3;
-            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.olz_date('t.m.(W)', $datum_end) : '';
-            $datum = olz_date('W, t.m.', $datum_tmp).$datum_end;
+            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.$_DATE_UTILS->olzDate('t.m.(W)', $datum_end) : '';
+            $datum = $_DATE_UTILS->olzDate('W, t.m.', $datum_tmp).$datum_end;
         } elseif ($flag == 1) {
             $case_tmp = 4;
-            $datum = olz_date('t.m.', $datum_tmp);
+            $datum = $_DATE_UTILS->olzDate('t.m.', $datum_tmp);
         } else {
             $case_tmp = 5;
-            $datum = olz_date('t.m.', $datum_tmp);
+            $datum = $_DATE_UTILS->olzDate('t.m.', $datum_tmp);
         }
         if ($case_tmp < 4) {
             $flag = 0;
@@ -149,7 +150,7 @@ function zeitintervall($datum) {
     if ($tage < (15 - $wday)) {
         return $wochentage_lang[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
     }
-    return olz_date("tt.mm.", $datum);
+    return $_DATE_UTILS->olzDate("tt.mm.", $datum);
 }
 
 /*

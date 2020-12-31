@@ -6,6 +6,7 @@
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 //echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
 //$kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
@@ -183,7 +184,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         }
 
         echo "<h2 style='clear:left;padding-top:20px;' id='id{$id_tmp}'>".$edit_admin.$autor.": ".$titel."</h2>";
-        echo "<div class='nobox'><p class='test-flaky'><b>(".olz_date("t.m.jj", $datum)."/{$zeit})</b></p><div class='lightgallery'>".$text."</div>";
+        echo "<div class='nobox'><p><b>(".$_DATE_UTILS->olzDate("t.m.jj", $datum)."/{$zeit})</b></p><div class='lightgallery'>".$text."</div>";
         if ($linkext > '') {
             echo "<br><a href='{$linkext}' target='_blank' class='linkext'>... weiterlesen</a>";
         }

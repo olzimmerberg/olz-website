@@ -7,6 +7,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 //-------------------------------------------
 // Counter mit Textdatei
@@ -96,7 +97,7 @@ foreach ($kat4 as $_kat) {
 }
 
 $result_file = "zol/".$event.".txt";
-$datum = olz_date("t.m.jj", filemtime($result_file));
+$datum = $_DATE_UTILS->olzDate("t.m.jj", filemtime($result_file));
 
 $sql = "SELECT * FROM event WHERE name_kurz='{$event}'";
 $result = $db->query($sql);

@@ -52,8 +52,8 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240;
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
-        ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
+        ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
+        ["zeit", "text", "hidden", "olz_current_date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
         ["typ", "Typ", "text", "'aktuell'", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", ""],
@@ -69,12 +69,12 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $send_mail = "on";
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", ["text", " readonly"], "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", ["text", " readonly"], "olz_current_date('Y-m-d');", "", "", "", ""],
         ["event_id", "event_id", "hidden", $id_event, "", "", "", ""],
         ["name", "Name, Vorname", "text", "''", "", "", ""],
         ["email", "Emailadresse", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angegen."],
         ["anzahl", "Anzahl Teilnehmer", "text", "''", "", "", "", "", "!empty", "Bitte Teilnehmeranzahl angegen."],
-        ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
+        ["zeit", "text", "hidden", "olz_current_date('H:i:s');", "", "", "", ""],
     ];
 
     $sql = "SELECT * from anm_felder WHERE (event_id=".$_SESSION[$db_table.'id_event_'].") ORDER BY position ASC";
@@ -115,7 +115,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240; //maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["on_off", "Aktiv", "hidden", "1", "", "", "", ""],
         ["titel", "Mouseover-Text", "text", "''", "", "", "", ""],
         ["text", "Bildlegende", "textarea", "''", "", "", "", " rows='4'"],
@@ -126,9 +126,9 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $img_max_size = 240; //maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["newsletter", "Newsletter", "hidden", "1", "", "", "", ""],
-        ["zeit", "Zeit", "text", "date('H:i:s');", "", "", "", " class='test-flaky'"],
+        ["zeit", "Zeit", "text", "olz_current_date('H:i:s');", "", "", "", ""],
         ["autor", "Autor", ["text", $nutzer == "gold" ? "" : " readonly"], "ucwords('{$nutzer}')", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", "", "!empty", "Bitte Titel angeben."],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
@@ -138,7 +138,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "downloads") {// DB DOWNLOADS
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["name", "Bezeichnung", "text", "''", "", "", "", ""],
         ["position", "Position", "hidden", "'0'", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
@@ -147,12 +147,12 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $send_mail = "on";
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["name", "Titel", "text", "''", "", "", "", "", "!empty", "Bitte einen Titel angeben."],
         ["name2", "Name", "text", "''", "", "", "", "", "!empty", "Bitte einen Namen angeben."],
         ["email", "Email", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angeben."],
         ["eintrag", "Text", "textarea", "''", "", "", "", " rows='8'", "!empty", "Hast du nichts mitzuteilen ?"],
-        ["zeit", "text", "hidden", "date('H:i:s');", "", "", "", ""],
+        ["zeit", "text", "hidden", "olz_current_date('H:i:s');", "", "", "", ""],
         ["on_off", "Aktiv", "boolean", "'1'", "", "", "", ""],
         ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
     ];
@@ -163,7 +163,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "galerie") {// DB GALERIE
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", ""],
         ["autor", "Autor", "text", "''", "", "", "", "", "", ""],
         ["counter", "Counter", "hidden", "'0'", "", "", "", "", "", ""],
@@ -193,7 +193,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "links") {// DB LINKS
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", " class='test-flaky'"],
+        ["datum", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["position", "Position", "hidden", "'0'", "", "", "", ""],
         ["name", "Bezeichnung", "text", "''", "", "", "", "", "!empty", "Bitte Download-Bezeichnung angeben."],
         ["url", "URL", "text", "'http://'", "", "", "", "", "!empty", "Bitte URL angeben."],
@@ -204,7 +204,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $send_mail = "on";
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["reg_date", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
+        ["reg_date", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["on_off", "Aktiv", "hidden", "'1'", "", "", "", ""],
         ["name", "Vorname, Name", "text", "''", "", "", "", "", "!empty", "Bitte einen Namen angeben."],
         ["email", "Email-Adresse", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angeben."],
@@ -214,7 +214,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "rundmail") {// DB RUNDMAIL
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["betreff", "Betreff", "text", "'Newsletter OLZimmerberg - '", "", "", "", "", "!empty", "Bitte Betreff eingeben."],
         ["mailtext", "Bezeichnung", "textarea", "''", "", "", "", "", "!empty", "Bitte Mailtext eingeben."],
     ];
@@ -222,7 +222,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     //include 'parse_solv_ranglisten.php';
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum (Beginn)", "datum", "date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", " class='test-flaky'"],
+        ["datum", "Datum (Beginn)", "datum", "olz_current_date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", ""],
         ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
         ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
         ["titel", "Titel", "text", "''", "", "<select name='set_titel' style='width:33%;margin-left:10px;' size='1'
@@ -275,7 +275,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 } elseif ($db_table == "event") {// EVENT - Online-Ranglisten
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "datum", "date('Y-m-d');", "", "", "", ""],
+        ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
         ["name", "Bezeichnung", "text", "''", "", "", "", ""],
         ["name_kurz", "Dateiname", "text", "''", "", "<br>Name der Exportdatei aus der Auswertungssoftware", "", "", "", ""],
         ["kat_gruppen", "Kategorien gruppiert", "text", "''", "", "<br>z.B. 'H10 D10;H45 H50' (gruppiert nach gemeinsamen Bahnen)", "", "", "", ""],
@@ -652,7 +652,7 @@ if ($do == "submit") {
             $label = $feld_tmp[1];
             $mail_text .= $label.": ".$_SESSION[$var]."\n";
         }
-        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".date("Y-m-d")."/".date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: https://www.olzimmerberg.ch/".$page_link."?button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
+        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: https://www.olzimmerberg.ch/".$page_link."?button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
 
         // MAIL SENDEN
         foreach ($mail_adress as $mailadress_tmp) {
@@ -765,7 +765,7 @@ if ($do == "edit") {// Eingabe-Formular aufbauen
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einbelndkalender
-            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker test-flaky' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "checkbox") { //Input-Typ 'checkbox'

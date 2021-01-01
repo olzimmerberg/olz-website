@@ -5,6 +5,7 @@
 // =============================================================================
 
 require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/date.php';
 
 //----------------------------------
 //EMAILADRESSE MASKIEREN
@@ -53,11 +54,11 @@ function is_ganzzahl($string) {
 //FUNKTION MONATS-ZWISCHENTITEL
 //----------------------------------
 function olz_monate($datum) {
-    global $monat;
-    if ($monat != olz_date("M", $datum)) {
-        $monatstitel = "<tr><td colspan='3' style='border:0px; padding:10px 0px 0px 0px;'><a name=monat".olz_date("M", $datum)."></a><h3 class='tablebar'>".olz_date("MM jjjj", $datum)."</h3></td></tr>\n";
+    global $monat, $_DATE_UTILS;
+    if ($monat != $_DATE_UTILS->olzDate("M", $datum)) {
+        $monatstitel = "<tr><td colspan='3' style='border:0px; padding:10px 0px 0px 0px;'><a name=monat".$_DATE_UTILS->olzDate("M", $datum)."></a><h3 class='tablebar'>".$_DATE_UTILS->olzDate("MM jjjj", $datum)."</h3></td></tr>\n";
     }
-    $monat = olz_date("M", $datum);
+    $monat = $_DATE_UTILS->olzDate("M", $datum);
     return $monatstitel;
 }
 
@@ -195,8 +196,9 @@ function get_olz_text($id_text, $editable = true) {
 //NEWS-FEED ANZEIGEN
 //----------------------------------
 function get_eintrag($icon, $datum, $titel, $text, $link, $pic = "") {
+    global $_DATE_UTILS;
     echo "<div style='position:relative; clear:left; overflow:hidden; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";'>
-    <span style='position:relative; float:right; padding-left:2px; text-align:right; color:#000;'><span style='float:left; margin-right:10px;'>".$pic."</span><span style='cursor:pointer;' class='titel test-flaky' onclick='javascript:location.href=\"".$link."\";return false;'>".olz_date("tt.mm.jj", $datum)."</span></span>
+    <span style='position:relative; float:right; padding-left:2px; text-align:right; color:#000;'><span style='float:left; margin-right:10px;'>".$pic."</span><span style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'>".$_DATE_UTILS->olzDate("tt.mm.jj", $datum)."</span></span>
     <div style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'><img src='".$icon."' style='width:20px; height:20px;' class='noborder' alt='' /> ".$titel."</div>
     <div style='clear:left; margin-top:0px;' class='paragraf'>".$text."</div></div>";
 }
@@ -283,22 +285,4 @@ function olz_create_uid($db_table) {
         $result = $db->query("SELECT * FROM {$db_table} WHERE (uid='{$uid}')");
     } while ($result->num_rows !== 0);
     return $uid;
-}
-
-//----------------------------------
-//DATUM UMWANDELN
-//----------------------------------
-function olz_date($format, $datum) {
-    global $monate, $wochentage_lang,$wochentage;
-    require_once __DIR__.'/../config/date.php';
-    if ($datum == "") {
-        $datum = date("Y-m-d");
-    }
-    if (checkdate(substr($datum, 5, 2), substr($datum, 8, 2), substr($datum, 0, 4))) {//Mysql-Datum
-        $datum = strtotime(substr($datum, 0, 4)."-".substr($datum, 5, 2)."-".substr($datum, 8, 2));
-    }
-
-    //Unix-Datum
-
-    return str_replace(["tt", "t", "mm", "m", "MM", "M", "xxxxx", "jjjj", "jj", "w", "WW", "W"], [date("d", $datum), date("j", $datum), date("m", $datum), date("n", $datum), "xxxxx", $monate[date("n", $datum) - 1], strftime("%B", $datum), date("Y", $datum), date("y", $datum), date("w", $datum), $wochentage_lang[date("w", $datum)], $wochentage[date("w", $datum)]], $format);
 }

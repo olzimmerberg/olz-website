@@ -11,6 +11,12 @@ function test_termine($driver, $base_url) {
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');
 
+    $show_past_checkbox = $driver->findElement(
+        WebDriverBy::cssSelector('#show-past-checkbox')
+    );
+    $show_past_checkbox->click();
+    take_pageshot($driver, 'termine_past');
+
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$termine_url}");
     $driver->navigate()->refresh();

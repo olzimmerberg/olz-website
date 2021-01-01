@@ -9,6 +9,7 @@
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 include_once "admin/olz_functions.php";
 
@@ -47,8 +48,8 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $datum = $row['datum'];
     $datum_end = ($row['datum_end'] > "0000-00-00") ? $row['datum_end'] : $datum;
     $ical .=
-"\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".olz_date('jjjjmmtt', $datum).
-"\r\nDTEND;VALUE=DATE:".olz_date('jjjjmmtt', $datum_end).
+"\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$_DATE_UTILS->olzDate('jjjjmmtt', $datum).
+"\r\nDTEND;VALUE=DATE:".$_DATE_UTILS->olzDate('jjjjmmtt', $datum_end).
 "\r\nDTSTAMP:".date('Ymd\THis\Z').
 "\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['modified'])).
 "\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created'])).

@@ -14,6 +14,9 @@ $_CONFIG->configure([
 
     'has_unlimited_cron' => true,
 
+    'date_utils_class_name' => 'FixedDateUtils',
+    'date_utils_class_args' => ['2020-08-15 12:51:00'],
+
     'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
 
     'strava_client_id' => '123456',

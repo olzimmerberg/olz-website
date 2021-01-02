@@ -45,13 +45,13 @@ abstract class DateUtils {
                 date("m", $date),
                 date("n", $date),
                 "xxxxx",
-                $monate[date("n", $date) - 1],
+                $this->months_short_de[date("n", $date) - 1],
                 strftime("%B", $date),
                 date("Y", $date),
                 date("y", $date),
                 date("w", $date),
-                $wochentage_lang[date("w", $date)],
-                $wochentage[date("w", $date)],
+                $this->weekdays_long_de[date("w", $date)],
+                $this->weekdays_short_de[date("w", $date)],
             ],
             $format);
     }

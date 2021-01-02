@@ -55,10 +55,12 @@ function is_ganzzahl($string) {
 //----------------------------------
 function olz_monate($datum) {
     global $monat, $_DATE_UTILS;
-    if ($monat != $_DATE_UTILS->olzDate("M", $datum)) {
-        $monatstitel = "<tr><td colspan='3' style='border:0px; padding:10px 0px 0px 0px;'><a name=monat".$_DATE_UTILS->olzDate("M", $datum)."></a><h3 class='tablebar'>".$_DATE_UTILS->olzDate("MM jjjj", $datum)."</h3></td></tr>\n";
+    $monatstitel = '';
+    $entry_month = $_DATE_UTILS->olzDate("M", $datum);
+    if ($monat != $entry_month) {
+        $monatstitel = "<tr><td colspan='3' style='border:0px; padding:10px 0px 0px 0px;'><a name=monat".$entry_month."></a><h3 class='tablebar'>".$_DATE_UTILS->olzDate("MM jjjj", $datum)."</h3></td></tr>\n";
     }
-    $monat = $_DATE_UTILS->olzDate("M", $datum);
+    $monat = $entry_month;
     return $monatstitel;
 }
 

@@ -10,9 +10,9 @@ $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
     public function __construct($entityManager, $solvFetcher, $dateUtils) {
+        parent::__construct($dateUtils);
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;
-        $this->dateUtils = $dateUtils;
         $this->solvEventsSyncer = new SolvEventsSyncer($entityManager, $solvFetcher, $this->logger);
         $this->solvResultsSyncer = new SolvResultsSyncer($entityManager, $solvFetcher, $this->logger);
         $this->solvPeopleAssigner = new SolvPeopleAssigner($entityManager, $this->logger);

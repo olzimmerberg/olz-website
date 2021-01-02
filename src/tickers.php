@@ -125,7 +125,7 @@ function termine_ticker($settings) {
 function zeitintervall($datum) {
     global $wochentage_lang;
     require_once __DIR__.'/config/date.php';
-    $today = strtotime(date("Y-m-d"));
+    $today = strtotime(olz_current_date("Y-m-d"));
     $towday = date("w", $today);
     if ($towday == 0) {
         $towday = 7;

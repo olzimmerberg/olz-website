@@ -94,7 +94,7 @@ function go2oldata() {
 
 function load_url($url) {
     $res = preg_match("/^https?\\:\\/\\/([^\\/]+)/", $url, $matches);
-    $filename = "temp/".md5($url)."-".date("Y-m-d")."-".$matches[1].".txt";
+    $filename = "temp/".md5($url)."-".olz_current_date("Y-m-d")."-".$matches[1].".txt";
     if (is_file($filename)) {
         $file = file_get_contents($filename);
     } else {

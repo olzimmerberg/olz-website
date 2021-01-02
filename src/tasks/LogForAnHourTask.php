@@ -15,7 +15,7 @@ class LogForAnHourTask extends BackgroundTask {
             $this->logger->warning("Could not set time limit. Let's hope for the best :/");
         }
         for ($i = 0; $i < 360; $i++) {
-            $time = date('H:i:s');
+            $time = $this->dateUtils->getCurrentDateInFormat('H:i:s');
             $this->logger->info("It is {$time}");
             sleep(10);
         }

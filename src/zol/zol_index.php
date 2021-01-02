@@ -163,7 +163,7 @@ $row = mysqli_fetch_array($result);
 $name = $row['name'];
 $stand = $row['stand'];
 
-$stand = (is_null($stand)) ? "" : "<span style='float:right;font-weight:normal;font-size:80%;margin-top:2px;'>Stand: ".date("d.n.y H:i:s", strtotime($stand)).date(" | H:i:s")."</span>";
+$stand = (is_null($stand)) ? "" : "<span style='float:right;font-weight:normal;font-size:80%;margin-top:2px;'>Stand: ".date("d.n.y H:i:s", strtotime($stand)).olz_current_date(" | H:i:s")."</span>";
 echo "<div class='title'>{$name}</div><div style='padding:0 5 0 5;'>Live-Resultate".$stand."</div>";
 
 echo "<table style='width:100%;'>";

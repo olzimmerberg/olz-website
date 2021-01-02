@@ -9,6 +9,10 @@ require_once __DIR__.'/../config/paths.php';
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;
 
+    public function __construct($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
     private function setup() {
     }
 
@@ -42,7 +46,7 @@ abstract class BackgroundTask {
 
     protected function generate_log_path() {
         global $data_path;
-        $timestamp = date('Y-m-d_H_i_s');
+        $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
         return "{$data_path}tasks/log_{$timestamp}_{$this->get_ident()}.txt";
     }
 

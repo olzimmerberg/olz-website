@@ -11,7 +11,7 @@ $results_data_path = realpath("{$data_path}results");
 $file_path = "{$results_data_path}/{$filename}";
 if (isset($_POST['new'])) {
     if (is_file($file_path)) {
-        rename($file_path, $file_path.".bak_".date("Y-m-dTH:i:s"));
+        rename($file_path, $file_path.".bak_".olz_current_date("Y-m-dTH:i:s"));
     }
     $new_content = base64_decode($_POST['new']);
     if (!$new_content) {
@@ -22,7 +22,7 @@ if (isset($_POST['new'])) {
         "{$results_data_path}/_live.json",
         json_encode([
             'file' => $filename,
-            'last_updated_at' => date('Y-m-d H:i:s'),
+            'last_updated_at' => olz_current_date('Y-m-d H:i:s'),
         ]),
     );
     die(json_encode([true, ""]));

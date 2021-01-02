@@ -102,7 +102,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
             $sql = "WHERE (MONTH(datum)='".(array_search($monat, $monate) + 1)."') AND (YEAR(datum)='{$jahr}')";
         }
     } else {
-        $sql = "WHERE (datum >= '".(date("Y") - 1).date("-m-d")."') AND (on_off = '1') AND (email > '') AND (name > '') AND (eintrag != '')";
+        $sql = "WHERE (datum >= '".(olz_current_date("Y") - 1).olz_current_date("-m-d")."') AND (on_off = '1') AND (email > '') AND (name > '') AND (eintrag != '')";
     }
     if ($do == "vorschau") {
         $sql = "WHERE (id = ".$_SESSION[$db_table.'id'].")";

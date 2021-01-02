@@ -120,7 +120,7 @@ $event_name = $row['name'];
 $result_file = "zol/".$event.".txt";
 $var = filemtime($result_file);
 $datum = $_DATE_UTILS->olzDate("t.m.jj", $var).date(", H:i:s", $var);
-$zeit = date("H:i:s");
+$zeit = olz_current_date("H:i:s");
 
 echo "<div class='titel' style='margin:10px 0px 10px 0px;'>{$event_name} / Stand Resultatdatei: {$datum} / Seite aktualisiert: {$zeit}</div>";
 echo "<button style='height:30px;text-align:center;border:solid 1px grey;padding:3px;margin-bottom:10px;margin-right:5px;' type='button' onclick='KartenStandReset()'>Zähler zurücksetzen</button><button style='height:30px;text-align:center;border:solid 1px grey;padding:3px;margin-bottom:10px;' type='button' onclick='window.location.reload()'>Seite neu laden</button><span style='vertical-align:text-bottom;margin-left:20px;'>(Seite lädt sich automatisch neu alle 60 Sekunden.)</span>";

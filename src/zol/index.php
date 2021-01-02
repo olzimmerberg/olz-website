@@ -117,7 +117,7 @@ html {
             $name_kurz = $row['name_kurz'];
             $name_event = $row['name'];
             $datum_event = $row['datum'];
-            $file_event = (in_array($name_kurz, $afile) or $local) ? "<a href='zol/parse_result.php?event=".$name_kurz."' class='linkint'>Daten importieren</a> | <a href='zol/show_result.php?event=".$name_kurz."&time=".date("U")."' target='_blank' class='linkint'>Resultate zeigen (Loop)</a> | <a href='index.php?page=99&event=".$name_kurz."&time=".date("U")."' class='linkint'>Resultate zeigen (Homepage)</a> | <a href='?page=19&event={$name_kurz}' class='linkint'>Kartenstatistik</a>" : "Keine Resultatdatei vorhanden!";
+            $file_event = (in_array($name_kurz, $afile) or $local) ? "<a href='zol/parse_result.php?event=".$name_kurz."' class='linkint'>Daten importieren</a> | <a href='zol/show_result.php?event=".$name_kurz."&time=".olz_current_date("U")."' target='_blank' class='linkint'>Resultate zeigen (Loop)</a> | <a href='index.php?page=99&event=".$name_kurz."&time=".olz_current_date("U")."' class='linkint'>Resultate zeigen (Homepage)</a> | <a href='?page=19&event={$name_kurz}' class='linkint'>Kartenstatistik</a>" : "Keine Resultatdatei vorhanden!";
             if ($do != 'vorschau') {
                 $edit_admin = "<a href='index.php?id={$id_event}&{$button_name}=start' class='linkedit' title='Event bearbeiten'>&nbsp;</a>";
             }

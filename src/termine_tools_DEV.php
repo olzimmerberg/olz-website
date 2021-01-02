@@ -32,7 +32,7 @@ echo "</div>";
 echo "<div style='float:left;width:80%;'>";
 
 $start = microtime(1);
-$timestamp = (strtotime(date("Y-m-d H:i:s")) - strtotime(date("Y-m-d")));
+$timestamp = (strtotime(olz_current_date("Y-m-d H:i:s")) - strtotime(olz_current_date("Y-m-d")));
 
 if ($_GET["visitor"] == "map") {
     $_GET["mode"] = "kml";
@@ -67,9 +67,9 @@ if (($_SESSION['auth'] == "all") or (in_array("termine", preg_split("/ /", $_SES
     require_once __DIR__.'/config/init.php';
 } else {
     if ($_GET["visitor"] == "cronjob") {
-        mail("simon.hatt@olzimmerberg.ch", "CronJob nicht ausgeführt", "Der CronJob konnte um ".date("H:i:s")." am ".date("d.m.Y")." nicht ausgeführt werden", "From: OL Zimmerberg<system@olzimmerberg.ch>");
+        mail("simon.hatt@olzimmerberg.ch", "CronJob nicht ausgeführt", "Der CronJob konnte um ".olz_current_date("H:i:s")." am ".olz_current_date("d.m.Y")." nicht ausgeführt werden", "From: OL Zimmerberg<system@olzimmerberg.ch>");
     }
-    echo "Kein Zugriff. <br>".(strtotime(date("Y-m-d H:i:s")) - strtotime(date("Y-m-d")))."<br>";
+    echo "Kein Zugriff. <br>".(strtotime(olz_current_date("Y-m-d H:i:s")) - strtotime(olz_current_date("Y-m-d")))."<br>";
     $zugriff = "0";
 }
 
@@ -111,8 +111,8 @@ if ($zugriff == "1") {
     if ($_GET["mode"] == "add") {
         $_SESSION["termine_helper"] = "add";
         $_SESSION["termine_helper_add_step"] = "0";
-        $year = date("Y");
-        if (date("m") > 8) {
+        $year = olz_current_date("Y");
+        if (olz_current_date("m") > 8) {
             $year++;
         }
         echo "YEAR: ".$year."<br>";
@@ -433,8 +433,8 @@ table.raster tr {height:2em;}
     // SOLV UIDs
 
     if ($_SESSION["termine_helper"] == "solvuids") {
-        $year = date("Y");
-        if (date("m") > 8) {
+        $year = olz_current_date("Y");
+        if (olz_current_date("m") > 8) {
             $year++;
         }
         $sql_tmp = ($alle_zeigen) ? "" : "(solv_uid='0' OR solv_uid IS NULL) AND";

@@ -107,7 +107,7 @@ if ($function == "submit") {
     }
     echo "<div class='buttonbar'>".$feedback."</div>";
     // Kontrollmail
-    mail("u.utzinger@sunrise.ch", "OLZ Rundmail", "Datum: ".date("Y-m-d")."/".date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\n".$feedback, $mail_header);
+    mail("u.utzinger@sunrise.ch", "OLZ Rundmail", "Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\n".$feedback, $mail_header);
     //echo $result.implode(', ',$mail_to);
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neues Rundmail", "0"]], "")."</div>";
     include 'service_01.php';

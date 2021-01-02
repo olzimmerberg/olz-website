@@ -65,7 +65,7 @@ if ($stand == $row['stand'] and false) {
     if (empty($file)) {
         $feedback .= "Resultatdatei ist leer.";
     } else {
-        $feedback .= "Resultatdatei gelesen: ".date("j.n.y H:i:s").", '".$result_file."'";
+        $feedback .= "Resultatdatei gelesen: ".olz_current_date("j.n.y H:i:s").", '".$result_file."'";
     }
 
     $counter = 0;

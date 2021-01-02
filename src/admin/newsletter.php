@@ -7,6 +7,7 @@
 
 require_once __DIR__.'/../config/init.php';
 require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/date.php';
 
 $local = "0";
 $admin_mail = "uhu1277@gmail.com";
@@ -22,7 +23,7 @@ $subject = [];
 $mail_header = "From: OL Zimmerberg <newsletter@olzimmerberg.ch>\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8 \r\nContent-Transfer-Encoding: base64";
 $linie = "------------------------------------------------------------------------\r\n";
 $text_nachspann = $linie."HINWEIS\r\n".$linie."Du erhältst dieses Mail, weil du dich für den Newsletter angemeldet hast. Über folgenden Link kannst du den Newsletter löschen oder die Einstellungen ändern: https://www.olzimmerberg.ch/_/service.php?status=Weiter&uid=";
-$timestamp = date("Y-m-d")." ".date("H:i:s");
+$timestamp = olz_current_date("Y-m-d")." ".olz_current_date("H:i:s");
 
 //Termine
 //----------
@@ -56,7 +57,7 @@ FROM
     JOIN solv_events se ON (se.solv_uid=t.solv_uid)
 WHERE
     se.deadline <= '".date("Y-m-d", strtotime($limit))."' AND
-    se.deadline > '".date("Y-m-d")."' AND
+    se.deadline > '".olz_current_date("Y-m-d")."' AND
     on_off = 1 AND
     newsletter_anmeldung IS NULL
 ORDER BY se.deadline DESC, t.id DESC";
@@ -185,7 +186,7 @@ if (isset($subject)) {
     $num_rows = $result->num_rows;
     $mail_to = [];
     $mailtext = "";
-    $betreff = "Newsletter OL Zimmerberg - ".date("d.m.y", strtotime('-1 day'));
+    $betreff = "Newsletter OL Zimmerberg - ".olz_current_date("d.m.y");
 
     if ($local) {
         $mail_to = array_push($mail_to, $admin_mail);
@@ -228,6 +229,6 @@ if (isset($subject)) {
 if (is_array($mail_to)) {
     $mail_to = implode(', ', $mail_to);
 }
-mail("newsletter@olzimmerberg.ch", "Newsletter OL Zimmerberg - Report", base64_encode("Datum: ".date("Y-m-d")."/".date("H:i:s")."\r\nAdressen: ".$mail_to."\r\nStart: ".date("d.m.y, G:i:s", $start)."\r\nDauer: ".(microtime(1) - $start)."\r\nServer: ".$_SERVER['REMOTE_ADDR']), $mail_header, $mail_from);
+mail("newsletter@olzimmerberg.ch", "Newsletter OL Zimmerberg - Report", base64_encode("Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\r\nAdressen: ".$mail_to."\r\nStart: ".date("d.m.y, G:i:s", $start)."\r\nDauer: ".(microtime(1) - $start)."\r\nServer: ".$_SERVER['REMOTE_ADDR']), $mail_header, $mail_from);
 
-echo "Datum: ".date("Y-m-d")."/".date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\nStart: ".date("d.m.y, G:i:s", $start)."\nDauer: ".(microtime(1) - $start)."\nServer: ".$_SERVER['REMOTE_ADDR'];
+echo "Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\nStart: ".date("d.m.y, G:i:s", $start)."\nDauer: ".(microtime(1) - $start)."\nServer: ".$_SERVER['REMOTE_ADDR'];

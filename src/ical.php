@@ -14,7 +14,7 @@ require_once __DIR__.'/config/date.php';
 include_once "admin/olz_functions.php";
 
 $file_path = "{$data_path}olz_ical.ics";
-$jahr = date('Y');
+$jahr = olz_current_date('Y');
 
 // Termine abfragen
 $sql = "SELECT * FROM termine WHERE (datum >= '{$jahr}-01-01') AND on_off=1";

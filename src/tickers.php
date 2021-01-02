@@ -18,7 +18,7 @@ function termine_ticker($settings) {
     $heute_highlight = isset($settings["heute_highlight"]) ? $settings["heute_highlight"] : true;
     //Konstanten
     $db_table = "termine";
-    $heute = date("Y-m-d");
+    $heute = olz_current_date("Y-m-d");
     echo "<div class='layout'>";
     echo "<h4 class='tablebar'>".$titel."</h4>";
     //Tabelle auslesen
@@ -28,7 +28,7 @@ function termine_ticker($settings) {
     // TEST uu/1.4.2011
     // Was, wenn ein mehrtägiger Event vor x Tagen begonnen hat? simon/23.5.2011
     $pulse = "";
-    $wotag = date("w");
+    $wotag = olz_current_date("w");
     if ($wotag == 0) {
         $wotag = 7;
     }

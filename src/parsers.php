@@ -6,11 +6,12 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 function solvdataforyear($year) {
     global $db;
     if (!$year) {
-        $year = date("Y");
+        $year = olz_current_date("Y");
     }
     $url = "https://o-l.ch/cgi-bin/fixtures?&year=".$year."&kind=&csv=1";
     $file = utf8_encode(load_url($url));

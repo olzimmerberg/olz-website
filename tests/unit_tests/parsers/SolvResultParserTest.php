@@ -4,29 +4,36 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../../src/parsers/solv_results.php';
+require_once __DIR__.'/../../../src/parsers/SolvResultParser.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvResultParser
  */
-final class SolvYearlyResultsJsonParserTest extends TestCase {
+final class SolvResultParserTest extends TestCase {
     private $results_2006_path = __DIR__.'/data/results-2006.json';
 
     private $results_2018_path = __DIR__.'/data/results-2018.json';
 
+    // In 2006, rankings did not have IDs yet...
+    private $result_2006_path = __DIR__.'/data/result-2006-?.html';
+
+    private $result_2018_path = __DIR__.'/data/result-2018-4491.html';
+
     public function testParseResults2006(): void {
         $results_2006 = file_get_contents($this->results_2006_path);
+        $parser = new SolvResultParser();
 
-        $solv_events_2006 = parse_solv_yearly_results_json($results_2006);
+        $solv_events_2006 = $parser->parse_solv_yearly_results_json($results_2006);
 
         $this->assertSame(0, count($solv_events_2006));
     }
 
     public function testParseResults2018(): void {
         $results_2018 = file_get_contents($this->results_2018_path);
+        $parser = new SolvResultParser();
 
-        $solv_events_2018 = parse_solv_yearly_results_json($results_2018);
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json($results_2018);
 
         $this->assertSame(177, count($solv_events_2018));
 
@@ -34,49 +41,62 @@ final class SolvYearlyResultsJsonParserTest extends TestCase {
     }
 
     public function testParseResultsInvalidJson(): void {
-        $solv_events_2018 = parse_solv_yearly_results_json('invalid-json');
+        $parser = new SolvResultParser();
+
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('invalid-json');
         $this->assertSame([], $solv_events_2018);
     }
 
     public function testParseResultsEmptyRootDict(): void {
-        $solv_events_2018 = parse_solv_yearly_results_json('{}');
+        $parser = new SolvResultParser();
+
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{}');
         $this->assertSame([], $solv_events_2018);
     }
 
     public function testParseResultsListsNotAnArray(): void {
-        $solv_events_2018 = parse_solv_yearly_results_json('{"ResultLists": 3}');
+        $parser = new SolvResultParser();
+
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": 3}');
         $this->assertSame([], $solv_events_2018);
     }
 
     public function testParseResultsListsEmpty(): void {
-        $solv_events_2018 = parse_solv_yearly_results_json('{"ResultLists": []}');
+        $parser = new SolvResultParser();
+
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": []}');
         $this->assertSame([], $solv_events_2018);
     }
-}
 
-/**
- * @internal
- * @coversNothing
- */
-final class SolvEventResultsHtmlParserTest extends TestCase {
-    // In 2006, rankings did not have IDs yet...
-    private $result_2006_path = __DIR__.'/data/result-2006-?.html';
+    public function testParseResultWithoutId(): void {
+        $parser = new SolvResultParser();
 
-    private $result_2018_path = __DIR__.'/data/result-2018-4491.html';
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": [{}]}');
+        $this->assertSame([], $solv_events_2018);
+    }
 
-    public function testParseResults2006(): void {
+    public function testParseResultWithDuplicateId(): void {
+        $parser = new SolvResultParser();
+
+        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": [{"UniqueID": 1, "ResultListID": 1}, {"UniqueID": 1, "ResultListID": 2}]}');
+        $this->assertSame(['1' => ['result_list_id' => 1]], $solv_events_2018);
+    }
+
+    public function testParseResultHtml3230(): void {
         $result_2006 = file_get_contents($this->result_2006_path);
+        $parser = new SolvResultParser();
 
-        $results = parse_solv_event_result_html($result_2006, 3230);
+        $results = $parser->parse_solv_event_result_html($result_2006, 3230);
 
         // Those old rankings cannot be parsed
         $this->assertSame(0, count($results));
     }
 
-    public function testParseResults2018(): void {
+    public function testParseResultHtml8891(): void {
         $result_2018 = file_get_contents($this->result_2018_path);
+        $parser = new SolvResultParser();
 
-        $results = parse_solv_event_result_html($result_2018, 8891);
+        $results = $parser->parse_solv_event_result_html($result_2018, 8891);
 
         $this->assertSame(52, count($results));
 

@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/BooleanField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \BooleanField
  */
 final class BooleanFieldTest extends TestCase {
     public function testValidatesNullAllowed(): void {

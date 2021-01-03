@@ -182,7 +182,7 @@ class FakeSolvResultsSyncerSolvFetcher {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvResultsSyncer
  */
 final class SolvResultsSyncerTest extends TestCase {
     public function testSolvResultsSyncer(): void {

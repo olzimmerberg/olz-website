@@ -37,7 +37,7 @@ class FakeEndpoint extends Endpoint {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \Endpoint
  */
 final class EndpointTest extends TestCase {
     public function testFakeEndpoint(): void {

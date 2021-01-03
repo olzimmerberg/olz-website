@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/../../model/index.php';
-require_once __DIR__.'/../../parsers/solv_events.php';
+require_once __DIR__.'/../../parsers/SolvEventParser.php';
 
 class SolvEventsSyncer {
     use Psr\Log\LoggerAwareTrait;
@@ -10,6 +10,7 @@ class SolvEventsSyncer {
     public function __construct($entityManager, $solvFetcher) {
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;
+        $this->solvEventParser = new SolvEventParser();
     }
 
     public function syncSolvEventsForYear($year) {
@@ -21,7 +22,7 @@ class SolvEventsSyncer {
         $csv_length = strlen($csv);
         $this->logger->info("Successfully read CSV: {$csv_excerpt}... ({$csv_length}).");
 
-        $solv_events = parse_solv_events_csv($csv);
+        $solv_events = $this->solvEventParser->parse_solv_events_csv($csv);
 
         $solv_event_count = count($solv_events);
         $this->logger->info("Parsed {$solv_event_count} events out of CSV.");

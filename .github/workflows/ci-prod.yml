@@ -55,7 +55,8 @@ jobs:
     - name: PHP Integration Tests
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-      run: ./integration-test.sh
+      run: ./integration-test.sh; cat ./php-coverage/coverage.txt
+
     - uses: actions/upload-artifact@v1
       with:
         name: prod-screenshots
@@ -92,7 +93,7 @@ jobs:
     - name: Code style check
       run: cd ./ci; ./php-code-style.sh
     - name: PHP Unit Tests
-      run: ./unit-test.sh
+      run: ./unit-test.sh; cat ./php-coverage/coverage.txt
 
   deploy-prod:
     name: Deploy to olzimmerberg.ch

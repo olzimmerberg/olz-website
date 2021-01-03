@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/common.php';
+require_once __DIR__.'/common/BackgroundTask.php';
 
 class LogForAnHourTask extends BackgroundTask {
     protected static function get_ident() {

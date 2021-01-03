@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/TimeField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \TimeField
  */
 final class TimeFieldTest extends TestCase {
     public function testMinValueDefault(): void {

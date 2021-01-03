@@ -3,8 +3,8 @@
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-require_once __DIR__.'/../config/vendor/autoload.php';
-require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../../config/vendor/autoload.php';
+require_once __DIR__.'/../../config/paths.php';
 
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;
@@ -13,10 +13,10 @@ abstract class BackgroundTask {
         $this->dateUtils = $dateUtils;
     }
 
-    private function setup() {
+    protected function setup() {
     }
 
-    private function teardown() {
+    protected function teardown() {
     }
 
     public function setDefaultFileLogger() {
@@ -44,7 +44,7 @@ abstract class BackgroundTask {
         }
     }
 
-    protected function generate_log_path() {
+    public function generate_log_path() {
         global $data_path;
         $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
         return "{$data_path}tasks/log_{$timestamp}_{$this->get_ident()}.txt";

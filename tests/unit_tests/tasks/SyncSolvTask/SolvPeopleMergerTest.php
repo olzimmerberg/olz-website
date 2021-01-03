@@ -74,7 +74,7 @@ class FakeSolvPeopleMergerSolvResultRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvPeopleMerger
  */
 final class SolvPeopleMergerTest extends TestCase {
     public function testSolvPeopleMerger(): void {

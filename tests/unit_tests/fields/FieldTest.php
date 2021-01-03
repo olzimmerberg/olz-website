@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/Field.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \Field
  */
 final class FieldTest extends TestCase {
     public function testAllowNullDefault(): void {

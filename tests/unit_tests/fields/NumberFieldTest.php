@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/NumberField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \NumberField
  */
 final class NumberFieldTest extends TestCase {
     public function testMinValueDefault(): void {

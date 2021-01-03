@@ -92,7 +92,7 @@ class FakeLoginWithStravaEndpointStravaFetcher {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \LoginWithStravaEndpoint
  */
 final class LoginWithStravaEndpointTest extends TestCase {
     public function testLoginWithStravaEndpointWithoutInput(): void {

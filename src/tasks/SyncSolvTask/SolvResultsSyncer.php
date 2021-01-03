@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/../../model/index.php';
-require_once __DIR__.'/../../parsers/solv_results.php';
+require_once __DIR__.'/../../parsers/SolvResultParser.php';
 
 class SolvResultsSyncer {
     use Psr\Log\LoggerAwareTrait;
@@ -10,6 +10,7 @@ class SolvResultsSyncer {
     public function __construct($entityManager, $solvFetcher) {
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;
+        $this->solvResultParser = new SolvResultParser();
     }
 
     public function syncSolvResultsForYear($year) {
@@ -21,7 +22,7 @@ class SolvResultsSyncer {
         $json_length = strlen($json);
         $this->logger->info("Successfully read JSON: {$json_excerpt}... ({$json_length}).");
 
-        $result_id_by_uid = parse_solv_yearly_results_json($json);
+        $result_id_by_uid = $this->solvResultParser->parse_solv_yearly_results_json($json);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $known_result_index = [];
         foreach ($existing_solv_events as $existing_solv_event) {
@@ -39,7 +40,7 @@ class SolvResultsSyncer {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
                 $this->logger->info("Event with SOLV ID {$solv_uid} has new results.");
                 $html = $this->solvFetcher->fetchEventResultsHtml($event_result['result_list_id']);
-                $results = parse_solv_event_result_html($html, $solv_uid);
+                $results = $this->solvResultParser->parse_solv_event_result_html($html, $solv_uid);
                 $results_count = count($results);
                 $this->logger->info("Number of results fetched & parsed: {$results_count}");
                 foreach ($results as $result) {

@@ -83,7 +83,7 @@ class FakeSolvEventsSyncerSolvFetcher {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvEventsSyncer
  */
 final class SolvEventsSyncerTest extends TestCase {
     public function testSolvEventsSyncer(): void {

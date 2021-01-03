@@ -9,7 +9,7 @@ require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \LogoutEndpoint
  */
 final class LogoutEndpointTest extends TestCase {
     public function testLogoutEndpoint(): void {

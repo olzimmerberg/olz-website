@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/IntegerField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \IntegerField
  */
 final class IntegerFieldTest extends TestCase {
     public function testMinValueDefault(): void {

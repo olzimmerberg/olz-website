@@ -55,7 +55,7 @@ class FakeSignUpWithStravaEndpointAuthRequestRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SignUpWithStravaEndpoint
  */
 final class SignUpWithStravaEndpointTest extends TestCase {
     public function testSignUpWithStravaEndpointWithoutInput(): void {

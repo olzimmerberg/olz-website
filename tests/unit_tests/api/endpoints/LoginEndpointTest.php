@@ -67,7 +67,7 @@ class FakeLoginEndpointUserRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \LoginEndpoint
  */
 final class LoginEndpointTest extends TestCase {
     public function testLoginEndpointWithoutInput(): void {

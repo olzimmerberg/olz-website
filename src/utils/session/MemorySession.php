@@ -10,7 +10,7 @@ class MemorySession extends AbstractSession {
     }
 
     public function get($key) {
-        return $this->session_storage[$key];
+        return $this->session_storage[$key] ?? null;
     }
 
     public function set($key, $new_value) {

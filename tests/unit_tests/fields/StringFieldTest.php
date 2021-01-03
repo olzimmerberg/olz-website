@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/StringField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \StringField
  */
 final class StringFieldTest extends TestCase {
     public function testAllowEmptyDefault(): void {

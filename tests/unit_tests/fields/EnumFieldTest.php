@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/EnumField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \EnumField
  */
 final class EnumFieldTest extends TestCase {
     public function testAllowedValuesDefault(): void {

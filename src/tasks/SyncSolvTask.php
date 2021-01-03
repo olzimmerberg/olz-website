@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/common.php';
+require_once __DIR__.'/common/BackgroundTask.php';
 require_once __DIR__.'/SyncSolvTask/SolvEventsSyncer.php';
 require_once __DIR__.'/SyncSolvTask/SolvPeopleAssigner.php';
 require_once __DIR__.'/SyncSolvTask/SolvPeopleMerger.php';

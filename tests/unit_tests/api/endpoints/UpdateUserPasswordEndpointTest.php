@@ -52,7 +52,7 @@ class FakeUserPasswordEndpointUserRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \UpdateUserPasswordEndpoint
  */
 final class UpdateUserPasswordEndpointTest extends TestCase {
     public function testUpdateUserPasswordEndpoint(): void {

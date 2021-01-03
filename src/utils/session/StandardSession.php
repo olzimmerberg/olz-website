@@ -5,7 +5,11 @@ require_once __DIR__.'/AbstractSession.php';
 
 class StandardSession extends AbstractSession {
     public function __construct() {
-        $was_successful = session_start();
+        try {
+            $was_successful = session_start();
+        } catch (Exception $exc) {
+            $was_successful = false;
+        }
         if (!$was_successful) {
             throw new Exception("Could not create session.");
         }

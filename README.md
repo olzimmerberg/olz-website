@@ -27,6 +27,12 @@
 - Gehe in einem Browser zur URL [`http://127.0.0.1:30270/tools.php/reset`](http://127.0.0.1:30270/tools.php/reset)
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
+## Tests laufen lassen
+
+- Unit Tests: `./unit-test.sh`
+- Integration Tests: `./integration-test.sh`
+- Der Code-Coverage-Report kann danach hier gefunden werden: `./php-coverage/html-coverage/index.html`
+
 ## Code beitragen
 
 [Mit git](https://git-scm.com/book/en/v2)

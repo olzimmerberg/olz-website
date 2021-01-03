@@ -8,12 +8,13 @@ require_once __DIR__.'/../../../src/fetchers/SolvFetcher.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvFetcher
  */
 final class SolvFetcherTest extends TestCase {
     public function __construct() {
         parent::__construct();
         $this->solv_fetcher = new SolvFetcher();
+        $this->year_to_fetch = date('m') < 3 ? date('Y') - 1 : date('Y');
     }
 
     public function testFetchEventsCsvForYear(): void {
@@ -25,7 +26,7 @@ final class SolvFetcherTest extends TestCase {
     }
 
     public function testFetchYearlyResultsJson(): void {
-        $content = $this->solv_fetcher->fetchYearlyResultsJson(date('Y'));
+        $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
         $data = json_decode($content, true);
         $result_lists = $data['ResultLists'];
         $this->assertGreaterThan(0, count($result_lists));
@@ -49,7 +50,7 @@ final class SolvFetcherTest extends TestCase {
     }
 
     private function getLatestRankId() {
-        $content = $this->solv_fetcher->fetchYearlyResultsJson(date('Y'));
+        $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
         $data = json_decode($content, true);
         $result_lists = $data['ResultLists'];
         return $result_lists[count($result_lists) - 1]['ResultListID'];

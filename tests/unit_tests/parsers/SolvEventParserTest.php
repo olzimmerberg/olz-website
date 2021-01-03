@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../../src/parsers/solv_events.php';
+require_once __DIR__.'/../../../src/parsers/SolvEventParser.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvEventParser
  */
-final class SolvEventsParserTest extends TestCase {
+final class SolvEventParserTest extends TestCase {
     private $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
     private $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
 
     public function testParseFixtures2006(): void {
         $fixtures_2006 = file_get_contents($this->fixtures_2006_path);
+        $parser = new SolvEventParser();
 
-        $solv_events_2006 = parse_solv_events_csv($fixtures_2006);
+        $solv_events_2006 = $parser->parse_solv_events_csv($fixtures_2006);
 
         $this->assertSame(200, count($solv_events_2006));
 
@@ -47,8 +48,9 @@ final class SolvEventsParserTest extends TestCase {
 
     public function testParseFixtures2018(): void {
         $fixtures_2018 = file_get_contents($this->fixtures_2018_path);
+        $parser = new SolvEventParser();
 
-        $solv_events_2018 = parse_solv_events_csv($fixtures_2018);
+        $solv_events_2018 = $parser->parse_solv_events_csv($fixtures_2018);
 
         $this->assertSame(204, count($solv_events_2018));
 

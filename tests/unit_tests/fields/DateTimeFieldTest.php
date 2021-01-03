@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../src/fields/DateTimeField.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \DateTimeField
  */
 final class DateTimeFieldTest extends TestCase {
     public function testMinValueDefault(): void {

@@ -142,7 +142,7 @@ $empty_people_api_response = [
 
 /**
  * @internal
- * @coversNothing
+ * @covers \GoogleUtils
  */
 final class GoogleUtilsTest extends TestCase {
     private $google_utils;

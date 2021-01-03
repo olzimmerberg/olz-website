@@ -104,7 +104,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SolvPeopleAssigner
  */
 final class SolvPeopleAssignerTest extends TestCase {
     public function testSolvPeopleAssigner(): void {

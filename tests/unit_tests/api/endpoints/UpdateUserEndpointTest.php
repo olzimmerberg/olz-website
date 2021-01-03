@@ -52,7 +52,7 @@ class FakeUserEndpointUserRepository {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \UpdateUserEndpoint
  */
 final class UpdateUserEndpointTest extends TestCase {
     public function testUpdateUserEndpoint(): void {

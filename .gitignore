@@ -13,7 +13,9 @@
 
 # PHP tooling
 /vendor
+/php-coverage
 .php_cs.cache
+.phpunit.result.cache
 /tests/integration_tests/document-root/*
 !/tests/integration_tests/document-root/config.template.php
 

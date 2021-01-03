@@ -52,7 +52,7 @@ class FakeSolvPeopleMerger {
 
 /**
  * @internal
- * @coversNothing
+ * @covers \SyncSolvTask
  */
 final class SyncSolvTaskTest extends TestCase {
     public function testSyncSolvTask(): void {

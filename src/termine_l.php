@@ -8,7 +8,7 @@ require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
 $db_table = "termine";
-$ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["resultat", "Resultate"], ["club", "Vereinsanlässe"]];
+$ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["club", "Vereinsanlässe"]];
 
 //-------------------------------------------------------------
 // ZUGRIFF
@@ -39,7 +39,7 @@ if (isset($_POST['jahr']) and in_array($_POST['jahr'], $jahre)) {
 } else {
     $jahr = $_SESSION[$db_table."jahr_"];
 }
-if ($jahr == "") {
+if (!$jahr) {
     $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj");
 }
 if (isset($_POST['monat']) and in_array($_POST['monat'], $monate)) {
@@ -48,11 +48,11 @@ if (isset($_POST['monat']) and in_array($_POST['monat'], $monate)) {
 } else {
     $monat = $_SESSION[$db_table."monat_"];
 }
-if ($monat == "") {
+if (!$monat) {
     $_SESSION[$db_table.'monat_'] = "alle";
 }
-if (isset($_POST['filter'])) {
-    $filter = $_POST['filter'];
+if (isset($_GET['filter'])) {
+    $filter = $_GET['filter'];
 }
 if (isset($filter) and in_array($filter, ['alle', 'training', 'ol', 'club', 'resultat'])) {
     $_SESSION['termin_filter'] = $filter;
@@ -62,12 +62,6 @@ if (isset($filter) and in_array($filter, ['alle', 'training', 'ol', 'club', 'res
 if (isset($_POST['show'])) {
     $show = $_POST['show'];
 }
-
-$id = $_SESSION[$db_table.'id_'];
-$jahr = $_SESSION[$db_table.'jahr_'];
-$monat = $_SESSION[$db_table.'monat_'];
-$monatzahl = array_search($monat, $monate) + 1;
-$periode = $jahr."-".substr("00".$monatzahl, strlen($monatzahl))."-01";
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
@@ -81,6 +75,12 @@ if ($zugriff) {
         'start' => 'start',
         'duplicate' => 'duplicate',
         'undo' => 'undo', ];
+
+    $id = $_SESSION[$db_table.'id_'];
+    $jahr = $_SESSION[$db_table.'jahr_'];
+    $monat = $_SESSION[$db_table.'monat_'];
+    $monatzahl = (array_search($monat, $monate) % 12) + 1;
+    $periode = $jahr."-".substr("00".$monatzahl, strlen($monatzahl))."-01";
 } else {
     $functions = [];
 }
@@ -116,7 +116,7 @@ if ($db_edit == "0") {
         $selected = "";
     }
     // Vergangene ein-/ausblenden
-    if (($_SESSION['termin_filter'] == "resultat") or ($periode < $_DATE_UTILS->getIsoToday())) {
+    if ($periode && $periode < $_DATE_UTILS->getIsoToday()) {
         $show = "1";
         $_SESSION['show_bak'] = $_SESSION['show'];
     } elseif (isset($_SESSION['show_bak'])) {

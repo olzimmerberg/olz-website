@@ -229,6 +229,6 @@ if (isset($subject)) {
 if (is_array($mail_to)) {
     $mail_to = implode(', ', $mail_to);
 }
-mail("newsletter@olzimmerberg.ch", "Newsletter OL Zimmerberg - Report", base64_encode("Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\r\nAdressen: ".$mail_to."\r\nStart: ".date("d.m.y, G:i:s", $start)."\r\nDauer: ".(microtime(1) - $start)."\r\nServer: ".$_SERVER['REMOTE_ADDR']), $mail_header, $mail_from);
+mail("olz_uu_01@olzimmerberg.ch", "Newsletter OL Zimmerberg - Report", base64_encode("Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\r\nAdressen: ".$mail_to."\r\nStart: ".date("d.m.y, G:i:s", $start)."\r\nDauer: ".(microtime(1) - $start)."\r\nServer: ".$_SERVER['REMOTE_ADDR']), $mail_header, $mail_from);
 
 echo "Datum: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nAdressen: ".implode(', ', $mail_to)."\nStart: ".date("d.m.y, G:i:s", $start)."\nDauer: ".(microtime(1) - $start)."\nServer: ".$_SERVER['REMOTE_ADDR'];

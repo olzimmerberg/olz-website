@@ -47,10 +47,6 @@ class FakeStravaUtilsStravaFetcher {
     }
 }
 
-function make_sure_ampersand_is_not_escaped($str) {
-    return str_replace('&amp;', '&', $str);
-}
-
 /**
  * @internal
  * @covers \StravaUtils
@@ -79,8 +75,8 @@ final class StravaUtilsTest extends TestCase {
                 '&redirect_uri=fake-redirect-url'.
                 '&response_type=code'.
                 '&approval_prompt=auto'.
-                '&scope=profile%3Aread_all',
-            make_sure_ampersand_is_not_escaped($strava_utils->getAuthUrl())
+                '&scope=profile:read_all',
+            str_replace('&amp;', '&', urldecode($strava_utils->getAuthUrl()))
         );
     }
 
@@ -91,8 +87,8 @@ final class StravaUtilsTest extends TestCase {
                 '&redirect_uri=fake-redirect-url'.
                 '&response_type=code'.
                 '&approval_prompt=auto'.
-                '&scope=profile%3Aread_all',
-                make_sure_ampersand_is_not_escaped($this->strava_utils->getAuthUrl())
+                '&scope=profile:read_all',
+                str_replace('&amp;', '&', urldecode($this->strava_utils->getAuthUrl()))
         );
     }
 

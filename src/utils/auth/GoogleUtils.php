@@ -4,11 +4,15 @@ class GoogleUtils {
     private $client_id;
     private $client_secret;
     private $redirect_url;
+    private $google_fetcher;
+    private $date_utils;
 
-    public function __construct($client_id, $client_secret, $redirect_url) {
+    public function __construct($client_id, $client_secret, $redirect_url, $google_fetcher, $date_utils) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
         $this->redirect_url = $redirect_url;
+        $this->google_fetcher = $google_fetcher;
+        $this->date_utils = $date_utils;
     }
 
     public function setClientId($client_id) {
@@ -40,9 +44,6 @@ class GoogleUtils {
     }
 
     public function getTokenDataForCode($code) {
-        $ch = curl_init();
-
-        $google_token_url = 'https://oauth2.googleapis.com/token';
         $token_request_data = [
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
@@ -50,32 +51,18 @@ class GoogleUtils {
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->redirect_url,
         ];
-        curl_setopt($ch, CURLOPT_URL, $google_token_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $token_result = curl_exec($ch);
-        $token_response = json_decode($token_result, true);
+        $token_response = $this->google_fetcher->fetchTokenDataForCode($token_request_data);
 
-        curl_reset($ch);
-
-        $google_userinfo_url = 'https://www.googleapis.com/oauth2/v1/userinfo';
         $userinfo_request_data = [
             'alt' => 'json',
         ];
-        curl_setopt($ch, CURLOPT_URL, $google_userinfo_url.'?'.http_build_query($userinfo_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: {$token_response['token_type']} {$token_response['access_token']}",
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $userinfo_result = curl_exec($ch);
-        $userinfo_response = json_decode($userinfo_result, true);
+        $userinfo_response = $this->google_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        curl_close($ch);
+        $now_secs = strtotime($this->date_utils->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],
-            'expires_at' => time() + intval($token_response['expires_in']),
+            'expires_at' => $now_secs + intval($token_response['expires_in']),
             'refresh_token' => $token_response['refresh_token'],
             'access_token' => $token_response['access_token'],
             'user_identifier' => $userinfo_response['id'],
@@ -88,21 +75,11 @@ class GoogleUtils {
     }
 
     public function getUserData($token_data) {
-        $ch = curl_init();
-
-        $google_token_url = 'https://people.googleapis.com/v1/people/me';
-        $data = [
+        $people_api_request_data = [
             'personFields' => 'phoneNumbers,names,genders,coverPhotos,addresses,birthdays,emailAddresses',
         ];
-        curl_setopt($ch, CURLOPT_URL, $google_token_url.'?'.http_build_query($data, '', '&'));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: {$token_data['token_type']} {$token_data['access_token']}",
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        $response = json_decode($result, true);
 
-        curl_close($ch);
+        $people_api_response = $this->google_fetcher->fetchPeopleApiData($people_api_request_data, $token_data);
 
         // TODO: phone number (is not being returned currently)
         // TODO: email (in case userinfo did not get it)
@@ -111,12 +88,12 @@ class GoogleUtils {
         return array_merge(
             $token_data,
             [
-                'gender' => $this->extractGender($response),
-                'postalCode' => $this->extractPostalCode($response),
-                'city' => $this->extractCity($response),
-                'region' => $this->extractRegion($response),
-                'country' => $this->extractCountry($response),
-                'birthday' => $this->extractBirthday($response),
+                'gender' => $this->extractGender($people_api_response),
+                'postalCode' => $this->extractPostalCode($people_api_response),
+                'city' => $this->extractCity($people_api_response),
+                'region' => $this->extractRegion($people_api_response),
+                'country' => $this->extractCountry($people_api_response),
+                'birthday' => $this->extractBirthday($people_api_response),
             ],
         );
     }
@@ -258,12 +235,18 @@ function getGoogleUtilsFromEnv() {
     global $base_href, $code_href, $_CONFIG;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
+    require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
+    require_once __DIR__.'/../date/LiveDateUtils.php';
 
     $redirect_url = $base_href.$code_href.'konto_google.php';
+    $google_fetcher = new GoogleFetcher();
+    $live_date_utils = new LiveDateUtils();
 
     return new GoogleUtils(
         $_CONFIG->getGoogleClientId(),
         $_CONFIG->getGoogleClientSecret(),
-        $redirect_url
+        $redirect_url,
+        $google_fetcher,
+        $live_date_utils
     );
 }

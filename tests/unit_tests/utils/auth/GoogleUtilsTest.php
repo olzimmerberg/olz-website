@@ -6,6 +6,22 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/utils/auth/GoogleUtils.php';
 
+$sample_google_token_response = [
+    "token_type" => "Bearer",
+    "expires_in" => 21600,
+    "refresh_token" => "e5n567567...",
+    "access_token" => "a4b945687g...",
+];
+
+$sample_google_userinfo_response = [
+    "id" => "fake-id",
+    "given_name" => "Max",
+    "family_name" => "Muster",
+    "email" => "max@muster.ch",
+    "verified_email" => true,
+    "picture" => "http://fake-url",
+];
+
 $sample_people_api_response = [
     "resourceName" => "people/123456789012345678901",
     "etag" => "%Eg4BAj0HCAk+Cz8QQBk3LhoEAQIFByIMRnhibUsyNUJPMkU9",
@@ -140,16 +156,110 @@ $empty_people_api_response = [
     "emailAddresses" => [],
 ];
 
+class FakeGoogleUtilsGoogleFetcher {
+    private $google_token_response;
+    private $google_user_data_response;
+    private $google_people_api_response;
+
+    public function __construct($google_token_response, $google_user_data_response, $google_people_api_response) {
+        $this->google_token_response = $google_token_response;
+        $this->google_user_data_response = $google_user_data_response;
+        $this->google_people_api_response = $google_people_api_response;
+    }
+
+    public function fetchTokenDataForCode($request_data) {
+        return $this->google_token_response;
+    }
+
+    public function fetchUserData($request_data, $token_data) {
+        return $this->google_user_data_response;
+    }
+
+    public function fetchPeopleApiData($request_data, $token_data) {
+        return $this->google_people_api_response;
+    }
+}
+
 /**
  * @internal
  * @covers \GoogleUtils
  */
 final class GoogleUtilsTest extends TestCase {
     private $google_utils;
+    private $google_fetcher;
+    private $date_utils;
 
     public function __construct() {
+        global $sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response;
         parent::__construct();
-        $this->google_utils = new GoogleUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url');
+        $this->date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $this->google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
+        $this->google_utils = new GoogleUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $this->google_fetcher, $this->date_utils);
+    }
+
+    public function testModifyGoogleUtils(): void {
+        global $sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response;
+        $fake_google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
+
+        $google_utils = new GoogleUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $fake_google_fetcher, $this->date_utils);
+        $google_utils->setClientId('new-client-id');
+        $google_utils->setClientSecret('new-client-secret');
+
+        $this->assertSame(
+            'https://accounts.google.com/o/oauth2/v2/auth'.
+                '?client_id=new-client-id'.
+                '&redirect_uri=fake-redirect-url'.
+                '&response_type=code'.
+                '&scope=https://www.googleapis.com/auth/userinfo.profile '.
+                'https://www.googleapis.com/auth/userinfo.email '.
+                'https://www.googleapis.com/auth/user.addresses.read '.
+                'https://www.googleapis.com/auth/user.birthday.read '.
+                'https://www.googleapis.com/auth/user.gender.read '.
+                'https://www.googleapis.com/auth/user.phonenumbers.read',
+            urldecode($google_utils->getAuthUrl())
+        );
+    }
+
+    public function testGetAuthUrl(): void {
+        $this->assertSame(
+            'https://accounts.google.com/o/oauth2/v2/auth'.
+                '?client_id=fake-client-id'.
+                '&redirect_uri=fake-redirect-url'.
+                '&response_type=code'.
+                '&scope=https://www.googleapis.com/auth/userinfo.profile '.
+                'https://www.googleapis.com/auth/userinfo.email '.
+                'https://www.googleapis.com/auth/user.addresses.read '.
+                'https://www.googleapis.com/auth/user.birthday.read '.
+                'https://www.googleapis.com/auth/user.gender.read '.
+                'https://www.googleapis.com/auth/user.phonenumbers.read',
+            urldecode($this->google_utils->getAuthUrl())
+        );
+    }
+
+    public function testGetTokenDataForCode(): void {
+        $this->assertSame([
+            'token_type' => 'Bearer',
+            'expires_at' => 1584149400,
+            'refresh_token' => 'e5n567567...',
+            'access_token' => 'a4b945687g...',
+            'user_identifier' => 'fake-id',
+            'first_name' => 'Max',
+            'last_name' => 'Muster',
+            'email' => 'max@muster.ch',
+            'verified_email' => true,
+            'profile_picture_url' => 'http://fake-url',
+        ], $this->google_utils->getTokenDataForCode('fake-code'));
+    }
+
+    public function testGetUserData(): void {
+        $this->assertSame([
+            'gender' => 'M',
+            'postalCode' => '8800',
+            'city' => 'Thalwil',
+            'region' => 'Kanton Zürich',
+            'country' => 'CH',
+            'birthday' => '1989-11-09',
+        ], $this->google_utils->getUserData([], []));
     }
 
     public function testExtractFirstName(): void {

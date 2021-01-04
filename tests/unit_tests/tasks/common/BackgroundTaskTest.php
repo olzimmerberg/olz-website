@@ -31,6 +31,31 @@ class FakeTask extends BackgroundTask {
     }
 }
 
+class FakeTaskWithoutSetupTeardown extends BackgroundTask {
+    public $task_run = false;
+
+    protected static function get_ident() {
+        return "FakeTaskWithoutSetupTeardown";
+    }
+
+    protected function run_specific_task() {
+        $this->task_run = true;
+    }
+}
+
+class FakeFailingTask extends BackgroundTask {
+    public $task_run = false;
+
+    protected static function get_ident() {
+        return "FakeFailingTask";
+    }
+
+    protected function run_specific_task() {
+        $this->task_run = true;
+        throw new Exception("Fake Error", 1);
+    }
+}
+
 /**
  * @internal
  * @covers \BackgroundTask
@@ -52,6 +77,42 @@ final class BackgroundTaskTest extends TestCase {
         $this->assertSame(true, $job->setup_called);
         $this->assertSame(true, $job->task_run);
         $this->assertSame(true, $job->teardown_called);
+
+        $data_path = $previous_data_path;
+    }
+
+    public function testTaskWithoutSetupTeardown(): void {
+        global $data_path;
+        $previous_data_path = $data_path;
+        $data_path = '/fake/data/path/';
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = new Logger('SyncSolvTaskTest');
+        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+
+        $job = new FakeTaskWithoutSetupTeardown($date_utils);
+        $job->setLogger($logger);
+        $job->run();
+
+        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTaskWithoutSetupTeardown.txt', $job->generate_log_path());
+        $this->assertSame(true, $job->task_run);
+
+        $data_path = $previous_data_path;
+    }
+
+    public function testFailingTask(): void {
+        global $data_path;
+        $previous_data_path = $data_path;
+        $data_path = '/fake/data/path/';
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = new Logger('SyncSolvTaskTest');
+        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+
+        $job = new FakeFailingTask($date_utils);
+        $job->setLogger($logger);
+        $job->run();
+
+        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeFailingTask.txt', $job->generate_log_path());
+        $this->assertSame(true, $job->task_run);
 
         $data_path = $previous_data_path;
     }

@@ -4,11 +4,15 @@ class FacebookUtils {
     private $app_id;
     private $app_secret;
     private $redirect_url;
+    private $facebook_fetcher;
+    private $date_utils;
 
-    public function __construct($app_id, $app_secret, $redirect_url) {
+    public function __construct($app_id, $app_secret, $redirect_url, $facebook_fetcher, $date_utils) {
         $this->app_id = $app_id;
         $this->app_secret = $app_secret;
         $this->redirect_url = $redirect_url;
+        $this->facebook_fetcher = $facebook_fetcher;
+        $this->date_utils = $date_utils;
     }
 
     public function setAppId($app_id) {
@@ -35,25 +39,14 @@ class FacebookUtils {
     }
 
     public function getTokenDataForCode($code) {
-        $ch = curl_init();
-
-        $facebook_token_url = 'https://graph.facebook.com/v8.0/oauth/access_token';
         $token_request_data = [
             'client_id' => $this->app_id,
             'client_secret' => $this->app_secret,
             'code' => $code,
             'redirect_uri' => $this->redirect_url,
         ];
-        curl_setopt($ch, CURLOPT_URL, $facebook_token_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $token_result = curl_exec($ch);
-        $token_response = json_decode($token_result, true);
+        $token_response = $this->facebook_fetcher->fetchTokenDataForCode($token_request_data);
 
-        curl_reset($ch);
-
-        $facebook_userinfo_url = 'https://graph.facebook.com/v8.0/me';
         $me_request_fields = [
             'id',
             'first_name',
@@ -66,16 +59,13 @@ class FacebookUtils {
             'fields' => implode(',', $me_request_fields),
             'access_token' => $token_response['access_token'],
         ];
-        curl_setopt($ch, CURLOPT_URL, $facebook_userinfo_url.'?'.http_build_query($userinfo_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $userinfo_result = curl_exec($ch);
-        $userinfo_response = json_decode($userinfo_result, true);
+        $userinfo_response = $this->facebook_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        curl_close($ch);
+        $now_secs = strtotime($this->date_utils->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],
-            'expires_at' => time() + intval($token_response['expires_in']),
+            'expires_at' => $now_secs + intval($token_response['expires_in']),
             'refresh_token' => null,
             'access_token' => $token_response['access_token'],
             'user_identifier' => $userinfo_response['id'],
@@ -96,12 +86,18 @@ function getFacebookUtilsFromEnv() {
     global $base_href, $code_href, $_CONFIG;
     require_once __DIR__.'/../../config/paths.php';
     require_once __DIR__.'/../../config/server.php';
+    require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
+    require_once __DIR__.'/../date/LiveDateUtils.php';
 
     $redirect_url = $base_href.$code_href.'konto_facebook.php';
+    $facebook_fetcher = new FacebookFetcher();
+    $live_date_utils = new LiveDateUtils();
 
     return new FacebookUtils(
         $_CONFIG->getFacebookAppId(),
         $_CONFIG->getFacebookAppSecret(),
-        $redirect_url
+        $redirect_url,
+        $facebook_fetcher,
+        $live_date_utils
     );
 }

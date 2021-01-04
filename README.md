@@ -31,7 +31,7 @@
 
 - Unit Tests: `./unit-test.sh`
 - Integration Tests: `./integration-test.sh`
-- Der Code-Coverage-Report kann danach hier gefunden werden: `./php-coverage/html-coverage/index.html`
+- Für den Code-Coverage-Report: `./test-coverage.sh`
 
 ## Code beitragen
 

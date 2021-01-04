@@ -8,11 +8,6 @@ require_once __DIR__.'/config/paths.php';
 
 echo "<h4 class='tablebar'>Elite</h4>
 <div>
-<h3>Julia Jakob</h3>
-<img src='{$data_href}img/elite_julia.jpg' class='noborder' style='max-width: 300px;'>
-<div>Julia Jakob ist Welt- und Europameisterin im Staffel-OL und Mitglied des A-Kaders von swiss orienteering.</div>
-<div>Homepage: <a href='http://juliajakob.ch/' class='linkext'>juliajakob.ch</a></div>
-<div>Facebook: <a href='http://facebook.com/fanfuergross' class='linkext'>Fan für Gross</a></div>
 <h3>Paula Gross</h3>
 <img src='{$data_href}img/elite_paula.jpg' class='noborder' style='max-width: 300px;'>
 <div>Paula Gross ist Junioren Staffel Weltmeisterin und Mitglied des Elite Nationalkaders B.</div>
@@ -24,10 +19,11 @@ echo "<h4 class='tablebar'>Elite</h4>
 <br />
 <h4 class='tablebar'>Team Gold</h4>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gratian.jpg' class='noborder' style='width: 64px;'> <b>Gratian Böhi</b></div>
+<div style='line-height: 64px;'><img src='{$data_href}img/gold_romeo.jpg' class='noborder' style='width: 64px;'> <b>Romeo Böhi</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_lukas.jpg' class='noborder' style='width: 64px;'> <b>Lukas Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_manuel.jpg' class='noborder' style='width: 64px;'> <b>Manuel Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_andrina.jpg' class='noborder' style='width: 64px;'> <b>Andrina Hotz</b></div>
-<div style='line-height: 64px;'><img src='{$data_href}img/gold_anna.jpg' class='noborder' style='width: 64px;'> <b>Anna Rettich</b></div>
+<div style='line-height: 64px;'><img src='{$data_href}img/gold_bigna.jpg' class='noborder' style='width: 64px;'> <b>Bigna Hotz</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_flurin.jpg' class='noborder' style='width: 64px;'> <b>Flurin Rettich</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gian.jpg' class='noborder' style='width: 64px;'> <b>Gian Rettich</b></div>
 <br />
@@ -38,5 +34,4 @@ echo "<h4 class='tablebar'>Elite</h4>
 <div><b>Trainerteam</b></div>
 <div>Lilly Gross</div>
 <div>Paula Gross</div>
-<div>Michael Felder</div>
-<div>Adrian Köpfli</div>";
+<div>Michael Felder</div>";

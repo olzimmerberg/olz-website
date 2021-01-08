@@ -11,6 +11,7 @@ import 'typeface-open-sans';
 import './bootstrap.scss';
 import './index.scss';
 import './konto_strava.scss';
+import './konto_passwort.scss';
 import './profil.scss';
 import './styles.scss';
 
@@ -18,6 +19,7 @@ export * from './components/index';
 export * from './features/index';
 export * from './fuer_einsteiger';
 export * from './kontakt';
+export * from './konto_passwort';
 export * from './konto_strava';
 export * from './profil';
 export * from './scripts/jscripts';

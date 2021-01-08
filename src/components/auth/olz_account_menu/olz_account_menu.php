@@ -49,6 +49,16 @@ ZZZZZZZZZZ;
 >
     Login
 </a>
+<a
+    id='sign-up-menu-item'
+    class='dropdown-item feature sign-up'
+    href='#'
+    role='button'
+    data-toggle='modal'
+    data-target='#sign-up-modal'
+>
+    Konto erstellen
+</a>
 ZZZZZZZZZZ;
 }
 echo "</div>";

@@ -38,6 +38,17 @@ echo <<<ZZZZZZZZZZ
                         <label for='login-password-input'>Passwort</label>
                         <input type='password' class='form-control' id='login-password-input' />
                     </div>
+                    <div class='feature sign-up form-group'>
+                        <a
+                            id='sign-up-link'
+                            href='#'
+                            data-dismiss='modal'
+                            data-toggle='modal'
+                            data-target='#sign-up-modal'
+                        >
+                            Noch kein OLZ-Konto?
+                        </a>
+                    </div>
                     <input type='submit' class='hidden' />
                     <div id='login-message' class='alert alert-danger' role='alert'></div>
                 </div>

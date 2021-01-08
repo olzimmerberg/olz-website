@@ -54,7 +54,7 @@ export function olzKontoSignUpWithStrava(form) {
     const lastName = form['last-name'].value;
     const username = form['username'].value;
     const email = form['email'].value;
-    const gender = form['gender'].value;
+    const gender = form['gender'].value || null;
     const birthdate = form['birthdate'].value || null;
     const street = form['street'].value;
     const postalCode = form['postal-code'].value;

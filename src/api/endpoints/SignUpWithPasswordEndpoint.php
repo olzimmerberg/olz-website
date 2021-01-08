@@ -5,7 +5,7 @@ require_once __DIR__.'/../../fields/DateTimeField.php';
 require_once __DIR__.'/../../fields/EnumField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
-class SignUpWithStravaEndpoint extends Endpoint {
+class SignUpWithPasswordEndpoint extends Endpoint {
     public function __construct($entityManager) {
         $this->entityManager = $entityManager;
     }
@@ -20,13 +20,10 @@ class SignUpWithStravaEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('stravaUser', ['allow_empty' => false]),
-            new StringField('accessToken', ['allow_empty' => false]),
-            new StringField('refreshToken', ['allow_empty' => false]),
-            new DateTimeField('expiresAt', ['allow_empty' => false]),
             new StringField('firstName', ['allow_empty' => false]),
             new StringField('lastName', ['allow_empty' => false]),
             new StringField('username', ['allow_empty' => false]),
+            new StringField('password', ['allow_empty' => false]),
             new StringField('email', ['allow_empty' => false]),
             new EnumField('gender', ['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             new DateTimeField('birthdate', ['allow_null' => true]),
@@ -47,7 +44,7 @@ class SignUpWithStravaEndpoint extends Endpoint {
         $user->setEmail($input['email']);
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
-        $user->setPasswordHash('');
+        $user->setPasswordHash(password_hash($input['password'], PASSWORD_DEFAULT));
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setGender($input['gender']);
@@ -60,15 +57,7 @@ class SignUpWithStravaEndpoint extends Endpoint {
         $user->setZugriff('');
         $user->setRoot(null);
 
-        $strava_link = new StravaLink();
-        $strava_link->setStravaUser($input['stravaUser']);
-        $strava_link->setAccessToken($input['accessToken']);
-        $strava_link->setExpiresAt(new DateTime($input['expiresAt']));
-        $strava_link->setRefreshToken($input['refreshToken']);
-        $strava_link->setUser($user);
-
         $this->entityManager->persist($user);
-        $this->entityManager->persist($strava_link);
         $this->entityManager->flush();
 
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
@@ -76,7 +65,7 @@ class SignUpWithStravaEndpoint extends Endpoint {
         $this->session->set('auth', $user->getZugriff());
         $this->session->set('root', $root);
         $this->session->set('user', $user->getUsername());
-        $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_STRAVA', $user->getUsername());
+        $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
 
         return ['status' => 'OK'];
     }

@@ -1,4 +1,23 @@
-.required-field-asterisk {
-    color: rgb(255, 0, 0);
-    font-weight: bold;
+.olz_profile_form {
+    .required-field-asterisk {
+        color: rgb(255, 0, 0);
+        font-weight: bold;
+    }
+
+    .row {
+        &.hidden {
+            display: none;
+        }
+    }
+    
+    .col.change-password-cell {
+        align-self: flex-end;
+        margin-bottom: 1rem;
+
+        #change-password-button {
+            &.hidden {
+                display: none;
+            }
+        }
+    }
 }

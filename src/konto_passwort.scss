@@ -1,0 +1,17 @@
+#sign-up-with-password-form {
+    &.hidden {
+        display: none;
+    }
+
+    #sign-up-with-password-error-message,
+    #sign-up-with-password-success-message {
+        &:empty {
+            display: none;
+        }
+    }
+
+    .col.change-password-cell {
+        align-self: flex-end;
+        margin-bottom: 1rem;
+    }
+}

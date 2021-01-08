@@ -6,4 +6,12 @@
             display: block;
         }
     }
+
+    &.sign-up {
+        display: none;
+
+        &.enabled {
+            display: block;
+        }
+    }
 }

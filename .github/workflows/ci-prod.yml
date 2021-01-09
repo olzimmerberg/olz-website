@@ -6,7 +6,10 @@ name: CI:prod
 jobs:
 
   take-screenshots:
-    name: Take screenshots
+    strategy:
+      matrix:
+        block: [0, 1, 2]
+    name: Take screenshots (${{ matrix.block }})
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -51,18 +54,11 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         MOZ_HEADLESS: 1
-      run: ./take-screenshots.sh
-    - name: PHP Integration Tests
-      env:
-        DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-      run: ./integration-test.sh; cat ./php-coverage/coverage.txt
-
+      run: ./take-screenshots.sh ${{ matrix.block }}
     - uses: actions/upload-artifact@v1
       with:
         name: prod-screenshots
         path: ./screenshots
-    - name: Check database migrations
-      run: cd ./ci; ./check-migrations.sh
 
   run-php-tests:
     strategy:
@@ -70,6 +66,17 @@ jobs:
         php-version: ['7.4'] # 7.4 is active on hosting
     name: PHP tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: db-username
+          MYSQL_PASSWORD: db-password
+          MYSQL_DATABASE: db-schema
+          MYSQL_ROOT_PASSWORD: db-password
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
     - uses: actions/checkout@v2
     - uses: shivammathur/setup-php@v2
@@ -94,6 +101,12 @@ jobs:
       run: cd ./ci; ./php-code-style.sh
     - name: PHP Unit Tests
       run: ./unit-test.sh; cat ./php-coverage/coverage.txt
+    - name: PHP Integration Tests
+      env:
+        DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+      run: ./integration-test.sh; cat ./php-coverage/coverage.txt
+    - name: Check database migrations
+      run: cd ./ci; ./check-migrations.sh
 
   deploy-prod:
     name: Deploy to olzimmerberg.ch

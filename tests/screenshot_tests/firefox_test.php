@@ -47,36 +47,117 @@ $capabilities = DesiredCapabilities::firefox();
 
 $driver = RemoteWebDriver::create($host, $capabilities);
 
-$base_url = 'http://127.0.0.1:30270/_/';
+$base_url = 'http://127.0.0.1:30270/';
+$code_href = "{$base_url}_/";
+
+function reset_dev_data() {
+    global $base_url;
+    for ($i = 0; $i < 50; $i++) {
+        $result = file_get_contents("{$base_url}tools.php/reset");
+        if ($result == 'reset:SUCCESS') {
+            return;
+        }
+        sleep(0.5);
+    }
+    throw new Exception("Resetting dev data timed out");
+}
+
+function init_test_block($driver) {
+    reset_dev_data();
+
+    set_window_size($driver, 1280, 1024);
+}
+
+$blocks = [
+    function ($driver, $code_href) {
+        init_test_block($driver);
+        test_startseite($driver, $code_href);
+
+        init_test_block($driver);
+        test_bild_der_woche($driver, $code_href);
+
+        init_test_block($driver);
+        test_aktuell($driver, $code_href);
+
+        init_test_block($driver);
+        test_leistungssport($driver, $code_href);
+
+        init_test_block($driver);
+        test_termine($driver, $code_href);
+
+        init_test_block($driver);
+        test_galerie($driver, $code_href);
+
+        init_test_block($driver);
+        test_forum($driver, $code_href);
+    },
+    function ($driver, $code_href) {
+        init_test_block($driver);
+        test_karten($driver, $code_href);
+
+        init_test_block($driver);
+        test_material($driver, $code_href);
+
+        init_test_block($driver);
+        test_service($driver, $code_href);
+
+        init_test_block($driver);
+        test_links($driver, $code_href);
+
+        init_test_block($driver);
+        test_downloads($driver, $code_href);
+
+        init_test_block($driver);
+        test_newsletter($driver, $code_href);
+
+        init_test_block($driver);
+        test_kontakt($driver, $code_href);
+
+        init_test_block($driver);
+        test_trophy($driver, $code_href);
+
+        init_test_block($driver);
+        test_error($driver, $code_href);
+
+        init_test_block($driver);
+        test_search($driver, $code_href);
+    },
+    function ($driver, $code_href) {
+        init_test_block($driver);
+        test_fuer_einsteiger($driver, $code_href);
+
+        init_test_block($driver);
+        test_datenschutz($driver, $code_href);
+
+        init_test_block($driver);
+        test_login_logout($driver, $code_href);
+
+        init_test_block($driver);
+        test_profil($driver, $code_href);
+
+        init_test_block($driver);
+        test_divmail($driver, $code_href);
+
+        init_test_block($driver);
+        test_webftp($driver, $code_href);
+
+        init_test_block($driver);
+        test_live_results($driver, $code_href);
+
+        init_test_block($driver);
+        test_resultate($driver, $code_href);
+    },
+];
+
+$block_to_run = $argv[1] ?? '';
 
 try {
-    set_window_size($driver, 1280, 1024);
-
-    test_startseite($driver, $base_url);
-    test_bild_der_woche($driver, $base_url);
-    test_aktuell($driver, $base_url);
-    test_leistungssport($driver, $base_url);
-    test_termine($driver, $base_url);
-    test_galerie($driver, $base_url);
-    test_forum($driver, $base_url);
-    test_karten($driver, $base_url);
-    test_material($driver, $base_url);
-    test_service($driver, $base_url);
-    test_links($driver, $base_url);
-    test_downloads($driver, $base_url);
-    test_newsletter($driver, $base_url);
-    test_kontakt($driver, $base_url);
-    test_trophy($driver, $base_url);
-    test_error($driver, $base_url);
-    test_search($driver, $base_url);
-    test_fuer_einsteiger($driver, $base_url);
-    test_datenschutz($driver, $base_url);
-    test_login_logout($driver, $base_url);
-    test_profil($driver, $base_url);
-    test_divmail($driver, $base_url);
-    test_webftp($driver, $base_url);
-    test_live_results($driver, $base_url);
-    test_resultate($driver, $base_url);
+    for ($block = 0; $block < count($blocks); $block++) {
+        if ($block_to_run == $block || $block_to_run == '') {
+            $function = $blocks[$block];
+            $function($driver, $code_href);
+        }
+    }
 
     // $driver->get('http://127.0.0.1:30270/_/');
     // $login_menu = $driver->findElement(WebDriverBy::id('menu_a_page10'));

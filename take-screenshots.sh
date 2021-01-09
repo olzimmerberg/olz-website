@@ -25,23 +25,9 @@ npm run webpack-build
 php -S "$DOMAIN" -t ./dev-server/ &
 DEVSERVER_PID=$!
 
-# Load dev data
-WGET_RESULT=""
-ITERATION=0
-while [ "$WGET_RESULT" != "reset:SUCCESS" ]
-do
-    echo "$WGET_RESULT"
-    sleep 0.5
-    WGET_RESULT=$(wget --no-verbose -O - "http://$DOMAIN/tools.php/reset")
-    ITERATION=$((ITERATION+1))
-    if [ $ITERATION -gt 50 ]; then
-        exit 1;
-    fi
-done
-
 # Run test
 EXIT_CODE=0
-php tests/screenshot_tests/firefox_test.php
+php tests/screenshot_tests/firefox_test.php $@
 EXIT_CODE=$?
 
 # Clean up

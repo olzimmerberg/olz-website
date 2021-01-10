@@ -9,6 +9,11 @@ const defaultConfig = {
     module: {
         rules: [
             {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
             },
@@ -51,7 +56,7 @@ const defaultConfig = {
 module.exports = [
     {
         ...defaultConfig,
-        entry: './src/index.js',
+        entry: './src/index.ts',
         output: {
             path: path.resolve(__dirname, 'src/jsbuild'),
             publicPath: '/_/jsbuild/',

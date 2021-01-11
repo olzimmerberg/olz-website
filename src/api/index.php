@@ -25,65 +25,14 @@ try {
 }
 
 function call_api($endpoint_name, $input) {
-    switch ($endpoint_name) {
-        case 'login':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/LoginEndpoint.php';
-            $endpoint = new LoginEndpoint($entityManager);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'logout':
-            require_once __DIR__.'/endpoints/LogoutEndpoint.php';
-            $endpoint = new LogoutEndpoint();
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'updateUser':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/UpdateUserEndpoint.php';
-            $endpoint = new UpdateUserEndpoint($entityManager);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'updatePassword':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/UpdateUserPasswordEndpoint.php';
-            $endpoint = new UpdateUserPasswordEndpoint($entityManager);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'signUpWithPassword':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/SignUpWithPasswordEndpoint.php';
-            $endpoint = new SignUpWithPasswordEndpoint($entityManager);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'loginWithStrava':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/LoginWithStravaEndpoint.php';
-            $strava_utils = getStravaUtilsFromEnv();
-            $endpoint = new LoginWithStravaEndpoint($entityManager, $strava_utils);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        case 'signUpWithStrava':
-            require_once __DIR__.'/../config/doctrine_db.php';
-            require_once __DIR__.'/../model/index.php';
-            require_once __DIR__.'/endpoints/SignUpWithStravaEndpoint.php';
-            $endpoint = new SignUpWithStravaEndpoint($entityManager);
-            $endpoint->setSession(new StandardSession());
-            break;
-
-        default:
-            throw new HttpError(400, 'Invalid endpoint');
+    require_once __DIR__.'/OlzApi.php';
+    $olz_api = new OlzApi();
+    if (!isset($olz_api->endpoints[$endpoint_name])) {
+        throw new HttpError(400, 'Invalid endpoint');
     }
+    $endpoint = $olz_api->endpoints[$endpoint_name]();
     $endpoint->setServer($_SERVER);
+    $endpoint->setDefaultFileLogger();
+    $endpoint->setup();
     return $endpoint->call($input);
 }

@@ -41,4 +41,8 @@ class StringField extends Field {
         }
         return $validation_errors;
     }
+
+    public function getTypeScriptType() {
+        return $this->getAllowNull() ? 'string|null' : 'string';
+    }
 }

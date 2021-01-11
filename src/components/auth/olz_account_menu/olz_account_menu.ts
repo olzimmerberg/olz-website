@@ -1,10 +1,15 @@
+import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
+
 export function olzAccountMenuLogout() {
-    $.post('/_/api/index.php/logout', JSON.stringify({}))
-        .done(() => {
+    callOlzApi(
+        OlzApiEndpoint.logout,
+        {},
+    )
+        .then(() => {
             // TODO: This could probably be done more smoothly!
             window.location.reload();
         })
-        .fail(data => {
+        .catch(() => {
             // TODO: This could probably be done more smoothly!
             window.location.reload();
         });

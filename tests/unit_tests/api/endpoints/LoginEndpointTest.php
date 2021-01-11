@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 
 class FakeLoginEndpointEntityManager {
@@ -70,9 +72,17 @@ class FakeLoginEndpointUserRepository {
  * @covers \LoginEndpoint
  */
 final class LoginEndpointTest extends TestCase {
+    public function testLoginEndpointIdent(): void {
+        $endpoint = new LoginEndpoint();
+        $this->assertSame('LoginEndpoint', $endpoint->getIdent());
+    }
+
     public function testLoginEndpointWithoutInput(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $endpoint = new LoginEndpoint($entity_manager);
+        $logger = new Logger('LoginEndpointTest');
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setLogger($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -86,10 +96,13 @@ final class LoginEndpointTest extends TestCase {
 
     public function testLoginEndpointWithCorrectCredentials(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $endpoint = new LoginEndpoint($entity_manager);
+        $logger = new Logger('LoginEndpointTest');
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['username' => 'admin', 'password' => 'adm1n']);
 
@@ -113,10 +126,13 @@ final class LoginEndpointTest extends TestCase {
 
     public function testLoginEndpointWithWrongUsername(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $endpoint = new LoginEndpoint($entity_manager);
+        $logger = new Logger('LoginEndpointTest');
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['username' => 'wrooong', 'password' => 'adm1n']);
 
@@ -136,10 +152,13 @@ final class LoginEndpointTest extends TestCase {
 
     public function testLoginEndpointWithWrongPassword(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $endpoint = new LoginEndpoint($entity_manager);
+        $logger = new Logger('LoginEndpointTest');
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['username' => 'admin', 'password' => 'wrooong']);
 
@@ -159,11 +178,14 @@ final class LoginEndpointTest extends TestCase {
 
     public function testLoginEndpointCanNotAuthenticate(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $endpoint = new LoginEndpoint($entity_manager);
+        $logger = new Logger('LoginEndpointTest');
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $entity_manager->getRepository('AuthRequest')->can_authenticate = false;
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['username' => 'admin', 'password' => 'adm1n']);
 

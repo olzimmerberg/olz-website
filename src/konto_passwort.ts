@@ -1,3 +1,5 @@
+import {OlzApiEndpoint, callOlzApi} from './api/client';
+
 export function olzKontoSignUpWithPassword(form) {
     const firstName = form['first-name'].value;
     const lastName = form['last-name'].value;
@@ -19,15 +21,12 @@ export function olzKontoSignUpWithPassword(form) {
         return false;
     }
 
-    $.ajax({
-        type: 'POST',
-        url: `/_/api/index.php/signUpWithPassword`, 
-        data: JSON.stringify({firstName, lastName, username, password, email, gender, birthdate, 
-            street, postalCode, city, region, countryCode}),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-    })
-        .done(response => {
+    callOlzApi(
+        OlzApiEndpoint.signUpWithPassword,
+        {firstName, lastName, username, password, email, gender, birthdate, 
+            street, postalCode, city, region, countryCode},
+    )
+        .then(response => {
             if (response.status === 'OK') {
                 $('#sign-up-with-password-success-message').text('Benutzerkonto erfolgreich erstellt.');
                 $('#sign-up-with-password-error-message').text('');
@@ -40,7 +39,7 @@ export function olzKontoSignUpWithPassword(form) {
                 $('#sign-up-with-password-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
             }
         })
-        .fail(() => {
+        .catch(() => {
             $('#sign-up-with-password-success-message').text('');
             $('#sign-up-with-password-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
         });

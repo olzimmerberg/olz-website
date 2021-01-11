@@ -13,6 +13,9 @@ class ValidationError extends Exception {
     }
 
     public function getStructuredAnswer() {
-        return $this->validationErrors;
+        return [
+            'type' => 'ValidationError',
+            'validationErrors' => $this->validationErrors,
+        ];
     }
 }

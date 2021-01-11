@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserPasswordEndpoint.php';
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 
 class FakeUserPasswordEndpointEndpointEntityManager {
@@ -55,9 +57,16 @@ class FakeUserPasswordEndpointUserRepository {
  * @covers \UpdateUserPasswordEndpoint
  */
 final class UpdateUserPasswordEndpointTest extends TestCase {
+    public function testUpdateUserPasswordEndpointIdent(): void {
+        $endpoint = new UpdateUserPasswordEndpoint();
+        $this->assertSame('UpdateUserPasswordEndpoint', $endpoint->getIdent());
+    }
+
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = new FakeUserPasswordEndpointEndpointEntityManager();
-        $endpoint = new UpdateUserPasswordEndpoint($entity_manager);
+        $logger = new Logger('UpdateUserPasswordEndpointTest');
+        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -65,6 +74,7 @@ final class UpdateUserPasswordEndpointTest extends TestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
             'id' => 1,

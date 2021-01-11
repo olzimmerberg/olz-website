@@ -45,5 +45,9 @@ abstract class AbstractTemporalField extends Field {
         return $validation_errors;
     }
 
+    public function getTypeScriptType() {
+        return $this->getAllowNull() ? 'string|null' : 'string';
+    }
+
     abstract protected function getRegex();
 }

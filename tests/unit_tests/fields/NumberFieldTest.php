@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/NumberField.php';
  * @covers \NumberField
  */
 final class NumberFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new NumberField('fake', []);
+        $this->assertSame('number', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new NumberField('fake', ['allow_null' => true]);
+        $this->assertSame('number|null', $field->getTypeScriptType());
+    }
+
     public function testMinValueDefault(): void {
         $field = new NumberField('fake', []);
         $this->assertSame(null, $field->getMinValue());

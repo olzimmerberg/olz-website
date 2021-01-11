@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/IntegerField.php';
  * @covers \IntegerField
  */
 final class IntegerFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new IntegerField('fake', []);
+        $this->assertSame('number', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new IntegerField('fake', ['allow_null' => true]);
+        $this->assertSame('number|null', $field->getTypeScriptType());
+    }
+
     public function testMinValueDefault(): void {
         $field = new IntegerField('fake', []);
         $this->assertSame(null, $field->getMinValue());

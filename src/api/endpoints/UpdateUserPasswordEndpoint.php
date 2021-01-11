@@ -6,8 +6,12 @@ require_once __DIR__.'/../../fields/IntegerField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class UpdateUserPasswordEndpoint extends Endpoint {
-    public function __construct($entityManager) {
-        $this->entityManager = $entityManager;
+    public function setEntityManager($new_entity_manager) {
+        $this->entityManager = $new_entity_manager;
+    }
+
+    public static function getIdent() {
+        return 'UpdateUserPasswordEndpoint';
     }
 
     public function getResponseFields() {

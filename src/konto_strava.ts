@@ -1,15 +1,14 @@
+import {OlzApiEndpoint, callOlzApi} from './api/client';
 
-export function olzKontoLoginWithStrava(code) {
+export function olzKontoLoginWithStrava(code: string) {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
     $('#sign-up-with-strava-login-status').text('Login mit Strava...');
-    $.ajax({
-        type: 'POST',
-        url: `/_/api/index.php/loginWithStrava`, 
-        data: JSON.stringify({code}),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-    })
-        .done(response => {
+
+    callOlzApi(
+        OlzApiEndpoint.loginWithStrava,
+        {code},
+    )
+        .then(response => {
             if (response.status === 'AUTHENTICATED') {
                 $('#sign-up-with-strava-login-status').attr('class', 'alert alert-success');
                 $('#sign-up-with-strava-login-status').text('Login mit Strava erfolgreich.');
@@ -37,7 +36,7 @@ export function olzKontoLoginWithStrava(code) {
                 $('#sign-up-with-strava-login-status').text('Fehler beim Login mit Strava.');
             }
         })
-        .fail(() => {
+        .catch(() => {
             $('#sign-up-with-strava-login-status').attr('class', 'alert alert-danger');
             $('#sign-up-with-strava-login-status').text('Fehler beim Login mit Strava.');
         });
@@ -62,16 +61,13 @@ export function olzKontoSignUpWithStrava(form) {
     const region = form['region'].value;
     const countryCode = form['country-code'].value;
 
-    $.ajax({
-        type: 'POST',
-        url: `/_/api/index.php/signUpWithStrava`, 
-        data: JSON.stringify({stravaUser, accessToken, refreshToken, expiresAt, 
+    callOlzApi(
+        OlzApiEndpoint.signUpWithStrava,
+        {stravaUser, accessToken, refreshToken, expiresAt, 
             firstName, lastName, username, email, gender, birthdate, street, 
-            postalCode, city, region, countryCode}),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-    })
-        .done(response => {
+            postalCode, city, region, countryCode},
+    )
+        .then(response => {
             if (response.status === 'OK') {
                 $('#sign-up-with-strava-success-message').text('Benutzerkonto erfolgreich erstellt.');
                 $('#sign-up-with-strava-error-message').text('');
@@ -84,7 +80,7 @@ export function olzKontoSignUpWithStrava(form) {
                 $('#sign-up-with-strava-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
             }
         })
-        .fail(() => {
+        .catch(() => {
             $('#sign-up-with-strava-success-message').text('');
             $('#sign-up-with-strava-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
         });

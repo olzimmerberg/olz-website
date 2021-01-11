@@ -29,7 +29,10 @@ final class HttpErrorTest extends TestCase {
         $this->assertSame('Bad Request', $error->getMessage());
         $this->assertSame([
             'message' => 'Bad Request',
-            'error' => [],
+            'error' => [
+                'type' => 'ValidationError',
+                'validationErrors' => [],
+            ],
         ], $error->getStructuredAnswer());
     }
 }

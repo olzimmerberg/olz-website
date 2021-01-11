@@ -32,4 +32,11 @@ class EnumField extends Field {
         }
         return $validation_errors;
     }
+
+    public function getTypeScriptType() {
+        $allowed_values = implode('|', array_map(function ($value) {
+            return "'{$value}'";
+        }, $this->getAllowedValues()));
+        return $this->getAllowNull() ? "{$allowed_values}|null" : $allowed_values;
+    }
 }

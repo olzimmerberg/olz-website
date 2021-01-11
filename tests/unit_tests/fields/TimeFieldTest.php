@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/TimeField.php';
  * @covers \TimeField
  */
 final class TimeFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new TimeField('fake', []);
+        $this->assertSame('string', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new TimeField('fake', ['allow_null' => true]);
+        $this->assertSame('string|null', $field->getTypeScriptType());
+    }
+
     public function testMinValueDefault(): void {
         $field = new TimeField('fake', []);
         $this->assertSame(null, $field->getMinValue());

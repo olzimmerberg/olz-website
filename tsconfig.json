@@ -3,8 +3,16 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": false,
-    "module": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es5",
+    "lib": [
+      "es6",
+      "dom",
+      "es2015.promise"
+    ],
     "allowJs": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
 }

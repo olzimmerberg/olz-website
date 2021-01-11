@@ -6,8 +6,12 @@ require_once __DIR__.'/../../fields/EnumField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class SignUpWithPasswordEndpoint extends Endpoint {
-    public function __construct($entityManager) {
-        $this->entityManager = $entityManager;
+    public function setEntityManager($new_entity_manager) {
+        $this->entityManager = $new_entity_manager;
+    }
+
+    public static function getIdent() {
+        return 'SignUpWithPasswordEndpoint';
     }
 
     public function getResponseFields() {

@@ -12,4 +12,8 @@ class BooleanField extends Field {
         }
         return $validation_errors;
     }
+
+    public function getTypeScriptType() {
+        return $this->getAllowNull() ? 'boolean|null' : 'boolean';
+    }
 }

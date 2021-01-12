@@ -16,37 +16,35 @@ echo <<<ZZZZZZZZZZ
 <div class='modal fade' id='sign-up-modal' tabindex='-1' aria-labelledby='sign-up-modal-label' aria-hidden='true'>
     <div class='modal-dialog'>
         <div class='modal-content'>
-            <form onsubmit='olzLoginModalLogin();return false;'>
-                <div class='modal-header'>
-                    <h5 class='modal-title' id='sign-up-modal-label'>Login</h5>
-                    <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
-                        <span aria-hidden='true'>&times;</span>
-                    </button>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='sign-up-modal-label'>Login</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-body'>
+                <div class='feature external-login form-group'>
+                    <a href='{$strava_url}' class='login-button strava-button'>
+                        <img src='{$code_href}icns/login_strava.svg' alt=''>
+                        Strava
+                    </a>
+                    <a href='{$google_url}' class='login-button google-button'>
+                        <img src='{$code_href}icns/login_google.svg' alt=''>
+                        Google
+                    </a>
+                    <a href='{$facebook_url}' class='login-button facebook-button'>
+                        <img src='{$code_href}icns/login_facebook.svg' alt=''>
+                        Facebook
+                    </a>
+                    <a href='{$code_href}konto_passwort.php' class='login-button password-button'>
+                        <img src='{$code_href}icns/login_password.svg' alt=''>
+                        Passwort
+                    </a>
                 </div>
-                <div class='modal-body'>
-                    <div class='feature external-login form-group'>
-                        <a href='{$strava_url}' class='login-button strava-button'>
-                            <img src='{$code_href}icns/login_strava.svg' alt=''>
-                            Strava
-                        </a>
-                        <a href='{$google_url}' class='login-button google-button'>
-                            <img src='{$code_href}icns/login_google.svg' alt=''>
-                            Google
-                        </a>
-                        <a href='{$facebook_url}' class='login-button facebook-button'>
-                            <img src='{$code_href}icns/login_facebook.svg' alt=''>
-                            Facebook
-                        </a>
-                        <a href='{$code_href}konto_passwort.php' class='login-button password-button'>
-                            <img src='{$code_href}icns/login_password.svg' alt=''>
-                            Passwort
-                        </a>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
-                </div>
-            </form>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+            </div>
         </div>
     </div>
 </div>

@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/BooleanField.php';
  * @covers \BooleanField
  */
 final class BooleanFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new BooleanField('fake', []);
+        $this->assertSame('boolean', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new BooleanField('fake', ['allow_null' => true]);
+        $this->assertSame('boolean|null', $field->getTypeScriptType());
+    }
+
     public function testValidatesNullAllowed(): void {
         $field = new BooleanField('fake', ['allow_null' => true]);
         $this->assertSame([], $field->getValidationErrors(true));

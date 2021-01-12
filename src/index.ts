@@ -3,7 +3,6 @@
 // Webpack generiert daraus den Ordner `jsbuild/`.
 // =============================================================================
 
-import 'bootstrap';
 import 'lightgallery/dist/css/lightgallery.css';
 import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
@@ -27,6 +26,8 @@ export * from './scripts/fader';
 export * from './scripts/accordion';
 export * from './termine';
 
+/* @ts-ignore: Ignore file is not a module. */
+export * from 'bootstrap';
 /* @ts-ignore: Ignore file is not a module. */
 export * from 'lightgallery';
 /* @ts-expect-error: Ignore file is not a module. */

@@ -8,8 +8,12 @@ require_once __DIR__.'/../../model/AuthRequest.php';
 require_once __DIR__.'/../../model/User.php';
 
 class LoginEndpoint extends Endpoint {
-    public function __construct($entityManager) {
-        $this->entityManager = $entityManager;
+    public function setEntityManager($new_entity_manager) {
+        $this->entityManager = $new_entity_manager;
+    }
+
+    public static function getIdent() {
+        return 'LoginEndpoint';
     }
 
     public function getResponseFields() {

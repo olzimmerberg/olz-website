@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithStravaEndpoint.php';
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
@@ -58,9 +60,17 @@ class FakeSignUpWithStravaEndpointAuthRequestRepository {
  * @covers \SignUpWithStravaEndpoint
  */
 final class SignUpWithStravaEndpointTest extends TestCase {
+    public function testSignUpWithStravaEndpointIdent(): void {
+        $endpoint = new SignUpWithStravaEndpoint();
+        $this->assertSame('SignUpWithStravaEndpoint', $endpoint->getIdent());
+    }
+
     public function testSignUpWithStravaEndpointWithoutInput(): void {
         $entity_manager = new FakeSignUpWithStravaEndpointEntityManager();
-        $endpoint = new SignUpWithStravaEndpoint($entity_manager);
+        $logger = new Logger('SignUpWithStravaEndpointTest');
+        $endpoint = new SignUpWithStravaEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setLogger($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -85,10 +95,13 @@ final class SignUpWithStravaEndpointTest extends TestCase {
 
     public function testSignUpWithStravaEndpointWithValidData(): void {
         $entity_manager = new FakeSignUpWithStravaEndpointEntityManager();
-        $endpoint = new SignUpWithStravaEndpoint($entity_manager);
+        $logger = new Logger('SignUpWithStravaEndpointTest');
+        $endpoint = new SignUpWithStravaEndpoint();
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
             'stravaUser' => 'fakeStravaUser',

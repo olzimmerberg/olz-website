@@ -14,12 +14,18 @@ final class ValidationErrorTest extends TestCase {
     public function testValidationError(): void {
         $error = new ValidationError(['test_field' => ['Error 1', 'Error 2']]);
         $this->assertSame(['test_field' => ['Error 1', 'Error 2']], $error->getValidationErrors());
-        $this->assertSame(['test_field' => ['Error 1', 'Error 2']], $error->getStructuredAnswer());
+        $this->assertSame([
+            'type' => 'ValidationError',
+            'validationErrors' => ['test_field' => ['Error 1', 'Error 2']],
+        ], $error->getStructuredAnswer());
     }
 
     public function testEmptyValidationError(): void {
         $error = new ValidationError([]);
         $this->assertSame([], $error->getValidationErrors());
-        $this->assertSame([], $error->getStructuredAnswer());
+        $this->assertSame([
+            'type' => 'ValidationError',
+            'validationErrors' => [],
+        ], $error->getStructuredAnswer());
     }
 }

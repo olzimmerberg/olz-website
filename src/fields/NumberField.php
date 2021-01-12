@@ -39,4 +39,8 @@ class NumberField extends Field {
         }
         return $validation_errors;
     }
+
+    public function getTypeScriptType() {
+        return $this->getAllowNull() ? 'number|null' : 'number';
+    }
 }

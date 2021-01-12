@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/StringField.php';
  * @covers \StringField
  */
 final class StringFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new StringField('fake', []);
+        $this->assertSame('string', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new StringField('fake', ['allow_null' => true]);
+        $this->assertSame('string|null', $field->getTypeScriptType());
+    }
+
     public function testAllowEmptyDefault(): void {
         $field = new StringField('fake', []);
         $this->assertSame(false, $field->getAllowEmpty());

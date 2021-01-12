@@ -1,16 +1,21 @@
+import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
 
 $(() => {
     $('#login-modal').on('shown.bs.modal', () => {
+        console.log('LOGIN');
         $('#login-username-input').trigger('focus');
     });
 });
 
 export function olzLoginModalLogin() {
-    const username = $('#login-username-input').val();
-    const password = $('#login-password-input').val();
-    $.post('/_/api/index.php/login', JSON.stringify({username, password}))
-        .done(data => {
-            const response = JSON.parse(data);
+    const username = String($('#login-username-input').val());
+    const password = String($('#login-password-input').val());
+
+    callOlzApi(
+        OlzApiEndpoint.login,
+        {username, password},
+    )
+        .then(response => {
             if (response.status === 'AUTHENTICATED') {
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();
@@ -18,8 +23,7 @@ export function olzLoginModalLogin() {
                 $('#login-message').text(response.status);
             }
         })
-        .fail(data => {
-            const response = JSON.parse(data.responseText);
-            $('#login-message').text(response);
+        .catch(err => {
+            $('#login-message').text(err.message);
         });
 }

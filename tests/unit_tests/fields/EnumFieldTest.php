@@ -11,6 +11,16 @@ require_once __DIR__.'/../../../src/fields/EnumField.php';
  * @covers \EnumField
  */
 final class EnumFieldTest extends TestCase {
+    public function testTypeScriptType(): void {
+        $field = new EnumField('fake', ['allowed_values' => ['one', 'two', 'three']]);
+        $this->assertSame('\'one\'|\'two\'|\'three\'', $field->getTypeScriptType());
+    }
+
+    public function testTypeScriptTypeWithNullAllowed(): void {
+        $field = new EnumField('fake', ['allowed_values' => ['one', 'two', 'three'], 'allow_null' => true]);
+        $this->assertSame('\'one\'|\'two\'|\'three\'|null', $field->getTypeScriptType());
+    }
+
     public function testAllowedValuesDefault(): void {
         $field = new EnumField('fake', []);
         $this->assertSame([], $field->getAllowedValues());

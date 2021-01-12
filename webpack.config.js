@@ -3,6 +3,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const defaultConfig = {
     mode: 'development',
@@ -36,11 +37,17 @@ const defaultConfig = {
             },
         ],
     },
+    resolve: {
+        extensions: ['.d.ts', '.ts', '.js', '.json'],
+    },
     plugins: [
         new webpack.ProvidePlugin({
             '$':'jquery',
             'jQuery':'jquery',
             'window.jQuery':'jquery',
+        }),
+        new WebpackShellPlugin({
+            onBuildStart: ['php ./src/api/client/generate.php'],
         }),
     ],
     watchOptions: {

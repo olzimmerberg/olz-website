@@ -4,6 +4,10 @@ require_once __DIR__.'/../common/Endpoint.php';
 require_once __DIR__.'/../../fields/EnumField.php';
 
 class LogoutEndpoint extends Endpoint {
+    public static function getIdent() {
+        return 'LogoutEndpoint';
+    }
+
     public function getResponseFields() {
         return [
             new EnumField('status', ['allowed_values' => [

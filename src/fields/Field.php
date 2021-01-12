@@ -34,4 +34,8 @@ class Field {
         }
         return $validation_errors;
     }
+
+    public function getTypeScriptType() {
+        return 'any';
+    }
 }

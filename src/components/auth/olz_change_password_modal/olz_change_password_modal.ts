@@ -1,3 +1,4 @@
+import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
 
 $(() => {
     $('#change-password-modal').on('shown.bs.modal', () => {
@@ -15,17 +16,19 @@ export function olzChangePasswordModalUpdate(userId, form) {
         return;
     }
 
-    $.post('/_/api/index.php/updatePassword', JSON.stringify({oldPassword, newPassword, id: userId}))
-        .done(data => {
-            const response = JSON.parse(data);
+    callOlzApi(
+        OlzApiEndpoint.updatePassword,
+        {oldPassword, newPassword, id: userId},
+    )
+        .then(response => {
             if (response.status === 'OK') {
+                /* @ts-expect-error: It actually has the modal property. */
                 $('#change-password-modal').modal('hide');
             } else {
                 $('#change-password-message').text(response.status);
             }
         })
-        .fail(data => {
-            const response = JSON.parse(data.responseText);
-            $('#change-password-message').text(response);
+        .catch(err => {
+            $('#change-password-message').text(err.message);
         });
 }

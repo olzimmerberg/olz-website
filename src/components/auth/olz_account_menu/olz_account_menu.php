@@ -25,6 +25,7 @@ if ($user) {
         echo "<a class='dropdown-item' href='webftp.php'>WebFTP</a>";
     }
     if ($_SESSION['auth'] == 'all') {
+        echo "<a class='dropdown-item' href='logs.php'>Logs</a>";
         echo "<a class='dropdown-item' href='results.php'>Online-Resultate</a>";
     }
     echo <<<'ZZZZZZZZZZ'

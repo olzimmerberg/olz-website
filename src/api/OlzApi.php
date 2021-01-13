@@ -144,6 +144,14 @@ class OlzApi {
                 });
                 return $endpoint;
             },
+            'getLogs' => function () {
+                require_once __DIR__.'/endpoints/GetLogsEndpoint.php';
+                $endpoint = new GetLogsEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
         ];
     }
 }

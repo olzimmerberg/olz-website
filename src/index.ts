@@ -9,8 +9,9 @@ import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
 import './bootstrap.scss';
 import './index.scss';
-import './konto_strava.scss';
 import './konto_passwort.scss';
+import './konto_strava.scss';
+import './logs.scss';
 import './profil.scss';
 import './styles.scss';
 
@@ -20,6 +21,7 @@ export * from './fuer_einsteiger';
 export * from './kontakt';
 export * from './konto_passwort';
 export * from './konto_strava';
+export * from './logs';
 export * from './profil';
 export * from './scripts/index';
 export * from './termine';

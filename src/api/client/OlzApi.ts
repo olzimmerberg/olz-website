@@ -13,6 +13,7 @@ export enum OlzApiEndpoint {
     signUpWithStrava = 'signUpWithStrava',
     linkTelegram = 'linkTelegram',
     onTelegram = 'onTelegram',
+    getLogs = 'getLogs',
 }
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
@@ -82,6 +83,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         authenticityCode: string,
         telegramEvent: string,
     },
+    getLogs: {
+        logType: 'ACCESS'|'ERROR',
+        index: number,
+    },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -126,6 +131,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         chatLink: string,
     },
     onTelegram: {
+    },
+    getLogs: {
+        content: string,
     },
 }
 

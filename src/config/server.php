@@ -29,6 +29,10 @@ class ServerConfig {
     private $facebook_app_id;
     private $facebook_app_secret;
 
+    private $telegram_bot_name;
+    private $telegram_bot_token;
+    private $telegram_authenticity_code;
+
     public function configure($config_dict) {
         $this->mysql_host = $config_dict['mysql_host'] ?? $this->mysql_host;
         $this->mysql_port = $config_dict['mysql_port'] ?? $this->mysql_port;
@@ -51,6 +55,10 @@ class ServerConfig {
 
         $this->facebook_app_id = $config_dict['facebook_app_id'] ?? $this->facebook_app_id;
         $this->facebook_app_secret = $config_dict['facebook_app_secret'] ?? $this->facebook_app_secret;
+
+        $this->telegram_bot_name = $config_dict['telegram_bot_name'] ?? $this->telegram_bot_name;
+        $this->telegram_bot_token = $config_dict['telegram_bot_token'] ?? $this->telegram_bot_token;
+        $this->telegram_authenticity_code = $config_dict['telegram_authenticity_code'] ?? $this->telegram_authenticity_code;
     }
 
     public function getMysqlHost() {
@@ -115,6 +123,18 @@ class ServerConfig {
 
     public function getFacebookAppSecret() {
         return $this->facebook_app_secret;
+    }
+
+    public function getTelegramBotName() {
+        return $this->telegram_bot_name;
+    }
+
+    public function getTelegramBotToken() {
+        return $this->telegram_bot_token;
+    }
+
+    public function getTelegramAuthenticityCode() {
+        return $this->telegram_authenticity_code;
     }
 }
 

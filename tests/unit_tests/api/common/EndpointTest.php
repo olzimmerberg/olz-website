@@ -52,6 +52,7 @@ class FakeEndpoint extends Endpoint {
 
 class FakeEndpointWithErrors extends Endpoint {
     public $handle_with_error;
+    public $handle_with_http_error;
     public $handle_with_output;
 
     public static function getIdent() {
@@ -74,6 +75,9 @@ class FakeEndpointWithErrors extends Endpoint {
         if ($this->handle_with_error) {
             throw new Exception("Fake Error", 1);
         }
+        if ($this->handle_with_http_error) {
+            throw new HttpError(418, "I'm a teapot");
+        }
         return $this->handle_with_output;
     }
 }
@@ -88,11 +92,6 @@ final class EndpointTest extends TestCase {
         $fake_server = ['name' => 'fake'];
         $logger = new Logger('EndpointTest');
         $endpoint = new FakeEndpoint('fake_resource');
-        global $setup_called;
-        $endpoint->setSetupFunction(function ($endpoint) {
-            $endpoint->setupCalled = true;
-        });
-        $endpoint->setup();
         $endpoint->handle_with_output = ['output' => 'test_output'];
         $endpoint->setSession($memory_session);
         $endpoint->setServer($fake_server);
@@ -103,6 +102,41 @@ final class EndpointTest extends TestCase {
         $this->assertSame('fake_resource', $endpoint->handled_with_resource);
         $this->assertSame($memory_session, $endpoint->getSession());
         $this->assertSame($fake_server, $endpoint->getServer());
+    }
+
+    public function testFakeEndpointSetDefaultFileLogger(): void {
+        $endpoint = new FakeEndpoint('fake_resource');
+        $endpoint->setDefaultFileLogger();
+        try {
+            $result = $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(500, $err->getCode());
+        }
+    }
+
+    public function testFakeEndpointParseInput(): void {
+        global $_GET, $_POST;
+        $_GET = ['get_param' => json_encode('got')];
+        $_POST = ['post_param' => json_encode('posted')];
+        $endpoint = new FakeEndpoint('fake_resource');
+        $parsed_input = $endpoint->parseInput();
+        $this->assertSame(['post_param' => 'posted', 'get_param' => 'got'], $parsed_input);
+    }
+
+    public function testFakeEndpointSetupFunction(): void {
+        global $_GET, $_POST;
+        $endpoint = new FakeEndpoint('fake_resource');
+        try {
+            $endpoint->setup();
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame('Setup function must be set', $exc->getMessage());
+        }
+        $endpoint->setSetupFunction(function ($endpoint) {
+            $endpoint->setupCalled = true;
+        });
+        $endpoint->setup();
         $this->assertSame(true, $endpoint->setupCalled);
     }
 
@@ -128,6 +162,19 @@ final class EndpointTest extends TestCase {
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame(500, $err->getCode());
+        }
+    }
+
+    public function testFakeEndpointWithExecutionHttpError(): void {
+        $logger = new Logger('EndpointTest');
+        $endpoint = new FakeEndpointWithErrors();
+        $endpoint->setLogger($logger);
+        $endpoint->handle_with_http_error = true;
+        try {
+            $result = $endpoint->call(['input' => 'test']);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(418, $err->getCode());
         }
     }
 

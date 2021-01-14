@@ -19,8 +19,18 @@ $user = $user_repo->findOneBy(['username' => $username]);
 
 echo "<div id='content_double'>";
 if ($user) {
-    $esc_id = htmlentities(json_encode($user->getId()));
+    $user_id = $user->getId();
+    $esc_id = htmlentities(json_encode($user_id));
     echo <<<ZZZZZZZZZZ
+    <a 
+        href='#'
+        role='button'
+        data-toggle='modal'
+        data-target='#link-telegram-modal'
+    >
+        Telegram-Infos aktivieren
+    </a>
+
     <form id='profile-form' onsubmit='return olzProfileUpdateUser({$esc_id}, this)'>
         <div id='profile-update-success-message' class='alert alert-success' role='alert'></div>
         <input

@@ -2,7 +2,7 @@
 
 function api_respond($http_code, $response) {
     http_response_code($http_code);
-    die(json_encode($response));
+    exit(json_encode($response));
 }
 
 function sanitized_endpoint_name_from_path_info($path_info) {

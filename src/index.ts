@@ -43,6 +43,7 @@ export function loaded() {
     for (const key of Object.keys(olz)) {
         window[key] = olz[key];
     }
+    window['$'] = $;
 
     $(() => {
         /* @ts-expect-error: lightGallery does actually exist! */

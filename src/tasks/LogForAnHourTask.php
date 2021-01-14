@@ -3,11 +3,11 @@
 require_once __DIR__.'/common/BackgroundTask.php';
 
 class LogForAnHourTask extends BackgroundTask {
-    protected static function get_ident() {
+    protected static function getIdent() {
         return "LogForAnHour";
     }
 
-    protected function run_specific_task() {
+    protected function runSpecificTask() {
         $success = set_time_limit(4000);
         if ($success) {
             $this->logger->info("Successfully set time limit");

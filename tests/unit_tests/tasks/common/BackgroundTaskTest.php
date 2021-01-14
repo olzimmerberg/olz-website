@@ -22,11 +22,11 @@ class FakeTask extends BackgroundTask {
         $this->teardown_called = true;
     }
 
-    protected static function get_ident() {
+    protected static function getIdent() {
         return "FakeTask";
     }
 
-    protected function run_specific_task() {
+    protected function runSpecificTask() {
         $this->task_run = true;
     }
 }
@@ -34,11 +34,11 @@ class FakeTask extends BackgroundTask {
 class FakeTaskWithoutSetupTeardown extends BackgroundTask {
     public $task_run = false;
 
-    protected static function get_ident() {
+    protected static function getIdent() {
         return "FakeTaskWithoutSetupTeardown";
     }
 
-    protected function run_specific_task() {
+    protected function runSpecificTask() {
         $this->task_run = true;
     }
 }
@@ -46,11 +46,11 @@ class FakeTaskWithoutSetupTeardown extends BackgroundTask {
 class FakeFailingTask extends BackgroundTask {
     public $task_run = false;
 
-    protected static function get_ident() {
+    protected static function getIdent() {
         return "FakeFailingTask";
     }
 
-    protected function run_specific_task() {
+    protected function runSpecificTask() {
         $this->task_run = true;
         throw new Exception("Fake Error", 1);
     }
@@ -73,7 +73,7 @@ final class BackgroundTaskTest extends TestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTask.txt', $job->generate_log_path());
+        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTask.txt', $job->generateLogPath());
         $this->assertSame(true, $job->setup_called);
         $this->assertSame(true, $job->task_run);
         $this->assertSame(true, $job->teardown_called);
@@ -93,7 +93,7 @@ final class BackgroundTaskTest extends TestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTaskWithoutSetupTeardown.txt', $job->generate_log_path());
+        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTaskWithoutSetupTeardown.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
 
         $data_path = $previous_data_path;
@@ -111,7 +111,7 @@ final class BackgroundTaskTest extends TestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeFailingTask.txt', $job->generate_log_path());
+        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeFailingTask.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
 
         $data_path = $previous_data_path;

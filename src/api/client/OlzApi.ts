@@ -8,6 +8,8 @@ export enum OlzApiEndpoint {
     signUpWithPassword = 'signUpWithPassword',
     loginWithStrava = 'loginWithStrava',
     signUpWithStrava = 'signUpWithStrava',
+    linkTelegram = 'linkTelegram',
+    onTelegram = 'onTelegram',
 }
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
@@ -65,6 +67,12 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         region: string,
         countryCode: string,
     },
+    linkTelegram: {
+    },
+    onTelegram: {
+        authenticityCode: string,
+        telegramEvent: string,
+    },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -100,6 +108,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     },
     signUpWithStrava: {
         status: 'OK',
+    },
+    linkTelegram: {
+        chatLink: string,
+    },
+    onTelegram: {
     },
 }
 

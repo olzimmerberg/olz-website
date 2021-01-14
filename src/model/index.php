@@ -30,6 +30,8 @@ require_once __DIR__.'/SolvResult.php';
 require_once __DIR__.'/SolvResultRepository.php';
 require_once __DIR__.'/StravaLink.php';
 require_once __DIR__.'/StravaLinkRepository.php';
+require_once __DIR__.'/TelegramLink.php';
+require_once __DIR__.'/TelegramLinkRepository.php';
 require_once __DIR__.'/Termin.php';
 require_once __DIR__.'/User.php';
 require_once __DIR__.'/UserRepository.php';

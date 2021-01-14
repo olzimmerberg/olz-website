@@ -7,6 +7,8 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
+global $_CONFIG;
+
 require_once __DIR__.'/server.php';
 require_once __DIR__.'/database.php';
 require_once __DIR__.'/doctrine.php';

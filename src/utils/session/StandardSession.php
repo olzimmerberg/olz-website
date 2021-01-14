@@ -13,7 +13,11 @@ class StandardSession extends AbstractSession {
         if (!$was_successful) {
             throw new Exception("Could not create session.");
         }
+        // @codeCoverageIgnoreStart
+        // Reason: PHPSESSID cookie cannot be sent in tests.
     }
+
+    // @codeCoverageIgnoreEnd
 
     public function has($key) {
         return isset($_SESSION[$key]);

@@ -35,11 +35,11 @@ class SyncSolvTask extends BackgroundTask {
         $this->solvPeopleMerger = $new_solv_people_merger;
     }
 
-    protected static function get_ident() {
+    protected static function getIdent() {
         return "SyncSolv";
     }
 
-    protected function run_specific_task() {
+    protected function runSpecificTask() {
         $this->syncSolvEvents();
         $this->syncSolvResults();
         $this->assignSolvPeople();

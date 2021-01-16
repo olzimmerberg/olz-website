@@ -3,11 +3,13 @@
 Hier ist definiert, was in der Datenbank gespeichert werden soll.
 Beim Verändern dieser Modelle muss eine Datenbank-Migration erstellt werden,
 falls sich die Datenbank-Struktur verändert hat, oder Daten transformiert
-werden müssen.
+werden müssen:
+
+`./migrations.sh diff`
 
 ## Gut zu wissen
 
-### `unique=true`
+### Keine Indexe mit `text` Feldern!
 
 `unique=true` sollte nicht verwendet werden, zumindest nicht bei Feldern des
 Typs `text`. Die Datenbank von unserem Hoster unterstützt das resultierende SQL

@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20201123220256
+-- MIGRATION: OLZ\Migrations\Version20210116164757
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -44,7 +44,8 @@ VALUES
     ('OLZ\\Migrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
     ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
     ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48'),
-    ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584');
+    ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584'),
+    ('OLZ\\Migrations\\Version20210116164757', '2021-01-16 16:48:06', '577');
 
 -- Table downloads
 
@@ -176,6 +177,8 @@ VALUES
     ('6', '4', '7411', 'DAK', '6', 'Regula Richterswiler', '96', 'Richterswil', 'OL Zimmerberg', '4321', '', '43', '3200', '120', '15', '45');
 
 -- Table strava_links
+
+-- Table telegram_links
 
 -- Table termine
 INSERT INTO termine

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20201123220256
+-- MIGRATION: OLZ\Migrations\Version20210116164757
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -573,10 +573,31 @@ CREATE TABLE `strava_links` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `telegram_links` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `pin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pin_expires_at` datetime DEFAULT NULL,
+  `telegram_chat_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telegram_user_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telegram_chat_state` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `linked_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pin_index` (`pin`),
+  KEY `user_id_index` (`user_id`),
+  KEY `telegram_user_id_index` (`telegram_user_id`),
+  KEY `telegram_chat_id_index` (`telegram_chat_id`),
+  CONSTRAINT `FK_CC49A25AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `old_username` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -593,7 +614,8 @@ CREATE TABLE `users` (
   `country_code` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'two-letter code (ISO-3166-alpha-2)',
   `birthdate` date DEFAULT NULL,
   `phone` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `username_index` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

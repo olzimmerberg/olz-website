@@ -20,37 +20,37 @@ abstract class BackgroundTask {
     }
 
     public function setDefaultFileLogger() {
-        $log_path = $this->generate_log_path();
+        $log_path = $this->generateLogPath();
         if (!is_dir(dirname($log_path))) {
             mkdir(dirname($log_path), 0777, true);
         }
-        $logger = new Logger($this->get_ident());
+        $logger = new Logger($this->getIdent());
         $logger->pushHandler(new StreamHandler($log_path, Logger::INFO));
         $this->setLogger($logger);
     }
 
     public function run() {
-        $this->logger->info("Setup task {$this->get_ident()}...");
+        $this->logger->info("Setup task {$this->getIdent()}...");
         $this->setup();
         try {
-            $this->logger->info("Running task {$this->get_ident()}...");
-            $this->run_specific_task();
-            $this->logger->info("Finished task {$this->get_ident()}.");
+            $this->logger->info("Running task {$this->getIdent()}...");
+            $this->runSpecificTask();
+            $this->logger->info("Finished task {$this->getIdent()}.");
         } catch (Exception $exc) {
-            $this->logger->error("Error running task {$this->get_ident()}.", [$exc]);
+            $this->logger->error("Error running task {$this->getIdent()}.", [$exc]);
         } finally {
-            $this->logger->info("Teardown task {$this->get_ident()}...");
+            $this->logger->info("Teardown task {$this->getIdent()}...");
             $this->teardown();
         }
     }
 
-    public function generate_log_path() {
+    public function generateLogPath() {
         global $data_path;
         $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
-        return "{$data_path}tasks/log_{$timestamp}_{$this->get_ident()}.txt";
+        return "{$data_path}tasks/log_{$timestamp}_{$this->getIdent()}.txt";
     }
 
-    abstract protected static function get_ident();
+    abstract protected static function getIdent();
 
-    abstract protected function run_specific_task();
+    abstract protected function runSpecificTask();
 }

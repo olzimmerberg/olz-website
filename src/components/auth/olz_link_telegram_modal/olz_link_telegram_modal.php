@@ -1,0 +1,42 @@
+<?php
+
+require_once __DIR__.'/../../../utils/client/UserAgentUtils.php';
+
+$user_agent_utils = getUserAgentUtilsFromEnv();
+
+$install_instructions = "<li>Installiere die Telegram-App auf deinem Smartphone</li>";
+if ($user_agent_utils->isAndroidDevice() || $user_agent_utils->isIOsDevice()) {
+    $install_instructions = "<li><a href='https://telegram.org/dl/' target='_blank'>Installiere die Telegram-App</a></li>";
+}
+
+echo <<<ZZZZZZZZZZ
+<div class='modal fade' id='link-telegram-modal' tabindex='-1' aria-labelledby='link-telegram-modal-label' aria-hidden='true'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='link-telegram-modal-label'>Telegram-Infos aktivieren</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-body'>
+                <center>
+                    <div class='telegram-circle'>
+                        <img src='{$code_href}icns/login_telegram.svg' alt=''>
+                    </div>
+                </center>
+                <ol class='todo-list'>
+                    {$install_instructions}
+                    <li>
+                        <span id='chat-link-wait'>Bitte warten...</span>
+                        <span id='chat-link-ready'>Öffne <a href='' target='_blank' id='telegram-chat-link'>deinen persönlichen OLZ-Info-Chat</a></span>
+                    </li>
+                </ol>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Schliessen</button>
+            </div>
+        </div>
+    </div>
+</div>
+ZZZZZZZZZZ;

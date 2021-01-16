@@ -35,6 +35,31 @@ abstract class Endpoint {
         $this->setupFunction = $new_setup_function;
     }
 
+    public function parseInput() {
+        global $_GET, $_POST;
+        $input = [];
+        $json_input = json_decode(file_get_contents('php://input'), true);
+        if (is_array($json_input)) {
+            // @codeCoverageIgnoreStart
+            // Reason: php://input cannot be mocked.
+            foreach ($json_input as $key => $value) {
+                $input[$key] = $value;
+            }
+            // @codeCoverageIgnoreEnd
+        }
+        if (is_array($_POST)) {
+            foreach ($_POST as $key => $value) {
+                $input[$key] = json_decode($value, true);
+            }
+        }
+        if (is_array($_GET)) {
+            foreach ($_GET as $key => $value) {
+                $input[$key] = json_decode($value, true);
+            }
+        }
+        return $input;
+    }
+
     public function call($raw_input) {
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
@@ -45,6 +70,8 @@ abstract class Endpoint {
 
         try {
             $raw_result = $this->handle($validated_input);
+        } catch (HttpError $http_error) {
+            throw $http_error;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->logger->critical("Unexpected endpoint error: {$message}", $exc->getTrace());

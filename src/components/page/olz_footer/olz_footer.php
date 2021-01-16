@@ -12,6 +12,7 @@ echo "</div>"; // site-container
 include __DIR__.'/../../auth/olz_login_modal/olz_login_modal.php';
 include __DIR__.'/../../auth/olz_sign_up_modal/olz_sign_up_modal.php';
 include __DIR__."/../../auth/olz_change_password_modal/olz_change_password_modal.php";
+include __DIR__."/../../auth/olz_link_telegram_modal/olz_link_telegram_modal.php";
 
 echo "</body>
 </html>";

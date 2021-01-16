@@ -63,6 +63,7 @@ class OlzApi {
                 $endpoint->setSetupFunction(function ($endpoint) {
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../utils/auth/StravaUtils.php';
                     $strava_utils = getStravaUtilsFromEnv();
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setStravaUtils($strava_utils);
@@ -78,6 +79,34 @@ class OlzApi {
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
+            'linkTelegram' => function () {
+                require_once __DIR__.'/endpoints/LinkTelegramEndpoint.php';
+                $endpoint = new LinkTelegramEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
+                    require_once __DIR__.'/../config/doctrine_db.php';
+                    require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../utils/notify/TelegramUtils.php';
+                    $telegram_utils = getTelegramUtilsFromEnv();
+                    $endpoint->setEntityManager($entityManager);
+                    $endpoint->setTelegramUtils($telegram_utils);
+                    $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
+            'onTelegram' => function () {
+                require_once __DIR__.'/endpoints/OnTelegramEndpoint.php';
+                $endpoint = new OnTelegramEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../utils/notify/TelegramUtils.php';
+                    $telegram_utils = getTelegramUtilsFromEnv();
+                    $endpoint->setTelegramUtils($telegram_utils);
+                    $endpoint->setServerConfig($_CONFIG);
                 });
                 return $endpoint;
             },

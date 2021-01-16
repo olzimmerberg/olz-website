@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(
  *     name="users",
+ *     indexes={
+ *         @ORM\Index(name="username_index", columns={"username"}),
+ *     },
  * )
  */
 class User {
@@ -14,11 +17,11 @@ class User {
      */
     public $id;
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      */
     public $username;
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     public $old_username;
     /**

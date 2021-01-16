@@ -24,7 +24,7 @@ if (!$res) {
     rename($zip_path, "./invalid_deploy_{$date}.zip");
     unlink($php_path);
     http_response_code(500);
-    die("Could not unzip deploy.zip\n");
+    exit("Could not unzip deploy.zip\n");
 }
 mkdir($unzip_path, 0777, true);
 $zip->extractTo($unzip_path);
@@ -37,7 +37,7 @@ if (!is_dir($current_deployment_unzip_path)) {
     rename($unzip_path, "./invalid_unzip_{$date}");
     unlink($php_path);
     http_response_code(500);
-    die("Invalid zip content: unzip/deploy/ not found\n");
+    exit("Invalid zip content: unzip/deploy/ not found\n");
 }
 
 // Move the code to the appropriate destination.

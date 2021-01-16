@@ -19,7 +19,7 @@ if (!isset($_DATE_UTILS)) {
         require_once __DIR__.'/../utils/date/LiveDateUtils.php';
         $_DATE_UTILS = new LiveDateUtils();
     } else {
-        die("Invalid date utils class name: {$class_name}");
+        exit("Invalid date utils class name: {$class_name}");
     }
 }
 

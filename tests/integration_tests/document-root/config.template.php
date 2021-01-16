@@ -27,4 +27,8 @@ $_CONFIG->configure([
 
     'facebook_app_id' => '1234567890123456',
     'facebook_app_secret' => '0123456789abcdef0123456789abcdef',
+
+    'telegram_bot_name' => 'olz_bot',
+    'telegram_bot_token' => '123456789:abcdefghijklmnopqrstuvwxyz123456789',
+    'telegram_authenticity_code' => 'this_is_just_local',
 ]);

@@ -75,14 +75,14 @@ abstract class Endpoint {
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->logger->critical("Unexpected endpoint error: {$message}", $exc->getTrace());
-            throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.");
+            throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.", $exc);
         }
 
         try {
             $validated_result = backend_validate($this->getResponseFields(), $raw_result);
         } catch (ValidationError $verr) {
             $this->logger->critical("Bad output prohibited", $verr->getStructuredAnswer());
-            throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.");
+            throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.", $verr);
         }
 
         return $validated_result;

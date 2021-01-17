@@ -22,7 +22,7 @@ final class HttpErrorTest extends TestCase {
         ], $error->getStructuredAnswer());
     }
 
-    public function testHttpErrorOfValidationError(): void {
+    public function testHttpErrorOfInputValidationError(): void {
         $validation_error = new ValidationError([]);
         $error = new HttpError(400, 'Bad Request', $validation_error);
         $this->assertSame(400, $error->getCode());
@@ -33,6 +33,16 @@ final class HttpErrorTest extends TestCase {
                 'type' => 'ValidationError',
                 'validationErrors' => [],
             ],
+        ], $error->getStructuredAnswer());
+    }
+
+    public function testHttpErrorOfOutputValidationError(): void {
+        $validation_error = new ValidationError([]);
+        $error = new HttpError(500, 'Server Internal Error', $validation_error);
+        $this->assertSame(500, $error->getCode());
+        $this->assertSame('Server Internal Error', $error->getMessage());
+        $this->assertSame([
+            'message' => 'Server Internal Error',
         ], $error->getStructuredAnswer());
     }
 }

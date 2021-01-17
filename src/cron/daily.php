@@ -14,6 +14,8 @@ function run_daily() {
     $job = new SyncSolvTask($entityManager, $solv_fetcher, $date_utils);
     $job->setDefaultFileLogger();
     $job->run();
+
+    throw new Exception("run_daily (src/cron/...) is deprecated!");
 }
 
 throttle('cron_daily', 'run_daily', [], 12 * 3600);

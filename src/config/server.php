@@ -20,6 +20,8 @@ class ServerConfig {
 
     private $database_backup_key;
 
+    private $cron_authenticity_code;
+
     private $strava_client_id;
     private $strava_client_secret;
 
@@ -46,6 +48,8 @@ class ServerConfig {
         $this->date_utils_class_args = $config_dict['date_utils_class_args'] ?? $this->date_utils_class_args;
 
         $this->database_backup_key = $config_dict['database_backup_key'] ?? $this->database_backup_key;
+
+        $this->cron_authenticity_code = $config_dict['cron_authenticity_code'] ?? $this->cron_authenticity_code;
 
         $this->strava_client_id = $config_dict['strava_client_id'] ?? $this->strava_client_id;
         $this->strava_client_secret = $config_dict['strava_client_secret'] ?? $this->strava_client_secret;
@@ -99,6 +103,10 @@ class ServerConfig {
 
     public function getDatabaseBackupKey() {
         return $this->database_backup_key;
+    }
+
+    public function getCronAuthenticityCode() {
+        return $this->cron_authenticity_code;
     }
 
     public function getStravaClientId() {

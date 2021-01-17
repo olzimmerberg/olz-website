@@ -5,6 +5,40 @@ class OlzApi {
 
     public function __construct() {
         $this->endpoints = [
+            'onDaily' => function () {
+                require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
+                $endpoint = new OnDailyEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/doctrine_db.php';
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../fetchers/SolvFetcher.php';
+                    require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../tasks/SyncSolvTask.php';
+                    require_once __DIR__.'/../utils/date/LiveDateUtils.php';
+                    $date_utils = new LiveDateUtils();
+                    $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
+                    $sync_solv_task->setDefaultFileLogger();
+                    $sync_solv_task->run();
+                    $endpoint->setSyncSolvTask($sync_solv_task);
+                    $endpoint->setDateUtils($date_utils);
+                    $endpoint->setServerConfig($_CONFIG);
+                });
+                return $endpoint;
+            },
+            'onContinuously' => function () {
+                require_once __DIR__.'/endpoints/OnContinuouslyEndpoint.php';
+                $endpoint = new OnContinuouslyEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../utils/date/LiveDateUtils.php';
+                    $date_utils = new LiveDateUtils();
+                    $endpoint->setDateUtils($date_utils);
+                    $endpoint->setServerConfig($_CONFIG);
+                });
+                return $endpoint;
+            },
             'login' => function () {
                 require_once __DIR__.'/endpoints/LoginEndpoint.php';
                 $endpoint = new LoginEndpoint();

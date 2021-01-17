@@ -26,4 +26,6 @@ function throttle($ident, $function, $args, $interval) {
         http_response_code(429);
         echo "HTTP Error 429 Too Many Requests";
     }
+
+    throw new Exception("throttle (src/cron/...) is deprecated!");
 }

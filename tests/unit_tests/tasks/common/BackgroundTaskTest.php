@@ -62,9 +62,11 @@ class FakeFailingTask extends BackgroundTask {
  */
 final class BackgroundTaskTest extends TestCase {
     public function testBackgroundTask(): void {
-        global $data_path;
-        $previous_data_path = $data_path;
-        $data_path = '/fake/data/path/';
+        global $_SERVER;
+        $previous_document_root = $_SERVER['DOCUMENT_ROOT'] ?? null;
+        $previous_http_host = $_SERVER['HTTP_HOST'] ?? null;
+        $_SERVER['DOCUMENT_ROOT'] = '/fake/data/path';
+        $_SERVER['HTTP_HOST'] = 'fake-host';
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -78,13 +80,16 @@ final class BackgroundTaskTest extends TestCase {
         $this->assertSame(true, $job->task_run);
         $this->assertSame(true, $job->teardown_called);
 
-        $data_path = $previous_data_path;
+        $_SERVER['DOCUMENT_ROOT'] = $previous_document_root;
+        $_SERVER['HTTP_HOST'] = $previous_http_host;
     }
 
     public function testTaskWithoutSetupTeardown(): void {
-        global $data_path;
-        $previous_data_path = $data_path;
-        $data_path = '/fake/data/path/';
+        global $_SERVER;
+        $previous_document_root = $_SERVER['DOCUMENT_ROOT'] ?? null;
+        $previous_http_host = $_SERVER['HTTP_HOST'] ?? null;
+        $_SERVER['DOCUMENT_ROOT'] = '/fake/data/path';
+        $_SERVER['HTTP_HOST'] = 'fake-host';
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -96,13 +101,16 @@ final class BackgroundTaskTest extends TestCase {
         $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTaskWithoutSetupTeardown.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
 
-        $data_path = $previous_data_path;
+        $_SERVER['DOCUMENT_ROOT'] = $previous_document_root;
+        $_SERVER['HTTP_HOST'] = $previous_http_host;
     }
 
     public function testFailingTask(): void {
-        global $data_path;
-        $previous_data_path = $data_path;
-        $data_path = '/fake/data/path/';
+        global $_SERVER;
+        $previous_document_root = $_SERVER['DOCUMENT_ROOT'] ?? null;
+        $previous_http_host = $_SERVER['HTTP_HOST'] ?? null;
+        $_SERVER['DOCUMENT_ROOT'] = '/fake/data/path';
+        $_SERVER['HTTP_HOST'] = 'fake-host';
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -114,6 +122,7 @@ final class BackgroundTaskTest extends TestCase {
         $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeFailingTask.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
 
-        $data_path = $previous_data_path;
+        $_SERVER['DOCUMENT_ROOT'] = $previous_document_root;
+        $_SERVER['HTTP_HOST'] = $previous_http_host;
     }
 }

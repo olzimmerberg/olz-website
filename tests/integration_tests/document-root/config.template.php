@@ -19,6 +19,8 @@ $_CONFIG->configure([
 
     'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
 
+    'cron_authenticity_code' => 'this_is_just_local',
+
     'strava_client_id' => '123456',
     'strava_client_secret' => '0123456789abcdef0123456789abcdef01234567',
 

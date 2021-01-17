@@ -30,7 +30,7 @@ class OnTelegramEndpoint extends Endpoint {
     }
 
     public function parseInput() {
-        global $_GET, $_POST;
+        global $_GET;
         $input = [
             'authenticityCode' => $_GET['authenticityCode'],
             'telegramEvent' => json_encode(json_decode(file_get_contents('php://input'), true)),

@@ -1,6 +1,8 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
 export enum OlzApiEndpoint {
+    onDaily = 'onDaily',
+    onContinuously = 'onContinuously',
     login = 'login',
     logout = 'logout',
     updateUser = 'updateUser',
@@ -15,6 +17,12 @@ export enum OlzApiEndpoint {
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
+    onDaily: {
+        authenticityCode: string,
+    },
+    onContinuously: {
+        authenticityCode: string,
+    },
     login: {
         username: string,
         password: string,
@@ -76,6 +84,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
+    onDaily: {
+    },
+    onContinuously: {
+    },
     login: {
         status: 'INVALID_CREDENTIALS'|'BLOCKED'|'AUTHENTICATED',
     },

@@ -4,7 +4,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
-require_once __DIR__.'/../../config/paths.php';
 
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;
@@ -46,6 +45,7 @@ abstract class BackgroundTask {
 
     public function generateLogPath() {
         global $data_path;
+        require __DIR__.'/../../config/paths.php';
         $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
         return "{$data_path}tasks/log_{$timestamp}_{$this->getIdent()}.txt";
     }

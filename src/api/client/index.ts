@@ -4,13 +4,13 @@ import {getValidationErrorFromResponseText} from './ValidationError';
 export {OlzApiEndpoint};
 
 export function callOlzApi<T extends OlzApiEndpoint>(
-    endpoint: T, 
+    endpoint: T,
     request: OlzApiRequests[T],
 ): Promise<OlzApiResponses[T]> {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: 'POST',
-            url: `/_/api/index.php/${endpoint}`, 
+            url: `/_/api/index.php/${endpoint}`,
             data: JSON.stringify(request),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -24,22 +24,22 @@ export function callOlzApi<T extends OlzApiEndpoint>(
                     const httpStatusCode = jqXHR.status;
                     console.log(`[OLZAPI] ${endpoint}: ${httpStatusCode} ${textStatus}`);
                     resolve(response);
-                }
+                },
             )
             .fail(
                 (
                     jqXHR: any,
                     textStatus: string,
-                    errorThrown: string,
+                    _errorThrown: string,
                 ) => {
                     const httpStatusCode = jqXHR.status;
                     console.warn(`[OLZAPI] ${endpoint}: ${httpStatusCode} ${textStatus}`);
                     const error = getValidationErrorFromResponseText(jqXHR.responseText);
                     if (!error) {
-                        reject(new Error("Ein Fehler ist aufgetreten. Bitte später nochmals versuchen."));
+                        reject(new Error('Ein Fehler ist aufgetreten. Bitte später nochmals versuchen.'));
                     }
                     reject(error);
-                }
+                },
             );
     });
 }

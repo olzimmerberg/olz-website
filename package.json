@@ -7,6 +7,7 @@
     "test": "tests"
   },
   "scripts": {
+    "eslint": "eslint ./src/ --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-build": "webpack --mode='production'",
     "webpack-watch": "webpack --watch"
@@ -29,8 +30,11 @@
     "@types/bootstrap": "^5.0.3",
     "@types/jquery": "^3.5.5",
     "@types/jqueryui": "^1.12.14",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "eslint": "^7.18.0",
     "file-loader": "^6.2.0",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",

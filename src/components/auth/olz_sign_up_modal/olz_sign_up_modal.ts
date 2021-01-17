@@ -1,4 +1,3 @@
-
 $(() => {
     $('#sign-up-modal').on('shown.bs.modal', () => {
         console.log('SIGN UP');

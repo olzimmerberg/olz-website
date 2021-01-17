@@ -72,6 +72,7 @@ final class ApiGeneratorTest extends TestCase {
         $expected_output = <<<'ZZZZZZZZZZ'
 /** ### This file is auto-generated, modifying is futile! ### */
 
+// eslint-disable-next-line no-shadow
 export enum FakeApiEndpoint {
     fakeEndpoint = 'fakeEndpoint',
 }

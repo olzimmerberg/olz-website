@@ -124,4 +124,4 @@ foreach ($_DATE_UTILS->getYearsForAccordion() as $tmp_jahr) {
 if (!isset($_GET["archiv"])) {
     echo "<a href='?archiv'><div class='AccordionTitle' onselectstart='return false;'>ältere...</div></a>";
 }
-echo "<script type='text/javascript'>openAccordion = \"Accordion".$_SESSION[$db_table.'jahr_']."Content\";</script>";
+echo "<script type='text/javascript'>setOpenAccordion(\"Accordion".$_SESSION[$db_table.'jahr_']."Content\");</script>";

@@ -12,8 +12,6 @@ require_once __DIR__.'/../config/database.php';
 
 $mail_from = 'noreply@olzimmerberg.ch'; // Absenderadresse wird als additional header in mail() benötigt
 
-echo '<script src="scripts/admin_db.js" type="text/javascript"></script>';
-
 //***************************************************
 //Formular zur Verwaltung der Mysql-Datenbanken
 //***************************************************

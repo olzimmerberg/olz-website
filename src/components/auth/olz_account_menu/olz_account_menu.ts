@@ -1,6 +1,6 @@
 import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
 
-export function olzAccountMenuLogout() {
+export function olzAccountMenuLogout(): void {
     callOlzApi(
         OlzApiEndpoint.logout,
         {},

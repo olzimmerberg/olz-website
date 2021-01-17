@@ -7,7 +7,7 @@ $(() => {
     });
 });
 
-export function olzLoginModalLogin() {
+export function olzLoginModalLogin(): void {
     const username = String($('#login-username-input').val());
     const password = String($('#login-password-input').val());
 
@@ -15,7 +15,7 @@ export function olzLoginModalLogin() {
         OlzApiEndpoint.login,
         {username, password},
     )
-        .then(response => {
+        .then((response) => {
             if (response.status === 'AUTHENTICATED') {
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();
@@ -23,7 +23,7 @@ export function olzLoginModalLogin() {
                 $('#login-message').text(response.status);
             }
         })
-        .catch(err => {
+        .catch((err) => {
             $('#login-message').text(err.message);
         });
 }

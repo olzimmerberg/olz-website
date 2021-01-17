@@ -60,11 +60,11 @@ jobs:
         name: prod-screenshots
         path: ./screenshots
 
-  run-php-tests:
+  run-tests:
     strategy:
       matrix:
         php-version: ['7.4'] # 7.4 is active on hosting
-    name: PHP tests (PHP ${{ matrix.php-version }})
+    name: Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -93,12 +93,26 @@ jobs:
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install dependencies
       run: composer install --dev --prefer-dist
+    - name: Get npm cache directory
+      id: npm-cache
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.npm-cache.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install JavaScript dependencies
+      run: npm install
     - name: Lint PHP
       run: cd ./ci; ./php-lint.sh
     - name: Indented with spaces
       run: cd ./ci; ./php-indent-spaces.sh
     - name: Code style check
       run: cd ./ci; ./php-code-style.sh
+    - name: Lint JavaScript & TypeScript
+      run: npm run eslint
     - name: PHP Unit Tests
       run: ./unit-test.sh; cat ./php-coverage/coverage.txt
     - name: PHP Integration Tests

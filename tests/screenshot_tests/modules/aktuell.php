@@ -32,11 +32,26 @@ function test_aktuell($driver, $base_url) {
     $text_input = $driver->findElement(
         WebDriverBy::cssSelector('#aktuelltextlang')
     );
-    $text_input->sendKeys('Detailierte Schilderung des Geschehnisses.');
+    $text_input->sendKeys("<BILD1>Detailierte Schilderung des Geschehnisses.\n<DATEI1 text='Artikel als PDF'>");
     $author_input = $driver->findElement(
         WebDriverBy::cssSelector('#aktuellautor')
     );
     $author_input->sendKeys('t.e., s.t.');
+    $upload_inputs = $driver->findElements(
+        WebDriverBy::cssSelector('input[type=file]')
+    );
+    $image_upload_input = $upload_inputs[0];
+    $image_path = realpath(__DIR__.'/../../../src/icns/schilf.jpg');
+    $image_upload_input->sendKeys($image_path);
+    $file_upload_input = $upload_inputs[1];
+    $document_path = realpath(__DIR__.'/../../../src/tools/dev-data/sample-data/sample-document.pdf');
+    $file_upload_input->sendKeys($document_path);
+    $driver->wait()->until(function () use ($driver) {
+        $delete_buttons = $driver->findElements(
+            WebDriverBy::cssSelector('img[title="löschen"]')
+        );
+        return count($delete_buttons) == 2;
+    });
     take_pageshot($driver, 'aktuell_new_edit');
 
     $preview_button = $driver->findElement(

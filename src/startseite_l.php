@@ -117,7 +117,7 @@ while ($row = $result->fetch_assoc()) {
                     $randtmp = rand(1, $groesse);
                 }
                 array_push($rand, $randtmp);
-                $text .= "<td>".olz_image("galerie", $id, $randtmp, 110, "image")."</td>";
+                $text .= "<td class='test-flaky'>".olz_image("galerie", $id, $randtmp, 110, "image")."</td>";
             }
         }
         if ($typ == 'foto') {

@@ -129,6 +129,7 @@ function init_dev_data_filesystem($data_path) {
     remove_r("{$data_path}OLZimmerbergAblage");
     remove_r("{$data_path}pdf");
     remove_r("{$data_path}results");
+    remove_r("{$data_path}temp");
 
     $sample_path = __DIR__.'/dev-data/sample-data/';
 
@@ -145,44 +146,44 @@ function init_dev_data_filesystem($data_path) {
 
     // Build img/
     mkdir("{$data_path}img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/trophy.png", 140, 140);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/trophy.png", 140, 140);
     mkdir("{$data_path}img/aktuell");
     mkdir("{$data_path}img/aktuell/3");
     mkdir("{$data_path}img/aktuell/3/img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/aktuell/3/img/001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/aktuell/3/img/002.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/001.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/002.jpg", 800, 600);
     mkdir("{$data_path}img/blog");
     mkdir("{$data_path}img/blog/1");
     mkdir("{$data_path}img/blog/1/img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/blog/1/img/001.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/001.jpg", 800, 600);
     mkdir("{$data_path}img/bild_der_woche");
     mkdir("{$data_path}img/bild_der_woche/2");
     mkdir("{$data_path}img/bild_der_woche/2/img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/bild_der_woche/2/img/001.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/bild_der_woche/2/img/001.jpg", 800, 600);
     mkdir("{$data_path}img/galerie");
     mkdir("{$data_path}img/galerie/1");
     mkdir("{$data_path}img/galerie/1/img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/1/img/001.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/1/img/001.jpg", 800, 600);
     mkdir("{$data_path}img/galerie/2");
     mkdir("{$data_path}img/galerie/2/img");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/2/img/001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/2/img/002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/2/img/003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/2/img/004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/galerie/2/img/005.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/001.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/002.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/004.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 600);
     mkdir("{$data_path}img/karten");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/karten/landforst_2017_10000.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
     mkdir("{$data_path}img/users");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/users/1.jpg", 84, 120);
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}img/users/3.jpg", 84, 120);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
 
     // Build movies/
     mkdir("{$data_path}movies");
 
     // Build olz_mitglieder/
     mkdir("{$data_path}olz_mitglieder");
-    mkimg("{$sample_path}sample-picture.jpg", "{$data_path}olz_mitglieder/max_muster.jpg", 84, 120);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "olz_mitglieder/max_muster.jpg", 84, 120);
 
     // Build OLZimmerbergAblage/
     mkdir("{$data_path}OLZimmerbergAblage");
@@ -202,9 +203,12 @@ function init_dev_data_filesystem($data_path) {
     // Build results/
     mkdir("{$data_path}results");
     copy("{$sample_path}sample-results.xml", "{$data_path}results/results.xml");
+
+    // Build temp/
+    mkdir("{$data_path}temp");
 }
 
-function mkimg($source_path, $destination_path, $width, $height) {
+function mkimg($source_path, $data_path, $destination_path, $width, $height) {
     $info = getimagesize($source_path);
     $source_width = $info[0];
     $source_height = $info[1];
@@ -212,10 +216,15 @@ function mkimg($source_path, $destination_path, $width, $height) {
     $destination = imagecreatetruecolor($width, $height);
     imagesavealpha($destination, true);
     imagecopyresampled($destination, $source, 0, 0, 0, 0, $width, $height, $source_width, $source_height);
+    $black = imagecolorallocate($destination, 255, 0, 0);
+    $hash = intval(substr(md5($destination_path), 0, 1), 16);
+    $x = floor($hash / 4) * $width / 4;
+    $y = floor($hash % 4) * $height / 4;
+    imagefilledrectangle($destination, $x, $y, $x + $width / 4, $y + $height / 4, $black);
     if (preg_match('/\.jpg$/', $destination_path)) {
-        imagejpeg($destination, $destination_path, 90);
+        imagejpeg($destination, "{$data_path}{$destination_path}", 90);
     } else {
-        imagepng($destination, $destination_path);
+        imagepng($destination, "{$data_path}{$destination_path}");
     }
     imagedestroy($destination);
 }

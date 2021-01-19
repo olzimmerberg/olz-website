@@ -21,6 +21,29 @@ function test_galerie($driver, $base_url) {
         WebDriverBy::cssSelector('#buttongalerie-neue-galerie')
     );
     $new_button->click();
+
+    $title_input = $driver->findElement(
+        WebDriverBy::cssSelector('#galerietitel')
+    );
+    $title_input->sendKeys('Zweimal dasselbe Bild');
+    $author_input = $driver->findElement(
+        WebDriverBy::cssSelector('#galerieautor')
+    );
+    $author_input->sendKeys('bot');
+
+    $image_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[type=file]')
+    );
+    $big_image_path = realpath(__DIR__.'/../../../src/tools/dev-data/sample-data/sample-picture.jpg');
+    $image_upload_input->sendKeys($big_image_path);
+    $small_image_path = realpath(__DIR__.'/../../../src/icns/schilf.jpg');
+    $image_upload_input->sendKeys($small_image_path);
+    $driver->wait()->until(function () use ($driver) {
+        $delete_buttons = $driver->findElements(
+            WebDriverBy::cssSelector('img[title="löschen"]')
+        );
+        return count($delete_buttons) == 2;
+    });
     take_pageshot($driver, 'galerie_new_edit');
 
     $preview_button = $driver->findElement(

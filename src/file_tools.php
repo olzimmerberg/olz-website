@@ -301,8 +301,6 @@ function olz_files_edit($db_table, $id) {
     $htmlout = "";
     $ident = "olzfileedit".md5($db_table."-".$id);
     $htmlout .= "<div id='".$ident."'></div>";
-    $htmlout .= "<script type='text/javascript' src='scripts/file_tools.js?version=2'></script>";
-    $htmlout .= "<script type='text/javascript' src='scripts/upload_tools.js?version=2'></script>";
     $htmlout .= "<script type='text/javascript'>olz_files_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
     return $htmlout;
 }

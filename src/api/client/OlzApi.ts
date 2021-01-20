@@ -1,5 +1,6 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+// eslint-disable-next-line no-shadow
 export enum OlzApiEndpoint {
     onDaily = 'onDaily',
     onContinuously = 'onContinuously',

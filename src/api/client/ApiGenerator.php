@@ -7,6 +7,7 @@ class ApiGenerator {
         $typescript_request_types = '';
         $typescript_response_types = '';
 
+        $typescript_endpoint_enum .= "// eslint-disable-next-line no-shadow\n";
         $typescript_endpoint_enum .= "export enum {$name}Endpoint {\n";
         $typescript_request_types .= "export interface {$name}Requests extends {$name}EndpointMapping {\n";
         $typescript_response_types .= "export interface {$name}Responses extends {$name}EndpointMapping {\n";

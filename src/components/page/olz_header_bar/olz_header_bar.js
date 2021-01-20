@@ -40,8 +40,8 @@ window.addEventListener('resize', () => {
 });
 
 export function headerToggle(ident) {
-    var elem = document.getElementById(ident);
-    var isShown = (elem.style.display == 'block');
+    const elem = document.getElementById(ident);
+    const isShown = (elem.style.display === 'block');
     document.getElementById('ranking-kids-2020').style.display = 'none';
     document.getElementById('ranking-kids-2019').style.display = 'none';
     document.getElementById('ranking-junds-2020').style.display = 'none';

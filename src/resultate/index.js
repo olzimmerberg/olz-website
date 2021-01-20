@@ -1,4 +1,4 @@
 import 'typeface-open-sans';
-import './results.css'
+import './results.css';
 
 export * from './results';

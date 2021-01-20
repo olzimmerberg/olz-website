@@ -6,10 +6,10 @@ $(() => {
     });
 });
 
-export function olzChangePasswordModalUpdate(userId, form) {
-    const oldPassword = form['old'].value;
-    const newPassword = form['new'].value;
-    const repeatPassword = form['repeat'].value;
+export function olzChangePasswordModalUpdate(userId: number, form: Record<string, {value?: string}>): void {
+    const oldPassword = form.old.value;
+    const newPassword = form.new.value;
+    const repeatPassword = form.repeat.value;
 
     if (newPassword !== repeatPassword) {
         $('#change-password-message').text('Die Passwort-Wiederholung stimmt nicht mit dem neuen Passwort überein.');
@@ -20,7 +20,7 @@ export function olzChangePasswordModalUpdate(userId, form) {
         OlzApiEndpoint.updatePassword,
         {oldPassword, newPassword, id: userId},
     )
-        .then(response => {
+        .then((response) => {
             if (response.status === 'OK') {
                 /* @ts-expect-error: It actually has the modal property. */
                 $('#change-password-modal').modal('hide');
@@ -28,7 +28,7 @@ export function olzChangePasswordModalUpdate(userId, form) {
                 $('#change-password-message').text(response.status);
             }
         })
-        .catch(err => {
+        .catch((err) => {
             $('#change-password-message').text(err.message);
         });
 }

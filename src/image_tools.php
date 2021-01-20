@@ -385,8 +385,6 @@ function olz_images_edit($db_table, $id) {
     $htmlout = "";
     $ident = "olzimgedit".md5($db_table."-".$id);
     $htmlout .= "<div id='".$ident."'></div>";
-    $htmlout .= "<script type='text/javascript' src='scripts/image_tools.js'></script>";
-    $htmlout .= "<script type='text/javascript' src='scripts/upload_tools.js'></script>";
     $htmlout .= "<script type='text/javascript'>olz_images_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
     return $htmlout;
 }

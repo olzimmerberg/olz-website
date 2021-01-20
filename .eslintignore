@@ -1,0 +1,5 @@
+jsbuild/
+src/library/
+
+# ain't nobody got time for that
+src/zol/js/dw_con_scroller.js

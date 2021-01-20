@@ -6,7 +6,7 @@ $(() => {
     });
 });
 
-export function olzLinkTelegramModalGetChatLink() {
+export function olzLinkTelegramModalGetChatLink(): void {
     $('#chat-link-wait').show();
     $('#chat-link-ready').hide();
 
@@ -14,12 +14,12 @@ export function olzLinkTelegramModalGetChatLink() {
         OlzApiEndpoint.linkTelegram,
         {},
     )
-        .then(response => {
+        .then((response) => {
             $('#telegram-chat-link').attr('href', response.chatLink);
             $('#chat-link-wait').hide();
-            $('#chat-link-ready').show();        
+            $('#chat-link-ready').show();
         })
-        .catch(err => {
+        .catch((err) => {
             $('#chat-link-wait').text(err.message);
         });
 }

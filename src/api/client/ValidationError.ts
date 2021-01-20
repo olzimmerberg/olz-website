@@ -20,11 +20,11 @@ export function getValidationErrorFromResponseText<T extends OlzApiEndpoint>(
         return undefined;
     }
     const structuredError = JSON.parse(responseText);
-    if (structuredError?.['error']?.['type'] !== 'ValidationError') {
+    if (structuredError?.error?.type !== 'ValidationError') {
         return undefined;
     }
-    const message = structuredError?.['message'];
-    const validationErrors = structuredError?.['error']?.['validationErrors'];
+    const message = structuredError?.message;
+    const validationErrors = structuredError?.error?.validationErrors;
     if (!message) {
         throw new Error(`Validation error missing message: ${structuredError}`);
     }

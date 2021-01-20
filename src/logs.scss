@@ -1,0 +1,13 @@
+#logs {
+    overflow-x: auto;
+    white-space: nowrap;
+
+    div {
+        font-family: monospace;
+        font-size: 9px;
+    }
+
+    .greyed-out {
+        color: rgb(150, 150, 150);
+    }
+}

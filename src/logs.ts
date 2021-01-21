@@ -3,7 +3,7 @@ import {OlzApiEndpoint, callOlzApi} from './api/client';
 export function olzLogsGetLogs(): boolean {
     callOlzApi(
         OlzApiEndpoint.getLogs,
-        {logType: 'ERROR', index: 0},
+        {index: 0},
     )
         .then((response) => {
             $('#logs').html(processLogs(response.content));

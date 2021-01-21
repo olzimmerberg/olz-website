@@ -84,7 +84,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         telegramEvent: string,
     },
     getLogs: {
-        logType: 'ACCESS'|'ERROR',
         index: number,
     },
 }
@@ -133,7 +132,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     onTelegram: {
     },
     getLogs: {
-        content: string,
+        content: string|null,
     },
 }
 

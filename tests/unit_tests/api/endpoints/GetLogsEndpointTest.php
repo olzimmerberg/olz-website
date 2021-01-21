@@ -32,7 +32,7 @@ final class GetLogsEndpointTest extends TestCase {
         $endpoint->setLogger($logger);
 
         try {
-            $result = $endpoint->call(['logType' => 'ERROR']);
+            $result = $endpoint->call(['index' => 0]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame(
@@ -55,7 +55,7 @@ final class GetLogsEndpointTest extends TestCase {
         $endpoint->setLogger($logger);
 
         try {
-            $result = $endpoint->call(['logType' => 'ERROR']);
+            $result = $endpoint->call(['index' => 0]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
@@ -70,7 +70,7 @@ final class GetLogsEndpointTest extends TestCase {
         $endpoint->setLogger($logger);
 
         try {
-            $result = $endpoint->call(['logType' => 'ERROR']);
+            $result = $endpoint->call(['index' => 0]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());

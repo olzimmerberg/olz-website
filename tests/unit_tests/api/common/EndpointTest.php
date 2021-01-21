@@ -104,17 +104,6 @@ final class EndpointTest extends TestCase {
         $this->assertSame($fake_server, $endpoint->getServer());
     }
 
-    public function testFakeEndpointSetDefaultFileLogger(): void {
-        $endpoint = new FakeEndpoint('fake_resource');
-        $endpoint->setDefaultFileLogger();
-        try {
-            $result = $endpoint->call([]);
-            $this->fail('Error expected');
-        } catch (HttpError $err) {
-            $this->assertSame(500, $err->getCode());
-        }
-    }
-
     public function testFakeEndpointParseInput(): void {
         global $_GET, $_POST;
         $_GET = ['get_param' => json_encode('got')];

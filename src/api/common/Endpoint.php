@@ -1,6 +1,6 @@
 <?php
 
-use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 require_once __DIR__.'/api.php';
@@ -26,8 +26,14 @@ abstract class Endpoint {
     abstract public static function getIdent();
 
     public function setDefaultFileLogger() {
+        global $data_path;
+        require_once __DIR__.'/../../config/paths.php';
+        $log_path = "{$data_path}logs/";
+        if (!is_dir(dirname($log_path))) {
+            mkdir(dirname($log_path), 0777, true);
+        }
         $logger = new Logger($this->getIdent());
-        $logger->pushHandler(new ErrorLogHandler());
+        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
         $this->setLogger($logger);
     }
 
@@ -63,6 +69,7 @@ abstract class Endpoint {
     public function call($raw_input) {
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
+            $this->logger->info("Valid user request");
         } catch (ValidationError $verr) {
             $this->logger->warning("Bad user request", $verr->getStructuredAnswer());
             throw new HttpError(400, "Fehlerhafte Eingabe.", $verr);
@@ -80,6 +87,7 @@ abstract class Endpoint {
 
         try {
             $validated_result = backend_validate($this->getResponseFields(), $raw_result);
+            $this->logger->info("Valid user response");
         } catch (ValidationError $verr) {
             $this->logger->critical("Bad output prohibited", $verr->getStructuredAnswer());
             throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.", $verr);

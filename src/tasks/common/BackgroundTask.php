@@ -1,6 +1,6 @@
 <?php
 
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
@@ -19,12 +19,14 @@ abstract class BackgroundTask {
     }
 
     public function setDefaultFileLogger() {
-        $log_path = $this->generateLogPath();
+        global $data_path;
+        require_once __DIR__.'/../../config/paths.php';
+        $log_path = "{$data_path}logs/";
         if (!is_dir(dirname($log_path))) {
             mkdir(dirname($log_path), 0777, true);
         }
         $logger = new Logger($this->getIdent());
-        $logger->pushHandler(new StreamHandler($log_path, Logger::INFO));
+        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
         $this->setLogger($logger);
     }
 

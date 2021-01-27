@@ -16,7 +16,7 @@ $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
 $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
 
 echo "
-<p style='text-align:center;background-color:#D4E7CE;padding-top:10px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #007521;border-top:1px solid #007521;'>Du bist neu beim OL oder in unserem Klub? <br><b>Dann ist diese Seite genau für dich!</b></p>
+<h1>Fragen & Antworten (FAQ)</h1>
 <h3>Was ist OL?</h3>
 <div>
 Das erklären wir dir in unserem kurzen Youtube Video:<br><br>

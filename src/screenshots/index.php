@@ -75,11 +75,13 @@ function loadNext(index) {
         const localElem = document.getElementById('local-'+screenshotPaths[index]);
         localElem.src = '{$code_href}screenshots/generated/' + screenshotPaths[index];
         localElem.onload = resolve;
+        localElem.onerror = resolve;
     });
     const loadMaster = new Promise((resolve) => {
         const masterElem = document.getElementById('master-'+screenshotPaths[index]);
         masterElem.src = '{$master_href}screenshots/generated/' + screenshotPaths[index];
         masterElem.onload = resolve;
+        masterElem.onerror = resolve;
     });
     Promise.all([loadLocal, loadMaster]).then(() => loadNext(index + 1));
 }

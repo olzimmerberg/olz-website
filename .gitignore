@@ -10,6 +10,10 @@
 /src/olz_ical.ics
 /src/resultate/live_uploader/public_html/data
 /src/screenshots/generated
+/tools/fuer_einsteiger/img/*
+/tools/fuer_einsteiger/originals/*
+/tools/fuer_einsteiger/thumb/*
+/tools/fuer_einsteiger/unused/*
 
 # PHP tooling
 /vendor

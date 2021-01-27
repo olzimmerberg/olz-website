@@ -29,6 +29,7 @@ require_once __DIR__.'/modules/kontakt.php';
 require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
 require_once __DIR__.'/modules/search.php';
+require_once __DIR__.'/modules/fragen_und_antworten.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
 require_once __DIR__.'/modules/datenschutz.php';
 require_once __DIR__.'/modules/login_logout.php';
@@ -125,6 +126,9 @@ $blocks = [
     function ($driver, $code_href) {
         init_test_block($driver);
         test_fuer_einsteiger($driver, $code_href);
+
+        init_test_block($driver);
+        test_fragen_und_antworten($driver, $code_href);
 
         init_test_block($driver);
         test_datenschutz($driver, $code_href);

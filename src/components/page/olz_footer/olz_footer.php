@@ -4,6 +4,8 @@ echo "<div style='clear:both;'>&nbsp;</div>";
 echo "</div>"; // site-background
 
 echo "<div class='footer'>";
+echo "<a href='fuer_einsteiger.php'>Für Einsteiger</a>";
+echo "<a href='fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
 echo "<a href='datenschutz.php'>Datenschutz</a>";
 echo "</div>"; // footer
 

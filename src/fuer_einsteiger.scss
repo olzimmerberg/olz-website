@@ -1,0 +1,101 @@
+.fuer-einsteiger {
+    position: relative;
+    
+    .clear-both {
+        clear: both;
+        margin-top: 40px;
+    }
+
+    .left {
+        float: left;
+        margin-right: 20px;
+        padding-bottom: 20px;
+    }
+
+    .right {
+        float: right;
+        margin-left: 20px;
+        padding-bottom: 20px;
+    }
+
+    .intro {
+        margin: 10px 0 35px 0;
+        text-align: center;
+    }
+
+    .text {
+        height: 400px;
+        padding: 0 20px;
+
+        table {
+            width: auto;
+        }
+
+        .tablebar {
+            background-image: none !important;
+            font-style: italic;
+            font-size: 16px;
+            font-weight: normal;
+        }
+    }
+
+    .pics {
+        width: 400px;
+        height: 400px;
+    }
+
+    table.grid-2 {
+        table-layout: fixed;
+
+        td {
+            width: 200px;
+            height: 200px;
+        }
+    }
+
+    table.grid-4 {
+        table-layout: fixed;
+
+        td {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    img.tile {
+        border: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slogan {
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    .important {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .description {
+        font-size: 14px;;
+    }
+
+    @media screen and (max-width: 832px) {
+        .left {
+            float: none;
+            margin: 0 auto;
+        }
+        
+        .right {
+            float: none;
+            margin: 0 auto;
+        }
+
+        .text {
+            height: auto;
+        }
+    }
+}

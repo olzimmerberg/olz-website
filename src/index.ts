@@ -8,6 +8,7 @@ import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
 import './bootstrap.scss';
+import './fuer_einsteiger.scss';
 import './index.scss';
 import './konto_passwort.scss';
 import './konto_strava.scss';
@@ -30,6 +31,8 @@ export * from './termine';
 export * from 'bootstrap';
 /* @ts-ignore: Ignore file is not a module. */
 export * from 'lightgallery';
+/* @ts-ignore: Ignore file is not a module. */
+export * from 'lg-video';
 /* @ts-expect-error: Ignore file is not a module. */
 export * from 'jquery';
 /* @ts-ignore: Ignore file is not a module. */

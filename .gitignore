@@ -10,6 +10,7 @@
 /src/olz_ical.ics
 /src/resultate/live_uploader/public_html/data
 /src/screenshots/generated
+/src/tools/dev-data/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*
 /tools/fuer_einsteiger/thumb/*

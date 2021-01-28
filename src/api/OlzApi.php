@@ -19,7 +19,6 @@ class OlzApi {
                     $date_utils = new LiveDateUtils();
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
                     $sync_solv_task->setDefaultFileLogger();
-                    $sync_solv_task->run();
                     $endpoint->setSyncSolvTask($sync_solv_task);
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setServerConfig($_CONFIG);

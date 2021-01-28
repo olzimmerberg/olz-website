@@ -349,25 +349,35 @@ function init_dev_data_filesystem($data_path) {
     mkdir("{$data_path}temp");
 }
 
-function mkimg($source_path, $data_path, $destination_path, $width, $height) {
-    $info = getimagesize($source_path);
-    $source_width = $info[0];
-    $source_height = $info[1];
-    $source = imagecreatefromjpeg($source_path);
-    $destination = imagecreatetruecolor($width, $height);
-    imagesavealpha($destination, true);
-    imagecopyresampled($destination, $source, 0, 0, 0, 0, $width, $height, $source_width, $source_height);
-    $black = imagecolorallocate($destination, 255, 0, 0);
-    $hash = intval(substr(md5($destination_path), 0, 1), 16);
-    $x = floor($hash / 4) * $width / 4;
-    $y = floor($hash % 4) * $height / 4;
-    imagefilledrectangle($destination, $x, $y, $x + $width / 4, $y + $height / 4, $black);
-    if (preg_match('/\.jpg$/', $destination_path)) {
-        imagejpeg($destination, "{$data_path}{$destination_path}", 90);
-    } else {
-        imagepng($destination, "{$data_path}{$destination_path}");
+function mkimg($source_path, $data_path, $destination_relative_path, $width, $height) {
+    $tmp_dir = __DIR__.'/dev-data/tmp/';
+    if (!is_dir($tmp_dir)) {
+        mkdir($tmp_dir);
     }
-    imagedestroy($destination);
+    $flat_destination_relative_path = str_replace('/', '___', $destination_relative_path);
+    $tmp_path = "{$tmp_dir}{$flat_destination_relative_path}";
+    if (!is_file($tmp_path)) {
+        $info = getimagesize($source_path);
+        $source_width = $info[0];
+        $source_height = $info[1];
+        $source = imagecreatefromjpeg($source_path);
+        $destination = imagecreatetruecolor($width, $height);
+        imagesavealpha($destination, true);
+        imagecopyresampled($destination, $source, 0, 0, 0, 0, $width, $height, $source_width, $source_height);
+        $black = imagecolorallocate($destination, 255, 0, 0);
+        $hash = intval(substr(md5($destination_relative_path), 0, 1), 16);
+        $x = floor($hash / 4) * $width / 4;
+        $y = floor($hash % 4) * $height / 4;
+        imagefilledrectangle($destination, $x, $y, $x + $width / 4, $y + $height / 4, $black);
+        if (preg_match('/\.jpg$/', $destination_relative_path)) {
+            imagejpeg($destination, $tmp_path, 90);
+        } else {
+            imagepng($destination, $tmp_path);
+        }
+        imagedestroy($destination);
+    }
+    $destination_path = "{$data_path}{$destination_relative_path}";
+    copy($tmp_path, $destination_path);
 }
 
 function get_current_migration($db) {

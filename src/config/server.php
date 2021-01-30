@@ -35,6 +35,12 @@ class ServerConfig {
     private $telegram_bot_token;
     private $telegram_authenticity_code;
 
+    private $smtp_host;
+    private $smtp_port;
+    private $smtp_username;
+    private $smtp_password;
+    private $smtp_from;
+
     public function configure($config_dict) {
         $this->mysql_host = $config_dict['mysql_host'] ?? $this->mysql_host;
         $this->mysql_port = $config_dict['mysql_port'] ?? $this->mysql_port;
@@ -63,6 +69,12 @@ class ServerConfig {
         $this->telegram_bot_name = $config_dict['telegram_bot_name'] ?? $this->telegram_bot_name;
         $this->telegram_bot_token = $config_dict['telegram_bot_token'] ?? $this->telegram_bot_token;
         $this->telegram_authenticity_code = $config_dict['telegram_authenticity_code'] ?? $this->telegram_authenticity_code;
+
+        $this->smtp_host = $config_dict['smtp_host'] ?? $this->smtp_host;
+        $this->smtp_port = $config_dict['smtp_port'] ?? $this->smtp_port;
+        $this->smtp_username = $config_dict['smtp_username'] ?? $this->smtp_username;
+        $this->smtp_password = $config_dict['smtp_password'] ?? $this->smtp_password;
+        $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
     }
 
     public function getMysqlHost() {
@@ -143,6 +155,26 @@ class ServerConfig {
 
     public function getTelegramAuthenticityCode() {
         return $this->telegram_authenticity_code;
+    }
+
+    public function getSmtpHost() {
+        return $this->smtp_host;
+    }
+
+    public function getSmtpPort() {
+        return $this->smtp_port;
+    }
+
+    public function getSmtpUsername() {
+        return $this->smtp_username;
+    }
+
+    public function getSmtpPassword() {
+        return $this->smtp_password;
+    }
+
+    public function getSmtpFrom() {
+        return $this->smtp_from;
     }
 }
 

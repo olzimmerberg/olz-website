@@ -33,4 +33,10 @@ $_CONFIG->configure([
     'telegram_bot_name' => 'olz_bot',
     'telegram_bot_token' => '123456789:abcdefghijklmnopqrstuvwxyz123456789',
     'telegram_authenticity_code' => 'this_is_just_local',
+
+    'smtp_host' => 'localhost',
+    'smtp_port' => '465',
+    'smtp_username' => 'fake-user@olzimmerberg.ch',
+    'smtp_password' => '1234',
+    'smtp_from' => 'fake-user@olzimmerberg.ch',
 ]);

@@ -17,7 +17,61 @@ class FakeOnDailyEndpointSyncSolvTask {
     }
 }
 
+class FakeOnDailyEndpointSendDailyNotificationsTask {
+    public $hasBeenRun = false;
+
+    public function run() {
+        $this->hasBeenRun = true;
+    }
+}
+
+class FakeOnDailyEndpointEntityManager {
+    public $persisted = [];
+    public $flushed = [];
+    public $repositories = [];
+
+    public function getRepository($class) {
+        return $this->repositories[$class] ?? null;
+    }
+
+    public function persist($object) {
+        $this->persisted[] = $object;
+    }
+
+    public function flush() {
+        $this->flushed = $this->persisted;
+    }
+}
+
+class FakeOnDailyEndpointThrottlingRepository {
+    public $throttled = false;
+    public $recorded_occurrences = [];
+
+    public function getLastOccurrenceOf($event_name) {
+        if ($event_name == 'on_daily') {
+            if ($this->throttled === true) {
+                return new DateTime('2020-03-13 19:30:00');
+            }
+            if ($this->throttled === null) {
+                return null;
+            }
+            return new DateTime('2020-03-12 20:30:00');
+        }
+        throw new Exception("Unexpected event name");
+    }
+
+    public function recordOccurrenceOf($event_name, $datetime) {
+        $this->recorded_occurrences[] = [$event_name, $datetime];
+    }
+}
+
 class FakeOnDailyEndpointServerConfig {
+    public $has_unlimited_cron = false;
+
+    public function hasUnlimitedCron() {
+        return $this->has_unlimited_cron;
+    }
+
     public function getCronAuthenticityCode() {
         return 'some-token';
     }
@@ -43,13 +97,84 @@ final class OnDailyEndpointTest extends TestCase {
         ], $parsed_input);
     }
 
+    public function testOnDailyEndpointThrottled(): void {
+        $entity_manager = new FakeOnDailyEndpointEntityManager();
+        $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
+        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $server_config = new FakeOnDailyEndpointServerConfig();
+        $logger = new Logger('OnDailyEndpointTest');
+        $endpoint = new OnDailyEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setServerConfig($server_config);
+        $endpoint->setLogger($logger);
+
+        $throttling_repo->throttled = true;
+        try {
+            $result = $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(429, $err->getCode());
+        }
+    }
+
+    public function testOnDailyEndpointNoThrottlingRecord(): void {
+        $entity_manager = new FakeOnDailyEndpointEntityManager();
+        $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
+        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $server_config = new FakeOnDailyEndpointServerConfig();
+        $logger = new Logger('OnDailyEndpointTest');
+        $endpoint = new OnDailyEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setServerConfig($server_config);
+        $endpoint->setLogger($logger);
+
+        $throttling_repo->throttled = null;
+        try {
+            $result = $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
+        }
+    }
+
+    public function testOnDailyEndpointUnlimitedCron(): void {
+        $entity_manager = new FakeOnDailyEndpointEntityManager();
+        $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
+        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $server_config = new FakeOnDailyEndpointServerConfig();
+        $logger = new Logger('OnDailyEndpointTest');
+        $endpoint = new OnDailyEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setServerConfig($server_config);
+        $endpoint->setLogger($logger);
+
+        $throttling_repo->throttled = true;
+        $server_config->has_unlimited_cron = true;
+        try {
+            $result = $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
+        }
+    }
+
     public function testOnDailyEndpointWrongToken(): void {
         $sync_solv_task = new FakeOnDailyEndpointSyncSolvTask();
+        $entity_manager = new FakeOnDailyEndpointEntityManager();
+        $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
+        $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeOnDailyEndpointServerConfig();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
+        $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setServerConfig($server_config);
         $endpoint->setLogger($logger);
@@ -66,11 +191,17 @@ final class OnDailyEndpointTest extends TestCase {
 
     public function testOnDailyEndpoint(): void {
         $sync_solv_task = new FakeOnDailyEndpointSyncSolvTask();
+        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
+        $entity_manager = new FakeOnDailyEndpointEntityManager();
+        $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
+        $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeOnDailyEndpointServerConfig();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
+        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
+        $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setServerConfig($server_config);
         $endpoint->setLogger($logger);
@@ -79,7 +210,9 @@ final class OnDailyEndpointTest extends TestCase {
             'authenticityCode' => 'some-token',
         ]);
 
+        $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
         $this->assertSame(true, $sync_solv_task->hasBeenRun);
+        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
     }
 }

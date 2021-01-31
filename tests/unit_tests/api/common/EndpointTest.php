@@ -51,6 +51,7 @@ class FakeEndpoint extends Endpoint {
 }
 
 class FakeEndpointWithErrors extends Endpoint {
+    public $handle_with_throttling;
     public $handle_with_error;
     public $handle_with_http_error;
     public $handle_with_output;
@@ -69,6 +70,10 @@ class FakeEndpointWithErrors extends Endpoint {
         return [
             new Field('input', ['allow_null' => false]),
         ];
+    }
+
+    public function shouldFailThrottling() {
+        return (bool) $this->handle_with_throttling;
     }
 
     protected function handle($input) {
@@ -127,6 +132,19 @@ final class EndpointTest extends TestCase {
         });
         $endpoint->setup();
         $this->assertSame(true, $endpoint->setupCalled);
+    }
+
+    public function testFakeEndpointWithThrottling(): void {
+        $logger = new Logger('EndpointTest');
+        $endpoint = new FakeEndpointWithErrors();
+        $endpoint->setLogger($logger);
+        $endpoint->handle_with_throttling = true;
+        try {
+            $result = $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(429, $err->getCode());
+        }
     }
 
     public function testFakeEndpointWithInvalidInput(): void {

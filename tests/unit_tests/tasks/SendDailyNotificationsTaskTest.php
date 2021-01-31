@@ -1,0 +1,417 @@
+<?php
+
+declare(strict_types=1);
+
+use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/../../fake/fake_notification_subscription.php';
+require_once __DIR__.'/../../fake/fake_user.php';
+require_once __DIR__.'/../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
+require_once __DIR__.'/../../../src/model/TelegramLink.php';
+require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask/Notification.php';
+require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask.php';
+require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
+
+$user1 = get_fake_user();
+$user1->setId(1);
+$user1->setFirstName('First');
+$user1->setLastName('User');
+
+$user2 = get_fake_user();
+$user2->setId(2);
+$user2->setFirstName('Second');
+$user2->setLastName('User');
+
+$user_provoke_error = get_fake_user();
+$user_provoke_error->setId(3);
+$user_provoke_error->setFirstName('Provoke');
+$user_provoke_error->setLastName('Error');
+
+class FakeSendDailyNotificationsTaskEntityManager {
+    public $repositories = [];
+
+    public function getRepository($class) {
+        return $this->repositories[$class] ?? null;
+    }
+}
+
+class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
+    public function findBy($where) {
+        global $user1, $user2, $user_provoke_error;
+        return [
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+                json_encode([]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user2,
+                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+                json_encode(['no_notification' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user1,
+                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+                json_encode([]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user1,
+                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+                json_encode(['no_notification' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user1,
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['days' => 7]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user2,
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['days' => 3]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['days' => 3]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['no_notification' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_DAILY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_DAILY_SUMMARY,
+                json_encode(['no_notification' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user2,
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user2,
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['no_notification' => true]),
+            ),
+            get_fake_notification_subscription(
+                'invalid-delivery',
+                $user2,
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user2,
+                'invalid-type',
+                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user2,
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['provoke_error' => true]),
+            ),
+            get_fake_notification_subscription(
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user_provoke_error,
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+            ),
+        ];
+    }
+}
+
+class FakeSendDailyNotificationsTaskTelegramLinkRepository {
+    public function findOneBy($where) {
+        global $user1, $user2;
+        if ($where == ['user' => $user1]) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setTelegramChatId('11111');
+            return $telegram_link;
+        }
+        if ($where == ['user' => $user2]) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setTelegramChatId('22222');
+            return $telegram_link;
+        }
+        return null;
+    }
+}
+
+class FakeSendDailyNotificationsTaskEmailUtils {
+    public function __construct() {
+        $this->olzMailer = new FakeSendDailyNotificationsTaskOlzMailer();
+    }
+
+    public function createEmail() {
+        return $this->olzMailer;
+    }
+}
+
+class FakeSendDailyNotificationsTaskOlzMailer {
+    public $emails_sent = [];
+    public $email_to_send;
+
+    public function configure($user, $title, $text) {
+        $this->email_to_send = [$user, $title, $text];
+    }
+
+    public function send() {
+        if ($this->email_to_send[1] == 'provoke_error') {
+            throw new Exception("Provoked Error");
+        }
+        $this->emails_sent[] = $this->email_to_send;
+    }
+}
+
+class FakeSendDailyNotificationsTaskTelegramUtils {
+    public $calls = [];
+
+    public function callTelegramApi($command, $args) {
+        $this->calls[] = [$command, $args];
+    }
+}
+
+class FakeSendDailyNotificationsTaskDailySummaryGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function getDailySummaryNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['no_notification'] ?? false) {
+            return null;
+        }
+        return new Notification('DS title', 'DS text %%userFirstName%%');
+    }
+}
+
+class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function getDeadlineWarningNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['no_notification'] ?? false) {
+            return null;
+        }
+        $args_str = json_encode($args);
+        return new Notification("DW title {$args_str}", 'DW text %%userFirstName%%');
+    }
+}
+
+class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function getMonthlyPreviewNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['no_notification'] ?? false) {
+            return null;
+        }
+        return new Notification('MP title', 'MP text %%userFirstName%%');
+    }
+}
+
+class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function getWeeklyPreviewNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['no_notification'] ?? false) {
+            return null;
+        }
+        return new Notification('WP title', 'WP text %%userFirstName%%');
+    }
+}
+
+class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function getWeeklySummaryNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['no_notification'] ?? false) {
+            return null;
+        }
+        if ($args['provoke_error'] ?? false) {
+            return new Notification('provoke_error', 'provoke_error');
+        }
+        return new Notification('WS title', 'WS text %%userFirstName%%');
+    }
+}
+
+class FakeSendDailyNotificationsTaskLogHandler implements Monolog\Handler\HandlerInterface {
+    public $records;
+
+    public function isHandling(array $args): bool {
+        return true;
+    }
+
+    public function handle(array $record): bool {
+        $this->records[] = $record;
+        return true;
+    }
+
+    public function handleBatch(array $records): void {
+    }
+
+    public function close(): void {
+    }
+}
+
+/**
+ * @internal
+ * @covers \SendDailyNotificationsTask
+ */
+final class SendDailyNotificationsTaskTest extends TestCase {
+    public function testSendDailyNotificationsTask(): void {
+        $entity_manager = new FakeSendDailyNotificationsTaskEntityManager();
+        $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();
+        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
+        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $email_utils = new FakeSendDailyNotificationsTaskEmailUtils();
+        $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = new Logger('SendDailyNotificationsTaskTest');
+        $log_handler = new FakeSendDailyNotificationsTaskLogHandler();
+        $logger->pushHandler($log_handler);
+        $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
+        $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
+        $monthly_preview_getter = new FakeSendDailyNotificationsTaskMonthlyPreviewGetter();
+        $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
+        $weekly_summary_getter = new FakeSendDailyNotificationsTaskWeeklySummaryGetter();
+
+        $job = new SendDailyNotificationsTask($entity_manager, $email_utils, $telegram_utils, $date_utils);
+        $job->setLogger($logger);
+        $job->setDailySummaryGetter($daily_summary_getter);
+        $job->setDeadlineWarningGetter($deadline_warning_getter);
+        $job->setMonthlyPreviewGetter($monthly_preview_getter);
+        $job->setWeeklyPreviewGetter($weekly_preview_getter);
+        $job->setWeeklySummaryGetter($weekly_summary_getter);
+        $job->run();
+
+        global $user1, $user2;
+        $this->assertSame([
+            [$user1, 'MP title', 'MP text First'],
+            [$user1, 'DW title {"days":3}', 'DW text First'],
+            [$user1, 'DS title', 'DS text First'],
+            [$user2, 'WS title', 'WS text Second'],
+        ], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([
+            ['sendMessage', ['chat_id' => '11111', 'text' => "WP title\n\nWP text First"]],
+            ['sendMessage', ['chat_id' => '11111', 'text' => "DW title {\"days\":7}\n\nDW text First"]],
+            ['sendMessage', ['chat_id' => '22222', 'text' => "DW title {\"days\":3}\n\nDW text Second"]],
+        ], $telegram_utils->calls);
+        $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
+        $this->assertSame($date_utils, $daily_summary_getter->dateUtils);
+        $this->assertSame($entity_manager, $deadline_warning_getter->entityManager);
+        $this->assertSame($date_utils, $deadline_warning_getter->dateUtils);
+        $this->assertSame($entity_manager, $monthly_preview_getter->entityManager);
+        $this->assertSame($date_utils, $monthly_preview_getter->dateUtils);
+        $this->assertSame($entity_manager, $weekly_preview_getter->entityManager);
+        $this->assertSame($date_utils, $weekly_preview_getter->dateUtils);
+        $this->assertSame($entity_manager, $weekly_summary_getter->entityManager);
+        $this->assertSame($date_utils, $weekly_summary_getter->dateUtils);
+        $this->assertSame([
+            "INFO Setup task SendDailyNotifications...",
+            "INFO Running task SendDailyNotifications...",
+            "INFO Sending 'monthly_preview' notifications...",
+            "INFO Getting notification for '[]'...",
+            "INFO Email sent to user (1): MP title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'weekly_preview' notifications...",
+            "INFO Getting notification for '[]'...",
+            "INFO Telegram sent to user (1): WP title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'deadline_warning' notifications...",
+            "INFO Getting notification for '{\"days\":7}'...",
+            "INFO Telegram sent to user (1): DW title {\"days\":7}",
+            "INFO Getting notification for '{\"days\":3}'...",
+            "INFO Telegram sent to user (2): DW title {\"days\":3}",
+            "INFO Email sent to user (1): DW title {\"days\":3}",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'daily_summary' notifications...",
+            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
+            "INFO Email sent to user (1): DS title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'weekly_summary' notifications...",
+            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
+            "INFO Email sent to user (2): WS title",
+            "CRITICAL Unknown delivery type 'invalid-delivery'",
+            "CRITICAL User (3) has no telegram link, but a subscription ()",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Getting notification for '{\"provoke_error\":true}'...",
+            "CRITICAL Error sending email to user (2): Provoked Error",
+            "INFO Sending 'invalid-type' notifications...",
+            "CRITICAL Unknown notification type 'invalid-type'",
+            "INFO Finished task SendDailyNotifications.",
+            "INFO Teardown task SendDailyNotifications...",
+        ], array_map(function ($record) {
+            $level_name = $record['level_name'];
+            $message = $record['message'];
+            return "{$level_name} {$message}";
+        }, $log_handler->records));
+    }
+}

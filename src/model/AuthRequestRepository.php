@@ -21,7 +21,7 @@ class AuthRequestRepository extends EntityRepository {
 
     public function canAuthenticate($ip_address, $timestamp = null) {
         $NUM_TRIES = 3;
-        $TRIES_RESET_INTERVAL = new DateInterval('PT1H'); // Reset after 1h
+        $TRIES_RESET_INTERVAL = DateInterval::createFromDateString('+1 hour'); // Reset after 1h
 
         if ($timestamp === null) {
             $timestamp = new DateTime();

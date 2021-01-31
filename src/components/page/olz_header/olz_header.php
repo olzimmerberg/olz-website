@@ -7,12 +7,13 @@ $js_modified = filemtime("{$code_path}jsbuild/olz.min.js");
 // TODO: Remove all of this, once the index.php?page=... syntax is not used anymore.
 $canonical_tag = '';
 $is_insecure_nonlocal = !$_SERVER['HTTPS'] && preg_match('/olzimmerberg\.ch/', $_SERVER['HTTP_HOST']);
-if ($is_insecure_nonlocal) {
-    $host = $_SERVER['HTTP_HOST'];
+$host_has_www = preg_match('/www\./', $_SERVER['HTTP_HOST']);
+$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+if ($is_insecure_nonlocal || $host_has_www) {
     $request_uri = $_SERVER['REQUEST_URI'];
     $canonical_tag = "<link rel='canonical' href='https://{$host}{$request_uri}'>";
 }
-$is_request_to_index_php = preg_match("/\\/index.php/", $_SERVER['REQUEST_URI']);
+$is_request_to_index_php = preg_match("/\\/index.php/", $_SERVER['REQUEST_URI']) || preg_match("/(\\?|\\&)page=/", $_SERVER['REQUEST_URI']);
 if ($is_request_to_index_php) {
     $pages = [
         "0" => "error.php", // TO DO
@@ -42,7 +43,6 @@ if ($is_request_to_index_php) {
     ];
     $canonical_page = $pages[$_GET['page']];
     if ($canonical_page) {
-        $host = $_SERVER['HTTP_HOST'];
         $get_params = [];
         foreach ($_GET as $key => $value) {
             if ($key != 'page') {

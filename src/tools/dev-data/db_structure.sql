@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210116164757
+-- MIGRATION: OLZ\Migrations\Version20210129192635
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -458,7 +458,7 @@ CREATE TABLE `termine` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -617,6 +617,33 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `throttlings` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `event_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_occurrence` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `event_name_index` (`event_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notification_subscriptions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `delivery_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notification_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notification_type_args` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`),
+  KEY `notification_type_index` (`notification_type`),
+  CONSTRAINT `FK_52C540C8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

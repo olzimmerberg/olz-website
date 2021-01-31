@@ -102,6 +102,7 @@ function init_dev_data_db_structure_for_content($db, $dev_data_dir) {
 
 function init_dev_data_db_content($db, $dev_data_dir) {
     // Insert dev content into database.
+    $db->query('SET foreign_key_checks = 0');
     $sql_content = file_get_contents("{$dev_data_dir}db_content.sql");
     if ($db->multi_query($sql_content)) {
         while ($db->next_result()) {
@@ -111,6 +112,7 @@ function init_dev_data_db_content($db, $dev_data_dir) {
             }
         }
     }
+    $db->query('SET foreign_key_checks = 1');
 }
 
 function apply_db_migrations() {

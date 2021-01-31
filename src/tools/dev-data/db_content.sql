@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210116164757
+-- MIGRATION: OLZ\Migrations\Version20210129192635
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -45,7 +45,8 @@ VALUES
     ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
     ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48'),
     ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584'),
-    ('OLZ\\Migrations\\Version20210116164757', '2021-01-16 16:48:06', '577');
+    ('OLZ\\Migrations\\Version20210116164757', '2021-01-16 16:48:06', '577'),
+    ('OLZ\\Migrations\\Version20210129192635', '2021-01-29 19:27:00', '221');
 
 -- Table downloads
 
@@ -86,13 +87,25 @@ VALUES
 
 -- Table newsletter
 
+-- Table notification_subscriptions
+INSERT INTO notification_subscriptions
+    (`id`, `user_id`, `delivery_type`, `notification_type`, `notification_type_args`, `created_at`)
+VALUES
+    ('1', '1', 'email', 'monthly_preview', '{}', '2021-01-30 17:37:23'),
+    ('2', '1', 'telegram', 'weekly_preview', '{}', '2021-01-30 17:37:23'),
+    ('3', '1', 'telegram', 'deadline_warning', '{\"days\":7}', '2021-01-30 17:37:23'),
+    ('4', '4', 'telegram', 'deadline_warning', '{\"days\":3}', '2021-01-30 17:37:23'),
+    ('5', '2', 'telegram', 'deadline_warning', '{\"days\":3}', '2021-01-30 17:37:23'),
+    ('6', '1', 'email', 'daily_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23'),
+    ('7', '4', 'email', 'weekly_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23');
+
 -- Table olz_result
 
 -- Table olz_text
 INSERT INTO olz_text
     (`id`, `text`, `on_off`)
 VALUES
-    ('1', '<div><p><b>OL-Training (im Sommerhalbjahr)</b><br>\n<i>für Kartentechnik und Orientierung im Wald (ab 6 Jahren)</i><br>\njeden Dienstag gemäss Terminkalender<br>\n<a href="/pdf/Trainingsplan_2020.pdf" target="_blank">Trainingsplan 2020</a></p>\n<p><b>Hallentraining (im Winterhalbjahr)</b><br>\n<i>für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)</i><br>\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)<br>\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)<br>\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)</p>\n<!--<p><b>Lauftraining</b><br>\n<i>für Ausdauer und Kondition (Jugendliche & Erwachsene)</i><br>\njeden Donnerstag, 18.45 Uhr, 60 Min. (In den Schulferien nur nach Absprache.)</p>-->\n<p><b>Longjoggs (im Winterhalbjahr)</b><br>\n<i>für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)</i><br>\nan Sonntagen gemäss Terminkalender</p></div>', '1'),
+    ('1', '<div><p><b>OL-Training (im Sommerhalbjahr)</b><br>\n<i>für Kartentechnik und Orientierung im Wald (ab 6 Jahren)</i><br>\njeden Dienstag gemäss Terminkalender<br>\n<a href=\"/pdf/Trainingsplan_2020.pdf\" target=\"_blank\">Trainingsplan 2020</a></p>\n<p><b>Hallentraining (im Winterhalbjahr)</b><br>\n<i>für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)</i><br>\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)<br>\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)<br>\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)</p>\n<!--<p><b>Lauftraining</b><br>\n<i>für Ausdauer und Kondition (Jugendliche & Erwachsene)</i><br>\njeden Donnerstag, 18.45 Uhr, 60 Min. (In den Schulferien nur nach Absprache.)</p>-->\n<p><b>Longjoggs (im Winterhalbjahr)</b><br>\n<i>für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)</i><br>\nan Sonntagen gemäss Terminkalender</p></div>', '1'),
     ('22', '⚠️ Wichtige Information! ⚠️', '1');
 
 -- Table roles
@@ -187,16 +200,17 @@ INSERT INTO termine
 VALUES
     ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Berchtoldstag 🥈', '', '', '', '', '', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('2', '2020-06-06', NULL, NULL, '10:15:00', '12:30:00', '0', '1', NULL, NULL, 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä! <DATEI1> ', 'Infos', 'http://127.0.0.1:30270/', '', '1', NULL, '', '', '685000', '236100', '0', '', '2020-06-01 07:17:09', '2020-06-01 07:17:09'),
-    ('3', '2020-08-18', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 1', '', '', '', '', 'training', '1', NULL, '', '','0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
-    ('4', '2020-08-25', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 2', '', '', '', '', 'training', '1', NULL, '', '','0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('3', '2020-08-18', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 1', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('4', '2020-08-25', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 2', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('5', '2020-08-26', '2020-08-26', NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz', '<a href=\"?page=20\" class=\"linkint\">OLZ Trophy</a>\r\n<a href=\"https://forms.gle/ixS1ZD22PmbdeYcy6\" class=\"linkext\">Anmeldung</a>\r\n<a href=\"https://olzimmerberg.ch/files/aktuell//504/010.pdf?modified=1597421504\" target=\"_blank\" class=\"linkpdf\">Ausschreibung</a>', NULL, 'ol', '1', NULL, NULL, NULL, '0', '0', '0', NULL, '2020-08-24 22:40:32', '2019-11-20 09:04:26'),
     ('6', '2020-09-01', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 3', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 4', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09');
 
-
 -- Table termine_go2ol
 
 -- Table termine_solv
+
+-- Table throttlings
 
 -- Table trainingsphotos
 

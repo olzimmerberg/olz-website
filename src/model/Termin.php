@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
  * )
  */
-class termine {
+class Termin {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */
@@ -119,4 +119,36 @@ class termine {
     // KEY `on_off` (`on_off`),
     // KEY `datum_end` (`datum_end`),
     // KEY `datum_off` (`datum_off`)
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($new_id) {
+        $this->id = $new_id;
+    }
+
+    public function getStartsOn() {
+        return $this->datum;
+    }
+
+    public function setStartsOn($new_datum) {
+        $this->datum = $new_datum;
+    }
+
+    public function getEndsOn() {
+        return $this->datum_end;
+    }
+
+    public function setEndsOn($new_datum_end) {
+        $this->datum_end = $new_datum_end;
+    }
+
+    public function getTitle() {
+        return $this->titel;
+    }
+
+    public function setTitle($new_titel) {
+        $this->titel = $new_titel;
+    }
 }

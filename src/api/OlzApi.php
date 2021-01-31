@@ -9,17 +9,26 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
                 $endpoint = new OnDailyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG;
+                    global $_CONFIG, $_DATE_UTILS;
+                    require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
                     require_once __DIR__.'/../fetchers/SolvFetcher.php';
                     require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../tasks/SendDailyNotificationsTask.php';
                     require_once __DIR__.'/../tasks/SyncSolvTask.php';
-                    require_once __DIR__.'/../utils/date/LiveDateUtils.php';
-                    $date_utils = new LiveDateUtils();
+                    require_once __DIR__.'/../utils/notify/EmailUtils.php';
+                    require_once __DIR__.'/../utils/notify/TelegramUtils.php';
+                    $date_utils = $_DATE_UTILS;
+                    $email_utils = EmailUtils::fromEnv();
+                    $telegram_utils = TelegramUtils::fromEnv();
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
                     $sync_solv_task->setDefaultFileLogger();
+                    $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils);
+                    $send_daily_notifications_task->setDefaultFileLogger();
                     $endpoint->setSyncSolvTask($sync_solv_task);
+                    $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
+                    $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setServerConfig($_CONFIG);
                 });
@@ -29,10 +38,10 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnContinuouslyEndpoint.php';
                 $endpoint = new OnContinuouslyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG;
+                    global $_CONFIG, $_DATE_UTILS;
+                    require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/server.php';
-                    require_once __DIR__.'/../utils/date/LiveDateUtils.php';
-                    $date_utils = new LiveDateUtils();
+                    $date_utils = $_DATE_UTILS;
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setServerConfig($_CONFIG);
                 });

@@ -25,6 +25,11 @@ abstract class Endpoint {
 
     abstract public static function getIdent();
 
+    /** Override to enjoy throttling! */
+    public function shouldFailThrottling() {
+        return false;
+    }
+
     public function setDefaultFileLogger() {
         global $data_path;
         require_once __DIR__.'/../../config/paths.php';
@@ -41,6 +46,7 @@ abstract class Endpoint {
         $this->setupFunction = $new_setup_function;
     }
 
+    /** Override to handle custom requests. */
     public function parseInput() {
         global $_GET, $_POST;
         $input = [];
@@ -67,6 +73,11 @@ abstract class Endpoint {
     }
 
     public function call($raw_input) {
+        if ($this->shouldFailThrottling()) {
+            $this->logger->error("Throttled user request");
+            throw new HttpError(429, "Zu viele Anfragen.");
+        }
+
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
             $this->logger->info("Valid user request");

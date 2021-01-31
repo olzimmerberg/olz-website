@@ -21,19 +21,43 @@ $user_repo = $entityManager->getRepository(User::class);
 $username = $_SESSION['user'];
 $user = $user_repo->findOneBy(['username' => $username]);
 
-echo "<div id='content_double'>";
+echo "<div id='content_double' class='profile'>";
 if ($user) {
+    $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);
+    $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);
+    $has_telegram_link = $telegram_link && $telegram_link->getTelegramChatId() !== null;
+    $telegram_button_class = $has_telegram_link ? ' active' : '';
+
+    $strava_link_repo = $entityManager->getRepository(StravaLink::class);
+    $strava_link = $strava_link_repo->findOneBy(['user' => $user]);
+    $has_strava_link = $strava_link !== null;
+    $strava_button_class = $has_strava_link ? ' active' : '';
+
     $user_id = $user->getId();
     $esc_id = htmlentities(json_encode($user_id));
     echo <<<ZZZZZZZZZZ
-    <a 
-        href='#'
-        role='button'
-        data-toggle='modal'
-        data-target='#link-telegram-modal'
-    >
-        Telegram-Infos aktivieren
-    </a>
+    <div class='form-group'>
+        <a 
+            href='#'
+            role='button'
+            data-toggle='modal'
+            data-target='#link-telegram-modal'
+            class='login-button telegram-button{$telegram_button_class}'
+        >
+            <img src='{$code_href}icns/login_telegram.svg' alt=''>
+            Nachrichten-Push via Telegram
+        </a>
+        <a 
+            href='#'
+            role='button'
+            data-toggle='modal'
+            data-target='#link-telegram-modal'
+            class='login-button strava-button{$strava_button_class}'
+        >
+            <img src='{$code_href}icns/login_strava.svg' alt=''>
+            Login mit Strava
+        </a>
+    </div>
 
     <form id='profile-form' onsubmit='return olzProfileUpdateUser({$esc_id}, this)'>
         <div id='profile-update-success-message' class='alert alert-success' role='alert'></div>

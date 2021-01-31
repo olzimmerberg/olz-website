@@ -2,7 +2,7 @@
     height:100%;
     position:relative;
     margin:0px 300px 0px 180px;
-    padding:10px 10px 10px 10px;
+    padding:0px 10px 10px 10px;
     border-right:solid 2px white;
     border-left:solid 2px white;
 }
@@ -11,14 +11,13 @@
     width:300px;
     height:100%;
     float:right;
-    padding-top:10px;
 }
 
 #content_double {
     height:100%;
     position:relative;
     margin:0px 0px 0px 180px;
-    padding:10px;
+    padding:0 10px 10px 10px;
 }
 
 @media screen and (max-width: 1024px) {

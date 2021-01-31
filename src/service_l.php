@@ -7,6 +7,12 @@
 require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
+echo "<div style='display:flex;'>";
+include __DIR__.'/components/notify/olz_telegram_card/olz_telegram_card.php';
+include __DIR__.'/components/notify/olz_email_card/olz_email_card.php';
+echo "</div>";
+
+echo "<form name='Formularl' method='post' action='service.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
 echo "<table><tr><td style='width:50%'><h2>Links</h2>";
 
 $db_table = 'links';
@@ -260,6 +266,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     echo "</ul>";
 }
     echo "</td></tr></table><br><br>";
+    echo "</form>";
 
     // Zielsprint 2020
     include 'zielsprint20.php';

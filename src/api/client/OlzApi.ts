@@ -15,6 +15,7 @@ export enum OlzApiEndpoint {
     linkTelegram = 'linkTelegram',
     onTelegram = 'onTelegram',
     getLogs = 'getLogs',
+    updateNotificationSubscriptions = 'updateNotificationSubscriptions',
 }
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
@@ -90,6 +91,23 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getLogs: {
         index: number,
     },
+    updateNotificationSubscriptions: {
+        deliveryType: 'email'|'telegram',
+        monthlyPreview: boolean,
+        weeklyPreview: boolean,
+        deadlineWarning: boolean,
+        deadlineWarningDays: '1'|'2'|'3'|'7',
+        dailySummary: boolean,
+        dailySummaryAktuell: boolean,
+        dailySummaryBlog: boolean,
+        dailySummaryForum: boolean,
+        dailySummaryGalerie: boolean,
+        weeklySummary: boolean,
+        weeklySummaryAktuell: boolean,
+        weeklySummaryBlog: boolean,
+        weeklySummaryForum: boolean,
+        weeklySummaryGalerie: boolean,
+    },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -140,6 +158,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     },
     getLogs: {
         content: string|null,
+    },
+    updateNotificationSubscriptions: {
+        status: 'OK'|'ERROR',
     },
 }
 

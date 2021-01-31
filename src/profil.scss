@@ -6,3 +6,68 @@
         }
     }
 }
+
+.profile {
+    .login-button {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgb(200,200,200);
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 8px;
+        margin-right: 8px;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        img {
+            border: 0;
+            padding-right: 8px;
+        }
+    }
+
+    .strava-button {
+        background-color: rgba(252, 82, 0, 0.5);
+        border-color: rgb(252, 82, 0);
+        color: rgb(255,255,255);
+
+        &.active {
+            background-color: rgb(252, 82, 0);
+
+            &:hover,
+            &:active {
+                background-color: rgb(252, 82, 0);
+                border-color: rgb(252, 82, 0);
+            }
+        }
+
+        &:hover,
+        &:active {
+            background-color: rgba(204, 66, 0, 0.5);
+            border-color: rgb(204, 66, 0);
+        }
+    }
+
+    .telegram-button {
+        background-color: rgba(43, 162, 213, 0.5);
+        border-color: rgb(43, 162, 213);
+        color: rgb(255,255,255);
+
+        &.active {
+            background-color: rgb(43, 162, 213);
+
+            &:hover,
+            &:active {
+                background-color: rgb(54, 130, 170);
+                border-color: rgb(54, 130, 170);
+            }
+        }
+
+        &:hover,
+        &:active {
+            background-color: rgba(54, 130, 170, 0.5);
+            border-color: rgb(54, 130, 170);
+        }
+    }
+}

@@ -34,7 +34,8 @@ class GetLogsEndpoint extends Endpoint {
 
         require_once __DIR__.'/../../config/paths.php';
 
-        $this->logger->info('Logs access!');
+        $username = $this->session->get('user');
+        $this->logger->info("Logs access by {$username}.");
 
         $logs_path = $data_path.'logs/';
 
@@ -46,6 +47,7 @@ class GetLogsEndpoint extends Endpoint {
                         'content' => file_get_contents("{$logs_path}{$filename}"),
                     ];
                 }
+                $merged_log_index++;
             }
         }
         return [

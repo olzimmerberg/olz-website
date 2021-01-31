@@ -2,9 +2,49 @@
     overflow-x: auto;
     white-space: nowrap;
 
-    div {
+    div,
+    span {
         font-family: monospace;
         font-size: 9px;
+    }
+
+    .log-channel {
+        font-weight: bold;
+    }
+
+    .log-level {
+        &.DEBUG {
+            color: rgb(100, 100, 100);
+        }
+
+        &.INFO {
+            color: rgb(0, 100, 100);
+        }
+
+        &.NOTICE {
+            color: rgb(100, 100, 0);
+        }
+
+        &.WARNING {
+            color: rgb(150, 100, 0);
+        }
+
+        &.ERROR {
+            color: rgb(150, 50, 0);
+        }
+
+        &.CRITICAL {
+            color: rgb(180, 0, 0);
+        }
+
+        &.ALERT {
+            color: rgb(220, 0, 0);
+        }
+
+        &.EMERGENCY {
+            color: rgb(255, 0, 0);
+        }
+
     }
 
     .greyed-out {

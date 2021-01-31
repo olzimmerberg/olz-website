@@ -29,8 +29,9 @@ ZZZZZZZZZZ;
 
 echo "<div id='content_double'>";
 if ($user && $user->getZugriff() == 'all') {
+    echo "<center><button type='button' class='btn btn-outline-primary' onclick='olzLogsGetNextLog()'>Ältere laden</button></center>";
     echo "<div id='logs'></div>";
-    echo "<script>olzLogsGetLogs();</script>";
+    echo "<script>olzLogsGetFirstLog();</script>";
 } else {
     echo "<div id='profile-message' class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
 }

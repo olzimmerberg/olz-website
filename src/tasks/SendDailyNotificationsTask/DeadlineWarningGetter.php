@@ -17,34 +17,37 @@ class DeadlineWarningGetter {
     }
 
     public function getDeadlineWarningNotification($args) {
-        $seven_days = DateInterval::createFromDateString('+7 days');
-        $today = new DateTime($this->dateUtils->getIsoToday());
-        $in_seven_days = (new DateTime($this->dateUtils->getIsoToday()))->add($seven_days);
+        $days_arg = intval($args['days'] ?? '');
+        if ($days_arg <= 0 || $days_arg > 7) {
+            return null;
+        }
+        $given_days = DateInterval::createFromDateString("+{$days_arg} days");
+        $in_given_days = (new DateTime($this->dateUtils->getIsoToday()))->add($given_days);
 
         $termin_repo = $this->entityManager->getRepository(Termin::class);
+        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->gt('datum', $today),
-                Criteria::expr()->lte('datum', $in_seven_days),
-            ))
-            ->orderBy(['datum' => Criteria::ASC])
+            ->where(Criteria::expr()->eq('deadline', $in_given_days))
+            ->orderBy(['date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
-        $termine = $termin_repo->matching($criteria);
-        $termine_text = "";
-        foreach ($termine as $termin) {
-            $starts_on = $termin->getStartsOn();
-            $ends_on = $termin->getEndsOn();
-            $date = ($ends_on && $ends_on > $starts_on)
-                ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
-                : $starts_on->format('d.m.');
+        $deadlines = $solv_event_repo->matching($criteria);
+        $deadlines_text = '';
+        foreach ($deadlines as $deadline) {
+            $solv_uid = $deadline->getSolvUid();
+            $termin = $termin_repo->findOneBy(['solv_uid' => $solv_uid]);
+            if (!$termin) {
+                continue;
+            }
+            $deadline_date = $deadline->getDeadline();
+            $date = $deadline_date->format('d.m.');
             $title = $termin->getTitle();
-            $termine_text .= "{$date}: {$title}\n";
+            $deadlines_text .= "{$date}: Meldeschluss für '{$title}'\n";
         }
 
         $title = "Meldeschlusswarnung";
-        $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$termine_text}";
+        $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$deadlines_text}";
 
         return new Notification($title, $text);
     }

@@ -1,27 +1,28 @@
-var flakyElements = document.querySelectorAll('.test-flaky');
-for (var i=0; i<flakyElements.length; i++) {
-    var rect = flakyElements[i].getBoundingClientRect();
-    var cover = document.getElementById('flaky-' + i);
+const flakyElements = document.querySelectorAll('.test-flaky');
+for (let i = 0; i < flakyElements.length; i++) {
+    const rect = flakyElements[i].getBoundingClientRect();
+    let cover = document.getElementById(`flaky-${i}`);
     if (!cover) {
-        var cover = document.createElement('div');
+        cover = document.createElement('div');
         document.documentElement.appendChild(cover);
-        cover.id = 'flaky-' + i;
+        cover.id = `flaky-${i}`;
         cover.style.position = 'fixed';
         cover.style.backgroundColor = 'black';
+        cover.style.pointerEvents = 'none';
         cover.style.zIndex = 999999;
     }
-    cover.style.width = Math.ceil(rect.width+1) + 'px';
-    cover.style.height = Math.ceil(rect.height+1) + 'px';
-    cover.style.top = Math.floor(rect.top) + 'px';
-    cover.style.left = Math.floor(rect.left) + 'px';
+    cover.style.width = `${Math.ceil(rect.width + 1)}px`;
+    cover.style.height = `${Math.ceil(rect.height + 1)}px`;
+    cover.style.top = `${Math.floor(rect.top)}px`;
+    cover.style.left = `${Math.floor(rect.left)}px`;
 }
 
-var inputElements = document.querySelectorAll('input');
-for (var i=0; i<inputElements.length; i++) {
+const inputElements = document.querySelectorAll('input');
+for (let i = 0; i < inputElements.length; i++) {
     inputElements[i].setAttribute('spellcheck', 'false');
 }
 
-var textareaElements = document.querySelectorAll('textarea');
-for (var i=0; i<textareaElements.length; i++) {
+const textareaElements = document.querySelectorAll('textarea');
+for (let i = 0; i < textareaElements.length; i++) {
     textareaElements[i].setAttribute('spellcheck', 'false');
 }

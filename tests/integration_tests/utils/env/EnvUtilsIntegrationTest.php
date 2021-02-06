@@ -28,7 +28,7 @@ final class EnvUtilsIntegrationTest extends TestCase {
         );
         $this->assertSame('/', $env_utils->getDataHref());
         $this->assertMatchesRegularExpression(
-            '/\/src\/utils\/$/',
+            '/\/src\/$/',
             $env_utils->getCodePath()
         );
         $this->assertSame('/_/', $env_utils->getCodeHref());

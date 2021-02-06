@@ -6,8 +6,8 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     session_start_if_cookie_set();
 
     require_once __DIR__.'/admin/olz_functions.php';
-    $html_titel = " - Kontakt";
     include __DIR__.'/components/page/olz_header/olz_header.php';
+    echo olz_header(['title' => "Kontakt"]);
 }
 
 echo "<div id='content_double'>

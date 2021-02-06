@@ -8,6 +8,8 @@ require_once __DIR__.'/config/init.php';
 require_once __DIR__."/config/paths.php";
 require_once __DIR__."/upload_tools.php";
 
+global $tables_file_dirs, $mime_extensions, $extension_icons;
+
 $tables_file_dirs = [
     "aktuell" => "files/aktuell/",
     "blog" => "files/blog/",
@@ -120,6 +122,9 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
         $db_filepath = $tables_file_dirs[$db_table];
         $id = intval($_GET["id"]);
         $files = scandir($data_path.$db_filepath."/".$id);
+        if (!$files) {
+            $files = [];
+        }
         $indices = [];
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {

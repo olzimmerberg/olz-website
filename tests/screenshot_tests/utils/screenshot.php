@@ -11,8 +11,8 @@ function take_pageshot($driver, $name) {
     $screenshot_filename = "{$name}-{$browser_name}.png";
     $window_width = get_window_width($driver);
     $window_height = get_window_height($driver);
-    $body_width = get_body_width($driver);
-    $body_height = get_body_height($driver);
+    $body_width = max(get_body_width($driver), 1);
+    $body_height = max(get_body_height($driver), 1);
     $num_x = ceil($body_width / $window_width);
     $num_y = ceil($body_height / $window_height);
     $dest = imagecreatetruecolor($body_width, $body_height);

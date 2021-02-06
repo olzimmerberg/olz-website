@@ -7,8 +7,8 @@ session_start();
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 require_once __DIR__.'/utils/auth/FacebookUtils.php';
-$html_titel = " - Facebook Konto";
 include __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header(['title' => "Facebook Konto"]);
 
 echo "<div id='content_double'>
 <div>";

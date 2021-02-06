@@ -4,8 +4,8 @@
 // Das Navigationsmenu der Website.
 // =============================================================================
 
-require_once __DIR__.'/../../../config/paths.php';
 require_once __DIR__.'/../../../config/date.php';
+require_once __DIR__.'/../../../config/server.php';
 
 $menu = [
     ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
@@ -26,7 +26,7 @@ $menu = [
 
 echo "<div id='menu' class='menu'>";
 // LIVE-RESULTATE
-$live_json_path = "{$data_path}results/_live.json";
+$live_json_path = "{$_CONFIG->getDataPath()}results/_live.json";
 if (is_file($live_json_path)) {
     $content = file_get_contents($live_json_path);
     if ($content) {
@@ -34,7 +34,7 @@ if (is_file($live_json_path)) {
         $last_updated_at = strtotime($live['last_updated_at']);
         $now = strtotime(olz_current_date('Y-m-d H:i:s'));
         if ($live && $last_updated_at > $now - 3600) {
-            echo "<a href='{$code_href}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
+            echo "<a href='{$_CONFIG->getCodeHref()}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
         }
     }
 }
@@ -77,7 +77,7 @@ echo "<div style='padding:2em 0.5em 0em 0.5em;'>
 </div>";
 
 function echomenu($menu, $identifier) {
-    global $code_href;
+    global $_CONFIG;
     for ($i = 0; $i < count($menu); $i++) {
         $menupunkt = $menu[$i];
         $fontsize = $menupunkt[2];
@@ -92,7 +92,7 @@ function echomenu($menu, $identifier) {
         $bluelin = 255 * 1 / 8;
         $linecolor = color($redlin, $greenlin, $bluelin);
         $tag = "div";
-        if ($_SESSION['page'] == $menupunkt[1] || $_SERVER['SCRIPT_NAME'] == $code_href.$menupunkt[1]) {
+        if ($_SESSION['page'] == $menupunkt[1] || $_SERVER['SCRIPT_NAME'] == $_CONFIG->getCodeHref().$menupunkt[1]) {
             $color = "color:#".color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
             $bgcolor = $bgcolorhover;
             $tag = "h1";

@@ -21,7 +21,12 @@ class FakeDeadlineWarningGetterEntityManager {
 }
 
 class FakeDeadlineWarningGetterSolvEventRepository {
+    public $has_no_deadlines = false;
+
     public function matching($criteria) {
+        if ($this->has_no_deadlines) {
+            return [];
+        }
         $solv_event1 = new SolvEvent();
         $solv_event1->setDeadline(new DateTime('2020-03-16'));
         $solv_event1->setSolvUid(1111);
@@ -70,6 +75,28 @@ final class DeadlineWarningGetterTest extends TestCase {
         $job->setDateUtils($date_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 10]);
+
+        $this->assertSame(null, $notification);
+    }
+
+    public function testDeadlineWarningGetterWhenThereIsNoDeadline(): void {
+        $entity_manager = new FakeDeadlineWarningGetterEntityManager();
+        $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
+        $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
+        $solv_event_repo->has_no_deadlines = true;
+        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories['Termin'] = $termin_repo;
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = new Logger('DeadlineWarningGetterTest');
+        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $user = new User();
+        $user->setFirstName('First');
+
+        $job = new DeadlineWarningGetter();
+        $job->setEntityManager($entity_manager);
+        $job->setDateUtils($date_utils);
+        $job->setLogger($logger);
+        $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $this->assertSame(null, $notification);
     }

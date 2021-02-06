@@ -26,6 +26,6 @@ class FacebookFetcher {
         $userinfo_response = json_decode($userinfo_result, true);
         curl_close($ch);
 
-        return $token_response;
+        return $userinfo_response;
     }
 }

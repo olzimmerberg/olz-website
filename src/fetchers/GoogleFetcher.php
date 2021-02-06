@@ -19,10 +19,13 @@ class GoogleFetcher {
     public function fetchUserData($userinfo_request_data, $token_response) {
         $google_userinfo_url = 'https://www.googleapis.com/oauth2/v1/userinfo';
 
+        $token_type = $token_response['token_type'] ?? 'Basic';
+        $access_token = $token_response['access_token'] ?? '';
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $google_userinfo_url.'?'.http_build_query($userinfo_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: {$token_response['token_type']} {$token_response['access_token']}",
+            "Authorization: {$token_type} {$access_token}",
         ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $userinfo_result = curl_exec($ch);
@@ -35,10 +38,13 @@ class GoogleFetcher {
     public function fetchPeopleApiData($people_api_request_data, $token_response) {
         $google_token_url = 'https://people.googleapis.com/v1/people/me';
 
+        $token_type = $token_response['token_type'] ?? 'Basic';
+        $access_token = $token_response['access_token'] ?? '';
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $google_token_url.'?'.http_build_query($people_api_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: {$token_response['token_type']} {$token_response['access_token']}",
+            "Authorization: {$token_type} {$access_token}",
         ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $people_api_result = curl_exec($ch);

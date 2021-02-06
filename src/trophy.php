@@ -7,7 +7,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => "Trophy"]);
+    echo olz_header([
+        'title' => "Trophy",
+        'description' => "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.",
+    ]);
 }
 
 echo "<div id='content_double'>

@@ -7,7 +7,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => "Profil"]);
+    echo olz_header([
+        'title' => "Profil",
+        'description' => "Alles rund um dein persönliches OLZ-Konto.",
+    ]);
 }
 
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';

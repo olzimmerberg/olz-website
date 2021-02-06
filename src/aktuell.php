@@ -18,7 +18,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     }
 
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => $html_title]);
+    echo olz_header([
+        'title' => $html_title,
+        'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+    ]);
 }
 
 require_once __DIR__.'/file_tools.php';

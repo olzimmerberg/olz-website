@@ -7,7 +7,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => "Für Einsteiger"]);
+    echo olz_header([
+        'title' => "Für Einsteiger",
+        'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
+    ]);
 }
 
 echo "<style>

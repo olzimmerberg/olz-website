@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../config/paths.php';
+require_once __DIR__.'/../../../config/server.php';
 require_once __DIR__.'/../../../utils/auth/GoogleUtils.php';
 require_once __DIR__.'/../../../utils/auth/FacebookUtils.php';
 require_once __DIR__.'/../../../utils/auth/StravaUtils.php';
@@ -25,19 +25,19 @@ echo <<<ZZZZZZZZZZ
             <div class='modal-body'>
                 <div class='feature external-login form-group'>
                     <a href='{$strava_url}' class='login-button strava-button'>
-                        <img src='{$code_href}icns/login_strava.svg' alt=''>
+                        <img src='{$_CONFIG->getCodeHref()}icns/login_strava.svg' alt=''>
                         Strava
                     </a>
                     <a href='{$google_url}' class='login-button google-button'>
-                        <img src='{$code_href}icns/login_google.svg' alt=''>
+                        <img src='{$_CONFIG->getCodeHref()}icns/login_google.svg' alt=''>
                         Google
                     </a>
                     <a href='{$facebook_url}' class='login-button facebook-button'>
-                        <img src='{$code_href}icns/login_facebook.svg' alt=''>
+                        <img src='{$_CONFIG->getCodeHref()}icns/login_facebook.svg' alt=''>
                         Facebook
                     </a>
-                    <a href='{$code_href}konto_passwort.php' class='login-button password-button'>
-                        <img src='{$code_href}icns/login_password.svg' alt=''>
+                    <a href='{$_CONFIG->getCodeHref()}konto_passwort.php' class='login-button password-button'>
+                        <img src='{$_CONFIG->getCodeHref()}icns/login_password.svg' alt=''>
                         Passwort
                     </a>
                 </div>

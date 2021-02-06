@@ -8,6 +8,8 @@ require_once __DIR__.'/config/init.php';
 require_once __DIR__."/config/paths.php";
 require_once __DIR__."/upload_tools.php";
 
+global $tables_img_dirs;
+
 $tables_img_dirs = [
     "galerie" => "img/galerie/",
     "aktuell" => "img/aktuell/",
@@ -346,7 +348,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
 function olz_image($db_table, $id, $index, $dim, $lightview = "image", $attrs = "") {
     global $data_href, $data_path, $tables_img_dirs;
     if (!isset($tables_img_dirs[$db_table])) {
-        return "Ungültige db_table (in olz_image)";
+        return "Ungültige db_table: {$db_table} (in olz_image)";
     }
     $db_imgpath = $tables_img_dirs[$db_table];
     $imgfile = $db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";

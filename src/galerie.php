@@ -1,6 +1,7 @@
 <?php
 
 if (!defined('CALLED_THROUGH_INDEX')) {
+    global $db;
     require_once __DIR__.'/config/init.php';
     require_once __DIR__.'/config/database.php';
 
@@ -11,12 +12,13 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     $id = intval($id);
     $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
     $res = $db->query($sql);
-    $html_titel = " - Galerie";
+    $html_title = "Galerie";
     while ($row = $res->fetch_assoc()) {
-        $html_titel = " - ".$row['titel'];
+        $html_title = $row['titel'];
     }
 
     include __DIR__.'/components/page/olz_header/olz_header.php';
+    echo olz_header(['title' => $html_title]);
 }
 
 require_once __DIR__.'/image_tools.php';

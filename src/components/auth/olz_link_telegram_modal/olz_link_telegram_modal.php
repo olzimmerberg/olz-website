@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/../../../config/server.php';
 require_once __DIR__.'/../../../utils/client/UserAgentUtils.php';
 
 $user_agent_utils = getUserAgentUtilsFromEnv();
@@ -22,7 +23,7 @@ echo <<<ZZZZZZZZZZ
             <div class='modal-body'>
                 <center>
                     <div class='telegram-circle'>
-                        <img src='{$code_href}icns/login_telegram.svg' alt=''>
+                        <img src='{$_CONFIG->getCodeHref()}icns/login_telegram.svg' alt=''>
                     </div>
                 </center>
                 <ol class='todo-list'>

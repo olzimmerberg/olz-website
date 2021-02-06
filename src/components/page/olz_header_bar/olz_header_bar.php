@@ -4,8 +4,10 @@
 // Die Kopfzeile der Website.
 // =============================================================================
 
-require_once __DIR__.'/../../../config/paths.php';
+global $db, $zugriff, $button_name;
+
 require_once __DIR__.'/../../../config/database.php';
+require_once __DIR__.'/../../../config/server.php';
 require_once __DIR__.'/../../../admin/olz_functions.php';
 require_once __DIR__.'/../../../image_tools.php';
 require_once __DIR__.'/../../../file_tools.php';
@@ -43,8 +45,6 @@ echo "<div style='flex-grow:1;'></div>";
 
 // OLZ Statistik Trainings/Wettkämpfe 2014
 $header_spalten = 2;
-
-$colors = ["dd0000", "00cc00", "005500"]; // Farbe Randbalken
 
 $db_table = "aktuell";
 $zugriff = (($_SESSION['auth'] == "all") or (in_array($db_table, explode(' ', $_SESSION['auth'])))) ? true : false;
@@ -266,10 +266,12 @@ echo "</form></div></div></div>";
 }*/
 
 // OLZ Trophy 2017
-echo "<div class='header-box'><a href='trophy.php'><img src='".$data_href."img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
+echo "<div class='header-box'><a href='trophy.php'><img src='{$_CONFIG->getDataHref()}img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
 
 function htmlbox($entry, $typ) {
-    global $zugriff,$colors,$button_name;
+    global $zugriff,$button_name;
+    $colors = ["dd0000", "00cc00", "005500"]; // Farbe Randbalken
+
     $edit_admin = ($zugriff) ? "<a href='aktuell.php?id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>" : "";
     if (!$entry) {
         return "<div class='box_ganz'>&nbsp;</div>";

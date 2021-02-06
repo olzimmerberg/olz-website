@@ -6,8 +6,8 @@ session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
-$html_titel = " - OLZ Konto mit Passwort";
 include __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header(['title' => "OLZ Konto mit Passwort"]);
 
 echo "<div id='content_double'>
 <div>";

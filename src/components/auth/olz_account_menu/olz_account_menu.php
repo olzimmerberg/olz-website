@@ -1,17 +1,17 @@
 <?php
 
-require_once __DIR__.'/../../../config/paths.php';
 require_once __DIR__.'/../../../config/doctrine_db.php';
+require_once __DIR__.'/../../../config/server.php';
 require_once __DIR__.'/../../../model/index.php';
 
 $user_repo = $entityManager->getRepository(User::class);
 $username = $_SESSION['user'];
 $user = $user_repo->findOneBy(['username' => $username]);
-$image_path = "{$code_href}icns/user.svg";
+$image_path = "{$_CONFIG->getCodeHref()}icns/user.svg";
 if ($user) {
     $user_image_path = "img/users/{$user->getId()}.jpg";
-    if (is_file("{$data_path}{$user_image_path}")) {
-        $image_path = "{$data_href}{$user_image_path}";
+    if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {
+        $image_path = "{$_CONFIG->getDataHref()}{$user_image_path}";
     }
 }
 

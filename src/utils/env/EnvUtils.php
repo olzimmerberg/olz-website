@@ -253,7 +253,7 @@ class EnvUtils {
             $env_utils->setDataPath($document_root.'/');
             $env_utils->setDataHref('/');
 
-            $env_utils->setCodePath(dirname(realpath(__DIR__)).'/');
+            $env_utils->setCodePath(realpath(__DIR__.'/../../').'/');
             $env_utils->setCodeHref('/_/');
 
             $env_utils->setDeployPath($document_root.'/deploy/');

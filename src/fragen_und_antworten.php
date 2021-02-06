@@ -7,7 +7,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => "Fragen & Antworten"]);
+    echo olz_header([
+        'title' => "Fragen & Antworten",
+        'description' => "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.",
+    ]);
 }
 
 echo "

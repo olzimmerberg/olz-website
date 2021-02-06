@@ -7,7 +7,10 @@ session_start();
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 include __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header(['title' => "OLZ Konto mit Telegram"]);
+echo olz_header([
+    'title' => "OLZ Konto mit Telegram",
+    'description' => "OLZ-Login mit Telegram.",
+]);
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';

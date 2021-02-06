@@ -7,7 +7,10 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     include __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header(['title' => "Leistungssport"]);
+    echo olz_header([
+        'title' => "Leistungssport",
+        'description' => "Beiträge der Spitzensportler und der Leistungssport-Trainingsgruppe \"Team Gold\" der OL Zimmerberg.",
+    ]);
 }
 
 require_once __DIR__.'/file_tools.php';

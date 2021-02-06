@@ -6,7 +6,10 @@ require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.ph
 require_once __DIR__.'/model/index.php';
 
 include __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header(['title' => "Datenschutz"]);
+echo olz_header([
+    'title' => "Datenschutz",
+    'description' => "Die Datenschutzerklärung für die Website der OL Zimmerberg.",
+]);
 
 $role_repo = $entityManager->getRepository(Role::class);
 $webmaster_role = $role_repo->findOneBy(['username' => 'webmaster']);

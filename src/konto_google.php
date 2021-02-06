@@ -8,7 +8,10 @@ require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 require_once __DIR__.'/utils/auth/GoogleUtils.php';
 include __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header(['title' => "Google Konto"]);
+echo olz_header([
+    'title' => "Google Konto",
+    'description' => "OLZ-Login mit Google.",
+]);
 
 echo "<div id='content_double'>
 <div>";

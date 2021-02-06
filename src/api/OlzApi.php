@@ -9,7 +9,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
                 $endpoint = new OnDailyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG, $_DATE_UTILS;
+                    global $_CONFIG, $_DATE_UTILS, $entityManager;
                     require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
@@ -51,6 +51,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/LoginEndpoint.php';
                 $endpoint = new LoginEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);
@@ -70,6 +71,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/UpdateUserEndpoint.php';
                 $endpoint = new UpdateUserEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);
@@ -81,6 +83,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/UpdateUserPasswordEndpoint.php';
                 $endpoint = new UpdateUserPasswordEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);
@@ -92,6 +95,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/SignUpWithPasswordEndpoint.php';
                 $endpoint = new SignUpWithPasswordEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);
@@ -103,6 +107,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/LoginWithStravaEndpoint.php';
                 $endpoint = new LoginWithStravaEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     require_once __DIR__.'/../utils/auth/StravaUtils.php';
@@ -117,6 +122,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/SignUpWithStravaEndpoint.php';
                 $endpoint = new SignUpWithStravaEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
                     $endpoint->setEntityManager($entityManager);

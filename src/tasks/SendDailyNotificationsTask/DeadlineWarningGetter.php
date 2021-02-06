@@ -46,6 +46,10 @@ class DeadlineWarningGetter {
             $deadlines_text .= "{$date}: Meldeschluss für '{$title}'\n";
         }
 
+        if (strlen($deadlines_text) == 0) {
+            return null;
+        }
+
         $title = "Meldeschlusswarnung";
         $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$deadlines_text}";
 

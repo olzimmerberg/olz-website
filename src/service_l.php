@@ -251,7 +251,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
                 echo "<br>";
             }
         } elseif ($db_edit == "0") {
-            echo "<li>".$edit_admin./*$icon."<a href='$def_folder/$file1' target='_blank'>$name</a>".*/olz_file($db_table, $id_tmp, 1, $name)."</li>";
+            echo "<li>".$edit_admin./*$icon."<a href='$def_folder/$file1' target='_blank'>$name</a>".*/ olz_file($db_table, $id_tmp, 1, $name)."</li>";
         } else {
             echo "<table class='liste'><tr><td style='font-weight:bold;width:20%;'>Bezeichnung:</td><td>{$name}</td></tr>";
             echo "<tr><td style='font-weight:bold;'>Dateiname:</td><td>{$icon}<a href='{$tmp_folder}/{$file1}' target='_blank'>{$file1}</a></td></tr></table>";

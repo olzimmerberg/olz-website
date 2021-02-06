@@ -30,6 +30,13 @@ final class FacebookFetcherTest extends TestCase {
 
     public function testFetchUserData(): void {
         $content = $this->facebook_fetcher->fetchUserData([]);
-        $this->assertSame(null, $content);
+        $this->assertArrayHasKey('error', $content);
+        $this->assertArrayHasKey('message', $content['error']);
+        $this->assertArrayHasKey('type', $content['error']);
+        $this->assertArrayHasKey('code', $content['error']);
+        $this->assertArrayHasKey('fbtrace_id', $content['error']);
+        $this->assertSame('An active access token must be used to query information about the current user.', $content['error']['message']);
+        $this->assertSame('OAuthException', $content['error']['type']);
+        $this->assertSame(2500, $content['error']['code']);
     }
 }

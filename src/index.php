@@ -136,7 +136,8 @@ else {
 
 header('Cache-Control: max-age=600');
 
-include "components/page/olz_header/olz_header.php";
+require_once "components/page/olz_header/olz_header.php";
+olz_header([]);
 
 // Dynamisches Layout
 include $pages[$page];

@@ -14,7 +14,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     session_start();
 
     require_once __DIR__.'/admin/olz_functions.php';
-    include __DIR__.'/components/page/olz_header/olz_header.php';
+    require_once __DIR__.'/components/page/olz_header/olz_header.php';
     echo olz_header([
         'title' => "Web FTP",
     ]);

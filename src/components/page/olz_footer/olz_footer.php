@@ -1,29 +1,33 @@
 <?php
 
-function olz_footer($args = []) {
-    echo "<div style='clear:both;'>&nbsp;</div>";
-    echo "</div>"; // site-background
+function olz_footer($args = []): string {
+    $out = '';
 
-    echo "<div class='footer'>";
-    echo "<a href='fuer_einsteiger.php'>Für Einsteiger</a>";
-    echo "<a href='fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
-    echo "<a href='datenschutz.php'>Datenschutz</a>";
-    echo "</div>"; // footer
+    $out .= "<div style='clear:both;'>&nbsp;</div>";
+    $out .= "</div>"; // site-background
 
-    echo "</div>"; // site-container
+    $out .= "<div class='footer'>";
+    $out .= "<a href='fuer_einsteiger.php'>Für Einsteiger</a>";
+    $out .= "<a href='fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
+    $out .= "<a href='datenschutz.php'>Datenschutz</a>";
+    $out .= "</div>"; // footer
+
+    $out .= "</div>"; // site-container
 
     require_once __DIR__.'/../../auth/olz_login_modal/olz_login_modal.php';
-    echo olz_login_modal();
+    $out .= olz_login_modal();
 
     require_once __DIR__.'/../../auth/olz_sign_up_modal/olz_sign_up_modal.php';
-    echo olz_sign_up_modal();
+    $out .= olz_sign_up_modal();
 
     require_once __DIR__."/../../auth/olz_change_password_modal/olz_change_password_modal.php";
-    echo olz_change_password_modal();
+    $out .= olz_change_password_modal();
 
     require_once __DIR__."/../../auth/olz_link_telegram_modal/olz_link_telegram_modal.php";
-    echo olz_link_telegram_modal();
+    $out .= olz_link_telegram_modal();
 
-    echo "</body>
+    $out .= "</body>
     </html>";
+
+    return $out;
 }

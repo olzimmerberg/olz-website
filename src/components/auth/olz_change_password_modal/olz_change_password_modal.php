@@ -1,6 +1,6 @@
 <?php
 
-function olz_change_password_modal($args = []) {
+function olz_change_password_modal($args = []): string {
     global $entityManager;
 
     require_once __DIR__.'/../../../config/doctrine_db.php';
@@ -13,7 +13,7 @@ function olz_change_password_modal($args = []) {
     if ($user) {
         $esc_id = htmlentities(json_encode($user->getId()));
 
-        echo <<<ZZZZZZZZZZ
+        return <<<ZZZZZZZZZZ
         <div class='modal fade' id='change-password-modal' tabindex='-1' aria-labelledby='change-password-modal-label' aria-hidden='true'>
             <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -50,4 +50,5 @@ function olz_change_password_modal($args = []) {
         </div>
         ZZZZZZZZZZ;
     }
+    return '';
 }

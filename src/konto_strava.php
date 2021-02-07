@@ -55,4 +55,5 @@ ZZZZZZZZZZ;
 echo "</div>
 </div>";
 
-include __DIR__.'/components/page/olz_footer/olz_footer.php';
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

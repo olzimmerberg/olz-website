@@ -1,6 +1,6 @@
 <?php
 
-function olz_sign_up_modal($args = []) {
+function olz_sign_up_modal($args = []): string {
     global $_CONFIG;
 
     require_once __DIR__.'/../../../config/server.php';
@@ -15,7 +15,7 @@ function olz_sign_up_modal($args = []) {
     $google_url = $google_utils->getAuthUrl();
     $facebook_url = $facebook_utils->getAuthUrl();
 
-    echo <<<ZZZZZZZZZZ
+    return <<<ZZZZZZZZZZ
     <div class='modal fade' id='sign-up-modal' tabindex='-1' aria-labelledby='sign-up-modal-label' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>

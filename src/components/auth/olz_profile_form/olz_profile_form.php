@@ -1,6 +1,6 @@
 <?php
 
-function olz_profile_form($args) {
+function olz_profile_form($args): string {
     $fallback_defaults = [
         'region' => 'ZH',
         'country_code' => 'CH',

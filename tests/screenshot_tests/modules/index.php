@@ -9,7 +9,11 @@ $index_with_page_url = "{$index_url}?page=3";
 
 function test_index($driver, $base_url) {
     global $index_url, $index_with_page_url;
+    tick('index');
+
     test_index_readonly($driver, $base_url);
+
+    tock('index', 'index');
 }
 
 function test_index_readonly($driver, $base_url) {

@@ -10,6 +10,8 @@ $galerie_id_2_url = "{$galerie_url}?id=2";
 
 function test_galerie($driver, $base_url) {
     global $galerie_id_2_url;
+    tick('galerie');
+
     test_galerie_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -61,6 +63,7 @@ function test_galerie($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('galerie', 'galerie');
 }
 
 function test_galerie_readonly($driver, $base_url) {

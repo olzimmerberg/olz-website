@@ -8,7 +8,11 @@ $material_url = '/material.php';
 
 function test_material($driver, $base_url) {
     global $material_url;
+    tick('material');
+
     test_material_readonly($driver, $base_url);
+
+    tock('material', 'material');
 }
 
 function test_material_readonly($driver, $base_url) {

@@ -10,6 +10,8 @@ $aktuell_id_3_url = "{$aktuell_url}?id=3";
 
 function test_aktuell($driver, $base_url) {
     global $aktuell_id_3_url;
+    tick('aktuell');
+
     test_aktuell_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -69,6 +71,7 @@ function test_aktuell($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('aktuell', 'aktuell');
 }
 
 function test_aktuell_readonly($driver, $base_url) {

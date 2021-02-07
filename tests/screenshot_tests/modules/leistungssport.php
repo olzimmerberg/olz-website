@@ -9,6 +9,8 @@ $leistungssport_url = '/blog.php';
 
 function test_leistungssport($driver, $base_url) {
     global $leistungssport_url;
+    tick('leistungssport');
+
     test_leistungssport_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -45,6 +47,7 @@ function test_leistungssport($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('leistungssport', 'leistungssport');
 }
 
 function test_leistungssport_readonly($driver, $base_url) {

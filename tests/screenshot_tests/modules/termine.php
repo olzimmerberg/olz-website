@@ -9,6 +9,8 @@ $termine_url = '/termine.php';
 
 function test_termine($driver, $base_url) {
     global $termine_url;
+    tick('termine');
+
     test_termine_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -37,6 +39,7 @@ function test_termine($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('termine', 'termine');
 }
 
 function test_termine_readonly($driver, $base_url) {

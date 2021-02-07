@@ -9,6 +9,8 @@ $forum_url = '/forum.php';
 
 function test_forum($driver, $base_url) {
     global $forum_url;
+    tick('forum');
+
     test_forum_readonly($driver, $base_url);
 
     $new_button = $driver->findElement(
@@ -46,6 +48,7 @@ function test_forum($driver, $base_url) {
     take_pageshot($driver, 'forum_new_finished');
 
     reset_dev_data();
+    tock('forum', 'forum');
 }
 
 function test_forum_readonly($driver, $base_url) {

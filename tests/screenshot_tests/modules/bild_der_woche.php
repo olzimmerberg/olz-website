@@ -9,6 +9,8 @@ $startseite_url = '/startseite.php';
 
 function test_bild_der_woche($driver, $base_url) {
     global $startseite_url;
+    tick('bild_der_woche');
+
     test_bild_der_woche_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -41,6 +43,7 @@ function test_bild_der_woche($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('bild_der_woche', 'bild_der_woche');
 }
 
 function test_bild_der_woche_readonly($driver, $base_url) {

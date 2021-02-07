@@ -8,7 +8,11 @@ $fuer_einsteiger_url = '/fuer_einsteiger.php';
 
 function test_fuer_einsteiger($driver, $base_url) {
     global $fuer_einsteiger_url;
+    tick('fuer_einsteiger');
+
     test_fuer_einsteiger_readonly($driver, $base_url);
+
+    tock('fuer_einsteiger', 'fuer_einsteiger');
 }
 
 function test_fuer_einsteiger_readonly($driver, $base_url) {

@@ -8,7 +8,11 @@ $search_url = '/search.php';
 
 function test_search($driver, $base_url) {
     global $search_url;
+    tick('search');
+
     test_search_readonly($driver, $base_url);
+
+    tock('search', 'search');
 }
 
 function test_search_readonly($driver, $base_url) {

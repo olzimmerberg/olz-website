@@ -9,7 +9,11 @@ $divmail_url = '/divmail.php';
 
 function test_divmail($driver, $base_url) {
     global $divmail_url;
+    tick('divmail');
+
     test_divmail_readonly($driver, $base_url);
+
+    tock('divmail', 'divmail');
 }
 
 function test_divmail_readonly($driver, $base_url) {

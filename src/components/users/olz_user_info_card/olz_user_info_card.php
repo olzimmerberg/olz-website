@@ -1,10 +1,11 @@
 <?php
 
-require_once __DIR__.'/../../../config/server.php';
-require_once __DIR__.'/../../../admin/olz_functions.php';
-
 function olz_user_info_card($user) {
     global $_CONFIG;
+
+    require_once __DIR__.'/../../../config/server.php';
+    require_once __DIR__.'/../../../admin/olz_functions.php';
+
     $image_path = "img/users/{$user->getId()}.jpg";
     $out = "<table><tr><td style='width:1px;'>";
     $out .= is_file("{$_CONFIG->getDataPath()}{$image_path}") ? "<img src='{$_CONFIG->getDataHref()}{$image_path}' alt='' style='height:64px;'>" : "&nbsp;";

@@ -2,6 +2,7 @@
 
 function olz_header($args = []) {
     global $_CONFIG, $_SERVER;
+
     require_once __DIR__.'/../../../config/server.php';
 
     $js_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/olz.min.js");
@@ -93,7 +94,8 @@ function olz_header($args = []) {
     echo "<body class='olz-override-root'>\n";
     echo "<a name='top'></a>";
 
-    include __DIR__.'/../olz_header_bar/olz_header_bar.php';
+    require_once __DIR__.'/../olz_header_bar/olz_header_bar.php';
+    echo olz_header_bar();
 
     echo "<div class='site-container'>";
     echo "<div class='site-background'>";

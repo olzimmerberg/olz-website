@@ -1,11 +1,12 @@
 <?php
 
-require_once __DIR__.'/../../../config/server.php';
-require_once __DIR__.'/../olz_popup/olz_popup.php';
-require_once __DIR__.'/../olz_user_info_card/olz_user_info_card.php';
-
 function olz_user_info_with_popup($user, $mode = 'name') {
     global $_CONFIG;
+
+    require_once __DIR__.'/../../../config/server.php';
+    require_once __DIR__.'/../olz_popup/olz_popup.php';
+    require_once __DIR__.'/../olz_user_info_card/olz_user_info_card.php';
+
     if ($mode == 'name') {
         $trigger = "<div class='olz-user-info-with-popup'>{$user->getFullName()}</div>";
         $popup = olz_user_info_card($user);

@@ -9,6 +9,11 @@ $index_with_page_url = "{$index_url}?page=3";
 
 function test_index($driver, $base_url) {
     global $index_url, $index_with_page_url;
+    test_index_readonly($driver, $base_url);
+}
+
+function test_index_readonly($driver, $base_url) {
+    global $index_url, $index_with_page_url;
     $driver->get("{$base_url}{$index_url}");
     take_pageshot($driver, 'index_without_page');
 

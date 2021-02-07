@@ -2,6 +2,7 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $service_url = '/service.php';
@@ -40,4 +41,6 @@ function test_links($driver, $base_url) {
     take_pageshot($driver, 'links_new_finished');
 
     logout($driver, $base_url);
+
+    reset_dev_data();
 }

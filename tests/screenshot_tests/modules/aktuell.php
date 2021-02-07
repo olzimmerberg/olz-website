@@ -2,6 +2,7 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $aktuell_url = '/aktuell.php';
@@ -9,8 +10,7 @@ $aktuell_id_3_url = "{$aktuell_url}?id=3";
 
 function test_aktuell($driver, $base_url) {
     global $aktuell_id_3_url;
-    $driver->get("{$base_url}{$aktuell_id_3_url}");
-    take_pageshot($driver, 'aktuell_id_3');
+    test_aktuell_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$aktuell_id_3_url}");
@@ -67,4 +67,12 @@ function test_aktuell($driver, $base_url) {
     take_pageshot($driver, 'aktuell_new_finished');
 
     logout($driver, $base_url);
+
+    reset_dev_data();
+}
+
+function test_aktuell_readonly($driver, $base_url) {
+    global $aktuell_id_3_url;
+    $driver->get("{$base_url}{$aktuell_id_3_url}");
+    take_pageshot($driver, 'aktuell_id_3');
 }

@@ -2,20 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $termine_url = '/termine.php';
 
 function test_termine($driver, $base_url) {
     global $termine_url;
-    $driver->get("{$base_url}{$termine_url}");
-    take_pageshot($driver, 'termine');
-
-    $show_past_checkbox = $driver->findElement(
-        WebDriverBy::cssSelector('#show-past-checkbox')
-    );
-    $show_past_checkbox->click();
-    take_pageshot($driver, 'termine_past');
+    test_termine_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$termine_url}");
@@ -41,4 +35,18 @@ function test_termine($driver, $base_url) {
     take_pageshot($driver, 'termine_new_finished');
 
     logout($driver, $base_url);
+
+    reset_dev_data();
+}
+
+function test_termine_readonly($driver, $base_url) {
+    global $termine_url;
+    $driver->get("{$base_url}{$termine_url}");
+    take_pageshot($driver, 'termine');
+
+    $show_past_checkbox = $driver->findElement(
+        WebDriverBy::cssSelector('#show-past-checkbox')
+    );
+    $show_past_checkbox->click();
+    take_pageshot($driver, 'termine_past');
 }

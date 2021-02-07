@@ -2,6 +2,7 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $service_url = '/service.php';
@@ -44,4 +45,6 @@ function test_newsletter($driver, $base_url) {
     );
     $save_elem->click();
     take_pageshot($driver, 'newsletter_saved');
+
+    reset_dev_data();
 }

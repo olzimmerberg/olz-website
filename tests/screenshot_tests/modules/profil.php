@@ -9,6 +9,11 @@ $profil_url = '/profil.php';
 
 function test_profil($driver, $base_url) {
     global $profil_url;
+    test_profil_readonly($driver, $base_url);
+}
+
+function test_profil_readonly($driver, $base_url) {
+    global $profil_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$profil_url}");
     $driver->navigate()->refresh();

@@ -8,6 +8,11 @@ $resultate_url = '/resultate/?file=results.xml#/class0';
 
 function test_resultate($driver, $base_url) {
     global $resultate_url;
+    test_resultate_readonly($driver, $base_url);
+}
+
+function test_resultate_readonly($driver, $base_url) {
+    global $resultate_url;
     $driver->get("{$base_url}{$resultate_url}");
     $checkbox_0_elem = $driver->findElement(
         WebDriverBy::cssSelector('input#chk-0')

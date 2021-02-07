@@ -10,6 +10,11 @@ $live_file_path = './dev-server/results/_live.json';
 
 function test_live_results($driver, $base_url) {
     global $live_file_path, $startseite_url;
+    test_live_results_readonly($driver, $base_url);
+}
+
+function test_live_results_readonly($driver, $base_url) {
+    global $live_file_path, $startseite_url;
     $live_file_content = json_encode([
         'last_updated_at' => olz_current_date('Y-m-d H:i:s'),
         'file' => 'results.xml',

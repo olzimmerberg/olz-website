@@ -9,6 +9,11 @@ $webftp_url = '/webftp.php';
 
 function test_webftp($driver, $base_url) {
     global $webftp_url;
+    test_webftp_readonly($driver, $base_url);
+}
+
+function test_webftp_readonly($driver, $base_url) {
+    global $webftp_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$webftp_url}");
     $driver->navigate()->refresh();

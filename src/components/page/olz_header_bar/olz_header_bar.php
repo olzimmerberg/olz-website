@@ -4,8 +4,9 @@
 // Die Kopfzeile der Website.
 // =============================================================================
 
-function olz_header_bar($args = []) {
+function olz_header_bar($args = []): string {
     global $_CONFIG, $db, $zugriff, $button_name;
+    $out = '';
 
     require_once __DIR__.'/../../../config/database.php';
     require_once __DIR__.'/../../../config/server.php';
@@ -13,42 +14,42 @@ function olz_header_bar($args = []) {
     require_once __DIR__.'/../../../image_tools.php';
     require_once __DIR__.'/../../../file_tools.php';
 
-    echo "<div id='header-bar' class='header-bar menu-closed'>";
+    $out .= "<div id='header-bar' class='header-bar menu-closed'>";
 
-    echo "<div class='above-header'>";
-    echo "<div class='account-menu-container'>";
+    $out .= "<div class='above-header'>";
+    $out .= "<div class='account-menu-container'>";
 
     require_once __DIR__.'/../../auth/olz_account_menu/olz_account_menu.php';
-    echo olz_account_menu();
+    $out .= olz_account_menu();
 
-    echo "</div>";
-    echo "</div>";
+    $out .= "</div>";
+    $out .= "</div>";
 
-    echo "<div class='below-header'>";
-    echo "<div id='menu-container' class='menu-container'>";
+    $out .= "<div class='below-header'>";
+    $out .= "<div id='menu-container' class='menu-container'>";
 
     require_once __DIR__."/../olz_menu/olz_menu.php";
-    echo olz_menu();
+    $out .= olz_menu();
 
-    echo "</div>"; // menu-container
-    echo "</div>"; // below-header
+    $out .= "</div>"; // menu-container
+    $out .= "</div>"; // below-header
 
-    echo "<div id='menu-switch' onclick='toggleMenu()' />";
-    echo "<img src='icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-    echo "<img src='icns/menu_close.svg' alt='' class='menu-close noborder' />";
-    echo "</div>";
+    $out .= "<div id='menu-switch' onclick='toggleMenu()' />";
+    $out .= "<img src='icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
+    $out .= "<img src='icns/menu_close.svg' alt='' class='menu-close noborder' />";
+    $out .= "</div>";
 
-    echo "<div class='header-content-container'>";
-    echo "<div class='header-content-scroller'>";
-    echo "<div class='header-content'>";
+    $out .= "<div class='header-content-container'>";
+    $out .= "<div class='header-content-scroller'>";
+    $out .= "<div class='header-content'>";
 
     // TODO: Remove switch as soon as Safari properly supports SVGs.
     if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'])) {
-        echo "<img src='icns/olzschatten.png' alt='' class='noborder' id='olz-logo' />";
+        $out .= "<img src='icns/olzschatten.png' alt='' class='noborder' id='olz-logo' />";
     } else {
-        echo "<img src='icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+        $out .= "<img src='icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
     }
-    echo "<div style='flex-grow:1;'></div>";
+    $out .= "<div style='flex-grow:1;'></div>";
 
     // OLZ Statistik Trainings/Wettkämpfe 2014
     $header_spalten = 2;
@@ -81,7 +82,7 @@ function olz_header_bar($args = []) {
         for ($i = 0; $i < count($matches[0]); $i++) {
             $tmptext = $matches[4][$i];
             $tmpfile = $matches_file[4][$i];
-            //if($_SESSION['auth']=='all') echo $i."***2".$matches_file[4][$i]."<br>";
+            //if($_SESSION['auth']=='all') $out .= $i."***2".$matches_file[4][$i]."<br>";
             if (mb_strlen($tmptext) < 1) {
                 $tmptext = "Datei ".$matches[1][$i];
             }
@@ -111,7 +112,7 @@ function olz_header_bar($args = []) {
     <br><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$ol[1]."</span> Wettkämpfe mit<br><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$ol[0]."</span> TeilnehmerInnen</p>
     </div></div></div>";
 
-    echo $html_first_row;
+    $out .= $html_first_row;
 
     // OLZ JOM-Counter 2020
     // --------------------
@@ -233,32 +234,32 @@ function olz_header_bar($args = []) {
     $color_kids = $are_kids_winners ? 'rgb(0,100,0)' : 'rgb(180,0,0)';
     $color_j_und_s = $are_kids_winners ? 'rgb(180,0,0)' : 'rgb(0,100,0)';
 
-    echo "<div class='header-box'><div style='width:80px;' class='box_ganz'><div style='display: flow-root; width:80px; border:0px;'>";
-    echo "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h2>";
-    echo "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu 2019'>".round($percent_kids, 2)."%</div>";
-    echo "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von Jugndlichen 2020 / 2019'>";
-    echo "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2020&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2020}</a> / ";
-    echo "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2019&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2019}</a>";
-    echo "</div>";
-    echo "<h2 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h2>";
-    echo "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_j_und_s.";' title='Wie viele J&S-Leiter im Vergleich zu 2019'>".round($percent_j_und_s, 2)."%</div>";
-    echo "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von OLZ-J&S-Leitern 2020 / 2019'>";
-    echo "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2020&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2020}</a> / ";
-    echo "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2019&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2019}</a>";
-    echo "</div>";
-    echo "</div></div></div>";
-    echo $htmlout_kids_2019;
-    echo $htmlout_kids_2020;
-    echo $htmlout_j_und_s_2019;
-    echo $htmlout_j_und_s_2020;
+    $out .= "<div class='header-box'><div style='width:80px;' class='box_ganz'><div style='display: flow-root; width:80px; border:0px;'>";
+    $out .= "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h2>";
+    $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu 2019'>".round($percent_kids, 2)."%</div>";
+    $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von Jugndlichen 2020 / 2019'>";
+    $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2020&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2020}</a> / ";
+    $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2019&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2019}</a>";
+    $out .= "</div>";
+    $out .= "<h2 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h2>";
+    $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_j_und_s.";' title='Wie viele J&S-Leiter im Vergleich zu 2019'>".round($percent_j_und_s, 2)."%</div>";
+    $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von OLZ-J&S-Leitern 2020 / 2019'>";
+    $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2020&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2020}</a> / ";
+    $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2019&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2019}</a>";
+    $out .= "</div>";
+    $out .= "</div></div></div>";
+    $out .= $htmlout_kids_2019;
+    $out .= $htmlout_kids_2020;
+    $out .= $htmlout_j_und_s_2019;
+    $out .= $htmlout_j_und_s_2020;
 
     /*
     // OLZ JOM Team Challenge 2015
-    echo "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
-    echo get_olz_text(9, false);
-    echo "</form></div></div></div>";
+    $out .= "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+    $out .= get_olz_text(9, false);
+    $out .= "</form></div></div></div>";
     */
-    //echo $statistik_text;
+    //$out .= $statistik_text;
 
     /*function htmlboxhalbe($entry) {
         global $zugriff,$colors;
@@ -273,15 +274,17 @@ function olz_header_bar($args = []) {
     }*/
 
     // OLZ Trophy 2017
-    echo "<div class='header-box'><a href='trophy.php'><img src='{$_CONFIG->getDataHref()}img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
+    $out .= "<div class='header-box'><a href='trophy.php'><img src='{$_CONFIG->getDataHref()}img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
 
-    echo "</div>"; // header-content
-    echo "</div>"; // header-content-scroller
-    echo "</div>"; // header-content-container
-    echo "</div>"; // header-bar
+    $out .= "</div>"; // header-content
+    $out .= "</div>"; // header-content-scroller
+    $out .= "</div>"; // header-content-container
+    $out .= "</div>"; // header-bar
+
+    return $out;
 }
 
-function htmlbox($entry, $typ, $zugriff, $button_name) {
+function htmlbox($entry, $typ, $zugriff, $button_name): string {
     $colors = ["dd0000", "00cc00", "005500"]; // Farbe Randbalken
 
     $edit_admin = ($zugriff) ? "<a href='aktuell.php?id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>" : "";

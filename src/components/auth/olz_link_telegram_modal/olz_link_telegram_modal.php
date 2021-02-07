@@ -1,6 +1,6 @@
 <?php
 
-function olz_link_telegram_modal($args = []) {
+function olz_link_telegram_modal($args = []): string {
     global $_CONFIG;
 
     require_once __DIR__.'/../../../config/server.php';
@@ -13,7 +13,7 @@ function olz_link_telegram_modal($args = []) {
         $install_instructions = "<li><a href='https://telegram.org/dl/' target='_blank'>Installiere die Telegram-App</a></li>";
     }
 
-    echo <<<ZZZZZZZZZZ
+    return <<<ZZZZZZZZZZ
     <div class='modal fade' id='link-telegram-modal' tabindex='-1' aria-labelledby='link-telegram-modal-label' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>

@@ -1,6 +1,6 @@
 <?php
 
-function olz_login_modal($args = []) {
+function olz_login_modal($args = []): string {
     global $_CONFIG;
 
     require_once __DIR__.'/../../../config/server.php';
@@ -15,7 +15,7 @@ function olz_login_modal($args = []) {
     $google_url = $google_utils->getAuthUrl();
     $facebook_url = $facebook_utils->getAuthUrl();
 
-    echo <<<ZZZZZZZZZZ
+    return <<<ZZZZZZZZZZ
     <div class='modal fade' id='login-modal' tabindex='-1' aria-labelledby='login-modal-label' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>

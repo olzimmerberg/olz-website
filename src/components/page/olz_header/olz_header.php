@@ -1,7 +1,8 @@
 <?php
 
-function olz_header($args = []) {
+function olz_header($args = []): string {
     global $_CONFIG, $_SERVER;
+    $out = '';
 
     require_once __DIR__.'/../../../config/server.php';
 
@@ -74,7 +75,7 @@ function olz_header($args = []) {
         $html_description = "<meta name='Description' content='{$description_arg}'>";
     }
 
-    echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
+    $out .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
             \"http://www.w3.org/TR/html4/loose.dtd\">
     <html>
     <head>
@@ -91,12 +92,14 @@ function olz_header($args = []) {
     {$canonical_tag}
     <script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
     </head>";
-    echo "<body class='olz-override-root'>\n";
-    echo "<a name='top'></a>";
+    $out .= "<body class='olz-override-root'>\n";
+    $out .= "<a name='top'></a>";
 
     require_once __DIR__.'/../olz_header_bar/olz_header_bar.php';
-    echo olz_header_bar();
+    $out .= olz_header_bar();
 
-    echo "<div class='site-container'>";
-    echo "<div class='site-background'>";
+    $out .= "<div class='site-container'>";
+    $out .= "<div class='site-background'>";
+
+    return $out;
 }

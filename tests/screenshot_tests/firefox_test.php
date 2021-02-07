@@ -12,6 +12,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 require_once __DIR__.'/utils/window.php';
 
+require_once __DIR__.'/modules/index.php';
 require_once __DIR__.'/modules/startseite.php';
 require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/aktuell.php';
@@ -71,6 +72,9 @@ function init_test_block($driver) {
 
 $blocks = [
     function ($driver, $code_href) {
+        init_test_block($driver);
+        test_index($driver, $code_href);
+
         init_test_block($driver);
         test_startseite($driver, $code_href);
 

@@ -8,7 +8,11 @@ $resultate_url = '/resultate/?file=results.xml#/class0';
 
 function test_resultate($driver, $base_url) {
     global $resultate_url;
+    tick('resultate');
+
     test_resultate_readonly($driver, $base_url);
+
+    tock('resultate', 'resultate');
 }
 
 function test_resultate_readonly($driver, $base_url) {

@@ -9,6 +9,8 @@ $startseite_url = '/startseite.php';
 
 function test_startseite($driver, $base_url) {
     global $startseite_url;
+    tick('startseite');
+
     test_startseite_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -41,6 +43,7 @@ function test_startseite($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('startseite', 'startseite');
 }
 
 function test_startseite_readonly($driver, $base_url) {

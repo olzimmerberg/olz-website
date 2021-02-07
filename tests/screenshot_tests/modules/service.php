@@ -8,7 +8,11 @@ $service_url = '/service.php';
 
 function test_service($driver, $base_url) {
     global $service_url;
+    tick('service');
+
     test_service_readonly($driver, $base_url);
+
+    tock('service', 'service');
 }
 
 function test_service_readonly($driver, $base_url) {

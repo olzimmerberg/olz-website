@@ -2,9 +2,11 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/timing.php';
 require_once __DIR__.'/window.php';
 
 function take_pageshot($driver, $name) {
+    tick('take_pageshot');
     adjust_css_for_pageshot($driver);
     $browser_name = $driver->getCapabilities()->getBrowserName();
     $screenshots_path = __DIR__.'/../../../screenshots/';
@@ -35,6 +37,7 @@ function take_pageshot($driver, $name) {
     }
     imagepng($dest, "{$screenshots_path}{$screenshot_filename}");
     imagedestroy($dest);
+    tock('take_pageshot', 'take_pageshot');
 }
 
 function take_screenshot($driver, $name) {

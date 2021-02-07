@@ -8,7 +8,11 @@ $datenschutz_url = '/datenschutz.php';
 
 function test_datenschutz($driver, $base_url) {
     global $datenschutz_url;
+    tick('datenschutz');
+
     test_datenschutz_readonly($driver, $base_url);
+
+    tock('datenschutz', 'datenschutz');
 }
 
 function test_datenschutz_readonly($driver, $base_url) {

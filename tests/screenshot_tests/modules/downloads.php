@@ -9,6 +9,8 @@ $service_url = '/service.php';
 
 function test_downloads($driver, $base_url) {
     global $service_url;
+    tick('downloads');
+
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$service_url}");
     $driver->navigate()->refresh();
@@ -39,4 +41,5 @@ function test_downloads($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('downloads', 'downloads');
 }

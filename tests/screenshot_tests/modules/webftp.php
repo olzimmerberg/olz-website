@@ -9,7 +9,11 @@ $webftp_url = '/webftp.php';
 
 function test_webftp($driver, $base_url) {
     global $webftp_url;
+    tick('webftp');
+
     test_webftp_readonly($driver, $base_url);
+
+    tock('webftp', 'webftp');
 }
 
 function test_webftp_readonly($driver, $base_url) {

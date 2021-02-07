@@ -8,7 +8,11 @@ $trophy_url = '/trophy.php';
 
 function test_trophy($driver, $base_url) {
     global $trophy_url;
+    tick('trophy');
+
     test_trophy_readonly($driver, $base_url);
+
+    tock('trophy', 'trophy');
 }
 
 function test_trophy_readonly($driver, $base_url) {

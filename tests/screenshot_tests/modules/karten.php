@@ -9,6 +9,8 @@ $karten_url = '/karten.php';
 
 function test_karten($driver, $base_url) {
     global $karten_url;
+    tick('karten');
+
     test_karten_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -37,6 +39,7 @@ function test_karten($driver, $base_url) {
     logout($driver, $base_url);
 
     reset_dev_data();
+    tock('karten', 'karten');
 }
 
 function test_karten_readonly($driver, $base_url) {

@@ -11,6 +11,8 @@ $email = 'newsletter-test@olzimmerberg.ch';
 
 function test_newsletter($driver, $base_url) {
     global $service_url, $name, $email;
+    tick('newsletter');
+
     $driver->get("{$base_url}{$service_url}");
     $subscribe_elem = $driver->findElement(
         WebDriverBy::cssSelector('input[name="buttonnewsletter"][value="Anmelden"]')
@@ -47,4 +49,5 @@ function test_newsletter($driver, $base_url) {
     take_pageshot($driver, 'newsletter_saved');
 
     reset_dev_data();
+    tock('newsletter', 'newsletter');
 }

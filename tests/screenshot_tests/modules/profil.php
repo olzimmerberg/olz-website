@@ -9,7 +9,11 @@ $profil_url = '/profil.php';
 
 function test_profil($driver, $base_url) {
     global $profil_url;
+    tick('profil');
+
     test_profil_readonly($driver, $base_url);
+
+    tock('profil', 'profil');
 }
 
 function test_profil_readonly($driver, $base_url) {

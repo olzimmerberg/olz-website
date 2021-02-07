@@ -9,6 +9,11 @@ $divmail_url = '/divmail.php';
 
 function test_divmail($driver, $base_url) {
     global $divmail_url;
+    test_divmail_readonly($driver, $base_url);
+}
+
+function test_divmail_readonly($driver, $base_url) {
+    global $divmail_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$divmail_url}");
     take_pageshot($driver, 'divmail');

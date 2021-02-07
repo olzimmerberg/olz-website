@@ -2,14 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $leistungssport_url = '/blog.php';
 
 function test_leistungssport($driver, $base_url) {
     global $leistungssport_url;
-    $driver->get("{$base_url}{$leistungssport_url}");
-    take_pageshot($driver, 'leistungssport');
+    test_leistungssport_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$leistungssport_url}");
@@ -43,4 +43,12 @@ function test_leistungssport($driver, $base_url) {
     take_pageshot($driver, 'leistungssport_new_finished');
 
     logout($driver, $base_url);
+
+    reset_dev_data();
+}
+
+function test_leistungssport_readonly($driver, $base_url) {
+    global $leistungssport_url;
+    $driver->get("{$base_url}{$leistungssport_url}");
+    take_pageshot($driver, 'leistungssport');
 }

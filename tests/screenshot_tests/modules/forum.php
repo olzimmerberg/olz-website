@@ -2,14 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $forum_url = '/forum.php';
 
 function test_forum($driver, $base_url) {
     global $forum_url;
-    $driver->get("{$base_url}{$forum_url}");
-    take_pageshot($driver, 'forum');
+    test_forum_readonly($driver, $base_url);
 
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonforum-neuer-eintrag')
@@ -44,4 +44,12 @@ function test_forum($driver, $base_url) {
     );
     $save_button->click();
     take_pageshot($driver, 'forum_new_finished');
+
+    reset_dev_data();
+}
+
+function test_forum_readonly($driver, $base_url) {
+    global $forum_url;
+    $driver->get("{$base_url}{$forum_url}");
+    take_pageshot($driver, 'forum');
 }

@@ -11,6 +11,12 @@ $password = 'adm1n';
 
 function test_login_logout($driver, $base_url) {
     global $startseite_url, $username, $password;
+    test_login_logout_readonly($driver, $base_url);
+}
+
+// This is not actually readonly, as `AuthRequest`s will be created, but it does not change the looks of the interface.
+function test_login_logout_readonly($driver, $base_url) {
+    global $startseite_url, $username, $password;
 
     $driver->get("{$base_url}{$startseite_url}");
     $driver->navigate()->refresh();

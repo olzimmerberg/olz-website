@@ -8,6 +8,11 @@ $material_url = '/material.php';
 
 function test_material($driver, $base_url) {
     global $material_url;
+    test_material_readonly($driver, $base_url);
+}
+
+function test_material_readonly($driver, $base_url) {
+    global $material_url;
     $driver->get("{$base_url}{$material_url}");
     take_pageshot($driver, 'material');
 }

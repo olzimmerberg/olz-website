@@ -2,14 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $startseite_url = '/startseite.php';
 
 function test_startseite($driver, $base_url) {
     global $startseite_url;
-    $driver->get("{$base_url}{$startseite_url}");
-    take_pageshot($driver, 'startseite');
+    test_startseite_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$startseite_url}");
@@ -39,4 +39,12 @@ function test_startseite($driver, $base_url) {
     take_pageshot($driver, 'startseite_banner_finished');
 
     logout($driver, $base_url);
+
+    reset_dev_data();
+}
+
+function test_startseite_readonly($driver, $base_url) {
+    global $startseite_url;
+    $driver->get("{$base_url}{$startseite_url}");
+    take_pageshot($driver, 'startseite');
 }

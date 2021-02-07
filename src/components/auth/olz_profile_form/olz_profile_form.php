@@ -1,11 +1,11 @@
 <?php
 
-function olz_profile_form($defaults) {
+function olz_profile_form($args) {
     $fallback_defaults = [
         'region' => 'ZH',
         'country_code' => 'CH',
     ];
-    $defaults = array_merge($fallback_defaults, $defaults);
+    $defaults = array_merge($fallback_defaults, $args);
 
     // $esc_id = htmlentities(json_encode($user->getId()));
     $esc_first_name = htmlentities($defaults['first_name']);

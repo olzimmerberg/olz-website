@@ -4,80 +4,61 @@
 // Das Navigationsmenu der Website.
 // =============================================================================
 
-require_once __DIR__.'/../../../config/date.php';
-require_once __DIR__.'/../../../config/server.php';
+function olz_menu($args = []) {
+    global $_CONFIG;
 
-$menu = [
-    ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
-    ["", "", ''],
-    ["Aktuell", "aktuell.php", 'large'],
-    ["Leistungssport", "blog.php", 'large'],
-    ["Termine", "termine.php", 'large'],
-    ["", "", ''],
-    ["Galerie", "galerie.php", 'large'],
-    ["Forum", "forum.php", 'large'],
-    ["Karten", "karten.php", 'large'],
-    ["", "", ''],
-    ["Material & Kleider", "material.php", 'large'],
-    ["Service", "service.php", 'large'],
-    //array("Anmeldungen","13",15),
-    ["Kontakt", "kontakt.php", 'large'],
-];
+    require_once __DIR__.'/../../../config/date.php';
+    require_once __DIR__.'/../../../config/server.php';
 
-echo "<div id='menu' class='menu'>";
-// LIVE-RESULTATE
-$live_json_path = "{$_CONFIG->getDataPath()}results/_live.json";
-if (is_file($live_json_path)) {
-    $content = file_get_contents($live_json_path);
-    if ($content) {
-        $live = json_decode($content, true);
-        $last_updated_at = strtotime($live['last_updated_at']);
-        $now = strtotime(olz_current_date('Y-m-d H:i:s'));
-        if ($live && $last_updated_at > $now - 3600) {
-            echo "<a href='{$_CONFIG->getCodeHref()}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
+    $menu = [
+        ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
+        ["", "", ''],
+        ["Aktuell", "aktuell.php", 'large'],
+        ["Leistungssport", "blog.php", 'large'],
+        ["Termine", "termine.php", 'large'],
+        ["", "", ''],
+        ["Galerie", "galerie.php", 'large'],
+        ["Forum", "forum.php", 'large'],
+        ["Karten", "karten.php", 'large'],
+        ["", "", ''],
+        ["Material & Kleider", "material.php", 'large'],
+        ["Service", "service.php", 'large'],
+        //array("Anmeldungen","13",15),
+        ["Kontakt", "kontakt.php", 'large'],
+    ];
+
+    echo "<div id='menu' class='menu'>";
+    // LIVE-RESULTATE
+    $live_json_path = "{$_CONFIG->getDataPath()}results/_live.json";
+    if (is_file($live_json_path)) {
+        $content = file_get_contents($live_json_path);
+        if ($content) {
+            $live = json_decode($content, true);
+            $last_updated_at = strtotime($live['last_updated_at']);
+            $now = strtotime(olz_current_date('Y-m-d H:i:s'));
+            if ($live && $last_updated_at > $now - 3600) {
+                echo "<a href='{$_CONFIG->getCodeHref()}resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
+            }
         }
     }
-}
-echomenu($menu, "mainmenu");
+    echomenu($menu, "mainmenu", $_CONFIG);
 
-function color($red, $green, $blue) {
-    $redstelle1 = $red % 16;
-    $redstelle2 = round(($red - $redstelle1) / 16, 0);
-    $greenstelle1 = $green % 16;
-    $greenstelle2 = round(($green - $greenstelle1) / 16, 0);
-    $bluestelle1 = $blue % 16;
-    $bluestelle2 = round(($blue - $bluestelle1) / 16, 0);
-    $hexvalues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
-    return $hexvalues[$redstelle2].$hexvalues[$redstelle1].$hexvalues[$greenstelle2].$hexvalues[$greenstelle1].$hexvalues[$bluestelle2].$hexvalues[$bluestelle1];
+    echo "<form name='Suche' method='post' action='search.php' style='white-space:nowrap; width:180px;'>
+    <input type='text' name='search_key' style='width:172px;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.search_key.style.color = \"#006516\"; this.form.search_key.value = \"\"; ' onblur='this.form.search_key.style.color = \"#888888\"; this.form.search_key.value = \"Suchen...\"; '>
+    </form>";
+    echo "<div style='padding:2em 0.5em 0em 0.5em;'>
+    <script type='text/javascript'>document.write(MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"webmaster\", \"Homepage%20OL%20Zimmerberg\"));</script>
+    </div>
+    <div style='padding:0.5em 0.5em 0em 0.5em;'>
+    <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' title='OL Zimmerberg auf Strava' style='float:right;'><img src='icns/strava_16.svg' alt='s' class='noborder' /></a>
+    <a href='https://www.facebook.com/olzimmerberg' target='_blank' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='icns/facebook_16.svg' alt='f' class='noborder' /></a>
+    <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.svg' alt='Y' class='noborder' /></a>
+    <a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.svg' alt='g' class='noborder' /></a>
+    </div>
+    </div>";
 }
-/*
-function color ($red,$green,$blue) {
-    $redstelle1 = $red%16;
-    $redstelle2 = round(($red-$redstelle1)/16,0);
-    $greenstelle1 = $green%16;
-    $greenstelle2 = round(($green-$greenstelle1)/16,0);
-    $bluestelle1 = $blue%16;
-    $bluestelle2 = round(($blue-$bluestelle1)/16,0);
-    $hexvalues = array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
-    return "rgb(".floor($red).",".floor($green).",".floor($blue).")";
-}
-*/
-echo "<form name='Suche' method='post' action='search.php' style='white-space:nowrap; width:180px;'>
-<input type='text' name='search_key' style='width:172px;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.search_key.style.color = \"#006516\"; this.form.search_key.value = \"\"; ' onblur='this.form.search_key.style.color = \"#888888\"; this.form.search_key.value = \"Suchen...\"; '>
-</form>";
-echo "<div style='padding:2em 0.5em 0em 0.5em;'>
-<script type='text/javascript'>document.write(MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"webmaster\", \"Homepage%20OL%20Zimmerberg\"));</script>
-</div>
-<div style='padding:0.5em 0.5em 0em 0.5em;'>
-<a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' title='OL Zimmerberg auf Strava' style='float:right;'><img src='icns/strava_16.svg' alt='s' class='noborder' /></a>
-<a href='https://www.facebook.com/olzimmerberg' target='_blank' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='icns/facebook_16.svg' alt='f' class='noborder' /></a>
-<a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.svg' alt='Y' class='noborder' /></a>
-<a href='https://github.com/olzimmerberg/olz-website' target='_blank' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.svg' alt='g' class='noborder' /></a>
-</div>
-</div>";
 
-function echomenu($menu, $identifier) {
-    global $_CONFIG;
+function echomenu($menu, $identifier, $_CONFIG) {
     for ($i = 0; $i < count($menu); $i++) {
         $menupunkt = $menu[$i];
         $fontsize = $menupunkt[2];
@@ -110,4 +91,15 @@ function echomenu($menu, $identifier) {
             echo "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";
         }
     }
+}
+
+function color($red, $green, $blue) {
+    $redstelle1 = $red % 16;
+    $redstelle2 = round(($red - $redstelle1) / 16, 0);
+    $greenstelle1 = $green % 16;
+    $greenstelle2 = round(($green - $greenstelle1) / 16, 0);
+    $bluestelle1 = $blue % 16;
+    $bluestelle2 = round(($blue - $bluestelle1) / 16, 0);
+    $hexvalues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+    return $hexvalues[$redstelle2].$hexvalues[$redstelle1].$hexvalues[$greenstelle2].$hexvalues[$greenstelle1].$hexvalues[$bluestelle2].$hexvalues[$bluestelle1];
 }

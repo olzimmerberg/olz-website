@@ -30,7 +30,6 @@ function olz_account_menu($args = []): string {
         }
         if ($_SESSION['auth'] == 'all') {
             $out .= "<a class='dropdown-item' href='logs.php'>Logs</a>";
-            $out .= "<a class='dropdown-item' href='results.php'>Online-Resultate</a>";
         }
         $out .= <<<'ZZZZZZZZZZ'
         <a

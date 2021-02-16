@@ -39,7 +39,6 @@ function olz_header($args = []): string {
             "19" => "zol/karten.php",
             "20" => "trophy.php",
             "21" => "material.php",
-            "99" => "results.php",
             "100" => "profil.php",
             "mail" => "divmail.php",
             "ftp" => "webftp.php",

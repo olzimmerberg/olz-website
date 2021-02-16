@@ -9,12 +9,17 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
 
-    $id = intval($id);
-    $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
-    $res = $db->query($sql);
     $html_title = "Galerie";
-    while ($row = $res->fetch_assoc()) {
-        $html_title = $row['titel'];
+    if (isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
+        $res = $db->query($sql);
+        if ($res->num_rows == 0) {
+            http_response_code(404);
+        }
+        while ($row = $res->fetch_assoc()) {
+            $html_title = $row['titel'];
+        }
     }
 
     require_once __DIR__.'/components/page/olz_header/olz_header.php';

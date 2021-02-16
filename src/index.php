@@ -135,6 +135,10 @@ else {
 
 header('Cache-Control: max-age=600');
 
+if ($page == 0) {
+    http_response_code(404);
+}
+
 require_once "components/page/olz_header/olz_header.php";
 echo olz_header([]);
 

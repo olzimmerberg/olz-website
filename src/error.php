@@ -3,6 +3,7 @@
 if (!defined('CALLED_THROUGH_INDEX')) {
     require_once __DIR__.'/config/init.php';
 
+    http_response_code(404);
     session_start_if_cookie_set();
 
     require_once __DIR__.'/admin/olz_functions.php';

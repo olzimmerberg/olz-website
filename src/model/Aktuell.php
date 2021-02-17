@@ -3,7 +3,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AktuellRepository")
  * @ORM\Table(
  *     name="aktuell",
  *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},

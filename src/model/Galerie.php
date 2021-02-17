@@ -3,13 +3,13 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GalerieRepository")
  * @ORM\Table(
  *     name="galerie",
  *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
  * )
  */
-class galerie {
+class Galerie {
     /**
      * @ORM\Column(type="integer", nullable=false)
      */

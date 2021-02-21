@@ -1,4 +1,4 @@
-export function olz_toggle_vorstand(ident) {
+export function olz_toggle_vorstand(ident: string): void {
     const pelem = document.getElementById(`popup${ident}`);
     const selem = document.getElementById(`source${ident}`);
     if (pelem.style.display === 'none') {
@@ -10,13 +10,13 @@ export function olz_toggle_vorstand(ident) {
 }
 
 
-export function trim(stringToTrim) {
+export function trim(stringToTrim: string): string {
     return stringToTrim.replace(/^\s+|\s+$/g, '');
 }
 
 
 /* EMAILADRESSE MASKIEREN (global) */
-export function MailTo(name, domain, text, subject) {
+export function MailTo(name: string, domain: string, text: string, subject = ''): string {
     let mytext = '';
     const linktext = text;
     const email1 = name;
@@ -28,7 +28,7 @@ export function MailTo(name, domain, text, subject) {
 }
 
 /* MENÜ UNTERMENÜS ZEIGEN (menu.php) */
-export function menu(menuid) {
+export function menu(menuid: string): void {
     const div = document.getElementById(menuid);
     if (div.style.display === 'none') {
         div.style.display = 'block';
@@ -38,7 +38,7 @@ export function menu(menuid) {
 }
 
 /* JAHREÜBERSICHT ZEIGEN (menu.php) */
-export function show_year(year1, year2) {
+export function show_year(year1: string, year2: string): void {
     const div1 = document.getElementById(year1);
     if (div1.style.display === 'none') {
         div1.style.display = 'block';
@@ -55,21 +55,21 @@ export function show_year(year1, year2) {
 
 /* DOPPELBILD (global) */
 
-export function expand(menuid) {
+export function expand(menuid: string): void {
     const div = document.getElementById(menuid);
     div.style.display = 'block';
 }
-export function collapse(menuid) {
+export function collapse(menuid: string): void {
     const div = document.getElementById(menuid);
     div.style.display = 'none';
 }
 
-export function open_link(adresse) {
+export function open_link(adresse: string): void {
     const url = adresse;
     window.open(url, '_newtab');
 }
 
-export function open_link2(adresse) {
+export function open_link2(adresse: string): void {
     const url = adresse;
     window.open(url, '');
 }

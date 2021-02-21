@@ -3,18 +3,18 @@ let ClosingHeight = 0;
 const TimeToSlide = 200;
 let openAccordion = '';
 
-export function setOpenAccordion(newOpenAccordion) {
+export function setOpenAccordion(newOpenAccordion: string): void {
     openAccordion = newOpenAccordion;
 }
 
-export function init_accordion() {
+export function init_accordion(): void {
     const links = document.getElementsByName('accordionlink');
     for (let i = 0; i < links.length; i++) {
         links[i].removeAttribute('href');
     }
 }
 
-export function runAccordion(jahr) {
+export function runAccordion(jahr: string): void {
     let nID = `Accordion${jahr}Content`;
     const openElem = document.getElementById(`${openAccordion}_`);
     if (openElem) { ClosingHeight = openElem.offsetHeight; }
@@ -25,7 +25,12 @@ export function runAccordion(jahr) {
     openAccordion = nID;
 }
 
-export function animateAccordion(lastTick, timeLeftArg, closingId, openingId) {
+export function animateAccordion(
+    lastTick: number,
+    timeLeftArg: number,
+    closingId: string,
+    openingId: string,
+): void {
     let timeLeft = timeLeftArg;
     const curTick = new Date().getTime();
     const elapsedTicks = curTick - lastTick;

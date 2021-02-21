@@ -1,11 +1,12 @@
-export function highlight_menu(e) {
+export function highlight_menu(e: Event): void {
     const menuContainerElem = document.getElementById('menu-container');
     const menuContainerStyle = window.getComputedStyle(menuContainerElem);
-    const menuContainerOpacity = menuContainerStyle.getPropertyValue('opacity');
+    const menuContainerOpacity = Number(menuContainerStyle.getPropertyValue('opacity'));
     if (menuContainerOpacity < 0.5) {
         return;
     }
-    const href = e.currentTarget.getAttribute('href');
+    const target = e.currentTarget as HTMLElement;
+    const href = target.getAttribute('href');
     const elem = document.getElementById(`menu_a_page_${href}`);
     const rect = elem.getBoundingClientRect();
     const pointer = document.createElement('img');
@@ -22,7 +23,7 @@ export function highlight_menu(e) {
     window.setTimeout(() => highlight_menu_ani(href, 0), 100);
 }
 
-export function highlight_menu_ani(href, stepArg) {
+export function highlight_menu_ani(href: string, stepArg: number): void {
     let step = stepArg;
     if (step === 8) { step = 0; }
     const elem = document.getElementById(`highlight_menu_${href}`);
@@ -31,8 +32,9 @@ export function highlight_menu_ani(href, stepArg) {
     window.setTimeout(() => highlight_menu_ani(href, step + 1), 100);
 }
 
-export function unhighlight_menu(e) {
-    const href = e.currentTarget.getAttribute('href');
+export function unhighlight_menu(e: Event): void {
+    const target = e.currentTarget as HTMLElement;
+    const href = target.getAttribute('href');
     const elem = document.getElementById(`highlight_menu_${href}`);
     if (elem) {
         elem.parentElement.removeChild(elem);

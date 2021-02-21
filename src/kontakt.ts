@@ -1,8 +1,8 @@
-export function highlight_organigramm(id) {
+export function highlight_organigramm(id: string): void {
     highlight_organigramm_scroll(id);
 }
 
-export function highlight_organigramm_scroll(id) {
+export function highlight_organigramm_scroll(id: string): void {
     let elem = document.getElementById(id);
     if (/box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement.id)) { elem = elem.parentElement; }
     elem.style.backgroundColor = 'rgba(0,0,0,0)';
@@ -24,7 +24,7 @@ export function highlight_organigramm_scroll(id) {
     }
 }
 
-export function highlight_organigramm_color(id) {
+export function highlight_organigramm_color(id: string): void {
     let elem = document.getElementById(id);
     if (/box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement.id)) { elem = elem.parentElement; }
     for (let i = 0; i < 20; i++) {

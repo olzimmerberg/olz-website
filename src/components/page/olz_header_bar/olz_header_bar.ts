@@ -1,4 +1,4 @@
-export function resizeHeaderBar() {
+export function resizeHeaderBar(): void {
     const headerBarElem = document.getElementById('header-bar');
     const isMinified = headerBarElem.className.indexOf('minified') !== -1;
     const shouldBeMinified = window.pageYOffset > 100;
@@ -13,7 +13,7 @@ window.addEventListener('load', resizeHeaderBar);
 window.addEventListener('scroll', resizeHeaderBar);
 
 let isMenuOpen = false;
-export function toggleMenu() {
+export function toggleMenu(): void {
     if (isMenuOpen) {
         closeMenu();
     } else {
@@ -21,13 +21,13 @@ export function toggleMenu() {
     }
 }
 
-function closeMenu() {
+function closeMenu(): void {
     const menuSwitchElem = document.getElementById('header-bar');
     menuSwitchElem.className = menuSwitchElem.className.replace('menu-opened', 'menu-closed');
     isMenuOpen = false;
 }
 
-function openMenu() {
+function openMenu(): void {
     const menuSwitchElem = document.getElementById('header-bar');
     menuSwitchElem.className = menuSwitchElem.className.replace('menu-closed', 'menu-opened');
     isMenuOpen = true;
@@ -39,7 +39,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-export function headerToggle(ident) {
+export function headerToggle(ident: string): boolean {
     const elem = document.getElementById(ident);
     const isShown = (elem.style.display === 'block');
     document.getElementById('ranking-kids-2020').style.display = 'none';

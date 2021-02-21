@@ -1,4 +1,4 @@
-export function olzPopupToggle(ident) {
+export function olzPopupToggle(ident: string): void {
     const popupElem = document.getElementById(`popup${ident}`);
     const triggerElem = document.getElementById(`trigger${ident}`);
     if (popupElem.style.display === 'block') {

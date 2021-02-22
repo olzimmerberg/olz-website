@@ -1,6 +1,6 @@
-/* globals xmlDoc */
-
 let filePath = undefined;
+let xmlDoc = undefined;
+
 if (window.location.search) {
     const match = /\?file=([^&#]+)/.exec(window.location.search);
     if (match) {
@@ -13,16 +13,22 @@ if (window.location.search) {
     }
 }
 
-export function allInRightOrder(sample, correct) {
-    const distList = [];
+interface AnalysisResult {
+    distance: number;
+    sampleMapping: number[];
+    correctMapping: number[];
+}
+
+export function allInRightOrder(sample: string[], correct: string[]): AnalysisResult {
+    const distList: number[] = [];
     for (let j = 0; j < correct.length + 1; j++) {
         distList.push(j);
     }
-    const matrix = [];
+    const matrix: number[][] = [];
     matrix.push(distList.map((_, ind) => (ind === 0 ? 0 : 1)));
     for (let i = 1; i < sample.length + 1; i++) {
         const lastDistList = distList;
-        const matrixRow = [];
+        const matrixRow: number[] = [];
         for (let j = 0; j < correct.length + 1; j++) {
             const opt0 = (j === 0 ? i : lastDistList[j - 1] + (sample[i - 1] === correct[j - 1] ? 0 : 2));
             const opt1 = lastDistList[j];
@@ -42,11 +48,11 @@ export function allInRightOrder(sample, correct) {
         }
         matrix.push(matrixRow);
     }
-    const sampleMapping = [];
+    const sampleMapping: number[] = [];
     for (let i = 0; i < sample.length; i++) {
         sampleMapping.push(NaN);
     }
-    const correctMapping = [];
+    const correctMapping: number[] = [];
     for (let j = 0; j < correct.length; j++) {
         correctMapping.push(NaN);
     }
@@ -73,28 +79,28 @@ export function allInRightOrder(sample, correct) {
     };
 }
 
-export function formatTime(numSeconds) {
+export function formatTime(numSeconds: number): string {
     const hours = Math.floor(numSeconds / 3600);
     const mins = Math.floor((numSeconds / 60) % 60);
     const secs = Math.floor(numSeconds % 60);
     const msecs = Math.floor((numSeconds * 1000) % 1000);
     return `${(0 < hours ? `${hours}:` : '') + (`00${mins}`).slice(-2)}:${(`00${secs}`).slice(-2)}${0 < msecs ? `.${(`000${msecs}`).slice(-3)}` : ''}`;
 }
-export function hashPath() {
+export function hashPath(): string[] {
     return location.hash.substr(1).split('/');
 }
-export function popHash() {
+export function popHash(): void {
     location.hash = location.hash.substr(0, location.hash.lastIndexOf('/'));
 }
-export function pushHash(newComponent) {
+export function pushHash(newComponent: string): void {
     location.hash += `/${newComponent}`;
 }
-export function setHash(newComponent, ind) {
+export function setHash(newComponent: string, ind: number): void {
     location.hash = `${hashPath().slice(0, ind).join('/')}/${newComponent}`;
 }
 
 const selectedIndexesByClass = {};
-function showChart(classInd) {
+function showChart(classInd: number) {
     if (classInd < 0) { return; }
     if (!(classInd in selectedIndexesByClass)) { selectedIndexesByClass[classInd] = {}; }
     const classResults = xmlDoc.querySelectorAll('ResultList > ClassResult');
@@ -115,18 +121,18 @@ function showChart(classInd) {
         if (!cont) { correctControls.push({'controlCode': 'F', 'globalFirstThree': [], 'localFirstThree': []}); }
     }
     // Get times of all runners
-    const times = [];
+    const times: number[][] = [];
     for (let i = 0; i < ranking.length; i++) {
         const splitTimes = ranking[i].querySelectorAll('Result > SplitTime');
         // const ind = 0;
         // const lastTime = 0;
-        const sampleCodes = [];
+        const sampleCodes: string[] = [];
         for (let j = 0; j < splitTimes.length; j++) {
             const controlCode = splitTimes[j].querySelector('ControlCode');
             sampleCodes.push(controlCode.textContent);
         }
         sampleCodes.push('F');
-        const correctCodes = correctControls.map((e) => e.controlCode);
+        const correctCodes: string[] = correctControls.map((e) => e.controlCode);
         const res = allInRightOrder(sampleCodes, correctCodes);
         const timesTmp = res.correctMapping.map((e) => {
             if (isNaN(e)) { return NaN; }
@@ -176,15 +182,15 @@ function showChart(classInd) {
         }
     }
 
-    const svg = document.querySelector('#grafik-svg');
-    const wid = svg.width.animVal.value - 100;
-    const hei = svg.height.animVal.value;
+    const svg: SVGSVGElement = document.querySelector('#grafik-svg');
+    const wid: number = svg.width.animVal.value - 100;
+    const hei: number = svg.height.animVal.value;
 
     // Colors
     const colors = ['rgb(133,202,93)', 'rgb(145,210,144)', 'rgb(72,181,163)', 'rgb(111,183,214)', 'rgb(117,137,191)', 'rgb(165,137,193)', 'rgb(249,140,182)', 'rgb(252,169,133)'];
 
     // Control Spacing: First Local
-    const referenceTimes = [];
+    const referenceTimes: number[] = [];
     let sumReferenceTime = 0;
     for (let j = 0; j < correctControls.length; j++) {
         sumReferenceTime += correctControls[j].localFirstThree[0];
@@ -285,14 +291,15 @@ function showRanking(classInd) {
     document.getElementById('content-box').innerHTML = htmlout;
     for (const i in selectedIndexesByClass[classInd]) {
         if (Object.prototype.hasOwnProperty.call(selectedIndexesByClass[classInd], i)) {
-            document.getElementById(`chk-${i}`).checked = true;
+            const checkbox = document.getElementById(`chk-${i}`) as HTMLInputElement;
+            checkbox.checked = true;
         }
     }
     for (let i = 0; i < ranking.length; i++) {
-        const chkBox = document.getElementById(`chk-${i}`);
-        console.log(chkBox);
-        chkBox.onclick = () => {
-            if (chkBox.checked) {
+        const checkbox = document.getElementById(`chk-${i}`) as HTMLInputElement;
+        console.log(checkbox);
+        checkbox.onclick = () => {
+            if (checkbox.checked) {
                 selectedIndexesByClass[classInd][i] = true;
             } else {
                 delete selectedIndexesByClass[classInd][i];
@@ -331,8 +338,13 @@ function updateContent() {
     document.getElementById('grafik-box').className = (grafik ? 'active' : 'inactive');
 }
 
-const lastUpdate = {};
-function checkUpdate() {
+interface LastUpdateInfo {
+    lastModified?: string;
+    etag?: string;
+}
+
+const lastUpdate: LastUpdateInfo = {};
+function checkUpdate(): void {
     const xhr = new XMLHttpRequest();
     xhr.open('HEAD', filePath, true);
     xhr.onreadystatechange = () => {
@@ -347,7 +359,7 @@ function checkUpdate() {
     };
     xhr.send();
 }
-function loadUpdate() {
+function loadUpdate(): void {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', filePath, true);
     xhr.onreadystatechange = () => {
@@ -357,7 +369,7 @@ function loadUpdate() {
         const lastModified = xhr.getResponseHeader('Last-modified');
         lastUpdate.etag = etag;
         lastUpdate.lastModified = lastModified;
-        window.xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
+        xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
         console.log('XML', xmlDoc);
         const eventName = xmlDoc.querySelector('ResultList > Event > Name').textContent;
         document.getElementById('title').innerHTML = eventName;
@@ -366,7 +378,7 @@ function loadUpdate() {
     xhr.send();
 }
 window.addEventListener('hashchange', updateContent);
-export function loaded() {
+export function loaded(): void {
     window.setInterval(checkUpdate, 15000);
     loadUpdate();
 }

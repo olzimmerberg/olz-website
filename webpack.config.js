@@ -42,9 +42,9 @@ const defaultConfig = {
     },
     plugins: [
         new webpack.ProvidePlugin({
-            '$':'jquery',
-            'jQuery':'jquery',
-            'window.jQuery':'jquery',
+            '$': 'jquery',
+            'jQuery': 'jquery',
+            'window.jQuery': 'jquery',
         }),
         new WebpackShellPlugin({
             onBuildStart: ['php ./src/api/client/generate.php'],
@@ -73,7 +73,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/resultate/index.js',
+        entry: './src/resultate/index.ts',
         output: {
             path: path.resolve(__dirname, 'src/resultate/jsbuild'),
             publicPath: '/_/resultate/jsbuild/',

@@ -1,21 +1,21 @@
-/* global ActiveXObject */
 /* BILD FUNKTIONEN */
 import {obfuscaseForUpload} from './upload_tools';
 
 const olz_images_edit = {};
 
-export function olz_images_edit_rotatepreview(index) {
+export function olz_images_edit_rotatepreview(_index: number): void {
 }
-export function olz_images_edit_redraw(ident, dbtable, id, count) {
+
+export function olz_images_edit_redraw(
+    ident: string,
+    dbtable: string,
+    id: number,
+    count: number,
+): void {
     if (!olz_images_edit[ident]) { olz_images_edit[ident] = {'uploadqueue': [], 'rotations': {}, 'dragindex': -1, 'draggalery': -1, 'dragelem': false}; }
     if (count) { olz_images_edit[ident].count = count; }
     if (!('count' in olz_images_edit[ident])) {
-        let xmlhttp;
-        if (window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-        }
+        const xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', `image_tools.php?request=info&db_table=${dbtable}&id=${id}`, false);
         xmlhttp.send();
         const info = JSON.parse(xmlhttp.responseText);
@@ -34,7 +34,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             delem.style.top = `${e.clientY + window.pageYOffset + 5}px`;
         }
     }, true);
-    window.addEventListener('mouseup', (e) => {
+    window.addEventListener('mouseup', (_e) => {
         const delem = olz_images_edit[ident].dragelem;
         if (delem) {
             try {
@@ -66,7 +66,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
     htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><div style='width:94px; height:94px; background-color:rgb(240,240,240); border:3px dashed rgb(180,180,180); border-radius:10px; padding:5px;' id='${ident}-dropzone'>Zus&auml;tzliche Bilder per Drag&Drop hierhin ziehen</div></td></tr><tr><td style='height:24px; border:0px;'><input type='file' multiple='multiple' style='width:110px; border:0px;' id='${ident}-fileselect'></td></tr></table>`;
     elem.innerHTML = htmlout;
     const drawcanvas = (uqident, img, part) => {
-        const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`);
+        const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
         const ctx = cnv.getContext('2d');
         ctx.clearRect(0, 0, 110, 110);
         if (img) { ctx.drawImage(img, 0, 0, 110, 110); }
@@ -89,7 +89,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
         drawcanvas(uq[i][0], uq[i][1], 0);
     }
     const dropzone = document.getElementById(`${ident}-dropzone`);
-    const drophover = (e) => {
+    const drophover = (_e) => {
         dropzone.style.backgroundColor = 'rgb(220,220,220)';
         dropzone.style.borderColor = 'rgb(150,150,150)';
     };
@@ -97,7 +97,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
     dropzone.onmouseover = (e) => {
         if (olz_images_edit[ident].draggalery !== -1) { drophover(e); }
     };
-    const dropleave = (e) => {
+    const dropleave = (_e) => {
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
         dropzone.style.borderColor = 'rgb(180,180,180)';
     };
@@ -128,7 +128,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             wid = hei * owid / ohei;
         }
 
-        let base64 = false;
+        let base64 = '';
         if (owid <= max && ohei <= max) {
             base64 = img.src;
         } else {
@@ -174,12 +174,20 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                         const uq__ = olz_images_edit[ident].uploadqueue;
                         let pos = -1;
                         for (i = 0; i < uq__.length; i++) {
-                            if (uq__[i][0] === uqident) { pos = i; }
+                            if (uq__[i][0] === uqident) {
+                                pos = i;
+                            }
                         }
-                        if (-1 < pos) { uq__.splice(pos, 1); }
+                        if (-1 < pos) {
+                            uq__.splice(pos, 1);
+                        }
                         olz_images_edit[ident].uploadqueue = uq__;
-                        if (resp[0] === 1) { olz_images_edit[ident].count += 1; }
-                        if (uq__.length === 0) { olz_images_edit_redraw(ident, dbtable, id); }
+                        if (resp[0] === 1) {
+                            olz_images_edit[ident].count += 1;
+                        }
+                        if (uq__.length === 0) {
+                            olz_images_edit_redraw(ident, dbtable, id, 0);
+                        }
                         window.setTimeout(uploadnextfile, 0);
                     } else if (xmlhttp.status === 510) {
                         tryUpload();
@@ -196,17 +204,20 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             const dropzone_ = document.getElementById(`${ident}-dropzone`);
             dropzone_.innerHTML = '<b>Bitte warten</b>, <br>Bilder werden gelesen und verkleinert...';
             dropzone_.ondrop = () => {};
-            const fileselect = document.getElementById(`${ident}-fileselect`);
-            fileselect.disabled = 'disabled';
+            const fileselect = document.getElementById(`${ident}-fileselect`) as HTMLInputElement;
+            fileselect.disabled = true;
             ind = 0;
         }
         const file = files[ind];
         const uqident = `id${new Date().getTime()}-${Math.random()}-${ind}`;
         const reader = new FileReader();
-        reader.onload = (m) => {
+        reader.onload = (_m) => {
             const img = document.createElement('img');
             img.onerror = () => {
-                if (reader.result.match(/^data:image\/(jpg|jpeg|png)/i)) {
+                if (
+                    typeof reader.result === 'string'
+                    && reader.result.match(/^data:image\/(jpg|jpeg|png)/i)
+                ) {
                     // eslint-disable-next-line no-alert
                     alert(`"${files[ind].name}" ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
                 } else {
@@ -215,9 +226,11 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                 }
                 ind++;
                 if (ind < files.length) {
-                    window.setTimeout(() => { loadnextfile(files, ind); }, 0);
+                    window.setTimeout(() => {
+                        loadnextfile(files, ind);
+                    }, 0);
                 } else {
-                    olz_images_edit_redraw(ident, dbtable, id);
+                    olz_images_edit_redraw(ident, dbtable, id, 0);
                     window.setTimeout(uploadnextfile, 0);
                 }
             };
@@ -227,13 +240,17 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                 olz_images_edit[ident].uploadqueue = uq_;
                 ind++;
                 if (ind < files.length) {
-                    window.setTimeout(() => { loadnextfile(files, ind); }, 0);
+                    window.setTimeout(() => {
+                        loadnextfile(files, ind);
+                    }, 0);
                 } else {
-                    olz_images_edit_redraw(ident, dbtable, id);
+                    olz_images_edit_redraw(ident, dbtable, id, 0);
                     window.setTimeout(uploadnextfile, 0);
                 }
             };
-            img.src = reader.result;
+            if (typeof reader.result === 'string') {
+                img.src = reader.result;
+            }
         };
         reader.readAsDataURL(file);
     };
@@ -243,9 +260,11 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
         if (!e.dataTransfer) { return; }
         const files = e.dataTransfer.files;
         if (!files) { return; }
-        window.setTimeout(() => { loadnextfile(files); }, 0);
+        window.setTimeout(() => {
+            loadnextfile(files, 0);
+        }, 0);
     };
-    dropzone.onmouseup = (e) => {
+    dropzone.onmouseup = (_e) => {
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
         dropzone.style.borderColor = 'rgb(180,180,180)';
         if (olz_images_edit[ident].draggalery !== -1) {
@@ -257,28 +276,30 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                     const resp = JSON.parse(xmlhttp.responseText);
                     if (resp[0] === 1) {
                         olz_images_edit[ident].count = resp[1];
-                        olz_images_edit_redraw(ident, dbtable, id);
+                        olz_images_edit_redraw(ident, dbtable, id, 0);
                     }
                 }
             };
             xmlhttp.send(`id=${id}&fromid=${olz_images_edit[ident].draggalery}`);
         }
     };
-    const fileselect = document.getElementById(`${ident}-fileselect`);
-    fileselect.onchange = (e) => {
+    const fileselect = document.getElementById(`${ident}-fileselect`) as HTMLInputElement;
+    fileselect.onchange = (_e) => {
         const files = fileselect.files;
-        if (!files) { return; }
-        loadnextfile(files);
+        if (!files) {
+            return;
+        }
+        loadnextfile(files, 0);
     };
     for (i = 0; i < cnt + 1; i++) {
         const droptableelem = document.getElementById(`${ident}-droptable-${i + 1}`);
-        droptableelem.onmouseover = (e) => {
+        droptableelem.onmouseover = (_e) => {
             if (olz_images_edit[ident].dragelem) { document.getElementById(`${ident}-borderdiv-${i + 1}`).style.backgroundColor = 'black'; }
         };
-        droptableelem.onmouseout = (e) => {
+        droptableelem.onmouseout = (_e) => {
             document.getElementById(`${ident}-borderdiv-${i + 1}`).style.backgroundColor = '';
         };
-        droptableelem.onmouseup = (e) => {
+        droptableelem.onmouseup = (_e) => {
             const from = olz_images_edit[ident].dragindex;
             if (from === -1) { return; }
             const to = i + 1;
@@ -286,20 +307,20 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             xmlhttp.open('POST', `image_tools.php?request=reorder&db_table=${dbtable}`, false);
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xmlhttp.send(`id=${id}&from=${from}&to=${to}`);
-            let resp = [0];
+            let resp: any[] = [0];
             try {
                 // eslint-disable-next-line no-unused-vars
-                resp = JSON.parse(xmlhttp.responseText);
+                resp = JSON.parse(xmlhttp.responseText) as any[];
             } catch (err) {
                 // ignore
             }
+            console.log(resp);
             for (let j = Math.min(from, to); j <= Math.max(from, to); j++) {
-                const elem_ = document.getElementById(`${ident}-img-${j}`);
+                const elem_ = document.getElementById(`${ident}-img-${j}`) as HTMLImageElement;
                 if (elem_) {
                     elem_.style.visibility = 'visible';
                     elem_.style.transform = 'rotate(0deg)';
                     elem_.style.webkitTransform = 'rotate(0deg)';
-                    elem_.style.msTransform = 'rotate(0deg)';
                     elem_.src = '';
                     elem_.style.width = 'auto';
                     elem_.style.height = 'auto';
@@ -310,14 +331,14 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             }
         };
         if (cnt <= i) { break; }
-        const imgelem = document.getElementById(`${ident}-img-${i + 1}`);
+        const imgelem = document.getElementById(`${ident}-img-${i + 1}`) as HTMLImageElement;
         imgelem.onmousedown = (e) => {
             e.preventDefault();
             olz_images_edit[ident].dragindex = i + 1;
             const delem = document.createElement('img');
             delem.style.pointerEvents = 'none';
             delem.style.position = 'absolute';
-            delem.style.zIndex = 1003;
+            delem.style.zIndex = '1003';
             delem.style.left = `${e.clientX - 32}px`;
             delem.style.top = `${e.clientY + window.pageYOffset + 5}px`;
             delem.style.width = '64px';
@@ -347,7 +368,7 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                 }
             }
         };
-        const confirmdone = (i_) => {
+        const confirmdone = (_i) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);
@@ -360,14 +381,13 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
         const rotelem = document.getElementById(`${ident}-rotate-${i + 1}`);
         const fn1 = ((i_) => {
             const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
-            if (elem_.style.transform === undefined && elem_.style.webkitTransform === undefined && elem_.style.msTransform === undefined) {
+            if (elem_.style.transform === undefined && elem_.style.webkitTransform === undefined) {
                 // eslint-disable-next-line no-alert
                 alert('Diese Funktion wird von Ihrem Browser leider nicht unterstützt. Installieren Sie einen modernen Browser!');
             }
             const rt = olz_images_edit[ident].rotations[i_ + 1] ? olz_images_edit[ident].rotations[i_ + 1] : 0;
             elem_.style.transform = `rotate(${rt + 90}deg)`;
             elem_.style.webkitTransform = `rotate(${rt + 90}deg)`;
-            elem_.style.msTransform = `rotate(${rt + 90}deg)`;
             olz_images_edit[ident].rotations[i_ + 1] = (rt + 90) % 360;
             actiondone(i_);
         }).bind(null, i);
@@ -395,13 +415,12 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
                 olz_images_edit[ident].rotations[i_ + 1] = 0;
                 if (resp[1] === 1) {
                     olz_images_edit[ident].count -= 1;
-                    olz_images_edit_redraw(ident, dbtable_, id_);
+                    olz_images_edit_redraw(ident, dbtable_, id_, 0);
                 } else {
-                    const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
+                    const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`) as HTMLImageElement;
                     elem_.style.visibility = 'visible';
                     elem_.style.transform = 'rotate(0deg)';
                     elem_.style.webkitTransform = 'rotate(0deg)';
-                    elem_.style.msTransform = 'rotate(0deg)';
                     elem_.src = '';
                     elem_.style.width = 'auto';
                     elem_.style.height = 'auto';
@@ -422,7 +441,6 @@ export function olz_images_edit_redraw(ident, dbtable, id, count) {
             elem_.style.visibility = 'visible';
             elem_.style.transform = 'rotate(0deg)';
             elem_.style.webkitTransform = 'rotate(0deg)';
-            elem_.style.msTransform = 'rotate(0deg)';
             olz_images_edit[ident].rotations[i_ + 1] = 0;
             confirmdone(i_);
         }).bind(null, i);

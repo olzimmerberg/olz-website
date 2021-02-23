@@ -83,7 +83,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/resultate/live_uploader/public_html/index.js',
+        entry: './src/resultate/live_uploader/public_html/index.ts',
         output: {
             path: path.resolve(__dirname, 'src/resultate/live_uploader/public_html/jsbuild'),
             publicPath: './jsbuild/',

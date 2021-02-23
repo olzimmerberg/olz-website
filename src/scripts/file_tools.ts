@@ -1,21 +1,21 @@
-/* global ActiveXObject */
 /* BILD FUNKTIONEN */
 import {obfuscaseForUpload} from './upload_tools';
 
 const olz_files_edit = {};
 
-export function olz_files_edit_rotatepreview(index) {
+export function olz_files_edit_rotatepreview(_index: number): void {
 }
-export function olz_files_edit_redraw(ident, dbtable, id, count) {
+
+export function olz_files_edit_redraw(
+    ident: string,
+    dbtable: string,
+    id: number,
+    count: number,
+): void {
     if (!olz_files_edit[ident]) { olz_files_edit[ident] = {'uploadqueue': []}; }
     if (count) { olz_files_edit[ident].count = count; }
     if (!('count' in olz_files_edit[ident])) {
-        let xmlhttp;
-        if (window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-        }
+        const xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', `file_tools.php?request=info&db_table=${dbtable}&id=${id}`, false);
         xmlhttp.send();
         const info = JSON.parse(xmlhttp.responseText);
@@ -41,18 +41,18 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
     htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><div style='width:94px; height:94px; background-color:rgb(240,240,240); border:3px dashed rgb(180,180,180); border-radius:10px; padding:5px;' id='${ident}-dropzone'>Zus&auml;tzliche Dateien per Drag&Drop hierhin ziehen</div></td></tr><tr><td style='height:24px; border:0px;'><input type='file' multiple='multiple' style='width:110px; border:0px;' id='${ident}-fileselect'></td></tr></table>`;
     elem.innerHTML = htmlout;
     const dropzone = document.getElementById(`${ident}-dropzone`);
-    dropzone.ondragover = (e) => {
+    dropzone.ondragover = (_e) => {
         dropzone.style.backgroundColor = 'rgb(220,220,220)';
         dropzone.style.borderColor = 'rgb(150,150,150)';
     };
-    dropzone.ondragleave = (e) => {
+    dropzone.ondragleave = (_e) => {
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
         dropzone.style.borderColor = 'rgb(180,180,180)';
     };
     const uploadfiles = (files) => {
         const uq_ = olz_files_edit[ident].uploadqueue;
         const drawcanvas = (uqident, img, part) => {
-            const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`);
+            const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
             const ctx = cnv.getContext('2d');
             ctx.clearRect(0, 0, 110, 110);
             if (img) { ctx.drawImage(img, 0, 0, 110, 110); }
@@ -94,11 +94,11 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
                             if (-1 < pos) { uq__.splice(pos, 1); }
                             olz_files_edit[ident].uploadqueue = uq__;
                             if (resp[0] === 1) { olz_files_edit[ident].count += 1; }
-                            olz_files_edit_redraw(ident, dbtable, id);
+                            olz_files_edit_redraw(ident, dbtable, id, 0);
                         } else {
                             if (resp[1] !== 'continue') {
                                 // eslint-disable-next-line no-alert
-                                alert(`Fehler beim hochladen von Teil ${part}${last === '1' ? ' (letzter)' : ' (nicht letzter)'}\nresp[1]!="continue"\n${JSON.stringify(resp)}`);
+                                alert(`Fehler beim hochladen von Teil ${part} (nicht letzter)\nresp[1]!="continue"\n${JSON.stringify(resp)}`);
                             }
                             uploadpart(uqident, file, base64, part + 1);
                         }
@@ -125,7 +125,7 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
             reader.readAsDataURL(files[i]);
         }
         olz_files_edit[ident].uploadqueue = uq_;
-        olz_files_edit_redraw(ident, dbtable, id);
+        olz_files_edit_redraw(ident, dbtable, id, 0);
     };
     dropzone.ondrop = (e) => {
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
@@ -135,8 +135,8 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
         if (!files) { return; }
         uploadfiles(files);
     };
-    const fileselect = document.getElementById(`${ident}-fileselect`);
-    fileselect.onchange = (e) => {
+    const fileselect = document.getElementById(`${ident}-fileselect`) as HTMLInputElement;
+    fileselect.onchange = (_e) => {
         const files = fileselect.files;
         if (!files) { return; }
         uploadfiles(files);
@@ -164,7 +164,7 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
                 }
             }
         };
-        const confirmdone = () => {
+        const confirmdone = (_i) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);
@@ -194,9 +194,9 @@ export function olz_files_edit_redraw(ident, dbtable, id, count) {
             }
             if (resp[0] === 1) {
                 if (resp[1] === 1) { olz_files_edit[ident].count -= 1; }
-                olz_files_edit_redraw(ident, dbtable, id);
+                olz_files_edit_redraw(ident, dbtable, id, 0);
                 for (let j = i + 1; (resp[1] === 1 ? j < 1000 : j === i + 1); j++) {
-                    const elem_ = document.getElementById(`${ident}-img-${j}`);
+                    const elem_ = document.getElementById(`${ident}-img-${j}`) as HTMLImageElement;
                     if (!elem_) { break; }
                     elem_.style.visibility = 'visible';
                     elem_.src = `file_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${j}&dim=110?reload=${Math.random()}`;

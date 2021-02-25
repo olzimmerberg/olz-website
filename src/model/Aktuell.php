@@ -96,4 +96,60 @@ class aktuell {
     private $counter;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($new_id) {
+        $this->id = $new_id;
+    }
+
+    public function getDate() {
+        return $this->datum;
+    }
+
+    public function setDate($new_datum) {
+        $this->datum = $new_datum;
+    }
+
+    public function getTime() {
+        return $this->zeit;
+    }
+
+    public function setTime($new_zeit) {
+        $this->zeit = $new_zeit;
+    }
+
+    public function getTitle() {
+        return $this->titel;
+    }
+
+    public function setTitle($new_titel) {
+        $this->titel = $new_titel;
+    }
+
+    public function getAuthor() {
+        return $this->autor;
+    }
+
+    public function setAuthor($new_autor) {
+        $this->autor = $new_autor;
+    }
+
+    public function getTeaser() {
+        return $this->text;
+    }
+
+    public function setTeaser($new_text) {
+        $this->text = $new_text;
+    }
+
+    public function getContent() {
+        return $this->textlang;
+    }
+
+    public function setContent($new_textlang) {
+        $this->textlang = $new_textlang;
+    }
 }

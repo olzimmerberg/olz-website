@@ -38,6 +38,7 @@ final class EnvUtilsTest extends TestCase {
             'date_utils_class_args' => ['2020-08-15 12:51:00'],
 
             'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
+            'email_reaction_key' => 'aaaaaaaaaaaaaaaaaaaa',
 
             'cron_authenticity_code' => 'this_is_just_local',
 
@@ -78,6 +79,7 @@ final class EnvUtilsTest extends TestCase {
         $this->assertSame('FixedDateUtils', $env_utils->getDateUtilsClassName());
         $this->assertSame(['2020-08-15 12:51:00'], $env_utils->getDateUtilsClassArgs());
         $this->assertSame('aaaaaaaaaaaaaaaaaaaa', $env_utils->getDatabaseBackupKey());
+        $this->assertSame('aaaaaaaaaaaaaaaaaaaa', $env_utils->getEmailReactionKey());
         $this->assertSame('this_is_just_local', $env_utils->getCronAuthenticityCode());
         $this->assertSame('123456', $env_utils->getStravaClientId());
         $this->assertSame('0123456789abcdef0123456789abcdef01234567', $env_utils->getStravaClientSecret());

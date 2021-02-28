@@ -5,7 +5,21 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
+
+class FakeOlzMailerEmailUtils {
+    public function encryptEmailReactionToken($data) {
+        $general_utils = new GeneralUtils();
+        return $general_utils->base64EncodeUrl(json_encode($data));
+    }
+}
+
+class FakeOlzMailerServerConfig {
+    public function getBaseUrl() {
+        return 'http://fake-base-url';
+    }
+}
 
 /**
  * @internal
@@ -13,7 +27,9 @@ require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
  */
 final class OlzMailerTest extends TestCase {
     public function testConfigure(): void {
-        $mailer = new OlzMailer(true);
+        $email_utils = new FakeOlzMailerEmailUtils();
+        $server_config = new FakeOlzMailerServerConfig();
+        $mailer = new OlzMailer($email_utils, $server_config, true);
 
         $user = new User();
         $user->setEmail('fake-user@olzimmerberg.ch');
@@ -36,7 +52,7 @@ final class OlzMailerTest extends TestCase {
         äsdf<br />\n1234<br />
         <br />
         <hr style="border: 0; border-top: 1px solid black;">
-        Abmelden? <a href="https://olzimmerberg.ch/TODO">Keine solchen E-Mails mehr</a> - <a href="https://olzimmerberg.ch/TODO">Keine E-Mails von OL Zimmerberg mehr</a>
+        Abmelden? <a href="http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> - <a href="http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
         ZZZZZZZZZZ;
         $this->assertSame($expected_html, $mailer->Body);
         $expected_text = <<<ZZZZZZZZZZ
@@ -46,8 +62,8 @@ final class OlzMailerTest extends TestCase {
 
         ---
         Abmelden?
-        Keine solchen E-Mails mehr: https://olzimmerberg.ch/TODO
-        Keine E-Mails von OL Zimmerberg mehr: https://olzimmerberg.ch/TODO
+        Keine solchen E-Mails mehr: http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
+        Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
         ZZZZZZZZZZ;
         $this->assertSame($expected_text, $mailer->AltBody);
         $this->assertSame(1, count($mailer->getAttachments()));
@@ -58,7 +74,9 @@ final class OlzMailerTest extends TestCase {
     }
 
     public function testSend(): void {
-        $mailer = new OlzMailer(true);
+        $email_utils = new FakeOlzMailerEmailUtils();
+        $server_config = new FakeOlzMailerServerConfig();
+        $mailer = new OlzMailer($email_utils, $server_config, true);
 
         try {
             $mailer->send();
@@ -69,7 +87,9 @@ final class OlzMailerTest extends TestCase {
     }
 
     public function testSendConfigured(): void {
-        $mailer = new OlzMailer(true);
+        $email_utils = new FakeOlzMailerEmailUtils();
+        $server_config = new FakeOlzMailerServerConfig();
+        $mailer = new OlzMailer($email_utils, $server_config, true);
         $user = new User();
         $user->setEmail('fake-user@olzimmerberg.ch');
         $user->setFirstName('Fake');

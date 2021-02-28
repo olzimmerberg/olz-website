@@ -35,7 +35,7 @@ class WeeklySummaryGetter {
             ->where(Criteria::expr()->orX(
                 Criteria::expr()->andX(
                     Criteria::expr()->eq('datum', $today),
-                    Criteria::expr()->lte('zeit', self::CUT_OFF_TIME),
+                    Criteria::expr()->lte('zeit', new DateTime(self::CUT_OFF_TIME)),
                 ),
                 Criteria::expr()->andX(
                     Criteria::expr()->lt('datum', $today),
@@ -43,7 +43,7 @@ class WeeklySummaryGetter {
                 ),
                 Criteria::expr()->andX(
                     Criteria::expr()->eq('datum', $last_week),
-                    Criteria::expr()->gt('zeit', self::CUT_OFF_TIME),
+                    Criteria::expr()->gt('zeit', new DateTime(self::CUT_OFF_TIME)),
                 ),
             ))
             ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])

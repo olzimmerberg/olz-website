@@ -239,6 +239,17 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $row_solv = $result_solv->fetch_assoc();
         }
         $tn = ($zugriff == 1) ? "(".$row['teilnehmer'].($solv_uid > 0 ? ";SOLV" : "").") " : "";
+
+        // Dateicode einfügen
+        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $link, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $tmptext = $matches[4][$i];
+            if (mb_strlen($tmptext) < 1) {
+                $tmptext = "Datei ".$matches[1][$i];
+            }
+            $tmp_html = olz_file($db_table, $id, intval($matches[1][$i]), $tmptext);
+            $link = str_replace($matches[0][$i], $tmp_html, $link);
+        }
         //Karte zeigen
         if ($xkoord > 0 and $datum >= $heute) {
             $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";

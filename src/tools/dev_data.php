@@ -145,6 +145,9 @@ function init_dev_data_filesystem($data_path) {
     mkdir("{$data_path}files/blog/1");
     copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
     mkdir("{$data_path}files/downloads");
+    mkdir("{$data_path}files/termine");
+    mkdir("{$data_path}files/termine/2");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
 
     // Build img/
     mkdir("{$data_path}img");

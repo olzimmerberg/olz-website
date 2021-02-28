@@ -28,8 +28,33 @@ final class OlzMailerTest extends TestCase {
         $this->assertSame([], $mailer->getBccAddresses());
         $this->assertSame('text/html', $mailer->ContentType);
         $this->assertSame('[OLZ] Tèśt', $mailer->Subject);
-        $this->assertSame("HTML-<b>Test</b>,<br />\näsdf<br />\n1234", $mailer->Body);
-        $this->assertSame("äsdf\n1234", $mailer->AltBody);
+        $expected_html = <<<ZZZZZZZZZZ
+        <div style="text-align: right; float: right;">
+            <img src="cid:olz_logo" alt="" style="width:150px;" />
+        </div>
+        Hallo <b>Fake</b>,<br />
+        äsdf<br />\n1234<br />
+        <br />
+        <hr style="border: 0; border-top: 1px solid black;">
+        Abmelden? <a href="https://olzimmerberg.ch/TODO">Keine solchen E-Mails mehr</a> - <a href="https://olzimmerberg.ch/TODO">Keine E-Mails von OL Zimmerberg mehr</a>
+        ZZZZZZZZZZ;
+        $this->assertSame($expected_html, $mailer->Body);
+        $expected_text = <<<ZZZZZZZZZZ
+        Hallo Fake,
+
+        äsdf\n1234
+
+        ---
+        Abmelden?
+        Keine solchen E-Mails mehr: https://olzimmerberg.ch/TODO
+        Keine E-Mails von OL Zimmerberg mehr: https://olzimmerberg.ch/TODO
+        ZZZZZZZZZZ;
+        $this->assertSame($expected_text, $mailer->AltBody);
+        $this->assertSame(1, count($mailer->getAttachments()));
+        $first_attachment = $mailer->getAttachments()[0];
+        $this->assertTrue(is_file($first_attachment[0]));
+        $this->assertSame('inline', $first_attachment[6]);
+        $this->assertSame('olz_logo', $first_attachment[7]);
     }
 
     public function testSend(): void {

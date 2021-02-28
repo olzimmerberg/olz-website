@@ -91,11 +91,6 @@ if ($db_edit == "0" or $do == "vorschau") {
         $autor = " ({$autor})";
     }
     $foto_datum = $_DATE_UTILS->olzDate("jjmmtt", $datum);
-    if ($pfad_tmp) {
-        $link_arg = "pfad=".$pfad_tmp;
-    } else {
-        $link_arg = "datum=".$foto_datum;
-    }
 
     if (mysqli_num_rows($result)) {
         echo "<h2>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum))])." ".date("Y", strtotime($datum)).": ".$titel.$autor."</h2>";
@@ -127,7 +122,7 @@ if ($db_edit == "0" or $do == "vorschau") {
                 break;
             }
         }
-        echo "<tr class='galerie_kopf'><td style='padding:auto;'><a href='galerie.php?datum={$datum}&amp;foto=1' style='display:block;'><img src='icns/link_slides_16.svg' class='noborder' alt='' title='Bild für Bild'></a></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie_kopf'><td style='padding:auto;'></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;

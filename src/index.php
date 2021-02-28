@@ -26,13 +26,13 @@ $pages = [
     "7" => "blog.php",
     "8" => "service.php",
     "9" => "search.php",
-    "10" => "login.php",
-    "11" => "zimmerbergol.php",
+    // "10" => "login.php",
+    // "11" => "zimmerbergol.php",
     "12" => "karten.php",
     "15" => "termine_tools_DEV.php",
-    "16" => "zol/index.php",
+    // "16" => "zol/index.php",
     "18" => "fuer_einsteiger.php",
-    "19" => "zol/karten.php",
+    // "19" => "zol/karten.php",
     "20" => "trophy.php",
     "21" => "material.php",
     "100" => "profil.php",
@@ -42,7 +42,6 @@ $pages = [
 ];
 $page = $_GET['page'];
 
-//http://YOUR-SITE.COM/FILERUN/?page=login&action=login&nonajax=1&username=test&password=1234
 // Seiten-Titel
 $html_titel = "";
 if (isset($id) and in_array($page, ["2", "3", "4", "7"])) {
@@ -117,6 +116,11 @@ if ($page == 16 and $_SESSION['auth'] != "all") {
 if ($page != "10") {
     $_SESSION["page"] = $page;
 }
+
+if ($page > 0 && !isset($pages[$page])) {
+    http_response_code(404);
+}
+
 if ($pages[$page][0] == '') {
     $page = 0;
 }

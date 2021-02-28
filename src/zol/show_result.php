@@ -69,7 +69,7 @@ echo "<meta http-equiv='refresh' content='{$intervall};url=show_result.php?event
 echo "</head>";
 echo "<body style='height:99%; background-repeat:repeat; background-image:url(../icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
 // TITEL
-echo "<div class='title' style='width:".$breite.";padding-top:20px;'>{$name}<span style='margin-left:30px;float:right;font-weight:normal;font-size:80%;margin-top:5px;margin-right:30px;'>Live-Resultate ".$stand."</span><a href='index.php?modus=logomodus={$modus}&event={$event}' style='color:white;text-decoration:none;'>•</a></div>";
+echo "<div class='title' style='width:".$breite.";padding-top:20px;'>{$name}<span style='margin-left:30px;float:right;font-weight:normal;font-size:80%;margin-top:5px;margin-right:30px;'>Live-Resultate ".$stand."</span><a href='index.php?modus={$modus}&event={$event}' style='color:white;text-decoration:none;'>•</a></div>";
 
 // KATEGORIEN
 

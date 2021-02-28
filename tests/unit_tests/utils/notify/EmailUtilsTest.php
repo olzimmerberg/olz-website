@@ -27,6 +27,10 @@ class FakeEmailUtilsServerConfig {
     public function getSmtpFrom() {
         return 'fake@olzimmerberg.ch';
     }
+
+    public function getEmailReactionKey() {
+        return 'aaaaaaaaaaaaaaaaaaaa';
+    }
 }
 
 /**
@@ -34,6 +38,26 @@ class FakeEmailUtilsServerConfig {
  * @covers \EmailUtils
  */
 final class EmailUtilsTest extends TestCase {
+    public function testEmailReactionToken(): void {
+        $server_config = new FakeEmailUtilsServerConfig();
+        $email_utils = new EmailUtils($server_config);
+
+        $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
+
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9\\-_]+$/', $token);
+        $this->assertSame(
+            ['test' => 'data'],
+            $email_utils->decryptEmailReactionToken($token)
+        );
+    }
+
+    public function testDecryptInvalidEmailReactionToken(): void {
+        $server_config = new FakeEmailUtilsServerConfig();
+        $email_utils = new EmailUtils($server_config);
+
+        $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
+    }
+
     public function testCreateEmail(): void {
         $server_config = new FakeEmailUtilsServerConfig();
         $email_utils = new EmailUtils($server_config);

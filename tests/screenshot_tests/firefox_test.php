@@ -28,6 +28,7 @@ require_once __DIR__.'/modules/service.php';
 require_once __DIR__.'/modules/links.php';
 require_once __DIR__.'/modules/downloads.php';
 require_once __DIR__.'/modules/newsletter.php';
+require_once __DIR__.'/modules/email_reaktion.php';
 require_once __DIR__.'/modules/kontakt.php';
 require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
@@ -86,6 +87,7 @@ $blocks = [
         test_links($driver, $code_href);
         test_downloads($driver, $code_href);
         test_newsletter($driver, $code_href);
+        test_email_reaktion($driver, $code_href);
         test_kontakt($driver, $code_href);
         test_trophy($driver, $code_href);
         test_error($driver, $code_href);

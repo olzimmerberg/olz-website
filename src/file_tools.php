@@ -14,6 +14,7 @@ $tables_file_dirs = [
     "aktuell" => "files/aktuell/",
     "blog" => "files/blog/",
     "downloads" => "files/downloads/",
+    "termine" => "files/termine/",
 ];
 
 $mime_extensions = [

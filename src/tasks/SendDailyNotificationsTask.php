@@ -91,6 +91,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         foreach ($subscriptions as $subscription) {
             $notification_type = $subscription->getNotificationType();
             $notification_args = $subscription->getNotificationTypeArgs();
+            $this->logger->info("Found notification subscription for '{$notification_type}', '{$notification_args}'...");
             $subscriptions_by_args_of_type = $subscriptions_by_type_and_args[$notification_type] ?? [];
             $subscriptions_of_type_and_args = $subscriptions_by_args_of_type[$notification_args] ?? [];
             $subscriptions_of_type_and_args[] = $subscription;
@@ -206,6 +207,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $text = $notification->getTextForUser($user);
         $delivery_type = $subscription->getDeliveryType();
         $user_id = $user->getId();
+        $this->logger->info("Sending notification {$title} over {$delivery_type} to user ({$user_id})...");
         switch ($delivery_type) {
             case NotificationSubscription::DELIVERY_EMAIL:
                 try {

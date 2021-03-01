@@ -16,7 +16,7 @@ class FakeOlzMailerEmailUtils {
 }
 
 class FakeOlzMailerServerConfig {
-    public function getBaseUrl() {
+    public function getBaseHref() {
         return 'http://fake-base-url';
     }
 }

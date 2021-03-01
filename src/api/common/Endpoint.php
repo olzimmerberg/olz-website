@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -78,6 +79,10 @@ abstract class Endpoint {
             throw new HttpError(429, "Zu viele Anfragen.");
         }
 
+        $handler = new ErrorHandler($this->logger);
+        $handler->registerErrorHandler();
+        $handler->registerExceptionHandler();
+
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
             $this->logger->info("Valid user request");
@@ -103,6 +108,9 @@ abstract class Endpoint {
             $this->logger->critical("Bad output prohibited", $verr->getStructuredAnswer());
             throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.", $verr);
         }
+
+        restore_error_handler();
+        restore_exception_handler();
 
         return $validated_result;
     }

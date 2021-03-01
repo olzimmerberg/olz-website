@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -31,6 +32,10 @@ abstract class BackgroundTask {
     }
 
     public function run() {
+        $handler = new ErrorHandler($this->logger);
+        $handler->registerErrorHandler();
+        $handler->registerExceptionHandler();
+
         $this->logger->info("Setup task {$this->getIdent()}...");
         $this->setup();
         try {
@@ -43,6 +48,9 @@ abstract class BackgroundTask {
             $this->logger->info("Teardown task {$this->getIdent()}...");
             $this->teardown();
         }
+
+        restore_error_handler();
+        restore_exception_handler();
     }
 
     public function generateLogPath() {

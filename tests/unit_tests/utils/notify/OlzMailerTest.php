@@ -19,6 +19,10 @@ class FakeOlzMailerServerConfig {
     public function getBaseHref() {
         return 'http://fake-base-url';
     }
+
+    public function getCodeHref() {
+        return '/_/';
+    }
 }
 
 /**
@@ -52,7 +56,7 @@ final class OlzMailerTest extends TestCase {
         äsdf<br />\n1234<br />
         <br />
         <hr style="border: 0; border-top: 1px solid black;">
-        Abmelden? <a href="http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> - <a href="http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+        Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> - <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
         ZZZZZZZZZZ;
         $this->assertSame($expected_html, $mailer->Body);
         $expected_text = <<<ZZZZZZZZZZ
@@ -62,8 +66,8 @@ final class OlzMailerTest extends TestCase {
 
         ---
         Abmelden?
-        Keine solchen E-Mails mehr: http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
-        Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+        Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
+        Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
         ZZZZZZZZZZ;
         $this->assertSame($expected_text, $mailer->AltBody);
         $this->assertSame(1, count($mailer->getAttachments()));

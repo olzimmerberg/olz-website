@@ -35,8 +35,9 @@ class OlzMailer extends PHPMailer {
             'notification_type_all' => true,
         ]));
         $base_url = $this->serverConfig->getBaseHref();
-        $unsubscribe_this_url = "{$base_url}/email_reaktion.php?token={$unsubscribe_this_token}";
-        $unsubscribe_all_url = "{$base_url}/email_reaktion.php?token={$unsubscribe_all_token}";
+        $code_href = $this->serverConfig->getCodeHref();
+        $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
+        $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
         $this->Subject = "[OLZ] {$title}";
         $this->Body = <<<ZZZZZZZZZZ
         <div style="text-align: right; float: right;">

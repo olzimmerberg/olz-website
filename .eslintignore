@@ -1,5 +1,7 @@
 jsbuild/
+src/config/vendor/
 src/library/
+node_modules/
 
 # ain't nobody got time for that
 src/zol/js/dw_con_scroller.js

@@ -431,4 +431,80 @@ final class TelegramUtilsTest extends TestCase {
             $this->assertSame('fake-telegram-fetcher-exception', $exc->getMessage());
         }
     }
+
+    public function testRenderMarkdown(): void {
+        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $date_utils = new FixedDateUtils($iso_now);
+        $telegram_utils = new DeterministicTelegramUtils('fake-bot-name', 'fake-bot-token', $telegram_fetcher, $entity_manager, $date_utils);
+
+        // Ignore HTML
+        $html = $telegram_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");
+        $this->assertSame("NormalH1alert('not good!');\n", $html);
+
+        // Headings
+        $html = $telegram_utils->renderMarkdown("Normal\n# H1\n## H2\n### H3\nNormal");
+        $this->assertSame("Normal\n# H1\n## H2\n### H3\nNormal\n", $html);
+
+        // Font style
+        $html = $telegram_utils->renderMarkdown("Normal **fe\\*\\*tt** __fe\\_\\_tt__");
+        $this->assertSame("Normal <strong>fe**tt</strong> <strong>fe__tt</strong>\n", $html);
+        $html = $telegram_utils->renderMarkdown("Normal *kur\\*siv* _kur\\_siv_");
+        $this->assertSame("Normal <em>kur*siv</em> <em>kur_siv</em>\n", $html);
+        $html = $telegram_utils->renderMarkdown("Normal ~~durch\\~\\~gestrichen~~");
+        $this->assertSame("Normal <del>durch~~gestrichen</del>\n", $html);
+
+        // Quotes
+        $html = $telegram_utils->renderMarkdown("Normal\n> quote\nstill quote\n\nnot anymore");
+        $this->assertSame("Normal\n&gt; quote\nstill quote\n\nnot anymore\n", $html);
+
+        // Ordered lists
+        $html = $telegram_utils->renderMarkdown("Normal\n1. one\n2. two\n3. three\nstill three\n\nnot anymore");
+        $this->assertSame("Normal\n1. one\n2. two\n3. three\nstill three\n\nnot anymore\n", $html);
+
+        // Unordered lists
+        $html = $telegram_utils->renderMarkdown("Normal\n- one\n- two\n- three\nstill three\n\nnot anymore");
+        $this->assertSame("Normal\n- one\n- two\n- three\nstill three\n\nnot anymore\n", $html);
+
+        // Code
+        $html = $telegram_utils->renderMarkdown("Normal `co\\`de`");
+        $this->assertSame("Normal <code>co\\</code>de`\n", $html);
+        $html = $telegram_utils->renderMarkdown("Normal ```co`de```");
+        $this->assertSame("Normal <code>co`de</code>\n", $html);
+        $html = $telegram_utils->renderMarkdown("Normal\n```python\nco`de\n```");
+        $this->assertSame("Normal\n<code>python co`de </code>\n", $html);
+
+        // Horizontal rule
+        $html = $telegram_utils->renderMarkdown("something\n\n---\n\ndifferent");
+        $this->assertSame("something\n\n---\n\ndifferent\n", $html);
+
+        // Links
+        $html = $telegram_utils->renderMarkdown("Normal [link](http://127.0.0.1/)");
+        $this->assertSame("Normal <a href=\"http://127.0.0.1/\">link</a>\n", $html);
+        $html = $telegram_utils->renderMarkdown("Normal http://127.0.0.1/");
+        $this->assertSame("Normal <a href=\"http://127.0.0.1/\">http://127.0.0.1/</a>\n", $html);
+
+        // Image
+        $html = $telegram_utils->renderMarkdown("Normal ![bird](img/bird.jpg)");
+        $this->assertSame("Normal <img src=\"img/bird.jpg\" alt=\"bird\" />\n", $html);
+
+        // Table
+        $html = $telegram_utils->renderMarkdown("Normal\n\n| left | middle | right |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n\nafter");
+        $this->assertSame("Normal\n\n| left | middle | right |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n\nafter\n", $html);
+
+        // Footnote
+        $html = $telegram_utils->renderMarkdown("This. [^1]\n\n[^1]: explains everything\n");
+        // does not work
+        $this->assertSame("This. [^1]\n\n[^1]: explains everything\n", $html);
+
+        // Heading ID
+        $html = $telegram_utils->renderMarkdown("# So linkable {#anchor}\n");
+        // does not work
+        $this->assertSame("# So linkable {#anchor}\n", $html);
+
+        // Heading ID
+        $html = $telegram_utils->renderMarkdown("- [x] finish\n- [ ] this\n- [ ] list\n");
+        $this->assertSame("- [x] finish\n- [ ] this\n- [ ] list\n", $html);
+    }
 }

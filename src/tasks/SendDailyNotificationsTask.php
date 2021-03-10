@@ -229,9 +229,12 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     return;
                 }
                 $user_chat_id = $telegram_link->getTelegramChatId();
+                $html_title = $this->telegramUtils->renderMarkdown($title);
+                $html_text = $this->telegramUtils->renderMarkdown($text);
                 $this->telegramUtils->callTelegramApi('sendMessage', [
                     'chat_id' => $user_chat_id,
-                    'text' => "{$title}\n\n{$text}",
+                    'parse_mode' => 'HTML',
+                    'text' => "<b>{$html_title}</b>\n\n{$html_text}",
                 ]);
                 $this->logger->info("Telegram sent to user ({$user_id}): {$title}");
                 break;

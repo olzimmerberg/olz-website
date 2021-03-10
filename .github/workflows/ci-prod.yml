@@ -114,11 +114,11 @@ jobs:
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
     - name: PHP Unit Tests
-      run: ./unit-test.sh; cat ./php-coverage/coverage.txt
+      run: ./unit-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-      run: ./integration-test.sh; cat ./php-coverage/coverage.txt
+      run: ./integration-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: Check database migrations
       run: cd ./ci; ./check-migrations.sh
 

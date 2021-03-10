@@ -190,6 +190,10 @@ class FakeSendDailyNotificationsTaskTelegramUtils {
     public function callTelegramApi($command, $args) {
         $this->calls[] = [$command, $args];
     }
+
+    public function renderMarkdown($markdown) {
+        return $markdown;
+    }
 }
 
 class FakeSendDailyNotificationsTaskDailySummaryGetter {
@@ -355,9 +359,21 @@ final class SendDailyNotificationsTaskTest extends TestCase {
             [$user2, 'WS title', 'WS text Second'],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
-            ['sendMessage', ['chat_id' => '11111', 'text' => "WP title\n\nWP text First"]],
-            ['sendMessage', ['chat_id' => '11111', 'text' => "DW title {\"days\":7}\n\nDW text First"]],
-            ['sendMessage', ['chat_id' => '22222', 'text' => "DW title {\"days\":3}\n\nDW text Second"]],
+            ['sendMessage', [
+                'chat_id' => '11111',
+                'parse_mode' => 'HTML',
+                'text' => "<b>WP title</b>\n\nWP text First",
+            ]],
+            ['sendMessage', [
+                'chat_id' => '11111',
+                'parse_mode' => 'HTML',
+                'text' => "<b>DW title {\"days\":7}</b>\n\nDW text First",
+            ]],
+            ['sendMessage', [
+                'chat_id' => '22222',
+                'parse_mode' => 'HTML',
+                'text' => "<b>DW title {\"days\":3}</b>\n\nDW text Second",
+            ]],
         ], $telegram_utils->calls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
         $this->assertSame($date_utils, $daily_summary_getter->dateUtils);

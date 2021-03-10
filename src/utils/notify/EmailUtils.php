@@ -1,5 +1,9 @@
 <?php
 
+use League\CommonMark\DocParser;
+use League\CommonMark\Environment;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\HtmlRenderer;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
@@ -62,6 +66,22 @@ class EmailUtils {
         $tag = $this->generalUtils->base64DecodeUrl($decrypt_data['tag']);
         $plaintext = openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         return json_decode($plaintext, true);
+    }
+
+    public function renderMarkdown($markdown) {
+        $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->setConfig([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 100,
+        ]);
+
+        $parser = new DocParser($environment);
+        $document = $parser->parse($markdown);
+
+        $html_renderer = new HtmlRenderer($environment);
+        return $html_renderer->renderBlock($document);
     }
 
     public static function fromEnv() {

@@ -38,6 +38,15 @@ function test_galerie($driver, $base_url) {
     );
     $big_image_path = realpath(__DIR__.'/../../../src/tools/dev-data/sample-data/sample-picture.jpg');
     $image_upload_input->sendKeys($big_image_path);
+    $driver->wait()->until(function () use ($driver) {
+        $delete_buttons = $driver->findElements(
+            WebDriverBy::cssSelector('img[title="löschen"]')
+        );
+        return count($delete_buttons) == 1;
+    });
+    $image_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[type=file]')
+    );
     $small_image_path = realpath(__DIR__.'/../../../src/icns/schilf.jpg');
     $image_upload_input->sendKeys($small_image_path);
     $driver->wait()->until(function () use ($driver) {

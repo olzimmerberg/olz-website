@@ -22,7 +22,6 @@ export function olzChangePasswordModalUpdate(userId: number, form: Record<string
     )
         .then((response) => {
             if (response.status === 'OK') {
-                /* @ts-expect-error: It actually has the modal property. */
                 $('#change-password-modal').modal('hide');
             } else {
                 $('#change-password-message').text(response.status);

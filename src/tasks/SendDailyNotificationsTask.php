@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/../config/init.php';
 require_once __DIR__.'/../model/NotificationSubscription.php';
 require_once __DIR__.'/../model/TelegramLink.php';
 require_once __DIR__.'/common/BackgroundTask.php';

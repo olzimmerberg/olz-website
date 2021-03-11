@@ -13,6 +13,10 @@ class FakeOlzMailerEmailUtils {
         $general_utils = new GeneralUtils();
         return $general_utils->base64EncodeUrl(json_encode($data));
     }
+
+    public function renderMarkdown($markdown) {
+        return $markdown;
+    }
 }
 
 class FakeOlzMailerServerConfig {
@@ -52,16 +56,13 @@ final class OlzMailerTest extends TestCase {
         <div style="text-align: right; float: right;">
             <img src="cid:olz_logo" alt="" style="width:150px;" />
         </div>
-        Hallo <b>Fake</b>,<br />
-        äsdf<br />\n1234<br />
+        äsdf\n1234<br />
         <br />
         <hr style="border: 0; border-top: 1px solid black;">
-        Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> - <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+        Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
         ZZZZZZZZZZ;
         $this->assertSame($expected_html, $mailer->Body);
         $expected_text = <<<ZZZZZZZZZZ
-        Hallo Fake,
-
         äsdf\n1234
 
         ---

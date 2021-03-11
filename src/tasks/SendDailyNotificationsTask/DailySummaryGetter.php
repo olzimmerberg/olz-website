@@ -125,7 +125,7 @@ class DailySummaryGetter {
         }
 
         $title = "Tageszusammenfassung";
-        $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$notification_text}";
+        $text = "Hallo %%userFirstName%%,\n\nDas lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n{$notification_text}";
 
         return new Notification($title, $text);
     }

@@ -21,7 +21,7 @@ class OlzMailer extends PHPMailer {
         $user_full_name = $user->getFullName();
         $user_first_name = $user->getFirstName();
         $this->addAddress($user_email, $user_full_name);
-        $html_text = nl2br($text);
+        $html_text = $this->emailUtils->renderMarkdown($text);
         $this->isHTML(true);
         $this->AddEmbeddedImage(__DIR__.'/../../icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
         $unsubscribe_this_token = urlencode($this->emailUtils->encryptEmailReactionToken([
@@ -43,15 +43,12 @@ class OlzMailer extends PHPMailer {
         <div style="text-align: right; float: right;">
             <img src="cid:olz_logo" alt="" style="width:150px;" />
         </div>
-        Hallo <b>{$user_first_name}</b>,<br />
         {$html_text}<br />
         <br />
         <hr style="border: 0; border-top: 1px solid black;">
-        Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> - <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
+        Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
         ZZZZZZZZZZ;
         $this->AltBody = <<<ZZZZZZZZZZ
-        Hallo {$user_first_name},
-
         {$text}
 
         ---

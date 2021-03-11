@@ -138,7 +138,7 @@ class WeeklySummaryGetter {
         }
 
         $title = "Wochenzusammenfassung";
-        $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$notification_text}";
+        $text = "Hallo %%userFirstName%%,\n\nDas lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n{$notification_text}";
 
         return new Notification($title, $text);
     }

@@ -136,7 +136,7 @@ final class WeeklySummaryGetterTest extends TestCase {
         ]);
 
         $this->assertSame('Wochenzusammenfassung', $notification->title);
-        $this->assertSame("Hallo First,\n\nAchtung:\n\n\nAktuell:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n\nKaderblog:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n\nGalerien:\n12.03.: Bericht vom Lauftraining\n13.03.: MV nicht abgesagt!\n\n\nForum:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n", $notification->getTextForUser($user));
+        $this->assertSame("Hallo First,\n\nDas lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n\nAktuell:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n\nKaderblog:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n\nGalerien:\n12.03.: Bericht vom Lauftraining\n13.03.: MV nicht abgesagt!\n\n\nForum:\n12.03. 22:00: Bericht vom Lauftraining\n13.03. 16:00: MV nicht abgesagt!\n\n", $notification->getTextForUser($user));
     }
 
     public function testWeeklySummaryGetterWithNoContent(): void {

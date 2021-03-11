@@ -51,7 +51,7 @@ class DeadlineWarningGetter {
         }
 
         $title = "Meldeschlusswarnung";
-        $text = "Hallo %%userFirstName%%,\n\nAchtung:\n\n{$deadlines_text}";
+        $text = "Hallo %%userFirstName%%,\n\nFolgende Meldeschlüsse stehen bevor:\n\n{$deadlines_text}";
 
         return new Notification($title, $text);
     }

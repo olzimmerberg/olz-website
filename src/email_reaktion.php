@@ -12,17 +12,36 @@ echo olz_header([
 ]);
 
 require_once __DIR__.'/config/doctrine_db.php';
+require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/notify/EmailUtils.php';
 
 $email_utils = EmailUtils::fromEnv();
 $token = $_GET['token'] ?? '';
+$js_token = htmlentities(json_encode($token));
 $reaction_data = $email_utils->decryptEmailReactionToken($token);
 
 echo "<div id='content_double'>";
 
 if ($reaction_data) {
-    print_r($reaction_data);
+    if ($reaction_data['action'] == 'unsubscribe') {
+        if (isset($reaction_data['notification_type'])) {
+            $question = "<p>Willst du wirklich <b>alle E-Mail dieser Art abbestellen?</b></p>";
+        } elseif (isset($reaction_data['notification_type_all'])) {
+            $question = "<p>Willst du wirklich <b>jegliche E-Mails von OL Zimmerberg abbestellen?</b></p>";
+        } else {
+            $question = "<p>Hier ist etwas falsch gelaufen! Dies ist eine unbekannte Aktion. Trotzdem probieren?</p>";
+        }
+    }
+    echo <<<ZZZZZZZZZZ
+    {$question}
+    <p>
+        <a class='btn btn-secondary' href='{$code_href}' role='button'>Abbrechen</a>
+        <button class='btn btn-danger' type='submit' onclick='olzExecuteEmailReaction({$js_token})'>Ausführen</button>
+    </p>
+    <div id='email-reaction-success-message' class='alert alert-success' role='alert'></div>
+    <div id='email-reaction-error-message' class='alert alert-danger' role='alert'></div>
+    ZZZZZZZZZZ;
 } else {
     echo "<div id='profile-message' class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
 }

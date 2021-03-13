@@ -1,0 +1,6 @@
+#email-reaction-error-message,
+#email-reaction-success-message {
+    &:empty {
+        display: none;
+    }
+}

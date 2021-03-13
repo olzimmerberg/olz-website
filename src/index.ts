@@ -8,6 +8,7 @@ import 'jquery-ui/themes/base/theme.css';
 import 'jquery-ui/themes/base/datepicker.css';
 import 'typeface-open-sans';
 import './bootstrap.scss';
+import './email_reaktion.scss';
 import './fuer_einsteiger.scss';
 import './index.scss';
 import './konto_passwort.scss';
@@ -17,6 +18,7 @@ import './profil.scss';
 import './styles.scss';
 
 export * from './components/index';
+export * from './email_reaktion';
 export * from './features/index';
 export * from './fuer_einsteiger';
 export * from './kontakt';

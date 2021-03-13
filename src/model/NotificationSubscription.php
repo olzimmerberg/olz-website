@@ -49,6 +49,16 @@ class NotificationSubscription {
      */
     private $id;
 
+    public function __toString() {
+        $label = 'NotificationSubscription(';
+        $label .= "delivery_type={$this->getDeliveryType()}, ";
+        $label .= "user={$this->getUser()->getId()}, ";
+        $label .= "notification_type={$this->getNotificationType()}, ";
+        $label .= "notification_type_args={$this->getNotificationTypeArgs()}, ";
+        $label .= ')';
+        return $label;
+    }
+
     public function getId() {
         return $this->id;
     }

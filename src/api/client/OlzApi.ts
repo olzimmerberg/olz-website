@@ -11,6 +11,7 @@ export enum OlzApiEndpoint {
     signUpWithPassword = 'signUpWithPassword',
     loginWithStrava = 'loginWithStrava',
     signUpWithStrava = 'signUpWithStrava',
+    executeEmailReaction = 'executeEmailReaction',
     linkTelegram = 'linkTelegram',
     onTelegram = 'onTelegram',
     getLogs = 'getLogs',
@@ -77,6 +78,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         region: string,
         countryCode: string,
     },
+    executeEmailReaction: {
+        token: string,
+    },
     linkTelegram: {
     },
     onTelegram: {
@@ -125,6 +129,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     },
     signUpWithStrava: {
         status: 'OK',
+    },
+    executeEmailReaction: {
+        status: 'INVALID_TOKEN'|'OK',
     },
     linkTelegram: {
         chatLink: string,

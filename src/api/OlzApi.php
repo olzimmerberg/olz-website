@@ -130,6 +130,21 @@ class OlzApi {
                 });
                 return $endpoint;
             },
+            'executeEmailReaction' => function () {
+                require_once __DIR__.'/endpoints/ExecuteEmailReactionEndpoint.php';
+                $endpoint = new ExecuteEmailReactionEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
+                    require_once __DIR__.'/../config/doctrine_db.php';
+                    require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../utils/notify/EmailUtils.php';
+                    $email_utils = EmailUtils::fromEnv();
+                    $endpoint->setEntityManager($entityManager);
+                    $endpoint->setEmailUtils($email_utils);
+                    $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
             'linkTelegram' => function () {
                 require_once __DIR__.'/endpoints/LinkTelegramEndpoint.php';
                 $endpoint = new LinkTelegramEndpoint();

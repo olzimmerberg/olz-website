@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "checkJs": false,
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "es6",
@@ -11,6 +12,7 @@
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
     "outDir": "tscbuild/",
     "skipLibCheck": true,

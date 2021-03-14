@@ -1,5 +1,10 @@
 .fuer-einsteiger {
     position: relative;
+
+    ul {
+        list-style-type: circle;
+        margin: 0 6px 8px 24px;
+    }
     
     .clear-both {
         clear: both;

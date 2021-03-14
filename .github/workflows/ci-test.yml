@@ -129,6 +129,8 @@ jobs:
       run: cd ./ci; ./php-code-style.sh
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
+    - name: Compile TypeScript
+      run: npm run tsc
     - name: PHP Unit Tests
       run: ./unit-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests

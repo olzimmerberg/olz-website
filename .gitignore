@@ -27,3 +27,4 @@
 # JavaScript tooling
 /node_modules/
 /src/**/jsbuild/
+/tscbuild/

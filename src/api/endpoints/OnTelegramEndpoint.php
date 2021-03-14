@@ -50,6 +50,11 @@ class OnTelegramEndpoint extends Endpoint {
         $message_chat_id = $telegram_event['message']['chat']['id'] ?? null;
         $message_user_id = $telegram_event['message']['from']['id'] ?? null;
 
+        if ($message_chat_id === null) {
+            $this->logger->notice('Telegram message without chat_id', [$telegram_event]);
+            return [];
+        }
+
         $this->telegramUtils->callTelegramApi('sendChatAction', [
             'chat_id' => $message_chat_id,
             'action' => 'typing',

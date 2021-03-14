@@ -1,0 +1,36 @@
+.bg-telegram {
+    background-color: rgb(43, 162, 213);
+}
+
+.telegram-card {
+    margin: 1px;
+    min-width: 50%;
+
+    p {
+        margin: 0 0 1rem 0;
+    }
+
+    img {
+        border: 0;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 26px;
+            height: 26px;
+            margin-right: 12px;
+        }
+    }
+
+    #telegram-notifications-form {
+        #telegram-notifications-error-message,
+        #telegram-notifications-success-message {
+            &:empty {
+                display: none;
+            }
+        }
+    }
+}

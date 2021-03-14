@@ -1,17 +1,7 @@
 .feature {
-    &.external-login {
-        display: none;
-
-        &.enabled {
-            display: block;
-        }
-    }
-
-    &.sign-up {
-        display: none;
-
-        &.enabled {
-            display: block;
-        }
+    display: none;
+    
+    &.enabled {
+        display: block;
     }
 }

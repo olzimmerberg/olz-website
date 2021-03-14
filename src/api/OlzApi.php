@@ -181,6 +181,21 @@ class OlzApi {
                 });
                 return $endpoint;
             },
+            'updateNotificationSubscriptions' => function () {
+                require_once __DIR__.'/endpoints/UpdateNotificationSubscriptionsEndpoint.php';
+                $endpoint = new UpdateNotificationSubscriptionsEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG, $_DATE_UTILS, $entityManager;
+                    require_once __DIR__.'/../config/date.php';
+                    require_once __DIR__.'/../config/doctrine_db.php';
+                    require_once __DIR__.'/../model/index.php';
+                    $date_utils = $_DATE_UTILS;
+                    $endpoint->setEntityManager($entityManager);
+                    $endpoint->setDateUtils($date_utils);
+                    $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
         ];
     }
 }

@@ -1,5 +1,5 @@
-let filePath = undefined;
-let xmlDoc = undefined;
+let filePath: string|undefined = undefined;
+let xmlDoc: XMLDocument|undefined = undefined;
 
 if (window.location.search) {
     const match = /\?file=([^&#]+)/.exec(window.location.search);
@@ -99,13 +99,21 @@ export function setHash(newComponent: string, ind: number): void {
     location.hash = `${hashPath().slice(0, ind).join('/')}/${newComponent}`;
 }
 
-const selectedIndexesByClass = {};
+type IndexSelectionMap = {[index: number]: boolean};
+const selectedIndexesByClass: {[classIndex: number]: IndexSelectionMap} = {};
 function showChart(classInd: number) {
     if (classInd < 0) { return; }
-    if (!(classInd in selectedIndexesByClass)) { selectedIndexesByClass[classInd] = {}; }
+    if (!(classInd in selectedIndexesByClass)) {
+        selectedIndexesByClass[classInd] = {};
+    }
     const classResults = xmlDoc.querySelectorAll('ResultList > ClassResult');
     const ranking = classResults[classInd].querySelectorAll('PersonResult');
-    const correctControls = [];
+    interface CorrectControl {
+        controlCode: string;
+        globalFirstThree: number[];
+        localFirstThree: number[];
+    }
+    const correctControls: CorrectControl[] = [];
 
     let cont = true;
     for (let i = 0; i < ranking.length && cont; i++) {
@@ -257,7 +265,7 @@ function showChart(classInd: number) {
     }
     svg.innerHTML = svgout;
 }
-function showRanking(classInd) {
+function showRanking(classInd: number) {
     if (classInd < 0) { return; }
     if (!(classInd in selectedIndexesByClass)) { selectedIndexesByClass[classInd] = {}; }
     const classResults = xmlDoc.querySelectorAll('ResultList > ClassResult');
@@ -270,7 +278,7 @@ function showRanking(classInd) {
     const numberOfControls = classResults[classInd].querySelector('Course > NumberOfControls');
     htmlout += `<h2 class='mobileonly'>${shortName ? shortName.textContent : name.textContent}</h2>`;
     htmlout += '<div>(';
-    htmlout += (length ? (length.textContent / 1000).toFixed(1) : '?');
+    htmlout += (length ? (Number(length.textContent) / 1000).toFixed(1) : '?');
     htmlout += ' km, ';
     htmlout += (climb ? climb.textContent : '?');
     htmlout += ' m, ';
@@ -285,7 +293,7 @@ function showRanking(classInd) {
         const addressZipCode = ranking[i].querySelector('Person > Address > ZipCode');
         const clubName = ranking[i].querySelector('Organisation > ShortName');
         const runTime = ranking[i].querySelector('Result > Time');
-        htmlout += `<tr><td style='text-align:right;'><input type='checkbox' class='chart-chk' id='chk-${i}' /></td><td style='text-align:right;'>${position ? `${position.textContent}.` : ''}</td><td>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</td><td style='text-align:right;'>${birthDate ? birthDate.textContent.substring(0, 4) : ''}</td><td>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</td><td>${clubName ? clubName.textContent : ''}</td><td style='text-align:right;'>${runTime ? formatTime(runTime.textContent) : '--:--'}</td></tr>`;
+        htmlout += `<tr><td style='text-align:right;'><input type='checkbox' class='chart-chk' id='chk-${i}' /></td><td style='text-align:right;'>${position ? `${position.textContent}.` : ''}</td><td>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</td><td style='text-align:right;'>${birthDate ? birthDate.textContent.substring(0, 4) : ''}</td><td>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</td><td>${clubName ? clubName.textContent : ''}</td><td style='text-align:right;'>${runTime ? formatTime(Number(runTime.textContent)) : '--:--'}</td></tr>`;
     }
     htmlout += '</table>';
     document.getElementById('content-box').innerHTML = htmlout;
@@ -309,7 +317,7 @@ function showRanking(classInd) {
     }
     showChart(classInd);
 }
-function showClasses(res) {
+function showClasses(res: number) {
     const classes = xmlDoc.querySelectorAll('ResultList > ClassResult > Class');
     console.log('Classes:', classes);
     console.log(res);

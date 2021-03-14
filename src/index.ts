@@ -46,8 +46,10 @@ declare const olz: {[key: string]: any};
 export function loaded(): void {
     // TODO: remove this!
     for (const key of Object.keys(olz)) {
+        /* @ts-expect-error: Ignore type unsafety. */
         window[key] = olz[key];
     }
+    /* @ts-expect-error: Ignore type unsafety. */
     // eslint-disable-next-line dot-notation
     window['$'] = $;
 

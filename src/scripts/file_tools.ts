@@ -1,7 +1,12 @@
 /* BILD FUNKTIONEN */
 import {obfuscaseForUpload} from './upload_tools';
 
-const olz_files_edit = {};
+interface OlzFileEdit {
+    count?: number;
+    uploadqueue: string[];
+}
+
+const olz_files_edit: {[ident: string]: OlzFileEdit} = {};
 
 export function olz_files_edit_rotatepreview(_index: number): void {
 }
@@ -12,8 +17,12 @@ export function olz_files_edit_redraw(
     id: number,
     count: number,
 ): void {
-    if (!olz_files_edit[ident]) { olz_files_edit[ident] = {'uploadqueue': []}; }
-    if (count) { olz_files_edit[ident].count = count; }
+    if (!olz_files_edit[ident]) {
+        olz_files_edit[ident] = {'uploadqueue': []};
+    }
+    if (count) {
+        olz_files_edit[ident].count = count;
+    }
     if (!('count' in olz_files_edit[ident])) {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', `file_tools.php?request=info&db_table=${dbtable}&id=${id}`, false);
@@ -49,13 +58,15 @@ export function olz_files_edit_redraw(
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
         dropzone.style.borderColor = 'rgb(180,180,180)';
     };
-    const uploadfiles = (files) => {
+    const uploadfiles = (files: FileList) => {
         const uq_ = olz_files_edit[ident].uploadqueue;
-        const drawcanvas = (uqident, img, part) => {
+        const drawcanvas = (uqident: string, img: HTMLImageElement|undefined, part: number) => {
             const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
             const ctx = cnv.getContext('2d');
             ctx.clearRect(0, 0, 110, 110);
-            if (img) { ctx.drawImage(img, 0, 0, 110, 110); }
+            if (img) {
+                ctx.drawImage(img, 0, 0, 110, 110);
+            }
             ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.fillRect(0, 0, 110, 110);
             ctx.strokeStyle = 'rgb(255,255,255)';
@@ -72,13 +83,13 @@ export function olz_files_edit_redraw(
             ctx.fill();
         };
         const max_size = 256;
-        const uploadpart = (uqident, file, base64, part) => {
+        const uploadpart = (uqident: string, file: File, base64: string, part: number) => {
             const last = (base64.length <= (part + 1) * max_size * max_size ? '1' : '0');
             const xmlhttp = new XMLHttpRequest();
             xmlhttp.open('POST', `file_tools.php?request=uploadpart&db_table=${dbtable}&id=${id}`, true);
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xmlhttp.upload.onprogress = (m) => {
-                drawcanvas(uqident, false, (part * max_size * max_size + m.loaded) * 1 / base64.length);
+                drawcanvas(uqident, undefined, (part * max_size * max_size + m.loaded) * 1 / base64.length);
             };
             xmlhttp.onreadystatechange = () => {
                 if (xmlhttp.readyState === 4) {
@@ -114,11 +125,11 @@ export function olz_files_edit_redraw(
             const uqident = `id${new Date().getTime()} - ${Math.random()} - ${i}`;
             uq_.push(uqident);
             const reader = new FileReader();
-            reader.onprogress = ((uqident_, m) => {
-                drawcanvas(uqident_, false, m.loaded * 0.25 / m.total);
+            reader.onprogress = ((uqident_: string, m: ProgressEvent) => {
+                drawcanvas(uqident_, undefined, m.loaded * 0.25 / m.total);
             }).bind(null, uqident);
-            reader.onload = ((uqident_, file, reader_) => {
-                const base64 = reader_.result;
+            reader.onload = ((uqident_: string, file: File, reader_: FileReader) => {
+                const base64 = reader_.result as string;
                 // drawcanvas(uqident, false, 0.5);
                 uploadpart(uqident_, file, base64, 0);
             }).bind(null, uqident, files[i], reader);
@@ -155,7 +166,7 @@ export function olz_files_edit_redraw(
             }
         };
         imgelem.onload = fn0;
-        const actiondone = (i_) => {
+        const actiondone = (i_: number) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);
@@ -164,7 +175,7 @@ export function olz_files_edit_redraw(
                 }
             }
         };
-        const confirmdone = (_i) => {
+        const confirmdone = (_i: number) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);

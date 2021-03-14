@@ -1,7 +1,16 @@
 /* BILD FUNKTIONEN */
 import {obfuscaseForUpload} from './upload_tools';
 
-const olz_images_edit = {};
+interface OlzImageEdit {
+    count?: number;
+    uploadqueue: [string, HTMLImageElement, boolean][];
+    rotations: {[id: number]: number};
+    dragindex: number;
+    draggalery: number;
+    dragelem?: HTMLElement;
+}
+
+const olz_images_edit: {[ident: string]: OlzImageEdit} = {};
 
 export function olz_images_edit_rotatepreview(_index: number): void {
 }
@@ -12,8 +21,18 @@ export function olz_images_edit_redraw(
     id: number,
     count: number,
 ): void {
-    if (!olz_images_edit[ident]) { olz_images_edit[ident] = {'uploadqueue': [], 'rotations': {}, 'dragindex': -1, 'draggalery': -1, 'dragelem': false}; }
-    if (count) { olz_images_edit[ident].count = count; }
+    if (!olz_images_edit[ident]) {
+        olz_images_edit[ident] = {
+            'uploadqueue': [],
+            'rotations': {},
+            'dragindex': -1,
+            'draggalery': -1,
+            'dragelem': undefined,
+        };
+    }
+    if (count) {
+        olz_images_edit[ident].count = count;
+    }
     if (!('count' in olz_images_edit[ident])) {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.open('GET', `image_tools.php?request=info&db_table=${dbtable}&id=${id}`, false);
@@ -44,7 +63,7 @@ export function olz_images_edit_redraw(
             }
         }
         window.setTimeout(() => {
-            olz_images_edit[ident].dragelem = false;
+            olz_images_edit[ident].dragelem = undefined;
             olz_images_edit[ident].dragindex = -1;
             olz_images_edit[ident].draggalery = -1;
         }, 100);
@@ -53,7 +72,7 @@ export function olz_images_edit_redraw(
     const cnt = olz_images_edit[ident].count;
     const elem = document.getElementById(ident);
     let htmlout = '';
-    let i;
+    let i: number;
     for (i = 0; i < cnt; i++) {
         htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0' id='${ident}-droptable-${i + 1}'><tr><td style='padding:5px; border:0px;'><div style='width:1px; height:134px;' id='${ident}-borderdiv-${i + 1}'></div></td></tr></table>`;
         htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='image_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110&reload=${new Date().getTime()}' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; padding:0px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='icns/rot90_16.svg' alt='' title='90° im Uhrzeigersinn rotieren' style='border:0px;' id='${ident}-rotate-${i + 1}'> <img src='icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
@@ -65,7 +84,7 @@ export function olz_images_edit_redraw(
     }
     htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><div style='width:94px; height:94px; background-color:rgb(240,240,240); border:3px dashed rgb(180,180,180); border-radius:10px; padding:5px;' id='${ident}-dropzone'>Zus&auml;tzliche Bilder per Drag&Drop hierhin ziehen</div></td></tr><tr><td style='height:24px; border:0px;'><input type='file' multiple='multiple' style='width:110px; border:0px;' id='${ident}-fileselect'></td></tr></table>`;
     elem.innerHTML = htmlout;
-    const drawcanvas = (uqident, img, part) => {
+    const drawcanvas = (uqident: string, img: HTMLImageElement, part: number) => {
         const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
         const ctx = cnv.getContext('2d');
         ctx.clearRect(0, 0, 110, 110);
@@ -89,21 +108,21 @@ export function olz_images_edit_redraw(
         drawcanvas(uq[i][0], uq[i][1], 0);
     }
     const dropzone = document.getElementById(`${ident}-dropzone`);
-    const drophover = (_e) => {
+    const drophover = () => {
         dropzone.style.backgroundColor = 'rgb(220,220,220)';
         dropzone.style.borderColor = 'rgb(150,150,150)';
     };
     dropzone.ondragover = drophover;
-    dropzone.onmouseover = (e) => {
-        if (olz_images_edit[ident].draggalery !== -1) { drophover(e); }
+    dropzone.onmouseover = () => {
+        if (olz_images_edit[ident].draggalery !== -1) { drophover(); }
     };
-    const dropleave = (_e) => {
+    const dropleave = () => {
         dropzone.style.backgroundColor = 'rgb(240,240,240)';
         dropzone.style.borderColor = 'rgb(180,180,180)';
     };
     dropzone.ondragleave = dropleave;
-    dropzone.onmouseout = (e) => {
-        if (olz_images_edit[ident].draggalery !== -1) { dropleave(e); }
+    dropzone.onmouseout = () => {
+        if (olz_images_edit[ident].draggalery !== -1) { dropleave(); }
     };
     function uploadnextfile() {
         const uq_ = olz_images_edit[ident].uploadqueue;
@@ -137,8 +156,8 @@ export function olz_images_edit_redraw(
             canvas.height = hei;
 
             // ### Browser-native scaling ###
-            const max2scale = (srcImg, dstImg) => {
-                let max2img = srcImg;
+            const max2scale = (srcImg: HTMLImageElement, dstImg: HTMLCanvasElement) => {
+                let max2img: HTMLImageElement|HTMLCanvasElement = srcImg;
                 if (dstImg.width * 2 < owid && dstImg.height * 2 < ohei) {
                     const bigcanvas = document.createElement('canvas');
                     bigcanvas.width = dstImg.width * 2;
@@ -198,7 +217,7 @@ export function olz_images_edit_redraw(
         };
         tryUpload();
     }
-    const loadnextfile = (files, indArg) => {
+    const loadnextfile = (files: FileList, indArg: number) => {
         let ind = indArg;
         if (!ind) {
             const dropzone_ = document.getElementById(`${ident}-dropzone`);
@@ -359,7 +378,7 @@ export function olz_images_edit_redraw(
             }
         };
         imgelem.onload = fn0;
-        const actiondone = (i_) => {
+        const actiondone = (i_: number) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);
@@ -368,7 +387,7 @@ export function olz_images_edit_redraw(
                 }
             }
         };
-        const confirmdone = (_i) => {
+        const confirmdone = (_i: number) => {
             for (let j = 0; j < cnt; j++) {
                 const celem = document.getElementById(`${ident}-confirm-${j + 1}`);
                 const aelem = document.getElementById(`${ident}-actions-${j + 1}`);
@@ -379,7 +398,7 @@ export function olz_images_edit_redraw(
             }
         };
         const rotelem = document.getElementById(`${ident}-rotate-${i + 1}`);
-        const fn1 = ((i_) => {
+        const fn1 = ((i_: number) => {
             const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
             if (elem_.style.transform === undefined && elem_.style.webkitTransform === undefined) {
                 // eslint-disable-next-line no-alert
@@ -393,13 +412,13 @@ export function olz_images_edit_redraw(
         }).bind(null, i);
         rotelem.onclick = fn1;
         const delelem = document.getElementById(`${ident}-delete-${i + 1}`);
-        const fn2 = ((i_) => {
+        const fn2 = ((i_: number) => {
             document.getElementById(`${ident}-img-${i_ + 1}`).style.visibility = 'hidden';
             actiondone(i_);
         }).bind(null, i);
         delelem.onclick = fn2;
         const subelem = document.getElementById(`${ident}-submit-${i + 1}`);
-        const fn3 = ((i_, dbtable_, id_) => {
+        const fn3 = ((i_: number, dbtable_: string, id_: number) => {
             const delflag = (document.getElementById(`${ident}-img-${i_ + 1}`).style.visibility === 'hidden' ? 1 : 0);
             const xmlhttp = new XMLHttpRequest();
             xmlhttp.open('POST', `image_tools.php?request=change&db_table=${dbtable_}`, false);
@@ -436,7 +455,7 @@ export function olz_images_edit_redraw(
         }).bind(null, i, dbtable, id);
         subelem.onclick = fn3;
         const reselem = document.getElementById(`${ident}-reset-${i + 1}`);
-        const fn = ((i_) => {
+        const fn = ((i_: number) => {
             const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
             elem_.style.visibility = 'visible';
             elem_.style.transform = 'rotate(0deg)';

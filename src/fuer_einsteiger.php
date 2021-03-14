@@ -99,7 +99,7 @@ echo <<<ZZZZZZZZZZ
 <div class='fuer-einsteiger'>
 
 <div class='intro'>
-    <p class='slogan'>Du bist neu beim OL oder bei unserem Verein?</p>
+    <p class='slogan'>Du bist neu beim Orientierungslauf oder bei unserem Verein?</p>
     <p class='important'>Dann ist diese Seite genau für dich!</p>
 </div>
 
@@ -132,8 +132,15 @@ echo <<<ZZZZZZZZZZ
 </div>
 <div class='text'>
     <h1>Was ist OL?</h1>
-    <p class='description'>Ausgerüstet mit Karte und Kompass hast du die Mission, möglichst schnell alle Posten (Kontrollpunkte) im Laufgebiet (Wald oder Stadt) zu finden. OL ist Spass und Abenteuer in der Natur für alle Altersgruppen!</p>
+    <p class='slogan'>OL ist Spass und Abenteuer in der Natur für alle Altersgruppen!</p>
+    <p class='description'>Ausgerüstet mit Karte und Kompass hast du die Mission, möglichst schnell alle Posten (Kontrollpunkte) im Laufgebiet (Wald oder Stadt) zu finden.</p>
     <p class='description'>Wir haben dazu auch ein <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' target='_blank' class='linkext'>kurzes YouTube-Video</a> erstellt.</p>
+    <p class='description'><a href='https://de.m.wikipedia.org/wiki/Orientierungslauf' target='_blank'>Orientierungslauf</a> ist ähnlich wie:</p>
+    <ul class='description'>
+        <li><a href='https://de.m.wikipedia.org/wiki/Traillauf' target='_blank'>Trailrunning</a>, aber mit Karte und Kompass</li>
+        <li><a href='https://de.m.wikipedia.org/wiki/Geocaching' target='_blank'>Geocaching</a>, aber als Sportart</li>
+        <li><a href='https://de.m.wikipedia.org/wiki/Foxtrail' target='_blank'>Foxtrail</a> und <a href='https://de.m.wikipedia.org/wiki/Schnitzeljagd' target='_blank'>Schnitzeljagd</a>, aber mit Zeitmessung und nur der Karte als Problemstellung</li>
+    </ul>
 </div>
 
 <div class='clear-both'></div>

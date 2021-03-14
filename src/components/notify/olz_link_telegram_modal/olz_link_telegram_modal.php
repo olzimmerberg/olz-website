@@ -11,12 +11,12 @@ function olz_link_telegram_modal($args = []): string {
     $install_instructions = [
         "<li>Installiere die Telegram-App auf deinem Smartphone</li>",
         "<li>Logge dich in <a href='https://web.telegram.org' target='_blank'>Telegram Web</a> ein</li>",
-        "<li><span id='chat-link-wait'>Bitte warten...</span><span id='chat-link-ready'>Öffne <a href='' target='_blank' id='telegram-chat-link'>deinen persönlichen <b>OLZ-Info-Chat</b></a> und <b>klicke auf &quot;OPEN IN WEB&quot;</b></span></li>",
+        "<li><span id='chat-link-wait'>Bitte warten...</span><span id='chat-link-ready'>Öffne <a href='' target='_blank' id='telegram-chat-link'>deinen persönlichen OLZ-Info-Chat</a>, klicke auf &quot;OPEN IN WEB&quot;, und dann auf &quot;START&quot;</span></li>",
     ];
     if ($user_agent_utils->isAndroidDevice() || $user_agent_utils->isIOsDevice()) {
         $install_instructions = [
             "<li><a href='https://telegram.org/dl/' target='_blank'>Installiere die Telegram-App</a></li>",
-            "<li><span id='chat-link-wait'>Bitte warten...</span><span id='chat-link-ready'>Öffne <a href='' target='_blank' id='telegram-chat-link'>deinen persönlichen <b>OLZ-Info-Chat</b></a> und <b>klicke auf &quot;SEND MESSAGE&quot;</b></span></li>",
+            "<li><span id='chat-link-wait'>Bitte warten...</span><span id='chat-link-ready'>Öffne <a href='' target='_blank' id='telegram-chat-link'>deinen persönlichen OLZ-Info-Chat</a>, klicke auf &quot;SEND MESSAGE&quot;, und dann auf &quot;START&quot;</span></li>",
         ];
     }
 

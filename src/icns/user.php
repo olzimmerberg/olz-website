@@ -1,0 +1,53 @@
+<?php
+
+header('Content-Type: image/svg+xml');
+
+$initials = $_GET['initials'];
+
+echo <<<ZZZZZZZZZZ
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="200"
+   viewBox="0 0 200 200"
+   height="200">
+  <g
+     transform="matrix(0.1,0,0,-0.1,0,156.235)"
+     id="g67">
+    <rect
+       style="fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1025"
+       width="2000"
+       height="2000"
+       x="0"
+       y="-1562.35"
+       transform="scale(1,-1)" />
+    <defs
+       id="defs5">
+      <clipPath
+         id="cut-off-bottom">
+        <path
+           d="M 120.059,827.031 2000,1000 V 3000 H 0 V 0 l 17.6797,713.301 102.3793,113.73"
+           style="fill:#cccccc;fill-opacity:0.5;fill-rule:evenodd;stroke:none"
+           id="path2" />
+      </clipPath>
+    </defs>
+    <circle
+       style="fill:#40a040;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path113"
+       cx="1000"
+       cy="737.65002"
+       transform="scale(1,-1)"
+       r="1000" />
+    <circle
+       style="fill:#40a040;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path113-6"
+       cx="1000"
+       cy="-862.34998"
+       transform="scale(1,-1)"
+       r="500" />
+  </g>
+  <text x="100" y="170" text-anchor="middle" font-family="'Open Sans', arial, sans-serif" font-size="84" font-weight="bold" fill="#ffffff">{$initials}</text>
+</svg>
+ZZZZZZZZZZ;

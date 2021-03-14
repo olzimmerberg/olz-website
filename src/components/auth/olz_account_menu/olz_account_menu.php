@@ -16,6 +16,9 @@ function olz_account_menu($args = []): string {
         $user_image_path = "img/users/{$user->getId()}.jpg";
         if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {
             $image_path = "{$_CONFIG->getDataHref()}{$user_image_path}";
+        } else {
+            $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
+            $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials={$initials}";
         }
     }
 

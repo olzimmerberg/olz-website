@@ -82,6 +82,13 @@ final class UpdateUserEndpointTest extends TestCase {
             'lastName' => 'Last',
             'username' => 'test',
             'email' => 'test@olzimmerberg.ch',
+            'gender' => 'F',
+            'birthdate' => '1992-08-05 12:00:00',
+            'street' => 'Teststrasse 123',
+            'postalCode' => '1234',
+            'city' => 'Muster',
+            'region' => 'ZH',
+            'countryCode' => 'CH',
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
@@ -91,6 +98,13 @@ final class UpdateUserEndpointTest extends TestCase {
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('test@olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame('F', $admin_user->getGender());
+        $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
+        $this->assertSame('Teststrasse 123', $admin_user->getStreet());
+        $this->assertSame('1234', $admin_user->getPostalCode());
+        $this->assertSame('Muster', $admin_user->getCity());
+        $this->assertSame('ZH', $admin_user->getRegion());
+        $this->assertSame('CH', $admin_user->getCountryCode());
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',

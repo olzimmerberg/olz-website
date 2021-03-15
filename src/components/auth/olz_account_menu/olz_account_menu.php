@@ -22,8 +22,8 @@ function olz_account_menu($args = []): string {
         }
     }
 
-    $out .= "<a href='#' role='button' id='account-menu-link' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
-    $out .= "<img src='{$image_path}' class='account-thumbnail' />";
+    $out .= "<a href='#' role='button' id='account-menu-link' data-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
+    $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
     $out .= "</a>";
     $out .= "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='account-menu-link'>";
     if ($user) {

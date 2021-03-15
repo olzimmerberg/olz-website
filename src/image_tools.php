@@ -367,7 +367,7 @@ function olz_image($db_table, $id, $index, $dim, $lightview = "image", $attrs = 
     }
     $span_before = $lightview == "image" ? "<span class='lightgallery'>" : "";
     $span_after = $lightview == "image" ? "</span>" : "";
-    $a_before = $lightview ? "<a href='".$data_href.$imgfile."' data-src='".$data_href.$imgfile."'>" : "";
+    $a_before = $lightview ? "<a href='".$data_href.$imgfile."' aria-label='Bild vergrössern' data-src='".$data_href.$imgfile."'>" : "";
     $a_after = $lightview ? "</a>" : "";
     return $span_before.$a_before."<img src='image_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=".$dim."' alt='' width='".$wid."' height='".$hei."'".$attrs.">".$a_after.$span_after;
 }

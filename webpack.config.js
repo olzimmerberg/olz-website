@@ -4,6 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const defaultConfig = {
     mode: 'development',
@@ -19,12 +20,12 @@ const defaultConfig = {
                 loader: 'babel-loader',
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                ],
             },
             {
                 test: /\.(png|gif)$/,
@@ -45,6 +46,9 @@ const defaultConfig = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery',
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].min.css',
         }),
         new WebpackShellPlugin({
             onBuildStart: ['php ./src/api/client/generate.php'],
@@ -67,7 +71,7 @@ module.exports = [
         output: {
             path: path.resolve(__dirname, 'src/jsbuild'),
             publicPath: '/_/jsbuild/',
-            filename: 'olz.min.js',
+            filename: '[name].min.js',
             library: 'olz',
         },
     },
@@ -77,7 +81,7 @@ module.exports = [
         output: {
             path: path.resolve(__dirname, 'src/resultate/jsbuild'),
             publicPath: '/_/resultate/jsbuild/',
-            filename: 'olz-results.min.js',
+            filename: '[name].min.js',
             library: 'olzResults',
         },
     },
@@ -87,7 +91,7 @@ module.exports = [
         output: {
             path: path.resolve(__dirname, 'src/resultate/live_uploader/public_html/jsbuild'),
             publicPath: './jsbuild/',
-            filename: 'olz-results.min.js',
+            filename: '[name].min.js',
             library: 'olzResults',
         },
     },

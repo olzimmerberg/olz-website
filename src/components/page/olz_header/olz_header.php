@@ -6,7 +6,8 @@ function olz_header($args = []): string {
 
     require_once __DIR__.'/../../../config/server.php';
 
-    $js_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/olz.min.js");
+    $css_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.css");
+    $js_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.js");
 
     // TODO: Remove all of this, once the index.php?page=... syntax is not used anymore.
     $canonical_tag = '';
@@ -56,7 +57,7 @@ function olz_header($args = []): string {
             if (strlen($query) > 0) {
                 $query = "?{$query}";
             }
-            $canonical_tag = "<link rel='canonical' href='https://{$host}{$_CONFIG->getCodeHref()}{$canonical_page}{$query}'>";
+            $canonical_tag = "<link rel='canonical' href='https://{$host}{$_CONFIG->getCodeHref()}{$canonical_page}{$query}' />";
         }
     }
 
@@ -86,9 +87,10 @@ function olz_header($args = []): string {
     ".(isset($_GET['archiv']) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
-    <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico'>
+    <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
     {$canonical_tag}
-    <script type='text/javascript' src='jsbuild/olz.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
+    <link rel='stylesheet' href='{$_CONFIG->getCodeHref()}jsbuild/main.min.css?modified={$css_modified}' />
+    <script type='text/javascript' src='{$_CONFIG->getCodeHref()}jsbuild/main.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
     </head>";
     $out .= "<body class='olz-override-root'>\n";
     $out .= "<a name='top'></a>";

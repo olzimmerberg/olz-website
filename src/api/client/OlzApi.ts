@@ -39,6 +39,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         lastName: string,
         username: string,
         email: string,
+        gender: 'M'|'F'|'O'|null,
+        birthdate: string|null,
+        street: string,
+        postalCode: string,
+        city: string,
+        region: string,
+        countryCode: string,
     },
     updatePassword: {
         id: number,

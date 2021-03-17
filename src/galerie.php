@@ -7,8 +7,8 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     session_start();
 
-    require_once __DIR__.'/admin/olz_functions.php';
-    
+    require_once __DIR__.'/admin/olz_functions.php'
+
     if (isset($_GET['datum']) || isset($_GET['foto'])) {
         http_response_code(400);
     }

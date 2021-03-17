@@ -125,7 +125,7 @@ echo <<<ZZZZZZZZZZ
 <div class='clear-both'></div>
 <div class='right pics'>
     <span class='lightgallery'>
-        <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' data-src='https://www.youtube.com/watch?v=JVL0vgcnM6c'>
+        <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' rel='noopener noreferrer' data-src='https://www.youtube.com/watch?v=JVL0vgcnM6c'>
             {$was_ist_ol_001}
         </a>
     </span>
@@ -134,12 +134,12 @@ echo <<<ZZZZZZZZZZ
     <h1>Was ist OL?</h1>
     <p class='slogan'>OL ist Spass und Abenteuer in der Natur für alle Altersgruppen!</p>
     <p class='description'>Ausgerüstet mit Karte und Kompass hast du die Mission, möglichst schnell alle Posten (Kontrollpunkte) im Laufgebiet (Wald oder Stadt) zu finden.</p>
-    <p class='description'>Wir haben dazu auch ein <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' target='_blank' class='linkext'>kurzes YouTube-Video</a> erstellt.</p>
-    <p class='description'><a href='https://de.m.wikipedia.org/wiki/Orientierungslauf' target='_blank'>Orientierungslauf</a> ist ähnlich wie:</p>
+    <p class='description'>Wir haben dazu auch ein <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' rel='noopener noreferrer' target='_blank' class='linkext'>kurzes YouTube-Video</a> erstellt.</p>
+    <p class='description'><a href='https://de.m.wikipedia.org/wiki/Orientierungslauf' rel='noopener noreferrer' target='_blank'>Orientierungslauf</a> ist ähnlich wie:</p>
     <ul class='description'>
-        <li><a href='https://de.m.wikipedia.org/wiki/Traillauf' target='_blank'>Trailrunning</a>, aber mit Karte und Kompass</li>
-        <li><a href='https://de.m.wikipedia.org/wiki/Geocaching' target='_blank'>Geocaching</a>, aber als Sportart</li>
-        <li><a href='https://de.m.wikipedia.org/wiki/Foxtrail' target='_blank'>Foxtrail</a> und <a href='https://de.m.wikipedia.org/wiki/Schnitzeljagd' target='_blank'>Schnitzeljagd</a>, aber mit Zeitmessung und nur der Karte als Problemstellung</li>
+        <li><a href='https://de.m.wikipedia.org/wiki/Traillauf' rel='noopener noreferrer' target='_blank'>Trailrunning</a>, aber mit Karte und Kompass</li>
+        <li><a href='https://de.m.wikipedia.org/wiki/Geocaching' rel='noopener noreferrer' target='_blank'>Geocaching</a>, aber als Sportart</li>
+        <li><a href='https://de.m.wikipedia.org/wiki/Foxtrail' rel='noopener noreferrer' target='_blank'>Foxtrail</a> und <a href='https://de.m.wikipedia.org/wiki/Schnitzeljagd' rel='noopener noreferrer' target='_blank'>Schnitzeljagd</a>, aber mit Zeitmessung und nur der Karte als Problemstellung</li>
     </ul>
 </div>
 
@@ -190,7 +190,7 @@ echo <<<ZZZZZZZZZZ
 <div class='text'>
     <h1>Wie anfangen?</h1>
     <p class='slogan'>Du möchtest mal OL-Luft schnuppern?</p>
-    <p class='description'>Am besten kommst du in eines unserer <b>Trainings</b> (zur Vorbereitung haben wir ein <a href='https://youtu.be/PjsDAQM1kxA' target='_blank' class='linkext'>Youtube Video</a> erstellt).</p>
+    <p class='description'>Am besten kommst du in eines unserer <b>Trainings</b> (zur Vorbereitung haben wir ein <a href='https://youtu.be/PjsDAQM1kxA' rel='noopener noreferrer' target='_blank' class='linkext'>Youtube Video</a> erstellt).</p>
     <p class='description'>Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Kinder und Jugendliche.</p>
     <p class='description'>Weitere Anlässe findest du bei den <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Terminen</a>.</p>
 </div>
@@ -264,10 +264,11 @@ function get_tile($img_name, $options = []) {
     $img = <<<ZZZZZZZZZZ
     <img 
         srcset='
-            {$data_href}img/fuer_einsteiger/thumb/{$img_name}@2x.jpg 2x
+            {$data_href}img/fuer_einsteiger/thumb/{$img_name}@2x.jpg 2x,
             {$data_href}img/fuer_einsteiger/thumb/{$img_name}.jpg 1x
-        ' 
-        src='{$data_href}img/fuer_einsteiger/thumb/{$img_name}.jpg' 
+        '
+        src='{$data_href}img/fuer_einsteiger/thumb/{$img_name}.jpg'
+        alt=''
         class='tile'
     />
     ZZZZZZZZZZ;

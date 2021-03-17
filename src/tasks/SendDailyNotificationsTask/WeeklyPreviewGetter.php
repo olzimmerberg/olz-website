@@ -48,7 +48,7 @@ class WeeklyPreviewGetter {
                 ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
                 : $starts_on->format('d.m.');
             $title = $termin->getTitle();
-            $termine_text .= "{$date}: {$title}\n";
+            $termine_text .= "- {$date}: {$title}\n";
         }
 
         $next_monday_text = $next_monday->format('j. F');

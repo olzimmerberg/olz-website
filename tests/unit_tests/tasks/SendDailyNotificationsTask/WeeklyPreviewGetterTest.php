@@ -68,6 +68,6 @@ final class WeeklyPreviewGetterTest extends TestCase {
         $notification = $job->getWeeklyPreviewNotification([]);
 
         $this->assertSame('Vorschau auf die Woche vom 23. March', $notification->title);
-        $this->assertSame("Hallo First,\n\nBis Ende nächster Woche finden folgende Anlässe statt:\n\n24.04.: Test Termin\n28.04. - 29.04.: End of Week\n", $notification->getTextForUser($user));
+        $this->assertSame("Hallo First,\n\nBis Ende nächster Woche finden folgende Anlässe statt:\n\n- 24.04.: Test Termin\n- 28.04. - 29.04.: End of Week\n", $notification->getTextForUser($user));
     }
 }

@@ -61,10 +61,10 @@ class DailySummaryGetter {
                 $time = $aktuell->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "{$pretty_date} {$pretty_time}: {$title}\n";
+                $aktuell_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
             }
             if (strlen($aktuell_text) > 0) {
-                $notification_text .= "\nAktuell:\n{$aktuell_text}\n";
+                $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
             }
         }
 
@@ -79,10 +79,10 @@ class DailySummaryGetter {
                 $time = $blog->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $blog->getTitle();
-                $blog_text .= "{$pretty_date} {$pretty_time}: {$title}\n";
+                $blog_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
             }
             if (strlen($blog_text) > 0) {
-                $notification_text .= "\nKaderblog:\n{$blog_text}\n";
+                $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
             }
         }
 
@@ -95,10 +95,10 @@ class DailySummaryGetter {
                 $date = $galerie->getDate();
                 $pretty_date = $date->format('d.m.');
                 $title = $galerie->getTitle();
-                $galerie_text .= "{$pretty_date}: {$title}\n";
+                $galerie_text .= "- {$pretty_date}: {$title}\n";
             }
             if (strlen($galerie_text) > 0) {
-                $notification_text .= "\nGalerien:\n{$galerie_text}\n";
+                $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";
             }
         }
 
@@ -113,10 +113,10 @@ class DailySummaryGetter {
                 $time = $forum->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $forum->getTitle();
-                $forum_text .= "{$pretty_date} {$pretty_time}: {$title}\n";
+                $forum_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
             }
             if (strlen($forum_text) > 0) {
-                $notification_text .= "\nForum:\n{$forum_text}\n";
+                $notification_text .= "\n**Forum**\n\n{$forum_text}\n";
             }
         }
 

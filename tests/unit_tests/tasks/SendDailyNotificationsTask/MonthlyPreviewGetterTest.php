@@ -98,6 +98,6 @@ final class MonthlyPreviewGetterTest extends TestCase {
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $this->assertSame('Monatsvorschau April', $notification->title);
-        $this->assertSame("Hallo First,\n\nIm April finden folgende Anlässe statt:\n\n13.04.: Test Termin\n20.04. - 30.04.: End of Month\n", $notification->getTextForUser($user));
+        $this->assertSame("Hallo First,\n\nIm April finden folgende Anlässe statt:\n\n- 13.04.: Test Termin\n- 20.04. - 30.04.: End of Month\n", $notification->getTextForUser($user));
     }
 }

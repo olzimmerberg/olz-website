@@ -43,7 +43,7 @@ class DeadlineWarningGetter {
             $deadline_date = $deadline->getDeadline();
             $date = $deadline_date->format('d.m.');
             $title = $termin->getTitle();
-            $deadlines_text .= "{$date}: Meldeschluss für '{$title}'\n";
+            $deadlines_text .= "- {$date}: Meldeschluss für '{$title}'\n";
         }
 
         if (strlen($deadlines_text) == 0) {

@@ -120,6 +120,6 @@ final class DeadlineWarningGetterTest extends TestCase {
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $this->assertSame('Meldeschlusswarnung', $notification->title);
-        $this->assertSame("Hallo First,\n\nFolgende Meldeschlüsse stehen bevor:\n\n16.03.: Meldeschluss für 'Test Termin'\n16.03.: Meldeschluss für 'End of Month'\n", $notification->getTextForUser($user));
+        $this->assertSame("Hallo First,\n\nFolgende Meldeschlüsse stehen bevor:\n\n- 16.03.: Meldeschluss für 'Test Termin'\n- 16.03.: Meldeschluss für 'End of Month'\n", $notification->getTextForUser($user));
     }
 }

@@ -41,6 +41,7 @@ function test_login_logout_readonly($driver, $base_url) {
         );
         return $login_modal->getCssValue('opacity') == 1;
     });
+    sleep(1);
 
     take_pageshot($driver, 'login_modal');
 

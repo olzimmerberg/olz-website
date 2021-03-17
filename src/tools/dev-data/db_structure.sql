@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210129192635
+-- MIGRATION: OLZ\Migrations\Version20210317183728
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -339,21 +339,6 @@ CREATE TABLE `olz_text` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `old_username` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `parent_role` int(11) DEFAULT NULL,
-  `index_within_parent` int(11) DEFAULT NULL,
-  `featured_index` int(11) DEFAULT NULL,
-  `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rundmail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `betreff` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -644,6 +629,23 @@ CREATE TABLE `notification_subscriptions` (
   KEY `notification_type_index` (`notification_type`),
   CONSTRAINT `FK_52C540C8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_username` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `page` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parent_role` int(11) DEFAULT NULL,
+  `index_within_parent` int(11) DEFAULT NULL,
+  `featured_index` int(11) DEFAULT NULL,
+  `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

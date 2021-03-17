@@ -26,6 +26,14 @@ class Role {
      */
     public $name;
     /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    public $description;
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    public $page;
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     public $parent_role;
@@ -56,6 +64,14 @@ class Role {
 
     public function getName() {
         return $this->name;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function getPage() {
+        return $this->page;
     }
 
     public function getUsers() {

@@ -62,6 +62,10 @@ class Role {
         return $this->id;
     }
 
+    public function getUsername() {
+        return $this->username;
+    }
+
     public function getName() {
         return $this->name;
     }
@@ -72,6 +76,10 @@ class Role {
 
     public function getPage() {
         return $this->page;
+    }
+
+    public function getParentRoleId() {
+        return $this->parent_role;
     }
 
     public function getUsers() {

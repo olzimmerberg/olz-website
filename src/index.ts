@@ -21,7 +21,6 @@ export * from './components/index';
 export * from './email_reaktion';
 export * from './features/index';
 export * from './fuer_einsteiger';
-export * from './kontakt';
 export * from './konto_passwort';
 export * from './konto_strava';
 export * from './logs';

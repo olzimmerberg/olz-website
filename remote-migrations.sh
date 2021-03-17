@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd tools/remote_config
 
 echo -n "Remote Database Password (for ch279178_olz_prod): "

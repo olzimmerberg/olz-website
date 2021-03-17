@@ -148,6 +148,8 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
+    - name: Install apt software
+      run: sudo apt-get install sshpass
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -188,6 +190,8 @@ jobs:
       with:
         name: test-screenshots
         path: ./screenshots
+    - name: Install apt software
+      run: sudo apt-get install sshpass
     - name: Upload over SFTP
       env:
         SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}

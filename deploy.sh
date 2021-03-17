@@ -1,8 +1,12 @@
 #!/bin/sh
 
+set -e
+
 FTP_COMMANDS_FILE="./ci/ftp-deploy"
+DEPLOY=1
 if [ "$2" != "" ]; then
     FTP_COMMANDS_FILE="$2"
+    DEPLOY=0
 fi
 
 if [ "$1" = "hoststar-prod" ]; then
@@ -29,7 +33,9 @@ if [ "$SSHPASS" = "" ]; then
     export SSHPASS="$PASSWORD"
 fi
 sshpass -e sftp -o StrictHostKeyChecking=no -P "$PORT" "$USERNAME@$HOST" < $FTP_COMMANDS_FILE
-wget -q -O - "$URL/deploy/deploy.php"
-if [ $RESET -eq 1 ]; then
-    wget -q -O - "$URL/tools.php/reset"
+if [ $DEPLOY -eq 1 ]; then
+    wget -q -O - "$URL/deploy/deploy.php"
+    if [ $RESET -eq 1 ]; then
+        wget -q -O - "$URL/tools.php/reset"
+    fi
 fi

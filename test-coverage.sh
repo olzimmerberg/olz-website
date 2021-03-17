@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 ./vendor/bin/phpunit -c ./phpunit.xml $@ tests
 
 echo ""

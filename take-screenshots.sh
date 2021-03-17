@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 DOMAIN='127.0.0.1:30270'
 
 rm -Rf ./screenshots

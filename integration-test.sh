@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Configure database
 if [ ! -z DB_PORT ] && [ ! -f ./tests/integration_tests/document-root/config.php ]; then
     cp ./tests/integration_tests/document-root/config.template.php ./tests/integration_tests/document-root/config.php

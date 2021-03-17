@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 npm run webpack-watch &
 WEBPACK_WATCH_PID=$!
 echo "Webpack Watch PID: $WEBPACK_WATCH_PID"

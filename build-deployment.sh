@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 rm -Rf ./deploy/
 mkdir -p ./deploy/
 rm -Rf ./src/jsbuild/

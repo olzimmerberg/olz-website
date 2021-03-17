@@ -25,7 +25,7 @@ function olz_menu($args = []): string {
         ["Material & Kleider", "material.php", 'large'],
         ["Service", "service.php", 'large'],
         //array("Anmeldungen","13",15),
-        ["Kontakt", "kontakt.php", 'large'],
+        ["Verein", "verein.php", 'large'],
     ];
 
     $out .= "<div id='menu' class='menu'>";

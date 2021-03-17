@@ -107,7 +107,7 @@ Auf der <b><a href='aktuell.php' onmouseover='highlight_menu(event)' onmouseout=
 <br>
 <h3>Wer ist im Vorstand der OL Zimmerberg?</h3>
 <div>
-Porträts unseres Vorstandes sind auf der <b><a href='kontakt.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Kontakt-Seite</a></b> zu finden.
+Porträts unseres Vorstandes sind auf der <b><a href='verein.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Vereins-Seite</a></b> zu finden.
 </div>
 <br>
 <h3>Wen kann ich fragen, wenn ich weitere Fragen habe?</h3>

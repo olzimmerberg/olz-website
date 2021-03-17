@@ -33,7 +33,7 @@ echo get_entry("{$base_url}forum.php", 'daily', '0.3');
 echo get_entry("{$base_url}karten.php", 'monthly', '0.5');
 echo get_entry("{$base_url}material.php", 'monthly', '0.5');
 echo get_entry("{$base_url}service.php", 'monthly', '0.3');
-echo get_entry("{$base_url}kontakt.php", 'monthly', '0.5');
+echo get_entry("{$base_url}verein.php", 'monthly', '0.5');
 echo get_entry("{$base_url}datenschutz.php", 'monthly', '0.1');
 
 $aktuell_ids = $entityManager->getRepository(Aktuell::class)->getAllActiveIds();

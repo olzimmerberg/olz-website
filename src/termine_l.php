@@ -31,13 +31,13 @@ if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
     $id = $_GET['id'];
     $_SESSION[$db_table."id_"] = $id;
 } else {
-    $id = $_SESSION[$db_table."id_"];
+    $id = $_SESSION[$db_table."id_"] ?? null;
 }
 if (isset($_POST['jahr']) and in_array($_POST['jahr'], $jahre)) {
     $jahr = $_POST['jahr'];
     $_SESSION[$db_table."jahr_"] = $jahr;
 } else {
-    $jahr = $_SESSION[$db_table."jahr_"];
+    $jahr = $_SESSION[$db_table."jahr_"] ?? null;
 }
 if (!$jahr) {
     $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj");
@@ -46,7 +46,7 @@ if (isset($_POST['monat']) and in_array($_POST['monat'], $monate)) {
     $monat = $_POST['monat'];
     $_SESSION[$db_table."monat_"] = $monat;
 } else {
-    $monat = $_SESSION[$db_table."monat_"];
+    $monat = $_SESSION[$db_table."monat_"] ?? null;
 }
 if (!$monat) {
     $_SESSION[$db_table.'monat_'] = "alle";
@@ -60,7 +60,7 @@ if (isset($filter) and in_array($filter, ['alle', 'training', 'ol', 'club', 'res
     $_SESSION['termin_filter'] = "alle";
 }
 if (isset($_POST['show'])) {
-    $show = $_POST['show'];
+    $show = $_POST['show'] ?? false;
 }
 
 //-------------------------------------------------------------
@@ -76,20 +76,23 @@ if ($zugriff) {
         'duplicate' => 'duplicate',
         'undo' => 'undo', ];
 
-    $id = $_SESSION[$db_table.'id_'];
-    $jahr = $_SESSION[$db_table.'jahr_'];
-    $monat = $_SESSION[$db_table.'monat_'];
+    $id = $_SESSION[$db_table.'id_'] ?? null;
+    $jahr = $_SESSION[$db_table.'jahr_'] ?? null;
+    $monat = $_SESSION[$db_table.'monat_'] ?? null;
     $monatzahl = (array_search($monat, $monate) % 12) + 1;
     $periode = $jahr."-".substr("00".$monatzahl, strlen($monatzahl))."-01";
 } else {
     $functions = [];
 }
 
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($zugriff and ($function != "")) {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (!isset($do)) {
+    $do = null;
+}
+if ($_SESSION['edit']['table'] ?? $db_table == null) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -255,12 +258,12 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
         }
         //SOLV-Karte zeigen
-        elseif ($row_solv["coord_x"] > 0 and $datum >= $heute) {
+        elseif ($row_solv && $row_solv["coord_x"] > 0 and $datum >= $heute) {
             $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
         }
         //Anmeldungs-Link zeigen
         //Manueller Anmeldungs-Link entfernen
-        if (($go2ol > "" or $row_solv["entryportal"] == 1 or $row_solv["entryportal"] == 2)) {
+        if ($row_solv && ($go2ol > "" or $row_solv["entryportal"] == 1 or $row_solv["entryportal"] == 2)) {
             $var = "Anmeldung";
             $pos1 = strpos($link, $var);
             if ($pos1 > 0) {
@@ -273,9 +276,9 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
 
         if ($go2ol > "" and $datum >= $heute) {
             $link .= "<div class='linkext'><a href='http://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv["entryportal"] == 1 and $datum >= $heute) {
+        } elseif ($row_solv && $row_solv["entryportal"] == 1 and $datum >= $heute) {
             $link .= "<div class='linkext'><a href='http://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv["entryportal"] == 2 and $datum >= $heute) {
+        } elseif ($row_solv && $row_solv["entryportal"] == 2 and $datum >= $heute) {
             $link .= "<div class='linkext'><a href='http://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
         }
         if (strpos($row['link'], 'Ausschreibung') == 0 and $row['solv_event_link'] > "") {
@@ -291,7 +294,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
             $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkext'>Rangliste</a></div>\n";
         }
         //SOLV-Ausschreibungs-Link zeigen
-        if ($row_solv["event_link"] and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
+        if ($row_solv && $row_solv["event_link"] and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
             $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
             $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
         }
@@ -350,7 +353,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         else {
             $datum_tmp = $_DATE_UTILS->olzDate("t.m.-", $datum).$_DATE_UTILS->olzDate("t.m. ", $datum_end).$_DATE_UTILS->olzDate("jjjj", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
         }
-        if ($uid == $row['id']) {
+        if ($uid ?? $row['id'] == null) {
             $class = " class='selected'";
         } elseif ($datum_end < $heute) {
             $class = " class='passe'";
@@ -392,9 +395,9 @@ if (($db_edit == "0") or ($do == "vorschau")) {// ADMIN Mysql-Abfrage definieren
         }
     }
 } elseif (($function == 'neu' or $function == 'edit') and $_SESSION['edit']['modus'] == 'neuedit') {
-    $checked = ($_SESSION[$db_table]['repeat'] == 'repeat') ? ' checked' : '';
+    $checked = ($_SESSION[$db_table]['repeat'] ?? null == 'repeat') ? ' checked' : '';
     $intervall = (isset($_SESSION[$db_table]['intervall'])) ? $_SESSION[$db_table]['intervall'] : '7';
-    $_SESSION[$db_table]['termin_'] = $termin_;
+    $_SESSION[$db_table]['termin_'] = $termin_ ?? null;
     echo "<table class='liste'>";
     echo "<tr><td style='width:20%;padding-top:4px;'><b>Termin wiederholen</b></td><td style='width:80%'><p><input type='checkbox' name='modus_termin' value='repeat'{$checked}><span style='margin-left:20px;'>(Achtung: Für das Wiederholen von Terminen muss ein Enddatum angegeben werden)</span></p></td></tr>";
     echo "<tr><td style='width:20%;padding-top:4px;'><b>Intervall (Tage)</b></td><td style='width:80%'><input type='text' name='intervall_termin' value='{$intervall}'></td></tr></table>";

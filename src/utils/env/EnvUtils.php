@@ -250,8 +250,8 @@ class EnvUtils {
     public function getLogger($ident) {
         $data_path = $this->getDataPath();
         $log_path = "{$data_path}logs/";
-        if (!is_dir(dirname($log_path))) {
-            mkdir(dirname($log_path), 0777, true);
+        if (!is_dir($log_path)) {
+            mkdir($log_path, 0777, true);
         }
         $logger = new Logger($ident);
         $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));

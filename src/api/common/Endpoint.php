@@ -35,8 +35,8 @@ abstract class Endpoint {
         global $data_path;
         require_once __DIR__.'/../../config/paths.php';
         $log_path = "{$data_path}logs/";
-        if (!is_dir(dirname($log_path))) {
-            mkdir(dirname($log_path), 0777, true);
+        if (!is_dir($log_path)) {
+            mkdir($log_path, 0777, true);
         }
         $logger = new Logger($this->getIdent());
         $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));

@@ -47,9 +47,13 @@ function test_termine_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');
 
-    $show_past_checkbox = $driver->findElement(
-        WebDriverBy::cssSelector('#show-past-checkbox')
+    $filter_date_2020 = $driver->findElement(
+        WebDriverBy::cssSelector('#filter-date-2020')
     );
-    $show_past_checkbox->click();
+    $filter_date_2020->click();
+    $filter_type_training = $driver->findElement(
+        WebDriverBy::cssSelector('#filter-type-training')
+    );
+    $filter_type_training->click();
     take_pageshot($driver, 'termine_past');
 }

@@ -205,7 +205,9 @@ VALUES
     ('4', '2020-08-25', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 2', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('5', '2020-08-26', '2020-08-26', NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz', '<a href=\"?page=20\" class=\"linkint\">OLZ Trophy</a>\r\n<a href=\"https://forms.gle/ixS1ZD22PmbdeYcy6\" class=\"linkext\">Anmeldung</a>\r\n<a href=\"https://olzimmerberg.ch/files/aktuell//504/010.pdf?modified=1597421504\" target=\"_blank\" class=\"linkpdf\">Ausschreibung</a>', NULL, 'ol', '1', NULL, NULL, NULL, '0', '0', '0', NULL, '2020-08-24 22:40:32', '2019-11-20 09:04:26'),
     ('6', '2020-09-01', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 3', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
-    ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 4', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09');
+    ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 4', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('8', '2020-08-11', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 0', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training -1', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09');
 
 -- Table termine_go2ol
 

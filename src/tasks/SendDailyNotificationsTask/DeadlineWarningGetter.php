@@ -3,6 +3,7 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
+require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/Termin.php';
 
 class DeadlineWarningGetter {
@@ -53,6 +54,8 @@ class DeadlineWarningGetter {
         $title = "Meldeschlusswarnung";
         $text = "Hallo %%userFirstName%%,\n\nFolgende Meldeschlüsse stehen bevor:\n\n{$deadlines_text}";
 
-        return new Notification($title, $text);
+        return new Notification($title, $text, [
+            'notification_type' => NotificationSubscription::TYPE_DEADLINE_WARNING,
+        ]);
     }
 }

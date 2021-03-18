@@ -7,6 +7,7 @@ require_once __DIR__.'/../../model/Aktuell.php';
 require_once __DIR__.'/../../model/Blog.php';
 require_once __DIR__.'/../../model/Galerie.php';
 require_once __DIR__.'/../../model/Forum.php';
+require_once __DIR__.'/../../model/NotificationSubscription.php';
 
 class DailySummaryGetter {
     use Psr\Log\LoggerAwareTrait;
@@ -127,6 +128,8 @@ class DailySummaryGetter {
         $title = "Tageszusammenfassung";
         $text = "Hallo %%userFirstName%%,\n\nDas lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n{$notification_text}";
 
-        return new Notification($title, $text);
+        return new Notification($title, $text, [
+            'notification_type' => NotificationSubscription::TYPE_DAILY_SUMMARY,
+        ]);
     }
 }

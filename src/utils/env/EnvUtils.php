@@ -1,6 +1,10 @@
 <?php
 
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+
 require_once __DIR__.'/../../config/init.php';
+require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class EnvUtils {
     private $data_path;
@@ -241,6 +245,17 @@ class EnvUtils {
 
     public function getSmtpFrom() {
         return $this->smtp_from;
+    }
+
+    public function getLogger($ident) {
+        $data_path = $this->getDataPath();
+        $log_path = "{$data_path}logs/";
+        if (!is_dir(dirname($log_path))) {
+            mkdir(dirname($log_path), 0777, true);
+        }
+        $logger = new Logger($ident);
+        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
+        return $logger;
     }
 
     protected static $from_env_instance = null;

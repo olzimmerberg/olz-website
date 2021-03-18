@@ -159,6 +159,8 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
 }
 
 class FakeSendDailyNotificationsTaskEmailUtils {
+    use Psr\Log\LoggerAwareTrait;
+
     public function __construct() {
         $this->olzMailer = new FakeSendDailyNotificationsTaskOlzMailer();
     }

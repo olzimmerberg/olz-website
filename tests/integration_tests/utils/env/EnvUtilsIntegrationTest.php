@@ -40,6 +40,33 @@ final class EnvUtilsIntegrationTest extends TestCase {
         $this->assertSame('http://fake-host', $env_utils->getBaseHref());
     }
 
+    public function testEnvUtilsFromEnvGetLogger(): void {
+        global $_SERVER;
+        $env_utils = FakeEnvUtils::fromEnv();
+        $data_path = $env_utils->getDataPath();
+        $logs_path = "{$data_path}logs/";
+        if (is_dir($logs_path)) {
+            foreach (scandir($logs_path) as $entry) {
+                if ($entry != '.' && $entry != '..') {
+                    unlink("{$logs_path}{$entry}");
+                }
+            }
+            rmdir($logs_path);
+        }
+        $this->assertSame(false, is_dir($logs_path));
+
+        $logger = $env_utils->getLogger('test');
+        $logger->debug('just for test');
+
+        $this->assertSame('test', $logger->getName());
+        $this->assertSame(true, is_dir($data_path));
+        $this->assertSame(true, is_dir($logs_path));
+        $this->assertMatchesRegularExpression(
+            '/^merged\\-[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}\\.log$/',
+            scandir($logs_path)[2]
+        );
+    }
+
     public function testEnvUtilsFromEnvWithMissingConfigFile(): void {
         global $_SERVER;
         $previous_server = $_SERVER;

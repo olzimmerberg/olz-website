@@ -3,6 +3,7 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
+require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/Termin.php';
 
 class MonthlyPreviewGetter {
@@ -64,6 +65,8 @@ class MonthlyPreviewGetter {
         $title = "Monatsvorschau {$month_name}";
         $text = "Hallo %%userFirstName%%,\n\nIm {$month_name} finden folgende Anlässe statt:\n\n{$termine_text}";
 
-        return new Notification($title, $text);
+        return new Notification($title, $text, [
+            'notification_type' => NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+        ]);
     }
 }

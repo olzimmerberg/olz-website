@@ -25,7 +25,7 @@ echo "<div id='content_double'>";
 
 if ($reaction_data) {
     if ($reaction_data['action'] == 'unsubscribe') {
-        if (isset($reaction_data['notification_type'])) {
+        if ($reaction_data['notification_type'] ?? null != null) {
             $question = "<p>Willst du wirklich <b>alle E-Mail dieser Art abbestellen?</b></p>";
         } elseif (isset($reaction_data['notification_type_all'])) {
             $question = "<p>Willst du wirklich <b>jegliche E-Mails von OL Zimmerberg abbestellen?</b></p>";

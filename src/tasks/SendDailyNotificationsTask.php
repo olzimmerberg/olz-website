@@ -206,14 +206,16 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $user = $subscription->getUser();
         $title = $notification->title;
         $text = $notification->getTextForUser($user);
+        $config = $notification->config;
         $delivery_type = $subscription->getDeliveryType();
         $user_id = $user->getId();
         $this->logger->info("Sending notification {$title} over {$delivery_type} to user ({$user_id})...");
         switch ($delivery_type) {
             case NotificationSubscription::DELIVERY_EMAIL:
                 try {
+                    $this->emailUtils->setLogger($this->logger);
                     $email = $this->emailUtils->createEmail();
-                    $email->configure($user, $title, $text);
+                    $email->configure($user, $title, $text, $config);
                     $email->send();
                     $this->logger->info("Email sent to user ({$user_id}): {$title}");
                 } catch (\Exception $exc) {

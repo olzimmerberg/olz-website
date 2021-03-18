@@ -7,6 +7,7 @@ require_once __DIR__.'/../../model/Aktuell.php';
 require_once __DIR__.'/../../model/Blog.php';
 require_once __DIR__.'/../../model/Galerie.php';
 require_once __DIR__.'/../../model/Forum.php';
+require_once __DIR__.'/../../model/NotificationSubscription.php';
 
 class WeeklySummaryGetter {
     use Psr\Log\LoggerAwareTrait;
@@ -140,6 +141,8 @@ class WeeklySummaryGetter {
         $title = "Wochenzusammenfassung";
         $text = "Hallo %%userFirstName%%,\n\nDas lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n{$notification_text}";
 
-        return new Notification($title, $text);
+        return new Notification($title, $text, [
+            'notification_type' => NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        ]);
     }
 }

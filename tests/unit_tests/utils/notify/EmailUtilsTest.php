@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
 
@@ -40,7 +42,9 @@ class FakeEmailUtilsServerConfig {
 final class EmailUtilsTest extends TestCase {
     public function testEmailReactionToken(): void {
         $server_config = new FakeEmailUtilsServerConfig();
+        $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
+        $email_utils->setLogger($logger);
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
 
@@ -53,14 +57,18 @@ final class EmailUtilsTest extends TestCase {
 
     public function testDecryptInvalidEmailReactionToken(): void {
         $server_config = new FakeEmailUtilsServerConfig();
+        $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
+        $email_utils->setLogger($logger);
 
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
     }
 
     public function testCreateEmail(): void {
         $server_config = new FakeEmailUtilsServerConfig();
+        $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
+        $email_utils->setLogger($logger);
 
         $mailer = $email_utils->createEmail();
 
@@ -116,7 +124,9 @@ final class EmailUtilsTest extends TestCase {
 
     public function testRenderMarkdown(): void {
         $server_config = new FakeEmailUtilsServerConfig();
+        $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
+        $email_utils->setLogger($logger);
 
         // Ignore HTML
         $html = $email_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");

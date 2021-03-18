@@ -12,6 +12,8 @@ require_once __DIR__.'/../GeneralUtils.php';
 require_once __DIR__.'/OlzMailer.php';
 
 class EmailUtils {
+    use Psr\Log\LoggerAwareTrait;
+
     private $generalUtils;
     private $serverConfig;
 
@@ -36,6 +38,8 @@ class EmailUtils {
         $mail->Encoding = 'base64';
 
         $mail->setFrom($this->serverConfig->getSmtpFrom(), 'OL Zimmerberg');
+
+        $mail->setLogger($this->logger);
 
         return $mail;
     }
@@ -88,7 +92,11 @@ class EmailUtils {
         global $_CONFIG;
         require_once __DIR__.'/../../config/server.php';
 
-        return new EmailUtils($_CONFIG);
+        $logger = $_CONFIG->getLogger('EmailUtils');
+        $email_utils = new EmailUtils($_CONFIG);
+        $email_utils->setLogger($logger);
+
+        return $email_utils;
     }
 }
 

@@ -3,6 +3,7 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
+require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/Termin.php';
 
 class WeeklyPreviewGetter {
@@ -55,6 +56,8 @@ class WeeklyPreviewGetter {
         $title = "Vorschau auf die Woche vom {$next_monday_text}";
         $text = "Hallo %%userFirstName%%,\n\nBis Ende nächster Woche finden folgende Anlässe statt:\n\n{$termine_text}";
 
-        return new Notification($title, $text);
+        return new Notification($title, $text, [
+            'notification_type' => NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+        ]);
     }
 }

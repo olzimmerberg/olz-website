@@ -5,6 +5,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class OlzMailer extends PHPMailer {
+    use Psr\Log\LoggerAwareTrait;
+
     private $emailUtils;
     private $serverConfig;
 
@@ -14,7 +16,7 @@ class OlzMailer extends PHPMailer {
         $this->serverConfig = $serverConfig;
     }
 
-    public function configure($user, $title, $text) {
+    public function configure($user, $title, $text, $config = []) {
         $user_email = $user->getEmail();
         // TODO: Check if verified?
         $user_id = $user->getId();
@@ -24,10 +26,13 @@ class OlzMailer extends PHPMailer {
         $html_text = $this->emailUtils->renderMarkdown($text);
         $this->isHTML(true);
         $this->AddEmbeddedImage(__DIR__.'/../../icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
+        if (!isset($config['notification_type'])) {
+            $this->logger->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
+        }
         $unsubscribe_this_token = urlencode($this->emailUtils->encryptEmailReactionToken([
             'action' => 'unsubscribe',
             'user' => $user_id,
-            'notification_type' => 'monthly_preview', // TODO: correct notification type
+            'notification_type' => $config['notification_type'] ?? null,
         ]));
         $unsubscribe_all_token = urlencode($this->emailUtils->encryptEmailReactionToken([
             'action' => 'unsubscribe',

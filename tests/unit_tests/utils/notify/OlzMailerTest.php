@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
@@ -37,13 +39,15 @@ final class OlzMailerTest extends TestCase {
     public function testConfigure(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
         $server_config = new FakeOlzMailerServerConfig();
+        $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
+        $mailer->setLogger($logger);
 
         $user = new User();
         $user->setEmail('fake-user@olzimmerberg.ch');
         $user->setFirstName('Fake');
         $user->setLastName('User');
-        $mailer->configure($user, 'Tèśt', "äsdf\n1234");
+        $mailer->configure($user, 'Tèśt', "äsdf\n1234", ['notification_type' => 'monthly_preview']);
 
         $this->assertSame([
             ['fake-user@olzimmerberg.ch', 'Fake User'],
@@ -81,7 +85,9 @@ final class OlzMailerTest extends TestCase {
     public function testSend(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
         $server_config = new FakeOlzMailerServerConfig();
+        $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
+        $mailer->setLogger($logger);
 
         try {
             $mailer->send();
@@ -94,7 +100,9 @@ final class OlzMailerTest extends TestCase {
     public function testSendConfigured(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
         $server_config = new FakeOlzMailerServerConfig();
+        $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
+        $mailer->setLogger($logger);
         $user = new User();
         $user->setEmail('fake-user@olzimmerberg.ch');
         $user->setFirstName('Fake');

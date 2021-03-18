@@ -84,7 +84,7 @@ function olz_header($args = []): string {
     {$html_description}
     <meta name='Content-Language' content='de'>
     {$refresh}
-    ".(isset($_GET['archiv']) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
+    ".(isset($_GET['archiv']) || isset($_GET['abteilung']) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />

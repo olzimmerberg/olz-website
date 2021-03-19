@@ -24,6 +24,13 @@ export function MailTo(name: string, domain: string, text: string, subject = '')
     const email3 = subject;
     const mailtoPrefix = 'mailto:';
     mytext = (`<a href="${mailtoPrefix}${email1}@${email2}?subject=${email3}" class="linkmail">${linktext}</a>`);
+    if (/MailTo\(/.exec(document.currentScript.innerHTML)) {
+        const span = document.createElement('span');
+        const scriptElement = document.currentScript;
+        scriptElement.parentNode.insertBefore(span, scriptElement);
+        span.innerHTML = mytext;
+        return '';
+    }
     return mytext;
 }
 

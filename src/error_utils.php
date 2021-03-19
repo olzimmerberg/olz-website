@@ -21,7 +21,7 @@ function die_with_http_error($http_status_code) {
         <p>Aber keine Bange, <a href='index.php' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
         <p>Und wenn du felsenfest davon überzeugt bist, dass der Posten hier sein <b>muss</b>, dann hat wohl der Postensetzer einen Fehler gemacht und sollte schläunigst informiert werden:
         <script type='text/javascript'>
-            document.write(MailTo("olz_uu_01", "olzimmerberg.ch", "Postensetzer", "Fehler%20404%20OLZ"));
+            MailTo("olz_uu_01", "olzimmerberg.ch", "Postensetzer", "Fehler%20404%20OLZ");
         </script></p>
     </div>
     ZZZZZZZZZZ;

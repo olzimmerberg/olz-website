@@ -278,8 +278,9 @@ function get_tile($img_name, $options = []) {
     return <<<ZZZZZZZZZZ
     <span class='lightgallery'>
         <a 
-            href='{$data_href}img/fuer_einsteiger/img/{$img_name}.jpg' 
+            href='{$data_href}img/fuer_einsteiger/img/{$img_name}.jpg'
             data-src='{$data_href}img/fuer_einsteiger/img/{$img_name}.jpg'
+            aria-label='Bild vergrössern'
         >
             {$img}
         </a>

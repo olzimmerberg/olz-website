@@ -30,7 +30,7 @@ echo "<h4 class='tablebar'>Elite</h4>
 <h4 class='tablebar'>Trainer Team Gold</h4>
 <div><img src='{$data_href}img/gold_trainer.jpg' class='noborder' style='width: 100%;'></div>
 <div><b>Hauptleitung</b></div>
-<script>document.write(MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold'))</script>
+<script>MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold')</script>
 <div><b>Trainerteam</b></div>
 <div>Lilly Gross</div>
 <div>Paula Gross</div>

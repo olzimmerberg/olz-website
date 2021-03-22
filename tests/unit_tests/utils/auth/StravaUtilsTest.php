@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $sample_strava_fetcher_response = [
     "token_type" => "Bearer",
@@ -51,7 +50,7 @@ class FakeStravaUtilsStravaFetcher {
  * @internal
  * @covers \StravaUtils
  */
-final class StravaUtilsTest extends TestCase {
+final class StravaUtilsTest extends UnitTestCase {
     private $strava_utils;
 
     public function __construct() {

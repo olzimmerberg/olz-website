@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../src/utils/TermineUtils.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \TermineUtils
  */
-final class TermineUtilsTest extends TestCase {
+final class TermineUtilsTest extends UnitTestCase {
     public function testIsValidFilter(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineUtils();

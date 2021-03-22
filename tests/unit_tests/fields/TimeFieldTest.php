@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/TimeField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \TimeField
  */
-final class TimeFieldTest extends TestCase {
+final class TimeFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new TimeField('fake', []);
         $this->assertSame('string', $field->getTypeScriptType());

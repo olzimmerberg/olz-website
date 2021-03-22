@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/SolvEvent.php';
@@ -11,6 +10,7 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDeadlineWarningGetterEntityManager {
     public $repositories = [];
@@ -75,7 +75,7 @@ class FakeDeadlineWarningGetterEnvUtils {
  * @internal
  * @covers \DeadlineWarningGetter
  */
-final class DeadlineWarningGetterTest extends TestCase {
+final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
         $entity_manager = new FakeDeadlineWarningGetterEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');

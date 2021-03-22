@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/parsers/SolvEventParser.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \SolvEventParser
  */
-final class SolvEventParserTest extends TestCase {
+final class SolvEventParserTest extends UnitTestCase {
     private $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
     private $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
 

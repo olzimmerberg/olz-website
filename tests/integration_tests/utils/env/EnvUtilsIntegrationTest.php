@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 class FakeEnvUtils extends EnvUtils {
     public static function fromEnv() {
@@ -18,9 +17,9 @@ class FakeEnvUtils extends EnvUtils {
  * @internal
  * @covers \EnvUtils
  */
-final class EnvUtilsIntegrationTest extends TestCase {
+final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
-        global $_SERVER;
+        global $db;
         $env_utils = FakeEnvUtils::fromEnv();
         $this->assertMatchesRegularExpression(
             '/\/tests\/integration_tests\/document\-root\/$/',
@@ -37,11 +36,10 @@ final class EnvUtilsIntegrationTest extends TestCase {
             $env_utils->getDeployPath()
         );
         $this->assertSame('/deploy/', $env_utils->getDeployHref());
-        $this->assertSame('http://fake-host', $env_utils->getBaseHref());
+        $this->assertSame('http://integration-test.host', $env_utils->getBaseHref());
     }
 
     public function testEnvUtilsFromEnvGetLogger(): void {
-        global $_SERVER;
         $env_utils = FakeEnvUtils::fromEnv();
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
@@ -111,7 +109,10 @@ final class EnvUtilsIntegrationTest extends TestCase {
             $env_utils = FakeEnvUtils::fromEnv();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('Unit tests should never use EnvUtils::fromEnv!', $exc->getMessage());
+            $this->assertMatchesRegularExpression(
+                '/^Unit tests should never use EnvUtils::fromEnv!/',
+                $exc->getMessage()
+            );
         }
 
         $_SERVER = $previous_server;

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/OnDailyEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnDailyEndpointSyncSolvTask {
     public $hasBeenRun = false;
@@ -81,7 +81,7 @@ class FakeOnDailyEndpointEnvUtils {
  * @internal
  * @covers \OnDailyEndpoint
  */
-final class OnDailyEndpointTest extends TestCase {
+final class OnDailyEndpointTest extends UnitTestCase {
     public function testOnDailyEndpointIdent(): void {
         $endpoint = new OnDailyEndpoint();
         $this->assertSame('OnDailyEndpoint', $endpoint->getIdent());

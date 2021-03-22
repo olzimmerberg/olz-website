@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/api/common/ValidationError.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \ValidationError
  */
-final class ValidationErrorTest extends TestCase {
+final class ValidationErrorTest extends UnitTestCase {
     public function testValidationError(): void {
         $error = new ValidationError(['test_field' => ['Error 1', 'Error 2']]);
         $this->assertSame(['test_field' => ['Error 1', 'Error 2']], $error->getValidationErrors());

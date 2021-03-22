@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/OnContinuouslyEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnContinuouslyEndpointEnvUtils {
     public function getCronAuthenticityCode() {
@@ -19,7 +19,7 @@ class FakeOnContinuouslyEndpointEnvUtils {
  * @internal
  * @covers \OnContinuouslyEndpoint
  */
-final class OnContinuouslyEndpointTest extends TestCase {
+final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpointIdent(): void {
         $endpoint = new OnContinuouslyEndpoint();
         $this->assertSame('OnContinuouslyEndpoint', $endpoint->getIdent());

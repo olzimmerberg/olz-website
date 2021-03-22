@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/NumberField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \NumberField
  */
-final class NumberFieldTest extends TestCase {
+final class NumberFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new NumberField('fake', []);
         $this->assertSame('number', $field->getTypeScriptType());

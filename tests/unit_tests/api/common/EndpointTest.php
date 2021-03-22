@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/common/Endpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/fields/Field.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeEndpoint extends Endpoint {
     public $handled_with_input;
@@ -91,7 +91,7 @@ class FakeEndpointWithErrors extends Endpoint {
  * @internal
  * @covers \Endpoint
  */
-final class EndpointTest extends TestCase {
+final class EndpointTest extends UnitTestCase {
     public function testFakeEndpoint(): void {
         $memory_session = new MemorySession();
         $fake_server = ['name' => 'fake'];

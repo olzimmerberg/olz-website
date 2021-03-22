@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvEventsSyncer.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSolvEventsSyncerEntityManager {
     public $persisted = [];
@@ -85,7 +85,7 @@ class FakeSolvEventsSyncerSolvFetcher {
  * @internal
  * @covers \SolvEventsSyncer
  */
-final class SolvEventsSyncerTest extends TestCase {
+final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {
         $entity_manager = new FakeSolvEventsSyncerEntityManager();
         $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();

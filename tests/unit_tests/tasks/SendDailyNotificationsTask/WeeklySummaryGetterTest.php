@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklySummaryGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeWeeklySummaryGetterEntityManager {
     public $repositories = [];
@@ -95,7 +95,7 @@ class FakeWeeklySummaryGetterEnvUtils {
  * @internal
  * @covers \WeeklySummaryGetter
  */
-final class WeeklySummaryGetterTest extends TestCase {
+final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
         $entity_manager = new FakeWeeklySummaryGetterEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday

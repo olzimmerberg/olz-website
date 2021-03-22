@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateNotificationSubscriptionsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeNotificationSubscriptionsEndpointEntityManager {
     public $persisted = [];
@@ -71,7 +71,7 @@ class FakeNotificationSubscriptionsEndpointUserRepository {
  * @internal
  * @covers \UpdateNotificationSubscriptionsEndpoint
  */
-final class UpdateNotificationSubscriptionsEndpointTest extends TestCase {
+final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointIdent(): void {
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $this->assertSame('UpdateNotificationSubscriptionsEndpoint', $endpoint->getIdent());

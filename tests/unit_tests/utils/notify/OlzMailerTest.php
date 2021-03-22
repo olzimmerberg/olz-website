@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOlzMailerEmailUtils {
     public function encryptEmailReactionToken($data) {
@@ -35,7 +35,7 @@ class FakeOlzMailerEnvUtils {
  * @internal
  * @covers \OlzMailer
  */
-final class OlzMailerTest extends TestCase {
+final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
         $server_config = new FakeOlzMailerEnvUtils();

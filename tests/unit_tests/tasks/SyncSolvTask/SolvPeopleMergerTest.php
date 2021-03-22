@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_solv_person.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvPeopleMerger.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSolvPeopleMergerEntityManager {
     public $persisted = [];
@@ -76,7 +76,7 @@ class FakeSolvPeopleMergerSolvResultRepository {
  * @internal
  * @covers \SolvPeopleMerger
  */
-final class SolvPeopleMergerTest extends TestCase {
+final class SolvPeopleMergerTest extends UnitTestCase {
     public function testSolvPeopleMerger(): void {
         $entity_manager = new FakeSolvPeopleMergerEntityManager();
         $logger = new Logger('SolvPeopleMergerTest');

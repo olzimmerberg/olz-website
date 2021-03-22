@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../fake/fake_solv_result.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/SolvPerson.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvPeopleAssigner.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSolvPeopleAssignerEntityManager {
     public $persisted = [];
@@ -106,7 +106,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
  * @internal
  * @covers \SolvPeopleAssigner
  */
-final class SolvPeopleAssignerTest extends TestCase {
+final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
         $logger = new Logger('SolvPeopleAssignerTest');

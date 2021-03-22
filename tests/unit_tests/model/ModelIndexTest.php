@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @coversNothing
  */
-final class ModelIndexTest extends TestCase {
+final class ModelIndexTest extends UnitTestCase {
     public function testAllModelsInIndex(): void {
         $model_path = __DIR__.'/../../../src/model/';
         $model_files = scandir($model_path);

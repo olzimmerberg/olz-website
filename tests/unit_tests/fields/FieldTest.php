@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/Field.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \Field
  */
-final class FieldTest extends TestCase {
+final class FieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new Field('fake', []);
         $this->assertSame('any', $field->getTypeScriptType());

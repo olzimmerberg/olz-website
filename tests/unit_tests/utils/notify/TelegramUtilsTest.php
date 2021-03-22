@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/TelegramUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $iso_now = '2020-03-13 19:30:00';
 
@@ -123,7 +122,7 @@ class DeterministicTelegramUtils extends TelegramUtils {
  * @internal
  * @covers \TelegramUtils
  */
-final class TelegramUtilsTest extends TestCase {
+final class TelegramUtilsTest extends UnitTestCase {
     public function testGenerateTelegramPin(): void {
         global $iso_now;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();

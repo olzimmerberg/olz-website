@@ -42,7 +42,7 @@ if (isset($code)) {
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 } else {
-    $id = ($_SESSION[$db_table.'id_'] ?? null);
+    $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 
 //-------------------------------------------------------------
@@ -68,7 +68,7 @@ if ($zugriff) {
         'undo' => 'undo',
         'delete' => 'Löschen', ];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

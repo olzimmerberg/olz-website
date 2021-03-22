@@ -16,7 +16,7 @@ if (isset($_GET["id"]) and (is_ganzzahl($_GET["id"]) or in_array($_GET["id"], $a
     $row = mysqli_fetch_array($result);
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 } else {
-    $id = ($_SESSION[$db_table.'id_'] ?? null);
+    $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 if (isset($jahr) and in_array($jahr, array_merge($_DATE->getYearsForAccordion(), ["box", "special"]))) {
     $_SESSION[$db_table."jahr_"] = $jahr;
@@ -34,7 +34,7 @@ if ($id == "") { // Jüngste Nachricht
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 }
 
-$id = ($_SESSION[$db_table.'id_'] ?? null);
+$id = $_SESSION[$db_table.'id_'] ?? null;
 $jahr = $_SESSION[$db_table.'jahr_'];
 
 //-------------------------------------------------------------

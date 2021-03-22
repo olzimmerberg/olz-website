@@ -46,7 +46,7 @@ if ($zugriff) {
         'upload' => 'Upload',
         'undo' => 'undo', ];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

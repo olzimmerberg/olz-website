@@ -36,7 +36,7 @@ if (isset($_POST[$button_name])) {
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-$id = ($_SESSION[$db_table.'id_'] ?? null);
+$id = $_SESSION[$db_table.'id_'] ?? null;
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
@@ -53,7 +53,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 
 if ($function != "") {
     include 'admin/admin_db.php';
@@ -91,10 +91,6 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $edit_admin = "<a href='startseite.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
     } else {
         $edit_admin = "";
-    }
-
-    if (substr($bild1, 0, 4) != 'img/') {
-        $bild1 = 'img/'.$bild1;
     }
 
     $img2 = olz_image($db_table, $id_tmp, 2, 256);

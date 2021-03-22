@@ -26,7 +26,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include __DIR__.'/admin/admin_db.php';
 }
@@ -73,7 +73,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
 
         $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
-        $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
+        $edit_admin = ($zugriff and (($do ?? null) != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
         // Bildercode einfügen
         if (($do ?? null) == 'vorschau') {

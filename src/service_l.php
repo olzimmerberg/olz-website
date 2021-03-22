@@ -38,7 +38,7 @@ if (isset($_POST[$button_name])) {
 if (isset($id) and is_ganzzahl($id) and ($_SESSION['edit']['db_table'] == $db_table)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-//$id = ($_SESSION[$db_table.'id_'] ?? null);
+//$id = $_SESSION[$db_table.'id_'] ?? null;
 
 //-------------------------------------------------------------
 // BEARBEITEN
@@ -57,7 +57,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
@@ -103,7 +103,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $id_tmp = $row['id'];
         $name = $row['name'];
         $url = $row['url'];
-        if ($zugriff and ($do != 'vorschau')) {
+        if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
@@ -159,7 +159,7 @@ if (isset($_POST[$button_name])) {
 if (isset($id) and is_ganzzahl($id) and ($_SESSION['edit']['db_table'] == $db_table)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-//$id = ($_SESSION[$db_table.'id_'] ?? null);
+//$id = $_SESSION[$db_table.'id_'] ?? null;
 
 //-------------------------------------------------------------
 // BEARBEITEN
@@ -181,7 +181,7 @@ if ($zugriff) {
     $functions = [];
 }
 
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
@@ -228,7 +228,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $name = $row['name'];
         $typ = $row['typ'];
         $file1 = $row['file1'];
-        if ($zugriff and ($do != 'vorschau')) {
+        if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";

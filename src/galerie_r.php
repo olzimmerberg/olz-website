@@ -35,12 +35,12 @@ if (isset($_GET["id"]) and is_ganzzahl($_GET["id"])) {
     $row = mysqli_fetch_array($result);
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 } else {
-    $id = ($_SESSION[$db_table.'id_'] ?? null);
+    $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 if (isset($_GET["jahr"])) {
     $_SESSION[$db_table."jahr_"] = $_GET["jahr"];
 } else {
-    $jahr = $_SESSION[$db_table.'jahr_'];
+    $jahr = $_SESSION[$db_table.'jahr_'] ?? null;
 }
 //if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj","");
 if ($id == "") { // Jüngste Nachricht
@@ -50,8 +50,8 @@ if ($id == "") { // Jüngste Nachricht
     $_SESSION[$db_table.'id_'] = $row['id'];
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 }
-$id = ($_SESSION[$db_table.'id_'] ?? null);
-$jahr = $_SESSION[$db_table.'jahr_'];
+$id = $_SESSION[$db_table.'id_'] ?? null;
+$jahr = $_SESSION[$db_table.'jahr_'] ?? null;
 
 echo "<h2>Galerien</h2>";
 
@@ -89,7 +89,7 @@ while ($tmp_jahr >= $end_jahr) {
             $linkclass = "linkimg";
         }
 
-        if ($zugriff and ($do != 'vorschau')) {
+        if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<li style='opacity:".($on_off ? "1" : "0.5").";'><a href='galerie.php?id=".$id_tmp."&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "<li>";

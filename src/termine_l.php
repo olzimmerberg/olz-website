@@ -265,7 +265,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
     }
 
-    if ($zugriff and ($do != 'vorschau')) {
+    if ($zugriff and (($do ?? null) != 'vorschau')) {
         //Berbeiten-/Duplizieren-Button
         $edit_admin = "<a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
         if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
@@ -313,7 +313,7 @@ while ($row = mysqli_fetch_array($result)) {
     }
 
     // HTML-Ausgabe
-    if (($_SESSION['termin_filter'] == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or ($_SESSION['termin_filter'] != "resultat")) {
+    if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
         echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";

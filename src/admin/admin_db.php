@@ -119,7 +119,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["text", "Bildlegende", "textarea", "''", "", "", "", " rows='4'"],
     ];
 } elseif ($db_table == "blog") {// DB BLOG
-    $nutzer = $_SESSION['user'];
+    $nutzer = ($_SESSION['user'] ?? null);
     $img_folder = "img";
     $img_max_size = 240; //maximale Bildbreite,-höhe
     $db_felder = [
@@ -154,7 +154,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["on_off", "Aktiv", "boolean", "'1'", "", "", "", ""],
         ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
     ];
-    if ($_SESSION['auth'] == "all") {
+    if (($_SESSION['auth'] ?? null) == 'all') {
         array_push($db_felder,
                     ["newsletter", "Newsletter", "boolean", "'1'", " (Freischalten des Forumeintrages für Newsletter.)", "", "", ""]);
     }
@@ -169,7 +169,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["content", "Filmangaben", ($_SESSION["auth"] == "all" ? "text" : "hidden"), "''", "", "", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
     ];
-    if ($_SESSION['auth'] == "all") {
+    if (($_SESSION['auth'] ?? null) == 'all') {
         array_push($db_felder,
                     ["on_off", "Aktiv", "boolean", "1", "", "", "", ""]);
     }
@@ -396,12 +396,12 @@ if ($do == "neu") {
     }
     if (!isset($_SESSION['edit']['modus'])) {
         $sql = "INSERT {$db_table} SET ".implode(",", $sql_tmp);
-        if ($_SESSION['auth'] == 'all') {
+        if (($_SESSION['auth'] ?? null) == 'all') {
             echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTSTAR DEBUG</a> ###<br>";
         }
         $result = $db->query($sql);
         $id = $db->insert_id;
-        if ($_SESSION['auth'] == 'all') {
+        if (($_SESSION['auth'] ?? null) == 'all') {
             echo "NEUE ID: ".$id."<br>";
         }
         $_SESSION[$db_table."id_"] = $id;
@@ -586,7 +586,7 @@ if ($do == "submit") {
     }
 
     $sql = "UPDATE {$db_table} SET ".implode(",", $sql_tmp)." WHERE (id = '".$_SESSION[$db_table."id"]."')";
-    if ($_SESSION['auth'] == 'all') {
+    if (($_SESSION['auth'] ?? null) == 'all') {
         echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTSTAR DEBUG</a> ###<br>";
     }
     $result = $db->query($sql);

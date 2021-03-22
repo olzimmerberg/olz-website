@@ -19,7 +19,7 @@ $db_table = 'links';
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
@@ -140,7 +140,7 @@ $def_folder = 'downloads';
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";

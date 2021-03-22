@@ -110,7 +110,7 @@ if (!is_numeric($page) and !in_array($page, explode(" ", $_SESSION["auth"])) and
         $page = 1;
     } // zurück zu Seite 1
 }
-if ($page == 16 and $_SESSION['auth'] != "all") {
+if ($page == 16 and ($_SESSION['auth'] ?? null) != 'all') {
     $page = $_SESSION["page"];
 }
 if ($page != "10") {

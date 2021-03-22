@@ -21,7 +21,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 }
 
 // Zugriff prüfen
-if (in_array('ftp', explode(' ', $_SESSION['auth'])) or $_SESSION['auth'] == 'all') {
+if (in_array('ftp', explode(' ', $_SESSION['auth'])) or ($_SESSION['auth'] ?? null) == 'all') {
     if (isset($_POST['fm_dir'])) {
         $fm_dir = $_POST['fm_dir'];
     } elseif (isset($_GET['fm_dir'])) {
@@ -34,12 +34,12 @@ if (in_array('ftp', explode(' ', $_SESSION['auth'])) or $_SESSION['auth'] == 'al
         $fm_dir = implode('/', array_splice($fm_dir_parts, 0, count($fm_dir_parts) - 2));
     }
     if (isset($_POST['fm_dir'])) {
-        if (substr($fm_dir, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and $_SESSION['auth'] != 'all') {
+        if (substr($fm_dir, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and ($_SESSION['auth'] ?? null) != 'all') {
             $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
             $_POST['fm_dir'] = $_SESSION['root'];
         }
     } elseif (isset($_GET['fm_dir'])) {
-        if (substr($fm_dir, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and $_SESSION['auth'] != 'all') {
+        if (substr($fm_dir, 0, strlen($_SESSION['root'])) !== $_SESSION['root'] and ($_SESSION['auth'] ?? null) != 'all') {
             $fm_error = "<div class='error'>Keine Berechtigung für diese Funktion</div>";
             $_GET['fm_dir'] = $_SESSION['root'];
         }

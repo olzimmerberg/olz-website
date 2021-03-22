@@ -37,7 +37,7 @@ html {
 
     //-------------------------------------------------------------
     // ZUGRIFF
-    if (($_SESSION['auth'] == "all") or (in_array($db_table, split(' ', $_SESSION['auth'])))) {
+    if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, split(' ', $_SESSION['auth'])))) {
         $zugriff = "1";
     } else {
         $zugriff = "0";

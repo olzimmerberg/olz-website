@@ -9,7 +9,7 @@ function olz_account_menu($args = []): string {
     require_once __DIR__.'/../../../model/index.php';
 
     $user_repo = $entityManager->getRepository(User::class);
-    $username = $_SESSION['user'];
+    $username = ($_SESSION['user'] ?? null);
     $user = $user_repo->findOneBy(['username' => $username]);
     $image_path = "{$_CONFIG->getCodeHref()}icns/user.svg";
     if ($user) {
@@ -28,10 +28,10 @@ function olz_account_menu($args = []): string {
     $out .= "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='account-menu-link'>";
     if ($user) {
         $out .= "<a class='dropdown-item' href='profil.php'>Profil</a>";
-        if (in_array('ftp', preg_split("/ /", $_SESSION['auth'])) || ($_SESSION['auth'] == 'all')) {
+        if (in_array('ftp', preg_split("/ /", $_SESSION['auth'])) || (($_SESSION['auth'] ?? null) == 'all')) {
             $out .= "<a class='dropdown-item' href='webftp.php'>WebFTP</a>";
         }
-        if ($_SESSION['auth'] == 'all') {
+        if (($_SESSION['auth'] ?? null) == 'all') {
             $out .= "<a class='dropdown-item' href='logs.php'>Logs</a>";
         }
         $out .= <<<'ZZZZZZZZZZ'

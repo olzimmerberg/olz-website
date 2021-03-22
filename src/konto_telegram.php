@@ -20,7 +20,7 @@ $telegram_utils = getTelegramUtilsFromEnv();
 $pin = $_GET['pin'];
 
 $user_repo = $entityManager->getRepository(User::class);
-$username = $_SESSION['user'];
+$username = ($_SESSION['user'] ?? null);
 $user = $user_repo->findOneBy(['username' => $username]);
 
 echo "<div id='content_double'>

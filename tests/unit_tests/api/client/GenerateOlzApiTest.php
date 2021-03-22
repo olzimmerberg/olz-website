@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @coversNothing
  */
-final class GenerateOlzApiTest extends TestCase {
+final class GenerateOlzApiTest extends UnitTestCase {
     public function testOlzApiHasBeenGenerated(): void {
         $actual_content = file_get_contents(__DIR__.'/../../../../src/api/client/OlzApi.ts');
 

@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fetchers/FacebookFetcher.php';
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \FacebookFetcher
  */
-final class FacebookFetcherTest extends TestCase {
+final class FacebookFetcherTest extends IntegrationTestCase {
     public function __construct() {
         parent::__construct();
         $this->facebook_fetcher = new FacebookFetcher();

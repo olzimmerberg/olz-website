@@ -9,8 +9,9 @@ require_once __DIR__.'/../../config/vendor/autoload.php';
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;
 
-    public function __construct($dateUtils) {
+    public function __construct($dateUtils, $envUtils) {
         $this->dateUtils = $dateUtils;
+        $this->envUtils = $envUtils;
     }
 
     protected function setup() {
@@ -20,8 +21,7 @@ abstract class BackgroundTask {
     }
 
     public function setDefaultFileLogger() {
-        global $data_path;
-        require_once __DIR__.'/../../config/paths.php';
+        $data_path = $this->envUtils->getDataPath();
         $log_path = "{$data_path}logs/";
         if (!is_dir($log_path)) {
             mkdir($log_path, 0777, true);
@@ -54,8 +54,7 @@ abstract class BackgroundTask {
     }
 
     public function generateLogPath() {
-        global $data_path;
-        require __DIR__.'/../../config/paths.php';
+        $data_path = $this->envUtils->getDataPath();
         $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
         return "{$data_path}tasks/log_{$timestamp}_{$this->getIdent()}.txt";
     }

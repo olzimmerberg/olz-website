@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/date/DateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDateUtils extends DateUtils {
     private $fixed_date;
@@ -22,7 +21,7 @@ class FakeDateUtils extends DateUtils {
  * @internal
  * @covers \DateUtils
  */
-final class DateUtilsTest extends TestCase {
+final class DateUtilsTest extends UnitTestCase {
     public function testGetIsoNow(): void {
         $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
         $this->assertSame('2020-03-13 19:30:00', $date_utils->getIsoNow());

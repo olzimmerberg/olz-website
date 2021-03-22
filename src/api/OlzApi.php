@@ -22,7 +22,7 @@ class OlzApi {
                     $date_utils = $_DATE;
                     $email_utils = EmailUtils::fromEnv();
                     $telegram_utils = TelegramUtils::fromEnv();
-                    $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
+                    $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
                     $sync_solv_task->setDefaultFileLogger();
                     $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
                     $send_daily_notifications_task->setDefaultFileLogger();
@@ -177,6 +177,9 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/GetLogsEndpoint.php';
                 $endpoint = new GetLogsEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    $endpoint->setEnvUtils($_CONFIG);
                     $endpoint->setSession(new StandardSession());
                 });
                 return $endpoint;

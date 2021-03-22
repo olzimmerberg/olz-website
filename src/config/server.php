@@ -11,7 +11,7 @@ require_once __DIR__.'/../utils/env/EnvUtils.php';
 global $_CONFIG;
 
 try {
-    $_CONFIG = EnvUtils::fromEnv();
+    $_CONFIG = EnvUtils::fromEnv(); // $_ENV is a PHP predefined variable, unfortunately :/
 } catch (Exception $exc) {
     echo $exc->getMessage();
     exit(1);

@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/date/LiveDateUtils.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \LiveDateUtils
  */
-final class LiveDateUtilsTest extends TestCase {
+final class LiveDateUtilsTest extends IntegrationTestCase {
     public function testCurrentDateInFormat(): void {
         $live_date_utils = new LiveDateUtils();
         $this->assertMatchesRegularExpression('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $live_date_utils->getCurrentDateInFormat('Y-m-d H:i:s'));

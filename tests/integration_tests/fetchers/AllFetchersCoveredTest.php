@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @coversNothing
  */
-final class AllFetchersCoveredTest extends TestCase {
+final class AllFetchersCoveredTest extends IntegrationTestCase {
     public function testAllFetchersCovered(): void {
         $fetchers_path = __DIR__.'/../../../src/fetchers';
 

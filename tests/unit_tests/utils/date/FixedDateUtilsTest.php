@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \FixedDateUtils
  */
-final class FixedDateUtilsTest extends TestCase {
+final class FixedDateUtilsTest extends UnitTestCase {
     public function testCurrentDateInFormat(): void {
         $fixed_date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $this->assertSame('2020-03-13 19:30:00', $fixed_date_utils->getCurrentDateInFormat('Y-m-d H:i:s'));

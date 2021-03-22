@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
@@ -13,6 +12,7 @@ require_once __DIR__.'/../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 $user1 = get_fake_user();
 $user1->setId(1);
@@ -348,7 +348,7 @@ class FakeSendDailyNotificationsTaskLogHandler implements Monolog\Handler\Handle
  * @internal
  * @covers \SendDailyNotificationsTask
  */
-final class SendDailyNotificationsTaskTest extends TestCase {
+final class SendDailyNotificationsTaskTest extends UnitTestCase {
     public function testSendDailyNotificationsTask(): void {
         $entity_manager = new FakeSendDailyNotificationsTaskEntityManager();
         $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();

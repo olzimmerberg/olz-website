@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/parsers/TimeParser.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \TimeParser
  */
-final class TimeParserTest extends TestCase {
+final class TimeParserTest extends UnitTestCase {
     public function testParseTimeWithoutHour(): void {
         $parser = new TimeParser();
 

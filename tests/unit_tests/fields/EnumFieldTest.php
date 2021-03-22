@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/EnumField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \EnumField
  */
-final class EnumFieldTest extends TestCase {
+final class EnumFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new EnumField('fake', ['allowed_values' => ['one', 'two', 'three']]);
         $this->assertSame('\'one\'|\'two\'|\'three\'', $field->getTypeScriptType());

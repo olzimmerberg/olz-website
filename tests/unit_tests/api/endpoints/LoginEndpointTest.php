@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLoginEndpointEntityManager {
     public $persisted = [];
@@ -71,7 +71,7 @@ class FakeLoginEndpointUserRepository {
  * @internal
  * @covers \LoginEndpoint
  */
-final class LoginEndpointTest extends TestCase {
+final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointIdent(): void {
         $endpoint = new LoginEndpoint();
         $this->assertSame('LoginEndpoint', $endpoint->getIdent());

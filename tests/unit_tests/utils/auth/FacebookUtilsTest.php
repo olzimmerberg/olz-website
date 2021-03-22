@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/auth/FacebookUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $sample_facebook_token_response = [
     "token_type" => "Bearer",
@@ -43,7 +42,7 @@ class FakeFacebookUtilsFacebookFetcher {
  * @internal
  * @covers \FacebookUtils
  */
-final class FacebookUtilsTest extends TestCase {
+final class FacebookUtilsTest extends UnitTestCase {
     private $facebook_utils;
     private $facebook_fetcher;
     private $date_utils;

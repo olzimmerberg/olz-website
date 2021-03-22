@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/ExecuteEmailReactionEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeExecuteEmailReactionEndpointEntityManager {
     public $removed = [];
@@ -57,7 +57,7 @@ class FakeExecuteEmailReactionEndpointEmailUtils {
  * @internal
  * @covers \ExecuteEmailReactionEndpoint
  */
-final class ExecuteEmailReactionEndpointTest extends TestCase {
+final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     public function testExecuteEmailReactionEndpointIdent(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $this->assertSame('ExecuteEmailReactionEndpoint', $endpoint->getIdent());

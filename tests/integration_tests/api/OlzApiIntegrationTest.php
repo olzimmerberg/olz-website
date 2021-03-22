@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
-require_once __DIR__.'/../../../src/api/OlzApi.php';
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \OlzApi
  */
-final class OlzApiIntegrationTest extends TestCase {
+final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {
+        require_once __DIR__.'/../../../src/api/OlzApi.php';
+
         $endpoint = new OlzApi();
         foreach ($endpoint->endpoints as $endpoint_name => $endpoint_factory) {
             $endpoint = $endpoint_factory();

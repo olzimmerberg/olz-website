@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/tasks/SyncSolvTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 class FakeSolvEventsSyncer {
     use Psr\Log\LoggerAwareTrait;
@@ -50,15 +50,19 @@ class FakeSolvPeopleMerger {
     }
 }
 
+class FakeSyncSolvTaskEnvUtils {
+}
+
 /**
  * @internal
  * @covers \SyncSolvTask
  */
-final class SyncSolvTaskTest extends TestCase {
+final class SyncSolvTaskTest extends UnitTestCase {
     public function testSyncSolvTask(): void {
         $entity_manager = null;
         $solv_fetcher = null;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new FakeSyncSolvTaskEnvUtils();
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $solv_events_syncer = new FakeSolvEventsSyncer();
@@ -66,7 +70,7 @@ final class SyncSolvTaskTest extends TestCase {
         $solv_people_assigner = new FakeSolvPeopleAssigner();
         $solv_people_merger = new FakeSolvPeopleMerger();
 
-        $job = new SyncSolvTask($entity_manager, $solv_fetcher, $date_utils);
+        $job = new SyncSolvTask($entity_manager, $solv_fetcher, $date_utils, $env_utils);
         $job->setLogger($logger);
         $job->setSolvEventsSyncer($solv_events_syncer);
         $job->setSolvResultsSyncer($solv_results_syncer);

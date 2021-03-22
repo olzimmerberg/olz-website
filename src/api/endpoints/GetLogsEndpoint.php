@@ -6,6 +6,10 @@ require_once __DIR__.'/../../fields/IntegerField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class GetLogsEndpoint extends Endpoint {
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public static function getIdent() {
         return 'GetLogsEndpoint';
     }
@@ -26,18 +30,15 @@ class GetLogsEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
-        global $data_path;
-
         if ($this->session->get('auth') != 'all') {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        require_once __DIR__.'/../../config/paths.php';
-
         $username = $this->session->get('user');
         $this->logger->info("Logs access by {$username}.");
 
-        $logs_path = $data_path.'logs/';
+        $data_path = $this->envUtils->getDataPath();
+        $logs_path = "{$data_path}logs/";
 
         $merged_log_index = 0;
         foreach (scandir($logs_path, SCANDIR_SORT_DESCENDING) as $filename) {

@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/BooleanField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \BooleanField
  */
-final class BooleanFieldTest extends TestCase {
+final class BooleanFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new BooleanField('fake', []);
         $this->assertSame('boolean', $field->getTypeScriptType());

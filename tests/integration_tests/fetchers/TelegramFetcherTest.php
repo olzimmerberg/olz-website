@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fetchers/TelegramFetcher.php';
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \TelegramFetcher
  */
-final class TelegramFetcherTest extends TestCase {
+final class TelegramFetcherTest extends IntegrationTestCase {
     public function __construct() {
         parent::__construct();
         $this->telegramFetcher = new TelegramFetcher();

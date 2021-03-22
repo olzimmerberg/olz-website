@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \EnvUtils
  */
-final class EnvUtilsTest extends TestCase {
+final class EnvUtilsTest extends UnitTestCase {
     public function testCreateEmail(): void {
         $env_utils = new EnvUtils();
 

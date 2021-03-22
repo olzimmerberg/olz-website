@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/auth/GoogleUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $sample_google_token_response = [
     "token_type" => "Bearer",
@@ -184,7 +183,7 @@ class FakeGoogleUtilsGoogleFetcher {
  * @internal
  * @covers \GoogleUtils
  */
-final class GoogleUtilsTest extends TestCase {
+final class GoogleUtilsTest extends UnitTestCase {
     private $google_utils;
     private $google_fetcher;
     private $date_utils;

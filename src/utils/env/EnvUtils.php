@@ -319,7 +319,12 @@ class EnvUtils {
         $last_arg = $argv[count($argv) - 1] ?? '';
         $executing_unit_tests = preg_match('/unit_tests$/', $last_arg);
         if ($is_phpunit && $executing_unit_tests) {
-            throw new Exception('Unit tests should never use EnvUtils::fromEnv!');
+            $trace = debug_backtrace();
+            require_once __DIR__.'/../GeneralUtils.php';
+            $general_utils = GeneralUtils::fromEnv();
+            $pretty_trace = $general_utils->getPrettyTrace($trace);
+
+            throw new Exception("Unit tests should never use EnvUtils::fromEnv!\n\n{$pretty_trace}");
         }
     }
 }

@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/GetLogsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \GetLogsEndpoint
  */
-final class GetLogsEndpointTest extends TestCase {
+final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointIdent(): void {
         $endpoint = new GetLogsEndpoint();
         $this->assertSame('GetLogsEndpoint', $endpoint->getIdent());

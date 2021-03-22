@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fetchers/GoogleFetcher.php';
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \GoogleFetcher
  */
-final class GoogleFetcherTest extends TestCase {
+final class GoogleFetcherTest extends IntegrationTestCase {
     public function __construct() {
         parent::__construct();
         $this->google_fetcher = new GoogleFetcher();

@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/StringField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \StringField
  */
-final class StringFieldTest extends TestCase {
+final class StringFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new StringField('fake', []);
         $this->assertSame('string', $field->getTypeScriptType());

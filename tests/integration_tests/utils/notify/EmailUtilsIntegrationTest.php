@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \EmailUtils
  */
-final class EmailUtilsIntegrationTest extends TestCase {
+final class EmailUtilsIntegrationTest extends IntegrationTestCase {
     public function testEmailUtilsFromEnv(): void {
         global $_CONFIG;
         require_once __DIR__.'/../../../../src/config/server.php';

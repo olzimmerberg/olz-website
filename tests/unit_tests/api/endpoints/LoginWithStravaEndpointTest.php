@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
@@ -12,6 +11,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLoginWithStravaEndpointEntityManager {
     public $persisted = [];
@@ -96,7 +96,7 @@ class FakeLoginWithStravaEndpointStravaFetcher {
  * @internal
  * @covers \LoginWithStravaEndpoint
  */
-final class LoginWithStravaEndpointTest extends TestCase {
+final class LoginWithStravaEndpointTest extends UnitTestCase {
     public function testLoginWithStravaEndpointIdent(): void {
         $endpoint = new LoginWithStravaEndpoint();
         $this->assertSame('LoginWithStravaEndpoint', $endpoint->getIdent());

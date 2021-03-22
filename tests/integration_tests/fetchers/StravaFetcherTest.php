@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fetchers/StravaFetcher.php';
+require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \StravaFetcher
  */
-final class StravaFetcherTest extends TestCase {
+final class StravaFetcherTest extends IntegrationTestCase {
     public function __construct() {
         parent::__construct();
         $this->strava_fetcher = new StravaFetcher();

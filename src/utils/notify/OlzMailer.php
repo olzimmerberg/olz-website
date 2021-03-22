@@ -8,12 +8,12 @@ class OlzMailer extends PHPMailer {
     use Psr\Log\LoggerAwareTrait;
 
     private $emailUtils;
-    private $serverConfig;
+    private $envUtils;
 
-    public function __construct($emailUtils, $serverConfig, $enable_exceptions) {
+    public function __construct($emailUtils, $envUtils, $enable_exceptions) {
         parent::__construct($enable_exceptions);
         $this->emailUtils = $emailUtils;
-        $this->serverConfig = $serverConfig;
+        $this->envUtils = $envUtils;
     }
 
     public function configure($user, $title, $text, $config = []) {
@@ -39,8 +39,8 @@ class OlzMailer extends PHPMailer {
             'user' => $user_id,
             'notification_type_all' => true,
         ]));
-        $base_url = $this->serverConfig->getBaseHref();
-        $code_href = $this->serverConfig->getCodeHref();
+        $base_url = $this->envUtils->getBaseHref();
+        $code_href = $this->envUtils->getCodeHref();
         $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
         $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
         $this->Subject = "[OLZ] {$title}";

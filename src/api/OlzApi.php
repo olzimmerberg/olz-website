@@ -30,7 +30,7 @@ class OlzApi {
                     $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);
-                    $endpoint->setServerConfig($_CONFIG);
+                    $endpoint->setEnvUtils($_CONFIG);
                 });
                 return $endpoint;
             },
@@ -43,7 +43,7 @@ class OlzApi {
                     require_once __DIR__.'/../config/server.php';
                     $date_utils = $_DATE_UTILS;
                     $endpoint->setDateUtils($date_utils);
-                    $endpoint->setServerConfig($_CONFIG);
+                    $endpoint->setEnvUtils($_CONFIG);
                 });
                 return $endpoint;
             },
@@ -169,7 +169,7 @@ class OlzApi {
                     require_once __DIR__.'/../utils/notify/TelegramUtils.php';
                     $telegram_utils = getTelegramUtilsFromEnv();
                     $endpoint->setTelegramUtils($telegram_utils);
-                    $endpoint->setServerConfig($_CONFIG);
+                    $endpoint->setEnvUtils($_CONFIG);
                 });
                 return $endpoint;
             },

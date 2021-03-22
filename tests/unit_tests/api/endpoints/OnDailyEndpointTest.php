@@ -65,7 +65,7 @@ class FakeOnDailyEndpointThrottlingRepository {
     }
 }
 
-class FakeOnDailyEndpointServerConfig {
+class FakeOnDailyEndpointEnvUtils {
     public $has_unlimited_cron = false;
 
     public function hasUnlimitedCron() {
@@ -102,12 +102,12 @@ final class OnDailyEndpointTest extends TestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointServerConfig();
+        $server_config = new FakeOnDailyEndpointEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setServerConfig($server_config);
+        $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
         $throttling_repo->throttled = true;
@@ -124,12 +124,12 @@ final class OnDailyEndpointTest extends TestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointServerConfig();
+        $server_config = new FakeOnDailyEndpointEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setServerConfig($server_config);
+        $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
         $throttling_repo->throttled = null;
@@ -146,12 +146,12 @@ final class OnDailyEndpointTest extends TestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointServerConfig();
+        $server_config = new FakeOnDailyEndpointEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setServerConfig($server_config);
+        $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
         $throttling_repo->throttled = true;
@@ -170,13 +170,13 @@ final class OnDailyEndpointTest extends TestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointServerConfig();
+        $server_config = new FakeOnDailyEndpointEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setServerConfig($server_config);
+        $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
         try {
@@ -196,14 +196,14 @@ final class OnDailyEndpointTest extends TestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointServerConfig();
+        $server_config = new FakeOnDailyEndpointEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setServerConfig($server_config);
+        $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([

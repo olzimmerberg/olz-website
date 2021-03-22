@@ -35,6 +35,7 @@ function termine_ticker($settings) {
     $sections = ["Heute", "Diese Woche", "Nächste Woche", "In [x] Tagen", "Spätere Termine"];
     $flag = 1;
 
+    $case = null;
     while ($row = mysqli_fetch_array($result)) {
         $datum_tmp = $row['datum'];
         $datum_end = $row['datum_end'];
@@ -104,12 +105,6 @@ function termine_ticker($settings) {
             $mehr = " ...";
         }
 
-        if ($zugriff) {
-            $edit_admin = "<a href='termine.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
-        } else {
-            $edit_admin = "";
-        }
-
         if ($time < 86400 * 3) {
             if ($pulse != "") {
                 $pulse .= ",";
@@ -117,7 +112,7 @@ function termine_ticker($settings) {
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p{$class_heute}>".$edit_admin."<a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}><a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>";
 }

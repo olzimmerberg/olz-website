@@ -25,7 +25,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-$id = ($_SESSION[$db_table.'id_'] ?? null);
+$id = $_SESSION[$db_table.'id_'] ?? null;
 
 //-------------------------------------------------------------
 // BEARBEITEN
@@ -42,7 +42,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }

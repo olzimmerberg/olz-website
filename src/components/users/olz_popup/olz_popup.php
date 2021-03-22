@@ -1,7 +1,7 @@
 <?php
 
 function olz_popup($trigger, $popup, $trigger_type = 'click') {
-    $ident = md5(rand().$id.rand().microtime(true));
+    $ident = md5(rand().rand().microtime(true));
     $ident_for_js = htmlentities(json_encode($ident));
     $out = "<div class='olz-popup'>";
     $out .= "<div class='popup' id='popup{$ident}'>{$popup}</div>";

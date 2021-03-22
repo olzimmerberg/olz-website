@@ -33,7 +33,7 @@ if (isset($id) and is_ganzzahl($id)) {
     $sql = "UPDATE {$db_table} SET counter=(counter+1) WHERE (id = '{$id}')";
     $db->query($sql);
 } else {
-    $id = ($_SESSION[$db_table.'id_'] ?? null);
+    $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 
 //-------------------------------------------------------------
@@ -56,7 +56,7 @@ if ($zugriff) {
 } else {
     $functions = [];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
@@ -114,10 +114,10 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $text = olz_find_url($text);
         $zeit = date("G:i", strtotime($zeit));
 
-        if (($do != 'vorschau') and ((($_SESSION['auth'] ?? null) == 'all') or (ucwords($_SESSION['user']) == ucwords($autor)))) {
+        if ((($do ?? null) != 'vorschau') and ((($_SESSION['auth'] ?? null) == 'all') or (ucwords($_SESSION['user'] ?? '') == ucwords($autor)))) {
             $edit_admin = "<a href='blog.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         }
-        //if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
+        //if ($zugriff AND (($do ?? null) != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
         else {
             $edit_admin = "";
         }

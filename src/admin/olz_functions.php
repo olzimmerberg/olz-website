@@ -183,7 +183,7 @@ function get_olz_text($id_text, $editable = true) {
         }
         $id_tmp = $row['id'];
         $text = $row['text'];
-        if ($zugriff && ($do != 'vorschau') && $editable) {
+        if ($zugriff && (($do ?? null) != 'vorschau') && $editable) {
             $edit_admin = "<p style='border-bottom:solid 1px;'><a href='?id_edit={$id_text}&amp;button{$db_table}=start#id_edit{$id_text}' class='linkedit' id='olz-text-edit-{$id_text}'>Text bearbeiten (ID:{$id_text})</a></p>";
         } else {
             $edit_admin = "";

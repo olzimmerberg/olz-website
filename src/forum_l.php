@@ -23,7 +23,7 @@ if (isset($code)) {
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 } else {
-    $id = ($_SESSION[$db_table.'id_'] ?? null);
+    $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 if (isset($jahr) and in_array($jahr, $jahre)) {
     $_SESSION[$db_table."jahr_"] = $jahr;
@@ -41,7 +41,7 @@ if (isset($monat) and in_array($monat, $monate)) {
 if ($monat == "") {
     $_SESSION[$db_table.'monat_'] = "alle";
 }
-$id = ($_SESSION[$db_table.'id_'] ?? null);
+$id = $_SESSION[$db_table.'id_'] ?? null;
 $jahr = $_SESSION[$db_table.'jahr_'];
 $monat = $_SESSION[$db_table.'monat_'];
 
@@ -70,7 +70,7 @@ if ($zugriff) {
         'delete' => 'Löschen',
         'undo' => 'undo', ];
 }
-$function = array_search($_POST[$button_name], $functions);
+$function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
@@ -159,20 +159,20 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         }
         $zeit = date("G:i", strtotime($zeit));
 
-        if ($zugriff and ($do != 'vorschau')) {
+        if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<a href='forum.php?id={$id}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
 
-        if (($on_off == 0) and ($do != "vorschau")) {
+        if (($on_off == 0) and (($do ?? null) != 'vorschau')) {
             $class = " class='error'";
         } else {
             $class = "";
         }
 
         echo "<div>".olz_monate($datum)."</div>";
-        echo "<tr{$class}><td style='{$style}'>".$edit_admin."<a name='id{$id}'></a><b>".$_DATE->olzDate("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto; {$style}'><b>\n";
+        echo "<tr{$class}><td>".$edit_admin."<a name='id{$id}'></a><b>".$_DATE->olzDate("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto;'><b>\n";
         //echo olz_mask_email($email,$titel,"Forumeintrag OL Zimmerberg")."</b><p>".$name.$eintrag."</p></td></tr>\n";
         if ($name > "") {
             echo $titel."</b><p>".olz_mask_email($email, $name, $titel)."| ".$eintrag."</p></td></tr>\n";

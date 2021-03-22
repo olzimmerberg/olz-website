@@ -14,9 +14,8 @@ $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SendDailyNotificationsTask extends BackgroundTask {
     public function __construct($entityManager, $emailUtils, $telegramUtils, $dateUtils, $envUtils) {
-        parent::__construct($dateUtils);
+        parent::__construct($dateUtils, $envUtils);
         $this->entityManager = $entityManager;
-        $this->envUtils = $envUtils;
         $this->emailUtils = $emailUtils;
         $this->telegramUtils = $telegramUtils;
         $this->setDailySummaryGetter(new DailySummaryGetter());

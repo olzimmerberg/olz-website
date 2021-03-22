@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LinkTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLinkTelegramEndpointEntityManager {
     public $persisted = [];
@@ -58,7 +58,7 @@ class FakeLinkTelegramEndpointTelegramUtils {
  * @internal
  * @covers \LinkTelegramEndpoint
  */
-final class LinkTelegramEndpointTest extends TestCase {
+final class LinkTelegramEndpointTest extends UnitTestCase {
     public function testLinkTelegramEndpointIdent(): void {
         $endpoint = new LinkTelegramEndpoint();
         $this->assertSame('LinkTelegramEndpoint', $endpoint->getIdent());

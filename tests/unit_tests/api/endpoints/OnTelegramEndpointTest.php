@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/OnTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnTelegramEndpointTelegramUtils {
     public $isAnonymousChat = false;
@@ -100,7 +100,7 @@ function getFakeTelegramMessage($from_key, $chat_key, $text) {
  * @internal
  * @covers \OnTelegramEndpoint
  */
-final class OnTelegramEndpointTest extends TestCase {
+final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointIdent(): void {
         $endpoint = new OnTelegramEndpoint();
         $this->assertSame('OnTelegramEndpoint', $endpoint->getIdent());

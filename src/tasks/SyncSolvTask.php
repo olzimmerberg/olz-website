@@ -9,8 +9,8 @@ require_once __DIR__.'/SyncSolvTask/SolvResultsSyncer.php';
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
-    public function __construct($entityManager, $solvFetcher, $dateUtils) {
-        parent::__construct($dateUtils);
+    public function __construct($entityManager, $solvFetcher, $dateUtils, $envUtils) {
+        parent::__construct($dateUtils, $envUtils);
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;
         $this->solvEventsSyncer = new SolvEventsSyncer($entityManager, $solvFetcher, $this->logger);

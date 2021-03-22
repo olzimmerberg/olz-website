@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/client/UserAgentUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \UserAgentUtils
  */
-final class UserAgentUtilsTest extends TestCase {
+final class UserAgentUtilsTest extends UnitTestCase {
     public function testIPhone(): void {
         $user_agent_utils = new UserAgentUtils('Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1');
         $this->assertSame(false, $user_agent_utils->isAndroidDevice());

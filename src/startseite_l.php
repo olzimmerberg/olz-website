@@ -74,7 +74,7 @@ while ($row = $result->fetch_assoc()) {
         $text = mb_substr($text, 0, $textlaenge_def);
         $text = mb_substr($text, 0, mb_strrpos($text, " "));
         $text = $text." (...)";
-        if (($_SESSION['auth'] == "all") or ((in_array($thistype, preg_split("/ /", $_SESSION['auth']))) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or ((in_array($thistype, preg_split("/ /", $_SESSION['auth']))) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
@@ -94,7 +94,7 @@ while ($row = $result->fetch_assoc()) {
         $link = "forum.php#id".$id;
         $icon = "icns/entry_type_forum_20.svg";
         $titel = "Forum: ".$titel;
-        if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
     } elseif ($thistype == "galerie") { // Tabelle 'galerie'
@@ -102,7 +102,7 @@ while ($row = $result->fetch_assoc()) {
         $typ = $row['f3'];
         $link = "galerie.php?id=".$id;
         $icon = "icns/entry_type_gallery_20.svg";
-        if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
         $text = "";
@@ -137,7 +137,7 @@ while ($row = $result->fetch_assoc()) {
         $link = "aktuell.php?id=".$id;
         $icon = "icns/entry_type_aktuell_20.svg";
         $titel = "Aktuell: ".$titel;
-        if (($_SESSION['auth'] == "all") or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split("/ /", $_SESSION['auth'])))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
         }
         if ($aktuell_typ != 'aktuell') {

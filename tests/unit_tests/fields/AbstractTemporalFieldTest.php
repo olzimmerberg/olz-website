@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/fields/AbstractTemporalField.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 class FakeTemporalField extends AbstractTemporalField {
     protected function getRegex() {
@@ -16,7 +15,7 @@ class FakeTemporalField extends AbstractTemporalField {
  * @internal
  * @covers \AbstractTemporalField
  */
-final class AbstractTemporalFieldTest extends TestCase {
+final class AbstractTemporalFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new FakeTemporalField('fake', []);
         $this->assertSame('string', $field->getTypeScriptType());

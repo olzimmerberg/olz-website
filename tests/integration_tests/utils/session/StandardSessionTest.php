@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/session/StandardSession.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
  * @covers \StandardSession
  */
-final class StandardSessionTest extends TestCase {
+final class StandardSessionTest extends IntegrationTestCase {
     public function testStandardSession(): void {
         $standard_session = new StandardSession();
 

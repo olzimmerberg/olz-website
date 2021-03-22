@@ -122,7 +122,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
         }
         $db_filepath = $tables_file_dirs[$db_table];
         $id = intval($_GET["id"]);
-        $files = scandir($data_path.$db_filepath."/".$id);
+        $files = @scandir($data_path.$db_filepath."/".$id);
         if (!$files) {
             $files = [];
         }

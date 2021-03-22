@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \MemorySession
  */
-final class MemorySessionTest extends TestCase {
+final class MemorySessionTest extends UnitTestCase {
     public function testMemorySessionInit(): void {
         $session = new MemorySession();
 

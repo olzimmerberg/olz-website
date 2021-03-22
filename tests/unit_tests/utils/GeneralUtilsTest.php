@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/utils/GeneralUtils.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \GeneralUtils
  */
-final class GeneralUtilsTest extends TestCase {
+final class GeneralUtilsTest extends UnitTestCase {
     public function testBase64EncodeUrl(): void {
         $general_utils = new GeneralUtils();
         $binary_string = base64_decode("+/A="); // contains all special chars

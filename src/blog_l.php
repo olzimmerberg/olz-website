@@ -20,7 +20,7 @@ require_once __DIR__.'/config/date.php';
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if (($_SESSION['auth'] == "all") or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
@@ -78,7 +78,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     if ($zugriff) {
         if ($do == "vorschau") {
             $sql = "WHERE (id = ".$id.")";
-        } elseif ($_SESSION['auth'] == "all") {
+        } elseif (($_SESSION['auth'] ?? null) == 'all') {
             $sql = "";
         } else {
             $sql = " WHERE (autor='".ucwords($_SESSION['user'])."') OR (on_off='1')";
@@ -114,7 +114,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $text = olz_find_url($text);
         $zeit = date("G:i", strtotime($zeit));
 
-        if (($do != 'vorschau') and (($_SESSION['auth'] == "all") or (ucwords($_SESSION['user']) == ucwords($autor)))) {
+        if (($do != 'vorschau') and ((($_SESSION['auth'] ?? null) == 'all') or (ucwords($_SESSION['user']) == ucwords($autor)))) {
             $edit_admin = "<a href='blog.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         }
         //if ($zugriff AND ($do != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/Aktuell.php';
@@ -13,6 +12,7 @@ require_once __DIR__.'/../../../../src/model/Galerie.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDailySummaryGetterEntityManager {
     public $repositories = [];
@@ -98,7 +98,7 @@ class FakeDailySummaryGetterEnvUtils {
  * @internal
  * @covers \DailySummaryGetter
  */
-final class DailySummaryGetterTest extends TestCase {
+final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
         $entity_manager = new FakeDailySummaryGetterEntityManager();
         $aktuell_repo = new FakeDailySummaryGetterAktuellRepository();

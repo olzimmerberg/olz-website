@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../src/parsers/SolvResultParser.php';
+require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \SolvResultParser
  */
-final class SolvResultParserTest extends TestCase {
+final class SolvResultParserTest extends UnitTestCase {
     private $results_2006_path = __DIR__.'/data/results-2006.json';
 
     private $results_2018_path = __DIR__.'/data/results-2018.json';

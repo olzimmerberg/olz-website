@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeEmailUtilsEnvUtils {
     public function getSmtpHost() {
@@ -39,7 +39,7 @@ class FakeEmailUtilsEnvUtils {
  * @internal
  * @covers \EmailUtils
  */
-final class EmailUtilsTest extends TestCase {
+final class EmailUtilsTest extends UnitTestCase {
     public function testEmailReactionToken(): void {
         $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');

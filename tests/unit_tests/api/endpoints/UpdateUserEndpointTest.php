@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUserEndpointEndpointEntityManager {
     public $persisted = [];
@@ -56,7 +56,7 @@ class FakeUserEndpointUserRepository {
  * @internal
  * @covers \UpdateUserEndpoint
  */
-final class UpdateUserEndpointTest extends TestCase {
+final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointIdent(): void {
         $endpoint = new UpdateUserEndpoint();
         $this->assertSame('UpdateUserEndpoint', $endpoint->getIdent());

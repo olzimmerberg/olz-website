@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/Notification.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @covers \Notification
  */
-final class NotificationTest extends TestCase {
+final class NotificationTest extends UnitTestCase {
     public function testNotification(): void {
         $user = new User();
         $user->setFirstName('First');

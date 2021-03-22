@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 require_once __DIR__.'/../../../../src/api/client/ApiGenerator.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeApiGeneratorEndpoint extends Endpoint {
     public $handled_with_input;
@@ -65,7 +64,7 @@ class FakeApi {
  * @internal
  * @covers \ApiGenerator
  */
-final class ApiGeneratorTest extends TestCase {
+final class ApiGeneratorTest extends UnitTestCase {
     public function testApiGenerator(): void {
         $generator = new ApiGenerator();
         $fake_api = new FakeApi();

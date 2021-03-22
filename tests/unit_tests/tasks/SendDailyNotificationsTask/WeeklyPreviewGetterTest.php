@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeWeeklyPreviewGetterEntityManager {
     public $repositories = [];
@@ -48,7 +48,7 @@ class FakeWeeklyPreviewGetterEnvUtils {
  * @internal
  * @covers \WeeklyPreviewGetter
  */
-final class WeeklyPreviewGetterTest extends TestCase {
+final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
         $entity_manager = new FakeWeeklyPreviewGetterEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday

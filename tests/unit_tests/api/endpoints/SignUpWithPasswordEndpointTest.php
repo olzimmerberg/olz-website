@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
@@ -12,6 +11,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSignUpWithPasswordEndpointEntityManager {
     public $persisted = [];
@@ -59,7 +59,7 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
  * @internal
  * @covers \SignUpWithPasswordEndpoint
  */
-final class SignUpWithPasswordEndpointTest extends TestCase {
+final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointIdent(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $this->assertSame('SignUpWithPasswordEndpoint', $endpoint->getIdent());

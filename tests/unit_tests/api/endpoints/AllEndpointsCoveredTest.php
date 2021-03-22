@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
  * @coversNothing
  */
-final class AllEndpointsCoveredTest extends TestCase {
+final class AllEndpointsCoveredTest extends UnitTestCase {
     public function testAllEndpointsCovered(): void {
         $endpoints_path = __DIR__.'/../../../../src/api/endpoints';
 

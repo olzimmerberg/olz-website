@@ -77,7 +77,10 @@ function get_menu($menu, $identifier, $_CONFIG): string {
         $bluelin = 255 * 1 / 8;
         $linecolor = color($redlin, $greenlin, $bluelin);
         $tag = "div";
-        if ($_SESSION['page'] == $menupunkt[1] || $_SERVER['SCRIPT_NAME'] == $_CONFIG->getCodeHref().$menupunkt[1]) {
+        if (
+            ($_SESSION['page'] ?? null) == $menupunkt[1]
+            || $_SERVER['SCRIPT_NAME'] == $_CONFIG->getCodeHref().$menupunkt[1]
+        ) {
             $color = "color:#".color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
             $bgcolor = $bgcolorhover;
             $tag = "h1";

@@ -21,7 +21,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 }
 
 // Zugriff prüfen
-if (in_array('ftp', explode(' ', $_SESSION['auth'])) or ($_SESSION['auth'] ?? null) == 'all') {
+if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['auth'] ?? null) == 'all') {
     if (isset($_POST['fm_dir'])) {
         $fm_dir = $_POST['fm_dir'];
     } elseif (isset($_GET['fm_dir'])) {

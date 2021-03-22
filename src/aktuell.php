@@ -43,7 +43,7 @@ if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
-$zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'])))) ? '1' : '0';
+$zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) ? '1' : '0';
 
 echo "
 <div id='content_rechts'>

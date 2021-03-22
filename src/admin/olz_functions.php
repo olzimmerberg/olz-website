@@ -112,7 +112,7 @@ function get_olz_text($id_text, $editable = true) {
     $db_table = "olz_text";
 
     // ZUGRIFF
-    if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table."_".$id_text, preg_split("/ /", $_SESSION['auth'])))) {
+    if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table."_".$id_text, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
         $zugriff = "1";
     } else {
         $zugriff = "0";

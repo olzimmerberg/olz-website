@@ -9,7 +9,7 @@ require_once __DIR__.'/config/date.php';
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
@@ -23,7 +23,7 @@ if (isset($code)) {
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 } else {
-    $id = $_SESSION[$db_table."id_"];
+    $id = ($_SESSION[$db_table.'id_'] ?? null);
 }
 if (isset($jahr) and in_array($jahr, $jahre)) {
     $_SESSION[$db_table."jahr_"] = $jahr;
@@ -41,7 +41,7 @@ if (isset($monat) and in_array($monat, $monate)) {
 if ($monat == "") {
     $_SESSION[$db_table.'monat_'] = "alle";
 }
-$id = $_SESSION[$db_table.'id_'];
+$id = ($_SESSION[$db_table.'id_'] ?? null);
 $jahr = $_SESSION[$db_table.'jahr_'];
 $monat = $_SESSION[$db_table.'monat_'];
 

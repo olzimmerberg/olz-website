@@ -18,7 +18,7 @@ $img_folder = "img";
 $id = $_GET['id'];
 //-------------------------------------------------------------
 // ZUGRIFF
-if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
@@ -36,7 +36,7 @@ if (isset($_POST[$button_name])) {
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-$id = $_SESSION[$db_table.'id_'];
+$id = ($_SESSION[$db_table.'id_'] ?? null);
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN

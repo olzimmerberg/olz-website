@@ -143,7 +143,7 @@ echo "</div>";
 $filter_where = $termine_utils->getSqlFromFilter($current_filter);
 $sql_where = <<<ZZZZZZZZZZ
 (
-    (datum_off>='{$_DATE_UTILS->getIsoToday()}') 
+    (datum_off>='{$_DATE->getIsoToday()}') 
     OR (datum_off='0000-00-00') 
     OR datum_off IS NULL
 ) 
@@ -236,7 +236,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='{$class}'>Ausschreibung</a>";
     }
     if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] && $row_solv["deadline"] != "0000-00-00") {
-        $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE_UTILS->olzDate("t. MM ", $row_solv["deadline"]);
+        $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv["deadline"]);
     }
     //Ranglisten-Link zeigen
     if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
@@ -286,7 +286,7 @@ while ($row = mysqli_fetch_array($result)) {
 
     //Tagesanlass
     if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
-        $datum_tmp = $_DATE_UTILS->olzDate("t. MM ", $datum).$_DATE_UTILS->olzDate(" (W)", $datum);
+        $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
         if ($zeit != "00:00:00") {
             $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
             if ($zeit_end != "00:00:00") {
@@ -295,12 +295,12 @@ while ($row = mysqli_fetch_array($result)) {
         }
     }
     //Mehrtägig innerhalb Monat
-    elseif ($_DATE_UTILS->olzDate("m", $datum) == $_DATE_UTILS->olzDate("m", $datum_end)) {
-        $datum_tmp = $_DATE_UTILS->olzDate("t.-", $datum).$_DATE_UTILS->olzDate("t. ", $datum_end).$_DATE_UTILS->olzDate("MM", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
+    elseif ($_DATE->olzDate("m", $datum) == $_DATE->olzDate("m", $datum_end)) {
+        $datum_tmp = $_DATE->olzDate("t.-", $datum).$_DATE->olzDate("t. ", $datum_end).$_DATE->olzDate("MM", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
     }
     //Mehrtägig monatsübergreifend
     else {
-        $datum_tmp = $_DATE_UTILS->olzDate("t.m.-", $datum).$_DATE_UTILS->olzDate("t.m. ", $datum_end).$_DATE_UTILS->olzDate("jjjj", $datum).$_DATE_UTILS->olzDate(" (W-", $datum).$_DATE_UTILS->olzDate("W)", $datum_end);
+        $datum_tmp = $_DATE->olzDate("t.m.-", $datum).$_DATE->olzDate("t.m. ", $datum_end).$_DATE->olzDate("jjjj", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
     }
     if ($uid ?? $row['id'] == null) {
         $class = " class='selected'";

@@ -18,12 +18,12 @@ if (isset($_GET["id"]) and (is_ganzzahl($_GET["id"]) or in_array($_GET["id"], $a
 } else {
     $id = $_SESSION[$db_table.'id_'];
 }
-if (isset($jahr) and in_array($jahr, array_merge($_DATE_UTILS->getYearsForAccordion(), ["box", "special"]))) {
+if (isset($jahr) and in_array($jahr, array_merge($_DATE->getYearsForAccordion(), ["box", "special"]))) {
     $_SESSION[$db_table."jahr_"] = $jahr;
 } elseif (isset($_SESSION[$db_table.'jahr_']) and $_SESSION[$db_table.'jahr_'] > 1970) {
     $jahr = $_SESSION[$db_table.'jahr_'];
 } else {
-    $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj", $heute);
+    $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj", $heute);
 }
 
 if ($id == "") { // Jüngste Nachricht
@@ -41,7 +41,7 @@ $jahr = $_SESSION[$db_table.'jahr_'];
 // Liste Aktuell
 //-------------------------------------------------------------
 function olz_aktuell_liste($sql) {
-    global $zugriff, $id, $_GET, $db, $_DATE_UTILS;
+    global $zugriff, $id, $_GET, $db, $_DATE;
     $html_out = "";
     $result = $db->query($sql);
     $html_out .= "<ul>";
@@ -57,7 +57,7 @@ function olz_aktuell_liste($sql) {
         if ($autor == "") {
             $autor = "..";
         }
-        $datum = $_DATE_UTILS->olzDate("tt.mm.jjjj", $datum);
+        $datum = $_DATE->olzDate("tt.mm.jjjj", $datum);
 
         if ($link == "") {
             $link = "id={$id_tmp}";
@@ -111,7 +111,7 @@ if ($zugriff) {
 
 //-------------------------------------------------------------
 // JAHRE
-foreach ($_DATE_UTILS->getYearsForAccordion() as $tmp_jahr) {
+foreach ($_DATE->getYearsForAccordion() as $tmp_jahr) {
     if ($zugriff) {
         $sql = "SELECT * FROM aktuell WHERE (datum >= '{$tmp_jahr}-01-01') AND NOT(typ LIKE '%box%') AND (datum <= '{$tmp_jahr}-12-31') ORDER BY datum DESC, id DESC";
     } else {

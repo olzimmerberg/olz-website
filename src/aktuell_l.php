@@ -71,7 +71,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $autor = ($row['autor'] > '') ? $row['autor'] : "..";
         $datum = $row['datum'];
 
-        $datum = $_DATE_UTILS->olzDate("tt.mm.jj", $datum);
+        $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
         $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 

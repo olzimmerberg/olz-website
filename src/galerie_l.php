@@ -90,7 +90,7 @@ if ($db_edit == "0" or $do == "vorschau") {
     if ($autor > "") {
         $autor = " ({$autor})";
     }
-    $foto_datum = $_DATE_UTILS->olzDate("jjmmtt", $datum);
+    $foto_datum = $_DATE->olzDate("jjmmtt", $datum);
 
     if (mysqli_num_rows($result)) {
         echo "<h2>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum))])." ".date("Y", strtotime($datum)).": ".$titel.$autor."</h2>";

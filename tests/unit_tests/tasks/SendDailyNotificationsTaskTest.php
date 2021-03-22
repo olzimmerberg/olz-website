@@ -186,6 +186,9 @@ class FakeSendDailyNotificationsTaskOlzMailer {
     }
 }
 
+class FakeSendDailyNotificationsTaskEnvUtils {
+}
+
 class FakeSendDailyNotificationsTaskTelegramUtils {
     public $calls = [];
 
@@ -209,6 +212,10 @@ class FakeSendDailyNotificationsTaskDailySummaryGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getDailySummaryNotification($args) {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -227,6 +234,10 @@ class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
 
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
+    }
+
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
     }
 
     public function getDeadlineWarningNotification($args) {
@@ -250,6 +261,10 @@ class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getMonthlyPreviewNotification($args) {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -270,6 +285,10 @@ class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getWeeklyPreviewNotification($args) {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -288,6 +307,10 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
 
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
+    }
+
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
     }
 
     public function getWeeklySummaryNotification($args) {
@@ -332,6 +355,7 @@ final class SendDailyNotificationsTaskTest extends TestCase {
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
         $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $env_utils = new FakeSendDailyNotificationsTaskEnvUtils();
         $email_utils = new FakeSendDailyNotificationsTaskEmailUtils();
         $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -344,7 +368,7 @@ final class SendDailyNotificationsTaskTest extends TestCase {
         $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
         $weekly_summary_getter = new FakeSendDailyNotificationsTaskWeeklySummaryGetter();
 
-        $job = new SendDailyNotificationsTask($entity_manager, $email_utils, $telegram_utils, $date_utils);
+        $job = new SendDailyNotificationsTask($entity_manager, $email_utils, $telegram_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
@@ -379,14 +403,19 @@ final class SendDailyNotificationsTaskTest extends TestCase {
         ], $telegram_utils->calls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
         $this->assertSame($date_utils, $daily_summary_getter->dateUtils);
+        $this->assertSame($env_utils, $daily_summary_getter->envUtils);
         $this->assertSame($entity_manager, $deadline_warning_getter->entityManager);
         $this->assertSame($date_utils, $deadline_warning_getter->dateUtils);
+        $this->assertSame($env_utils, $deadline_warning_getter->envUtils);
         $this->assertSame($entity_manager, $monthly_preview_getter->entityManager);
         $this->assertSame($date_utils, $monthly_preview_getter->dateUtils);
+        $this->assertSame($env_utils, $monthly_preview_getter->envUtils);
         $this->assertSame($entity_manager, $weekly_preview_getter->entityManager);
         $this->assertSame($date_utils, $weekly_preview_getter->dateUtils);
+        $this->assertSame($env_utils, $weekly_preview_getter->envUtils);
         $this->assertSame($entity_manager, $weekly_summary_getter->entityManager);
         $this->assertSame($date_utils, $weekly_summary_getter->dateUtils);
+        $this->assertSame($env_utils, $weekly_summary_getter->envUtils);
         $this->assertSame([
             "INFO Setup task SendDailyNotifications...",
             "INFO Running task SendDailyNotifications...",

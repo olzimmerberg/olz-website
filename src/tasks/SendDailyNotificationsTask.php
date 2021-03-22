@@ -13,9 +13,10 @@ require_once __DIR__.'/SendDailyNotificationsTask/WeeklySummaryGetter.php';
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SendDailyNotificationsTask extends BackgroundTask {
-    public function __construct($entityManager, $emailUtils, $telegramUtils, $dateUtils) {
+    public function __construct($entityManager, $emailUtils, $telegramUtils, $dateUtils, $envUtils) {
         parent::__construct($dateUtils);
         $this->entityManager = $entityManager;
+        $this->envUtils = $envUtils;
         $this->emailUtils = $emailUtils;
         $this->telegramUtils = $telegramUtils;
         $this->setDailySummaryGetter(new DailySummaryGetter());
@@ -106,6 +107,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $daily_summary_getter = $this->dailySummaryGetter;
         $daily_summary_getter->setEntityManager($this->entityManager);
         $daily_summary_getter->setDateUtils($this->dateUtils);
+        $daily_summary_getter->setEnvUtils($this->envUtils);
         $daily_summary_getter->setLogger($this->logger);
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
@@ -126,6 +128,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $deadline_warning_getter = $this->deadlineWarningGetter;
         $deadline_warning_getter->setEntityManager($this->entityManager);
         $deadline_warning_getter->setDateUtils($this->dateUtils);
+        $deadline_warning_getter->setEnvUtils($this->envUtils);
         $deadline_warning_getter->setLogger($this->logger);
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
@@ -146,6 +149,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $monthly_preview_getter = $this->monthlyPreviewGetter;
         $monthly_preview_getter->setEntityManager($this->entityManager);
         $monthly_preview_getter->setDateUtils($this->dateUtils);
+        $monthly_preview_getter->setEnvUtils($this->envUtils);
         $monthly_preview_getter->setLogger($this->logger);
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
@@ -166,6 +170,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $weekly_preview_getter = $this->weeklyPreviewGetter;
         $weekly_preview_getter->setEntityManager($this->entityManager);
         $weekly_preview_getter->setDateUtils($this->dateUtils);
+        $weekly_preview_getter->setEnvUtils($this->envUtils);
         $weekly_preview_getter->setLogger($this->logger);
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
@@ -186,6 +191,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $weekly_summary_getter = $this->weeklySummaryGetter;
         $weekly_summary_getter->setEntityManager($this->entityManager);
         $weekly_summary_getter->setDateUtils($this->dateUtils);
+        $weekly_summary_getter->setEnvUtils($this->envUtils);
         $weekly_summary_getter->setLogger($this->logger);
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {

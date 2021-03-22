@@ -44,18 +44,30 @@ class FakeDeadlineWarningGetterTerminRepository {
     public function findOneBy($where) {
         if ($where == ['solv_uid' => 1111]) {
             $termin = new Termin();
+            $termin->setId(1);
             $termin->setStartsOn(new DateTime('2020-04-13 19:30:00'));
             $termin->setTitle('Test Termin');
             return $termin;
         }
         if ($where == ['solv_uid' => 2222]) {
             $range_termin = new Termin();
+            $range_termin->setId(2);
             $range_termin->setStartsOn(new DateTime('2020-04-20'));
             $range_termin->setEndsOn(new DateTime('2020-04-30'));
             $range_termin->setTitle('End of Month');
             return $range_termin;
         }
         return null;
+    }
+}
+
+class FakeDeadlineWarningGetterEnvUtils {
+    public function getBaseHref() {
+        return 'http://fake-base-url';
+    }
+
+    public function getCodeHref() {
+        return '/_/';
     }
 }
 
@@ -87,6 +99,7 @@ final class DeadlineWarningGetterTest extends TestCase {
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new FakeDeadlineWarningGetterEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -95,6 +108,7 @@ final class DeadlineWarningGetterTest extends TestCase {
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
@@ -108,6 +122,7 @@ final class DeadlineWarningGetterTest extends TestCase {
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new FakeDeadlineWarningGetterEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -116,10 +131,20 @@ final class DeadlineWarningGetterTest extends TestCase {
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
+        $expected_text = <<<'ZZZZZZZZZZ'
+        Hallo First,
+        
+        Folgende Meldeschlüsse stehen bevor:
+        
+        - 16.03.: Meldeschluss für '[Test Termin](http://fake-base-url/_/termine.php#id1)'
+        - 16.03.: Meldeschluss für '[End of Month](http://fake-base-url/_/termine.php#id2)'
+
+        ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);
-        $this->assertSame("Hallo First,\n\nFolgende Meldeschlüsse stehen bevor:\n\n- 16.03.: Meldeschluss für 'Test Termin'\n- 16.03.: Meldeschluss für 'End of Month'\n", $notification->getTextForUser($user));
+        $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

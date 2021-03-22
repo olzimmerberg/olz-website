@@ -9,7 +9,7 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
                 $endpoint = new OnDailyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG, $_DATE_UTILS, $entityManager;
+                    global $_CONFIG, $_DATE, $entityManager;
                     require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
@@ -19,7 +19,7 @@ class OlzApi {
                     require_once __DIR__.'/../tasks/SyncSolvTask.php';
                     require_once __DIR__.'/../utils/notify/EmailUtils.php';
                     require_once __DIR__.'/../utils/notify/TelegramUtils.php';
-                    $date_utils = $_DATE_UTILS;
+                    $date_utils = $_DATE;
                     $email_utils = EmailUtils::fromEnv();
                     $telegram_utils = TelegramUtils::fromEnv();
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
@@ -38,10 +38,10 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnContinuouslyEndpoint.php';
                 $endpoint = new OnContinuouslyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG, $_DATE_UTILS;
+                    global $_CONFIG, $_DATE;
                     require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/server.php';
-                    $date_utils = $_DATE_UTILS;
+                    $date_utils = $_DATE;
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setEnvUtils($_CONFIG);
                 });
@@ -185,11 +185,11 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/UpdateNotificationSubscriptionsEndpoint.php';
                 $endpoint = new UpdateNotificationSubscriptionsEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG, $_DATE_UTILS, $entityManager;
+                    global $_CONFIG, $_DATE, $entityManager;
                     require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
-                    $date_utils = $_DATE_UTILS;
+                    $date_utils = $_DATE;
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setSession(new StandardSession());

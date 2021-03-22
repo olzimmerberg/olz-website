@@ -154,10 +154,10 @@ class TermineUtils {
     }
 
     public static function fromEnv() {
-        global $_DATE_UTILS;
+        global $_DATE;
         require_once __DIR__.'/../config/date.php';
         $termine_utils = new TermineUtils();
-        $termine_utils->setDateUtils($_DATE_UTILS);
+        $termine_utils->setDateUtils($_DATE);
         return $termine_utils;
     }
 }

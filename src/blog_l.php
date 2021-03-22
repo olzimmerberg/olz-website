@@ -184,7 +184,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         }
 
         echo "<h2 style='clear:left;padding-top:20px;' id='id{$id_tmp}'>".$edit_admin.$autor.": ".$titel."</h2>";
-        echo "<div class='nobox'><p><b>(".$_DATE_UTILS->olzDate("t.m.jj", $datum)."/{$zeit})</b></p><div class='lightgallery'>".$text."</div>";
+        echo "<div class='nobox'><p><b>(".$_DATE->olzDate("t.m.jj", $datum)."/{$zeit})</b></p><div class='lightgallery'>".$text."</div>";
         if ($linkext > '') {
             echo "<br><a href='{$linkext}' target='_blank' class='linkext'>... weiterlesen</a>";
         }

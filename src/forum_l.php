@@ -31,7 +31,7 @@ if (isset($jahr) and in_array($jahr, $jahre)) {
     $jahr = $_SESSION[$db_table."jahr_"];
 }
 if ($jahr == "") {
-    $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj", "");
+    $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj", "");
 }
 if (isset($monat) and in_array($monat, $monate)) {
     $_SESSION[$db_table."monat_"] = $monat;
@@ -172,7 +172,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         }
 
         echo "<div>".olz_monate($datum)."</div>";
-        echo "<tr{$class}><td style='{$style}'>".$edit_admin."<a name='id{$id}'></a><b>".$_DATE_UTILS->olzDate("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto; {$style}'><b>\n";
+        echo "<tr{$class}><td style='{$style}'>".$edit_admin."<a name='id{$id}'></a><b>".$_DATE->olzDate("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto; {$style}'><b>\n";
         //echo olz_mask_email($email,$titel,"Forumeintrag OL Zimmerberg")."</b><p>".$name.$eintrag."</p></td></tr>\n";
         if ($name > "") {
             echo $titel."</b><p>".olz_mask_email($email, $name, $titel)."| ".$eintrag."</p></td></tr>\n";

@@ -9,7 +9,7 @@ require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
 // KONSTANTEN
-$tmp_jahr = $_DATE_UTILS->olzDate("jjjj", "");
+$tmp_jahr = $_DATE->olzDate("jjjj", "");
 $db_imgpath = $tables_img_dirs[$db_table];
 
 //-------------------------------------------------------------
@@ -42,7 +42,7 @@ if (isset($_GET["jahr"])) {
 } else {
     $jahr = $_SESSION[$db_table.'jahr_'];
 }
-//if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE_UTILS->olzDate("jjjj","");
+//if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj","");
 if ($id == "") { // Jüngste Nachricht
     $sql = "SELECT id,datum FROM {$db_table} WHERE (on_off = '1') ORDER BY datum DESC LIMIT 1";
     $result = $db->query($sql);

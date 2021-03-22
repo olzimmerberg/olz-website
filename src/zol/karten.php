@@ -119,7 +119,7 @@ $event_name = $row['name'];
 
 $result_file = "zol/".$event.".txt";
 $var = filemtime($result_file);
-$datum = $_DATE_UTILS->olzDate("t.m.jj", $var).date(", H:i:s", $var);
+$datum = $_DATE->olzDate("t.m.jj", $var).date(", H:i:s", $var);
 $zeit = olz_current_date("H:i:s");
 
 echo "<div class='titel' style='margin:10px 0px 10px 0px;'>{$event_name} / Stand Resultatdatei: {$datum} / Seite aktualisiert: {$zeit}</div>";

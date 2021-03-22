@@ -13,7 +13,7 @@ $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Versio
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, split(' ', $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";

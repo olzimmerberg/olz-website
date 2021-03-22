@@ -14,7 +14,7 @@ $db_imgpath = $tables_img_dirs[$db_table];
 
 //-------------------------------------------------------------
 // ZUGRIFF
-if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split("/ /", $_SESSION['auth'])))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
 } else {
     $zugriff = "0";
@@ -35,7 +35,7 @@ if (isset($_GET["id"]) and is_ganzzahl($_GET["id"])) {
     $row = mysqli_fetch_array($result);
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 } else {
-    $id = $_SESSION[$db_table.'id_'];
+    $id = ($_SESSION[$db_table.'id_'] ?? null);
 }
 if (isset($_GET["jahr"])) {
     $_SESSION[$db_table."jahr_"] = $_GET["jahr"];
@@ -50,7 +50,7 @@ if ($id == "") { // Jüngste Nachricht
     $_SESSION[$db_table.'id_'] = $row['id'];
     $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row['datum']));
 }
-$id = $_SESSION[$db_table.'id_'];
+$id = ($_SESSION[$db_table.'id_'] ?? null);
 $jahr = $_SESSION[$db_table.'jahr_'];
 
 echo "<h2>Galerien</h2>";

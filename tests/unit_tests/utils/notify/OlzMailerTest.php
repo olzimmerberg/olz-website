@@ -60,6 +60,7 @@ final class OlzMailerTest extends TestCase {
         <div style="text-align: right; float: right;">
             <img src="cid:olz_logo" alt="" style="width:150px;" />
         </div>
+        <br /><br /><br />
         äsdf\n1234<br />
         <br />
         <hr style="border: 0; border-top: 1px solid black;">

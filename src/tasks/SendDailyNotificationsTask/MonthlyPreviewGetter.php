@@ -17,6 +17,10 @@ class MonthlyPreviewGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getMonthlyPreviewNotification($args) {
         $current_weekday = intval($this->dateUtils->getCurrentDateInFormat('N'));
         $saturday = 6;
@@ -50,15 +54,21 @@ class MonthlyPreviewGetter {
             ->setMaxResults(1000)
         ;
         $termine = $termin_repo->matching($criteria);
+
+        $base_href = $this->envUtils->getBaseHref();
+        $code_href = $this->envUtils->getCodeHref();
+
+        $termine_url = "{$base_href}{$code_href}termine.php";
         $termine_text = "";
         foreach ($termine as $termin) {
+            $id = $termin->getId();
             $starts_on = $termin->getStartsOn();
             $ends_on = $termin->getEndsOn();
             $date = ($ends_on && $ends_on > $starts_on)
                 ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
                 : $starts_on->format('d.m.');
             $title = $termin->getTitle();
-            $termine_text .= "- {$date}: {$title}\n";
+            $termine_text .= "- {$date}: [{$title}]({$termine_url}#id{$id})\n";
         }
 
         $month_name = $next_month->format('F');

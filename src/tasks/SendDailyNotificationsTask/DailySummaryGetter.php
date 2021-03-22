@@ -22,6 +22,10 @@ class DailySummaryGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getDailySummaryNotification($args) {
         $today = new DateTime($this->dateUtils->getIsoToday());
         $minus_one_day = DateInterval::createFromDateString("-1 days");
@@ -48,10 +52,14 @@ class DailySummaryGetter {
             ->orderBy(['datum' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
-    ;
+        ;
 
         $notification_text = '';
+        $base_href = $this->envUtils->getBaseHref();
+        $code_href = $this->envUtils->getCodeHref();
+
         if ($args['aktuell'] ?? false) {
+            $aktuell_url = "{$base_href}{$code_href}aktuell.php";
             $aktuell_text = '';
             $aktuell_repo = $this->entityManager->getRepository(Aktuell::class);
             $aktuells = $aktuell_repo->matching($criteria);
@@ -62,7 +70,7 @@ class DailySummaryGetter {
                 $time = $aktuell->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
+                $aktuell_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$aktuell_url}?id={$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
                 $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
@@ -70,6 +78,7 @@ class DailySummaryGetter {
         }
 
         if ($args['blog'] ?? false) {
+            $blog_url = "{$base_href}{$code_href}blog.php";
             $blog_text = '';
             $blog_repo = $this->entityManager->getRepository(Blog::class);
             $blogs = $blog_repo->matching($criteria);
@@ -80,7 +89,7 @@ class DailySummaryGetter {
                 $time = $blog->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $blog->getTitle();
-                $blog_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
+                $blog_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$blog_url}#id{$id})\n";
             }
             if (strlen($blog_text) > 0) {
                 $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
@@ -88,6 +97,7 @@ class DailySummaryGetter {
         }
 
         if ($args['galerie'] ?? false) {
+            $galerie_url = "{$base_href}{$code_href}galerie.php";
             $galerie_text = '';
             $galerie_repo = $this->entityManager->getRepository(Galerie::class);
             $galeries = $galerie_repo->matching($date_only_criteria);
@@ -96,7 +106,7 @@ class DailySummaryGetter {
                 $date = $galerie->getDate();
                 $pretty_date = $date->format('d.m.');
                 $title = $galerie->getTitle();
-                $galerie_text .= "- {$pretty_date}: {$title}\n";
+                $galerie_text .= "- {$pretty_date}: [{$title}]({$galerie_url}?id={$id})\n";
             }
             if (strlen($galerie_text) > 0) {
                 $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";
@@ -104,6 +114,7 @@ class DailySummaryGetter {
         }
 
         if ($args['forum'] ?? false) {
+            $forum_url = "{$base_href}{$code_href}forum.php";
             $forum_text = '';
             $forum_repo = $this->entityManager->getRepository(Forum::class);
             $forums = $forum_repo->matching($criteria);
@@ -114,7 +125,7 @@ class DailySummaryGetter {
                 $time = $forum->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $forum->getTitle();
-                $forum_text .= "- {$pretty_date} {$pretty_time}: {$title}\n";
+                $forum_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$forum_url}#id{$id})\n";
             }
             if (strlen($forum_text) > 0) {
                 $notification_text .= "\n**Forum**\n\n{$forum_text}\n";

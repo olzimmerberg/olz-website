@@ -81,6 +81,16 @@ class FakeWeeklySummaryGetterForumRepository {
     }
 }
 
+class FakeWeeklySummaryGetterEnvUtils {
+    public function getBaseHref() {
+        return 'http://fake-base-url';
+    }
+
+    public function getCodeHref() {
+        return '/_/';
+    }
+}
+
 /**
  * @internal
  * @covers \WeeklySummaryGetter
@@ -119,6 +129,7 @@ final class WeeklySummaryGetterTest extends TestCase {
         $entity_manager->repositories['Galerie'] = $galerie_repo;
         $entity_manager->repositories['Forum'] = $forum_repo;
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
+        $env_utils = new FakeWeeklySummaryGetterEnvUtils();
         $logger = new Logger('WeeklySummaryGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -127,6 +138,7 @@ final class WeeklySummaryGetterTest extends TestCase {
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
@@ -135,13 +147,45 @@ final class WeeklySummaryGetterTest extends TestCase {
             'forum' => true,
         ]);
 
+        $expected_text = <<<'ZZZZZZZZZZ'
+        Hallo First,
+        
+        Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
+        
+        
+        **Aktuell**
+        
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
+        
+        
+        **Kaderblog**
+        
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/blog.php#id1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/blog.php#id2)
+        
+        
+        **Galerien**
+        
+        - 12.03.: [Bericht vom Lauftraining](http://fake-base-url/_/galerie.php?id=1)
+        - 13.03.: [MV nicht abgesagt!](http://fake-base-url/_/galerie.php?id=2)
+        
+        
+        **Forum**
+        
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/forum.php#id1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/forum.php#id2)
+
+
+        ZZZZZZZZZZ;
         $this->assertSame('Wochenzusammenfassung', $notification->title);
-        $this->assertSame("Hallo First,\n\nDas lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):\n\n\n**Aktuell**\n\n- 12.03. 22:00: Bericht vom Lauftraining\n- 13.03. 16:00: MV nicht abgesagt!\n\n\n**Kaderblog**\n\n- 12.03. 22:00: Bericht vom Lauftraining\n- 13.03. 16:00: MV nicht abgesagt!\n\n\n**Galerien**\n\n- 12.03.: Bericht vom Lauftraining\n- 13.03.: MV nicht abgesagt!\n\n\n**Forum**\n\n- 12.03. 22:00: Bericht vom Lauftraining\n- 13.03. 16:00: MV nicht abgesagt!\n\n", $notification->getTextForUser($user));
+        $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 
     public function testWeeklySummaryGetterWithNoContent(): void {
         $entity_manager = new FakeWeeklySummaryGetterEntityManager();
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
+        $env_utils = new FakeWeeklySummaryGetterEnvUtils();
         $logger = new Logger('WeeklySummaryGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -150,6 +194,7 @@ final class WeeklySummaryGetterTest extends TestCase {
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklySummaryNotification([]);
 

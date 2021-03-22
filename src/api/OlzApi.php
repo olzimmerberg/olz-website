@@ -24,7 +24,7 @@ class OlzApi {
                     $telegram_utils = TelegramUtils::fromEnv();
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils);
                     $sync_solv_task->setDefaultFileLogger();
-                    $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils);
+                    $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
                     $send_daily_notifications_task->setDefaultFileLogger();
                     $endpoint->setSyncSolvTask($sync_solv_task);
                     $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);

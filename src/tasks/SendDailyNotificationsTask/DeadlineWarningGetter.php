@@ -17,6 +17,10 @@ class DeadlineWarningGetter {
         $this->dateUtils = $dateUtils;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public function getDeadlineWarningNotification($args) {
         $days_arg = intval($args['days'] ?? '');
         if ($days_arg <= 0 || $days_arg > 7) {
@@ -34,6 +38,11 @@ class DeadlineWarningGetter {
             ->setMaxResults(1000)
         ;
         $deadlines = $solv_event_repo->matching($criteria);
+
+        $base_href = $this->envUtils->getBaseHref();
+        $code_href = $this->envUtils->getCodeHref();
+
+        $termine_url = "{$base_href}{$code_href}termine.php";
         $deadlines_text = '';
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
@@ -43,8 +52,9 @@ class DeadlineWarningGetter {
             }
             $deadline_date = $deadline->getDeadline();
             $date = $deadline_date->format('d.m.');
+            $id = $termin->getId();
             $title = $termin->getTitle();
-            $deadlines_text .= "- {$date}: Meldeschluss für '{$title}'\n";
+            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}#id{$id})'\n";
         }
 
         if (strlen($deadlines_text) == 0) {

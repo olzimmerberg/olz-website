@@ -10,8 +10,8 @@ class OnTelegramEndpoint extends Endpoint {
         $this->telegramUtils = $telegram_utils;
     }
 
-    public function setServerConfig($serverConfig) {
-        $this->serverConfig = $serverConfig;
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
     }
 
     public static function getIdent() {
@@ -39,7 +39,7 @@ class OnTelegramEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
-        $expected_code = $this->serverConfig->getTelegramAuthenticityCode();
+        $expected_code = $this->envUtils->getTelegramAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {
             throw new HttpError(403, "Kein Zugriff!");

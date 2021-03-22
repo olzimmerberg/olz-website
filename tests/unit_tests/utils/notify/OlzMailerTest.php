@@ -21,7 +21,7 @@ class FakeOlzMailerEmailUtils {
     }
 }
 
-class FakeOlzMailerServerConfig {
+class FakeOlzMailerEnvUtils {
     public function getBaseHref() {
         return 'http://fake-base-url';
     }
@@ -38,7 +38,7 @@ class FakeOlzMailerServerConfig {
 final class OlzMailerTest extends TestCase {
     public function testConfigure(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerServerConfig();
+        $server_config = new FakeOlzMailerEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);
@@ -85,7 +85,7 @@ final class OlzMailerTest extends TestCase {
 
     public function testSend(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerServerConfig();
+        $server_config = new FakeOlzMailerEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);
@@ -100,7 +100,7 @@ final class OlzMailerTest extends TestCase {
 
     public function testSendConfigured(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerServerConfig();
+        $server_config = new FakeOlzMailerEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);

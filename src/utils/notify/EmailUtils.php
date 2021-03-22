@@ -15,29 +15,29 @@ class EmailUtils {
     use Psr\Log\LoggerAwareTrait;
 
     private $generalUtils;
-    private $serverConfig;
+    private $envUtils;
 
-    public function __construct($serverConfig) {
+    public function __construct($envUtils) {
         $this->generalUtils = new GeneralUtils();
-        $this->serverConfig = $serverConfig;
+        $this->envUtils = $envUtils;
     }
 
     public function createEmail() {
-        $mail = new OlzMailer($this, $this->serverConfig, true);
+        $mail = new OlzMailer($this, $this->envUtils, true);
 
         $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->isSMTP();
-        $mail->Host = $this->serverConfig->getSmtpHost();
+        $mail->Host = $this->envUtils->getSmtpHost();
         $mail->SMTPAuth = true;
-        $mail->Username = $this->serverConfig->getSmtpUsername();
-        $mail->Password = $this->serverConfig->getSmtpPassword();
+        $mail->Username = $this->envUtils->getSmtpUsername();
+        $mail->Password = $this->envUtils->getSmtpPassword();
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = intval($this->serverConfig->getSmtpPort());
+        $mail->Port = intval($this->envUtils->getSmtpPort());
 
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
 
-        $mail->setFrom($this->serverConfig->getSmtpFrom(), 'OL Zimmerberg');
+        $mail->setFrom($this->envUtils->getSmtpFrom(), 'OL Zimmerberg');
 
         $mail->setLogger($this->logger);
 
@@ -47,7 +47,7 @@ class EmailUtils {
     public function encryptEmailReactionToken($data) {
         $plaintext = json_encode($data);
         $algo = 'aes-256-gcm';
-        $key = $this->serverConfig->getEmailReactionKey();
+        $key = $this->envUtils->getEmailReactionKey();
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
         $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         return $this->generalUtils->base64EncodeUrl(json_encode([
@@ -65,7 +65,7 @@ class EmailUtils {
         }
         $ciphertext = $this->generalUtils->base64DecodeUrl($decrypt_data['ciphertext']);
         $algo = $decrypt_data['algo'] ?? 'aes-256-gcm';
-        $key = $this->serverConfig->getEmailReactionKey();
+        $key = $this->envUtils->getEmailReactionKey();
         $iv = $this->generalUtils->base64DecodeUrl($decrypt_data['iv']);
         $tag = $this->generalUtils->base64DecodeUrl($decrypt_data['tag']);
         $plaintext = openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);

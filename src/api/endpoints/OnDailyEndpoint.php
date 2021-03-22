@@ -21,8 +21,8 @@ class OnDailyEndpoint extends Endpoint {
         $this->dateUtils = $dateUtils;
     }
 
-    public function setServerConfig($serverConfig) {
-        $this->serverConfig = $serverConfig;
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
     }
 
     public static function getIdent() {
@@ -48,7 +48,7 @@ class OnDailyEndpoint extends Endpoint {
     }
 
     public function shouldFailThrottling() {
-        if ($this->serverConfig->hasUnlimitedCron()) {
+        if ($this->envUtils->hasUnlimitedCron()) {
             return false;
         }
         $throttling_repo = $this->entityManager->getRepository(Throttling::class);
@@ -63,7 +63,7 @@ class OnDailyEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
-        $expected_code = $this->serverConfig->getCronAuthenticityCode();
+        $expected_code = $this->envUtils->getCronAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {
             throw new HttpError(403, "Kein Zugriff!");

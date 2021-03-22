@@ -9,7 +9,7 @@ require_once __DIR__.'/../../../../src/api/endpoints/OnContinuouslyEndpoint.php'
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 
-class FakeOnContinuouslyEndpointServerConfig {
+class FakeOnContinuouslyEndpointEnvUtils {
     public function getCronAuthenticityCode() {
         return 'some-token';
     }
@@ -40,7 +40,7 @@ final class OnContinuouslyEndpointTest extends TestCase {
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setServerConfig(new FakeOnContinuouslyEndpointServerConfig());
+        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
 
         try {
             $result = $endpoint->call([
@@ -57,7 +57,7 @@ final class OnContinuouslyEndpointTest extends TestCase {
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setServerConfig(new FakeOnContinuouslyEndpointServerConfig());
+        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

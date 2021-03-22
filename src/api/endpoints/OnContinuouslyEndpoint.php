@@ -8,8 +8,8 @@ class OnContinuouslyEndpoint extends Endpoint {
         $this->dateUtils = $dateUtils;
     }
 
-    public function setServerConfig($serverConfig) {
-        $this->serverConfig = $serverConfig;
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
     }
 
     public static function getIdent() {
@@ -35,7 +35,7 @@ class OnContinuouslyEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
-        $expected_code = $this->serverConfig->getCronAuthenticityCode();
+        $expected_code = $this->envUtils->getCronAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {
             throw new HttpError(403, "Kein Zugriff!");

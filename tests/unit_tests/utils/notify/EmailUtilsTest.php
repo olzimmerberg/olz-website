@@ -9,7 +9,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
 
-class FakeEmailUtilsServerConfig {
+class FakeEmailUtilsEnvUtils {
     public function getSmtpHost() {
         return 'localhost';
     }
@@ -41,7 +41,7 @@ class FakeEmailUtilsServerConfig {
  */
 final class EmailUtilsTest extends TestCase {
     public function testEmailReactionToken(): void {
-        $server_config = new FakeEmailUtilsServerConfig();
+        $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -56,7 +56,7 @@ final class EmailUtilsTest extends TestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $server_config = new FakeEmailUtilsServerConfig();
+        $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -65,7 +65,7 @@ final class EmailUtilsTest extends TestCase {
     }
 
     public function testCreateEmail(): void {
-        $server_config = new FakeEmailUtilsServerConfig();
+        $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -123,7 +123,7 @@ final class EmailUtilsTest extends TestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $server_config = new FakeEmailUtilsServerConfig();
+        $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);

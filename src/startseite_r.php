@@ -15,7 +15,7 @@ require_once "image_tools.php";
 //Konstanten
 $db_table = 'bild_der_woche';
 $img_folder = "img";
-$id = $_GET['id'];
+$id = $_GET['id'] ?? null;
 //-------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
@@ -58,7 +58,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -70,7 +70,7 @@ if ($zugriff and ($db_edit == '0')) {
 }
 //-------------------------------------------------------------
 // BILD DER WOCHE - VORSCHAU
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $sql = "SELECT * from {$db_table} WHERE (on_off = 1) ORDER BY id ASC LIMIT 1";
     $result = $db->query($sql);
 
@@ -78,7 +78,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     // simon, 13.4.2011, damit man mehr von den terminen sieht
     // urs, 17.4.2012, finde ich grafisch nicht überzeigend und der Gewinn an Höhe ist minimal
     echo "<div style='text-align:center;'>";
-    if (($do == "vorschau") and ($db_edit == "1")) {
+    if ((($do ?? null) == 'vorschau') and ($db_edit == "1")) {
         $row = $vorschau;
     } else {
         $row = $result->fetch_assoc();

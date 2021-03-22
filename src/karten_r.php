@@ -46,7 +46,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -63,8 +63,8 @@ if ($zugriff and $db_edit == "0") {
 
 //-------------------------------------------------------------
 //  VORSCHAU - LISTE
-if (($db_edit == "0") or ($do == "vorschau")) {
-    if ($do == "vorschau") {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
+    if (($do ?? null) == 'vorschau') {
         $sql = "SELECT * FROM {$db_table} WHERE (id = ".$_SESSION[$db_table."id"].")";
     } // Proforma-Abfrage
     else {
@@ -76,7 +76,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     $tmp_tag = "";
 
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $name = $row['name'];

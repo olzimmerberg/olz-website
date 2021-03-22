@@ -50,7 +50,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -73,7 +73,7 @@ if ($db_edit == '0' && ($zugriff || !$res)) {
 
 //-------------------------------------------------------------
 // GALERIE - VORSCHAU
-if ($db_edit == "0" or $do == "vorschau") {
+if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
     $sql = "SELECT * FROM {$db_table} WHERE (id='{$id}')";
     $result = $db->query($sql);
     $row = mysqli_fetch_array($result);
@@ -197,6 +197,6 @@ if ($db_edit == "0" or $do == "vorschau") {
     }
     echo "</table></div>";
 }
-if ($do == "submit" && !$zugriff) {
+if (($do ?? null) == 'submit' && !$zugriff) {
     mail("simon.hatt@olzimmerberg.ch", "Neue Galerie", "Link: https://olzimmerberg.ch/_/galerie.php?id=".$_SESSION[$db_table."id"]);
 }

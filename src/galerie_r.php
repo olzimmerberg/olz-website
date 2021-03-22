@@ -100,7 +100,7 @@ while ($tmp_jahr >= $end_jahr) {
         } else {
             echo "{$edit_admin}<a href='galerie.php?id=".$id_tmp."".(isset($_GET["archiv"]) ? "&amp;archiv" : "")."' class='{$linkclass}' id='galerie_r_a_".$id_tmp."'>".date("j", strtotime($datum)).". ".ucfirst($monate[date("n", strtotime($datum)) - 1]).": ".$titel." (".$groesse.")</a></li>";
         }
-        if ($do == "edit") {
+        if (($do ?? null) == 'edit') {
             $ident = "olzimgedit".md5($db_table."-".$id);
             $javascript .= "var elem = document.getElementById(\"galerie_r_a_".$id_tmp."\");
 if (elem) elem.onmousedown = (function (elem) { return function (e) {

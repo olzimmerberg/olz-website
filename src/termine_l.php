@@ -30,7 +30,7 @@ if (isset($_POST[$button_name])) {
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
     $_SESSION[$db_table."id_"] = $id;
 } else {
     $id = $_SESSION[$db_table."id_"] ?? null;
@@ -151,7 +151,7 @@ AND (on_off = '1')
 AND {$filter_where}
 ZZZZZZZZZZ;
 
-if ($do == "vorschau") {
+if (($do ?? null) == 'vorschau') {
     $sql_where = "(id ='{$id}')";
 } // Proforma-Abfrage
 
@@ -164,7 +164,7 @@ $result = $db->query($sql);
 echo "<table class='liste'>";
 $id_spalte = " id='Spalte1'";
 while ($row = mysqli_fetch_array($result)) {
-    if ($do == "vorschau") {
+    if (($do ?? null) == 'vorschau') {
         $row = $vorschau;
     }
     $datum = $row['datum'];
@@ -323,7 +323,7 @@ echo "</table>";
 //-------------------------------------------------------------
 //  Wiederkehrendes Datum anzeigen
 //-------------------------------------------------------------
-if ($do == 'vorschau' and $modus_termin == 'repeat') {
+if (($do ?? null) == 'vorschau' and $modus_termin == 'repeat') {
     $_SESSION[$db_table]['repeat'] = $modus_termin;
     $_SESSION[$db_table]['intervall'] = $intervall_termin;
     if ($vorschau['datum_end'] > '' and $vorschau['datum_end'] !== '0000-00-00') {

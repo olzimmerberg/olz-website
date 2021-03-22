@@ -15,14 +15,14 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
 echo "
 <div id='content_rechts'>
-<form name='Formularr' method='post' action='fragen_und_antworten.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
+<form name='Formularr' method='post' action='fragen_und_antworten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/fragen_und_antworten_r.php';
 echo "</div>
 </form>
 </div>
 <div id='content_mitte'>
-<form name='Formularl' method='post' action='fragen_und_antworten.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+<form name='Formularl' method='post' action='fragen_und_antworten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 include __DIR__.'/fragen_und_antworten_l.php';
 echo "</form>
 </div>

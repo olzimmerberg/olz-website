@@ -74,7 +74,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -92,7 +92,7 @@ if ($db_edit == "0") {
 
 //-------------------------------------------------------------
 //  VORSCHAU - LISTE
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     if (isset($id_forum)) {
         $sql = "WHERE (id={$id_forum})";
     } elseif ($zugriff) {
@@ -104,7 +104,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     } else {
         $sql = "WHERE (datum >= '".(olz_current_date("Y") - 1).olz_current_date("-m-d")."') AND (on_off = '1') AND (email > '') AND (name > '') AND (eintrag != '')";
     }
-    if ($do == "vorschau") {
+    if (($do ?? null) == 'vorschau') {
         $sql = "WHERE (id = ".$_SESSION[$db_table.'id'].")";
     }
     $sql = "SELECT * FROM {$db_table} ".$sql." ORDER BY datum DESC, zeit DESC";
@@ -112,7 +112,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
     echo "<table style='width:100%; table-layout:fixed;' class='liste'><tr><td style='width:20%; border:0px;'></td><td style='width:80%; border:0px;'></td></tr>";
     //echo $vorschau[0]['name']."***";
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $titel = $row['name'];

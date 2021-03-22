@@ -58,7 +58,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     }
 
     echo "<div id='content_double'>
-    <form name='Formularl' method='post' action='webftp.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
+    <form name='Formularl' method='post' action='webftp.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
     <div>";
     include __DIR__.'/library/phpWebFileManager/start.php';
     echo "</div>

@@ -12,7 +12,7 @@ include __DIR__.'/components/notify/olz_telegram_card/olz_telegram_card.php';
 include __DIR__.'/components/notify/olz_email_card/olz_email_card.php';
 echo "</div>";
 
-echo "<form name='Formularl' method='post' action='service.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 echo "<table><tr><td style='width:50%'><h2>Links</h2>";
 
 $db_table = 'links';
@@ -27,7 +27,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
 $button_name = 'button'.$db_table;
 if (isset($_GET[$button_name])) {
     $_POST[$button_name] = $_GET[$button_name];
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
 }
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
@@ -61,7 +61,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -93,11 +93,11 @@ if ($zugriff) {
     $sql = "SELECT * FROM {$db_table} WHERE (on_off='1') ORDER BY  position ASC";
 }
 
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $result = $db->query($sql);
     echo "<ul class='nobox'>";
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $id_tmp = $row['id'];
@@ -148,7 +148,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
 $button_name = 'button'.$db_table;
 if (isset($_GET[$button_name])) {
     $_POST[$button_name] = $_GET[$button_name];
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
 }
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
@@ -185,7 +185,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -217,11 +217,11 @@ if ($zugriff) {
     $sql = "SELECT * FROM {$db_table} WHERE (on_off='1') ORDER BY  position ASC";
 }
 
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $result = $db->query($sql);
     echo "<ul class='nobox'>";
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $id_tmp = $row['id'];

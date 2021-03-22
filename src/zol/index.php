@@ -77,7 +77,7 @@ html {
     if ($zugriff and ($function != "")) {
         include 'admin/admin_db.php';
     }
-    if ($_SESSION['edit']['table'] == $db_table) {
+    if (($_SESSION['edit']['table'] ?? null) == $db_table) {
         $db_edit = "1";
     } else {
         $db_edit = "0";
@@ -101,8 +101,8 @@ html {
         closedir($handle);
     }
     //var_dump($vorschau);
-    if ($db_edit == 0 or $do == 'vorschau') {
-        if ($do == 'vorschau') {
+    if ($db_edit == 0 or ($do ?? null) == 'vorschau') {
+        if (($do ?? null) == 'vorschau') {
             $sql = "SELECT * FROM event ORDER BY datum DESC LIMIT 1";
         } else {
             $sql = "SELECT * FROM event ORDER BY datum DESC";
@@ -110,7 +110,7 @@ html {
         $result = $db->query($sql);
 
         while ($row = mysqli_fetch_array($result)) {
-            if ($do == "vorschau") {
+            if (($do ?? null) == 'vorschau') {
                 $row = $vorschau;
             }
             $id_event = $row['id'];

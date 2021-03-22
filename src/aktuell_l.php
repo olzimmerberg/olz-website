@@ -30,7 +30,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include __DIR__.'/admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -44,7 +44,7 @@ if ($zugriff and ($db_edit == '0')) {
 
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
     $result = $db->query($sql);
     $row = mysqli_fetch_array($result);
@@ -57,7 +57,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
 
     // Aktuelle Nachricht
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         } else {
             $id_tmp = intval($row['id']);
@@ -76,7 +76,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
         $edit_admin = ($zugriff and ($do != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
         // Bildercode einfügen
-        if ($do == 'vorschau') {
+        if (($do ?? null) == 'vorschau') {
             preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
             for ($i = 0; $i < count($matches[0]); $i++) {
                 $size = intval($matches[3][$i]);

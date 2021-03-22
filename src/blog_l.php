@@ -60,7 +60,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -74,9 +74,9 @@ if ($zugriff and $db_edit == "0") {
 
 //-------------------------------------------------------------
 //  VORSCHAU - LISTE
-if (($db_edit == "0") or ($do == "vorschau")) {
+if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     if ($zugriff) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $sql = "WHERE (id = ".$id.")";
         } elseif (($_SESSION['auth'] ?? null) == 'all') {
             $sql = "";
@@ -90,7 +90,7 @@ if (($db_edit == "0") or ($do == "vorschau")) {
 
     $result = $db->query($sql);
     while ($row = mysqli_fetch_array($result)) {
-        if ($do == "vorschau") {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $autor = ucwords($row['autor']);

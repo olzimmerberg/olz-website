@@ -18,7 +18,7 @@ $db_table = 'karten';
 $button_name = 'button'.$db_table;
 if (isset($_GET[$button_name])) {
     $_POST[$button_name] = $_GET[$button_name];
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
 }
 if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
@@ -26,14 +26,14 @@ if (isset($_POST[$button_name])) {
 
 echo "
 <div id='content_rechts'>
-<form name='Formularr' method='post' action='karten.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
+<form name='Formularr' method='post' action='karten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/karten_r.php';
 echo "</div>
 </form>
 </div>
 <div id='content_mitte'>
-<form name='Formularl' method='post' action='karten.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+<form name='Formularl' method='post' action='karten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 include __DIR__.'/karten_l.php';
 echo "</form>
 </div>

@@ -335,7 +335,7 @@ if ($function == "start") {
     $do = "activate";
 }
 
-if ($do == "confirm") {
+if (($do ?? null) == "confirm") {
     $alert = "Möchtest du diesen Eintrag wirklich löschen ?";
     $do = "edit";
     $_SESSION['edit']['confirm'] = "1";
@@ -346,7 +346,7 @@ if ($do == "confirm") {
 //-------------------------------------------------------------
 // USER Code eingeben
 //-------------------------------------------------------------
-if ($do == "code") {
+if (($do ?? null) == "code") {
     echo "<table class='liste'><tr><td style='width:20%;'><span style='font-weight:bold;'>Code:</span></td><td style='width:80%'>
         <input type='text' name='uid'  style='width:100%;'></td></tr></table>";
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Weiter", "1"], ["Abbrechen", "2"]], "")."</div>";
@@ -355,7 +355,7 @@ if ($do == "code") {
 //-------------------------------------------------------------
 // DS duplizieren
 //-------------------------------------------------------------
-if ($do == "duplicate") {
+if (($do ?? null) == "duplicate") {
     $sql = "SELECT * from {$db_table} WHERE (id = '".$id."') ORDER BY id ASC";
     $result = $db->query($sql);
     if ($result->num_rows == 0) {
@@ -382,7 +382,7 @@ if ($do == "duplicate") {
 //-------------------------------------------------------------
 // Neuer Datensatz
 //-------------------------------------------------------------
-if ($do == "neu") {
+if (($do ?? null) == "neu") {
     $sql_tmp = [];
     foreach ($db_felder as $tmp_feld) {
         if ($tmp_feld[3] > '') {
@@ -416,7 +416,7 @@ if ($do == "neu") {
 //-------------------------------------------------------------
 // Daten aus DB holen
 //-------------------------------------------------------------
-if ($do == "getdata") {
+if (($do ?? null) == "getdata") {
     if ($function == "start_user") {
         $sql = "SELECT * from {$db_table} WHERE (uid = '".$uid."') ORDER BY id ASC";
     } else {
@@ -450,7 +450,7 @@ if ($do == "getdata") {
 //-------------------------------------------------------------
 // Eintrag löschen
 //-------------------------------------------------------------
-if ($do == "delete") {
+if (($do ?? null) == "delete") {
     // Bilder löschen
     if (isset($tables_img_dirs[$db_table])) {
         $db_imgpath = $tables_img_dirs[$db_table];
@@ -488,8 +488,8 @@ if ($do == "delete") {
 //-------------------------------------------------------------
 // Position verschieben
 //-------------------------------------------------------------
-if (($do == "up") or ($do == "down")) {
-    if ($do == "up") {
+if ((($do ?? null) == "up") or (($do ?? null) == "down")) {
+    if (($do ?? null) == "up") {
         $offset = "-1.5";
     } else {
         $offset = "1.5";
@@ -509,7 +509,7 @@ if (($do == "up") or ($do == "down")) {
 //-------------------------------------------------------------
 // Eingabe abbrechen
 //-------------------------------------------------------------
-if ($do == "abbruch") {
+if (($do ?? null) == "abbruch") {
     foreach ($db_felder as $tmp_feld) {
         if (($tmp_feld[2] == "file") and (isset($_SESSION[$db_table]['name'])) and file_exists($tmp_folder."/".$_SESSION[$db_table]['name'])) {
             unlink($tmp_folder."/".$_SESSION[$db_table]['name']);
@@ -521,7 +521,7 @@ if ($do == "abbruch") {
 //-------------------------------------------------------------
 // Galerie aktivieren
 //-------------------------------------------------------------
-if ($do == "activate") {
+if (($do ?? null) == "activate") {
     $sql = "UPDATE {$db_table} SET on_off='1' WHERE id='".$id."'";
     $result = $db->query($sql);
     unset($_SESSION['edit']);
@@ -530,7 +530,7 @@ if ($do == "activate") {
 //-------------------------------------------------------------
 // Werte in Session-Variablen schreiben
 //-------------------------------------------------------------
-if ($do == "save") {
+if (($do ?? null) == "save") {
     foreach ($db_felder as $tmp_feld) {
         $var = $tmp_feld[0];
         $_SESSION[$db_table.$var] = $_POST[$db_table.$var];
@@ -541,7 +541,7 @@ if ($do == "save") {
 //-------------------------------------------------------------
 // DS Speichern
 //-------------------------------------------------------------
-if ($do == "submit") {
+if (($do ?? null) == 'submit') {
     $sql_tmp = [];
     function user2db($feld_typ, $wert) {
         $default = "'".DBEsc(trim($wert))."'";
@@ -663,7 +663,7 @@ if ($do == "submit") {
 //-------------------------------------------------------------
 // Vorschau
 //-------------------------------------------------------------
-if ($do == "vorschau") {//include 'upload.php';
+if (($do ?? null) == 'vorschau') {//include 'upload.php';
     $vorschau = [];
     foreach ($db_felder as $tmp_feld) {
         $test = "";
@@ -699,7 +699,7 @@ if ($do == "vorschau") {//include 'upload.php';
     if (isset($_SESSION['edit']['replace'])) {
         $do = "edit";
     }
-    if ($do == "vorschau") {
+    if (($do ?? null) == 'vorschau') {
         echo "<h2>Vorschau</h2>";
         if ($db_table == "rundmail") {
             $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Bearbeiten", "1"], ["Abschicken", "4"]], "")."</div>";
@@ -712,7 +712,7 @@ if ($do == "vorschau") {//include 'upload.php';
 //-------------------------------------------------------------
 // DS Eingabe
 //-------------------------------------------------------------
-if ($do == "edit") {// Eingabe-Formular aufbauen
+if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
     $html_input = "";
     $html_hidden = "";
     if ($function == "duplicate") {

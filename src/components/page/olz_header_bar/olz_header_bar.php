@@ -255,7 +255,7 @@ function olz_header_bar($args = []): string {
 
     /*
     // OLZ JOM Team Challenge 2015
-    $out .= "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+    $out .= "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
     $out .= get_olz_text(9, false);
     $out .= "</form></div></div></div>";
     */

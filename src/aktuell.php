@@ -33,7 +33,7 @@ require_once __DIR__.'/file_tools.php';
 require_once __DIR__.'/image_tools.php';
 
 $db_table = 'aktuell';
-$id = $_GET['id'];
+$id = $_GET['id'] ?? null;
 
 $button_name = 'button'.$db_table;
 if (isset($_GET[$button_name])) {
@@ -47,14 +47,14 @@ $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_
 
 echo "
 <div id='content_rechts'>
-<form name='Formularr' method='post' action='aktuell.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
+<form name='Formularr' method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/aktuell_r.php';
 echo "</div>
 </form>
 </div>
 <div id='content_mitte'>
-<form name='Formularl' method='post' action='aktuell.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>";
+<form name='Formularl' method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 include __DIR__.'/aktuell_l.php';
 echo "</form>
 </div>

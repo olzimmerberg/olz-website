@@ -36,7 +36,7 @@ $function = array_search($_POST[$button_name], $functions);
 if ($function != "") {
     include 'admin/admin_db.php';
 }
-if ($_SESSION['edit']['table'] == $db_table) {
+if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";
 } else {
     $db_edit = "0";
@@ -44,7 +44,7 @@ if ($_SESSION['edit']['table'] == $db_table) {
 
 //-------------------------------------------------------------
 // AKTUELL - VORSCHAU
-if ($do == "vorschau") {
+if (($do ?? null) == 'vorschau') {
     $row = $vorschau;
     $id = $row['id'];
     $betreff = $row['betreff'];

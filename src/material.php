@@ -14,7 +14,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 }
 
 echo "<div id='content_double'>
-<form name='Formularl' method='post' action='material.php#id_edit".$_SESSION['id_edit']."' enctype='multipart/form-data'>
+<form name='Formularl' method='post' action='material.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/material_d.php';
 echo "</div>

@@ -150,7 +150,7 @@ function get_olz_text($id_text, $editable = true) {
             $html_out .= ob_get_contents();
             ob_end_clean();
         }
-        if ($_SESSION['edit']['table'] == $db_table) {
+        if (($_SESSION['edit']['table'] ?? null) == $db_table) {
             $db_edit = "1";
         } else {
             $db_edit = "0";
@@ -177,8 +177,8 @@ function get_olz_text($id_text, $editable = true) {
     }
 
     // Anzeige - Vorschau
-    if (($db_edit == "0") || ($do == "vorschau") || $_SESSION[$db_table.'id_text_'] != $id_text || !$editable) {
-        if ($do == "vorschau") {
+    if (($db_edit == "0") || (($do ?? null) == 'vorschau') || $_SESSION[$db_table.'id_text_'] != $id_text || !$editable) {
+        if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
         }
         $id_tmp = $row['id'];

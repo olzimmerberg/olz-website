@@ -1,94 +1,69 @@
 # Skript, um die quadratischen, verkleinerten Bilder für die "Für Einsteiger" Seite zu generieren
 
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ansprechperson_001.jpg ./thumb/ansprechperson_001.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/ansprechperson_001.jpg ./thumb/ansprechperson_001@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0-20 +repage ./img/ansprechperson_002.jpg ./thumb/ansprechperson_002.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0-40 +repage ./img/ansprechperson_002.jpg ./thumb/ansprechperson_002@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+10+0 +repage ./img/ansprechperson_003.jpg ./thumb/ansprechperson_003.jpg
-convert  -resize "400^" -gravity center -crop 400x400+20+0 +repage ./img/ansprechperson_003.jpg ./thumb/ansprechperson_003@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ansprechperson_004.jpg ./thumb/ansprechperson_004.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/ansprechperson_004.jpg ./thumb/ansprechperson_004@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_001.jpg ./thumb/ol_zimmerberg_001.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_001.jpg ./thumb/ol_zimmerberg_001@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-10+0 +repage ./img/ol_zimmerberg_002.jpg ./thumb/ol_zimmerberg_002.jpg
-convert  -resize "200^" -gravity center -crop 200x200-20+0 +repage ./img/ol_zimmerberg_002.jpg ./thumb/ol_zimmerberg_002@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_003.jpg ./thumb/ol_zimmerberg_003.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_003.jpg ./thumb/ol_zimmerberg_003@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_004.jpg ./thumb/ol_zimmerberg_004.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_004.jpg ./thumb/ol_zimmerberg_004@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_005.jpg ./thumb/ol_zimmerberg_005.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_005.jpg ./thumb/ol_zimmerberg_005@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_006.jpg ./thumb/ol_zimmerberg_006.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_006.jpg ./thumb/ol_zimmerberg_006@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_007.jpg ./thumb/ol_zimmerberg_007.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_007.jpg ./thumb/ol_zimmerberg_007@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_008.jpg ./thumb/ol_zimmerberg_008.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_008.jpg ./thumb/ol_zimmerberg_008@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_009.jpg ./thumb/ol_zimmerberg_009.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_009.jpg ./thumb/ol_zimmerberg_009@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_010.jpg ./thumb/ol_zimmerberg_010.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_010.jpg ./thumb/ol_zimmerberg_010@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_011.jpg ./thumb/ol_zimmerberg_011.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_011.jpg ./thumb/ol_zimmerberg_011@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0-15 +repage ./img/ol_zimmerberg_012.jpg ./thumb/ol_zimmerberg_012.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0-30 +repage ./img/ol_zimmerberg_012.jpg ./thumb/ol_zimmerberg_012@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_013.jpg ./thumb/ol_zimmerberg_013.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_013.jpg ./thumb/ol_zimmerberg_013@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_014.jpg ./thumb/ol_zimmerberg_014.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_014.jpg ./thumb/ol_zimmerberg_014@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_015.jpg ./thumb/ol_zimmerberg_015.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_015.jpg ./thumb/ol_zimmerberg_015@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/ol_zimmerberg_016.jpg ./thumb/ol_zimmerberg_016.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/ol_zimmerberg_016.jpg ./thumb/ol_zimmerberg_016@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+45+0 +repage ./img/orientierungslauf_001.jpg ./thumb/orientierungslauf_001.jpg
-convert  -resize "400^" -gravity center -crop 400x400+90+0 +repage ./img/orientierungslauf_001.jpg ./thumb/orientierungslauf_001@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+30 +repage ./img/orientierungslauf_002.jpg ./thumb/orientierungslauf_002.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+60 +repage ./img/orientierungslauf_002.jpg ./thumb/orientierungslauf_002@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/orientierungslauf_003.jpg ./thumb/orientierungslauf_003.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/orientierungslauf_003.jpg ./thumb/orientierungslauf_003@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+32 +repage ./img/orientierungslauf_004.jpg ./thumb/orientierungslauf_004.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+64 +repage ./img/orientierungslauf_004.jpg ./thumb/orientierungslauf_004@2x.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+20 +repage ./img/pack_die_chance_001.jpg ./thumb/pack_die_chance_001.jpg
-convert  -resize "800^" -gravity center -crop 800x800+0+40 +repage ./img/pack_die_chance_001.jpg ./thumb/pack_die_chance_001@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-12+0 +repage ./img/trainings_001.jpg ./thumb/trainings_001.jpg
-convert  -resize "200^" -gravity center -crop 200x200-24+0 +repage ./img/trainings_001.jpg ./thumb/trainings_001@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_002.jpg ./thumb/trainings_002.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_002.jpg ./thumb/trainings_002@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-5+0 +repage ./img/trainings_003.jpg ./thumb/trainings_003.jpg
-convert  -resize "200^" -gravity center -crop 200x200-10+0 +repage ./img/trainings_003.jpg ./thumb/trainings_003@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_004.jpg ./thumb/trainings_004.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_004.jpg ./thumb/trainings_004@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_005.jpg ./thumb/trainings_005.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_005.jpg ./thumb/trainings_005@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_006.jpg ./thumb/trainings_006.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_006.jpg ./thumb/trainings_006@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_007.jpg ./thumb/trainings_007.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_007.jpg ./thumb/trainings_007@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-15+0 +repage ./img/trainings_008.jpg ./thumb/trainings_008.jpg
-convert  -resize "200^" -gravity center -crop 200x200-30+0 +repage ./img/trainings_008.jpg ./thumb/trainings_008@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-10+0 +repage ./img/trainings_009.jpg ./thumb/trainings_009.jpg
-convert  -resize "200^" -gravity center -crop 200x200-20+0 +repage ./img/trainings_009.jpg ./thumb/trainings_009@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_010.jpg ./thumb/trainings_010.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_010.jpg ./thumb/trainings_010@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-5+0 +repage ./img/trainings_011.jpg ./thumb/trainings_011.jpg
-convert  -resize "200^" -gravity center -crop 200x200-10+0 +repage ./img/trainings_011.jpg ./thumb/trainings_011@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_012.jpg ./thumb/trainings_012.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_012.jpg ./thumb/trainings_012@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-10+0 +repage ./img/trainings_013.jpg ./thumb/trainings_013.jpg
-convert  -resize "200^" -gravity center -crop 200x200-20+0 +repage ./img/trainings_013.jpg ./thumb/trainings_013@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-10+0 +repage ./img/trainings_014.jpg ./thumb/trainings_014.jpg
-convert  -resize "200^" -gravity center -crop 200x200-20+0 +repage ./img/trainings_014.jpg ./thumb/trainings_014@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100-20+0 +repage ./img/trainings_015.jpg ./thumb/trainings_015.jpg
-convert  -resize "200^" -gravity center -crop 200x200-40+0 +repage ./img/trainings_015.jpg ./thumb/trainings_015@2x.jpg
-convert  -resize "100^" -gravity center -crop 100x100+0+0 +repage ./img/trainings_016.jpg ./thumb/trainings_016.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/trainings_016.jpg ./thumb/trainings_016@2x.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/was_ist_ol_001.jpg ./thumb/was_ist_ol_001.jpg
-convert  -resize "800^" -gravity center -crop 800x800+0+0 +repage ./img/was_ist_ol_001.jpg ./thumb/was_ist_ol_001@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/wie_anfangen_001.jpg ./thumb/wie_anfangen_001.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/wie_anfangen_001.jpg ./thumb/wie_anfangen_001@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/wie_anfangen_002.jpg ./thumb/wie_anfangen_002.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/wie_anfangen_002.jpg ./thumb/wie_anfangen_002@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/wie_anfangen_003.jpg ./thumb/wie_anfangen_003.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/wie_anfangen_003.jpg ./thumb/wie_anfangen_003@2x.jpg
-convert  -resize "200^" -gravity center -crop 200x200+0+0 +repage ./img/wie_anfangen_004.jpg ./thumb/wie_anfangen_004.jpg
-convert  -resize "400^" -gravity center -crop 400x400+0+0 +repage ./img/wie_anfangen_004.jpg ./thumb/wie_anfangen_004@2x.jpg
+thumbize () {
+    IDENT=$1
+    WIDTH=$2
+    HEIGHT=$3
+    XSIGN=$4
+    XOFF=$5
+    YSIGN=$6
+    YOFF=$7
+    TWO_WIDTHS=$((WIDTH + WIDTH))
+    TWO_HEIGHTS=$((HEIGHT + HEIGHT))
+    TWO_XOFFS=$((XOFF + XOFF))
+    TWO_YOFFS=$((YOFF + YOFF))
+    CROP_SMALL="${WIDTH}x$HEIGHT$XSIGN$XOFF$YSIGN$YOFF"
+    CROP_BIG="${TWO_WIDTHS}x$TWO_HEIGHTS$XSIGN$TWO_XOFFS$YSIGN$TWO_YOFFS"
+    echo "$IDENT $CROP_SMALL $CROP_BIG"
+    convert -resize "$WIDTH^" -gravity center -crop $CROP_SMALL +repage "./img/$IDENT.jpg" "./thumb/$IDENT.jpg"
+    convert -resize "$TWO_WIDTHS^" -gravity center -crop $CROP_BIG +repage "./img/$IDENT.jpg" "./thumb/$IDENT@2x.jpg"
+    convert -resize "$WIDTH^" -gravity center -crop $CROP_SMALL +repage "./img/$IDENT.jpg" "./thumb/$IDENT.webp"
+    convert -resize "$TWO_WIDTHS^" -gravity center -crop $CROP_BIG +repage "./img/$IDENT.jpg" "./thumb/$IDENT@2x.webp"
+}
+
+thumbize "ansprechperson_001" 200 200 + 0 + 0
+thumbize "ansprechperson_002" 200 200 + 0 - 20
+thumbize "ansprechperson_003" 200 200 + 10 + 0
+thumbize "ansprechperson_004" 200 200 + 0 + 0
+thumbize "ol_zimmerberg_001" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_002" 100 100 - 10 + 0
+thumbize "ol_zimmerberg_003" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_004" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_005" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_006" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_007" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_008" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_009" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_010" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_011" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_012" 100 100 + 0 - 15
+thumbize "ol_zimmerberg_013" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_014" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_015" 100 100 + 0 + 0
+thumbize "ol_zimmerberg_016" 100 100 + 0 + 0
+thumbize "orientierungslauf_001" 200 200 + 45 + 0
+thumbize "orientierungslauf_002" 200 200 + 0 + 30
+thumbize "orientierungslauf_003" 200 200 + 0 + 0
+thumbize "orientierungslauf_004" 200 200 + 0 + 32
+thumbize "pack_die_chance_001" 400 400 + 0 + 20
+thumbize "trainings_001" 100 100 - 12 + 0
+thumbize "trainings_002" 100 100 + 0 + 0
+thumbize "trainings_003" 100 100 - 5 + 0
+thumbize "trainings_004" 100 100 + 0 + 0
+thumbize "trainings_005" 100 100 + 0 + 0
+thumbize "trainings_006" 100 100 + 0 + 0
+thumbize "trainings_007" 100 100 + 0 + 0
+thumbize "trainings_008" 100 100 - 15 + 0
+thumbize "trainings_009" 100 100 - 10 + 0
+thumbize "trainings_010" 100 100 + 0 + 0
+thumbize "trainings_011" 100 100 - 5 + 0
+thumbize "trainings_012" 100 100 + 0 + 0
+thumbize "trainings_013" 100 100 - 10 + 0
+thumbize "trainings_014" 100 100 - 10 + 0
+thumbize "trainings_015" 100 100 - 20 + 0
+thumbize "trainings_016" 100 100 + 0 + 0
+thumbize "was_ist_ol_001" 400 400 + 0 + 0
+thumbize "wie_anfangen_001" 200 200 + 0 + 0
+thumbize "wie_anfangen_002" 200 200 + 0 + 0
+thumbize "wie_anfangen_003" 200 200 + 0 + 0
+thumbize "wie_anfangen_004" 200 200 + 0 + 0

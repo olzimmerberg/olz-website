@@ -109,4 +109,12 @@ class Forum {
     public function setContent($new_eintrag) {
         $this->eintrag = $new_eintrag;
     }
+
+    public function getOnOff() {
+        return $this->on_off;
+    }
+
+    public function setOnOff($new_on_off) {
+        $this->on_off = $new_on_off;
+    }
 }

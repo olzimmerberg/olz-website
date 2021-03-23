@@ -39,6 +39,7 @@ class WeeklyPreviewGetter {
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('datum', $today),
                 Criteria::expr()->lt('datum', $end_of_timespan),
+                Criteria::expr()->eq('on_off', 1),
             ))
             ->orderBy(['datum' => Criteria::ASC])
             ->setFirstResult(0)

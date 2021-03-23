@@ -152,4 +152,12 @@ class aktuell {
     public function setContent($new_textlang) {
         $this->textlang = $new_textlang;
     }
+
+    public function getOnOff() {
+        return $this->on_off;
+    }
+
+    public function setOnOff($new_on_off) {
+        $this->on_off = $new_on_off;
+    }
 }

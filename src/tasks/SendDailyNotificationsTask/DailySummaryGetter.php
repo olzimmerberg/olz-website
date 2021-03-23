@@ -31,15 +31,18 @@ class DailySummaryGetter {
         $minus_one_day = DateInterval::createFromDateString("-1 days");
         $yesterday = (new DateTime($this->dateUtils->getIsoToday()))->add($minus_one_day);
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->orX(
-                Criteria::expr()->andX(
-                    Criteria::expr()->eq('datum', $today),
-                    Criteria::expr()->lte('zeit', new DateTime(self::CUT_OFF_TIME)),
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->orX(
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $today),
+                        Criteria::expr()->lte('zeit', new DateTime(self::CUT_OFF_TIME)),
+                    ),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $yesterday),
+                        Criteria::expr()->gt('zeit', new DateTime(self::CUT_OFF_TIME)),
+                    ),
                 ),
-                Criteria::expr()->andX(
-                    Criteria::expr()->eq('datum', $yesterday),
-                    Criteria::expr()->gt('zeit', new DateTime(self::CUT_OFF_TIME)),
-                ),
+                Criteria::expr()->eq('on_off', 1),
             ))
             ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
             ->setFirstResult(0)

@@ -169,7 +169,8 @@ INSERT INTO solv_events
     (`solv_uid`, `date`, `duration`, `kind`, `day_night`, `national`, `region`, `type`, `name`, `link`, `club`, `map`, `location`, `coord_x`, `coord_y`, `deadline`, `entryportal`, `start_link`, `rank_link`, `last_modification`)
 VALUES
     ('6822', '2014-06-29', '1', 'foot', 'day', '1', 'GL/GR', '**A', '6. Nationaler OL 🥶', 'http://www.olg-chur.ch', 'OLG Chur 🦶', 'Crap Sogn Gion/Curnius ⛰️', '', '735550', '188600', '2014-06-10', '1', '', '', '2014-03-05 00:38:15'),
-    ('7411', '2015-06-21', '1', 'foot', 'day', '0', 'ZH/SH', '402S', '59. Schweizer 5er Staffel', 'http://www.5erstaffel.ch', 'OLC Kapreolo', 'Chomberg', '', '693700', '259450', '2015-06-01', '1', '', '', '2015-05-15 02:43:20');
+    ('7411', '2015-06-21', '1', 'foot', 'day', '0', 'ZH/SH', '402S', '59. Schweizer 5er Staffel', 'http://www.5erstaffel.ch', 'OLC Kapreolo', 'Chomberg', '', '693700', '259450', '2015-06-01', '1', '', '', '2015-05-15 02:43:20'),
+    ('12345', '2020-08-22', '1', 'foot', 'day', '1', 'ZH/SH', '402S', 'Grossanlass', 'http://www.grossanlass.ch', 'OLG Bern', 'Grosswald', '', '0', '0', '2020-08-17', '1', '', '', '2015-05-15 02:43:20');
 
 -- Table solv_people
 INSERT INTO solv_people
@@ -207,7 +208,8 @@ VALUES
     ('6', '2020-09-01', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 3', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 4', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09'),
     ('8', '2020-08-11', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training 0', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
-    ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training -1', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09');
+    ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', '0', NULL, NULL, 'Training -1', '', '', '', '', 'training', '1', NULL, '', '', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09'),
+    ('10', '2020-08-22', NULL, NULL, '00:00:00', '00:00:00', '0', NULL, NULL, NULL, 'Grossanlass', 'gal', 'Mit allem drum und dran!', NULL, NULL, 'ol', '1', NULL, NULL, NULL, NULL, NULL, '12345', NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06');
 
 -- Table termine_go2ol
 

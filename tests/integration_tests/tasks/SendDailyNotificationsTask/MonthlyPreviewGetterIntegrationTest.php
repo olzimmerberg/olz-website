@@ -20,7 +20,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         global $entityManager;
         require_once __DIR__.'/../../../../src/config/doctrine_db.php';
 
-        $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
+        $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
         $logger = new Logger('MonthlyPreviewGetterIntegrationTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -36,11 +36,17 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
         Hallo First,
         
-        Im April finden folgende Anlässe statt:
-
+        Im August finden folgende Anlässe statt:
+ 
+        - 04.08.: [Training -1](http://integration-test.host/_/termine.php#id9)
+        - 11.08.: [Training 0](http://integration-test.host/_/termine.php#id8)
+        - 18.08.: [Training 1](http://integration-test.host/_/termine.php#id3)
+        - 22.08.: [Grossanlass](http://integration-test.host/_/termine.php#id10)
+        - 25.08.: [Training 2](http://integration-test.host/_/termine.php#id4)
+        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/_/termine.php#id5)
 
         ZZZZZZZZZZ;
-        $this->assertSame('Monatsvorschau April', $notification->title);
+        $this->assertSame('Monatsvorschau August', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

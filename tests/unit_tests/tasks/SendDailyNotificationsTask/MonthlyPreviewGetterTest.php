@@ -97,7 +97,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories['Termin'] = $termin_repo;
-        $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
+        $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
         $env_utils = new FakeMonthlyPreviewGetterEnvUtils();
         $logger = new Logger('MonthlyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));

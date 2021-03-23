@@ -32,7 +32,7 @@ class DeadlineWarningGetter {
         $termin_repo = $this->entityManager->getRepository(Termin::class);
         $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('deadline', $in_given_days))
+            ->where(Criteria::expr()->eq('deadline', new DateTime($in_given_days->format('Y-m-d'))))
             ->orderBy(['date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)

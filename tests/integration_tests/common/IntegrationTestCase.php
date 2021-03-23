@@ -23,7 +23,7 @@ class IntegrationTestCase extends TestCase {
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (cloud; RiscV) Selenium (like Gecko)',
         ];
         if ($this::$is_first_call) {
-            $this->initDevData();
+            $this->resetDb();
             $this::$is_first_call = false;
         }
     }
@@ -32,12 +32,12 @@ class IntegrationTestCase extends TestCase {
         $_SERVER = $this->previous_server;
     }
 
-    protected function initDevData(): void {
+    protected function resetDb(): void {
         global $db, $data_path;
         require_once __DIR__.'/../../../src/config/database.php';
         require_once __DIR__.'/../../../src/config/paths.php';
         require_once __DIR__.'/../../../src/tools/dev_data.php';
 
-        init_dev_data($db, $data_path);
+        reset_db($db, $data_path);
     }
 }

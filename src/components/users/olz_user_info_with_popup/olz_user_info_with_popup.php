@@ -13,9 +13,24 @@ function olz_user_info_with_popup($user, $mode = 'name') {
         return olz_popup($trigger, $popup);
     }
     if ($mode == 'name_picture') {
-        $image_path = "img/users/{$user->getId()}.jpg";
-        $img_src = is_file("{$_CONFIG->getDataPath()}{$image_path}") ? "{$_CONFIG->getDataHref()}{$image_path}" : "{$_CONFIG->getCodeHref()}icns/user.jpg";
-        $trigger = "<div class='olz-user-info-with-popup'><img src='{$img_src}' alt=''><br>{$user->getFullName()}</div>";
+        $image_base_path = "img/users/{$user->getId()}";
+        $img_html = "<img src='{$_CONFIG->getCodeHref()}icns/user.jpg' alt=''>";
+        if (is_file("{$_CONFIG->getDataPath()}{$image_base_path}.jpg")) {
+            $img_html = "<img src='{$_CONFIG->getDataHref()}{$image_base_path}.jpg' alt=''>";
+            if (is_file("{$_CONFIG->getDataPath()}{$image_base_path}@2x.jpg")) {
+                $img_html = <<<ZZZZZZZZZZ
+                <img
+                    srcset='
+                        {$_CONFIG->getDataHref()}{$image_base_path}@2x.jpg 2x,
+                        {$_CONFIG->getDataHref()}{$image_base_path}.jpg 1x
+                    '
+                    src='{$_CONFIG->getDataHref()}{$image_base_path}.jpg'
+                    alt=''
+                >
+                ZZZZZZZZZZ;
+            }
+        }
+        $trigger = "<div class='olz-user-info-with-popup'>{$img_html}<br>{$user->getFullName()}</div>";
         $popup = olz_user_info_card($user);
         return olz_popup($trigger, $popup);
     }

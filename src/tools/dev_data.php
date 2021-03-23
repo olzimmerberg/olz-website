@@ -238,6 +238,7 @@ function init_dev_data_filesystem($data_path) {
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
     mkdir("{$data_path}img/users");
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1@2x.jpg", 168, 240);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
 
     // Build movies/

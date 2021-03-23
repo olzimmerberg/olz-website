@@ -40,6 +40,19 @@ class TermineUtils {
         return $has_correct_type && $has_correct_date_range;
     }
 
+    public function getAllValidFilters() {
+        $all_valid_filters = [];
+        foreach (TermineUtils::ALL_TYPE_OPTIONS as $type_option) {
+            foreach ($this->getDateRangeOptions() as $date_range_option) {
+                $all_valid_filters[] = [
+                    'typ' => $type_option['ident'],
+                    'datum' => $date_range_option['ident'],
+                ];
+            }
+        }
+        return $all_valid_filters;
+    }
+
     public function getUiTypeFilterOptions($filter) {
         return array_map(function ($type_option) use ($filter) {
             $new_filter = $filter;
@@ -154,7 +167,7 @@ class TermineUtils {
     }
 
     public static function fromEnv() {
-        global $_DATE;
+        global $_DATE, $_CONFIG;
         require_once __DIR__.'/../config/date.php';
         $termine_utils = new TermineUtils();
         $termine_utils->setDateUtils($_DATE);

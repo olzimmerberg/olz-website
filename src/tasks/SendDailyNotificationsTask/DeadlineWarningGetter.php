@@ -46,7 +46,10 @@ class DeadlineWarningGetter {
         $deadlines_text = '';
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
-            $termin = $termin_repo->findOneBy(['solv_uid' => $solv_uid]);
+            $termin = $termin_repo->findOneBy([
+                'solv_uid' => $solv_uid,
+                'on_off' => 1,
+            ]);
             if (!$termin) {
                 continue;
             }

@@ -85,4 +85,12 @@ class Galerie {
     public function setAuthor($new_autor) {
         $this->autor = $new_autor;
     }
+
+    public function getOnOff() {
+        return $this->on_off;
+    }
+
+    public function setOnOff($new_on_off) {
+        $this->on_off = $new_on_off;
+    }
 }

@@ -42,14 +42,14 @@ class FakeDeadlineWarningGetterSolvEventRepository {
 
 class FakeDeadlineWarningGetterTerminRepository {
     public function findOneBy($where) {
-        if ($where == ['solv_uid' => 1111]) {
+        if ($where == ['solv_uid' => 1111, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(1);
             $termin->setStartsOn(new DateTime('2020-04-13 19:30:00'));
             $termin->setTitle('Test Termin');
             return $termin;
         }
-        if ($where == ['solv_uid' => 2222]) {
+        if ($where == ['solv_uid' => 2222, 'on_off' => 1]) {
             $range_termin = new Termin();
             $range_termin->setId(2);
             $range_termin->setStartsOn(new DateTime('2020-04-20'));

@@ -21,6 +21,30 @@ final class TermineUtilsTest extends UnitTestCase {
         $this->assertSame(false, $termine_utils->isValidFilter(['typ' => 'some', 'datum' => 'rubbish']));
     }
 
+    public function testGetAllValidFilters(): void {
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $termine_utils = new TermineUtils();
+        $termine_utils->setDateUtils($date_utils);
+        $this->assertSame([
+            ['typ' => 'alle', 'datum' => 'bevorstehend'],
+            ['typ' => 'alle', 'datum' => '2019'],
+            ['typ' => 'alle', 'datum' => '2020'],
+            ['typ' => 'alle', 'datum' => '2021'],
+            ['typ' => 'training', 'datum' => 'bevorstehend'],
+            ['typ' => 'training', 'datum' => '2019'],
+            ['typ' => 'training', 'datum' => '2020'],
+            ['typ' => 'training', 'datum' => '2021'],
+            ['typ' => 'ol', 'datum' => 'bevorstehend'],
+            ['typ' => 'ol', 'datum' => '2019'],
+            ['typ' => 'ol', 'datum' => '2020'],
+            ['typ' => 'ol', 'datum' => '2021'],
+            ['typ' => 'club', 'datum' => 'bevorstehend'],
+            ['typ' => 'club', 'datum' => '2019'],
+            ['typ' => 'club', 'datum' => '2020'],
+            ['typ' => 'club', 'datum' => '2021'],
+        ], $termine_utils->getAllValidFilters());
+    }
+
     public function testGetUiTypeFilterOptions(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineUtils();

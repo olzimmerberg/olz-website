@@ -20,7 +20,7 @@ html {
 </style>
 </head>";
     echo "<body>";
-    echo "<a href='show_result.php?event=zol_131027'><img src='../icns/olzschatten.png' style='position:absolute;top:100px;left:400px;'></a>
+    echo "<a href='show_result.php?event=zol_131027'><img src='../icns/olz_logo.png' style='position:absolute;top:100px;left:400px;'></a>
 <div style='position:absolute;top:500px;left:200px;color:yellow;font-family:Verdana;font-size:48px;'>Herzlich willkommen am 6. Zimmerberg OL</div>";
     echo "</body></html>";
 } else {

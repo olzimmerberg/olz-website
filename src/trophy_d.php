@@ -8,7 +8,7 @@ require_once __DIR__.'/config/paths.php';
 
 ?>
 
-<h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2020</h2>
+<h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2021</h2>
 <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
 <p style='text-align:center;'><i style='font-size:17px;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>
 <p style='text-align:center;'>Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.</p>
@@ -18,49 +18,49 @@ require_once __DIR__.'/config/paths.php';
 <?php
 
 $etappen = [
-    ["Dienstag, 30.06.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Halbinsel Au", "Schulhaus Ort", 691423, 233407,
-        "Bahnhof Au ZH",
-        "wenige im Quartier",
-        "Keine, im Freien; WC vorhanden",
+    ["Dienstag, 06.04.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Chopfholz", "Steinerschule Sihlau", 682202, 239732,
+        "Bahnhof Sihlau",
+        "?",
+        "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
-        "2020-trophy-au",
-        5792,
-        "<a href='https://forms.gle/GP3vRpzG9rpvBrD98' class='linkext'>Online-Anmeldung</a><br><a href='https://docs.google.com/spreadsheets/d/1N-D3b-59ZTDPhyoRc2BIIXWBxCO7dDJem3wC108P-vE/edit?usp=sharing' class='linkext'>Startliste</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791965&type=info' class='linkext'>3d Rerun Rot</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791967&type=info' class='linkext'>3d Rerun Blau</a><br><a href='http://3drerun.worldofo.com/index.php?id=-16791966&type=info' class='linkext'>3d Rerun Grün</a>",
+        "2021-trophy-chopfholz",
+        5939,
+        "TODO: Anmelde-Link",
     ],
-    ["Dienstag, 28.07.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Richterswil", "Jugendherberge", 695990, 229630,
-        "Bahnhof Richterswil",
-        "Tiefgarage Horn",
-        "Keine, im Freien; WC vorhanden",
+    ["Dienstag, 18.05.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Schönenberg", "Dorfhuus Schönenberg", 691350, 227550,
+        "Bushaltestelle Dorfhuus Schönenberg ZH",
+        "?",
+        "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
-        "2020-trophy-richti",
-        5791,
-        "<a href='https://forms.gle/7fNDr4jq7o4m81gVA' class='linkext'>Online-Anmeldung</a><br><a href='https://docs.google.com/spreadsheets/d/1R-TyWBWgHfBfAZ-JSVhxwJPXZkP49OOE9EP8jxpT3bc/edit?usp=sharing' class='linkext'>Startliste</a>",
+        "2021-trophy-schoenenberg",
+        5943,
+        "TODO: Anmelde-Link",
     ],
-    ["Mittwoch, 12.08.2020", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Wädenswil", "Schulhaus Rotweg", 693140, 231460,
-        "Bushaltestelle Schmiedstube",
-        "Tiefgarage Schulhaus Rotweg",
-        "Keine, im Freien; WC vorhanden",
+    ["Dienstag, 15.06.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Horgen", "Schulhaus Baumgärtli", 687850, 234890,
+        "Bahnhof Horgen",
+        "",
+        "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
-        "2020-trophy-waedi",
-        5745,
-        "<a href='https://forms.gle/FxAwabbuARvx5ssZ7' class='linkext'>Online-Anmeldung</a><br><a href='https://docs.google.com/spreadsheets/d/1R6q_Pn6u6jDaV08F23VlyHQy5hBdyHmjCWeq_ZW9kd4/edit?usp=sharing' class='linkext'>Startliste</a>",
+        "2021-trophy-horgen",
+        5947,
+        "TODO: Anmelde-Link",
     ],
-    ["Mittwoch, 26.08.2020", "Starts: 17:00 &ndash; 19:00", "Kopfholz", "Schulhaus Chopfholz", 682760, 240270,
-        "Bushaltestellen Kopfholz oder Loorain",
-        "wenige im Quartier",
-        "Keine, im Freien; WC vorhanden",
+    ["Mittwoch, 25.08.2021", "Starts: 17:00 &ndash; 19:00", "Sihltal", "Bahnhof Sihlwald", 684730, 235815,
+        "Bahnhof Sihlwald",
+        "",
+        "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>A <i>(schwierig, 6.5km)</i></div><div style='color:red;'>B <i>(mittel-schwer, 5.0km)</i></div><div style='color:blue;'>C <i>(mittel-einfach, 4.0km)</i></div><div style='color:green;'>D <i>(einfach, 2.5km)</i></div>",
         "gratis",
-        "2020-trophy-kopfholz",
-        5790,
-        "<a href='https://forms.gle/ixS1ZD22PmbdeYcy6' class='linkext'>Online-Anmeldung</a><br>keine Startliste",
+        "2021-trophy-sihlwald",
+        5953,
+        "TODO: Anmelde-Link",
     ],
 ];
 
@@ -100,7 +100,7 @@ echo "</table>";
 
 <h3>Weitere Informationen</h3>
 <table style='max-width:600px; margin:0px auto;'>
-<tr><td>Gesamtrangliste:</td><td style='padding-left:10px;'><a href='https://docs.google.com/spreadsheets/d/19aXk_aJZ954Ub-vBBQkexAjIIK_LXlvSohZBB0C2bQc/edit#gid=0' class='linkext'>Gesamtrangliste (alle Etappen)</a></td></tr>
+<tr><td>Gesamtrangliste 2020:</td><td style='padding-left:10px;'><a href='https://docs.google.com/spreadsheets/d/19aXk_aJZ954Ub-vBBQkexAjIIK_LXlvSohZBB0C2bQc/edit#gid=0' class='linkext'>Gesamtrangliste (alle Etappen)</a></td></tr>
 <tr><td>Ausrüstung:</td><td style='padding-left:10px;'> Joggingdress und Joggingschuhe genügen.</td></tr>
 <tr><td>Trophy:</td><td style='padding-left:10px;'>Jeder Lauf ist eine eigene abgeschlossene Veranstaltung.<br>
     Zusammen bilden sie die OL Zimmerberg Trophy.</td></tr>

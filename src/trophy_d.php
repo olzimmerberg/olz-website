@@ -18,9 +18,9 @@ require_once __DIR__.'/config/paths.php';
 <?php
 
 $etappen = [
-    ["Dienstag, 06.04.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Chopfholz", "Steinerschule Sihlau", 682202, 239732,
+    ["Dienstag, 06.04.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 16:30 &ndash; 19:00", "Chopfholz", "Steinerschule Sihlau; <b>bitte alle direkt zum Start gehen</b>, Leihmaterial am Start", 682202, 239732,
         "Bahnhof Sihlau",
-        "?",
+        "Parkplätze an Strasse vorhanden",
         "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
@@ -31,7 +31,7 @@ $etappen = [
     ],
     ["Dienstag, 18.05.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Schönenberg", "Dorfhuus Schönenberg", 691350, 227550,
         "Bushaltestelle Dorfhuus Schönenberg ZH",
-        "?",
+        "Parkplatz Dorfhuusplatz",
         "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
@@ -42,7 +42,7 @@ $etappen = [
     ],
     ["Dienstag, 15.06.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Horgen", "Schulhaus Baumgärtli", 687850, 234890,
         "Bahnhof Horgen",
-        "",
+        "Parkhaus Leue-Huus",
         "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
@@ -53,7 +53,7 @@ $etappen = [
     ],
     ["Mittwoch, 25.08.2021", "Starts: 17:00 &ndash; 19:00", "Sihltal", "Bahnhof Sihlwald", 684730, 235815,
         "Bahnhof Sihlwald",
-        "",
+        "Kostenpflichtige Parkplätze vorhanden",
         "Keine, im Freien; WC vorhanden (?)",
         false,
         "<div style='color:red;'>A <i>(schwierig, 6.5km)</i></div><div style='color:red;'>B <i>(mittel-schwer, 5.0km)</i></div><div style='color:blue;'>C <i>(mittel-einfach, 4.0km)</i></div><div style='color:green;'>D <i>(einfach, 2.5km)</i></div>",

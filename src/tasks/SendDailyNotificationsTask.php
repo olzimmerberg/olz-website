@@ -243,6 +243,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     'chat_id' => $user_chat_id,
                     'parse_mode' => 'HTML',
                     'text' => "<b>{$html_title}</b>\n\n{$html_text}",
+                    'disable_web_page_preview' => true,
                 ]);
                 $this->logger->info("Telegram sent to user ({$user_id}): {$title}");
                 break;

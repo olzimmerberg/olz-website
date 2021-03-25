@@ -389,16 +389,19 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
                 'chat_id' => '11111',
                 'parse_mode' => 'HTML',
                 'text' => "<b>WP title</b>\n\nWP text First",
+                'disable_web_page_preview' => true,
             ]],
             ['sendMessage', [
                 'chat_id' => '11111',
                 'parse_mode' => 'HTML',
                 'text' => "<b>DW title {\"days\":7}</b>\n\nDW text First",
+                'disable_web_page_preview' => true,
             ]],
             ['sendMessage', [
                 'chat_id' => '22222',
                 'parse_mode' => 'HTML',
                 'text' => "<b>DW title {\"days\":3}</b>\n\nDW text Second",
+                'disable_web_page_preview' => true,
             ]],
         ], $telegram_utils->calls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager);

@@ -36,8 +36,8 @@ if ($user) {
     $user_id = $user->getId();
     $esc_id = htmlentities(json_encode($user_id));
     echo <<<ZZZZZZZZZZ
-    <div class='form-group'>
-        <a 
+    <div class='feature external-login form-group'>
+        <a
             href='#'
             role='button'
             data-toggle='modal'
@@ -47,7 +47,7 @@ if ($user) {
             <img src='{$code_href}icns/login_telegram.svg' alt=''>
             Nachrichten-Push via Telegram
         </a>
-        <a 
+        <a
             href='#'
             role='button'
             data-toggle='modal'

@@ -111,44 +111,106 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
             Tage vorher
         </p>
         <p class='card-text'>
-            <input type='checkbox' name='daily-summary'{$daily_summary_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='daily-summary'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_checked}
+                {$disabled_attribute}
+            />
             Tageszusammenfassung
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='daily-summary-aktuell'{$daily_summary_aktuell_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='daily-summary-aktuell'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_aktuell_checked}
+                {$disabled_attribute}
+            />
             Aktuell-Beiträge
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='daily-summary-blog'{$daily_summary_blog_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='daily-summary-blog'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_blog_checked}
+                {$disabled_attribute}
+            />
             Kaderblog
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='daily-summary-forum'{$daily_summary_forum_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='daily-summary-forum'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_forum_checked}
+                {$disabled_attribute}
+            />
             Forumseinträge
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='daily-summary-galerie'{$daily_summary_galerie_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='daily-summary-galerie'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_galerie_checked}
+                {$disabled_attribute}
+            />
             Neue Galerien
+            <div id='olz-notification-subscriptions-form-daily-summary-warn-message' class='alert alert-warning' role='alert'></div>
         </p>
         <p class='card-text'>
-            <input type='checkbox' name='weekly-summary'{$weekly_summary_checked}{$disabled_attribute} />
+            <input 
+                type='checkbox' 
+                name='weekly-summary' 
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_checked}
+                {$disabled_attribute}
+            />
             Wochenzusammenfassung
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='weekly-summary-aktuell'{$weekly_summary_aktuell_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='weekly-summary-aktuell'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_aktuell_checked}
+                {$disabled_attribute}
+            />
             Aktuell-Beiträge
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='weekly-summary-blog'{$weekly_summary_blog_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='weekly-summary-blog'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_blog_checked}
+                {$disabled_attribute}
+            />
             Kaderblog
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='weekly-summary-forum'{$weekly_summary_forum_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='weekly-summary-forum'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_forum_checked}
+                {$disabled_attribute}
+            />
             Forumseinträge
             <br />
             &nbsp;&nbsp;
-            <input type='checkbox' name='weekly-summary-galerie'{$weekly_summary_galerie_checked}{$disabled_attribute} />
+            <input
+                type='checkbox'
+                name='weekly-summary-galerie'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_galerie_checked}
+                {$disabled_attribute}
+            />
             Neue Galerien
+            <div id='olz-notification-subscriptions-form-weekly-summary-warn-message' class='alert alert-warning' role='alert'></div>
         </p>
     ZZZZZZZZZZ;
 

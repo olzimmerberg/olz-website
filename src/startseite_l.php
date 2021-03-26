@@ -12,7 +12,7 @@ require_once __DIR__.'/config/date.php';
 
 <!--EINSTEIGER-->
 <div class='banner'>
-    Neu hier? <a href='fuer_einsteiger.php' class='linkint'>Hier gehts zur Seite für Einsteiger</a>
+    Neu hier? <a href='fuer_einsteiger.php' class='linkint'>Hier gehts zur Seite für Einsteiger</a> <a href="/pdf/2021_schnuppertrainings.pdf" target="_blank">Schnuppertrainings 2021</a>
 </div>
 
 <?php

@@ -1,0 +1,6 @@
+#olz-notification-subscriptions-form-daily-summary-warn-message,
+#olz-notification-subscriptions-form-weekly-summary-warn-message {
+    &:empty {
+        display: none;
+    }
+}

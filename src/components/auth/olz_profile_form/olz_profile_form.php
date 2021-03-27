@@ -165,7 +165,7 @@ function olz_profile_form($args): string {
     </div>
     <div class='row'>
         <div class='col form-group'>
-            <label for='profile-region-input'>Region / Kanton</label>
+            <label for='profile-region-input'>Region / Kanton (2-Buchstaben-Code, z.B. ZH)</label>
             <input
                 type='text'
                 name='region'
@@ -175,7 +175,7 @@ function olz_profile_form($args): string {
             />
         </div>
         <div class='col form-group'>
-            <label for='profile-country-code-input'>Land</label>
+            <label for='profile-country-code-input'>Land (2-Buchstaben-Code, z.B. CH)</label>
             <input
                 type='text'
                 name='country-code'

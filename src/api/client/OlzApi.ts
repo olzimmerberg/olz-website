@@ -18,7 +18,7 @@ export enum OlzApiEndpoint {
     updateNotificationSubscriptions = 'updateNotificationSubscriptions',
 }
 
-type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
+type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: {[fieldId: string]: any}};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
     onDaily: {

@@ -1,59 +1,33 @@
-import {OlzApiEndpoint, callOlzApi} from './api/client';
+import {OlzApiResponses, OlzApiEndpoint} from './api/client';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getGender, getIsoDateFromSwissFormat} from './components/common/olz_default_form/olz_default_form';
 
-export function olzProfileUpdateUser(userId: number, form: Record<string, {value?: string}>): boolean {
-    const firstName = form['first-name'].value;
-    const lastName = form['last-name'].value;
-    const username = form.username.value;
-    const email = form.email.value;
-    const gender = getGender(form.gender.value);
-    const birthdate = getIsoDateFromSwissFormat(form.birthdate.value);
-    const street = form.street.value;
-    const postalCode = form['postal-code'].value;
-    const city = form.city.value;
-    const region = form.region.value;
-    const countryCode = form['country-code'].value;
+export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
+    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.updateUser> = {
+        id: () => userId,
+        firstName: (f) => f['first-name'].value,
+        lastName: (f) => f['last-name'].value,
+        username: (f) => f.username.value,
+        email: (f) => f.email.value,
+        gender: (f) => getGender('gender', f.gender.value),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
+        street: (f) => f.street.value,
+        postalCode: (f) => f['postal-code'].value,
+        city: (f) => f.city.value,
+        region: (f) => f.region.value,
+        countryCode: (f) => f['country-code'].value,
+    };
 
-    callOlzApi(
+    return olzDefaultFormSubmit(
         OlzApiEndpoint.updateUser,
-        {id: userId, firstName, lastName, username, email, gender, birthdate, street, postalCode, city, region, countryCode},
-    )
-        .then((response) => {
-            if (response.status === 'OK') {
-                $('#profile-update-success-message').text('Benutzerdaten erfolgreich aktualisiert.');
-                $('#profile-update-error-message').text('');
-            } else {
-                $('#profile-update-success-message').text('');
-                $('#profile-update-error-message').text('Fehler beim Aktualisieren der Benutzerdaten.');
-            }
-        })
-        .catch(() => {
-            $('#profile-update-success-message').text('');
-            $('#profile-update-error-message').text('Fehler beim Aktualisieren der Benutzerdaten.');
-        });
-    return false;
+        getDataForRequestDict,
+        form,
+        handleResponse,
+    );
 }
 
-function getGender(genderInput?: string): 'M'|'F'|'O'|null {
-    switch (genderInput) {
-        case 'M': return 'M';
-        case 'F': return 'F';
-        case 'O': return 'O';
-        default: return null;
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updateUser]): string|null {
+    if (response.status !== 'OK') {
+        throw new Error(`Antwort: ${response.status}`);
     }
-}
-
-function getIsoDateFromSwissFormat(date?: string): string|undefined {
-    if (date === undefined) {
-        return undefined;
-    }
-    const res = /^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/.exec(date);
-    if (!res) {
-        return undefined;
-    }
-    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]}`);
-    if (!timestamp) {
-        return undefined;
-    }
-    const isoDate = new Date(timestamp).toISOString().substr(0, 10);
-    return `${isoDate} 12:00:00`;
+    return 'Benutzerdaten erfolgreich aktualisiert.';
 }

@@ -37,7 +37,7 @@ class UpdateUserEndpoint extends Endpoint {
             new StringField('postalCode', ['allow_empty' => true]),
             new StringField('city', ['allow_empty' => true]),
             new StringField('region', ['allow_empty' => true]),
-            new StringField('countryCode', ['allow_empty' => true]),
+            new StringField('countryCode', ['max_length' => 2, 'allow_empty' => true]),
         ];
     }
 

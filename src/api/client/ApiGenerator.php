@@ -34,7 +34,7 @@ class ApiGenerator {
         $typescript_response_types .= "}\n";
 
         $typescript_output .= "{$typescript_endpoint_enum}\n";
-        $typescript_output .= "type {$name}EndpointMapping = {[key in {$name}Endpoint]: any};\n\n";
+        $typescript_output .= "type {$name}EndpointMapping = {[key in {$name}Endpoint]: {[fieldId: string]: any}};\n\n";
         $typescript_output .= "{$typescript_request_types}\n";
         $typescript_output .= "{$typescript_response_types}\n";
         return $typescript_output;

@@ -10,6 +10,7 @@ require_once __DIR__.'/components/page/olz_header/olz_header.php';
 echo olz_header([
     'title' => "OLZ Konto mit Telegram",
     'description' => "OLZ-Login mit Telegram.",
+    'norobots' => true,
 ]);
 
 require_once __DIR__.'/config/doctrine_db.php';

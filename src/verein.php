@@ -23,6 +23,7 @@ if (isset($_GET['abteilung'])) {
     echo olz_header([
         'title' => $role->getName(),
         'description' => $role->getDescription(),
+        'norobots' => true,
     ]);
 
     require_once __DIR__.'/components/verein/olz_role_page/olz_role_page.php';

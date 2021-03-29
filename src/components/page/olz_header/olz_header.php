@@ -75,6 +75,8 @@ function olz_header($args = []): string {
         $html_description = "<meta name='Description' content='{$description_arg}'>";
     }
 
+    $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
+
     $out .= "<!DOCTYPE html>
     <html lang='de'>
     <head>
@@ -84,7 +86,7 @@ function olz_header($args = []): string {
     {$html_description}
     <meta name='Content-Language' content='de'>
     {$refresh}
-    ".(isset($_GET['archiv']) || isset($_GET['abteilung']) ? "<meta name='robots' content='noindex, nofollow'>" : "")."
+    ".($no_robots ? "<meta name='robots' content='noindex, nofollow'>" : "")."
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />

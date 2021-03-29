@@ -9,6 +9,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     require_once __DIR__.'/components/page/olz_header/olz_header.php';
     echo olz_header([
         'title' => "Logs",
+        'norobots' => true,
     ]);
 }
 

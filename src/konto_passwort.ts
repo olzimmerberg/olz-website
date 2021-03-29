@@ -1,56 +1,47 @@
-import {OlzApiEndpoint, callOlzApi} from './api/client';
+import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getIsoDateFromSwissFormat, getGender, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
-export function olzKontoSignUpWithPassword(form: Record<string, {value?: string}>): boolean {
-    const firstName = form['first-name'].value;
-    const lastName = form['last-name'].value;
-    const username = form.username.value;
-    const password = form.password.value;
-    const passwordRepeat = form['password-repeat'].value;
-    const email = form.email.value;
-    const gender = getGender(form.gender.value);
-    const birthdate = form.birthdate.value || null;
-    const street = form.street.value;
-    const postalCode = form['postal-code'].value;
-    const city = form.city.value;
-    const region = form.region.value;
-    const countryCode = form['country-code'].value;
-
-    if (password !== passwordRepeat) {
-        $('#sign-up-with-password-success-message').text('');
-        $('#sign-up-with-password-error-message').text('Das Passwort und die Wiederholung müssen übereinstimmen!');
-        return false;
-    }
-
-    callOlzApi(
-        OlzApiEndpoint.signUpWithPassword,
-        {firstName, lastName, username, password, email, gender, birthdate,
-            street, postalCode, city, region, countryCode},
-    )
-        .then((response) => {
-            if (response.status === 'OK') {
-                $('#sign-up-with-password-success-message').text('Benutzerkonto erfolgreich erstellt.');
-                $('#sign-up-with-password-error-message').text('');
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.href = 'startseite.php';
-                }, 3000);
+export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
+    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
+        firstName: (f) => f['first-name'].value,
+        lastName: (f) => f['last-name'].value,
+        username: (f) => f.username.value,
+        password: (f) => {
+            const password = f.password.value;
+            const passwordRepeat = form['password-repeat'].value;
+            if (password !== passwordRepeat) {
+                showErrorOnField(form['password-repeat'], 'Das Passwort und die Wiederholung müssen übereinstimmen!');
+                throw new ValidationError('', {});
             } else {
-                $('#sign-up-with-password-success-message').text('');
-                $('#sign-up-with-password-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
+                clearErrorOnField(form['password-repeat']);
             }
-        })
-        .catch(() => {
-            $('#sign-up-with-password-success-message').text('');
-            $('#sign-up-with-password-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
-        });
-    return false;
+            return password;
+        },
+        email: (f) => f.email.value,
+        gender: (f) => getGender('gender', f.gender.value),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
+        street: (f) => f.street.value,
+        postalCode: (f) => f['postal-code'].value,
+        city: (f) => f.city.value,
+        region: (f) => f.region.value,
+        countryCode: (f) => f['country-code'].value,
+    };
+
+    return olzDefaultFormSubmit(
+        OlzApiEndpoint.signUpWithPassword,
+        getDataForRequestDict,
+        form,
+        handleResponse,
+    );
 }
 
-function getGender(genderInput?: string): 'M'|'F'|'O'|null {
-    switch (genderInput) {
-        case 'M': return 'M';
-        case 'F': return 'F';
-        case 'O': return 'O';
-        default: return null;
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|null {
+    if (response.status !== 'OK') {
+        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }
+    window.setTimeout(() => {
+        // TODO: This could probably be done more smoothly!
+        window.location.href = 'startseite.php';
+    }, 3000);
+    return 'Benutzerkonto erfolgreich erstellt.';
 }

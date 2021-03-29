@@ -76,7 +76,7 @@ export enum FakeApiEndpoint {
     fakeEndpoint = 'fakeEndpoint',
 }
 
-type FakeApiEndpointMapping = {[key in FakeApiEndpoint]: any};
+type FakeApiEndpointMapping = {[key in FakeApiEndpoint]: {[fieldId: string]: any}};
 
 export interface FakeApiRequests extends FakeApiEndpointMapping {
     fakeEndpoint: {

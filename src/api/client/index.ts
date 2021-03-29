@@ -1,7 +1,7 @@
 import {OlzApiEndpoint, OlzApiRequests, OlzApiResponses} from './OlzApi';
-import {getValidationErrorFromResponseText} from './ValidationError';
+import {getValidationErrorFromResponseText, mergeValidationErrors, ValidationError, ErrorsByField, RequestFieldId} from './ValidationError';
 
-export {OlzApiEndpoint};
+export {OlzApiEndpoint, OlzApiRequests, OlzApiResponses, ValidationError, RequestFieldId, mergeValidationErrors};
 
 export function callOlzApi<T extends OlzApiEndpoint>(
     endpoint: T,
@@ -42,4 +42,9 @@ export function callOlzApi<T extends OlzApiEndpoint>(
                 },
             );
     });
+}
+
+export interface OlzApiError<T extends OlzApiEndpoint> {
+    message: string;
+    validationErrors?: ErrorsByField<T>;
 }

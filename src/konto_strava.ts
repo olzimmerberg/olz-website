@@ -1,4 +1,5 @@
-import {OlzApiEndpoint, callOlzApi} from './api/client';
+import {OlzApiEndpoint, callOlzApi, OlzApiResponses} from './api/client';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getIsoDateFromSwissFormat, getGender} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -43,55 +44,40 @@ export function olzKontoLoginWithStrava(code: string): boolean {
     return false;
 }
 
-export function olzKontoSignUpWithStrava(form: Record<string, {value?: string}>): boolean {
-    const stravaUser = form['strava-user'].value;
-    const accessToken = form['access-token'].value;
-    const refreshToken = form['refresh-token'].value;
-    const expiresAt = form['expires-at'].value;
+export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
+    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithStrava> = {
+        stravaUser: (f) => f['strava-user'].value,
+        accessToken: (f) => f['access-token'].value,
+        refreshToken: (f) => f['refresh-token'].value,
+        expiresAt: (f) => f['expires-at'].value,
+        firstName: (f) => f['first-name'].value,
+        lastName: (f) => f['last-name'].value,
+        username: (f) => f.username.value,
+        email: (f) => f.email.value,
+        gender: (f) => getGender('gender', f.gender.value),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
+        street: (f) => f.street.value,
+        postalCode: (f) => f['postal-code'].value,
+        city: (f) => f.city.value,
+        region: (f) => f.region.value,
+        countryCode: (f) => f['country-code'].value,
+    };
 
-    const firstName = form['first-name'].value;
-    const lastName = form['last-name'].value;
-    const username = form.username.value;
-    const email = form.email.value;
-    const gender = getGender(form.gender.value);
-    const birthdate = form.birthdate.value || null;
-    const street = form.street.value;
-    const postalCode = form['postal-code'].value;
-    const city = form.city.value;
-    const region = form.region.value;
-    const countryCode = form['country-code'].value;
-
-    callOlzApi(
+    return olzDefaultFormSubmit(
         OlzApiEndpoint.signUpWithStrava,
-        {stravaUser, accessToken, refreshToken, expiresAt,
-            firstName, lastName, username, email, gender, birthdate, street,
-            postalCode, city, region, countryCode},
-    )
-        .then((response) => {
-            if (response.status === 'OK') {
-                $('#sign-up-with-strava-success-message').text('Benutzerkonto erfolgreich erstellt.');
-                $('#sign-up-with-strava-error-message').text('');
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.href = 'startseite.php';
-                }, 3000);
-            } else {
-                $('#sign-up-with-strava-success-message').text('');
-                $('#sign-up-with-strava-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
-            }
-        })
-        .catch(() => {
-            $('#sign-up-with-strava-success-message').text('');
-            $('#sign-up-with-strava-error-message').text('Fehler beim Erstellen des Benutzerkontos.');
-        });
-    return false;
+        getDataForRequestDict,
+        form,
+        handleResponse,
+    );
 }
 
-function getGender(genderInput?: string): 'M'|'F'|'O'|null {
-    switch (genderInput) {
-        case 'M': return 'M';
-        case 'F': return 'F';
-        case 'O': return 'O';
-        default: return null;
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|null {
+    if (response.status !== 'OK') {
+        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }
+    window.setTimeout(() => {
+        // TODO: This could probably be done more smoothly!
+        window.location.href = 'startseite.php';
+    }, 3000);
+    return 'Benutzerkonto erfolgreich erstellt.';
 }

@@ -63,6 +63,7 @@ class WeeklySummaryGetter {
                 Criteria::expr()->andX(
                     Criteria::expr()->lt('datum', $today),
                     Criteria::expr()->gte('datum', $last_week),
+                    Criteria::expr()->eq('on_off', 1),
                 )
             )
             ->orderBy(['datum' => Criteria::ASC])
@@ -141,7 +142,9 @@ class WeeklySummaryGetter {
                 $time = $forum->getTime();
                 $pretty_time = $time->format('H:i');
                 $title = $forum->getTitle();
-                $forum_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$forum_url}#id{$id})\n";
+                if (strlen(trim($title)) > 0) {
+                    $forum_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$forum_url}#id{$id})\n";
+                }
             }
             if (strlen($forum_text) > 0) {
                 $notification_text .= "\n**Forum**\n\n{$forum_text}\n";

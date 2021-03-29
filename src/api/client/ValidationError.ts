@@ -22,6 +22,7 @@ export function mergeValidationErrors<T extends OlzApiEndpoint>(validationErrors
         const newMessage = validationError.message
             ? merged.message + (merged.message ? '\n' : '') + validationError.message
             : merged.message;
+        // TODO: Deep merge (concat errors if key present in both dicts)
         const newValidationErrors = {
             ...merged.getValidationErrors(),
             ...validationError.getValidationErrors(),

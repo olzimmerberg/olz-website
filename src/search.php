@@ -10,6 +10,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     echo olz_header([
         'title' => "Suche",
         'description' => "Stichwort-Suche auf der Website der OL Zimmerberg.",
+        'norobots' => true,
     ]);
 }
 

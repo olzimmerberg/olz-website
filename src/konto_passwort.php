@@ -10,6 +10,7 @@ require_once __DIR__.'/components/page/olz_header/olz_header.php';
 echo olz_header([
     'title' => "OLZ-Konto mit Passwort",
     'description' => "OLZ-Login mit Passwort.",
+    'norobots' => true,
 ]);
 
 echo "<div id='content_double'>

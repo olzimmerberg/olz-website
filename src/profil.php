@@ -10,6 +10,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     echo olz_header([
         'title' => "Profil",
         'description' => "Alles rund um dein persönliches OLZ-Konto.",
+        'norobots' => true,
     ]);
 }
 

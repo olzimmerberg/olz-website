@@ -15,7 +15,8 @@ if (!defined('CALLED_THROUGH_INDEX')) {
         $sql = "SELECT titel FROM aktuell WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
-            http_response_code(404);
+            require_once __DIR__.'/error_utils.php';
+            die_with_http_error(404);
         }
         while ($row = $res->fetch_assoc()) {
             $html_title = $row['titel'];

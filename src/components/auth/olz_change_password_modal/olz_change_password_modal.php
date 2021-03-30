@@ -38,7 +38,7 @@ function olz_change_password_modal($args = []): string {
                                 <input type='password' name='repeat' class='form-control' id='change-password-repeat-input' />
                             </div>
                             <input type='submit' class='hidden' />
-                            <div id='login-message' class='alert alert-danger' role='alert'></div>
+                            <div id='change-password-message' class='alert alert-danger' role='alert'></div>
                         </div>
                         <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>

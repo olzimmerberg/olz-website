@@ -1,0 +1,150 @@
+<?php
+
+declare(strict_types=1);
+
+use Monolog\Logger;
+
+require_once __DIR__.'/../../../../src/api/endpoints/UpdateOlzTextEndpoint.php';
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/model/OlzText.php';
+require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../common/UnitTestCase.php';
+
+class FakeUpdateOlzTextEndpointEntityManager {
+    public $persisted = [];
+    public $removed = [];
+    public $flushed_persisted = [];
+    public $flushed_removed = [];
+    public $repositories = [];
+
+    public function getRepository($class) {
+        return $this->repositories[$class] ?? null;
+    }
+
+    public function persist($object) {
+        $this->persisted[] = $object;
+    }
+
+    public function remove($object) {
+        $this->removed[] = $object;
+    }
+
+    public function flush() {
+        $this->flushed_persisted = $this->persisted;
+        $this->flushed_removed = $this->removed;
+    }
+}
+
+class FakeUpdateOlzTextEndpointUserRepository {
+    public function __construct() {
+        $admin_user = get_fake_user();
+        $admin_user->setId(1);
+        $admin_user->setUsername('admin');
+        $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
+        $admin_user->setZugriff('ftp olz_text_1');
+        $admin_user->setRoot('karten');
+        $this->admin_user = $admin_user;
+    }
+
+    public function findOneBy($where) {
+        if ($where === ['username' => 'admin']) {
+            return $this->admin_user;
+        }
+        if ($where === ['username' => 'noaccess']) {
+            $noaccess_user = get_fake_user();
+            $noaccess_user->setZugriff('ftp');
+            return $noaccess_user;
+        }
+        return null;
+    }
+}
+
+class FakeUpdateOlzTextEndpointOlzTextRepository {
+    public function __construct() {
+        $olz_text = new OlzText();
+        $olz_text->setId(1);
+        $this->olz_text = $olz_text;
+    }
+
+    public function findOneBy($where) {
+        if ($where === ['id' => 1]) {
+            return $this->olz_text;
+        }
+        return null;
+    }
+}
+
+/**
+ * @internal
+ * @covers \UpdateOlzTextEndpoint
+ */
+final class UpdateOlzTextEndpointTest extends UnitTestCase {
+    public function testUpdateOlzTextEndpointIdent(): void {
+        $endpoint = new UpdateOlzTextEndpoint();
+        $this->assertSame('UpdateOlzTextEndpoint', $endpoint->getIdent());
+    }
+
+    public function testUpdateOlzTextEndpointNoAccess(): void {
+        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $logger = new Logger('UpdateOlzTextEndpointTest');
+        $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'noaccess',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'id' => 1,
+            'text' => 'New **content**!',
+        ]);
+
+        $this->assertSame(['status' => 'ERROR'], $result);
+        $this->assertSame([
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'noaccess',
+        ], $session->session_storage);
+    }
+
+    public function testUpdateOlzTextEndpoint(): void {
+        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
+        $entity_manager->repositories['OlzText'] = $olz_text_repo;
+        $logger = new Logger('UpdateOlzTextEndpointTest');
+        $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'id' => 1,
+            'text' => 'New **content**!',
+        ]);
+
+        $this->assertSame(['status' => 'OK'], $result);
+        $olz_text = $entity_manager->getRepository('OlzText')->olz_text;
+        $this->assertSame(1, $olz_text->getId());
+        $this->assertSame('New **content**!', $olz_text->getText());
+        $this->assertSame([
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ], $session->session_storage);
+    }
+}

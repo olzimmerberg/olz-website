@@ -9,14 +9,14 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeUserEndpointEndpointEntityManager {
+class FakeUpdateUserEndpointEntityManager {
     public $persisted = [];
     public $flushed = [];
     private $repositories = [];
 
     public function __construct() {
         $this->repositories = [
-            'User' => new FakeUserEndpointUserRepository(),
+            'User' => new FakeUpdateUserEndpointUserRepository(),
         ];
     }
 
@@ -33,7 +33,7 @@ class FakeUserEndpointEndpointEntityManager {
     }
 }
 
-class FakeUserEndpointUserRepository {
+class FakeUpdateUserEndpointUserRepository {
     public function __construct() {
         $admin_user = get_fake_user();
         $admin_user->setId(1);
@@ -63,7 +63,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpoint(): void {
-        $entity_manager = new FakeUserEndpointEndpointEntityManager();
+        $entity_manager = new FakeUpdateUserEndpointEntityManager();
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setEntityManager($entity_manager);

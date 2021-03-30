@@ -199,6 +199,18 @@ class OlzApi {
                 });
                 return $endpoint;
             },
+            'updateOlzText' => function () {
+                require_once __DIR__.'/endpoints/UpdateOlzTextEndpoint.php';
+                $endpoint = new UpdateOlzTextEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $entityManager;
+                    require_once __DIR__.'/../config/doctrine_db.php';
+                    require_once __DIR__.'/../model/index.php';
+                    $endpoint->setEntityManager($entityManager);
+                    $endpoint->setSession(new StandardSession());
+                });
+                return $endpoint;
+            },
         ];
     }
 }

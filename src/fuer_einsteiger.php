@@ -19,6 +19,7 @@ echo "<style>
 }
 </style>";
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/model/index.php';
@@ -34,7 +35,7 @@ foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
 }
 $contact_information .= "</div>";
 
-$trainings_information = get_olz_text(1);
+$trainings_information = olz_editable_text(['olz_text_id' => 1]);
 
 ob_start();
 termine_ticker([

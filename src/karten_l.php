@@ -4,6 +4,7 @@
 // Das Verzeichnis unserer Karten.
 // =============================================================================
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/config/database.php';
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
@@ -71,7 +72,8 @@ echo "<tr class='tablebar'><td style='width:46%;'>Kartentyp</td><td style='width
 <tr><td></td><td>A3</td><td>4.00</td><td>2.50</td></tr>
 <tr><td>Schulhauskarte</td><td>A4</td><td>1.50</td><td>1.00</td></tr>
 </table><p>(Kartenpreise gültig ab 1.1.2019)</p></div>";
-echo get_olz_text(12);
+echo olz_editable_text(['olz_text_id' => 12]);
+
 ?>
 <!--<div class="nobox">
     Silvia Baumann<br>Seegartenstrasse 26<br>8810 Horgen<br>Tel. 044 726 06 94<br>

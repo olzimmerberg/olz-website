@@ -4,6 +4,8 @@
 // Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
 // =============================================================================
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
+
 ?>
 
 <h2>Regeln</h2>
@@ -19,5 +21,5 @@
     </ul>
 </p>-->
 <?php
-echo get_olz_text(4);
+echo olz_editable_text(['olz_text_id' => 4]);
 ?>

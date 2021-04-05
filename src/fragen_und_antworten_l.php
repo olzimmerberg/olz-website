@@ -4,6 +4,7 @@
 // Die Informationsseite für Anfänger, Einsteiger, Neulinge.
 // =============================================================================
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 require_once __DIR__.'/model/Role.php';
 require_once __DIR__.'/model/RoleRepository.php';
@@ -33,7 +34,7 @@ Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Ki
 Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Termine-Seite</a></b> bekannt gegeben. <br>Auf der rechten Seite bei den <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Terminen</a> findest du auch diese <b>Übersicht über unsere Trainings</b>:
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>";
-echo get_olz_text(1);
+echo olz_editable_text(['olz_text_id' => 1]);
 echo "</div>
 <div>
 Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Termine-Seite</a>.

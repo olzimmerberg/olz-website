@@ -4,6 +4,8 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
+
 ?>
 <div><b>PC-Konto: 85-256448-8</b></div>
 
@@ -13,7 +15,9 @@
 <b>Datenschutz: Alle Angaben werden vertraulich behandelt und keinesfalls an Dritte weitergegeben. Sie werden ausschliesslich für diesen Newsletter-Versand verwendet.</b>
 </p>-->
 
-<?php echo get_olz_text(6); ?>
+<?php
+echo olz_editable_text(['olz_text_id' => 6]);
+?>
 
 <?php
 $db_table = 'newsletter';

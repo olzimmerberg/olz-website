@@ -253,14 +253,6 @@ function olz_header_bar($args = []): string {
     $out .= $htmlout_j_und_s_2019;
     $out .= $htmlout_j_und_s_2020;
 
-    /*
-    // OLZ JOM Team Challenge 2015
-    $out .= "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border-left:5px solid rgb(255,250,0);'><h2>Nachwuchs Challenge</h2><form name='Formularh' method='post' action='index.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
-    $out .= get_olz_text(9, false);
-    $out .= "</form></div></div></div>";
-    */
-    //$out .= $statistik_text;
-
     /*function htmlboxhalbe($entry) {
         global $zugriff,$colors;
         $edit_admin = ($zugriff)?"<a href='aktuell.php?id=".$entry["id"]."&amp;buttonaktuell=start' class='linkedit'>&nbsp;</a>":"";

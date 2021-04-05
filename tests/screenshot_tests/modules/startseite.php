@@ -18,24 +18,18 @@ function test_startseite($driver, $base_url) {
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$startseite_url}");
 
-    $edit_link = $driver->findElement(
-        WebDriverBy::cssSelector('#olz-text-edit-22')
+    $edit_button = $driver->findElement(
+        WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-button')
     );
-    $edit_link->click();
+    $edit_button->click();
     $text_input = $driver->findElement(
-        WebDriverBy::cssSelector('#olz_texttext')
+        WebDriverBy::cssSelector('#important-banner .olz-editable-text textarea[name="text"]')
     );
     $text_input->sendKeys('Neue Information!');
     take_pageshot($driver, 'startseite_banner_edit');
 
-    $preview_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonolz_text-vorschau')
-    );
-    $preview_button->click();
-    take_pageshot($driver, 'startseite_banner_preview');
-
     $save_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonolz_text-speichern')
+        WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-submit')
     );
     $save_button->click();
     take_pageshot($driver, 'startseite_banner_finished');

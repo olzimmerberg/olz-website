@@ -15,6 +15,7 @@ import './konto_passwort.scss';
 import './konto_strava.scss';
 import './logs.scss';
 import './profil.scss';
+import './startseite.scss';
 import './styles.scss';
 
 export * from './components/index';

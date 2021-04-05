@@ -19,10 +19,11 @@ require_once __DIR__.'/config/date.php';
 
 require_once "image_tools.php";
 require_once "file_tools.php";
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 
-$banner_text = get_olz_text(22);
+$banner_text = olz_editable_text(['olz_text_id' => 22]);
 if ($banner_text !== '') {
-    echo "<div class='banner'>";
+    echo "<div id='important-banner' class='banner'>";
     echo $banner_text;
     echo "</div>";
 }

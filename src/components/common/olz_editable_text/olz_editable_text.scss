@@ -1,0 +1,31 @@
+.olz-editable-text {
+    .rendered-html {
+        min-height: 42px;
+        border: 2px dashed rgb(0,0,0);
+        border-radius: 7px;
+
+        .olz-edit-button {
+            float: right;
+            margin-top: -7px;
+        }
+    }
+
+    .edit-markdown {
+        display: none;
+    }
+
+    &.is-editing {
+        .rendered-html {
+            display: none;
+        }
+
+        .edit-markdown {
+            display: block;
+
+            textarea {
+                width: 100%;
+                min-height: 250px;
+            }
+        }        
+    }
+}

@@ -4,6 +4,7 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
+require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
@@ -32,8 +33,8 @@ if ($titel == "") {
 if ($row['datum'] > 0) {
     echo "<p><b>Nächstes Training: </b>{$datum}<br>{$titel}, {$text}</p>";
 }
-echo get_olz_text(1);
+echo olz_editable_text(['olz_text_id' => 1]);
 echo "<h2>Downloads und Links</h2>";
-echo get_olz_text(2);
+echo olz_editable_text(['olz_text_id' => 2]);
 echo "<h2>Newsletter</h2>";
-echo get_olz_text(3);
+echo olz_editable_text(['olz_text_id' => 3]);

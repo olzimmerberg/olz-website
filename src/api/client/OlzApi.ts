@@ -16,6 +16,7 @@ export enum OlzApiEndpoint {
     onTelegram = 'onTelegram',
     getLogs = 'getLogs',
     updateNotificationSubscriptions = 'updateNotificationSubscriptions',
+    updateOlzText = 'updateOlzText',
 }
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: {[fieldId: string]: any}};
@@ -115,6 +116,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         weeklySummaryForum: boolean,
         weeklySummaryGalerie: boolean,
     },
+    updateOlzText: {
+        id: number,
+        text: string,
+    },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -167,6 +172,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         content: string|null,
     },
     updateNotificationSubscriptions: {
+        status: 'OK'|'ERROR',
+    },
+    updateOlzText: {
         status: 'OK'|'ERROR',
     },
 }

@@ -49,6 +49,12 @@ class UpdateOlzTextEndpoint extends Endpoint {
 
         $olz_text_repo = $this->entityManager->getRepository(OlzText::class);
         $olz_text = $olz_text_repo->findOneBy(['id' => $id]);
+        if (!$olz_text) {
+            $olz_text = new OlzText();
+            $olz_text->setId($id);
+            $olz_text->setOnOff(1);
+            $this->entityManager->persist($olz_text);
+        }
 
         $olz_text->setText($input['text']);
         $this->entityManager->flush();

@@ -32,6 +32,12 @@ function test_startseite($driver, $base_url) {
         WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-submit')
     );
     $save_button->click();
+    $driver->wait()->until(function () use ($driver) {
+        $rendered_html = $driver->findElement(
+            WebDriverBy::cssSelector('#important-banner .olz-editable-text .rendered-html')
+        );
+        return strpos($rendered_html->getText(), 'Neue Information!') !== false;
+    });
     take_pageshot($driver, 'startseite_banner_finished');
 
     logout($driver, $base_url);

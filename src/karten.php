@@ -32,12 +32,9 @@ include __DIR__.'/karten_r.php';
 echo "</div>
 </form>
 </div>
-<div id='content_mitte'>
-<form name='Formularl' method='post' action='karten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
+<div id='content_mitte'>";
 include __DIR__.'/karten_l.php';
-echo "</form>
-</div>
-";
+echo "</div>";
 
 if (!defined('CALLED_THROUGH_INDEX')) {
     require_once __DIR__.'/components/page/olz_footer/olz_footer.php';

@@ -1,8 +1,12 @@
-User-agent:  *
+User-agent: *
+Disallow: /files/
+User-agent: *
 Disallow: /img/
-User-agent:  *
+User-agent: *
+Disallow: /pdf/
+User-agent: *
 Disallow: /olz_mitglieder/
-User-agent:  *
+User-agent: *
 Disallow: /trainingphotos/
 User-agent: Googlebot-Image
 Disallow: /

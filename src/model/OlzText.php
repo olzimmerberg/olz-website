@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OlzText {
     /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
+     * @ORM\Id @ORM\Column(type="integer", nullable=false)
      */
     private $id;
     /**

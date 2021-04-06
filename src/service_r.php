@@ -20,6 +20,9 @@ echo olz_editable_text(['olz_text_id' => 6]);
 ?>
 
 <?php
+
+echo "<form name='Formularr' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
+
 $db_table = 'newsletter';
 $kategorien = [['aktuell', 'Neuen Nachrichten', ''], ['forum', 'Neuen Forumsbeiträgen', ''], ['termine', 'Wichtige Termine (z.B. Meldeschluss)', ''], ['vorstand', 'Vorstandsmitteilungen', '1']];
 
@@ -119,6 +122,7 @@ if (isset($feedback)) {
     echo "<div class='buttonbar error'>".$feedback."</div>";
     $feedback = "";
 }
+echo "</form>";
 /*
 simon, 20.4.2011, RSS war ünnötig. und es existiert ja sowieso nicht mehr.
 echo "<p style='height:15px;'>

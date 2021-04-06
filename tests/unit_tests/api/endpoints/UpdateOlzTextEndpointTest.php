@@ -42,7 +42,7 @@ class FakeUpdateOlzTextEndpointUserRepository {
         $admin_user->setId(1);
         $admin_user->setUsername('admin');
         $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-        $admin_user->setZugriff('ftp olz_text_1');
+        $admin_user->setZugriff('all');
         $admin_user->setRoot('karten');
         $this->admin_user = $admin_user;
     }
@@ -111,6 +111,41 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'noaccess',
+        ], $session->session_storage);
+    }
+
+    public function testUpdateOlzTextEndpointNoEntry(): void {
+        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
+        $entity_manager->repositories['OlzText'] = $olz_text_repo;
+        $logger = new Logger('UpdateOlzTextEndpointTest');
+        $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'id' => 3,
+            'text' => 'New **content**!',
+        ]);
+
+        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame('New **content**!', $entity_manager->persisted[0]->getText());
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame('New **content**!', $entity_manager->flushed_persisted[0]->getText());
+        $this->assertSame([
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
         ], $session->session_storage);
     }
 

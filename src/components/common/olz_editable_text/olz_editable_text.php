@@ -64,6 +64,7 @@ function olz_editable_text($args = []): string {
             <div class='edit-markdown'>
                 <form class='default-form' onsubmit='return olzEditableTextSubmit({$esc_endpoint}, {$esc_args},{$esc_text_arg}, this)'>
                     <textarea name='text'>{$raw_markdown}</textarea>
+                    <div class='error-message alert alert-danger' role='alert'></div>
                     <div>
                         <button
                             type='button'
@@ -84,5 +85,9 @@ function olz_editable_text($args = []): string {
         </div>
         ZZZZZZZZZZ;
     }
-    return $rendered_html;
+    return <<<ZZZZZZZZZZ
+    <div class='olz-editable-text'>
+        {$rendered_html}
+    </div>
+    ZZZZZZZZZZ;
 }

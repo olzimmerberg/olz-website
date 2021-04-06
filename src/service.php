@@ -13,14 +13,9 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     ]);
 }
 
-echo "
-<div id='content_rechts'>
-<form name='Formularr' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
-<div>";
+echo "<div id='content_rechts'>";
 include __DIR__.'/service_r.php';
 echo "</div>
-</form>
-</div>
 <div id='content_mitte'>";
 include __DIR__.'/service_l.php';
 echo "</div>";

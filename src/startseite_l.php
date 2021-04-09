@@ -22,7 +22,7 @@ require_once "file_tools.php";
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 
 $banner_text = olz_editable_text(['olz_text_id' => 22]);
-if ($banner_text !== '') {
+if (trim(strip_tags($banner_text)) !== '') {
     echo "<div id='important-banner' class='banner'>";
     echo $banner_text;
     echo "</div>";

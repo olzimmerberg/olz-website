@@ -12,6 +12,7 @@ function olz_editable_text($args = []): string {
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/paths.php';
     require_once __DIR__.'/../../../model/index.php';
+    require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 
     $olz_text_id = intval($args['olz_text_id'] ?? 0);
     if ($olz_text_id > 0) {
@@ -44,6 +45,8 @@ function olz_editable_text($args = []): string {
     $document = $parser->parse($raw_markdown);
     $html_renderer = new HtmlRenderer($environment);
     $rendered_html = $html_renderer->renderBlock($document);
+    $html_utils = HtmlUtils::fromEnv();
+    $sanitized_html = $html_utils->sanitize($rendered_html);
 
     if ($user) {
         $esc_endpoint = htmlentities(json_encode($args['endpoint']));
@@ -59,7 +62,7 @@ function olz_editable_text($args = []): string {
                 >
                     <img src='{$code_href}icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
                 </button>
-                {$rendered_html}
+                {$sanitized_html}
             </div>
             <div class='edit-markdown'>
                 <form class='default-form' onsubmit='return olzEditableTextSubmit({$esc_endpoint}, {$esc_args},{$esc_text_arg}, this)'>
@@ -87,7 +90,7 @@ function olz_editable_text($args = []): string {
     }
     return <<<ZZZZZZZZZZ
     <div class='olz-editable-text'>
-        {$rendered_html}
+        {$sanitized_html}
     </div>
     ZZZZZZZZZZ;
 }

@@ -65,8 +65,13 @@ h2, h3
     background-repeat:repeat;
     background-image:url(icns/mainbg.png);
 }
-ul
-    {list-style-type:none}
+ul {
+    list-style-type:none
+}
+.olz-editable-text ul {
+    list-style-type: disc;
+    padding-left: 16px;
+}
 .thumbs td
     {height:120px;
     width:25%;
@@ -211,9 +216,9 @@ h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
 
 /*-----------------LINKS------------------*/
 /* für a, span, div, li */
-.linkblack,.linkedit,.linkimg,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev,.linkduplicate
+.linkblack,.linkedit,.linkimg,.linkmap,.linkmovie,.linkneu,.linkoev,.linkduplicate
 	{background-position: left center;}
-.linkblack,.linkedit,.linkimg,.linkmap,.linkmail,.linkmovie,.linkneu,.linkoev
+.linkblack,.linkedit,.linkimg,.linkmap,.linkmovie,.linkneu,.linkoev
 	{padding:0px 6px 0px 16px;}
 .linkedit2
 	{padding:0px 0px 0px 16px;}
@@ -240,8 +245,12 @@ h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
 }
 .linkmap
     {background-image:url(icns/link_map_16.svg);}
-.linkmail
-    {background-image:url(icns/link_mail_16.svg);}
+.linkmail,
+.olz-editable-text a[href^="mailto:"] {
+    background-image:url(icns/link_mail_16.svg);
+    padding:0px 6px 0px 16px;
+    background-position: left center;
+}
 .linkmovie
     {background-image:url(icns/link_movie_16.svg);}
 .linkneu

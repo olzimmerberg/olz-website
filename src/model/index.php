@@ -11,6 +11,7 @@ require_once __DIR__.'/AuthRequestRepository.php';
 require_once __DIR__.'/BildDerWoche.php';
 require_once __DIR__.'/Blog.php';
 require_once __DIR__.'/Counter.php';
+require_once __DIR__.'/CounterRepository.php';
 require_once __DIR__.'/Download.php';
 require_once __DIR__.'/FacebookLink.php';
 require_once __DIR__.'/Forum.php';

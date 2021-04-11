@@ -64,6 +64,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/_/forum.php#id1)
         - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/_/forum.php#id2)
+        - 06.01. 06:07: [Hallo](http://integration-test.host/_/forum.php#id3)
         
 
         ZZZZZZZZZZ;

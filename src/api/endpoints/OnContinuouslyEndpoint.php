@@ -5,6 +5,10 @@ require_once __DIR__.'/../../fields/StringField.php';
 require_once __DIR__.'/../../model/Throttling.php';
 
 class OnContinuouslyEndpoint extends Endpoint {
+    public function setSendDailyNotificationsTask($sendDailyNotificationsTask) {
+        $this->sendDailyNotificationsTask = $sendDailyNotificationsTask;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -50,10 +54,8 @@ class OnContinuouslyEndpoint extends Endpoint {
             $throttling_repo = $this->entityManager->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils->getIsoNow());
 
-            $this->logger->info("TODO: Send daily mail now.");
+            $this->sendDailyNotificationsTask->run();
         }
-
-        // TODO: Implement
 
         return [];
     }

@@ -17,14 +17,6 @@ class FakeOnDailyEndpointSyncSolvTask {
     }
 }
 
-class FakeOnDailyEndpointSendDailyNotificationsTask {
-    public $hasBeenRun = false;
-
-    public function run() {
-        $this->hasBeenRun = true;
-    }
-}
-
 class FakeOnDailyEndpointEntityManager {
     public $persisted = [];
     public $flushed = [];
@@ -191,7 +183,6 @@ final class OnDailyEndpointTest extends UnitTestCase {
 
     public function testOnDailyEndpoint(): void {
         $sync_solv_task = new FakeOnDailyEndpointSyncSolvTask();
-        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
         $entity_manager = new FakeOnDailyEndpointEntityManager();
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
@@ -200,7 +191,6 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
-        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
@@ -213,6 +203,5 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
         $this->assertSame(true, $sync_solv_task->hasBeenRun);
-        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
     }
 }

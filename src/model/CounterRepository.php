@@ -6,7 +6,13 @@ require_once __DIR__.'/../config/doctrine.php';
 require_once __DIR__.'/../model/Counter.php';
 
 class CounterRepository extends EntityRepository {
-    public function record($page, $date, $referrer) {
+    public function record($page, $date, $referrer, $user_agent) {
+        if (
+            preg_match('/bingbot/', $user_agent)
+            || preg_match('/googlebot/', $user_agent)
+        ) {
+            return;
+        }
         $truncated_page = substr($page, 0, 255);
         $config = [
             'page' => $truncated_page,

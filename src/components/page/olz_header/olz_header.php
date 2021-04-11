@@ -107,7 +107,12 @@ function olz_header($args = []): string {
     $out .= "<div class='site-background'>";
 
     $counter_repo = $entityManager->getRepository(Counter::class);
-    $counter_repo->record($_SERVER['REQUEST_URI'], $_DATE, $_SERVER['HTTP_REFERER']);
+    $counter_repo->record(
+        $_SERVER['REQUEST_URI'],
+        $_DATE,
+        $_SERVER['HTTP_REFERER'],
+        $_SERVER['HTTP_USER_AGENT']
+    );
 
     return $out;
 }

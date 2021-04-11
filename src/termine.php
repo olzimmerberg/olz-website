@@ -19,6 +19,7 @@ if (!$termine_utils->isValidFilter($current_filter)) {
     http_response_code(308);
     $enc_json_filter = urlencode(json_encode(TermineUtils::DEFAULT_FILTER));
     header("Location: termine.php?filter={$enc_json_filter}");
+    return;
 }
 
 echo olz_header([

@@ -38,10 +38,12 @@ class OlzApi {
                 require_once __DIR__.'/endpoints/OnContinuouslyEndpoint.php';
                 $endpoint = new OnContinuouslyEndpoint();
                 $endpoint->setSetupFunction(function ($endpoint) {
-                    global $_CONFIG, $_DATE;
+                    global $_CONFIG, $_DATE, $entityManager;
                     require_once __DIR__.'/../config/date.php';
+                    require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
                     $date_utils = $_DATE;
+                    $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);
                     $endpoint->setEnvUtils($_CONFIG);
                 });

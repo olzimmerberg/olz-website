@@ -8,8 +8,8 @@ require_once __DIR__.'/../model/Counter.php';
 class CounterRepository extends EntityRepository {
     public function record($page, $date, $referrer, $user_agent) {
         if (
-            preg_match('/bingbot/', $user_agent)
-            || preg_match('/googlebot/', $user_agent)
+            preg_match('/bingbot/i', $user_agent)
+            || preg_match('/googlebot/i', $user_agent)
         ) {
             return;
         }

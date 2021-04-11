@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210317183728
+-- MIGRATION: OLZ\Migrations\Version20210411185009
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,7 +47,9 @@ VALUES
     ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584'),
     ('OLZ\\Migrations\\Version20210116164757', '2021-01-16 16:48:06', '577'),
     ('OLZ\\Migrations\\Version20210129192635', '2021-01-29 19:27:00', '221'),
-    ('OLZ\\Migrations\\Version20210317183728', '2021-03-17 18:38:32', '27');
+    ('OLZ\\Migrations\\Version20210317183728', '2021-03-17 18:38:32', '27'),
+    ('OLZ\\Migrations\\Version20210405231205', '2021-04-11 18:49:37', '89'),
+    ('OLZ\\Migrations\\Version20210411185009', '2021-04-11 18:51:04', '266');
 
 -- Table downloads
 

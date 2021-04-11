@@ -1,10 +1,13 @@
 <?php
 
 function olz_header($args = []): string {
-    global $_CONFIG, $_SERVER;
+    global $_CONFIG, $_DATE, $_SERVER, $entityManager;
     $out = '';
 
+    require_once __DIR__.'/../../../config/date.php';
+    require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
+    require_once __DIR__.'/../../../model/index.php';
 
     $css_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.css");
     $js_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.js");
@@ -102,6 +105,9 @@ function olz_header($args = []): string {
 
     $out .= "<div class='site-container'>";
     $out .= "<div class='site-background'>";
+
+    $counter_repo = $entityManager->getRepository(Counter::class);
+    $counter_repo->record($_SERVER['REQUEST_URI'], $_DATE, $_SERVER['HTTP_REFERER']);
 
     return $out;
 }

@@ -42,6 +42,7 @@ class OlzApi {
                     require_once __DIR__.'/../config/date.php';
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../model/index.php';
                     $date_utils = $_DATE;
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);

@@ -16,10 +16,9 @@ $current_filter = json_decode($_GET['filter'] ?? '{}', true);
 $termine_utils = TermineUtils::fromEnv();
 
 if (!$termine_utils->isValidFilter($current_filter)) {
-    http_response_code(308);
     $enc_json_filter = urlencode(json_encode(TermineUtils::DEFAULT_FILTER));
-    header("Location: termine.php?filter={$enc_json_filter}");
-    return;
+    require_once __DIR__.'/utils/client/HttpUtils.php';
+    HttpUtils::fromEnv()->redirect("termine.php?filter={$enc_json_filter}", 308);
 }
 
 echo olz_header([

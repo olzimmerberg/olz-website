@@ -1,26 +1,21 @@
 <?php
 
 function olz_header($args = []): string {
-    global $_CONFIG, $_DATE, $_SERVER, $entityManager;
-    $out = '';
+    global $_CONFIG, $_SERVER;
 
-    require_once __DIR__.'/../../../config/date.php';
-    require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
-    require_once __DIR__.'/../../../model/index.php';
 
-    $css_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.css");
-    $js_modified = filemtime("{$_CONFIG->getCodePath()}jsbuild/main.min.js");
-
-    // TODO: Remove all of this, once the index.php?page=... syntax is not used anymore.
-    $canonical_tag = '';
     $is_insecure_nonlocal = !($_SERVER['HTTPS'] ?? false) && preg_match('/olzimmerberg\.ch/', $_SERVER['HTTP_HOST']);
     $host_has_www = preg_match('/www\./', $_SERVER['HTTP_HOST']);
     $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
     if ($is_insecure_nonlocal || $host_has_www) {
         $request_uri = $_SERVER['REQUEST_URI'];
-        $canonical_tag = "<link rel='canonical' href='https://{$host}{$request_uri}'>";
+        require_once __DIR__.'/../../../utils/client/HttpUtils.php';
+        HttpUtils::fromEnv()->redirect("https://{$host}{$request_uri}", 308);
     }
+
+    // TODO: Remove this, once the index.php?page=... syntax is not used anymore.
+    $canonical_tag = '';
     $is_request_to_index_php = preg_match("/\\/index.php/", $_SERVER['REQUEST_URI']) || preg_match("/(\\?|\\&)page=/", $_SERVER['REQUEST_URI']);
     if ($is_request_to_index_php) {
         $pages = [
@@ -64,6 +59,24 @@ function olz_header($args = []): string {
         }
     }
 
+    $args['canonical_tag'] = $canonical_tag;
+    return olz_header_without_routing($args);
+}
+
+function olz_header_without_routing($args = []): string {
+    global $_CONFIG, $_DATE, $_SERVER, $entityManager;
+    $out = '';
+
+    require_once __DIR__.'/../../../config/date.php';
+    require_once __DIR__.'/../../../config/doctrine_db.php';
+    require_once __DIR__.'/../../../config/server.php';
+    require_once __DIR__.'/../../../model/index.php';
+
+    $css_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.css";
+    $js_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.js";
+    $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
+    $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
+
     if (!isset($refresh)) {
         $refresh = '';
     }
@@ -79,6 +92,8 @@ function olz_header($args = []): string {
     }
 
     $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
+
+    $canonical_tag = $args['canonical_tag'] ?? '';
 
     $out .= "<!DOCTYPE html>
     <html lang='de'>
@@ -108,10 +123,10 @@ function olz_header($args = []): string {
 
     $counter_repo = $entityManager->getRepository(Counter::class);
     $counter_repo->record(
-        $_SERVER['REQUEST_URI'],
+        $_SERVER['REQUEST_URI'] ?? '',
         $_DATE,
-        $_SERVER['HTTP_REFERER'],
-        $_SERVER['HTTP_USER_AGENT']
+        $_SERVER['HTTP_REFERER'] ?? '',
+        $_SERVER['HTTP_USER_AGENT'] ?? ''
     );
 
     return $out;

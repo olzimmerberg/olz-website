@@ -93,7 +93,7 @@ class EmailUtils {
         require_once __DIR__.'/../../config/server.php';
 
         $logger = $_CONFIG->getLogger('EmailUtils');
-        $email_utils = new EmailUtils($_CONFIG);
+        $email_utils = new self($_CONFIG);
         $email_utils->setLogger($logger);
 
         return $email_utils;

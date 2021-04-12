@@ -16,8 +16,8 @@ if (isset($_GET['abteilung'])) {
     $role = $role_repo->findOneBy(['username' => $role_username]);
 
     if (!$role) {
-        require_once __DIR__.'/error_utils.php';
-        die_with_http_error(404);
+        require_once __DIR__.'/utils/client/HttpUtils.php';
+        HttpUtils::fromEnv()->dieWithHttpError(404);
     }
 
     echo olz_header([

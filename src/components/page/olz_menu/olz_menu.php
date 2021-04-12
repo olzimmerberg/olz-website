@@ -79,7 +79,7 @@ function get_menu($menu, $identifier, $_CONFIG): string {
         $tag = "div";
         if (
             ($_SESSION['page'] ?? null) == $menupunkt[1]
-            || $_SERVER['SCRIPT_NAME'] == $_CONFIG->getCodeHref().$menupunkt[1]
+            || ($_SERVER['SCRIPT_NAME'] ?? null) == $_CONFIG->getCodeHref().$menupunkt[1]
         ) {
             $color = "color:#".color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
             $bgcolor = $bgcolorhover;

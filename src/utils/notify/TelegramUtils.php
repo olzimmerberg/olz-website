@@ -255,7 +255,7 @@ class TelegramUtils {
         $telegram_fetcher = new TelegramFetcher();
         $live_date_utils = new LiveDateUtils();
 
-        return new TelegramUtils(
+        return new self(
             $_CONFIG->getTelegramBotName(),
             $_CONFIG->getTelegramBotToken(),
             $telegram_fetcher,

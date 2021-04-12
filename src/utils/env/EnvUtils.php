@@ -264,7 +264,7 @@ class EnvUtils {
         if (self::$from_env_instance == null) {
             global $_SERVER;
 
-            $env_utils = new EnvUtils();
+            $env_utils = new self();
 
             $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
             $has_https = isset($_SERVER['HTTPS']) && (bool) $_SERVER['HTTPS'];

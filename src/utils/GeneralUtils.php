@@ -32,6 +32,6 @@ class GeneralUtils {
     }
 
     public static function fromEnv() {
-        return new GeneralUtils();
+        return new self();
     }
 }

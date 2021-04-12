@@ -169,7 +169,7 @@ class TermineUtils {
     public static function fromEnv() {
         global $_DATE, $_CONFIG;
         require_once __DIR__.'/../config/date.php';
-        $termine_utils = new TermineUtils();
+        $termine_utils = new self();
         $termine_utils->setDateUtils($_DATE);
         return $termine_utils;
     }

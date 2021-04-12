@@ -21,4 +21,10 @@ final class GeneralUtilsTest extends UnitTestCase {
         $binary_string = base64_decode("+/A="); // contains all special chars
         $this->assertSame($binary_string, $general_utils->base64DecodeUrl('-_A'));
     }
+
+    public function testGetPrettyTrace(): void {
+        $trace = debug_backtrace();
+        $general_utils = new GeneralUtils();
+        $this->assertMatchesRegularExpression('/phpunit/', $general_utils->getPrettyTrace($trace));
+    }
 }

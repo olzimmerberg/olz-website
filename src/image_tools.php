@@ -17,7 +17,7 @@ $tables_img_dirs = [
     "blog" => "img/blog/",
 ];
 
-if (basename($_SERVER["SCRIPT_FILENAME"]) == basename(__FILE__)) {
+if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     if (!isset($_GET["request"])) {
         header("Content-type:text/plain");
         echo "HIER IST NIX";

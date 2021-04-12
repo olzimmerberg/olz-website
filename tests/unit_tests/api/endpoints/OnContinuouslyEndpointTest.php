@@ -9,6 +9,14 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
+class FakeOnDailyEndpointSendDailyNotificationsTask {
+    public $hasBeenRun = false;
+
+    public function run() {
+        $this->hasBeenRun = true;
+    }
+}
+
 class FakeOnContinuouslyEndpointEnvUtils {
     public function getCronAuthenticityCode() {
         return 'some-token';
@@ -114,9 +122,11 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyEndpointFirstDailyNotifications(): void {
+        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
+        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
         $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
@@ -131,12 +141,15 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
         $this->assertSame([], $result);
         $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
     }
 
     public function testOnContinuouslyEndpoint(): void {
+        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
+        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
         $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
@@ -150,5 +163,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
         $this->assertSame([], $result);
         $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
     }
 }

@@ -51,7 +51,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/_/aktuell.php?id=3)
         
+        
+        **Kaderblog**
+        
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/_/blog.php#id1)
 
+        
         ZZZZZZZZZZ;
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
@@ -83,11 +88,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         Hallo First,
         
         Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
-        
-        
-        **Kaderblog**
-        
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/_/blog.php#id1)
         
         
         **Galerien**

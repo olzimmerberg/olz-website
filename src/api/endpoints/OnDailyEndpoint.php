@@ -9,10 +9,6 @@ class OnDailyEndpoint extends Endpoint {
         $this->syncSolvTask = $syncSolvTask;
     }
 
-    public function setSendDailyNotificationsTask($sendDailyNotificationsTask) {
-        $this->sendDailyNotificationsTask = $sendDailyNotificationsTask;
-    }
-
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -73,8 +69,6 @@ class OnDailyEndpoint extends Endpoint {
         $throttling_repo->recordOccurrenceOf('on_daily', $this->dateUtils->getIsoNow());
 
         $this->syncSolvTask->run();
-
-        $this->sendDailyNotificationsTask->run();
 
         return [];
     }

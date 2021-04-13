@@ -9,7 +9,7 @@ require_once __DIR__.'/doctrine_migrations.php';
 
 function run_tools($command_config, $server) {
     global $db, $data_path, $deploy_path, $_CONFIG;
-    set_time_limit(120); // This might take some time...
+    set_time_limit(600); // This might take some time...
     $has_command = preg_match('/^\/([a-z0-9\-]+)$/i', $server['PATH_INFO'], $matches);
     $command = $has_command ? $matches[1] : null;
     if (!isset($command_config[$command])) {

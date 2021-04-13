@@ -324,7 +324,7 @@ function dump_db_structure_sql($db) {
     );
     global $_CONFIG;
     require_once __DIR__.'/../config/database.php';
-    require_once __DIR__.'/../../vendor/autoload.php';
+    require_once __DIR__.'/../config/vendor/autoload.php';
     $dump_filename = tempnam('/tmp', 'OLZ');
     $mysql_server = $_CONFIG->getMysqlServer();
     $mysql_schema = $_CONFIG->getMysqlSchema();

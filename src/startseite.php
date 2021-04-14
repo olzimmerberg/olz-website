@@ -7,8 +7,12 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
     require_once __DIR__.'/components/page/olz_header/olz_header.php';
+    require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
     echo olz_header([
         'description' => "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.",
+        'additional_headers' => [
+            olz_organization_data([]),
+        ],
     ]);
 }
 

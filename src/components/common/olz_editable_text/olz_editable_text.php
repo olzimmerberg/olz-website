@@ -12,12 +12,15 @@ function olz_editable_text($args = []): string {
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/paths.php';
     require_once __DIR__.'/../../../model/index.php';
+    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
     require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 
     $olz_text_id = intval($args['olz_text_id'] ?? 0);
     if ($olz_text_id > 0) {
         $olz_text_repo = $entityManager->getRepository(OlzText::class);
         $olz_text = $olz_text_repo->findOneBy(['id' => $olz_text_id]);
+
+        $args['permission'] = "olz_text_{$olz_text_id}";
         $args['get_text'] = function () use ($olz_text) {
             return $olz_text ? $olz_text->getText() : '';
         };
@@ -26,9 +29,8 @@ function olz_editable_text($args = []): string {
         $args['text_arg'] = 'text';
     }
 
-    $user_repo = $entityManager->getRepository(User::class);
-    $username = ($_SESSION['user'] ?? null);
-    $user = $user_repo->findOneBy(['username' => $username]);
+    $auth_utils = AuthUtils::fromEnv();
+    $has_access = $auth_utils->hasPermission($args['permission'] ?? 'any');
 
     $get_text_fn = $args['get_text'];
     $raw_markdown = $get_text_fn();
@@ -48,7 +50,7 @@ function olz_editable_text($args = []): string {
     $html_utils = HtmlUtils::fromEnv();
     $sanitized_html = $html_utils->sanitize($rendered_html);
 
-    if ($user) {
+    if ($has_access) {
         $esc_endpoint = htmlentities(json_encode($args['endpoint']));
         $esc_args = htmlentities(json_encode($args['args']));
         $esc_text_arg = htmlentities(json_encode($args['text_arg']));

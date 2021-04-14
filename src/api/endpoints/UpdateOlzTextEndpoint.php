@@ -9,6 +9,10 @@ require_once __DIR__.'/../../model/OlzText.php';
 require_once __DIR__.'/../../model/User.php';
 
 class UpdateOlzTextEndpoint extends Endpoint {
+    public function setAuthUtils($new_auth_utils) {
+        $this->authUtils = $new_auth_utils;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -34,15 +38,9 @@ class UpdateOlzTextEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session->get('user');
         $id = $input['id'];
 
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $auth_username]);
-
-        // TODO: Generalize this!
-        $zugriff = preg_split('/ /', $user->getZugriff());
-        $has_access = in_array('all', $zugriff) || in_array("olz_text_{$id}", $zugriff);
+        $has_access = $this->authUtils->hasPermission("olz_text_{$id}");
         if (!$has_access) {
             return ['status' => 'ERROR'];
         }

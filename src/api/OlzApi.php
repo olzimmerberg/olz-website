@@ -209,6 +209,9 @@ class OlzApi {
                     global $entityManager;
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../utils/auth/AuthUtils.php';
+                    $auth_utils = AuthUtils::fromEnv();
+                    $endpoint->setAuthUtils($auth_utils);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setSession(new StandardSession());
                 });

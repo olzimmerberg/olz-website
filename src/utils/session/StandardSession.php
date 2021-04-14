@@ -5,10 +5,14 @@ require_once __DIR__.'/AbstractSession.php';
 
 class StandardSession extends AbstractSession {
     public function __construct() {
-        try {
+        $session_already_exists = session_id() != '' && isset($_SESSION);
+        if ($session_already_exists) {
+            return;
+        }
+        $session_can_be_created = !headers_sent();
+        $was_successful = false;
+        if ($session_can_be_created) {
             $was_successful = session_start();
-        } catch (Exception $exc) {
-            $was_successful = false;
         }
         if (!$was_successful) {
             global $_SESSION;

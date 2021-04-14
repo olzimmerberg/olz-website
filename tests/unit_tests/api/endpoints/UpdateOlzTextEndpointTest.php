@@ -11,6 +11,14 @@ require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
+class FakeUpdateOlzTextEndpointAuthUtils {
+    public $has_permission;
+
+    public function hasPermission($query) {
+        return $this->has_permission;
+    }
+}
+
 class FakeUpdateOlzTextEndpointEntityManager {
     public $persisted = [];
     public $removed = [];
@@ -86,19 +94,15 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpointNoAccess(): void {
+        $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
+        $auth_utils->has_permission = false;
         $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'noaccess',
-        ];
-        $endpoint->setSession($session);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -107,14 +111,11 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'ERROR'], $result);
-        $this->assertSame([
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'noaccess',
-        ], $session->session_storage);
     }
 
     public function testUpdateOlzTextEndpointNoEntry(): void {
+        $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
+        $auth_utils->has_permission = true;
         $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
@@ -122,14 +123,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $entity_manager->repositories['OlzText'] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ];
-        $endpoint->setSession($session);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -142,14 +137,11 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $this->assertSame('New **content**!', $entity_manager->persisted[0]->getText());
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame('New **content**!', $entity_manager->flushed_persisted[0]->getText());
-        $this->assertSame([
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ], $session->session_storage);
     }
 
     public function testUpdateOlzTextEndpoint(): void {
+        $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
+        $auth_utils->has_permission = true;
         $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
@@ -157,14 +149,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $entity_manager->repositories['OlzText'] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ];
-        $endpoint->setSession($session);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -176,10 +162,5 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $olz_text = $entity_manager->getRepository('OlzText')->olz_text;
         $this->assertSame(1, $olz_text->getId());
         $this->assertSame('New **content**!', $olz_text->getText());
-        $this->assertSame([
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ], $session->session_storage);
     }
 }

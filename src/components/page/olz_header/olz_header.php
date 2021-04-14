@@ -95,6 +95,8 @@ function olz_header_without_routing($args = []): string {
 
     $canonical_tag = $args['canonical_tag'] ?? '';
 
+    $additional_headers = implode("\n", $args['additional_headers'] ?? []);
+
     $out .= "<!DOCTYPE html>
     <html lang='de'>
     <head>
@@ -109,6 +111,7 @@ function olz_header_without_routing($args = []): string {
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
     {$canonical_tag}
+    {$additional_headers}
     <link rel='stylesheet' href='{$_CONFIG->getCodeHref()}jsbuild/main.min.css?modified={$css_modified}' />
     <script type='text/javascript' src='{$_CONFIG->getCodeHref()}jsbuild/main.min.js?modified={$js_modified}' onload='olz.loaded()'></script>
     </head>";

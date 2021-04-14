@@ -7,6 +7,7 @@ session_start_if_cookie_set();
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
 
@@ -34,27 +35,10 @@ if (isset($_GET['abteilung'])) {
     echo olz_header([
         'title' => "Kontakt",
         'description' => "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.",
+        'additional_headers' => [
+            olz_organization_data([]),
+        ],
     ]);
-    echo <<<'ZZZZZZZZZZ'
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "url": "https://olzimmerberg.ch",
-        "logo": "https://olzimmerberg.ch/_/icns/olz_logo_mit_hintergrund.svg",
-        "name": "OL Zimmerberg",
-        "description": "Wir sind ein Orientierungslauf-Sportverein in der Region um den Zimmerberg am linken Zürichseeufer und im Sihltal. Unsere Mitglieder kommen aus Kilchberg, Rüschlikon, Thalwil, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Gattikon, Adliswil und nahe gelegenen Teilen der Stadt Zürich (Wollishofen, Enge, Leimbach, Friesenberg).",
-        "foundingDate": "2006-01-13",
-        "sameAs": [
-            "https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ",
-            "https://www.strava.com/clubs/ol-zimmerberg-158910",
-            "https://www.facebook.com/olzimmerberg/",
-            "https://www.instagram.com/olzimmerberg/",
-            "https://github.com/olzimmerberg"
-        ]
-    }
-    </script>
-    ZZZZZZZZZZ;
 
     echo "<div id='content_double'>";
     require_once __DIR__.'/components/verein/olz_organigramm/olz_organigramm.php';

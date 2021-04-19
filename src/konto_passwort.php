@@ -17,15 +17,19 @@ echo "<div id='content_double'>
 <div>";
 
 echo <<<'ZZZZZZZZZZ'
-<form id='sign-up-with-password-form' onsubmit='return olzKontoSignUpWithPassword(this)'>
-    <div id='sign-up-with-password-success-message' class='alert alert-success' role='alert'></div>
+<form
+    id='sign-up-with-password-form'
+    class='default-form'
+    onsubmit='return olzKontoSignUpWithPassword(this)'
+>
+    <div class='success-message alert alert-success' role='alert'></div>
 ZZZZZZZZZZ;
 echo olz_profile_form([
     'show_required_password' => true,
 ]);
 echo <<<'ZZZZZZZZZZ'
     <button type='submit' class='btn btn-primary'>Konto erstellen</button>
-    <div id='sign-up-with-password-error-message' class='alert alert-danger' role='alert'></div>
+    <div class='error-message alert alert-danger' role='alert'></div>
 </form>
 ZZZZZZZZZZ;
 

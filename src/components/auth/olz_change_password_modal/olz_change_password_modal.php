@@ -17,7 +17,11 @@ function olz_change_password_modal($args = []): string {
         <div class='modal fade' id='change-password-modal' tabindex='-1' aria-labelledby='change-password-modal-label' aria-hidden='true'>
             <div class='modal-dialog'>
                 <div class='modal-content'>
-                    <form id='change-password-form' onsubmit='olzChangePasswordModalUpdate({$esc_id}, this);return false;'>
+                    <form
+                        id='change-password-form'
+                        class='default-form'
+                        onsubmit='return olzChangePasswordModalUpdate({$esc_id}, this);'
+                    >
                         <div class='modal-header'>
                             <h5 class='modal-title' id='change-password-modal-label'>Passwort ändern</h5>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
@@ -38,7 +42,7 @@ function olz_change_password_modal($args = []): string {
                                 <input type='password' name='repeat' class='form-control' id='change-password-repeat-input' />
                             </div>
                             <input type='submit' class='hidden' />
-                            <div id='change-password-message' class='alert alert-danger' role='alert'></div>
+                            <div class='error-message alert alert-danger' role='alert'></div>
                         </div>
                         <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>

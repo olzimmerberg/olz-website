@@ -1,12 +1,3 @@
-#profile-form {
-    #profile-update-error-message,
-    #profile-update-success-message {
-        &:empty {
-            display: none;
-        }
-    }
-}
-
 .profile {
     .login-button {
         display: inline-flex;

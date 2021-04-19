@@ -60,8 +60,12 @@ if ($user) {
         </a>
     </div>
 
-    <form id='profile-form' class='default-form' onsubmit='return olzProfileUpdateUser({$esc_id}, this)'>
-        <div id='profile-update-success-message' class='success-message alert alert-success' role='alert'></div>
+    <form
+        id='profile-form'
+        class='default-form'
+        onsubmit='return olzProfileUpdateUser({$esc_id}, this)'
+    >
+        <div class='success-message alert alert-success' role='alert'></div>
         <input
             type='hidden'
             name='id'
@@ -84,7 +88,7 @@ if ($user) {
     ]);
     echo <<<'ZZZZZZZZZZ'
         <button type='submit' class='btn btn-primary'>Speichern</button>
-        <div id='profile-update-error-message' class='error-message alert alert-danger' role='alert'></div>
+        <div class='error-message alert alert-danger' role='alert'></div>
     </form>
     ZZZZZZZZZZ;
 } else {

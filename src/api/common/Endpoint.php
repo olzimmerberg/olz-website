@@ -93,6 +93,9 @@ abstract class Endpoint {
 
         try {
             $raw_result = $this->handle($validated_input);
+        } catch (ValidationError $verr) {
+            $this->logger->warning("Bad user request", $verr->getStructuredAnswer());
+            throw new HttpError(400, "Fehlerhafte Eingabe.", $verr);
         } catch (HttpError $http_error) {
             throw $http_error;
         } catch (\Exception $exc) {

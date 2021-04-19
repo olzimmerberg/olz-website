@@ -40,6 +40,10 @@ class AuthUtils {
         return $permission_map;
     }
 
+    public function isPasswordAllowed($password) {
+        return strlen($password) >= 8;
+    }
+
     public static function fromEnv() {
         global $entityManager;
         require_once __DIR__.'/../../config/doctrine_db.php';

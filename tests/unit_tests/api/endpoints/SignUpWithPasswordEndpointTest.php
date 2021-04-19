@@ -55,6 +55,12 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
     }
 }
 
+class FakeSignUpWithPasswordEndpointAuthUtils {
+    public function isPasswordAllowed($password) {
+        return strlen($password) >= 8;
+    }
+}
+
 /**
  * @internal
  * @covers \SignUpWithPasswordEndpoint
@@ -90,10 +96,45 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testSignUpWithPasswordEndpointWithShortPassword(): void {
+        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        try {
+            $result = $endpoint->call([
+                'firstName' => 'fakeFirstName',
+                'lastName' => 'fakeLastName',
+                'username' => 'fakeUsername',
+                'password' => 'short',
+                'email' => 'fakeEmail',
+                'street' => 'fakeStreet',
+                'postalCode' => 'fakePostalCode',
+                'city' => 'fakeCity',
+                'region' => 'fakeRegion',
+                'countryCode' => 'fakeCountryCode',
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'password' => ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+        }
+    }
+
     public function testSignUpWithPasswordEndpointWithValidData(): void {
         $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
         $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);

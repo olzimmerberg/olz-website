@@ -8,21 +8,21 @@ function olz_profile_form($args): string {
     $defaults = array_merge($fallback_defaults, $args);
 
     // $esc_id = htmlentities(json_encode($user->getId()));
-    $esc_first_name = htmlentities($defaults['first_name']);
-    $esc_last_name = htmlentities($defaults['last_name']);
-    $esc_username = htmlentities($defaults['username']);
-    $esc_email = htmlentities($defaults['email']);
-    $gender_default = array_search($defaults['gender'], ['M', 'F', 'O']) === false ? 'selected ' : '';
-    $gender_male = $defaults['gender'] == 'M' ? 'selected ' : '';
-    $gender_female = $defaults['gender'] == 'F' ? 'selected ' : '';
-    $gender_other = $defaults['gender'] == 'O' ? 'selected ' : '';
-    $birthdate_formatted = $defaults['birthdate'] ? $defaults['birthdate']->format('d.m.Y') : '';
+    $esc_first_name = htmlentities($defaults['first_name'] ?? '');
+    $esc_last_name = htmlentities($defaults['last_name'] ?? '');
+    $esc_username = htmlentities($defaults['username'] ?? '');
+    $esc_email = htmlentities($defaults['email'] ?? '');
+    $gender_default = array_search($defaults['gender'] ?? '', ['M', 'F', 'O']) === false ? 'selected ' : '';
+    $gender_male = ($defaults['gender'] ?? '') == 'M' ? 'selected ' : '';
+    $gender_female = ($defaults['gender'] ?? '') == 'F' ? 'selected ' : '';
+    $gender_other = ($defaults['gender'] ?? '') == 'O' ? 'selected ' : '';
+    $birthdate_formatted = ($defaults['birthdate'] ?? false) ? $defaults['birthdate']->format('d.m.Y') : '';
     $esc_birthdate = htmlentities($birthdate_formatted);
-    $esc_street = htmlentities($defaults['street']);
-    $esc_postal_code = htmlentities($defaults['postal_code']);
-    $esc_city = htmlentities($defaults['city']);
-    $esc_region = htmlentities($defaults['region']);
-    $esc_country_code = htmlentities($defaults['country_code']);
+    $esc_street = htmlentities($defaults['street'] ?? '');
+    $esc_postal_code = htmlentities($defaults['postal_code'] ?? '');
+    $esc_city = htmlentities($defaults['city'] ?? '');
+    $esc_region = htmlentities($defaults['region'] ?? '');
+    $esc_country_code = htmlentities($defaults['country_code'] ?? '');
 
     $show_change_password = $defaults['show_change_password'] ?? false;
     $show_required_password = $defaults['show_required_password'] ?? false;

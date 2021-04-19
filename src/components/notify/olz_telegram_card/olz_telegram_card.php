@@ -32,17 +32,9 @@ if ($user) {
                     Aktivieren
                 </a>
             </p>
+            <p class="card-text"><a href='fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
         ZZZZZZZZZZ;
     } else {
-        $content = <<<ZZZZZZZZZZ
-            <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
-            {$form}
-            <p class="card-text text-right">
-                <a href="#" class="btn btn-light btn-sm">
-                    Speichern
-                </a>
-            </p>
-        ZZZZZZZZZZ;
         $content = <<<ZZZZZZZZZZ
             <form id='telegram-notifications-form' onsubmit='return olzTelegramNotificationsUpdate(this)'>
                 <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
@@ -52,6 +44,7 @@ if ($user) {
                 </p>
                 <div id='telegram-notifications-success-message' class='alert alert-success' role='alert'></div>
                 <div id='telegram-notifications-error-message' class='alert alert-danger' role='alert'></div>
+                <p class="card-text"><a href='fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
             </form>
         ZZZZZZZZZZ;
     }

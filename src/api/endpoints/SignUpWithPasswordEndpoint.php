@@ -45,6 +45,10 @@ class SignUpWithPasswordEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
+        $first_name = $input['firstName'];
+        $last_name = $input['lastName'];
+        $username = $input['username'];
+        $this->logger->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
         if (!$this->authUtils->isPasswordAllowed($input['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
@@ -52,13 +56,13 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
 
         $user = new User();
-        $user->setUsername($input['username']);
+        $user->setUsername($username);
         $user->setEmail($input['email']);
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
         $user->setPasswordHash(password_hash($input['password'], PASSWORD_DEFAULT));
-        $user->setFirstName($input['firstName']);
-        $user->setLastName($input['lastName']);
+        $user->setFirstName($first_name);
+        $user->setLastName($last_name);
         $user->setGender($input['gender']);
         $user->setBirthdate($input['birthdate']);
         $user->setStreet($input['street']);

@@ -60,6 +60,8 @@ if ($user) {
         </a>
     </div>
 
+    <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
+
     <form
         id='profile-form'
         class='default-form'
@@ -87,6 +89,7 @@ if ($user) {
         'country_code' => $user->getCountryCode(),
     ]);
     echo <<<'ZZZZZZZZZZ'
+        <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
         <button type='submit' class='btn btn-primary'>Speichern</button>
         <div class='error-message alert alert-danger' role='alert'></div>
     </form>

@@ -16,7 +16,7 @@ $role_repo = $entityManager->getRepository(Role::class);
 $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
 $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
 
-echo "
+echo <<<'ZZZZZZZZZZ'
 <h1>Fragen & Antworten (FAQ)</h1>
 <h3>Was ist OL?</h3>
 <div>
@@ -33,13 +33,16 @@ Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Ki
 <div>
 Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Termine-Seite</a></b> bekannt gegeben. <br>Auf der rechten Seite bei den <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Terminen</a> findest du auch diese <b>Übersicht über unsere Trainings</b>:
 </div>
-<div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>";
+<div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>
+ZZZZZZZZZZ;
 echo olz_editable_text(['olz_text_id' => 1]);
-echo "</div>
+echo <<<'ZZZZZZZZZZ'
+</div>
 <div>
 Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Termine-Seite</a>.
 </div>
-<div style='border:1px solid black; margin:5px; padding:0px;'>";
+<div style='border:1px solid black; margin:5px; padding:0px;'>
+ZZZZZZZZZZ;
 termine_ticker([
     "eintrag_laenge" => 80,
     "eintrag_anzahl" => 3,
@@ -47,7 +50,8 @@ termine_ticker([
     "sql_where" => " AND typ LIKE '%training%'",
     "heute_highlight" => false,
 ]);
-echo "</div>
+echo <<<'ZZZZZZZZZZ'
+</div>
 <br>
 <h3>Wo finden die OL-Trainings statt?</h3>
 <div>
@@ -60,24 +64,28 @@ Entweder du kommst zu Fuss, mit dem Velo, mit dem eigenen Auto, mit einer Fahrge
 Das Büssli fährt an <b>jedes Training</b> und nimmt Jugendliche aus Wädenswil, Richterswil und Horgen mit. <br>
 Für die Jugendlichen aus der Region Adliswil/Langnau gibt es jeweils eine Fahrgemeinschaft. <br>
 Fürs Büssli anmelden kannst du dich bei:
-<div style='padding-left:50px;'>";
+<div style='padding-left:50px;'>
+ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
     echo olz_user_info_card($buessli_assignee);
 }
-echo "</div>
+echo <<<'ZZZZZZZZZZ'
+</div>
 </div>
 <br>
 <h3>Wie reise ich zum OL?</h3>
 <div>
 Bei manchen Läufen wird im <b><a href='forum.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Forum</a></b> ein <b>Zug</b> bestimmt, mit dem die meisten anreisen werden.<br>
 Unser <b>Clubbüssli</b> fährt auch zu manchen Anlässen. Ob es zum nächsten OL fährt, erfährst du bei:
-<div style='padding-left:50px;'>";
+<div style='padding-left:50px;'>
+ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
     echo olz_user_info_card($buessli_assignee);
 }
-echo "</div>
+echo <<<'ZZZZZZZZZZ'
+</div>
 </div>
 <br>
 <h3>Wie erkenne ich andere OL Zimmerberg Mitglieder?</h3>
@@ -88,12 +96,14 @@ An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausen
 <h3>Wie werde ich OL Zimmerberg Mitglied?</h3>
 <div>
 Melde dich bei:
-<div style='padding-left:50px;'>";
+<div style='padding-left:50px;'>
+ZZZZZZZZZZ;
 $aktuariat_assignees = $aktuariat_role->getUsers();
 foreach ($aktuariat_assignees as $aktuariat_assignee) {
     echo olz_user_info_card($aktuariat_assignee);
 }
-echo "</div>
+echo <<<'ZZZZZZZZZZ'
+</div>
 </div>
 <br>
 <h3>Gibt es auch schnelle Läufer in der OL Zimmerberg?</h3>
@@ -111,8 +121,23 @@ Auf der <b><a href='aktuell.php' onmouseover='highlight_menu(event)' onmouseout=
 Porträts unseres Vorstandes sind auf der <b><a href='verein.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Vereins-Seite</a></b> zu finden.
 </div>
 <br>
+<h3 id='weshalb-telegram-push'>Weshalb verwendet ihr Telegram für den Nachrichten-Push?</h3>
+<div>
+Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.
+</div>
+<div>
+Die einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisierten Chat so einfach und kostenfrei anbietet. Um genau zu sein:
+<ul class='bullet-list'>
+<li>Threema hat zwar eine solche Funktionalität, sie ist aber kompliziert zu implementieren und kostenpflichtig: Es kostet sowohl für uns jede Nachricht als auch das App für den Nutzer.</li>
+<li>WhatsApp hat zwar die "WhatsApp Business API" mit einer ähnichen Funktionalität, diese ist aber ausdrücklich eher an Grossunternehmen gerichtet, und somit auch kostenpflichtig.</li>
+<li>Signal bietet zwar auch eine Möglichkeit, automatische Nachrichten zu schreiben, aber auch diese ist kompliziert und nur mit weiteren Kosten zu implementieren.</li>
+</ul>
+Die Website-Entwickler danken für euer Verständnis.
+</div>
+<br>
 <h3>Wen kann ich fragen, wenn ich weitere Fragen habe?</h3>
-<div style='padding-left:50px;'>";
+<div style='padding-left:50px;'>
+ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
     echo olz_user_info_card($buessli_assignee);

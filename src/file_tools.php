@@ -101,6 +101,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
                     if (!is_file($thumbfile)) {
                         $thumbfile = $code_path."icns/link_any_16.svg";
                     }
+                    header("Cache-Control: public; max-age=86400");
                     header("Content-Type: image/svg+xml");
                     $fp = fopen($thumbfile, "r");
                     $buf = fread($fp, 1024);

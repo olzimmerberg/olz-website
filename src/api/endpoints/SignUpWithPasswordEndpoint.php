@@ -1,11 +1,16 @@
 <?php
 
 require_once __DIR__.'/../common/Endpoint.php';
+require_once __DIR__.'/../common/ValidationError.php';
 require_once __DIR__.'/../../fields/DateTimeField.php';
 require_once __DIR__.'/../../fields/EnumField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class SignUpWithPasswordEndpoint extends Endpoint {
+    public function setAuthUtils($new_auth_utils) {
+        $this->authUtils = $new_auth_utils;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -40,6 +45,9 @@ class SignUpWithPasswordEndpoint extends Endpoint {
     }
 
     protected function handle($input) {
+        if (!$this->authUtils->isPasswordAllowed($input['password'])) {
+            throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
+        }
         $ip_address = $this->server['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
 

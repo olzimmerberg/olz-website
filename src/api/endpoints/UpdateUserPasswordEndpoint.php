@@ -6,6 +6,10 @@ require_once __DIR__.'/../../fields/IntegerField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class UpdateUserPasswordEndpoint extends Endpoint {
+    public function setAuthUtils($new_auth_utils) {
+        $this->authUtils = $new_auth_utils;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -37,6 +41,10 @@ class UpdateUserPasswordEndpoint extends Endpoint {
 
         $old_password = $input['oldPassword'];
         $new_password = $input['newPassword'];
+
+        if (!$this->authUtils->isPasswordAllowed($new_password)) {
+            throw new ValidationError(['newPassword' => ["Das neue Passwort muss mindestens 8 Zeichen lang sein."]]);
+        }
 
         $user_repo = $this->entityManager->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);

@@ -25,8 +25,12 @@ $js_code = json_encode($code);
 echo <<<ZZZZZZZZZZ
 <script>olzKontoLoginWithStrava({$js_code})</script>
 <div id='sign-up-with-strava-login-status' class='alert alert-secondary'>Login mit Strava wird gestartet...</div>
-<form id='sign-up-with-strava-form' onsubmit='return olzKontoSignUpWithStrava(this)' class='hidden'>
-    <div id='sign-up-with-strava-success-message' class='alert alert-success' role='alert'></div>
+<form
+    id='sign-up-with-strava-form'
+    onsubmit='return olzKontoSignUpWithStrava(this)'
+    class='default-form hidden'
+>
+    <div class='success-message alert alert-success' role='alert'></div>
     <input
         type='hidden'
         name='strava-user'
@@ -49,7 +53,7 @@ echo olz_profile_form([
 ]);
 echo <<<'ZZZZZZZZZZ'
     <button type='submit' class='btn btn-primary'>Konto erstellen</button>
-    <div id='sign-up-with-strava-error-message' class='alert alert-danger' role='alert'></div>
+    <div class='error-message alert alert-danger' role='alert'></div>
 </form>
 ZZZZZZZZZZ;
 

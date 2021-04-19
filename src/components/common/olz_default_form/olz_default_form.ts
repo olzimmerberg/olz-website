@@ -1,5 +1,7 @@
 import {RequestFieldId, OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, OlzApiError, ValidationError, mergeValidationErrors} from '../../../api/client';
 
+export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export type GetDataForRequestDict<T extends OlzApiEndpoint> = {
     [fieldId in keyof OlzApiRequests[T]]: (
         form: HTMLFormElement,
@@ -112,6 +114,18 @@ export function clearErrorOnField(formInput: Element): void {
 
 export function camelCaseToDashCase(camelCaseString: string): string {
     return camelCaseString.replace(/([A-Z])/, '-$1').toLowerCase();
+}
+
+export function getEmail(fieldId: string, emailInput: string|undefined): string|null {
+    if (!emailInput) {
+        return null;
+    }
+    if (!EMAIL_REGEX.exec(emailInput)) {
+        throw new ValidationError('', {
+            [fieldId]: [`Ungültige E-Mail Adresse "${emailInput}".`],
+        });
+    }
+    return emailInput;
 }
 
 export function getGender(fieldId: string, genderInput: string|undefined): 'M'|'F'|'O'|null {

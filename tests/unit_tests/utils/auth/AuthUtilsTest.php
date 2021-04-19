@@ -106,4 +106,12 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame(true, $auth_utils->hasPermission('all'));
         $this->assertSame(true, $auth_utils->hasPermission('any'));
     }
+
+    public function testIsPasswordAllowed(): void {
+        $auth_utils = new AuthUtils();
+        $this->assertSame(false, $auth_utils->isPasswordAllowed('test'));
+        $this->assertSame(true, $auth_utils->isPasswordAllowed('longpassword'));
+        $this->assertSame(false, $auth_utils->isPasswordAllowed('1234567'));
+        $this->assertSame(true, $auth_utils->isPasswordAllowed('12345678'));
+    }
 }

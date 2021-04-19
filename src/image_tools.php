@@ -70,7 +70,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
                 imagejpeg($thumb, $thumbfile, 90);
                 imagedestroy($thumb);
             }
-            header("Cache-Control: public; max-age=2592000");
+            header("Cache-Control: max-age=2592000");
             header("Content-Type: image/jpeg");
             $fp = fopen($thumbfile, "r");
             $buf = fread($fp, 1024);

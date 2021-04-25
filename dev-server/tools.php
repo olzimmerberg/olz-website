@@ -10,6 +10,7 @@ run_tools(
         'deploy-cleanup' => [],
         'migrate' => [],
         'backup-monitoring' => [],
+        'logs-monitoring' => [],
     ],
     $_SERVER,
 );

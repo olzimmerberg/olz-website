@@ -7,6 +7,7 @@ require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/deploy_cleanup.php';
 require_once __DIR__.'/doctrine_migrations.php';
 require_once __DIR__.'/monitoring/backup_monitoring.php';
+require_once __DIR__.'/monitoring/logs_monitoring.php';
 
 function run_tools($command_config, $server) {
     global $db, $data_path, $deploy_path, $_CONFIG;
@@ -36,6 +37,9 @@ function run_tools($command_config, $server) {
     }
     if ($command === 'backup-monitoring') {
         return run_command($command, 'backup_monitoring', []);
+    }
+    if ($command === 'logs-monitoring') {
+        return run_command($command, 'logs_monitoring', []);
     }
     // No command to execute => show index
     echo "<h1>Tools</h1>";

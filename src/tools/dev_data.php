@@ -335,6 +335,7 @@ function dump_db_structure_sql($db) {
         [
             'skip-comments' => true,
             'no-data' => true,
+            'include-views' => false,
         ],
     );
     $dump->start($dump_filename);

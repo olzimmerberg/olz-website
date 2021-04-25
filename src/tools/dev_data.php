@@ -335,7 +335,8 @@ function dump_db_structure_sql($db) {
         [
             'skip-comments' => true,
             'no-data' => true,
-            'include-views' => false,
+            // This is the only way to exclude all views:
+            'include-views' => [''], // include only a view which does not exist.
         ],
     );
     $dump->start($dump_filename);

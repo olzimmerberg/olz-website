@@ -55,6 +55,9 @@ function run_command($command, $callback, $args) {
     } catch (Exception $exc) {
         http_response_code(500);
         echo "{$command}:ERROR\n";
-        echo $exc->getMessage();
+        echo $exc->getMessage()."\n";
+        require_once __DIR__.'/../utils/GeneralUtils.php';
+        $general_utils = GeneralUtils::fromEnv();
+        echo $general_utils->getPrettyTrace($exc);
     }
 }

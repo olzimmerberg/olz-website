@@ -9,6 +9,7 @@ run_tools(
         'get-database-backup' => [],
         'deploy-cleanup' => [],
         'migrate' => [],
+        'backup-monitoring' => [],
     ],
     $_SERVER,
 );

@@ -6,6 +6,7 @@ require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/deploy_cleanup.php';
 require_once __DIR__.'/doctrine_migrations.php';
+require_once __DIR__.'/monitoring/backup_monitoring.php';
 
 function run_tools($command_config, $server) {
     global $db, $data_path, $deploy_path, $_CONFIG;
@@ -33,6 +34,9 @@ function run_tools($command_config, $server) {
     if ($command === 'migrate') {
         return run_command($command, 'migrate_to_latest', []);
     }
+    if ($command === 'backup-monitoring') {
+        return run_command($command, 'backup_monitoring', []);
+    }
     // No command to execute => show index
     echo "<h1>Tools</h1>";
     echo "<h2>Available commands</h2>";
@@ -55,6 +59,9 @@ function run_command($command, $callback, $args) {
     } catch (Exception $exc) {
         http_response_code(500);
         echo "{$command}:ERROR\n";
-        echo $exc->getMessage();
+        echo $exc->getMessage()."\n";
+        require_once __DIR__.'/../utils/GeneralUtils.php';
+        $general_utils = GeneralUtils::fromEnv();
+        echo $general_utils->getPrettyTrace($exc->getTrace());
     }
 }

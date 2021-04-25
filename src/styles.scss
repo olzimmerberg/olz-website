@@ -68,7 +68,8 @@ h2, h3
 ul {
     list-style-type:none
 }
-.olz-editable-text ul {
+.olz-editable-text ul,
+ul.bullet-list {
     list-style-type: disc;
     padding-left: 16px;
 }

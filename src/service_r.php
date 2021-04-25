@@ -9,7 +9,11 @@ require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php
 ?>
 <div><b>PC-Konto: 85-256448-8</b></div>
 
-<h2>Newsletter</h2>
+<h2>Neuer Newsletter (2021)</h2>
+<a href="konto_passwort.php" class="linkint">Erstelle ein OLZ-Konto</a>, um den neuen Newsletter erhalten zu können. Sobald man eingeloggt ist, kann man hier auf der Service-Seite den neuen Newsletter konfigurieren.
+
+<h2>Alter Newsletter</h2>
+<p style="color:rgb(200,0,0);">(wird voraussichtlich Ende 2021 abgestellt)</p>
 <!--<p>Hier hast du die Möglichkeit einen Newsletter zu abonnieren. Damit wirst du automatisch per Mail über wichtige Vorstandsmitteilungen, die nächsten Meldeschlüsse oder Aktualisierungen der Homepage benachrichtigt.</p>
 <p>
 <b>Datenschutz: Alle Angaben werden vertraulich behandelt und keinesfalls an Dritte weitergegeben. Sie werden ausschliesslich für diesen Newsletter-Versand verwendet.</b>

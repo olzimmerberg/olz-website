@@ -43,30 +43,6 @@ function logs_monitoring() {
         }
     }
 
-    function is_emergency_line($line) {
-        return preg_match('/\.EMERGENCY\:/', $line);
-    }
-
-    function is_alert_line($line) {
-        return preg_match('/\.ALERT\:/', $line);
-    }
-
-    function is_critical_line($line) {
-        return preg_match('/\.CRITICAL\:/', $line);
-    }
-
-    function is_error_line($line) {
-        return preg_match('/\.ERROR\:/', $line);
-    }
-
-    function is_warning_line($line) {
-        return preg_match('/\.WARNING\:/', $line);
-    }
-
-    function is_notice_line($line) {
-        return preg_match('/\.NOTICE\:/', $line);
-    }
-
     echo "Last hour: ".count($logs_in_last_hour)." logs\n";
     echo "Last day: ".count($logs_in_last_day)." logs\n";
 
@@ -88,5 +64,78 @@ function logs_monitoring() {
     echo "Last hour: ".count(array_filter($logs_in_last_hour, 'is_notice_line'))." notice logs\n";
     echo "Last day: ".count(array_filter($logs_in_last_day, 'is_notice_line'))." notice logs\n";
 
+    if (has_emergencies($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected no emergencies");
+    }
+    if (has_alerts($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected no alerts");
+    }
+    if (has_critical($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected no critical log entries");
+    }
+    if (has_many_errors($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected fewer error log entries");
+    }
+    if (has_many_warnings($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected fewer warning log entries");
+    }
+    if (has_many_notices($logs_in_last_hour, $logs_in_last_day)) {
+        throw new Exception("Expected fewer notice log entries");
+    }
+
     echo "OK:";
+}
+
+function has_emergencies($logs_in_last_hour, $logs_in_last_day) {
+    return count(array_filter($logs_in_last_hour, 'is_emergency_line')) > 0;
+}
+
+function has_alerts($logs_in_last_hour, $logs_in_last_day) {
+    return count(array_filter($logs_in_last_hour, 'is_alert_line')) > 0;
+}
+
+function has_critical($logs_in_last_hour, $logs_in_last_day) {
+    return count(array_filter($logs_in_last_hour, 'is_critical_line')) > 0;
+}
+
+function has_many_errors($logs_in_last_hour, $logs_in_last_day) {
+    $many_errors_per_hour = count(array_filter($logs_in_last_hour, 'is_error_line')) > 1;
+    $many_errors_per_day = count(array_filter($logs_in_last_day, 'is_error_line')) > 5;
+    return $many_errors_per_hour || $many_errors_per_day;
+}
+
+function has_many_warnings($logs_in_last_hour, $logs_in_last_day) {
+    $many_warnings_per_hour = count(array_filter($logs_in_last_hour, 'is_warning_line')) > 10;
+    $many_warnings_per_day = count(array_filter($logs_in_last_day, 'is_warning_line')) > 50;
+    return $many_warnings_per_hour || $many_warnings_per_day;
+}
+
+function has_many_notices($logs_in_last_hour, $logs_in_last_day) {
+    $many_notice_per_hour = count(array_filter($logs_in_last_hour, 'is_notice_line')) > 100;
+    $many_notice_per_day = count(array_filter($logs_in_last_day, 'is_notice_line')) > 500;
+    return $many_notice_per_hour || $many_notice_per_day;
+}
+
+function is_emergency_line($line) {
+    return preg_match('/\.EMERGENCY\:/', $line);
+}
+
+function is_alert_line($line) {
+    return preg_match('/\.ALERT\:/', $line);
+}
+
+function is_critical_line($line) {
+    return preg_match('/\.CRITICAL\:/', $line);
+}
+
+function is_error_line($line) {
+    return preg_match('/\.ERROR\:/', $line);
+}
+
+function is_warning_line($line) {
+    return preg_match('/\.WARNING\:/', $line);
+}
+
+function is_notice_line($line) {
+    return preg_match('/\.NOTICE\:/', $line);
 }

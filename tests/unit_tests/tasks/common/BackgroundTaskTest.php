@@ -60,6 +60,10 @@ class FakeBackgroundTaskEnvUtils {
     public function getDataPath() {
         return '/fake/data/path/';
     }
+
+    public function getLogger($ident) {
+        return new Logger('');
+    }
 }
 
 /**
@@ -77,7 +81,6 @@ final class BackgroundTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTask.txt', $job->generateLogPath());
         $this->assertSame(true, $job->setup_called);
         $this->assertSame(true, $job->task_run);
         $this->assertSame(true, $job->teardown_called);
@@ -93,7 +96,6 @@ final class BackgroundTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeTaskWithoutSetupTeardown.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
     }
 
@@ -107,7 +109,6 @@ final class BackgroundTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $this->assertSame('/fake/data/path/tasks/log_2020-03-13_19_30_00_FakeFailingTask.txt', $job->generateLogPath());
         $this->assertSame(true, $job->task_run);
     }
 }

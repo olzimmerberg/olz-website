@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
+
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../../fake/FakeLogHandler.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
@@ -10,7 +14,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
  * @covers \EnvUtils
  */
 final class EnvUtilsTest extends UnitTestCase {
-    public function testCreateEmail(): void {
+    public function testConfigure(): void {
         $env_utils = new EnvUtils();
 
         $env_utils->setDataPath('//');
@@ -94,5 +98,65 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpUsername());
         $this->assertSame('1234', $env_utils->getSmtpPassword());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpFrom());
+    }
+
+    public function testActivateDeactivateLogger(): void {
+        $logger1 = new Logger('logger1');
+        $logger2 = new Logger('logger2');
+
+        $null_handler = set_exception_handler(null);
+        $this->assertSame(null, $null_handler);
+        restore_exception_handler();
+
+        EnvUtils::activateLogger($logger1);
+
+        $logger1_handler1 = set_exception_handler(null);
+        $this->assertNotSame(null, $logger1_handler1);
+        restore_exception_handler();
+
+        EnvUtils::activateLogger($logger2);
+
+        $logger2_handler = set_exception_handler(null);
+        $this->assertNotSame(null, $logger2_handler);
+        $this->assertNotSame($logger1_handler1, $logger2_handler);
+        restore_exception_handler();
+
+        EnvUtils::deactivateLogger($logger2);
+
+        $logger1_handler2 = set_exception_handler(null);
+        $this->assertSame($logger1_handler1, $logger1_handler2);
+        restore_exception_handler();
+
+        EnvUtils::deactivateLogger($logger1);
+
+        $null_handler2 = set_exception_handler(null);
+        $this->assertSame(null, $null_handler2);
+        restore_exception_handler();
+    }
+
+    public function testActivateDeactivateLoggerInconsistency(): void {
+        $logger1 = new Logger('logger1');
+        $log_handler1 = new FakeLogHandler();
+        $logger1->pushHandler($log_handler1);
+        $logger2 = new Logger('logger2');
+        $log_handler2 = new FakeLogHandler();
+        $logger2->pushHandler($log_handler2);
+
+        EnvUtils::activateLogger($logger1);
+        EnvUtils::activateLogger($logger2);
+        EnvUtils::deactivateLogger($logger1);
+
+        $this->assertSame([
+            "ERROR Inconsistency deactivating handler: Expected logger2, but deactivating logger1",
+        ], $log_handler1->getPrettyRecords());
+        $this->assertSame([], $log_handler2->getPrettyRecords());
+        $log_handler1->records = [];
+
+        EnvUtils::activateLogger($logger2);
+        EnvUtils::deactivateLogger($logger2);
+        EnvUtils::deactivateLogger($logger1);
+
+        $this->assertSame([], $log_handler1->getPrettyRecords());
+        $this->assertSame([], $log_handler2->getPrettyRecords());
     }
 }

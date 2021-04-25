@@ -1,10 +1,7 @@
 <?php
 
-use Monolog\ErrorHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
-
 require_once __DIR__.'/../../config/vendor/autoload.php';
+require_once __DIR__.'/../../utils/env/EnvUtils.php';
 
 abstract class BackgroundTask {
     use Psr\Log\LoggerAwareTrait;
@@ -12,6 +9,8 @@ abstract class BackgroundTask {
     public function __construct($dateUtils, $envUtils) {
         $this->dateUtils = $dateUtils;
         $this->envUtils = $envUtils;
+        $logger = $this->envUtils->getLogger("Task:{$this->getIdent()}");
+        $this->setLogger($logger);
     }
 
     protected function setup() {
@@ -20,21 +19,8 @@ abstract class BackgroundTask {
     protected function teardown() {
     }
 
-    public function setDefaultFileLogger() {
-        $data_path = $this->envUtils->getDataPath();
-        $log_path = "{$data_path}logs/";
-        if (!is_dir($log_path)) {
-            mkdir($log_path, 0777, true);
-        }
-        $logger = new Logger($this->getIdent());
-        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
-        $this->setLogger($logger);
-    }
-
     public function run() {
-        $handler = new ErrorHandler($this->logger);
-        $handler->registerErrorHandler();
-        $handler->registerExceptionHandler();
+        EnvUtils::activateLogger($this->logger);
 
         $this->logger->info("Setup task {$this->getIdent()}...");
         $this->setup();
@@ -49,14 +35,7 @@ abstract class BackgroundTask {
             $this->teardown();
         }
 
-        restore_error_handler();
-        restore_exception_handler();
-    }
-
-    public function generateLogPath() {
-        $data_path = $this->envUtils->getDataPath();
-        $timestamp = $this->dateUtils->getCurrentDateInFormat('Y-m-d_H_i_s');
-        return "{$data_path}tasks/log_{$timestamp}_{$this->getIdent()}.txt";
+        EnvUtils::deactivateLogger($this->logger);
     }
 
     abstract protected static function getIdent();

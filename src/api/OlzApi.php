@@ -18,7 +18,6 @@ class OlzApi {
                     require_once __DIR__.'/../tasks/SyncSolvTask.php';
                     $date_utils = $_DATE;
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
-                    $sync_solv_task->setDefaultFileLogger();
                     $endpoint->setSyncSolvTask($sync_solv_task);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);
@@ -42,7 +41,6 @@ class OlzApi {
                     $email_utils = EmailUtils::fromEnv();
                     $telegram_utils = TelegramUtils::fromEnv();
                     $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
-                    $send_daily_notifications_task->setDefaultFileLogger();
                     $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);

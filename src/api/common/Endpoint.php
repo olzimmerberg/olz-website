@@ -1,9 +1,5 @@
 <?php
 
-use Monolog\ErrorHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
-
 require_once __DIR__.'/api.php';
 require_once __DIR__.'/HttpError.php';
 require_once __DIR__.'/validate.php';
@@ -29,18 +25,6 @@ abstract class Endpoint {
     /** Override to enjoy throttling! */
     public function shouldFailThrottling() {
         return false;
-    }
-
-    public function setDefaultFileLogger() {
-        global $data_path;
-        require_once __DIR__.'/../../config/paths.php';
-        $log_path = "{$data_path}logs/";
-        if (!is_dir($log_path)) {
-            mkdir($log_path, 0777, true);
-        }
-        $logger = new Logger($this->getIdent());
-        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
-        $this->setLogger($logger);
     }
 
     public function setSetupFunction($new_setup_function) {
@@ -79,10 +63,6 @@ abstract class Endpoint {
             throw new HttpError(429, "Zu viele Anfragen.");
         }
 
-        $handler = new ErrorHandler($this->logger);
-        $handler->registerErrorHandler();
-        $handler->registerExceptionHandler();
-
         try {
             $validated_input = backend_validate($this->getRequestFields(), $raw_input);
             $this->logger->info("Valid user request");
@@ -111,9 +91,6 @@ abstract class Endpoint {
             $this->logger->critical("Bad output prohibited", $verr->getStructuredAnswer());
             throw new HttpError(500, "Es ist ein Fehler aufgetreten. Bitte später nochmals versuchen.", $verr);
         }
-
-        restore_error_handler();
-        restore_exception_handler();
 
         return $validated_result;
     }

@@ -5,6 +5,7 @@ require_once __DIR__.'/common/Endpoint.php';
 require_once __DIR__.'/common/validate.php';
 require_once __DIR__.'/../config/init.php';
 require_once __DIR__.'/../utils/auth/StravaUtils.php';
+require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/../utils/session/StandardSession.php';
 
 $endpoint_name = sanitized_endpoint_name_from_path_info($_SERVER['PATH_INFO']);
@@ -22,10 +23,14 @@ function call_api($endpoint_name) {
     if (!isset($olz_api->endpoints[$endpoint_name])) {
         throw new HttpError(400, 'Invalid endpoint');
     }
+    $logger = EnvUtils::fromEnv()->getLogger("Endpoint:{$endpoint_name}");
+    EnvUtils::activateLogger($logger);
     $endpoint = $olz_api->endpoints[$endpoint_name]();
     $endpoint->setServer($_SERVER);
-    $endpoint->setDefaultFileLogger();
+    $endpoint->setLogger($logger);
     $endpoint->setup();
     $input = $endpoint->parseInput();
-    return $endpoint->call($input);
+    $result = $endpoint->call($input);
+    EnvUtils::deactivateLogger($logger);
+    return $result;
 }

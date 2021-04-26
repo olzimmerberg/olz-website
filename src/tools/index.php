@@ -51,6 +51,9 @@ function run_tools($command_config, $server) {
 }
 
 function run_command($command, $callback, $args) {
+    require_once __DIR__.'/../utils/env/EnvUtils.php';
+    $logger = EnvUtils::fromEnv()->getLogger("Tool:{$command}");
+    EnvUtils::activateLogger($logger);
     try {
         if (!is_callable($callback)) {
             throw new Exception('callback not callable');
@@ -66,6 +69,9 @@ function run_command($command, $callback, $args) {
         echo $exc->getMessage()."\n";
         require_once __DIR__.'/../utils/GeneralUtils.php';
         $general_utils = GeneralUtils::fromEnv();
-        echo $general_utils->getPrettyTrace($exc->getTrace());
+        $pretty_trace = $general_utils->getPrettyTrace($exc->getTrace());
+        echo $pretty_trace;
+        $logger->error("Tool {$command} failed with error: {$exc->getMessage()}", [$pretty_trace]);
     }
+    EnvUtils::deactivateLogger($logger);
 }

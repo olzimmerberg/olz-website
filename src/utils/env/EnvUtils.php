@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -7,6 +8,8 @@ require_once __DIR__.'/../../config/init.php';
 require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class EnvUtils {
+    private static $activated_loggers_stack = [];
+
     private $data_path;
     private $data_href;
     private $code_path;
@@ -256,6 +259,24 @@ class EnvUtils {
         $logger = new Logger($ident);
         $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
         return $logger;
+    }
+
+    public static function activateLogger($logger) {
+        $handler = new ErrorHandler($logger);
+        $handler->registerErrorHandler();
+        $handler->registerExceptionHandler();
+        array_push(self::$activated_loggers_stack, $logger);
+    }
+
+    public static function deactivateLogger($logger) {
+        $expected_logger = array_pop(self::$activated_loggers_stack);
+        if ($expected_logger != $logger) {
+            $expected_name = $expected_logger->getName();
+            $actual_name = $logger->getName();
+            $logger->error("Inconsistency deactivating handler: Expected {$expected_name}, but deactivating {$actual_name}");
+        }
+        restore_error_handler();
+        restore_exception_handler();
     }
 
     protected static $from_env_instance = null;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
+require_once __DIR__.'/../../fake/FakeLogHandler.php';
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
@@ -187,6 +188,9 @@ class FakeSendDailyNotificationsTaskOlzMailer {
 }
 
 class FakeSendDailyNotificationsTaskEnvUtils {
+    public function getLogger($ident) {
+        return new Logger('');
+    }
 }
 
 class FakeSendDailyNotificationsTaskTelegramUtils {
@@ -325,25 +329,6 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
     }
 }
 
-class FakeSendDailyNotificationsTaskLogHandler implements Monolog\Handler\HandlerInterface {
-    public $records;
-
-    public function isHandling(array $args): bool {
-        return true;
-    }
-
-    public function handle(array $record): bool {
-        $this->records[] = $record;
-        return true;
-    }
-
-    public function handleBatch(array $records): void {
-    }
-
-    public function close(): void {
-    }
-}
-
 /**
  * @internal
  * @covers \SendDailyNotificationsTask
@@ -360,7 +345,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('SendDailyNotificationsTaskTest');
-        $log_handler = new FakeSendDailyNotificationsTaskLogHandler();
+        $log_handler = new FakeLogHandler();
         $logger->pushHandler($log_handler);
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
@@ -484,10 +469,6 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "CRITICAL Unknown notification type 'invalid-type'",
             "INFO Finished task SendDailyNotifications.",
             "INFO Teardown task SendDailyNotifications...",
-        ], array_map(function ($record) {
-            $level_name = $record['level_name'];
-            $message = $record['message'];
-            return "{$level_name} {$message}";
-        }, $log_handler->records));
+        ], $log_handler->getPrettyRecords());
     }
 }

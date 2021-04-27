@@ -62,6 +62,7 @@ function olz_profile_form($args): string {
                 value='{$esc_username}'
                 class='form-control'
                 id='profile-username-input'
+                onfocus='return olzProfileFormOnUsernameFocus(this.form);'
             />
         </div>
         <div class='col change-password-cell'>
@@ -99,7 +100,7 @@ function olz_profile_form($args): string {
     <div class='form-group'>
         <label for='profile-email-input'>E-Mail <span class='required-field-asterisk'>*</span></label>
         <input
-            type='email'
+            type='text'
             name='email'
             value='{$esc_email}'
             class='form-control'

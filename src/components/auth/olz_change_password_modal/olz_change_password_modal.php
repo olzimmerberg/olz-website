@@ -46,7 +46,7 @@ function olz_change_password_modal($args = []): string {
                         </div>
                         <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
-                            <button type='submit' class='btn btn-primary'>Passwort ändern</button>
+                            <button id='change-password-submit-button' type='submit' class='btn btn-primary'>Passwort ändern</button>
                         </div>
                     </form>
                 </div>

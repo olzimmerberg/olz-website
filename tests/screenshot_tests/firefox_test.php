@@ -42,6 +42,7 @@ require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/webftp.php';
 require_once __DIR__.'/modules/live_results.php';
 require_once __DIR__.'/modules/resultate.php';
+require_once __DIR__.'/modules/konto_passwort.php';
 
 date_default_timezone_set('Europe/Zurich');
 
@@ -107,6 +108,7 @@ $blocks = [
         test_webftp($driver, $code_href);
         test_live_results($driver, $code_href);
         test_resultate($driver, $code_href);
+        test_konto_passwort($driver, $code_href);
 
         echo get_pretty_timing_report();
     },

@@ -35,6 +35,22 @@ function test_profil_readonly($driver, $base_url) {
         return $change_password_modal->getCssValue('opacity') == 1;
     });
 
+    $old_password_input = $driver->findElement(
+        WebDriverBy::cssSelector('#change-password-old-input')
+    );
+    $old_password_input->sendKeys('kurz');
+    $new_password_input = $driver->findElement(
+        WebDriverBy::cssSelector('#change-password-new-input')
+    );
+    $new_password_input->sendKeys('zukurz');
+    $password_repeat_input = $driver->findElement(
+        WebDriverBy::cssSelector('#change-password-repeat-input')
+    );
+    $password_repeat_input->sendKeys('anders');
+    $submit_button = $driver->findElement(
+        WebDriverBy::cssSelector('#change-password-submit-button')
+    );
+    $submit_button->click();
     take_pageshot($driver, 'change_password_admin');
 
     logout($driver, $base_url);

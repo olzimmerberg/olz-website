@@ -64,7 +64,7 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         $user->setFirstName($first_name);
         $user->setLastName($last_name);
         $user->setGender($input['gender']);
-        $user->setBirthdate($input['birthdate']);
+        $user->setBirthdate(new DateTime($input['birthdate']));
         $user->setStreet($input['street']);
         $user->setPostalCode($input['postalCode']);
         $user->setCity($input['city']);

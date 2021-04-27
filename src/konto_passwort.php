@@ -31,7 +31,7 @@ echo olz_profile_form([
 ]);
 echo <<<'ZZZZZZZZZZ'
     <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
-    <button type='submit' class='btn btn-primary'>Konto erstellen</button>
+    <button id='sign-up-with-password-submit-button' type='submit' class='btn btn-primary'>Konto erstellen</button>
     <div class='error-message alert alert-danger' role='alert'></div>
 </form>
 ZZZZZZZZZZ;

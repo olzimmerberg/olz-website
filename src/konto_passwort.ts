@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getIsoDateFromSwissFormat, getEmail, getGender, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
@@ -9,13 +9,17 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
         password: (f) => {
             const password = f.password.value;
             const passwordRepeat = form['password-repeat'].value;
-            if (password !== passwordRepeat) {
+            const hasInvalidRepetition = password !== passwordRepeat;
+            if (hasInvalidRepetition) {
                 showErrorOnField(form['password-repeat'], 'Das Passwort und die Wiederholung müssen übereinstimmen!');
-                throw new ValidationError('', {});
             } else {
                 clearErrorOnField(form['password-repeat']);
             }
-            return password;
+            const result = getPassword('password', password);
+            if (hasInvalidRepetition) {
+                throw new ValidationError('', {});
+            }
+            return result;
         },
         email: (f) => getEmail('email', f.email.value),
         gender: (f) => getGender('gender', f.gender.value),

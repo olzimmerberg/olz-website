@@ -159,3 +159,15 @@ export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefine
     const isoDate = new Date(timestamp).toISOString().substr(0, 10);
     return `${isoDate} 12:00:00`;
 }
+
+export function getPassword(fieldId: string, passwordInput: string|undefined): string|null {
+    if (!passwordInput) {
+        return null;
+    }
+    if (passwordInput.length < 8) {
+        throw new ValidationError('', {
+            [fieldId]: ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
+        });
+    }
+    return passwordInput;
+}

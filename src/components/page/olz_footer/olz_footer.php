@@ -7,7 +7,7 @@ function olz_footer($args = []): string {
     $out .= "</div>"; // site-background
 
     $out .= "<div class='footer'>";
-    $out .= "<a href='fuer_einsteiger.php'>Für Einsteiger</a>";
+    $out .= "<a href='fuer_einsteiger.php?von=footer'>Für Einsteiger</a>";
     $out .= "<a href='fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
     $out .= "<a href='datenschutz.php'>Datenschutz</a>";
     $out .= "</div>"; // footer

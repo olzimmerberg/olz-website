@@ -61,6 +61,7 @@ class LoginEndpoint extends Endpoint {
         $this->session->set('auth', $user->getZugriff());
         $this->session->set('root', $root);
         $this->session->set('user', $username);
+        $this->session->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED', $username);
         return [
             'status' => 'AUTHENTICATED',

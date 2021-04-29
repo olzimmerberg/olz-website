@@ -27,7 +27,8 @@ npm run webpack-build
 php -S "$DOMAIN" -t ./dev-server/ &
 DEVSERVER_PID=$!
 
-# Run test
+# Run test, allow aborting
+set +e
 EXIT_CODE=0
 php tests/screenshot_tests/firefox_test.php $@
 EXIT_CODE=$?

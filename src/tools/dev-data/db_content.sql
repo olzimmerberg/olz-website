@@ -197,6 +197,10 @@ VALUES
 -- Table strava_links
 
 -- Table telegram_links
+INSERT INTO telegram_links
+    (`id`, `user_id`, `pin`, `pin_expires_at`, `telegram_chat_id`, `telegram_user_id`, `telegram_chat_state`, `created_at`, `linked_at`)
+VALUES
+    ('1', '1', '12345678', '2021-04-29 17:16:19', '1', '1', '[]', '2021-04-29 17:16:19', '2021-04-29 17:16:19');
 
 -- Table termine
 INSERT INTO termine
@@ -225,7 +229,7 @@ VALUES
 INSERT INTO users
     (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`)
 VALUES
-    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', '', 'Armin 😂', 'Admin 🤣', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@test.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp olz_text_1 aktuell galerie bild_der_woche', 'vorstand', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp', 'karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

@@ -14,35 +14,35 @@ require_once __DIR__.'/utils/database.php';
 require_once __DIR__.'/utils/timing.php';
 require_once __DIR__.'/utils/window.php';
 
-require_once __DIR__.'/modules/index.php';
-require_once __DIR__.'/modules/startseite.php';
-require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/aktuell.php';
-require_once __DIR__.'/modules/leistungssport.php';
-require_once __DIR__.'/modules/termine.php';
-require_once __DIR__.'/modules/galerie.php';
-require_once __DIR__.'/modules/forum.php';
-require_once __DIR__.'/modules/karten.php';
-require_once __DIR__.'/modules/material.php';
-require_once __DIR__.'/modules/service.php';
-require_once __DIR__.'/modules/links.php';
+require_once __DIR__.'/modules/bild_der_woche.php';
+require_once __DIR__.'/modules/datenschutz.php';
+require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/downloads.php';
-require_once __DIR__.'/modules/newsletter.php';
 require_once __DIR__.'/modules/email_reaktion.php';
-require_once __DIR__.'/modules/verein.php';
-require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/error.php';
-require_once __DIR__.'/modules/search.php';
+require_once __DIR__.'/modules/forum.php';
 require_once __DIR__.'/modules/fragen_und_antworten.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
-require_once __DIR__.'/modules/datenschutz.php';
-require_once __DIR__.'/modules/login_logout.php';
-require_once __DIR__.'/modules/profil.php';
-require_once __DIR__.'/modules/divmail.php';
-require_once __DIR__.'/modules/webftp.php';
-require_once __DIR__.'/modules/live_results.php';
-require_once __DIR__.'/modules/resultate.php';
+require_once __DIR__.'/modules/galerie.php';
+require_once __DIR__.'/modules/index.php';
+require_once __DIR__.'/modules/karten.php';
 require_once __DIR__.'/modules/konto_passwort.php';
+require_once __DIR__.'/modules/leistungssport.php';
+require_once __DIR__.'/modules/links.php';
+require_once __DIR__.'/modules/live_results.php';
+require_once __DIR__.'/modules/login_logout.php';
+require_once __DIR__.'/modules/material.php';
+require_once __DIR__.'/modules/newsletter.php';
+require_once __DIR__.'/modules/profil.php';
+require_once __DIR__.'/modules/resultate.php';
+require_once __DIR__.'/modules/search.php';
+require_once __DIR__.'/modules/service.php';
+require_once __DIR__.'/modules/startseite.php';
+require_once __DIR__.'/modules/termine.php';
+require_once __DIR__.'/modules/trophy.php';
+require_once __DIR__.'/modules/verein.php';
+require_once __DIR__.'/modules/webftp.php';
 
 date_default_timezone_set('Europe/Zurich');
 
@@ -68,6 +68,7 @@ $blocks = [
     function ($driver, $code_href) {
         init_test_block($driver);
 
+        // no specific order
         test_index($driver, $code_href);
         test_startseite($driver, $code_href);
         test_bild_der_woche($driver, $code_href);
@@ -75,16 +76,16 @@ $blocks = [
         test_leistungssport($driver, $code_href);
         test_termine($driver, $code_href);
         test_galerie($driver, $code_href);
-        test_forum($driver, $code_href);
 
         echo get_pretty_timing_report();
     },
     function ($driver, $code_href) {
         init_test_block($driver);
 
+        // no specific order
+        test_forum($driver, $code_href);
         test_karten($driver, $code_href);
         test_material($driver, $code_href);
-        test_service($driver, $code_href);
         test_links($driver, $code_href);
         test_downloads($driver, $code_href);
         test_newsletter($driver, $code_href);
@@ -99,6 +100,7 @@ $blocks = [
     function ($driver, $code_href) {
         init_test_block($driver);
 
+        // no specific order
         test_fuer_einsteiger($driver, $code_href);
         test_fragen_und_antworten($driver, $code_href);
         test_datenschutz($driver, $code_href);
@@ -109,6 +111,7 @@ $blocks = [
         test_live_results($driver, $code_href);
         test_resultate($driver, $code_href);
         test_konto_passwort($driver, $code_href);
+        test_service($driver, $code_href);
 
         echo get_pretty_timing_report();
     },

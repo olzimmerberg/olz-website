@@ -161,6 +161,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth' => '',
             'root' => null,
             'user' => 'fakeUsername',
+            'user_id' => null,
         ], $session->session_storage);
         $this->assertSame([
             [

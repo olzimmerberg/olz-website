@@ -72,6 +72,7 @@ class FakeLoginWithStravaEndpointUserRepository {
     public function findOneBy($where) {
         if ($where === ['username' => 'admin']) {
             $admin_user = get_fake_user();
+            $admin_user->setId(2);
             $admin_user->setUsername('admin');
             $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
             $admin_user->setZugriff('ftp');
@@ -170,6 +171,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'auth' => null,
             'root' => null,
             'user' => 'user',
+            'user_id' => 1,
         ], $session->session_storage);
         $this->assertSame([
             [

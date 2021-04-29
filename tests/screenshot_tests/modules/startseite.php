@@ -13,21 +13,6 @@ function test_startseite($driver, $base_url) {
 
     test_startseite_readonly($driver, $base_url);
 
-    login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$startseite_url}");
-    $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$startseite_url}");
-
-    $edit_button = $driver->findElement(
-        WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-button')
-    );
-    $edit_button->click();
-    $text_input = $driver->findElement(
-        WebDriverBy::cssSelector('#important-banner .olz-editable-text textarea[name="text"]')
-    );
-    $text_input->sendKeys('Neue Information!');
-    take_pageshot($driver, 'startseite_banner_edit');
-
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-submit')
     );
@@ -50,4 +35,19 @@ function test_startseite_readonly($driver, $base_url) {
     global $startseite_url;
     $driver->get("{$base_url}{$startseite_url}");
     take_pageshot($driver, 'startseite');
+
+    login($driver, $base_url, 'admin', 'adm1n');
+    $driver->get("{$base_url}{$startseite_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$startseite_url}");
+
+    $edit_button = $driver->findElement(
+        WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-button')
+    );
+    $edit_button->click();
+    $text_input = $driver->findElement(
+        WebDriverBy::cssSelector('#important-banner .olz-editable-text textarea[name="text"]')
+    );
+    $text_input->sendKeys('Neue Information!');
+    take_pageshot($driver, 'startseite_banner_edit');
 }

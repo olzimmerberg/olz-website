@@ -35,7 +35,13 @@ if ($user) {
                 <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                 {$form}
                 <p class="card-text text-right">
-                    <button type='submit' class='btn btn-light btn-sm'>Speichern</button>
+                    <button
+                        id='email-notifications-submit'
+                        type='submit'
+                        class='btn btn-light btn-sm'
+                    >
+                        Speichern
+                    </button>
                 </p>
                 <div id='email-notifications-success-message' class='alert alert-success' role='alert'></div>
                 <div id='email-notifications-error-message' class='alert alert-danger' role='alert'></div>

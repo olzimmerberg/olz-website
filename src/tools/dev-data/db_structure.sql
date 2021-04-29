@@ -547,7 +547,7 @@ CREATE TABLE `telegram_links` (
   KEY `telegram_user_id_index` (`telegram_user_id`),
   KEY `telegram_chat_id_index` (`telegram_chat_id`),
   CONSTRAINT `FK_CC49A25AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

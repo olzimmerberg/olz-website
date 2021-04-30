@@ -12,4 +12,11 @@ class IntegerField extends NumberField {
         }
         return $validation_errors;
     }
+
+    public function parse($string) {
+        if (preg_match('/^[0-9\\-]+$/', $string)) {
+            return intval($string);
+        }
+        return null;
+    }
 }

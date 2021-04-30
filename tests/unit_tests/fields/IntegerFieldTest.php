@@ -20,6 +20,15 @@ final class IntegerFieldTest extends UnitTestCase {
         $this->assertSame('number|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new IntegerField('fake', []);
+        $this->assertSame(0, $field->parse('0'));
+        $this->assertSame(1234, $field->parse('1234'));
+        $this->assertSame(-1234, $field->parse('-1234'));
+        $this->assertSame(null, $field->parse('test'));
+        $this->assertSame(null, $field->parse(''));
+    }
+
     public function testMinValueDefault(): void {
         $field = new IntegerField('fake', []);
         $this->assertSame(null, $field->getMinValue());

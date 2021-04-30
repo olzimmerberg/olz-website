@@ -9,9 +9,21 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
 
+    require_once __DIR__.'/fields/IntegerField.php';
+    require_once __DIR__.'/fields/StringField.php';
+    require_once __DIR__.'/utils/client/HttpUtils.php';
+    require_once __DIR__.'/utils/env/EnvUtils.php';
+    $env_utils = EnvUtils::fromEnv();
+    $logger = $env_utils->getLogger(basename(__FILE__));
+    $http_utils = HttpUtils::fromEnv();
+    $http_utils->setLogger($logger);
+    $http_utils->validateGetParams([
+        new IntegerField('id', ['allow_null' => true]),
+        new StringField('buttongalerie', ['allow_null' => true]),
+    ], $_GET);
+
     if (isset($_GET['datum']) || isset($_GET['foto'])) {
-        require_once __DIR__.'/utils/client/HttpUtils.php';
-        HttpUtils::fromEnv()->dieWithHttpError(404);
+        $http_utils->dieWithHttpError(404);
     }
 
     $html_title = "Galerie";
@@ -20,8 +32,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
         $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
-            require_once __DIR__.'/utils/client/HttpUtils.php';
-            HttpUtils::fromEnv()->dieWithHttpError(404);
+            $http_utils->dieWithHttpError(404);
         }
         while ($row = $res->fetch_assoc()) {
             $html_title = $row['titel'];

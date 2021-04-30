@@ -20,6 +20,12 @@ final class FieldTest extends UnitTestCase {
         $this->assertSame('any', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new Field('fake', []);
+        $this->assertSame('test', $field->parse('test'));
+        $this->assertSame(null, $field->parse(''));
+    }
+
     public function testGetId(): void {
         $field = new Field('fake', []);
         $this->assertSame('fake', $field->getId());

@@ -1,10 +1,10 @@
 <?php
 
 require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../common/ValidationError.php';
 require_once __DIR__.'/../../fields/DateTimeField.php';
 require_once __DIR__.'/../../fields/EnumField.php';
 require_once __DIR__.'/../../fields/StringField.php';
+require_once __DIR__.'/../../utils/ValidationError.php';
 
 class SignUpWithPasswordEndpoint extends Endpoint {
     public function setAuthUtils($new_auth_utils) {

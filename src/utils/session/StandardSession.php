@@ -7,12 +7,18 @@ class StandardSession extends AbstractSession {
     public function __construct() {
         $session_already_exists = session_id() != '' && isset($_SESSION);
         if ($session_already_exists) {
+            // @codeCoverageIgnoreStart
+            // Reason: Cannot have an existing session in tests.
             return;
+            // @codeCoverageIgnoreEnd
         }
         $session_can_be_created = !headers_sent();
         $was_successful = false;
         if ($session_can_be_created) {
+            // @codeCoverageIgnoreStart
+            // Reason: Cannot start session in tests.
             $was_successful = session_start();
+            // @codeCoverageIgnoreEnd
         }
         if (!$was_successful) {
             global $_SESSION;

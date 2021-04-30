@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Monolog\Logger;
+
+require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/client/HttpUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
@@ -61,6 +64,33 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(["Location: https://test.ch"], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Weiterleitung/i', $http_utils->sent_http_body);
         $this->assertSame(true, $http_utils->has_exited_execution);
+    }
+
+    public function testValidateGetParamsSuccessful(): void {
+        $http_utils = HttpUtilsForTest::fromEnv();
+
+        $validated_get_params = $http_utils->validateGetParams([
+            new Field('input', ['allow_null' => false]),
+        ], ['input' => 'test']);
+
+        $this->assertSame(['input' => 'test'], $validated_get_params);
+    }
+
+    public function testValidateGetParamsWithError(): void {
+        $logger = new Logger('HttpUtilsIntegrationTest');
+        $http_utils = HttpUtilsForTest::fromEnv();
+        $http_utils->setLogger($logger);
+
+        $validated_get_params = $http_utils->validateGetParams([
+            new Field('input', ['allow_null' => false]),
+        ], ['input' => null]);
+
+        $this->assertSame([], $validated_get_params);
+        // TODO: Uncomment this, once we are sure we know all the GET variables.
+        // $this->assertSame(400, $http_utils->sent_http_response_code);
+        // $this->assertSame([], $http_utils->sent_http_header_lines);
+        // $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
+        // $this->assertSame(true, $http_utils->has_exited_execution);
     }
 
     public function testHttpUtilsFromEnv(): void {

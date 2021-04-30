@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__.'/../../../../src/api/common/HttpError.php';
-require_once __DIR__.'/../../../../src/api/common/ValidationError.php';
+require_once __DIR__.'/../../../../src/utils/ValidationError.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

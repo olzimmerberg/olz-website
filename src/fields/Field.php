@@ -35,6 +35,13 @@ class Field {
         return $validation_errors;
     }
 
+    public function parse($string) {
+        if ($string == '') {
+            return null;
+        }
+        return $string;
+    }
+
     public function getTypeScriptType() {
         return 'any';
     }

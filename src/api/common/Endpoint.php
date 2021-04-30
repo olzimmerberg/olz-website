@@ -2,8 +2,8 @@
 
 require_once __DIR__.'/api.php';
 require_once __DIR__.'/HttpError.php';
-require_once __DIR__.'/validate.php';
 require_once __DIR__.'/../../config/vendor/autoload.php';
+require_once __DIR__.'/../../utils/FieldUtils.php';
 require_once __DIR__.'/../../utils/session/AbstractSession.php';
 
 abstract class Endpoint {
@@ -62,9 +62,10 @@ abstract class Endpoint {
             $this->logger->error("Throttled user request");
             throw new HttpError(429, "Zu viele Anfragen.");
         }
+        $field_utils = FieldUtils::fromEnv();
 
         try {
-            $validated_input = backend_validate($this->getRequestFields(), $raw_input);
+            $validated_input = $field_utils->validate($this->getRequestFields(), $raw_input);
             $this->logger->info("Valid user request");
         } catch (ValidationError $verr) {
             $this->logger->warning("Bad user request", $verr->getStructuredAnswer());
@@ -85,7 +86,7 @@ abstract class Endpoint {
         }
 
         try {
-            $validated_result = backend_validate($this->getResponseFields(), $raw_result);
+            $validated_result = $field_utils->validate($this->getResponseFields(), $raw_result);
             $this->logger->info("Valid user response");
         } catch (ValidationError $verr) {
             $this->logger->critical("Bad output prohibited", $verr->getStructuredAnswer());

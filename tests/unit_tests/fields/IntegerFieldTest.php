@@ -25,8 +25,13 @@ final class IntegerFieldTest extends UnitTestCase {
         $this->assertSame(0, $field->parse('0'));
         $this->assertSame(1234, $field->parse('1234'));
         $this->assertSame(-1234, $field->parse('-1234'));
-        $this->assertSame(null, $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        try {
+            $field->parse('test');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame("Unlesbare Ganzzahl: 'test'", $exc->getMessage());
+        }
     }
 
     public function testMinValueDefault(): void {

@@ -3,6 +3,8 @@
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/server.php';
 require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../utils/env/EnvUtils.php';
+require_once __DIR__.'/../utils/env/LogsUtils.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/deploy_cleanup.php';
 require_once __DIR__.'/doctrine_migrations.php';
@@ -52,8 +54,8 @@ function run_tools($command_config, $server) {
 
 function run_command($command, $callback, $args) {
     require_once __DIR__.'/../utils/env/EnvUtils.php';
-    $logger = EnvUtils::fromEnv()->getLogger("Tool:{$command}");
-    EnvUtils::activateLogger($logger);
+    $logger = EnvUtils::fromEnv()->getLogsUtils()->getLogger("Tool:{$command}");
+    LogsUtils::activateLogger($logger);
     try {
         if (!is_callable($callback)) {
             throw new Exception('callback not callable');
@@ -73,5 +75,5 @@ function run_command($command, $callback, $args) {
         echo $pretty_trace;
         $logger->error("Tool {$command} failed with error: {$exc->getMessage()}", [$pretty_trace]);
     }
-    EnvUtils::deactivateLogger($logger);
+    LogsUtils::deactivateLogger($logger);
 }

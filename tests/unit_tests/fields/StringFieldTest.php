@@ -24,6 +24,7 @@ final class StringFieldTest extends UnitTestCase {
         $field = new StringField('fake', []);
         $this->assertSame('test', $field->parse('test'));
         $this->assertSame('', $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
     }
 
     public function testAllowEmptyDefault(): void {

@@ -10,7 +10,12 @@ class FieldUtils {
             $field_id = $field->getId();
             $value = $input[$field_id] ?? null;
             if ($options['parse'] ?? false) {
-                $value = $field->parse($value);
+                try {
+                    $value = $field->parse($value);
+                } catch (Exception $exc) {
+                    $errors[$field_id] = [$exc->getMessage()];
+                    continue;
+                }
             }
             $validation_errors = $field->getValidationErrors($value);
             if (empty($validation_errors)) {

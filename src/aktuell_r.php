@@ -9,7 +9,7 @@ require_once __DIR__.'/config/date.php';
 
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
-if (isset($_GET["id"]) and (is_ganzzahl($_GET["id"]) or in_array($_GET["id"], $aktuell_special))) {
+if (isset($_GET["id"]) and is_ganzzahl($_GET["id"])) {
     $_SESSION[$db_table."id_"] = $id;
     $sql = "SELECT datum FROM {$db_table} WHERE (id='".intval($_GET["id"])."')";
     $result = $db->query($sql);

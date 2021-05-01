@@ -21,10 +21,11 @@ class BooleanField extends Field {
             case 'false':
             case '0':
                 return false;
-            default:
+            case '':
                 return null;
+            default:
+                throw new Exception("Unlesbarer Binärwert: '{$string}'");
         }
-        return null;
     }
 
     public function getTypeScriptType() {

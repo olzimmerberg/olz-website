@@ -14,7 +14,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     require_once __DIR__.'/utils/client/HttpUtils.php';
     require_once __DIR__.'/utils/env/EnvUtils.php';
     $env_utils = EnvUtils::fromEnv();
-    $logger = $env_utils->getLogger(basename(__FILE__));
+    $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
     $http_utils = HttpUtils::fromEnv();
     $http_utils->setLogger($logger);
     $http_utils->validateGetParams([

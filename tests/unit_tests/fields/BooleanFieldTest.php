@@ -26,8 +26,14 @@ final class BooleanFieldTest extends UnitTestCase {
         $this->assertSame(true, $field->parse('1'));
         $this->assertSame(false, $field->parse('false'));
         $this->assertSame(false, $field->parse('0'));
-        $this->assertSame(null, $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
+        try {
+            $field->parse('test');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame("Unlesbarer Binärwert: 'test'", $exc->getMessage());
+        }
     }
 
     public function testValidatesNullAllowed(): void {

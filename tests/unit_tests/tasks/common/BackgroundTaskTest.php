@@ -61,6 +61,12 @@ class FakeBackgroundTaskEnvUtils {
         return '/fake/data/path/';
     }
 
+    public function getLogsUtils() {
+        return new FakeBackgroundTaskLogsUtils();
+    }
+}
+
+class FakeBackgroundTaskLogsUtils {
     public function getLogger($ident) {
         return new Logger('');
     }

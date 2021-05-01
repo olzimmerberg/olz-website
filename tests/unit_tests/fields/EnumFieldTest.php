@@ -24,6 +24,7 @@ final class EnumFieldTest extends UnitTestCase {
         $field = new EnumField('fake', ['allowed_values' => ['one', 'two', 'three']]);
         $this->assertSame('test', $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
     }
 
     public function testAllowedValuesDefault(): void {

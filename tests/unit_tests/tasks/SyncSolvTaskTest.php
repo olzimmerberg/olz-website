@@ -51,6 +51,12 @@ class FakeSolvPeopleMerger {
 }
 
 class FakeSyncSolvTaskEnvUtils {
+    public function getLogsUtils() {
+        return new FakeSyncSolvTaskLogsUtils();
+    }
+}
+
+class FakeSyncSolvTaskLogsUtils {
     public function getLogger($ident) {
         return new Logger('');
     }

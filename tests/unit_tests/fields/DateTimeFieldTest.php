@@ -23,6 +23,7 @@ final class DateTimeFieldTest extends UnitTestCase {
     public function testParse(): void {
         $field = new DateTimeField('fake', []);
         $this->assertSame('test', $field->parse('test'));
+        $this->assertSame(null, $field->parse(''));
     }
 
     public function testMinValueDefault(): void {

@@ -74,7 +74,7 @@ class HttpUtils {
         try {
             $validated_get_params = $field_utils->validate($fields, $get_params, ['parse' => true]);
         } catch (ValidationError $verr) {
-            $this->logger->warning("Bad GET params", $verr->getStructuredAnswer());
+            $this->logger->notice("Bad GET params", $verr->getStructuredAnswer());
             // TODO: Uncomment this, once we are sure we know all the GET variables.
             // $this->dieWithHttpError(400);
         }

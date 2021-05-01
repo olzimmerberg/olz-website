@@ -23,6 +23,7 @@ final class StringFieldTest extends UnitTestCase {
     public function testParse(): void {
         $field = new StringField('fake', []);
         $this->assertSame('test', $field->parse('test'));
+        $this->assertSame('', $field->parse(''));
     }
 
     public function testAllowEmptyDefault(): void {

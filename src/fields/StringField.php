@@ -42,6 +42,10 @@ class StringField extends Field {
         return $validation_errors;
     }
 
+    public function parse($string) {
+        return $string;
+    }
+
     public function getTypeScriptType() {
         return $this->getAllowNull() ? 'string|null' : 'string';
     }

@@ -9,6 +9,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
 
+    require_once __DIR__.'/fields/BooleanField.php';
     require_once __DIR__.'/fields/IntegerField.php';
     require_once __DIR__.'/fields/StringField.php';
     require_once __DIR__.'/utils/client/HttpUtils.php';
@@ -19,6 +20,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     $http_utils->setLogger($logger);
     $http_utils->validateGetParams([
         new IntegerField('id', ['allow_null' => true]),
+        new BooleanField('archiv', ['allow_null' => true]),
         new StringField('buttonaktuell', ['allow_null' => true]),
     ], $_GET);
 

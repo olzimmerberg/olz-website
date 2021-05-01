@@ -20,6 +20,11 @@ final class EnumFieldTest extends UnitTestCase {
         $this->assertSame('\'one\'|\'two\'|\'three\'|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new EnumField('fake', ['allowed_values' => ['one', 'two', 'three']]);
+        $this->assertSame('test', $field->parse('test'));
+    }
+
     public function testAllowedValuesDefault(): void {
         $field = new EnumField('fake', []);
         $this->assertSame([], $field->getAllowedValues());

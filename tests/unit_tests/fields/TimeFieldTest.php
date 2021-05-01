@@ -20,6 +20,11 @@ final class TimeFieldTest extends UnitTestCase {
         $this->assertSame('string|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new TimeField('fake', []);
+        $this->assertSame('test', $field->parse('test'));
+    }
+
     public function testMinValueDefault(): void {
         $field = new TimeField('fake', []);
         $this->assertSame(null, $field->getMinValue());

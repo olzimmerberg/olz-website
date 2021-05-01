@@ -20,6 +20,11 @@ final class DateTimeFieldTest extends UnitTestCase {
         $this->assertSame('string|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new DateTimeField('fake', []);
+        $this->assertSame('test', $field->parse('test'));
+    }
+
     public function testMinValueDefault(): void {
         $field = new DateTimeField('fake', []);
         $this->assertSame(null, $field->getMinValue());

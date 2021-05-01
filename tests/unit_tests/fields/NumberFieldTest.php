@@ -20,6 +20,18 @@ final class NumberFieldTest extends UnitTestCase {
         $this->assertSame('number|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new NumberField('fake', []);
+        $this->assertSame(0.0, $field->parse('0'));
+        $this->assertSame(0.0, $field->parse('0.0'));
+        $this->assertSame(12.34, $field->parse('12.34'));
+        $this->assertSame(-12.34, $field->parse('-12.34'));
+        $this->assertSame(1234.0, $field->parse('1234'));
+        $this->assertSame(-1234.0, $field->parse('-1234'));
+        $this->assertSame(null, $field->parse('test'));
+        $this->assertSame(null, $field->parse(''));
+    }
+
     public function testMinValueDefault(): void {
         $field = new NumberField('fake', []);
         $this->assertSame(null, $field->getMinValue());

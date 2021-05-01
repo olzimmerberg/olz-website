@@ -13,6 +13,20 @@ class BooleanField extends Field {
         return $validation_errors;
     }
 
+    public function parse($string) {
+        switch ($string) {
+            case 'true':
+            case '1':
+                return true;
+            case 'false':
+            case '0':
+                return false;
+            default:
+                return null;
+        }
+        return null;
+    }
+
     public function getTypeScriptType() {
         return $this->getAllowNull() ? 'boolean|null' : 'boolean';
     }

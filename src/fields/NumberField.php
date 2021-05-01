@@ -40,6 +40,13 @@ class NumberField extends Field {
         return $validation_errors;
     }
 
+    public function parse($string) {
+        if (preg_match('/^[0-9\\.\\-]+$/', $string)) {
+            return floatval($string);
+        }
+        return null;
+    }
+
     public function getTypeScriptType() {
         return $this->getAllowNull() ? 'number|null' : 'number';
     }

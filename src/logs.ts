@@ -31,7 +31,7 @@ function processLogs(logs: string): string {
                 : line
         ))
         .map((line) => line.replace(
-            /([\w:]+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)/,
+            /(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)/,
             '<span class=\'log-channel\'>$1</span>.<span class=\'log-level $2\'>$2</span>',
         ))
         .map((line) => `<div>${line}</div>`)

@@ -20,6 +20,16 @@ final class BooleanFieldTest extends UnitTestCase {
         $this->assertSame('boolean|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new BooleanField('fake', []);
+        $this->assertSame(true, $field->parse('true'));
+        $this->assertSame(true, $field->parse('1'));
+        $this->assertSame(false, $field->parse('false'));
+        $this->assertSame(false, $field->parse('0'));
+        $this->assertSame(null, $field->parse('test'));
+        $this->assertSame(null, $field->parse(''));
+    }
+
     public function testValidatesNullAllowed(): void {
         $field = new BooleanField('fake', ['allow_null' => true]);
         $this->assertSame([], $field->getValidationErrors(true));

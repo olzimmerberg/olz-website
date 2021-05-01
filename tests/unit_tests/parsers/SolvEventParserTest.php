@@ -12,6 +12,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 final class SolvEventParserTest extends UnitTestCase {
     private $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
     private $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
+    private $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
 
     public function testParseFixtures2006(): void {
         $fixtures_2006 = file_get_contents($this->fixtures_2006_path);
@@ -75,5 +76,17 @@ final class SolvEventParserTest extends UnitTestCase {
 
         $second_solv_event_2018 = $solv_events_2018[71];
         $this->assertSame('Z�rcher s\'COOL-Cup', $second_solv_event_2018->getName());
+    }
+
+    public function testParseInvalidFixtures(): void {
+        $invalid_fixtures = file_get_contents($this->invalid_fixtures_path);
+        $parser = new SolvEventParser();
+
+        $invalid_solv_events = $parser->parse_solv_events_csv($invalid_fixtures);
+
+        $this->assertSame(1, count($invalid_solv_events));
+
+        $first_solv_event_2018 = $invalid_solv_events[0];
+        $this->assertSame('1234', $first_solv_event_2018->getSolvUid());
     }
 }

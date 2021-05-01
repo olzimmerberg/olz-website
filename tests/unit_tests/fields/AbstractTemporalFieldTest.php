@@ -26,6 +26,11 @@ final class AbstractTemporalFieldTest extends UnitTestCase {
         $this->assertSame('string|null', $field->getTypeScriptType());
     }
 
+    public function testParse(): void {
+        $field = new FakeTemporalField('fake', []);
+        $this->assertSame('test', $field->parse('test'));
+    }
+
     public function testMinValueDefault(): void {
         $field = new FakeTemporalField('fake', []);
         $this->assertSame(null, $field->getMinValue());

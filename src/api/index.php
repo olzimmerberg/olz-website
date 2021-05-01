@@ -2,7 +2,6 @@
 
 require_once __DIR__.'/common/api.php';
 require_once __DIR__.'/common/Endpoint.php';
-require_once __DIR__.'/common/validate.php';
 require_once __DIR__.'/../config/init.php';
 require_once __DIR__.'/../utils/auth/StravaUtils.php';
 require_once __DIR__.'/../utils/env/EnvUtils.php';

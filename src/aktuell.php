@@ -9,14 +9,26 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 
     require_once __DIR__.'/admin/olz_functions.php';
 
+    require_once __DIR__.'/fields/IntegerField.php';
+    require_once __DIR__.'/fields/StringField.php';
+    require_once __DIR__.'/utils/client/HttpUtils.php';
+    require_once __DIR__.'/utils/env/EnvUtils.php';
+    $env_utils = EnvUtils::fromEnv();
+    $logger = $env_utils->getLogger(basename(__FILE__));
+    $http_utils = HttpUtils::fromEnv();
+    $http_utils->setLogger($logger);
+    $http_utils->validateGetParams([
+        new IntegerField('id', ['allow_null' => true]),
+        new StringField('buttonaktuell', ['allow_null' => true]),
+    ], $_GET);
+
     $html_title = "Aktuell";
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
         $sql = "SELECT titel FROM aktuell WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
-            require_once __DIR__.'/utils/client/HttpUtils.php';
-            HttpUtils::fromEnv()->dieWithHttpError(404);
+            $http_utils->dieWithHttpError(404);
         }
         while ($row = $res->fetch_assoc()) {
             $html_title = $row['titel'];

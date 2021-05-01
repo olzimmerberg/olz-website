@@ -4,6 +4,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     global $db;
     require_once __DIR__.'/config/init.php';
     require_once __DIR__.'/config/database.php';
+    require_once __DIR__.'/config/paths.php';
 
     session_start_if_cookie_set();
 
@@ -25,15 +26,43 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     ], $_GET);
 
     $html_title = "Aktuell";
+    $article_metadata = "";
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
-        $sql = "SELECT titel FROM aktuell WHERE id='{$id}'";
+        $sql = "SELECT titel, datum, zeit FROM aktuell WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
             $http_utils->dieWithHttpError(404);
         }
         while ($row = $res->fetch_assoc()) {
             $html_title = $row['titel'];
+            $json_title = json_encode($html_title);
+            $iso_date = $row['datum'].'T'.$row['zeit'];
+            $json_iso_date = json_encode($iso_date);
+            $images = [];
+            $image_index = 1;
+            while (true) {
+                $fixed_width_index = str_pad("{$image_index}", 3, "0", STR_PAD_LEFT);
+                $image_relative_path = "img/aktuell/{$id}/img/{$fixed_width_index}.jpg";
+                if (!is_file("{$data_path}{$image_relative_path}")) {
+                    break;
+                }
+                $images[] = "{$data_href}{$image_relative_path}";
+                $image_index++;
+            }
+            $json_images = json_encode($images);
+            $article_metadata = <<<ZZZZZZZZZZ
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": {$json_title},
+                "image": {$json_images},
+                "datePublished": {$json_iso_date},
+                "dateModified": {$json_iso_date}
+            }
+            </script>
+            ZZZZZZZZZZ;
         }
     }
 
@@ -41,6 +70,9 @@ if (!defined('CALLED_THROUGH_INDEX')) {
     echo olz_header([
         'title' => $html_title,
         'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+        'additional_headers' => [
+            $article_metadata,
+        ],
     ]);
 }
 

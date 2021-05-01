@@ -41,10 +41,13 @@ class NumberField extends Field {
     }
 
     public function parse($string) {
+        if ($string == '') {
+            return null;
+        }
         if (preg_match('/^[0-9\\.\\-]+$/', $string)) {
             return floatval($string);
         }
-        return null;
+        throw new Exception("Unlesbare Zahl: '{$string}'");
     }
 
     public function getTypeScriptType() {

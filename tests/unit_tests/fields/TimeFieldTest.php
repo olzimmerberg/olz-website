@@ -24,6 +24,7 @@ final class TimeFieldTest extends UnitTestCase {
         $field = new TimeField('fake', []);
         $this->assertSame('test', $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
     }
 
     public function testMinValueDefault(): void {

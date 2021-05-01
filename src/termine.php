@@ -16,7 +16,7 @@ require_once __DIR__.'/utils/env/EnvUtils.php';
 require_once __DIR__.'/utils/TermineUtils.php';
 
 $env_utils = EnvUtils::fromEnv();
-$logger = $env_utils->getLogger(basename(__FILE__));
+$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $validated_get_params = $http_utils->validateGetParams([

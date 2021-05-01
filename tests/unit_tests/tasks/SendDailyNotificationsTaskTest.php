@@ -188,6 +188,12 @@ class FakeSendDailyNotificationsTaskOlzMailer {
 }
 
 class FakeSendDailyNotificationsTaskEnvUtils {
+    public function getLogsUtils() {
+        return new FakeSendDailyNotificationsTaskLogsUtils();
+    }
+}
+
+class FakeSendDailyNotificationsTaskLogsUtils {
     public function getLogger($ident) {
         return new Logger('');
     }

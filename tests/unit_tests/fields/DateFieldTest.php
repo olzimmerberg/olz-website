@@ -24,6 +24,7 @@ final class DateFieldTest extends UnitTestCase {
         $field = new DateField('fake', []);
         $this->assertSame('test', $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
     }
 
     public function testMinValueDefault(): void {

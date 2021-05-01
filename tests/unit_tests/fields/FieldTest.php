@@ -24,6 +24,7 @@ final class FieldTest extends UnitTestCase {
         $field = new Field('fake', []);
         $this->assertSame('test', $field->parse('test'));
         $this->assertSame(null, $field->parse(''));
+        $this->assertSame(null, $field->parse(null));
     }
 
     public function testGetId(): void {

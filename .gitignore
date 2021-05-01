@@ -23,6 +23,7 @@
 .phpunit.result.cache
 /tests/integration_tests/document-root/*
 !/tests/integration_tests/document-root/config.template.php
+/tests/unit_tests/tmp/*
 
 # JavaScript tooling
 /node_modules/

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__.'/../../../src/fields/Field.php';
+require_once __DIR__.'/../../../src/fields/IntegerField.php';
 require_once __DIR__.'/../../../src/utils/FieldUtils.php';
 require_once __DIR__.'/../../../src/utils/ValidationError.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
@@ -101,6 +103,21 @@ final class FieldUtilsTest extends UnitTestCase {
             $this->assertSame('ValidationError', $err->getMessage());
             $this->assertSame([
                 'input' => ["Feld darf nicht leer sein."],
+            ], $err->getValidationErrors());
+        }
+    }
+
+    public function testValidateUnparseable(): void {
+        $field_utils = new FieldUtils();
+        try {
+            $field_utils->validate([
+                new IntegerField('input', []),
+            ], ['input' => 'not_an_integer'], ['parse' => true]);
+            $this->fail('Error expected');
+        } catch (ValidationError $err) {
+            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertSame([
+                'input' => ["Unlesbare Ganzzahl: 'not_an_integer'"],
             ], $err->getValidationErrors());
         }
     }

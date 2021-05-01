@@ -53,7 +53,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         }
         $this->assertSame(false, is_dir($logs_path));
 
-        $logger = $env_utils->getLogger('test');
+        $logger = $env_utils->getLogsUtils()->getLogger('test');
         $logger->debug('just for test');
 
         $this->assertSame('test', $logger->getName());

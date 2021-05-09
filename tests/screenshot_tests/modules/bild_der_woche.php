@@ -61,5 +61,5 @@ function test_bild_der_woche_readonly($driver, $base_url) {
         );
         return $bild_der_woche_lightgallery_img->getCssValue('opacity') == 1;
     });
-    take_screenshot($driver, 'startseite_bild_der_woche');
+    take_pageshot($driver, 'startseite_bild_der_woche');
 }

@@ -29,7 +29,7 @@ $etappen = [
         5939,
         "<a href='https://docs.google.com/spreadsheets/d/1q-eHtq_JoP1E8m0ZwM27K9LXM53M767Rp2bglro1mh8/edit#gid=0' class='linkext' target='_blank'>Anmeldung</a> <b>mit SI-Card!</b>",
     ],
-    ["Dienstag, 18.05.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 18:00 &ndash; 19:30", "Schönenberg", "Dorfhuus Schönenberg", 691350, 227550,
+    ["Dienstag, 18.05.2021", "<b>Online-Anmeldung erforderlich</b>, Starts: 16:30 &ndash; 19:00", "Schönenberg", "Dorfhuus Schönenberg", 691350, 227550,
         "Bushaltestelle Dorfhuus Schönenberg ZH",
         "Parkplatz Dorfhuusplatz",
         "Keine, im Freien; WC vorhanden (?)",

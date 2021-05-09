@@ -86,11 +86,10 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         ], ['input' => null]);
 
         $this->assertSame([], $validated_get_params);
-        // TODO: Uncomment this, once we are sure we know all the GET variables.
-        // $this->assertSame(400, $http_utils->sent_http_response_code);
-        // $this->assertSame([], $http_utils->sent_http_header_lines);
-        // $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        // $this->assertSame(true, $http_utils->has_exited_execution);
+        $this->assertSame(400, $http_utils->sent_http_response_code);
+        $this->assertSame([], $http_utils->sent_http_header_lines);
+        $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
+        $this->assertSame(true, $http_utils->has_exited_execution);
     }
 
     public function testHttpUtilsFromEnv(): void {

@@ -68,15 +68,16 @@ class HttpUtils {
         $this->exitExecution();
     }
 
-    public function validateGetParams($fields, $get_params) {
+    public function validateGetParams($fields, $get_params, $options = []) {
         $field_utils = FieldUtils::fromEnv();
         $validated_get_params = [];
         try {
             $validated_get_params = $field_utils->validate($fields, $get_params, ['parse' => true]);
         } catch (ValidationError $verr) {
             $this->logger->notice("Bad GET params", $verr->getStructuredAnswer());
-            // TODO: Uncomment this, once we are sure we know all the GET variables.
-            // $this->dieWithHttpError(400);
+            if (($options['just_log'] ?? false) === false) {
+                $this->dieWithHttpError(400);
+            }
         }
         return $validated_get_params;
     }

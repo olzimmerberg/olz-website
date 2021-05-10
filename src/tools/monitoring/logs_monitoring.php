@@ -129,7 +129,7 @@ function is_critical_line($line) {
 }
 
 function is_error_line($line) {
-    return preg_match('/\.ERROR\:/', $line);
+    return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:logs-monitoring\.ERROR\:/', $line);
 }
 
 function is_warning_line($line) {

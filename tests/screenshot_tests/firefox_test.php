@@ -25,7 +25,6 @@ require_once __DIR__.'/modules/forum.php';
 require_once __DIR__.'/modules/fragen_und_antworten.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
 require_once __DIR__.'/modules/galerie.php';
-require_once __DIR__.'/modules/index.php';
 require_once __DIR__.'/modules/karten.php';
 require_once __DIR__.'/modules/konto_passwort.php';
 require_once __DIR__.'/modules/leistungssport.php';
@@ -69,7 +68,6 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
-        test_index($driver, $code_href);
         test_startseite($driver, $code_href);
         test_bild_der_woche($driver, $code_href);
         test_aktuell($driver, $code_href);

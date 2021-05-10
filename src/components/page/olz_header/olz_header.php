@@ -55,11 +55,12 @@ function olz_header($args = []): string {
             if (strlen($query) > 0) {
                 $query = "?{$query}";
             }
-            $canonical_tag = "<link rel='canonical' href='https://{$host}{$_CONFIG->getCodeHref()}{$canonical_page}{$query}' />";
+            $redirect_uri = "https://{$host}{$_CONFIG->getCodeHref()}{$canonical_page}{$query}";
+            require_once __DIR__.'/../../../utils/client/HttpUtils.php';
+            HttpUtils::fromEnv()->redirect($redirect_uri, 308);
         }
     }
 
-    $args['canonical_tag'] = $canonical_tag;
     return olz_header_without_routing($args);
 }
 
@@ -93,8 +94,6 @@ function olz_header_without_routing($args = []): string {
 
     $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
 
-    $canonical_tag = $args['canonical_tag'] ?? '';
-
     $additional_headers = implode("\n", $args['additional_headers'] ?? []);
 
     $out .= "<!DOCTYPE html>
@@ -110,7 +109,6 @@ function olz_header_without_routing($args = []): string {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
-    {$canonical_tag}
     {$additional_headers}
     <link rel='stylesheet' href='{$_CONFIG->getCodeHref()}jsbuild/main.min.css?modified={$css_modified}' />
     <script type='text/javascript' src='{$_CONFIG->getCodeHref()}jsbuild/main.min.js?modified={$js_modified}' onload='olz.loaded()'></script>

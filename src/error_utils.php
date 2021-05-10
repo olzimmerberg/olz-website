@@ -18,7 +18,7 @@ function die_with_http_error($http_status_code) {
         <p><b>Hier bist du voll im Schilf!</b></p>
         <p>Kein Posten weit und breit.</p>
         <p>Vielleicht hast du falsch abgezeichnet? Oder der Posten wurde bereits abgeräumt!</p>
-        <p>Aber keine Bange, <a href='index.php' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
+        <p>Aber keine Bange, <a href='startseite.php' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
         <p>Und wenn du felsenfest davon überzeugt bist, dass der Posten hier sein <b>muss</b>, dann hat wohl der Postensetzer einen Fehler gemacht und sollte schläunigst informiert werden:
         <script type='text/javascript'>
             MailTo("olz_uu_01", "olzimmerberg.ch", "Postensetzer", "Fehler%20404%20OLZ");

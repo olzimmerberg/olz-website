@@ -10,6 +10,7 @@ session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
+require_once __DIR__.'/fields/IntegerField.php';
 require_once __DIR__.'/fields/StringField.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
 require_once __DIR__.'/utils/env/EnvUtils.php';
@@ -21,6 +22,7 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $validated_get_params = $http_utils->validateGetParams([
     new StringField('filter', ['allow_null' => true]),
+    new IntegerField('id', ['allow_null' => true]),
     new StringField('buttontermine', ['allow_null' => true]),
 ], $_GET);
 

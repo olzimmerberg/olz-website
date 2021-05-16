@@ -11,7 +11,7 @@ require_once __DIR__.'/model/UserRepository.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 
 $role_repo = $entityManager->getRepository(Role::class);
-$nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-ausbildung']);
+$nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 
 echo "<h3>Ansprechperson</h3>
 <div style='padding:0px 10px 0px 10px;'>";

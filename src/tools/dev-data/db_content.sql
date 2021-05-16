@@ -162,7 +162,8 @@ VALUES
     ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0'),
     ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0'),
     ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0'),
-    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0');
+    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0'),
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0');
 
 -- Table rundmail
 
@@ -241,6 +242,7 @@ VALUES
     ('1', '5'),
     ('1', '7'),
     ('1', '25'),
+    ('1', '49'),
     ('2', '4'),
     ('2', '17'),
     ('3', '16'),

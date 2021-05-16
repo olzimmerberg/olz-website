@@ -30,7 +30,7 @@ require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/tickers.php';
 
 $role_repo = $entityManager->getRepository(Role::class);
-$nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-ausbildung']);
+$nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 
 $contact_information = "<div style='padding:0px 10px 0px 10px;'>";
 $nachwuchs_assignees = $nachwuchs_role->getUsers();

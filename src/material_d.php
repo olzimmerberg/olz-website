@@ -124,4 +124,4 @@ foreach ($sportident_assignees as $sportident_assignee) {
 <div>(Grössere Gruppen, Preis auf Anfrage)</div>
 
 <h2>Kleider</h2>
-<a href='/pdf/olz_kleider_2020.pdf' class='linkpdf'>Kleiderangebot</a>
+<a href='/pdf/olz_kleider_2021.pdf' class='linkpdf'>Kleiderangebot</a>

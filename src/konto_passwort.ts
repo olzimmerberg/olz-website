@@ -28,7 +28,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
         postalCode: (f) => f['postal-code'].value,
         city: (f) => f.city.value,
         region: (f) => f.region.value,
-        countryCode: (f) => getCountryCode(f['country-code'].value),
+        countryCode: (f) => getCountryCode('countryCode', f['country-code'].value),
     };
 
     return olzDefaultFormSubmit(

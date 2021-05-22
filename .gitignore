@@ -27,6 +27,7 @@
 /tests/unit_tests/tmp/*
 
 # JavaScript tooling
+/coverage
 /node_modules/
 /src/**/jsbuild/
 /tscbuild/

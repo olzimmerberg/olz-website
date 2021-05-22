@@ -1,5 +1,4 @@
-window.addEventListener('load', () => {
-    const featuresConfig = localStorage.getItem('FEATURES');
+export function olzInitFeatures(featuresConfig: string): void {
     const features = featuresConfig?.split(/\s*,\s*/) ?? [];
     for (const feature of features) {
         const elems = document.getElementsByClassName(feature);
@@ -10,7 +9,9 @@ window.addEventListener('load', () => {
             }
         }
     }
-});
+}
 
-// TODO: remove dummy export
-export default null;
+window.addEventListener('load', () => {
+    const featuresConfig = localStorage.getItem('FEATURES');
+    olzInitFeatures(featuresConfig);
+});

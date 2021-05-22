@@ -1,8 +1,9 @@
 type RgbColor = [number, number, number];
 type ElementType = 'background'|'border';
+type Timeout = ReturnType<typeof setTimeout>;
 
 interface ElementState {
-    timer?: number;
+    timer?: Timeout;
     step?: number;
     r?: number;
     g?: number;

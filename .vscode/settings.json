@@ -1,7 +1,9 @@
 {
     "search.exclude": {
+        "coverage/**": true,
         "dev-server/_/**": true,
         "dev-server/deploy/**": true,
+        "php-coverage/**": true,
         "src/config/vendor/**": true,
         "src/library/**": true,
         "tools/remote_config/vendor/**": true,

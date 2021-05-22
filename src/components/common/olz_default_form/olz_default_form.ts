@@ -65,15 +65,21 @@ export function getDataForRequest<T extends OlzApiEndpoint>(
     const fieldIds = Object.keys(getDataForRequestDict) as Array<RequestFieldId<T>>;
     const data: Partial<OlzApiRequests[T]> = {};
     const validationErrors: ValidationError<OlzApiEndpoint.updateUser>[] = [];
+    let hasOtherError = false;
     fieldIds.map((fieldId) => {
         try {
             data[fieldId] = getDataForRequestDict[fieldId](form);
         } catch (err: unknown) {
             if (err instanceof ValidationError) {
                 validationErrors.push(err);
+            } else {
+                hasOtherError = true;
             }
         }
     });
+    if (hasOtherError) {
+        throw new Error('Unexpected Error in getDataForRequest');
+    }
     if (validationErrors.length > 0) {
         throw mergeValidationErrors(validationErrors);
     }
@@ -118,7 +124,7 @@ export function clearErrorOnField(formInput: Element): void {
 }
 
 export function camelCaseToDashCase(camelCaseString: string): string {
-    return camelCaseString.replace(/([A-Z])/, '-$1').toLowerCase();
+    return camelCaseString.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
 export function getEmail(fieldId: string, emailInput: string|undefined): string|null {
@@ -149,13 +155,13 @@ export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefine
     if (date === undefined || date === '') {
         return null;
     }
-    const res = /^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/.exec(date);
+    const res = /^([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})$/.exec(date);
     if (!res) {
         throw new ValidationError('', {
             [fieldId]: ['Das Datum muss im Format TT.MM.YYYY sein.'],
         });
     }
-    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]}`);
+    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]} 12:00:00`);
     if (!timestamp) {
         throw new ValidationError('', {
             [fieldId]: [`"${date}" ist ein ungültiges Datum.`],
@@ -177,13 +183,23 @@ export function getPassword(fieldId: string, passwordInput: string|undefined): s
     return passwordInput;
 }
 
-export function getCountryCode(countryCode: string|undefined): string|null {
+export function getCountryCode(fieldId: string, countryCode: string|undefined): string|null {
     if (!countryCode) {
         return null;
     }
-    if (countryCode.length <= 2) {
+    if (countryCode.length === 1) {
+        throw new ValidationError('', {
+            [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
+        });
+    } else if (countryCode.length === 2) {
         return countryCode.toUpperCase();
     }
     const normalizedCountryName = countryCode.trim().toLowerCase();
-    return COUNTRY_CODE_MAP[normalizedCountryName] || null;
+    const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
+    if (countryCodeByName) {
+        return countryCodeByName;
+    }
+    throw new ValidationError('', {
+        [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
+    });
 }

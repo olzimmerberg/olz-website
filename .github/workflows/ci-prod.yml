@@ -115,6 +115,8 @@ jobs:
       run: npm run eslint
     - name: Compile TypeScript
       run: npm run tsc
+    - name: Jest Unit Tests
+      run: npm run jest-ci
     - name: PHP Unit Tests
       run: ./unit-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests

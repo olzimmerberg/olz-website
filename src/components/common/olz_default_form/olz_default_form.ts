@@ -2,6 +2,11 @@ import {RequestFieldId, OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlz
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
+    'switzerland': 'CH',
+    'schweiz': 'CH',
+};
+
 export type GetDataForRequestDict<T extends OlzApiEndpoint> = {
     [fieldId in keyof OlzApiRequests[T]]: (
         form: HTMLFormElement,
@@ -170,4 +175,15 @@ export function getPassword(fieldId: string, passwordInput: string|undefined): s
         });
     }
     return passwordInput;
+}
+
+export function getCountryCode(countryCode: string|undefined): string|null {
+    if (!countryCode) {
+        return null;
+    }
+    if (countryCode.length <= 2) {
+        return countryCode.toUpperCase();
+    }
+    const normalizedCountryName = countryCode.trim().toLowerCase();
+    return COUNTRY_CODE_MAP[normalizedCountryName] || null;
 }

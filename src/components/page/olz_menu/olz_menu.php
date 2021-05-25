@@ -51,10 +51,10 @@ function olz_menu($args = []): string {
     <script type='text/javascript'>MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"webmaster\", \"Homepage%20OL%20Zimmerberg\");</script>
     </div>
     <div style='padding:0.5em 0.5em 0em 0.5em;'>
-    <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' style='float:right;'><img src='icns/strava_16.svg' alt='s' class='noborder' /></a>
-    <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='icns/facebook_16.svg' alt='f' class='noborder' /></a>
-    <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='icns/youtube_16.svg' alt='Y' class='noborder' /></a>
-    <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='icns/github_16.svg' alt='g' class='noborder' /></a>
+    <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' style='float:right;'><img src='{$_CONFIG->getCodeHref()}icns/strava_16.svg' alt='s' class='noborder' /></a>
+    <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/facebook_16.svg' alt='f' class='noborder' /></a>
+    <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/youtube_16.svg' alt='Y' class='noborder' /></a>
+    <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/github_16.svg' alt='g' class='noborder' /></a>
     </div>
     </div>";
 

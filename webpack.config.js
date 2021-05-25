@@ -11,12 +11,12 @@ const defaultConfig = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.(ts|tsx)$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
             },
             {
@@ -39,7 +39,7 @@ const defaultConfig = {
         ],
     },
     resolve: {
-        extensions: ['.d.ts', '.ts', '.js', '.json'],
+        extensions: ['.d.ts', '.ts', '.tsx', '.js', '.jsx', '.json'],
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -73,6 +73,16 @@ module.exports = [
             publicPath: '/_/jsbuild/',
             filename: '[name].min.js',
             library: 'olz',
+        },
+    },
+    {
+        ...defaultConfig,
+        entry: './src/anmelden/index.tsx',
+        output: {
+            path: path.resolve(__dirname, 'src/anmelden/jsbuild'),
+            publicPath: '/_/anmelden/jsbuild/',
+            filename: '[name].min.js',
+            library: 'olzAnmelden',
         },
     },
     {

@@ -2,7 +2,9 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
     "lib": [
       "es6",
       "dom",

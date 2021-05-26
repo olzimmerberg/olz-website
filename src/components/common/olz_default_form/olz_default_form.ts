@@ -183,9 +183,9 @@ export function getPassword(fieldId: string, passwordInput: string|undefined): s
     return passwordInput;
 }
 
-export function getCountryCode(fieldId: string, countryCode: string|undefined): string|null {
+export function getCountryCode(fieldId: string, countryCode: string|undefined): string {
     if (!countryCode) {
-        return null;
+        return '';
     }
     if (countryCode.length === 1) {
         throw new ValidationError('', {

@@ -194,7 +194,7 @@ describe('getPassword', () => {
 
 describe('getCountryCode', () => {
     it('returns null for nullish user inputs', () => {
-        expect(getCountryCode('countryCode', '')).toEqual(null);
+        expect(getCountryCode('countryCode', '')).toEqual('');
     });
 
     it('returns countryCode for correct user inputs', () => {

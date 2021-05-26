@@ -35,8 +35,8 @@ function olz_header_bar($args = []): string {
     $out .= "</div>"; // below-header
 
     $out .= "<div id='menu-switch' onclick='toggleMenu()' />";
-    $out .= "<img src='icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-    $out .= "<img src='icns/menu_close.svg' alt='' class='menu-close noborder' />";
+    $out .= "<img src='{$_CONFIG->getCodeHref()}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
+    $out .= "<img src='{$_CONFIG->getCodeHref()}icns/menu_close.svg' alt='' class='menu-close noborder' />";
     $out .= "</div>";
 
     $out .= "<div class='header-content-container'>";
@@ -45,9 +45,9 @@ function olz_header_bar($args = []): string {
 
     // TODO: Remove switch as soon as Safari properly supports SVGs.
     if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'])) {
-        $out .= "<img srcset='icns/olz_logo@2x.png 2x, icns/olz_logo.png 1x' src='icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
+        $out .= "<img srcset='{$_CONFIG->getCodeHref()}icns/olz_logo@2x.png 2x, {$_CONFIG->getCodeHref()}icns/olz_logo.png 1x' src='{$_CONFIG->getCodeHref()}icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
     } else {
-        $out .= "<img src='icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+        $out .= "<img src='{$_CONFIG->getCodeHref()}icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
     }
     $out .= "<div style='flex-grow:1;'></div>";
 

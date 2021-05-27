@@ -54,8 +54,17 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         }
         $ip_address = $this->server['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
+        $user_repo = $this->entityManager->getRepository(User::class);
 
-        $user = new User();
+        $user = $user_repo->findOneBy(['username' => $username]);
+        if ($user) {
+            if ($user->getPasswordHash()) {
+                throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen."]]);
+            }
+            // If it's an existing user WITHOUT password, we just update that existing user!
+        } else {
+            $user = new User();
+        }
         $user->setUsername($username);
         $user->setEmail($input['email']);
         $user->setEmailIsVerified(false);

@@ -1,4 +1,6 @@
 User-agent: *
+Disallow: /_/resultate/
+User-agent: *
 Disallow: /files/
 User-agent: *
 Disallow: /img/

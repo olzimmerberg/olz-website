@@ -47,5 +47,5 @@ function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassw
         // TODO: This could probably be done more smoothly!
         window.location.href = 'startseite.php';
     }, 3000);
-    return 'Benutzerkonto erfolgreich erstellt.';
+    return 'Benutzerkonto erfolgreich erstellt. Bitte warten...';
 }

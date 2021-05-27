@@ -16,7 +16,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 class FakeSignUpWithPasswordEndpointEntityManager {
     public $persisted = [];
     public $flushed = [];
-    private $repositories = [];
+    public $repositories = [];
 
     public function __construct() {
         $this->repositories = [
@@ -34,6 +34,14 @@ class FakeSignUpWithPasswordEndpointEntityManager {
 
     public function flush() {
         $this->flushed = $this->persisted;
+    }
+}
+
+class FakeSignUpWithPasswordEndpointUserRepository {
+    public $userToBeFound;
+
+    public function findOneBy($where) {
+        return $this->userToBeFound;
     }
 }
 
@@ -66,6 +74,19 @@ class FakeSignUpWithPasswordEndpointAuthUtils {
  * @covers \SignUpWithPasswordEndpoint
  */
 final class SignUpWithPasswordEndpointTest extends UnitTestCase {
+    const VALID_INPUT = [
+        'firstName' => 'fakeFirstName',
+        'lastName' => 'fakeLastName',
+        'username' => 'fakeUsername',
+        'password' => 'securePassword',
+        'email' => 'fakeEmail',
+        'street' => 'fakeStreet',
+        'postalCode' => 'fakePostalCode',
+        'city' => 'fakeCity',
+        'region' => 'fakeRegion',
+        'countryCode' => 'fakeCountryCode',
+    ];
+
     public function testSignUpWithPasswordEndpointIdent(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $this->assertSame('SignUpWithPasswordEndpoint', $endpoint->getIdent());
@@ -109,18 +130,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         try {
-            $result = $endpoint->call([
-                'firstName' => 'fakeFirstName',
-                'lastName' => 'fakeLastName',
-                'username' => 'fakeUsername',
-                'password' => 'short',
-                'email' => 'fakeEmail',
-                'street' => 'fakeStreet',
-                'postalCode' => 'fakePostalCode',
-                'city' => 'fakeCity',
-                'region' => 'fakeRegion',
-                'countryCode' => 'fakeCountryCode',
-            ]);
+            $result = $endpoint->call(array_merge(self::VALID_INPUT, ['password' => 'short']));
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -129,8 +139,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testSignUpWithPasswordEndpointWithValidData(): void {
+    public function testSignUpWithPasswordEndpointWithValidDataForNewUser(): void {
         $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
         $endpoint = new SignUpWithPasswordEndpoint();
@@ -141,18 +153,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call([
-            'firstName' => 'fakeFirstName',
-            'lastName' => 'fakeLastName',
-            'username' => 'fakeUsername',
-            'password' => 'securePassword',
-            'email' => 'fakeEmail',
-            'street' => 'fakeStreet',
-            'postalCode' => 'fakePostalCode',
-            'city' => 'fakeCity',
-            'region' => 'fakeRegion',
-            'countryCode' => 'fakeCountryCode',
-        ]);
+        $result = $endpoint->call(self::VALID_INPUT);
 
         $this->assertSame([
             'status' => 'OK',
@@ -171,5 +172,80 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => 'fakeUsername',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+    }
+
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithoutPassword(): void {
+        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $user_repo->userToBeFound = $existing_user;
+        $entity_manager->repositories['User'] = $user_repo;
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(self::VALID_INPUT);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $this->assertSame([
+            'auth' => '',
+            'root' => null,
+            'user' => 'fakeUsername',
+            'user_id' => 123,
+        ], $session->session_storage);
+        $this->assertSame([
+            [
+                'ip_address' => '1.2.3.4',
+                'action' => 'AUTHENTICATED_PASSWORD',
+                'timestamp' => null,
+                'username' => 'fakeUsername',
+            ],
+        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+    }
+
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithPassword(): void {
+        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $existing_user->setPasswordHash('some-hash');
+        $user_repo->userToBeFound = $existing_user;
+        $entity_manager->repositories['User'] = $user_repo;
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        try {
+            $result = $endpoint->call(self::VALID_INPUT);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(
+                [
+                    'message' => 'Fehlerhafte Eingabe.',
+                    'error' => [
+                        'type' => 'ValidationError',
+                        'validationErrors' => [
+                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
+                        ],
+                    ],
+                ],
+                $httperr->getStructuredAnswer(),
+            );
+        }
     }
 }

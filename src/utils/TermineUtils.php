@@ -104,11 +104,11 @@ class TermineUtils {
     private function getSqlDateRangeFilter($filter) {
         $today = $this->date_utils->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
-            return "(datum >= '{$today}') OR (datum_end >= '{$today}')";
+            return "(t.datum >= '{$today}') OR (t.datum_end >= '{$today}')";
         }
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
-            return "YEAR(datum) = '{$sane_year}'";
+            return "YEAR(t.datum) = '{$sane_year}'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -121,13 +121,13 @@ class TermineUtils {
             return "'1' = '1'";
         }
         if ($filter['typ'] === 'training') {
-            return "typ LIKE '%training%'";
+            return "t.typ LIKE '%training%'";
         }
         if ($filter['typ'] === 'ol') {
-            return "typ LIKE '%ol%'";
+            return "t.typ LIKE '%ol%'";
         }
         if ($filter['typ'] === 'club') {
-            return "typ LIKE '%club%'";
+            return "t.typ LIKE '%club%'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.

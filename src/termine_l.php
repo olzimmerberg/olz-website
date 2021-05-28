@@ -143,21 +143,69 @@ echo "</div>";
 $filter_where = $termine_utils->getSqlFromFilter($current_filter);
 $sql_where = <<<ZZZZZZZZZZ
 (
-    (datum_off>='{$_DATE->getIsoToday()}') 
-    OR (datum_off='0000-00-00') 
-    OR datum_off IS NULL
-) 
-AND (on_off = '1')
+    (t.datum_off>='{$_DATE->getIsoToday()}')
+    OR (t.datum_off='0000-00-00')
+    OR t.datum_off IS NULL
+)
+AND (t.on_off = '1')
 AND {$filter_where}
 ZZZZZZZZZZ;
 
 if (($do ?? null) == 'vorschau') {
-    $sql_where = "(id ='{$id}')";
+    $sql_where = "(t.id ='{$id}')";
 } // Proforma-Abfrage
 
 //$sql = "SELECT * FROM ".$db_table." LEFT JOIN solv_termine ON solv_uid=unique_id ".$sql;
-$sql = "SELECT * FROM {$db_table} WHERE {$sql_where} ORDER BY datum ASC";
-//if($zugriff) echo $sql;
+$sql = <<<ZZZZZZZZZZ
+(
+    SELECT
+        t.datum as datum,
+        t.datum_end as datum_end,
+        t.zeit as zeit,
+        t.zeit_end as zeit_end,
+        t.titel as titel,
+        t.text as text,
+        t.link as link,
+        t.solv_event_link as solv_event_link,
+        t.id as id,
+        t.typ as typ,
+        t.on_off as on_off,
+        t.newsletter as newsletter,
+        t.datum_anmeldung as datum_anmeldung,
+        t.xkoord as xkoord,
+        t.ykoord as ykoord,
+        t.go2ol as go2ol,
+        t.solv_uid as solv_uid
+    FROM termine t
+    WHERE {$sql_where}
+) UNION ALL (
+    SELECT
+        se.deadline as datum,
+        se.deadline as datum_end,
+        '00:00:00' as zeit,
+        '00:00:00' as zeit_end,
+        CONCAT('Meldeschluss für ', t.titel) as titel,
+        '' as text,
+        '' as link,
+        '' as solv_event_link,
+        CONCAT('SOLV', se.solv_uid) as id,
+        'meldeschluss' as typ,
+        t.on_off as on_off,
+        NULL as newsletter,
+        NULL as datum_anmeldung,
+        NULL as xkoord,
+        NULL as ykoord,
+        t.go2ol as go2ol,
+        t.solv_uid as solv_uid
+    FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
+    WHERE se.deadline IS NOT NULL AND {$sql_where}
+)
+ORDER BY datum ASC
+ZZZZZZZZZZ;
+
+// if ($zugriff) {
+//     echo $sql;
+// }
 // DB-ABFRAGE
 $result = $db->query($sql);
 
@@ -235,8 +283,8 @@ while ($row = mysqli_fetch_array($result)) {
         $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
         $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
     }
-    if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] && $row_solv["deadline"] != "0000-00-00") {
-        $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv["deadline"]);
+    if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
+        $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv['deadline']);
     }
     //Ranglisten-Link zeigen
     if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
@@ -270,7 +318,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
     }
 
-    if ($zugriff and (($do ?? null) != 'vorschau')) {
+    if ($zugriff && $typ != 'meldeschluss' && (($do ?? null) != 'vorschau')) {
         //Berbeiten-/Duplizieren-Button
         $edit_admin = "<a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
         if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {

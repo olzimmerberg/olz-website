@@ -169,7 +169,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["content", "Filmangaben", ($_SESSION["auth"] == "all" ? "text" : "hidden"), "''", "", "", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
     ];
-    if (($_SESSION['auth'] ?? null) == 'all') {
+    if (($_SESSION['auth'] ?? null) != null) {
         array_push($db_felder,
                     ["on_off", "Aktiv", "boolean", "1", "", "", "", ""]);
     }

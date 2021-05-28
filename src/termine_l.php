@@ -256,7 +256,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
     //SOLV-Karte zeigen
-    elseif ($row_solv && $row_solv["coord_x"] > 0 and $datum >= $heute) {
+    elseif ($typ != 'meldeschluss' && $row_solv && $row_solv["coord_x"] > 0 and $datum >= $heute) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
     //Anmeldungs-Link zeigen

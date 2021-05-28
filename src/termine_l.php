@@ -187,7 +187,8 @@ while ($row = mysqli_fetch_array($result)) {
     $solv_uid = $row['solv_uid'];
     $row_solv = false;
     if ($solv_uid) {
-        $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='".intval($solv_uid)."'");
+        $sane_solv_uid = intval($solv_uid);
+        $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
         $row_solv = $result_solv->fetch_assoc();
     }
     $tn = ($zugriff == 1) ? "(".$row['teilnehmer'].($solv_uid > 0 ? ";SOLV" : "").") " : "";
@@ -212,7 +213,7 @@ while ($row = mysqli_fetch_array($result)) {
     }
     //Anmeldungs-Link zeigen
     //Manueller Anmeldungs-Link entfernen
-    if ($row_solv && ($go2ol > "" or $row_solv["entryportal"] == 1 or $row_solv["entryportal"] == 2)) {
+    if ($row_solv && ($go2ol > "" or $row_solv['entryportal'] == 1 or $row_solv['entryportal'] == 2)) {
         $var = "Anmeldung";
         $pos1 = strpos($link, $var);
         if ($pos1 > 0) {
@@ -224,28 +225,32 @@ while ($row = mysqli_fetch_array($result)) {
     }
 
     if ($go2ol > "" and $datum >= $heute) {
-        $link .= "<div class='linkext'><a href='http://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-    } elseif ($row_solv && $row_solv["entryportal"] == 1 and $datum >= $heute) {
-        $link .= "<div class='linkext'><a href='http://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-    } elseif ($row_solv && $row_solv["entryportal"] == 2 and $datum >= $heute) {
-        $link .= "<div class='linkext'><a href='http://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
+        $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
+    } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $heute) {
+        $link .= "<div class='linkext'><a href='https://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
+    } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $heute) {
+        $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
     }
     if (strpos($row['link'], 'Ausschreibung') == 0 and $row['solv_event_link'] > "") {
         $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
-        $umbruch = $row['link'] == "" ? "" : "<br>";
-        $link .= $umbruch."<a href='".$row['solv_event_link']."' target='_blank' class='{$class}'>Ausschreibung</a>";
+        $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
     }
     if ($row_solv && isset($row_solv["deadline"]) && $row_solv["deadline"] && $row_solv["deadline"] != "0000-00-00") {
         $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv["deadline"]);
     }
     //Ranglisten-Link zeigen
     if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
-        $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkext'>Rangliste</a></div>\n";
+        $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
     }
     //SOLV-Ausschreibungs-Link zeigen
     if ($row_solv && $row_solv["event_link"] and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
         $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
         $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
+    }
+
+    //SOLV-Übersicht-Link zeigen
+    if ($row_solv) {
+        $link .= "<div><a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol'>O-L.ch</a></div>\n";
     }
 
     if ($datum_end == "0000-00-00" || !$datum_end) {

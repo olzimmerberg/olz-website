@@ -32,9 +32,20 @@ final class DateUtilsTest extends UnitTestCase {
         $this->assertSame('2020-03-13', $date_utils->getIsoToday());
     }
 
-    public function testOlzDate(): void {
-        $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
-        $this->assertSame('Fr, 13. März. 2020', $date_utils->olzDate('W, t. M. jjjj'));
+    public function testOlzDateShort(): void {
+        $date_utils = new FakeDateUtils('2020-08-13 19:30:00');
+        $this->assertSame('Do., 13. Aug. 2020', $date_utils->olzDate('W., t. M jjjj'));
+    }
+
+    public function testOlzDateLong(): void {
+        $date_utils = new FakeDateUtils('2020-08-13 19:30:00');
+        $this->assertSame('Donnerstag, 13. August 2020', $date_utils->olzDate('WW, t. MM jjjj'));
+    }
+
+    public function testOlzDateFromDateTime(): void {
+        $date_utils = new FakeDateUtils('2020-08-13 19:30:00');
+        $datetime = new DateTime('2020-03-13 19:30:00');
+        $this->assertSame('Freitag, 13. März 2020', $date_utils->olzDate('WW, t. MM jjjj', $datetime));
     }
 
     public function testGetYearsForAccordion(): void {

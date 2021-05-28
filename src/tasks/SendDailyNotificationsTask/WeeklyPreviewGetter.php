@@ -63,7 +63,7 @@ class WeeklyPreviewGetter {
             $termine_text .= "- {$date}: [{$title}]({$termine_url}#id{$id})\n";
         }
 
-        $next_monday_text = $next_monday->format('j. F');
+        $next_monday_text = $this->dateUtils->olzDate('t. MM', $next_monday);
         $title = "Vorschau auf die Woche vom {$next_monday_text}";
         $text = "Hallo %%userFirstName%%,\n\nBis Ende nächster Woche finden folgende Anlässe statt:\n\n{$termine_text}";
 

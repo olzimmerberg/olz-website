@@ -1,10 +1,10 @@
 <?php
 
 abstract class DateUtils {
-    public $weekdays_short_de = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-    public $weekdays_long_de = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-    public $months_short_de = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
-    public $months_long_de = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    const WEEKDAYS_SHORT_DE = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+    const WEEKDAYS_LONG_DE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+    const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
+    const MONTHS_LONG_DE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
     abstract public function getCurrentDateInFormat($format);
 
@@ -19,6 +19,9 @@ abstract class DateUtils {
     public function olzDate($format, $date = null) {
         if ($date == null || $date == '') {
             $date = $this->getIsoNow();
+        }
+        if ($date instanceof DateTime) {
+            $date = $date->format(DateTime::ATOM);
         }
         if (is_string($date)) {
             $date = strtotime($date);
@@ -45,13 +48,13 @@ abstract class DateUtils {
                 date("m", $date),
                 date("n", $date),
                 "xxxxx",
-                $this->months_short_de[date("n", $date) - 1],
-                strftime("%B", $date),
+                self::MONTHS_SHORT_DE[date("n", $date) - 1],
+                self::MONTHS_LONG_DE[date("n", $date) - 1],
                 date("Y", $date),
                 date("y", $date),
                 date("w", $date),
-                $this->weekdays_long_de[date("w", $date)],
-                $this->weekdays_short_de[date("w", $date)],
+                self::WEEKDAYS_LONG_DE[date("w", $date)],
+                self::WEEKDAYS_SHORT_DE[date("w", $date)],
             ],
             $format);
     }

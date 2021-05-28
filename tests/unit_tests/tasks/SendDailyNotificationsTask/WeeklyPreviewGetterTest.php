@@ -90,7 +90,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         - 28.04. - 29.04.: [End of Week](http://fake-base-url/_/termine.php#id2)
 
         ZZZZZZZZZZ;
-        $this->assertSame('Vorschau auf die Woche vom 23. March', $notification->title);
+        $this->assertSame('Vorschau auf die Woche vom 23. März', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

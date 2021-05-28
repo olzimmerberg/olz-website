@@ -99,23 +99,23 @@ final class TermineUtilsTest extends UnitTestCase {
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame("'1'='0'", $termine_utils->getSqlFromFilter([]));
         $this->assertSame(
-            "((datum >= '2020-03-13') OR (datum_end >= '2020-03-13')) AND ('1' = '1')",
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND ('1' = '1')",
             $termine_utils->getSqlFromFilter(['typ' => 'alle', 'datum' => 'bevorstehend'])
         );
         $this->assertSame(
-            "((datum >= '2020-03-13') OR (datum_end >= '2020-03-13')) AND (typ LIKE '%training%')",
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%training%')",
             $termine_utils->getSqlFromFilter(['typ' => 'training', 'datum' => 'bevorstehend'])
         );
         $this->assertSame(
-            "((datum >= '2020-03-13') OR (datum_end >= '2020-03-13')) AND (typ LIKE '%ol%')",
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%ol%')",
             $termine_utils->getSqlFromFilter(['typ' => 'ol', 'datum' => 'bevorstehend'])
         );
         $this->assertSame(
-            "((datum >= '2020-03-13') OR (datum_end >= '2020-03-13')) AND (typ LIKE '%club%')",
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%club%')",
             $termine_utils->getSqlFromFilter(['typ' => 'club', 'datum' => 'bevorstehend'])
         );
         $this->assertSame(
-            "(YEAR(datum) = '2020') AND ('1' = '1')",
+            "(YEAR(t.datum) = '2020') AND ('1' = '1')",
             $termine_utils->getSqlFromFilter(['typ' => 'alle', 'datum' => '2020'])
         );
     }

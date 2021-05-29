@@ -298,7 +298,7 @@ while ($row = mysqli_fetch_array($result)) {
 
     //SOLV-Übersicht-Link zeigen
     if ($row_solv) {
-        $link .= "<div><a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol'>O-L.ch</a></div>\n";
+        $titel .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
     }
 
     if ($datum_end == "0000-00-00" || !$datum_end) {

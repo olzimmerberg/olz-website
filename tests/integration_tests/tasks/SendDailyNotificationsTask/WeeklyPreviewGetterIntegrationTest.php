@@ -36,10 +36,19 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
         Hallo First,
         
-        Bis Ende nächster Woche finden folgende Anlässe statt:
+        Bis Ende nächster Woche haben wir Folgendes auf dem Programm:
+
+
+        **Termine**
         
         - 18.08.: [Training 1](http://integration-test.host/_/termine.php#id3)
         - 22.08.: [Grossanlass](http://integration-test.host/_/termine.php#id10)
+
+        
+        **Meldeschlüsse**
+
+        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php#id10)'
+
 
         ZZZZZZZZZZ;
         $this->assertSame('Vorschau auf die Woche vom 17. August', $notification->title);

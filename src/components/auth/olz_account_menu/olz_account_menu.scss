@@ -6,17 +6,17 @@
 .account-thumbnail {
     border: 3px solid rgb(255, 255, 255);
     border-radius: 42px;
-    width: 42px;
     height: 42px;
     margin: 5px;
     object-fit: cover;
     transition: width 0.5s, height 0.5s, margin 0.5s;
+    width: 42px;
 }
 
 .header-bar.minified .account-thumbnail {
     border: 2px solid rgb(255, 255, 255);
     border-radius: 32px;
-    width: 32px;
     height: 32px;
     margin: 3px;
+    width: 32px;
 }

@@ -1,24 +1,24 @@
 #link-telegram-modal {
     .telegram-circle {
-        display: flex;
-        justify-content: center;
         align-items: center;
-        width: 50px;
-        height: 50px;
         background-color: rgb(43, 162, 213);
-        border-color:rgb(43, 162, 213);
-        color: rgb(255,255,255);
+        border-color: rgb(43, 162, 213);
         border-radius: 25px;
+        color: rgb(255, 255, 255);
+        display: flex;
+        height: 50px;
+        justify-content: center;
+        width: 50px;
 
         img {
-            width: 35px;
-            height: 35px;
             border: 0;
+            height: 35px;
             padding-right: 2px;
+            width: 35px;
         }
     }
 
     .todo-list {
-        margin: 20px 20px 10px 20px;
+        margin: 20px 20px 10px;
     }
 }

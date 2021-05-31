@@ -24,7 +24,7 @@
     }
 
     .intro {
-        margin: 20px 0 35px 0;
+        margin: 20px 0 35px;
         text-align: center;
     }
 
@@ -38,23 +38,23 @@
 
         .tablebar {
             background-image: none !important;
-            font-style: italic;
             font-size: 16px;
+            font-style: italic;
             font-weight: normal;
         }
     }
 
     .pics {
-        max-width: 400px;
         max-height: 400px;
+        max-width: 400px;
     }
 
     table.grid-2 {
         table-layout: fixed;
 
         td {
-            max-width: 200px;
             max-height: 200px;
+            max-width: 200px;
         }
     }
 
@@ -62,26 +62,26 @@
         table-layout: fixed;
 
         td {
-            max-width: 100px;
             max-height: 100px;
+            max-width: 100px;
         }
     }
 
     img.tile {
         border: 0;
-        width: 100%;
         height: 100%;
         object-fit: cover;
+        width: 100%;
     }
 
     .slogan {
-        font-style: italic;
         font-size: 16px;
+        font-style: italic;
     }
 
     .important {
-        font-weight: bold;
         font-size: 18px;
+        font-weight: bold;
     }
 
     .description {

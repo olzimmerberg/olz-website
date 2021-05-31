@@ -168,7 +168,7 @@ function get_olz_text($id_text, $editable = true) {
     $is_empty = !$row || !$row['text'] || strlen($row['text']) == 0;
 
     if ($zugriff && $editable) {
-        $html_out .= "<div class='olz_text_insert' id='id_edit".$id_text."'>";
+        $html_out .= "<div class='olz-text-insert' id='id_edit".$id_text."'>";
     } else {
         if ($is_empty) {
             return '';

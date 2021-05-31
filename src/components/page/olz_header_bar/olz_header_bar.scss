@@ -1,32 +1,32 @@
 .header-bar {
+    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
+    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
+    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
+    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
+    background-color: rgb(0, 150, 0);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+    height: 150px;
     position: fixed;
     top: 15px;
-    z-index: 100;
-    width: 100%;
-    height: 150px;
-    background-color: rgb(0, 150, 0);
-    background: -webkit-linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    background: -o-linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    background: -moz-linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
-    -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
-	-webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
     transition: top 0.5s, height 0.5s;
+    width: 100%;
+    z-index: 100;
 }
 
 .header-bar.minified {
-    top: 0;
     height: 42px;
+    top: 0;
 }
 
 .header-content-container {
-    position: relative;
     height: 180px;
-    max-width: 1200px;
     margin: -15px auto;
+    max-width: 1200px;
     overflow-x: hidden;
     overflow-y: hidden;
+    position: relative;
 }
 
 .header-content-scroller {
@@ -36,8 +36,8 @@
 }
 
 .header-content {
-    display: flex;
     align-items: center;
+    display: flex;
     height: 180px;
     transition: opacity 0.5s;
 }
@@ -52,18 +52,18 @@
 }
 
 .above-header {
-    position: absolute;
-    width: 100%;
-    top: 0;
     height: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
     z-index: 1; /* account menu in front of header content */
 }
 
 .below-header {
     position: absolute;
-    width: 100%;
     top: 150px;
     transition: top 0.5s;
+    width: 100%;
     z-index: 1; /* menu in front of hidden header content */
 }
 
@@ -72,22 +72,22 @@
 }
 
 .menu-container {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: 1200px;
 }
 
 #olz-logo {
-    margin-left: 10px;
     height: 130px;
+    margin-left: 10px;
     transition: margin 0.5s;
 }
 
 #menu-switch {
-    position: absolute;
-    opacity: 0;
-    z-index: 1; /* menu switch in front of logo */
     cursor: pointer;
+    opacity: 0;
+    position: absolute;
     transition: opacity 0.5s;
+    z-index: 1; /* menu switch in front of logo */
 }
 
 .menu-hamburger {
@@ -113,8 +113,8 @@
 }
 
 .account-menu-container {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: 1200px;
 }
 
 @media screen and (max-width: 1024px) {

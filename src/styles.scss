@@ -13,283 +13,341 @@ dropdown: Knopf mit Rahmen [z.B. in "admin_db.php"]
 button: Knopf ohne Rahmen [z.B. Forum "Neuer Eintrag"]
 thumbs (für tr oder table): Thumbnails vierspaltig [z.B. Galerie Vorschau Startseite]
 foto (für tr oder table): Bild (einspaltig) [z.B. Flash-Video Anzeige]
-galerie_kopf (für tr oder table): Zellen vierspaltig [z.B. Galerie Header]
+galerie-kopf (für tr oder table): Zellen vierspaltig [z.B. Galerie Header]
 liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
 image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
 
 body {
-    background-image:url(icns/brushedbgschwarz.png);
-    z-index:-2;
-    color:rgb(0,0,0);
-    font-size:12px;
+    background-image: url('icns/brushedbgschwarz.png');
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    z-index: -2;
 }
 
 input {
-    font-size:12px;
+    font-size: 12px;
 }
 
 h6 {
     font-size: 12px;
 }
 
-*
-    {margin:0px;
-    padding:0px;
-    border:0px;
-    font-family:'Open Sans', arial, sans-serif;
-    vertical-align:top;}
+* {
+    border: 0;
+    font-family: 'Open Sans', arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;}
 
-table
-    {width:100%;
-    empty-cells:show;
-    border-collapse:separate;
-    table-layout:auto;
-    border-spacing:0px;}
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    empty-cells: show;
+    table-layout: auto;
+    width: 100%;}
 
-table.image
-    {float: left;
-    padding:0px 10px 5px 0px;}
-thead td
-	{background-color:#e6e6e6;
-	font-weight:bold;
-	border:1px solid grey;}
-.kartenstatistik td, .kartenstatistik span
-	{padding:3px;
-	font-weight:bold;
-	font-size:16px;}
-h2, h3
-    {clear:left;}
+table.image {float: left;
+    padding: 0 10px 5px 0;}
+
+thead td {background-color: #e6e6e6;
+    border: 1px solid #808080;
+    font-weight: bold;}
+
+.kartenstatistik td,
+.kartenstatistik span {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px;}
+
+h2,
+h3 {clear: left;}
 
 .mainbg {
-    background-repeat:repeat;
-    background-image:url(icns/mainbg.png);
+    background-image: url('icns/mainbg.png');
+    background-repeat: repeat;
 }
+
 ul {
-    list-style-type:none;
+    list-style-type: none;
 }
+
 .olz-editable-text ul,
 ul.bullet-list {
     list-style-type: disc;
     padding-left: 16px;
 }
-.thumbs td
-    {height:120px;
-    width:25%;
-    padding:5px;}
 
-.foto td
-    {height:625px;
-    padding:10px;}
-.paragraf
-    {display:block;
-	padding-top:10px;}
-.result_kat
-    {border:solid 1px white!important;
-    text-align:center;overflow:hidden;
-    background-color:#DDD;}
-#countdown
-    {border-collapse:separate collapse;
-	border-spacing:10px 1px;}
-#countdown td
-    {text-align:center;
-	border:1px solid #FFF;
-    background-color:#DDD;}
-.kartenstatistik td
-    {border:solid 1px grey;
-    background-color:#DDD;}
-.result_kat a
-    {color:black;font-size:80%;font-weight:bold;margin:0px;}
-.zeit, .rang
-    {text-align:right;padding-right:10px !important;}
+.thumbs td {height: 120px;
+    padding: 5px;
+    width: 25%;}
 
-.box_ganz > div
-    { width:222px; height:133px; background-image:url(icns/mainbg.png); background-repeat:repeat; border-radius:3px; border-left:5px solid;}
-.heute
-    {background-color:#D4E7CE;
-    margin:0px;}
-p.heute > a
-    {color:black;}
-p.heute
-    {padding:5px 8px 8px 8px;}
-tr.off *
-	{color:grey !important;}
+.foto td {height: 625px;
+    padding: 10px;}
+
+.paragraf {display: block;
+    padding-top: 10px;}
+
+#countdown {border-collapse: separate collapse;
+    border-spacing: 10px 1px;}
+
+#countdown td {
+    background-color: #ddd;
+    border: 1px solid #fff;
+    text-align: center;}
+
+.kartenstatistik td {
+    background-color: #ddd;
+    border: solid 1px #808080;}
+
+.zeit,
+.rang {padding-right: 10px !important;
+    text-align: right;}
+
+.box-ganz > div { background-image: url('icns/mainbg.png');
+    background-repeat: repeat;
+    border-left: 5px solid;
+    border-radius: 3px;
+    height: 133px;
+    width: 222px;}
+
+.heute {background-color: #d4e7ce;
+    margin: 0;}
+p.heute > a {color: #000;}
+p.heute {padding: 5px 8px 8px;}
+tr.off * {color: #808080 !important;}
 /*-----------AUSSCHREIBUNG-------------*/
-.hide
-	{display:none;}
-.menu_aus
-	{text-align:center;
-	background-color:#D4E7CE;
-	border:solid 1px #007521;
-	padding:3px;
-	font-weight:bold;}
-.trenner
-	{background-color:#D4E7CE;height:10px;}
+.hide {display: none;}
+
+.menu-aus {
+    background-color: #d4e7ce;
+    border: solid 1px #007521;
+    font-weight: bold;
+    padding: 3px;
+    text-align: center;}
+
+.trenner {background-color: #d4e7ce;
+    height: 10px;}
 
 /*-----------ABSTAENDE-------------*/
 .banner {
-    padding-bottom: 10px; 
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    background-color: #D4E7CE;
-    padding-top: 10px;
-    margin-bottom: 10px;
+    background-color: #d4e7ce;
     border-bottom: 1px solid #007521;
     border-top: 1px solid #007521;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
 }
-h2, h3, .buttonbar
-    {margin:8px 0px 4px 0px;
-     padding-left:5px;padding-top:5px;}
-.box_content h3
-	{margin:0px -5px 4px -5px;
-	padding-top:0px;}
-h6, .section, li, .nobox, .tablebar
-    {margin:0px 0px 4px 0px;
-    padding:0px;}
-p, ul, div.thumb, .paragraf
-    {margin:4px 6px 8px 8px;}
-.liste td, .liste_ftp td, .galerie_kopf td, .tablebar, .AccordionTitle
-    {padding:1px 8px 2px 8px;}
-.titel
-    {padding-bottom:0px;}
+
+h2,
+h3,
+.buttonbar {margin: 8px 0 4px;
+    padding-left: 5px;
+    padding-top: 5px;}
+
+.box-content h3 {margin: 0 -5px 4px;
+    padding-top: 0;}
+
+h6,
+.section,
+li,
+.nobox,
+.tablebar {margin: 0 0 4px;
+    padding: 0;}
+
+p,
+ul,
+div.thumb,
+.paragraf {margin: 4px 6px 8px 8px;}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp td,
+.liste td,
+.galerie-kopf td,
+.tablebar,
+.accordion-title {padding: 1px 8px 2px;}
+.titel {padding-bottom: 0;}
 
 /*-----------RAHMEN-------------*/
-.nobox, .noborder, input.button
-    {border:0px;}
-.titel, h2, h3, .buttonbar
-    {border-bottom:1px solid #007521;}
-img, input, textarea, .box, .thumbs img
-    {border-top:1px solid #444444; border-right:1px solid #aaaaaa; border-bottom:1px solid #aaaaaa; border-left:1px solid #444444;}
-.dropdown
-    {border-top:1px solid #dddddd; border-right:1px solid #999999; border-bottom:1px solid #999999; border-left:1px solid #dddddd;}
-.liste td, .liste_ftp td
-    {border-right:1px solid #999999; border-bottom:1px solid #999999;}
+.nobox,
+.noborder,
+input.button {border: 0;}
+
+.titel,
+h2,
+h3,
+.buttonbar {border-bottom: 1px solid #007521;}
+
+img,
+input,
+textarea,
+.box,
+.thumbs img { border-bottom: 1px solid #aaa;
+    border-left: 1px solid #444;
+    border-right: 1px solid #aaa;
+    border-top: 1px solid #444;}
+
+.dropdown { border-bottom: 1px solid #999;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #999;
+    border-top: 1px solid #ddd;}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp td,
+.liste td { border-bottom: 1px solid #999;
+    border-right: 1px solid #999;}
 
 /*-----------HINTERGRUND-------------*/
-.tablebar, .galerie_kopf td, .AccordionTitle
-    {background-image:url(icns/listheaderbg.png) !important;
-    background-repeat:repeat;}
-.dropdown
-    {background-color:#ddeedd;}
-a, span, div, li
-    {background:no-repeat left top;}
-input.button
-    {background-color:transparent;}
-.olz_text_insert
-    {background-color:#f5b8b7;
-    border:solid 1px;}
-.selected
-	{background-color:#f5b8b7;}
-.karten
-    {background-color:#ddeedd;}
+.tablebar,
+.galerie-kopf td,
+.accordion-title {background-image: url('icns/listheaderbg.png') !important;
+    background-repeat: repeat;}
+.dropdown {background-color: #ded;}
+
+a,
+span,
+div,
+li {background: no-repeat left top;}
+input.button {background-color: transparent;}
+
+.olz-text-insert {background-color: #f5b8b7;
+    border: solid 1px;}
+.selected {background-color: #f5b8b7;}
+.karten {background-color: #ded;}
 
 
 /*-------SCHRIFTEIGENSCHAFTEN--------*/
-.titel
-    {font-size:115%;
-    vertical-align:bottom;}
-a
-    {color:#007521;
-    text-decoration:none;}
-a.text
-    {color:#000000;}
-a:hover, .AccordionTitle
-    {color:#000000;}
-.passe *
-    {color:#999999; }
-.error
-    {color:#ee1111 !important;}
-.dropdown, input.button
-    {color:#007521; }
-h2, h3, .buttonbar, .dropdown, .button, .tablebar, .titel, .galerie_kopf td, .AccordionTitle
-    {font-weight:bold;}
-h2, h3, h2 a, h4.tablebar
-    {font-size:115%;}
-h6, .section, .dropdown, input.button, .thumbs td, .galerie_kopf *, .foto td
-    {vertical-align:middle;
-    text-align:center;}
-.blog td
-    {font-weight:bold;
-    font-size:110%;}
-.bahndaten td:first-child
-    {font-weight:bold;}
+.titel {font-size: 115%;
+    vertical-align: bottom;}
+
+a {color: #007521;
+    text-decoration: none;}
+a.text {color: #000;}
+
+a:hover,
+.accordion-title {color: #000;}
+.passe * {color: #999; }
+.error {color: #e11 !important;}
+
+.dropdown,
+input.button {color: #007521; }
+
+h2,
+h3,
+.buttonbar,
+.dropdown,
+.button,
+.tablebar,
+.titel,
+.galerie-kopf td,
+.accordion-title {font-weight: bold;}
+
+h2,
+h3,
+h2 a,
+h4.tablebar {font-size: 115%;}
+
+h6,
+.section,
+.dropdown,
+input.button,
+.thumbs td,
+.galerie-kopf *,
+.foto td {
+    text-align: center;
+    vertical-align: middle;}
+
+.blog td {
+    font-size: 110%;
+    font-weight: bold;}
+.bahndaten td:first-child {font-weight: bold;}
 
 /*-----------------LINKS------------------*/
 /* für a, span, div, li */
-.linkblack,.linkedit,.linkimg,.linkmap,.linkmovie,.linkneu,.linkoev,.linkduplicate
-	{background-position: left center;}
-.linkblack,.linkedit,.linkimg,.linkmap,.linkmovie,.linkneu,.linkoev
-	{padding:0px 6px 0px 16px;}
-.linkedit2
-	{padding:0px 0px 0px 16px;}
-.linkblack
-    {background-image:url(icns/link_internal_selected_16.svg);}
-.linkedit
-    {background-image:url(icns/edit_16.svg);}
-.linkduplicate
-    {background-image:url(icns/duplicate_16.svg);}
+.linkblack,
+.linkedit,
+.linkimg,
+.linkmap,
+.linkmovie,
+.linkneu,
+.linkoev,
+.linkduplicate {background-position: left center;}
+
+.linkblack,
+.linkedit,
+.linkimg,
+.linkmap,
+.linkmovie,
+.linkneu,
+.linkoev {padding: 0 6px 0 16px;}
+.linkedit2 {padding: 0 0 0 16px;}
+.linkblack {background-image: url('icns/link_internal_selected_16.svg');}
+.linkedit {background-image: url('icns/edit_16.svg');}
+.linkduplicate {background-image: url('icns/duplicate_16.svg');}
+
 .linkext,
-.olz-editable-text a[href^="http://"],
-.olz-editable-text a[href^="https://"] {
-    background-image: url(icns/link_external_16.svg);
-    padding: 0px 6px 0px 16px;
+.olz-editable-text a[href^='http://'],
+.olz-editable-text a[href^='https://'] {
+    background-image: url('icns/link_external_16.svg');
     background-position: left center;
+    padding: 0 6px 0 16px;
 }
-.linkimg
-    {background-image:url(icns/link_slides_16.svg);}
+.linkimg {background-image: url('icns/link_slides_16.svg');}
+
 .linkint,
-.olz-editable-text a[href^="/"] {
-    background-image: url(icns/link_internal_16.svg);
-    padding: 0px 6px 0px 16px;
+.olz-editable-text a[href^='/'] {
+    background-image: url('icns/link_internal_16.svg');
     background-position: left center;
+    padding: 0 6px 0 16px;
 }
-.linkmap
-    {background-image:url(icns/link_map_16.svg);}
+.linkmap {background-image: url('icns/link_map_16.svg');}
+
 .linkmail,
-.olz-editable-text a[href^="mailto:"] {
-    background-image:url(icns/link_mail_16.svg);
-    padding:0px 6px 0px 16px;
+.olz-editable-text a[href^='mailto:'] {
+    background-image: url('icns/link_mail_16.svg');
     background-position: left center;
+    padding: 0 6px 0 16px;
 }
-.linkmovie
-    {background-image:url(icns/link_movie_16.svg);}
-.linkneu
-    {background-image:url(icns/new_16.svg);}
-.linkoev
-    {background-image:url(icns/publ_transport_16.svg);}
+.linkmovie {background-image: url('icns/link_movie_16.svg');}
+.linkneu {background-image: url('icns/new_16.svg');}
+.linkoev {background-image: url('icns/publ_transport_16.svg');}
+
 .linkol {
-    background-image:url(icns/orienteering_forest_16.svg);
-    padding:0px 6px 0px 19px;
+    background-image: url('icns/orienteering_forest_16.svg');
     background-position: left center;
+    padding: 0 6px 0 19px;
 }
+
 .linkpdf,
 .olz-editable-text a[href$='.pdf'] {
-    background-image: url(icns/link_pdf_16.svg);
-    padding: 0px 6px 0px 19px;
+    background-image: url('icns/link_pdf_16.svg');
     background-position: left center;
+    padding: 0 6px 0 19px;
 }
-.liste_ftp a[href$='.pdf']
-    {background-image:url('');
-    padding-left:0px;}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp a[href$='.pdf'] {background-image: url('');
+    padding-left: 0;}
 
 /*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/
-.AccordionTitle, .AccordionContent, .AccordionContainer
-    {position: relative;}
-.AccordionTitle
-    {overflow: hidden;
+.accordion-title,
+.accordion-content {position: relative;}
+
+.accordion-title {
     cursor: pointer;
-    -moz-user-select: none;
-    font-size:115%;}
-.AccordionContent
-    {height: 1px;/* IE Erlaubt 0px nicht */
+    font-size: 115%;
     overflow: hidden;
-width:100%;}
-.AccordionContent_
-    {height: auto;}
-.AccordionContainer
-    {
-    }
+    user-select: none;}
+
+.accordion-content {height: 1px;
+    overflow: hidden;
+    width: 100%;/* IE Erlaubt 0px nicht */}
+
+.accordion-content- {height: auto;}
+
 
 .olz-override-root .lg-backdrop {
     background-color: rgba(0, 0, 0, 0.75);

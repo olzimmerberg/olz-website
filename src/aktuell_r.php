@@ -105,8 +105,8 @@ echo "<h2>Berichte und Mitteilungen</h2>";
 if ($zugriff) {
     $sql = "SELECT * FROM aktuell WHERE (typ LIKE '%box%') ORDER BY on_off DESC, datum DESC";
     $box_html = olz_aktuell_liste($sql);
-    echo "<a href='?jahr=box' onclick='runAccordion(\"box\"); return false;' name='accordionlink'><div class='AccordionTitle' onselectstart='return false;'>Box</div></a>
-<div id='AccordionboxContent' class='AccordionContent'".($_SESSION[$db_table.'jahr_'] == "box" ? " style='height:auto;'" : " style='height:1px;'")."><div id='AccordionboxContent_' class='AccordionContent_'>".$box_html."</div></div>";
+    echo "<a href='?jahr=box' onclick='runAccordion(\"box\"); return false;' name='accordionlink'><div class='accordion-title' onselectstart='return false;'>Box</div></a>
+<div id='AccordionboxContent' class='accordion-content'".($_SESSION[$db_table.'jahr_'] == "box" ? " style='height:auto;'" : " style='height:1px;'")."><div id='AccordionboxContent_' class='accordion-content-'>".$box_html."</div></div>";
 }
 
 //-------------------------------------------------------------
@@ -118,10 +118,10 @@ foreach ($_DATE->getYearsForAccordion() as $tmp_jahr) {
         $sql = "SELECT * FROM aktuell WHERE (on_off='1') AND (typ = 'aktuell') AND (datum >= '{$tmp_jahr}-01-01') AND (datum<= '{$tmp_jahr}-12-31') ORDER BY datum DESC, id DESC";
     }
     //"<h2><img src='icns/down_16.svg' class='noborder' style='margin-right:10px;' alt=''>".$tmp_jahr."</h2>";
-    echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;' name='accordionlink'><div class='AccordionTitle' onselectstart='return false;'>".$tmp_jahr."</div></a>
-<div id='Accordion".$tmp_jahr."Content' class='AccordionContent'".($_SESSION[$db_table.'jahr_'] == $tmp_jahr ? " style='height:auto;'" : " style='height:1px;'")."><div id='Accordion".$tmp_jahr."Content_' class='AccordionContent_'>".olz_aktuell_liste($sql)."</div></div>";
+    echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;' name='accordionlink'><div class='accordion-title' onselectstart='return false;'>".$tmp_jahr."</div></a>
+<div id='Accordion".$tmp_jahr."Content' class='accordion-content'".($_SESSION[$db_table.'jahr_'] == $tmp_jahr ? " style='height:auto;'" : " style='height:1px;'")."><div id='Accordion".$tmp_jahr."Content_' class='accordion-content-'>".olz_aktuell_liste($sql)."</div></div>";
 }
 if (!isset($_GET["archiv"])) {
-    echo "<a href='?archiv'><div class='AccordionTitle' onselectstart='return false;'>ältere...</div></a>";
+    echo "<a href='?archiv'><div class='accordion-title' onselectstart='return false;'>ältere...</div></a>";
 }
 echo "<script type='text/javascript'>setOpenAccordion(\"Accordion".$_SESSION[$db_table.'jahr_']."Content\");</script>";

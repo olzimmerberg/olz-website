@@ -4,112 +4,129 @@ body {
 }
 
 body {
-    font-family:'Open Sans', arial, sans-serif;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 
 .mainbg {
-    background-repeat:repeat;
-    background-image:url(../icns/mainbg.png);
+    background-image: url(../icns/mainbg.png);
+    background-repeat: repeat;
 }
 
 #title-box {
-    position:absolute;
-    top:0px;
-    right:0px;
-    left:0px;
-    height:50px;
-    padding:0px 10px;
-    overflow:hidden;
     background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    color:rgb(255,255,0);
+    color: rgb(255, 255, 0);
+    height: 50px;
+    left: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
+
 #title-box #title {
-    margin:0px;
-    padding:0px;
-    line-height:50px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0;
 }
+
 #classes-box {
-    position:absolute;
-    top:50px;
-    bottom:0px;
-    left:0px;
-    width:200px;
-    overflow:auto;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    top: 50px;
+    width: 200px;
 }
+
 #content-box {
-    position:absolute;
-    top:50px;
-    right:40%;
-    bottom:0px;
-    left:200px;
-    overflow:auto;
+    bottom: 0;
+    left: 200px;
+    overflow: auto;
+    position: absolute;
+    right: 40%;
+    top: 50px;
 }
+
 #grafik-box {
-    position:absolute;
-    top:50px;
-    right:0px;
-    bottom:0px;
-    width:40%;
-    overflow:auto;
+    bottom: 0;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 40%;
 }
+
 .classlink {
-    display:block;
-    padding:5px 10px;
-    color:rgb(0,0,0);
-    text-decoration:none;
-    background: linear-gradient(rgb(250,250,250), rgb(200,200,200));
+    background: linear-gradient(rgb(250, 250, 250), rgb(200, 200, 200));
+    color: rgb(0, 0, 0);
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
 }
-.classlink.selected, .classlink:active {
-    background: linear-gradient(rgb(0,100,0), rgb(0,200,0));
+
+.classlink.selected,
+.classlink:active {
+    background: linear-gradient(rgb(0, 100, 0), rgb(0, 200, 0));
 }
+
 #backbutton {
-    display:none;
+    display: none;
 }
+
 .mobileonly {
-    display:none;
+    display: none;
 }
+
 .inactive {
-    visibility:visible;
+    visibility: visible;
 }
 
 @media (max-width:1000px) {
     #title-box {
-        height:36px;
-        padding:0px;
+        height: 36px;
+        padding: 0;
     }
+
     #title-box #title {
-        line-height:36px;
+        line-height: 36px;
     }
+
     #classes-box {
-        top:36px;
-        right:0px;
-        width:100%;
+        right: 0;
+        top: 36px;
+        width: 100%;
     }
+
     #content-box {
-        top:36px;
-        left:0px;
-        right:0px;
-        width:100%;
+        left: 0;
+        right: 0;
+        top: 36px;
+        width: 100%;
     }
+
     #grafik-box {
-        top:36px;
-        left:0px;
-        right:0px;
-        width:100%;
+        left: 0;
+        right: 0;
+        top: 36px;
+        width: 100%;
     }
+
     #backbutton {
-        display:block;
-        float:left;
-        width:36px;
-        height:36px;
-        line-height:36px;
-        text-align:center;
-        cursor:pointer;
+        cursor: pointer;
+        display: block;
+        float: left;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        width: 36px;
     }
+
     .mobileonly {
-        display:block;
+        display: block;
     }
+
     .inactive {
-        visibility:hidden;
+        visibility: hidden;
     }
 }

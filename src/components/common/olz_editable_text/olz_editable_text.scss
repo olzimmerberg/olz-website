@@ -1,8 +1,8 @@
 .olz-editable-text {
     .rendered-html {
-        min-height: 42px;
-        border: 2px dashed rgb(0,0,0);
+        border: 2px dashed rgb(0, 0, 0);
         border-radius: 7px;
+        min-height: 42px;
 
         .olz-edit-button {
             float: right;
@@ -23,8 +23,8 @@
             display: block;
 
             textarea {
-                width: 100%;
                 min-height: 250px;
+                width: 100%;
             }
         }        
     }

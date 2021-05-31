@@ -197,13 +197,6 @@ function get_olz_text($id_text, $editable = true) {
 //----------------------------------
 //NEWS-FEED ANZEIGEN
 //----------------------------------
-function get_eintrag($icon, $datum, $titel, $text, $link, $pic = "") {
-    global $_DATE;
-    echo "<div style='position:relative; clear:left; overflow:hidden; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";'>
-    <span style='position:relative; float:right; padding-left:2px; text-align:right; color:#000;'><span style='float:left; margin-right:10px;'>".$pic."</span><span style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'>".$_DATE->olzDate("tt.mm.jj", $datum)."</span></span>
-    <div style='cursor:pointer;' class='titel' onclick='javascript:location.href=\"".$link."\";return false;'><img src='".$icon."' style='width:20px; height:20px;' class='noborder' alt='' /> ".$titel."</div>
-    <div style='clear:left; margin-top:0px;' class='paragraf'>".$text."</div></div>";
-}
 function make_expandable($text) {
     global $textlaenge_def;
     $text_orig = $text;

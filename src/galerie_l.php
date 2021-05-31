@@ -122,13 +122,13 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
                 break;
             }
         }
-        echo "<tr class='galerie_kopf'><td style='padding:auto;'></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie-kopf'><td style='padding:auto;'></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;
         //if(strpos($html_tmp,".jpg")>0) echo $html_tmp; // Bild vorhanden?
         echo "</tbody>";
-        echo "<tr class='galerie_kopf'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+        echo "<tr class='galerie-kopf'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
     } elseif ($typ == "movie") {
         // FILM DIASHOW
         //Zähler
@@ -148,7 +148,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
         }
 
         $content_to_show = $youtube_match ? "<a href='".$content."'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $content;
-        echo "<tr class='galerie_kopf'><td>&nbsp;</td><td colspan='".($breite - 2)."'>".$content_to_show."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie-kopf'><td>&nbsp;</td><td colspan='".($breite - 2)."'>".$content_to_show."</td><td>&nbsp;</td></tr>";
         echo "<tr class='foto'><td colspan='{$breite}' style='background-color:#000000;padding:0px;margin:0px;height:100%;'>";
         echo "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
         if (is_file($pfad.$movie)) {

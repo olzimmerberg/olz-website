@@ -33,16 +33,16 @@ World Ranking Event</p>";
     <p style='padding-top:10px;'>
     <table style='border-spacing:1px;'>
     <tr>
-        <td class='menu_aus' style='width:25%'><a href='#impressionen' class='linkint'>Impressionen</a></td>
-        <td class='menu_aus' style='width:25%'><a href='#ausschreibung' class='linkint'>Ausschreibung Nationaler OL</a></td>
-        <td class='menu_aus' style='width:25%'><a href='#ausschreibung_ss' class='linkint'>Ausschreibung Sprint-Staffel</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='#bahndaten' class='linkint'>Bahndaten</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='galerie.php?id=808' class='linkint'>Galerie</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='resultate/' class='linkint'>Resultate</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='http://www.routegadget.ch/binperl/reitti.cgi?act=map&id=209&kieli=' target='_blank' class='linkext'>RouteGadget</a>
+        <td class='menu-aus' style='width:25%'><a href='#impressionen' class='linkint'>Impressionen</a></td>
+        <td class='menu-aus' style='width:25%'><a href='#ausschreibung' class='linkint'>Ausschreibung Nationaler OL</a></td>
+        <td class='menu-aus' style='width:25%'><a href='#ausschreibung_ss' class='linkint'>Ausschreibung Sprint-Staffel</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#bahndaten' class='linkint'>Bahndaten</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='galerie.php?id=808' class='linkint'>Galerie</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='resultate/' class='linkint'>Resultate</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='http://www.routegadget.ch/binperl/reitti.cgi?act=map&id=209&kieli=' target='_blank' class='linkext'>RouteGadget</a>
         </td>
-        <td class='hide menu_aus' style='width:25%'><a href='#fundsachen' class='linkint'>Fundgegenstände</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='#fotool' class='linkint'>Foto-OL</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#fundsachen' class='linkint'>Fundgegenstände</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#fotool' class='linkint'>Foto-OL</a></td>
     </tr>
 </table>";
         $impressionen = "Impressionen";
@@ -74,16 +74,16 @@ World Ranking Event</p>";
     <p style='padding-top:10px;'>
 <table style='border-spacing:1px;'>
     <tr>
-        <td class='menu_aus' style='width:25%'><a href='#impressionen' class='linkint'>Impréssions</a></td>
-        <td class='menu_aus' style='width:25%'><a href='#ausschreibung' class='linkint'>Annonce CO nationale</a></td>
-        <td class='menu_aus' style='width:25%'><a href='#ausschreibung_ss' class='linkint'>Annonce Relais Sprint</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='#bahndaten' class='linkint'>Bahndaten</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='galerie.php?id=808' class='linkint'>Galerie</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='resultate/' class='linkint'>Resultate</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='http://www.routegadget.ch/binperl/reitti.cgi?act=map&id=209&kieli=' target='_blank' class='linkext'>RouteGadget</a>
+        <td class='menu-aus' style='width:25%'><a href='#impressionen' class='linkint'>Impréssions</a></td>
+        <td class='menu-aus' style='width:25%'><a href='#ausschreibung' class='linkint'>Annonce CO nationale</a></td>
+        <td class='menu-aus' style='width:25%'><a href='#ausschreibung_ss' class='linkint'>Annonce Relais Sprint</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#bahndaten' class='linkint'>Bahndaten</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='galerie.php?id=808' class='linkint'>Galerie</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='resultate/' class='linkint'>Resultate</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='http://www.routegadget.ch/binperl/reitti.cgi?act=map&id=209&kieli=' target='_blank' class='linkext'>RouteGadget</a>
         </td>
-        <td class='hide menu_aus' style='width:25%'><a href='#fundsachen' class='linkint'>Fundgegenstände</a></td>
-        <td class='hide menu_aus' style='width:25%'><a href='#fotool' class='linkint'>Foto-OL</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#fundsachen' class='linkint'>Fundgegenstände</a></td>
+        <td class='hide menu-aus' style='width:25%'><a href='#fotool' class='linkint'>Foto-OL</a></td>
     </tr>
 </table>";
         $impressionen = "Impréssions";

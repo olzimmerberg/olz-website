@@ -13,34 +13,42 @@
     }
 
     .log-level {
+        /* stylelint-disable-next-line selector-class-pattern */
         &.DEBUG {
             color: rgb(100, 100, 100);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.INFO {
             color: rgb(0, 100, 100);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.NOTICE {
             color: rgb(100, 100, 0);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.WARNING {
             color: rgb(150, 100, 0);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.ERROR {
             color: rgb(150, 50, 0);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.CRITICAL {
             color: rgb(180, 0, 0);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.ALERT {
             color: rgb(220, 0, 0);
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         &.EMERGENCY {
             color: rgb(255, 0, 0);
         }

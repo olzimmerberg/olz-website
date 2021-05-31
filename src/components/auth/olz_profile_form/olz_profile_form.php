@@ -30,7 +30,7 @@ function olz_profile_form($args): string {
     $required_password_class = $show_required_password ? '' : ' hidden';
 
     return <<<ZZZZZZZZZZ
-<div class='olz_profile_form'>
+<div class='olz-profile-form'>
     <div class='row'>
         <div class='col form-group'>
             <label for='profile-first-name-input'>Vorname <span class='required-field-asterisk'>*</span></label>

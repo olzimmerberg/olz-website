@@ -1,42 +1,42 @@
 #content_mitte {
-    height:100%;
-    position:relative;
-    margin:0px 300px 0px 180px;
-    padding:0px 10px 10px 10px;
-    border-right:solid 2px white;
-    border-left:solid 2px white;
+    border-left: solid 2px #fff;
+    border-right: solid 2px #fff;
+    height: 100%;
+    margin: 0 300px 0 180px;
+    padding: 0 10px 10px;
+    position: relative;
 }
 
 #content_rechts {
-    width:300px;
-    height:100%;
-    float:right;
+    float: right;
+    height: 100%;
+    width: 300px;
 }
 
 #content_double {
-    height:100%;
-    position:relative;
-    margin:0px 0px 0px 180px;
-    padding:0 10px 10px 10px;
+    height: 100%;
+    margin: 0 0 0 180px;
+    padding: 0 10px 10px;
+    position: relative;
 }
 
 @media screen and (max-width: 1024px) {
     #content_mitte {
-        margin:0px 300px 0px 0px;
+        margin: 0 300px 0 0;
     }
 
     #content_double {
-        margin:0px 0px 0px 0px;
+        margin: 0;
     }
 }
 
 @media screen and (max-width: 832px) {
     #content_mitte {
-        margin:0px 0px 0px 0px;
+        margin: 0;
     }
 
     #content_rechts {
-        width: auto;
         float: none;
+        width: auto;
     }
 }

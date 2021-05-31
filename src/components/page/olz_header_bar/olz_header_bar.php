@@ -106,7 +106,7 @@ function olz_header_bar($args = []): string {
     $result = $db->query($sql);
     $ol = mysqli_fetch_array($result);
 
-    $statistik_text = "<div style='position:absolute; top:0px; right:0px;'><div class='box_ganz'><div style='border:none;'>
+    $statistik_text = "<div style='position:absolute; top:0px; right:0px;'><div class='box-ganz'><div style='border:none;'>
     <h3>Statistik 2014:</h3>
     <p><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$training[1]."</span> Trainings mit<br><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$training[0]."</span> TeilnehmerInnen
     <br><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$ol[1]."</span> Wettkämpfe mit<br><span style='font-size:140%;font-weight:bold;vertical-align:baseline;'>".$ol[0]."</span> TeilnehmerInnen</p>
@@ -167,7 +167,7 @@ function olz_header_bar($args = []): string {
     GROUP BY sp1.id
     ORDER BY cnt DESC"; // cnt DESC, se.date ASC
 
-    $htmlout_before = "<div style='position:absolute; top:0px; right:252px; z-index:1000; display:none;' id='%%PLACEHOLDER_FOR_ID%%'><div class='box_ganz'><div style='margin-top:8px; border:0px; overflow-y:scroll;'><div style='padding:5px;'><table>";
+    $htmlout_before = "<div style='position:absolute; top:0px; right:252px; z-index:1000; display:none;' id='%%PLACEHOLDER_FOR_ID%%'><div class='box-ganz'><div style='margin-top:8px; border:0px; overflow-y:scroll;'><div style='padding:5px;'><table>";
     $htmlout_before .= "<tr><th>Name</th><th style='text-align:right;'>Starts</th></tr>";
     $htmlout_after = "</table></div></div></div></div>";
 
@@ -234,7 +234,7 @@ function olz_header_bar($args = []): string {
     $color_kids = $are_kids_winners ? 'rgb(0,100,0)' : 'rgb(180,0,0)';
     $color_j_und_s = $are_kids_winners ? 'rgb(180,0,0)' : 'rgb(0,100,0)';
 
-    $out .= "<div class='header-box'><div style='width:80px;' class='box_ganz'><div style='display: flow-root; width:80px; border:0px;'>";
+    $out .= "<div class='header-box'><div style='width:80px;' class='box-ganz'><div style='display: flow-root; width:80px; border:0px;'>";
     $out .= "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h2>";
     $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu 2019'>".round($percent_kids, 2)."%</div>";
     $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von Jugndlichen 2020 / 2019'>";
@@ -281,8 +281,8 @@ function htmlbox($entry, $typ, $zugriff, $button_name): string {
 
     $edit_admin = ($zugriff) ? "<a href='aktuell.php?id=".$entry["id"]."&amp;".$button_name."=start' class='linkedit'>&nbsp;</a>" : "";
     if (!$entry) {
-        return "<div class='box_ganz'>&nbsp;</div>";
+        return "<div class='box-ganz'>&nbsp;</div>";
     }
     $titel = ($entry["titel"] != "") ? $edit_admin.$entry["titel"] : ""; // Wieso???
-    return "<div class='header-box box_ganz'><div style='display: flow-root; border-color:#".$colors[$entry["wichtig"]].";'><h3 style='margin-top: 0;'>".$titel."</h3><div style='padding:0px 5px;' class='box_content'>".olz_br($entry["textlang"])."</div></div></div>";
+    return "<div class='header-box box-ganz'><div style='display: flow-root; border-color:#".$colors[$entry["wichtig"]].";'><h3 style='margin-top: 0;'>".$titel."</h3><div style='padding:0px 5px;' class='box-content'>".olz_br($entry["textlang"])."</div></div></div>";
 }

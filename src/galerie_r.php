@@ -58,8 +58,8 @@ echo "<h2>Galerien</h2>";
 //if ($db_edit=="0") $db->query("DELETE FROM $db_table WHERE titel='' AND autor='' AND on_off='0' AND typ='foto' AND datum<'".date("Y-m-d")."'");
 
 while ($tmp_jahr >= $end_jahr) {
-    echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;'><div class='AccordionTitle' onselectstart='return false;' name='accordionlink'>".$tmp_jahr."</div></a>
-<div id='Accordion".$tmp_jahr."Content' class='AccordionContent'".($_SESSION[$db_table.'jahr_'] == $tmp_jahr ? " style='height:auto;'" : "")."><div id='Accordion".$tmp_jahr."Content_' class='AccordionContent_'>";
+    echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;'><div class='accordion-title' onselectstart='return false;' name='accordionlink'>".$tmp_jahr."</div></a>
+<div id='Accordion".$tmp_jahr."Content' class='accordion-content'".($_SESSION[$db_table.'jahr_'] == $tmp_jahr ? " style='height:auto;'" : "")."><div id='Accordion".$tmp_jahr."Content_' class='accordion-content-'>";
     if ($zugriff) {
         $sql = "SELECT * from {$db_table} WHERE (YEAR(datum) = '{$tmp_jahr}') ORDER BY datum DESC";
     } else {
@@ -129,7 +129,7 @@ if (elem) elem.onmousedown = (function (elem) { return function (e) {
     $tmp_jahr = $tmp_jahr - 1;
 }
 if (!isset($_GET["archiv"])) {
-    echo "<a href='?archiv'><div class='AccordionTitle' onselectstart='return false;'>ältere...</div></a>";
+    echo "<a href='?archiv'><div class='accordion-title' onselectstart='return false;'>ältere...</div></a>";
 }
 echo "<script type='text/javascript'>setOpenAccordion(\"Accordion".$_SESSION[$db_table.'jahr_']."Content\");</script>";
 

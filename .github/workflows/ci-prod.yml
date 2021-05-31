@@ -113,6 +113,8 @@ jobs:
       run: cd ./ci; ./php-code-style.sh
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
+    - name: Lint CSS & SCSS
+      run: npm run stylelint
     - name: Compile TypeScript
       run: npm run tsc
     - name: Jest Unit Tests

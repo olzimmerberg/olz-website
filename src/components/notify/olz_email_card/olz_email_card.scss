@@ -7,7 +7,7 @@
     min-width: 50%;
 
     p {
-        margin: 0 0 1rem 0;
+        margin: 0 0 1rem;
     }
 
     img {
@@ -15,13 +15,13 @@
     }
 
     .card-header {
-        display: flex;
         align-items: center;
+        display: flex;
 
         img {
-            width: 26px;
             height: 26px;
             margin-right: 12px;
+            width: 26px;
         }
     }
 

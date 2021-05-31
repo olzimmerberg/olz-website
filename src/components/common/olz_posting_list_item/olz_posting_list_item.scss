@@ -1,0 +1,37 @@
+.olz-posting-list-item {
+    border-radius: 3px;
+    clear: left;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+
+    &:hover {
+        background-color: #d4e7ce;
+    }
+
+    .title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 2px;
+    }
+
+    .date {
+        color: #000;
+        float: right;
+        padding-left: 2px;
+        position: relative;
+        text-align: right;
+    }
+
+    .icon {
+        border: 0;
+        height: 20px;
+        width: 20px;
+    }
+
+    .text {
+        clear: left;
+        margin: 4px 0 6px;
+    }
+}

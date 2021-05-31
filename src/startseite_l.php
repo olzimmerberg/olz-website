@@ -17,9 +17,10 @@ require_once __DIR__.'/config/date.php';
 
 <?php
 
-require_once "image_tools.php";
-require_once "file_tools.php";
+require_once __DIR__.'/image_tools.php';
+require_once __DIR__.'/file_tools.php';
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
+require_once __DIR__.'/components/common/olz_posting_list_item/olz_posting_list_item.php';
 
 $banner_text = olz_editable_text(['olz_text_id' => 22]);
 if (trim(strip_tags($banner_text)) !== '') {
@@ -168,7 +169,13 @@ while ($row = $result->fetch_assoc()) {
     }
     //if ($thistype!='galerie') $text = "<a href='".$link."' style='display:block;color:#000000;' class='paragraf'>".$text."</a>";
 
-    echo get_eintrag($icon, $datum, $edit_admin.$titel, $text, $link);
+    echo olz_posting_list_item([
+        'icon' => $icon,
+        'date' => $datum,
+        'title' => $edit_admin.$titel,
+        'text' => $text,
+        'link' => $link,
+    ]);
     /*
     echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
     <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>

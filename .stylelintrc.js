@@ -4,6 +4,9 @@ module.exports = {
         'stylelint-scss',
     ],
     'rules': {
+        'block-closing-brace-newline-after': 'always',
+        'block-closing-brace-newline-before': 'always',
+        'block-opening-brace-newline-after': 'always',
         'indentation': 4,
         'max-nesting-depth': 10,
         'selector-max-id': 3,

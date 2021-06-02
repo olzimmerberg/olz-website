@@ -4,8 +4,8 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
-require_once __DIR__.'/config/database.php';
-require_once __DIR__.'/config/date.php';
+require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/date.php';
 
 //-------------------------------------------------------------
 // USERVARIABLEN PRÜFEN

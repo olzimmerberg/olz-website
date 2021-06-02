@@ -38,5 +38,9 @@
     #content_rechts {
         float: none;
         width: auto;
+
+        &.optional {
+            display: none;
+        }
     }
 }

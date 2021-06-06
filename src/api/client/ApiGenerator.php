@@ -18,14 +18,16 @@ class ApiGenerator {
             foreach ($endpoint->getRequestFields() as $field_index => $field) {
                 $id = $field->getId();
                 $type = $field->getTypeScriptType();
-                $typescript_request_types .= "        {$id}: {$type},\n";
+                $indented_type = str_replace("\n", "\n        ", $type);
+                $typescript_request_types .= "        {$id}: {$indented_type},\n";
             }
             $typescript_request_types .= "    },\n";
             $typescript_response_types .= "    {$endpoint_name}: {\n";
             foreach ($endpoint->getResponseFields() as $field_index => $field) {
                 $id = $field->getId();
                 $type = $field->getTypeScriptType();
-                $typescript_response_types .= "        {$id}: {$type},\n";
+                $indented_type = str_replace("\n", "\n        ", $type);
+                $typescript_response_types .= "        {$id}: {$indented_type},\n";
             }
             $typescript_response_types .= "    },\n";
         }

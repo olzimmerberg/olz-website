@@ -2,6 +2,10 @@
 
 // eslint-disable-next-line no-shadow
 export enum OlzApiEndpoint {
+    createRegistration = 'createRegistration',
+    createRegistrationForm = 'createRegistrationForm',
+    getManagedUsers = 'getManagedUsers',
+    getRegistrationForm = 'getRegistrationForm',
     onDaily = 'onDaily',
     onContinuously = 'onContinuously',
     login = 'login',
@@ -22,6 +26,31 @@ export enum OlzApiEndpoint {
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: {[fieldId: string]: any}};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
+    createRegistration: {
+        registrationForm: number,
+        fieldValues: {[key: string]: any},
+    },
+    createRegistrationForm: {
+        title: string,
+        description: string,
+        fields: Array<{
+            'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'booking',
+            'isOptional': boolean,
+            'title': string,
+            'description': string,
+            'options': Array<string>|null,
+        }>,
+        opensAt: string|null,
+        closesAt: string|null,
+        ownerUser: number,
+        ownerRole: number,
+    },
+    getManagedUsers: {
+    },
+    getRegistrationForm: {
+        registrationForm: number,
+        user: number,
+    },
     onDaily: {
         authenticityCode: string,
     },
@@ -126,6 +155,37 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
+    createRegistration: {
+        status: 'OK'|'ERROR',
+    },
+    createRegistrationForm: {
+        status: 'OK'|'ERROR',
+    },
+    getManagedUsers: {
+        status: 'OK'|'ERROR',
+        managedUsers: Array<{
+            'id': number,
+            'firstName': number,
+            'lastName': number,
+        }>|null,
+    },
+    getRegistrationForm: {
+        status: 'OK'|'ERROR',
+        title: string,
+        description: string,
+        fields: Array<{
+            'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'booking',
+            'isOptional': boolean,
+            'title': string,
+            'description': string,
+            'options': Array<string>|null,
+        }>,
+        opensAt: string|null,
+        closesAt: string|null,
+        ownerUser: number,
+        ownerRole: number,
+        prefillValues: {[key: string]: any}|null,
+    },
     onDaily: {
     },
     onContinuously: {

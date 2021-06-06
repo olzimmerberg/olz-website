@@ -64,8 +64,8 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
         $this->assertSame([
             'idByName' => [
                 'Child Category 1' => 'SkillCategory:11',
-                'Child Category 2' => 'SkillCategory:270',
-                'Parent Category' => 'SkillCategory:270',
+                'Child Category 2' => 'SkillCategory:'.FakeEntityManager::AUTO_INCREMENT_ID,
+                'Parent Category' => 'SkillCategory:'.FakeEntityManager::AUTO_INCREMENT_ID,
             ],
         ], $result);
 

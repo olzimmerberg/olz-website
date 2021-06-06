@@ -46,7 +46,7 @@ class EntityUtils {
         $current_user = $this->authUtils->getSessionUser();
         $now_datetime = new DateTime($this->dateUtils->getIsoNow());
 
-        $on_off = $input['onOff'] ? 1 : 0;
+        $on_off = ($input['onOff'] ?? null) ? 1 : 0;
 
         $owner_user_id = $input['ownerUserId'] ?? null;
         if ($owner_user_id) {

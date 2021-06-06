@@ -296,7 +296,6 @@ if ($zugriff == "1") {
             $id = $row['id'];
             $on_off = $row['on_off'];
             $newsletter = $row['newsletter'];
-            $datum_anmeldung = $row['datum_anmeldung'];
             $xkoord = $row['xkoord'];
             $ykoord = $row['ykoord'];
             $go2ol = $row['go2ol'];
@@ -313,10 +312,6 @@ if ($zugriff == "1") {
                 $link = str_replace("&", "&amp;", str_replace("&amp;", "&", $link));
             }
             $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
-
-            if (($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
-                $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
-            }
 
             if ($newsletter) {
                 $icn_newsletter = "<img src='icns/mail2.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";

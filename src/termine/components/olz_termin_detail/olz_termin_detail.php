@@ -45,7 +45,6 @@ function olz_termin_detail($args = []): string {
         $typ = $row['typ'];
         $on_off = $row['on_off'];
         $newsletter = $row['newsletter'];
-        $datum_anmeldung = $row['datum_anmeldung'];
         $xkoord = $row['xkoord'];
         $ykoord = $row['ykoord'];
         $go2ol = $row['go2ol'];
@@ -132,17 +131,6 @@ function olz_termin_detail($args = []): string {
 
         // Link
         $link = replace_file_tags($link, $id);
-        if ($row_solv && ($go2ol > "" or $row_solv['entryportal'] == 1 or $row_solv['entryportal'] == 2)) {
-            // Manueller Anmeldungs-Link entfernen
-            $var = "Anmeldung";
-            $pos1 = strpos($link, $var);
-            if ($pos1 > 0) {
-                $pos2 = strrpos(substr($link, 0, $pos1), "<");
-                $pos3 = strpos(substr($link, $pos1), ">");
-                $search = substr($link, $pos2, ($pos1 - $pos2 + $pos3 + strlen($var)));
-                $link = str_replace($search, "", $link);
-            }
-        }
         if ($go2ol > "" and $datum >= $heute) {
             $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
         } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $heute) {

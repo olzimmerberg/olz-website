@@ -4,7 +4,7 @@ Online-Anmeldung für Anlässe, Trainings, Weekends, etc.
 
 ## Dokumentation
 
-### Felder des Registrierungsformulars (`fields`)
+### Infos (=Felder) einer Registrierung (=Formular) (`infos`)
 
 Sind ein Array folgender Form:
 
@@ -24,14 +24,14 @@ Sind ein Array folgender Form:
     - *weitere:*
         - `string`: Text, der vom Benutzer ausgefüllt werden soll
         - `enum`: Optionen-Auswahl-Feld, das vom Benutzer ausgefüllt werden soll (z.B. "Vegan"/"Vegi"/"Fleisch")
-        - `booking`: Der Benutzer kann eine Option aus vorgegebenen Optionen auswählen, wobei jede Option (pro Registrierungsformular) nur von einem Benutzer gewählt werden kann (z.B. Reservierung eines Schlafplatzes, eines Parkplatzes, oder einer Startzeit)
+        - `reservation`: Der Benutzer kann eine Option aus vorgegebenen Optionen auswählen, wobei jede Option (pro Registrierungsformular) nur von einem Benutzer gewählt werden kann (z.B. Reservierung eines Schlafplatzes, eines Parkplatzes, oder einer Startzeit)
 - `is_optional`: Kann das Feld leer gelassen werden?
 - `title`: Benutzer-lesbarer Titel des Felds
 - `description`: Benutzer-lesbare Beschreibung des Felds (mit weiteren Informationen, Anweisungen für Spezialfälle, etc.)
-- `options`: (nur für Typen `booking` und `enum` relevant) Die zur Verfügung stehenden Optionen
+- `options`: (nur für Typen `reservation` und `enum` relevant) Die zur Verfügung stehenden Optionen
 
 
-### Feld-Werte einer Registrierung (`fieldValues`)
+### Feld-Werte einer Buchung (`values`)
 
 Sind ein Dictionary folgender Form:
 
@@ -53,4 +53,4 @@ Sind ein Dictionary folgender Form:
     - *weitere:*
         - `string`: `string`
         - `enum`: `string`
-        - `booking`: `string`
+        - `reservation`: `string`

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220317172850
+-- MIGRATION: OLZ\Migrations\Version20220321214214
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -11,43 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `anm_felder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` int(11) DEFAULT NULL,
-  `position` int(11) DEFAULT NULL,
-  `zeigen` int(11) DEFAULT NULL,
-  `label` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `typ` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `info` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `standard` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `test` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `test_result` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `anmeldung` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `datum` date DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `anzahl` int(11) DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `on_off` int(11) DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `feld1` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `feld2` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `feld3` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `feld4` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -596,38 +559,6 @@ CREATE TABLE `forum` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `termine` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date DEFAULT NULL,
-  `datum_end` date DEFAULT NULL,
-  `datum_off` date DEFAULT NULL,
-  `zeit` time DEFAULT '00:00:00',
-  `zeit_end` time DEFAULT '00:00:00',
-  `teilnehmer` int(11) NOT NULL DEFAULT 0,
-  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `go2ol` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `solv_event_link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `typ` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 0,
-  `datum_anmeldung` date DEFAULT NULL,
-  `text_anmeldung` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email_anmeldung` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `xkoord` int(11) DEFAULT NULL,
-  `ykoord` int(11) DEFAULT NULL,
-  `solv_uid` int(11) DEFAULT NULL,
-  `ical_uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modified` datetime NOT NULL DEFAULT current_timestamp(),
-  `created` datetime NOT NULL DEFAULT current_timestamp(),
-  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -752,6 +683,128 @@ CREATE TABLE `quiz_skill_levels` (
   CONSTRAINT `FK_6699B5F67D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_6699B5F6A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anmelden_bookings` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `registration_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `form_data` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_71DD97E7833D8F43` (`registration_id`),
+  KEY `IDX_71DD97E7A76ED395` (`user_id`),
+  KEY `IDX_71DD97E72B18554A` (`owner_user_id`),
+  KEY `IDX_71DD97E75A75A473` (`owner_role_id`),
+  KEY `IDX_71DD97E77D182D95` (`created_by_user_id`),
+  KEY `IDX_71DD97E71A04EF5A` (`last_modified_by_user_id`),
+  CONSTRAINT `FK_71DD97E71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_71DD97E72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_71DD97E75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_71DD97E77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_71DD97E7833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`),
+  CONSTRAINT `FK_71DD97E7A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anmelden_registration_infos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `registration_id` int(11) NOT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `ident` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `index_within_registration` int(11) NOT NULL,
+  `title` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_optional` tinyint(1) NOT NULL,
+  `options` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_D8B1DD49833D8F43` (`registration_id`),
+  KEY `IDX_D8B1DD492B18554A` (`owner_user_id`),
+  KEY `IDX_D8B1DD495A75A473` (`owner_role_id`),
+  KEY `IDX_D8B1DD497D182D95` (`created_by_user_id`),
+  KEY `IDX_D8B1DD491A04EF5A` (`last_modified_by_user_id`),
+  KEY `ident_index` (`ident`),
+  CONSTRAINT `FK_D8B1DD491A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_D8B1DD492B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_D8B1DD495A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_D8B1DD497D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_D8B1DD49833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anmelden_registrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `title` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `opens_at` datetime DEFAULT NULL,
+  `closes_at` datetime DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_BBDA45192B18554A` (`owner_user_id`),
+  KEY `IDX_BBDA45195A75A473` (`owner_role_id`),
+  KEY `IDX_BBDA45197D182D95` (`created_by_user_id`),
+  KEY `IDX_BBDA45191A04EF5A` (`last_modified_by_user_id`),
+  KEY `opens_at_index` (`opens_at`),
+  KEY `closes_at_index` (`closes_at`),
+  CONSTRAINT `FK_BBDA45191A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_BBDA45192B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_BBDA45195A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_BBDA45197D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `datum` date DEFAULT NULL,
+  `datum_end` date DEFAULT NULL,
+  `datum_off` date DEFAULT NULL,
+  `zeit` time DEFAULT '00:00:00',
+  `zeit_end` time DEFAULT '00:00:00',
+  `teilnehmer` int(11) NOT NULL DEFAULT 0,
+  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `go2ol` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `solv_event_link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `typ` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
+  `xkoord` int(11) DEFAULT NULL,
+  `ykoord` int(11) DEFAULT NULL,
+  `solv_uid` int(11) DEFAULT NULL,
+  `ical_uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `modified` datetime NOT NULL DEFAULT current_timestamp(),
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

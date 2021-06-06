@@ -21,6 +21,7 @@ function get_model_folder($path) {
 
 $doctrine_model_folders = [
     get_model_folder(__DIR__.'/../model'),
+    get_model_folder(__DIR__.'/../anmelden/model'),
     get_model_folder(__DIR__.'/../news/model'),
     get_model_folder(__DIR__.'/../quiz/model'),
     get_model_folder(__DIR__.'/../termine/model'),

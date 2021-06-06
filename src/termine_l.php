@@ -367,7 +367,7 @@ while ($row = mysqli_fetch_array($result)) {
 
     // HTML-Ausgabe
     if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
-        echo olz_monate($datum)."<tr".$class.">\n\t<td id='id".$id."' style='width:25%;'>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";
 }

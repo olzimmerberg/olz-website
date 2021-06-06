@@ -15,7 +15,10 @@ require_once __DIR__.'/doctrine.php';
 
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(
-    [__DIR__.'/../model'],
+    [
+        __DIR__.'/../model',
+        __DIR__.'/../anmelden/model',
+    ],
     $isDevMode,
     null,
     null,

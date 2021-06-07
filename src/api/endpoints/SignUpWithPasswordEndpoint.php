@@ -34,6 +34,7 @@ class SignUpWithPasswordEndpoint extends Endpoint {
             new StringField('username', ['allow_empty' => false]),
             new StringField('password', ['allow_empty' => false]),
             new StringField('email', ['allow_empty' => false]),
+            new StringField('phone', ['allow_null' => true]),
             new EnumField('gender', ['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             new DateTimeField('birthdate', ['allow_null' => true]),
             new StringField('street', ['allow_empty' => true]),
@@ -69,6 +70,7 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         $user->setEmail($input['email']);
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
+        $user->setPhone($input['phone']);
         $user->setPasswordHash(password_hash($input['password'], PASSWORD_DEFAULT));
         $user->setFirstName($first_name);
         $user->setLastName($last_name);

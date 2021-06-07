@@ -183,6 +183,19 @@ export function getPassword(fieldId: string, passwordInput: string|undefined): s
     return passwordInput;
 }
 
+export function getPhone(fieldId: string, phoneInput: string|undefined): string|null {
+    const phoneInputWithoutSpaces = phoneInput.replace(/\s+/g, '');
+    if (!phoneInputWithoutSpaces) {
+        return null;
+    }
+    if (!/^\+[0-9]+$/.exec(phoneInputWithoutSpaces)) {
+        throw new ValidationError('', {
+            [fieldId]: ['Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'],
+        });
+    }
+    return phoneInputWithoutSpaces;
+}
+
 export function getCountryCode(fieldId: string, countryCode: string|undefined): string {
     if (!countryCode) {
         return '';

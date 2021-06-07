@@ -80,6 +80,7 @@ if ($user) {
         'last_name' => $user->getLastName(),
         'username' => $user->getUsername(),
         'email' => $user->getEmail(),
+        'phone' => $user->getPhone(),
         'gender' => $user->getGender(),
         'birthdate' => $user->getBirthdate(),
         'street' => $user->getStreet(),

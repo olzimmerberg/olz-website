@@ -1,5 +1,5 @@
 import {OlzApiResponses, OlzApiEndpoint} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getGender, getIsoDateFromSwissFormat} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone} from './components/common/olz_default_form/olz_default_form';
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.updateUser> = {
@@ -7,7 +7,8 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
         firstName: (f) => f['first-name'].value,
         lastName: (f) => f['last-name'].value,
         username: (f) => f.username.value,
-        email: (f) => f.email.value,
+        phone: (f) => getPhone('phone', f.phone.value),
+        email: (f) => getEmail('email', f.email.value),
         gender: (f) => getGender('gender', f.gender.value),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
         street: (f) => f.street.value,

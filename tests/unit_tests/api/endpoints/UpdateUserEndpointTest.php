@@ -82,6 +82,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'lastName' => 'Last',
             'username' => 'test',
             'email' => 'test@olzimmerberg.ch',
+            'phone' => '+41441234567',
             'gender' => 'F',
             'birthdate' => '1992-08-05 12:00:00',
             'street' => 'Teststrasse 123',
@@ -98,6 +99,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('test@olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
         $this->assertSame('Teststrasse 123', $admin_user->getStreet());

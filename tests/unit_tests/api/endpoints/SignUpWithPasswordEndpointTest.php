@@ -80,6 +80,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         'username' => 'fakeUsername',
         'password' => 'securePassword',
         'email' => 'fakeEmail',
+        'phone' => '+41441234567',
         'street' => 'fakeStreet',
         'postalCode' => 'fakePostalCode',
         'city' => 'fakeCity',

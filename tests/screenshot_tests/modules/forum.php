@@ -33,6 +33,10 @@ function test_forum($driver, $base_url) {
         WebDriverBy::cssSelector('#forumeintrag')
     );
     $text_input->sendKeys('Viel Inhalt');
+    $code_elem = $driver->findElement(
+        WebDriverBy::cssSelector('#forumuid')
+    );
+    $code = $code_elem->getAttribute("value");
     take_pageshot($driver, 'forum_new_edit');
 
     $preview_button = $driver->findElement(
@@ -46,6 +50,36 @@ function test_forum($driver, $base_url) {
     );
     $save_button->click();
     take_pageshot($driver, 'forum_new_finished');
+
+    $edit_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonforum-eintrag-bearbeiten')
+    );
+    $edit_button->click();
+    $code_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[name="uid"]')
+    );
+    $code_input->sendKeys($code);
+    $forward_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonforum-weiter')
+    );
+    $forward_button->click();
+    take_pageshot($driver, 'forum_code_edit');
+
+    $text_input = $driver->findElement(
+        WebDriverBy::cssSelector('#forumeintrag')
+    );
+    $text_input->sendKeys("\n\nNoch mehr Inhalt!");
+
+    $preview_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonforum-vorschau')
+    );
+    $preview_button->click();
+
+    $save_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonforum-speichern')
+    );
+    $save_button->click();
+    take_pageshot($driver, 'forum_code_edit_finished');
 
     reset_dev_data();
     tock('forum', 'forum');

@@ -30,6 +30,8 @@ if (!defined('CALLED_THROUGH_INDEX')) {
 }
 
 $db_table = 'forum';
+$id = $_GET['id'] ?? null;
+$uid = $_POST['uid'] ?? null;
 
 $button_name = 'button'.$db_table;
 if (isset($_GET[$button_name])) {

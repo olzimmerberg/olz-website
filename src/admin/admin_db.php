@@ -427,7 +427,7 @@ if (($do ?? null) == "getdata") {
     if ($result->num_rows == 0) {
         $do = "abbruch";
         if ($function == "start_user") {
-            $alert = "Ungültiger Code !";
+            $alert = "Ungültiger Code!";
         } else {
             $alert = "Kein Datensatz gewählt.";
         }

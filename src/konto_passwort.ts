@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
@@ -22,6 +22,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             return result;
         },
         email: (f) => getEmail('email', f.email.value),
+        phone: (f) => getPhone('phone', f.phone.value),
         gender: (f) => getGender('gender', f.gender.value),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
         street: (f) => f.street.value,

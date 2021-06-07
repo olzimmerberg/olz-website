@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {ValidationError} from '../../../api/client';
-import {EMAIL_REGEX, getDataForRequest, camelCaseToDashCase, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getCountryCode} from './olz_default_form';
+import {EMAIL_REGEX, getDataForRequest, camelCaseToDashCase, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getCountryCode} from './olz_default_form';
 
 describe('EMAIL_REGEX', () => {
     it('matches real email adresses', () => {
@@ -189,6 +189,29 @@ describe('getPassword', () => {
         expect(() => getPassword('password', 'wtf')).toThrow(ValidationError);
         expect(() => getPassword('password', '1234')).toThrow(ValidationError);
         expect(() => getPassword('password', 'admin')).toThrow(ValidationError);
+    });
+});
+
+describe('getPhone', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(getPhone('phone', '')).toEqual(null);
+        expect(getPhone('phone', ' ')).toEqual(null);
+        expect(getPhone('phone', '\t')).toEqual(null);
+    });
+
+    it('returns password for correct user inputs', () => {
+        expect(getPhone('phone', '+41441234567')).toEqual('+41441234567');
+        expect(getPhone('phone', '+41 79 123 45 67')).toEqual('+41791234567');
+        expect(getPhone('phone', '+41\t78\t1234567')).toEqual('+41781234567');
+    });
+
+    it('throws validation error for invalid user inputs', () => {
+        expect(() => getPhone('phone', 'no letters allowed')).toThrow(ValidationError);
+        expect(() => getPhone('phone', '+')).toThrow(ValidationError);
+        expect(() => getPhone('phone', '+ ')).toThrow(ValidationError);
+        expect(() => getPhone('phone', '123 45 67')).toThrow(ValidationError);
+        expect(() => getPhone('phone', '01 123 45 67')).toThrow(ValidationError);
+        expect(() => getPhone('phone', '044 765 43 21')).toThrow(ValidationError);
     });
 });
 

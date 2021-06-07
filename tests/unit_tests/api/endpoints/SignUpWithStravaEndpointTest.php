@@ -112,6 +112,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'lastName' => 'fakeLastName',
             'username' => 'fakeUsername',
             'email' => 'fakeEmail',
+            'phone' => '+41441234567',
             'street' => 'fakeStreet',
             'postalCode' => 'fakePostalCode',
             'city' => 'fakeCity',

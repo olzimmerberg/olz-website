@@ -31,6 +31,7 @@ class UpdateUserEndpoint extends Endpoint {
             new StringField('lastName', ['allow_empty' => false]),
             new StringField('username', ['allow_empty' => false]),
             new StringField('email', ['allow_empty' => false]),
+            new StringField('phone', ['allow_null' => true]),
             new EnumField('gender', ['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             new DateTimeField('birthdate', ['allow_null' => true]),
             new StringField('street', ['allow_empty' => true]),
@@ -55,6 +56,7 @@ class UpdateUserEndpoint extends Endpoint {
         $user->setLastName($input['lastName']);
         $user->setUsername($input['username']);
         $user->setEmail($input['email']);
+        $user->setPhone($input['phone']);
         $user->setGender($input['gender']);
         $user->setBirthdate(new DateTime($input['birthdate']));
         $user->setStreet($input['street']);

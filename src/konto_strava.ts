@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, callOlzApi, OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getIsoDateFromSwissFormat, getGender} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -53,7 +53,8 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
         firstName: (f) => f['first-name'].value,
         lastName: (f) => f['last-name'].value,
         username: (f) => f.username.value,
-        email: (f) => f.email.value,
+        email: (f) => getEmail('email', f.email.value),
+        phone: (f) => getPhone('phone', f.phone.value),
         gender: (f) => getGender('gender', f.gender.value),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
         street: (f) => f.street.value,

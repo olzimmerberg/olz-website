@@ -12,6 +12,7 @@ function olz_profile_form($args): string {
     $esc_last_name = htmlentities($defaults['last_name'] ?? '');
     $esc_username = htmlentities($defaults['username'] ?? '');
     $esc_email = htmlentities($defaults['email'] ?? '');
+    $esc_phone = htmlentities($defaults['phone'] ?? '');
     $gender_default = array_search($defaults['gender'] ?? '', ['M', 'F', 'O']) === false ? 'selected ' : '';
     $gender_male = ($defaults['gender'] ?? '') == 'M' ? 'selected ' : '';
     $gender_female = ($defaults['gender'] ?? '') == 'F' ? 'selected ' : '';
@@ -97,15 +98,27 @@ function olz_profile_form($args): string {
             />
         </div>
     </div>
-    <div class='form-group'>
-        <label for='profile-email-input'>E-Mail <span class='required-field-asterisk'>*</span></label>
-        <input
-            type='text'
-            name='email'
-            value='{$esc_email}'
-            class='form-control'
-            id='profile-email-input'
-        />
+    <div class='row'>
+        <div class='col form-group'>
+            <label for='profile-email-input'>E-Mail <span class='required-field-asterisk'>*</span></label>
+            <input
+                type='text'
+                name='email'
+                value='{$esc_email}'
+                class='form-control'
+                id='profile-email-input'
+            />
+        </div>
+        <div class='col form-group'>
+            <label for='profile-phone-input'>Telefonnummer (Format: +41XXXXXXXXX)</label>
+            <input
+                type='text'
+                name='phone'
+                value='{$esc_phone}'
+                class='form-control'
+                id='profile-phone-input'
+            />
+        </div>
     </div>
     <div class='row'>
         <div class='col form-group'>

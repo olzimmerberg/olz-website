@@ -1,3 +1,14 @@
+.logs-header {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    .form-control {
+        margin: 0 10px;
+        width: auto;
+    }
+}
+
 #logs {
     overflow-x: auto;
     white-space: nowrap;
@@ -12,50 +23,105 @@
         font-weight: bold;
     }
 
-    .log-level {
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.DEBUG {
-            color: rgb(100, 100, 100);
+    .log-line {
+        &.level-debug {
+            .log-level {
+                color: rgb(100, 100, 100);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.INFO {
-            color: rgb(0, 100, 100);
+        &.level-info {
+            .log-level {
+                color: rgb(0, 100, 100);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.NOTICE {
-            color: rgb(100, 100, 0);
+        &.level-notice {
+            .log-level {
+                color: rgb(100, 100, 0);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.WARNING {
-            color: rgb(150, 100, 0);
+        &.level-warning {
+            .log-level {
+                color: rgb(150, 100, 0);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.ERROR {
-            color: rgb(150, 50, 0);
+        &.level-error {
+            .log-level {
+                color: rgb(150, 50, 0);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.CRITICAL {
-            color: rgb(180, 0, 0);
+        &.level-critical {
+            .log-level {
+                color: rgb(180, 0, 0);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.ALERT {
-            color: rgb(220, 0, 0);
+        &.level-alert {
+            .log-level {
+                color: rgb(220, 0, 0);
+            }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        &.EMERGENCY {
-            color: rgb(255, 0, 0);
+        &.level-emergency {
+            .log-level {
+                color: rgb(255, 0, 0);
+            }
         }
-
     }
 
     .greyed-out {
         color: rgb(150, 150, 150);
+    }
+
+    &.levels-info-higher {
+        .log-line.level-debug {
+            display: none;
+        }
+    }
+
+    &.levels-notice-higher {
+        .log-line.level-debug {
+            display: none;
+        }
+
+        .log-line.level-info {
+            display: none;
+        }
+    }
+
+    &.levels-warning-higher {
+        .log-line.level-debug {
+            display: none;
+        }
+
+        .log-line.level-info {
+            display: none;
+        }
+
+        .log-line.level-notice {
+            display: none;
+        }
+    }
+
+    &.levels-error-higher {
+        .log-line.level-debug {
+            display: none;
+        }
+
+        .log-line.level-info {
+            display: none;
+        }
+
+        .log-line.level-notice {
+            display: none;
+        }
+
+        .log-line.level-warning {
+            display: none;
+        }
     }
 }

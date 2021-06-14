@@ -11,4 +11,12 @@ class UserRepository extends EntityRepository {
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
+
+    public function findFuzzilyByUsername($username) {
+        $sane_username = DBEsc($username);
+        $dql = "SELECT u FROM User u WHERE u.username LIKE '{$sane_username}'";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        return $query->getOneOrNullResult();
+    }
 }

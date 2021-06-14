@@ -10,8 +10,6 @@ require_once __DIR__.'/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/WeeklySummaryGetter.php';
 
-$solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
-
 class SendDailyNotificationsTask extends BackgroundTask {
     public function __construct($entityManager, $emailUtils, $telegramUtils, $dateUtils, $envUtils) {
         parent::__construct($dateUtils, $envUtils);
@@ -220,7 +218,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
                 try {
                     $this->emailUtils->setLogger($this->logger);
                     $email = $this->emailUtils->createEmail();
-                    $email->configure($user, $title, $text, $config);
+                    $email->configure($user, "[OLZ] {$title}", $text, $config);
                     $email->send();
                     $this->logger->info("Email sent to user ({$user_id}): {$title}");
                 } catch (\Exception $exc) {

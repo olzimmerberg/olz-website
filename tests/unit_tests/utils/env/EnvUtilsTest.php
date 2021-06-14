@@ -56,6 +56,11 @@ final class EnvUtilsTest extends UnitTestCase {
             'telegram_bot_token' => '123456789:abcdefghijklmnopqrstuvwxyz123456789',
             'telegram_authenticity_code' => 'this_is_just_local',
 
+            'imap_host' => 'localhost',
+            'imap_port' => '143',
+            'imap_username' => 'fake-user@olzimmerberg.ch',
+            'imap_password' => '1234',
+
             'smtp_host' => 'localhost',
             'smtp_port' => '465',
             'smtp_username' => 'fake-user@olzimmerberg.ch',
@@ -91,6 +96,10 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('olz_bot', $env_utils->getTelegramBotName());
         $this->assertSame('123456789:abcdefghijklmnopqrstuvwxyz123456789', $env_utils->getTelegramBotToken());
         $this->assertSame('this_is_just_local', $env_utils->getTelegramAuthenticityCode());
+        $this->assertSame('localhost', $env_utils->getImapHost());
+        $this->assertSame('143', $env_utils->getImapPort());
+        $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getImapUsername());
+        $this->assertSame('1234', $env_utils->getImapPassword());
         $this->assertSame('localhost', $env_utils->getSmtpHost());
         $this->assertSame('465', $env_utils->getSmtpPort());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpUsername());

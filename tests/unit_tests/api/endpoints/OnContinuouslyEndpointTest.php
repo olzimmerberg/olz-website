@@ -9,7 +9,15 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeOnDailyEndpointSendDailyNotificationsTask {
+class FakeOnContinuouslyEndpointSendDailyNotificationsTask {
+    public $hasBeenRun = false;
+
+    public function run() {
+        $this->hasBeenRun = true;
+    }
+}
+
+class FakeOnContinuouslyEndpointProcessEmailTask {
     public $hasBeenRun = false;
 
     public function run() {
@@ -101,10 +109,12 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testOnContinuouslyEndpointTooSoon(): void {
+    public function testOnContinuouslyEndpointTooSoonToSendDailyEmails(): void {
+        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
+        $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
         $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
@@ -119,14 +129,17 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
         $this->assertSame([], $result);
         $this->assertSame(0, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame(true, $process_email_task->hasBeenRun);
     }
 
     public function testOnContinuouslyEndpointFirstDailyNotifications(): void {
-        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
+        $send_daily_notifications_task = new FakeOnContinuouslyEndpointSendDailyNotificationsTask();
+        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
+        $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
         $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
@@ -142,14 +155,17 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
         $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
+        $this->assertSame(true, $process_email_task->hasBeenRun);
     }
 
     public function testOnContinuouslyEndpoint(): void {
-        $send_daily_notifications_task = new FakeOnDailyEndpointSendDailyNotificationsTask();
+        $send_daily_notifications_task = new FakeOnContinuouslyEndpointSendDailyNotificationsTask();
+        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
+        $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
         $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
@@ -164,5 +180,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
         $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
+        $this->assertSame(true, $process_email_task->hasBeenRun);
     }
 }

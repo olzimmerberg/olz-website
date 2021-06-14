@@ -42,6 +42,11 @@ class EnvUtils {
     private $telegram_bot_token;
     private $telegram_authenticity_code;
 
+    private $imap_host;
+    private $imap_port;
+    private $imap_username;
+    private $imap_password;
+
     private $smtp_host;
     private $smtp_port;
     private $smtp_username;
@@ -105,6 +110,11 @@ class EnvUtils {
         $this->telegram_bot_name = $config_dict['telegram_bot_name'] ?? $this->telegram_bot_name;
         $this->telegram_bot_token = $config_dict['telegram_bot_token'] ?? $this->telegram_bot_token;
         $this->telegram_authenticity_code = $config_dict['telegram_authenticity_code'] ?? $this->telegram_authenticity_code;
+
+        $this->imap_host = $config_dict['imap_host'] ?? $this->imap_host;
+        $this->imap_port = $config_dict['imap_port'] ?? $this->imap_port;
+        $this->imap_username = $config_dict['imap_username'] ?? $this->imap_username;
+        $this->imap_password = $config_dict['imap_password'] ?? $this->imap_password;
 
         $this->smtp_host = $config_dict['smtp_host'] ?? $this->smtp_host;
         $this->smtp_port = $config_dict['smtp_port'] ?? $this->smtp_port;
@@ -223,6 +233,22 @@ class EnvUtils {
 
     public function getTelegramAuthenticityCode() {
         return $this->telegram_authenticity_code;
+    }
+
+    public function getImapHost() {
+        return $this->imap_host;
+    }
+
+    public function getImapPort() {
+        return $this->imap_port;
+    }
+
+    public function getImapUsername() {
+        return $this->imap_username;
+    }
+
+    public function getImapPassword() {
+        return $this->imap_password;
     }
 
     public function getSmtpHost() {

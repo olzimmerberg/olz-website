@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "487bc0c56ac73a064547482e1e20d9f6",
+    "content-hash": "b29f1946a708e02efca719461595bdec",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1706,6 +1706,69 @@
                 }
             ],
             "time": "2020-12-14T13:15:25+00:00"
+        },
+        {
+            "name": "php-imap/php-imap",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barbushin/php-imap.git",
+                "reference": "1df5b8b17527829a990475292b6794f06aaa4843"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/1df5b8b17527829a990475292b6794f06aaa4843",
+                "reference": "1df5b8b17527829a990475292b6794f06aaa4843",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-imap": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "paragonie/random_compat": "^1",
+                "phpunit/phpunit": "^5.7"
+            },
+            "suggest": {
+                "ext-fileinfo": "To facilitate IncomingMailAttachment::getMimeType() auto-detection"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpImap\\": "src/PhpImap"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Barbushin",
+                    "email": "barbushin@gmail.com",
+                    "homepage": "http://linkedin.com/in/barbushin"
+                }
+            ],
+            "description": "Manage mailboxes, filter/get/delete emails in PHP (supports IMAP/POP3/NNTP)",
+            "homepage": "https://github.com/barbushin/php-imap",
+            "keywords": [
+                "imap",
+                "mail",
+                "mailbox",
+                "php",
+                "pop3",
+                "receive emails"
+            ],
+            "support": {
+                "issues": "https://github.com/barbushin/php-imap/issues",
+                "source": "https://github.com/barbushin/php-imap/tree/master"
+            },
+            "time": "2020-04-10T11:43:19+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -5700,5 +5763,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

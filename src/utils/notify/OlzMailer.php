@@ -25,42 +25,60 @@ class OlzMailer extends PHPMailer {
         $this->addAddress($user_email, $user_full_name);
         $html_text = $this->emailUtils->renderMarkdown($text);
         $this->isHTML(true);
-        $this->AddEmbeddedImage(__DIR__.'/../../icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
-        if (!isset($config['notification_type'])) {
-            $this->logger->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
+        if ($config['no_header'] ?? false) {
+            $html_header = "";
+        } else {
+            $this->AddEmbeddedImage(__DIR__.'/../../icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
+            $html_header = <<<'ZZZZZZZZZZ'
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            ZZZZZZZZZZ;
         }
-        $unsubscribe_this_token = urlencode($this->emailUtils->encryptEmailReactionToken([
-            'action' => 'unsubscribe',
-            'user' => $user_id,
-            'notification_type' => $config['notification_type'] ?? null,
-        ]));
-        $unsubscribe_all_token = urlencode($this->emailUtils->encryptEmailReactionToken([
-            'action' => 'unsubscribe',
-            'user' => $user_id,
-            'notification_type_all' => true,
-        ]));
-        $base_url = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
-        $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
-        $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
-        $this->Subject = "[OLZ] {$title}";
+        if ($config['no_unsubscribe'] ?? false) {
+            $html_unsubscribe = "";
+            $text_unsubscribe = "";
+        } else {
+            if (!isset($config['notification_type'])) {
+                $this->logger->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
+            }
+            $unsubscribe_this_token = urlencode($this->emailUtils->encryptEmailReactionToken([
+                'action' => 'unsubscribe',
+                'user' => $user_id,
+                'notification_type' => $config['notification_type'] ?? null,
+            ]));
+            $unsubscribe_all_token = urlencode($this->emailUtils->encryptEmailReactionToken([
+                'action' => 'unsubscribe',
+                'user' => $user_id,
+                'notification_type_all' => true,
+            ]));
+            $base_url = $this->envUtils->getBaseHref();
+            $code_href = $this->envUtils->getCodeHref();
+            $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
+            $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
+            $html_unsubscribe = <<<ZZZZZZZZZZ
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
+            ZZZZZZZZZZ;
+            $text_unsubscribe = <<<ZZZZZZZZZZ
+
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: {$unsubscribe_this_url}
+            Keine E-Mails von OL Zimmerberg mehr: {$unsubscribe_all_url}
+            ZZZZZZZZZZ;
+        }
+        $this->Subject = "{$title}";
         $this->Body = <<<ZZZZZZZZZZ
-        <div style="text-align: right; float: right;">
-            <img src="cid:olz_logo" alt="" style="width:150px;" />
-        </div>
-        <br /><br /><br />
-        {$html_text}<br />
-        <br />
-        <hr style="border: 0; border-top: 1px solid black;">
-        Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
+        {$html_header}
+        {$html_text}
+        {$html_unsubscribe}
         ZZZZZZZZZZ;
         $this->AltBody = <<<ZZZZZZZZZZ
         {$text}
-
-        ---
-        Abmelden?
-        Keine solchen E-Mails mehr: {$unsubscribe_this_url}
-        Keine E-Mails von OL Zimmerberg mehr: {$unsubscribe_all_url}
+        {$text_unsubscribe}
         ZZZZZZZZZZ;
     }
 

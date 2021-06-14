@@ -4,6 +4,7 @@ use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\HtmlRenderer;
+use PhpImap\Mailbox;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
@@ -20,6 +21,21 @@ class EmailUtils {
     public function __construct($envUtils) {
         $this->generalUtils = new GeneralUtils();
         $this->envUtils = $envUtils;
+    }
+
+    public function getImapMailbox() {
+        $imap_host = $this->envUtils->getImapHost();
+        $imap_port = $this->envUtils->getImapPort();
+        $imap_username = $this->envUtils->getImapUsername();
+        $imap_password = $this->envUtils->getImapPassword();
+
+        $mailbox_name = "{{$imap_host}:{$imap_port}}";
+        // Documentation at https://github.com/barbushin/php-imap
+        return new Mailbox(
+            "{$mailbox_name}INBOX",
+            $imap_username,
+            $imap_password
+        );
     }
 
     public function createEmail() {

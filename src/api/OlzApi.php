@@ -34,13 +34,18 @@ class OlzApi {
                     require_once __DIR__.'/../config/doctrine_db.php';
                     require_once __DIR__.'/../config/server.php';
                     require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../tasks/ProcessEmailTask.php';
                     require_once __DIR__.'/../tasks/SendDailyNotificationsTask.php';
+                    require_once __DIR__.'/../utils/auth/AuthUtils.php';
                     require_once __DIR__.'/../utils/notify/EmailUtils.php';
                     require_once __DIR__.'/../utils/notify/TelegramUtils.php';
+                    $auth_utils = AuthUtils::fromEnv();
                     $date_utils = $_DATE;
                     $email_utils = EmailUtils::fromEnv();
                     $telegram_utils = TelegramUtils::fromEnv();
+                    $process_email_task = new ProcessEmailTask($entityManager, $auth_utils, $email_utils, $date_utils, $_CONFIG);
                     $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
+                    $endpoint->setProcessEmailTask($process_email_task);
                     $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);

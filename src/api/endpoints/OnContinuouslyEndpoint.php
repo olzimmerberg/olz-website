@@ -9,6 +9,10 @@ class OnContinuouslyEndpoint extends Endpoint {
         $this->sendDailyNotificationsTask = $sendDailyNotificationsTask;
     }
 
+    public function setProcessEmailTask($processEmailTask) {
+        $this->processEmailTask = $processEmailTask;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -56,6 +60,8 @@ class OnContinuouslyEndpoint extends Endpoint {
 
             $this->sendDailyNotificationsTask->run();
         }
+
+        $this->processEmailTask->run();
 
         return [];
     }

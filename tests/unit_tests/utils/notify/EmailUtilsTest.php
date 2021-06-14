@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use PhpImap\Mailbox;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
@@ -10,6 +11,22 @@ require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeEmailUtilsEnvUtils {
+    public function getImapHost() {
+        return '127.0.0.1';
+    }
+
+    public function getImapPort() {
+        return '143';
+    }
+
+    public function getImapUsername() {
+        return 'imap@olzimmerberg.ch';
+    }
+
+    public function getImapPassword() {
+        return '123456';
+    }
+
     public function getSmtpHost() {
         return 'localhost';
     }
@@ -40,6 +57,19 @@ class FakeEmailUtilsEnvUtils {
  * @covers \EmailUtils
  */
 final class EmailUtilsTest extends UnitTestCase {
+    public function testGetImapMailbox(): void {
+        $server_config = new FakeEmailUtilsEnvUtils();
+        $logger = new Logger('EmailUtilsTest');
+        $email_utils = new EmailUtils($server_config);
+        $email_utils->setLogger($logger);
+
+        $mailbox = $email_utils->getImapMailbox();
+
+        $this->assertSame(true, $mailbox instanceof Mailbox);
+        $this->assertSame('{127.0.0.1:143}INBOX', $mailbox->getImapPath());
+        $this->assertSame('imap@olzimmerberg.ch', $mailbox->getLogin());
+    }
+
     public function testEmailReactionToken(): void {
         $server_config = new FakeEmailUtilsEnvUtils();
         $logger = new Logger('EmailUtilsTest');

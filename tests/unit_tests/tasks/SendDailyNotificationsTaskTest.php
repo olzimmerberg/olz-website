@@ -180,7 +180,7 @@ class FakeSendDailyNotificationsTaskOlzMailer {
     }
 
     public function send() {
-        if ($this->email_to_send[1] == 'provoke_error') {
+        if ($this->email_to_send[1] == '[OLZ] provoke_error') {
             throw new Exception("Provoked Error");
         }
         $this->emails_sent[] = $this->email_to_send;
@@ -370,10 +370,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
 
         global $user1, $user2;
         $this->assertSame([
-            [$user1, 'MP title', 'MP text First'],
-            [$user1, 'DW title {"days":3}', 'DW text First'],
-            [$user1, 'DS title', 'DS text First'],
-            [$user2, 'WS title', 'WS text Second'],
+            [$user1, '[OLZ] MP title', 'MP text First'],
+            [$user1, '[OLZ] DW title {"days":3}', 'DW text First'],
+            [$user1, '[OLZ] DS title', 'DS text First'],
+            [$user2, '[OLZ] WS title', 'WS text Second'],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             ['sendMessage', [

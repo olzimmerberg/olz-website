@@ -55,14 +55,14 @@ final class OlzMailerTest extends UnitTestCase {
         $this->assertSame([], $mailer->getCcAddresses());
         $this->assertSame([], $mailer->getBccAddresses());
         $this->assertSame('text/html', $mailer->ContentType);
-        $this->assertSame('[OLZ] Tèśt', $mailer->Subject);
+        $this->assertSame('Tèśt', $mailer->Subject);
         $expected_html = <<<ZZZZZZZZZZ
         <div style="text-align: right; float: right;">
             <img src="cid:olz_logo" alt="" style="width:150px;" />
         </div>
         <br /><br /><br />
-        äsdf\n1234<br />
-        <br />
+        äsdf\n1234
+        <br /><br />
         <hr style="border: 0; border-top: 1px solid black;">
         Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOm51bGwsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
         ZZZZZZZZZZ;

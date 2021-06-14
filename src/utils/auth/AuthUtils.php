@@ -6,7 +6,7 @@ class AuthUtils {
     protected $entityManager;
     protected $session;
 
-    protected $cached_permission_map;
+    protected $cached_permission_map_by_user = [];
 
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
@@ -16,28 +16,36 @@ class AuthUtils {
         $this->session = $session;
     }
 
-    public function hasPermission($query) {
-        $permission_map = $this->getPermissionMap();
+    public function hasPermission($query, $user = null) {
+        $permission_map = $this->getPermissionMap($user);
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    protected function getPermissionMap() {
-        if ($this->cached_permission_map != null) {
-            return $this->cached_permission_map;
+    protected function getPermissionMap($user = null) {
+        if (!$user) {
+            $user = $this->getSessionUser();
         }
-        $auth_username = $this->session->get('user');
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $auth_username]);
         if (!$user) {
             return ['any' => false];
+        }
+        $user_id = $user->getId();
+        $permission_map = $this->cached_permission_map_by_user[$user_id] ?? null;
+        if ($permission_map != null) {
+            return $permission_map;
         }
         $permission_list = preg_split('/[ ]+/', $user->getZugriff());
         $permission_map = ['any' => true];
         foreach ($permission_list as $permission) {
             $permission_map[$permission] = true;
         }
-        $this->cached_permission_map = $permission_map;
+        $this->cached_permission_map_by_user[$user_id] = $permission_map;
         return $permission_map;
+    }
+
+    protected function getSessionUser() {
+        $auth_username = $this->session->get('user');
+        $user_repo = $this->entityManager->getRepository(User::class);
+        return $user_repo->findOneBy(['username' => $auth_username]);
     }
 
     public function isPasswordAllowed($password) {

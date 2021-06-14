@@ -11,7 +11,8 @@
     "psr/log": "^1.1",
     "ifsnop/mysqldump-php": "^2.9",
     "phpmailer/phpmailer": "^6.2",
-    "league/commonmark": "^1.5"
+    "league/commonmark": "^1.5",
+    "php-imap/php-imap": "^3.1"
   },
   "autoload": {
     "psr-0": {"": "src/model/"}

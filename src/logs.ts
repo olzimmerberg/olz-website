@@ -22,18 +22,40 @@ export function olzLogsGetNextLog(): boolean {
     return false;
 }
 
+export function olzLogsLevelFilterChange(): void {
+    const logLevelFilterSelect = document.getElementById('log-level-filter-select') as HTMLSelectElement;
+    const newLogLevelFilter = logLevelFilterSelect.value;
+    $('#logs').removeClass('levels-all');
+    $('#logs').removeClass('levels-info-higher');
+    $('#logs').removeClass('levels-notice-higher');
+    $('#logs').removeClass('levels-warning-higher');
+    $('#logs').removeClass('levels-error-higher');
+    $('#logs').addClass(newLogLevelFilter);
+}
+
 function processLogs(logs: string): string {
     const lines = logs.split('\n');
+    const formattingRegex = /(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)/;
     return lines
         .map((line) => (
             line.includes('access forbidden by rule')
                 ? `<div class='greyed-out'>${line}</div>`
                 : line
         ))
-        .map((line) => line.replace(
-            /(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)/,
-            '<span class=\'log-channel\'>$1</span>.<span class=\'log-level $2\'>$2</span>',
-        ))
-        .map((line) => `<div>${line}</div>`)
+        .map((line) => {
+            let logLevel = 'unknown';
+            const replacedLine = line.replace(
+                formattingRegex,
+                (match) => {
+                    const res = formattingRegex.exec(match);
+                    if (!res) {
+                        return match;
+                    }
+                    logLevel = res[2].toLowerCase();
+                    return `<span class='log-channel'>${res[1]}</span>.<span class='log-level'>${res[2]}</span>`;
+                },
+            );
+            return `<div class='log-line level-${logLevel}'>${replacedLine}</div>`;
+        })
         .join('\n');
 }

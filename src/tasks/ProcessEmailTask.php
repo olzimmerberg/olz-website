@@ -38,7 +38,7 @@ class ProcessEmailTask extends BackgroundTask {
             foreach ($to_adresses as $to_adress) {
                 $is_match = preg_match('/^([\S]+)@olzimmerberg\.ch$/', $to_adress, $matches);
                 if (!$is_match) {
-                    $this->logger->warning("E-Mail to non-olzimmerberg.ch address: {$to_adress}");
+                    $this->logger->info("E-Mail to non-olzimmerberg.ch address: {$to_adress}");
                     continue;
                 }
                 $username = $matches[1];

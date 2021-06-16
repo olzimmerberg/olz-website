@@ -202,7 +202,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'WARNING E-Mail to non-olzimmerberg.ch address: someone@other-domain.com',
+            'INFO E-Mail to non-olzimmerberg.ch address: someone@other-domain.com',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $log_handler->getPrettyRecords());

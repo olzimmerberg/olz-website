@@ -4,7 +4,9 @@ class OlzApi {
     public $endpoints = [];
 
     public function __construct() {
-        $this->endpoints = [
+        global $olz_api_anmelden;
+        require_once __DIR__.'/../anmelden/olz_api.php';
+        $olz_api = [
             'onDaily' => function () {
                 require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
                 $endpoint = new OnDailyEndpoint();
@@ -227,5 +229,10 @@ class OlzApi {
                 return $endpoint;
             },
         ];
+
+        $this->endpoints = array_merge(
+            $olz_api_anmelden,
+            $olz_api
+        );
     }
 }

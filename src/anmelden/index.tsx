@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SubscribeView} from './SubscribeView';
+import {RegistrationView} from './RegistrationView';
 
 ReactDOM.render(
-    <SubscribeView />,
+    <RegistrationView />,
     document.getElementById('react-root'),
 );

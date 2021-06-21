@@ -3,7 +3,7 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../model/Aktuell.php';
+require_once __DIR__.'/../../news/model/Aktuell.php';
 require_once __DIR__.'/../../model/Blog.php';
 require_once __DIR__.'/../../model/Galerie.php';
 require_once __DIR__.'/../../model/Forum.php';

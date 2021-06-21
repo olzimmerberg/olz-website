@@ -7,11 +7,13 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
-require_once 'vendor/autoload.php';
+global $doctrine_model_folders;
+
+require_once __DIR__.'/../../src/config/doctrine.php';
 
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(
-    [__DIR__.'/../model'],
+    $doctrine_model_folders,
     $isDevMode,
     null,
     null,

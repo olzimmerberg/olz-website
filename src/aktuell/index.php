@@ -133,8 +133,8 @@ if ($id === null) {
 } else {
     $article_metadata = "";
     try {
-        require_once __DIR__.'/article_metadata.php';
-        $article_metadata = get_article_metadata($id);
+        require_once __DIR__.'/components/olz_article_metadata/olz_article_metadata.php';
+        $article_metadata = olz_article_metadata($id);
     } catch (Exception $exc) {
         $http_utils->dieWithHttpError(404);
     }
@@ -157,20 +157,26 @@ if ($id === null) {
 
     $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) ? '1' : '0';
 
-    echo "
+    $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
+    $result = $db->query($sql);
+    $row = $result->fetch_assoc();
+    $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
+    $pretty_author = $row['autor'];
+
+    $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
+    echo <<<ZZZZZZZZZZ
     <div id='content_rechts' class='optional'>
-    <form name='Formularr' method='post' action='aktuell.php?id={$id}#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
-    <div>";
-    include __DIR__.'/aktuell_r.php';
-    echo "</div>
-    </form>
+        <div style='padding:4px 3px 10px 3px;'>
+            <b>Datum: </b>{$pretty_date}<br />
+            <b>Autor: </b>{$pretty_author}
+        </div>
     </div>
     <div id='content_mitte'>
-    <form name='Formularl' method='post' action='aktuell.php?id={$id}#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
+    <form name='Formularl' method='post' action='aktuell.php?id={$id}#id_edit{$id_edit}' enctype='multipart/form-data'>
+    ZZZZZZZZZZ;
     include __DIR__.'/aktuell_l.php';
     echo "</form>
-    </div>
-    ";
+    </div>";
 }
 
 require_once __DIR__.'/../components/page/olz_footer/olz_footer.php';

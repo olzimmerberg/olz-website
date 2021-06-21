@@ -131,12 +131,13 @@ export function getEmail(fieldId: string, emailInput: string|undefined): string|
     if (!emailInput) {
         return null;
     }
-    if (!EMAIL_REGEX.exec(emailInput)) {
+    const trimmedEmailInput = emailInput.trim();
+    if (!EMAIL_REGEX.exec(trimmedEmailInput)) {
         throw new ValidationError('', {
-            [fieldId]: [`Ungültige E-Mail Adresse "${emailInput}".`],
+            [fieldId]: [`Ungültige E-Mail Adresse "${trimmedEmailInput}".`],
         });
     }
-    return emailInput;
+    return trimmedEmailInput;
 }
 
 export function getGender(fieldId: string, genderInput: string|undefined): 'M'|'F'|'O'|null {
@@ -155,7 +156,7 @@ export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefine
     if (date === undefined || date === '') {
         return null;
     }
-    const res = /^([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})$/.exec(date);
+    const res = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/.exec(date);
     if (!res) {
         throw new ValidationError('', {
             [fieldId]: ['Das Datum muss im Format TT.MM.YYYY sein.'],
@@ -200,14 +201,15 @@ export function getCountryCode(fieldId: string, countryCode: string|undefined): 
     if (!countryCode) {
         return '';
     }
-    if (countryCode.length === 1) {
+    const trimmedCountryCode = countryCode.trim();
+    if (trimmedCountryCode.length === 1) {
         throw new ValidationError('', {
             [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
         });
-    } else if (countryCode.length === 2) {
-        return countryCode.toUpperCase();
+    } else if (trimmedCountryCode.length === 2) {
+        return trimmedCountryCode.toUpperCase();
     }
-    const normalizedCountryName = countryCode.trim().toLowerCase();
+    const normalizedCountryName = trimmedCountryCode.toLowerCase();
     const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
     if (countryCodeByName) {
         return countryCodeByName;

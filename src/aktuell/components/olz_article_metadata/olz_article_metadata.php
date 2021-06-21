@@ -1,6 +1,6 @@
 <?php
 
-function get_article_metadata($id) {
+function olz_article_metadata($id) {
     global $db, $data_path, $data_href;
     $sql = "SELECT titel, datum, zeit FROM aktuell WHERE id='{$id}'";
     $res = $db->query($sql);

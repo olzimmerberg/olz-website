@@ -131,6 +131,7 @@ describe('getEmail', () => {
     it('returns email adress for correct user inputs', () => {
         expect(getEmail('email', 'test.adress@olzimmerberg.ch')).toEqual('test.adress@olzimmerberg.ch');
         expect(getEmail('email', 'plus+adress@some-hoster.tv')).toEqual('plus+adress@some-hoster.tv');
+        expect(getEmail('email', ' whitespace@being-trimmed.org \t')).toEqual('whitespace@being-trimmed.org');
     });
 
     it('throws validation error for invalid user inputs', () => {
@@ -164,6 +165,7 @@ describe('getIsoDateFromSwissFormat', () => {
     it('returns date for correct user inputs', () => {
         expect(getIsoDateFromSwissFormat('date', '13.1.2006')).toEqual('2006-01-13 12:00:00');
         expect(getIsoDateFromSwissFormat('date', '13. 1. 2006')).toEqual('2006-01-13 12:00:00');
+        expect(getIsoDateFromSwissFormat('date', ' 13. 1. 2006 \t')).toEqual('2006-01-13 12:00:00');
     });
 
     it('throws validation error for invalid user inputs', () => {
@@ -201,8 +203,8 @@ describe('getPhone', () => {
 
     it('returns password for correct user inputs', () => {
         expect(getPhone('phone', '+41441234567')).toEqual('+41441234567');
-        expect(getPhone('phone', '+41 79 123 45 67')).toEqual('+41791234567');
-        expect(getPhone('phone', '+41\t78\t1234567')).toEqual('+41781234567');
+        expect(getPhone('phone', ' +41 79 123 45 67')).toEqual('+41791234567');
+        expect(getPhone('phone', '+41\t78\t1234567 \t')).toEqual('+41781234567');
     });
 
     it('throws validation error for invalid user inputs', () => {
@@ -223,7 +225,7 @@ describe('getCountryCode', () => {
     it('returns countryCode for correct user inputs', () => {
         expect(getCountryCode('countryCode', 'CH')).toEqual('CH');
         expect(getCountryCode('countryCode', 'DE')).toEqual('DE');
-        expect(getCountryCode('countryCode', 'US')).toEqual('US');
+        expect(getCountryCode('countryCode', 'US \t')).toEqual('US');
     });
 
     it('returns countryCode for some country names', () => {

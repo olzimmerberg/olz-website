@@ -30,7 +30,7 @@ $current_filter = json_decode($_GET['filter'] ?? '{}', true);
 $termine_utils = TermineUtils::fromEnv();
 
 if (!$termine_utils->isValidFilter($current_filter)) {
-    $enc_json_filter = urlencode(json_encode(TermineUtils::DEFAULT_FILTER));
+    $enc_json_filter = urlencode(json_encode($termine_utils->getDefaultFilter()));
     require_once __DIR__.'/utils/client/HttpUtils.php';
     HttpUtils::fromEnv()->redirect("termine.php?filter={$enc_json_filter}", 308);
 }

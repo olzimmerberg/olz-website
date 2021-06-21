@@ -22,30 +22,12 @@ $http_utils->validateGetParams([
     new IntegerField('id', ['allow_null' => true]),
     new BooleanField('archiv', ['allow_null' => true]),
     new StringField('buttonaktuell', ['allow_null' => true]),
+    new StringField('filter', ['allow_null' => true]),
 ], $_GET);
 
-$html_title = "Aktuell";
-$article_metadata = "";
 $id = $_GET['id'] ?? null;
-if ($id !== null) {
-    try {
-        require_once __DIR__.'/article_metadata.php';
-        $article_metadata = get_article_metadata($id);
-    } catch (Exception $exc) {
-        $http_utils->dieWithHttpError(404);
-    }
-}
 
 require_once __DIR__.'/../components/page/olz_header/olz_header.php';
-echo olz_header([
-    'title' => $html_title,
-    'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
-    'additional_headers' => [
-        $article_metadata,
-    ],
-]);
-
-require_once __DIR__.'/../components/common/olz_posting_list_item/olz_posting_list_item.php';
 
 require_once __DIR__.'/../file_tools.php';
 require_once __DIR__.'/../image_tools.php';
@@ -53,13 +35,31 @@ require_once __DIR__.'/../image_tools.php';
 $db_table = 'aktuell';
 
 if ($id === null) {
-    echo "<div id='content_rechts' class='optional'>";
-    include __DIR__.'/aktuell_r.php';
+    require_once __DIR__.'/../components/common/olz_posting_list_item/olz_posting_list_item.php';
+    require_once __DIR__.'/../utils/NewsUtils.php';
+    require_once __DIR__.'/components/olz_aktuell_filter/olz_aktuell_filter.php';
+
+    $news_utils = NewsUtils::fromEnv();
+    $current_filter = json_decode($_GET['filter'] ?? '{}', true);
+
+    if (!$news_utils->isValidFilter($current_filter)) {
+        $enc_json_filter = urlencode(json_encode($news_utils->getDefaultFilter()));
+        $http_utils->redirect("?filter={$enc_json_filter}", 308);
+    }
+
+    echo olz_header([
+        'title' => "Aktuell",
+        'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+    ]);
+
+    echo "<div id='content_rechts'>";
+    echo "<h2>Filter</h2>";
+    echo olz_aktuell_filter([]);
     echo "</div>";
     echo "<div id='content_mitte'>";
     echo "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
-    $year = intval($_DATE->olzDate('jjjj'));
+    $filter_where = $news_utils->getSqlFromFilter($current_filter);
     $sql = <<<ZZZZZZZZZZ
     SELECT
         id,
@@ -67,11 +67,11 @@ if ($id === null) {
         zeit,
         titel,
         text
-    FROM aktuell ak
+    FROM aktuell n
     WHERE
-        YEAR(ak.datum)='{$year}'
-        AND ak.on_off='1'
-        AND ak.typ NOT LIKE 'box%'
+        {$filter_where}
+        AND n.on_off='1'
+        AND n.typ NOT LIKE 'box%'
     ORDER BY datum DESC, zeit DESC
     ZZZZZZZZZZ;
     $res = $db->query($sql);
@@ -113,11 +113,11 @@ if ($id === null) {
     }
 
     while ($row = $res->fetch_assoc()) {
-        $icon = "icns/entry_type_aktuell_20.svg";
+        $icon = "{$code_href}icns/entry_type_aktuell_20.svg";
         $datum = $row['datum'];
         $title = $row['titel'];
         $text = $row['text'];
-        $link = "aktuell.php?id=".$row['id'];
+        $link = "?id=".$row['id'];
 
         echo olz_posting_list_item([
             'icon' => $icon,
@@ -131,6 +131,22 @@ if ($id === null) {
     echo "</form>";
     echo "</div>";
 } else {
+    $article_metadata = "";
+    try {
+        require_once __DIR__.'/article_metadata.php';
+        $article_metadata = get_article_metadata($id);
+    } catch (Exception $exc) {
+        $http_utils->dieWithHttpError(404);
+    }
+
+    echo olz_header([
+        'title' => "Aktuell",
+        'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+        'additional_headers' => [
+            $article_metadata,
+        ],
+    ]);
+
     $button_name = 'button'.$db_table;
     if (isset($_GET[$button_name])) {
         $_POST[$button_name] = $_GET[$button_name];

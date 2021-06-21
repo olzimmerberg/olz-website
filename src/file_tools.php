@@ -279,7 +279,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 }
 
 function olz_file($db_table, $id, $index, $text, $icon = "mini") {
-    global $data_href, $data_path, $tables_file_dirs;
+    global $code_href, $data_href, $data_path, $tables_file_dirs;
     if (!isset($tables_file_dirs[$db_table])) {
         return "Ungültige db_table (in olz_file)";
     }
@@ -289,7 +289,7 @@ function olz_file($db_table, $id, $index, $text, $icon = "mini") {
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                 if (intval($matches[1]) == $index) {
-                    return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($data_path.$db_filepath."/".$id."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url(file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+                    return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($data_path.$db_filepath."/".$id."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
                 }
             }
         }

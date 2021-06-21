@@ -11,6 +11,13 @@ require_once __DIR__.'/../common/UnitTestCase.php';
  * @covers \TermineUtils
  */
 final class TermineUtilsTest extends UnitTestCase {
+    public function testGetDefaultFilter(): void {
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $termine_utils = new TermineUtils();
+        $termine_utils->setDateUtils($date_utils);
+        $this->assertSame(['typ' => 'alle', 'datum' => 'bevorstehend'], $termine_utils->getDefaultFilter());
+    }
+
     public function testIsValidFilter(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineUtils();
@@ -19,6 +26,13 @@ final class TermineUtilsTest extends UnitTestCase {
         $this->assertSame(false, $termine_utils->isValidFilter(['foo' => 'bar']));
         $this->assertSame(true, $termine_utils->isValidFilter(['typ' => 'alle', 'datum' => 'bevorstehend']));
         $this->assertSame(false, $termine_utils->isValidFilter(['typ' => 'some', 'datum' => 'rubbish']));
+    }
+
+    public function testDefaultFilterIsValid(): void {
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $termine_utils = new TermineUtils();
+        $termine_utils->setDateUtils($date_utils);
+        $this->assertSame(true, $termine_utils->isValidFilter($termine_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFilters(): void {

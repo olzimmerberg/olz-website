@@ -1,13 +1,14 @@
 <?php
 
-class TermineUtils {
+class NewsUtils {
     private $date_utils;
 
     const ALL_TYPE_OPTIONS = [
-        ['ident' => 'alle', 'name' => "Alle Termine"],
-        ['ident' => 'training', 'name' => "Trainings"],
-        ['ident' => 'ol', 'name' => "Wettkämpfe"],
-        ['ident' => 'club', 'name' => "Vereinsanlässe"],
+        ['ident' => 'alle', 'name' => "Alle News"],
+        ['ident' => 'aktuell', 'name' => "Aktuell"],
+        // ['ident' => 'galerie', 'name' => "Galerien"],
+        // ['ident' => 'kaderblog', 'name' => "Kaderblog"],
+        // ['ident' => 'forum', 'name' => "Forum"],
     ];
 
     public function setDateUtils($date_utils) {
@@ -15,9 +16,10 @@ class TermineUtils {
     }
 
     public function getDefaultFilter() {
+        $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
         return [
-            'typ' => 'alle',
-            'datum' => 'bevorstehend',
+            'typ' => 'aktuell',
+            'datum' => strval($current_year),
         ];
     }
 
@@ -25,7 +27,7 @@ class TermineUtils {
         $has_correct_type = (
             isset($filter['typ'])
             && array_filter(
-                TermineUtils::ALL_TYPE_OPTIONS,
+                NewsUtils::ALL_TYPE_OPTIONS,
                 function ($type_option) use ($filter) {
                     return $type_option['ident'] === $filter['typ'];
                 }
@@ -45,7 +47,7 @@ class TermineUtils {
 
     public function getAllValidFilters() {
         $all_valid_filters = [];
-        foreach (TermineUtils::ALL_TYPE_OPTIONS as $type_option) {
+        foreach (NewsUtils::ALL_TYPE_OPTIONS as $type_option) {
             foreach ($this->getDateRangeOptions() as $date_range_option) {
                 $all_valid_filters[] = [
                     'typ' => $type_option['ident'],
@@ -66,7 +68,7 @@ class TermineUtils {
                 'name' => $type_option['name'],
                 'ident' => $type_option['ident'],
             ];
-        }, TermineUtils::ALL_TYPE_OPTIONS);
+        }, NewsUtils::ALL_TYPE_OPTIONS);
     }
 
     public function getUiDateRangeFilterOptions($filter) {
@@ -84,15 +86,12 @@ class TermineUtils {
 
     public function getDateRangeOptions() {
         $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
-        $last_year_ident = strval($current_year - 1);
-        $this_year_ident = strval($current_year);
-        $next_year_ident = strval($current_year + 1);
-        return [
-            ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
-            ['ident' => $last_year_ident, 'name' => $last_year_ident],
-            ['ident' => $this_year_ident, 'name' => $this_year_ident],
-            ['ident' => $next_year_ident, 'name' => $next_year_ident],
-        ];
+        $options = [];
+        for ($i = 0; $i < 5; $i++) {
+            $year_ident = strval($current_year - $i);
+            $options[] = ['ident' => $year_ident, 'name' => $year_ident];
+        }
+        return $options;
     }
 
     public function getSqlFromFilter($filter) {
@@ -106,12 +105,9 @@ class TermineUtils {
 
     private function getSqlDateRangeFilter($filter) {
         $today = $this->date_utils->getIsoToday();
-        if ($filter['datum'] === 'bevorstehend') {
-            return "(t.datum >= '{$today}') OR (t.datum_end >= '{$today}')";
-        }
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
-            return "YEAR(t.datum) = '{$sane_year}'";
+            return "YEAR(n.datum) = '{$sane_year}'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -123,14 +119,8 @@ class TermineUtils {
         if ($filter['typ'] === 'alle') {
             return "'1' = '1'";
         }
-        if ($filter['typ'] === 'training') {
-            return "t.typ LIKE '%training%'";
-        }
-        if ($filter['typ'] === 'ol') {
-            return "t.typ LIKE '%ol%'";
-        }
-        if ($filter['typ'] === 'club') {
-            return "t.typ LIKE '%club%'";
+        if ($filter['typ'] === 'aktuell') {
+            return "n.typ LIKE '%aktuell%'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -140,33 +130,24 @@ class TermineUtils {
 
     public function getTitleFromFilter($filter) {
         if (!$this->isValidFilter($filter)) {
-            return "Termine";
+            return "News";
         }
         $type_title = $this->getTypeFilterTitle($filter);
-        if ($filter['datum'] == 'bevorstehend') {
-            return "Bevorstehende {$type_title}";
-        }
         if (intval($filter['datum']) > 2000) {
             $year = $filter['datum'];
             return "{$type_title} {$year}";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
-        return "Termine";
+        return "News";
         // @codeCoverageIgnoreEnd
     }
 
     private function getTypeFilterTitle($filter) {
-        if ($filter['typ'] === 'training') {
-            return "Trainings";
+        if ($filter['typ'] === 'aktuell') {
+            return "Aktuell";
         }
-        if ($filter['typ'] === 'ol') {
-            return "Wettkämpfe";
-        }
-        if ($filter['typ'] === 'club') {
-            return "Vereinsanlässe";
-        }
-        return "Termine";
+        return "News";
     }
 
     public static function fromEnv() {

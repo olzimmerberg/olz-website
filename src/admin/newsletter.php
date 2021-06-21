@@ -215,7 +215,8 @@ if (isset($subject)) {
                 $mailtext3 = $subject['forum']."\r\n";
             }
             if (!empty($mailtext1) or !empty($mailtext2) or !empty($mailtext3) or !empty($mailtext4)) {
-                $mailtext = "\r\n".$mailtext1.$mailtext2.$mailtext3.$mailtext4.$text_nachspann.$uid;
+                $newsletter_turndown = "Dieser Newsletter wird Ende 2021 abgestellt.\r\nJetzt zum neuen, besseren Newsletter wechseln:\r\nhttps://olzimmerberg.ch/_/service.php\r\n{$linie}";
+                $mailtext = "\r\n".$newsletter_turndown.$mailtext1.$mailtext2.$mailtext3.$mailtext4.$text_nachspann.$uid;
                 mail($email, "=?UTF-8?B?".base64_encode($betreff)."?=", base64_encode($mailtext), $mail_header, $mail_from);
                 //echo "email:".$email."<br>betreff:".$betreff."<br>mailtext:".$mailtext."<br>mailheader:".$mail_header;
                 array_push($mail_to, $email);

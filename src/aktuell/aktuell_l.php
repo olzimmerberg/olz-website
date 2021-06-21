@@ -4,9 +4,9 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
-require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
-require_once __DIR__.'/config/date.php';
+require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/date.php';
 
 //-------------------------------------------------------------
 // DATENSATZ EDITIEREN
@@ -28,7 +28,7 @@ if ($zugriff) {
 }
 $function = array_search($_POST[$button_name] ?? null, $functions);
 if ($function != "") {
-    include __DIR__.'/admin/admin_db.php';
+    include __DIR__.'/../admin/admin_db.php';
 }
 if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "1";

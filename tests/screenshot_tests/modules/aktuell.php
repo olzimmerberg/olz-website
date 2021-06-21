@@ -9,15 +9,15 @@ $aktuell_url = '/aktuell.php';
 $aktuell_id_3_url = "{$aktuell_url}?id=3";
 
 function test_aktuell($driver, $base_url) {
-    global $aktuell_id_3_url;
+    global $aktuell_url, $aktuell_id_3_url;
     tick('aktuell');
 
     test_aktuell_readonly($driver, $base_url);
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$aktuell_id_3_url}");
+    $driver->get("{$base_url}{$aktuell_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_id_3_url}");
+    $driver->get("{$base_url}{$aktuell_url}");
 
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonaktuell-neuer-eintrag')
@@ -68,6 +68,30 @@ function test_aktuell($driver, $base_url) {
     $save_button->click();
     take_pageshot($driver, 'aktuell_new_finished');
 
+    $driver->get("{$base_url}{$aktuell_id_3_url}");
+
+    $edit_button = $driver->findElement(
+        WebDriverBy::cssSelector('#content_mitte .linkedit')
+    );
+    $edit_button->click();
+    $text_input = $driver->findElement(
+        WebDriverBy::cssSelector('#aktuelltextlang')
+    );
+    $text_input->sendKeys("\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
+    take_pageshot($driver, 'aktuell_update_edit');
+
+    $preview_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonaktuell-vorschau')
+    );
+    $preview_button->click();
+    take_pageshot($driver, 'aktuell_update_preview');
+
+    $save_button = $driver->findElement(
+        WebDriverBy::cssSelector('#buttonaktuell-speichern')
+    );
+    $save_button->click();
+    take_pageshot($driver, 'aktuell_update_finished');
+
     logout($driver, $base_url);
 
     reset_dev_data();
@@ -75,7 +99,9 @@ function test_aktuell($driver, $base_url) {
 }
 
 function test_aktuell_readonly($driver, $base_url) {
-    global $aktuell_id_3_url;
+    global $aktuell_url, $aktuell_id_3_url;
+    $driver->get("{$base_url}{$aktuell_url}");
+    take_pageshot($driver, 'aktuell');
     $driver->get("{$base_url}{$aktuell_id_3_url}");
     take_pageshot($driver, 'aktuell_id_3');
 }

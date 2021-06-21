@@ -4,8 +4,6 @@ require_once __DIR__.'/common.php';
 
 require_once __DIR__.'/deprecated.php';
 
-require_once __DIR__.'/Aktuell.php';
-require_once __DIR__.'/AktuellRepository.php';
 require_once __DIR__.'/AuthRequest.php';
 require_once __DIR__.'/AuthRequestRepository.php';
 require_once __DIR__.'/BildDerWoche.php';
@@ -42,3 +40,5 @@ require_once __DIR__.'/Throttling.php';
 require_once __DIR__.'/ThrottlingRepository.php';
 require_once __DIR__.'/User.php';
 require_once __DIR__.'/UserRepository.php';
+
+require_once __DIR__.'/../news/model/index.php';

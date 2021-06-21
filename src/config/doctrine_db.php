@@ -7,7 +7,7 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
-global $_CONFIG, $entityManager;
+global $_CONFIG, $doctrine_model_folders, $entityManager;
 
 require_once __DIR__.'/server.php';
 require_once __DIR__.'/database.php';
@@ -15,7 +15,7 @@ require_once __DIR__.'/doctrine.php';
 
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(
-    [__DIR__.'/../model'],
+    $doctrine_model_folders,
     $isDevMode,
     null,
     null,

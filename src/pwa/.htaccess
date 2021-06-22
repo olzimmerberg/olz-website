@@ -1,0 +1,3 @@
+<Files "jsbuild/service-worker.min.js">
+    Header Set Service-Worker-allowed "/"
+</Files>

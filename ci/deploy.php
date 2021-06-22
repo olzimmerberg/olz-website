@@ -9,6 +9,7 @@
 
 // Constants
 $date = date('Y-m-d_H_i_s');
+$root_path = $_SERVER['DOCUMENT_ROOT'];
 $php_path = './deploy.php';
 $zip_path = './deploy.zip';
 $unzip_path = './unzip/';
@@ -45,6 +46,16 @@ rename(
     $current_deployment_unzip_path,
     $current_deployment_destination_path,
 );
+
+// Re-create root symlinks
+@unlink("{$root_path}/_");
+symlink(realpath($current_link_path), "{$root_path}/_");
+@unlink("{$root_path}/robots.txt");
+symlink("{$root_path}/_/robots.txt", "{$root_path}/robots.txt");
+@unlink("{$root_path}/manifest.json");
+symlink("{$root_path}/_/pwa/manifest.json", "{$root_path}/manifest.json");
+@unlink("{$root_path}/pwa-service-worker.js");
+symlink("{$root_path}/_/pwa/jsbuild/service-worker.min.js", "{$root_path}/pwa-service-worker.js");
 
 // Run database migrations
 // TODO: Could not be implemented as of 2020-04-11

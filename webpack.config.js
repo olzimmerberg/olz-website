@@ -87,6 +87,16 @@ module.exports = [
     },
     {
         ...defaultConfig,
+        entry: './src/pwa/service-worker.ts',
+        output: {
+            path: path.resolve(__dirname, 'src/pwa/jsbuild'),
+            publicPath: '/_/pwa/jsbuild/',
+            filename: 'service-worker.min.js',
+            library: 'olzServiceWorker',
+        },
+    },
+    {
+        ...defaultConfig,
         entry: './src/resultate/index.ts',
         output: {
             path: path.resolve(__dirname, 'src/resultate/jsbuild'),

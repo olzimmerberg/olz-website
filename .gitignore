@@ -5,6 +5,8 @@
 !/dev-server/config.template.php
 !/dev-server/deploy
 !/dev-server/index.php
+!/dev-server/manifest.json
+!/dev-server/pwa-service-worker.js
 !/dev-server/tools.php
 /screenshots
 /src/olz_ical.ics

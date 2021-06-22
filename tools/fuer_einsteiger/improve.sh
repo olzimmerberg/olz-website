@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Skript, um die farbkorrigierten, originalgrossen Bilder für die "Für Einsteiger" Seite zu generieren
 
 convert -auto-level -normalize -resize "800>" ./originals/ansprechperson_001.jpg ./img/ansprechperson_001.jpg

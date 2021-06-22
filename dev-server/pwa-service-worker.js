@@ -1,0 +1,1 @@
+_/pwa/jsbuild/service-worker.min.js

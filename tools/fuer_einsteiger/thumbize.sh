@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Skript, um die quadratischen, verkleinerten Bilder für die "Für Einsteiger" Seite zu generieren
 
 thumbize () {

@@ -5,6 +5,8 @@ require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/LogsUtils.php';
 
 class EnvUtils {
+    private $root_path;
+    private $root_href;
     private $data_path;
     private $data_href;
     private $code_path;
@@ -52,6 +54,14 @@ class EnvUtils {
     private $smtp_username;
     private $smtp_password;
     private $smtp_from;
+
+    public function setRootPath($root_path) {
+        $this->root_path = $root_path;
+    }
+
+    public function setRootHref($root_href) {
+        $this->root_href = $root_href;
+    }
 
     public function setDataPath($data_path) {
         $this->data_path = $data_path;
@@ -121,6 +131,14 @@ class EnvUtils {
         $this->smtp_username = $config_dict['smtp_username'] ?? $this->smtp_username;
         $this->smtp_password = $config_dict['smtp_password'] ?? $this->smtp_password;
         $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
+    }
+
+    public function getRootPath() {
+        return $this->root_path;
+    }
+
+    public function getRootHref() {
+        return $this->root_href;
     }
 
     public function getDataPath() {
@@ -295,6 +313,9 @@ class EnvUtils {
             $http_host = $_SERVER['HTTP_HOST'] ?? 'fake-host';
 
             // TODO: Also use the configuration file?
+            $env_utils->setRootPath($document_root.'/');
+            $env_utils->setRootHref('/');
+
             $env_utils->setDataPath($document_root.'/');
             $env_utils->setDataHref('/');
 

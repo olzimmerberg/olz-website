@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Skript, um die Bilder für die "Für Einsteiger" Seite in den dev server zu kopieren.
 
 rm -R ../../dev-server/img/fuer_einsteiger

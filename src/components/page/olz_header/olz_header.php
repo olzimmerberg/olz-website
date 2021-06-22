@@ -109,6 +109,7 @@ function olz_header_without_routing($args = []): string {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
+    <link rel='manifest' href='{$_CONFIG->getRootHref()}manifest.json' />
     {$additional_headers}
     <link rel='stylesheet' href='{$_CONFIG->getCodeHref()}jsbuild/main.min.css?modified={$css_modified}' />
     <script type='text/javascript' src='{$_CONFIG->getCodeHref()}jsbuild/main.min.js?modified={$js_modified}' onload='olz.loaded()'></script>

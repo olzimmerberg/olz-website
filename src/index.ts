@@ -18,6 +18,8 @@ import './profil.scss';
 import './startseite.scss';
 import './styles.scss';
 
+import {registerServiceWorker} from './pwa/register';
+
 export * from './components/index';
 export * from './email_reaktion';
 export * from './features/index';
@@ -64,6 +66,7 @@ export function loaded(): void {
             dateFormat: 'yy-mm-dd',
         });
         $('.datepicker').datepicker();
+        registerServiceWorker();
     });
     console.log('OLZ loaded!');
 }

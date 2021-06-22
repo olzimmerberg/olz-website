@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Monolog\Logger;
 use PhpImap\Exceptions\ConnectionException;
 
-require_once __DIR__.'/../../fake/FakeLogHandler.php';
+require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
@@ -161,9 +161,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->connection_exception = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -177,7 +175,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'CRITICAL Could not search IMAP mailbox.',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
@@ -189,9 +187,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['someone@other-domain.com' => true]),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -205,7 +201,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO E-Mail to non-olzimmerberg.ch address: someone@other-domain.com',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testProcessEmailTaskNoSuchUser(): void {
@@ -219,9 +215,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-such-user@olzimmerberg.ch' => true]),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -234,7 +228,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO E-Mail to inexistent username: no-such-user',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testProcessEmailTaskNoEmailPermission(): void {
@@ -248,9 +242,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-permission@olzimmerberg.ch' => true]),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -263,7 +255,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO E-Mail to username with no email permission: no-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testProcessEmailTask(): void {
@@ -283,9 +275,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -301,7 +291,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testProcessEmailTaskSendingError(): void {
@@ -321,9 +311,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('ProcessEmailTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
 
         $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
         $job->setLogger($logger);
@@ -337,6 +325,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'CRITICAL Error forwarding email from someone@olzimmerberg.ch to someone@gmail.com: Provoked Error',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 }

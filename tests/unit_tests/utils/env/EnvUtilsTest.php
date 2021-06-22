@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
-require_once __DIR__.'/../../../fake/FakeLogHandler.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

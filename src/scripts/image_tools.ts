@@ -1,5 +1,5 @@
 /* BILD FUNKTIONEN */
-import {obfuscaseForUpload} from './upload_tools';
+import {obfuscateForUpload} from '../utils/generalUtils';
 
 interface OlzImageEdit {
     count?: number;
@@ -213,7 +213,7 @@ export function olz_images_edit_redraw(
                     }
                 }
             };
-            xmlhttp.send(`content=${obfuscaseForUpload(base64)}`);
+            xmlhttp.send(`content=${obfuscateForUpload(base64)}`);
         };
         tryUpload();
     }

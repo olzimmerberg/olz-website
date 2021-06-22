@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../fake/FakeLogHandler.php';
+require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
@@ -350,9 +350,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $email_utils = new FakeSendDailyNotificationsTaskEmailUtils();
         $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('SendDailyNotificationsTaskTest');
-        $log_handler = new FakeLogHandler();
-        $logger->pushHandler($log_handler);
+        $logger = FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
         $monthly_preview_getter = new FakeSendDailyNotificationsTaskMonthlyPreviewGetter();
@@ -475,6 +473,6 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "CRITICAL Unknown notification type 'invalid-type'",
             "INFO Finished task SendDailyNotifications.",
             "INFO Teardown task SendDailyNotifications...",
-        ], $log_handler->getPrettyRecords());
+        ], $logger->handler->getPrettyRecords());
     }
 }

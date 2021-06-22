@@ -21,6 +21,9 @@ export enum OlzApiEndpoint {
     getLogs = 'getLogs',
     updateNotificationSubscriptions = 'updateNotificationSubscriptions',
     updateOlzText = 'updateOlzText',
+    startUpload = 'startUpload',
+    updateUpload = 'updateUpload',
+    finishUpload = 'finishUpload',
 }
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: {[fieldId: string]: any}};
@@ -152,6 +155,17 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         id: number,
         text: string,
     },
+    startUpload: {
+    },
+    updateUpload: {
+        id: string,
+        part: number,
+        content: string,
+    },
+    finishUpload: {
+        id: string,
+        numberOfParts: number,
+    },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -238,6 +252,16 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         status: 'OK'|'ERROR',
     },
     updateOlzText: {
+        status: 'OK'|'ERROR',
+    },
+    startUpload: {
+        status: 'OK'|'ERROR',
+        id: string|null,
+    },
+    updateUpload: {
+        status: 'OK'|'ERROR',
+    },
+    finishUpload: {
         status: 'OK'|'ERROR',
     },
 }

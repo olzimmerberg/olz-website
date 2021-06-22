@@ -6,7 +6,7 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/env/LogsUtils.php';
-require_once __DIR__.'/../../../fake/FakeLogHandler.php';
+require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLogsUtilsEnvUtils {
@@ -83,12 +83,8 @@ final class LogsUtilsTest extends UnitTestCase {
     }
 
     public function testLogsUtilsActivateDeactivateLoggerInconsistency(): void {
-        $logger1 = new Logger('logger1');
-        $log_handler1 = new FakeLogHandler();
-        $logger1->pushHandler($log_handler1);
-        $logger2 = new Logger('logger2');
-        $log_handler2 = new FakeLogHandler();
-        $logger2->pushHandler($log_handler2);
+        $logger1 = FakeLogger::create('logger1');
+        $logger2 = FakeLogger::create('logger2');
 
         LogsUtils::activateLogger($logger1);
         LogsUtils::activateLogger($logger2);
@@ -96,15 +92,15 @@ final class LogsUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             "ERROR Inconsistency deactivating handler: Expected logger2, but deactivating logger1",
-        ], $log_handler1->getPrettyRecords());
-        $this->assertSame([], $log_handler2->getPrettyRecords());
-        $log_handler1->records = [];
+        ], $logger1->handler->getPrettyRecords());
+        $this->assertSame([], $logger2->handler->getPrettyRecords());
+        $logger1->handler->records = [];
 
         LogsUtils::activateLogger($logger2);
         LogsUtils::deactivateLogger($logger2);
         LogsUtils::deactivateLogger($logger1);
 
-        $this->assertSame([], $log_handler1->getPrettyRecords());
-        $this->assertSame([], $log_handler2->getPrettyRecords());
+        $this->assertSame([], $logger1->handler->getPrettyRecords());
+        $this->assertSame([], $logger2->handler->getPrettyRecords());
     }
 }

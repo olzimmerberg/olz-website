@@ -228,6 +228,51 @@ class OlzApi {
                 });
                 return $endpoint;
             },
+            'startUpload' => function () {
+                require_once __DIR__.'/endpoints/StartUploadEndpoint.php';
+                $endpoint = new StartUploadEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../utils/auth/AuthUtils.php';
+                    require_once __DIR__.'/../utils/GeneralUtils.php';
+                    $auth_utils = AuthUtils::fromEnv();
+                    $general_utils = GeneralUtils::fromEnv();
+                    $endpoint->setAuthUtils($auth_utils);
+                    $endpoint->setEnvUtils($_CONFIG);
+                    $endpoint->setGeneralUtils($general_utils);
+                });
+                return $endpoint;
+            },
+            'updateUpload' => function () {
+                require_once __DIR__.'/endpoints/UpdateUploadEndpoint.php';
+                $endpoint = new UpdateUploadEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../utils/auth/AuthUtils.php';
+                    require_once __DIR__.'/../utils/GeneralUtils.php';
+                    $auth_utils = AuthUtils::fromEnv();
+                    $general_utils = GeneralUtils::fromEnv();
+                    $endpoint->setAuthUtils($auth_utils);
+                    $endpoint->setEnvUtils($_CONFIG);
+                    $endpoint->setGeneralUtils($general_utils);
+                });
+                return $endpoint;
+            },
+            'finishUpload' => function () {
+                require_once __DIR__.'/endpoints/FinishUploadEndpoint.php';
+                $endpoint = new FinishUploadEndpoint();
+                $endpoint->setSetupFunction(function ($endpoint) {
+                    global $_CONFIG;
+                    require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../utils/auth/AuthUtils.php';
+                    $auth_utils = AuthUtils::fromEnv();
+                    $endpoint->setAuthUtils($auth_utils);
+                    $endpoint->setEnvUtils($_CONFIG);
+                });
+                return $endpoint;
+            },
         ];
 
         $this->endpoints = array_merge(

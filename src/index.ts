@@ -28,6 +28,7 @@ export * from './logs';
 export * from './profil';
 export * from './scripts/index';
 export * from './termine';
+export * from './utils/index';
 
 /* @ts-ignore: Ignore file is not a module. */
 export * from 'bootstrap';

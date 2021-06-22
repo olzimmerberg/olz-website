@@ -1,5 +1,5 @@
 /* BILD FUNKTIONEN */
-import {obfuscaseForUpload} from './upload_tools';
+import {obfuscateForUpload} from '../utils/generalUtils';
 
 interface OlzFileEdit {
     count?: number;
@@ -119,7 +119,7 @@ export function olz_files_edit_redraw(
                 }
             };
             const partStr = base64.substr(part * max_size * max_size, max_size * max_size);
-            xmlhttp.send(`content=${obfuscaseForUpload(partStr)}&part=${part}&last=${last}&filename=${file.name}`);
+            xmlhttp.send(`content=${obfuscateForUpload(partStr)}&part=${part}&last=${last}&filename=${file.name}`);
         };
         for (let i = 0; i < files.length; i++) {
             const uqident = `id${new Date().getTime()} - ${Math.random()} - ${i}`;

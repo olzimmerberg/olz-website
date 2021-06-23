@@ -43,4 +43,12 @@ class StandardSession extends AbstractSession {
     public function delete($key) {
         unset($_SESSION[$key]);
     }
+
+    // @codeCoverageIgnoreStart
+    // Reason: Cannot start/destroy session in tests.
+    public function clear() {
+        session_destroy();
+    }
+
+    // @codeCoverageIgnoreEnd
 }

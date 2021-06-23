@@ -34,5 +34,6 @@ final class LogoutEndpointTest extends UnitTestCase {
         $result = $endpoint->call([]);
 
         $this->assertSame([], $session->session_storage);
+        $this->assertSame(true, $session->cleared);
     }
 }

@@ -26,6 +26,7 @@ class LogoutEndpoint extends Endpoint {
         $this->session->delete('root');
         $this->session->delete('user');
         $this->session->delete('user_id');
+        $this->session->clear();
         return [
             'status' => 'SESSION_CLOSED',
         ];

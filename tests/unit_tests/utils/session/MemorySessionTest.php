@@ -57,4 +57,15 @@ final class MemorySessionTest extends UnitTestCase {
         $this->assertSame(false, $session->has('a'));
         $this->assertSame(null, $session->get('a'));
     }
+
+    public function testMemorySessionClear(): void {
+        $session = new MemorySession();
+        $session->set('a', 'value of a');
+
+        $session->clear();
+
+        $this->assertSame(false, $session->has('a'));
+        $this->assertSame(null, $session->get('a'));
+        $this->assertSame(true, $session->cleared);
+    }
 }

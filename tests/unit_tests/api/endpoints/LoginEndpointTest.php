@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use Monolog\Logger;
-
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLoginEndpointEntityManager {
@@ -80,7 +79,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
     public function testLoginEndpointWithoutInput(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = new Logger('LoginEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLogger($logger);
@@ -92,12 +91,15 @@ final class LoginEndpointTest extends UnitTestCase {
                 'username' => ['Feld darf nicht leer sein.'],
                 'password' => ['Feld darf nicht leer sein.'],
             ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
         }
     }
 
     public function testLoginEndpointWithCorrectCredentials(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = new Logger('LoginEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -124,11 +126,18 @@ final class LoginEndpointTest extends UnitTestCase {
                 'username' => 'admin',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO User logged in: admin",
+            "INFO   Auth: ftp",
+            "INFO   Root: karten",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testLoginEndpointWithWrongUsername(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = new Logger('LoginEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -150,11 +159,16 @@ final class LoginEndpointTest extends UnitTestCase {
                 'username' => 'wrooong',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([
+            "INFO Valid user request",
+            "NOTICE Login attempt with invalid credentials from user: wrooong (1.2.3.4).",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testLoginEndpointWithWrongPassword(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = new Logger('LoginEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -176,11 +190,16 @@ final class LoginEndpointTest extends UnitTestCase {
                 'username' => 'admin',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([
+            "INFO Valid user request",
+            "NOTICE Login attempt with invalid credentials from user: admin (1.2.3.4).",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testLoginEndpointCanNotAuthenticate(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = new Logger('LoginEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $entity_manager->getRepository('AuthRequest')->can_authenticate = false;
@@ -203,5 +222,10 @@ final class LoginEndpointTest extends UnitTestCase {
                 'username' => 'admin',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([
+            "INFO Valid user request",
+            "NOTICE Login attempt from blocked user: admin (1.2.3.4).",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
     }
 }

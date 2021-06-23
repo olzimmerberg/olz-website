@@ -4,6 +4,7 @@ require_once __DIR__.'/AbstractSession.php';
 
 class MemorySession extends AbstractSession {
     public $session_storage = [];
+    public $cleared = false;
 
     public function has($key) {
         return isset($this->session_storage[$key]);
@@ -19,5 +20,10 @@ class MemorySession extends AbstractSession {
 
     public function delete($key) {
         unset($this->session_storage[$key]);
+    }
+
+    public function clear() {
+        $this->session_storage = [];
+        $this->cleared = true;
     }
 }

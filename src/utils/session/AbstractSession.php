@@ -8,4 +8,6 @@ abstract class AbstractSession {
     abstract public function set($key, $new_value);
 
     abstract public function delete($key);
+
+    abstract public function clear();
 }

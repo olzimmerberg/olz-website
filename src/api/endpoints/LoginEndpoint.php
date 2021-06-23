@@ -41,6 +41,7 @@ class LoginEndpoint extends Endpoint {
         // If there are invalid credentials provided too often, we block.
         $can_login = $auth_request_repo->canAuthenticate($ip_address);
         if (!$can_login) {
+            $this->logger->notice("Login attempt from blocked user: {$username} ({$ip_address}).");
             $auth_request_repo->addAuthRequest($ip_address, 'BLOCKED', $username);
             return [
                 'status' => 'BLOCKED',
@@ -51,6 +52,7 @@ class LoginEndpoint extends Endpoint {
         $user_repo = $this->entityManager->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $username]);
         if (!$user || !password_verify($password, $user->getPasswordHash())) {
+            $this->logger->notice("Login attempt with invalid credentials from user: {$username} ({$ip_address}).");
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username);
             return [
                 'status' => 'INVALID_CREDENTIALS',
@@ -62,6 +64,9 @@ class LoginEndpoint extends Endpoint {
         $this->session->set('root', $root);
         $this->session->set('user', $username);
         $this->session->set('user_id', $user->getId());
+        $this->logger->info("User logged in: {$username}");
+        $this->logger->info("  Auth: {$user->getZugriff()}");
+        $this->logger->info("  Root: {$root}");
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED', $username);
         return [
             'status' => 'AUTHENTICATED',

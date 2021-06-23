@@ -24,6 +24,8 @@ function logs_monitoring() {
     $now = new DateTime();
     $minus_one_hour = DateInterval::createFromDateString("-1 hours");
     $one_hour_ago = $now->add($minus_one_hour);
+
+    $now = new DateTime();
     $minus_one_day = DateInterval::createFromDateString("-1 days");
     $one_day_ago = $now->add($minus_one_day);
 

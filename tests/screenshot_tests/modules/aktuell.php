@@ -14,7 +14,7 @@ function test_aktuell($driver, $base_url) {
 
     test_aktuell_readonly($driver, $base_url);
 
-    login($driver, $base_url, 'admin', 'adm1n');
+    login($driver, $base_url, 'vorstand', 'v0r57and');
     $driver->get("{$base_url}{$aktuell_url}");
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$aktuell_url}");

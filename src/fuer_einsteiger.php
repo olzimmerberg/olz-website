@@ -18,6 +18,7 @@ if (!defined('CALLED_THROUGH_INDEX')) {
         'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
         'additional_headers' => [
             "<link rel='canonical' href='{$canonical_uri}'/>",
+            olz_organization_data([]),
         ],
     ]);
 }

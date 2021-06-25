@@ -25,6 +25,7 @@ export * from './fuer_einsteiger';
 export * from './konto_passwort';
 export * from './konto_strava';
 export * from './logs';
+export * from './news/index';
 export * from './profil';
 export * from './scripts/index';
 export * from './termine';

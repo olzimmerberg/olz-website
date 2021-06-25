@@ -1,18 +1,16 @@
 <?php
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/init.php';
 
-    session_start_if_cookie_set();
+session_start_if_cookie_set();
 
-    require_once __DIR__.'/admin/olz_functions.php';
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header([
-        'title' => "Suche",
-        'description' => "Stichwort-Suche auf der Website der OL Zimmerberg.",
-        'norobots' => true,
-    ]);
-}
+require_once __DIR__.'/admin/olz_functions.php';
+require_once __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header([
+    'title' => "Suche",
+    'description' => "Stichwort-Suche auf der Website der OL Zimmerberg.",
+    'norobots' => true,
+]);
 
 echo "
 <div id='content_rechts'>
@@ -29,7 +27,5 @@ echo "</form>
 </div>
 ";
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
-}
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

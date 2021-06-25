@@ -1,27 +1,25 @@
 <?php
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/init.php';
 
-    session_start_if_cookie_set();
+session_start_if_cookie_set();
 
-    require_once __DIR__.'/admin/olz_functions.php';
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
-    require_once __DIR__.'/config/server.php';
+require_once __DIR__.'/admin/olz_functions.php';
+require_once __DIR__.'/components/page/olz_header/olz_header.php';
+require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
+require_once __DIR__.'/config/server.php';
 
-    $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-    $canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}fuer_einsteiger.php";
+$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+$canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}fuer_einsteiger.php";
 
-    echo olz_header([
-        'title' => "Für Einsteiger",
-        'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
-        'additional_headers' => [
-            "<link rel='canonical' href='{$canonical_uri}'/>",
-            olz_organization_data([]),
-        ],
-    ]);
-}
+echo olz_header([
+    'title' => "Für Einsteiger",
+    'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
+    'additional_headers' => [
+        "<link rel='canonical' href='{$canonical_uri}'/>",
+        olz_organization_data([]),
+    ],
+]);
 
 echo "<style>
 .olz-override-root .header-box {
@@ -312,7 +310,5 @@ function get_tile($img_name, $options = []) {
     ZZZZZZZZZZ;
 }
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
-}
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

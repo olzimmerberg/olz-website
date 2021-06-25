@@ -8,18 +8,16 @@ if ($_GET['ftp_mode'] == 'get_file') {
     exit();
 }
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/init.php';
 
-    session_start();
+session_start();
 
-    require_once __DIR__.'/admin/olz_functions.php';
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header([
-        'title' => "Web FTP",
-        'norobots' => true,
-    ]);
-}
+require_once __DIR__.'/admin/olz_functions.php';
+require_once __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header([
+    'title' => "Web FTP",
+    'norobots' => true,
+]);
 
 // Zugriff prüfen
 if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['auth'] ?? null) == 'all') {
@@ -71,7 +69,5 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     </div>";
 }
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
-}
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

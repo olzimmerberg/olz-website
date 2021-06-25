@@ -1,17 +1,15 @@
 <?php
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/init.php';
 
-    session_start();
+session_start();
 
-    require_once __DIR__.'/admin/olz_functions.php';
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header([
-        'title' => "Logs",
-        'norobots' => true,
-    ]);
-}
+require_once __DIR__.'/admin/olz_functions.php';
+require_once __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header([
+    'title' => "Logs",
+    'norobots' => true,
+]);
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
@@ -54,7 +52,5 @@ if ($user && $user->getZugriff() == 'all') {
 }
 echo "</div>";
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
-}
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

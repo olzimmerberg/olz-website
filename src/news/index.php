@@ -59,23 +59,6 @@ if ($id === null) {
     echo "<div id='content_mitte'>";
     echo "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
-    $filter_where = $news_utils->getSqlFromFilter($current_filter);
-    $sql = <<<ZZZZZZZZZZ
-    SELECT
-        id,
-        datum,
-        zeit,
-        titel,
-        text
-    FROM aktuell n
-    WHERE
-        {$filter_where}
-        AND n.on_off='1'
-        AND n.typ NOT LIKE 'box%'
-    ORDER BY datum DESC, zeit DESC
-    ZZZZZZZZZZ;
-    $res = $db->query($sql);
-
     //-------------------------------------------------------------
     // DATENSATZ EDITIEREN
     if ($zugriff) {
@@ -111,6 +94,30 @@ if ($id === null) {
     if ($zugriff and ($db_edit == '0')) {
         echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
     }
+
+    if (($do ?? null) == 'vorschau') {
+        echo "<div class='hacky-hide-preview'>";
+        $id = $_SESSION[$db_table."id"];
+        include __DIR__.'/aktuell_l.php';
+        echo "</div><hr /><br/><br/>";
+    }
+
+    $filter_where = $news_utils->getSqlFromFilter($current_filter);
+    $sql = <<<ZZZZZZZZZZ
+    SELECT
+        id,
+        datum,
+        zeit,
+        titel,
+        text
+    FROM aktuell n
+    WHERE
+        {$filter_where}
+        AND n.on_off='1'
+        AND n.typ NOT LIKE 'box%'
+    ORDER BY datum DESC, zeit DESC
+    ZZZZZZZZZZ;
+    $res = $db->query($sql);
 
     while ($row = $res->fetch_assoc()) {
         $icon = "{$code_href}icns/entry_type_aktuell_20.svg";

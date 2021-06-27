@@ -2,23 +2,38 @@ import {trim} from './jscripts';
 
 /* ADMIN FUNKTIONEN */
 /* DATUM 1 ÜBERNEHMEN */
-export function End_angleichen() {
-    window.document.Formularl.terminedatum_end.value = window.document.Formularl.terminedatum.value;
+export function End_angleichen(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
+    thisForm.terminedatum_end.value = thisForm.terminedatum.value;
 }
 
 /* DATUM 2 ÜBERNEHMEN */
-export function Off_angleichen() {
-    window.document.Formularl.terminedatum_off.value = window.document.Formularl.terminedatum_end.value;
+export function Off_angleichen(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
+    thisForm.terminedatum_off.value = thisForm.terminedatum_end.value;
 }
 
 /* WEITERE LAEUFERIN */
-export function ZusLaeufer() {
-    window.document.Formularl.anmeldunginfo1.value = `${window.document.Formularl.anmeldunginfo1.value}\n[Name, Vorname],[Wohnort],[Kategorie],[Jahrgang],[BadgeNr],[Etappen(1-6/1-3/4-6)]`;
+export function ZusLaeufer(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
+    thisForm.anmeldunginfo1.value = `${thisForm.anmeldunginfo1.value}\n[Name, Vorname],[Wohnort],[Kategorie],[Jahrgang],[BadgeNr],[Etappen(1-6/1-3/4-6)]`;
 }
 
 /* TERMINTYP ANFÜGEN */
-export function Typ_angleichen() {
-    const thisForm = window.document.Formularl;
+export function Typ_angleichen(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
     if (thisForm.set_typ.options[thisForm.set_typ.selectedIndex].value !== '') {
         thisForm.terminetyp.value = trim(`${thisForm.terminetyp.value} ${thisForm.set_typ.options[thisForm.set_typ.selectedIndex].value}`);
         thisForm.set_typ.options.selectedIndex = 0;
@@ -26,16 +41,22 @@ export function Typ_angleichen() {
 }
 
 /* TERMINTITEL EINFÜGEN */
-export function Titel_angleichen() {
-    const thisForm = window.document.Formularl;
+export function Titel_angleichen(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
     if (thisForm.set_titel.options[thisForm.set_titel.selectedIndex].value !== '') {
         thisForm.terminetitel.value = thisForm.terminetitel.value + thisForm.set_titel.options[thisForm.set_titel.selectedIndex].value;
         thisForm.terminetitel.focus();
     }
 }
 
-export function Resultatlink() {
-    const thisForm = window.document.Formularl;
+export function Resultatlink(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
     const jetzt = new Date();
     const Jahr = jetzt.getFullYear();
     if (thisForm.set_resultat.options[thisForm.set_resultat.selectedIndex].text !== '') {
@@ -44,9 +65,11 @@ export function Resultatlink() {
     }
 }
 
-
-export function Linkhilfe() {
-    const thisForm = window.document.Formularl;
+export function Linkhilfe(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
     switch (thisForm.set_link.options[thisForm.set_link.selectedIndex].value) {
         case '1' :
             thisForm.terminelink.value = `${thisForm.terminelink.value}<a href="${thisForm.help_set_link.value}" target="_blank" class="linkext">Ausschreibung</a>\n`;
@@ -80,8 +103,11 @@ export function Linkhilfe() {
     }
 }
 
-export function koordinaten() {
-    const thisForm = window.document.Formularl;
+export function koordinaten(): void {
+    const thisForm = getFormularl();
+    if (!thisForm) {
+        return;
+    }
     let koord = thisForm.terminexkoord.value;
     koord = koord.trim();
     koord = koord.replace(/[^0-9/ ]/g, '');
@@ -91,4 +117,9 @@ export function koordinaten() {
     if (y > x) { const x_ = x; x = y; y = x_; }
     thisForm.terminexkoord.value = x;
     thisForm.termineykoord.value = y;
+}
+
+function getFormularl(): HTMLFormElement|undefined {
+    const doc = window.document as Document&{Formularl:HTMLFormElement|undefined};
+    return doc.Formularl;
 }

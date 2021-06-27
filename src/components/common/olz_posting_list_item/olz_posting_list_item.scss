@@ -1,13 +1,16 @@
 .olz-posting-list-item {
     border-radius: 3px;
     clear: left;
+    color: rgb(0, 0, 0);
     cursor: pointer;
+    display: block;
     overflow: hidden;
     padding: 5px;
     position: relative;
 
     &:hover {
         background-color: #d4e7ce;
+        text-decoration: none;
     }
 
     .title {

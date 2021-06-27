@@ -11,15 +11,15 @@ function olz_posting_list_item($args = []): string {
     $pretty_date = $_DATE->olzDate("tt.mm.jj", $date);
 
     return <<<ZZZZZZZZZZ
-    <div class='olz-posting-list-item'>
-        <span class='date title' onclick='javascript:location.href=&quot;{$link}&quot;;return false;'>
+    <a class='olz-posting-list-item' href='{$link}'>
+        <span class='date title'>
             {$pretty_date}
         </span>
-        <div class='title' onclick='javascript:location.href=&quot;{$link}&quot;;return false;'>
+        <div class='title'>
             <img src='{$icon}' class='icon' alt='' />
             {$title}
         </div>
         <div class='text'>{$text}</div>
-    </div>
+    </a>
     ZZZZZZZZZZ;
 }

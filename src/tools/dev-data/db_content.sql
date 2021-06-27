@@ -70,7 +70,8 @@ INSERT INTO galerie
     (`id`, `termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `content`)
 VALUES
     ('1', '0', 'Neujahrsgalerie 📷 2020', '2020-01-01', NULL, 'sh😄', '1', 'foto', '0', ''),
-    ('2', '0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', '');
+    ('2', '0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', ''),
+    ('3', '0', 'Test Video', '2020-08-15', NULL, 'admin', '1', 'movie', '2', 'https://youtu.be/JVL0vgcnM6c');
 
 -- Table google_links
 

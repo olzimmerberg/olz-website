@@ -80,7 +80,7 @@ while ($row = $result->fetch_assoc()) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
-        $bild = olz_image("blog", $id, 1, 110, false, " style='float:left; margin:0px 5px 0px 0px;'");
+        $bild = olz_image("blog", $id, 1, 110, null, " style='float:left; margin:0px 5px 0px 0px;'");
         $text = str_replace("<BILD1>", $bild, $text);
 
     // Dateicode einfügen
@@ -119,18 +119,18 @@ while ($row = $result->fetch_assoc()) {
                     $randtmp = rand(1, $groesse);
                 }
                 array_push($rand, $randtmp);
-                $text .= "<td class='test-flaky'>".olz_image("galerie", $id, $randtmp, 110, "image")."</td>";
+                $text .= "<td class='test-flaky'>".olz_image("galerie", $id, $randtmp, 110, null)."</td>";
             }
         }
         if ($typ == 'foto') {
             $text = "<table><tr class='thumbs'>".$text."</tr></table>";
             $titel = "Galerie: ".$titel;
         } elseif ($typ == 'movie') {
-            $text = "<a href='".$link."' style='width:144px;background-color:#000;padding-top:0;' class='thumb paragraf'>\n
+            $text = "<div href='".$link."' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
             <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
             <span style='display:block;text-align:center;'><img src='".$data_href."img/galerie/".$id."/img/001.jpg' style='width:110px;' class='noborder' alt=''></span>\n
             <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            </a>";
+            </div>";
             $titel = "Film: ".$titel;
             $icon = "icns/entry_type_movie_20.svg";
         }
@@ -156,7 +156,7 @@ while ($row = $result->fetch_assoc()) {
             if ($size < 1) {
                 $size = 110;
             }
-            $tmp_html = olz_image("aktuell", $id, intval($matches[1][$i]), $size, "image", " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
+            $tmp_html = olz_image("aktuell", $id, intval($matches[1][$i]), $size, null, " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
             $text = str_replace($matches[0][$i], $tmp_html, $text);
         }
 

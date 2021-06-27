@@ -233,6 +233,9 @@ function init_dev_data_filesystem($data_path) {
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 800, 600);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/004.jpg", 800, 600);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 600);
+    mkdir("{$data_path}img/galerie/3");
+    mkdir("{$data_path}img/galerie/3/img");
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/3/img/001.jpg", 800, 600);
     mkdir("{$data_path}img/karten");
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);

@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, OlzApiResponses, ValidationError} from '../../../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getPassword, showErrorOnField, clearErrorOnField} from '../../../components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getPassword, getRequired, showErrorOnField, clearErrorOnField} from '../../../components/common/olz_default_form/olz_default_form';
 
 $(() => {
     $('#change-password-modal').on('shown.bs.modal', () => {
@@ -20,7 +20,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
             } else {
                 clearErrorOnField(form.repeat);
             }
-            const result = getPassword('new', newPassword);
+            const result = getRequired('new', getPassword('new', newPassword));
             if (hasInvalidRepetition) {
                 throw new ValidationError('', {});
             }
@@ -36,7 +36,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
     );
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updatePassword]): string|null {
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updatePassword]): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }

@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
@@ -15,13 +15,13 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             } else {
                 clearErrorOnField(form['password-repeat']);
             }
-            const result = getPassword('password', password);
+            const result = getRequired('password', getPassword('password', password));
             if (hasInvalidRepetition) {
                 throw new ValidationError('', {});
             }
             return result;
         },
-        email: (f) => getEmail('email', f.email.value),
+        email: (f) => getRequired('email', getEmail('email', f.email.value)),
         phone: (f) => getPhone('phone', f.phone.value),
         gender: (f) => getGender('gender', f.gender.value),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
@@ -40,7 +40,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     );
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|null {
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }

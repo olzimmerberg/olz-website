@@ -1,6 +1,9 @@
 export function olz_toggle_vorstand(ident: string): void {
     const pelem = document.getElementById(`popup${ident}`);
     const selem = document.getElementById(`source${ident}`);
+    if (!pelem || !selem) {
+        return;
+    }
     if (pelem.style.display === 'none') {
         pelem.style.display = 'block';
         pelem.style.marginTop = `${selem.offsetHeight}px`;
@@ -24,10 +27,14 @@ export function MailTo(name: string, domain: string, text: string, subject = '')
     const email3 = subject;
     const mailtoPrefix = 'mailto:';
     mytext = (`<a href="${mailtoPrefix}${email1}@${email2}?subject=${email3}" class="linkmail">${linktext}</a>`);
-    if (/MailTo\(/.exec(document.currentScript.innerHTML)) {
+    const scriptElement = document.currentScript;
+    const parentNode = scriptElement?.parentNode;
+    if (!scriptElement || !parentNode) {
+        return mytext;
+    }
+    if (/MailTo\(/.exec(scriptElement.innerHTML)) {
         const span = document.createElement('span');
-        const scriptElement = document.currentScript;
-        scriptElement.parentNode.insertBefore(span, scriptElement);
+        parentNode.insertBefore(span, scriptElement);
         span.innerHTML = mytext;
         return '';
     }
@@ -37,6 +44,9 @@ export function MailTo(name: string, domain: string, text: string, subject = '')
 /* MENÜ UNTERMENÜS ZEIGEN (menu.php) */
 export function menu(menuid: string): void {
     const div = document.getElementById(menuid);
+    if (!div) {
+        return;
+    }
     if (div.style.display === 'none') {
         div.style.display = 'block';
     } else {
@@ -47,12 +57,18 @@ export function menu(menuid: string): void {
 /* JAHREÜBERSICHT ZEIGEN (menu.php) */
 export function show_year(year1: string, year2: string): void {
     const div1 = document.getElementById(year1);
+    if (!div1) {
+        return;
+    }
     if (div1.style.display === 'none') {
         div1.style.display = 'block';
     } else {
         div1.style.display = 'none';
     }
     const div2 = document.getElementById(year2);
+    if (!div2) {
+        return;
+    }
     if (div2.style.display === 'none') {
         div2.style.display = 'block';
     } else {
@@ -64,10 +80,16 @@ export function show_year(year1: string, year2: string): void {
 
 export function expand(menuid: string): void {
     const div = document.getElementById(menuid);
+    if (!div) {
+        return;
+    }
     div.style.display = 'block';
 }
 export function collapse(menuid: string): void {
     const div = document.getElementById(menuid);
+    if (!div) {
+        return;
+    }
     div.style.display = 'none';
 }
 

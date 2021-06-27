@@ -94,8 +94,10 @@ export function showValidationErrors<T extends OlzApiEndpoint>(
     const fieldIds = Object.keys(validationErrorDict) as Array<RequestFieldId<T>>;
     fieldIds.map((fieldId) => {
         const formInput = form[camelCaseToDashCase(fieldId)];
-        const errorMessage = error.validationErrors[fieldId].join('\n');
-        showErrorOnField(formInput, errorMessage);
+        const errorMessage = error?.validationErrors?.[fieldId].join('\n');
+        if (errorMessage) {
+            showErrorOnField(formInput, errorMessage);
+        }
     });
 }
 
@@ -125,6 +127,28 @@ export function clearErrorOnField(formInput: Element): void {
 
 export function camelCaseToDashCase(camelCaseString: string): string {
     return camelCaseString.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
+
+export function getCountryCode(fieldId: string, countryCode: string|undefined): string {
+    if (!countryCode) {
+        return '';
+    }
+    const trimmedCountryCode = countryCode.trim();
+    if (trimmedCountryCode.length === 1) {
+        throw new ValidationError('', {
+            [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
+        });
+    } else if (trimmedCountryCode.length === 2) {
+        return trimmedCountryCode.toUpperCase();
+    }
+    const normalizedCountryName = trimmedCountryCode.toLowerCase();
+    const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
+    if (countryCodeByName) {
+        return countryCodeByName;
+    }
+    throw new ValidationError('', {
+        [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
+    });
 }
 
 export function getEmail(fieldId: string, emailInput: string|undefined): string|null {
@@ -185,6 +209,9 @@ export function getPassword(fieldId: string, passwordInput: string|undefined): s
 }
 
 export function getPhone(fieldId: string, phoneInput: string|undefined): string|null {
+    if (!phoneInput) {
+        return null;
+    }
     const phoneInputWithoutSpaces = phoneInput.replace(/\s+/g, '');
     if (!phoneInputWithoutSpaces) {
         return null;
@@ -197,24 +224,11 @@ export function getPhone(fieldId: string, phoneInput: string|undefined): string|
     return phoneInputWithoutSpaces;
 }
 
-export function getCountryCode(fieldId: string, countryCode: string|undefined): string {
-    if (!countryCode) {
-        return '';
-    }
-    const trimmedCountryCode = countryCode.trim();
-    if (trimmedCountryCode.length === 1) {
+export function getRequired<T>(fieldId: string, input: T|null|undefined): T {
+    if (input === null || input === undefined) {
         throw new ValidationError('', {
-            [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
+            [fieldId]: ['Feld darf nicht leer sein.'],
         });
-    } else if (trimmedCountryCode.length === 2) {
-        return trimmedCountryCode.toUpperCase();
     }
-    const normalizedCountryName = trimmedCountryCode.toLowerCase();
-    const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
-    if (countryCodeByName) {
-        return countryCodeByName;
-    }
-    throw new ValidationError('', {
-        [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
-    });
+    return input;
 }

@@ -1,5 +1,5 @@
 import {OlzApiResponses, OlzApiEndpoint} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.updateUser> = {
@@ -8,7 +8,7 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
         lastName: (f) => f['last-name'].value,
         username: (f) => f.username.value,
         phone: (f) => getPhone('phone', f.phone.value),
-        email: (f) => getEmail('email', f.email.value),
+        email: (f) => getRequired('email', getEmail('email', f.email.value)),
         gender: (f) => getGender('gender', f.gender.value),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
         street: (f) => f.street.value,
@@ -26,7 +26,7 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
     );
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updateUser]): string|null {
+function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updateUser]): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }

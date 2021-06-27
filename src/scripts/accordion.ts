@@ -18,7 +18,7 @@ export function runAccordion(jahr: string): void {
     let nID = `Accordion${jahr}Content`;
     const openElem = document.getElementById(`${openAccordion}_`);
     if (openElem) { ClosingHeight = openElem.offsetHeight; }
-    OpeningHeight = document.getElementById(`${nID}_`).offsetHeight;
+    OpeningHeight = document.getElementById(`${nID}_`)?.offsetHeight || 0;
     setTimeout(animateAccordion.bind(null, new Date().getTime(), TimeToSlide, openAccordion, nID), 33);
 
     if (openAccordion === nID) { nID = ''; }

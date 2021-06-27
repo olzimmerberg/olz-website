@@ -13,5 +13,8 @@ export function olzInitFeatures(featuresConfig: string): void {
 
 window.addEventListener('load', () => {
     const featuresConfig = localStorage.getItem('FEATURES');
+    if (!featuresConfig) {
+        return;
+    }
     olzInitFeatures(featuresConfig);
 });

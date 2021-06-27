@@ -1,4 +1,7 @@
 export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement): void {
+    if (!elem.form) {
+        return;
+    }
     if (elem.name === 'daily-summary') {
         elem.form['daily-summary-aktuell'].checked = elem.checked;
         elem.form['daily-summary-blog'].checked = elem.checked;

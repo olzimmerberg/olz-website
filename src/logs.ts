@@ -14,7 +14,7 @@ export function olzLogsGetNextLog(): boolean {
     )
         .then((response) => {
             logIndex++;
-            $('#logs').prepend(processLogs(response.content));
+            $('#logs').prepend(processLogs(response.content ?? ''));
         })
         .catch((err) => {
             console.log(err);

@@ -650,7 +650,7 @@ if (($do ?? null) == 'submit') {
             $label = $feld_tmp[1];
             $mail_text .= $label.": ".$_SESSION[$var]."\n";
         }
-        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: https://www.olzimmerberg.ch/".$page_link."?button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
+        $mail_text = $mail_text."\n\n************************\nDein Eintrag wurde bearbeitet/geändert am: ".olz_current_date("Y-m-d")."/".olz_current_date("H:i:s")."\nCode: ".$_SESSION[$db_table."uid"]." (direkter Link: https://www.olzimmerberg.ch/_/".$page_link."?button{$db_table}=Weiter&code=".$_SESSION[$db_table."uid"].")";
 
         // MAIL SENDEN
         foreach ($mail_adress as $mailadress_tmp) {

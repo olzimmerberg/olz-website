@@ -1,9 +1,5 @@
 <?php
 
-if (defined('CALLED_THROUGH_INDEX')) {
-    exit("Nicht mehr unterstützt!");
-}
-
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();

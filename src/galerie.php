@@ -1,52 +1,50 @@
 <?php
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    global $db;
-    require_once __DIR__.'/config/init.php';
-    require_once __DIR__.'/config/database.php';
+global $db;
+require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/database.php';
 
-    session_start();
+session_start();
 
-    require_once __DIR__.'/admin/olz_functions.php';
+require_once __DIR__.'/admin/olz_functions.php';
 
-    require_once __DIR__.'/fields/BooleanField.php';
-    require_once __DIR__.'/fields/IntegerField.php';
-    require_once __DIR__.'/fields/StringField.php';
-    require_once __DIR__.'/utils/client/HttpUtils.php';
-    require_once __DIR__.'/utils/env/EnvUtils.php';
-    $env_utils = EnvUtils::fromEnv();
-    $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
-    $http_utils = HttpUtils::fromEnv();
-    $http_utils->setLogger($logger);
-    $http_utils->validateGetParams([
-        new IntegerField('id', ['allow_null' => true]),
-        new BooleanField('archiv', ['allow_null' => true]),
-        new StringField('buttongalerie', ['allow_null' => true]),
-    ], $_GET);
+require_once __DIR__.'/fields/BooleanField.php';
+require_once __DIR__.'/fields/IntegerField.php';
+require_once __DIR__.'/fields/StringField.php';
+require_once __DIR__.'/utils/client/HttpUtils.php';
+require_once __DIR__.'/utils/env/EnvUtils.php';
+$env_utils = EnvUtils::fromEnv();
+$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLogger($logger);
+$http_utils->validateGetParams([
+    new IntegerField('id', ['allow_null' => true]),
+    new BooleanField('archiv', ['allow_null' => true]),
+    new StringField('buttongalerie', ['allow_null' => true]),
+], $_GET);
 
-    if (isset($_GET['datum']) || isset($_GET['foto'])) {
+if (isset($_GET['datum']) || isset($_GET['foto'])) {
+    $http_utils->dieWithHttpError(404);
+}
+
+$html_title = "Galerie";
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
+    $res = $db->query($sql);
+    if ($res->num_rows == 0) {
         $http_utils->dieWithHttpError(404);
     }
-
-    $html_title = "Galerie";
-    if (isset($_GET['id'])) {
-        $id = intval($_GET['id']);
-        $sql = "SELECT titel FROM galerie WHERE id='{$id}'";
-        $res = $db->query($sql);
-        if ($res->num_rows == 0) {
-            $http_utils->dieWithHttpError(404);
-        }
-        while ($row = $res->fetch_assoc()) {
-            $html_title = $row['titel'];
-        }
+    while ($row = $res->fetch_assoc()) {
+        $html_title = $row['titel'];
     }
-
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header([
-        'title' => $html_title,
-        'description' => "Bilder und Videos von Anlässen der OL Zimmerberg.",
-    ]);
 }
+
+require_once __DIR__.'/components/page/olz_header/olz_header.php';
+echo olz_header([
+    'title' => $html_title,
+    'description' => "Bilder und Videos von Anlässen der OL Zimmerberg.",
+]);
 
 require_once __DIR__.'/image_tools.php';
 
@@ -76,7 +74,5 @@ echo "</form>
 </div>
 ";
 
-if (!defined('CALLED_THROUGH_INDEX')) {
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
-}
+require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
+echo olz_footer();

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": false,
+    "allowJs": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
@@ -22,6 +21,13 @@
     "strict": false,
     "target": "es5"
   },
-  "include": ["src/**/*", "tests/unit_tests/**/*"],
-  "exclude": ["node_modules", "src/**/jsbuild"]
+  "include": [
+    "src/**/*",
+    "tests/unit_tests/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/jsbuild",
+    "src/config/vendor"
+  ]
 }

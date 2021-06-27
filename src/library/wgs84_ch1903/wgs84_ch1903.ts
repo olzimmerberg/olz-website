@@ -3,7 +3,7 @@
 // Please validate your results with NAVREF on-line service: http://www.swisstopo.admin.ch/internet/swisstopo/en/home/apps/calc/navref.html (difference ~ 1-2m)
 
 // Convert WGS lat/long (� dec) to CH y
-export function WGStoCHy(lat, lng) {
+export function WGStoCHy(lat: number, lng: number): number {
 
     // Convert decimal degrees to sexagesimal seconds
     const sexLat = DECtoSEX(lat);
@@ -24,7 +24,7 @@ export function WGStoCHy(lat, lng) {
 }
 
 // Convert WGS lat/long (� dec) to CH x
-export function WGStoCHx(lat, lng) {
+export function WGStoCHx(lat: number, lng: number): number {
 
     // Convert decimal degrees to sexagesimal seconds
     const sexLat = DECtoSEX(lat);
@@ -47,7 +47,7 @@ export function WGStoCHx(lat, lng) {
 }
 
 // Convert CH y/x to WGS lat
-export function CHtoWGSlat(y, x) {
+export function CHtoWGSlat(y: number, x: number): number {
 
     // Converts military to civil and  to unit = 1000km
     // Auxiliary values (% Bern)
@@ -70,7 +70,7 @@ export function CHtoWGSlat(y, x) {
 }
 
 // Convert CH y/x to WGS long
-export function CHtoWGSlng(y, x) {
+export function CHtoWGSlng(y: number, x: number): number {
 
     // Converts military to civil and  to unit = 1000km
     // Auxiliary values (% Bern)
@@ -92,11 +92,11 @@ export function CHtoWGSlng(y, x) {
 }
 
 // Convert angle in decimal degrees to sexagesimal seconds
-export function DECtoSEX(angle) {
+export function DECtoSEX(angle: number): number {
 
     // Extract DMS
-    const deg = parseInt(angle);
-    const min = parseInt((angle - deg) * 60);
+    const deg = Math.floor(angle);
+    const min = Math.floor((angle - deg) * 60);
     const sec = (((angle - deg) * 60) - min) * 60;
 
     // Result sexagesimal seconds

@@ -51,24 +51,6 @@ echo "<style type=\"text/css\">
     </style>";
 
 ?>
-<script src="js/dw_con_scroller.js" type="text/javascript"></script>
-<script type="text/javascript">
-
-if ( DYN_WEB.Scroll_Div.isSupported() ) {
-    
-    DYN_WEB.Event.domReady( function() {
-        
-        // arguments: id of scroll area div, id of content div
-        var wndo = new DYN_WEB.Scroll_Div('wn', 'lyr');
-        var wndo2 = new DYN_WEB.Scroll_Div('wn2', 'lyr2');
-        // see info online at http://www.dyn-web.com/code/scrollers/continuous/documentation.php
-        wndo.makeSmoothAuto( {axis:'v', bRepeat:true, repeatId:'rpt', speed:40, bPauseResume:true} );
-        wndo2.makeSmoothAuto( {axis:'v', bRepeat:true, repeatId:'rpt2', speed:40, bPauseResume:true} );
-        
-    });
-}
-
-</script>
 </head>
 <?php
 echo "<body style='height:99%; background-repeat:repeat; background-image:url(../icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";

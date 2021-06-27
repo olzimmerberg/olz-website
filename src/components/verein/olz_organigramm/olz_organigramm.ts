@@ -4,7 +4,12 @@ export function highlight_organigramm(id: string): void {
 
 export function highlight_organigramm_scroll(id: string): void {
     let elem = document.getElementById(id);
-    if (/box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement.id)) { elem = elem.parentElement; }
+    if (elem && /box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement?.id ?? '')) {
+        elem = elem.parentElement;
+    }
+    if (!elem) {
+        return;
+    }
     elem.style.backgroundColor = 'rgba(0,0,0,0)';
     const rect = elem.getBoundingClientRect();
     const optimalPageYOffset = window.pageYOffset + rect.top + rect.height / 2 - window.innerHeight / 2;
@@ -26,9 +31,14 @@ export function highlight_organigramm_scroll(id: string): void {
 
 export function highlight_organigramm_color(id: string): void {
     let elem = document.getElementById(id);
-    if (/box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement.id)) { elem = elem.parentElement; }
+    if (elem && /box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement?.id ?? '')) {
+        elem = elem.parentElement;
+    }
     for (let i = 0; i < 20; i++) {
         window.setTimeout(() => {
+            if (!elem) {
+                return;
+            }
             elem.style.backgroundColor = `rgba(0,220,0,${Math.pow(Math.sin(i * Math.PI / 12), 2)})`;
         }, i * 100);
     }

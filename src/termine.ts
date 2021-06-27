@@ -5,9 +5,13 @@ export function toggleMap(id: string, xkoord: number, ykoord: number): boolean {
     const div = document.getElementById(mapid);
     const buttonid = `map_${id}`;
     const button = document.getElementById(buttonid);
+    const spalte1 = document.getElementById('Spalte1');
+    if (!div || !button || !spalte1) {
+        return false;
+    }
     if (div.style.display === 'none') {
         div.style.display = '';
-        const wid = document.getElementById('Spalte1').offsetWidth - 20;
+        const wid = spalte1.offsetWidth - 20;
         div.innerHTML = getMapHtml(xkoord, ykoord, wid);
         button.innerHTML = `<a href='' onclick="toggleMap('${id}',${xkoord},${ykoord});return false;" class='linkmap'>Karte ausblenden</a>`;
     } else {
@@ -27,9 +31,17 @@ export function getMapHtml(xkoord: number, ykoord: number, width = 400): string 
 }
 
 export function mousein(id: string): void {
-    document.getElementById(id).style.color = 'rgb(0,0,0)';
+    const elem = document.getElementById(id);
+    if (!elem) {
+        return;
+    }
+    elem.style.color = 'rgb(0,0,0)';
 }
 
 export function mouseout(id: string): void {
-    document.getElementById(id).style.color = 'rgb(0,110,25)';
+    const elem = document.getElementById(id);
+    if (!elem) {
+        return;
+    }
+    elem.style.color = 'rgb(0,110,25)';
 }

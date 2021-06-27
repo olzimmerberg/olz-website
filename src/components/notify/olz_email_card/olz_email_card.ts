@@ -1,21 +1,21 @@
 import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
 
 export function olzEmailNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
-    const monthlyPreview = form['monthly-preview'].checked;
-    const weeklyPreview = form['weekly-preview'].checked;
-    const deadlineWarning = form['deadline-warning'].checked;
+    const monthlyPreview = form['monthly-preview'].checked ?? false;
+    const weeklyPreview = form['weekly-preview'].checked ?? false;
+    const deadlineWarning = form['deadline-warning'].checked ?? false;
     const daysString = form['deadline-warning-days'].value;
-    const deadlineWarningDays: '1'|'2'|'3'|'7'|undefined = (daysString === '1' || daysString === '2' || daysString === '3' || daysString === '7') ? daysString : undefined;
-    const dailySummary = form['daily-summary'].checked;
-    const dailySummaryAktuell = form['daily-summary-aktuell'].checked;
-    const dailySummaryBlog = form['daily-summary-blog'].checked;
-    const dailySummaryForum = form['daily-summary-forum'].checked;
-    const dailySummaryGalerie = form['daily-summary-galerie'].checked;
-    const weeklySummary = form['weekly-summary'].checked;
-    const weeklySummaryAktuell = form['weekly-summary-aktuell'].checked;
-    const weeklySummaryBlog = form['weekly-summary-blog'].checked;
-    const weeklySummaryForum = form['weekly-summary-forum'].checked;
-    const weeklySummaryGalerie = form['weekly-summary-galerie'].checked;
+    const deadlineWarningDays: '1'|'2'|'3'|'7' = (daysString === '1' || daysString === '2' || daysString === '3' || daysString === '7') ? daysString : '3';
+    const dailySummary = form['daily-summary'].checked ?? false;
+    const dailySummaryAktuell = form['daily-summary-aktuell'].checked ?? false;
+    const dailySummaryBlog = form['daily-summary-blog'].checked ?? false;
+    const dailySummaryForum = form['daily-summary-forum'].checked ?? false;
+    const dailySummaryGalerie = form['daily-summary-galerie'].checked ?? false;
+    const weeklySummary = form['weekly-summary'].checked ?? false;
+    const weeklySummaryAktuell = form['weekly-summary-aktuell'].checked ?? false;
+    const weeklySummaryBlog = form['weekly-summary-blog'].checked ?? false;
+    const weeklySummaryForum = form['weekly-summary-forum'].checked ?? false;
+    const weeklySummaryGalerie = form['weekly-summary-galerie'].checked ?? false;
 
     callOlzApi(
         OlzApiEndpoint.updateNotificationSubscriptions,

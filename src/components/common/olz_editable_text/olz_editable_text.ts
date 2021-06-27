@@ -2,14 +2,20 @@ import {OlzApiEndpoint} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict} from '../../../components/common/olz_default_form/olz_default_form';
 
 export function olzEditableTextEdit(buttonElement: HTMLButtonElement): void {
-    const containerDiv: HTMLElement = buttonElement.parentElement.parentElement;
+    const containerDiv: HTMLElement|null|undefined = buttonElement.parentElement?.parentElement;
+    if (!containerDiv) {
+        return;
+    }
     containerDiv.classList.add('is-editing');
 }
 
 export function olzEditableTextCancel(buttonElement: HTMLButtonElement): void {
-    let currentElement: HTMLElement = buttonElement;
-    while (!currentElement.classList.contains('is-editing')) {
+    let currentElement: HTMLElement|null = buttonElement;
+    while (currentElement && !currentElement.classList.contains('is-editing')) {
         currentElement = currentElement.parentElement;
+    }
+    if (!currentElement) {
+        return;
     }
     currentElement.classList.remove('is-editing');
 }
@@ -39,7 +45,7 @@ export function olzEditableTextSubmit<T extends OlzApiEndpoint>(
     );
 }
 
-function handleResponse(): string|null {
+function handleResponse(): string|void {
     window.setTimeout(() => {
         // TODO: This could probably be done more smoothly!
         window.location.reload();

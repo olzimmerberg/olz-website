@@ -1,5 +1,8 @@
 export function highlight_menu(e: Event): void {
     const menuContainerElem = document.getElementById('menu-container');
+    if (!menuContainerElem) {
+        return;
+    }
     const menuContainerStyle = window.getComputedStyle(menuContainerElem);
     const menuContainerOpacity = Number(menuContainerStyle.getPropertyValue('opacity'));
     if (menuContainerOpacity < 0.5) {
@@ -8,6 +11,9 @@ export function highlight_menu(e: Event): void {
     const target = e.currentTarget as HTMLElement;
     const href = target.getAttribute('href');
     const elem = document.getElementById(`menu_a_page_${href}`);
+    if (!elem) {
+        return;
+    }
     const rect = elem.getBoundingClientRect();
     const pointer = document.createElement('img');
     pointer.style.pointerEvents = 'none';
@@ -20,7 +26,7 @@ export function highlight_menu(e: Event): void {
     pointer.src = 'icns/arrow_red.svg';
     pointer.id = `highlight_menu_${href}`;
     document.documentElement.appendChild(pointer);
-    window.setTimeout(() => highlight_menu_ani(href, 0), 100);
+    window.setTimeout(() => highlight_menu_ani(href ?? '', 0), 100);
 }
 
 export function highlight_menu_ani(href: string, stepArg: number): void {
@@ -36,7 +42,7 @@ export function unhighlight_menu(e: Event): void {
     const target = e.currentTarget as HTMLElement;
     const href = target.getAttribute('href');
     const elem = document.getElementById(`highlight_menu_${href}`);
-    if (elem) {
+    if (elem && elem.parentElement) {
         elem.parentElement.removeChild(elem);
     }
 }

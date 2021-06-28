@@ -19,6 +19,8 @@ require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php
     <li>Man kann zusätzlich (oder anstatt) dem E-Mail Newsletter die Infos auch per Chat-App <a href="fragen_und_antworten.php#weshalb-telegram-push" target="_blank">(zurzeit nur Telegram möglich)</a> erhalten.</li>
     <li>Weitere Funktionen sind <a href="https://github.com/olzimmerberg/olz-website/issues/205" target="_blank">in Planung</a></li>
 </ul>
+<p>Im Juli-Newsletter gab es eine <a href="/pdf/2021_olz_konto.pdf" target="_blank" class="linkpdf"><b>Anleitung zum OLZ-Konto</b></a></p>
+
 
 <h2>Alter Newsletter</h2>
 <p style="color:rgb(200,0,0);">(wird voraussichtlich Ende 2021 abgestellt)</p>

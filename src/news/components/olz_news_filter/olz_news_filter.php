@@ -1,6 +1,6 @@
 <?php
 
-function olz_aktuell_filter($args = []): string {
+function olz_news_filter($args = []): string {
     global $_GET;
 
     require_once __DIR__.'/../../../utils/NewsUtils.php';

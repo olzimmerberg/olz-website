@@ -1,50 +1,17 @@
 <?php
 
-// =============================================================================
-// Aktuelle Berichte von offiziellen Vereinsorganen.
-// =============================================================================
+function olz_news_article($args = []): string {
+    global $db, $_DATE;
 
-require_once __DIR__.'/../config/paths.php';
-require_once __DIR__.'/../config/database.php';
-require_once __DIR__.'/../config/date.php';
+    require_once __DIR__.'/../../../image_tools.php';
 
-//-------------------------------------------------------------
-// DATENSATZ EDITIEREN
-if ($zugriff) {
-    $functions = ['neu' => 'Neuer Eintrag',
-        'edit' => 'Bearbeiten',
-        'abbruch' => 'Abbrechen',
-        'vorschau' => 'Vorschau',
-        'save' => 'Speichern',
-        'delete' => 'Löschen',
-        'start' => 'start',
-        'upload' => 'Upload',
-        'deletebild1' => 'BILD 1 entfernen',
-        'deletebild2' => 'BILD 2 entfernen',
-        'deletebild3' => 'BILD 3 entfernen',
-        'undo' => 'undo', ];
-} else {
-    $functions = [];
-}
-$function = array_search($_POST[$button_name] ?? null, $functions);
-if ($function != "") {
-    include __DIR__.'/../admin/admin_db.php';
-}
-if (($_SESSION['edit']['table'] ?? null) == $db_table) {
-    $db_edit = "1";
-} else {
-    $db_edit = "0";
-}
+    $db_table = 'aktuell';
+    $id = $args['id'];
+    $arg_row = $args['row'] ?? null;
+    $can_edit = $args['can_edit'] ?? false;
+    $is_preview = $args['is_preview'] ?? false;
+    $out = "";
 
-//-------------------------------------------------------------
-// MENÜ
-if ($zugriff and ($db_edit == '0')) {
-    echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
-}
-
-//-------------------------------------------------------------
-// AKTUELL - VORSCHAU
-if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
     $result = $db->query($sql);
     $row = mysqli_fetch_array($result);
@@ -57,8 +24,8 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
 
     // Aktuelle Nachricht
     while ($row = mysqli_fetch_array($result)) {
-        if (($do ?? null) == 'vorschau') {
-            $row = $vorschau;
+        if ($is_preview) {
+            $row = $arg_row;
         } else {
             $id_tmp = intval($row['id']);
             $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id_tmp}'");
@@ -73,10 +40,10 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
 
         $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
-        $edit_admin = ($zugriff and (($do ?? null) != 'vorschau')) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
+        $edit_admin = ($can_edit && !$is_preview) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
 
         // Bildercode einfügen
-        if (($do ?? null) == 'vorschau') {
+        if ($is_preview) {
             preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
             for ($i = 0; $i < count($matches[0]); $i++) {
                 $size = intval($matches[3][$i]);
@@ -141,7 +108,8 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $tmp_html = "";
             }
             */
-        echo "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
-        echo "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
+        $out .= "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
+        $out .= "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
     }
+    return $out;
 }

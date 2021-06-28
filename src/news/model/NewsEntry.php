@@ -2,6 +2,8 @@
 
 use Doctrine\ORM\Mapping as ORM;
 
+require_once __DIR__.'/../../model/OlzEntity.php';
+
 /**
  * @ORM\Entity(repositoryClass="NewsRepository")
  * @ORM\Table(

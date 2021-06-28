@@ -645,7 +645,7 @@ CREATE TABLE `aktuell` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `tags` longtext COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `tags` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),

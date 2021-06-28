@@ -60,6 +60,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["autor", "Autor", "text", "''", "", "", "", ""],
         ["link", "Link", "text", "''", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
+        ["tags", "Tags", "hidden", "''", "", "", "", ""],
         ["newsletter", "Newsletter versenden", "boolean", "1", "", "", "", ""],
         ["newsletter_datum", "versandt am", "datumzeit", "", "", "", "", ""],
     ];

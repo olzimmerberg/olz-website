@@ -13,7 +13,7 @@ final class Version20210628131310 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-        $this->addSql('ALTER TABLE aktuell ADD author_user_id INT DEFAULT NULL, ADD author_role_id INT DEFAULT NULL, ADD owner_user_id INT DEFAULT NULL, ADD owner_role_id INT DEFAULT NULL, ADD created_by_user_id INT DEFAULT NULL, ADD last_modified_by_user_id INT DEFAULT NULL, ADD tags LONGTEXT DEFAULT \'\' NOT NULL, ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, ADD last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE on_off on_off INT DEFAULT 1 NOT NULL');
+        $this->addSql('ALTER TABLE aktuell ADD author_user_id INT DEFAULT NULL, ADD author_role_id INT DEFAULT NULL, ADD owner_user_id INT DEFAULT NULL, ADD owner_role_id INT DEFAULT NULL, ADD created_by_user_id INT DEFAULT NULL, ADD last_modified_by_user_id INT DEFAULT NULL, ADD tags LONGTEXT NOT NULL, ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, ADD last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE on_off on_off INT DEFAULT 1 NOT NULL');
         $this->addSql('ALTER TABLE aktuell ADD CONSTRAINT FK_417D7104E2544CD6 FOREIGN KEY (author_user_id) REFERENCES users (id)');
         $this->addSql('ALTER TABLE aktuell ADD CONSTRAINT FK_417D71049339BDEF FOREIGN KEY (author_role_id) REFERENCES roles (id)');
         $this->addSql('ALTER TABLE aktuell ADD CONSTRAINT FK_417D71042B18554A FOREIGN KEY (owner_user_id) REFERENCES users (id)');

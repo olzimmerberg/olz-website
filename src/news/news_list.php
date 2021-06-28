@@ -57,6 +57,20 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 //-------------------------------------------------------------
 // MENÜ
 if ($zugriff and ($db_edit == '0')) {
+    echo <<<'ZZZZZZZZZZ'
+    <div class='feature news'>
+        <a
+            id='create-news-button'
+            class='btn btn-primary'
+            href='#'
+            role='button'
+            data-toggle='modal'
+            data-target='#edit-news-modal'
+        >
+            Neuer Eintrag
+        </a>
+    </div>
+    ZZZZZZZZZZ;
     echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
 

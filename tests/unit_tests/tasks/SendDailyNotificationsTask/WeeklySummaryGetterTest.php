@@ -19,14 +19,14 @@ class FakeWeeklySummaryGetterEntityManager {
     }
 }
 
-class FakeWeeklySummaryGetterAktuellRepository {
+class FakeWeeklySummaryGetterNewsRepository {
     public function matching($criteria) {
-        $aktuell1 = new Aktuell();
+        $aktuell1 = new NewsEntry();
         $aktuell1->setId(1);
         $aktuell1->setDate(new DateTime('2020-03-12'));
         $aktuell1->setTime(new DateTime('22:00:00'));
         $aktuell1->setTitle('Bericht vom Lauftraining');
-        $aktuell2 = new Aktuell();
+        $aktuell2 = new NewsEntry();
         $aktuell2->setId(2);
         $aktuell2->setDate(new DateTime('2020-03-13'));
         $aktuell2->setTime(new DateTime('16:00:00'));
@@ -120,11 +120,11 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
 
     public function testWeeklySummaryGetterWithAllContent(): void {
         $entity_manager = new FakeWeeklySummaryGetterEntityManager();
-        $aktuell_repo = new FakeWeeklySummaryGetterAktuellRepository();
+        $news_repo = new FakeWeeklySummaryGetterNewsRepository();
         $blog_repo = new FakeWeeklySummaryGetterBlogRepository();
         $galerie_repo = new FakeWeeklySummaryGetterGalerieRepository();
         $forum_repo = new FakeWeeklySummaryGetterForumRepository();
-        $entity_manager->repositories['Aktuell'] = $aktuell_repo;
+        $entity_manager->repositories['NewsEntry'] = $news_repo;
         $entity_manager->repositories['Blog'] = $blog_repo;
         $entity_manager->repositories['Galerie'] = $galerie_repo;
         $entity_manager->repositories['Forum'] = $forum_repo;

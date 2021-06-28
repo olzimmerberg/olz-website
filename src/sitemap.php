@@ -38,7 +38,7 @@ echo get_entry("{$base_url}verein.php", 'monthly', '0.5');
 echo get_entry("{$base_url}datenschutz.php", 'monthly', '0.1');
 echo get_entry("{$base_url}trophy.php", 'monthly', '0.5');
 
-$aktuell_ids = $entityManager->getRepository(Aktuell::class)->getAllActiveIds();
+$aktuell_ids = $entityManager->getRepository(NewsEntry::class)->getAllActiveIds();
 foreach ($aktuell_ids as $aktuell_id) {
     echo get_entry("{$base_url}aktuell.php?id={$aktuell_id}", 'monthly', '0.3');
 }

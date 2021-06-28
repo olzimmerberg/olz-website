@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/news/model/Aktuell.php';
+require_once __DIR__.'/../../../../src/news/model/NewsEntry.php';
 require_once __DIR__.'/../../../../src/model/Blog.php';
 require_once __DIR__.'/../../../../src/model/Forum.php';
 require_once __DIR__.'/../../../../src/model/Galerie.php';
@@ -22,14 +22,14 @@ class FakeDailySummaryGetterEntityManager {
     }
 }
 
-class FakeDailySummaryGetterAktuellRepository {
+class FakeDailySummaryGetterNewsRepository {
     public function matching($criteria) {
-        $aktuell1 = new Aktuell();
+        $aktuell1 = new NewsEntry();
         $aktuell1->setId(1);
         $aktuell1->setDate(new DateTime('2020-03-12'));
         $aktuell1->setTime(new DateTime('22:00:00'));
         $aktuell1->setTitle('Bericht vom Lauftraining');
-        $aktuell2 = new Aktuell();
+        $aktuell2 = new NewsEntry();
         $aktuell2->setId(2);
         $aktuell2->setDate(new DateTime('2020-03-13'));
         $aktuell2->setTime(new DateTime('16:00:00'));
@@ -101,11 +101,11 @@ class FakeDailySummaryGetterEnvUtils {
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
         $entity_manager = new FakeDailySummaryGetterEntityManager();
-        $aktuell_repo = new FakeDailySummaryGetterAktuellRepository();
+        $news_repo = new FakeDailySummaryGetterNewsRepository();
         $blog_repo = new FakeDailySummaryGetterBlogRepository();
         $galerie_repo = new FakeDailySummaryGetterGalerieRepository();
         $forum_repo = new FakeDailySummaryGetterForumRepository();
-        $entity_manager->repositories['Aktuell'] = $aktuell_repo;
+        $entity_manager->repositories['NewsEntry'] = $news_repo;
         $entity_manager->repositories['Blog'] = $blog_repo;
         $entity_manager->repositories['Galerie'] = $galerie_repo;
         $entity_manager->repositories['Forum'] = $forum_repo;

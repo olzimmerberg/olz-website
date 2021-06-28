@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/news/model/Aktuell.php';
+require_once __DIR__.'/../../../../src/news/model/NewsEntry.php';
 require_once __DIR__.'/../../../../src/model/Blog.php';
 require_once __DIR__.'/../../../../src/model/Forum.php';
 require_once __DIR__.'/../../../../src/model/Galerie.php';

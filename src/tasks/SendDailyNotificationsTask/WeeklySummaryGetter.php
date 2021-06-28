@@ -3,7 +3,7 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../news/model/Aktuell.php';
+require_once __DIR__.'/../../news/model/NewsEntry.php';
 require_once __DIR__.'/../../model/Blog.php';
 require_once __DIR__.'/../../model/Galerie.php';
 require_once __DIR__.'/../../model/Forum.php';
@@ -78,7 +78,7 @@ class WeeklySummaryGetter {
         if ($args['aktuell'] ?? false) {
             $aktuell_url = "{$base_href}{$code_href}aktuell.php";
             $aktuell_text = '';
-            $aktuell_repo = $this->entityManager->getRepository(Aktuell::class);
+            $aktuell_repo = $this->entityManager->getRepository(NewsEntry::class);
             $aktuells = $aktuell_repo->matching($criteria);
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();

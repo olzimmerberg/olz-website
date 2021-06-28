@@ -1,4 +1,4 @@
 <?php
 
-require_once __DIR__.'/Aktuell.php';
-require_once __DIR__.'/AktuellRepository.php';
+require_once __DIR__.'/NewsEntry.php';
+require_once __DIR__.'/NewsRepository.php';

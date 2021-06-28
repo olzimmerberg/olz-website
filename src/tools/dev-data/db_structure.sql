@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210411185009
+-- MIGRATION: OLZ\Migrations\Version20210628131310
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -11,35 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `aktuell` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `termin` int(11) NOT NULL,
-  `datum` date NOT NULL,
-  `newsletter` int(11) NOT NULL DEFAULT 1,
-  `newsletter_datum` datetime DEFAULT NULL,
-  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `textlang` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `autor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `typ` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 0,
-  `bild1` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild1_breite` int(11) DEFAULT NULL,
-  `bild1_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild2` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild2_breite` int(11) DEFAULT NULL,
-  `bild3` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild3_breite` int(11) DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `counter` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `datum_index` (`datum`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -642,6 +613,56 @@ CREATE TABLE `counter` (
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aktuell` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `termin` int(11) NOT NULL,
+  `datum` date NOT NULL,
+  `newsletter` int(11) NOT NULL DEFAULT 1,
+  `newsletter_datum` datetime DEFAULT NULL,
+  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `textlang` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `autor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `typ` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `bild1` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bild1_breite` int(11) DEFAULT NULL,
+  `bild1_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bild2` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bild2_breite` int(11) DEFAULT NULL,
+  `bild3` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bild3_breite` int(11) DEFAULT NULL,
+  `zeit` time DEFAULT NULL,
+  `counter` int(11) NOT NULL DEFAULT 0,
+  `author_user_id` int(11) DEFAULT NULL,
+  `author_role_id` int(11) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `tags` longtext COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `datum_index` (`datum`),
+  KEY `IDX_417D7104E2544CD6` (`author_user_id`),
+  KEY `IDX_417D71049339BDEF` (`author_role_id`),
+  KEY `IDX_417D71042B18554A` (`owner_user_id`),
+  KEY `IDX_417D71045A75A473` (`owner_role_id`),
+  KEY `IDX_417D71047D182D95` (`created_by_user_id`),
+  KEY `IDX_417D71041A04EF5A` (`last_modified_by_user_id`),
+  CONSTRAINT `FK_417D71041A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_417D71042B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_417D71045A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_417D71047D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_417D71049339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_417D7104E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

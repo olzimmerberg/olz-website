@@ -3,13 +3,13 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AktuellRepository")
+ * @ORM\Entity(repositoryClass="NewsRepository")
  * @ORM\Table(
  *     name="aktuell",
  *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
  * )
  */
-class aktuell {
+class NewsEntry extends OlzEntity {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */
@@ -30,34 +30,49 @@ class aktuell {
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $newsletter_datum;
+    // TODO: Rename to `title`
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $titel;
+    // TODO: Rename to `teaser`
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
+    // TODO: Rename to `text`
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $textlang;
+    // TODO: Rename to `external_url`
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $link;
+    // TODO: Rename to `author`
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $autor;
     /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="author_user_id", referencedColumnName="id", nullable=true)
+     */
+    private $author_user;
+    /**
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumn(name="author_role_id", referencedColumnName="id", nullable=true)
+     */
+    private $author_role;
+    /**
      * @ORM\Column(type="text", nullable=false)
      */
     private $typ;
     /**
-     * @ORM\Column(type="integer", options={"default": 0})
+     * @ORM\Column(type="text", nullable=false, options={"default": ""})
      */
-    private $on_off;
+    private $tags;
     /**
      * @ORM\Column(type="text", nullable=true)
      */

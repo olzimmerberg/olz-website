@@ -26,6 +26,9 @@ function olz_footer($args = []): string {
     require_once __DIR__."/../../notify/olz_link_telegram_modal/olz_link_telegram_modal.php";
     $out .= olz_link_telegram_modal();
 
+    require_once __DIR__."/../../../news/components/olz_edit_news_modal/olz_edit_news_modal.php";
+    $out .= olz_edit_news_modal();
+
     $out .= "</body>
     </html>";
 

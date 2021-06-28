@@ -1,0 +1,16 @@
+#edit-news-modal {
+    .modal-dialog {
+        max-width: 1280px;
+        width: 95%;
+    }
+
+    #edit-news-message {
+        &:empty {
+            display: none;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+}

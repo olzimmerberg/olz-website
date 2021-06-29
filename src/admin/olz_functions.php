@@ -222,7 +222,7 @@ function make_expandable($text) {
         } else {
             $text_orig = str_replace("\n", " &nbsp; ", $text_orig);
         }
-        $text = "<span id='".$ident."'>".mb_substr($text, 0, $pos)." <a href='javascript:' onclick='document.getElementById(&quot;".$ident."&quot;).innerHTML = ".str_replace(["\"", "'"], ["&quot;", "&#39;"], json_encode($text_orig)).";'>[...]</a></span>";
+        $text = "<span id='".$ident."'>".mb_substr($text, 0, $pos)." <span onclick='document.getElementById(&quot;".$ident."&quot;).innerHTML = ".str_replace(["\"", "'"], ["&quot;", "&#39;"], json_encode($text_orig)).";'>[...]</span></span>";
     } else {
         $text = $text;
     }

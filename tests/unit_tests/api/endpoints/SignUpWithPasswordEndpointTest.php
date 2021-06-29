@@ -64,6 +64,10 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
 }
 
 class FakeSignUpWithPasswordEndpointAuthUtils {
+    public function isUsernameAllowed($username) {
+        return $username !== 'invalid@';
+    }
+
     public function isPasswordAllowed($password) {
         return strlen($password) >= 8;
     }
@@ -114,6 +118,28 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'city' => ['Feld darf nicht leer sein.'],
                 'region' => ['Feld darf nicht leer sein.'],
                 'countryCode' => ['Feld darf nicht leer sein.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+        }
+    }
+
+    public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
+        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        try {
+            $result = $endpoint->call(array_merge(self::VALID_INPUT, ['username' => 'invalid@']));
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }

@@ -50,6 +50,9 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         $last_name = $input['lastName'];
         $username = $input['username'];
         $this->logger->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
+        if (!$this->authUtils->isUsernameAllowed($username)) {
+            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+        }
         if (!$this->authUtils->isPasswordAllowed($input['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }

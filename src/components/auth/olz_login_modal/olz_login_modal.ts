@@ -8,12 +8,12 @@ $(() => {
 });
 
 export function olzLoginModalLogin(): void {
-    const username = String($('#login-username-input').val());
+    const usernameOrEmail = String($('#login-username-input').val());
     const password = String($('#login-password-input').val());
 
     callOlzApi(
         OlzApiEndpoint.login,
-        {username, password},
+        {usernameOrEmail, password},
     )
         .then((response) => {
             if (response.status === 'AUTHENTICATED') {

@@ -63,6 +63,15 @@ class FakeLoginEndpointUserRepository {
             $admin_user->setRoot('karten');
             return $admin_user;
         }
+        if ($where === ['email' => 'vorstand@test.olzimmerberg.ch']) {
+            $vorstand_user = get_fake_user();
+            $vorstand_user->setId(3);
+            $vorstand_user->setUsername('vorstand');
+            $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
+            $vorstand_user->setZugriff('aktuell ftp');
+            $vorstand_user->setRoot('vorstand');
+            return $vorstand_user;
+        }
         return null;
     }
 }
@@ -88,7 +97,7 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'username' => ['Feld darf nicht leer sein.'],
+                'usernameOrEmail' => ['Feld darf nicht leer sein.'],
                 'password' => ['Feld darf nicht leer sein.'],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
@@ -107,7 +116,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call(['username' => 'admin', 'password' => 'adm1n']);
+        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 
         $this->assertSame([
             'status' => 'AUTHENTICATED',
@@ -135,6 +144,47 @@ final class LoginEndpointTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
     }
 
+    public function testLoginEndpointWithCorrectEmailCredentials(): void {
+        $entity_manager = new FakeLoginEndpointEntityManager();
+        $logger = FakeLogger::create();
+        $endpoint = new LoginEndpoint();
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'usernameOrEmail' => 'vorstand@test.olzimmerberg.ch',
+            'password' => 'v0r57and',
+        ]);
+
+        $this->assertSame([
+            'status' => 'AUTHENTICATED',
+        ], $result);
+        $this->assertSame([
+            'auth' => 'aktuell ftp',
+            'root' => 'vorstand',
+            'user' => 'vorstand',
+            'user_id' => 3,
+        ], $session->session_storage);
+        $this->assertSame([
+            [
+                'ip_address' => '1.2.3.4',
+                'action' => 'AUTHENTICATED',
+                'timestamp' => null,
+                'username' => 'vorstand@test.olzimmerberg.ch',
+            ],
+        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO User logged in: vorstand@test.olzimmerberg.ch",
+            "INFO   Auth: aktuell ftp",
+            "INFO   Root: vorstand",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+    }
+
     public function testLoginEndpointWithWrongUsername(): void {
         $entity_manager = new FakeLoginEndpointEntityManager();
         $logger = FakeLogger::create();
@@ -145,7 +195,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call(['username' => 'wrooong', 'password' => 'adm1n']);
+        $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'adm1n']);
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
@@ -176,7 +226,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call(['username' => 'admin', 'password' => 'wrooong']);
+        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'wrooong']);
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
@@ -208,7 +258,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call(['username' => 'admin', 'password' => 'adm1n']);
+        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 
         $this->assertSame([
             'status' => 'BLOCKED',

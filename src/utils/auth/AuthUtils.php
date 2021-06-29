@@ -48,6 +48,10 @@ class AuthUtils {
         return $user_repo->findOneBy(['username' => $auth_username]);
     }
 
+    public function isUsernameAllowed($username) {
+        return preg_match('/^[a-zA-Z0-9-_\\.]+$/', $username) ? true : false;
+    }
+
     public function isPasswordAllowed($password) {
         return strlen($password) >= 8;
     }

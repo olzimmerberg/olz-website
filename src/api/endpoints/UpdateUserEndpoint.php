@@ -7,6 +7,10 @@ require_once __DIR__.'/../../fields/IntegerField.php';
 require_once __DIR__.'/../../fields/StringField.php';
 
 class UpdateUserEndpoint extends Endpoint {
+    public function setAuthUtils($new_auth_utils) {
+        $this->authUtils = $new_auth_utils;
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -52,9 +56,14 @@ class UpdateUserEndpoint extends Endpoint {
             return ['status' => 'ERROR'];
         }
 
+        $new_username = $input['username'];
+        if (!$this->authUtils->isUsernameAllowed($new_username)) {
+            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+        }
+
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
-        $user->setUsername($input['username']);
+        $user->setUsername($new_username);
         $user->setEmail($input['email']);
         $user->setPhone($input['phone']);
         $user->setGender($input['gender']);

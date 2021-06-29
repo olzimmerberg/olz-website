@@ -61,7 +61,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         authenticityCode: string,
     },
     login: {
-        username: string,
+        usernameOrEmail: string,
         password: string,
     },
     logout: {

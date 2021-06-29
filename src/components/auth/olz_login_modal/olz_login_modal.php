@@ -43,7 +43,7 @@ function olz_login_modal($args = []): string {
                             <br />
                         </div>
                         <div class='form-group'>
-                            <label for='login-username-input'>Benutzername</label>
+                            <label for='login-username-input'>Benutzername oder E-Mail</label>
                             <input type='text' class='form-control test-flaky' id='login-username-input' autofocus />
                         </div>
                         <div class='form-group'>

@@ -21,10 +21,12 @@
         disableCodeCoverageIgnore="false"
     >
         <include>
+            <directory suffix=".php">./src/anmelden/endpoints</directory>
             <directory suffix=".php">./src/api</directory>
             <directory suffix=".php">./src/fetchers</directory>
             <directory suffix=".php">./src/fields</directory>
             <!-- <directory suffix=".php">./src/model</directory> -->
+            <directory suffix=".php">./src/news/endpoints</directory>
             <directory suffix=".php">./src/parsers</directory>
             <directory suffix=".php">./src/tasks</directory>
             <directory suffix=".php">./src/utils</directory>

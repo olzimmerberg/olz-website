@@ -52,6 +52,12 @@ class FakeUpdateUserEndpointUserRepository {
     }
 }
 
+class FakeUpdateUserEndpointAuthUtils {
+    public function isUsernameAllowed($username) {
+        return $username !== 'invalid@';
+    }
+}
+
 /**
  * @internal
  * @covers \UpdateUserEndpoint
@@ -62,10 +68,97 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('UpdateUserEndpoint', $endpoint->getIdent());
     }
 
-    public function testUpdateUserEndpoint(): void {
+    public function testUpdateUserEndpointWrongUsername(): void {
         $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $auth_utils = new FakeUpdateUserEndpointAuthUtils();
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'wrong_user',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'id' => 1,
+            'firstName' => 'First',
+            'lastName' => 'Last',
+            'username' => 'test',
+            'email' => 'test@olzimmerberg.ch',
+            'phone' => '+41441234567',
+            'gender' => 'F',
+            'birthdate' => '1992-08-05 12:00:00',
+            'street' => 'Teststrasse 123',
+            'postalCode' => '1234',
+            'city' => 'Muster',
+            'region' => 'ZH',
+            'countryCode' => 'CH',
+        ]);
+
+        $this->assertSame(['status' => 'ERROR'], $result);
+        $this->assertSame([
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'wrong_user',
+        ], $session->session_storage);
+    }
+
+    public function testUpdateUserEndpointInvalidNewUsername(): void {
+        $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $auth_utils = new FakeUpdateUserEndpointAuthUtils();
+        $logger = new Logger('UpdateUserEndpointTest');
+        $endpoint = new UpdateUserEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLogger($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 1,
+                'firstName' => 'First',
+                'lastName' => 'Last',
+                'username' => 'invalid@',
+                'email' => 'test@olzimmerberg.ch',
+                'phone' => '+41441234567',
+                'gender' => 'F',
+                'birthdate' => '1992-08-05 12:00:00',
+                'street' => 'Teststrasse 123',
+                'postalCode' => '1234',
+                'city' => 'Muster',
+                'region' => 'ZH',
+                'countryCode' => 'CH',
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                'auth' => 'ftp',
+                'root' => 'karten',
+                'user' => 'admin',
+            ], $session->session_storage);
+        }
+    }
+
+    public function testUpdateUserEndpoint(): void {
+        $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $auth_utils = new FakeUpdateUserEndpointAuthUtils();
+        $logger = new Logger('UpdateUserEndpointTest');
+        $endpoint = new UpdateUserEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [

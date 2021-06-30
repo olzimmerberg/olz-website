@@ -19,6 +19,7 @@ $http_utils->setLogger($logger);
 // TODO: Remove `just_log` once we are sure we know all the GET variables.
 $http_utils->validateGetParams([
     new IntegerField('id', ['allow_null' => true]),
+    new StringField('code', ['allow_null' => true]),
     new StringField('buttonforum', ['allow_null' => true]),
 ], $_GET, ['just_log' => true]);
 

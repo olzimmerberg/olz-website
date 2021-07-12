@@ -26,3 +26,7 @@ export function deobfuscateUpload(obfuscated: string): string {
     const content = decodeURIComponent(urlEncodedContent);
     return content;
 }
+
+export function assertUnreachable(value: never): never {
+    throw new Error(`Unexpectedly reachable using value: ${value}`);
+}

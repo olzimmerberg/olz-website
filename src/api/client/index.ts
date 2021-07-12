@@ -3,6 +3,11 @@ import {getValidationErrorFromResponseText, mergeValidationErrors, ValidationErr
 
 export {OlzApiEndpoint, OlzApiRequests, OlzApiResponses, ValidationError, RequestFieldId, mergeValidationErrors};
 
+/**
+ * @deprecated Use class `OlzApi` instead. Can be mocked for tests!
+ *
+ * Call the OLZ API.
+ */
 export function callOlzApi<T extends OlzApiEndpoint>(
     endpoint: T,
     request: OlzApiRequests[T],
@@ -42,6 +47,15 @@ export function callOlzApi<T extends OlzApiEndpoint>(
                 },
             );
     });
+}
+
+export class OlzApi {
+    public call<T extends OlzApiEndpoint>(
+        endpoint: T,
+        request: OlzApiRequests[T],
+    ): Promise<OlzApiResponses[T]> {
+        return callOlzApi(endpoint, request);
+    }
 }
 
 export interface OlzApiError<T extends OlzApiEndpoint> {

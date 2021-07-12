@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {obfuscateForUpload, deobfuscateUpload} from '../../../src/utils/generalUtils';
+import {obfuscateForUpload, deobfuscateUpload, assertUnreachable} from '../../../src/utils/generalUtils';
 
 describe('obfuscateForUpload', () => {
     it('for simple string', () => {
@@ -42,3 +42,20 @@ describe('deobfuscate of obfuscate gives back the same result', () => {
     });
 });
 
+describe('assertUnreachable', () => {
+    it('works if it is unreachable', () => {
+        const aimForTheImpossible = () => {
+            const wtf: 'a'|'b' = 'a';
+            if (wtf === 'a' || wtf === 'b') {
+                return;
+            }
+            assertUnreachable(wtf);
+        };
+        expect(aimForTheImpossible()).toEqual(undefined);
+    });
+
+    it('passes weird test, just for coverage', () => {
+        const wtf = 'a' as never;
+        expect(() => assertUnreachable(wtf)).toThrow(Error);
+    });
+});

@@ -3,7 +3,7 @@ import {OlzApiEndpoint, OlzApi} from '../api/client';
 import {assertUnreachable, obfuscateForUpload} from './generalUtils';
 
 const MAX_CONCURRENT_REQUESTS = 5;
-export const MAX_PART_LENGTH = 4096;
+export const MAX_PART_LENGTH = 1024 * 32;
 
 type FileUploadId = string;
 

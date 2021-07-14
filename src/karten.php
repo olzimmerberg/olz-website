@@ -16,11 +16,10 @@ $env_utils = EnvUtils::fromEnv();
 $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
-// TODO: Remove `just_log` once we are sure we know all the GET variables.
 $http_utils->validateGetParams([
     new IntegerField('id', ['allow_null' => true]),
     new StringField('buttonkarten', ['allow_null' => true]),
-], $_GET, ['just_log' => true]);
+], $_GET);
 
 echo olz_header([
     'title' => "Karten",

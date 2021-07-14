@@ -126,7 +126,7 @@ function check_many_warnings($logs_in_last_hour, $logs_in_last_day) {
 
 function check_many_notices($logs_in_last_hour, $logs_in_last_day) {
     $limit_per_hour = 100;
-    $limit_per_day = 500;
+    $limit_per_day = 5000;
 
     $notices_per_hour = count(array_filter($logs_in_last_hour, 'is_notice_line'));
     if ($notices_per_hour > $limit_per_hour) {

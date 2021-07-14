@@ -237,6 +237,7 @@ class OlzApi {
                 $endpoint->setSetupFunction(function ($endpoint) {
                     global $_CONFIG;
                     require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../model/index.php';
                     require_once __DIR__.'/../utils/auth/AuthUtils.php';
                     require_once __DIR__.'/../utils/GeneralUtils.php';
                     $auth_utils = AuthUtils::fromEnv();
@@ -253,6 +254,7 @@ class OlzApi {
                 $endpoint->setSetupFunction(function ($endpoint) {
                     global $_CONFIG;
                     require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../model/index.php';
                     require_once __DIR__.'/../utils/auth/AuthUtils.php';
                     require_once __DIR__.'/../utils/GeneralUtils.php';
                     $auth_utils = AuthUtils::fromEnv();
@@ -269,6 +271,7 @@ class OlzApi {
                 $endpoint->setSetupFunction(function ($endpoint) {
                     global $_CONFIG;
                     require_once __DIR__.'/../config/server.php';
+                    require_once __DIR__.'/../model/index.php';
                     require_once __DIR__.'/../utils/auth/AuthUtils.php';
                     $auth_utils = AuthUtils::fromEnv();
                     $endpoint->setAuthUtils($auth_utils);

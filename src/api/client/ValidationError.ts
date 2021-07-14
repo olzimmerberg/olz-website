@@ -38,7 +38,12 @@ export function getValidationErrorFromResponseText<T extends OlzApiEndpoint>(
     if (!responseText) {
         return undefined;
     }
-    const structuredError = JSON.parse(responseText);
+    let structuredError;
+    try {
+        structuredError = JSON.parse(responseText);
+    } catch (e: unknown) {
+        return undefined;
+    }
     if (structuredError?.error?.type !== 'ValidationError') {
         return undefined;
     }

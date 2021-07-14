@@ -2,7 +2,7 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import {OlzApi, OlzApiEndpoint, OlzApiResponses} from '../../../src/api/client/index';
-import {TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../src/utils/Uploader';
+import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../src/utils/Uploader';
 import {FakeOlzApi} from '../../fake/FakeOlzApi';
 
 class UploaderForUnitTest extends Uploader {
@@ -36,7 +36,7 @@ class UploaderForUnitTest extends Uploader {
 const NEW_UPLOAD = {
     uploadId: 'default-id',
     filename: 'default.txt',
-    base64Content: 'a'.repeat(512 + 512 + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
         {status: TestOnlyFileUploadPartStatus.READY},
         {status: TestOnlyFileUploadPartStatus.READY},
@@ -48,7 +48,7 @@ const NEW_UPLOAD = {
 const DEFAULT_UPLOAD = {
     uploadId: 'default-id',
     filename: 'default.txt',
-    base64Content: 'a'.repeat(512 + 512 + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
         {status: TestOnlyFileUploadPartStatus.DONE},
         {status: TestOnlyFileUploadPartStatus.UPLOADING},
@@ -60,7 +60,7 @@ const DEFAULT_UPLOAD = {
 const UPLOADED_UPLOAD = {
     uploadId: 'uploaded-id',
     filename: 'uploaded.txt',
-    base64Content: 'a'.repeat(512 + 512 + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
         {status: TestOnlyFileUploadPartStatus.DONE},
         {status: TestOnlyFileUploadPartStatus.DONE},
@@ -72,7 +72,7 @@ const UPLOADED_UPLOAD = {
 const FINISHING_UPLOAD = {
     uploadId: 'finishing-id',
     filename: 'finishing.txt',
-    base64Content: 'a'.repeat(512 + 512 + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
         {status: TestOnlyFileUploadPartStatus.DONE},
         {status: TestOnlyFileUploadPartStatus.DONE},
@@ -84,7 +84,7 @@ const FINISHING_UPLOAD = {
 const FINISHED_UPLOAD = {
     uploadId: 'finished-id',
     filename: 'finished.txt',
-    base64Content: 'a'.repeat(512 + 512 + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
         {status: TestOnlyFileUploadPartStatus.DONE},
         {status: TestOnlyFileUploadPartStatus.DONE},
@@ -115,7 +115,7 @@ describe('Uploader', () => {
             uploader.setOlzApi(fakeOlzApi);
 
             // Start request
-            const promise = uploader.add('a'.repeat(512 + 512 + 32), 'add.txt');
+            const promise = uploader.add('a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32), 'add.txt');
 
             expect(uploader.getUploadQueue()).toEqual([]);
 
@@ -125,7 +125,7 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
                 filename: 'add.txt',
-                base64Content: 'a'.repeat(512 + 512 + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.READY},
                     {status: TestOnlyFileUploadPartStatus.READY},
@@ -140,7 +140,7 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
                 filename: 'add.txt',
-                base64Content: 'a'.repeat(512 + 512 + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.UPLOADING},
                     {status: TestOnlyFileUploadPartStatus.UPLOADING},
@@ -155,7 +155,7 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
                 filename: 'add.txt',
-                base64Content: 'a'.repeat(512 + 512 + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},
                     {status: TestOnlyFileUploadPartStatus.DONE},
@@ -170,7 +170,7 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
                 filename: 'add.txt',
-                base64Content: 'a'.repeat(512 + 512 + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},
                     {status: TestOnlyFileUploadPartStatus.DONE},
@@ -185,7 +185,7 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
                 filename: 'add.txt',
-                base64Content: 'a'.repeat(512 + 512 + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},
                     {status: TestOnlyFileUploadPartStatus.DONE},
@@ -209,7 +209,8 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [],
                 numberOfRunningRequests: 0,
-                uploads: [],
+                uploadIds: [],
+                uploadsById: {},
             });
         });
 
@@ -241,12 +242,13 @@ describe('Uploader', () => {
                     },
                 ],
                 numberOfRunningRequests: 0,
-                uploads: [
-                    {
+                uploadIds: ['default-id'],
+                uploadsById: {
+                    'default-id': {
                         progress: 0,
-                        size: 512 + 512 + 32,
+                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
                     },
-                ],
+                },
             });
         });
 
@@ -266,12 +268,13 @@ describe('Uploader', () => {
                     },
                 ],
                 numberOfRunningRequests: 1,
-                uploads: [
-                    {
+                uploadIds: ['default-id'],
+                uploadsById: {
+                    'default-id': {
                         progress: 0.375,
-                        size: 512 + 512 + 32,
+                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
                     },
-                ],
+                },
             });
         });
 
@@ -290,12 +293,13 @@ describe('Uploader', () => {
                     },
                 ],
                 numberOfRunningRequests: 0,
-                uploads: [
-                    {
+                uploadIds: ['uploaded-id'],
+                uploadsById: {
+                    'uploaded-id': {
                         progress: 0.75,
-                        size: 512 + 512 + 32,
+                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
                     },
-                ],
+                },
             });
         });
 
@@ -308,12 +312,13 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [],
                 numberOfRunningRequests: 1,
-                uploads: [
-                    {
+                uploadIds: ['finishing-id'],
+                uploadsById: {
+                    'finishing-id': {
                         progress: 0.75,
-                        size: 512 + 512 + 32,
+                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
                     },
-                ],
+                },
             });
         });
 
@@ -326,12 +331,13 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [],
                 numberOfRunningRequests: 0,
-                uploads: [
-                    {
+                uploadIds: ['finished-id'],
+                uploadsById: {
+                    'finished-id': {
                         progress: 0.75,
-                        size: 512 + 512 + 32,
+                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
                     },
-                ],
+                },
             });
         });
 
@@ -354,12 +360,13 @@ describe('Uploader', () => {
                     },
                 ],
                 numberOfRunningRequests: 0,
-                uploads: [
-                    {
+                uploadIds: ['default-id'],
+                uploadsById: {
+                    'default-id': {
                         progress: 0,
                         size: 0,
                     },
-                ],
+                },
             });
         });
     });

@@ -3,7 +3,7 @@ import {OlzApiEndpoint, OlzApi} from '../api/client';
 import {assertUnreachable, obfuscateForUpload} from './generalUtils';
 
 const MAX_CONCURRENT_REQUESTS = 5;
-const MAX_PART_LENGTH = 512;
+export const MAX_PART_LENGTH = 4096;
 
 type FileUploadId = string;
 
@@ -33,7 +33,8 @@ enum FileUploadPartStatus {
 
 interface UploaderState {
     numberOfRunningRequests: number;
-    uploads: UploadState[];
+    uploadIds: FileUploadId[];
+    uploadsById: {[uploadId: string]: UploadState};
     nextRequests: UploadRequest[];
 }
 
@@ -149,7 +150,8 @@ export class Uploader {
 
     public getState(): UploaderState {
         let numberOfRunningRequests = 0;
-        const uploads: UploadState[] = [];
+        const uploadIds: FileUploadId[] = [];
+        const uploadsById: {[uploadId: string]: UploadState} = {};
         const nextRequests: UploadRequest[] = [];
         for (let uploadIndex = 0; uploadIndex < this.uploadQueue.length; uploadIndex++) {
             const uploadAtIndex = this.uploadQueue[uploadIndex];
@@ -195,14 +197,16 @@ export class Uploader {
                     numberOfParts: numParts,
                 });
             }
-            uploads.push({
+            uploadIds.push(uploadAtIndex.uploadId);
+            uploadsById[uploadAtIndex.uploadId] = {
                 progress: numDoneParts / (numParts + 1),
                 size: uploadAtIndex.base64Content.length,
-            });
+            };
         }
         return {
             numberOfRunningRequests,
-            uploads,
+            uploadIds,
+            uploadsById,
             nextRequests,
         };
     }

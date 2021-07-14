@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 
 export const OlzEditNewsView = () => {
-    return (<div>OlzEditNewsView</div>);
+    return (
+        <div>
+            <OlzMultiFileUploader />
+        </div>
+    );
 };
 
 export function initOlzEditNewsView() {

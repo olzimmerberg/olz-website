@@ -17,10 +17,9 @@ $env_utils = EnvUtils::fromEnv();
 $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
-// TODO: Remove `just_log` once we are sure we know all the GET variables.
 $http_utils->validateGetParams([
     new StringField('abteilung', ['allow_null' => true]),
-], $_GET, ['just_log' => true]);
+], $_GET);
 
 if (isset($_GET['abteilung'])) {
     $role_username = $_GET['abteilung'];

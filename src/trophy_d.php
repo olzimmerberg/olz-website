@@ -56,7 +56,7 @@ $etappen = [
         "Kostenpflichtige Parkplätze vorhanden",
         "Keine, im Freien; WC vorhanden (?)",
         false,
-        "<div style='color:red;'>A <i>(schwierig, 6.5km)</i></div><div style='color:red;'>B <i>(mittel-schwer, 5.0km)</i></div><div style='color:blue;'>C <i>(mittel-einfach, 4.0km)</i></div><div style='color:green;'>D <i>(einfach, 2.5km)</i></div>",
+        "<div style='color:red;'>A <i>(schwierig, ~5km)</i></div><div style='color:red;'>B <i>(mittel-schwer, ~4km)</i></div><div style='color:blue;'>C <i>(mittel-einfach, ~3km)</i></div><div style='color:green;'>D <i>(einfach, ~2km)</i></div>",
         "gratis",
         "2021-trophy-thalwil",
         5953,

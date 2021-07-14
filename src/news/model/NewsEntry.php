@@ -42,7 +42,7 @@ class NewsEntry extends OlzEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
-    // TODO: Rename to `text`
+    // TODO: Rename to `content`
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -154,6 +154,22 @@ class NewsEntry extends OlzEntity {
         $this->autor = $new_autor;
     }
 
+    public function getAuthorUser() {
+        return $this->author_user;
+    }
+
+    public function setAuthorUser($new_author_user) {
+        $this->author_user = $new_author_user;
+    }
+
+    public function getAuthorRole() {
+        return $this->author_role;
+    }
+
+    public function setAuthorRole($new_author_role) {
+        $this->author_role = $new_author_role;
+    }
+
     public function getTeaser() {
         return $this->text;
     }
@@ -170,11 +186,27 @@ class NewsEntry extends OlzEntity {
         $this->textlang = $new_textlang;
     }
 
-    public function getOnOff() {
-        return $this->on_off;
+    public function getTags() {
+        return $this->tags;
     }
 
-    public function setOnOff($new_on_off) {
-        $this->on_off = $new_on_off;
+    public function setTags($new_tags) {
+        $this->tags = $new_tags;
+    }
+
+    public function getExternalUrl() {
+        return $this->link;
+    }
+
+    public function setExternalUrl($new_external_url) {
+        $this->link = $new_external_url;
+    }
+
+    public function getTermin() {
+        return $this->termin;
+    }
+
+    public function setTermin($new_termin) {
+        $this->termin = $new_termin;
     }
 }

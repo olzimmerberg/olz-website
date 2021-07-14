@@ -11,7 +11,7 @@ Mithilfe des [APIs](../api/README.md) soll hier eine neue Version für Berichte/
 - `author_role` (optional): Die Benutzerrolle, die als Urheber angezeigt werden soll (z.B. "Vorstand" oder "Trainings")
 - `title`: Titel des Eintrags
 - `teaser` (optional): Teaser (Kurztext) des Eintrags. Falls kein Teaser vorhanden ist, wird `text` automatisch zugeschnitten, um einen Teaser zu generieren.
-- `text`: Inhalt des Eintrags
+- `content`: Inhalt des Eintrags
 - `external_url`: Falls dies ein Eintrag ist, der ursprünglich auf einer anderen Website publiziert wurde, ist dies die URL, die auf den Original-Eintrag verlinkt.
 - `tags`: Tags für diesen Eintrag (z.B.: "Bericht", "Forum", "Ausblick")
 - `created_at`: Erstellungsdatum

@@ -62,8 +62,24 @@ class Role {
         return $this->id;
     }
 
+    public function setId($new_id) {
+        $this->id = $new_id;
+    }
+
     public function getUsername() {
         return $this->username;
+    }
+
+    public function setUsername($new_username) {
+        $this->username = $new_username;
+    }
+
+    public function getOldUsername() {
+        return $this->old_username;
+    }
+
+    public function setOldUsername($new_old_username) {
+        $this->old_username = $new_old_username;
     }
 
     public function getName() {

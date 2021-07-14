@@ -6,6 +6,7 @@ export enum OlzApiEndpoint {
     createRegistrationForm = 'createRegistrationForm',
     getManagedUsers = 'getManagedUsers',
     getRegistrationForm = 'getRegistrationForm',
+    createNews = 'createNews',
     onDaily = 'onDaily',
     onContinuously = 'onContinuously',
     login = 'login',
@@ -53,6 +54,22 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getRegistrationForm: {
         registrationForm: number,
         user: number,
+    },
+    createNews: {
+        ownerUserId: number|null,
+        ownerRoleId: number|null,
+        author: string|null,
+        authorUserId: number|null,
+        authorRoleId: number|null,
+        title: string,
+        teaser: string,
+        content: string,
+        external_url: string|null,
+        tags: Array<string>,
+        terminId: number|null,
+        onOff: boolean,
+        imageIds: Array<string>,
+        fileIds: Array<string>,
     },
     onDaily: {
         authenticityCode: string,
@@ -199,6 +216,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         ownerUser: number,
         ownerRole: number,
         prefillValues: {[key: string]: any}|null,
+    },
+    createNews: {
+        status: 'OK'|'ERROR',
+        newsId: number|null,
     },
     onDaily: {
     },

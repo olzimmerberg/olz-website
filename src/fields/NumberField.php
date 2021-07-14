@@ -26,15 +26,15 @@ class NumberField extends Field {
             if (!is_numeric($value)) {
                 $validation_errors[] = "Wert muss eine Zahl sein.";
             }
-        }
-        if ($this->min_value !== null) {
-            if ($value < $this->min_value) {
-                $validation_errors[] = "Wert darf nicht kleiner als {$this->min_value} sein.";
+            if ($this->min_value !== null) {
+                if ($value < $this->min_value) {
+                    $validation_errors[] = "Wert darf nicht kleiner als {$this->min_value} sein.";
+                }
             }
-        }
-        if ($this->max_value !== null) {
-            if ($value > $this->max_value) {
-                $validation_errors[] = "Wert darf nicht grösser als {$this->max_value} sein.";
+            if ($this->max_value !== null) {
+                if ($value > $this->max_value) {
+                    $validation_errors[] = "Wert darf nicht grösser als {$this->max_value} sein.";
+                }
             }
         }
         return $validation_errors;

@@ -7,6 +7,7 @@ use PhpImap\Exceptions\ConnectionException;
 
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
+require_once __DIR__.'/../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../fake/FakeUserRepository.php';
@@ -16,18 +17,6 @@ require_once __DIR__.'/../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../src/tasks/ProcessEmailTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
-
-class FakeProcessEmailTaskAuthUtils {
-    public function hasPermission($permission, $user) {
-        if ($permission !== 'email') {
-            throw new Exception("Expected 'email' permission request, not '{$permission}'");
-        }
-        if ($user->getUsername() === 'no-permission') {
-            return false;
-        }
-        return true;
-    }
-}
 
 class FakeProcessEmailTaskEmailUtils {
     use Psr\Log\LoggerAwareTrait;
@@ -128,7 +117,7 @@ class FakeProcessEmailTaskLogsUtils {
 final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithImapError(): void {
         $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->connection_exception = true;
@@ -152,7 +141,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
 
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
         $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
@@ -180,7 +169,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
@@ -207,7 +196,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
@@ -234,7 +223,8 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query['email'] = true;
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
@@ -269,7 +259,8 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
-        $auth_utils = new FakeProcessEmailTaskAuthUtils();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query['email'] = true;
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [

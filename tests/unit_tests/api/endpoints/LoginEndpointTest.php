@@ -9,28 +9,12 @@ require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeLoginEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
+class FakeLoginEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'AuthRequest' => new FakeLoginEndpointAuthRequestRepository(),
             'User' => new FakeLoginEndpointUserRepository(),
         ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
     }
 }
 

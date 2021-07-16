@@ -6,6 +6,7 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LoginWithStravaEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
@@ -13,29 +14,13 @@ require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeLoginWithStravaEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
+class FakeLoginWithStravaEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'AuthRequest' => new FakeLoginWithStravaEndpointAuthRequestRepository(),
             'StravaLink' => new FakeLoginWithStravaEndpointStravaLinkRepository(),
             'User' => new FakeLoginWithStravaEndpointUserRepository(),
         ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
     }
 }
 

@@ -3,15 +3,8 @@
 declare(strict_types=1);
 
 require_once __DIR__.'/../../../../src/utils/auth/AuthUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeAuthUtilsEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeAuthUtilsUserRepository {
     public function findOneBy($where) {
@@ -40,7 +33,7 @@ class FakeAuthUtilsUserRepository {
  */
 final class AuthUtilsTest extends UnitTestCase {
     public function testHasPermissionNoUser(): void {
-        $entity_manager = new FakeAuthUtilsEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeAuthUtilsUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
@@ -57,7 +50,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithNoPermission(): void {
-        $entity_manager = new FakeAuthUtilsEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeAuthUtilsUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
@@ -74,7 +67,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithSpecificPermission(): void {
-        $entity_manager = new FakeAuthUtilsEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeAuthUtilsUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
@@ -91,7 +84,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithAllPermissions(): void {
-        $entity_manager = new FakeAuthUtilsEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeAuthUtilsUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();

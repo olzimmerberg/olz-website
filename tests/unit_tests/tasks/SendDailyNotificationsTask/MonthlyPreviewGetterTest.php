@@ -10,15 +10,8 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeMonthlyPreviewGetterEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeMonthlyPreviewGetterSolvEventRepository {
     public function matching($criteria) {
@@ -79,7 +72,7 @@ class FakeMonthlyPreviewGetterEnvUtils {
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
         $logger = new Logger('MonthlyPreviewGetterTest');
 
@@ -93,7 +86,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
-        $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
         $logger = new Logger('MonthlyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -108,7 +101,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
-        $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
         $logger = new Logger('MonthlyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -123,7 +116,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetter(): void {
-        $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
@@ -165,7 +158,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyMonthlyPreviewGetter(): void {
-        $entity_manager = new FakeMonthlyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();

@@ -12,15 +12,8 @@ require_once __DIR__.'/../../../../src/model/Galerie.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeDailySummaryGetterEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeDailySummaryGetterNewsRepository {
     public function matching($criteria) {
@@ -100,7 +93,7 @@ class FakeDailySummaryGetterEnvUtils {
  */
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
-        $entity_manager = new FakeDailySummaryGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $news_repo = new FakeDailySummaryGetterNewsRepository();
         $blog_repo = new FakeDailySummaryGetterBlogRepository();
         $galerie_repo = new FakeDailySummaryGetterGalerieRepository();
@@ -164,7 +157,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
     }
 
     public function testDailySummaryGetterWithNoContent(): void {
-        $entity_manager = new FakeDailySummaryGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
         $env_utils = new FakeDailySummaryGetterEnvUtils();
         $logger = new Logger('DailySummaryGetterTest');

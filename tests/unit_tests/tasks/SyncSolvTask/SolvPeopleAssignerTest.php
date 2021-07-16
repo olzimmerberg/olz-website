@@ -6,38 +6,17 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../fake/fake_solv_result.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/SolvPerson.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvPeopleAssigner.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeSolvPeopleAssignerEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
+class FakeSolvPeopleAssignerEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'SolvResult' => new FakeSolvPeopleAssignerSolvResultRepository(),
         ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        if ($object instanceof SolvPerson) {
-            // Simulate SQL auto-increment.
-            if ($object->getId() === null) {
-                $object->setId(3);
-            }
-        }
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
     }
 }
 
@@ -295,11 +274,11 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
         $typo_result = $solv_result_repo->typoResult;
         $this->assertSame(1, $typo_result->getPerson());
 
-        $flushed = $entity_manager->flushed;
+        $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(1, count($flushed));
         $this->assertSame('Test Winner', $flushed[0]->getName());
         $this->assertSame(null, $flushed[0]->getSameAs());
         $different_result = $solv_result_repo->differentResult;
-        $this->assertSame(3, $different_result->getPerson());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $different_result->getPerson());
     }
 }

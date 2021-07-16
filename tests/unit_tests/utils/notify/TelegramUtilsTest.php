@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/TelegramUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $iso_now = '2020-03-13 19:30:00';
@@ -19,28 +20,11 @@ $generated_pin_2 = '00000002';
 // The $generated_pin_2 expiration has been updated, now the first available PIN is this.
 $generated_pin_3 = '00000003';
 
-class FakeTelegramUtilsEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
+class FakeTelegramUtilsEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'TelegramLink' => new FakeTelegramUtilsTelegramLinkRepository(),
-            // 'User' => new FakeTelegramUtilsUserRepository(),
         ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
     }
 }
 

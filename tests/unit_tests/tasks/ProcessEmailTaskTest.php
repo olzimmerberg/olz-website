@@ -5,9 +5,10 @@ declare(strict_types=1);
 use Monolog\Logger;
 use PhpImap\Exceptions\ConnectionException;
 
-require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
+require_once __DIR__.'/../../fake/FakeLogger.php';
+require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
@@ -21,14 +22,6 @@ $fake_process_email_task_user->setUsername('someone');
 $fake_process_email_task_user->setFirstName('First');
 $fake_process_email_task_user->setLastName('User');
 $fake_process_email_task_user->setEmail('someone@gmail.com');
-
-class FakeProcessEmailTaskEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeProcessEmailTaskUserRepository {
     public function findFuzzilyByUsername($username) {
@@ -155,7 +148,7 @@ class FakeProcessEmailTaskLogsUtils {
  */
 final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithImapError(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
@@ -179,7 +172,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
@@ -205,7 +198,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskNoSuchUser(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeProcessEmailTaskUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
@@ -232,7 +225,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskNoEmailPermission(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeProcessEmailTaskUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
@@ -259,7 +252,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTask(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeProcessEmailTaskUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
@@ -295,7 +288,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskSendingError(): void {
-        $entity_manager = new FakeProcessEmailTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeProcessEmailTaskUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();

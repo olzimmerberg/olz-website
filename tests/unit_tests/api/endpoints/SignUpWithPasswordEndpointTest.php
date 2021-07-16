@@ -6,36 +6,13 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithPasswordEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeSignUpWithPasswordEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    public $repositories = [];
-
-    public function __construct() {
-        $this->repositories = [
-            'AuthRequest' => new FakeSignUpWithPasswordEndpointAuthRequestRepository(),
-        ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
-    }
-}
 
 class FakeSignUpWithPasswordEndpointUserRepository {
     public $userToBeFound;
@@ -98,7 +75,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutInput(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -123,7 +100,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
         $endpoint = new SignUpWithPasswordEndpoint();
@@ -145,7 +122,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
         $endpoint = new SignUpWithPasswordEndpoint();
@@ -167,7 +144,9 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForNewUser(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
         $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
@@ -189,7 +168,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth' => '',
             'root' => null,
             'user' => 'fakeUsername',
-            'user_id' => null,
+            'user_id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [
@@ -202,7 +181,9 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithoutPassword(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
         $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
@@ -240,7 +221,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithPassword(): void {
-        $entity_manager = new FakeSignUpWithPasswordEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);

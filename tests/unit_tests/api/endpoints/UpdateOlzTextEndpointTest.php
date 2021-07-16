@@ -9,6 +9,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/OlzText.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUpdateOlzTextEndpointAuthUtils {
@@ -16,31 +17,6 @@ class FakeUpdateOlzTextEndpointAuthUtils {
 
     public function hasPermission($query) {
         return $this->has_permission;
-    }
-}
-
-class FakeUpdateOlzTextEndpointEntityManager {
-    public $persisted = [];
-    public $removed = [];
-    public $flushed_persisted = [];
-    public $flushed_removed = [];
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function remove($object) {
-        $this->removed[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed_persisted = $this->persisted;
-        $this->flushed_removed = $this->removed;
     }
 }
 
@@ -96,7 +72,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     public function testUpdateOlzTextEndpointNoAccess(): void {
         $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
         $auth_utils->has_permission = false;
-        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
@@ -116,7 +92,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     public function testUpdateOlzTextEndpointNoEntry(): void {
         $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
         $auth_utils->has_permission = true;
-        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
@@ -142,7 +118,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     public function testUpdateOlzTextEndpoint(): void {
         $auth_utils = new FakeUpdateOlzTextEndpointAuthUtils();
         $auth_utils->has_permission = true;
-        $entity_manager = new FakeUpdateOlzTextEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUpdateOlzTextEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();

@@ -5,33 +5,10 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvResultsSyncer.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeSolvResultsSyncerEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
-    public function __construct() {
-        $this->repositories = [
-            'SolvEvent' => new FakeSolvResultsSyncerSolvEventRepository(),
-        ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
-    }
-}
 
 class FakeSolvResultsSyncerSolvEventRepository {
     public function __construct() {
@@ -186,7 +163,9 @@ class FakeSolvResultsSyncerSolvFetcher {
  */
 final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {
-        $entity_manager = new FakeSolvResultsSyncerEntityManager();
+        $entity_manager = new FakeEntityManager();
+        $solv_event_repo = new FakeSolvResultsSyncerSolvEventRepository();
+        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $solv_fetcher = new FakeSolvResultsSyncerSolvFetcher();
         $logger = new Logger('SolvResultsSyncerTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -195,7 +174,7 @@ final class SolvResultsSyncerTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->syncSolvResultsForYear('2020');
 
-        $flushed = $entity_manager->flushed;
+        $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(3, count($flushed));
 
         $solv_event_repo = $entity_manager->getRepository('SolvEvent');

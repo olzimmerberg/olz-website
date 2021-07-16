@@ -10,15 +10,8 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeDeadlineWarningGetterEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeDeadlineWarningGetterSolvEventRepository {
     public $has_no_deadlines = false;
@@ -77,7 +70,7 @@ class FakeDeadlineWarningGetterEnvUtils {
  */
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
-        $entity_manager = new FakeDeadlineWarningGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('DeadlineWarningGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -92,7 +85,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetterWhenThereIsNoDeadline(): void {
-        $entity_manager = new FakeDeadlineWarningGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $solv_event_repo->has_no_deadlines = true;
@@ -116,7 +109,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetter(): void {
-        $entity_manager = new FakeDeadlineWarningGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;

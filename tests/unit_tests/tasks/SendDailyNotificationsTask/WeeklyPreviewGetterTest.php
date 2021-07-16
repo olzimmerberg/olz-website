@@ -9,15 +9,8 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeWeeklyPreviewGetterEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeWeeklyPreviewGetterSolvEventRepository {
     public function matching($criteria) {
@@ -78,7 +71,7 @@ class FakeWeeklyPreviewGetterEnvUtils {
  */
 final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new FakeWeeklyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
         $logger = new Logger('WeeklyPreviewGetterTest');
 
@@ -92,7 +85,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testWeeklyPreviewGetter(): void {
-        $entity_manager = new FakeWeeklyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories['Termin'] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
@@ -134,7 +127,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyWeeklyPreviewGetter(): void {
-        $entity_manager = new FakeWeeklyPreviewGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories['Termin'] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();

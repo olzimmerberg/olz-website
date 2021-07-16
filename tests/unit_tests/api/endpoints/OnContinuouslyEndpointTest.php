@@ -31,24 +31,6 @@ class FakeOnContinuouslyEndpointEnvUtils {
     }
 }
 
-class FakeOnContinuouslyEndpointEntityManager {
-    public $removed = [];
-    public $flushed = [];
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function remove($object) {
-        $this->removed[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->removed;
-    }
-}
-
 class FakeOnContinuouslyEndpointThrottlingRepository {
     public $last_daily_notifications = '2020-03-12 19:30:00';
     public $num_occurrences_recorded = 0;
@@ -117,7 +99,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
-        $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
         $entity_manager->repositories['Throttling'] = $throttling_repo;
@@ -142,7 +124,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
-        $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $throttling_repo->last_daily_notifications = null;
         $entity_manager->repositories['Throttling'] = $throttling_repo;
@@ -168,7 +150,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
-        $entity_manager = new FakeOnContinuouslyEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);

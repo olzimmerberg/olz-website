@@ -5,33 +5,10 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/tasks/SyncSolvTask/SolvEventsSyncer.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeSolvEventsSyncerEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
-    public function __construct() {
-        $this->repositories = [
-            'SolvEvent' => new FakeSolvEventsSyncerSolvEventRepository(),
-        ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
-    }
-}
 
 class FakeSolvEventsSyncerSolvEventRepository {
     public function __construct() {
@@ -87,7 +64,9 @@ class FakeSolvEventsSyncerSolvFetcher {
  */
 final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {
-        $entity_manager = new FakeSolvEventsSyncerEntityManager();
+        $entity_manager = new FakeEntityManager();
+        $solv_event_repo = new FakeSolvEventsSyncerSolvEventRepository();
+        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();
         $logger = new Logger('SolvEventsSyncerTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -96,7 +75,7 @@ final class SolvEventsSyncerTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->syncSolvEventsForYear('2020');
 
-        $flushed = $entity_manager->flushed;
+        $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(1, count($flushed));
         $this->assertSame('20201', $flushed[0]->getSolvUid());
         $this->assertSame('Inserted Event', $flushed[0]->getName());

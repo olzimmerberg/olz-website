@@ -7,25 +7,8 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeCreateNewsEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
-    }
-}
 
 class FakeCreateNewsEndpointUserRepository {
     public function __construct() {
@@ -116,7 +99,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpoint(): void {
-        $entity_manager = new FakeCreateNewsEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $user_repo = new FakeCreateNewsEndpointUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $role_repo = new FakeCreateNewsEndpointRoleRepository();
@@ -146,12 +129,15 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'fileIds' => [],
         ]);
 
-        $this->assertSame(['status' => 'OK', 'newsId' => null], $result);
+        $this->assertSame([
+            'status' => 'OK',
+            'newsId' => FakeEntityManager::AUTO_INCREMENT_ID,
+        ], $result);
         $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed));
-        $this->assertSame($entity_manager->persisted, $entity_manager->flushed);
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(null, $news_entry->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame($user_repo->admin_user, $news_entry->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getOwnerRole());
         $this->assertSame('t.u.', $news_entry->getAuthor());

@@ -9,15 +9,8 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklySummaryGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeWeeklySummaryGetterEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeWeeklySummaryGetterNewsRepository {
     public function matching($criteria) {
@@ -97,7 +90,7 @@ class FakeWeeklySummaryGetterEnvUtils {
  */
 final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
-        $entity_manager = new FakeWeeklySummaryGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
         $logger = new Logger('WeeklySummaryGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -119,7 +112,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithAllContent(): void {
-        $entity_manager = new FakeWeeklySummaryGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $news_repo = new FakeWeeklySummaryGetterNewsRepository();
         $blog_repo = new FakeWeeklySummaryGetterBlogRepository();
         $galerie_repo = new FakeWeeklySummaryGetterGalerieRepository();
@@ -183,7 +176,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithNoContent(): void {
-        $entity_manager = new FakeWeeklySummaryGetterEntityManager();
+        $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
         $env_utils = new FakeWeeklySummaryGetterEnvUtils();
         $logger = new Logger('WeeklySummaryGetterTest');

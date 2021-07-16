@@ -5,34 +5,11 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LinkTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeLinkTelegramEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
-    public function __construct() {
-        $this->repositories = [
-            'User' => new FakeLinkTelegramEndpointUserRepository(),
-        ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
-    }
-}
 
 class FakeLinkTelegramEndpointUserRepository {
     public function findOneBy($where) {
@@ -65,7 +42,9 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testLinkTelegramEndpoint(): void {
-        $entity_manager = new FakeLinkTelegramEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
+        $user_repo = new FakeLinkTelegramEndpointUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
         $telegram_utils = new FakeLinkTelegramEndpointTelegramUtils();
         $logger = new Logger('LinkTelegramEndpointTest');
         $endpoint = new LinkTelegramEndpoint();

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
+require_once __DIR__.'/../../fake/FakeLogger.php';
+require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
@@ -29,14 +30,6 @@ $user_provoke_error = get_fake_user();
 $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
 $user_provoke_error->setLastName('Error');
-
-class FakeSendDailyNotificationsTaskEntityManager {
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-}
 
 class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
     public function findBy($where) {
@@ -341,7 +334,7 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
  */
 final class SendDailyNotificationsTaskTest extends UnitTestCase {
     public function testSendDailyNotificationsTask(): void {
-        $entity_manager = new FakeSendDailyNotificationsTaskEntityManager();
+        $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();

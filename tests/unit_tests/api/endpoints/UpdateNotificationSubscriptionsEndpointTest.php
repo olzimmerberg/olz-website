@@ -8,32 +8,8 @@ require_once __DIR__.'/../../../../src/api/endpoints/UpdateNotificationSubscript
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeNotificationSubscriptionsEndpointEntityManager {
-    public $persisted = [];
-    public $removed = [];
-    public $flushed_persisted = [];
-    public $flushed_removed = [];
-    public $repositories = [];
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function remove($object) {
-        $this->removed[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed_persisted = $this->persisted;
-        $this->flushed_removed = $this->removed;
-    }
-}
 
 class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
     public function findBy($where) {
@@ -78,7 +54,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpoint(): void {
-        $entity_manager = new FakeNotificationSubscriptionsEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $user_repo = new FakeNotificationSubscriptionsEndpointUserRepository();

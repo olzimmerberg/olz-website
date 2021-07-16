@@ -7,29 +7,14 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserPasswordEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeUserPasswordEndpointEndpointEntityManager {
-    public $persisted = [];
-    public $flushed = [];
-    private $repositories = [];
-
+class FakeUserPasswordEndpointEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'User' => new FakeUserPasswordEndpointUserRepository(),
         ];
-    }
-
-    public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
-    }
-
-    public function persist($object) {
-        $this->persisted[] = $object;
-    }
-
-    public function flush() {
-        $this->flushed = $this->persisted;
     }
 }
 

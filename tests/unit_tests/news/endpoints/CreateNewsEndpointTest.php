@@ -6,6 +6,7 @@ require_once __DIR__.'/../../../../src/news/endpoints/CreateNewsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
@@ -26,22 +27,6 @@ class FakeCreateNewsEndpointRoleRepository {
     }
 }
 
-class FakeCreateNewsEndpointAuthUtils {
-    public $has_permission_by_query = [];
-
-    public function hasPermission($query) {
-        $has_permission = $this->has_permission_by_query[$query] ?? null;
-        if ($has_permission === null) {
-            throw new Exception("hasPermission has not been mocked for {$query}");
-        }
-        return $has_permission;
-    }
-
-    public function getSessionUser() {
-        return get_fake_user();
-    }
-}
-
 /**
  * @internal
  * @covers \CreateNewsEndpoint
@@ -53,7 +38,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointNoAccess(): void {
-        $auth_utils = new FakeCreateNewsEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => false];
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
@@ -86,7 +71,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $role_repo = new FakeCreateNewsEndpointRoleRepository();
         $entity_manager->repositories['Role'] = $role_repo;
-        $auth_utils = new FakeCreateNewsEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();

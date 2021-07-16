@@ -5,20 +5,9 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/api/endpoints/FinishUploadEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
+require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeFinishUploadEndpointAuthUtils {
-    public $has_permission_by_query = [];
-
-    public function hasPermission($query) {
-        $has_permission = $this->has_permission_by_query[$query] ?? null;
-        if ($has_permission === null) {
-            throw new Exception("hasPermission has not been mocked for {$query}");
-        }
-        return $has_permission;
-    }
-}
 
 class FakeFinishUploadEndpointEnvUtils {
     public function getDataPath() {
@@ -50,7 +39,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointUnauthorized(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
         $logger = FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
@@ -70,7 +59,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointInvalidId(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeFinishUploadEndpointEnvUtils();
         $logger = FakeLogger::create();
@@ -96,7 +85,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointMissingFirstPart(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeFinishUploadEndpointEnvUtils();
         $logger = FakeLogger::create();
@@ -124,7 +113,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointNoBase64(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeFinishUploadEndpointEnvUtils();
         $logger = FakeLogger::create();
@@ -153,7 +142,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointMissingOtherParts(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeFinishUploadEndpointEnvUtils();
         $logger = FakeLogger::create();
@@ -184,7 +173,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpoint(): void {
-        $auth_utils = new FakeFinishUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeFinishUploadEndpointEnvUtils();
         $logger = FakeLogger::create();

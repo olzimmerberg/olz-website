@@ -5,20 +5,9 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUploadEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
+require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeUpdateUploadEndpointAuthUtils {
-    public $has_permission_by_query = [];
-
-    public function hasPermission($query) {
-        $has_permission = $this->has_permission_by_query[$query] ?? null;
-        if ($has_permission === null) {
-            throw new Exception("hasPermission has not been mocked for {$query}");
-        }
-        return $has_permission;
-    }
-}
 
 class FakeUpdateUploadEndpointEnvUtils {
     public function getDataPath() {
@@ -50,7 +39,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpointUnauthorized(): void {
-        $auth_utils = new FakeUpdateUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
         $logger = FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
@@ -71,7 +60,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpointInvalidId(): void {
-        $auth_utils = new FakeUpdateUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeUpdateUploadEndpointEnvUtils();
         $logger = FakeLogger::create();
@@ -98,7 +87,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpoint(): void {
-        $auth_utils = new FakeUpdateUploadEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeUpdateUploadEndpointEnvUtils();
         $general_utils = GeneralUtils::fromEnv();

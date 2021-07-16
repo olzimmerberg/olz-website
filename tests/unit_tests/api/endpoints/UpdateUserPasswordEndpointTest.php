@@ -7,6 +7,7 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserPasswordEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -16,12 +17,6 @@ class FakeUserPasswordEndpointEndpointEntityManager extends FakeEntityManager {
         $this->repositories = [
             'User' => new FakeUserRepository(),
         ];
-    }
-}
-
-class FakeUserPasswordEndpointAuthUtils {
-    public function isPasswordAllowed($password) {
-        return strlen($password) >= 8;
     }
 }
 
@@ -38,7 +33,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $entity_manager = new FakeUserPasswordEndpointEndpointEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeUserPasswordEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -68,7 +63,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $entity_manager = new FakeUserPasswordEndpointEndpointEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeUserPasswordEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -101,7 +96,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $entity_manager = new FakeUserPasswordEndpointEndpointEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeUserPasswordEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -134,7 +129,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = new FakeUserPasswordEndpointEndpointEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeUserPasswordEndpointAuthUtils();
+        $auth_utils = new FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);

@@ -8,26 +8,8 @@ require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeCreateNewsEndpointUserRepository {
-    public function __construct() {
-        $admin_user = get_fake_user();
-        $admin_user->setId(1);
-        $admin_user->setUsername('admin');
-        $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-        $admin_user->setZugriff('ftp');
-        $admin_user->setRoot('karten');
-        $this->admin_user = $admin_user;
-    }
-
-    public function findOneBy($where) {
-        if ($where === ['id' => 1]) {
-            return $this->admin_user;
-        }
-        return null;
-    }
-}
 
 class FakeCreateNewsEndpointRoleRepository {
     public function __construct() {
@@ -100,7 +82,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeCreateNewsEndpointUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $role_repo = new FakeCreateNewsEndpointRoleRepository();
         $entity_manager->repositories['Role'] = $role_repo;
@@ -138,10 +120,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
-        $this->assertSame($user_repo->admin_user, $news_entry->getOwnerUser());
+        $this->assertSame(null, $news_entry->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getOwnerRole());
         $this->assertSame('t.u.', $news_entry->getAuthor());
-        $this->assertSame(null, $news_entry->getAuthorUser());
+        $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame(null, $news_entry->getAuthorRole());
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());

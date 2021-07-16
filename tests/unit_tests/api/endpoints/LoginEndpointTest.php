@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLoginEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             'AuthRequest' => new FakeLoginEndpointAuthRequestRepository(),
-            'User' => new FakeLoginEndpointUserRepository(),
+            'User' => new FakeUserRepository(),
         ];
     }
 }
@@ -33,30 +35,6 @@ class FakeLoginEndpointAuthRequestRepository {
 
     public function canAuthenticate($ip_address, $timestamp = null) {
         return $this->can_authenticate;
-    }
-}
-
-class FakeLoginEndpointUserRepository {
-    public function findOneBy($where) {
-        if ($where === ['username' => 'admin']) {
-            $admin_user = get_fake_user();
-            $admin_user->setId(2);
-            $admin_user->setUsername('admin');
-            $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-            $admin_user->setZugriff('ftp');
-            $admin_user->setRoot('karten');
-            return $admin_user;
-        }
-        if ($where === ['email' => 'vorstand@test.olzimmerberg.ch']) {
-            $vorstand_user = get_fake_user();
-            $vorstand_user->setId(3);
-            $vorstand_user->setUsername('vorstand');
-            $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
-            $vorstand_user->setZugriff('aktuell ftp');
-            $vorstand_user->setRoot('vorstand');
-            return $vorstand_user;
-        }
-        return null;
     }
 }
 
@@ -106,7 +84,7 @@ final class LoginEndpointTest extends UnitTestCase {
             'status' => 'AUTHENTICATED',
         ], $result);
         $this->assertSame([
-            'auth' => 'ftp',
+            'auth' => 'all',
             'root' => 'karten',
             'user' => 'admin',
             'user_id' => 2,
@@ -122,7 +100,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO User logged in: admin",
-            "INFO   Auth: ftp",
+            "INFO   Auth: all",
             "INFO   Root: karten",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());

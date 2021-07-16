@@ -7,20 +7,13 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithPasswordEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeSignUpWithPasswordEndpointUserRepository {
-    public $userToBeFound;
-
-    public function findOneBy($where) {
-        return $this->userToBeFound;
-    }
-}
 
 class FakeSignUpWithPasswordEndpointAuthRequestRepository {
     public $auth_requests = [];
@@ -147,7 +140,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeSignUpWithPasswordEndpointAuthUtils();
@@ -184,7 +177,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $user_repo->userToBeFound = $existing_user;
@@ -222,7 +215,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithPassword(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeSignUpWithPasswordEndpointUserRepository();
+        $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');

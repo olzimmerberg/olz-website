@@ -9,34 +9,13 @@ require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../src/tasks/ProcessEmailTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
-
-$fake_process_email_task_user = get_fake_user();
-$fake_process_email_task_user->setId(1);
-$fake_process_email_task_user->setUsername('someone');
-$fake_process_email_task_user->setFirstName('First');
-$fake_process_email_task_user->setLastName('User');
-$fake_process_email_task_user->setEmail('someone@gmail.com');
-
-class FakeProcessEmailTaskUserRepository {
-    public function findFuzzilyByUsername($username) {
-        if ($username === 'someone') {
-            global $fake_process_email_task_user;
-            return $fake_process_email_task_user;
-        }
-        if ($username === 'no-permission') {
-            $user = get_fake_user();
-            $user->setUsername('no-permission');
-            return $user;
-        }
-        return null;
-    }
-}
 
 class FakeProcessEmailTaskAuthUtils {
     public function hasPermission($permission, $user) {
@@ -199,7 +178,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
 
     public function testProcessEmailTaskNoSuchUser(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeProcessEmailTaskUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
@@ -226,7 +205,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
 
     public function testProcessEmailTaskNoEmailPermission(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeProcessEmailTaskUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
@@ -253,7 +232,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
 
     public function testProcessEmailTask(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeProcessEmailTaskUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();
@@ -274,9 +253,8 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->run();
 
-        global $fake_process_email_task_user;
         $this->assertSame([
-            [$fake_process_email_task_user, 'Test subject', 'Test text'],
+            [$user_repo->fake_process_email_task_user, 'Test subject', 'Test text'],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
@@ -289,7 +267,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
 
     public function testProcessEmailTaskSendingError(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeProcessEmailTaskUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeProcessEmailTaskAuthUtils();
         $env_utils = new FakeProcessEmailTaskEnvUtils();

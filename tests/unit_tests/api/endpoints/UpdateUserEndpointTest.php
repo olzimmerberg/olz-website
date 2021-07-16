@@ -8,32 +8,14 @@ require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUpdateUserEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
-            'User' => new FakeUpdateUserEndpointUserRepository(),
+            'User' => new FakeUserRepository(),
         ];
-    }
-}
-
-class FakeUpdateUserEndpointUserRepository {
-    public function __construct() {
-        $admin_user = get_fake_user();
-        $admin_user->setId(1);
-        $admin_user->setUsername('admin');
-        $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-        $admin_user->setZugriff('ftp');
-        $admin_user->setRoot('karten');
-        $this->admin_user = $admin_user;
-    }
-
-    public function findOneBy($where) {
-        if ($where === ['id' => 1]) {
-            return $this->admin_user;
-        }
-        return null;
     }
 }
 
@@ -70,7 +52,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'id' => 1,
+            'id' => 2,
             'firstName' => 'First',
             'lastName' => 'Last',
             'username' => 'test',
@@ -111,7 +93,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => 1,
+                'id' => 2,
                 'firstName' => 'First',
                 'lastName' => 'Last',
                 'username' => 'invalid@',
@@ -155,7 +137,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'id' => 1,
+            'id' => 2,
             'firstName' => 'First',
             'lastName' => 'Last',
             'username' => 'test',
@@ -172,7 +154,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository('User')->admin_user;
-        $this->assertSame(1, $admin_user->getId());
+        $this->assertSame(2, $admin_user->getId());
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('test', $admin_user->getUsername());

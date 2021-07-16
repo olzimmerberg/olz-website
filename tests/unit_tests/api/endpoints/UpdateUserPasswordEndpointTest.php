@@ -8,32 +8,14 @@ require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserPasswordEndpoint.
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUserPasswordEndpointEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
-            'User' => new FakeUserPasswordEndpointUserRepository(),
+            'User' => new FakeUserRepository(),
         ];
-    }
-}
-
-class FakeUserPasswordEndpointUserRepository {
-    public function __construct() {
-        $admin_user = get_fake_user();
-        $admin_user->setId(1);
-        $admin_user->setUsername('admin');
-        $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-        $admin_user->setZugriff('ftp');
-        $admin_user->setRoot('karten');
-        $this->admin_user = $admin_user;
-    }
-
-    public function findOneBy($where) {
-        if ($where === ['id' => 1]) {
-            return $this->admin_user;
-        }
-        return null;
     }
 }
 
@@ -100,14 +82,14 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'id' => 1,
+            'id' => 2,
             'oldPassword' => 'adm1n',
             'newPassword' => '12345678',
         ]);
 
         $this->assertSame(['status' => 'OTHER_USER'], $result);
         $admin_user = $entity_manager->getRepository('User')->admin_user;
-        $this->assertSame(1, $admin_user->getId());
+        $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
             'auth' => 'ftp',
@@ -133,14 +115,14 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'id' => 1,
+            'id' => 2,
             'oldPassword' => 'incorrect_password',
             'newPassword' => '12345678',
         ]);
 
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
         $admin_user = $entity_manager->getRepository('User')->admin_user;
-        $this->assertSame(1, $admin_user->getId());
+        $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
             'auth' => 'ftp',
@@ -166,14 +148,14 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'id' => 1,
+            'id' => 2,
             'oldPassword' => 'adm1n',
             'newPassword' => '12345678',
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository('User')->admin_user;
-        $this->assertSame(1, $admin_user->getId());
+        $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('12345678', $admin_user->getPasswordHash()));
         $this->assertSame([
             'auth' => 'ftp',

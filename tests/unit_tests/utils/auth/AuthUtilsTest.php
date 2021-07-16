@@ -4,28 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../../../../src/utils/auth/AuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeAuthUtilsUserRepository {
-    public function findOneBy($where) {
-        if ($where === ['username' => 'admin']) {
-            $admin_user = get_fake_user();
-            $admin_user->setZugriff('all');
-            return $admin_user;
-        }
-        if ($where === ['username' => 'specific']) {
-            $specific_user = get_fake_user();
-            $specific_user->setZugriff('test');
-            return $specific_user;
-        }
-        if ($where === ['username' => 'no']) {
-            $specific_user = get_fake_user();
-            $specific_user->setZugriff('');
-            return $specific_user;
-        }
-        return null;
-    }
-}
 
 /**
  * @internal
@@ -34,7 +14,7 @@ class FakeAuthUtilsUserRepository {
 final class AuthUtilsTest extends UnitTestCase {
     public function testHasPermissionNoUser(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeAuthUtilsUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
@@ -51,7 +31,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithNoPermission(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeAuthUtilsUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
@@ -68,7 +48,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithSpecificPermission(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeAuthUtilsUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
@@ -85,7 +65,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithAllPermissions(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeAuthUtilsUserRepository();
+        $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [

@@ -14,7 +14,7 @@ class FakeUpdateUploadEndpointAuthUtils {
     public function hasPermission($query) {
         $has_permission = $this->has_permission_by_query[$query] ?? null;
         if ($has_permission === null) {
-            throw new Exception("hasPermission has not been mocked");
+            throw new Exception("hasPermission has not been mocked for {$query}");
         }
         return $has_permission;
     }

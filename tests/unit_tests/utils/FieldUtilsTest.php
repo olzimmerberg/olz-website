@@ -24,7 +24,7 @@ final class FieldUtilsTest extends UnitTestCase {
             $field_utils->validate([], ['tooMuch' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'tooMuch' => ["Feld existiert nicht: tooMuch"],
             ], $err->getValidationErrors());
@@ -39,7 +39,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], []);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'input' => ["Feld darf nicht leer sein."],
             ], $err->getValidationErrors());
@@ -54,7 +54,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], ['input' => 'test', 'tooMuch' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'tooMuch' => ["Feld existiert nicht: tooMuch"],
             ], $err->getValidationErrors());
@@ -69,7 +69,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], ['input' => null]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'input' => ["Feld darf nicht leer sein."],
             ], $err->getValidationErrors());
@@ -84,7 +84,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], ['input' => null, 'tooMuch' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'input' => ["Feld darf nicht leer sein."],
                 'tooMuch' => ["Feld existiert nicht: tooMuch"],
@@ -100,7 +100,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], ['input' => ''], ['parse' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'input' => ["Feld darf nicht leer sein."],
             ], $err->getValidationErrors());
@@ -115,7 +115,7 @@ final class FieldUtilsTest extends UnitTestCase {
             ], ['input' => 'not_an_integer'], ['parse' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
-            $this->assertSame('ValidationError', $err->getMessage());
+            $this->assertMatchesRegularExpression('/^Validation Error: /', $err->getMessage());
             $this->assertSame([
                 'input' => ["Unlesbare Ganzzahl: 'not_an_integer'"],
             ], $err->getValidationErrors());

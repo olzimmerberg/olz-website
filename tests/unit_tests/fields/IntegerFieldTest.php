@@ -59,6 +59,7 @@ final class IntegerFieldTest extends UnitTestCase {
         $this->assertSame(['Wert darf nicht kleiner als 3 sein.'], $field->getValidationErrors(2));
         $this->assertSame([], $field->getValidationErrors(3));
         $this->assertSame([], $field->getValidationErrors(4));
+        $this->assertSame(['Feld darf nicht leer sein.'], $field->getValidationErrors(null));
     }
 
     public function testValidatesMaxValue(): void {
@@ -66,6 +67,23 @@ final class IntegerFieldTest extends UnitTestCase {
         $this->assertSame([], $field->getValidationErrors(2));
         $this->assertSame([], $field->getValidationErrors(3));
         $this->assertSame(['Wert darf nicht grösser als 3 sein.'], $field->getValidationErrors(4));
+        $this->assertSame(['Feld darf nicht leer sein.'], $field->getValidationErrors(null));
+    }
+
+    public function testAllowsNullWhenMinValueSet(): void {
+        $field = new IntegerField('fake', ['allow_null' => true, 'min_value' => 3]);
+        $this->assertSame(['Wert darf nicht kleiner als 3 sein.'], $field->getValidationErrors(2));
+        $this->assertSame([], $field->getValidationErrors(3));
+        $this->assertSame([], $field->getValidationErrors(4));
+        $this->assertSame([], $field->getValidationErrors(null));
+    }
+
+    public function testAllowsNullWhenMaxValueSet(): void {
+        $field = new IntegerField('fake', ['allow_null' => true, 'max_value' => -3]);
+        $this->assertSame([], $field->getValidationErrors(-4));
+        $this->assertSame([], $field->getValidationErrors(-3));
+        $this->assertSame(['Wert darf nicht grösser als -3 sein.'], $field->getValidationErrors(-2));
+        $this->assertSame([], $field->getValidationErrors(null));
     }
 
     public function testValidatesWeirdValues(): void {

@@ -63,6 +63,7 @@ final class NumberFieldTest extends UnitTestCase {
         $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2.4999));
         $this->assertSame([], $field->getValidationErrors(2.5));
         $this->assertSame([], $field->getValidationErrors(3));
+        $this->assertSame(['Feld darf nicht leer sein.'], $field->getValidationErrors(null));
     }
 
     public function testValidatesMaxValue(): void {
@@ -71,6 +72,25 @@ final class NumberFieldTest extends UnitTestCase {
         $this->assertSame([], $field->getValidationErrors(2.5));
         $this->assertSame(['Wert darf nicht grösser als 2.5 sein.'], $field->getValidationErrors(2.5001));
         $this->assertSame(['Wert darf nicht grösser als 2.5 sein.'], $field->getValidationErrors(3));
+        $this->assertSame(['Feld darf nicht leer sein.'], $field->getValidationErrors(null));
+    }
+
+    public function testAllowsNullWhenMinValueSet(): void {
+        $field = new NumberField('fake', ['allow_null' => true, 'min_value' => 2.5]);
+        $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2));
+        $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2.4999));
+        $this->assertSame([], $field->getValidationErrors(2.5));
+        $this->assertSame([], $field->getValidationErrors(3));
+        $this->assertSame([], $field->getValidationErrors(null));
+    }
+
+    public function testAllowsNullWhenMaxValueSet(): void {
+        $field = new NumberField('fake', ['allow_null' => true, 'max_value' => -2.5]);
+        $this->assertSame([], $field->getValidationErrors(-3));
+        $this->assertSame([], $field->getValidationErrors(-2.5));
+        $this->assertSame(['Wert darf nicht grösser als -2.5 sein.'], $field->getValidationErrors(-2.4999));
+        $this->assertSame(['Wert darf nicht grösser als -2.5 sein.'], $field->getValidationErrors(-2));
+        $this->assertSame([], $field->getValidationErrors(null));
     }
 
     public function testValidatesWeirdValues(): void {

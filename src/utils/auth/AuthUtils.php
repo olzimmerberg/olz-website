@@ -42,7 +42,7 @@ class AuthUtils {
         return $permission_map;
     }
 
-    protected function getSessionUser() {
+    public function getSessionUser() {
         $auth_username = $this->session->get('user');
         $user_repo = $this->entityManager->getRepository(User::class);
         return $user_repo->findOneBy(['username' => $auth_username]);

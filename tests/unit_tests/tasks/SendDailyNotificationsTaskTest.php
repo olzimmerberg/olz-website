@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use Monolog\Logger;
-
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
-require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
@@ -180,18 +179,6 @@ class FakeSendDailyNotificationsTaskOlzMailer {
     }
 }
 
-class FakeSendDailyNotificationsTaskEnvUtils {
-    public function getLogsUtils() {
-        return new FakeSendDailyNotificationsTaskLogsUtils();
-    }
-}
-
-class FakeSendDailyNotificationsTaskLogsUtils {
-    public function getLogger($ident) {
-        return new Logger('');
-    }
-}
-
 class FakeSendDailyNotificationsTaskTelegramUtils {
     public $calls = [];
 
@@ -339,7 +326,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
         $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
-        $env_utils = new FakeSendDailyNotificationsTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeSendDailyNotificationsTaskEmailUtils();
         $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');

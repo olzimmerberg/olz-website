@@ -7,6 +7,7 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/tasks/common/BackgroundTask.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeTask extends BackgroundTask {
@@ -56,22 +57,6 @@ class FakeFailingTask extends BackgroundTask {
     }
 }
 
-class FakeBackgroundTaskEnvUtils {
-    public function getDataPath() {
-        return '/fake/data/path/';
-    }
-
-    public function getLogsUtils() {
-        return new FakeBackgroundTaskLogsUtils();
-    }
-}
-
-class FakeBackgroundTaskLogsUtils {
-    public function getLogger($ident) {
-        return new Logger('');
-    }
-}
-
 /**
  * @internal
  * @covers \BackgroundTask
@@ -79,7 +64,7 @@ class FakeBackgroundTaskLogsUtils {
 final class BackgroundTaskTest extends UnitTestCase {
     public function testBackgroundTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeBackgroundTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
@@ -94,7 +79,7 @@ final class BackgroundTaskTest extends UnitTestCase {
 
     public function testTaskWithoutSetupTeardown(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeBackgroundTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
@@ -107,7 +92,7 @@ final class BackgroundTaskTest extends UnitTestCase {
 
     public function testFailingTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeBackgroundTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 

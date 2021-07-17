@@ -11,6 +11,7 @@ require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDeadlineWarningGetterSolvEventRepository {
@@ -54,16 +55,6 @@ class FakeDeadlineWarningGetterTerminRepository {
     }
 }
 
-class FakeDeadlineWarningGetterEnvUtils {
-    public function getBaseHref() {
-        return 'http://fake-base-url';
-    }
-
-    public function getCodeHref() {
-        return '/_/';
-    }
-}
-
 /**
  * @internal
  * @covers \DeadlineWarningGetter
@@ -92,7 +83,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeDeadlineWarningGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -115,7 +106,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeDeadlineWarningGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();

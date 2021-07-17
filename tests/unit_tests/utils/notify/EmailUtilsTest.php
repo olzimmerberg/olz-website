@@ -8,49 +8,8 @@ use PhpImap\Mailbox;
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeEmailUtilsEnvUtils {
-    public function getImapHost() {
-        return '127.0.0.1';
-    }
-
-    public function getImapPort() {
-        return '143';
-    }
-
-    public function getImapUsername() {
-        return 'imap@olzimmerberg.ch';
-    }
-
-    public function getImapPassword() {
-        return '123456';
-    }
-
-    public function getSmtpHost() {
-        return 'localhost';
-    }
-
-    public function getSmtpPort() {
-        return '25';
-    }
-
-    public function getSmtpUsername() {
-        return 'fake@olzimmerberg.ch';
-    }
-
-    public function getSmtpPassword() {
-        return '1234';
-    }
-
-    public function getSmtpFrom() {
-        return 'fake@olzimmerberg.ch';
-    }
-
-    public function getEmailReactionKey() {
-        return 'aaaaaaaaaaaaaaaaaaaa';
-    }
-}
 
 /**
  * @internal
@@ -58,7 +17,7 @@ class FakeEmailUtilsEnvUtils {
  */
 final class EmailUtilsTest extends UnitTestCase {
     public function testGetImapMailbox(): void {
-        $server_config = new FakeEmailUtilsEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -71,7 +30,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $server_config = new FakeEmailUtilsEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -86,7 +45,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $server_config = new FakeEmailUtilsEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -95,7 +54,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateEmail(): void {
-        $server_config = new FakeEmailUtilsEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);
@@ -153,7 +112,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $server_config = new FakeEmailUtilsEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('EmailUtilsTest');
         $email_utils = new EmailUtils($server_config);
         $email_utils->setLogger($logger);

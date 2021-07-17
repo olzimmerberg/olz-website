@@ -9,6 +9,7 @@ require_once __DIR__.'/../../../../src/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -55,16 +56,6 @@ class FakeWeeklyPreviewGetterTerminRepository {
     }
 }
 
-class FakeWeeklyPreviewGetterEnvUtils {
-    public function getBaseHref() {
-        return 'http://fake-base-url';
-    }
-
-    public function getCodeHref() {
-        return '/_/';
-    }
-}
-
 /**
  * @internal
  * @covers \WeeklyPreviewGetter
@@ -91,7 +82,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
-        $env_utils = new FakeWeeklyPreviewGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('WeeklyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -133,7 +124,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
-        $env_utils = new FakeWeeklyPreviewGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('WeeklyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();

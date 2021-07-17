@@ -8,6 +8,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOlzMailerEmailUtils {
@@ -21,16 +22,6 @@ class FakeOlzMailerEmailUtils {
     }
 }
 
-class FakeOlzMailerEnvUtils {
-    public function getBaseHref() {
-        return 'http://fake-base-url';
-    }
-
-    public function getCodeHref() {
-        return '/_/';
-    }
-}
-
 /**
  * @internal
  * @covers \OlzMailer
@@ -38,7 +29,7 @@ class FakeOlzMailerEnvUtils {
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);
@@ -85,7 +76,7 @@ final class OlzMailerTest extends UnitTestCase {
 
     public function testSend(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);
@@ -100,7 +91,7 @@ final class OlzMailerTest extends UnitTestCase {
 
     public function testSendConfigured(): void {
         $email_utils = new FakeOlzMailerEmailUtils();
-        $server_config = new FakeOlzMailerEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
         $mailer->setLogger($logger);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../../src/api/endpoints/OnTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
@@ -52,12 +53,6 @@ class FakeOnTelegramEndpointTelegramUtils {
     public function callTelegramApi($command, $args) {
         $this->telegramApiCalls[] = [$command, $args];
         return [];
-    }
-}
-
-class FakeOnTelegramEndpointEnvUtils {
-    public function getTelegramAuthenticityCode() {
-        return 'some-token';
     }
 }
 
@@ -119,7 +114,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
         $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
-        $server_config = new FakeOnTelegramEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
@@ -140,7 +135,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
         $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
-        $server_config = new FakeOnTelegramEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
@@ -161,7 +156,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
         $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
-        $server_config = new FakeOnTelegramEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
@@ -182,7 +177,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
         $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
-        $server_config = new FakeOnTelegramEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
@@ -203,7 +198,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartAnonymousChat(): void {
         $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
-        $server_config = new FakeOnTelegramEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);

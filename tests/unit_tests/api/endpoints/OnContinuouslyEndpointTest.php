@@ -7,6 +7,7 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../../src/api/endpoints/OnContinuouslyEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnContinuouslyEndpointSendDailyNotificationsTask {
@@ -22,12 +23,6 @@ class FakeOnContinuouslyEndpointProcessEmailTask {
 
     public function run() {
         $this->hasBeenRun = true;
-    }
-}
-
-class FakeOnContinuouslyEndpointEnvUtils {
-    public function getCronAuthenticityCode() {
-        return 'some-token';
     }
 }
 
@@ -79,7 +74,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
 
         try {
             $result = $endpoint->call([
@@ -98,7 +93,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
@@ -123,7 +118,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $throttling_repo->last_daily_notifications = null;
@@ -149,7 +144,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new FakeOnContinuouslyEndpointEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;

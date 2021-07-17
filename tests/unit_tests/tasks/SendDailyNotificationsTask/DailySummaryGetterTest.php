@@ -13,6 +13,7 @@ require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDailySummaryGetterNewsRepository {
@@ -77,16 +78,6 @@ class FakeDailySummaryGetterForumRepository {
     }
 }
 
-class FakeDailySummaryGetterEnvUtils {
-    public function getBaseHref() {
-        return 'http://fake-base-url';
-    }
-
-    public function getCodeHref() {
-        return '/_/';
-    }
-}
-
 /**
  * @internal
  * @covers \DailySummaryGetter
@@ -103,7 +94,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $entity_manager->repositories['Galerie'] = $galerie_repo;
         $entity_manager->repositories['Forum'] = $forum_repo;
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
-        $env_utils = new FakeDailySummaryGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('DailySummaryGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -159,7 +150,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithNoContent(): void {
         $entity_manager = new FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
-        $env_utils = new FakeDailySummaryGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('DailySummaryGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();

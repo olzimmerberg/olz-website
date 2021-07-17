@@ -6,14 +6,9 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/env/LogsUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeLogsUtilsEnvUtils {
-    public function getDataPath() {
-        return __DIR__.'/../../tmp/';
-    }
-}
 
 /**
  * @internal
@@ -21,7 +16,7 @@ class FakeLogsUtilsEnvUtils {
  */
 final class LogsUtilsTest extends UnitTestCase {
     public function testLogsUtilsGetLogger(): void {
-        $env_utils = new FakeLogsUtilsEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
         if (is_dir($logs_path)) {

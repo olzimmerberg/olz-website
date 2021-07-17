@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Monolog\Logger;
 use PhpImap\Exceptions\ConnectionException;
 
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/fake_user.php';
 require_once __DIR__.'/../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../fake/FakeUserRepository.php';
@@ -98,18 +98,6 @@ class FakeProcessEmailTaskOlzMailer {
     }
 }
 
-class FakeProcessEmailTaskEnvUtils {
-    public function getLogsUtils() {
-        return new FakeProcessEmailTaskLogsUtils();
-    }
-}
-
-class FakeProcessEmailTaskLogsUtils {
-    public function getLogger($ident) {
-        return new Logger('');
-    }
-}
-
 /**
  * @internal
  * @covers \ProcessEmailTask
@@ -118,7 +106,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithImapError(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->connection_exception = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -142,7 +130,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['someone@other-domain.com' => true]),
@@ -170,7 +158,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-such-user@olzimmerberg.ch' => true]),
@@ -197,7 +185,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $user_repo = new FakeUserRepository();
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-permission@olzimmerberg.ch' => true]),
@@ -225,7 +213,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query['email'] = true;
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(
@@ -261,7 +249,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query['email'] = true;
-        $env_utils = new FakeProcessEmailTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $email_utils = new FakeProcessEmailTaskEmailUtils();
         $email_utils->mailbox->mail_dict = [
             'fake-mail-id-1' => new FakeProcessEmailTaskMail(

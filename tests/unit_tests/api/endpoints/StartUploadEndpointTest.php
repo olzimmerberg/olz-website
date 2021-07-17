@@ -6,14 +6,9 @@ require_once __DIR__.'/../../../../src/api/endpoints/StartUploadEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeStartUploadEndpointEnvUtils {
-    public function getDataPath() {
-        return __DIR__.'/../../tmp/';
-    }
-}
 
 class DeterministicStartUploadEndpoint extends StartUploadEndpoint {
     protected function getRandomUploadId() {
@@ -64,7 +59,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpointAbort(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $env_utils = new FakeStartUploadEndpointEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $logger = FakeLogger::create();
         $endpoint = new DeterministicStartUploadEndpoint();
@@ -89,7 +84,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpoint(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $env_utils = new FakeStartUploadEndpointEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $logger = FakeLogger::create();
         $endpoint = new StartUploadEndpoint();

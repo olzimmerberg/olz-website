@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Monolog\Logger;
 
 require_once __DIR__.'/../../fake/fake_solv_event.php';
+require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/tasks/SyncSolvTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
@@ -50,18 +51,6 @@ class FakeSolvPeopleMerger {
     }
 }
 
-class FakeSyncSolvTaskEnvUtils {
-    public function getLogsUtils() {
-        return new FakeSyncSolvTaskLogsUtils();
-    }
-}
-
-class FakeSyncSolvTaskLogsUtils {
-    public function getLogger($ident) {
-        return new Logger('');
-    }
-}
-
 /**
  * @internal
  * @covers \SyncSolvTask
@@ -71,7 +60,7 @@ final class SyncSolvTaskTest extends UnitTestCase {
         $entity_manager = null;
         $solv_fetcher = null;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeSyncSolvTaskEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $solv_events_syncer = new FakeSolvEventsSyncer();

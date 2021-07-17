@@ -8,6 +8,7 @@ require_once __DIR__.'/../../../../src/api/endpoints/OnDailyEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnDailyEndpointSyncSolvTask {
@@ -40,18 +41,6 @@ class FakeOnDailyEndpointThrottlingRepository {
     }
 }
 
-class FakeOnDailyEndpointEnvUtils {
-    public $has_unlimited_cron = false;
-
-    public function hasUnlimitedCron() {
-        return $this->has_unlimited_cron;
-    }
-
-    public function getCronAuthenticityCode() {
-        return 'some-token';
-    }
-}
-
 /**
  * @internal
  * @covers \OnDailyEndpoint
@@ -77,7 +66,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -99,7 +88,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -121,7 +110,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -145,7 +134,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
@@ -170,7 +159,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeOnDailyEndpointEnvUtils();
+        $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);

@@ -11,6 +11,7 @@ require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeMonthlyPreviewGetterSolvEventRepository {
@@ -53,16 +54,6 @@ class FakeMonthlyPreviewGetterTerminRepository {
             $termin->setTitle('Termin mit Meldeschluss');
             return $termin;
         }
-    }
-}
-
-class FakeMonthlyPreviewGetterEnvUtils {
-    public function getBaseHref() {
-        return 'http://fake-base-url';
-    }
-
-    public function getCodeHref() {
-        return '/_/';
     }
 }
 
@@ -122,7 +113,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
-        $env_utils = new FakeMonthlyPreviewGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('MonthlyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
@@ -164,7 +155,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
-        $env_utils = new FakeMonthlyPreviewGetterEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = new Logger('MonthlyPreviewGetterTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();

@@ -6,14 +6,9 @@ require_once __DIR__.'/../../../../src/api/endpoints/UpdateUploadEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeUpdateUploadEndpointEnvUtils {
-    public function getDataPath() {
-        return __DIR__.'/../../tmp/';
-    }
-}
 
 /**
  * @internal
@@ -62,7 +57,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpointInvalidId(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $env_utils = new FakeUpdateUploadEndpointEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -89,7 +84,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpoint(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $env_utils = new FakeUpdateUploadEndpointEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $logger = FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();

@@ -7,6 +7,8 @@
 global $_DATE;
 
 if (!isset($_DATE)) {
+    global $_CONFIG;
+
     require_once __DIR__.'/server.php';
 
     $class_name = $_CONFIG->getDateUtilsClassName();

@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
-class FakeEnvUtils extends EnvUtils {
+class FakeIntegrationTestEnvUtils extends EnvUtils {
     public static function fromEnv() {
         // For this test, clear the "cache" always
         parent::$from_env_instance = null;
@@ -20,7 +20,7 @@ class FakeEnvUtils extends EnvUtils {
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
         global $db;
-        $env_utils = FakeEnvUtils::fromEnv();
+        $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
         $this->assertMatchesRegularExpression(
             '/\/tests\/integration_tests\/document\-root\/$/',
             $env_utils->getDataPath()
@@ -40,7 +40,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testEnvUtilsFromEnvGetLogger(): void {
-        $env_utils = FakeEnvUtils::fromEnv();
+        $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
         if (is_dir($logs_path)) {
@@ -73,7 +73,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         ];
 
         try {
-            $env_utils = FakeEnvUtils::fromEnv();
+            $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Konfigurationsdatei nicht gefunden!', $exc->getMessage());
@@ -87,7 +87,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         $previous_server = $_SERVER;
         $_SERVER = []; // e.g. for doctrine cli-config.php
 
-        $config_path = FakeEnvUtils::getConfigPath();
+        $config_path = FakeIntegrationTestEnvUtils::getConfigPath();
 
         $this->assertMatchesRegularExpression(
             '/\/src\/utils\/env\/\.\.\/\.\.\/\.\.\/dev-server\/config.php$/',
@@ -106,7 +106,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         ];
 
         try {
-            $env_utils = FakeEnvUtils::fromEnv();
+            $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertMatchesRegularExpression(

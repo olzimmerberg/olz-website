@@ -27,11 +27,11 @@ class StartUploadEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            new StringField('id', ['allow_null' => true]),
+            'id' => new StringField(['allow_null' => true]),
         ];
     }
 

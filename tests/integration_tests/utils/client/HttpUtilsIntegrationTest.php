@@ -70,7 +70,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $http_utils = HttpUtilsForTest::fromEnv();
 
         $validated_get_params = $http_utils->validateGetParams([
-            new Field('input', ['allow_null' => false]),
+            'input' => new Field(['allow_null' => false]),
         ], ['input' => 'test']);
 
         $this->assertSame(['input' => 'test'], $validated_get_params);
@@ -82,7 +82,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $http_utils->setLogger($logger);
 
         $validated_get_params = $http_utils->validateGetParams([
-            new Field('input', ['allow_null' => false]),
+            'input' => new Field(['allow_null' => false]),
         ], ['input' => null]);
 
         $this->assertSame([], $validated_get_params);

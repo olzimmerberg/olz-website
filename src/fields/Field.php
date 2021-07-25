@@ -1,18 +1,12 @@
 <?php
 
 class Field {
-    private string $id;
     private bool $allow_null = false;
     private $default_value;
 
-    public function __construct(string $id, $config = []) {
-        $this->id = $id;
+    public function __construct($config = []) {
         $this->allow_null = $config['allow_null'] ?? false;
         $this->default_value = $config['default_value'] ?? null;
-    }
-
-    public function getId() {
-        return $this->id;
     }
 
     public function getAllowNull() {

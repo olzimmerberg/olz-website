@@ -20,7 +20,7 @@ class UpdateUserPasswordEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'OTHER_USER',
                 'INVALID_OLD',
@@ -30,9 +30,9 @@ class UpdateUserPasswordEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new IntegerField('id', []),
-            new StringField('oldPassword', ['allow_empty' => false]),
-            new StringField('newPassword', ['allow_empty' => false]),
+            'id' => new IntegerField([]),
+            'oldPassword' => new StringField(['allow_empty' => false]),
+            'newPassword' => new StringField(['allow_empty' => false]),
         ];
     }
 

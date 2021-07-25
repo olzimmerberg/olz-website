@@ -19,16 +19,16 @@ class GetManagedUsersEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            new ArrayField('managedUsers', [
-                'item_field' => new ObjectField('item', [
+            'managedUsers' => new ArrayField([
+                'item_field' => new ObjectField([
                     'field_structure' => [
-                        'id' => new IntegerField('id', []),
-                        'firstName' => new IntegerField('firstName', []),
-                        'lastName' => new IntegerField('lastName', []),
+                        'id' => new IntegerField([]),
+                        'firstName' => new IntegerField([]),
+                        'lastName' => new IntegerField([]),
                     ],
                 ]),
                 'allow_null' => true,

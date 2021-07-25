@@ -20,7 +20,7 @@ class LinkTelegramEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new StringField('chatLink', []),
+            'chatLink' => new StringField([]),
         ];
     }
 

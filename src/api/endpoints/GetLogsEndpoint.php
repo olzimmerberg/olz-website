@@ -16,13 +16,13 @@ class GetLogsEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new StringField('content', ['allow_null' => true]),
+            'content' => new StringField(['allow_null' => true]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new IntegerField('index', [
+            'index' => new IntegerField([
                 'default_value' => 0,
                 'min_value' => 0,
             ]),

@@ -25,13 +25,13 @@ class FakeEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new Field('output', []),
+            'output' => new Field([]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new Field('input', ['allow_null' => true]),
+            'input' => new Field(['allow_null' => true]),
         ];
     }
 
@@ -62,13 +62,13 @@ class FakeEndpointWithErrors extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new Field('output', ['allow_null' => false]),
+            'output' => new Field(['allow_null' => false]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new Field('input', ['allow_null' => false]),
+            'input' => new Field(['allow_null' => false]),
         ];
     }
 

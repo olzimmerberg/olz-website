@@ -21,7 +21,7 @@ class CreateRegistrationEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
@@ -30,9 +30,9 @@ class CreateRegistrationEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new IntegerField('registrationForm', ['min_value' => 1]),
+            'registrationForm' => new IntegerField(['min_value' => 1]),
             // see README for documentation.
-            new DictField('fieldValues', ['item_field' => new Field('item')]),
+            'fieldValues' => new DictField(['item_field' => new Field()]),
         ];
     }
 

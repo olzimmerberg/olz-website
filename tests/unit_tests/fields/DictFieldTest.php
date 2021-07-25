@@ -12,30 +12,30 @@ require_once __DIR__.'/FakeItemField.php';
  */
 final class DictFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame('{[key: string]: ItemType}', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
             'allow_null' => true,
         ]);
         $this->assertSame('{[key: string]: ItemType}|null', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', ['allow_null' => true]),
+        $field = new DictField([
+            'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame('{[key: string]: ItemType|null}', $field->getTypeScriptType());
     }
 
     public function testParse(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
         ]);
         try {
             $field->parse('test');
@@ -47,7 +47,7 @@ final class DictFieldTest extends UnitTestCase {
 
     public function testItemFieldDefault(): void {
         try {
-            new DictField('fake', []);
+            new DictField([]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame("`item_field` must be an instance of `Field`", $exc->getMessage());
@@ -55,16 +55,16 @@ final class DictFieldTest extends UnitTestCase {
     }
 
     public function testItemFieldSet(): void {
-        $item_field = new FakeItemField('item', []);
-        $field = new DictField('fake', [
+        $item_field = new FakeItemField([]);
+        $field = new DictField([
             'item_field' => $item_field,
         ]);
         $this->assertSame($item_field, $field->getItemField());
     }
 
     public function testValidatesItemField(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame(
             [
@@ -98,8 +98,8 @@ final class DictFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullableItemField(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', ['allow_null' => true]),
+        $field = new DictField([
+            'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame(
             [
@@ -130,8 +130,8 @@ final class DictFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullableDictField(): void {
-        $field = new DictField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
             'allow_null' => true,
         ]);
         $this->assertSame(

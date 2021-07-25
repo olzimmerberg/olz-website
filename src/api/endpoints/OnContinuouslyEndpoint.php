@@ -35,7 +35,7 @@ class OnContinuouslyEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('authenticityCode', []),
+            'authenticityCode' => new StringField([]),
         ];
     }
 

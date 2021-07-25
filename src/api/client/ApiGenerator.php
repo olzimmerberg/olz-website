@@ -15,19 +15,17 @@ class ApiGenerator {
             $endpoint = $endpoint_definition();
             $typescript_endpoint_enum .= "    {$endpoint_name} = '{$endpoint_name}',\n";
             $typescript_request_types .= "    {$endpoint_name}: {\n";
-            foreach ($endpoint->getRequestFields() as $field_index => $field) {
-                $id = $field->getId();
+            foreach ($endpoint->getRequestFields() as $field_id => $field) {
                 $type = $field->getTypeScriptType();
                 $indented_type = str_replace("\n", "\n        ", $type);
-                $typescript_request_types .= "        {$id}: {$indented_type},\n";
+                $typescript_request_types .= "        {$field_id}: {$indented_type},\n";
             }
             $typescript_request_types .= "    },\n";
             $typescript_response_types .= "    {$endpoint_name}: {\n";
-            foreach ($endpoint->getResponseFields() as $field_index => $field) {
-                $id = $field->getId();
+            foreach ($endpoint->getResponseFields() as $field_id => $field) {
                 $type = $field->getTypeScriptType();
                 $indented_type = str_replace("\n", "\n        ", $type);
-                $typescript_response_types .= "        {$id}: {$indented_type},\n";
+                $typescript_response_types .= "        {$field_id}: {$indented_type},\n";
             }
             $typescript_response_types .= "    },\n";
         }

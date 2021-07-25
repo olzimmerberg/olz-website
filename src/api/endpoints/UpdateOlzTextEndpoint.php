@@ -23,7 +23,7 @@ class UpdateOlzTextEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
@@ -32,8 +32,8 @@ class UpdateOlzTextEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new IntegerField('id', []),
-            new StringField('text', ['allow_empty' => true]),
+            'id' => new IntegerField([]),
+            'text' => new StringField(['allow_empty' => true]),
         ];
     }
 

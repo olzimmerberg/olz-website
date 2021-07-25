@@ -17,9 +17,9 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new IntegerField('id', ['allow_null' => true]),
-    new StringField('buttonlinks', ['allow_null' => true]),
-    new StringField('buttondownloads', ['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
+    'buttonlinks' => new StringField(['allow_null' => true]),
+    'buttondownloads' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 echo olz_header([

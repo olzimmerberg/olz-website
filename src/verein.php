@@ -18,7 +18,7 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new StringField('abteilung', ['allow_null' => true]),
+    'abteilung' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 if (isset($_GET['abteilung'])) {

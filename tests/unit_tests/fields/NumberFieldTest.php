@@ -11,17 +11,17 @@ require_once __DIR__.'/../common/UnitTestCase.php';
  */
 final class NumberFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
-        $field = new NumberField('fake', []);
+        $field = new NumberField([]);
         $this->assertSame('number', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
-        $field = new NumberField('fake', ['allow_null' => true]);
+        $field = new NumberField(['allow_null' => true]);
         $this->assertSame('number|null', $field->getTypeScriptType());
     }
 
     public function testParse(): void {
-        $field = new NumberField('fake', []);
+        $field = new NumberField([]);
         $this->assertSame(0.0, $field->parse('0'));
         $this->assertSame(0.0, $field->parse('0.0'));
         $this->assertSame(12.34, $field->parse('12.34'));
@@ -38,27 +38,27 @@ final class NumberFieldTest extends UnitTestCase {
     }
 
     public function testMinValueDefault(): void {
-        $field = new NumberField('fake', []);
+        $field = new NumberField([]);
         $this->assertSame(null, $field->getMinValue());
     }
 
     public function testMinValueSet(): void {
-        $field = new NumberField('fake', ['min_value' => 10.3]);
+        $field = new NumberField(['min_value' => 10.3]);
         $this->assertSame(10.3, $field->getMinValue());
     }
 
     public function testMaxValueDefault(): void {
-        $field = new NumberField('fake', []);
+        $field = new NumberField([]);
         $this->assertSame(null, $field->getMaxValue());
     }
 
     public function testMaxValueSet(): void {
-        $field = new NumberField('fake', ['max_value' => 1.5]);
+        $field = new NumberField(['max_value' => 1.5]);
         $this->assertSame(1.5, $field->getMaxValue());
     }
 
     public function testValidatesMinValue(): void {
-        $field = new NumberField('fake', ['min_value' => 2.5]);
+        $field = new NumberField(['min_value' => 2.5]);
         $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2));
         $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2.4999));
         $this->assertSame([], $field->getValidationErrors(2.5));
@@ -67,7 +67,7 @@ final class NumberFieldTest extends UnitTestCase {
     }
 
     public function testValidatesMaxValue(): void {
-        $field = new NumberField('fake', ['max_value' => 2.5]);
+        $field = new NumberField(['max_value' => 2.5]);
         $this->assertSame([], $field->getValidationErrors(2));
         $this->assertSame([], $field->getValidationErrors(2.5));
         $this->assertSame(['Wert darf nicht grösser als 2.5 sein.'], $field->getValidationErrors(2.5001));
@@ -76,7 +76,7 @@ final class NumberFieldTest extends UnitTestCase {
     }
 
     public function testAllowsNullWhenMinValueSet(): void {
-        $field = new NumberField('fake', ['allow_null' => true, 'min_value' => 2.5]);
+        $field = new NumberField(['allow_null' => true, 'min_value' => 2.5]);
         $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2));
         $this->assertSame(['Wert darf nicht kleiner als 2.5 sein.'], $field->getValidationErrors(2.4999));
         $this->assertSame([], $field->getValidationErrors(2.5));
@@ -85,7 +85,7 @@ final class NumberFieldTest extends UnitTestCase {
     }
 
     public function testAllowsNullWhenMaxValueSet(): void {
-        $field = new NumberField('fake', ['allow_null' => true, 'max_value' => -2.5]);
+        $field = new NumberField(['allow_null' => true, 'max_value' => -2.5]);
         $this->assertSame([], $field->getValidationErrors(-3));
         $this->assertSame([], $field->getValidationErrors(-2.5));
         $this->assertSame(['Wert darf nicht grösser als -2.5 sein.'], $field->getValidationErrors(-2.4999));
@@ -94,7 +94,7 @@ final class NumberFieldTest extends UnitTestCase {
     }
 
     public function testValidatesWeirdValues(): void {
-        $field = new NumberField('fake', []);
+        $field = new NumberField([]);
         $this->assertSame(['Wert muss eine Zahl sein.'], $field->getValidationErrors(false));
         $this->assertSame(['Wert muss eine Zahl sein.'], $field->getValidationErrors(true));
         $this->assertSame(['Wert muss eine Zahl sein.'], $field->getValidationErrors('test'));

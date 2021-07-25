@@ -5,8 +5,8 @@ require_once __DIR__.'/Field.php';
 class EnumField extends Field {
     private $allowed_value_map = [];
 
-    public function __construct(string $id, $config = []) {
-        parent::__construct($id, $config);
+    public function __construct($config = []) {
+        parent::__construct($config);
         $allowed_values = $config['allowed_values'] ?? [];
         $this->allowed_value_map = [];
         foreach ($allowed_values as $allowed_value) {

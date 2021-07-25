@@ -17,9 +17,9 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $validated_get_params = $http_utils->validateGetParams([
-    new StringField('filter', ['allow_null' => true]),
-    new IntegerField('id', ['allow_null' => true]),
-    new StringField('buttontermine', ['allow_null' => true]),
+    'filter' => new StringField(['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
+    'buttontermine' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 $current_filter = json_decode($_GET['filter'] ?? '{}', true);

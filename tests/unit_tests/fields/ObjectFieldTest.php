@@ -12,32 +12,32 @@ require_once __DIR__.'/FakeItemField.php';
  */
 final class ObjectFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
-        $field = new ObjectField('fake', [
+        $field = new ObjectField([
             'field_structure' => [
-                'one' => new FakeItemField('item', []),
-                'two' => new FakeItemField('item', []),
+                'one' => new FakeItemField([]),
+                'two' => new FakeItemField([]),
             ],
         ]);
         $this->assertSame("{\n    'one': ItemType,\n    'two': ItemType,\n}", $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
-        $field = new ObjectField('fake', [
-            'field_structure' => ['test' => new FakeItemField('item', [])],
+        $field = new ObjectField([
+            'field_structure' => ['test' => new FakeItemField([])],
             'allow_null' => true,
         ]);
         $this->assertSame("{\n    'test': ItemType,\n}|null", $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
-        $field = new ObjectField('fake', [
-            'field_structure' => ['test' => new FakeItemField('item', ['allow_null' => true])],
+        $field = new ObjectField([
+            'field_structure' => ['test' => new FakeItemField(['allow_null' => true])],
         ]);
         $this->assertSame("{\n    'test': ItemType|null,\n}", $field->getTypeScriptType());
     }
 
     public function testParse(): void {
-        $field = new ObjectField('fake', []);
+        $field = new ObjectField([]);
         try {
             $field->parse('test');
             $this->fail('Error expected');
@@ -47,13 +47,13 @@ final class ObjectFieldTest extends UnitTestCase {
     }
 
     public function testItemFieldDefault(): void {
-        $field = new ObjectField('fake', []);
+        $field = new ObjectField([]);
         $this->assertSame([], $field->getFieldStructure());
     }
 
     public function testFieldStructureSet(): void {
-        $test_item_field = new FakeItemField('item', []);
-        $field = new ObjectField('fake', [
+        $test_item_field = new FakeItemField([]);
+        $field = new ObjectField([
             'field_structure' => ['test' => $test_item_field],
         ]);
         $this->assertSame(['test' => $test_item_field], $field->getFieldStructure());
@@ -61,7 +61,7 @@ final class ObjectFieldTest extends UnitTestCase {
 
     public function testInvalidFieldStructure(): void {
         try {
-            new ObjectField('fake', [
+            new ObjectField([
                 'field_structure' => ['test' => 'not_a_field'],
             ]);
             $this->fail('Error expected');
@@ -71,11 +71,11 @@ final class ObjectFieldTest extends UnitTestCase {
     }
 
     public function testValidatesFieldStructure(): void {
-        $field = new ObjectField('fake', [
+        $field = new ObjectField([
             'field_structure' => [
-                'one' => new FakeItemField('item', []),
-                'two' => new FakeItemField('item', []),
-                'three' => new FakeItemField('item', ['allow_null' => true]),
+                'one' => new FakeItemField([]),
+                'two' => new FakeItemField([]),
+                'three' => new FakeItemField(['allow_null' => true]),
             ],
         ]);
         $this->assertSame(
@@ -129,8 +129,8 @@ final class ObjectFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullableObjectField(): void {
-        $field = new ObjectField('fake', [
-            'field_structure' => ['test' => new FakeItemField('item', [])],
+        $field = new ObjectField([
+            'field_structure' => ['test' => new FakeItemField([])],
             'allow_null' => true,
         ]);
         $this->assertSame(

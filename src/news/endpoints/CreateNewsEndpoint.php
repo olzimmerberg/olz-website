@@ -29,35 +29,35 @@ class CreateNewsEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            new IntegerField('newsId', ['allow_null' => true, 'min_value' => 1]),
+            'newsId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new IntegerField('ownerUserId', ['allow_null' => true, 'min_value' => 1]),
-            new IntegerField('ownerRoleId', ['allow_null' => true, 'min_value' => 1]),
-            new StringField('author', ['allow_null' => true]),
-            new IntegerField('authorUserId', ['allow_null' => true, 'min_value' => 1]),
-            new IntegerField('authorRoleId', ['allow_null' => true, 'min_value' => 1]),
-            new StringField('title', []),
-            new StringField('teaser', ['allow_empty' => true]),
-            new StringField('content', ['allow_empty' => true]),
-            new StringField('external_url', ['allow_null' => true]),
-            new ArrayField('tags', [
-                'item_field' => new StringField('item', []),
+            'ownerUserId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'ownerRoleId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'author' => new StringField(['allow_null' => true]),
+            'authorUserId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'authorRoleId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'title' => new StringField([]),
+            'teaser' => new StringField(['allow_empty' => true]),
+            'content' => new StringField(['allow_empty' => true]),
+            'external_url' => new StringField(['allow_null' => true]),
+            'tags' => new ArrayField([
+                'item_field' => new StringField([]),
             ]),
-            new IntegerField('terminId', ['allow_null' => true, 'min_value' => 1]),
-            new BooleanField('onOff', ['default_value' => true]),
-            new ArrayField('imageIds', [
-                'item_field' => new StringField('item', []),
+            'terminId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'onOff' => new BooleanField(['default_value' => true]),
+            'imageIds' => new ArrayField([
+                'item_field' => new StringField([]),
             ]),
-            new ArrayField('fileIds', [
-                'item_field' => new StringField('item', []),
+            'fileIds' => new ArrayField([
+                'item_field' => new StringField([]),
             ]),
         ];
     }

@@ -6,8 +6,8 @@ class StringField extends Field {
     private $max_length;
     private $allow_empty;
 
-    public function __construct(string $id, $config = []) {
-        parent::__construct($id, $config);
+    public function __construct($config = []) {
+        parent::__construct($config);
         $this->max_length = $config['max_length'] ?? null;
         $this->allow_empty = $config['allow_empty'] ?? false;
     }

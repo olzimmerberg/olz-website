@@ -18,7 +18,7 @@ class LoginEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'INVALID_CREDENTIALS',
                 'BLOCKED',
                 'AUTHENTICATED',
@@ -28,8 +28,8 @@ class LoginEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('usernameOrEmail', []),
-            new StringField('password', []),
+            'usernameOrEmail' => new StringField([]),
+            'password' => new StringField([]),
         ];
     }
 

@@ -5,8 +5,8 @@ require_once __DIR__.'/Field.php';
 class DictField extends Field {
     private Field $item_field;
 
-    public function __construct(string $id, $config = []) {
-        parent::__construct($id, $config);
+    public function __construct($config = []) {
+        parent::__construct($config);
         $item_field = $config['item_field'] ?? [];
         if (!($item_field instanceof Field)) {
             throw new Exception("`item_field` must be an instance of `Field`");

@@ -22,7 +22,7 @@ class ExecuteEmailReactionEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'INVALID_TOKEN',
                 'OK',
             ]]),
@@ -31,7 +31,7 @@ class ExecuteEmailReactionEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('token', []),
+            'token' => new StringField([]),
         ];
     }
 

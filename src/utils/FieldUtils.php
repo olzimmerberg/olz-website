@@ -6,8 +6,7 @@ class FieldUtils {
     public function validate($fields, $input, $options = []) {
         $validated = [];
         $errors = [];
-        foreach ($fields as $field) {
-            $field_id = $field->getId();
+        foreach ($fields as $field_id => $field) {
             $value = $input[$field_id] ?? null;
             if ($options['parse'] ?? false) {
                 try {

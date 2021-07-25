@@ -25,7 +25,7 @@ class UpdateUploadEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
@@ -34,9 +34,9 @@ class UpdateUploadEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('id', ['allow_null' => false]),
-            new IntegerField('part', ['allow_null' => false, 'min_value' => 0, 'max_value' => 1000]),
-            new StringField('content', ['allow_null' => false]),
+            'id' => new StringField(['allow_null' => false]),
+            'part' => new IntegerField(['allow_null' => false, 'min_value' => 0, 'max_value' => 1000]),
+            'content' => new StringField(['allow_null' => false]),
         ];
     }
 

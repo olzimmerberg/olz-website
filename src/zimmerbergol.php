@@ -20,8 +20,8 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 // TODO: Remove `just_log` once we are sure we know all the GET variables.
 $http_utils->validateGetParams([
-    new StringField('typ', ['allow_null' => true]),
-    new EnumField('lang', ['allow_null' => true, 'allowed_values' => ['de', 'fr']]),
+    'typ' => new StringField(['allow_null' => true]),
+    'lang' => new EnumField(['allow_null' => true, 'allowed_values' => ['de', 'fr']]),
 ], $_GET, ['just_log' => true]);
 
 echo olz_header([

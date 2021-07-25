@@ -21,7 +21,7 @@ class UpdateNotificationSubscriptionsEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
@@ -30,26 +30,26 @@ class UpdateNotificationSubscriptionsEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new EnumField('deliveryType', ['allowed_values' => [
+            'deliveryType' => new EnumField(['allowed_values' => [
                 NotificationSubscription::DELIVERY_EMAIL,
                 NotificationSubscription::DELIVERY_TELEGRAM,
             ]]),
-            new BooleanField('monthlyPreview', []),
-            new BooleanField('weeklyPreview', []),
-            new BooleanField('deadlineWarning', []),
-            new EnumField('deadlineWarningDays', ['allowed_values' => [
+            'monthlyPreview' => new BooleanField([]),
+            'weeklyPreview' => new BooleanField([]),
+            'deadlineWarning' => new BooleanField([]),
+            'deadlineWarningDays' => new EnumField(['allowed_values' => [
                 '1', '2', '3', '7',
             ]]),
-            new BooleanField('dailySummary', []),
-            new BooleanField('dailySummaryAktuell', []),
-            new BooleanField('dailySummaryBlog', []),
-            new BooleanField('dailySummaryForum', []),
-            new BooleanField('dailySummaryGalerie', []),
-            new BooleanField('weeklySummary', []),
-            new BooleanField('weeklySummaryAktuell', []),
-            new BooleanField('weeklySummaryBlog', []),
-            new BooleanField('weeklySummaryForum', []),
-            new BooleanField('weeklySummaryGalerie', []),
+            'dailySummary' => new BooleanField([]),
+            'dailySummaryAktuell' => new BooleanField([]),
+            'dailySummaryBlog' => new BooleanField([]),
+            'dailySummaryForum' => new BooleanField([]),
+            'dailySummaryGalerie' => new BooleanField([]),
+            'weeklySummary' => new BooleanField([]),
+            'weeklySummaryAktuell' => new BooleanField([]),
+            'weeklySummaryBlog' => new BooleanField([]),
+            'weeklySummaryForum' => new BooleanField([]),
+            'weeklySummaryGalerie' => new BooleanField([]),
         ];
     }
 

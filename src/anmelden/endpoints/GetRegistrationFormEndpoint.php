@@ -18,41 +18,41 @@ class GetRegistrationFormEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            new StringField('title', ['allow_empty' => false]),
-            new StringField('description', ['allow_empty' => true]),
+            'title' => new StringField(['allow_empty' => false]),
+            'description' => new StringField(['allow_empty' => true]),
             // see README for documentation.
-            new ArrayField('fields', [
-                'item_field' => new ObjectField('item', [
+            'fields' => new ArrayField([
+                'item_field' => new ObjectField([
                     'field_structure' => [
-                        'type' => new EnumField('type', [
+                        'type' => new EnumField([
                             'allowed_values' => VALID_FIELD_TYPES,
                         ]),
-                        'isOptional' => new BooleanField('isOptional'),
-                        'title' => new StringField('title', ['allow_empty' => false]),
-                        'description' => new StringField('description', ['allow_empty' => true]),
-                        'options' => new ArrayField('fields', [
-                            'item_field' => new StringField('item'),
+                        'isOptional' => new BooleanField(),
+                        'title' => new StringField(['allow_empty' => false]),
+                        'description' => new StringField(['allow_empty' => true]),
+                        'options' => new ArrayField([
+                            'item_field' => new StringField(),
                             'allow_null' => true,
                         ]),
                     ],
                 ]),
             ]),
-            new DateTimeField('opensAt', ['allow_null' => true]),
-            new DateTimeField('closesAt', ['allow_null' => true]),
-            new IntegerField('ownerUser', ['allow_empty' => false]),
-            new IntegerField('ownerRole', ['allow_empty' => true]),
-            new DictField('prefillValues', ['item_field' => new Field('item'), 'allow_null' => true]),
+            'opensAt' => new DateTimeField(['allow_null' => true]),
+            'closesAt' => new DateTimeField(['allow_null' => true]),
+            'ownerUser' => new IntegerField(['allow_empty' => false]),
+            'ownerRole' => new IntegerField(['allow_empty' => true]),
+            'prefillValues' => new DictField(['item_field' => new Field(), 'allow_null' => true]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new IntegerField('registrationForm', ['min_value' => 1]),
-            new IntegerField('user', ['min_value' => 1]), // Can be a managed user
+            'registrationForm' => new IntegerField(['min_value' => 1]),
+            'user' => new IntegerField(['min_value' => 1]), // Can be a managed user
         ];
     }
 

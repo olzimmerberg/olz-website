@@ -6,8 +6,8 @@ abstract class AbstractTemporalField extends Field {
     private $min_value;
     private $max_value;
 
-    public function __construct(string $id, $config = []) {
-        parent::__construct($id, $config);
+    public function __construct($config = []) {
+        parent::__construct($config);
         $this->min_value = $config['min_value'] ?? null;
         $this->max_value = $config['max_value'] ?? null;
     }

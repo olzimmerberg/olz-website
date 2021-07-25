@@ -20,29 +20,29 @@ class LoginWithStravaEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'NOT_REGISTERED',
                 'INVALID_CODE',
                 'AUTHENTICATED',
             ]]),
-            new StringField('tokenType', ['allow_null' => true]),
-            new DateTimeField('expiresAt', ['allow_null' => true]),
-            new StringField('refreshToken', ['allow_null' => true]),
-            new StringField('accessToken', ['allow_null' => true]),
-            new StringField('userIdentifier', ['allow_null' => true]),
-            new StringField('firstName', ['allow_null' => true]),
-            new StringField('lastName', ['allow_null' => true]),
-            new EnumField('gender', ['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            new StringField('city', ['allow_null' => true]),
-            new StringField('region', ['allow_null' => true]),
-            new StringField('country', ['allow_null' => true]),
-            new StringField('profilePictureUrl', ['allow_null' => true]),
+            'tokenType' => new StringField(['allow_null' => true]),
+            'expiresAt' => new DateTimeField(['allow_null' => true]),
+            'refreshToken' => new StringField(['allow_null' => true]),
+            'accessToken' => new StringField(['allow_null' => true]),
+            'userIdentifier' => new StringField(['allow_null' => true]),
+            'firstName' => new StringField(['allow_null' => true]),
+            'lastName' => new StringField(['allow_null' => true]),
+            'gender' => new EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
+            'city' => new StringField(['allow_null' => true]),
+            'region' => new StringField(['allow_null' => true]),
+            'country' => new StringField(['allow_null' => true]),
+            'profilePictureUrl' => new StringField(['allow_null' => true]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new StringField('code', []),
+            'code' => new StringField([]),
         ];
     }
 

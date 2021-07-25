@@ -21,7 +21,7 @@ class SignUpWithPasswordEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'OK',
             ]]),
         ];
@@ -29,19 +29,19 @@ class SignUpWithPasswordEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('firstName', ['allow_empty' => false]),
-            new StringField('lastName', ['allow_empty' => false]),
-            new StringField('username', ['allow_empty' => false]),
-            new StringField('password', ['allow_empty' => false]),
-            new StringField('email', ['allow_empty' => false]),
-            new StringField('phone', ['allow_null' => true]),
-            new EnumField('gender', ['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            new DateTimeField('birthdate', ['allow_null' => true]),
-            new StringField('street', ['allow_empty' => true]),
-            new StringField('postalCode', ['allow_empty' => true]),
-            new StringField('city', ['allow_empty' => true]),
-            new StringField('region', ['allow_empty' => true]),
-            new StringField('countryCode', ['allow_empty' => true]),
+            'firstName' => new StringField(['allow_empty' => false]),
+            'lastName' => new StringField(['allow_empty' => false]),
+            'username' => new StringField(['allow_empty' => false]),
+            'password' => new StringField(['allow_empty' => false]),
+            'email' => new StringField(['allow_empty' => false]),
+            'phone' => new StringField(['allow_null' => true]),
+            'gender' => new EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
+            'birthdate' => new DateTimeField(['allow_null' => true]),
+            'street' => new StringField(['allow_empty' => true]),
+            'postalCode' => new StringField(['allow_empty' => true]),
+            'city' => new StringField(['allow_empty' => true]),
+            'region' => new StringField(['allow_empty' => true]),
+            'countryCode' => new StringField(['allow_empty' => true]),
         ];
     }
 

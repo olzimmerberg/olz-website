@@ -10,7 +10,7 @@ class LogoutEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new EnumField('status', ['allowed_values' => [
+            'status' => new EnumField(['allowed_values' => [
                 'NO_SESSION',
                 'SESSION_CLOSED',
             ]]),

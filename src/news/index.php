@@ -19,10 +19,10 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new IntegerField('id', ['allow_null' => true]),
-    new BooleanField('archiv', ['allow_null' => true]),
-    new StringField('buttonaktuell', ['allow_null' => true]),
-    new StringField('filter', ['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
+    'archiv' => new BooleanField(['allow_null' => true]),
+    'buttonaktuell' => new StringField(['allow_null' => true]),
+    'filter' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 $id = $_GET['id'] ?? null;

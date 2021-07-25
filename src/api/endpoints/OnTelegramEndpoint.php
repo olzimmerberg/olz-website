@@ -24,8 +24,8 @@ class OnTelegramEndpoint extends Endpoint {
 
     public function getRequestFields() {
         return [
-            new StringField('authenticityCode', []),
-            new StringField('telegramEvent', []),
+            'authenticityCode' => new StringField([]),
+            'telegramEvent' => new StringField([]),
         ];
     }
 

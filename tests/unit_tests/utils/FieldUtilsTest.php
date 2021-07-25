@@ -35,7 +35,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new Field('input', ['allow_null' => false]),
+                'input' => new Field(['allow_null' => false]),
             ], []);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
@@ -50,7 +50,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new Field('input', ['allow_null' => false]),
+                'input' => new Field(['allow_null' => false]),
             ], ['input' => 'test', 'tooMuch' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
@@ -65,7 +65,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new Field('input', ['allow_null' => false]),
+                'input' => new Field(['allow_null' => false]),
             ], ['input' => null]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
@@ -80,7 +80,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new Field('input', ['allow_null' => false]),
+                'input' => new Field(['allow_null' => false]),
             ], ['input' => null, 'tooMuch' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
@@ -96,7 +96,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new Field('input', ['allow_null' => false]),
+                'input' => new Field(['allow_null' => false]),
             ], ['input' => ''], ['parse' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {
@@ -111,7 +111,7 @@ final class FieldUtilsTest extends UnitTestCase {
         $field_utils = new FieldUtils();
         try {
             $field_utils->validate([
-                new IntegerField('input', []),
+                'input' => new IntegerField([]),
             ], ['input' => 'not_an_integer'], ['parse' => true]);
             $this->fail('Error expected');
         } catch (ValidationError $err) {

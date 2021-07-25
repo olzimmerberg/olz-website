@@ -18,8 +18,8 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new IntegerField('id', ['allow_null' => true]),
-    new StringField('buttonbild_der_woche', ['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
+    'buttonbild_der_woche' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 echo olz_header([

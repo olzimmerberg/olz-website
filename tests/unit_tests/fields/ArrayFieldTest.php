@@ -12,30 +12,30 @@ require_once __DIR__.'/FakeItemField.php';
  */
 final class ArrayFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame('Array<ItemType>', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([]),
             'allow_null' => true,
         ]);
         $this->assertSame('Array<ItemType>|null', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', ['allow_null' => true]),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame('Array<ItemType|null>', $field->getTypeScriptType());
     }
 
     public function testParse(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([]),
         ]);
         try {
             $field->parse('test');
@@ -47,7 +47,7 @@ final class ArrayFieldTest extends UnitTestCase {
 
     public function testItemFieldDefault(): void {
         try {
-            new ArrayField('fake', []);
+            new ArrayField([]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame("`item_field` must be an instance of `Field`", $exc->getMessage());
@@ -55,16 +55,16 @@ final class ArrayFieldTest extends UnitTestCase {
     }
 
     public function testItemFieldSet(): void {
-        $item_field = new FakeItemField('item', []);
-        $field = new ArrayField('fake', [
+        $item_field = new FakeItemField([]);
+        $field = new ArrayField([
             'item_field' => $item_field,
         ]);
         $this->assertSame($item_field, $field->getItemField());
     }
 
     public function testValidatesItemField(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame(
             [
@@ -89,8 +89,8 @@ final class ArrayFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullableItemField(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', ['allow_null' => true]),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame(
             [
@@ -111,8 +111,8 @@ final class ArrayFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullableArrayField(): void {
-        $field = new ArrayField('fake', [
-            'item_field' => new FakeItemField('item', []),
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([]),
             'allow_null' => true,
         ]);
         $this->assertSame(

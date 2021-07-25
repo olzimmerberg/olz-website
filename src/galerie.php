@@ -18,9 +18,9 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new IntegerField('id', ['allow_null' => true]),
-    new BooleanField('archiv', ['allow_null' => true]),
-    new StringField('buttongalerie', ['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
+    'archiv' => new BooleanField(['allow_null' => true]),
+    'buttongalerie' => new StringField(['allow_null' => true]),
 ], $_GET);
 
 if (isset($_GET['datum']) || isset($_GET['foto'])) {

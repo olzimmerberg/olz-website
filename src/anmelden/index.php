@@ -17,7 +17,7 @@ $logger = $env_utils->getLogsUtils()->getLogger('anmelden');
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    new IntegerField('id', ['allow_null' => true]),
+    'id' => new IntegerField(['allow_null' => true]),
 ], $_GET);
 
 require_once __DIR__.'/../components/page/olz_header/olz_header.php';

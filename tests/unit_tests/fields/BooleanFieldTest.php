@@ -11,17 +11,17 @@ require_once __DIR__.'/../common/UnitTestCase.php';
  */
 final class BooleanFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
-        $field = new BooleanField('fake', []);
+        $field = new BooleanField([]);
         $this->assertSame('boolean', $field->getTypeScriptType());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
-        $field = new BooleanField('fake', ['allow_null' => true]);
+        $field = new BooleanField(['allow_null' => true]);
         $this->assertSame('boolean|null', $field->getTypeScriptType());
     }
 
     public function testParse(): void {
-        $field = new BooleanField('fake', []);
+        $field = new BooleanField([]);
         $this->assertSame(true, $field->parse('true'));
         $this->assertSame(true, $field->parse('1'));
         $this->assertSame(false, $field->parse('false'));
@@ -37,21 +37,21 @@ final class BooleanFieldTest extends UnitTestCase {
     }
 
     public function testValidatesNullAllowed(): void {
-        $field = new BooleanField('fake', ['allow_null' => true]);
+        $field = new BooleanField(['allow_null' => true]);
         $this->assertSame([], $field->getValidationErrors(true));
         $this->assertSame([], $field->getValidationErrors(false));
         $this->assertSame([], $field->getValidationErrors(null));
     }
 
     public function testValidatesNullDisallowed(): void {
-        $field = new BooleanField('fake', ['allow_null' => false]);
+        $field = new BooleanField(['allow_null' => false]);
         $this->assertSame([], $field->getValidationErrors(true));
         $this->assertSame([], $field->getValidationErrors(false));
         $this->assertSame(['Feld darf nicht leer sein.'], $field->getValidationErrors(null));
     }
 
     public function testValidatesWeirdValues(): void {
-        $field = new BooleanField('fake', []);
+        $field = new BooleanField([]);
         $this->assertSame(['Wert muss Ja oder Nein sein.'], $field->getValidationErrors(1));
         $this->assertSame(['Wert muss Ja oder Nein sein.'], $field->getValidationErrors('test'));
         $this->assertSame(['Wert muss Ja oder Nein sein.'], $field->getValidationErrors([1]));

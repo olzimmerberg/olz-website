@@ -5,8 +5,8 @@ require_once __DIR__.'/Field.php';
 class ObjectField extends Field {
     private $field_structure = [];
 
-    public function __construct(string $id, $config = []) {
-        parent::__construct($id, $config);
+    public function __construct($config = []) {
+        parent::__construct($config);
         $field_structure = $config['field_structure'] ?? [];
         foreach ($field_structure as $key => $field) {
             if (!($field instanceof Field)) {

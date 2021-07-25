@@ -20,13 +20,13 @@ class FakeApiGeneratorEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            new Field('output', []),
+            'output' => new Field([]),
         ];
     }
 
     public function getRequestFields() {
         return [
-            new Field('input', ['allow_null' => true]),
+            'input' => new Field(['allow_null' => true]),
         ];
     }
 

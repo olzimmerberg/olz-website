@@ -1,5 +1,5 @@
 import {OlzApiEndpoint, callOlzApi, OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -60,22 +60,22 @@ export function olzKontoLoginWithStrava(code: string): boolean {
 
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithStrava> = {
-        stravaUser: (f) => f['strava-user'].value,
-        accessToken: (f) => f['access-token'].value,
-        refreshToken: (f) => f['refresh-token'].value,
-        expiresAt: (f) => f['expires-at'].value,
-        firstName: (f) => f['first-name'].value,
-        lastName: (f) => f['last-name'].value,
-        username: (f) => f.username.value,
-        email: (f) => getRequired('email', getEmail('email', f.email.value)),
-        phone: (f) => getPhone('phone', f.phone.value),
-        gender: (f) => getGender('gender', f.gender.value),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
-        street: (f) => f.street.value,
-        postalCode: (f) => f['postal-code'].value,
-        city: (f) => f.city.value,
-        region: (f) => f.region.value,
-        countryCode: (f) => getCountryCode('countryCode', f['country-code'].value),
+        stravaUser: (f) => getFormField(f, 'strava-user'),
+        accessToken: (f) => getFormField(f, 'access-token'),
+        refreshToken: (f) => getFormField(f, 'refresh-token'),
+        expiresAt: (f) => getFormField(f, 'expires-at'),
+        firstName: (f) => getFormField(f, 'first-name'),
+        lastName: (f) => getFormField(f, 'last-name'),
+        username: (f) => getFormField(f, 'username'),
+        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
+        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
+        gender: (f) => getGender('gender', getFormField(f, 'gender')),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
+        street: (f) => getFormField(f, 'street'),
+        postalCode: (f) => getFormField(f, 'postal-code'),
+        city: (f) => getFormField(f, 'city'),
+        region: (f) => getFormField(f, 'region'),
+        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
     return olzDefaultFormSubmit(

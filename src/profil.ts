@@ -1,21 +1,21 @@
 import {OlzApiResponses, OlzApiEndpoint} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.updateUser> = {
         id: () => userId,
-        firstName: (f) => f['first-name'].value,
-        lastName: (f) => f['last-name'].value,
-        username: (f) => f.username.value,
-        phone: (f) => getPhone('phone', f.phone.value),
-        email: (f) => getRequired('email', getEmail('email', f.email.value)),
-        gender: (f) => getGender('gender', f.gender.value),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
-        street: (f) => f.street.value,
-        postalCode: (f) => f['postal-code'].value,
-        city: (f) => f.city.value,
-        region: (f) => f.region.value,
-        countryCode: (f) => getCountryCode('countryCode', f['country-code'].value),
+        firstName: (f) => getFormField(f, 'first-name'),
+        lastName: (f) => getFormField(f, 'last-name'),
+        username: (f) => getFormField(f, 'username'),
+        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
+        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
+        gender: (f) => getGender('gender', getFormField(f, 'gender')),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
+        street: (f) => getFormField(f, 'street'),
+        postalCode: (f) => getFormField(f, 'postal-code'),
+        city: (f) => getFormField(f, 'city'),
+        region: (f) => getFormField(f, 'region'),
+        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
     return olzDefaultFormSubmit(

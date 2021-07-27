@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {ValidationError} from '../../../api/client';
-import {EMAIL_REGEX, getDataForRequest, camelCaseToDashCase, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getCountryCode} from './olz_default_form';
+import {EMAIL_REGEX, getDataForRequest, camelCaseToDashCase, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired} from './olz_default_form';
 
 describe('EMAIL_REGEX', () => {
     it('matches real email adresses', () => {
@@ -237,5 +237,38 @@ describe('getCountryCode', () => {
         expect(() => getCountryCode('countryCode', 'P')).toThrow(ValidationError);
         expect(() => getCountryCode('countryCode', 'WTF')).toThrow(ValidationError);
         expect(() => getCountryCode('countryCode', 'not.a.country')).toThrow(ValidationError);
+    });
+});
+
+describe('getRequired', () => {
+    it('returns value for non-null user inputs', () => {
+        expect(getRequired('fieldId', 'test')).toEqual('test');
+        expect(getRequired('fieldId', '')).toEqual('');
+        expect(getRequired('fieldId', 1)).toEqual(1);
+        expect(getRequired('fieldId', 0)).toEqual(0);
+        expect(getRequired('fieldId', true)).toEqual(true);
+        expect(getRequired('fieldId', false)).toEqual(false);
+    });
+
+    it('throws validation error for nullish user inputs', () => {
+        expect(() => getRequired('fieldId', undefined)).toThrow(ValidationError);
+        expect(() => getRequired('fieldId', null)).toThrow(ValidationError);
+    });
+});
+
+describe('getFormField', () => {
+    it('throws on inexistent field', () => {
+        const form = {elements: {namedItem: (): undefined => undefined}} as unknown as HTMLFormElement;
+        expect(() => getFormField(form, 'wtf')).toThrow(Error);
+    });
+
+    it('throws on invalid field', () => {
+        const form = {elements: {namedItem: () => ({})}} as unknown as HTMLFormElement;
+        expect(() => getFormField(form, 'wtf')).toThrow(Error);
+    });
+
+    it('works for existing field', () => {
+        const form = {elements: {namedItem: () => ({value: 'test'})}} as unknown as HTMLFormElement;
+        expect(getFormField(form, 'wtf')).toEqual('test');
     });
 });

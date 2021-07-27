@@ -209,4 +209,32 @@ class NewsEntry extends OlzEntity {
     public function setTermin($new_termin) {
         $this->termin = $new_termin;
     }
+
+    public function getCounter() {
+        return $this->counter;
+    }
+
+    public function setCounter($new_counter) {
+        $this->counter = $new_counter;
+    }
+
+    /** @deprecated */
+    public function getType() {
+        return $this->typ;
+    }
+
+    /** @deprecated */
+    public function setType($new_type) {
+        $this->typ = $new_type;
+    }
+
+    /** @deprecated */
+    public function getNewsletter() {
+        return $this->newsletter;
+    }
+
+    /** @deprecated */
+    public function setNewsletter($new_newsletter) {
+        $this->newsletter = $new_newsletter;
+    }
 }

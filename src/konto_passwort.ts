@@ -1,14 +1,14 @@
 import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
-        firstName: (f) => f['first-name'].value,
-        lastName: (f) => f['last-name'].value,
-        username: (f) => f.username.value,
+        firstName: (f) => getFormField(f, 'first-name'),
+        lastName: (f) => getFormField(f, 'last-name'),
+        username: (f) => getFormField(f, 'username'),
         password: (f) => {
-            const password = f.password.value;
-            const passwordRepeat = form['password-repeat'].value;
+            const password = getFormField(f, 'password');
+            const passwordRepeat = getFormField(f, 'password-repeat');
             const hasInvalidRepetition = password !== passwordRepeat;
             if (hasInvalidRepetition) {
                 showErrorOnField(form['password-repeat'], 'Das Passwort und die Wiederholung müssen übereinstimmen!');
@@ -21,15 +21,15 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             }
             return result;
         },
-        email: (f) => getRequired('email', getEmail('email', f.email.value)),
-        phone: (f) => getPhone('phone', f.phone.value),
-        gender: (f) => getGender('gender', f.gender.value),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', f.birthdate.value),
-        street: (f) => f.street.value,
-        postalCode: (f) => f['postal-code'].value,
-        city: (f) => f.city.value,
-        region: (f) => f.region.value,
-        countryCode: (f) => getCountryCode('countryCode', f['country-code'].value),
+        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
+        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
+        gender: (f) => getGender('gender', getFormField(f, 'gender')),
+        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
+        street: (f) => getFormField(f, 'street'),
+        postalCode: (f) => getFormField(f, 'postal-code'),
+        city: (f) => getFormField(f, 'city'),
+        region: (f) => getFormField(f, 'region'),
+        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
     return olzDefaultFormSubmit(

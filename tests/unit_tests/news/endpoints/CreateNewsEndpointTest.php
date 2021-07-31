@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../../../../src/news/endpoints/CreateNewsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/fake_user.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
@@ -54,7 +55,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'title' => 'Test Titel',
             'teaser' => 'Das muss man gelesen haben!',
             'content' => 'Sehr viel Inhalt.',
-            'external_url' => null,
+            'externalUrl' => null,
             'tags' => ['test', 'unit'],
             'terminId' => null,
             'onOff' => true,
@@ -76,6 +77,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLogger($logger);
 
@@ -88,7 +90,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'title' => 'Test Titel',
             'teaser' => 'Das muss man gelesen haben!',
             'content' => 'Sehr viel Inhalt.',
-            'external_url' => null,
+            'externalUrl' => null,
             'tags' => ['test', 'unit'],
             'terminId' => null,
             'onOff' => true,
@@ -115,7 +117,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
         $this->assertSame(null, $news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
-        $this->assertSame(null, $news_entry->getTermin());
+        $this->assertSame(0, $news_entry->getTermin());
         $this->assertSame(1, $news_entry->getOnOff());
     }
 }

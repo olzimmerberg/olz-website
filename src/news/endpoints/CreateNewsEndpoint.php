@@ -1,8 +1,9 @@
 <?php
 
 require_once __DIR__.'/../../api/common/Endpoint.php';
+require_once __DIR__.'/../../fields/ArrayField.php';
+require_once __DIR__.'/../../fields/BooleanField.php';
 require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/DictField.php';
 require_once __DIR__.'/../../fields/EnumField.php';
 require_once __DIR__.'/../../fields/IntegerField.php';
 require_once __DIR__.'/../../fields/StringField.php';
@@ -47,7 +48,7 @@ class CreateNewsEndpoint extends Endpoint {
             'title' => new StringField([]),
             'teaser' => new StringField(['allow_empty' => true]),
             'content' => new StringField(['allow_empty' => true]),
-            'external_url' => new StringField(['allow_null' => true]),
+            'externalUrl' => new StringField(['allow_null' => true]),
             'tags' => new ArrayField([
                 'item_field' => new StringField([]),
             ]),
@@ -96,22 +97,31 @@ class CreateNewsEndpoint extends Endpoint {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
+        $today = new DateTime($this->dateUtils->getIsoToday());
+        $now = new DateTime($this->dateUtils->getIsoNow());
+
         $tags_for_db = ' '.implode(' ', $input['tags']).' ';
 
         $news_entry = new NewsEntry();
+        $news_entry->setCreatedAt($now);
+        $news_entry->setLastModifiedAt($now);
         $news_entry->setOwnerUser($owner_user);
         $news_entry->setOwnerRole($owner_role);
         $news_entry->setAuthor($input['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
+        $news_entry->setDate($today);
         $news_entry->setTitle($input['title']);
         $news_entry->setTeaser($input['teaser']);
         $news_entry->setContent($input['content']);
-        $news_entry->setExternalUrl($input['external_url']);
+        $news_entry->setExternalUrl($input['externalUrl']);
         $news_entry->setTags($tags_for_db);
         // TODO: Do not ignore
-        $news_entry->setTermin(null);
+        $news_entry->setTermin(0);
         $news_entry->setOnOff($input['onOff'] ? 1 : 0);
+        $news_entry->setCounter(0);
+        $news_entry->setType('aktuell');
+        $news_entry->setNewsletter(1);
 
         $this->entityManager->persist($news_entry);
         $this->entityManager->flush();

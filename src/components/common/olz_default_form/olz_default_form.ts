@@ -232,3 +232,11 @@ export function getRequired<T>(fieldId: string, input: T|null|undefined): T {
     }
     return input;
 }
+
+export function getFormField(form: HTMLFormElement, fieldId: string): string|null {
+    const field = form.elements.namedItem(fieldId);
+    if (!field || !('value' in field)) {
+        throw new Error(`Error retrieving form field value for: ${fieldId}`);
+    }
+    return field.value;
+}

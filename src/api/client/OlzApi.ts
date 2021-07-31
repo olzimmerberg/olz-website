@@ -64,7 +64,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         title: string,
         teaser: string,
         content: string,
-        external_url: string|null,
+        externalUrl: string|null,
         tags: Array<string>,
         terminId: number|null,
         onOff: boolean,

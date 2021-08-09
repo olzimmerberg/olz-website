@@ -15,19 +15,6 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
  * @covers \FinishUploadEndpoint
  */
 final class FinishUploadEndpointTest extends UnitTestCase {
-    public function setUp(): void {
-        parent::setUp();
-        $temp_path = __DIR__.'/../../tmp/temp/';
-        if (is_dir($temp_path)) {
-            foreach (scandir($temp_path) as $entry) {
-                if ($entry != '.' && $entry != '..') {
-                    unlink("{$temp_path}{$entry}");
-                }
-            }
-            rmdir($temp_path);
-        }
-    }
-
     public function testFinishUploadEndpointIdent(): void {
         $endpoint = new FinishUploadEndpoint();
         $this->assertSame('FinishUploadEndpoint', $endpoint->getIdent());

@@ -21,19 +21,6 @@ class DeterministicStartUploadEndpoint extends StartUploadEndpoint {
  * @covers \StartUploadEndpoint
  */
 final class StartUploadEndpointTest extends UnitTestCase {
-    public function setUp(): void {
-        parent::setUp();
-        $temp_path = __DIR__.'/../../tmp/temp/';
-        if (is_dir($temp_path)) {
-            foreach (scandir($temp_path) as $entry) {
-                if ($entry != '.' && $entry != '..') {
-                    unlink("{$temp_path}{$entry}");
-                }
-            }
-            rmdir($temp_path);
-        }
-    }
-
     public function testStartUploadEndpointIdent(): void {
         $endpoint = new StartUploadEndpoint();
         $this->assertSame('StartUploadEndpoint', $endpoint->getIdent());

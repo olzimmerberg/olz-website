@@ -5,6 +5,8 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../src/tools/common.php';
+require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 
 /**
  * @internal
@@ -19,6 +21,11 @@ class UnitTestCase extends TestCase {
         $_SERVER = [];
 
         date_default_timezone_set('UTC');
+
+        $env_utils = new FakeEnvUtils();
+        $data_path = $env_utils->getDataPath();
+        remove_r($data_path);
+        mkdir($data_path);
     }
 
     protected function tearDown(): void {

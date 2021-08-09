@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/../../src/config/vendor/autoload.php';
+require_once __DIR__.'/FakeEnvUtils.php';
 
 class FakeLogHandler implements Monolog\Handler\HandlerInterface {
     public $records = [];
@@ -21,9 +22,22 @@ class FakeLogHandler implements Monolog\Handler\HandlerInterface {
     }
 
     public function getPrettyRecords() {
-        return array_map(function ($record) {
+        $env_utils = new FakeEnvUtils();
+        $data_path = $env_utils->getDataPath();
+        $data_realpath = realpath($data_path);
+        return array_map(function ($record) use ($data_path, $data_realpath) {
             $level_name = $record['level_name'];
-            $message = $record['message'];
+            $message = str_replace(
+                [
+                    $data_path,
+                    $data_realpath,
+                ],
+                [
+                    'data-path/',
+                    'data-realpath/',
+                ],
+                $record['message']
+            );
             return "{$level_name} {$message}";
         }, $this->records);
     }

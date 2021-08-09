@@ -19,14 +19,6 @@ final class LogsUtilsTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
-        if (is_dir($logs_path)) {
-            foreach (scandir($logs_path) as $entry) {
-                if ($entry != '.' && $entry != '..') {
-                    unlink("{$logs_path}{$entry}");
-                }
-            }
-            rmdir($logs_path);
-        }
         $this->assertSame(false, is_dir($logs_path));
         $logs_utils = new LogsUtils();
         $logs_utils->setEnvUtils($env_utils);

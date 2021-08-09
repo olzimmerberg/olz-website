@@ -5,6 +5,10 @@ require_once __DIR__.'/../../fields/StringField.php';
 require_once __DIR__.'/../../model/Throttling.php';
 
 class OnDailyEndpoint extends Endpoint {
+    public function setCleanTempDirectoryTask($cleanTempDirectoryTask) {
+        $this->cleanTempDirectoryTask = $cleanTempDirectoryTask;
+    }
+
     public function setSyncSolvTask($syncSolvTask) {
         $this->syncSolvTask = $syncSolvTask;
     }
@@ -68,6 +72,7 @@ class OnDailyEndpoint extends Endpoint {
         $throttling_repo = $this->entityManager->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_daily', $this->dateUtils->getIsoNow());
 
+        $this->cleanTempDirectoryTask->run();
         $this->syncSolvTask->run();
 
         return [];

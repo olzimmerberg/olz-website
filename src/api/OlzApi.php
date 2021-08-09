@@ -18,9 +18,12 @@ class OlzApi {
                     require_once __DIR__.'/../config/server.php';
                     require_once __DIR__.'/../fetchers/SolvFetcher.php';
                     require_once __DIR__.'/../model/index.php';
+                    require_once __DIR__.'/../tasks/CleanTempDirectoryTask.php';
                     require_once __DIR__.'/../tasks/SyncSolvTask.php';
                     $date_utils = $_DATE;
+                    $clean_temp_directory_task = new CleanTempDirectoryTask($date_utils, $_CONFIG);
                     $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
+                    $endpoint->setCleanTempDirectoryTask($clean_temp_directory_task);
                     $endpoint->setSyncSolvTask($sync_solv_task);
                     $endpoint->setEntityManager($entityManager);
                     $endpoint->setDateUtils($date_utils);

@@ -11,6 +11,14 @@ require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
+class FakeOnDailyEndpointCleanTempDirectoryTask {
+    public $hasBeenRun = false;
+
+    public function run() {
+        $this->hasBeenRun = true;
+    }
+}
+
 class FakeOnDailyEndpointSyncSolvTask {
     public $hasBeenRun = false;
 
@@ -154,6 +162,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpoint(): void {
+        $clean_temp_directory_task = new FakeOnDailyEndpointCleanTempDirectoryTask();
         $sync_solv_task = new FakeOnDailyEndpointSyncSolvTask();
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeOnDailyEndpointThrottlingRepository();
@@ -162,6 +171,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
+        $endpoint->setCleanTempDirectoryTask($clean_temp_directory_task);
         $endpoint->setSyncSolvTask($sync_solv_task);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -174,6 +184,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
 
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
+        $this->assertSame(true, $clean_temp_directory_task->hasBeenRun);
         $this->assertSame(true, $sync_solv_task->hasBeenRun);
     }
 }

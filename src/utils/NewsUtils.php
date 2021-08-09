@@ -7,12 +7,19 @@ require_once __DIR__.'/../config/doctrine.php';
 class NewsUtils {
     private $date_utils;
 
+    const ARCHIVE_YEARS_THRESHOLD = 5;
+
     const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle News"],
         ['ident' => 'aktuell', 'name' => "Aktuell"],
         // ['ident' => 'galerie', 'name' => "Galerien"],
         // ['ident' => 'kaderblog', 'name' => "Kaderblog"],
         // ['ident' => 'forum', 'name' => "Forum"],
+    ];
+
+    const ALL_ARCHIVE_OPTIONS = [
+        ['ident' => 'ohne', 'name' => "ohne Archiv"],
+        ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
 
     public function setDateUtils($date_utils) {
@@ -24,6 +31,7 @@ class NewsUtils {
         return [
             'typ' => 'aktuell',
             'datum' => strval($current_year),
+            'archiv' => 'ohne',
         ];
     }
 
@@ -40,22 +48,33 @@ class NewsUtils {
         $has_correct_date_range = (
             isset($filter['datum'])
             && array_filter(
-                $this->getDateRangeOptions(),
-                function ($type_option) use ($filter) {
-                    return $type_option['ident'] === $filter['datum'];
+                $this->getDateRangeOptions($filter),
+                function ($date_option) use ($filter) {
+                    return $date_option['ident'] === $filter['datum'];
                 }
             )
         );
-        return $has_correct_type && $has_correct_date_range;
+        $has_correct_archive = (
+            isset($filter['archiv'])
+            && array_filter(
+                NewsUtils::ALL_ARCHIVE_OPTIONS,
+                function ($archive_option) use ($filter) {
+                    return $archive_option['ident'] === $filter['archiv'];
+                }
+            )
+        );
+        return $has_correct_type && $has_correct_date_range && $has_correct_archive;
     }
 
-    public function getAllValidFilters() {
+    public function getAllValidFiltersForSitemap() {
         $all_valid_filters = [];
         foreach (NewsUtils::ALL_TYPE_OPTIONS as $type_option) {
-            foreach ($this->getDateRangeOptions() as $date_range_option) {
+            $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
+            foreach ($date_range_options as $date_range_option) {
                 $all_valid_filters[] = [
                     'typ' => $type_option['ident'],
                     'datum' => $date_range_option['ident'],
+                    'archiv' => 'ohne',
                 ];
             }
         }
@@ -85,13 +104,28 @@ class NewsUtils {
                 'name' => $date_range_option['name'],
                 'ident' => $date_range_option['ident'],
             ];
-        }, $this->getDateRangeOptions());
+        }, $this->getDateRangeOptions($filter));
     }
 
-    public function getDateRangeOptions() {
+    public function getUiArchiveFilterOptions($filter) {
+        return array_map(function ($archive_option) use ($filter) {
+            $new_filter = $filter;
+            $new_filter['archiv'] = $archive_option['ident'];
+            return [
+                'selected' => $archive_option['ident'] === $filter['archiv'],
+                'new_filter' => $new_filter,
+                'name' => $archive_option['name'],
+                'ident' => $archive_option['ident'],
+            ];
+        }, NewsUtils::ALL_ARCHIVE_OPTIONS);
+    }
+
+    public function getDateRangeOptions($filter = []) {
+        $include_archive = ($filter['archiv'] ?? null) === 'mit';
         $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
+        $limit = $include_archive ? ($current_year - 2005) : NewsUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < $limit; $i++) {
             $year_ident = strval($current_year - $i);
             $options[] = ['ident' => $year_ident, 'name' => $year_ident];
         }
@@ -137,13 +171,14 @@ class NewsUtils {
             return "News";
         }
         $type_title = $this->getTypeFilterTitle($filter);
+        $archive_title_suffix = $this->getArchiveFilterTitleSuffix($filter);
         if (intval($filter['datum']) > 2000) {
             $year = $filter['datum'];
-            return "{$type_title} {$year}";
+            return "{$type_title} {$year}{$archive_title_suffix}";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
-        return "News";
+        return "News{$archive_title_suffix}";
         // @codeCoverageIgnoreEnd
     }
 
@@ -154,8 +189,19 @@ class NewsUtils {
         return "News";
     }
 
+    private function getArchiveFilterTitleSuffix($filter) {
+        if ($filter['archiv'] === 'mit') {
+            return " (Archiv)";
+        }
+        return "";
+    }
+
+    public function isFilterNotArchived($filter) {
+        return ($filter['archiv'] ?? null) === 'ohne';
+    }
+
     public function getIsNewsNotArchivedCriteria() {
-        $five_years_ago = $this->date_utils->getCurrentDateInFormat('Y') - 5;
+        $five_years_ago = $this->date_utils->getCurrentDateInFormat('Y') - NewsUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_five_years_ago = "{$five_years_ago}-01-01";
         return Criteria::expr()->gte('datum', new DateTime($beginning_of_five_years_ago));
     }

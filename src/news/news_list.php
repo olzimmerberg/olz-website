@@ -12,9 +12,15 @@ if (!$news_utils->isValidFilter($current_filter)) {
     $http_utils->redirect("?filter={$enc_json_filter}", 308);
 }
 
+$is_not_archived = $news_utils->isFilterNotArchived($current_filter);
+$no_robots = $is_not_archived ? '' : "<meta name='robots' content='noindex, nofollow'>";
+
 echo olz_header([
     'title' => "Aktuell",
     'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+    'additional_headers' => [
+        $no_robots,
+    ],
 ]);
 
 echo "<div id='content_rechts'>";

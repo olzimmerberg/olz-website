@@ -51,7 +51,7 @@ $etappen = [
         5947,
         "<a href='https://docs.google.com/spreadsheets/d/1q-eHtq_JoP1E8m0ZwM27K9LXM53M767Rp2bglro1mh8/edit#gid=0' class='linkext' target='_blank'>Anmeldung</a> <b>mit SI-Card!</b>",
     ],
-    ["Mittwoch, 25.08.2021", "<b><a href='/pdf/2021_08_25_milchsuppe.pdf' class='linkpdf'>Ausschreibung</a></b> - <i>Anmeldung erwünscht</i> - Starts: 17:00 &ndash; 19:00", "Thalwil", "Schulhaus Sonnenberg", 684630, 238650,
+    ["Mittwoch, 25.08.2021", "<b><a href='/pdf/2021_08_25_milchsuppe.pdf' class='linkpdf'>Ausschreibung</a></b> - <i>Voranmeldung erwünscht</i> - Starts: 17:00 &ndash; 19:00", "Thalwil", "Schulhaus Sonnenberg", 684630, 238650,
         "Bushaltestelle Thalwil Sonnenberg",
         "Kostenpflichtige Parkplätze vorhanden",
         "Keine, im Freien; WC vorhanden (?)",
@@ -60,7 +60,7 @@ $etappen = [
         "gratis",
         "2021-trophy-thalwil",
         5953,
-        "<a href='https://docs.google.com/spreadsheets/d/1q-eHtq_JoP1E8m0ZwM27K9LXM53M767Rp2bglro1mh8/edit#gid=0' class='linkext' target='_blank'>Anmeldung</a> <b>mit SI-Card!</b>",
+        "<a href='https://forms.gle/fQ7bBVhnqa9QQ5xm6' class='linkext' target='_blank'>Voranmeldung</a>",
     ],
 ];
 

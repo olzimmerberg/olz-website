@@ -1,5 +1,9 @@
 <?php
 
+use Doctrine\Common\Collections\Criteria;
+
+require_once __DIR__.'/../config/doctrine.php';
+
 class NewsUtils {
     private $date_utils;
 
@@ -148,6 +152,12 @@ class NewsUtils {
             return "Aktuell";
         }
         return "News";
+    }
+
+    public function getIsNewsNotArchivedCriteria() {
+        $five_years_ago = $this->date_utils->getCurrentDateInFormat('Y') - 5;
+        $beginning_of_five_years_ago = "{$five_years_ago}-01-01";
+        return Criteria::expr()->gte('datum', new DateTime($beginning_of_five_years_ago));
     }
 
     public static function fromEnv() {

@@ -1,24 +1,29 @@
 <?php
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 
 require_once __DIR__.'/NewsEntry.php';
 require_once __DIR__.'/../../config/doctrine.php';
+require_once __DIR__.'/../../utils/NewsUtils.php';
 
 class NewsRepository extends EntityRepository {
     public function getAllActiveIds() {
-        global $_DATE;
-        require_once __DIR__.'/../../config/date.php';
-        $five_years_ago = $_DATE->getCurrentDateInFormat('Y') - 5;
-        $beginning_of_five_years_ago = "{$five_years_ago}-01-01";
-        $dql = "
-            SELECT ne.id
-            FROM NewsEntry ne
-            WHERE ne.on_off='1' AND ne.datum>='{$beginning_of_five_years_ago}'";
-        $query = $this->getEntityManager()->createQuery($dql);
-        $result = $query->getResult();
-        return array_map(function ($obj) {
-            return $obj['id'];
-        }, $result);
+        $news_utils = NewsUtils::fromEnv();
+        $is_not_archived = $news_utils->getIsNewsNotArchivedCriteria();
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                $is_not_archived,
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->setFirstResult(0)
+            ->setMaxResults(1000000)
+        ;
+        $news_entries = $this->matching($criteria);
+        $news_entry_ids = [];
+        foreach ($news_entries as $news_entry) {
+            $news_entry_ids[] = $news_entry->getId();
+        }
+        return $news_entry_ids;
     }
 }

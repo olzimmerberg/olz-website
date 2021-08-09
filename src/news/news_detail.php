@@ -4,9 +4,15 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
+use Doctrine\Common\Collections\Criteria;
+
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
+require_once __DIR__.'/../config/doctrine_db.php';
+require_once __DIR__.'/../model/index.php';
+require_once __DIR__.'/../utils/NewsUtils.php';
+require_once __DIR__.'/model/NewsEntry.php';
 
 $article_metadata = "";
 try {
@@ -16,11 +22,27 @@ try {
     $http_utils->dieWithHttpError(404);
 }
 
+$news_utils = NewsUtils::fromEnv();
+$news_repo = $entityManager->getRepository(NewsEntry::class);
+$is_not_archived = $news_utils->getIsNewsNotArchivedCriteria();
+$criteria = Criteria::create()
+    ->where(Criteria::expr()->andX(
+        $is_not_archived,
+        Criteria::expr()->eq('id', $id),
+    ))
+    ->setFirstResult(0)
+    ->setMaxResults(1)
+;
+$news_entries = $news_repo->matching($criteria);
+$num_news_entries = $news_entries->count();
+$no_robots = $num_news_entries === 1 ? '' : "<meta name='robots' content='noindex, nofollow'>";
+
 echo olz_header([
     'title' => "Aktuell",
     'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
     'additional_headers' => [
         $article_metadata,
+        $no_robots,
     ],
 ]);
 

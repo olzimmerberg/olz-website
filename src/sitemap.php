@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
+require_once __DIR__.'/utils/NewsUtils.php';
 require_once __DIR__.'/utils/TermineUtils.php';
 
 header('Content-Type: application/xml');
@@ -46,6 +47,13 @@ foreach ($aktuell_ids as $aktuell_id) {
 $galerie_ids = $entityManager->getRepository(Galerie::class)->getAllActiveIds();
 foreach ($galerie_ids as $galerie_id) {
     echo get_entry("{$base_url}galerie.php?id={$galerie_id}", 'monthly', '0.2');
+}
+
+$news_utils = NewsUtils::fromEnv();
+$news_filters = $news_utils->getAllValidFiltersForSitemap();
+foreach ($news_filters as $news_filter) {
+    $enc_json_filter = urlencode(json_encode($news_filter));
+    echo get_entry("{$base_url}aktuell.php?filter={$enc_json_filter}", 'monthly', '0.2');
 }
 
 $termine_utils = TermineUtils::fromEnv();

@@ -94,13 +94,11 @@ class CleanTempDirectoryTask extends BackgroundTask {
     // Reason: Mocked in tests.
 
     protected function rmdir($path) {
-        // rmdir($path);
-        $this->logger->info("rmdir {$path}");
+        rmdir($path);
     }
 
     protected function unlink($path) {
-        // unlink($path);
-        $this->logger->info("unlink {$path}");
+        unlink($path);
     }
 
     // @codeCoverageIgnoreEnd

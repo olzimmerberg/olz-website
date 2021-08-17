@@ -1,5 +1,6 @@
 import range from 'lodash/range';
 import {OlzApiEndpoint, OlzApi} from '../api/client';
+import {EventTarget} from './EventTarget';
 import {assertUnreachable, obfuscateForUpload} from './generalUtils';
 
 const MAX_CONCURRENT_REQUESTS = 5;
@@ -63,7 +64,7 @@ enum UploadRequestType {
     FINISH = 'FINISH',
 }
 
-export class Uploader {
+export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     private static instance: Uploader = null;
 
     protected olzApi = new OlzApi();
@@ -134,6 +135,7 @@ export class Uploader {
                     numberOfParts: request.numberOfParts,
                 })
                     .then(() => {
+                        this.dispatchEvent('uploadFinished', request.id);
                         requestUpload.status = FileUploadStatus.DONE;
                         this.process();
                     })

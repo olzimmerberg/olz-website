@@ -5,7 +5,9 @@ import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../.
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 
 export const OlzEditNewsModal = () => {
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>): boolean => {
+    const [fileIds, setFileIds] = React.useState<string[]>([]);
+
+    const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
         const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.createNews> = {
             ownerUserId: () => null,
             ownerRoleId: () => null,
@@ -20,7 +22,7 @@ export const OlzEditNewsModal = () => {
             terminId: () => null,
             onOff: () => true,
             imageIds: () => [],
-            fileIds: () => [],
+            fileIds: () => fileIds,
         };
 
         function handleResponse(response: OlzApiResponses[OlzApiEndpoint.createNews]): string|void {
@@ -41,7 +43,8 @@ export const OlzEditNewsModal = () => {
             event.currentTarget,
             handleResponse,
         );
-    }
+    }, [fileIds]);
+
     return (
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
@@ -106,7 +109,9 @@ export const OlzEditNewsModal = () => {
                                     id='news-external-url-input'
                                 />
                             </div>
-                            <OlzMultiFileUploader />
+                            <OlzMultiFileUploader
+                                onUploadIdsChange={setFileIds}
+                            />
                             <div className='success-message alert alert-success' role='alert'></div>
                             <div className='error-message alert alert-danger' role='alert'></div>
                         </div>

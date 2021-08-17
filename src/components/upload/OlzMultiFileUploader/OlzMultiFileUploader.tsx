@@ -9,8 +9,17 @@ interface UploadingFile {
     uploadProgress: number;
 }
 
-export const OlzMultiFileUploader = () => {
+interface UploadedFile {
+    uploadId: string;
+}
+
+interface OlzMultiFileUploaderProps {
+    onUploadIdsChange?: (uploadIds: string[]) => any;
+}
+
+export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
+    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>([]);
 
     React.useEffect(() => {
         const clock = setInterval(() => {
@@ -30,6 +39,20 @@ export const OlzMultiFileUploader = () => {
         }, 1000);
         return () => clearInterval(clock)
     }, [uploadingFiles]);
+
+    React.useEffect(() => {
+        const callback = (event: CustomEvent<string>) => {
+            const newUploadedFiles = [
+                ...uploadedFiles,
+                {uploadId: event.detail},
+            ];
+            setUploadedFiles(newUploadedFiles);
+            const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
+            props.onUploadIdsChange(uploadIds);
+        };
+        uploader.addEventListener('uploadFinished', callback);
+        return () => uploader.removeEventListener('uploadFinished', callback);
+    }, [uploadedFiles]);
 
     const onFileInput = (event: ChangeEvent<HTMLInputElement>) => {
         const fileList = event.target.files;
@@ -57,13 +80,20 @@ export const OlzMultiFileUploader = () => {
 
     const uploadingElems = uploadingFiles.map(uploadingFile => (
         <div key={uploadingFile.file.name}>
-            {uploadingFile.file.name} - {uploadingFile.uploadId} - {uploadingFile.uploadProgress}
+            Uploading: {uploadingFile.file.name} - {uploadingFile.uploadId} - {uploadingFile.uploadProgress}
+        </div>
+    ));
+
+    const uploadedElems = uploadedFiles.map(uploadedFile => (
+        <div key={uploadedFile.uploadId}>
+            Uploaded: {uploadedFile.uploadId}
         </div>
     ));
 
     return (
         <div>
             {uploadingElems}
+            {uploadedElems}
             <input
                 type='file'
                 multiple

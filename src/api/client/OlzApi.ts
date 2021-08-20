@@ -173,6 +173,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         text: string,
     },
     startUpload: {
+        suffix: string|null,
     },
     updateUpload: {
         id: string,

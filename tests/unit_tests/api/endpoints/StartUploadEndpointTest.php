@@ -89,4 +89,26 @@ final class StartUploadEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }
+
+    public function testStartUploadEndpointWithSuffix(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $env_utils = new FakeEnvUtils();
+        $general_utils = GeneralUtils::fromEnv();
+        $logger = FakeLogger::create();
+        $endpoint = new StartUploadEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEnvUtils($env_utils);
+        $endpoint->setGeneralUtils($general_utils);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(['suffix' => '.pdf']);
+
+        $this->assertSame('OK', $result['status']);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9-_]{24}\.pdf$/', $result['id']);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+    }
 }

@@ -65,7 +65,8 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
                 if (typeof base64Content !== 'string') {
                     return;
                 }
-                uploader.add(base64Content, file.name)
+                const suffix = file.name.split('.').slice(-1)[0];
+                uploader.add(base64Content, `.${suffix}`)
                     .then((uploadId: string) => {
                         const evenNewerUploadingFiles = [...newUploadingFiles];
                         evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;

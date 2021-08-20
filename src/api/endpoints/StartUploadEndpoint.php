@@ -36,7 +36,9 @@ class StartUploadEndpoint extends Endpoint {
     }
 
     public function getRequestFields() {
-        return [];
+        return [
+            'suffix' => new StringField(['allow_null' => true]),
+        ];
     }
 
     protected function handle($input) {
@@ -50,10 +52,11 @@ class StartUploadEndpoint extends Endpoint {
         if (!is_dir($temp_path)) {
             mkdir($temp_path, 0777, true);
         }
+        $suffix = $input['suffix'] ?? '';
         $upload_id = '';
         $continue = true;
         for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
-            $upload_id = $this->getRandomUploadId();
+            $upload_id = "{$this->getRandomUploadId()}{$suffix}";
             $upload_path = "{$temp_path}{$upload_id}";
             if (!is_file($upload_path)) {
                 file_put_contents($upload_path, '');

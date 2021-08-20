@@ -124,7 +124,6 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                filename: 'add.txt',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.READY},
@@ -139,7 +138,6 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                filename: 'add.txt',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.UPLOADING},
@@ -154,7 +152,6 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                filename: 'add.txt',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},
@@ -169,7 +166,6 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                filename: 'add.txt',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},
@@ -184,7 +180,6 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                filename: 'add.txt',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
                     {status: TestOnlyFileUploadPartStatus.DONE},

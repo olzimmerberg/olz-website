@@ -10,7 +10,6 @@ type FileUploadId = string;
 
 interface FileUpload {
     uploadId: FileUploadId;
-    filename: string;
     base64Content: string;
     parts: FileUploadPart[];
     status: FileUploadStatus;
@@ -71,8 +70,8 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 
     protected uploadQueue: FileUpload[] = [];
 
-    public add(base64Content: string, filename: string): Promise<FileUploadId> {
-        return this.olzApi.call(OlzApiEndpoint.startUpload, {})
+    public add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
+        return this.olzApi.call(OlzApiEndpoint.startUpload, {suffix})
             .then((response) => {
                 const uploadId: FileUploadId = response.id;
                 const numParts = Math.ceil(base64Content.length / MAX_PART_LENGTH);
@@ -81,7 +80,6 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 }));
                 this.uploadQueue.push({
                     uploadId,
-                    filename,
                     base64Content,
                     parts,
                     status: FileUploadStatus.UPLOADING,

@@ -118,7 +118,7 @@ VALUES
 INSERT INTO roles
     (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`)
 VALUES
-    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', '', '', NULL, '0', NULL, '1', ''),
+    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', 'Organisiert Anlässe', '', NULL, '0', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...'),
     ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', ''),
     ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', ''),
     ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', ''),

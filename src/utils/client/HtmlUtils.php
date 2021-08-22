@@ -1,7 +1,34 @@
 <?php
 
+use League\CommonMark\DocParser;
+use League\CommonMark\Environment;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\HtmlRenderer;
+
+require_once __DIR__.'/../../config/vendor/autoload.php';
+
 class HtmlUtils {
     const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
+
+    public function renderMarkdown($markdown, $override_config = []) {
+        $default_config = [
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 100,
+        ];
+        $config = array_merge($default_config, $override_config);
+
+        $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->setConfig($config);
+
+        $parser = new DocParser($environment);
+        $document = $parser->parse($markdown);
+
+        $html_renderer = new HtmlRenderer($environment);
+        $rendered_html = $html_renderer->renderBlock($document);
+        return $this->sanitize($rendered_html);
+    }
 
     public function sanitize($html) {
         return $this->replaceEmailAdresses($html);

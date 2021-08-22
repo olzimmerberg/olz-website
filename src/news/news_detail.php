@@ -35,14 +35,14 @@ $criteria = Criteria::create()
 ;
 $news_entries = $news_repo->matching($criteria);
 $num_news_entries = $news_entries->count();
-$no_robots = $num_news_entries === 1 ? '' : "<meta name='robots' content='noindex, nofollow'>";
+$no_robots = $num_news_entries !== 1;
 
 echo olz_header([
     'title' => "Aktuell",
     'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+    'norobots' => $no_robots,
     'additional_headers' => [
         $article_metadata,
-        $no_robots,
     ],
 ]);
 

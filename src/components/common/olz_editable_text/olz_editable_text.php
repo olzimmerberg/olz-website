@@ -1,12 +1,5 @@
 <?php
 
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\HtmlRenderer;
-
-require_once __DIR__.'/../../../config/vendor/autoload.php';
-
 function olz_editable_text($args = []): string {
     global $entityManager, $code_href;
     require_once __DIR__.'/../../../config/doctrine_db.php';
@@ -35,20 +28,10 @@ function olz_editable_text($args = []): string {
     $get_text_fn = $args['get_text'];
     $raw_markdown = $get_text_fn();
 
-    $environment = Environment::createCommonMarkEnvironment();
-    $environment->addExtension(new GithubFlavoredMarkdownExtension());
-    $environment->setConfig([
-        'html_input' => 'allow', // TODO: Do NOT allow!
-        'allow_unsafe_links' => false,
-        'max_nesting_level' => 100,
-    ]);
-
-    $parser = new DocParser($environment);
-    $document = $parser->parse($raw_markdown);
-    $html_renderer = new HtmlRenderer($environment);
-    $rendered_html = $html_renderer->renderBlock($document);
     $html_utils = HtmlUtils::fromEnv();
-    $sanitized_html = $html_utils->sanitize($rendered_html);
+    $sanitized_html = $html_utils->renderMarkdown($raw_markdown, [
+        'html_input' => 'allow', // TODO: Do NOT allow!
+    ]);
 
     if ($has_access) {
         $esc_endpoint = htmlentities(json_encode($args['endpoint']));

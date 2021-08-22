@@ -18,11 +18,11 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    'abteilung' => new StringField(['allow_null' => true]),
+    'ressort' => new StringField(['allow_null' => true]),
 ], $_GET);
 
-if (isset($_GET['abteilung'])) {
-    $role_username = $_GET['abteilung'];
+if (isset($_GET['ressort'])) {
+    $role_username = $_GET['ressort'];
     $role_repo = $entityManager->getRepository(Role::class);
     $role = $role_repo->findOneBy(['username' => $role_username]);
 

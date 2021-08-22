@@ -19,7 +19,7 @@ function olz_organigramm($args = []): string {
         $root_role_username = $root_role->getUsername();
         $org .= "<td style='width:".$colwid."px; vertical-align:top;'>";
         $org .= "<div id='link-role-{$root_role->getId()}' style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
-        $org .= "<h6 style='font-weight:bold; min-height:36px;'><a href='verein.php?abteilung={$root_role_username}'>{$root_role_name}</a></h6>";
+        $org .= "<h6 style='font-weight:bold; min-height:36px;'><a href='verein.php?ressort={$root_role_username}'>{$root_role_name}</a></h6>";
         $root_role_assignees = $root_role->getUsers();
         foreach ($root_role_assignees as $root_role_assignee) {
             $org .= olz_user_info_with_popup($root_role_assignee, 'name_picture');
@@ -31,7 +31,7 @@ function olz_organigramm($args = []): string {
             $charge_role_username = nl2br($charge_role->getUsername());
             $org .= "<div style='text-align:center; height:20px; overflow:hidden;'><span style='border-left:1px solid #000000; font-size:20px;'></span></div>";
             $org .= "<div id='link-role-{$charge_role->getId()}' style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
-            $org .= "<h6 style='font-weight:bold;'><a href='verein.php?abteilung={$charge_role_username}'>{$charge_role_name}</a></h6>";
+            $org .= "<h6 style='font-weight:bold;'><a href='verein.php?ressort={$charge_role_username}'>{$charge_role_name}</a></h6>";
             $charge_role_assignees = $charge_role->getUsers();
             foreach ($charge_role_assignees as $charge_role_assignee) {
                 $org .= olz_user_info_with_popup($charge_role_assignee, 'name');
@@ -40,7 +40,7 @@ function olz_organigramm($args = []): string {
             foreach ($subcharge_roles as $subcharge_role) {
                 $subcharge_role_name = nl2br($subcharge_role->getName());
                 $subcharge_role_username = nl2br($subcharge_role->getUsername());
-                $org .= "<div id='link-role-{$subcharge_role->getId()}' style='margin-top:4px; text-align:center; font-style:italic;'><a href='verein.php?abteilung={$subcharge_role_username}'>{$subcharge_role_name}</a></div>";
+                $org .= "<div id='link-role-{$subcharge_role->getId()}' style='margin-top:4px; text-align:center; font-style:italic;'><a href='verein.php?ressort={$subcharge_role_username}'>{$subcharge_role_name}</a></div>";
                 $subcharge_role_assignees = $subcharge_role->getUsers();
                 foreach ($subcharge_role_assignees as $subcharge_role_assignee) {
                     $org .= olz_user_info_with_popup($subcharge_role_assignee, 'name');

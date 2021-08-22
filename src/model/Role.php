@@ -26,9 +26,13 @@ class Role {
      */
     public $name;
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=false, options={"comment": "public"})
      */
     public $description;
+    /**
+     * @ORM\Column(type="text", nullable=false, options={"comment": "restricted access"})
+     */
+    public $guide;
     /**
      * @ORM\Column(type="text", nullable=false)
      */
@@ -88,6 +92,10 @@ class Role {
 
     public function getDescription() {
         return $this->description;
+    }
+
+    public function getGuide() {
+        return $this->guide;
     }
 
     public function getPage() {

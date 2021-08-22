@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210628131310
+-- MIGRATION: OLZ\Migrations\Version20210822133337
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -8,11 +8,11 @@ SET time_zone = "+00:00";
 
 -- Table aktuell
 INSERT INTO aktuell
-    (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `tags`, `created_at`, `last_modified_at`)
+    (`id`, `termin`, `datum`, `newsletter`, `newsletter_datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `tags`, `created_at`, `last_modified_at`, `image_ids`)
 VALUES
-    ('1', '0', '2006-01-13', '1', NULL, 'Ausschreibungen 📍', '', '<div><a href=\"\" class=\"linkint\">Interner Link</a></div><div><a href=\"\" class=\"linkext\">Externer Link</a></div><div><a href=\"\" class=\"linkpdf\">PDF-Link</a></div><div><a href=\"\" class=\"linkmail\">E-Mail-Link</a></div><div><a href=\"\" class=\"linkmap\">Karten-Link</a></div>', '', 'prä', 'box0', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03'),
-    ('2', '0', '2006-01-13', '1', NULL, 'Weekends', '', '<div><a href=\"\" class=\"linkimg\">Bild-Link</a></div><h3>Lager</h3><div><a href=\"\" class=\"linkmovie\">Film-Link</a></div>', '', 'prä', 'box1', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03'),
-    ('3', '0', '2020-01-01', '1', NULL, 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr! 🎆', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.', '', 'prä', 'aktuell', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03');
+    ('1', '0', '2006-01-13', '1', NULL, 'Ausschreibungen 📍', '', '<div><a href=\"\" class=\"linkint\">Interner Link</a></div><div><a href=\"\" class=\"linkext\">Externer Link</a></div><div><a href=\"\" class=\"linkpdf\">PDF-Link</a></div><div><a href=\"\" class=\"linkmail\">E-Mail-Link</a></div><div><a href=\"\" class=\"linkmap\">Karten-Link</a></div>', '', 'prä', 'box0', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL),
+    ('2', '0', '2006-01-13', '1', NULL, 'Weekends', '', '<div><a href=\"\" class=\"linkimg\">Bild-Link</a></div><h3>Lager</h3><div><a href=\"\" class=\"linkmovie\">Film-Link</a></div>', '', 'prä', 'box1', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL),
+    ('3', '0', '2020-01-01', '1', NULL, 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr! 🎆', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.', '', 'prä', 'aktuell', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL);
 
 -- Table anm_felder
 
@@ -50,7 +50,8 @@ VALUES
     ('OLZ\\Migrations\\Version20210317183728', '2021-03-17 18:38:32', '27'),
     ('OLZ\\Migrations\\Version20210405231205', '2021-04-11 18:49:37', '89'),
     ('OLZ\\Migrations\\Version20210411185009', '2021-04-11 18:51:04', '266'),
-    ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254');
+    ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
+    ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115');
 
 -- Table downloads
 
@@ -115,57 +116,57 @@ VALUES
 
 -- Table roles
 INSERT INTO roles
-    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`)
+    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`)
 VALUES
-    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', '', '', NULL, '0', NULL, '1'),
-    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1'),
-    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1'),
-    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1'),
-    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', NULL, '1'),
-    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', NULL, '1'),
-    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1'),
-    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1'),
-    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1'),
-    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1'),
-    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1'),
-    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1'),
-    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0'),
-    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0'),
-    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0'),
-    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1'),
-    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0'),
-    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', NULL, '0'),
-    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', NULL, '0'),
-    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1'),
-    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0'),
-    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0'),
-    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1'),
-    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0'),
-    ('25', 'webmaster', NULL, 'Homepage', '', '', '3', '1', NULL, '0'),
-    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0'),
-    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0'),
-    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0'),
-    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1'),
-    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0'),
-    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0'),
-    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0'),
-    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0'),
-    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0'),
-    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0'),
-    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0'),
-    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0'),
-    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0'),
-    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0'),
-    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0'),
-    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0'),
-    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0'),
-    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0'),
-    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1'),
-    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0'),
-    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0'),
-    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0'),
-    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0'),
-    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0');
+    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', '', '', NULL, '0', NULL, '1', ''),
+    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', ''),
+    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', ''),
+    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', ''),
+    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', NULL, '1', ''),
+    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', NULL, '1', ''),
+    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', ''),
+    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', ''),
+    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1', ''),
+    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1', ''),
+    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1', ''),
+    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1', ''),
+    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0', ''),
+    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0', ''),
+    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0', ''),
+    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1', ''),
+    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0', ''),
+    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', NULL, '0', ''),
+    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', NULL, '0', ''),
+    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1', ''),
+    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0', ''),
+    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', ''),
+    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', ''),
+    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', ''),
+    ('25', 'webmaster', NULL, 'Homepage', '', '', '3', '1', NULL, '0', ''),
+    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', ''),
+    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', ''),
+    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', ''),
+    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1', ''),
+    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0', ''),
+    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0', ''),
+    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0', ''),
+    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0', ''),
+    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0', ''),
+    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0', ''),
+    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0', ''),
+    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0', ''),
+    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0', ''),
+    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0', ''),
+    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0', ''),
+    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0', ''),
+    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0', ''),
+    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0', ''),
+    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1', ''),
+    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0', ''),
+    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', ''),
+    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', ''),
+    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', ''),
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '');
 
 -- Table rundmail
 

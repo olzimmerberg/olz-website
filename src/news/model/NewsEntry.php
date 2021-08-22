@@ -47,6 +47,10 @@ class NewsEntry extends OlzEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private $textlang;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image_ids;
     // TODO: Rename to `external_url`
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -184,6 +188,17 @@ class NewsEntry extends OlzEntity {
 
     public function setContent($new_textlang) {
         $this->textlang = $new_textlang;
+    }
+
+    public function getImageIds() {
+        if ($this->image_ids == null) {
+            return [];
+        }
+        return json_decode($this->image_ids, true);
+    }
+
+    public function setImageIds($new_image_ids) {
+        $this->image_ids = json_encode($new_image_ids);
     }
 
     public function getTags() {

@@ -31,10 +31,14 @@ if (isset($_GET['ressort'])) {
         HttpUtils::fromEnv()->dieWithHttpError(404);
     }
 
+    // TODO: Remove again, after all ressort descriptions have been updated.
+    // This is just temporary logic!
+    $no_robots = ($role->getGuide() === '');
+
     echo olz_header([
         'title' => $role->getName(),
         'description' => $role->getDescription(),
-        'norobots' => true,
+        'norobots' => $no_robots,
     ]);
 
     require_once __DIR__.'/components/verein/olz_role_page/olz_role_page.php';

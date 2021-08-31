@@ -19,4 +19,7 @@ function test_verein_readonly($driver, $base_url) {
     global $verein_url;
     $driver->get("{$base_url}{$verein_url}");
     take_pageshot($driver, 'verein');
+
+    $driver->get("{$base_url}{$verein_url}?ressort=praesi");
+    take_pageshot($driver, 'verein_praesi');
 }

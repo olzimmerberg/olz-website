@@ -3,6 +3,7 @@
 function olz_role_page($args = []): string {
     global $entityManager;
 
+    require_once __DIR__.'/../../../components/users/olz_user_info_card/olz_user_info_card.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../model/index.php';
     require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
@@ -14,6 +15,7 @@ function olz_role_page($args = []): string {
     $role_repo = $entityManager->getRepository(Role::class);
 
     $role = $args['role'];
+    $role_id = $role->getId();
     $role_name = $role->getName();
     $role_description = $role->getDescription();
 
@@ -51,11 +53,36 @@ function olz_role_page($args = []): string {
         $out .= "<h1>{$role->getName()}</h1>";
         $description_html = $html_utils->renderMarkdown($role->getDescription());
         $out .= $description_html;
-        if ($is_member) {
-            $guide_html = $html_utils->renderMarkdown($role->getGuide());
-            $out .= "<h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>";
-            $out .= $guide_html;
+    }
+
+    $assignees = $role->getUsers();
+    $num_assignees = count($assignees);
+    $out .= "<br/><h2>Verantwortlich</h2>";
+    if ($num_assignees === 0) {
+        $out .= "<p><i>Keine Ressort-Verantwortlichen</i></p>";
+    } else {
+        foreach ($assignees as $assignee) {
+            $out .= olz_user_info_card($assignee);
         }
+    }
+
+    $child_roles = $role_repo->findBy(['parent_role' => $role_id], ['index_within_parent' => 'ASC']);
+    $num_child_roles = count($child_roles);
+    $out .= "<br/><h2>Unter-Ressorts</h2>";
+    if ($num_child_roles === 0) {
+        $out .= "<p><i>Keine Unter-Ressorts</i></p>";
+    } else {
+        foreach ($child_roles as $child_role) {
+            $child_role_name = $child_role->getName();
+            $child_role_username = $child_role->getUsername();
+            $out .= "<p><a href='verein.php?ressort={$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></p>";
+        }
+    }
+
+    if ($is_member) {
+        $guide_html = $html_utils->renderMarkdown($role->getGuide());
+        $out .= "<br/><br/><h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>";
+        $out .= $guide_html;
     }
 
     $out .= "</div>";

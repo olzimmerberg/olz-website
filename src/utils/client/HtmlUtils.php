@@ -2,6 +2,7 @@
 
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\HtmlRenderer;
 
@@ -20,6 +21,7 @@ class HtmlUtils {
 
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addExtension(new AttributesExtension());
         $environment->setConfig($config);
 
         $parser = new DocParser($environment);

@@ -13,6 +13,24 @@
         text-decoration: none;
     }
 
+    .link {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .content {
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+
+        a {
+            pointer-events: all;
+        }
+    }
+
     .title {
         font-size: 14px;
         font-weight: bold;

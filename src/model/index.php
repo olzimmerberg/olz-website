@@ -4,6 +4,8 @@ require_once __DIR__.'/common.php';
 
 require_once __DIR__.'/deprecated.php';
 
+require_once __DIR__.'/AccessToken.php';
+require_once __DIR__.'/AccessTokenRepository.php';
 require_once __DIR__.'/AuthRequest.php';
 require_once __DIR__.'/AuthRequestRepository.php';
 require_once __DIR__.'/BildDerWoche.php';

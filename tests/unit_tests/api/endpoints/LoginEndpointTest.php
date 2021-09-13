@@ -6,37 +6,9 @@ require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/fake_user.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeLoginEndpointEntityManager extends FakeEntityManager {
-    public function __construct() {
-        $this->repositories = [
-            'AuthRequest' => new FakeLoginEndpointAuthRequestRepository(),
-            'User' => new FakeUserRepository(),
-        ];
-    }
-}
-
-class FakeLoginEndpointAuthRequestRepository {
-    public $auth_requests = [];
-    public $can_authenticate = true;
-
-    public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
-        $this->auth_requests[] = [
-            'ip_address' => $ip_address,
-            'action' => $action,
-            'timestamp' => $timestamp,
-            'username' => $username,
-        ];
-    }
-
-    public function canAuthenticate($ip_address, $timestamp = null) {
-        return $this->can_authenticate;
-    }
-}
 
 /**
  * @internal
@@ -49,10 +21,8 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithoutInput(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setLogger($logger);
         try {
             $result = $endpoint->call([]);
@@ -69,13 +39,18 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithCorrectCredentials(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $user = get_fake_user();
+        $user->setId(2);
+        $user->setUsername('admin');
+        $user->setRoot('karten');
+        $user->setZugriff('all');
+        $auth_utils->authenticate_user = $user;
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
@@ -90,134 +65,41 @@ final class LoginEndpointTest extends UnitTestCase {
             'user_id' => 2,
         ], $session->session_storage);
         $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'admin',
-            ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
-        $this->assertSame([
             "INFO Valid user request",
-            "INFO User logged in: admin",
-            "INFO   Auth: all",
-            "INFO   Root: karten",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }
 
-    public function testLoginEndpointWithCorrectEmailCredentials(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
+    public function testLoginEndpointWithInvalidCredentials(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->authenticate_with_error = new InvalidCredentialsException('test');
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'vorstand@test.olzimmerberg.ch',
-            'password' => 'v0r57and',
-        ]);
-
-        $this->assertSame([
-            'status' => 'AUTHENTICATED',
-        ], $result);
-        $this->assertSame([
-            'auth' => 'aktuell ftp',
-            'root' => 'vorstand',
-            'user' => 'vorstand',
-            'user_id' => 3,
-        ], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'vorstand@test.olzimmerberg.ch',
-            ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
-        $this->assertSame([
-            "INFO Valid user request",
-            "INFO User logged in: vorstand@test.olzimmerberg.ch",
-            "INFO   Auth: aktuell ftp",
-            "INFO   Root: vorstand",
-            "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testLoginEndpointWithWrongUsername(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = FakeLogger::create();
-        $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $endpoint->setSession($session);
-        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
-
-        $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'adm1n']);
+        $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'wrooong']);
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'INVALID_CREDENTIALS',
-                'timestamp' => null,
-                'username' => 'wrooong',
-            ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
-        $this->assertSame([
             "INFO Valid user request",
-            "NOTICE Login attempt with invalid credentials from user: wrooong (1.2.3.4).",
-            "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testLoginEndpointWithWrongPassword(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
-        $logger = FakeLogger::create();
-        $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $endpoint->setSession($session);
-        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
-
-        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'wrooong']);
-
-        $this->assertSame([
-            'status' => 'INVALID_CREDENTIALS',
-        ], $result);
-        $this->assertSame([], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'INVALID_CREDENTIALS',
-                'timestamp' => null,
-                'username' => 'admin',
-            ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
-        $this->assertSame([
-            "INFO Valid user request",
-            "NOTICE Login attempt with invalid credentials from user: admin (1.2.3.4).",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }
 
     public function testLoginEndpointCanNotAuthenticate(): void {
-        $entity_manager = new FakeLoginEndpointEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->authenticate_with_error = new AuthBlockedException('test');
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
-        $entity_manager->getRepository('AuthRequest')->can_authenticate = false;
+        $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
@@ -227,16 +109,7 @@ final class LoginEndpointTest extends UnitTestCase {
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'BLOCKED',
-                'timestamp' => null,
-                'username' => 'admin',
-            ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
-        $this->assertSame([
             "INFO Valid user request",
-            "NOTICE Login attempt from blocked user: admin (1.2.3.4).",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }

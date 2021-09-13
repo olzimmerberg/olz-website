@@ -17,6 +17,7 @@ require_once __DIR__.'/utils/window.php';
 require_once __DIR__.'/modules/aktuell.php';
 require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/datenschutz.php';
+require_once __DIR__.'/modules/dav.php';
 require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/downloads.php';
 require_once __DIR__.'/modules/email_reaktion.php';
@@ -102,6 +103,7 @@ $blocks = [
         test_fuer_einsteiger($driver, $code_href);
         test_fragen_und_antworten($driver, $code_href);
         test_datenschutz($driver, $code_href);
+        test_dav($driver, $code_href);
         test_login_logout($driver, $code_href);
         test_profil($driver, $code_href);
         test_divmail($driver, $code_href);

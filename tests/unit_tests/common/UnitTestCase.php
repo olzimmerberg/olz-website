@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/tools/common.php';
+require_once __DIR__.'/../../fake/FakeFactory.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 
 /**
@@ -26,6 +27,8 @@ class UnitTestCase extends TestCase {
         $data_path = $env_utils->getDataPath();
         remove_r($data_path);
         mkdir($data_path);
+
+        FakeFactory::reset();
     }
 
     protected function tearDown(): void {

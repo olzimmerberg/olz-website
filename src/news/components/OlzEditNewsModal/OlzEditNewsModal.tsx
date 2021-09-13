@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import {OlzApiEndpoint, OlzApiResponses} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../../components/common/olz_default_form/olz_default_form';
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
+import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
 export const OlzEditNewsModal = () => {
     const [fileIds, setFileIds] = React.useState<string[]>([]);
+    const [imageIds, setImageIds] = React.useState<string[]>([]);
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
         const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.createNews> = {
@@ -21,7 +23,7 @@ export const OlzEditNewsModal = () => {
             tags: () => [],
             terminId: () => null,
             onOff: () => true,
-            imageIds: () => [],
+            imageIds: () => imageIds,
             fileIds: () => fileIds,
         };
 
@@ -43,7 +45,7 @@ export const OlzEditNewsModal = () => {
             event.currentTarget,
             handleResponse,
         );
-    }, [fileIds]);
+    }, [fileIds, imageIds]);
 
     return (
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
@@ -109,9 +111,18 @@ export const OlzEditNewsModal = () => {
                                     id='news-external-url-input'
                                 />
                             </div>
-                            <OlzMultiFileUploader
-                                onUploadIdsChange={setFileIds}
-                            />
+                            <div>
+                                <b>Bilder</b>
+                                <OlzMultiImageUploader
+                                    onUploadIdsChange={setImageIds}
+                                />
+                            </div>
+                            <div>
+                                <b>Dateien</b>
+                                <OlzMultiFileUploader
+                                    onUploadIdsChange={setFileIds}
+                                />
+                            </div>
                             <div className='success-message alert alert-success' role='alert'></div>
                             <div className='error-message alert alert-danger' role='alert'></div>
                         </div>

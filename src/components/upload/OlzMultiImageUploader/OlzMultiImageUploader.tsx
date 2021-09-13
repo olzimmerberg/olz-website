@@ -1,6 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import {readBase64} from '../../../utils/fileUtils';
+import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../utils/imageUtils';
 import {Uploader} from '../../../utils/Uploader';
+
+const MAX_IMAGE_SIZE = 800;
 
 const uploader = Uploader.getInstance();
 
@@ -14,11 +17,11 @@ interface UploadedFile {
     uploadId: string;
 }
 
-interface OlzMultiFileUploaderProps {
+interface OlzMultiImageUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => any;
 }
 
-export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
+export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
     const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>([]);
 
@@ -71,11 +74,25 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
             const file = fileList[fileListIndex];
             newUploadingFiles.push({file, uploadProgress: 0});
             const base64Content = await readBase64(file);
-            const suffix = file.name.split('.').slice(-1)[0];
-            const uploadId = await uploader.add(base64Content, `.${suffix}`);
-            const evenNewerUploadingFiles = [...newUploadingFiles];
-            evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
-            setUploadingFiles(evenNewerUploadingFiles);
+            if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
+                console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+                continue;
+            }
+            try {
+                const img = await loadImageFromBase64(base64Content);
+                const canvas = getResizedCanvas(img, MAX_IMAGE_SIZE);
+                const resizedBase64 = getBase64FromCanvas(canvas);
+                if (!resizedBase64) {
+                    continue;
+                }
+                const uploadId = await uploader.add(resizedBase64, `.jpg`);
+                const evenNewerUploadingFiles = [...newUploadingFiles];
+                evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
+                setUploadingFiles(evenNewerUploadingFiles);
+            } catch (err: unknown) {
+                console.error(`${file.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+                continue;
+            }
         }
     };
 
@@ -98,7 +115,7 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
             <input
                 type='file'
                 multiple
-                id='multi-file-uploader-input'
+                id='multi-image-uploader-input'
                 onChange={onFileInput}
             />
         </div>

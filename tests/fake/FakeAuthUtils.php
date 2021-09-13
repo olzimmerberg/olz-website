@@ -3,7 +3,16 @@
 require_once __DIR__.'/fake_user.php';
 
 class FakeAuthUtils {
+    public $authenticate_user;
+    public $authenticate_with_error;
     public $has_permission_by_query = [];
+
+    public function authenticate($username_or_email, $password) {
+        if ($this->authenticate_with_error) {
+            throw $this->authenticate_with_error;
+        }
+        return $this->authenticate_user;
+    }
 
     public function hasPermission($query, $user = null) {
         $has_permission = $this->has_permission_by_query[$query] ?? null;
@@ -16,8 +25,12 @@ class FakeAuthUtils {
         return $has_permission;
     }
 
+    public function getAuthenticatedUser() {
+        return FakeUsers::adminUser();
+    }
+
     public function getSessionUser() {
-        return get_fake_user();
+        return FakeUsers::adminUser();
     }
 
     public function isUsernameAllowed($username) {

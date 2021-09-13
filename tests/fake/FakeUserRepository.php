@@ -10,14 +10,8 @@ class FakeUserRepository {
             return $this->userToBeFound;
         }
         if ($where === ['username' => 'admin'] || $where === ['id' => 2]) {
-            $admin_user = get_fake_user();
-            $admin_user->setId(2);
-            $admin_user->setUsername('admin');
-            $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-            $admin_user->setZugriff('all');
-            $admin_user->setRoot('karten');
-            $this->admin_user = $admin_user;
-            return $admin_user;
+            $this->admin_user = FakeUsers::adminUser();
+            return $this->admin_user;
         }
         if ($where === ['email' => 'vorstand@test.olzimmerberg.ch']) {
             $vorstand_user = get_fake_user();
@@ -26,22 +20,26 @@ class FakeUserRepository {
             $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
             $vorstand_user->setZugriff('aktuell ftp');
             $vorstand_user->setRoot('vorstand');
+            $this->vorstand_user = $vorstand_user;
             return $vorstand_user;
         }
         if ($where === ['username' => 'noaccess']) {
             $noaccess_user = get_fake_user();
             $noaccess_user->setZugriff('ftp');
+            $this->noaccess_user = $noaccess_user;
             return $noaccess_user;
         }
         if ($where === ['username' => 'specific']) {
             $specific_user = get_fake_user();
             $specific_user->setZugriff('test');
+            $this->specific_user = $specific_user;
             return $specific_user;
         }
         if ($where === ['username' => 'no']) {
-            $specific_user = get_fake_user();
-            $specific_user->setZugriff('');
-            return $specific_user;
+            $no_access_user = get_fake_user();
+            $no_access_user->setZugriff('');
+            $this->no_access_user = $no_access_user;
+            return $no_access_user;
         }
         return null;
     }

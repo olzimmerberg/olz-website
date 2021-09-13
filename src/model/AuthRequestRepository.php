@@ -35,6 +35,7 @@ class AuthRequestRepository extends EntityRepository {
             WHERE 
                 ar.ip_address='{$sanitized_ip_address}' 
                 AND ar.timestamp>'{$sanitized_min_timestamp}'
+                AND ar.action IN ('AUTHENTICATED', 'BLOCKED', 'INVALID_CREDENTIALS')
             ORDER BY ar.timestamp DESC";
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setMaxResults($NUM_TRIES);
@@ -43,6 +44,38 @@ class AuthRequestRepository extends EntityRepository {
         foreach ($auth_requests as $auth_request) {
             $action = $auth_request->getAction();
             if ($action === 'AUTHENTICATED') {
+                break;
+            }
+            $num_unsuccessful_auth_requests++;
+        }
+        return $num_unsuccessful_auth_requests < $NUM_TRIES;
+    }
+
+    public function canValidateAccessToken($ip_address, $timestamp = null) {
+        $NUM_TRIES = 7;
+        $TRIES_RESET_INTERVAL = DateInterval::createFromDateString('+1 hour'); // Reset after 1h
+
+        if ($timestamp === null) {
+            $timestamp = new DateTime();
+        }
+        $sanitized_ip_address = DBEsc($ip_address);
+        $min_timestamp = $timestamp->sub($TRIES_RESET_INTERVAL);
+        $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
+        $dql = "
+            SELECT ar 
+            FROM AuthRequest ar 
+            WHERE 
+                ar.ip_address='{$sanitized_ip_address}' 
+                AND ar.timestamp>'{$sanitized_min_timestamp}'
+                AND ar.action IN ('TOKEN_VALIDATED', 'TOKEN_BLOCKED', 'INVALID_TOKEN', 'EXPIRED_TOKEN')
+            ORDER BY ar.timestamp DESC";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setMaxResults($NUM_TRIES);
+        $auth_requests = $query->getResult();
+        $num_unsuccessful_auth_requests = 0;
+        foreach ($auth_requests as $auth_request) {
+            $action = $auth_request->getAction();
+            if ($action === 'TOKEN_VALIDATED') {
                 break;
             }
             $num_unsuccessful_auth_requests++;

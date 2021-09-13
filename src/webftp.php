@@ -62,6 +62,8 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     include __DIR__.'/library/phpWebFileManager/start.php';
     echo "</div>
     </form>
+    <br/><br/>
+    <p>Experimentell: <a href='{$code_href}dav/server.php' class='linkext'>WebDAV</a></b></p>
     </div>";
 } else {
     echo "<div id='content_double'>

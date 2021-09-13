@@ -1,10 +1,16 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20210822133337
+-- MIGRATION: OLZ\Migrations\Version20210913161236
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+-- Table access_tokens
+INSERT INTO access_tokens
+    (`id`, `user_id`, `purpose`, `token`, `created_at`, `expires_at`)
+VALUES
+    ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL);
 
 -- Table aktuell
 INSERT INTO aktuell
@@ -51,7 +57,8 @@ VALUES
     ('OLZ\\Migrations\\Version20210405231205', '2021-04-11 18:49:37', '89'),
     ('OLZ\\Migrations\\Version20210411185009', '2021-04-11 18:51:04', '266'),
     ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
-    ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115');
+    ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115'),
+    ('OLZ\\Migrations\\Version20210913161236', '2021-09-13 16:13:26', '152');
 
 -- Table downloads
 

@@ -14,6 +14,10 @@ session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
+require_once __DIR__.'/config/doctrine_db.php';
+require_once __DIR__.'/model/index.php';
+require_once __DIR__.'/utils/auth/AuthUtils.php';
+require_once __DIR__.'/utils/env/EnvUtils.php';
 echo olz_header([
     'title' => "Web FTP",
     'norobots' => true,
@@ -61,10 +65,54 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     <div>";
     include __DIR__.'/library/phpWebFileManager/start.php';
     echo "</div>
-    </form>
-    <br/><br/>
-    <p>Experimentell: <a href='{$code_href}dav/server.php' class='linkext'>WebDAV</a></b></p>
-    </div>";
+    </form>";
+
+    echo "<br/><br/>
+    <p>Experimentell: <a href='{$code_href}webdav/server.php/' class='linkext'>WebDAV im Browser</a></b></p>";
+
+    $auth_utils = AuthUtils::fromEnv();
+    $user = $auth_utils->getSessionUser();
+    $access_token_repo = $entityManager->getRepository(AccessToken::class);
+    $access_token = $access_token_repo->findOneBy(['user' => $user, 'purpose' => 'WebDAV']);
+    if ($access_token) {
+        $env_utils = EnvUtils::fromEnv();
+        $token = $access_token->getToken();
+        $code_url = "{$env_utils->getBaseHref()}{$env_utils->getCodeHref()}";
+        $webdav_url = "{$code_url}webdav/server.php/access_token__{$token}/";
+        $enc_webdav_url = htmlentities($webdav_url);
+        echo "<p>
+            WebDAV-Zugang:
+            <input
+                type='text'
+                class='form-control'
+                readonly
+                value='{$webdav_url}'
+            />
+        </p>
+        <p>
+            <button
+                type='button'
+                class='btn btn-danger'
+                onclick='return revokeWebdavAccessToken()'
+            >
+                WebDAV-Zugang deaktivieren
+            </button>
+            <div id='revoke-webdav-token-error-message' class='alert alert-danger' role='alert'></div>
+        </p>";
+    } else {
+        echo "<p>
+            <button
+                type='button'
+                class='btn btn-secondary'
+                onclick='return generateWebdavAccessToken()'
+            >
+                WebDAV-Zugang erstellen
+            </button>
+            <div id='generate-webdav-token-error-message' class='alert alert-danger' role='alert'></div>
+        </p>";
+    }
+
+    echo "</div>";
 } else {
     echo "<div id='content_double'>
     <div id='profile-message' class='alert alert-danger' role='alert'>Da musst du schon eingeloggt sein!</div>

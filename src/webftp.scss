@@ -1,0 +1,6 @@
+#generate-webdav-token-error-message,
+#revoke-webdav-token-error-message {
+    &:empty {
+        display: none;
+    }
+}

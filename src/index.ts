@@ -17,6 +17,7 @@ import './logs.scss';
 import './profil.scss';
 import './startseite.scss';
 import './styles.scss';
+import './webftp.scss';
 
 export * from './components/index';
 export * from './email_reaktion';
@@ -30,6 +31,7 @@ export * from './profil';
 export * from './scripts/index';
 export * from './termine';
 export * from './utils/index';
+export * from './webftp';
 
 /* @ts-ignore: Ignore file is not a module. */
 export * from 'bootstrap';

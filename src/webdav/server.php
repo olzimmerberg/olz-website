@@ -23,7 +23,7 @@ $_SERVER['PATH_INFO'] = $simulated_path_info;
 
 $root_directory = new DAV\FS\Directory("{$data_path}OLZimmerbergAblage");
 $server = new DAV\Server($root_directory);
-$server->setBaseUri("{$code_href}dav/server.php{$stripped_path_info}");
+$server->setBaseUri("{$code_href}webdav/server.php{$stripped_path_info}");
 
 $auth_utils = AuthUtils::fromEnv();
 $auth_utils->setGetParams(['access_token' => $access_token]);

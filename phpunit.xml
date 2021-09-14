@@ -30,6 +30,7 @@
             <directory suffix=".php">./src/parsers</directory>
             <directory suffix=".php">./src/tasks</directory>
             <directory suffix=".php">./src/utils</directory>
+            <directory suffix=".php">./src/webdav/endpoints</directory>
         </include>
         <exclude>
             <file>./src/api/index.php</file>

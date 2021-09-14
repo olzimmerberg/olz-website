@@ -30,10 +30,9 @@ class TelegramUtils {
         return $this->botName;
     }
 
-    public function getFreshChatLinkForUser(User $user) {
+    public function getFreshPinForUser(User $user) {
         $telegram_link = $this->startChatForUser($user);
-        $pin = $telegram_link->getPin();
-        return "https://t.me/{$this->botName}?start={$pin}";
+        return $telegram_link->getPin();
     }
 
     public function startAnonymousChat($chat_id, $user_id): TelegramLink {

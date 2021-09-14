@@ -8,6 +8,7 @@ require_once __DIR__.'/../../../../src/api/endpoints/ExecuteEmailReactionEndpoin
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -30,12 +31,6 @@ class FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository {
     }
 }
 
-class FakeExecuteEmailReactionEndpointEmailUtils {
-    public function decryptEmailReactionToken($token) {
-        return json_decode($token, true);
-    }
-}
-
 /**
  * @internal
  * @covers \ExecuteEmailReactionEndpoint
@@ -53,7 +48,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 
@@ -79,7 +74,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 
@@ -103,7 +98,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 
@@ -122,7 +117,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 
@@ -141,7 +136,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 
@@ -159,7 +154,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new FakeExecuteEmailReactionEndpointEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setLogger($logger);
 

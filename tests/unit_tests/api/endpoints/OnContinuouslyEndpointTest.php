@@ -8,46 +8,9 @@ require_once __DIR__.'/../../../../src/api/endpoints/OnContinuouslyEndpoint.php'
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../../fake/FakeTask.php';
+require_once __DIR__.'/../../../fake/FakeThrottlingRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeOnContinuouslyEndpointSendDailyNotificationsTask {
-    public $hasBeenRun = false;
-
-    public function run() {
-        $this->hasBeenRun = true;
-    }
-}
-
-class FakeOnContinuouslyEndpointProcessEmailTask {
-    public $hasBeenRun = false;
-
-    public function run() {
-        $this->hasBeenRun = true;
-    }
-}
-
-class FakeOnContinuouslyEndpointThrottlingRepository {
-    public $last_daily_notifications = '2020-03-12 19:30:00';
-    public $num_occurrences_recorded = 0;
-
-    public function getLastOccurrenceOf($event_name) {
-        if ($event_name == 'daily_notifications') {
-            if (!$this->last_daily_notifications) {
-                return null;
-            }
-            return new DateTime($this->last_daily_notifications);
-        }
-        throw new Exception("this should never happen");
-    }
-
-    public function recordOccurrenceOf($event_name, $datetime) {
-        if ($event_name == 'daily_notifications') {
-            $this->num_occurrences_recorded++;
-            return;
-        }
-        throw new Exception("this should never happen");
-    }
-}
 
 /**
  * @internal
@@ -87,7 +50,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyEndpointTooSoonToSendDailyEmails(): void {
-        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
+        $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
@@ -95,7 +58,8 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
+        $throttling_repo = new FakeThrottlingRepository();
+        $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
@@ -105,13 +69,13 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([], $result);
-        $this->assertSame(0, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame(true, $process_email_task->hasBeenRun);
     }
 
     public function testOnContinuouslyEndpointFirstDailyNotifications(): void {
-        $send_daily_notifications_task = new FakeOnContinuouslyEndpointSendDailyNotificationsTask();
-        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
+        $send_daily_notifications_task = new FakeTask();
+        $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
@@ -120,7 +84,8 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
+        $throttling_repo = new FakeThrottlingRepository();
+        $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = null;
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
@@ -130,14 +95,17 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([], $result);
-        $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame(
+            [['daily_notifications', '2020-03-13 19:30:00']],
+            $throttling_repo->recorded_occurrences
+        );
         $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
         $this->assertSame(true, $process_email_task->hasBeenRun);
     }
 
     public function testOnContinuouslyEndpoint(): void {
-        $send_daily_notifications_task = new FakeOnContinuouslyEndpointSendDailyNotificationsTask();
-        $process_email_task = new FakeOnContinuouslyEndpointProcessEmailTask();
+        $send_daily_notifications_task = new FakeTask();
+        $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLogger($logger);
@@ -146,7 +114,8 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeEnvUtils());
         $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeOnContinuouslyEndpointThrottlingRepository();
+        $throttling_repo = new FakeThrottlingRepository();
+        $throttling_repo->expected_event_name = 'daily_notifications';
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
 
@@ -155,7 +124,10 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([], $result);
-        $this->assertSame(1, $throttling_repo->num_occurrences_recorded);
+        $this->assertSame(
+            [['daily_notifications', '2020-03-13 19:30:00']],
+            $throttling_repo->recorded_occurrences
+        );
         $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
         $this->assertSame(true, $process_email_task->hasBeenRun);
     }

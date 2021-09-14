@@ -10,7 +10,7 @@ require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeTask extends BackgroundTask {
+class FakeBackgroundTask extends BackgroundTask {
     public $setup_called = false;
     public $task_run = false;
     public $teardown_called = false;
@@ -68,7 +68,7 @@ final class BackgroundTaskTest extends UnitTestCase {
         $logger = new Logger('SyncSolvTaskTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
-        $job = new FakeTask($date_utils, $env_utils);
+        $job = new FakeBackgroundTask($date_utils, $env_utils);
         $job->setLogger($logger);
         $job->run();
 

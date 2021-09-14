@@ -4,57 +4,14 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../../../src/api/endpoints/OnTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeOnTelegramEndpointTelegramUtils {
-    public $isAnonymousChat = false;
-    public $telegramApiCalls = [];
-
-    public function startAnonymousChat($chat_id, $user_id) {
-    }
-
-    public function linkChatUsingPin($pin, $chat_id, $user_id) {
-        if ($pin != 'validpin') {
-            throw new Exception('Error linking chat using PIN.');
-        }
-        $user = get_fake_user();
-        $user->setFirstName('Fakefirst');
-        $telegram_link = new TelegramLink();
-        $telegram_link->setUser($user);
-        return $telegram_link;
-    }
-
-    public function getFreshPinForChat($chat_id) {
-        return 'freshpin';
-    }
-
-    public function getTelegramPinChars() {
-        return 'abcdefghijklmnopqrstuvwxyz';
-    }
-
-    public function getTelegramPinLength() {
-        return 8;
-    }
-
-    public function isAnonymousChat($chat_id) {
-        return $this->isAnonymousChat;
-    }
-
-    public function getChatState($chat_id) {
-        return [];
-    }
-
-    public function callTelegramApi($command, $args) {
-        $this->telegramApiCalls[] = [$command, $args];
-        return [];
-    }
-}
 
 function getFakeTelegramMessage($from_key, $chat_key, $text) {
     $users = [
@@ -113,7 +70,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
-        $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
@@ -134,7 +91,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
-        $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
@@ -155,7 +112,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
-        $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
@@ -176,7 +133,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
-        $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
@@ -197,7 +154,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartAnonymousChat(): void {
-        $telegram_utils = new FakeOnTelegramEndpointTelegramUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();

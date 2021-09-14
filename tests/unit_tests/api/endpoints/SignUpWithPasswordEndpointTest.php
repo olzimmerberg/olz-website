@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -131,8 +131,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $endpoint = new SignUpWithPasswordEndpoint();

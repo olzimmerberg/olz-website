@@ -6,11 +6,10 @@ require_once __DIR__.'/../../../../src/news/endpoints/CreateNewsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeCreateNewsEndpointRoleRepository {
@@ -68,8 +67,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $role_repo = new FakeCreateNewsEndpointRoleRepository();
         $entity_manager->repositories['Role'] = $role_repo;
         $auth_utils = new FakeAuthUtils();
@@ -98,6 +95,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'fileIds' => [],
         ]);
 
+        $user_repo = $entity_manager->repositories['User'];
         $this->assertSame([
             'status' => 'OK',
             'newsId' => FakeEntityManager::AUTO_INCREMENT_ID,

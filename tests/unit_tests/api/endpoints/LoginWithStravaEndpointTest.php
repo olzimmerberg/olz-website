@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
@@ -47,7 +47,7 @@ class FakeLoginWithStravaEndpointStravaLinkRepository {
     public function findOneBy($where) {
         if ($where === ['strava_user' => 'fake_existing_id']) {
             $strava_link = get_fake_strava_link();
-            $strava_link->setUser(get_fake_user());
+            $strava_link->setUser(FakeUsers::defaultUser());
             return $strava_link;
         }
         return null;

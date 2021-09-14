@@ -11,7 +11,6 @@ require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUpdateOlzTextEndpointOlzTextRepository {
@@ -43,8 +42,6 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_1' => false];
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -63,8 +60,6 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_3' => true];
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories['OlzText'] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
@@ -89,8 +84,6 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_1' => true];
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories['OlzText'] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');

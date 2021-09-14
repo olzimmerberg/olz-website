@@ -7,6 +7,8 @@ export enum OlzApiEndpoint {
     getManagedUsers = 'getManagedUsers',
     getRegistrationForm = 'getRegistrationForm',
     createNews = 'createNews',
+    getWebdavAccessToken = 'getWebdavAccessToken',
+    revokeWebdavAccessToken = 'revokeWebdavAccessToken',
     onDaily = 'onDaily',
     onContinuously = 'onContinuously',
     login = 'login',
@@ -70,6 +72,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         onOff: boolean,
         imageIds: Array<string>,
         fileIds: Array<string>,
+    },
+    getWebdavAccessToken: {
+    },
+    revokeWebdavAccessToken: {
     },
     onDaily: {
         authenticityCode: string,
@@ -221,6 +227,13 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createNews: {
         status: 'OK'|'ERROR',
         newsId: number|null,
+    },
+    getWebdavAccessToken: {
+        status: 'OK'|'ERROR',
+        token: string|null,
+    },
+    revokeWebdavAccessToken: {
+        status: 'OK'|'ERROR',
     },
     onDaily: {
     },

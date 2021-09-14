@@ -10,7 +10,8 @@ SET time_zone = "+00:00";
 INSERT INTO access_tokens
     (`id`, `user_id`, `purpose`, `token`, `created_at`, `expires_at`)
 VALUES
-    ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL);
+    ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL),
+    ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL);
 
 -- Table aktuell
 INSERT INTO aktuell

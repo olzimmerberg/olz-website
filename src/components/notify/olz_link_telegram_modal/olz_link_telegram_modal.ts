@@ -7,19 +7,24 @@ $(() => {
 });
 
 export function olzLinkTelegramModalGetChatLink(): void {
-    $('#chat-link-wait').show();
-    $('#chat-link-ready').hide();
+    $('.chat-link-wait').show();
+    $('.chat-link-ready').hide();
 
     callOlzApi(
         OlzApiEndpoint.linkTelegram,
         {},
     )
         .then((response) => {
-            $('#telegram-chat-link').attr('href', response.chatLink);
-            $('#chat-link-wait').hide();
-            $('#chat-link-ready').show();
+            const chatLink = `https://t.me/${response.botName}`;
+            const chatLinkPin = `${chatLink}?start=${response.pin}`;
+            const chatMessage = `/start ${response.pin}`;
+            $('#telegram-chat-link').attr('href', chatLink);
+            $('#telegram-chat-link-pin').attr('href', chatLinkPin);
+            $('#telegram-chat-message').val(chatMessage);
+            $('.chat-link-wait').hide();
+            $('.chat-link-ready').show();
         })
         .catch((err) => {
-            $('#chat-link-wait').text(err.message);
+            $('.chat-link-wait').text(err.message);
         });
 }

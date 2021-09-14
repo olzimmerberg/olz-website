@@ -20,7 +20,8 @@ class LinkTelegramEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            'chatLink' => new StringField([]),
+            'botName' => new StringField([]),
+            'pin' => new StringField([]),
         ];
     }
 
@@ -34,10 +35,12 @@ class LinkTelegramEndpoint extends Endpoint {
         $user_repo = $this->entityManager->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $auth_username]);
 
-        $chat_link = $this->telegramUtils->getFreshChatLinkForUser($user);
+        $bot_name = $this->telegramUtils->getBotName();
+        $pin = $this->telegramUtils->getFreshPinForUser($user);
 
         return [
-            'chatLink' => $chat_link,
+            'botName' => $bot_name,
+            'pin' => $pin,
         ];
     }
 }

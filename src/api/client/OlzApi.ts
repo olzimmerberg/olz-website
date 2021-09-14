@@ -276,7 +276,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         status: 'INVALID_TOKEN'|'OK',
     },
     linkTelegram: {
-        chatLink: string,
+        botName: string,
+        pin: string,
     },
     onTelegram: {
     },

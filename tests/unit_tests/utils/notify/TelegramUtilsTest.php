@@ -260,7 +260,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         }
     }
 
-    public function testGetFreshChatLinkForUser(): void {
+    public function testGetFreshPinForUser(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
@@ -269,15 +269,15 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $user = new User();
         $user->setId(4);
-        $chat_link = $telegram_utils->getFreshChatLinkForUser($user);
+        $chat_link = $telegram_utils->getFreshPinForUser($user);
 
-        $this->assertSame("https://t.me/fake-bot-name?start={$generated_pin_1}", $chat_link);
+        $this->assertSame($generated_pin_1, $chat_link);
 
         $user = new User();
         $user->setId(2);
-        $chat_link = $telegram_utils->getFreshChatLinkForUser($user);
+        $chat_link = $telegram_utils->getFreshPinForUser($user);
 
-        $this->assertSame("https://t.me/fake-bot-name?start={$generated_pin_2}", $chat_link);
+        $this->assertSame($generated_pin_2, $chat_link);
     }
 
     public function testGetFreshPinForChat(): void {

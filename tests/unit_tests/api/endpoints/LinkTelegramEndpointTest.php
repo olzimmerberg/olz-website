@@ -13,11 +13,15 @@ require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLinkTelegramEndpointTelegramUtils {
-    public function getFreshChatLinkForUser($user) {
+    public function getBotName() {
+        return 'bot-name';
+    }
+
+    public function getFreshPinForUser($user) {
         if ($user->getUsername() == 'admin') {
-            return 'correct-link';
+            return 'correct-pin';
         }
-        return 'wrong-link';
+        return 'wrong-pin';
     }
 }
 
@@ -51,6 +55,9 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([]);
 
-        $this->assertSame(['chatLink' => 'correct-link'], $result);
+        $this->assertSame([
+            'botName' => 'bot-name',
+            'pin' => 'correct-pin',
+        ], $result);
     }
 }

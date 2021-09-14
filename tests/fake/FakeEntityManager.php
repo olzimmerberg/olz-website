@@ -9,6 +9,13 @@ class FakeEntityManager {
     public $flushed_removed = [];
     public $repositories = [];
 
+    public function __construct() {
+        require_once __DIR__.'/FakeUserRepository.php';
+        $this->repositories = [
+            'User' => new FakeUserRepository(),
+        ];
+    }
+
     public function getRepository($class) {
         return $this->repositories[$class] ?? null;
     }

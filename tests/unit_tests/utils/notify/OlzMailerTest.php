@@ -8,19 +8,9 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
+require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeOlzMailerEmailUtils {
-    public function encryptEmailReactionToken($data) {
-        $general_utils = new GeneralUtils();
-        return $general_utils->base64EncodeUrl(json_encode($data));
-    }
-
-    public function renderMarkdown($markdown) {
-        return $markdown;
-    }
-}
 
 /**
  * @internal
@@ -28,7 +18,7 @@ class FakeOlzMailerEmailUtils {
  */
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
-        $email_utils = new FakeOlzMailerEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
@@ -75,7 +65,7 @@ final class OlzMailerTest extends UnitTestCase {
     }
 
     public function testSend(): void {
-        $email_utils = new FakeOlzMailerEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);
@@ -90,7 +80,7 @@ final class OlzMailerTest extends UnitTestCase {
     }
 
     public function testSendConfigured(): void {
-        $email_utils = new FakeOlzMailerEmailUtils();
+        $email_utils = new FakeEmailUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailer($email_utils, $server_config, true);

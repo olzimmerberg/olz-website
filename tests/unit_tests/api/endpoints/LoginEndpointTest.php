@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -40,11 +40,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
     public function testLoginEndpointWithCorrectCredentials(): void {
         $auth_utils = new FakeAuthUtils();
-        $user = get_fake_user();
-        $user->setId(2);
-        $user->setUsername('admin');
-        $user->setRoot('karten');
-        $user->setZugriff('all');
+        $user = FakeUsers::adminUser();
         $auth_utils->authenticate_user = $user;
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();

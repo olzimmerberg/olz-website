@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/fake_user.php';
+require_once __DIR__.'/FakeUsers.php';
 
 class FakeAuthUtils {
     public $authenticate_user;

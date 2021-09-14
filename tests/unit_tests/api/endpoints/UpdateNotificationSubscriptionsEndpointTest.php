@@ -9,7 +9,6 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
@@ -39,8 +38,6 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('UpdateNotificationSubscriptionsEndpointTest');
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();

@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
-require_once __DIR__.'/../../fake/fake_user.php';
+require_once __DIR__.'/../../fake/FakeUsers.php';
+require_once __DIR__.'/../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
+require_once __DIR__.'/../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
@@ -15,17 +17,17 @@ require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask.php';
 require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
-$user1 = get_fake_user();
+$user1 = FakeUsers::defaultUser(true);
 $user1->setId(1);
 $user1->setFirstName('First');
 $user1->setLastName('User');
 
-$user2 = get_fake_user();
+$user2 = FakeUsers::defaultUser(true);
 $user2->setId(2);
 $user2->setFirstName('Second');
 $user2->setLastName('User');
 
-$user_provoke_error = get_fake_user();
+$user_provoke_error = FakeUsers::defaultUser(true);
 $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
 $user_provoke_error->setLastName('Error');
@@ -148,46 +150,6 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
             return $telegram_link;
         }
         return null;
-    }
-}
-
-class FakeSendDailyNotificationsTaskEmailUtils {
-    use Psr\Log\LoggerAwareTrait;
-
-    public function __construct() {
-        $this->olzMailer = new FakeSendDailyNotificationsTaskOlzMailer();
-    }
-
-    public function createEmail() {
-        return $this->olzMailer;
-    }
-}
-
-class FakeSendDailyNotificationsTaskOlzMailer {
-    public $emails_sent = [];
-    public $email_to_send;
-
-    public function configure($user, $title, $text) {
-        $this->email_to_send = [$user, $title, $text];
-    }
-
-    public function send() {
-        if ($this->email_to_send[1] == '[OLZ] provoke_error') {
-            throw new Exception("Provoked Error");
-        }
-        $this->emails_sent[] = $this->email_to_send;
-    }
-}
-
-class FakeSendDailyNotificationsTaskTelegramUtils {
-    public $calls = [];
-
-    public function callTelegramApi($command, $args) {
-        $this->calls[] = [$command, $args];
-    }
-
-    public function renderMarkdown($markdown) {
-        return $markdown;
     }
 }
 
@@ -327,8 +289,8 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
         $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
         $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeSendDailyNotificationsTaskEmailUtils();
-        $telegram_utils = new FakeSendDailyNotificationsTaskTelegramUtils();
+        $email_utils = new FakeEmailUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
@@ -372,7 +334,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
                 'text' => "<b>DW title {\"days\":3}</b>\n\nDW text Second",
                 'disable_web_page_preview' => true,
             ]],
-        ], $telegram_utils->calls);
+        ], $telegram_utils->telegramApiCalls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
         $this->assertSame($date_utils, $daily_summary_getter->dateUtils);
         $this->assertSame($env_utils, $daily_summary_getter->envUtils);

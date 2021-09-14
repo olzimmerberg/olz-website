@@ -9,16 +9,7 @@ require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
-
-class FakeUpdateUserEndpointEntityManager extends FakeEntityManager {
-    public function __construct() {
-        $this->repositories = [
-            'User' => new FakeUserRepository(),
-        ];
-    }
-}
 
 /**
  * @internal
@@ -31,7 +22,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWrongUsername(): void {
-        $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpoint();
@@ -71,7 +62,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
-        $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpoint();
@@ -116,7 +107,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpoint(): void {
-        $entity_manager = new FakeUpdateUserEndpointEntityManager();
+        $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpoint();

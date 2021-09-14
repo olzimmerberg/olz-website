@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithStravaEndpoint.php';

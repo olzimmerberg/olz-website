@@ -5,10 +5,9 @@ declare(strict_types=1);
 require_once __DIR__.'/../../../../src/utils/auth/AuthUtils.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeAuthUtilsAccessTokenRepository {
@@ -65,8 +64,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -81,8 +78,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('admin', 'adm1n');
 
-        $this->assertNotSame(null, $user_repo->admin_user);
-        $this->assertSame($user_repo->admin_user, $result);
+        $this->assertNotSame(null, FakeUsers::adminUser());
+        $this->assertSame(FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -105,8 +102,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -121,8 +116,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('vorstand@test.olzimmerberg.ch', 'v0r57and');
 
-        $this->assertNotSame(null, $user_repo->vorstand_user);
-        $this->assertSame($user_repo->vorstand_user, $result);
+        $this->assertNotSame(null, FakeUsers::vorstandUser());
+        $this->assertSame(FakeUsers::vorstandUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -145,8 +140,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -189,8 +182,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -234,8 +225,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_authenticate = false;
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -281,8 +270,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -324,8 +311,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -371,8 +356,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -419,8 +402,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_validate_access_token = false;
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -461,8 +442,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionNoUser(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -478,8 +457,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithNoPermission(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'no',
@@ -495,8 +472,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithSpecificPermission(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'specific',
@@ -512,8 +487,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasPermissionWithAllPermissions(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -534,8 +507,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
@@ -548,8 +519,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserFromSession(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -568,8 +537,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
@@ -586,8 +553,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
@@ -599,8 +564,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetSessionUser(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',

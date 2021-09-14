@@ -7,11 +7,10 @@ require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/webdav/endpoints/GetWebdavAccessTokenEndpoint.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
-require_once __DIR__.'/../../../fake/fake_user.php';
+require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
@@ -51,8 +50,6 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
 
     public function testGetWebdavAccessTokenEndpoint(): void {
         $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
         $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories['AccessToken'] = $access_token_repo;
         $auth_utils = new FakeAuthUtils();

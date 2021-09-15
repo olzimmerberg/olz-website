@@ -21,21 +21,23 @@ $simulated_path_info = $res ? $matches[3] : $path_info;
 $_SERVER['PATH_INFO'] = $simulated_path_info;
 // end of hack
 
-$root_directory = new DAV\FS\Directory("{$data_path}OLZimmerbergAblage");
+// The user can be logged in by PHP session or access token.
+$auth_utils = AuthUtils::fromEnv();
+$auth_utils->setGetParams(['access_token' => $access_token]);
+$user = $auth_utils->getAuthenticatedUser();
+$user_root = $user ? $user->getRoot() : '';
+
+$root_directory = new DAV\FS\Directory("{$data_path}OLZimmerbergAblage/{$user_root}");
 $server = new DAV\Server($root_directory);
 $server->setBaseUri("{$code_href}webdav/server.php{$stripped_path_info}");
 
-$auth_utils = AuthUtils::fromEnv();
-$auth_utils->setGetParams(['access_token' => $access_token]);
 $auth_backend = new DAV\Auth\Backend\CallbackAuthBackend(
-    function () use ($auth_utils) {
-        // The user can be logged in by PHP session or access token.
-        $has_permission = $auth_utils->hasPermission('all');
+    function () use ($auth_utils, $user) {
+        $has_permission = $auth_utils->hasPermission('webdav', $user);
         if ($has_permission) {
-            $user = $auth_utils->getAuthenticatedUser();
             return [true, $user->getUsername()];
         }
-        return [false, 'DAV permission denied'];
+        return [false, 'WebDAV permission denied'];
     }
 );
 $auth_plugin = new DAV\Auth\Plugin($auth_backend);

@@ -47,15 +47,15 @@ function test_webdav_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$webdav_url}");
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$webdav_url}");
-    // Throws fatal error :/
-    // take_pageshot($driver, 'webdav_vorstand_php_session');
+    $driver->executeScript($declare_flaky_elements);
+    take_pageshot($driver, 'webdav_vorstand_php_session');
     logout($driver, $base_url);
 
     login($driver, $base_url, 'karten', 'kar73n');
     $driver->get("{$base_url}{$webdav_url}");
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$webdav_url}");
-    // Throws fatal error :/
-    // take_pageshot($driver, 'webdav_karten_php_session');
+    $driver->executeScript($declare_flaky_elements);
+    take_pageshot($driver, 'webdav_karten_php_session');
     logout($driver, $base_url);
 }

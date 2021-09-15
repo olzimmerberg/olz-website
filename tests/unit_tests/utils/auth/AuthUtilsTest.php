@@ -299,9 +299,6 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "INFO Token validation successful: 1",
-            "INFO   User: admin",
-            "INFO   Auth: all",
-            "INFO   Root: karten",
         ], $logger->handler->getPrettyRecords());
     }
 

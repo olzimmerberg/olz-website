@@ -200,7 +200,7 @@ export function olz_files_edit_redraw(
             let resp = [0];
             try {
                 resp = JSON.parse(xmlhttp.responseText);
-            } catch (err) {
+            } catch (err: unknown) {
                 // ignore
             }
             if (resp[0] === 1) {

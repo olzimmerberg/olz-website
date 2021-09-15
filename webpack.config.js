@@ -3,8 +3,9 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const WebpackShellPlugin = require('webpack-shell-plugin');
+const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {StatsWriterPlugin} = require('webpack-stats-plugin');
 
 const defaultConfig = {
     mode: 'development',
@@ -29,12 +30,11 @@ const defaultConfig = {
             },
             {
                 test: /\.(png|gif)$/,
-                use: ['file-loader'],
+                type: 'asset/resource',
             },
             {
                 test: /\.(ttf|woff(|2)|eot|svg)$/,
-                use: ['file-loader'],
-
+                type: 'asset/resource',
             },
         ],
     },
@@ -50,8 +50,16 @@ const defaultConfig = {
         new MiniCssExtractPlugin({
             filename: '[name].min.css',
         }),
-        new WebpackShellPlugin({
-            onBuildStart: ['php ./src/api/client/generate.php'],
+        new WebpackShellPluginNext({
+            onBuildStart: {
+                scripts: ['php ./src/api/client/generate.php'],
+                blocking: true,
+                parallel: false,
+            },
+        }),
+        new StatsWriterPlugin({
+            fields: null,
+            stats: {chunkModules: true},
         }),
     ],
     watchOptions: {

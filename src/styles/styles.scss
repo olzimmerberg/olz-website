@@ -19,7 +19,7 @@ image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
 
 body {
-    background-image: url('icns/brushedbgschwarz.png');
+    background-image: url('../icns/brushedbgschwarz.png');
     color: rgb(0, 0, 0);
     font-size: 12px;
     z-index: -2;
@@ -73,7 +73,7 @@ h3 {
 }
 
 .mainbg {
-    background-image: url('icns/mainbg.png');
+    background-image: url('../icns/mainbg.png');
     background-repeat: repeat;
 }
 
@@ -127,7 +127,7 @@ ul.bullet-list {
 }
 
 .box-ganz > div {
-    background-image: url('icns/mainbg.png');
+    background-image: url('../icns/mainbg.png');
     background-repeat: repeat;
     border-left: 5px solid;
     border-radius: 3px;
@@ -267,7 +267,7 @@ textarea,
 .tablebar,
 .galerie-kopf td,
 .accordion-title {
-    background-image: url('icns/listheaderbg.png') !important;
+    background-image: url('../icns/listheaderbg.png') !important;
     background-repeat: repeat;
 }
 
@@ -400,68 +400,68 @@ input.button,
 }
 
 .linkblack {
-    background-image: url('icns/link_internal_selected_16.svg');
+    background-image: url('../icns/link_internal_selected_16.svg');
 }
 
 .linkedit {
-    background-image: url('icns/edit_16.svg');
+    background-image: url('../icns/edit_16.svg');
 }
 
 .linkduplicate {
-    background-image: url('icns/duplicate_16.svg');
+    background-image: url('../icns/duplicate_16.svg');
 }
 
 .linkext,
 .olz-editable-text a[href^='http://'],
 .olz-editable-text a[href^='https://'] {
-    background-image: url('icns/link_external_16.svg');
+    background-image: url('../icns/link_external_16.svg');
     background-position: left center;
     padding: 0 6px 0 16px;
 }
 
 .linkimg {
-    background-image: url('icns/link_slides_16.svg');
+    background-image: url('../icns/link_slides_16.svg');
 }
 
 .linkint,
 .olz-editable-text a[href^='/'] {
-    background-image: url('icns/link_internal_16.svg');
+    background-image: url('../icns/link_internal_16.svg');
     background-position: left center;
     padding: 0 6px 0 16px;
 }
 
 .linkmap {
-    background-image: url('icns/link_map_16.svg');
+    background-image: url('../icns/link_map_16.svg');
 }
 
 .linkmail,
 .olz-editable-text a[href^='mailto:'] {
-    background-image: url('icns/link_mail_16.svg');
+    background-image: url('../icns/link_mail_16.svg');
     background-position: left center;
     padding: 0 6px 0 16px;
 }
 
 .linkmovie {
-    background-image: url('icns/link_movie_16.svg');
+    background-image: url('../icns/link_movie_16.svg');
 }
 
 .linkneu {
-    background-image: url('icns/new_16.svg');
+    background-image: url('../icns/new_16.svg');
 }
 
 .linkoev {
-    background-image: url('icns/publ_transport_16.svg');
+    background-image: url('../icns/publ_transport_16.svg');
 }
 
 .linkol {
-    background-image: url('icns/orienteering_forest_16.svg');
+    background-image: url('../icns/orienteering_forest_16.svg');
     background-position: left center;
     padding: 0 6px 0 19px;
 }
 
 .linkpdf,
 .olz-editable-text a[href$='.pdf'] {
-    background-image: url('icns/link_pdf_16.svg');
+    background-image: url('../icns/link_pdf_16.svg');
     background-position: left center;
     padding: 0 6px 0 19px;
 }

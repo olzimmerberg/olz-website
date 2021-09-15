@@ -111,9 +111,6 @@ class AuthUtils {
         }
 
         $this->logger->info("Token validation successful: {$access_token->getId()}");
-        $this->logger->info("  User: {$user->getUsername()}");
-        $this->logger->info("  Auth: {$user->getZugriff()}");
-        $this->logger->info("  Root: {$user->getRoot()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
         return $user;
     }

@@ -4,11 +4,14 @@ export type RequestFieldId<T extends OlzApiEndpoint> = keyof OlzApiRequests[T] &
 
 export type ErrorsByField<T extends OlzApiEndpoint> = {[fieldName in RequestFieldId<T>]: string[]};
 
-export class ValidationError<T extends OlzApiEndpoint> {
+export class ValidationError<T extends OlzApiEndpoint> extends Error {
     constructor(
-        public message: string,
+        message: string,
         private validationErrors: ErrorsByField<T>,
-    ) {}
+    ) {
+        super(message); // 'Error' breaks prototype chain here
+        Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    }
 
     public getValidationErrors(): ErrorsByField<T> {
         return this.validationErrors;

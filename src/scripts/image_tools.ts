@@ -58,7 +58,7 @@ export function olz_images_edit_redraw(
         if (delem) {
             try {
                 document.getElementsByTagName('body')[0].removeChild(delem);
-            } catch (err) {
+            } catch (err: unknown) {
                 // ignore
             }
         }
@@ -174,7 +174,7 @@ export function olz_images_edit_redraw(
 
             try {
                 base64 = canvas.toDataURL('image/jpeg');
-            } catch (err) {
+            } catch (err: unknown) {
                 base64 = canvas.toDataURL();
             }
         }
@@ -330,7 +330,7 @@ export function olz_images_edit_redraw(
             try {
                 // eslint-disable-next-line no-unused-vars
                 resp = JSON.parse(xmlhttp.responseText) as any[];
-            } catch (err) {
+            } catch (err: unknown) {
                 // ignore
             }
             console.log(resp);
@@ -427,7 +427,7 @@ export function olz_images_edit_redraw(
             let resp = [0];
             try {
                 resp = JSON.parse(xmlhttp.responseText);
-            } catch (err) {
+            } catch (err: unknown) {
                 // ignore
             }
             if (resp[0] === 1) {

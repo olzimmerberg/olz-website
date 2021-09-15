@@ -74,8 +74,9 @@ export function getCanvasOfSize(
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
+    // No canvas API in tests!
     /* istanbul ignore if */
-    if (!process.env.JEST_WORKER_ID) { // No canvas API in tests!
+    if (typeof process === 'undefined' || !process.env.JEST_WORKER_ID) {
         const context = canvas.getContext('2d');
         context.drawImage(drawable, 0, 0, width, height);
     }
@@ -88,7 +89,7 @@ export function getBase64FromCanvas(
     let resizedBase64: string|undefined;
     try {
         resizedBase64 = canvas.toDataURL('image/jpeg');
-    } catch (err) {
+    } catch (err: unknown) {
         resizedBase64 = canvas.toDataURL();
     }
     return resizedBase64;

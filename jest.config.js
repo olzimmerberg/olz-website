@@ -12,6 +12,7 @@ const jestConfig = {
         '^.+\\.tsx?$': 'ts-jest',
         '^.+\\.[t|j]sx?$': 'babel-jest',
     },
+    testEnvironment: 'jsdom',
     testRegex: '.*/.*\\.test\\.tsx?',
     testPathIgnorePatterns: ['node_modules/', 'lib/'],
     collectCoverage: true,

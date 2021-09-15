@@ -1,3 +1,4 @@
+import {getErrorOrThrow} from './generalUtils';
 
 export type EventCallback<T> = (event: CustomEvent<T>) => void;
 
@@ -51,9 +52,10 @@ export class EventTarget<T extends EventTypeDict> {
         listeners.forEach((listener: EventCallback<T[K]>) => {
             try {
                 listener(event);
-            } catch (exc) {
-                console.error(`Event Listener failed (${typeName}): ${exc}`);
-                console.info(exc.stack);
+            } catch (unk: unknown) {
+                const err = getErrorOrThrow(unk);
+                console.error(`Event Listener failed (${typeName}): ${err}`);
+                console.info(err.stack);
             }
         });
         return !event.defaultPrevented;

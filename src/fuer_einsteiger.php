@@ -134,7 +134,11 @@ echo <<<ZZZZZZZZZZ
 <div class='clear-both'></div>
 <div class='right pics'>
     <span class='lightgallery'>
-        <a href='https://www.youtube.com/watch?v=JVL0vgcnM6c' rel='noopener noreferrer' data-src='https://www.youtube.com/watch?v=JVL0vgcnM6c'>
+        <a
+            href='https://www.youtube.com/watch?v=JVL0vgcnM6c'
+            rel='noopener noreferrer'
+            data-src='https://www.youtube.com/watch?v=JVL0vgcnM6c'
+        >
             {$was_ist_ol_001}
         </a>
     </span>

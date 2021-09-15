@@ -1,4 +1,5 @@
 import {RequestFieldId, OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, OlzApiError, ValidationError, mergeValidationErrors} from '../../../api/client';
+import {getErrorOrThrow} from '../../../utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -27,7 +28,8 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
     let request: OlzApiRequests[T]|undefined;
     try {
         request = getDataForRequest(getDataForRequestDict, form);
-    } catch (err) {
+    } catch (unk: unknown) {
+        const err = getErrorOrThrow(unk);
         const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe.';
         $(form).find('.success-message').text('');
         $(form).find('.error-message').text(errorMessage);
@@ -43,7 +45,8 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
                 $(form).find('.success-message').text(successMessage);
                 $(form).find('.error-message').text('');
                 clearValidationErrors(form);
-            } catch (err) {
+            } catch (unk: unknown) {
+                const err = getErrorOrThrow(unk);
                 $(form).find('.success-message').text('');
                 $(form).find('.error-message').text(err.message);
                 showValidationErrors<T>(err, form);
@@ -113,14 +116,14 @@ export function showErrorOnField(
     errorMessage: string,
 ): void {
     formInput.classList.add('is-invalid');
-    formInput.setAttribute('data-toggle', 'tooltip');
+    formInput.setAttribute('data-bs-toggle', 'tooltip');
     formInput.setAttribute('title', errorMessage);
     $(formInput).tooltip('show');
 }
 
 export function clearErrorOnField(formInput: Element): void {
     formInput.classList.remove('is-invalid');
-    formInput.removeAttribute('data-toggle');
+    formInput.removeAttribute('data-bs-toggle');
     formInput.removeAttribute('title');
     $(formInput).tooltip('dispose');
 }

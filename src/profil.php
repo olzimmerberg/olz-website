@@ -39,8 +39,8 @@ if ($user) {
         <a
             href='#'
             role='button'
-            data-toggle='modal'
-            data-target='#link-telegram-modal'
+            data-bs-toggle='modal'
+            data-bs-target='#link-telegram-modal'
             class='login-button telegram-button{$telegram_button_class}'
         >
             <img src='{$code_href}icns/login_telegram.svg' alt=''>
@@ -49,8 +49,8 @@ if ($user) {
         <a
             href='#'
             role='button'
-            data-toggle='modal'
-            data-target='#link-telegram-modal'
+            data-bs-toggle='modal'
+            data-bs-target='#link-telegram-modal'
             class='login-button strava-button{$strava_button_class}'
         >
             <img src='{$code_href}icns/login_strava.svg' alt=''>

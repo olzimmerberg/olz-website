@@ -64,7 +64,7 @@
     "webpack-stats-plugin": "^1.0.3"
   },
   "dependencies": {
-    "bootstrap": "^4",
+    "bootstrap": "^5",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
     "lightgallery": "^2",

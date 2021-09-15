@@ -116,14 +116,14 @@ export function showErrorOnField(
     errorMessage: string,
 ): void {
     formInput.classList.add('is-invalid');
-    formInput.setAttribute('data-toggle', 'tooltip');
+    formInput.setAttribute('data-bs-toggle', 'tooltip');
     formInput.setAttribute('title', errorMessage);
     $(formInput).tooltip('show');
 }
 
 export function clearErrorOnField(formInput: Element): void {
     formInput.classList.remove('is-invalid');
-    formInput.removeAttribute('data-toggle');
+    formInput.removeAttribute('data-bs-toggle');
     formInput.removeAttribute('title');
     $(formInput).tooltip('dispose');
 }

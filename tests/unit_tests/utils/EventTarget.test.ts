@@ -1,4 +1,5 @@
 /* eslint-env jasmine */
+/* @jest-environment jsdom */
 
 import {EventTarget} from '../../../src/utils/EventTarget';
 

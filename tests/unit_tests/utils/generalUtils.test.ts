@@ -1,4 +1,5 @@
 /* eslint-env jasmine */
+/* @jest-environment jsdom */
 
 import {obfuscateForUpload, deobfuscateUpload, assertUnreachable, getErrorOrThrow} from '../../../src/utils/generalUtils';
 

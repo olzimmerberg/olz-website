@@ -210,6 +210,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $title = $notification->title;
         $text = $notification->getTextForUser($user);
         $config = $notification->config;
+        $subscription_id = $subscription->getId();
         $delivery_type = $subscription->getDeliveryType();
         $user_id = $user->getId();
         $this->logger->info("Sending notification {$title} over {$delivery_type} to user ({$user_id})...");
@@ -230,11 +231,14 @@ class SendDailyNotificationsTask extends BackgroundTask {
                 $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);
                 if (!$telegram_link) {
-                    $subscription_id = $subscription->getId();
                     $this->logger->critical("User ({$user_id}) has no telegram link, but a subscription ({$subscription_id})");
                     return;
                 }
                 $user_chat_id = $telegram_link->getTelegramChatId();
+                if (!$user_chat_id) {
+                    $this->logger->critical("User ({$user_id}) has a telegram link without chat ID, but a subscription ({$subscription_id})");
+                    return;
+                }
                 $html_title = $this->telegramUtils->renderMarkdown($title);
                 $html_text = $this->telegramUtils->renderMarkdown($text);
                 $this->telegramUtils->callTelegramApi('sendMessage', [

@@ -27,6 +27,11 @@ $user2->setId(2);
 $user2->setFirstName('Second');
 $user2->setLastName('User');
 
+$user3 = FakeUsers::defaultUser(true);
+$user3->setId(3);
+$user3->setFirstName('Third');
+$user3->setLastName('User');
+
 $user_provoke_error = FakeUsers::defaultUser(true);
 $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
@@ -34,99 +39,122 @@ $user_provoke_error->setLastName('Error');
 
 class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
     public function findBy($where) {
-        global $user1, $user2, $user_provoke_error;
+        global $user1, $user2, $user3, $user_provoke_error;
         return [
             get_fake_notification_subscription(
+                1,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user1,
                 NotificationSubscription::TYPE_MONTHLY_PREVIEW,
                 json_encode([]),
             ),
             get_fake_notification_subscription(
+                2,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user2,
                 NotificationSubscription::TYPE_MONTHLY_PREVIEW,
                 json_encode(['no_notification' => true]),
             ),
             get_fake_notification_subscription(
+                3,
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 $user1,
                 NotificationSubscription::TYPE_WEEKLY_PREVIEW,
                 json_encode([]),
             ),
             get_fake_notification_subscription(
+                4,
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 $user1,
                 NotificationSubscription::TYPE_WEEKLY_PREVIEW,
                 json_encode(['no_notification' => true]),
             ),
             get_fake_notification_subscription(
+                5,
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 $user1,
                 NotificationSubscription::TYPE_DEADLINE_WARNING,
                 json_encode(['days' => 7]),
             ),
             get_fake_notification_subscription(
+                6,
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 $user2,
                 NotificationSubscription::TYPE_DEADLINE_WARNING,
                 json_encode(['days' => 3]),
             ),
             get_fake_notification_subscription(
+                7,
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user3,
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['days' => 3]),
+            ),
+            get_fake_notification_subscription(
+                8,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user1,
                 NotificationSubscription::TYPE_DEADLINE_WARNING,
                 json_encode(['days' => 3]),
             ),
             get_fake_notification_subscription(
+                9,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user1,
                 NotificationSubscription::TYPE_DEADLINE_WARNING,
                 json_encode(['no_notification' => true]),
             ),
             get_fake_notification_subscription(
+                10,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user1,
                 NotificationSubscription::TYPE_DAILY_SUMMARY,
                 json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
             ),
             get_fake_notification_subscription(
+                11,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user1,
                 NotificationSubscription::TYPE_DAILY_SUMMARY,
                 json_encode(['no_notification' => true]),
             ),
             get_fake_notification_subscription(
+                12,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user2,
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
                 json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
             ),
             get_fake_notification_subscription(
+                13,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user2,
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
                 json_encode(['no_notification' => true]),
             ),
             get_fake_notification_subscription(
+                14,
                 'invalid-delivery',
                 $user2,
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
                 json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
             ),
             get_fake_notification_subscription(
+                15,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user2,
                 'invalid-type',
                 json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
             ),
             get_fake_notification_subscription(
+                16,
                 NotificationSubscription::DELIVERY_EMAIL,
                 $user2,
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
                 json_encode(['provoke_error' => true]),
             ),
             get_fake_notification_subscription(
+                17,
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 $user_provoke_error,
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
@@ -138,7 +166,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
 
 class FakeSendDailyNotificationsTaskTelegramLinkRepository {
     public function findOneBy($where) {
-        global $user1, $user2;
+        global $user1, $user2, $user3;
         if ($where == ['user' => $user1]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('11111');
@@ -147,6 +175,11 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
         if ($where == ['user' => $user2]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('22222');
+            return $telegram_link;
+        }
+        if ($where == ['user' => $user3]) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setTelegramChatId(null);
             return $telegram_link;
         }
         return null;
@@ -360,6 +393,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Found notification subscription for 'deadline_warning', '{\"days\":7}'...",
             "INFO Found notification subscription for 'deadline_warning', '{\"days\":3}'...",
             "INFO Found notification subscription for 'deadline_warning', '{\"days\":3}'...",
+            "INFO Found notification subscription for 'deadline_warning', '{\"days\":3}'...",
             "INFO Found notification subscription for 'deadline_warning', '{\"no_notification\":true}'...",
             "INFO Found notification subscription for 'daily_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
             "INFO Found notification subscription for 'daily_summary', '{\"no_notification\":true}'...",
@@ -388,6 +422,8 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Getting notification for '{\"days\":3}'...",
             "INFO Sending notification DW title {\"days\":3} over telegram to user (2)...",
             "INFO Telegram sent to user (2): DW title {\"days\":3}",
+            "INFO Sending notification DW title {\"days\":3} over telegram to user (3)...",
+            "CRITICAL User (3) has a telegram link without chat ID, but a subscription (7)",
             "INFO Sending notification DW title {\"days\":3} over email to user (1)...",
             "INFO Email sent to user (1): DW title {\"days\":3}",
             "INFO Getting notification for '{\"no_notification\":true}'...",
@@ -405,7 +441,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Sending notification WS title over invalid-delivery to user (2)...",
             "CRITICAL Unknown delivery type 'invalid-delivery'",
             "INFO Sending notification WS title over telegram to user (3)...",
-            "CRITICAL User (3) has no telegram link, but a subscription ()",
+            "CRITICAL User (3) has no telegram link, but a subscription (17)",
             "INFO Getting notification for '{\"no_notification\":true}'...",
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",

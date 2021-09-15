@@ -16,6 +16,7 @@ echo "#root .local { float: left; }\n";
 echo "#root.master .local { margin-left:-10000px; }\n";
 echo "#root.local .master { margin-left:-10000px; }\n";
 echo "#root .after-pair { clear: both; }\n";
+echo "#progress { position:fixed; top:0; left:0; background-color:blue; height:5px; width: 0%; }\n";
 echo "</style>\n";
 echo "<script>\n";
 echo "let mode = 'local';\n";
@@ -53,6 +54,7 @@ if ($master_index === null) {
 sort($screenshot_paths);
 
 echo "<div id='root' class='local'>";
+echo "<div id='progress'></div>";
 $screenshot_paths_json = json_encode($screenshot_paths);
 echo "<script>const screenshotPaths = {$screenshot_paths_json};</script>";
 foreach ($screenshot_paths as $screenshot_path) {
@@ -68,6 +70,8 @@ foreach ($screenshot_paths as $screenshot_path) {
 echo "</div>";
 echo "<script>
 function loadNext(index) {
+    const progressElem = document.getElementById('progress');
+    progressElem.style.width = Math.round(index * 100 / screenshotPaths.length) + '%';
     if (index >= screenshotPaths.length) {
         return;
     }

@@ -30,3 +30,10 @@ export function deobfuscateUpload(obfuscated: string): string {
 export function assertUnreachable(value: never): never {
     throw new Error(`Unexpectedly reachable using value: ${value}`);
 }
+
+export function getErrorOrThrow(err: unknown): Error {
+    if (!(err instanceof Error)) {
+        throw new Error('Thrown thing is not an error ¯\\_ (ツ)_/¯');
+    }
+    return err;
+}

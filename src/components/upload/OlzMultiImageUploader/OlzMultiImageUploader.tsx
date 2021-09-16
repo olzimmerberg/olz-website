@@ -1,4 +1,5 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
+import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../utils/fileUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../utils/imageUtils';
 import {Uploader} from '../../../utils/Uploader';
@@ -66,12 +67,11 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         return () => uploader.removeEventListener('uploadFinished', callback);
     }, [uploadingFiles, uploadedFiles]);
 
-    const onFileInput = async (event: ChangeEvent<HTMLInputElement>) => {
-        const fileList = event.target.files;
+    const onDrop = async (acceptedFiles: File[]) => {
         const newUploadingFiles = [...uploadingFiles];
         setUploadingFiles(newUploadingFiles);
-        for (let fileListIndex = 0; fileListIndex < fileList.length; fileListIndex++) {
-            const file = fileList[fileListIndex];
+        for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
+            const file = acceptedFiles[fileListIndex];
             newUploadingFiles.push({file, uploadProgress: 0});
             const base64Content = await readBase64(file);
             if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
@@ -96,6 +96,11 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         }
     };
 
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({
+        accept: 'image/jpeg, image/png',
+        onDrop,
+    })
+
     const uploadingElems = uploadingFiles.map(uploadingFile => (
         <div key={uploadingFile.file.name}>
             Uploading: {uploadingFile.file.name} - {uploadingFile.uploadId} - {uploadingFile.uploadProgress}
@@ -112,12 +117,21 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         <div>
             {uploadingElems}
             {uploadedElems}
-            <input
-                type='file'
-                multiple
-                id='multi-image-uploader-input'
-                onChange={onFileInput}
-            />
+            <div className="dropzone" {...getRootProps()}>
+                <input {...getInputProps()} />
+                <img
+                    src="icns/link_image_16.svg"
+                    alt=""
+                    className="noborder"
+                    width="32"
+                    height="32"
+                />
+                {
+                    isDragActive ?
+                    <div>Bilder hierhin ziehen...</div> :
+                    <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
+                }
+            </div>
         </div>
     );
 };

@@ -3,11 +3,9 @@
 // Webpack generiert daraus den Ordner `jsbuild/`.
 // =============================================================================
 
-import 'lightgallery/dist/css/lightgallery.css';
-import 'jquery-ui/themes/base/theme.css';
-import 'jquery-ui/themes/base/datepicker.css';
-import 'typeface-open-sans';
-import './bootstrap.scss';
+import lightGallery from 'lightgallery';
+import lgVideo from 'lightgallery/plugins/video';
+
 import './email_reaktion.scss';
 import './fuer_einsteiger.scss';
 import './index.scss';
@@ -16,7 +14,6 @@ import './konto_strava.scss';
 import './logs.scss';
 import './profil.scss';
 import './startseite.scss';
-import './styles.scss';
 import './webftp.scss';
 
 export * from './components/index';
@@ -29,16 +26,13 @@ export * from './logs';
 export * from './news/index';
 export * from './profil';
 export * from './scripts/index';
+export * from './styles/index';
 export * from './termine';
 export * from './utils/index';
 export * from './webftp';
 
 /* @ts-ignore: Ignore file is not a module. */
 export * from 'bootstrap';
-/* @ts-ignore: Ignore file is not a module. */
-export * from 'lightgallery';
-/* @ts-ignore: Ignore file is not a module. */
-export * from 'lg-video';
 /* @ts-expect-error: Ignore file is not a module. */
 export * from 'jquery';
 /* @ts-ignore: Ignore file is not a module. */
@@ -58,10 +52,15 @@ export function loaded(): void {
     window['$'] = $;
 
     $(() => {
-        /* @ts-expect-error: lightGallery does actually exist! */
-        $('.lightgallery').lightGallery({
-            selector: 'a[data-src]',
-        });
+        const lightGalleryElems = document.querySelectorAll('.lightgallery');
+        for (let i = 0; i < lightGalleryElems.length; i++) {
+            lightGallery(lightGalleryElems[i] as HTMLElement, {
+                hideControlOnEnd: true,
+                plugins: [lgVideo],
+                speed: 500,
+                selector: 'a[data-src]',
+            });
+        }
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',
         });

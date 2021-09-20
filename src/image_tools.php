@@ -15,6 +15,7 @@ $tables_img_dirs = [
     "aktuell" => "img/aktuell/",
     "bild_der_woche" => "img/bild_der_woche/",
     "blog" => "img/blog/",
+    "news" => "img/news/",
 ];
 
 if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
@@ -31,7 +32,14 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             return;
         }
         $db_imgpath = $tables_img_dirs[$db_table];
-        $imgfile = $data_path.$db_imgpath."/".intval($_GET["id"])."/img/".str_pad(intval($_GET["index"]), 3, "0", STR_PAD_LEFT).".jpg";
+        $id = intval($_GET['id']);
+        $index = $_GET['index'];
+        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+        if ($is_migrated) {
+            $imgfile = $data_path.$db_imgpath."/".$id."/img/".$index;
+        } else {
+            $imgfile = $data_path.$db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";
+        }
         if (is_file($imgfile)) {
             $ndim = intval($_GET["dim"]) - 1;
             $dim = false;
@@ -57,7 +65,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             if ($wid > 256 || $hei > 256) {
                 $thumbfile = $imgfile;
             } else {
-                $thumbfile = $data_path.$db_imgpath."/".intval($_GET["id"])."/thumb/".str_pad(intval($_GET["index"]), 3, "0", STR_PAD_LEFT)."_".$wid."x".$hei.".jpg";
+                if ($is_migrated) {
+                    $thumbfile = $data_path.$db_imgpath."/".$id."/thumb/".$index."_".$wid."x".$hei.".jpg";
+                } else {
+                    $thumbfile = $data_path.$db_imgpath."/".$id."/thumb/".str_pad(intval($index), 3, "0", STR_PAD_LEFT)."_".$wid."x".$hei.".jpg";
+                }
             }
             if (!is_file($thumbfile)) {
                 if (!is_dir(dirname($thumbfile))) {
@@ -79,6 +91,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
                 $buf = fread($fp, 1024);
             }
             fclose($fp);
+        } else {
+            throw new Exception("Expected image {$imgfile}");
         }
     }
 
@@ -347,13 +361,51 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 }
 
+function replace_image_tags($text, $id, $image_ids, $lightview = "image", $attrs = "") {
+    $is_migrated = (bool) $image_ids;
+    preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
+    for ($i = 0; $i < count($matches[0]); $i++) {
+        $size = intval($matches[3][$i]);
+        if ($size < 1) {
+            $size = 110;
+        }
+        $index = intval($matches[1][$i]);
+        if ($is_migrated) {
+            $new_html = olz_image(
+                'news',
+                $id,
+                $image_ids[$index - 1],
+                $size,
+                $lightview,
+                $attrs
+            );
+        } else {
+            $new_html = olz_image(
+                'aktuell',
+                $id,
+                $index,
+                $size,
+                $lightview,
+                $attrs
+            );
+        }
+        $text = str_replace($matches[0][$i], $new_html, $text);
+    }
+    return $text;
+}
+
 function olz_image($db_table, $id, $index, $dim, $lightview = "image", $attrs = "") {
     global $data_href, $data_path, $tables_img_dirs;
     if (!isset($tables_img_dirs[$db_table])) {
         return "Ungültige db_table: {$db_table} (in olz_image)";
     }
     $db_imgpath = $tables_img_dirs[$db_table];
-    $imgfile = $db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";
+    $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+    if ($is_migrated) {
+        $imgfile = $db_imgpath."/".$id."/img/".$index;
+    } else {
+        $imgfile = $db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";
+    }
     if (!is_file($data_path.$imgfile)) {
         return "Bild nicht vorhanden (in olz_image)";
     }

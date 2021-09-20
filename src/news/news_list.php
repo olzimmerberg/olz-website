@@ -96,7 +96,8 @@ SELECT
     datum,
     zeit,
     titel,
-    text
+    text,
+    image_ids
 FROM aktuell n
 WHERE
     {$filter_where}
@@ -113,6 +114,7 @@ while ($row = $res->fetch_assoc()) {
     $news_entry->setTitle($row['titel']);
     $news_entry->setTeaser($row['text']);
     $news_entry->setId($row['id']);
+    $news_entry->setImageIds(json_decode($row['image_ids'], true));
 
     echo olz_news_list_item(['news_entry' => $news_entry]);
 }

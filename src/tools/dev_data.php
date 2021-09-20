@@ -141,10 +141,15 @@ function init_dev_data_filesystem($data_path) {
     // Build files/
     mkdir("{$data_path}files");
     mkdir("{$data_path}files/aktuell");
+    mkdir("{$data_path}files/aktuell/3");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}files/aktuell/3/001.pdf");
     mkdir("{$data_path}files/blog");
     mkdir("{$data_path}files/blog/1");
     copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
     mkdir("{$data_path}files/downloads");
+    mkdir("{$data_path}files/news");
+    mkdir("{$data_path}files/news/4");
+    copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/4/xMpu3ExjfBKa8Cp35bcmsDgq.pdf");
     mkdir("{$data_path}files/termine");
     mkdir("{$data_path}files/termine/2");
     copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
@@ -239,6 +244,11 @@ function init_dev_data_filesystem($data_path) {
     mkdir("{$data_path}img/karten");
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
+    mkdir("{$data_path}img/news");
+    mkdir("{$data_path}img/news/4");
+    mkdir("{$data_path}img/news/4/img");
+    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/4/img/xkbGJQgO5LFXpTSz2dCnvJzu.jpg", 800, 600);
+
     mkdir("{$data_path}img/users");
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
     mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1@2x.jpg", 168, 240);

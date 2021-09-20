@@ -646,7 +646,7 @@ CREATE TABLE `aktuell` (
   CONSTRAINT `FK_417D71047D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_417D71049339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_417D7104E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

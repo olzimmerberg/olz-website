@@ -15,6 +15,7 @@ $tables_file_dirs = [
     "blog" => "files/blog/",
     "downloads" => "files/downloads/",
     "termine" => "files/termine/",
+    "news" => "files/news/",
 ];
 
 $mime_extensions = [
@@ -84,32 +85,57 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             echo "Invalid id (in thumb)";
             return;
         }
-        $index = intval($_GET["index"]);
-        if ($index <= 0) {
-            echo "Invalid index (in thumb)";
-            return;
+        $index = $_GET["index"];
+        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+        if ($is_migrated) {
+            if (!preg_match("/^[0-9A-Za-z_\\-]{24}\\.\\S{1,10}$/", $index)) {
+                echo "Invalid index (=hash; in thumb)";
+                return;
+            }
+        } else {
+            if ($index <= 0) {
+                echo "Invalid index (in thumb)";
+                return;
+            }
         }
         $dim = 16;
         if (intval($_GET["dim"]) > 16) {
             $dim = 128;
         }
-        $files = scandir($data_path.$db_filepath."/".$id);
-        for ($i = 0; $i < count($files); $i++) {
-            if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
-                if (intval($matches[1]) == $index) {
-                    $thumbfile = $code_path."icns/link_".$extension_icons[$matches[2]]."_16.svg";
-                    if (!is_file($thumbfile)) {
-                        $thumbfile = $code_path."icns/link_any_16.svg";
-                    }
-                    header("Cache-Control: max-age=86400");
-                    header("Content-Type: image/svg+xml");
-                    $fp = fopen($thumbfile, "r");
-                    $buf = fread($fp, 1024);
-                    while ($buf) {
-                        echo $buf;
+        if ($is_migrated) {
+            preg_match("/^[0-9A-Za-z_\\-]{24}\\.(\\S{1,10})$/", $index, $matches);
+            $thumbfile = $code_path."icns/link_".$extension_icons[$matches[1]]."_16.svg";
+            if (!is_file($thumbfile)) {
+                $thumbfile = $code_path."icns/link_any_16.svg";
+            }
+            header("Cache-Control: max-age=86400");
+            header("Content-Type: image/svg+xml");
+            $fp = fopen($thumbfile, "r");
+            $buf = fread($fp, 1024);
+            while ($buf) {
+                echo $buf;
+                $buf = fread($fp, 1024);
+            }
+            fclose($fp);
+        } else {
+            $files = scandir($data_path.$db_filepath."/".$id);
+            for ($i = 0; $i < count($files); $i++) {
+                if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
+                    if (intval($matches[1]) == $index) {
+                        $thumbfile = $code_path."icns/link_".$extension_icons[$matches[2]]."_16.svg";
+                        if (!is_file($thumbfile)) {
+                            $thumbfile = $code_path."icns/link_any_16.svg";
+                        }
+                        header("Cache-Control: max-age=86400");
+                        header("Content-Type: image/svg+xml");
+                        $fp = fopen($thumbfile, "r");
                         $buf = fread($fp, 1024);
+                        while ($buf) {
+                            echo $buf;
+                            $buf = fread($fp, 1024);
+                        }
+                        fclose($fp);
                     }
-                    fclose($fp);
                 }
             }
         }
@@ -279,18 +305,56 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 }
 
+function replace_file_tags($text, $id, $icon = "mini") {
+    preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
+    for ($i = 0; $i < count($matches[0]); $i++) {
+        $index = $matches[1][$i];
+        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+        $tmptext = $matches[4][$i];
+        if (mb_strlen($tmptext) < 1) {
+            $tmptext = "Datei ".$index;
+        }
+
+        if ($is_migrated) {
+            $new_html = olz_file(
+                'news',
+                $id,
+                $index,
+                $tmptext,
+                $icon
+            );
+        } else {
+            $new_html = olz_file(
+                'aktuell',
+                $id,
+                intval($index),
+                $tmptext,
+                $icon
+            );
+        }
+        $text = str_replace($matches[0][$i], $new_html, $text);
+    }
+    return $text;
+}
+
 function olz_file($db_table, $id, $index, $text, $icon = "mini") {
     global $code_href, $data_href, $data_path, $tables_file_dirs;
     if (!isset($tables_file_dirs[$db_table])) {
         return "Ungültige db_table (in olz_file)";
     }
+    $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
     $db_filepath = $tables_file_dirs[$db_table];
-    if (is_dir($data_path.$db_filepath."/".$id)) {
-        $files = scandir($data_path.$db_filepath."/".$id);
+    $file_dir = $data_path.$db_filepath."/".$id;
+    if (is_dir($file_dir)) {
+        if ($is_migrated) {
+            $filename = substr($index, 1);
+            return "<a href='".$data_href.$db_filepath."/".$id."/".$filename."?modified=".filemtime($file_dir."/".$filename)."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$filename."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+        }
+        $files = scandir($file_dir);
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                 if (intval($matches[1]) == $index) {
-                    return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($data_path.$db_filepath."/".$id."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+                    return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($file_dir."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
                 }
             }
         }

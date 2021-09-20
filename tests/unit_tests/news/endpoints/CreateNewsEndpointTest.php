@@ -10,6 +10,7 @@ require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeCreateNewsEndpointRoleRepository {
@@ -40,9 +41,11 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     public function testCreateNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => false];
+        $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -71,12 +74,22 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories['Role'] = $role_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
+        $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLogger($logger);
+
+        mkdir(__DIR__.'/../../tmp/temp/');
+        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
+        mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/news/');
+        mkdir(__DIR__.'/../../tmp/files/');
+        mkdir(__DIR__.'/../../tmp/files/news/');
 
         $result = $endpoint->call([
             'ownerUserId' => 1,
@@ -91,8 +104,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'tags' => ['test', 'unit'],
             'terminId' => null,
             'onOff' => true,
-            'imageIds' => [],
-            'fileIds' => [],
+            'imageIds' => ['uploaded_image.jpg', 'inexistent.jpg'],
+            'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
         ]);
 
         $user_repo = $entity_manager->repositories['User'];
@@ -117,5 +130,14 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
         $this->assertSame(1, $news_entry->getOnOff());
+
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
+        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/uploaded_image.jpg'));
+        $this->assertSame(true, is_file(__DIR__."/../../tmp/img/news/{$id}/img/uploaded_image.jpg"));
+        $this->assertSame(false, is_file(__DIR__."/../../tmp/img/news/{$id}/img/inexistent.jpg"));
+
+        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/uploaded_file.jpg'));
+        $this->assertSame(true, is_file(__DIR__."/../../tmp/files/news/{$id}/uploaded_file.pdf"));
+        $this->assertSame(false, is_file(__DIR__."/../../tmp/files/news/{$id}/inexistent.txt"));
     }
 }

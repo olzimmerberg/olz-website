@@ -3,6 +3,8 @@
 require_once __DIR__.'/../components/common/olz_posting_list_item/olz_posting_list_item.php';
 require_once __DIR__.'/../utils/NewsUtils.php';
 require_once __DIR__.'/components/olz_news_filter/olz_news_filter.php';
+require_once __DIR__.'/components/olz_news_list_item/olz_news_list_item.php';
+require_once __DIR__.'/model/NewsEntry.php';
 
 $news_utils = NewsUtils::fromEnv();
 $current_filter = json_decode($_GET['filter'] ?? '{}', true);
@@ -105,19 +107,14 @@ ZZZZZZZZZZ;
 $res = $db->query($sql);
 
 while ($row = $res->fetch_assoc()) {
-    $icon = "{$code_href}icns/entry_type_aktuell_20.svg";
-    $datum = $row['datum'];
-    $title = $row['titel'];
-    $text = $row['text'];
-    $link = "?id=".$row['id'];
+    // TODO: Directly use doctrine to run the DB query.
+    $news_entry = new NewsEntry();
+    $news_entry->setDate($row['datum']);
+    $news_entry->setTitle($row['titel']);
+    $news_entry->setTeaser($row['text']);
+    $news_entry->setId($row['id']);
 
-    echo olz_posting_list_item([
-        'icon' => $icon,
-        'date' => $datum,
-        'title' => $title,
-        'text' => $text,
-        'link' => $link,
-    ]);
+    echo olz_news_list_item(['news_entry' => $news_entry]);
 }
 
 echo "</form>";

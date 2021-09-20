@@ -24,6 +24,10 @@ class CreateNewsEndpoint extends Endpoint {
         $this->entityManager = $new_entity_manager;
     }
 
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
     public static function getIdent() {
         return 'CreateNewsEndpoint';
     }
@@ -102,6 +106,17 @@ class CreateNewsEndpoint extends Endpoint {
 
         $tags_for_db = ' '.implode(' ', $input['tags']).' ';
 
+        $data_path = $this->envUtils->getDataPath();
+        $valid_image_ids = [];
+        foreach ($input['imageIds'] as $image_id) {
+            $image_path = "{$data_path}temp/{$image_id}";
+            if (!is_file($image_path)) {
+                $this->logger->warning("Image file {$image_path} does not exist.");
+                continue;
+            }
+            $valid_image_ids[] = $image_id;
+        }
+
         $news_entry = new NewsEntry();
         $news_entry->setCreatedAt($now);
         $news_entry->setLastModifiedAt($now);
@@ -116,6 +131,7 @@ class CreateNewsEndpoint extends Endpoint {
         $news_entry->setContent($input['content']);
         $news_entry->setExternalUrl($input['externalUrl']);
         $news_entry->setTags($tags_for_db);
+        $news_entry->setImageIds($valid_image_ids);
         // TODO: Do not ignore
         $news_entry->setTermin(0);
         $news_entry->setOnOff($input['onOff'] ? 1 : 0);
@@ -125,9 +141,42 @@ class CreateNewsEndpoint extends Endpoint {
 
         $this->entityManager->persist($news_entry);
         $this->entityManager->flush();
+
+        $news_entry_id = $news_entry->getId();
+
+        $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
+        mkdir($news_entry_img_path);
+        mkdir("{$news_entry_img_path}img/");
+        mkdir("{$news_entry_img_path}thumb/");
+        foreach ($valid_image_ids as $image_id) {
+            $image_path = "{$data_path}temp/{$image_id}";
+            if (!is_file($image_path)) {
+                // @codeCoverageIgnoreStart
+                // Reason: Should never happen in reality.
+                throw new Exception("Image file {$image_path} previously existed, but not anymore?!?");
+                // @codeCoverageIgnoreEnd
+            }
+            $destination_path = "{$news_entry_img_path}img/{$image_id}";
+            rename($image_path, $destination_path);
+
+            // TODO: Generate default thumbnails.
+        }
+
+        $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
+        mkdir($news_entry_files_path);
+        foreach ($input['fileIds'] as $file_id) {
+            $file_path = "{$data_path}temp/{$file_id}";
+            if (!is_file($file_path)) {
+                $this->logger->warning("File {$file_path} does not exist.");
+                continue;
+            }
+            $destination_path = "{$news_entry_files_path}{$file_id}";
+            rename($file_path, $destination_path);
+        }
+
         return [
             'status' => 'OK',
-            'newsId' => $news_entry->getId(),
+            'newsId' => $news_entry_id,
         ];
     }
 }

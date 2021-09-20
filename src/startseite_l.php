@@ -21,6 +21,7 @@ require_once __DIR__.'/image_tools.php';
 require_once __DIR__.'/file_tools.php';
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/components/common/olz_posting_list_item/olz_posting_list_item.php';
+require_once __DIR__.'/news/components/olz_news_list_item/olz_news_list_item.php';
 
 $banner_text = olz_editable_text(['olz_text_id' => 22]);
 if (trim(strip_tags($banner_text)) !== '') {
@@ -83,12 +84,20 @@ while ($row = $result->fetch_assoc()) {
         $bild = olz_image("blog", $id, 1, 110, null, " style='float:left; margin:0px 5px 0px 0px;'");
         $text = str_replace("<BILD1>", $bild, $text);
 
-    // Dateicode einfügen
-       /* preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
-        for ($i=0; $i<count($matches[0]); $i++) {
-            $tmptext = $matches[4][$i];
-            $text = str_replace($matches[0][$i], $tmptext, $text);
-        }*/
+        // Dateicode einfügen
+        /* preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
+         for ($i=0; $i<count($matches[0]); $i++) {
+             $tmptext = $matches[4][$i];
+             $text = str_replace($matches[0][$i], $tmptext, $text);
+         }*/
+
+        echo olz_posting_list_item([
+            'icon' => $icon,
+            'date' => $datum,
+            'title' => $edit_admin.$titel,
+            'text' => $text,
+            'link' => $link,
+        ]);
     } elseif ($thistype == "forum") { // Tabelle 'forum'
         $titel = $row['f1'];
         $name = ($row['f2'] > "") ? "(".$row['f2'].") " : "";
@@ -99,6 +108,14 @@ while ($row = $result->fetch_assoc()) {
         if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
+
+        echo olz_posting_list_item([
+            'icon' => $icon,
+            'date' => $datum,
+            'title' => $edit_admin.$titel,
+            'text' => $text,
+            'link' => $link,
+        ]);
     } elseif ($thistype == "galerie") { // Tabelle 'galerie'
         $pfad = $row['id'];
         $typ = $row['f3'];
@@ -134,10 +151,16 @@ while ($row = $result->fetch_assoc()) {
             $titel = "Film: ".$titel;
             $icon = "icns/entry_type_movie_20.svg";
         }
+
+        echo olz_posting_list_item([
+            'icon' => $icon,
+            'date' => $datum,
+            'title' => $edit_admin.$titel,
+            'text' => $text,
+            'link' => $link,
+        ]);
     } else { // Tabelle 'aktuell'
         $textlang = $row['f7'];
-        $link = "aktuell.php?id=".$id;
-        $icon = "icns/entry_type_aktuell_20.svg";
         $titel = "Aktuell: ".$titel;
         if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
@@ -149,33 +172,16 @@ while ($row = $result->fetch_assoc()) {
             $text .= " [...]";
         }
 
-        // Bildercode einfügen
-        preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $size = intval($matches[3][$i]);
-            if ($size < 1) {
-                $size = 110;
-            }
-            $tmp_html = olz_image("aktuell", $id, intval($matches[1][$i]), $size, null, " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'");
-            $text = str_replace($matches[0][$i], $tmp_html, $text);
-        }
+        $news_entry = new NewsEntry();
+        $news_entry->setDate($datum);
+        $news_entry->setTitle($edit_admin.$titel);
+        $news_entry->setTeaser($text);
+        $news_entry->setId($id);
 
-        // Dateicode einfügen
-        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $tmptext = $matches[4][$i];
-            $text = str_replace($matches[0][$i], $tmptext, $text);
-        }
+        echo olz_news_list_item(['news_entry' => $news_entry]);
     }
     //if ($thistype!='galerie') $text = "<a href='".$link."' style='display:block;color:#000000;' class='paragraf'>".$text."</a>";
 
-    echo olz_posting_list_item([
-        'icon' => $icon,
-        'date' => $datum,
-        'title' => $edit_admin.$titel,
-        'text' => $text,
-        'link' => $link,
-    ]);
     /*
     echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
     <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>

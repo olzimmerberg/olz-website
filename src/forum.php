@@ -25,6 +25,7 @@ $http_utils->validateGetParams([
 echo olz_header([
     'title' => "Forum",
     'description' => "Ein Forum für Nutzer-Beiträge über alles rund um den OL und/oder die OL Zimmerberg.",
+    'norobots' => true,
 ]);
 
 $db_table = 'forum';

@@ -1,5 +1,27 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type OlzTransportConnectionSuggestion = {
+    'mainConnection': OlzTransportConnection,
+    'sideConnections': Array<{
+    'connection': OlzTransportConnection,
+    'joiningStationId': string,
+}>,
+    'debug': string,
+};
+export type OlzTransportConnection = {
+    'sections': Array<OlzTransportSection>,
+};
+export type OlzTransportSection = {
+    'departure': OlzTransportHalt,
+    'arrival': OlzTransportHalt,
+    'passList': Array<OlzTransportHalt>,
+};
+export type OlzTransportHalt = {
+    'stationId': string,
+    'stationName': string,
+    'time': string,
+};
+
 // eslint-disable-next-line no-shadow
 export enum OlzApiEndpoint {
     createRegistration = 'createRegistration',
@@ -7,6 +29,7 @@ export enum OlzApiEndpoint {
     getManagedUsers = 'getManagedUsers',
     getRegistrationForm = 'getRegistrationForm',
     createNews = 'createNews',
+    searchTransportConnection = 'searchTransportConnection',
     getWebdavAccessToken = 'getWebdavAccessToken',
     revokeWebdavAccessToken = 'revokeWebdavAccessToken',
     onDaily = 'onDaily',
@@ -72,6 +95,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         onOff: boolean,
         imageIds: Array<string>,
         fileIds: Array<string>,
+    },
+    searchTransportConnection: {
+        destination: string,
+        arrival: string,
     },
     getWebdavAccessToken: {
     },
@@ -227,6 +254,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createNews: {
         status: 'OK'|'ERROR',
         newsId: number|null,
+    },
+    searchTransportConnection: {
+        status: 'OK'|'ERROR',
+        suggestions: Array<OlzTransportConnectionSuggestion>|null,
     },
     getWebdavAccessToken: {
         status: 'OK'|'ERROR',

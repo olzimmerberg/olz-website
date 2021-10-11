@@ -13,11 +13,32 @@ final class FieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new Field([]);
         $this->assertSame('any', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
         $field = new Field(['allow_null' => true]);
         $this->assertSame('any', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new Field(['export_as' => 'ExportedType']);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'any',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new Field([
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'any',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

@@ -1,0 +1,146 @@
+[
+    {
+        "id": "8503000",
+        "name": "Zürich HB",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.377847,
+            "y": 8.540502
+        }
+    },
+    {
+        "id": "8503011",
+        "name": "Zürich Wiedikon",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.371477,
+            "y": 8.523488
+        }
+    },
+    {
+        "id": "8503010",
+        "name": "Zürich Enge",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.364095,
+            "y": 8.530818
+        }
+    },
+    {
+        "id": "8503009",
+        "name": "Zürich Wollishofen",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.347437,
+            "y": 8.5336
+        }
+    },
+    {
+        "id": "8503200",
+        "name": "Kilchberg ZH",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.324424,
+            "y": 8.548011
+        }
+    },
+    {
+        "id": "8503201",
+        "name": "Rüschlikon",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.307129,
+            "y": 8.555164
+        }
+    },
+    {
+        "id": "8503202",
+        "name": "Thalwil",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.29598,
+            "y": 8.564768
+        }
+    },
+    {
+        "id": "8503203",
+        "name": "Oberrieden",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.279672,
+            "y": 8.578462
+        }
+    },
+    {
+        "id": "8502209",
+        "name": "Oberrieden Dorf",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.276729,
+            "y": 8.577659
+        }
+    },
+    {
+        "id": "8503204",
+        "name": "Horgen",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.261479,
+            "y": 8.596917
+        }
+    },
+    {
+        "id": "8502208",
+        "name": "Horgen Oberdorf",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.258743,
+            "y": 8.589815
+        }
+    },
+    {
+        "id": "8503205",
+        "name": "Au ZH",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.246813,
+            "y": 8.64372
+        }
+    },
+    {
+        "id": "8503206",
+        "name": "Wädenswil",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.229306,
+            "y": 8.675218
+        }
+    },
+    {
+        "id": "8503207",
+        "name": "Richterswil",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.208373,
+            "y": 8.707486
+        }
+    },
+    {
+        "id": "8503096",
+        "name": "Adliswil",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.312272,
+            "y": 8.524256
+        }
+    },
+    {
+        "id": "8503097",
+        "name": "Langnau-Gattikon",
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.287304,
+            "y": 8.54383
+        }
+    }
+]

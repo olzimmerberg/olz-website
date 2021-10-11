@@ -3,6 +3,9 @@ import {getErrorOrThrow} from '../../../utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+export const SWISS_DATETIME_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\W+([0-9]{2}):([0-9]{2})(:([0-9]{2}))?\s*$/;
+export const SWISS_DATE_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/;
+
 export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
     'switzerland': 'CH',
     'schweiz': 'CH',
@@ -23,7 +26,7 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
     getDataForRequestDict: GetDataForRequestDict<T>,
     form: HTMLFormElement,
     handleResponse: HandleResponseFunction<T>,
-): boolean {
+): Promise<OlzApiResponses[T]> {
     clearValidationErrors(form);
     let request: OlzApiRequests[T]|undefined;
     try {
@@ -34,10 +37,10 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         $(form).find('.success-message').text('');
         $(form).find('.error-message').text(errorMessage);
         showValidationErrors<T>(err, form);
-        return false;
+        return Promise.reject(new Error('Die Anfrage konnte nicht gesendet werden.'));
     }
 
-    callOlzApi(endpoint, request)
+    return callOlzApi(endpoint, request)
         .then((response: OlzApiResponses[T]) => {
             try {
                 const customSuccessMessage = handleResponse(response);
@@ -51,14 +54,15 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
                 $(form).find('.error-message').text(err.message);
                 showValidationErrors<T>(err, form);
             }
+            return response;
         })
         .catch((err: OlzApiError<T>) => {
             const errorMessage = err.message ? `Fehlerhafte Anfrage: ${err.message}` : 'Fehlerhafte Anfrage.';
             $(form).find('.success-message').text('');
             $(form).find('.error-message').text(errorMessage);
             showValidationErrors<T>(err, form);
+            return Promise.reject(err);
         });
-    return false;
 }
 
 export function getDataForRequest<T extends OlzApiEndpoint>(
@@ -179,11 +183,40 @@ export function getGender(fieldId: string, genderInput: string|undefined): 'M'|'
     }
 }
 
+export function getIsoDateTimeFromSwissFormat(fieldId: string, date: string|undefined): string|null {
+    if (date === undefined || date === '') {
+        return null;
+    }
+    const res = SWISS_DATETIME_REGEX.exec(date);
+    if (!res) {
+        throw new ValidationError('', {
+            [fieldId]: ['Das Datum muss im Format TT.MM.YYYY SS:MM[:SS] sein.'],
+        });
+    }
+    const parsedSeconds = res[6] ?? '';
+    const timestamp = Date.parse(
+        `${res[3]}-${res[2]}-${res[1]} ${res[4]}:${res[5]}${parsedSeconds}`,
+    );
+    if (!timestamp) {
+        throw new ValidationError('', {
+            [fieldId]: [`"${date}" ist ein ungültiges Datum.`],
+        });
+    }
+    const dateObject = new Date(timestamp);
+    const year = String(dateObject.getFullYear()).padStart(4, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const hours = String(dateObject.getHours()).padStart(2, '0');
+    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefined): string|null {
     if (date === undefined || date === '') {
         return null;
     }
-    const res = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/.exec(date);
+    const res = SWISS_DATE_REGEX.exec(date);
     if (!res) {
         throw new ValidationError('', {
             [fieldId]: ['Das Datum muss im Format TT.MM.YYYY sein.'],
@@ -195,8 +228,11 @@ export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefine
             [fieldId]: [`"${date}" ist ein ungültiges Datum.`],
         });
     }
-    const isoDate = new Date(timestamp).toISOString().substr(0, 10);
-    return `${isoDate} 12:00:00`;
+    const dateObject = new Date(timestamp);
+    const year = String(dateObject.getFullYear()).padStart(4, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day} 12:00:00`;
 }
 
 export function getPassword(fieldId: string, passwordInput: string|undefined): string|null {
@@ -241,5 +277,5 @@ export function getFormField(form: HTMLFormElement, fieldId: string): string|nul
     if (!field || !('value' in field)) {
         throw new Error(`Error retrieving form field value for: ${fieldId}`);
     }
-    return field.value;
+    return field.value || null;
 }

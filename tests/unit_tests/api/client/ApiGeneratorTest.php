@@ -20,7 +20,7 @@ class FakeApiGeneratorEndpoint extends Endpoint {
 
     public function getResponseFields() {
         return [
-            'output' => new Field([]),
+            'output' => new Field(['export_as' => 'SampleExport']),
         ];
     }
 
@@ -71,6 +71,8 @@ final class ApiGeneratorTest extends UnitTestCase {
         $expected_output = <<<'ZZZZZZZZZZ'
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type SampleExport = any;
+
 // eslint-disable-next-line no-shadow
 export enum FakeApiEndpoint {
     fakeEndpoint = 'fakeEndpoint',
@@ -86,7 +88,7 @@ export interface FakeApiRequests extends FakeApiEndpointMapping {
 
 export interface FakeApiResponses extends FakeApiEndpointMapping {
     fakeEndpoint: {
-        output: any,
+        output: SampleExport,
     },
 }
 

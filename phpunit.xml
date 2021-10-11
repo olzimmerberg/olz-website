@@ -27,6 +27,8 @@
             <directory suffix=".php">./src/fields</directory>
             <!-- <directory suffix=".php">./src/model</directory> -->
             <directory suffix=".php">./src/news/endpoints</directory>
+            <directory suffix=".php">./src/oev/endpoints</directory>
+            <directory suffix=".php">./src/oev/utils</directory>
             <directory suffix=".php">./src/parsers</directory>
             <directory suffix=".php">./src/tasks</directory>
             <directory suffix=".php">./src/utils</directory>

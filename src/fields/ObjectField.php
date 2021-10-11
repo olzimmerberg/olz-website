@@ -47,7 +47,11 @@ class ObjectField extends Field {
         throw new Exception("Unlesbares Feld: ObjectField");
     }
 
-    public function getTypeScriptType() {
+    public function getTypeScriptType($config = []) {
+        $should_substitute = $config['should_substitute'] ?? true;
+        if ($this->export_as !== null && $should_substitute) {
+            return $this->export_as;
+        }
         $object_type = "{\n";
         foreach ($this->field_structure as $key => $field) {
             $item_type = $field->getTypeScriptType();
@@ -56,5 +60,16 @@ class ObjectField extends Field {
         $object_type .= "}";
         $or_null = $this->getAllowNull() ? '|null' : '';
         return "{$object_type}{$or_null}";
+    }
+
+    public function getExportedTypeScriptTypes() {
+        $exported_types = parent::getExportedTypeScriptTypes();
+        foreach ($this->field_structure as $key => $field) {
+            $exported_types = array_merge(
+                $exported_types,
+                $field->getExportedTypeScriptTypes()
+            );
+        }
+        return $exported_types;
     }
 }

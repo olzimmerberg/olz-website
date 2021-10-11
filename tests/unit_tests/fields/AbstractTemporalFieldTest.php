@@ -19,11 +19,32 @@ final class AbstractTemporalFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new FakeTemporalField([]);
         $this->assertSame('string', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
         $field = new FakeTemporalField(['allow_null' => true]);
         $this->assertSame('string|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new FakeTemporalField(['export_as' => 'ExportedType']);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'string',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new FakeTemporalField([
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'string|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

@@ -13,11 +13,32 @@ final class BooleanFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new BooleanField([]);
         $this->assertSame('boolean', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
         $field = new BooleanField(['allow_null' => true]);
         $this->assertSame('boolean|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new BooleanField(['export_as' => 'ExportedType']);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'boolean',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new BooleanField([
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'boolean|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

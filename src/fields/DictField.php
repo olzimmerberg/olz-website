@@ -39,9 +39,20 @@ class DictField extends Field {
         throw new Exception("Unlesbares Feld: DictField");
     }
 
-    public function getTypeScriptType() {
+    public function getTypeScriptType($config = []) {
+        $should_substitute = $config['should_substitute'] ?? true;
+        if ($this->export_as !== null && $should_substitute) {
+            return $this->export_as;
+        }
         $item_type = $this->item_field->getTypeScriptType();
         $or_null = $this->getAllowNull() ? '|null' : '';
         return "{[key: string]: {$item_type}}{$or_null}";
+    }
+
+    public function getExportedTypeScriptTypes() {
+        return array_merge(
+            parent::getExportedTypeScriptTypes(),
+            $this->item_field->getExportedTypeScriptTypes(),
+        );
     }
 }

@@ -16,6 +16,7 @@ final class DictFieldTest extends UnitTestCase {
             'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame('{[key: string]: ItemType}', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
@@ -24,6 +25,7 @@ final class DictFieldTest extends UnitTestCase {
             'allow_null' => true,
         ]);
         $this->assertSame('{[key: string]: ItemType}|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
@@ -31,6 +33,52 @@ final class DictFieldTest extends UnitTestCase {
             'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame('{[key: string]: ItemType|null}', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new DictField([
+            'item_field' => new FakeItemField([]),
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => '{[key: string]: ItemType}',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptType(): void {
+        $field = new DictField([
+            'item_field' => new FakeItemField(['export_as' => 'ExportedType']),
+        ]);
+        $this->assertSame('{[key: string]: ExportedType}', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowed(): void {
+        $field = new DictField([
+            'item_field' => new FakeItemField(['export_as' => 'ExportedType']),
+            'allow_null' => true,
+        ]);
+        $this->assertSame('{[key: string]: ExportedType}|null', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowedInItem(): void {
+        $field = new DictField([
+            'item_field' => new FakeItemField([
+                'allow_null' => true,
+                'export_as' => 'ExportedType',
+            ]),
+        ]);
+        $this->assertSame('{[key: string]: ExportedType}', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

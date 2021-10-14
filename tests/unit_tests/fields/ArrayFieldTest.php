@@ -16,6 +16,7 @@ final class ArrayFieldTest extends UnitTestCase {
             'item_field' => new FakeItemField([]),
         ]);
         $this->assertSame('Array<ItemType>', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
@@ -24,6 +25,7 @@ final class ArrayFieldTest extends UnitTestCase {
             'allow_null' => true,
         ]);
         $this->assertSame('Array<ItemType>|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
@@ -31,6 +33,65 @@ final class ArrayFieldTest extends UnitTestCase {
             'item_field' => new FakeItemField(['allow_null' => true]),
         ]);
         $this->assertSame('Array<ItemType|null>', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testTypeScriptTypeWithSubstitutionDisabled(): void {
+        $field = new ArrayField([
+            'export_as' => 'ExportedType',
+            'item_field' => new FakeItemField([]),
+        ]);
+        $this->assertSame('Array<ItemType>', $field->getTypeScriptType([
+            'should_substitute' => false,
+        ]));
+        $this->assertSame([
+            'ExportedType' => 'Array<ItemType>',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new ArrayField([
+            'export_as' => 'ExportedType',
+            'item_field' => new FakeItemField([]),
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'Array<ItemType>',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptType(): void {
+        $field = new ArrayField([
+            'item_field' => new FakeItemField(['export_as' => 'ExportedType']),
+        ]);
+        $this->assertSame('Array<ExportedType>', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowed(): void {
+        $field = new ArrayField([
+            'item_field' => new FakeItemField(['export_as' => 'ExportedType']),
+            'allow_null' => true,
+        ]);
+        $this->assertSame('Array<ExportedType>|null', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowedInItem(): void {
+        $field = new ArrayField([
+            'item_field' => new FakeItemField([
+                'allow_null' => true,
+                'export_as' => 'ExportedType',
+            ]),
+        ]);
+        $this->assertSame('Array<ExportedType>', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

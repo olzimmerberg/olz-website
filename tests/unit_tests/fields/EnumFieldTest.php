@@ -13,11 +13,36 @@ final class EnumFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new EnumField(['allowed_values' => ['one', 'two', 'three']]);
         $this->assertSame('\'one\'|\'two\'|\'three\'', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
         $field = new EnumField(['allowed_values' => ['one', 'two', 'three'], 'allow_null' => true]);
         $this->assertSame('\'one\'|\'two\'|\'three\'|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new EnumField([
+            'allowed_values' => ['one', 'two', 'three'],
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => '\'one\'|\'two\'|\'three\'',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new EnumField([
+            'allowed_values' => ['one', 'two', 'three'],
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => '\'one\'|\'two\'|\'three\'|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

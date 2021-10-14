@@ -24,6 +24,7 @@ export * from './konto_passwort';
 export * from './konto_strava';
 export * from './logs';
 export * from './news/index';
+export * from './oev/index';
 export * from './profil';
 export * from './scripts/index';
 export * from './styles/index';

@@ -37,12 +37,13 @@ export function olzEditableTextSubmit<T extends OlzApiEndpoint>(
     // @ts-ignore
     getDataForRequestDict[textArg] = (f) => f.text.value;
 
-    return olzDefaultFormSubmit(
+    olzDefaultFormSubmit(
         endpoint,
         getDataForRequestDict as GetDataForRequestDict<T>,
         form,
         handleResponse,
     );
+    return false;
 }
 
 function handleResponse(): string|void {

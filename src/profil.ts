@@ -18,12 +18,13 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
         countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
-    return olzDefaultFormSubmit(
+    olzDefaultFormSubmit(
         OlzApiEndpoint.updateUser,
         getDataForRequestDict,
         form,
         handleResponse,
     );
+    return false;
 }
 
 function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updateUser]): string|void {

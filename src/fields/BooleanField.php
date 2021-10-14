@@ -28,7 +28,11 @@ class BooleanField extends Field {
         }
     }
 
-    public function getTypeScriptType() {
+    public function getTypeScriptType($config = []) {
+        $should_substitute = $config['should_substitute'] ?? true;
+        if ($this->export_as !== null && $should_substitute) {
+            return $this->export_as;
+        }
         return $this->getAllowNull() ? 'boolean|null' : 'boolean';
     }
 }

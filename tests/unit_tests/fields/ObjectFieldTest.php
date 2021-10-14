@@ -19,6 +19,7 @@ final class ObjectFieldTest extends UnitTestCase {
             ],
         ]);
         $this->assertSame("{\n    'one': ItemType,\n    'two': ItemType,\n}", $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
@@ -27,6 +28,7 @@ final class ObjectFieldTest extends UnitTestCase {
             'allow_null' => true,
         ]);
         $this->assertSame("{\n    'test': ItemType,\n}|null", $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowedInItem(): void {
@@ -34,6 +36,66 @@ final class ObjectFieldTest extends UnitTestCase {
             'field_structure' => ['test' => new FakeItemField(['allow_null' => true])],
         ]);
         $this->assertSame("{\n    'test': ItemType|null,\n}", $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptType(): void {
+        $field = new ObjectField([
+            'field_structure' => [
+                'one' => new FakeItemField(['export_as' => 'ExportedType1']),
+                'two' => new FakeItemField(['export_as' => 'ExportedType2']),
+            ],
+        ]);
+        $this->assertSame(
+            "{\n    'one': ExportedType1,\n    'two': ExportedType2,\n}",
+            $field->getTypeScriptType()
+        );
+        $this->assertSame([
+            'ExportedType1' => 'ItemType',
+            'ExportedType2' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new ObjectField([
+            'field_structure' => [
+                'test' => new FakeItemField([]),
+            ],
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame("ExportedType", $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => "{\n    'test': ItemType,\n}|null",
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowed(): void {
+        $field = new ObjectField([
+            'field_structure' => [
+                'test' => new FakeItemField(['export_as' => 'ExportedType']),
+            ],
+            'allow_null' => true,
+        ]);
+        $this->assertSame("{\n    'test': ExportedType,\n}|null", $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedItemTypeScriptTypeWithNullAllowedInItem(): void {
+        $field = new ObjectField([
+            'field_structure' => [
+                'test' => new FakeItemField([
+                    'allow_null' => true,
+                    'export_as' => 'ExportedType',
+                ]),
+            ],
+        ]);
+        $this->assertSame("{\n    'test': ExportedType,\n}", $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'ItemType|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

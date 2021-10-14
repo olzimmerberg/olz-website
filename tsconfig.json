@@ -13,6 +13,7 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "outDir": "tscbuild/",
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,

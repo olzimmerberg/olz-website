@@ -28,12 +28,13 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
         },
     };
 
-    return olzDefaultFormSubmit(
+    olzDefaultFormSubmit(
         OlzApiEndpoint.updatePassword,
         getDataForRequestDict,
         form,
         handleResponse,
     );
+    return false;
 }
 
 function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updatePassword]): string|void {

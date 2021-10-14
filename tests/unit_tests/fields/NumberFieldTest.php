@@ -13,11 +13,32 @@ final class NumberFieldTest extends UnitTestCase {
     public function testTypeScriptType(): void {
         $field = new NumberField([]);
         $this->assertSame('number', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
     }
 
     public function testTypeScriptTypeWithNullAllowed(): void {
         $field = new NumberField(['allow_null' => true]);
         $this->assertSame('number|null', $field->getTypeScriptType());
+        $this->assertSame([], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptType(): void {
+        $field = new NumberField(['export_as' => 'ExportedType']);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'number',
+        ], $field->getExportedTypeScriptTypes());
+    }
+
+    public function testSubstitutedTypeScriptTypeWithNullAllowed(): void {
+        $field = new NumberField([
+            'allow_null' => true,
+            'export_as' => 'ExportedType',
+        ]);
+        $this->assertSame('ExportedType', $field->getTypeScriptType());
+        $this->assertSame([
+            'ExportedType' => 'number|null',
+        ], $field->getExportedTypeScriptTypes());
     }
 
     public function testParse(): void {

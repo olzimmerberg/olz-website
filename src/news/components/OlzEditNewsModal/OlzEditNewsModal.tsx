@@ -39,12 +39,13 @@ export const OlzEditNewsModal = () => {
 
         event.preventDefault();
 
-        return olzDefaultFormSubmit(
+        olzDefaultFormSubmit(
             OlzApiEndpoint.createNews,
             getDataForRequestDict,
             event.currentTarget,
             handleResponse,
         );
+        return false;
     }, [fileIds, imageIds]);
 
     return (

@@ -33,7 +33,11 @@ class EnumField extends Field {
         return $validation_errors;
     }
 
-    public function getTypeScriptType() {
+    public function getTypeScriptType($config = []) {
+        $should_substitute = $config['should_substitute'] ?? true;
+        if ($this->export_as !== null && $should_substitute) {
+            return $this->export_as;
+        }
         $allowed_values = implode('|', array_map(function ($value) {
             return "'{$value}'";
         }, $this->getAllowedValues()));

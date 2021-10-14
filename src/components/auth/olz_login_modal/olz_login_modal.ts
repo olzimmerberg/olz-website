@@ -2,7 +2,6 @@ import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
 
 $(() => {
     $('#login-modal').on('shown.bs.modal', () => {
-        console.log('LOGIN');
         $('#login-username-input').trigger('focus');
     });
 });

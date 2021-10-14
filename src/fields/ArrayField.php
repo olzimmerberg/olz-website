@@ -39,9 +39,23 @@ class ArrayField extends Field {
         throw new Exception("Unlesbares Feld: ArrayField");
     }
 
-    public function getTypeScriptType() {
-        $item_type = $this->item_field->getTypeScriptType();
+    public function getTypeScriptType($config = []) {
+        $should_substitute = $config['should_substitute'] ?? true;
+        if ($this->export_as !== null && $should_substitute) {
+            return $this->export_as;
+        }
+        $item_config = [
+            'should_substitute' => $should_substitute,
+        ];
+        $item_type = $this->item_field->getTypeScriptType($item_config);
         $or_null = $this->getAllowNull() ? '|null' : '';
         return "Array<{$item_type}>{$or_null}";
+    }
+
+    public function getExportedTypeScriptTypes() {
+        return array_merge(
+            parent::getExportedTypeScriptTypes(),
+            $this->item_field->getExportedTypeScriptTypes(),
+        );
     }
 }

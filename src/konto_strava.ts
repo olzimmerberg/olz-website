@@ -78,12 +78,13 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
         countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
-    return olzDefaultFormSubmit(
+    olzDefaultFormSubmit(
         OlzApiEndpoint.signUpWithStrava,
         getDataForRequestDict,
         form,
         handleResponse,
     );
+    return false;
 }
 
 function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|void {

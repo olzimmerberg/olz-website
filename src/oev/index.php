@@ -13,7 +13,9 @@ require_once __DIR__.'/../fields/BooleanField.php';
 require_once __DIR__.'/../fields/IntegerField.php';
 require_once __DIR__.'/../fields/StringField.php';
 require_once __DIR__.'/../utils/client/HttpUtils.php';
+require_once __DIR__.'/../utils/auth/AuthUtils.php';
 require_once __DIR__.'/../utils/env/EnvUtils.php';
+
 $env_utils = EnvUtils::fromEnv();
 $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
@@ -33,12 +35,24 @@ echo olz_header([
     'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
 ]);
 
-echo <<<'ZZZZZZZZZZ'
-<div id='content_double'>
+echo "<div id='content_double'>";
+
+$auth_utils = AuthUtils::fromEnv();
+$has_access = $auth_utils->hasPermission('any');
+if ($has_access) {
+    echo <<<'ZZZZZZZZZZ'
     <div id='oev-root'></div>
     <script>initOlzTransportConnectionSearch();</script>
-</div>
-ZZZZZZZZZZ;
+    ZZZZZZZZZZ;
+} else {
+    echo <<<'ZZZZZZZZZZ'
+    <div id='oev-message' class='alert alert-danger' role='alert'>
+        Da musst du schon eingeloggt sein!
+    </div>
+    ZZZZZZZZZZ;
+}
+
+echo "</div>";
 
 require_once __DIR__.'/../components/page/olz_footer/olz_footer.php';
 echo olz_footer();

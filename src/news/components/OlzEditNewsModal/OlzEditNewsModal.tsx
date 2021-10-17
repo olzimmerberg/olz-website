@@ -5,7 +5,58 @@ import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../.
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
+const FORMATTING_NOTES_FOR_USERS = (<>
+    <div><b>Hinweise:</b></div>
+    <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen, 
+    Bsp.: 'http://www.olzimmerberg.ch' wird zu  <a href='http://www.olzimmerberg.ch' className='linkext' target='blank'><b>www.olzimmerberg.ch</b></a></div>
+    <div><b>2. Text mit Fettschrift hervorheben:</b> Fetten Text mit '&lt;b&gt;' beginnen und mit '&lt;/b&gt;' beenden, 
+    Bsp: '&lt;b&gt;dies ist fetter Text&lt;/b&gt;' wird zu '<b>dies ist fetter Text</b>'</div>
+    <div><b>3. Bilder:</b></div>
+    <table>
+        <tr className='tablebar'>
+            <td><b>Bildnummer</b></td>
+            <td><b>Wie einbinden?</b></td>
+        </tr>
+        <tr>
+            <td>1. Bild</td>
+            <td>&lt;BILD1&gt;</td>
+        </tr>
+        <tr>
+            <td>2. Bild</td>
+            <td>&lt;BILD2&gt;</td>
+        </tr>
+    </table>
+    <div><b>4. Dateien:</b></div>
+    <table>
+        <tr className='tablebar'>
+            <td><b>Dateiname</b></td>
+            <td><b>Wie einbinden?</b></td>
+            <td><b>Wie wird's aussehen?</b></td>
+        </tr>
+        <tr>
+            <td>xTVapfgrlx4U5Mgv90tyYb6C.pdf</td>
+            <td>&lt;DATEI=xTVapfgrlx4U5Mgv90tyYb6C.pdf text=&quot;OL Karte&quot;&gt;</td>
+            <td><a style={{
+                paddingLeft: '17px',
+                backgroundImage: 'url(icns/link_image_16.svg)',
+                backgroundRepeat: 'no-repeat',
+            }}>OL Karte</a></td>
+        </tr>
+        <tr>
+            <td>LT61cBGv7p77I7fY1undEkwP.pdf</td>
+            <td>&lt;DATEI=LT61cBGv7p77I7fY1undEkwP.pdf text=&quot;Ausschreibung als PDF&quot;&gt;</td>
+            <td><a style={{
+                paddingLeft: '17px',
+                backgroundImage: 'url(icns/link_pdf_16.svg)',
+                backgroundRepeat: 'no-repeat',
+            }}>Ausschreibung als PDF</a></td>
+        </tr>
+    </table>
+</>);
+
 export const OlzEditNewsModal = () => {
+    const today = (new Date()).toISOString().substr(0, 10);
+    const [dateValue, setDateValue] = React.useState<string>(today);
     const [fileIds, setFileIds] = React.useState<string[]>([]);
     const [imageIds, setImageIds] = React.useState<string[]>([]);
 
@@ -65,6 +116,8 @@ export const OlzEditNewsModal = () => {
                                 <input
                                     type='text'
                                     name='date'
+                                    value={dateValue}
+                                    onChange={e => setDateValue(e.target.value)}
                                     className='form-control'
                                     id='news-date-input'
                                 />
@@ -93,6 +146,7 @@ export const OlzEditNewsModal = () => {
                                     className='form-control'
                                     id='news-content-input'
                                 />
+                                {FORMATTING_NOTES_FOR_USERS}
                             </div>
                             <div className='form-group'>
                                 <label htmlFor='news-author-input'>Autor</label>

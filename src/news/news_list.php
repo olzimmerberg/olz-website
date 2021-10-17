@@ -70,8 +70,10 @@ if ($zugriff and ($db_edit == '0')) {
             class='btn btn-primary'
             onclick='return initOlzEditNewsModal()'
         >
+            <img src='icns/new_white_16.svg' class='noborder' />
             Neuer Eintrag
         </button>
+        &nbsp; &lt;-- Neu! &mdash; Falls es nicht funktioniert, "Neuer Eintrag" unten (grün) klicken.
     </div>
     ZZZZZZZZZZ;
     echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";

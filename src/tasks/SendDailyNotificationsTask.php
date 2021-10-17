@@ -7,6 +7,7 @@ require_once __DIR__.'/common/BackgroundTask.php';
 require_once __DIR__.'/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/DeadlineWarningGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
+require_once __DIR__.'/SendDailyNotificationsTask/TelegramConfigurationReminderGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/WeeklySummaryGetter.php';
 
@@ -19,6 +20,8 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $this->setDailySummaryGetter(new DailySummaryGetter());
         $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
         $this->setMonthlyPreviewGetter(new MonthlyPreviewGetter());
+        $this->setTelegramConfigurationReminderGetter(
+            new TelegramConfigurationReminderGetter());
         $this->setWeeklyPreviewGetter(new WeeklyPreviewGetter());
         $this->setWeeklySummaryGetter(new WeeklySummaryGetter());
     }
@@ -33,6 +36,10 @@ class SendDailyNotificationsTask extends BackgroundTask {
 
     public function setMonthlyPreviewGetter($monthlyPreviewGetter) {
         $this->monthlyPreviewGetter = $monthlyPreviewGetter;
+    }
+
+    public function setTelegramConfigurationReminderGetter($telegramConfigurationReminderGetter) {
+        $this->telegramConfigurationReminderGetter = $telegramConfigurationReminderGetter;
     }
 
     public function setWeeklyPreviewGetter($weeklyPreviewGetter) {
@@ -72,6 +79,9 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     break;
             }
         }
+        $this->logger->info("Sending configuration reminder notifications...");
+        $subscriptions_by_args = $this->getTelegramConfigurationReminderSubscriptions();
+        $this->sendTelegramConfigurationReminderNotifications($subscriptions_by_args);
     }
 
     private function getNotificationSubscriptions() {
@@ -98,6 +108,34 @@ class SendDailyNotificationsTask extends BackgroundTask {
             $subscriptions_by_type_and_args[$notification_type] = $subscriptions_by_args_of_type;
         }
         return $subscriptions_by_type_and_args;
+    }
+
+    private function getTelegramConfigurationReminderSubscriptions() {
+        // Those are not real subscriptions. Configuration reminder
+        // notifications are sent to all people having linked telegram, but not
+        // subscribed to any notifications!
+        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_links = $telegram_link_repo->getActivatedTelegramLinks();
+
+        $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
+        $configuration_reminder_subscriptions_by_args = ['{}' => []];
+        foreach ($telegram_links as $telegram_link) {
+            $user = $telegram_link->getUser();
+            $subscription = $notification_subscription_repo->findOneBy([
+                'user' => $user,
+                'delivery_type' => NotificationSubscription::DELIVERY_TELEGRAM,
+            ]);
+            if (!$subscription) {
+                $this->logger->info("Generating telegram configuration reminder subscription for '{$user}'...");
+                $simulated_subscription = new NotificationSubscription();
+                $simulated_subscription->setUser($user);
+                $simulated_subscription->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
+                $simulated_subscription->setNotificationType(null);
+                $simulated_subscription->setNotificationTypeArgs([]);
+                $configuration_reminder_subscriptions_by_args['{}'][] = $simulated_subscription;
+            }
+        }
+        return $configuration_reminder_subscriptions_by_args;
     }
 
     private function sendDailySummaryNotifications($subscriptions_by_args) {
@@ -195,6 +233,25 @@ class SendDailyNotificationsTask extends BackgroundTask {
             $this->logger->info("Getting notification for '{$args_json}'...");
             $args = json_decode($args_json, true);
             $notification = $weekly_summary_getter->getWeeklySummaryNotification($args);
+            if ($notification) {
+                foreach ($subscriptions as $subscription) {
+                    $this->sendNotificationToSubscription($notification, $subscription);
+                }
+            } else {
+                $this->logger->info("Nothing to send.");
+            }
+        }
+    }
+
+    private function sendTelegramConfigurationReminderNotifications($subscriptions_by_args) {
+        $configuration_reminder_getter = $this->telegramConfigurationReminderGetter;
+        $configuration_reminder_getter->setDateUtils($this->dateUtils);
+        $configuration_reminder_getter->setEnvUtils($this->envUtils);
+        $configuration_reminder_getter->setLogger($this->logger);
+
+        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
+            $args = json_decode($args_json, true);
+            $notification = $configuration_reminder_getter->getNotification($args);
             if ($notification) {
                 foreach ($subscriptions as $subscription) {
                     $this->sendNotificationToSubscription($notification, $subscription);

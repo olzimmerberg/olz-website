@@ -253,4 +253,10 @@ class User {
     public function setRoot($new_root) {
         $this->root = $new_root;
     }
+
+    public function __toString() {
+        $username = $this->getUsername() ?? '-';
+        $id = $this->getId() ?? '-';
+        return "{$username} (ID:{$id})";
+    }
 }

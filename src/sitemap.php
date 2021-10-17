@@ -31,7 +31,6 @@ echo get_entry("{$base_url}aktuell.php", 'daily', '0.6');
 echo get_entry("{$base_url}blog.php", 'daily', '0.4');
 echo get_entry("{$base_url}termine.php", 'daily', '0.6');
 echo get_entry("{$base_url}galerie.php", 'daily', '0.5');
-echo get_entry("{$base_url}forum.php", 'daily', '0.3');
 echo get_entry("{$base_url}karten.php", 'monthly', '0.5');
 echo get_entry("{$base_url}material.php", 'monthly', '0.5');
 echo get_entry("{$base_url}service.php", 'monthly', '0.3');
@@ -47,6 +46,11 @@ foreach ($aktuell_ids as $aktuell_id) {
 $galerie_ids = $entityManager->getRepository(Galerie::class)->getAllActiveIds();
 foreach ($galerie_ids as $galerie_id) {
     echo get_entry("{$base_url}galerie.php?id={$galerie_id}", 'monthly', '0.2');
+}
+
+$verein_ressorts = $entityManager->getRepository(Role::class)->getAllActiveRessorts();
+foreach ($verein_ressorts as $verein_ressort) {
+    echo get_entry("{$base_url}verein.php?ressort={$verein_ressort}", 'monthly', '0.5');
 }
 
 $news_utils = NewsUtils::fromEnv();

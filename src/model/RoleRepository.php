@@ -16,4 +16,18 @@ class RoleRepository extends EntityRepository {
         $query->setMaxResults($limit);
         return $query->getResult();
     }
+
+    public function getAllActiveRessorts() {
+        // TODO: Remove `WHERE r.guide != ''` again, after all ressort
+        // descriptions have been updated. This is just temporary logic!
+        $dql = "
+            SELECT r.username
+            FROM Role r
+            WHERE r.guide != ''";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $result = $query->getResult();
+        return array_map(function ($obj) {
+            return $obj['username'];
+        }, $result);
+    }
 }

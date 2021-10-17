@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg5"
+   height="16"
+   viewBox="0 0 16 16"
+   width="16"
+   version="1.1">
+  <path
+     d="M 10.799998,8.3999996 H 8.3999987 V 10.800001 H 7.5999982 V 8.3999996 H 5.1999987 v -0.8 h 2.3999995 v -2.4 h 0.8000005 v 2.4 h 2.3999993 z"
+     id="path4"
+     style="fill-opacity: 1;
+    fill-rule: nonzero;
+    stroke: #fff;
+    stroke-opacity: 1;
+    stroke-width: 0.7;" />
+  <ellipse
+     style="fill: none;
+    stroke: #fff;
+    stroke-dasharray: none;
+    stroke-linejoin: round;
+    stroke-miterlimit: 4;
+    stroke-opacity: 1;
+    stroke-width: 1.3999;"
+     id="path837"
+     cx="7.999999"
+     cy="8"
+     rx="6.3000488"
+     ry="6.3000498" />
+</svg>

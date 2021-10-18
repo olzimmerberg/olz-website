@@ -162,6 +162,14 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
             ),
         ];
     }
+
+    public function findOneBy($where) {
+        global $user1;
+        if ($where['user'] === $user1) {
+            return [new NotificationSubscription()];
+        }
+        return [];
+    }
 }
 
 class FakeSendDailyNotificationsTaskTelegramLinkRepository {
@@ -183,6 +191,20 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
             return $telegram_link;
         }
         return null;
+    }
+
+    public function getActivatedTelegramLinks() {
+        global $user1, $user2;
+
+        $telegram_link_1 = new TelegramLink();
+        $telegram_link_1->setUser($user1);
+        $telegram_link_1->setTelegramChatId('11111');
+
+        $telegram_link_2 = new TelegramLink();
+        $telegram_link_2->setUser($user2);
+        $telegram_link_2->setTelegramChatId('22222');
+
+        return [$telegram_link_1, $telegram_link_2];
     }
 }
 
@@ -259,6 +281,23 @@ class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
     }
 }
 
+class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
+    public function getNotification($args) {
+        $this->calledWithArgs = $args;
+        return new Notification('TCR title', 'TCR text %%userFirstName%%');
+    }
+}
+
 class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
     use Psr\Log\LoggerAwareTrait;
 
@@ -329,6 +368,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
         $monthly_preview_getter = new FakeSendDailyNotificationsTaskMonthlyPreviewGetter();
+        $telegram_configuration_reminder_getter = new FakeSendDailyNotificationsTelegramConfigurationReminderGetter();
         $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
         $weekly_summary_getter = new FakeSendDailyNotificationsTaskWeeklySummaryGetter();
 
@@ -337,6 +377,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
         $job->setMonthlyPreviewGetter($monthly_preview_getter);
+        $job->setTelegramConfigurationReminderGetter($telegram_configuration_reminder_getter);
         $job->setWeeklyPreviewGetter($weekly_preview_getter);
         $job->setWeeklySummaryGetter($weekly_summary_getter);
         $job->run();
@@ -367,6 +408,12 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
                 'text' => "<b>DW title {\"days\":3}</b>\n\nDW text Second",
                 'disable_web_page_preview' => true,
             ]],
+            ['sendMessage', [
+                'chat_id' => '22222',
+                'parse_mode' => 'HTML',
+                'text' => "<b>TCR title</b>\n\nTCR text Second",
+                'disable_web_page_preview' => true,
+            ]],
         ], $telegram_utils->telegramApiCalls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
         $this->assertSame($date_utils, $daily_summary_getter->dateUtils);
@@ -377,6 +424,8 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $this->assertSame($entity_manager, $monthly_preview_getter->entityManager);
         $this->assertSame($date_utils, $monthly_preview_getter->dateUtils);
         $this->assertSame($env_utils, $monthly_preview_getter->envUtils);
+        $this->assertSame($date_utils, $telegram_configuration_reminder_getter->dateUtils);
+        $this->assertSame($env_utils, $telegram_configuration_reminder_getter->envUtils);
         $this->assertSame($entity_manager, $weekly_preview_getter->entityManager);
         $this->assertSame($date_utils, $weekly_preview_getter->dateUtils);
         $this->assertSame($env_utils, $weekly_preview_getter->envUtils);
@@ -449,6 +498,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "CRITICAL Error sending email to user (2): Provoked Error",
             "INFO Sending 'invalid-type' notifications...",
             "CRITICAL Unknown notification type 'invalid-type'",
+            "INFO Sending configuration reminder notifications...",
+            "INFO Generating telegram configuration reminder subscription for 'user (ID:2)'...",
+            "INFO Sending notification TCR title over telegram to user (2)...",
+            "INFO Telegram sent to user (2): TCR title",
             "INFO Finished task SendDailyNotifications.",
             "INFO Teardown task SendDailyNotifications...",
         ], $logger->handler->getPrettyRecords());

@@ -24,7 +24,7 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
     const scriptUrl = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
     await loadScript(scriptUrl);
     const token = await getRecaptchaToken();
-    
+
     const getDataForRequestDict: GetDataForRequestDict<'resetPassword'> = {
         usernameOrEmail: (f) => getFormField(f, 'username_or_email'),
         recaptchaToken: () => token,
@@ -43,7 +43,7 @@ function getRecaptchaToken(): Promise<string> {
         grecaptcha.ready(() => {
             grecaptcha.execute(siteKey, {action: 'submit'})
                 .then(resolve, reject);
-        }); 
+        });
     });
 }
 

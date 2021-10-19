@@ -1,7 +1,9 @@
+@use 'colors' as colors;
+
 .dropzone {
     align-items: center;
-    background-color: #fafafa;
-    border-color: #eee;
+    background-color: colors.$grey-background-color;
+    border-color: colors.$grey-border-color;
     border-radius: 2px;
     border-style: dashed;
     border-width: 2px;

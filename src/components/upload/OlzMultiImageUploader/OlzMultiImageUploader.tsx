@@ -3,20 +3,13 @@ import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../utils/fileUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../utils/imageUtils';
 import {Uploader} from '../../../utils/Uploader';
+import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
+import {UploadFile, UploadingFile, UploadedFile} from '../types';
+import {serializeUploadFile} from '../utils';
 
 const MAX_IMAGE_SIZE = 800;
 
 const uploader = Uploader.getInstance();
-
-interface UploadingFile {
-    file: File;
-    uploadId?: string;
-    uploadProgress: number;
-}
-
-interface UploadedFile {
-    uploadId: string;
-}
 
 interface OlzMultiImageUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => any;
@@ -54,10 +47,8 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
                 newUploadingFiles.length !== uploadingFiles.length;
             if (wasUploading) {
                 setUploadingFiles(newUploadingFiles);
-                const newUploadedFiles = [
-                    ...uploadedFiles,
-                    {uploadId},
-                ];
+                const newUploadedFile: UploadedFile = {uploadState: 'UPLOADED', uploadId};
+                const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
                 const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
                 props.onUploadIdsChange(uploadIds);
@@ -72,7 +63,7 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         setUploadingFiles(newUploadingFiles);
         for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
             const file = acceptedFiles[fileListIndex];
-            newUploadingFiles.push({file, uploadProgress: 0});
+            newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
             const base64Content = await readBase64(file);
             if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
                 console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
@@ -101,22 +92,14 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         onDrop,
     })
 
-    const uploadingElems = uploadingFiles.map(uploadingFile => (
-        <div key={uploadingFile.file.name}>
-            Uploading: {uploadingFile.file.name} - {uploadingFile.uploadId} - {uploadingFile.uploadProgress}
-        </div>
-    ));
-
-    const uploadedElems = uploadedFiles.map(uploadedFile => (
-        <div key={uploadedFile.uploadId}>
-            Uploaded: {uploadedFile.uploadId}
-        </div>
-    ));
+    const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (
         <div>
-            {uploadingElems}
-            {uploadedElems}
+            {uploadFiles.map(uploadFile => <OlzUploadImage
+                key={serializeUploadFile(uploadFile)}
+                uploadFile={uploadFile}
+            />)}
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img

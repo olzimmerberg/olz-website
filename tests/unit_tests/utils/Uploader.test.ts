@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import cloneDeep from 'lodash/cloneDeep';
-import {OlzApi, OlzApiEndpoint, OlzApiResponses} from '../../../src/api/client/index';
+import {OlzApi, OlzApiResponses} from '../../../src/api/client/index';
 import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../src/utils/Uploader';
 import {FakeOlzApi} from '../../fake/FakeOlzApi';
 
@@ -109,9 +109,9 @@ describe('Uploader', () => {
         it('works (integration test)', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            fakeOlzApi.mock(OlzApiEndpoint.startUpload, () => Promise.resolve({status: 'OK', id: 'new-id'}));
-            fakeOlzApi.mock(OlzApiEndpoint.updateUpload, () => Promise.resolve({status: 'OK'}));
-            fakeOlzApi.mock(OlzApiEndpoint.finishUpload, () => Promise.resolve({status: 'OK'}));
+            fakeOlzApi.mock('startUpload', () => Promise.resolve({status: 'OK', id: 'new-id'}));
+            fakeOlzApi.mock('updateUpload', () => Promise.resolve({status: 'OK'}));
+            fakeOlzApi.mock('finishUpload', () => Promise.resolve({status: 'OK'}));
             uploader.setOlzApi(fakeOlzApi);
 
             // Start request
@@ -370,7 +370,7 @@ describe('Uploader', () => {
         it('works for successful update upload request', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            fakeOlzApi.mock(OlzApiEndpoint.updateUpload, () => Promise.resolve({status: 'OK'}));
+            fakeOlzApi.mock('updateUpload', () => Promise.resolve({status: 'OK'}));
             uploader.setOlzApi(fakeOlzApi);
             const uploadQueue: TestOnlyFileUpload[] = [
                 cloneDeep(DEFAULT_UPLOAD),
@@ -410,9 +410,9 @@ describe('Uploader', () => {
         it('works for failing update upload request', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            const mockPromise: Promise<OlzApiResponses[OlzApiEndpoint.updateUpload]> =
+            const mockPromise: Promise<OlzApiResponses['updateUpload']> =
                 Promise.reject(new Error('asdf'));
-            fakeOlzApi.mock(OlzApiEndpoint.updateUpload, () => mockPromise);
+            fakeOlzApi.mock('updateUpload', () => mockPromise);
             uploader.setOlzApi(fakeOlzApi);
             const uploadQueue: TestOnlyFileUpload[] = [
                 cloneDeep(DEFAULT_UPLOAD),
@@ -452,7 +452,7 @@ describe('Uploader', () => {
         it('works for successful finish upload request', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            fakeOlzApi.mock(OlzApiEndpoint.finishUpload, () => Promise.resolve({status: 'OK'}));
+            fakeOlzApi.mock('finishUpload', () => Promise.resolve({status: 'OK'}));
             uploader.setOlzApi(fakeOlzApi);
             const uploadQueue: TestOnlyFileUpload[] = [
                 cloneDeep(UPLOADED_UPLOAD),
@@ -484,9 +484,9 @@ describe('Uploader', () => {
         it('works for failing finish upload request', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            const mockPromise: Promise<OlzApiResponses[OlzApiEndpoint.finishUpload]> =
+            const mockPromise: Promise<OlzApiResponses['finishUpload']> =
                 Promise.reject(new Error('asdf'));
-            fakeOlzApi.mock(OlzApiEndpoint.finishUpload, () => mockPromise);
+            fakeOlzApi.mock('finishUpload', () => mockPromise);
             uploader.setOlzApi(fakeOlzApi);
             const uploadQueue: TestOnlyFileUpload[] = [
                 cloneDeep(UPLOADED_UPLOAD),

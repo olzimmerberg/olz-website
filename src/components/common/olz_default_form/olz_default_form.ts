@@ -1,4 +1,4 @@
-import {RequestFieldId, OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, OlzApiError, ValidationError, mergeValidationErrors} from '../../../api/client';
+import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../api/client';
 import {getErrorOrThrow} from '../../../utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -36,7 +36,9 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe.';
         $(form).find('.success-message').text('');
         $(form).find('.error-message').text(errorMessage);
-        showValidationErrors<T>(err, form);
+        if (err instanceof ValidationError) {
+            showValidationErrors<T>(err, form);
+        }
         return Promise.reject(new Error('Die Anfrage konnte nicht gesendet werden.'));
     }
 
@@ -52,15 +54,19 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
                 const err = getErrorOrThrow(unk);
                 $(form).find('.success-message').text('');
                 $(form).find('.error-message').text(err.message);
-                showValidationErrors<T>(err, form);
+                if (err instanceof ValidationError) {
+                    showValidationErrors<T>(err, form);
+                }
             }
             return response;
         })
-        .catch((err: OlzApiError<T>) => {
-            const errorMessage = err.message ? `Fehlerhafte Anfrage: ${err.message}` : 'Fehlerhafte Anfrage.';
+        .catch((err: unknown) => {
+            const errorMessage = err instanceof Error ? `Fehlerhafte Anfrage: ${err.message}` : 'Fehlerhafte Anfrage.';
             $(form).find('.success-message').text('');
             $(form).find('.error-message').text(errorMessage);
-            showValidationErrors<T>(err, form);
+            if (err instanceof ValidationError) {
+                showValidationErrors<T>(err, form);
+            }
             return Promise.reject(err);
         });
 }
@@ -69,9 +75,9 @@ export function getDataForRequest<T extends OlzApiEndpoint>(
     getDataForRequestDict: GetDataForRequestDict<T>,
     form: HTMLFormElement,
 ): OlzApiRequests[T] {
-    const fieldIds = Object.keys(getDataForRequestDict) as Array<RequestFieldId<T>>;
+    const fieldIds = Object.keys(getDataForRequestDict) as Array<keyof OlzApiRequests[T]>;
     const data: Partial<OlzApiRequests[T]> = {};
-    const validationErrors: ValidationError<OlzApiEndpoint.updateUser>[] = [];
+    const validationErrors: ValidationError[] = [];
     let hasOtherError = false;
     fieldIds.map((fieldId) => {
         try {
@@ -88,20 +94,21 @@ export function getDataForRequest<T extends OlzApiEndpoint>(
         throw new Error('Unexpected Error in getDataForRequest');
     }
     if (validationErrors.length > 0) {
-        throw mergeValidationErrors(validationErrors);
+        const olzApi = new OlzApi();
+        throw olzApi.mergeValidationErrors(validationErrors);
     }
     return data as OlzApiRequests[T]; // should now be complete.
 }
 
 export function showValidationErrors<T extends OlzApiEndpoint>(
-    error: OlzApiError<T>,
+    error: ValidationError,
     form: HTMLFormElement,
 ): void {
-    const validationErrorDict = error?.validationErrors || {};
-    const fieldIds = Object.keys(validationErrorDict) as Array<RequestFieldId<T>>;
+    const validationErrorDict = error?.getErrorsByField() || {};
+    const fieldIds = Object.keys(validationErrorDict) as Array<keyof OlzApiRequests[T]>;
     fieldIds.map((fieldId) => {
-        const formInput = form[camelCaseToDashCase(fieldId)];
-        const errorMessage = error?.validationErrors?.[fieldId].join('\n');
+        const formInput = form[camelCaseToDashCase(`${fieldId}`)];
+        const errorMessage = error?.getErrorsForField(`${fieldId}`).join('\n');
         if (errorMessage) {
             showErrorOnField(formInput, errorMessage);
         }
@@ -171,12 +178,14 @@ export function getEmail(fieldId: string, emailInput: string|undefined): string|
     return trimmedEmailInput;
 }
 
-export function getGender(fieldId: string, genderInput: string|undefined): 'M'|'F'|'O'|null {
+export function getGender(fieldId: string, genderInput: string|undefined|null): 'M'|'F'|'O'|null {
     switch (genderInput) {
         case 'M': return 'M';
         case 'F': return 'F';
         case 'O': return 'O';
         case '': return null;
+        case null: return null;
+        case undefined: return null;
         default: throw new ValidationError('', {
             [fieldId]: [`Ungültiges Geschlecht "${genderInput}" ausgewählt.`],
         });
@@ -184,7 +193,7 @@ export function getGender(fieldId: string, genderInput: string|undefined): 'M'|'
 }
 
 export function getIsoDateTimeFromSwissFormat(fieldId: string, date: string|undefined): string|null {
-    if (date === undefined || date === '') {
+    if (date === undefined || date === null || date === '') {
         return null;
     }
     const res = SWISS_DATETIME_REGEX.exec(date);
@@ -213,7 +222,7 @@ export function getIsoDateTimeFromSwissFormat(fieldId: string, date: string|unde
 }
 
 export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefined): string|null {
-    if (date === undefined || date === '') {
+    if (date === undefined || date === null || date === '') {
         return null;
     }
     const res = SWISS_DATE_REGEX.exec(date);

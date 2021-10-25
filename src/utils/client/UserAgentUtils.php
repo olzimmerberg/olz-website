@@ -27,7 +27,7 @@ class UserAgentUtils {
         global $_SERVER;
 
         return new self(
-            $_SERVER['HTTP_USER_AGENT'],
+            $_SERVER['HTTP_USER_AGENT'] ?? '',
         );
     }
 }

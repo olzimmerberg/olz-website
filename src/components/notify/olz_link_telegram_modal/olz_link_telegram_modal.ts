@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../api/client';
 
 $(() => {
     $('#link-telegram-modal').on('shown.bs.modal', () => {
@@ -11,7 +11,7 @@ export function olzLinkTelegramModalGetChatLink(): void {
     $('.chat-link-ready').hide();
 
     callOlzApi(
-        OlzApiEndpoint.linkTelegram,
+        'linkTelegram',
         {},
     )
         .then((response) => {

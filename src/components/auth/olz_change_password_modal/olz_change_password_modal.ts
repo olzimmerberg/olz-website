@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, OlzApiResponses, ValidationError} from '../../../api/client';
+import {OlzApiResponses, ValidationError} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField, getPassword, getRequired, showErrorOnField, clearErrorOnField} from '../../../components/common/olz_default_form/olz_default_form';
 
 $(() => {
@@ -8,7 +8,7 @@ $(() => {
 });
 
 export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.updatePassword> = {
+    const getDataForRequestDict: GetDataForRequestDict<'updatePassword'> = {
         id: () => userId,
         oldPassword: (f) => getFormField(f, 'old'),
         newPassword: (f) => {
@@ -29,7 +29,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
     };
 
     olzDefaultFormSubmit(
-        OlzApiEndpoint.updatePassword,
+        'updatePassword',
         getDataForRequestDict,
         form,
         handleResponse,
@@ -37,7 +37,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
     return false;
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.updatePassword]): string|void {
+function handleResponse(response: OlzApiResponses['updatePassword']): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }

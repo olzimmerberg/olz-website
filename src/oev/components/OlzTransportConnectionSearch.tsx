@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzOevSearchConnection} from '../oev';
-import {OlzApiResponses, OlzApiEndpoint} from '../../api/client';
-import {OlzTransportConnectionSuggestion} from '../../api/client/OlzApi';
+import {OlzApiResponses} from '../../api/client';
+import {OlzTransportConnectionSuggestion} from '../../api/client/generated_olz_api_types';
 import {OlzTransportConnectionView} from './OlzTransportConnectionView';
 
 export const OlzTransportConnectionSearch = () => {
@@ -11,7 +11,7 @@ export const OlzTransportConnectionSearch = () => {
     const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         olzOevSearchConnection(e.target as HTMLFormElement)
-            .then((response: OlzApiResponses[OlzApiEndpoint.searchTransportConnection]) => {
+            .then((response: OlzApiResponses['searchTransportConnection']) => {
                 setConnectionSuggestions(response.suggestions);
             });
         return false;

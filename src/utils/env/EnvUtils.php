@@ -282,7 +282,7 @@ class EnvUtils {
         return $this->logs_utils;
     }
 
-    protected static $from_env_instance = null;
+    protected static $from_env_instance;
 
     public static function fromEnv() {
         if (self::$from_env_instance == null) {

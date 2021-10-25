@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PhpTypeScriptApi\HttpError;
+
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
@@ -29,8 +31,29 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'usernameOrEmail' => ['Feld darf nicht leer sein.'],
-                'password' => ['Feld darf nicht leer sein.'],
+                'usernameOrEmail' => ["Fehlender Schlüssel 'usernameOrEmail'."],
+                'password' => ["Fehlender Schlüssel 'password'."],
+            ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
+        }
+    }
+
+    public function testLoginEndpointWithNullInput(): void {
+        $logger = FakeLogger::create();
+        $endpoint = new LoginEndpoint();
+        $endpoint->setLogger($logger);
+        try {
+            $result = $endpoint->call([
+                'usernameOrEmail' => null,
+                'password' => null,
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
+                'password' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",

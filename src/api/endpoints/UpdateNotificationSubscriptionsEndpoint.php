@@ -1,12 +1,23 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/BooleanField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+
+require_once __DIR__.'/../OlzEndpoint.php';
 require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/User.php';
 
-class UpdateNotificationSubscriptionsEndpoint extends Endpoint {
+class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG, $_DATE, $entityManager;
+        require_once __DIR__.'/../../config/date.php';
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        $date_utils = $_DATE;
+        $this->setEntityManager($entityManager);
+        $this->setDateUtils($date_utils);
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -19,38 +30,38 @@ class UpdateNotificationSubscriptionsEndpoint extends Endpoint {
         return 'UpdateNotificationSubscriptionsEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'deliveryType' => new EnumField(['allowed_values' => [
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'deliveryType' => new FieldTypes\EnumField(['allowed_values' => [
                 NotificationSubscription::DELIVERY_EMAIL,
                 NotificationSubscription::DELIVERY_TELEGRAM,
             ]]),
-            'monthlyPreview' => new BooleanField([]),
-            'weeklyPreview' => new BooleanField([]),
-            'deadlineWarning' => new BooleanField([]),
-            'deadlineWarningDays' => new EnumField(['allowed_values' => [
+            'monthlyPreview' => new FieldTypes\BooleanField([]),
+            'weeklyPreview' => new FieldTypes\BooleanField([]),
+            'deadlineWarning' => new FieldTypes\BooleanField([]),
+            'deadlineWarningDays' => new FieldTypes\EnumField(['allowed_values' => [
                 '1', '2', '3', '7',
             ]]),
-            'dailySummary' => new BooleanField([]),
-            'dailySummaryAktuell' => new BooleanField([]),
-            'dailySummaryBlog' => new BooleanField([]),
-            'dailySummaryForum' => new BooleanField([]),
-            'dailySummaryGalerie' => new BooleanField([]),
-            'weeklySummary' => new BooleanField([]),
-            'weeklySummaryAktuell' => new BooleanField([]),
-            'weeklySummaryBlog' => new BooleanField([]),
-            'weeklySummaryForum' => new BooleanField([]),
-            'weeklySummaryGalerie' => new BooleanField([]),
-        ];
+            'dailySummary' => new FieldTypes\BooleanField([]),
+            'dailySummaryAktuell' => new FieldTypes\BooleanField([]),
+            'dailySummaryBlog' => new FieldTypes\BooleanField([]),
+            'dailySummaryForum' => new FieldTypes\BooleanField([]),
+            'dailySummaryGalerie' => new FieldTypes\BooleanField([]),
+            'weeklySummary' => new FieldTypes\BooleanField([]),
+            'weeklySummaryAktuell' => new FieldTypes\BooleanField([]),
+            'weeklySummaryBlog' => new FieldTypes\BooleanField([]),
+            'weeklySummaryForum' => new FieldTypes\BooleanField([]),
+            'weeklySummaryGalerie' => new FieldTypes\BooleanField([]),
+        ]]);
     }
 
     protected function handle($input) {

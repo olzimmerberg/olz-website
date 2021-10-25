@@ -1,11 +1,18 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../common/HttpError.php';
-require_once __DIR__.'/../../fields/IntegerField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
-class GetLogsEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class GetLogsEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG;
+        require_once __DIR__.'/../../config/server.php';
+        $this->setEnvUtils($_CONFIG);
+    }
+
     public function setEnvUtils($envUtils) {
         $this->envUtils = $envUtils;
     }
@@ -14,19 +21,19 @@ class GetLogsEndpoint extends Endpoint {
         return 'GetLogsEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'content' => new StringField(['allow_null' => true]),
-        ];
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'content' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'index' => new IntegerField([
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'index' => new FieldTypes\IntegerField([
                 'default_value' => 0,
                 'min_value' => 0,
             ]),
-        ];
+        ]]);
     }
 
     protected function handle($input) {

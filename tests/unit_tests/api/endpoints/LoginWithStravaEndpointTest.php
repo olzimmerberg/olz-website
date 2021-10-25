@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
@@ -84,11 +85,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $endpoint->setStravaUtils($strava_utils);
         $endpoint->setLogger($logger);
         try {
-            $result = $endpoint->call([]);
+            $result = $endpoint->call(['code' => null]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'code' => ['Feld darf nicht leer sein.'],
+                'code' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -124,7 +125,6 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['code' => 'fake-code']);
 
         $this->assertSame([
-            'status' => 'AUTHENTICATED',
             'tokenType' => null,
             'expiresAt' => null,
             'refreshToken' => null,
@@ -137,6 +137,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'region' => null,
             'country' => null,
             'profilePictureUrl' => null,
+            'status' => 'AUTHENTICATED',
         ], $result);
         $this->assertSame([
             'auth' => null,
@@ -228,7 +229,6 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['code' => 'invalid-code']);
 
         $this->assertSame([
-            'status' => 'INVALID_CODE',
             'tokenType' => null,
             'expiresAt' => null,
             'refreshToken' => null,
@@ -241,6 +241,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'region' => null,
             'country' => null,
             'profilePictureUrl' => null,
+            'status' => 'INVALID_CODE',
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([], $entity_manager->getRepository('AuthRequest')->auth_requests);

@@ -1,13 +1,10 @@
 <?php
 
-require_once __DIR__.'/ApiGenerator.php';
-require_once __DIR__.'/../OlzApi.php';
+$olz_api = require __DIR__.'/../olz_api.php';
 
-$olz_api = new OlzApi();
-$generator = new ApiGenerator();
-$typescript_output = $generator->generate($olz_api, 'OlzApi');
+file_put_contents(
+    __DIR__.'/generated_olz_api_types.ts',
+    $olz_api->getTypeScriptDefinition('OlzApi')
+);
 
-file_put_contents(__DIR__.'/OlzApi.ts', $typescript_output);
-
-echo "\n";
-echo "OLZ API client generated.\n";
+echo "\nOLZ API client generated.\n";

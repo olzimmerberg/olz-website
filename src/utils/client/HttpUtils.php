@@ -1,5 +1,8 @@
 <?php
 
+use PhpTypeScriptApi\Fields\FieldUtils;
+use PhpTypeScriptApi\Fields\ValidationError;
+
 require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class HttpUtils {
@@ -69,15 +72,19 @@ class HttpUtils {
     }
 
     public function validateGetParams($fields, $get_params, $options = []) {
-        $field_utils = FieldUtils::fromEnv();
         $validated_get_params = [];
-        try {
-            $validated_get_params = $field_utils->validate($fields, $get_params, ['parse' => true]);
-        } catch (ValidationError $verr) {
-            $this->logger->notice("Bad GET params", $verr->getStructuredAnswer());
-            if (($options['just_log'] ?? false) === false) {
-                $this->dieWithHttpError(400);
+        $has_error = false;
+        foreach ($fields as $key => $field) {
+            try {
+                $validated_get_params[$key] = $this->fieldUtils->validate(
+                    $field, $get_params[$key] ?? null, ['parse' => true]);
+            } catch (ValidationError $verr) {
+                $this->logger->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
+                $has_error = true;
             }
+        }
+        if ($has_error && ($options['just_log'] ?? false) === false) {
+            $this->dieWithHttpError(400);
         }
         return $validated_get_params;
     }
@@ -105,8 +112,8 @@ class HttpUtils {
 
     public static function fromEnv() {
         $http_utils = new self();
-        require_once __DIR__.'/../FieldUtils.php';
-        $http_utils->setFieldUtils(FieldUtils::fromEnv());
+        $field_utils = FieldUtils::create();
+        $http_utils->setFieldUtils($field_utils);
         return $http_utils;
     }
 }

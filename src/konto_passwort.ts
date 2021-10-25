@@ -1,8 +1,8 @@
-import {OlzApiEndpoint, OlzApiResponses, ValidationError} from './api/client';
+import {OlzApiResponses, ValidationError} from './api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithPassword> = {
+    const getDataForRequestDict: GetDataForRequestDict<'signUpWithPassword'> = {
         firstName: (f) => getFormField(f, 'first-name'),
         lastName: (f) => getFormField(f, 'last-name'),
         username: (f) => getFormField(f, 'username'),
@@ -25,15 +25,15 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
         phone: (f) => getPhone('phone', getFormField(f, 'phone')),
         gender: (f) => getGender('gender', getFormField(f, 'gender')),
         birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
-        street: (f) => getFormField(f, 'street'),
-        postalCode: (f) => getFormField(f, 'postal-code'),
-        city: (f) => getFormField(f, 'city'),
-        region: (f) => getFormField(f, 'region'),
+        street: (f) => getFormField(f, 'street') || '',
+        postalCode: (f) => getFormField(f, 'postal-code') || '',
+        city: (f) => getFormField(f, 'city') || '',
+        region: (f) => getFormField(f, 'region') || '',
         countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
     };
 
     olzDefaultFormSubmit(
-        OlzApiEndpoint.signUpWithPassword,
+        'signUpWithPassword',
         getDataForRequestDict,
         form,
         handleResponse,
@@ -41,7 +41,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     return false;
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|void {
+function handleResponse(response: OlzApiResponses['signUpWithPassword']): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }

@@ -1,14 +1,23 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/IntegerField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+
+require_once __DIR__.'/../OlzEndpoint.php';
 require_once __DIR__.'/../../model/OlzText.php';
 require_once __DIR__.'/../../model/User.php';
 
-class UpdateOlzTextEndpoint extends Endpoint {
+class UpdateOlzTextEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $this->setAuthUtils($auth_utils);
+        $this->setEntityManager($entityManager);
+    }
+
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
     }
@@ -21,20 +30,20 @@ class UpdateOlzTextEndpoint extends Endpoint {
         return 'UpdateOlzTextEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'id' => new IntegerField([]),
-            'text' => new StringField(['allow_empty' => true]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'id' => new FieldTypes\IntegerField([]),
+            'text' => new FieldTypes\StringField(['allow_empty' => true]),
+        ]]);
     }
 
     protected function handle($input) {

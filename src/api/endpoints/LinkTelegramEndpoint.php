@@ -1,11 +1,21 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LinkTelegramEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class LinkTelegramEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
+        $telegram_utils = getTelegramUtilsFromEnv();
+        $this->setEntityManager($entityManager);
+        $this->setTelegramUtils($telegram_utils);
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -18,15 +28,18 @@ class LinkTelegramEndpoint extends Endpoint {
         return 'LinkTelegramEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'botName' => new StringField([]),
-            'pin' => new StringField([]),
-        ];
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'botName' => new FieldTypes\StringField([]),
+            'pin' => new FieldTypes\StringField([]),
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
     }
 
     protected function handle($input) {

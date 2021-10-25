@@ -1,10 +1,37 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
+
+require_once __DIR__.'/../OlzEndpoint.php';
 require_once __DIR__.'/../../model/Throttling.php';
 
-class OnContinuouslyEndpoint extends Endpoint {
+class OnContinuouslyEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG, $_DATE, $entityManager;
+        require_once __DIR__.'/../../config/date.php';
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../tasks/ProcessEmailTask.php';
+        require_once __DIR__.'/../../tasks/SendDailyNotificationsTask.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        require_once __DIR__.'/../../utils/notify/EmailUtils.php';
+        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $date_utils = $_DATE;
+        $email_utils = EmailUtils::fromEnv();
+        $telegram_utils = TelegramUtils::fromEnv();
+        $process_email_task = new ProcessEmailTask($entityManager, $auth_utils, $email_utils, $date_utils, $_CONFIG);
+        $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
+        $this->setProcessEmailTask($process_email_task);
+        $this->setSendDailyNotificationsTask($send_daily_notifications_task);
+        $this->setEntityManager($entityManager);
+        $this->setDateUtils($date_utils);
+        $this->setEnvUtils($_CONFIG);
+    }
+
     public function setSendDailyNotificationsTask($sendDailyNotificationsTask) {
         $this->sendDailyNotificationsTask = $sendDailyNotificationsTask;
     }
@@ -29,14 +56,17 @@ class OnContinuouslyEndpoint extends Endpoint {
         return 'OnContinuouslyEndpoint';
     }
 
-    public function getResponseFields() {
-        return [];
+    public function getResponseField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
     }
 
-    public function getRequestFields() {
-        return [
-            'authenticityCode' => new StringField([]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'authenticityCode' => new FieldTypes\StringField([]),
+        ]]);
     }
 
     public function parseInput() {

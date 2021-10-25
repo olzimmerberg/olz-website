@@ -1,8 +1,8 @@
-import {OlzApiEndpoint, callOlzApi} from './api/client';
+import {callOlzApi} from './api/client';
 
 export function generateWebdavAccessToken(): boolean {
     callOlzApi(
-        OlzApiEndpoint.getWebdavAccessToken,
+        'getWebdavAccessToken',
         {},
     )
         .then((response) => {
@@ -20,7 +20,7 @@ export function generateWebdavAccessToken(): boolean {
 
 export function revokeWebdavAccessToken(): boolean {
     callOlzApi(
-        OlzApiEndpoint.revokeWebdavAccessToken,
+        'revokeWebdavAccessToken',
         {},
     )
         .then((response) => {

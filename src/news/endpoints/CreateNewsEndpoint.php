@@ -1,17 +1,29 @@
 <?php
 
-require_once __DIR__.'/../../api/common/Endpoint.php';
-require_once __DIR__.'/../../fields/ArrayField.php';
-require_once __DIR__.'/../../fields/BooleanField.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/IntegerField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+
+require_once __DIR__.'/../../api/OlzEndpoint.php';
 require_once __DIR__.'/../../model/Role.php';
 require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../model/NewsEntry.php';
 
-class CreateNewsEndpoint extends Endpoint {
+class CreateNewsEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG, $_DATE, $entityManager;
+        require_once __DIR__.'/../../config/date.php';
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        require_once __DIR__.'/../../utils/env/EnvUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
+        $this->setAuthUtils($auth_utils);
+        $this->setDateUtils($_DATE);
+        $this->setEntityManager($entityManager);
+        $this->setEnvUtils($env_utils);
+    }
+
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
     }
@@ -32,45 +44,45 @@ class CreateNewsEndpoint extends Endpoint {
         return 'CreateNewsEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            'newsId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-        ];
+            'newsId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'ownerUserId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-            'ownerRoleId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-            'author' => new StringField(['allow_null' => true]),
-            'authorUserId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-            'authorRoleId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-            'title' => new StringField([]),
-            'teaser' => new StringField(['allow_empty' => true]),
-            'content' => new StringField(['allow_empty' => true]),
-            'externalUrl' => new StringField(['allow_null' => true]),
-            'tags' => new ArrayField([
-                'item_field' => new StringField([]),
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'ownerUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'ownerRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'author' => new FieldTypes\StringField(['allow_null' => true]),
+            'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'title' => new FieldTypes\StringField([]),
+            'teaser' => new FieldTypes\StringField(['allow_empty' => true]),
+            'content' => new FieldTypes\StringField(['allow_empty' => true]),
+            'externalUrl' => new FieldTypes\StringField(['allow_null' => true]),
+            'tags' => new FieldTypes\ArrayField([
+                'item_field' => new FieldTypes\StringField([]),
             ]),
-            'terminId' => new IntegerField(['allow_null' => true, 'min_value' => 1]),
-            'onOff' => new BooleanField(['default_value' => true]),
-            'imageIds' => new ArrayField([
-                'item_field' => new StringField([]),
+            'terminId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'onOff' => new FieldTypes\BooleanField(['default_value' => true]),
+            'imageIds' => new FieldTypes\ArrayField([
+                'item_field' => new FieldTypes\StringField([]),
             ]),
-            'fileIds' => new ArrayField([
-                'item_field' => new StringField([]),
+            'fileIds' => new FieldTypes\ArrayField([
+                'item_field' => new FieldTypes\StringField([]),
             ]),
-        ];
+        ]]);
     }
 
     protected function handle($input) {
         $has_access = $this->authUtils->hasPermission('news');
         if (!$has_access) {
-            return ['status' => 'ERROR'];
+            return ['status' => 'ERROR', 'newsId' => null];
         }
 
         $user_repo = $this->entityManager->getRepository(User::class);

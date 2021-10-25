@@ -1,8 +1,8 @@
-import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../api/client';
 
 export function olzAccountMenuLogout(): void {
     callOlzApi(
-        OlzApiEndpoint.logout,
+        'logout',
         {},
     )
         .then(() => {

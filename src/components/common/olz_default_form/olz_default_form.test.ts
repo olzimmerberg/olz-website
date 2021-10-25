@@ -19,7 +19,7 @@ describe('EMAIL_REGEX', () => {
 // describe('olzDefaultFormSubmit', () => {
 //     it('works', () => {
 //         olzDefaultFormSubmit(
-//             OlzApiEndpoint.signUpWithPassword,
+//             'signUpWithPassword',
 //             {
 //                 firstName: () => '',
 //                 lastName: () => '',
@@ -63,10 +63,10 @@ describe('getDataForRequest', () => {
             {
                 foo: (f: HTMLFormElement) => f.foo.value,
                 err1: () => {
-                    throw new ValidationError('err1', {err1: 'testerror1!'});
+                    throw new ValidationError('err1', {err1: ['testerror1!']});
                 },
                 err2: () => {
-                    throw new ValidationError('err2', {err2: 'testerror2!'});
+                    throw new ValidationError('err2', {err2: ['testerror2!']});
                 },
             },
             {

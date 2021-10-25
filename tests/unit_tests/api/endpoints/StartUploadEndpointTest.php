@@ -34,7 +34,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call([]);
+        $result = $endpoint->call(['suffix' => null]);
 
         $this->assertSame(['status' => 'ERROR', 'id' => null], $result);
         $this->assertSame([
@@ -58,7 +58,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
 
-        $result = $endpoint->call([]);
+        $result = $endpoint->call(['suffix' => null]);
 
         $this->assertSame(['status' => 'ERROR', 'id' => null], $result);
         $this->assertSame([
@@ -80,7 +80,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call([]);
+        $result = $endpoint->call(['suffix' => null]);
 
         $this->assertSame('OK', $result['status']);
         $this->assertMatchesRegularExpression('/^[a-zA-Z0-9-_]{24}$/', $result['id']);

@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../api/client';
 
 $(() => {
     $('#login-modal').on('shown.bs.modal', () => {
@@ -11,7 +11,7 @@ export function olzLoginModalLogin(): void {
     const password = String($('#login-password-input').val());
 
     callOlzApi(
-        OlzApiEndpoint.login,
+        'login',
         {usernameOrEmail, password},
     )
         .then((response) => {

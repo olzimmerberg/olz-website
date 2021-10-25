@@ -1,5 +1,5 @@
 import {OlzApi} from '../../src/api/client';
-import {OlzApiEndpoint, OlzApiRequests, OlzApiResponses} from '../../src/api/client/OlzApi';
+import {OlzApiEndpoint, OlzApiRequests, OlzApiResponses} from '../../src/api/client/generated_olz_api_types';
 
 type MockFunctionForEndpoint<T extends OlzApiEndpoint> =
     <U extends T>(request: OlzApiRequests[U]) => Promise<OlzApiResponses[U]>;

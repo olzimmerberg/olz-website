@@ -1,24 +1,32 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/EnumField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LogoutEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class LogoutEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+    }
+
     public static function getIdent() {
         return 'LogoutEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'NO_SESSION',
                 'SESSION_CLOSED',
             ]]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
     }
 
     protected function handle($input) {

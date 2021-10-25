@@ -1,11 +1,21 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
-class OnTelegramEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class OnTelegramEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG;
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
+        $telegram_utils = getTelegramUtilsFromEnv();
+        $this->setTelegramUtils($telegram_utils);
+        $this->setEnvUtils($_CONFIG);
+    }
+
     public function setTelegramUtils($telegram_utils) {
         $this->telegramUtils = $telegram_utils;
     }
@@ -18,15 +28,18 @@ class OnTelegramEndpoint extends Endpoint {
         return 'OnTelegramEndpoint';
     }
 
-    public function getResponseFields() {
-        return [];
+    public function getResponseField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
     }
 
-    public function getRequestFields() {
-        return [
-            'authenticityCode' => new StringField([]),
-            'telegramEvent' => new StringField([]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'authenticityCode' => new FieldTypes\StringField([]),
+            'telegramEvent' => new FieldTypes\StringField([]),
+        ]]);
     }
 
     public function parseInput() {

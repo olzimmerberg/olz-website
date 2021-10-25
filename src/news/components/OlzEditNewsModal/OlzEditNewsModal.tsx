@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {OlzApiEndpoint, OlzApiResponses} from '../../../api/client';
+import {OlzApiResponses} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../../components/common/olz_default_form/olz_default_form';
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
@@ -61,7 +61,7 @@ export const OlzEditNewsModal = () => {
     const [imageIds, setImageIds] = React.useState<string[]>([]);
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
-        const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.createNews> = {
+        const getDataForRequestDict: GetDataForRequestDict<'createNews'> = {
             ownerUserId: () => null,
             ownerRoleId: () => null,
             author: (f) => getFormField(f, 'author'),
@@ -78,7 +78,7 @@ export const OlzEditNewsModal = () => {
             fileIds: () => fileIds,
         };
 
-        function handleResponse(response: OlzApiResponses[OlzApiEndpoint.createNews]): string|void {
+        function handleResponse(response: OlzApiResponses['createNews']): string|void {
             if (response.status !== 'OK') {
                 throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
             }
@@ -91,7 +91,7 @@ export const OlzEditNewsModal = () => {
         event.preventDefault();
 
         olzDefaultFormSubmit(
-            OlzApiEndpoint.createNews,
+            'createNews',
             getDataForRequestDict,
             event.currentTarget,
             handleResponse,

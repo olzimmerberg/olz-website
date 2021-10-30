@@ -14,53 +14,6 @@ function olz_header($args = []): string {
         HttpUtils::fromEnv()->redirect("https://{$host}{$request_uri}", 308);
     }
 
-    // TODO: Remove this, once the index.php?page=... syntax is not used anymore.
-    $canonical_tag = '';
-    $is_request_to_index_php = preg_match("/\\/index.php/", $_SERVER['REQUEST_URI']) || preg_match("/(\\?|\\&)page=/", $_SERVER['REQUEST_URI']);
-    if ($is_request_to_index_php) {
-        $pages = [
-            "0" => "error.php", // TO DO
-            "1" => "startseite.php",
-            "2" => "aktuell.php",
-            "3" => "termine.php",
-            "4" => "galerie.php",
-            "5" => "forum.php",
-            "6" => "verein.php",
-            "7" => "blog.php",
-            "8" => "service.php",
-            "9" => "search.php",
-            "10" => "login.php",
-            "11" => "zimmerbergol.php",
-            "12" => "karten.php",
-            "15" => "termine_tools_DEV.php",
-            "16" => "zol/index.php",
-            "18" => "fuer_einsteiger.php",
-            "19" => "zol/karten.php",
-            "20" => "trophy.php",
-            "21" => "material.php",
-            "100" => "profil.php",
-            "mail" => "divmail.php",
-            "ftp" => "webftp.php",
-            "tools" => "termine_helper.php",
-        ];
-        $canonical_page = $pages[$_GET['page']];
-        if ($canonical_page) {
-            $get_params = [];
-            foreach ($_GET as $key => $value) {
-                if ($key != 'page') {
-                    $get_params[$key] = $value;
-                }
-            }
-            $query = http_build_query($get_params);
-            if (strlen($query) > 0) {
-                $query = "?{$query}";
-            }
-            $redirect_uri = "https://{$host}{$_CONFIG->getCodeHref()}{$canonical_page}{$query}";
-            require_once __DIR__.'/../../../utils/client/HttpUtils.php';
-            HttpUtils::fromEnv()->redirect($redirect_uri, 308);
-        }
-    }
-
     return olz_header_without_routing($args);
 }
 

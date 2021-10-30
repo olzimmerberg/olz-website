@@ -35,7 +35,7 @@ require_once __DIR__.'/modules/material.php';
 require_once __DIR__.'/modules/newsletter.php';
 require_once __DIR__.'/modules/profil.php';
 require_once __DIR__.'/modules/resultate.php';
-require_once __DIR__.'/modules/search.php';
+require_once __DIR__.'/modules/suche.php';
 require_once __DIR__.'/modules/service.php';
 require_once __DIR__.'/modules/startseite.php';
 require_once __DIR__.'/modules/termine.php';
@@ -92,7 +92,7 @@ $blocks = [
         test_verein($driver, $code_href);
         test_trophy($driver, $code_href);
         test_error($driver, $code_href);
-        test_search($driver, $code_href);
+        test_suche($driver, $code_href);
 
         echo get_pretty_timing_report();
     },

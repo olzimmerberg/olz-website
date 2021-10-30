@@ -44,8 +44,8 @@ function olz_menu($args = []): string {
     }
     $out .= get_menu($menu, "mainmenu", $_CONFIG);
 
-    $out .= "<form name='Suche' method='post' action='search.php' style='white-space:nowrap; width:180px;'>
-    <input type='text' name='search_key' style='width:172px;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.search_key.style.color = \"#006516\"; this.form.search_key.value = \"\"; ' onblur='this.form.search_key.style.color = \"#888888\"; this.form.search_key.value = \"Suchen...\"; '>
+    $out .= "<form name='Suche' method='get' action='suche.php' style='white-space:nowrap; width:180px;'>
+    <input type='text' name='anfrage' style='width:100%;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
     </form>";
     $out .= "<div style='padding:2em 0.5em 0em 0.5em;'>
     <script type='text/javascript'>MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"webmaster\", \"Homepage%20OL%20Zimmerberg\");</script>

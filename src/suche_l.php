@@ -128,7 +128,7 @@ if ($text != '') {
 }
 
 function cutout($text) {
-    global $text,$length_a,$length_b,$prefix,$suffix;
+    global $text,$length_a,$length_b,$prefix,$suffix,$search_words;
     for ($m = 0; $m < 3; $m++) {
         $prefix = "...";
         $suffix = "...";

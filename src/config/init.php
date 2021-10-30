@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/vendor/autoload.php';
+
 // Ampersand-Ausgabe
 ini_set('arg_separator.output', '&amp;');
 

@@ -1,13 +1,13 @@
 <?php
 
+use PhpTypeScriptApi\Fields\FieldTypes;
+
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
-require_once __DIR__.'/fields/IntegerField.php';
-require_once __DIR__.'/fields/StringField.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
 require_once __DIR__.'/utils/env/EnvUtils.php';
 require_once __DIR__.'/utils/TermineUtils.php';
@@ -17,9 +17,9 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $validated_get_params = $http_utils->validateGetParams([
-    'filter' => new StringField(['allow_null' => true]),
-    'id' => new IntegerField(['allow_null' => true]),
-    'buttontermine' => new StringField(['allow_null' => true]),
+    'filter' => new FieldTypes\StringField(['allow_null' => true]),
+    'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+    'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 $current_filter = json_decode($_GET['filter'] ?? '{}', true);

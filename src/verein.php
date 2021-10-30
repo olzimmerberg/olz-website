@@ -1,5 +1,7 @@
 <?php
 
+use PhpTypeScriptApi\Fields\FieldTypes;
+
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
@@ -9,7 +11,6 @@ require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
 require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/fields/StringField.php';
 require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
 require_once __DIR__.'/utils/env/EnvUtils.php';
@@ -18,7 +19,7 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    'ressort' => new StringField(['allow_null' => true]),
+    'ressort' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 if (isset($_GET['ressort'])) {

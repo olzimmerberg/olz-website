@@ -1,5 +1,7 @@
 <?php
 
+use PhpTypeScriptApi\Fields\FieldTypes;
+
 require_once __DIR__.'/config/init.php';
 
 session_start();
@@ -7,8 +9,6 @@ session_start();
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/fields/IntegerField.php';
-require_once __DIR__.'/fields/StringField.php';
 require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
 require_once __DIR__.'/utils/env/EnvUtils.php';
@@ -17,9 +17,9 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    'id' => new IntegerField(['allow_null' => true]),
-    'code' => new StringField(['allow_null' => true]),
-    'buttonforum' => new StringField(['allow_null' => true]),
+    'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+    'code' => new FieldTypes\StringField(['allow_null' => true]),
+    'buttonforum' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 echo olz_header([

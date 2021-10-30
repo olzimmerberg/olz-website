@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../api/client';
 
 export function olzEmailNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
     const monthlyPreview = form['monthly-preview'].checked ?? false;
@@ -18,7 +18,7 @@ export function olzEmailNotificationsUpdate(form: Record<string, {value?: string
     const weeklySummaryGalerie = form['weekly-summary-galerie'].checked ?? false;
 
     callOlzApi(
-        OlzApiEndpoint.updateNotificationSubscriptions,
+        'updateNotificationSubscriptions',
         {deliveryType: 'email', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryGalerie, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryGalerie },
     )
         .then((response) => {

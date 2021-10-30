@@ -44,7 +44,7 @@ function olz_header_bar($args = []): string {
     $out .= "<div class='header-content'>";
 
     // TODO: Remove switch as soon as Safari properly supports SVGs.
-    if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'])) {
+    if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'] ?? '')) {
         $out .= "<img srcset='{$_CONFIG->getCodeHref()}icns/olz_logo@2x.png 2x, {$_CONFIG->getCodeHref()}icns/olz_logo.png 1x' src='{$_CONFIG->getCodeHref()}icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
     } else {
         $out .= "<img src='{$_CONFIG->getCodeHref()}icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";

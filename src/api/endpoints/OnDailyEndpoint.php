@@ -1,10 +1,32 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
+
+require_once __DIR__.'/../OlzEndpoint.php';
 require_once __DIR__.'/../../model/Throttling.php';
 
-class OnDailyEndpoint extends Endpoint {
+class OnDailyEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG, $_DATE, $entityManager;
+        require_once __DIR__.'/../../config/date.php';
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/SolvFetcher.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../tasks/CleanTempDirectoryTask.php';
+        require_once __DIR__.'/../../tasks/SyncSolvTask.php';
+        $date_utils = $_DATE;
+        $clean_temp_directory_task = new CleanTempDirectoryTask($date_utils, $_CONFIG);
+        $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
+        $this->setCleanTempDirectoryTask($clean_temp_directory_task);
+        $this->setSyncSolvTask($sync_solv_task);
+        $this->setEntityManager($entityManager);
+        $this->setDateUtils($date_utils);
+        $this->setEnvUtils($_CONFIG);
+    }
+
     public function setCleanTempDirectoryTask($cleanTempDirectoryTask) {
         $this->cleanTempDirectoryTask = $cleanTempDirectoryTask;
     }
@@ -29,14 +51,17 @@ class OnDailyEndpoint extends Endpoint {
         return 'OnDailyEndpoint';
     }
 
-    public function getResponseFields() {
-        return [];
+    public function getResponseField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
     }
 
-    public function getRequestFields() {
-        return [
-            'authenticityCode' => new StringField([]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'authenticityCode' => new FieldTypes\StringField([]),
+        ]]);
     }
 
     public function parseInput() {

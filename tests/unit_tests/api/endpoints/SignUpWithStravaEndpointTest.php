@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
@@ -49,23 +50,40 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLogger($logger);
         try {
-            $result = $endpoint->call([]);
+            $result = $endpoint->call([
+                'stravaUser' => null,
+                'accessToken' => null,
+                'refreshToken' => null,
+                'expiresAt' => null,
+                'firstName' => null,
+                'lastName' => null,
+                'username' => null,
+                'email' => null,
+                'phone' => null,
+                'gender' => null,
+                'birthdate' => null,
+                'street' => null,
+                'postalCode' => null,
+                'city' => null,
+                'region' => null,
+                'countryCode' => null,
+            ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'stravaUser' => ['Feld darf nicht leer sein.'],
-                'accessToken' => ['Feld darf nicht leer sein.'],
-                'refreshToken' => ['Feld darf nicht leer sein.'],
-                'expiresAt' => ['Feld darf nicht leer sein.'],
-                'firstName' => ['Feld darf nicht leer sein.'],
-                'lastName' => ['Feld darf nicht leer sein.'],
-                'username' => ['Feld darf nicht leer sein.'],
-                'email' => ['Feld darf nicht leer sein.'],
-                'street' => ['Feld darf nicht leer sein.'],
-                'postalCode' => ['Feld darf nicht leer sein.'],
-                'city' => ['Feld darf nicht leer sein.'],
-                'region' => ['Feld darf nicht leer sein.'],
-                'countryCode' => ['Feld darf nicht leer sein.'],
+                'stravaUser' => [['.' => ['Feld darf nicht leer sein.']]],
+                'accessToken' => [['.' => ['Feld darf nicht leer sein.']]],
+                'refreshToken' => [['.' => ['Feld darf nicht leer sein.']]],
+                'expiresAt' => [['.' => ['Feld darf nicht leer sein.']]],
+                'firstName' => [['.' => ['Feld darf nicht leer sein.']]],
+                'lastName' => [['.' => ['Feld darf nicht leer sein.']]],
+                'username' => [['.' => ['Feld darf nicht leer sein.']]],
+                'email' => [['.' => ['Feld darf nicht leer sein.']]],
+                'street' => [['.' => ['Feld darf nicht leer sein.']]],
+                'postalCode' => [['.' => ['Feld darf nicht leer sein.']]],
+                'city' => [['.' => ['Feld darf nicht leer sein.']]],
+                'region' => [['.' => ['Feld darf nicht leer sein.']]],
+                'countryCode' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -92,6 +110,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'username' => 'fakeUsername',
             'email' => 'fakeEmail',
             'phone' => '+41441234567',
+            'gender' => null,
+            'birthdate' => null,
             'street' => 'fakeStreet',
             'postalCode' => 'fakePostalCode',
             'city' => 'fakeCity',

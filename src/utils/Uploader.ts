@@ -1,5 +1,5 @@
 import range from 'lodash/range';
-import {OlzApiEndpoint, OlzApi} from '../api/client';
+import {OlzApi} from '../api/client';
 import {EventTarget} from './EventTarget';
 import {assertUnreachable, obfuscateForUpload} from './generalUtils';
 
@@ -71,7 +71,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     protected uploadQueue: FileUpload[] = [];
 
     public add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
-        return this.olzApi.call(OlzApiEndpoint.startUpload, {suffix})
+        return this.olzApi.call('startUpload', {suffix})
             .then((response) => {
                 const uploadId: FileUploadId = response.id;
                 const numParts = Math.ceil(base64Content.length / MAX_PART_LENGTH);
@@ -112,7 +112,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
             case UploadRequestType.UPDATE: {
                 const part = requestUpload.parts[request.part];
                 part.status = FileUploadPartStatus.UPLOADING;
-                return this.olzApi.call(OlzApiEndpoint.updateUpload, {
+                return this.olzApi.call('updateUpload', {
                     id: request.id,
                     part: request.part,
                     content: request.content,
@@ -128,7 +128,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
             }
             case UploadRequestType.FINISH: {
                 requestUpload.status = FileUploadStatus.FINISHING;
-                return this.olzApi.call(OlzApiEndpoint.finishUpload, {
+                return this.olzApi.call('finishUpload', {
                     id: request.id,
                     numberOfParts: request.numberOfParts,
                 })

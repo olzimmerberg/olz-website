@@ -1,11 +1,36 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LoginWithStravaEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class LoginWithStravaEndpoint extends OlzEndpoint {
+    protected const NULL_RESPONSE = [
+        'tokenType' => null,
+        'expiresAt' => null,
+        'refreshToken' => null,
+        'accessToken' => null,
+        'userIdentifier' => null,
+        'firstName' => null,
+        'lastName' => null,
+        'gender' => null,
+        'city' => null,
+        'region' => null,
+        'country' => null,
+        'profilePictureUrl' => null,
+    ];
+
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/auth/StravaUtils.php';
+        $strava_utils = getStravaUtilsFromEnv();
+        $this->setEntityManager($entityManager);
+        $this->setStravaUtils($strava_utils);
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -18,32 +43,32 @@ class LoginWithStravaEndpoint extends Endpoint {
         return 'LoginWithStravaEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'NOT_REGISTERED',
                 'INVALID_CODE',
                 'AUTHENTICATED',
             ]]),
-            'tokenType' => new StringField(['allow_null' => true]),
-            'expiresAt' => new DateTimeField(['allow_null' => true]),
-            'refreshToken' => new StringField(['allow_null' => true]),
-            'accessToken' => new StringField(['allow_null' => true]),
-            'userIdentifier' => new StringField(['allow_null' => true]),
-            'firstName' => new StringField(['allow_null' => true]),
-            'lastName' => new StringField(['allow_null' => true]),
-            'gender' => new EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            'city' => new StringField(['allow_null' => true]),
-            'region' => new StringField(['allow_null' => true]),
-            'country' => new StringField(['allow_null' => true]),
-            'profilePictureUrl' => new StringField(['allow_null' => true]),
-        ];
+            'tokenType' => new FieldTypes\StringField(['allow_null' => true]),
+            'expiresAt' => new FieldTypes\DateTimeField(['allow_null' => true]),
+            'refreshToken' => new FieldTypes\StringField(['allow_null' => true]),
+            'accessToken' => new FieldTypes\StringField(['allow_null' => true]),
+            'userIdentifier' => new FieldTypes\StringField(['allow_null' => true]),
+            'firstName' => new FieldTypes\StringField(['allow_null' => true]),
+            'lastName' => new FieldTypes\StringField(['allow_null' => true]),
+            'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
+            'city' => new FieldTypes\StringField(['allow_null' => true]),
+            'region' => new FieldTypes\StringField(['allow_null' => true]),
+            'country' => new FieldTypes\StringField(['allow_null' => true]),
+            'profilePictureUrl' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'code' => new StringField([]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'code' => new FieldTypes\StringField([]),
+        ]]);
     }
 
     protected function handle($input) {
@@ -52,15 +77,15 @@ class LoginWithStravaEndpoint extends Endpoint {
 
         $token_data = $this->stravaUtils->getTokenDataForCode($input['code']);
         if (!$token_data) {
-            return [
+            return array_merge(self::NULL_RESPONSE, [
                 'status' => 'INVALID_CODE',
-            ];
+            ]);
         }
         $user_data = $this->stravaUtils->getUserData($token_data);
         if (!$user_data) {
-            return [
+            return array_merge(self::NULL_RESPONSE, [
                 'status' => 'INVALID_CODE',
-            ];
+            ]);
         }
 
         $strava_user = strval($user_data['user_identifier']);
@@ -93,8 +118,8 @@ class LoginWithStravaEndpoint extends Endpoint {
         $this->session->set('user', $user->getUsername());
         $this->session->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_STRAVA', $user->getUsername());
-        return [
+        return array_merge(self::NULL_RESPONSE, [
             'status' => 'AUTHENTICATED',
-        ];
+        ]);
     }
 }

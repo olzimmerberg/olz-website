@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, callOlzApi, OlzApiResponses} from './api/client';
+import {callOlzApi, OlzApiResponses} from './api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
@@ -6,7 +6,7 @@ export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').text('Login mit Strava...');
 
     callOlzApi(
-        OlzApiEndpoint.loginWithStrava,
+        'loginWithStrava',
         {code},
     )
         .then((response) => {
@@ -59,7 +59,7 @@ export function olzKontoLoginWithStrava(code: string): boolean {
 }
 
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.signUpWithStrava> = {
+    const getDataForRequestDict: GetDataForRequestDict<'signUpWithStrava'> = {
         stravaUser: (f) => getFormField(f, 'strava-user'),
         accessToken: (f) => getFormField(f, 'access-token'),
         refreshToken: (f) => getFormField(f, 'refresh-token'),
@@ -79,7 +79,7 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     };
 
     olzDefaultFormSubmit(
-        OlzApiEndpoint.signUpWithStrava,
+        'signUpWithStrava',
         getDataForRequestDict,
         form,
         handleResponse,
@@ -87,7 +87,7 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     return false;
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.signUpWithPassword]): string|void {
+function handleResponse(response: OlzApiResponses['signUpWithPassword']): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }

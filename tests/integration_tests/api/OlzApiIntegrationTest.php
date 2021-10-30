@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
+use PhpTypeScriptApi\Endpoint;
+
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \OlzApi
+ * @coversNothing
  */
 final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {
-        require_once __DIR__.'/../../../src/api/OlzApi.php';
+        $olz_api = require __DIR__.'/../../../src/api/olz_api.php';
 
-        $endpoint = new OlzApi();
-        foreach ($endpoint->endpoints as $endpoint_name => $endpoint_factory) {
-            $endpoint = $endpoint_factory();
+        foreach ($olz_api->getEndpointNames() as $endpoint_name) {
+            $endpoint = $olz_api->getEndpointByName($endpoint_name);
             $endpoint->setup();
             $this->assertTrue($endpoint instanceof Endpoint);
         }

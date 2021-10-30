@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\Fields\FieldUtils;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/client/HttpUtils.php';
@@ -12,7 +14,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
  * @internal
  * @coversNothing
  */
-class HttpUtilsForTest extends HttpUtils {
+class HttpUtilsForIntegrationTest extends HttpUtils {
     public $sent_http_response_code;
     public $sent_http_header_lines = [];
     public $sent_http_body;
@@ -35,7 +37,10 @@ class HttpUtilsForTest extends HttpUtils {
     }
 
     public static function fromEnv() {
-        return new self();
+        $http_utils = new self();
+        $field_utils = FieldUtils::create();
+        $http_utils->setFieldUtils($field_utils);
+        return $http_utils;
     }
 }
 
@@ -45,7 +50,7 @@ class HttpUtilsForTest extends HttpUtils {
  */
 final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testHttpUtilsError(): void {
-        $http_utils = HttpUtilsForTest::fromEnv();
+        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
 
         $http_utils->dieWithHttpError(404);
 
@@ -56,7 +61,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testHttpUtilsRedirect(): void {
-        $http_utils = HttpUtilsForTest::fromEnv();
+        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
 
         $http_utils->redirect('https://test.ch', 302);
 
@@ -67,10 +72,10 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testValidateGetParamsSuccessful(): void {
-        $http_utils = HttpUtilsForTest::fromEnv();
+        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
 
         $validated_get_params = $http_utils->validateGetParams([
-            'input' => new Field(['allow_null' => false]),
+            'input' => new FieldTypes\Field(['allow_null' => false]),
         ], ['input' => 'test']);
 
         $this->assertSame(['input' => 'test'], $validated_get_params);
@@ -78,11 +83,11 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
 
     public function testValidateGetParamsWithError(): void {
         $logger = new Logger('HttpUtilsIntegrationTest');
-        $http_utils = HttpUtilsForTest::fromEnv();
+        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
         $http_utils->setLogger($logger);
 
         $validated_get_params = $http_utils->validateGetParams([
-            'input' => new Field(['allow_null' => false]),
+            'input' => new FieldTypes\Field(['allow_null' => false]),
         ], ['input' => null]);
 
         $this->assertSame([], $validated_get_params);

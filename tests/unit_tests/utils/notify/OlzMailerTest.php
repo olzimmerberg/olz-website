@@ -78,24 +78,4 @@ final class OlzMailerTest extends UnitTestCase {
             $this->assertSame('You must provide at least one recipient email address.', $exc->getMessage());
         }
     }
-
-    public function testSendConfigured(): void {
-        $email_utils = new FakeEmailUtils();
-        $server_config = new FakeEnvUtils();
-        $logger = new Logger('OlzMailerTest');
-        $mailer = new OlzMailer($email_utils, $server_config, true);
-        $mailer->setLogger($logger);
-        $user = new User();
-        $user->setEmail('fake-user@olzimmerberg.ch');
-        $user->setFirstName('Fake');
-        $user->setLastName('User');
-        $mailer->configure($user, 'Tèśt', "äsdf\n1234");
-
-        try {
-            $mailer->send();
-            $this->fail('Error expected');
-        } catch (Exception $exc) {
-            $this->assertSame('Invalid address:  (From): root@localhost', $exc->getMessage());
-        }
-    }
 }

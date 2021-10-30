@@ -39,7 +39,7 @@ const defaultConfig = {
         ],
     },
     resolve: {
-        extensions: ['.d.ts', '.ts', '.tsx', '.js', '.jsx', '.json'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
     plugins: [
         new webpack.ProvidePlugin({

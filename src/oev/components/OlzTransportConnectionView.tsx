@@ -1,6 +1,6 @@
 import React from 'react';
 import olzTransitStations from '../../shared/olz_transit_stations.json';
-import {OlzTransportConnectionSuggestion, OlzTransportHalt, OlzTransportSection} from '../../api/client/OlzApi';
+import {OlzTransportConnectionSuggestion, OlzTransportHalt, OlzTransportSection} from '../../api/client/generated_olz_api_types';
 
 import './OlzTransportConnectionView.scss';
 

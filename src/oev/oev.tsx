@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {OlzApiResponses, OlzApiEndpoint} from '../api/client';
+import {OlzApiResponses} from '../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField, getIsoDateTimeFromSwissFormat, getRequired} from '../components/common/olz_default_form/olz_default_form';
 import {OlzTransportConnectionSearch} from './components/OlzTransportConnectionSearch';
 
@@ -14,21 +14,21 @@ export function initOlzTransportConnectionSearch() {
 
 export function olzOevSearchConnection(
     form: HTMLFormElement
-): Promise<OlzApiResponses[OlzApiEndpoint.searchTransportConnection]> {
-    const getDataForRequestDict: GetDataForRequestDict<OlzApiEndpoint.searchTransportConnection> = {
+): Promise<OlzApiResponses['searchTransportConnection']> {
+    const getDataForRequestDict: GetDataForRequestDict<'searchTransportConnection'> = {
         destination: (f) => getRequired('destination', getFormField(f, 'destination')),
         arrival: (f) => getRequired('arrival', getIsoDateTimeFromSwissFormat('arrival', getFormField(f, 'arrival'))),
     };
 
     return olzDefaultFormSubmit(
-        OlzApiEndpoint.searchTransportConnection,
+        'searchTransportConnection',
         getDataForRequestDict,
         form,
         handleResponse,
     );
 }
 
-function handleResponse(response: OlzApiResponses[OlzApiEndpoint.searchTransportConnection]): string|void {
+function handleResponse(response: OlzApiResponses['searchTransportConnection']): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }

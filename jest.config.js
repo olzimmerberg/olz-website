@@ -14,7 +14,7 @@ const jestConfig = {
     },
     testEnvironment: 'jsdom',
     testRegex: '.*/.*\\.test\\.tsx?',
-    testPathIgnorePatterns: ['node_modules/', 'lib/'],
+    testPathIgnorePatterns: ['node_modules/', 'lib/', 'vendor/'],
     collectCoverage: true,
     maxConcurrency: 1,
     setupFiles: ['<rootDir>/jestEnv.js'],

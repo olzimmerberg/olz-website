@@ -1,13 +1,25 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/IntegerField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-class StartUploadEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class StartUploadEndpoint extends OlzEndpoint {
     const MAX_LOOP = 100;
+
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG;
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        require_once __DIR__.'/../../utils/GeneralUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $general_utils = GeneralUtils::fromEnv();
+        $this->setAuthUtils($auth_utils);
+        $this->setEnvUtils($_CONFIG);
+        $this->setGeneralUtils($general_utils);
+    }
 
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
@@ -25,26 +37,26 @@ class StartUploadEndpoint extends Endpoint {
         return 'StartUploadEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            'id' => new StringField(['allow_null' => true]),
-        ];
+            'id' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'suffix' => new StringField(['allow_null' => true]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'suffix' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
     }
 
     protected function handle($input) {
         $has_access = $this->authUtils->hasPermission('any');
         if (!$has_access) {
-            return ['status' => 'ERROR'];
+            return ['status' => 'ERROR', 'id' => null];
         }
 
         $data_path = $this->envUtils->getDataPath();
@@ -65,7 +77,7 @@ class StartUploadEndpoint extends Endpoint {
         }
         if ($continue) {
             $this->logger->error("Could not start upload. Finding unique ID failed. Maximum number of loops exceeded.");
-            return ['status' => 'ERROR'];
+            return ['status' => 'ERROR', 'id' => null];
         }
         return [
             'status' => 'OK',

@@ -1,12 +1,22 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/StringField.php';
-require_once __DIR__.'/../../utils/ValidationError.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\Fields\ValidationError;
 
-class SignUpWithPasswordEndpoint extends Endpoint {
+require_once __DIR__.'/../OlzEndpoint.php';
+
+class SignUpWithPasswordEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $this->setAuthUtils($auth_utils);
+        $this->setEntityManager($entityManager);
+    }
+
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
     }
@@ -19,30 +29,30 @@ class SignUpWithPasswordEndpoint extends Endpoint {
         return 'SignUpWithPasswordEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
             ]]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'firstName' => new StringField(['allow_empty' => false]),
-            'lastName' => new StringField(['allow_empty' => false]),
-            'username' => new StringField(['allow_empty' => false]),
-            'password' => new StringField(['allow_empty' => false]),
-            'email' => new StringField(['allow_empty' => false]),
-            'phone' => new StringField(['allow_null' => true]),
-            'gender' => new EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            'birthdate' => new DateTimeField(['allow_null' => true]),
-            'street' => new StringField(['allow_empty' => true]),
-            'postalCode' => new StringField(['allow_empty' => true]),
-            'city' => new StringField(['allow_empty' => true]),
-            'region' => new StringField(['allow_empty' => true]),
-            'countryCode' => new StringField(['allow_empty' => true]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
+            'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
+            'username' => new FieldTypes\StringField(['allow_empty' => false]),
+            'password' => new FieldTypes\StringField(['allow_empty' => false]),
+            'email' => new FieldTypes\StringField(['allow_empty' => false]),
+            'phone' => new FieldTypes\StringField(['allow_null' => true]),
+            'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
+            'birthdate' => new FieldTypes\DateTimeField(['allow_null' => true]),
+            'street' => new FieldTypes\StringField(['allow_empty' => true]),
+            'postalCode' => new FieldTypes\StringField(['allow_empty' => true]),
+            'city' => new FieldTypes\StringField(['allow_empty' => true]),
+            'region' => new FieldTypes\StringField(['allow_empty' => true]),
+            'countryCode' => new FieldTypes\StringField(['allow_empty' => true]),
+        ]]);
     }
 
     protected function handle($input) {

@@ -1,4 +1,4 @@
-import {OlzApiEndpoint, callOlzApi} from './api/client';
+import {callOlzApi} from './api/client';
 
 let logIndex = 0;
 
@@ -9,7 +9,7 @@ export function olzLogsGetFirstLog(): boolean {
 
 export function olzLogsGetNextLog(): boolean {
     callOlzApi(
-        OlzApiEndpoint.getLogs,
+        'getLogs',
         {index: logIndex},
     )
         .then((response) => {

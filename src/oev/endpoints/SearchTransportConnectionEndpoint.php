@@ -1,16 +1,11 @@
 <?php
 
-require_once __DIR__.'/../../api/common/Endpoint.php';
-require_once __DIR__.'/../../fields/ArrayField.php';
-require_once __DIR__.'/../../fields/BooleanField.php';
-require_once __DIR__.'/../../fields/DateTimeField.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/IntegerField.php';
-require_once __DIR__.'/../../fields/ObjectField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+
+require_once __DIR__.'/../../api/OlzEndpoint.php';
 require_once __DIR__.'/../utils/CoordinateUtils.php';
 
-class SearchTransportConnectionEndpoint extends Endpoint {
+class SearchTransportConnectionEndpoint extends OlzEndpoint {
     const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     public function __construct() {
@@ -18,6 +13,17 @@ class SearchTransportConnectionEndpoint extends Endpoint {
         $content = file_get_contents($filename);
         $data = json_decode($content, true);
         $this->originStations = $data;
+    }
+
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $_CONFIG;
+        require_once __DIR__.'/../../fetchers/TransportApiFetcher.php';
+        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        $auth_utils = AuthUtils::fromEnv();
+        $transport_api_fetcher = new TransportApiFetcher();
+        $this->setAuthUtils($auth_utils);
+        $this->setTransportApiFetcher($transport_api_fetcher);
     }
 
     public function setAuthUtils($authUtils) {
@@ -32,69 +38,69 @@ class SearchTransportConnectionEndpoint extends Endpoint {
         return 'SearchTransportConnectionEndpoint';
     }
 
-    public function getResponseFields() {
-        $halt_field = new ObjectField([
+    public function getResponseField() {
+        $halt_field = new FieldTypes\ObjectField([
             'field_structure' => [
-                'stationId' => new StringField(),
-                'stationName' => new StringField(),
-                'time' => new DateTimeField(),
+                'stationId' => new FieldTypes\StringField(),
+                'stationName' => new FieldTypes\StringField(),
+                'time' => new FieldTypes\DateTimeField(),
             ],
             'export_as' => 'OlzTransportHalt',
         ]);
-        $section_field = new ObjectField([
+        $section_field = new FieldTypes\ObjectField([
             'field_structure' => [
                 'departure' => $halt_field,
                 'arrival' => $halt_field,
-                'passList' => new ArrayField([
+                'passList' => new FieldTypes\ArrayField([
                     'item_field' => $halt_field,
                 ]),
             ],
             'export_as' => 'OlzTransportSection',
         ]);
-        $connection_field = new ObjectField([
+        $connection_field = new FieldTypes\ObjectField([
             'field_structure' => [
-                'sections' => new ArrayField([
+                'sections' => new FieldTypes\ArrayField([
                     'item_field' => $section_field,
                 ]),
             ],
             'export_as' => 'OlzTransportConnection',
         ]);
-        $suggestion_field = new ObjectField([
+        $suggestion_field = new FieldTypes\ObjectField([
             'field_structure' => [
                 'mainConnection' => $connection_field,
-                'sideConnections' => new ArrayField([
-                    'item_field' => new ObjectField(['field_structure' => [
+                'sideConnections' => new FieldTypes\ArrayField([
+                    'item_field' => new FieldTypes\ObjectField(['field_structure' => [
                         'connection' => $connection_field,
-                        'joiningStationId' => new StringField(),
+                        'joiningStationId' => new FieldTypes\StringField(),
                     ]]),
                 ]),
-                'debug' => new StringField(),
+                'debug' => new FieldTypes\StringField(),
             ],
             'export_as' => 'OlzTransportConnectionSuggestion',
         ]);
-        return [
-            'status' => new EnumField(['allowed_values' => [
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'ERROR',
             ]]),
-            'suggestions' => new ArrayField([
+            'suggestions' => new FieldTypes\ArrayField([
                 'allow_null' => true,
                 'item_field' => $suggestion_field,
             ]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'destination' => new StringField(['allow_null' => false]),
-            'arrival' => new DateTimeField(['allow_null' => false]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'destination' => new FieldTypes\StringField(['allow_null' => false]),
+            'arrival' => new FieldTypes\DateTimeField(['allow_null' => false]),
+        ]]);
     }
 
     protected function handle($input) {
         $has_access = $this->authUtils->hasPermission('any');
         if (!$has_access) {
-            return ['status' => 'ERROR'];
+            return ['status' => 'ERROR', 'suggestions' => null];
         }
 
         $destination = $input['destination'];
@@ -104,7 +110,7 @@ class SearchTransportConnectionEndpoint extends Endpoint {
                 $this->getConnectionsFromOriginsToDestination(
                     $destination, $arrival_datetime);
         } catch (\Throwable $th) {
-            return ['status' => 'ERROR'];
+            return ['status' => 'ERROR', 'suggestions' => null];
         }
 
         $suggestions = [];

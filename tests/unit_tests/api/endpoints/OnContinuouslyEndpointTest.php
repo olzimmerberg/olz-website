@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../src/api/endpoints/OnContinuouslyEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';

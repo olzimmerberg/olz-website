@@ -1,13 +1,24 @@
 <?php
 
-require_once __DIR__.'/../common/Endpoint.php';
-require_once __DIR__.'/../../fields/EnumField.php';
-require_once __DIR__.'/../../fields/StringField.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
+
+require_once __DIR__.'/../OlzEndpoint.php';
 require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../../utils/notify/EmailUtils.php';
 
-class ExecuteEmailReactionEndpoint extends Endpoint {
+class ExecuteEmailReactionEndpoint extends OlzEndpoint {
+    public function runtimeSetup() {
+        parent::runtimeSetup();
+        global $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../../model/index.php';
+        require_once __DIR__.'/../../utils/notify/EmailUtils.php';
+        $email_utils = EmailUtils::fromEnv();
+        $this->setEntityManager($entityManager);
+        $this->setEmailUtils($email_utils);
+    }
+
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
     }
@@ -20,19 +31,19 @@ class ExecuteEmailReactionEndpoint extends Endpoint {
         return 'ExecuteEmailReactionEndpoint';
     }
 
-    public function getResponseFields() {
-        return [
-            'status' => new EnumField(['allowed_values' => [
+    public function getResponseField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'INVALID_TOKEN',
                 'OK',
             ]]),
-        ];
+        ]]);
     }
 
-    public function getRequestFields() {
-        return [
-            'token' => new StringField([]),
-        ];
+    public function getRequestField() {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'token' => new FieldTypes\StringField([]),
+        ]]);
     }
 
     protected function handle($input) {

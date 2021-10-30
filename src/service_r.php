@@ -7,7 +7,11 @@
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 
 ?>
-<div><b>PC-Konto: 85-256448-8</b></div>
+<div>
+    <h2>PC-Konto</h2>
+    <div><b>IBAN: </b>CH91 0900 0000 8525 6448 8</div>
+    <div><b>Empfänger: </b>OL Zimmerberg, 8800 Thalwil</div>
+</div>
 
 <h2>OLZ-Konto: Neuer Newsletter</h2>
 <p>

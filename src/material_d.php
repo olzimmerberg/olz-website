@@ -95,7 +95,7 @@ foreach ($sportident_assignees as $sportident_assignee) {
 }
 
 ?>
-<div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen an OL Zimmerberg, PC-Konto 85-256448-8 zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben.</div>
+<div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der <a href='service.php' class='linkint'>Service-Seite</a> zu finden.</div>
 <div><b>Verlorenes, beschädigtes Material: </b>Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.</div>
 
 <h2>Dienstleistungen</h2>

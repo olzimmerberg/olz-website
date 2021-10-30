@@ -64,6 +64,11 @@ function olz_organigramm($args = []): string {
     <div><b><a href='javascript:highlight_organigramm(&quot;link-role-6&quot;)' class='linkint'>Mitgliederverwaltung</a></b></div>
     <div><b><a href='javascript:highlight_organigramm(&quot;link-role-18&quot;)' class='linkint'>Kartenverkauf</a></b></div>
     <div><b><a href='javascript:highlight_organigramm(&quot;link-role-19&quot;)' class='linkint'>Kleiderverkauf</a></b></div>
-    <div><b>PC-Konto: 85-256448-8</b></div>
+    <div>
+        <br />
+        <div><b>PC-Konto</b></div>
+        <div><b>IBAN: </b>CH91 0900 0000 8525 6448 8</div>
+        <div><b>Empfänger: </b>OL Zimmerberg, 8800 Thalwil</div>
+    </div>
     <h2>Organigramm OL Zimmerberg</h2>".$org."</div>";
 }

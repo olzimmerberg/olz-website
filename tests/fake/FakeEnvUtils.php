@@ -21,6 +21,10 @@ class FakeEnvUtils {
         return 'some-token';
     }
 
+    public function getRecaptchaSecretKey() {
+        return 'some-secret-key';
+    }
+
     public function getTelegramAuthenticityCode() {
         return 'some-token';
     }

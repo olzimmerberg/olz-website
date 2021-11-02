@@ -33,6 +33,9 @@ if ($reaction_data) {
             $question = "<p>Hier ist etwas falsch gelaufen! Dies ist eine unbekannte Aktion. Trotzdem probieren?</p>";
         }
     }
+    if ($reaction_data['action'] == 'reset_password') {
+        $question = "<p>Willst du wirklich <b>dein Passwort zurücksetzen?</b></p>";
+    }
     echo <<<ZZZZZZZZZZ
     {$question}
     <p>

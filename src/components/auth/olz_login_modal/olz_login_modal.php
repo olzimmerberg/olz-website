@@ -50,6 +50,17 @@ function olz_login_modal($args = []): string {
                             <label for='login-password-input'>Passwort</label>
                             <input type='password' class='form-control' id='login-password-input' />
                         </div>
+                        <div class='feature reset-password form-group'>
+                            <a
+                                id='reset-password-link'
+                                href='#'
+                                data-dismiss='modal'
+                                data-toggle='modal'
+                                data-target='#reset-password-modal'
+                            >
+                                Passwort vergessen?
+                            </a>
+                        </div>
                         <div class='feature sign-up form-group'>
                             <a
                                 id='sign-up-link'

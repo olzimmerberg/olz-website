@@ -29,6 +29,8 @@ class EnvUtils {
 
     private $cron_authenticity_code;
 
+    private $recaptcha_secret_key;
+
     private $strava_client_id;
     private $strava_client_secret;
 
@@ -97,6 +99,8 @@ class EnvUtils {
         $this->email_reaction_key = $config_dict['email_reaction_key'] ?? $this->email_reaction_key;
 
         $this->cron_authenticity_code = $config_dict['cron_authenticity_code'] ?? $this->cron_authenticity_code;
+
+        $this->recaptcha_secret_key = $config_dict['recaptcha_secret_key'] ?? $this->recaptcha_secret_key;
 
         $this->strava_client_id = $config_dict['strava_client_id'] ?? $this->strava_client_id;
         $this->strava_client_secret = $config_dict['strava_client_secret'] ?? $this->strava_client_secret;
@@ -197,6 +201,10 @@ class EnvUtils {
 
     public function getCronAuthenticityCode() {
         return $this->cron_authenticity_code;
+    }
+
+    public function getRecaptchaSecretKey() {
+        return $this->recaptcha_secret_key;
     }
 
     public function getStravaClientId() {

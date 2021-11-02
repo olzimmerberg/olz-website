@@ -23,6 +23,8 @@ $configure_env_utils = function ($env_utils) {
 
         'cron_authenticity_code' => 'this_is_just_local',
 
+        'recaptcha_secret_key' => 'abcdefghijklmnopqrstuvw-abcdefghijklmnop',
+
         'strava_client_id' => '123456',
         'strava_client_secret' => '0123456789abcdef0123456789abcdef01234567',
 

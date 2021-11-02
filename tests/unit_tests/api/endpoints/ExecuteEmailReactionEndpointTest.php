@@ -10,6 +10,7 @@ require_once __DIR__.'/../../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository {
@@ -163,5 +164,70 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
+    }
+
+    public function testResetPasswordEmailReactionEndpoint(): void {
+        $logger = new Logger('ExecuteEmailReactionEndpointTest');
+        $endpoint = new ExecuteEmailReactionEndpoint();
+        $entity_manager = new FakeEntityManager();
+        $user_repo = new FakeUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $endpoint->setEntityManager($entity_manager);
+        $email_utils = new FakeEmailUtils();
+        $endpoint->setEmailUtils($email_utils);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(['token' => json_encode([
+            'action' => 'reset_password',
+            'user' => 2,
+            'new_password' => 'geeenius',
+        ])]);
+
+        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertSame(0, count($entity_manager->flushed_removed));
+        $this->assertSame(0, count($entity_manager->persisted));
+        $this->assertSame(0, count($entity_manager->flushed_persisted));
+        $this->assertTrue(password_verify('geeenius', $user_repo->admin_user->getPasswordHash()));
+    }
+
+    public function testResetPasswordNoSuchUserEmailReactionEndpoint(): void {
+        $logger = new Logger('ExecuteEmailReactionEndpointTest');
+        $endpoint = new ExecuteEmailReactionEndpoint();
+        $entity_manager = new FakeEntityManager();
+        $user_repo = new FakeUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $endpoint->setEntityManager($entity_manager);
+        $email_utils = new FakeEmailUtils();
+        $endpoint->setEmailUtils($email_utils);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(['token' => json_encode([
+            'action' => 'reset_password',
+            'user' => 1,
+            'new_password' => 'geeenius',
+        ])]);
+
+        $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
+    }
+
+    public function testResetButInvalidPasswordEmailReactionEndpoint(): void {
+        $logger = new Logger('ExecuteEmailReactionEndpointTest');
+        $endpoint = new ExecuteEmailReactionEndpoint();
+        $entity_manager = new FakeEntityManager();
+        $user_repo = new FakeUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
+        $endpoint->setEntityManager($entity_manager);
+        $email_utils = new FakeEmailUtils();
+        $endpoint->setEmailUtils($email_utils);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(['token' => json_encode([
+            'action' => 'reset_password',
+            'user' => 2,
+            'new_password' => 'genius',
+        ])]);
+
+        $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
     }
 }

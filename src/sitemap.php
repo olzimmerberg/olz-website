@@ -26,7 +26,7 @@ $base_url = 'https://olzimmerberg.ch/_/';
 
 echo get_entry("{$base_url}fuer_einsteiger.php", 'daily', '1.0');
 echo get_entry("{$base_url}fragen_und_antworten.php", 'daily', '0.8');
-echo get_entry("{$base_url}", 'daily', '0.6');
+echo get_entry("{$base_url}startseite.php", 'daily', '0.6');
 echo get_entry("{$base_url}aktuell.php", 'daily', '0.6');
 echo get_entry("{$base_url}blog.php", 'daily', '0.4');
 echo get_entry("{$base_url}termine.php", 'daily', '0.6');

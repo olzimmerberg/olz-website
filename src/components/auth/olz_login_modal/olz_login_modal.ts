@@ -26,3 +26,8 @@ export function olzLoginModalLogin(): void {
             $('#login-message').text(err.message);
         });
 }
+
+export function olzLoginModalPasswordReset(): void {
+    $('#login-modal').modal('hide');
+    $('#password-reset-modal').modal('show');
+}

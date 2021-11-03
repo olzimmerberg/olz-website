@@ -15,6 +15,17 @@ final class GoogleFetcherTest extends IntegrationTestCase {
         $this->google_fetcher = new GoogleFetcher();
     }
 
+    public function testFetchRecaptchaVerification(): void {
+        $content = $this->google_fetcher->fetchRecaptchaVerification([
+            'secret' => 'test',
+            'response' => 'test',
+        ]);
+        $this->assertSame([
+            'success' => false,
+            'error-codes' => ['invalid-input-secret'],
+        ], $content);
+    }
+
     public function testFetchTokenDataForCode(): void {
         $content = $this->google_fetcher->fetchTokenDataForCode([]);
         $this->assertSame([

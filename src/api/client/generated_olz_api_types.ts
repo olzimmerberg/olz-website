@@ -27,6 +27,7 @@ export type OlzApiEndpoint =
     'onDaily'|
     'onContinuously'|
     'login'|
+    'resetPassword'|
     'logout'|
     'updateUser'|
     'updatePassword'|
@@ -63,6 +64,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     login: {
             'usernameOrEmail': string,
             'password': string,
+        },
+    resetPassword: {
+            'usernameOrEmail': string,
+            'recaptchaToken': string,
         },
     logout: {
         }|null,
@@ -225,6 +230,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         }|null,
     login: {
             'status': 'INVALID_CREDENTIALS'|'BLOCKED'|'AUTHENTICATED',
+        },
+    resetPassword: {
+            'status': 'DENIED'|'ERROR'|'OK',
         },
     logout: {
             'status': 'NO_SESSION'|'SESSION_CLOSED',

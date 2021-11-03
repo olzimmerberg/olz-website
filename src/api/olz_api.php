@@ -5,6 +5,7 @@ use PhpTypeScriptApi\Api;
 require_once __DIR__.'/../config/vendor/autoload.php';
 
 $olz_api = new Api();
+
 $olz_api->registerEndpoint('onDaily', function () {
     require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
     return new OnDailyEndpoint();
@@ -16,6 +17,10 @@ $olz_api->registerEndpoint('onContinuously', function () {
 $olz_api->registerEndpoint('login', function () {
     require_once __DIR__.'/endpoints/LoginEndpoint.php';
     return new LoginEndpoint();
+});
+$olz_api->registerEndpoint('resetPassword', function () {
+    require_once __DIR__.'/endpoints/ResetPasswordEndpoint.php';
+    return new ResetPasswordEndpoint();
 });
 $olz_api->registerEndpoint('logout', function () {
     require_once __DIR__.'/endpoints/LogoutEndpoint.php';

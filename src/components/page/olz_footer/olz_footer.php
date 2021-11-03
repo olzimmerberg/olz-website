@@ -17,6 +17,9 @@ function olz_footer($args = []): string {
     require_once __DIR__.'/../../auth/olz_login_modal/olz_login_modal.php';
     $out .= olz_login_modal();
 
+    require_once __DIR__.'/../../auth/olz_reset_password_modal/olz_reset_password_modal.php';
+    $out .= olz_reset_password_modal();
+
     require_once __DIR__.'/../../auth/olz_sign_up_modal/olz_sign_up_modal.php';
     $out .= olz_sign_up_modal();
 

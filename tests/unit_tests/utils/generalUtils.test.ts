@@ -71,3 +71,5 @@ describe('getErrorOrThrow', () => {
         expect(() => getErrorOrThrow('not an error!')).toThrow(Error);
     });
 });
+
+// loadScript cannot be tested

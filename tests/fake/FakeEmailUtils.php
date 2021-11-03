@@ -81,7 +81,11 @@ class FakeOlzMailer {
     }
 
     public function send() {
-        if (str_contains($this->email_to_send[1], 'provoke_error')) {
+        $title_provokes_error = str_contains(
+            $this->email_to_send[1], 'provoke_error');
+        $text_provokes_error = str_contains(
+            $this->email_to_send[2], 'provoke_error');
+        if ($title_provokes_error || $text_provokes_error) {
             throw new Exception("Provoked Error");
         }
         $this->emails_sent[] = $this->email_to_send;

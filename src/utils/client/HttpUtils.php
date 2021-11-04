@@ -74,13 +74,19 @@ class HttpUtils {
     public function validateGetParams($fields, $get_params, $options = []) {
         $validated_get_params = [];
         $has_error = false;
-        foreach ($fields as $key => $field) {
-            try {
-                $validated_get_params[$key] = $this->fieldUtils->validate(
-                    $field, $get_params[$key] ?? null, ['parse' => true]);
-            } catch (ValidationError $verr) {
-                $this->logger->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
+        foreach ($get_params as $key => $value) {
+            $field = $fields[$key] ?? null;
+            if (!$field) {
+                $this->logger->notice("Unknown GET param '{$key}'");
                 $has_error = true;
+            } else {
+                try {
+                    $validated_get_params[$key] = $this->fieldUtils->validate(
+                        $field, $get_params[$key] ?? null, ['parse' => true]);
+                } catch (ValidationError $verr) {
+                    $this->logger->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
+                    $has_error = true;
+                }
             }
         }
         if ($has_error && ($options['just_log'] ?? false) === false) {

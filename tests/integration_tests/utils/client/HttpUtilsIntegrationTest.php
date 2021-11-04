@@ -81,7 +81,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(['input' => 'test'], $validated_get_params);
     }
 
-    public function testValidateGetParamsWithError(): void {
+    public function testValidateGetParamsWithBadParam(): void {
         $logger = new Logger('HttpUtilsIntegrationTest');
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
         $http_utils->setLogger($logger);
@@ -89,6 +89,21 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $validated_get_params = $http_utils->validateGetParams([
             'input' => new FieldTypes\Field(['allow_null' => false]),
         ], ['input' => null]);
+
+        $this->assertSame([], $validated_get_params);
+        $this->assertSame(400, $http_utils->sent_http_response_code);
+        $this->assertSame([], $http_utils->sent_http_header_lines);
+        $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
+        $this->assertSame(true, $http_utils->has_exited_execution);
+    }
+
+    public function testValidateGetParamsWithUnknownParam(): void {
+        $logger = new Logger('HttpUtilsIntegrationTest');
+        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
+        $http_utils->setLogger($logger);
+
+        $validated_get_params = $http_utils->validateGetParams(
+            [], ['inexistent' => null]);
 
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);

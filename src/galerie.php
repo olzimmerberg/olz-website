@@ -18,6 +18,7 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
     'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+    'jahr' => new FieldTypes\IntegerField(['allow_null' => true]),
     'archiv' => new FieldTypes\BooleanField(['allow_null' => true]),
     'buttongalerie' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);

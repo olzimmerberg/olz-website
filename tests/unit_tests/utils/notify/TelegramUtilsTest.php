@@ -77,8 +77,10 @@ class FakeTelegramUtilsTelegramFetcher {
     public $fetchEmpty = false;
     public $fetchNotOk = false;
     public $fetchWithError = false;
+    public $sentCommands = [];
 
     public function callTelegramApi($command, $args, $bot_token) {
+        $this->sentCommands[] = [$command, $args, $bot_token];
         if ($this->fetchEmpty) {
             return null;
         }
@@ -353,6 +355,23 @@ final class TelegramUtilsTest extends UnitTestCase {
         } catch (\Exception $exc) {
             $this->assertSame('Unbekannter Chat.', $exc->getMessage());
         }
+    }
+
+    public function testSendConfiguration(): void {
+        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $date_utils = new FixedDateUtils($iso_now);
+        $telegram_utils = new DeterministicTelegramUtils('fake-bot-name', 'fake-bot-token', $telegram_fetcher, $entity_manager, $date_utils);
+
+        $telegram_utils->sendConfiguration();
+
+        $this->assertSame([
+            ['setMyCommands', [
+                'commands' => '[{"command":"\/ich","description":"Wer bin ich?"}]',
+                'scope' => '{"type":"all_private_chats"}',
+            ], 'fake-bot-token'],
+        ], $telegram_fetcher->sentCommands);
     }
 
     public function testCallTelegramApi(): void {

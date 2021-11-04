@@ -43,7 +43,10 @@ class FakeUsers extends FakeFactory {
             function () {
                 $default_user = new User();
                 $default_user->setId(1);
+                $default_user->setFirstName('Default');
+                $default_user->setLastName('User');
                 $default_user->setUsername('user');
+                $default_user->setEmail('default-user@olzimmerberg.ch');
                 $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));
                 return $default_user;
             }

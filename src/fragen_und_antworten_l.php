@@ -135,6 +135,15 @@ Die einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisiert
 Die Website-Entwickler danken für euer Verständnis.
 </div>
 <br>
+<h3 id='benutzername-email-herausfinden'>Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?</h3>
+<div>
+<ul class='bullet-list'>
+<li>Erhälst du den Newsletter? Dann ist es die E-Mail Adresse, an welche der Newsletter versendet wird.</li>
+<li>Hast du Telegram verlinkt? Dann schreib deinem OLZ Bot die Nachricht <span style='font-family: monospace;'>/ich</span>, und er wird dir deinen Benutzernamen und deine E-Mail Adresse mitteilen.</li>
+<li>Wenn du hier angelangt bist, bleibt leider nur noch raten, welche E-Mail Adresse du verwendet haben könntest.</li>
+</ul>
+</div>
+<br>
 <h3>Wen kann ich fragen, wenn ich weitere Fragen habe?</h3>
 <div style='padding-left:50px;'>
 ZZZZZZZZZZ;

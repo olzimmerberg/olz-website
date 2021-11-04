@@ -17,6 +17,8 @@ class OnDailyEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../tasks/CleanTempDirectoryTask.php';
         require_once __DIR__.'/../../tasks/SyncSolvTask.php';
+        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
+        $telegram_utils = getTelegramUtilsFromEnv();
         $date_utils = $_DATE;
         $clean_temp_directory_task = new CleanTempDirectoryTask($date_utils, $_CONFIG);
         $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
@@ -25,6 +27,7 @@ class OnDailyEndpoint extends OlzEndpoint {
         $this->setEntityManager($entityManager);
         $this->setDateUtils($date_utils);
         $this->setEnvUtils($_CONFIG);
+        $this->setTelegramUtils($telegram_utils);
     }
 
     public function setCleanTempDirectoryTask($cleanTempDirectoryTask) {
@@ -45,6 +48,10 @@ class OnDailyEndpoint extends OlzEndpoint {
 
     public function setEnvUtils($envUtils) {
         $this->envUtils = $envUtils;
+    }
+
+    public function setTelegramUtils($telegramUtils) {
+        $this->telegramUtils = $telegramUtils;
     }
 
     public static function getIdent() {
@@ -99,6 +106,7 @@ class OnDailyEndpoint extends OlzEndpoint {
 
         $this->cleanTempDirectoryTask->run();
         $this->syncSolvTask->run();
+        $this->telegramUtils->sendConfiguration();
 
         return [];
     }

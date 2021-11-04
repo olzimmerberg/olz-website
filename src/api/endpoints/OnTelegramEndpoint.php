@@ -8,16 +8,23 @@ require_once __DIR__.'/../OlzEndpoint.php';
 class OnTelegramEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $_CONFIG;
+        global $_CONFIG, $entityManager;
+        require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
         $telegram_utils = getTelegramUtilsFromEnv();
         $this->setTelegramUtils($telegram_utils);
+        $this->setEntityManager($entityManager);
         $this->setEnvUtils($_CONFIG);
     }
 
     public function setTelegramUtils($telegram_utils) {
         $this->telegramUtils = $telegram_utils;
+    }
+
+    public function setEntityManager($new_entity_manager) {
+        $this->entityManager = $new_entity_manager;
     }
 
     public function setEnvUtils($envUtils) {
@@ -113,6 +120,27 @@ class OnTelegramEndpoint extends OlzEndpoint {
                 'parse_mode' => 'HTML',
                 'text' => "<b>Willkommen bei der OL Zimmerberg!</b>\n\nDamit dieser Chat zu irgendwas zu gebrauchen ist, musst du <a href=\"https://olzimmerberg.ch/_/konto_telegram.php?pin={$pin}\">hier dein OLZ-Konto verlinken</a>.\n\nDieser Link wird nach 10 Minuten ungültig; klicke auf /start, um einen neuen Link zu erhalten.",
                 'disable_web_page_preview' => true,
+            ]);
+            return [];
+        }
+
+        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link = $telegram_link_repo->findOneBy([
+            'telegram_chat_id' => $message_chat_id,
+        ]);
+        $user = $telegram_link->getUser();
+
+        if (preg_match("/^\\/ich\\s*$/", $message_text, $matches)) {
+            $response_message = <<<ZZZZZZZZZZ
+            <b>Du bist angemeldet als:</b>
+            <b>Name:</b> {$user->getFullName()}
+            <b>Benutzername:</b> {$user->getUsername()}
+            <b>E-Mail:</b> {$user->getEmail()}
+            ZZZZZZZZZZ;
+            $this->telegramUtils->callTelegramApi('sendMessage', [
+                'chat_id' => $message_chat_id,
+                'parse_mode' => 'HTML',
+                'text' => $response_message,
             ]);
             return [];
         }

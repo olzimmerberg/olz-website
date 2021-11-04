@@ -50,7 +50,7 @@ final class EmailUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame('', $mailer->AuthType);
         $this->assertSame(300, $mailer->Timeout);
         $this->assertSame('', $mailer->dsn);
-        $this->assertSame(2, $mailer->SMTPDebug);
+        $this->assertSame(0, $mailer->SMTPDebug);
         $this->assertSame('echo', $mailer->Debugoutput);
         $this->assertSame(false, $mailer->SMTPKeepAlive);
         $this->assertSame(false, $mailer->SingleTo);

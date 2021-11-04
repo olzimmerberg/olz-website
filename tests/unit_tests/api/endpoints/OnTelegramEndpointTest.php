@@ -6,13 +6,26 @@ use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
+require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../src/api/endpoints/OnTelegramEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
+
+class FakeOnTelegramEndpointTelegramLinkRepository {
+    public function findOneBy($where) {
+        if ($where === ['telegram_chat_id' => 17089367]) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setUser(FakeUsers::defaultUser());
+            return $telegram_link;
+        }
+        return null;
+    }
+}
 
 function getFakeTelegramMessage($from_key, $chat_key, $text) {
     $users = [
@@ -115,9 +128,13 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
         $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();
+        $entity_manager = new FakeEntityManager();
+        $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
+        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
+        $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($server_config);
         $endpoint->setLogger($logger);
 
@@ -177,6 +194,35 @@ final class OnTelegramEndpointTest extends UnitTestCase {
                 'parse_mode' => 'HTML',
                 'text' => "<b>Willkommen bei der OL Zimmerberg!</b>\n\nDamit dieser Chat zu irgendwas zu gebrauchen ist, musst du <a href=\"https://olzimmerberg.ch/_/konto_telegram.php?pin=freshpin\">hier dein OLZ-Konto verlinken</a>.\n\nDieser Link wird nach 10 Minuten ungültig; klicke auf /start, um einen neuen Link zu erhalten.",
                 'disable_web_page_preview' => true,
+            ]],
+        ], $telegram_utils->telegramApiCalls);
+    }
+
+    public function testOnTelegramEndpointIchCommand(): void {
+        $telegram_utils = new FakeTelegramUtils();
+        $server_config = new FakeEnvUtils();
+        $entity_manager = new FakeEntityManager();
+        $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
+        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $logger = new Logger('OnTelegramEndpointTest');
+        $endpoint = new OnTelegramEndpoint();
+        $endpoint->setTelegramUtils($telegram_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEnvUtils($server_config);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'authenticityCode' => 'some-token',
+            'telegramEvent' => getFakeTelegramMessage('test', 'test', '/ich'),
+        ]);
+
+        $this->assertSame([], $result);
+        $this->assertSame([
+            ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
+            ['sendMessage', [
+                'chat_id' => 17089367,
+                'parse_mode' => 'HTML',
+                'text' => "<b>Du bist angemeldet als:</b>\n<b>Name:</b> Default User\n<b>Benutzername:</b> user\n<b>E-Mail:</b> default-user@olzimmerberg.ch",
             ]],
         ], $telegram_utils->telegramApiCalls);
     }

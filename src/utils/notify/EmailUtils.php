@@ -41,7 +41,8 @@ class EmailUtils {
     public function createEmail() {
         $mail = new OlzMailer($this, $this->envUtils, true);
 
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->isSMTP();
         $mail->Host = $this->envUtils->getSmtpHost();
         $mail->SMTPAuth = true;

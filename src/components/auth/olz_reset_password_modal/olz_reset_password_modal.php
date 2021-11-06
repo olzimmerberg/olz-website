@@ -18,7 +18,15 @@ function olz_reset_password_modal($args = []): string {
                     </div>
                     <div class='modal-body'>
                         <div class='form-group'>
-                            <label for='reset-password-username-input'>Benutzername oder E-Mail</label>
+                            <label for='reset-password-username-input'>
+                                Benutzername oder E-Mail
+                                <a
+                                    href='fragen_und_antworten.php#benutzername-email-herausfinden'
+                                    class='help-link'
+                                >
+                                    Vergessen?
+                                </a>
+                            </label>
                             <input
                                 type='text'
                                 class='form-control'

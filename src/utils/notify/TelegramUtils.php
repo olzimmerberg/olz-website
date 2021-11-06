@@ -212,6 +212,18 @@ class TelegramUtils {
         return $existing->setTelegramChatState($chat_state);
     }
 
+    public function sendConfiguration() {
+        $response = $this->callTelegramApi('setMyCommands', [
+            'commands' => json_encode([
+                [
+                    'command' => '/ich',
+                    'description' => 'Wer bin ich?',
+                ],
+            ]),
+            'scope' => json_encode(['type' => 'all_private_chats']),
+        ]);
+    }
+
     public function callTelegramApi($command, $args) {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->botToken);
         if (!$response) {

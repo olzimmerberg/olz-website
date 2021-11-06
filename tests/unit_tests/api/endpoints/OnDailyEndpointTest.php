@@ -11,6 +11,7 @@ require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeTask.php';
+require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../../fake/FakeThrottlingRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -139,6 +140,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories['Throttling'] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
+        $telegram_utils = new FakeTelegramUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setCleanTempDirectoryTask($clean_temp_directory_task);
@@ -146,6 +148,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
+        $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -156,5 +159,6 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame(true, $clean_temp_directory_task->hasBeenRun);
         $this->assertSame(true, $sync_solv_task->hasBeenRun);
+        $this->assertSame(true, $telegram_utils->configurationSent);
     }
 }

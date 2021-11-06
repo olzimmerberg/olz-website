@@ -2,6 +2,7 @@
 
 class FakeTelegramUtils {
     public $isAnonymousChat = false;
+    public $configurationSent = false;
     public $telegramApiCalls = [];
 
     public function renderMarkdown($markdown) {
@@ -40,6 +41,10 @@ class FakeTelegramUtils {
 
     public function getChatState($chat_id) {
         return [];
+    }
+
+    public function sendConfiguration() {
+        $this->configurationSent = true;
     }
 
     public function callTelegramApi($command, $args) {

@@ -2,18 +2,15 @@ import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../utils/fileUtils';
 import {Uploader} from '../../../utils/Uploader';
+import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
+import {UploadFile, UploadingFile, UploadedFile} from '../types';
+import {serializeUploadFile} from '../utils';
+
+import './demo.tsx';
+import '../../../styles/dropzone.scss';
+import './OlzMultiFileUploader.scss';
 
 const uploader = Uploader.getInstance();
-
-interface UploadingFile {
-    file: File;
-    uploadId?: string;
-    uploadProgress: number;
-}
-
-interface UploadedFile {
-    uploadId: string;
-}
 
 interface OlzMultiFileUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => any;
@@ -51,10 +48,8 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
                 newUploadingFiles.length !== uploadingFiles.length;
             if (wasUploading) {
                 setUploadingFiles(newUploadingFiles);
-                const newUploadedFiles = [
-                    ...uploadedFiles,
-                    {uploadId},
-                ];
+                const newUploadedFile: UploadedFile = {uploadState: 'UPLOADED', uploadId};
+                const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
                 const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
                 props.onUploadIdsChange(uploadIds);
@@ -69,7 +64,7 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
         setUploadingFiles(newUploadingFiles);
         for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
             const file = acceptedFiles[fileListIndex];
-            newUploadingFiles.push({file, uploadProgress: 0});
+            newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
             const base64Content = await readBase64(file);
             const suffix = file.name.split('.').slice(-1)[0];
             const uploadId = await uploader.add(base64Content, `.${suffix}`);
@@ -81,22 +76,14 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
-    const uploadingElems = uploadingFiles.map(uploadingFile => (
-        <div key={uploadingFile.file.name}>
-            Uploading: {uploadingFile.file.name} - {uploadingFile.uploadId} - {uploadingFile.uploadProgress}
-        </div>
-    ));
-
-    const uploadedElems = uploadedFiles.map(uploadedFile => (
-        <div key={uploadedFile.uploadId}>
-            Uploaded: {uploadedFile.uploadId}
-        </div>
-    ));
+    const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (
         <div>
-            {uploadingElems}
-            {uploadedElems}
+            {uploadFiles.map(uploadFile => <OlzUploadFile
+                key={serializeUploadFile(uploadFile)}
+                uploadFile={uploadFile}
+            />)}
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img

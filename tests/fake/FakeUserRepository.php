@@ -4,10 +4,15 @@ require_once __DIR__.'/FakeUsers.php';
 
 class FakeUserRepository {
     public $userToBeFound;
+    public $userToBeFoundForQuery;
 
     public function findOneBy($where) {
         if ($this->userToBeFound !== null) {
             return $this->userToBeFound;
+        }
+        if ($this->userToBeFoundForQuery !== null) {
+            $fn = $this->userToBeFoundForQuery;
+            return $fn($where);
         }
         if ($where === ['username' => 'admin'] || $where === ['id' => 2]) {
             $this->admin_user = FakeUsers::adminUser();

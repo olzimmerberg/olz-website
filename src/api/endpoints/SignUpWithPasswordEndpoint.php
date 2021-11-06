@@ -59,6 +59,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];
         $username = $input['username'];
+        $email = $input['email'];
         $this->logger->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
         if (!$this->authUtils->isUsernameAllowed($username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
@@ -70,17 +71,25 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
         $user_repo = $this->entityManager->getRepository(User::class);
 
-        $user = $user_repo->findOneBy(['username' => $username]);
-        if ($user) {
-            if ($user->getPasswordHash()) {
+        $same_username_user = $user_repo->findOneBy(['username' => $username]);
+        $same_email_user = $user_repo->findOneBy(['email' => $email]);
+        if ($same_username_user) {
+            if ($same_username_user->getPasswordHash()) {
                 throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen."]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
+            $user = $same_username_user;
+        } elseif ($same_email_user) {
+            if ($same_email_user->getPasswordHash()) {
+                throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse."]]);
+            }
+            // If it's an existing user WITHOUT password, we just update that existing user!
+            $user = $same_email_user;
         } else {
             $user = new User();
         }
         $user->setUsername($username);
-        $user->setEmail($input['email']);
+        $user->setEmail($email);
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
         $user->setPhone($input['phone']);

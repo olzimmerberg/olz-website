@@ -179,7 +179,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
     }
 
-    public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithoutPassword(): void {
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
@@ -219,7 +219,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
     }
 
-    public function testSignUpWithPasswordEndpointWithValidDataForExistingUserWithPassword(): void {
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
         $existing_user = new User();
@@ -248,6 +248,93 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                         'type' => 'ValidationError',
                         'validationErrors' => [
                             'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
+                        ],
+                    ],
+                ],
+                $httperr->getStructuredAnswer(),
+            );
+        }
+    }
+
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $user_repo = new FakeUserRepository();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $user_repo->userToBeFoundForQuery = function ($where) use ($existing_user) {
+            if ($where === ['email' => 'fakeEmail']) {
+                return $existing_user;
+            }
+            return null;
+        };
+        $entity_manager->repositories['User'] = $user_repo;
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(self::VALID_INPUT);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $this->assertSame([
+            'auth' => '',
+            'root' => null,
+            'user' => 'fakeUsername',
+            'user_id' => 123,
+        ], $session->session_storage);
+        $this->assertSame([
+            [
+                'ip_address' => '1.2.3.4',
+                'action' => 'AUTHENTICATED_PASSWORD',
+                'timestamp' => null,
+                'username' => 'fakeUsername',
+            ],
+        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+    }
+
+    public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
+        $entity_manager = new FakeEntityManager();
+        $user_repo = new FakeUserRepository();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $existing_user->setPasswordHash('some-hash');
+        $user_repo->userToBeFoundForQuery = function ($where) use ($existing_user) {
+            if ($where === ['email' => 'fakeEmail']) {
+                return $existing_user;
+            }
+            return null;
+        };
+        $entity_manager->repositories['User'] = $user_repo;
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeAuthUtils();
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLogger($logger);
+
+        try {
+            $result = $endpoint->call(self::VALID_INPUT);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(
+                [
+                    'message' => 'Fehlerhafte Eingabe.',
+                    'error' => [
+                        'type' => 'ValidationError',
+                        'validationErrors' => [
+                            'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
                         ],
                     ],
                 ],

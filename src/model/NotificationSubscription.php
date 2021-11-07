@@ -18,8 +18,10 @@ class NotificationSubscription {
 
     const TYPE_DAILY_SUMMARY = 'daily_summary';
     const TYPE_DEADLINE_WARNING = 'deadline_warning';
+    const TYPE_EMAIL_CONFIG_REMINDER = 'email_config_reminder';
     const TYPE_IMMEDIATE = 'immediate';
     const TYPE_MONTHLY_PREVIEW = 'monthly_preview';
+    const TYPE_TELEGRAM_CONFIG_REMINDER = 'telegram_config_reminder';
     const TYPE_WEEKLY_PREVIEW = 'weekly_preview';
     const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
 

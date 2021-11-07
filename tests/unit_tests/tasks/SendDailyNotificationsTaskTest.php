@@ -160,6 +160,34 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
                 json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
             ),
+            get_fake_notification_subscription(
+                18,
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user2,
+                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                json_encode(['cancelled' => false]),
+            ),
+            get_fake_notification_subscription(
+                19,
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                $user2,
+                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                json_encode(['cancelled' => true]),
+            ),
+            get_fake_notification_subscription(
+                20,
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                json_encode(['cancelled' => false]),
+            ),
+            get_fake_notification_subscription(
+                21,
+                NotificationSubscription::DELIVERY_EMAIL,
+                $user1,
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                json_encode(['cancelled' => true]),
+            ),
         ];
     }
 
@@ -257,6 +285,27 @@ class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
     }
 }
 
+class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
+    use Psr\Log\LoggerAwareTrait;
+
+    public function setDateUtils($dateUtils) {
+        $this->dateUtils = $dateUtils;
+    }
+
+    public function setEnvUtils($envUtils) {
+        $this->envUtils = $envUtils;
+    }
+
+    public function getNotification($args) {
+        $this->calledWithArgs = $args;
+        if ($args['cancelled'] ?? false) {
+            return null;
+        }
+        $args_str = json_encode($args);
+        return new Notification("ECR title {$args_str}", 'ECR text %%userFirstName%%');
+    }
+}
+
 class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
     use Psr\Log\LoggerAwareTrait;
 
@@ -294,7 +343,11 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
 
     public function getNotification($args) {
         $this->calledWithArgs = $args;
-        return new Notification('TCR title', 'TCR text %%userFirstName%%');
+        if ($args['cancelled'] ?? false) {
+            return null;
+        }
+        $args_str = json_encode($args);
+        return new Notification("TCR title {$args_str}", 'TCR text %%userFirstName%%');
     }
 }
 
@@ -367,6 +420,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
+        $email_configuration_reminder_getter = new FakeSendDailyNotificationsEmailConfigurationReminderGetter();
         $monthly_preview_getter = new FakeSendDailyNotificationsTaskMonthlyPreviewGetter();
         $telegram_configuration_reminder_getter = new FakeSendDailyNotificationsTelegramConfigurationReminderGetter();
         $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
@@ -376,6 +430,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
+        $job->setEmailConfigurationReminderGetter($email_configuration_reminder_getter);
         $job->setMonthlyPreviewGetter($monthly_preview_getter);
         $job->setTelegramConfigurationReminderGetter($telegram_configuration_reminder_getter);
         $job->setWeeklyPreviewGetter($weekly_preview_getter);
@@ -384,10 +439,42 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
 
         global $user1, $user2;
         $this->assertSame([
+            [
+                'admin (ID:2)',
+                NotificationSubscription::DELIVERY_EMAIL,
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                '{"cancelled":false}',
+            ],
+            [
+                'vorstand (ID:3)',
+                NotificationSubscription::DELIVERY_EMAIL,
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                '{"cancelled":false}',
+            ],
+            [
+                'user (ID:2)',
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                '{"cancelled":false}',
+            ],
+        ], array_map(
+            function ($notification_subscription) {
+                return [
+                    $notification_subscription->getUser()->__toString(),
+                    $notification_subscription->getDeliveryType(),
+                    $notification_subscription->getNotificationType(),
+                    $notification_subscription->getNotificationTypeArgs(),
+                ];
+            },
+            $entity_manager->persisted
+        ));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $this->assertSame([
             [$user1, '[OLZ] MP title', 'MP text First'],
             [$user1, '[OLZ] DW title {"days":3}', 'DW text First'],
             [$user1, '[OLZ] DS title', 'DS text First'],
             [$user2, '[OLZ] WS title', 'WS text Second'],
+            [$user1, '[OLZ] ECR title {"cancelled":false}', 'ECR text First'],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             ['sendMessage', [
@@ -411,7 +498,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             ['sendMessage', [
                 'chat_id' => '22222',
                 'parse_mode' => 'HTML',
-                'text' => "<b>TCR title</b>\n\nTCR text Second",
+                'text' => "<b>TCR title {\"cancelled\":false}</b>\n\nTCR text Second",
                 'disable_web_page_preview' => true,
             ]],
         ], $telegram_utils->telegramApiCalls);
@@ -435,6 +522,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $this->assertSame([
             "INFO Setup task SendDailyNotifications...",
             "INFO Running task SendDailyNotifications...",
+            "INFO Autogenerating notifications...",
+            "INFO Generating email configuration reminder subscription for 'admin (ID:2)'...",
+            "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
+            "INFO Generating telegram configuration reminder subscription for 'user (ID:2)'...",
             "INFO Found notification subscription for 'monthly_preview', '[]'...",
             "INFO Found notification subscription for 'monthly_preview', '{\"no_notification\":true}'...",
             "INFO Found notification subscription for 'weekly_preview', '[]'...",
@@ -452,6 +543,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Found notification subscription for 'invalid-type', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
             "INFO Found notification subscription for 'weekly_summary', '{\"provoke_error\":true}'...",
             "INFO Found notification subscription for 'weekly_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
+            "INFO Found notification subscription for 'telegram_config_reminder', '{\"cancelled\":false}'...",
+            "INFO Found notification subscription for 'telegram_config_reminder', '{\"cancelled\":true}'...",
+            "INFO Found notification subscription for 'email_config_reminder', '{\"cancelled\":false}'...",
+            "INFO Found notification subscription for 'email_config_reminder', '{\"cancelled\":true}'...",
             "INFO Sending 'monthly_preview' notifications...",
             "INFO Getting notification for '[]'...",
             "INFO Sending notification MP title over email to user (1)...",
@@ -498,10 +593,18 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "CRITICAL Error sending email to user (2): Provoked Error",
             "INFO Sending 'invalid-type' notifications...",
             "CRITICAL Unknown notification type 'invalid-type'",
-            "INFO Sending configuration reminder notifications...",
-            "INFO Generating telegram configuration reminder subscription for 'user (ID:2)'...",
-            "INFO Sending notification TCR title over telegram to user (2)...",
-            "INFO Telegram sent to user (2): TCR title",
+            "INFO Sending 'telegram_config_reminder' notifications...",
+            "INFO Getting notification for '{\"cancelled\":false}'...",
+            "INFO Sending notification TCR title {\"cancelled\":false} over telegram to user (2)...",
+            "INFO Telegram sent to user (2): TCR title {\"cancelled\":false}",
+            "INFO Getting notification for '{\"cancelled\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'email_config_reminder' notifications...",
+            "INFO Getting notification for '{\"cancelled\":false}'...",
+            "INFO Sending notification ECR title {\"cancelled\":false} over email to user (1)...",
+            "INFO Email sent to user (1): ECR title {\"cancelled\":false}",
+            "INFO Getting notification for '{\"cancelled\":true}'...",
+            "INFO Nothing to send.",
             "INFO Finished task SendDailyNotifications.",
             "INFO Teardown task SendDailyNotifications...",
         ], $logger->handler->getPrettyRecords());

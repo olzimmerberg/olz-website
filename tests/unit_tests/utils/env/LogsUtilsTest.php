@@ -36,6 +36,10 @@ final class LogsUtilsTest extends UnitTestCase {
     }
 
     public function testLogsUtilsActivateDeactivateLogger(): void {
+        // just to be safe...
+        restore_exception_handler();
+        restore_exception_handler();
+
         $logger1 = new Logger('logger1');
         $logger2 = new Logger('logger2');
 

@@ -3,7 +3,7 @@
 require_once __DIR__.'/Notification.php';
 require_once __DIR__.'/../../model/NotificationSubscription.php';
 
-class TelegramConfigurationReminderGetter {
+class EmailConfigurationReminderGetter {
     use Psr\Log\LoggerAwareTrait;
 
     public function setDateUtils($dateUtils) {
@@ -28,27 +28,27 @@ class TelegramConfigurationReminderGetter {
         $code_href = $this->envUtils->getCodeHref();
         $service_url = "{$base_href}{$code_href}service.php";
 
-        $title = "Keine Push-Nachrichten abonniert";
+        $title = "Kein Newsletter abonniert";
         $text = <<<ZZZZZZZZZZ
         Hallo %%userFirstName%%,
         
-        Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
+        Du hast bisher keinerlei OLZ-Newsletter-Benachrichtigungen abonniert.
         
         
-        **Du möchtest eigentlich Push-Nachrichten erhalten?**
+        **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"]({$service_url}) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"]({$service_url}) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
         
         
-        **Du möchtest gar keine Push-Nachrichten erhalten?**
+        **Du möchtest auch weiterhin keine OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        Dann lösche einfach diesen Chat.
-
-
+        Dann ignoriere dieses E-Mail. Wenn du dieses E-Mail nicht deaktivierst, wird es dir nächsten Monat allerdings erneut zugesendet. Um dich abzumelden, klicke unten auf "Keine solchen E-Mails mehr".
+        
+        
         ZZZZZZZZZZ;
 
         return new Notification($title, $text, [
-            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
         ]);
     }
 }

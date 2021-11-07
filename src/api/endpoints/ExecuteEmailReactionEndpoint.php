@@ -77,7 +77,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                     }
                     foreach ($subscriptions as $subscription) {
                         $this->logger->notice("Removing email subscription: {$subscription}.");
-                        $this->entityManager->remove($subscription);
+                        $this->removeNotificationSubscription($subscription);
                     }
                     $this->entityManager->flush();
                     $this->logger->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
@@ -91,7 +91,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                     $num_subscriptions = count($subscriptions);
                     foreach ($subscriptions as $subscription) {
                         $this->logger->notice("Removing email subscription: {$subscription}.", [$reaction_data]);
-                        $this->entityManager->remove($subscription);
+                        $this->removeNotificationSubscription($subscription);
                     }
                     $this->entityManager->flush();
                     $this->logger->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
@@ -118,6 +118,16 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
             default:
                 $this->logger->error("Unknown email reaction action: {$action}.", [$reaction_data]);
                 return ['status' => 'INVALID_TOKEN'];
+        }
+    }
+
+    protected function removeNotificationSubscription($subscription) {
+        // If it is an email config reminder subscription, just mark it cancelled.
+        if ($subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
+        ) {
+            $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
+        } else {
+            $this->entityManager->remove($subscription);
         }
     }
 }

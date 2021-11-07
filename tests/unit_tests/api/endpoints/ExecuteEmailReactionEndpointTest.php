@@ -14,8 +14,13 @@ require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository {
+    public $subscriptions_to_find;
+
     public function findBy($query) {
         $user = new User();
+        if ($this->subscriptions_to_find) {
+            return $this->subscriptions_to_find;
+        }
         $subscription_1 = new NotificationSubscription();
         $subscription_1->setId(1);
         $subscription_1->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
@@ -66,6 +71,37 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame(2, count($entity_manager->flushed_removed));
         $this->assertSame(1, $entity_manager->flushed_removed[0]->getId());
         $this->assertSame(2, $entity_manager->flushed_removed[1]->getId());
+    }
+
+    public function testCancelEmailConfigReminderEmailReactionEndpoint(): void {
+        $logger = new Logger('ExecuteEmailReactionEndpointTest');
+        $endpoint = new ExecuteEmailReactionEndpoint();
+        $entity_manager = new FakeEntityManager();
+        $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
+        $user = new User();
+        $subscription = new NotificationSubscription();
+        $subscription->setId(3);
+        $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+        $subscription->setUser($user);
+        $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
+        $subscription->setNotificationTypeArgs('{"cancelled":false}');
+        $notification_subscription_repo->subscriptions_to_find = [$subscription];
+        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $endpoint->setEntityManager($entity_manager);
+        $email_utils = new FakeEmailUtils();
+        $endpoint->setEmailUtils($email_utils);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call(['token' => json_encode([
+            'action' => 'unsubscribe',
+            'user' => 1,
+            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        ])]);
+
+        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertSame(0, count($entity_manager->flushed_removed));
+        $this->assertSame('{"cancelled":true}', $subscription->getNotificationTypeArgs());
     }
 
     public function testUnsubscribeFromAllNotificationsEmailReactionEndpoint(): void {

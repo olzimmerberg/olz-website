@@ -58,4 +58,11 @@ class FakeUserRepository {
         }
         return null;
     }
+
+    public function getUsersWithEmail() {
+        return [
+            FakeUsers::adminUser(),
+            FakeUsers::vorstandUser(),
+        ];
+    }
 }

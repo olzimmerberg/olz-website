@@ -1,30 +1,18 @@
 <?php
 
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+require_once __DIR__.'/../../api/OlzGetEntityEndpoint.php';
 require_once __DIR__.'/../../model/Role.php';
 require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../model/NewsEntry.php';
-require_once __DIR__.'/AbstractNewsEndpoint.php';
+require_once __DIR__.'/NewsEndpointTrait.php';
 
-class GetNewsEndpoint extends AbstractNewsEndpoint {
+class GetNewsEndpoint extends OlzGetEntityEndpoint {
+    use NewsEndpointTrait;
+
     public static function getIdent() {
         return 'GetNewsEndpoint';
-    }
-
-    public function getResponseField() {
-        $news_data_field = self::getNewsDataField();
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
-            'data' => $news_data_field,
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
-        ]]);
     }
 
     protected function handle($input) {

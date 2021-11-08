@@ -59,16 +59,23 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'registrationId' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
-            'values' => [
-                '0-vorname' => 'Simon',
-                '1-nachname' => 'Hatt',
+            'meta' => [
+                'onOff' => true,
+                'ownerUserId' => null,
+                'ownerRoleId' => null,
+            ],
+            'data' => [
+                'registrationId' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+                'values' => [
+                    '0-vorname' => 'Simon',
+                    '1-nachname' => 'Hatt',
+                ],
             ],
         ]);
 
         $this->assertSame([
             'status' => 'OK',
-            'bookingId' => 'Booking:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Booking:'.FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));

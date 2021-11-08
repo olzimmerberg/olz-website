@@ -77,9 +77,12 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
             const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
                 const fieldResults = {
                     id: validFieldResult('', props.id),
-                    data: {
+                    meta: {
                         ownerUserId: validFieldResult('', null),
                         ownerRoleId: validFieldResult('', null),
+                        onOff: validFieldResult('', true),
+                    },
+                    data: {
                         author: getStringOrNull(getFormField(f, 'author')),
                         authorUserId: validFieldResult('', null),
                         authorRoleId: validFieldResult('', null),
@@ -89,7 +92,6 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                         externalUrl: getStringOrNull(getFormField(f, 'external-url')),
                         tags: validFieldResult('', []),
                         terminId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
                         imageIds: validFieldResult('', imageIds),
                         fileIds: validFieldResult('', fileIds),
                     },
@@ -118,20 +120,24 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
         } else {
             const getDataForRequestFn: GetDataForRequestFunction<'createNews'> = (f) => {
                 const fieldResults = {
-                    ownerUserId: validFieldResult('', null),
-                    ownerRoleId: validFieldResult('', null),
-                    author: getStringOrNull(getFormField(f, 'author')),
-                    authorUserId: validFieldResult('', null),
-                    authorRoleId: validFieldResult('', null),
-                    title: getStringOrEmpty(getFormField(f, 'title')),
-                    teaser: getStringOrEmpty(getFormField(f, 'teaser')),
-                    content: getStringOrEmpty(getFormField(f, 'content')),
-                    externalUrl: getStringOrNull(getFormField(f, 'external-url')),
-                    tags: validFieldResult('', []),
-                    terminId: validFieldResult('', null),
-                    onOff: validFieldResult('', true),
-                    imageIds: validFieldResult('', imageIds),
-                    fileIds: validFieldResult('', fileIds),
+                    meta: {
+                        ownerUserId: validFieldResult('', null),
+                        ownerRoleId: validFieldResult('', null),
+                        onOff: validFieldResult('', true),
+                    },
+                    data: {
+                        author: getStringOrNull(getFormField(f, 'author')),
+                        authorUserId: validFieldResult('', null),
+                        authorRoleId: validFieldResult('', null),
+                        title: getStringOrEmpty(getFormField(f, 'title')),
+                        teaser: getStringOrEmpty(getFormField(f, 'teaser')),
+                        content: getStringOrEmpty(getFormField(f, 'content')),
+                        externalUrl: getStringOrNull(getFormField(f, 'external-url')),
+                        tags: validFieldResult('', []),
+                        terminId: validFieldResult('', null),
+                        imageIds: validFieldResult('', imageIds),
+                        fileIds: validFieldResult('', fileIds),
+                    },
                 };
                 if (!isFieldResultOrDictThereofValid(fieldResults)) {
                     return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));

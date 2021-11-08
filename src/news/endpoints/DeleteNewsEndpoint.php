@@ -1,31 +1,18 @@
 <?php
 
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+require_once __DIR__.'/../../api/OlzDeleteEntityEndpoint.php';
 require_once __DIR__.'/../../model/Role.php';
 require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../model/NewsEntry.php';
-require_once __DIR__.'/AbstractNewsEndpoint.php';
+require_once __DIR__.'/NewsEndpointTrait.php';
 
-class DeleteNewsEndpoint extends AbstractNewsEndpoint {
+class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
+    use NewsEndpointTrait;
+
     public static function getIdent() {
         return 'DeleteNewsEndpoint';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
-        ]]);
     }
 
     protected function handle($input) {

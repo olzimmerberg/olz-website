@@ -14,7 +14,18 @@ class UserRepository extends EntityRepository {
     }
 
     public function getUsersWithEmail() {
-        $dql = "SELECT u FROM User u WHERE u.email != '' AND u.email IS NOT NULL";
+        $dql = <<<'ZZZZZZZZZZ'
+        SELECT u
+        FROM User u
+        WHERE
+            u.email != ''
+            AND
+            u.email IS NOT NULL
+            AND
+            u.password != ''
+            AND
+            u.password IS NOT NULL
+        ZZZZZZZZZZ;
 
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();

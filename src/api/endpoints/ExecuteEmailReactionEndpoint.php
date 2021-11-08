@@ -123,8 +123,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
 
     protected function removeNotificationSubscription($subscription) {
         // If it is an email config reminder subscription, just mark it cancelled.
-        if ($subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
-        ) {
+        if ($subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER) {
             $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
         } else {
             $this->entityManager->remove($subscription);

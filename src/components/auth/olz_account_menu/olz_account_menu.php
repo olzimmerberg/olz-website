@@ -11,7 +11,7 @@ function olz_account_menu($args = []): string {
     $user_repo = $entityManager->getRepository(User::class);
     $username = ($_SESSION['user'] ?? null);
     $user = $user_repo->findOneBy(['username' => $username]);
-    $image_path = "{$_CONFIG->getCodeHref()}icns/user.svg";
+    $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials=".urlencode('?');
     if ($user) {
         $user_image_path = "img/users/{$user->getId()}.jpg";
         if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {

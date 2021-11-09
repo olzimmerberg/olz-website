@@ -4,6 +4,10 @@ $(() => {
     $('#login-modal').on('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
     });
+
+    if (window.location.hash === '#login-dialog') {
+        $('#login-modal').modal('show');
+    }
 });
 
 export function olzLoginModalLogin(): void {

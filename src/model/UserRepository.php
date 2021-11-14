@@ -13,7 +13,7 @@ class UserRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
-    public function getUsersWithEmail() {
+    public function getUsersWithLogin() {
         $dql = <<<'ZZZZZZZZZZ'
         SELECT u
         FROM User u

@@ -9,6 +9,7 @@ require_once __DIR__.'/../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeTelegramUtils.php';
+require_once __DIR__.'/../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../src/model/TelegramLink.php';
@@ -40,6 +41,68 @@ $user_provoke_error->setLastName('Error');
 class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
     public function findBy($where) {
         global $user1, $user2, $user3, $user_provoke_error;
+
+        if ($where === ['notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER]) {
+            return [
+                get_fake_notification_subscription(
+                    1,
+                    NotificationSubscription::DELIVERY_EMAIL,
+                    $user1,
+                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
+                get_fake_notification_subscription(
+                    2,
+                    NotificationSubscription::DELIVERY_EMAIL,
+                    $user2,
+                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
+            ];
+        }
+
+        if ($where === [
+            'user' => FakeUsers::defaultUser(),
+            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        ]) {
+            return [
+                get_fake_notification_subscription(
+                    1,
+                    NotificationSubscription::DELIVERY_EMAIL,
+                    $user1,
+                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
+            ];
+        }
+
+        if ($where === ['notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER]) {
+            return [
+                get_fake_notification_subscription(
+                    1,
+                    NotificationSubscription::DELIVERY_TELEGRAM,
+                    $user1,
+                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
+            ];
+        }
+
+        if ($where === [
+            'user' => FakeUsers::defaultUser(),
+            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+        ]) {
+            return [
+                get_fake_notification_subscription(
+                    1,
+                    NotificationSubscription::DELIVERY_TELEGRAM,
+                    $user1,
+                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
+            ];
+        }
+
         return [
             get_fake_notification_subscription(
                 1,
@@ -413,6 +476,8 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
         $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $user_repo = new FakeUserRepository();
+        $entity_manager->repositories['User'] = $user_repo;
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $telegram_utils = new FakeTelegramUtils();
@@ -440,19 +505,13 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         global $user1, $user2;
         $this->assertSame([
             [
-                'admin (ID:2)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                '{"cancelled":false}',
-            ],
-            [
                 'vorstand (ID:3)',
                 NotificationSubscription::DELIVERY_EMAIL,
                 NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
                 '{"cancelled":false}',
             ],
             [
-                'user (ID:2)',
+                'admin (ID:2)',
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":false}',
@@ -469,6 +528,31 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             $entity_manager->persisted
         ));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $this->assertSame([
+            [
+                'user (ID:1)',
+                NotificationSubscription::DELIVERY_EMAIL,
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                '{"cancelled":false}',
+            ],
+            [
+                'user (ID:1)',
+                NotificationSubscription::DELIVERY_TELEGRAM,
+                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                '{"cancelled":false}',
+            ],
+        ], array_map(
+            function ($notification_subscription) {
+                return [
+                    $notification_subscription->getUser()->__toString(),
+                    $notification_subscription->getDeliveryType(),
+                    $notification_subscription->getNotificationType(),
+                    $notification_subscription->getNotificationTypeArgs(),
+                ];
+            },
+            $entity_manager->removed
+        ));
+        $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame([
             [$user1, '[OLZ] MP title', 'MP text First'],
             [$user1, '[OLZ] DW title {"days":3}', 'DW text First'],
@@ -523,9 +607,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Setup task SendDailyNotifications...",
             "INFO Running task SendDailyNotifications...",
             "INFO Autogenerating notifications...",
-            "INFO Generating email configuration reminder subscription for 'admin (ID:2)'...",
+            "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
             "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
-            "INFO Generating telegram configuration reminder subscription for 'user (ID:2)'...",
+            "INFO Removing telegram configuration reminder subscription for 'user (ID:1)'...",
+            "INFO Generating telegram configuration reminder subscription for 'admin (ID:2)'...",
             "INFO Found notification subscription for 'monthly_preview', '[]'...",
             "INFO Found notification subscription for 'monthly_preview', '{\"no_notification\":true}'...",
             "INFO Found notification subscription for 'weekly_preview', '[]'...",

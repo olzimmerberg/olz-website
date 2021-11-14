@@ -118,7 +118,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
-        $this->assertSame(null, $news_entry->getOwnerUser());
+        $this->assertSame($user_repo->default_user, $news_entry->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getOwnerRole());
         $this->assertSame('t.u.', $news_entry->getAuthor());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());

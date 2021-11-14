@@ -14,11 +14,15 @@ class FakeUserRepository {
             $fn = $this->userToBeFoundForQuery;
             return $fn($where);
         }
+        if ($where === ['username' => 'user'] || $where === ['id' => 1]) {
+            $this->default_user = FakeUsers::defaultUser();
+            return $this->default_user;
+        }
         if ($where === ['username' => 'admin'] || $where === ['id' => 2]) {
             $this->admin_user = FakeUsers::adminUser();
             return $this->admin_user;
         }
-        if ($where === ['email' => 'vorstand@test.olzimmerberg.ch']) {
+        if ($where === ['email' => 'vorstand@test.olzimmerberg.ch'] || $where === ['id' => 3]) {
             $this->vorstand_user = FakeUsers::vorstandUser();
             return $this->vorstand_user;
         }
@@ -59,7 +63,7 @@ class FakeUserRepository {
         return null;
     }
 
-    public function getUsersWithEmail() {
+    public function getUsersWithLogin() {
         return [
             FakeUsers::adminUser(),
             FakeUsers::vorstandUser(),

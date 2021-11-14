@@ -240,7 +240,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
-            'user' => 1,
+            'user' => 9999, // inexistent
             'new_password' => 'geeenius',
         ])]);
 

@@ -19,19 +19,21 @@ echo "<h4 class='tablebar'>Elite</h4>
 <br />
 <h4 class='tablebar'>Team Gold</h4>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gratian.jpg' class='noborder' style='width: 64px;'> <b>Gratian Böhi</b></div>
-<div style='line-height: 64px;'><img src='{$data_href}img/gold_romeo.jpg' class='noborder' style='width: 64px;'> <b>Romeo Böhi</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_lukas.jpg' class='noborder' style='width: 64px;'> <b>Lukas Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_manuel.jpg' class='noborder' style='width: 64px;'> <b>Manuel Gasser</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_andrina.jpg' class='noborder' style='width: 64px;'> <b>Andrina Hotz</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_bigna.jpg' class='noborder' style='width: 64px;'> <b>Bigna Hotz</b></div>
+<div style='line-height: 64px;'><img src='{$data_href}img/gold_benjamin.jpg' class='noborder' style='width: 64px;'> <b>Benjamin Klieber</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_flurin.jpg' class='noborder' style='width: 64px;'> <b>Flurin Rettich</b></div>
 <div style='line-height: 64px;'><img src='{$data_href}img/gold_gian.jpg' class='noborder' style='width: 64px;'> <b>Gian Rettich</b></div>
 <br />
 <h4 class='tablebar'>Trainer Team Gold</h4>
-<div><img src='{$data_href}img/gold_trainer.jpg' class='noborder' style='width: 100%;'></div>
 <div><b>Hauptleitung</b></div>
 <script>MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold')</script>
 <div><b>Trainerteam</b></div>
+<div>Florian Attinger</div>
+<div>Michael Felder</div>
+<div>Dani Rohr</div>
 <div>Lilly Gross</div>
 <div>Paula Gross</div>
-<div>Michael Felder</div>";
+";

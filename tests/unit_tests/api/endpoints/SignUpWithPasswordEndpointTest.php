@@ -247,7 +247,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                     'error' => [
                         'type' => 'ValidationError',
                         'validationErrors' => [
-                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
+                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
                         ],
                     ],
                 ],
@@ -334,7 +334,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                     'error' => [
                         'type' => 'ValidationError',
                         'validationErrors' => [
-                            'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
+                            'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
                         ],
                     ],
                 ],

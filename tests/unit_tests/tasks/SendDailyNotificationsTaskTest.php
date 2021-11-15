@@ -85,6 +85,13 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
                     NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
                     json_encode(['cancelled' => false]),
                 ),
+                get_fake_notification_subscription(
+                    2,
+                    NotificationSubscription::DELIVERY_TELEGRAM,
+                    $user2,
+                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                    json_encode(['cancelled' => false]),
+                ),
             ];
         }
 
@@ -285,7 +292,7 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
     }
 
     public function getActivatedTelegramLinks() {
-        global $user1, $user2;
+        global $user1, $user2, $user3;
 
         $telegram_link_1 = new TelegramLink();
         $telegram_link_1->setUser($user1);
@@ -295,7 +302,11 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
         $telegram_link_2->setUser($user2);
         $telegram_link_2->setTelegramChatId('22222');
 
-        return [$telegram_link_1, $telegram_link_2];
+        $telegram_link_3 = new TelegramLink();
+        $telegram_link_3->setUser($user3);
+        $telegram_link_3->setTelegramChatId('33333');
+
+        return [$telegram_link_1, $telegram_link_2, $telegram_link_3];
     }
 }
 
@@ -511,7 +522,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
                 '{"cancelled":false}',
             ],
             [
-                'admin (ID:2)',
+                'vorstand (ID:3)',
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":false}',
@@ -610,7 +621,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
             "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
             "INFO Removing telegram configuration reminder subscription for 'user (ID:1)'...",
-            "INFO Generating telegram configuration reminder subscription for 'admin (ID:2)'...",
+            "INFO Generating telegram configuration reminder subscription for 'vorstand (ID:3)'...",
             "INFO Found notification subscription for 'monthly_preview', '[]'...",
             "INFO Found notification subscription for 'monthly_preview', '{\"no_notification\":true}'...",
             "INFO Found notification subscription for 'weekly_preview', '[]'...",

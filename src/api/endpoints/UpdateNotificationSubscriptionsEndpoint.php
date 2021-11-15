@@ -182,6 +182,20 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $this->entityManager->persist($subscription);
         }
 
+        // The user actively chose this, so even if they unselected all
+        // notifications, we should not send config reminders.
+        $notification_type =
+            $delivery_type === NotificationSubscription::DELIVERY_TELEGRAM
+            ? NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
+            : NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER;
+        $subscription = new NotificationSubscription();
+        $subscription->setDeliveryType($delivery_type);
+        $subscription->setUser($user);
+        $subscription->setNotificationType($notification_type);
+        $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
+        $subscription->setCreatedAt($now_datetime);
+        $this->entityManager->persist($subscription);
+
         $this->entityManager->flush();
 
         return ['status' => 'OK'];

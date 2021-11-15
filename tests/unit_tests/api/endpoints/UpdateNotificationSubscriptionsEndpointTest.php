@@ -69,51 +69,46 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $this->assertSame(5, count($entity_manager->persisted));
+        $this->assertSame([
+            [
+                NotificationSubscription::TYPE_DAILY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
+            ],
+            [
+                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                json_encode(['days' => 3]),
+            ],
+            [
+                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+                json_encode([]),
+            ],
+            [
+                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+                json_encode([]),
+            ],
+            [
+                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
+            ],
+            [
+                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                json_encode(['cancelled' => true]),
+            ],
+        ], array_map(function ($notification_subscription) {
+            return [
+                $notification_subscription->getNotificationType(),
+                $notification_subscription->getNotificationTypeArgs(),
+            ];
+        }, $entity_manager->persisted));
+        $this->assertSame(
+            $entity_manager->persisted,
+            $entity_manager->flushed_persisted
+        );
         $this->assertSame(1, count($entity_manager->removed));
         $this->assertSame(123, $entity_manager->removed[0]->getId());
-        $this->assertSame(5, count($entity_manager->flushed_persisted));
         $this->assertSame(
-            NotificationSubscription::TYPE_DAILY_SUMMARY,
-            $entity_manager->flushed_persisted[0]->getNotificationType()
+            $entity_manager->removed,
+            $entity_manager->flushed_removed
         );
-        $this->assertSame(
-            json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
-            $entity_manager->flushed_persisted[0]->getNotificationTypeArgs()
-        );
-        $this->assertSame(
-            NotificationSubscription::TYPE_DEADLINE_WARNING,
-            $entity_manager->flushed_persisted[1]->getNotificationType()
-        );
-        $this->assertSame(
-            json_encode(['days' => 3]),
-            $entity_manager->flushed_persisted[1]->getNotificationTypeArgs()
-        );
-        $this->assertSame(
-            NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-            $entity_manager->flushed_persisted[2]->getNotificationType()
-        );
-        $this->assertSame(
-            json_encode([]),
-            $entity_manager->flushed_persisted[2]->getNotificationTypeArgs()
-        );
-        $this->assertSame(
-            NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-            $entity_manager->flushed_persisted[3]->getNotificationType()
-        );
-        $this->assertSame(
-            json_encode([]),
-            $entity_manager->flushed_persisted[3]->getNotificationTypeArgs()
-        );
-        $this->assertSame(
-            NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-            $entity_manager->flushed_persisted[4]->getNotificationType()
-        );
-        $this->assertSame(
-            json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
-            $entity_manager->flushed_persisted[4]->getNotificationTypeArgs()
-        );
-        $this->assertSame(1, count($entity_manager->flushed_removed));
-        $this->assertSame(123, $entity_manager->flushed_removed[0]->getId());
     }
 }

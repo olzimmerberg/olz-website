@@ -243,11 +243,13 @@ class SendDailyNotificationsTask extends BackgroundTask {
         // Find users who should have telegram config reminder notification subscriptions.
         $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
         $telegram_links = $telegram_link_repo->getActivatedTelegramLinks();
+        $non_config_reminder_notification_types = $this->getNonConfigReminderNotificationTypes();
         foreach ($telegram_links as $telegram_link) {
             $user = $telegram_link->getUser();
             $subscription = $notification_subscription_repo->findOneBy([
                 'user' => $user,
                 'delivery_type' => NotificationSubscription::DELIVERY_TELEGRAM,
+                'notification_type' => $non_config_reminder_notification_types,
             ]);
             if (!$subscription) {
                 $user_id = $user->getId();

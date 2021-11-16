@@ -1,6 +1,8 @@
 <?php
 
 function olz_profile_form($args): string {
+    global $_CONFIG;
+
     $fallback_defaults = [
         'region' => 'ZH',
         'country_code' => 'CH',
@@ -25,13 +27,57 @@ function olz_profile_form($args): string {
     $esc_region = htmlentities($defaults['region'] ?? '');
     $esc_country_code = htmlentities($defaults['country_code'] ?? '');
 
+    $show_avatar = $defaults['show_avatar'] ?? false;
     $show_change_password = $defaults['show_change_password'] ?? false;
     $show_required_password = $defaults['show_required_password'] ?? false;
+    $avatar_class = $show_avatar ? '' : ' hidden';
     $change_password_class = $show_change_password ? '' : ' hidden';
     $required_password_class = $show_required_password ? '' : ' hidden';
 
+    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
+    $auth_utils = AuthUtils::fromEnv();
+    $user = $auth_utils->getAuthenticatedUser();
+    $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials=".urlencode('?');
+    if ($user) {
+        $user_image_path = "img/users/{$user->getId()}.jpg";
+        if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {
+            $image_path = "{$_CONFIG->getDataHref()}{$user_image_path}";
+        } else {
+            $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
+            $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials={$initials}";
+        }
+    }
+
     return <<<ZZZZZZZZZZ
 <div class='olz-profile-form'>
+    <div class='row{$avatar_class}'>
+        <div class='col form-group avatar-container'>
+            <img src='{$image_path}' alt='avatar' id='avatar-img' />
+            <button
+                type='button'
+                class='btn btn-secondary'
+                onclick='return olzProfileFormUpdateAvatar(this.form);'
+                id='update-user-avatar-button'
+            >
+                Bild anpassen
+            </button>
+            <button
+                type='button'
+                class='btn btn-secondary'
+                onclick='return olzProfileFormRemoveAvatar(this.form);'
+                id='remove-user-avatar-button'
+            >
+                Bild löschen
+            </button>
+            <input
+                type='hidden'
+                name='avatar-id'
+                value=''
+                class='form-control'
+                id='profile-avatar-id-input'
+            />
+        </div>
+    </div>
     <div class='row'>
         <div class='col form-group'>
             <label for='profile-first-name-input'>Vorname <span class='required-field-asterisk'>*</span></label>

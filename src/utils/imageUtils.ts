@@ -1,3 +1,5 @@
+import {Area} from 'react-easy-crop/types';
+
 export interface LoadImageFromBase64Options {
     image?: HTMLImageElement;
 }
@@ -37,6 +39,50 @@ export function getResizedDimensions(
     return [resizedWidth, resizedHeight];
 }
 
+/** Crop an image according to specs provided by react-easy-crop. */
+export function getCroppedCanvas(
+    original: HTMLImageElement|HTMLCanvasElement,
+    area: Area,
+    rotation = 0,
+): HTMLCanvasElement {
+    // set each dimensions to double largest dimension to allow for a safe area
+    // for the image to rotate in without being clipped by canvas context
+    const maxSize = Math.max(original.width, original.height);
+    const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
+    const offsetX = safeArea / 2 - original.width / 2;
+    const offsetY = safeArea / 2 - original.height / 2;
+
+    const canvas = getCanvasOfSize(original, safeArea, safeArea);
+    const ctx = canvas.getContext('2d');
+
+    // translate canvas context to a central location on image to allow rotating
+    // around the center.
+    ctx.translate(safeArea / 2, safeArea / 2);
+    ctx.rotate(getRadianAngle(rotation));
+    ctx.translate(-safeArea / 2, -safeArea / 2);
+
+    // draw rotated original image and store data.
+    ctx.drawImage(original, offsetX, offsetY);
+    const data = ctx.getImageData(0, 0, safeArea, safeArea);
+
+    // set canvas width to final desired crop size
+    canvas.width = area.width;
+    canvas.height = area.height;
+
+    // paste generated rotate image with correct offsets for x,y crop values.
+    ctx.putImageData(
+        data,
+        Math.round(0 - offsetX - area.x),
+        Math.round(0 - offsetY - area.y),
+    );
+
+    return canvas;
+}
+
+export function getRadianAngle(degreeValue: number): number {
+    return (degreeValue * Math.PI) / 180;
+}
+
 export function getResizedCanvas(
     original: HTMLImageElement|HTMLCanvasElement,
     maximumSize: number,
@@ -74,12 +120,8 @@ export function getCanvasOfSize(
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    // No canvas API in tests!
-    /* istanbul ignore if */
-    if (typeof process === 'undefined' || !process.env.JEST_WORKER_ID) {
-        const context = canvas.getContext('2d');
-        context.drawImage(drawable, 0, 0, width, height);
-    }
+    const context = canvas.getContext('2d');
+    context.drawImage(drawable, 0, 0, width, height);
     return canvas;
 }
 

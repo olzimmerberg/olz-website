@@ -1,3 +1,17 @@
+import {initOlzUpdateUserAvatarModal, OlzUpdateUserAvatarModalChangeEvent} from '../OlzUpdateUserAvatarModal/OlzUpdateUserAvatarModal';
+
+export function olzProfileFormUpdateAvatar(form: HTMLFormElement): boolean {
+    const onChange = (e: OlzUpdateUserAvatarModalChangeEvent) => {
+        form['avatar-id'].value = e.detail.uploadId;
+        $('#avatar-img').attr('src', e.detail.dataUrl);
+    };
+    initOlzUpdateUserAvatarModal(onChange);
+    return false;
+}
+
+export function olzProfileFormRemoveAvatar(form: HTMLFormElement): void {
+    form['avatar-id'].value = '-';
+}
 
 export function olzProfileFormOnUsernameFocus(form: HTMLFormElement): void {
     const firstName = form['first-name'].value;

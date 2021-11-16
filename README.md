@@ -49,6 +49,13 @@ Beispiele:
 - Was der Benutzer in der URL-Leiste des Browsers sehen kann: deutsch mit Zwei-Buchstaben-Umlauten
 - Text eines Menu-Eintrags: deutsch
 
+### Dateigrösse
+
+Die Grösse des webpack-bundles kann wie folgt analysiert werden:
+
+- `npm run webpack-build`
+- `npm run webpack-analyze`
+
 ## Automatische Veröffentlichung
 
 - Wenn ein neuer Branch gepusht wird, werden diese Änderungen automatisch auf [test.olzimmerberg.ch](https://test.olzimmerberg.ch) veröffentlicht.

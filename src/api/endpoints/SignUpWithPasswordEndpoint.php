@@ -47,11 +47,11 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             'phone' => new FieldTypes\StringField(['allow_null' => true]),
             'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             'birthdate' => new FieldTypes\DateTimeField(['allow_null' => true]),
-            'street' => new FieldTypes\StringField(['allow_empty' => true]),
-            'postalCode' => new FieldTypes\StringField(['allow_empty' => true]),
-            'city' => new FieldTypes\StringField(['allow_empty' => true]),
-            'region' => new FieldTypes\StringField(['allow_empty' => true]),
-            'countryCode' => new FieldTypes\StringField(['allow_empty' => true]),
+            'street' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'postalCode' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'region' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
         ]]);
     }
 

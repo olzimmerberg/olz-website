@@ -27,6 +27,7 @@ echo <<<'ZZZZZZZZZZ'
     <div class='success-message alert alert-success' role='alert'></div>
 ZZZZZZZZZZ;
 echo olz_profile_form([
+    'show_avatar' => false,
     'show_required_password' => true,
 ]);
 echo <<<'ZZZZZZZZZZ'

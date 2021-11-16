@@ -8,6 +8,7 @@ require_once __DIR__.'/../../src/config/vendor/autoload.php';
 
 class FakeEnvUtils {
     public $has_unlimited_cron = false;
+    public $fake_data_path;
 
     public function getLogsUtils() {
         return new FakeLogsUtils();
@@ -38,6 +39,9 @@ class FakeEnvUtils {
     }
 
     public function getDataPath() {
+        if ($this->fake_data_path !== null) {
+            return $this->fake_data_path;
+        }
         return __DIR__.'/../unit_tests/tmp/';
     }
 

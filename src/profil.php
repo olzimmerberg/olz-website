@@ -73,6 +73,7 @@ if ($user) {
         />
     ZZZZZZZZZZ;
     echo olz_profile_form([
+        'show_avatar' => true,
         'show_change_password' => true,
         'first_name' => $user->getFirstName(),
         'last_name' => $user->getLastName(),

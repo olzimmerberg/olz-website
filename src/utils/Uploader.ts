@@ -70,6 +70,20 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 
     protected uploadQueue: FileUpload[] = [];
 
+    public async upload(base64Content: string, suffix: string|null): Promise<FileUploadId> {
+        const uploadId = await this.add(base64Content, suffix);
+        return new Promise((resolve) => {
+            const onUploadFinished = (e: CustomEvent<string>) => {
+                const finishedUploadId = e.detail;
+                if (finishedUploadId === uploadId) {
+                    this.removeEventListener('uploadFinished', onUploadFinished);
+                    resolve(finishedUploadId);
+                }
+            };
+            this.addEventListener('uploadFinished', onUploadFinished);
+        });
+    }
+
     public add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
         return this.olzApi.call('startUpload', {suffix})
             .then((response) => {

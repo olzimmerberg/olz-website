@@ -26,7 +26,11 @@ final class TransportApiFetcherTest extends IntegrationTestCase {
 
         $content_keys = array_keys($content);
         sort($content_keys);
-        $this->assertSame(['connections', 'from', 'stations', 'to'], $content_keys);
-        $this->assertGreaterThan(0, count($content['connections']));
+        if (isset($content['errors'])) {
+            $this->assertSame(['errors'], $content_keys);
+        } else {
+            $this->assertSame(['connections', 'from', 'stations', 'to'], $content_keys);
+            $this->assertGreaterThan(0, count($content['connections']));
+        }
     }
 }

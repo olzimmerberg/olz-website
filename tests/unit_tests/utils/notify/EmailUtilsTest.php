@@ -25,7 +25,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $mailbox = $email_utils->getImapMailbox();
 
         $this->assertSame(true, $mailbox instanceof Mailbox);
-        $this->assertSame('{127.0.0.1:143}INBOX', $mailbox->getImapPath());
+        $this->assertSame('{127.0.0.1:143/notls}INBOX', $mailbox->getImapPath());
         $this->assertSame('imap@olzimmerberg.ch', $mailbox->getLogin());
     }
 

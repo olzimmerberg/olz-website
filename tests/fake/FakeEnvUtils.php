@@ -49,6 +49,10 @@ class FakeEnvUtils {
         return '143';
     }
 
+    public function getImapFlags() {
+        return '/notls';
+    }
+
     public function getImapUsername() {
         return 'imap@olzimmerberg.ch';
     }

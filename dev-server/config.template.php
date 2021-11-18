@@ -38,6 +38,12 @@ $configure_env_utils = function ($env_utils) {
         'telegram_bot_token' => '123456789:abcdefghijklmnopqrstuvwxyz123456789',
         'telegram_authenticity_code' => 'this_is_just_local',
 
+        'imap_host' => 'localhost',
+        'imap_port' => '143',
+        'imap_flags' => '/notls',
+        'imap_username' => 'fake-user@olzimmerberg.ch',
+        'imap_password' => '1234',
+
         'smtp_host' => 'localhost',
         'smtp_port' => '465',
         'smtp_username' => 'fake-user@olzimmerberg.ch',

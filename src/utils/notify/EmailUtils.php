@@ -26,10 +26,11 @@ class EmailUtils {
     public function getImapMailbox() {
         $imap_host = $this->envUtils->getImapHost();
         $imap_port = $this->envUtils->getImapPort();
+        $imap_flags = $this->envUtils->getImapFlags();
         $imap_username = $this->envUtils->getImapUsername();
         $imap_password = $this->envUtils->getImapPassword();
 
-        $mailbox_name = "{{$imap_host}:{$imap_port}}";
+        $mailbox_name = "{{$imap_host}:{$imap_port}{$imap_flags}}";
         // Documentation at https://github.com/barbushin/php-imap
         return new Mailbox(
             "{$mailbox_name}INBOX",

@@ -24,8 +24,14 @@ class ProcessEmailTask extends BackgroundTask {
 
         try {
             $mail_ids = $mailbox->searchMailbox('ALL');
+        } catch (\UnexpectedValueException $uve) {
+            $this->logger->critical("UnexpectedValueException in searchMailbox", [$uve]);
+            return;
         } catch (ConnectionException $exc) {
             $this->logger->critical("Could not search IMAP mailbox.", [$exc]);
+            return;
+        } catch (\Exception $exc) {
+            $this->logger->critical("Exception in searchMailbox", [$exc]);
             return;
         }
 

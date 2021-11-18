@@ -59,6 +59,7 @@ final class EnvUtilsTest extends UnitTestCase {
 
             'imap_host' => 'localhost',
             'imap_port' => '143',
+            'imap_flags' => '/notls',
             'imap_username' => 'fake-user@olzimmerberg.ch',
             'imap_password' => '1234',
 
@@ -100,6 +101,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('this_is_just_local', $env_utils->getTelegramAuthenticityCode());
         $this->assertSame('localhost', $env_utils->getImapHost());
         $this->assertSame('143', $env_utils->getImapPort());
+        $this->assertSame('/notls', $env_utils->getImapFlags());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getImapUsername());
         $this->assertSame('1234', $env_utils->getImapPassword());
         $this->assertSame('localhost', $env_utils->getSmtpHost());

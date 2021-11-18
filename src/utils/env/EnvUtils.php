@@ -46,6 +46,7 @@ class EnvUtils {
 
     private $imap_host;
     private $imap_port;
+    private $imap_flags = '';
     private $imap_username;
     private $imap_password;
 
@@ -117,6 +118,7 @@ class EnvUtils {
 
         $this->imap_host = $config_dict['imap_host'] ?? $this->imap_host;
         $this->imap_port = $config_dict['imap_port'] ?? $this->imap_port;
+        $this->imap_flags = $config_dict['imap_flags'] ?? $this->imap_flags;
         $this->imap_username = $config_dict['imap_username'] ?? $this->imap_username;
         $this->imap_password = $config_dict['imap_password'] ?? $this->imap_password;
 
@@ -249,6 +251,10 @@ class EnvUtils {
 
     public function getImapPort() {
         return $this->imap_port;
+    }
+
+    public function getImapFlags() {
+        return $this->imap_flags;
     }
 
     public function getImapUsername() {

@@ -1,16 +1,14 @@
 User-agent: *
 Disallow: /_/resultate/
-User-agent: *
 Disallow: /downloads/
-User-agent: *
 Disallow: /files/
-User-agent: *
 Disallow: /img/
-User-agent: *
+Allow: /img/fuer_einsteiger/
 Disallow: /pdf/
-User-agent: *
 Disallow: /olz_mitglieder/
-User-agent: *
 Disallow: /trainingphotos/
 User-agent: Googlebot-Image
 Disallow: /
+Allow: /img/fuer_einsteiger/
+
+Sitemap: https://olzimmerberg.ch/_/sitemap.php

@@ -451,8 +451,9 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     $email->send();
                     $this->logger->info("Email sent to user ({$user_id}): {$title}");
                 } catch (\Exception $exc) {
+                    $exc_class = get_class($exc);
                     $message = $exc->getMessage();
-                    $this->logger->critical("Error sending email to user ({$user_id}): {$message}");
+                    $this->logger->critical("Error sending email to user ({$user_id}): [{$exc_class}] {$message}", []);
                 }
                 break;
             case NotificationSubscription::DELIVERY_TELEGRAM:

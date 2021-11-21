@@ -686,7 +686,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",
             "INFO Sending notification provoke_error over email to user (2)...",
-            "CRITICAL Error sending email to user (2): Provoked Error",
+            "CRITICAL Error sending email to user (2): [Exception] Provoked Error",
             "INFO Sending 'invalid-type' notifications...",
             "CRITICAL Unknown notification type 'invalid-type'",
             "INFO Sending 'telegram_config_reminder' notifications...",

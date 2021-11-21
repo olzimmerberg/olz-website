@@ -86,8 +86,7 @@ class OlzMailer extends PHPMailer {
         try {
             parent::send();
         } catch (Exception $e) {
-            // TODO: Logging
-            // $this->logger->critical("{$mail->ErrorInfo}");
+            $this->logger->critical("{$this->ErrorInfo}");
             throw $e;
         }
         // @codeCoverageIgnoreStart

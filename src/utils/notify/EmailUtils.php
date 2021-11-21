@@ -42,15 +42,19 @@ class EmailUtils {
     public function createEmail() {
         $mail = new OlzMailer($this, $this->envUtils, true);
 
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-        $mail->isSMTP();
-        $mail->Host = $this->envUtils->getSmtpHost();
-        $mail->SMTPAuth = true;
-        $mail->Username = $this->envUtils->getSmtpUsername();
-        $mail->Password = $this->envUtils->getSmtpPassword();
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = intval($this->envUtils->getSmtpPort());
+        if ($this->envUtils->getSmtpHost() !== null) {
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->isSMTP();
+            $mail->Host = $this->envUtils->getSmtpHost();
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->envUtils->getSmtpUsername();
+            $mail->Password = $this->envUtils->getSmtpPassword();
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = intval($this->envUtils->getSmtpPort());
+        } else {
+            $mail->isSendmail();
+        }
 
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';

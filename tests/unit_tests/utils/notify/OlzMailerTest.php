@@ -14,6 +14,18 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
+ * @coversNothing
+ */
+class OlzMailerForTest extends OlzMailer {
+    public $waited_some_time = false;
+
+    protected function waitSomeTime() {
+        $this->waited_some_time = true;
+    }
+}
+
+/**
+ * @internal
  * @covers \OlzMailer
  */
 final class OlzMailerTest extends UnitTestCase {
@@ -21,7 +33,7 @@ final class OlzMailerTest extends UnitTestCase {
         $email_utils = new FakeEmailUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
-        $mailer = new OlzMailer($email_utils, $server_config, true);
+        $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);
 
         $user = new User();
@@ -68,7 +80,7 @@ final class OlzMailerTest extends UnitTestCase {
         $email_utils = new FakeEmailUtils();
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
-        $mailer = new OlzMailer($email_utils, $server_config, true);
+        $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);
 
         try {
@@ -76,6 +88,7 @@ final class OlzMailerTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (Exception $exc) {
             $this->assertSame('You must provide at least one recipient email address.', $exc->getMessage());
+            $this->assertSame(true, $mailer->waited_some_time);
         }
     }
 }

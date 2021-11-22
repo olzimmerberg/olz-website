@@ -86,11 +86,25 @@ class OlzMailer extends PHPMailer {
         try {
             parent::send();
         } catch (Exception $e) {
-            $this->logger->critical("{$this->ErrorInfo}");
-            throw $e;
+            $this->logger->warning("{$this->ErrorInfo}");
+            $this->waitSomeTime();
+            try {
+                parent::send();
+            } catch (Exception $e) {
+                $this->logger->critical("{$this->ErrorInfo}");
+                throw $e;
+            }
         }
         // @codeCoverageIgnoreStart
         // Reason: Email cannot be sent in tests.
+    }
+
+    // @codeCoverageIgnoreEnd
+
+    // @codeCoverageIgnoreStart
+    // Reason: No time to wait in tests.
+    protected function waitSomeTime() {
+        sleep(10);
     }
 
     // @codeCoverageIgnoreEnd

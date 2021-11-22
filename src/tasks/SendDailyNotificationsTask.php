@@ -63,6 +63,8 @@ class SendDailyNotificationsTask extends BackgroundTask {
     }
 
     protected function runSpecificTask() {
+        set_time_limit(4000);
+
         $this->logger->info("Autogenerating notifications...");
         $this->autoupdateNotificationSubscriptions();
 

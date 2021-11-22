@@ -108,15 +108,6 @@ class OnDailyEndpoint extends OlzEndpoint {
         $this->syncSolvTask->run();
         $this->telegramUtils->sendConfiguration();
 
-        // TODO: Remove again
-        require_once __DIR__.'/../../tasks/LogForAnHourAsyncTask.php';
-        $log_for_an_hour_async_task = new LogForAnHourAsyncTask(
-            $this->entityManager,
-            $this->dateUtils,
-            $this->envUtils
-        );
-        $log_for_an_hour_async_task->start();
-
         return [];
     }
 }

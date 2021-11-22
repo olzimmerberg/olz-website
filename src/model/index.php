@@ -27,8 +27,6 @@ require_once __DIR__.'/OlzText.php';
 require_once __DIR__.'/Role.php';
 require_once __DIR__.'/RoleRepository.php';
 require_once __DIR__.'/Rundmail.php';
-require_once __DIR__.'/RunningTask.php';
-require_once __DIR__.'/RunningTaskRepository.php';
 require_once __DIR__.'/SolvEvent.php';
 require_once __DIR__.'/SolvEventRepository.php';
 require_once __DIR__.'/SolvPerson.php';

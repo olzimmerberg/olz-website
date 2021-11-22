@@ -24,7 +24,6 @@ export type OlzTransportHalt = {
 
 // eslint-disable-next-line no-shadow
 export type OlzApiEndpoint =
-    'continueAsyncTask'|
     'onDaily'|
     'onContinuously'|
     'login'|
@@ -56,9 +55,6 @@ export type OlzApiEndpoint =
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
-    continueAsyncTask: {
-            'taskId': string,
-        },
     onDaily: {
             'authenticityCode': string,
         },
@@ -228,8 +224,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
-    continueAsyncTask: {
-        }|null,
     onDaily: {
         }|null,
     onContinuously: {

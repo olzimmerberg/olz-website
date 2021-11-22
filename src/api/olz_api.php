@@ -6,6 +6,10 @@ require_once __DIR__.'/../config/vendor/autoload.php';
 
 $olz_api = new Api();
 
+$olz_api->registerEndpoint('continueAsyncTask', function () {
+    require_once __DIR__.'/endpoints/ContinueAsyncTaskEndpoint.php';
+    return new ContinueAsyncTaskEndpoint();
+});
 $olz_api->registerEndpoint('onDaily', function () {
     require_once __DIR__.'/endpoints/OnDailyEndpoint.php';
     return new OnDailyEndpoint();

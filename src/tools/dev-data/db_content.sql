@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20211121230543
+-- MIGRATION: OLZ\Migrations\Version20210913161236
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -60,8 +60,7 @@ VALUES
     ('OLZ\\Migrations\\Version20210411185009', '2021-04-11 18:51:04', '266'),
     ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
     ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115'),
-    ('OLZ\\Migrations\\Version20210913161236', '2021-09-13 16:13:26', '152'),
-    ('OLZ\\Migrations\\Version20211121230543', '2021-11-21 23:09:37', '53');
+    ('OLZ\\Migrations\\Version20210913161236', '2021-09-13 16:13:26', '152');
 
 -- Table downloads
 
@@ -179,8 +178,6 @@ VALUES
     ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '');
 
 -- Table rundmail
-
--- Table running_tasks
 
 -- Table solv_events
 INSERT INTO solv_events

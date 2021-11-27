@@ -7,13 +7,19 @@
 require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
-echo "<div style='display:flex;'>";
+echo "<div class='responsive-flex'>";
+echo "<div class='responsive-flex-2'>";
 include __DIR__.'/components/notify/olz_telegram_card/olz_telegram_card.php';
+echo "</div>";
+echo "<div class='responsive-flex-2'>";
 include __DIR__.'/components/notify/olz_email_card/olz_email_card.php';
+echo "</div>";
 echo "</div>";
 
 echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
-echo "<table><tr><td style='width:50%'><h2>Links</h2>";
+echo "<div class='responsive-flex'>";
+echo "<div class='responsive-flex-2'>";
+echo "<h2>Links</h2>";
 
 $db_table = 'links';
 
@@ -130,11 +136,11 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     }
     echo "</ul>";
 }
-?>
 
-</td><td style='width:50%'><h2>Downloads</h2>
+echo "</div>";
+echo "<div class='responsive-flex-2'>";
+echo "<h2>Downloads</h2>";
 
-<?php
 $db_table = 'downloads';
 $def_folder = 'downloads';
 
@@ -265,9 +271,8 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     }
     echo "</ul>";
 }
-    echo "</td></tr></table><br><br>";
-    echo "</form>";
+echo "</div></div><br><br>";
+echo "</form>";
 
-    // Zielsprint 2020
-    include 'zielsprint20.php';
-?>
+// Zielsprint 2020
+include 'zielsprint20.php';

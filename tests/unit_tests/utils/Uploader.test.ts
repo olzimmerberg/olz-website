@@ -105,6 +105,108 @@ describe('Uploader', () => {
         expect(uploader).not.toEqual(undefined);
     });
 
+    describe('upload', () => {
+        it('works', async () => {
+            const uploader = new UploaderForUnitTest();
+            const fakeOlzApi = new FakeOlzApi();
+            fakeOlzApi.mock('startUpload', () => Promise.resolve({status: 'OK', id: 'new-id'}));
+            fakeOlzApi.mock('updateUpload', () => Promise.resolve({status: 'OK'}));
+            fakeOlzApi.mock('finishUpload', () => Promise.resolve({status: 'OK'}));
+            uploader.setOlzApi(fakeOlzApi);
+
+            // Start request
+            const promise = uploader.upload('a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32), 'upload.txt');
+
+            let promiseIsResolvedWith: string|null = null;
+            promise.then((uploadId: string) => {
+                promiseIsResolvedWith = uploadId;
+            });
+            expect(uploader.getUploadQueue()).toEqual([]);
+
+            // Wait for request response
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                parts: [
+                    {status: TestOnlyFileUploadPartStatus.READY},
+                    {status: TestOnlyFileUploadPartStatus.READY},
+                    {status: TestOnlyFileUploadPartStatus.READY},
+                ],
+                status: TestOnlyFileUploadStatus.UPLOADING,
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(1);
+            expect(promiseIsResolvedWith).toEqual(null);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                parts: [
+                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                ],
+                status: TestOnlyFileUploadStatus.UPLOADING,
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(1);
+
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                parts: [
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                ],
+                status: TestOnlyFileUploadStatus.UPLOADING,
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(4);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                parts: [
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                ],
+                status: TestOnlyFileUploadStatus.FINISHING,
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(4);
+
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                parts: [
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: TestOnlyFileUploadPartStatus.DONE},
+                ],
+                status: TestOnlyFileUploadStatus.DONE,
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(5);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(5);
+
+            await Promise.resolve();
+            await Promise.resolve();
+
+            expect(promiseIsResolvedWith).toEqual('new-id');
+        });
+    });
+
     describe('add', () => {
         it('works (integration test)', async () => {
             const uploader = new UploaderForUnitTest();

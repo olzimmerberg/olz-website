@@ -12,9 +12,12 @@ class UpdateUserEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
+        require_once __DIR__.'/../../utils/env/EnvUtils.php';
         $auth_utils = AuthUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
         $this->setEntityManager($entityManager);
+        $this->setEnvUtils($env_utils);
     }
 
     public function setAuthUtils($new_auth_utils) {
@@ -23,6 +26,10 @@ class UpdateUserEndpoint extends OlzEndpoint {
 
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
+    }
+
+    public function setEnvUtils($new_env_utils) {
+        $this->envUtils = $new_env_utils;
     }
 
     public static function getIdent() {
@@ -48,11 +55,12 @@ class UpdateUserEndpoint extends OlzEndpoint {
             'phone' => new FieldTypes\StringField(['allow_null' => true]),
             'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             'birthdate' => new FieldTypes\DateTimeField(['allow_null' => true]),
-            'street' => new FieldTypes\StringField(['allow_empty' => true]),
-            'postalCode' => new FieldTypes\StringField(['allow_empty' => true]),
-            'city' => new FieldTypes\StringField(['allow_empty' => true]),
-            'region' => new FieldTypes\StringField(['allow_empty' => true]),
-            'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true]),
+            'street' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'postalCode' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'region' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
+            'avatarId' => new FieldTypes\StringField(['allow_null' => true]),
         ]]);
     }
 
@@ -85,10 +93,29 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $this->entityManager->flush();
 
+        $user_id = $user->getId();
+        $data_path = $this->envUtils->getDataPath();
+        $avatar_id = $input['avatarId'];
+        $source_path = "{$data_path}temp/{$avatar_id}";
+        $destination_path = "{$data_path}img/users/{$user_id}.jpg";
+        if ($avatar_id === '-') {
+            $this->unlink($destination_path);
+        } elseif ($avatar_id) {
+            $this->rename($source_path, $destination_path);
+        }
+
         $this->session->set('user', $input['username']);
 
         return [
             'status' => 'OK',
         ];
+    }
+
+    protected function unlink($path) {
+        unlink($path);
+    }
+
+    protected function rename($source_path, $destination_path) {
+        rename($source_path, $destination_path);
     }
 }

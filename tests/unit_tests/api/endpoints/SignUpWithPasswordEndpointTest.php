@@ -53,7 +53,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         'postalCode' => 'fakePostalCode',
         'city' => 'fakeCity',
         'region' => 'fakeRegion',
-        'countryCode' => 'fakeCountryCode',
+        'countryCode' => 'CC',
     ];
 
     public function testSignUpWithPasswordEndpointIdent(): void {
@@ -91,11 +91,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => [['.' => ['Feld darf nicht leer sein.']]],
                 'password' => [['.' => ['Feld darf nicht leer sein.']]],
                 'email' => [['.' => ['Feld darf nicht leer sein.']]],
-                'street' => [['.' => ['Feld darf nicht leer sein.']]],
-                'postalCode' => [['.' => ['Feld darf nicht leer sein.']]],
-                'city' => [['.' => ['Feld darf nicht leer sein.']]],
-                'region' => [['.' => ['Feld darf nicht leer sein.']]],
-                'countryCode' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }

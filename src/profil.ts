@@ -16,6 +16,7 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
         city: (f) => getFormField(f, 'city'),
         region: (f) => getFormField(f, 'region'),
         countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
+        avatarId: (f) => getFormField(f, 'avatar-id'),
     };
 
     olzDefaultFormSubmit(

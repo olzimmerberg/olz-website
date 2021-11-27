@@ -14,6 +14,8 @@ function olz_footer($args = []): string {
 
     $out .= "</div>"; // site-container
 
+    // "Legacy" component modals
+
     require_once __DIR__.'/../../auth/olz_login_modal/olz_login_modal.php';
     $out .= olz_login_modal();
 
@@ -29,7 +31,10 @@ function olz_footer($args = []): string {
     require_once __DIR__."/../../notify/olz_link_telegram_modal/olz_link_telegram_modal.php";
     $out .= olz_link_telegram_modal();
 
+    // React modals
+
     $out .= "<div id='edit-news-react-root'></div>";
+    $out .= "<div id='update-user-avatar-react-root'></div>";
 
     $out .= "</body>
     </html>";

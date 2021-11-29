@@ -17,7 +17,6 @@ require_once __DIR__.'/utils/window.php';
 require_once __DIR__.'/modules/aktuell.php';
 require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/datenschutz.php';
-require_once __DIR__.'/modules/divmail.php';
 require_once __DIR__.'/modules/downloads.php';
 require_once __DIR__.'/modules/email_reaktion.php';
 require_once __DIR__.'/modules/error.php';
@@ -69,7 +68,6 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
-        test_startseite($driver, $code_href);
         test_bild_der_woche($driver, $code_href);
         test_aktuell($driver, $code_href);
         test_leistungssport($driver, $code_href);
@@ -82,12 +80,12 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
+        test_startseite($driver, $code_href);
         test_forum($driver, $code_href);
         test_karten($driver, $code_href);
         test_material($driver, $code_href);
         test_links($driver, $code_href);
         test_downloads($driver, $code_href);
-        test_newsletter($driver, $code_href);
         test_email_reaktion($driver, $code_href);
         test_verein($driver, $code_href);
         test_trophy($driver, $code_href);
@@ -106,12 +104,12 @@ $blocks = [
         test_webdav($driver, $code_href);
         test_login_logout($driver, $code_href);
         test_profil($driver, $code_href);
-        test_divmail($driver, $code_href);
         test_webftp($driver, $code_href);
         test_live_results($driver, $code_href);
         test_resultate($driver, $code_href);
         test_konto_passwort($driver, $code_href);
         test_service($driver, $code_href);
+        test_newsletter($driver, $code_href);
 
         echo get_pretty_timing_report();
     },

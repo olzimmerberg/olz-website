@@ -23,13 +23,9 @@ class Forum {
      */
     private $eintrag;
     /**
-     * @ORM\Column(type="integer", options={"default": 1})
+     * @ORM\Column(type="boolean", nullable=false, options={"default": 1})
      */
     private $newsletter;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $newsletter_datum;
     /**
      * @ORM\Column(type="string", nullable=false, options={"default": ""})
      */

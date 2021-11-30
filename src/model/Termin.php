@@ -39,17 +39,9 @@ class Termin {
      */
     private $teilnehmer;
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false, options={"default": 0})
      */
     private $newsletter;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $newsletter_datum;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $newsletter_anmeldung;
     /**
      * @ORM\Column(type="text", nullable=true)
      */

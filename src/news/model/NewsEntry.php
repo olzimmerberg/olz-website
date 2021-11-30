@@ -25,13 +25,9 @@ class NewsEntry extends OlzEntity {
      */
     private $datum;
     /**
-     * @ORM\Column(type="integer", options={"default": 1})
+     * @ORM\Column(type="boolean", nullable=false, options={"default": 1})
      */
     private $newsletter;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $newsletter_datum;
     // TODO: Rename to `title`
     /**
      * @ORM\Column(type="text", nullable=true)

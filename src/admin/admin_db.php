@@ -61,8 +61,6 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["link", "Link", "text", "''", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
         ["tags", "Tags", "hidden", "''", "", "", "", ""],
-        ["newsletter", "Newsletter versenden", "boolean", "1", "", "", "", ""],
-        ["newsletter_datum", "versandt am", "datumzeit", "", "", "", "", ""],
     ];
 } elseif ($db_table == "anmeldung") {// DB ANMELDUNG
     $send_mail = "on";
@@ -126,13 +124,11 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
-        ["newsletter", "Newsletter", "hidden", "1", "", "", "", ""],
         ["zeit", "Zeit", "text", "olz_current_date('H:i:s');", "", "", "", ""],
         ["autor", "Autor", ["text", $nutzer == "gold" ? "" : " readonly"], "ucwords('{$nutzer}')", "", "", "", ""],
         ["titel", "Titel", "text", "''", "", "", "", "", "!empty", "Bitte Titel angeben."],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
         ["text", "Text", "textarea", "''", $markup_notice, "", "", " rows='8'", "!empty", "Bitte Text angeben."],
-        ["newsletter_datum", "Newsletter Datum", "datumzeit", "", "", "", "", ""],
     ];
 } elseif ($db_table == "downloads") {// DB DOWNLOADS
     $db_felder = [
@@ -155,10 +151,6 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["on_off", "Aktiv", "boolean", "'1'", "", "", "", ""],
         ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
     ];
-    if (($_SESSION['auth'] ?? null) == 'all') {
-        array_push($db_felder,
-                    ["newsletter", "Newsletter", "boolean", "'1'", " (Freischalten des Forumeintrages für Newsletter.)", "", "", ""]);
-    }
 } elseif ($db_table == "galerie") {// DB GALERIE
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
@@ -197,25 +189,6 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["name", "Bezeichnung", "text", "''", "", "", "", "", "!empty", "Bitte Download-Bezeichnung angeben."],
         ["url", "URL", "text", "'http://'", "", "", "", "", "!empty", "Bitte URL angeben."],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
-    ];
-} elseif ($db_table == "newsletter") {// DB NEWSLETTER
-    $layout = "1";
-    $send_mail = "on";
-    $db_felder = [
-        ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["reg_date", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
-        ["on_off", "Aktiv", "hidden", "'1'", "", "", "", ""],
-        ["name", "Vorname, Name", "text", "''", "", "", "", "", "!empty", "Bitte einen Namen angeben."],
-        ["email", "Email-Adresse", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angeben."],
-        ["kategorie", "Benachrichtigung bei", ["checkbox", [["Neuen Nachrichten", "aktuell"], ["Neuen Forumsbeiträgen", "forum"], ["Wichtige Termine (z.B. Meldeschluss)", "termine"], ["Vorstandsmitteilungen", "vorstand"]]], "'vorstand'", "", "", "display:block;", ""],
-        ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", " class='test-flaky'"],
-    ];
-} elseif ($db_table == "rundmail") {// DB RUNDMAIL
-    $db_felder = [
-        ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", "hidden", "olz_current_date('Y-m-d');", "", "", "", ""],
-        ["betreff", "Betreff", "text", "'Newsletter OLZimmerberg - '", "", "", "", "", "!empty", "Bitte Betreff eingeben."],
-        ["mailtext", "Bezeichnung", "textarea", "''", "", "", "", "", "!empty", "Bitte Mailtext eingeben."],
     ];
 } elseif ($db_table == "termine") {// DB TERMINE
     //include 'parse_solv_ranglisten.php';
@@ -597,7 +570,7 @@ if (($do ?? null) == 'submit') {
         $db->query($sql);
     }
 
-    if (in_array($db_table, ["newsletter", "anmeldung", "forum"])) { // Nach Abschicken aktivieren
+    if (in_array($db_table, ["anmeldung", "forum"])) { // Nach Abschicken aktivieren
         $sql = "UPDATE {$db_table} SET on_off='1' WHERE (id = '".$_SESSION[$db_table."id"]."')";
         $db->query($sql);
     }
@@ -609,7 +582,6 @@ if (($do ?? null) == 'submit') {
     if ($send_mail == "on") {
         $page_links = [
             'forum' => 'forum.php',
-            'newsletter' => 'service.php',
         ];
         $page_link = $page_links[$db_table];
         $mail_text = ucfirst($db_table)." OL Zimmerberg\n************************\n";
@@ -640,9 +612,6 @@ if (($do ?? null) == 'submit') {
                 array_push($felder_tmp, ["feld".$row['position'], $row['label']]);
             }
             $feedback = "Deine Anmeldung wurde gespeichert. Du erhältst ein Bestätigungsmail mit einem Code. Damit kannst du die Anmeldung bis zum Meldeschluss jederzeit ändern.";
-        } elseif ($db_table == 'newsletter') {
-            $felder_tmp = [["name", "Name"], ["email", "Email-Adresse"], ["kategorie", "Benachrichtigung bei"]];
-            $feedback = "Dein Eintrag wurde gespeichert. Du erhältst ein Bestätigungsmail mit einem Code. Damit kannst du den Newsletter jederzeit ändern.";
         }
 
         // MAILTEXT
@@ -702,11 +671,7 @@ if (($do ?? null) == 'vorschau') {//include 'upload.php';
     }
     if (($do ?? null) == 'vorschau') {
         echo "<h2>Vorschau</h2>";
-        if ($db_table == "rundmail") {
-            $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Bearbeiten", "1"], ["Abschicken", "4"]], "")."</div>";
-        } else {
-            $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Bearbeiten", "1"], ["Speichern", "4"]], "")."</div>";
-        }
+        $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Bearbeiten", "1"], ["Speichern", "4"]], "")."</div>";
         $_SESSION['edit']['vorschau'] = "1";
     }
 }

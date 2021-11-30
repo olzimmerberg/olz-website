@@ -70,13 +70,9 @@ class Blog {
      */
     private $file2_name;
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false, options={"default": 1})
      */
     private $newsletter;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $newsletter_datum;
     /**
      * @ORM\Column(type="integer", nullable=true)
      */

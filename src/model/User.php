@@ -93,6 +93,18 @@ class User {
      * @ORM\JoinTable(name="users_roles")
      */
     private $roles;
+    /**
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    protected $created_at;
+    /**
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    protected $last_modified_at;
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $last_login_at;
 
     public function __construct() {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
@@ -252,6 +264,30 @@ class User {
 
     public function setRoot($new_root) {
         $this->root = $new_root;
+    }
+
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt($new_created_at) {
+        $this->created_at = $new_created_at;
+    }
+
+    public function getLastModifiedAt() {
+        return $this->last_modified_at;
+    }
+
+    public function setLastModifiedAt($new_last_modified_at) {
+        $this->last_modified_at = $new_last_modified_at;
+    }
+
+    public function getLastLoginAt() {
+        return $this->last_login_at;
+    }
+
+    public function setLastLoginAt($new_last_login_at) {
+        $this->last_login_at = $new_last_login_at;
     }
 
     public function __toString() {

@@ -6,6 +6,8 @@ require_once __DIR__.'/../../model/NotificationSubscription.php';
 class EmailConfigurationReminderGetter {
     use Psr\Log\LoggerAwareTrait;
 
+    const DAY_OF_MONTH = 2;
+
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
     }
@@ -20,7 +22,7 @@ class EmailConfigurationReminderGetter {
         }
         $day_of_month = intval($this->dateUtils->getCurrentDateInFormat('j'));
         $total_days_of_month = intval($this->dateUtils->getCurrentDateInFormat('t'));
-        if ($day_of_month !== 1) {
+        if ($day_of_month !== self::DAY_OF_MONTH) {
             return null;
         }
 

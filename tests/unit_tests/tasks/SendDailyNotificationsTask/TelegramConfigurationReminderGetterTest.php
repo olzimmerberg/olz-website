@@ -21,7 +21,9 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     public function testTelegramConfigurationReminderGetterOnWrongDay(): void {
         $entity_manager = new FakeEntityManager();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // not the first day of the month
+        $not_the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH + 1;
+        $not_the_day_str = str_pad("{$not_the_day}", 2, '0', STR_PAD_LEFT);
+        $date_utils = new FixedDateUtils("2020-03-{$not_the_day_str} 19:30:00");
         $logger = new Logger('TelegramConfigurationReminderGetterTest');
 
         $job = new TelegramConfigurationReminderGetter();
@@ -34,7 +36,9 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
 
     public function testTelegramConfigurationReminderGetterCancelled(): void {
         $entity_manager = new FakeEntityManager();
-        $date_utils = new FixedDateUtils('2020-03-01 19:00:00'); // the first day of the month
+        $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
+        $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
+        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
         $logger = new Logger('TelegramConfigurationReminderGetterTest');
 
         $job = new TelegramConfigurationReminderGetter();
@@ -46,7 +50,9 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     }
 
     public function testTelegramConfigurationReminderGetter(): void {
-        $date_utils = new FixedDateUtils('2020-03-01 19:00:00'); // the first day of the month
+        $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
+        $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
+        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('TelegramConfigurationReminderGetterTest');
         $user = new User();

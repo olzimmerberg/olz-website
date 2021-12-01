@@ -84,6 +84,9 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
+        set_time_limit(4000);
+        ignore_user_abort(true);
+
         if ($this->shouldSendDailyMailNow()) {
             $throttling_repo = $this->entityManager->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils->getIsoNow());

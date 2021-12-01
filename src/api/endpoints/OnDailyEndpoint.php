@@ -101,6 +101,9 @@ class OnDailyEndpoint extends OlzEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
+        set_time_limit(4000);
+        ignore_user_abort(true);
+
         $throttling_repo = $this->entityManager->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_daily', $this->dateUtils->getIsoNow());
 

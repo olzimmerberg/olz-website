@@ -5,6 +5,7 @@ class FakeEntityManager {
 
     public $persisted = [];
     public $removed = [];
+    public $flushed = false;
     public $flushed_persisted = [];
     public $flushed_removed = [];
     public $repositories = [];
@@ -35,6 +36,7 @@ class FakeEntityManager {
     }
 
     public function flush() {
+        $this->flushed = true;
         $this->flushed_persisted = $this->persisted;
         $this->flushed_removed = $this->removed;
     }

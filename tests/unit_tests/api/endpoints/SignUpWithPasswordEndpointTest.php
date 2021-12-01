@@ -14,6 +14,7 @@ require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithPasswordEndpoint.
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/index.php';
 require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -99,8 +100,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -121,8 +124,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -145,8 +150,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -172,6 +179,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => 'fakeUsername',
             ],
         ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        // TODO: Check created user!
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
@@ -185,8 +193,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -224,8 +234,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -267,8 +279,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -311,8 +325,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories['User'] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);

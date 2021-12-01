@@ -7,6 +7,7 @@ use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserPasswordEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -122,8 +123,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -144,6 +147,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $admin_user = $entity_manager->getRepository('User')->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('12345678', $admin_user->getPasswordHash()));
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
+        );
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',

@@ -8,7 +8,8 @@ require_once __DIR__.'/../OlzEndpoint.php';
 class UpdateUserEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $entityManager;
+        global $entityManager, $_DATE;
+        require_once __DIR__.'/../../config/date.php';
         require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
@@ -16,12 +17,17 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
+        $this->setDateUtils($_DATE);
         $this->setEntityManager($entityManager);
         $this->setEnvUtils($env_utils);
     }
 
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
+    }
+
+    public function setDateUtils($new_date_utils) {
+        $this->dateUtils = $new_date_utils;
     }
 
     public function setEntityManager($new_entity_manager) {
@@ -79,6 +85,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
 
+        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setUsername($new_username);
@@ -91,6 +98,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $user->setCity($input['city']);
         $user->setRegion($input['region']);
         $user->setCountryCode($input['countryCode']);
+        $user->setLastModifiedAt($now_datetime);
         $this->entityManager->flush();
 
         $user_id = $user->getId();

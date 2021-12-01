@@ -6,9 +6,11 @@ use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../src/api/endpoints/LoginEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -65,9 +67,13 @@ final class LoginEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $user = FakeUsers::adminUser();
         $auth_utils->authenticate_user = $user;
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $entity_manager = new FakeEntityManager();
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setLogger($logger);
@@ -87,6 +93,11 @@ final class LoginEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $user->getLastLoginAt()->format('Y-m-d H:i:s')
+        );
+        $this->assertSame(true, $entity_manager->flushed);
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {

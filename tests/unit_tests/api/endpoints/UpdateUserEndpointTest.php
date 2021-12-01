@@ -7,6 +7,7 @@ use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../src/api/endpoints/UpdateUserEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -119,11 +120,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -152,6 +155,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('Muster', $admin_user->getCity());
         $this->assertSame('ZH', $admin_user->getRegion());
         $this->assertSame('CH', $admin_user->getCountryCode());
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
+        );
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',
@@ -169,11 +176,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointRemoveAvatar(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = new Logger('UpdateUserEndpointTest');
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -205,6 +214,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('Muster', $admin_user->getCity());
         $this->assertSame('ZH', $admin_user->getRegion());
         $this->assertSame('CH', $admin_user->getCountryCode());
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
+        );
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',

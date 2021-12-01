@@ -8,17 +8,23 @@ require_once __DIR__.'/../OlzEndpoint.php';
 class SignUpWithPasswordEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $entityManager;
+        global $_DATE, $entityManager;
+        require_once __DIR__.'/../../config/date.php';
         require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
         $auth_utils = AuthUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
+        $this->setDateUtils($_DATE);
         $this->setEntityManager($entityManager);
     }
 
     public function setAuthUtils($new_auth_utils) {
         $this->authUtils = $new_auth_utils;
+    }
+
+    public function setDateUtils($new_date_utils) {
+        $this->dateUtils = $new_date_utils;
     }
 
     public function setEntityManager($new_entity_manager) {
@@ -56,6 +62,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
+        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];
         $username = $input['username'];
@@ -105,6 +112,9 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $user->setZugriff('');
         $user->setRoot(null);
+        $user->setCreatedAt($now_datetime);
+        $user->setLastModifiedAt($now_datetime);
+        $user->setLastLoginAt(null);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

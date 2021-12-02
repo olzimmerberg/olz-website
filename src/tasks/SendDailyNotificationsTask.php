@@ -263,16 +263,8 @@ class SendDailyNotificationsTask extends BackgroundTask {
     }
 
     private function getNotificationSubscriptions() {
-        $daily_notification_types = [
-            NotificationSubscription::TYPE_DAILY_SUMMARY,
-            NotificationSubscription::TYPE_DEADLINE_WARNING,
-            NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-            NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-            NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-        ];
         $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
-
-        $subscriptions = $notification_subscription_repo->findBy(['notification_type' => $daily_notification_types]);
+        $subscriptions = $notification_subscription_repo->findAll();
 
         $subscriptions_by_type_and_args = [];
         foreach ($subscriptions as $subscription) {

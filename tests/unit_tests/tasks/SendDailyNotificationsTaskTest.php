@@ -38,9 +38,164 @@ $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
 $user_provoke_error->setLastName('Error');
 
+$all_notification_subscriptions = [
+    get_fake_notification_subscription(
+        1,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+        json_encode([]),
+    ),
+    get_fake_notification_subscription(
+        2,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user2,
+        NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+        json_encode(['no_notification' => true]),
+    ),
+    get_fake_notification_subscription(
+        3,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user1,
+        NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+        json_encode([]),
+    ),
+    get_fake_notification_subscription(
+        4,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user1,
+        NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+        json_encode(['no_notification' => true]),
+    ),
+    get_fake_notification_subscription(
+        5,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user1,
+        NotificationSubscription::TYPE_DEADLINE_WARNING,
+        json_encode(['days' => 7]),
+    ),
+    get_fake_notification_subscription(
+        6,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user2,
+        NotificationSubscription::TYPE_DEADLINE_WARNING,
+        json_encode(['days' => 3]),
+    ),
+    get_fake_notification_subscription(
+        7,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user3,
+        NotificationSubscription::TYPE_DEADLINE_WARNING,
+        json_encode(['days' => 3]),
+    ),
+    get_fake_notification_subscription(
+        8,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_DEADLINE_WARNING,
+        json_encode(['days' => 3]),
+    ),
+    get_fake_notification_subscription(
+        9,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_DEADLINE_WARNING,
+        json_encode(['no_notification' => true]),
+    ),
+    get_fake_notification_subscription(
+        10,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_DAILY_SUMMARY,
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
+    get_fake_notification_subscription(
+        11,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_DAILY_SUMMARY,
+        json_encode(['no_notification' => true]),
+    ),
+    get_fake_notification_subscription(
+        12,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user2,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
+    get_fake_notification_subscription(
+        13,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user2,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['no_notification' => true]),
+    ),
+    get_fake_notification_subscription(
+        14,
+        'invalid-delivery',
+        $user2,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
+    get_fake_notification_subscription(
+        15,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user2,
+        'invalid-type',
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
+    get_fake_notification_subscription(
+        16,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user2,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['provoke_error' => true]),
+    ),
+    get_fake_notification_subscription(
+        17,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user_provoke_error,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
+    get_fake_notification_subscription(
+        18,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user2,
+        NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+        json_encode(['cancelled' => false]),
+    ),
+    get_fake_notification_subscription(
+        19,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user2,
+        NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+        json_encode(['cancelled' => true]),
+    ),
+    get_fake_notification_subscription(
+        20,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        json_encode(['cancelled' => false]),
+    ),
+    get_fake_notification_subscription(
+        21,
+        NotificationSubscription::DELIVERY_EMAIL,
+        $user1,
+        NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        json_encode(['cancelled' => true]),
+    ),
+];
+
 class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
+    public function findAll() {
+        global $all_notification_subscriptions;
+        return $all_notification_subscriptions;
+    }
+
     public function findBy($where) {
-        global $user1, $user2, $user3, $user_provoke_error;
+        global $user1, $user2, $user3, $user_provoke_error, $all_notification_subscriptions;
 
         if ($where === ['notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER]) {
             return [
@@ -110,155 +265,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
             ];
         }
 
-        return [
-            get_fake_notification_subscription(
-                1,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-                json_encode([]),
-            ),
-            get_fake_notification_subscription(
-                2,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user2,
-                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-                json_encode(['no_notification' => true]),
-            ),
-            get_fake_notification_subscription(
-                3,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user1,
-                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-                json_encode([]),
-            ),
-            get_fake_notification_subscription(
-                4,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user1,
-                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-                json_encode(['no_notification' => true]),
-            ),
-            get_fake_notification_subscription(
-                5,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user1,
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
-                json_encode(['days' => 7]),
-            ),
-            get_fake_notification_subscription(
-                6,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user2,
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
-                json_encode(['days' => 3]),
-            ),
-            get_fake_notification_subscription(
-                7,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user3,
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
-                json_encode(['days' => 3]),
-            ),
-            get_fake_notification_subscription(
-                8,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
-                json_encode(['days' => 3]),
-            ),
-            get_fake_notification_subscription(
-                9,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
-                json_encode(['no_notification' => true]),
-            ),
-            get_fake_notification_subscription(
-                10,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_DAILY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
-            ),
-            get_fake_notification_subscription(
-                11,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_DAILY_SUMMARY,
-                json_encode(['no_notification' => true]),
-            ),
-            get_fake_notification_subscription(
-                12,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user2,
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
-            ),
-            get_fake_notification_subscription(
-                13,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user2,
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['no_notification' => true]),
-            ),
-            get_fake_notification_subscription(
-                14,
-                'invalid-delivery',
-                $user2,
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
-            ),
-            get_fake_notification_subscription(
-                15,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user2,
-                'invalid-type',
-                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
-            ),
-            get_fake_notification_subscription(
-                16,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user2,
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['provoke_error' => true]),
-            ),
-            get_fake_notification_subscription(
-                17,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user_provoke_error,
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
-            ),
-            get_fake_notification_subscription(
-                18,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user2,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-                json_encode(['cancelled' => false]),
-            ),
-            get_fake_notification_subscription(
-                19,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                $user2,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-                json_encode(['cancelled' => true]),
-            ),
-            get_fake_notification_subscription(
-                20,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                json_encode(['cancelled' => false]),
-            ),
-            get_fake_notification_subscription(
-                21,
-                NotificationSubscription::DELIVERY_EMAIL,
-                $user1,
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                json_encode(['cancelled' => true]),
-            ),
-        ];
+        return $all_notification_subscriptions;
     }
 
     public function findOneBy($where) {

@@ -207,10 +207,10 @@ class NewsUtils {
     }
 
     public static function fromEnv() {
-        global $_DATE;
-        require_once __DIR__.'/../config/date.php';
+        require_once __DIR__.'/date/DateUtils.php';
+        $date_utils = DateUtils::fromEnv();
         $termine_utils = new self();
-        $termine_utils->setDateUtils($_DATE);
+        $termine_utils->setDateUtils($date_utils);
         return $termine_utils;
     }
 }

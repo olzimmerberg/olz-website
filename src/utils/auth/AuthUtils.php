@@ -176,16 +176,17 @@ class AuthUtils {
     }
 
     public static function fromEnv() {
-        global $entityManager, $_DATE;
-        require_once __DIR__.'/../../config/date.php';
+        global $_GET, $_SERVER, $entityManager;
         require_once __DIR__.'/../../config/doctrine_db.php';
+        require_once __DIR__.'/../date/DateUtils.php';
         require_once __DIR__.'/../env/EnvUtils.php';
         require_once __DIR__.'/../session/StandardSession.php';
         $session = new StandardSession();
+        $date_utils = DateUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
         $auth_utils = new self();
-        $auth_utils->setDateUtils($_DATE);
+        $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entityManager);
         $auth_utils->setGetParams($_GET);
         $auth_utils->setLogger($logger);

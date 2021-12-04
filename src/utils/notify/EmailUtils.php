@@ -111,11 +111,11 @@ class EmailUtils {
     }
 
     public static function fromEnv() {
-        global $_CONFIG;
-        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
 
-        $logger = $_CONFIG->getLogsUtils()->getLogger('EmailUtils');
-        $email_utils = new self($_CONFIG);
+        $env_utils = EnvUtils::fromEnv();
+        $logger = $env_utils->getLogsUtils()->getLogger('EmailUtils');
+        $email_utils = new self($env_utils);
         $email_utils->setLogger($logger);
 
         return $email_utils;

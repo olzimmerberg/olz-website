@@ -263,19 +263,21 @@ class TelegramUtils {
     }
 
     public static function fromEnv() {
-        global $_CONFIG, $entityManager;
+        global $entityManager;
         require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/TelegramFetcher.php';
         require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/date/LiveDateUtils.php';
+        require_once __DIR__.'/../date/LiveDateUtils.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
 
+        $env_utils = EnvUtils::fromEnv();
         $telegram_fetcher = new TelegramFetcher();
         $live_date_utils = new LiveDateUtils();
 
         return new self(
-            $_CONFIG->getTelegramBotName(),
-            $_CONFIG->getTelegramBotToken(),
+            $env_utils->getTelegramBotName(),
+            $env_utils->getTelegramBotToken(),
             $telegram_fetcher,
             $entityManager,
             $live_date_utils,

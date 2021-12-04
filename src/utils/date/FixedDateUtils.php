@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__.'/DateUtils.php';
+require_once __DIR__.'/AbstractDateUtils.php';
 
-class FixedDateUtils extends DateUtils {
+class FixedDateUtils extends AbstractDateUtils {
     private $fixed_date;
 
     public function __construct($fixed_date) {

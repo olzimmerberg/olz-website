@@ -109,6 +109,7 @@ class TelegramUtils {
 
         $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
         $existing_telegram_link = $telegram_link_repo->findOneBy(['pin' => $pin]);
+        $redundant_telegram_links = $telegram_link_repo->findBy(['user' => $user->getId()]);
 
         if ($existing_telegram_link == null) {
             throw new \Exception('Falscher PIN.');
@@ -118,6 +119,10 @@ class TelegramUtils {
         }
         $existing_telegram_link->setUser($user);
         $existing_telegram_link->setLinkedAt($now);
+
+        foreach ($redundant_telegram_links as $redundant_telegram_link) {
+            $this->entityManager->remove($redundant_telegram_link);
+        }
 
         $this->entityManager->flush();
         return $existing_telegram_link;

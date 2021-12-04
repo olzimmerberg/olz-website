@@ -231,19 +231,22 @@ class GoogleUtils {
     }
 
     public static function fromEnv() {
-        global $base_href, $code_href, $_CONFIG;
         require_once __DIR__.'/../../config/paths.php';
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
         require_once __DIR__.'/../date/LiveDateUtils.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
 
+        $env_utils = EnvUtils::fromEnv();
+        $base_href = $env_utils->getBaseHref();
+        $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_google.php';
         $google_fetcher = new GoogleFetcher();
         $live_date_utils = new LiveDateUtils();
 
         return new GoogleUtils(
-            $_CONFIG->getGoogleClientId(),
-            $_CONFIG->getGoogleClientSecret(),
+            $env_utils->getGoogleClientId(),
+            $env_utils->getGoogleClientSecret(),
             $redirect_url,
             $google_fetcher,
             $live_date_utils

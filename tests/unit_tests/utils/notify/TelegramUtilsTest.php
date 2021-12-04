@@ -29,6 +29,22 @@ class FakeTelegramUtilsEntityManager extends FakeEntityManager {
 }
 
 class FakeTelegramUtilsTelegramLinkRepository {
+    public function findBy($where) {
+        if ($where == ['user' => 1]) {
+            $redundant_pin_link = new TelegramLink();
+            $redundant_pin_link->setId(13);
+            return [$redundant_pin_link];
+        }
+        if ($where == ['user' => 2]) {
+            return [];
+        }
+        if ($where == ['user' => 3]) {
+            return [];
+        }
+        $query_json = json_encode($where);
+        throw new Exception("findBy query not mocked: {$query_json}");
+    }
+
     public function findOneBy($where) {
         global $valid_pin, $expired_pin;
 
@@ -242,6 +258,13 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame(null, $telegram_link->getCreatedAt());
         $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame([13], array_map(
+            function ($telegram_link) {
+                return $telegram_link->getId();
+            },
+            $entity_manager->removed
+        ));
+        $this->assertSame($entity_manager->flushed_removed, $entity_manager->removed);
 
         try {
             $user = new User();

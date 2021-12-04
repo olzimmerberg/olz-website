@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/utils/date/DateUtils.php';
+require_once __DIR__.'/../../../../src/utils/date/AbstractDateUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class FakeDateUtils extends DateUtils {
+class FakeDateUtils extends AbstractDateUtils {
     private $fixed_date;
 
     public function __construct($fixed_date) {
@@ -19,7 +19,7 @@ class FakeDateUtils extends DateUtils {
 
 /**
  * @internal
- * @covers \DateUtils
+ * @covers \AbstractDateUtils
  */
 final class DateUtilsTest extends UnitTestCase {
     public function testGetIsoNow(): void {

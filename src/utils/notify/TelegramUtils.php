@@ -12,6 +12,8 @@ require_once __DIR__.'/../../model/TelegramLink.php';
 require_once __DIR__.'/../../model/User.php';
 
 class TelegramUtils {
+    use Psr\Log\LoggerAwareTrait;
+
     private $botName;
     private $botToken;
     private $telegramFetcher;

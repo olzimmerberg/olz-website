@@ -7,22 +7,8 @@
 global $_DATE;
 
 if (!isset($_DATE)) {
-    global $_CONFIG;
-
-    require_once __DIR__.'/server.php';
-
-    $class_name = $_CONFIG->getDateUtilsClassName();
-    $class_args = $_CONFIG->getDateUtilsClassArgs();
-
-    if ($class_name == 'FixedDateUtils') {
-        require_once __DIR__.'/../utils/date/FixedDateUtils.php';
-        $_DATE = new FixedDateUtils($class_args[0]);
-    } elseif ($class_name == 'LiveDateUtils') {
-        require_once __DIR__.'/../utils/date/LiveDateUtils.php';
-        $_DATE = new LiveDateUtils();
-    } else {
-        exit("Invalid date utils class name: {$class_name}");
-    }
+    require_once __DIR__.'/../utils/date/DateUtils.php';
+    $_DATE = DateUtils::fromEnv();
 }
 
 date_default_timezone_set('Europe/Zurich');

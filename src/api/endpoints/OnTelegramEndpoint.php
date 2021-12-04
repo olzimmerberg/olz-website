@@ -13,7 +13,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
-        $telegram_utils = getTelegramUtilsFromEnv();
+        $telegram_utils = TelegramUtils::fromEnv();
         $this->setTelegramUtils($telegram_utils);
         $this->setEntityManager($entityManager);
         $this->setEnvUtils($_CONFIG);

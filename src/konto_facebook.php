@@ -19,7 +19,7 @@ echo "<div id='content_double'>
 
 $code = $_GET['code'];
 
-$facebook_utils = getFacebookUtilsFromEnv();
+$facebook_utils = FacebookUtils::fromEnv();
 $token_data = $facebook_utils->getTokenDataForCode($code);
 $user_data = $facebook_utils->getUserData($token_data);
 

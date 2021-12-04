@@ -26,7 +26,7 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/StravaUtils.php';
-        $strava_utils = getStravaUtilsFromEnv();
+        $strava_utils = StravaUtils::fromEnv();
         $this->setEntityManager($entityManager);
         $this->setStravaUtils($strava_utils);
     }

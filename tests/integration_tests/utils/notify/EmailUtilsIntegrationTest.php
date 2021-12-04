@@ -14,7 +14,7 @@ final class EmailUtilsIntegrationTest extends IntegrationTestCase {
         global $_CONFIG;
         require_once __DIR__.'/../../../../src/config/server.php';
 
-        $email_utils = getEmailUtilsFromEnv();
+        $email_utils = EmailUtils::fromEnv();
 
         $mailer = $email_utils->createEmail();
 

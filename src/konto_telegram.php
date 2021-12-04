@@ -17,7 +17,7 @@ require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/notify/TelegramUtils.php';
 
-$telegram_utils = getTelegramUtilsFromEnv();
+$telegram_utils = TelegramUtils::fromEnv();
 $pin = $_GET['pin'];
 
 $user_repo = $entityManager->getRepository(User::class);

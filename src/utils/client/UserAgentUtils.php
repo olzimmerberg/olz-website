@@ -31,10 +31,3 @@ class UserAgentUtils {
         );
     }
 }
-
-function getUserAgentUtilsFromEnv() {
-    // @codeCoverageIgnoreStart
-    // Reason: functions cannot be covered.
-    return UserAgentUtils::fromEnv();
-    // @codeCoverageIgnoreEnd
-}

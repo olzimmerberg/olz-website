@@ -11,7 +11,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
  */
 final class TelegramUtilsIntegrationTest extends IntegrationTestCase {
     public function testTelegramUtilsFromEnv(): void {
-        $telegram_utils = getTelegramUtilsFromEnv();
+        $telegram_utils = TelegramUtils::fromEnv();
         $this->assertSame('olz_bot', $telegram_utils->getBotName());
     }
 }

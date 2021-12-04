@@ -18,7 +18,7 @@ class OnDailyEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../tasks/CleanTempDirectoryTask.php';
         require_once __DIR__.'/../../tasks/SyncSolvTask.php';
         require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
-        $telegram_utils = getTelegramUtilsFromEnv();
+        $telegram_utils = TelegramUtils::fromEnv();
         $date_utils = $_DATE;
         $clean_temp_directory_task = new CleanTempDirectoryTask($date_utils, $_CONFIG);
         $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);

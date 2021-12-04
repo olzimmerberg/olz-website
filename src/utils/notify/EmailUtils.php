@@ -121,10 +121,3 @@ class EmailUtils {
         return $email_utils;
     }
 }
-
-function getEmailUtilsFromEnv() {
-    // @codeCoverageIgnoreStart
-    // Reason: functions cannot be covered.
-    return EmailUtils::fromEnv();
-    // @codeCoverageIgnoreEnd
-}

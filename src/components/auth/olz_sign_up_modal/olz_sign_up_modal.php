@@ -8,9 +8,9 @@ function olz_sign_up_modal($args = []): string {
     require_once __DIR__.'/../../../utils/auth/FacebookUtils.php';
     require_once __DIR__.'/../../../utils/auth/StravaUtils.php';
 
-    $strava_utils = getStravaUtilsFromEnv();
-    $google_utils = getGoogleUtilsFromEnv();
-    $facebook_utils = getFacebookUtilsFromEnv();
+    $strava_utils = StravaUtils::fromEnv();
+    $google_utils = GoogleUtils::fromEnv();
+    $facebook_utils = FacebookUtils::fromEnv();
     $strava_url = $strava_utils->getAuthUrl();
     $google_url = $google_utils->getAuthUrl();
     $facebook_url = $facebook_utils->getAuthUrl();

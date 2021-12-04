@@ -366,10 +366,3 @@ class EnvUtils {
         }
     }
 }
-
-function getEnvUtilsFromEnv() {
-    // @codeCoverageIgnoreStart
-    // Reason: functions cannot be covered.
-    return EnvUtils::fromEnv();
-    // @codeCoverageIgnoreEnd
-}

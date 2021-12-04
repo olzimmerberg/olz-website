@@ -229,24 +229,24 @@ class GoogleUtils {
         $day = str_pad($date['day'], 2, '0', STR_PAD_LEFT);
         return "{$year}-{$month}-{$day}";
     }
-}
 
-function getGoogleUtilsFromEnv() {
-    global $base_href, $code_href, $_CONFIG;
-    require_once __DIR__.'/../../config/paths.php';
-    require_once __DIR__.'/../../config/server.php';
-    require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
-    require_once __DIR__.'/../date/LiveDateUtils.php';
+    public static function fromEnv() {
+        global $base_href, $code_href, $_CONFIG;
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
+        require_once __DIR__.'/../date/LiveDateUtils.php';
 
-    $redirect_url = $base_href.$code_href.'konto_google.php';
-    $google_fetcher = new GoogleFetcher();
-    $live_date_utils = new LiveDateUtils();
+        $redirect_url = $base_href.$code_href.'konto_google.php';
+        $google_fetcher = new GoogleFetcher();
+        $live_date_utils = new LiveDateUtils();
 
-    return new GoogleUtils(
-        $_CONFIG->getGoogleClientId(),
-        $_CONFIG->getGoogleClientSecret(),
-        $redirect_url,
-        $google_fetcher,
-        $live_date_utils
-    );
+        return new GoogleUtils(
+            $_CONFIG->getGoogleClientId(),
+            $_CONFIG->getGoogleClientSecret(),
+            $redirect_url,
+            $google_fetcher,
+            $live_date_utils
+        );
+    }
 }

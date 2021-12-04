@@ -80,24 +80,24 @@ class FacebookUtils {
     public function getUserData($token_data) {
         return $token_data;
     }
-}
 
-function getFacebookUtilsFromEnv() {
-    global $base_href, $code_href, $_CONFIG;
-    require_once __DIR__.'/../../config/paths.php';
-    require_once __DIR__.'/../../config/server.php';
-    require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
-    require_once __DIR__.'/../date/LiveDateUtils.php';
+    public static function fromEnv() {
+        global $base_href, $code_href, $_CONFIG;
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
+        require_once __DIR__.'/../date/LiveDateUtils.php';
 
-    $redirect_url = $base_href.$code_href.'konto_facebook.php';
-    $facebook_fetcher = new FacebookFetcher();
-    $live_date_utils = new LiveDateUtils();
+        $redirect_url = $base_href.$code_href.'konto_facebook.php';
+        $facebook_fetcher = new FacebookFetcher();
+        $live_date_utils = new LiveDateUtils();
 
-    return new FacebookUtils(
-        $_CONFIG->getFacebookAppId(),
-        $_CONFIG->getFacebookAppSecret(),
-        $redirect_url,
-        $facebook_fetcher,
-        $live_date_utils
-    );
+        return new FacebookUtils(
+            $_CONFIG->getFacebookAppId(),
+            $_CONFIG->getFacebookAppSecret(),
+            $redirect_url,
+            $facebook_fetcher,
+            $live_date_utils
+        );
+    }
 }

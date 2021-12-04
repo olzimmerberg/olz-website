@@ -65,21 +65,21 @@ class StravaUtils {
     public function getUserData($token_data) {
         return $token_data;
     }
-}
 
-function getStravaUtilsFromEnv() {
-    global $base_href, $code_href, $_CONFIG;
-    require_once __DIR__.'/../../config/paths.php';
-    require_once __DIR__.'/../../config/server.php';
-    require_once __DIR__.'/../../fetchers/StravaFetcher.php';
+    public static function fromEnv() {
+        global $base_href, $code_href, $_CONFIG;
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/StravaFetcher.php';
 
-    $redirect_url = $base_href.$code_href.'konto_strava.php';
-    $strava_fetcher = new StravaFetcher();
+        $redirect_url = $base_href.$code_href.'konto_strava.php';
+        $strava_fetcher = new StravaFetcher();
 
-    return new StravaUtils(
-        $_CONFIG->getStravaClientId(),
-        $_CONFIG->getStravaClientSecret(),
-        $redirect_url,
-        $strava_fetcher
-    );
+        return new StravaUtils(
+            $_CONFIG->getStravaClientId(),
+            $_CONFIG->getStravaClientSecret(),
+            $redirect_url,
+            $strava_fetcher
+        );
+    }
 }

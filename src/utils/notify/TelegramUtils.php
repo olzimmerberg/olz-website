@@ -282,10 +282,3 @@ class TelegramUtils {
         );
     }
 }
-
-function getTelegramUtilsFromEnv() {
-    // @codeCoverageIgnoreStart
-    // Reason: functions cannot be covered.
-    return TelegramUtils::fromEnv();
-    // @codeCoverageIgnoreEnd
-}

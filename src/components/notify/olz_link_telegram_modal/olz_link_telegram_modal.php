@@ -6,7 +6,7 @@ function olz_link_telegram_modal($args = []): string {
     require_once __DIR__.'/../../../config/server.php';
     require_once __DIR__.'/../../../utils/client/UserAgentUtils.php';
 
-    $user_agent_utils = getUserAgentUtilsFromEnv();
+    $user_agent_utils = UserAgentUtils::fromEnv();
 
     $install_instructions = [
         "<li>Installiere die Telegram-App auf deinem Smartphone</li>",

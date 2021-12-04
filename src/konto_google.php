@@ -19,7 +19,7 @@ echo "<div id='content_double'>
 
 $code = $_GET['code'];
 
-$google_utils = getGoogleUtilsFromEnv();
+$google_utils = GoogleUtils::fromEnv();
 $token_data = $google_utils->getTokenDataForCode($code);
 $user_data = $google_utils->getUserData($token_data);
 

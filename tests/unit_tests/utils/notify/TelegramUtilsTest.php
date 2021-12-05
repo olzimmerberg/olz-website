@@ -6,6 +6,7 @@ require_once __DIR__.'/../../../../src/model/TelegramLink.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/TelegramUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $iso_now = '2020-03-13 19:30:00';
@@ -129,13 +130,16 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new TelegramUtils();
         $telegram_utils->setBotName('fake-bot-name');
+        $telegram_utils->setLogger($logger);
 
         $this->assertSame('fake-bot-name', $telegram_utils->getBotName());
         $this->assertSame(26 + 26 + 10, strlen($telegram_utils->getTelegramPinChars()));
         $this->assertGreaterThanOrEqual(8, $telegram_utils->getTelegramPinLength());
         $this->assertMatchesRegularExpression('/[a-zA-Z0-9]{8}/', $telegram_utils->generateTelegramPin());
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testSetNewPinForLink(): void {
@@ -143,15 +147,18 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
         $telegram_link = new TelegramLink();
 
         $telegram_utils->setNewPinForLink($telegram_link);
 
         $this->assertSame($generated_pin_1, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testStartChatForUser(): void {
@@ -159,9 +166,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $user = new User();
         $user->setId(1);
@@ -169,6 +178,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $this->assertSame($generated_pin_1, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         $user = new User();
         $user->setId(4);
@@ -176,6 +186,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $this->assertSame($generated_pin_2, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testStartAnonymousChat(): void {
@@ -183,9 +194,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $telegram_link = $telegram_utils->startAnonymousChat(2, 2);
 
@@ -197,6 +210,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame(null, $telegram_link->getCreatedAt());
         $this->assertSame(null, $telegram_link->getLinkedAt());
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         $telegram_link = $telegram_utils->startAnonymousChat(4, 4);
 
@@ -208,6 +222,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame($iso_now, $telegram_link->getCreatedAt()->format('Y-m-d H:i:s'));
         $this->assertSame(null, $telegram_link->getLinkedAt());
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testLinkChatUsingPin(): void {
@@ -215,9 +230,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $telegram_chat_id = 1;
         $telegram_user_id = 10;
@@ -231,12 +248,14 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame(null, $telegram_link->getCreatedAt());
         $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         try {
             $telegram_link = $telegram_utils->linkChatUsingPin($expired_pin, 2, 2);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('PIN ist abgelaufen.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
 
         try {
@@ -244,6 +263,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Falscher PIN.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -252,9 +272,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $user = new User();
         $user->setId(1);
@@ -275,6 +297,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $entity_manager->removed
         ));
         $this->assertSame($entity_manager->flushed_removed, $entity_manager->removed);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         try {
             $user = new User();
@@ -283,6 +306,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('PIN ist abgelaufen.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
 
         try {
@@ -292,6 +316,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Falscher PIN.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -300,21 +325,25 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $user = new User();
         $user->setId(4);
         $chat_link = $telegram_utils->getFreshPinForUser($user);
 
         $this->assertSame($generated_pin_1, $chat_link);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         $user = new User();
         $user->setId(2);
         $chat_link = $telegram_utils->getFreshPinForUser($user);
 
         $this->assertSame($generated_pin_2, $chat_link);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testGetFreshPinForChat(): void {
@@ -322,24 +351,29 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $telegram_chat_id = 1;
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_1, $chat_link);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         $telegram_chat_id = 2;
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_2, $chat_link);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         $telegram_chat_id = 3;
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_3, $chat_link);
+        $this->assertSame([], $logger->handler->getPrettyRecords());
 
         try {
             $telegram_chat_id = 4;
@@ -347,6 +381,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Unbekannter Chat.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -355,13 +390,16 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $this->assertSame(false, $telegram_utils->isAnonymousChat(1));
         $this->assertSame(true, $telegram_utils->isAnonymousChat(2));
         $this->assertSame(true, $telegram_utils->isAnonymousChat(3));
         $this->assertSame(true, $telegram_utils->isAnonymousChat(4));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testGetChatState(): void {
@@ -369,13 +407,16 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $this->assertSame([], $telegram_utils->getChatState(1));
         $this->assertSame([], $telegram_utils->getChatState(2));
         $this->assertSame([], $telegram_utils->getChatState(3));
         $this->assertSame(null, $telegram_utils->getChatState(4));
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 
     public function testSetChatState(): void {
@@ -383,8 +424,10 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setLogger($logger);
 
         $telegram_utils->setChatState(1, ['test' => true]);
         $telegram_utils->setChatState(2, ['test' => 2]);
@@ -394,6 +437,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Unbekannter Chat.', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -402,9 +446,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setBotToken('fake-bot-token');
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
 
         $telegram_utils->sendConfiguration();
 
@@ -414,6 +460,9 @@ final class TelegramUtilsTest extends UnitTestCase {
                 'scope' => '{"type":"all_private_chats"}',
             ], 'fake-bot-token'],
         ], $telegram_fetcher->sentCommands);
+        $this->assertSame([
+            "INFO Telegram API call successful",
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testCallTelegramApi(): void {
@@ -421,13 +470,18 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setBotToken('fake-bot-token');
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
 
         $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
 
         $this->assertSame(['result' => 'interesting'], $result);
+        $this->assertSame([
+            "INFO Telegram API call successful",
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testCallTelegramApiEmpty(): void {
@@ -435,9 +489,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setBotToken('fake-bot-token');
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
 
         try {
             $telegram_fetcher->fetchEmpty = true;
@@ -445,6 +501,9 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false}', $exc->getMessage());
+            $this->assertSame([
+                "WARNING Telegram API response was empty",
+            ], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -453,9 +512,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setBotToken('fake-bot-token');
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
 
         try {
             $telegram_fetcher->fetchNotOk = true;
@@ -463,6 +524,9 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false}', $exc->getMessage());
+            $this->assertSame([
+                "NOTICE Telegram API response was not OK: {\"ok\":false}",
+            ], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -471,9 +535,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setBotToken('fake-bot-token');
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
 
         try {
             $telegram_fetcher->fetchWithError = true;
@@ -481,6 +547,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('fake-telegram-fetcher-exception', $exc->getMessage());
+            $this->assertSame([], $logger->handler->getPrettyRecords());
         }
     }
 
@@ -489,7 +556,9 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $entity_manager = new FakeTelegramUtilsEntityManager();
         $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils->setLogger($logger);
 
         // Ignore HTML
         $html = $telegram_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");
@@ -558,5 +627,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         // Heading ID
         $html = $telegram_utils->renderMarkdown("- [x] finish\n- [ ] this\n- [ ] list\n");
         $this->assertSame("- [x] finish\n- [ ] this\n- [ ] list\n", $html);
+
+        $this->assertSame([], $logger->handler->getPrettyRecords());
     }
 }

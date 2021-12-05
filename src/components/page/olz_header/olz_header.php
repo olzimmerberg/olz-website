@@ -41,7 +41,7 @@ function olz_header_without_routing($args = []): string {
     }
     $html_description = "";
     if (isset($args['description'])) {
-        $description_arg = htmlspecialchars($args['description']);
+        $description_arg = htmlspecialchars(str_replace("\n", " ", $args['description']));
         $html_description = "<meta name='Description' content='{$description_arg}'>";
     }
 

@@ -235,18 +235,21 @@ class TelegramUtils {
             ]),
             'scope' => json_encode(['type' => 'all_private_chats']),
         ]);
+        $response_json = json_encode($response);
     }
 
     public function callTelegramApi($command, $args) {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->botToken);
         if (!$response) {
-            // TODO: logging
+            $this->logger->warning("Telegram API response was empty");
             throw new Exception(json_encode(['ok' => false]));
         }
         if (isset($response['ok']) && !$response['ok']) {
-            // TODO: logging
-            throw new Exception(json_encode($response));
+            $response_json = json_encode($response);
+            $this->logger->notice("Telegram API response was not OK: {$response_json}");
+            throw new Exception($response_json);
         }
+        $this->logger->info("Telegram API call successful", [$command, $args, $response]);
         return $response;
     }
 
@@ -280,6 +283,7 @@ class TelegramUtils {
         $date_utils = DateUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $telegram_fetcher = new TelegramFetcher();
+        $logger = $env_utils->getLogsUtils()->getLogger('TelegramUtils');
 
         $telegram_utils = new self();
         $telegram_utils->setBotName($env_utils->getTelegramBotName());
@@ -287,6 +291,8 @@ class TelegramUtils {
         $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entityManager);
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
+
         return $telegram_utils;
     }
 }

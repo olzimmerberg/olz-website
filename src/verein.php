@@ -38,7 +38,7 @@ if (isset($_GET['ressort'])) {
 
     echo olz_header([
         'title' => $role->getName(),
-        'description' => $role->getDescription(),
+        'description' => "Ressort {$role->getName()} der OL Zimmerberg.",
         'norobots' => $no_robots,
     ]);
 

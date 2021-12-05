@@ -1,24 +1,20 @@
 <?php
 
 class StravaUtils {
-    private $client_id;
-    private $client_secret;
-    private $redirect_url;
-    private $strava_fetcher;
-
-    public function __construct($client_id, $client_secret, $redirect_url, $strava_fetcher) {
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
-        $this->redirect_url = $redirect_url;
-        $this->strava_fetcher = $strava_fetcher;
-    }
-
     public function setClientId($client_id) {
         $this->client_id = $client_id;
     }
 
     public function setClientSecret($client_secret) {
         $this->client_secret = $client_secret;
+    }
+
+    public function setRedirectUrl($redirect_url) {
+        $this->redirect_url = $redirect_url;
+    }
+
+    public function setStravaFetcher($strava_fetcher) {
+        $this->strava_fetcher = $strava_fetcher;
     }
 
     public function getAuthUrl() {
@@ -78,11 +74,11 @@ class StravaUtils {
         $redirect_url = $base_href.$code_href.'konto_strava.php';
         $strava_fetcher = new StravaFetcher();
 
-        return new StravaUtils(
-            $env_utils->getStravaClientId(),
-            $env_utils->getStravaClientSecret(),
-            $redirect_url,
-            $strava_fetcher
-        );
+        $strava_utils = new StravaUtils();
+        $strava_utils->setClientId($env_utils->getStravaClientId());
+        $strava_utils->setClientSecret($env_utils->getStravaClientSecret());
+        $strava_utils->setRedirectUrl($redirect_url);
+        $strava_utils->setStravaFetcher($strava_fetcher);
+        return $strava_utils;
     }
 }

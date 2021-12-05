@@ -1,26 +1,24 @@
 <?php
 
 class FacebookUtils {
-    private $app_id;
-    private $app_secret;
-    private $redirect_url;
-    private $facebook_fetcher;
-    private $date_utils;
-
-    public function __construct($app_id, $app_secret, $redirect_url, $facebook_fetcher, $date_utils) {
-        $this->app_id = $app_id;
-        $this->app_secret = $app_secret;
-        $this->redirect_url = $redirect_url;
-        $this->facebook_fetcher = $facebook_fetcher;
-        $this->date_utils = $date_utils;
-    }
-
     public function setAppId($app_id) {
         $this->app_id = $app_id;
     }
 
     public function setAppSecret($app_secret) {
         $this->app_secret = $app_secret;
+    }
+
+    public function setRedirectUrl($redirect_url) {
+        $this->redirect_url = $redirect_url;
+    }
+
+    public function setDateUtils($date_utils) {
+        $this->date_utils = $date_utils;
+    }
+
+    public function setFacebookFetcher($facebook_fetcher) {
+        $this->facebook_fetcher = $facebook_fetcher;
     }
 
     public function getAuthUrl() {
@@ -85,22 +83,22 @@ class FacebookUtils {
         require_once __DIR__.'/../../config/paths.php';
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
-        require_once __DIR__.'/../date/LiveDateUtils.php';
+        require_once __DIR__.'/../date/DateUtils.php';
         require_once __DIR__.'/../env/EnvUtils.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_facebook.php';
+        $date_utils = DateUtils::fromEnv();
         $facebook_fetcher = new FacebookFetcher();
-        $live_date_utils = new LiveDateUtils();
 
-        return new FacebookUtils(
-            $env_utils->getFacebookAppId(),
-            $env_utils->getFacebookAppSecret(),
-            $redirect_url,
-            $facebook_fetcher,
-            $live_date_utils
-        );
+        $facebook_utils = new FacebookUtils();
+        $facebook_utils->setAppId($env_utils->getFacebookAppId());
+        $facebook_utils->setAppSecret($env_utils->getFacebookAppSecret());
+        $facebook_utils->setRedirectUrl($redirect_url);
+        $facebook_utils->setDateUtils($date_utils);
+        $facebook_utils->setFacebookFetcher($facebook_fetcher);
+        return $facebook_utils;
     }
 }

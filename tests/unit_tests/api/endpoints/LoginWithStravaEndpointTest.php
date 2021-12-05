@@ -78,7 +78,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
     public function testLoginWithStravaEndpointWithoutInput(): void {
         $entity_manager = new FakeLoginWithStravaEndpointEntityManager();
         $strava_fetcher = new FakeLoginWithStravaEndpointStravaFetcher([]);
-        $strava_utils = new StravaUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $strava_fetcher);
+        $strava_utils = new StravaUtils();
+        $strava_utils->setClientId('fake-client-id');
+        $strava_utils->setClientSecret('fake-client-secret');
+        $strava_utils->setRedirectUrl('fake-redirect-url');
+        $strava_utils->setStravaFetcher($strava_fetcher);
         $logger = new Logger('LoginWithStravaEndpointTest');
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -112,7 +116,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
                 'profile' => 'fake_profile',
             ],
         ]);
-        $strava_utils = new StravaUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $strava_fetcher);
+        $strava_utils = new StravaUtils();
+        $strava_utils->setClientId('fake-client-id');
+        $strava_utils->setClientSecret('fake-client-secret');
+        $strava_utils->setRedirectUrl('fake-redirect-url');
+        $strava_utils->setStravaFetcher($strava_fetcher);
         $logger = new Logger('LoginWithStravaEndpointTest');
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -173,7 +181,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
                 'profile' => 'fake_profile',
             ],
         ]);
-        $strava_utils = new StravaUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $strava_fetcher);
+        $strava_utils = new StravaUtils();
+        $strava_utils->setClientId('fake-client-id');
+        $strava_utils->setClientSecret('fake-client-secret');
+        $strava_utils->setRedirectUrl('fake-redirect-url');
+        $strava_utils->setStravaFetcher($strava_fetcher);
         $logger = new Logger('LoginWithStravaEndpointTest');
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -216,7 +228,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
                 ],
             ],
         ]);
-        $strava_utils = new StravaUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $strava_fetcher);
+        $strava_utils = new StravaUtils();
+        $strava_utils->setClientId('fake-client-id');
+        $strava_utils->setClientSecret('fake-client-secret');
+        $strava_utils->setRedirectUrl('fake-redirect-url');
+        $strava_utils->setStravaFetcher($strava_fetcher);
         $logger = new Logger('LoginWithStravaEndpointTest');
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);

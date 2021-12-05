@@ -9,18 +9,17 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
-require_once __DIR__.'/../GeneralUtils.php';
 require_once __DIR__.'/OlzMailer.php';
 
 class EmailUtils {
     use Psr\Log\LoggerAwareTrait;
 
-    private $generalUtils;
-    private $envUtils;
-
-    public function __construct($envUtils) {
-        $this->generalUtils = new GeneralUtils();
+    public function setEnvUtils($envUtils) {
         $this->envUtils = $envUtils;
+    }
+
+    public function setGeneralUtils($generalUtils) {
+        $this->generalUtils = $generalUtils;
     }
 
     public function getImapMailbox() {
@@ -112,10 +111,15 @@ class EmailUtils {
 
     public static function fromEnv() {
         require_once __DIR__.'/../env/EnvUtils.php';
+        require_once __DIR__.'/../GeneralUtils.php';
 
         $env_utils = EnvUtils::fromEnv();
+        $general_utils = GeneralUtils::fromEnv();
         $logger = $env_utils->getLogsUtils()->getLogger('EmailUtils');
-        $email_utils = new self($env_utils);
+
+        $email_utils = new self();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         return $email_utils;

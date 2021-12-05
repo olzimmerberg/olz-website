@@ -7,6 +7,7 @@ use PhpImap\Mailbox;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../src/utils/notify/EmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -23,9 +24,12 @@ class FakeEnvUtilsForSendmail extends FakeEnvUtils {
  */
 final class EmailUtilsTest extends UnitTestCase {
     public function testGetImapMailbox(): void {
-        $server_config = new FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         $mailbox = $email_utils->getImapMailbox();
@@ -36,9 +40,12 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $server_config = new FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
@@ -51,18 +58,24 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $server_config = new FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
     }
 
     public function testCreateSendmailEmail(): void {
-        $server_config = new FakeEnvUtilsForSendmail();
+        $env_utils = new FakeEnvUtilsForSendmail();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         $mailer = $email_utils->createEmail();
@@ -117,9 +130,12 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateSmtpEmail(): void {
-        $server_config = new FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         $mailer = $email_utils->createEmail();
@@ -174,9 +190,12 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $server_config = new FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $logger = new Logger('EmailUtilsTest');
-        $email_utils = new EmailUtils($server_config);
+        $email_utils = new EmailUtils();
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLogger($logger);
 
         // Ignore HTML

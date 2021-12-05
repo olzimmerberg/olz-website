@@ -14,18 +14,24 @@ require_once __DIR__.'/../../model/User.php';
 class TelegramUtils {
     use Psr\Log\LoggerAwareTrait;
 
-    private $botName;
-    private $botToken;
-    private $telegramFetcher;
-    private $entityManager;
-    private $dateUtils;
-
-    public function __construct($botName, $botToken, $telegramFetcher, $entityManager, $dateUtils) {
+    public function setBotName($botName) {
         $this->botName = $botName;
+    }
+
+    public function setBotToken($botToken) {
         $this->botToken = $botToken;
-        $this->telegramFetcher = $telegramFetcher;
-        $this->entityManager = $entityManager;
+    }
+
+    public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
+    }
+
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function setTelegramFetcher($telegramFetcher) {
+        $this->telegramFetcher = $telegramFetcher;
     }
 
     public function getBotName() {
@@ -268,19 +274,19 @@ class TelegramUtils {
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/TelegramFetcher.php';
         require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../date/LiveDateUtils.php';
+        require_once __DIR__.'/../date/DateUtils.php';
         require_once __DIR__.'/../env/EnvUtils.php';
 
+        $date_utils = DateUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $telegram_fetcher = new TelegramFetcher();
-        $live_date_utils = new LiveDateUtils();
 
-        return new self(
-            $env_utils->getTelegramBotName(),
-            $env_utils->getTelegramBotToken(),
-            $telegram_fetcher,
-            $entityManager,
-            $live_date_utils,
-        );
+        $telegram_utils = new self();
+        $telegram_utils->setBotName($env_utils->getTelegramBotName());
+        $telegram_utils->setBotToken($env_utils->getTelegramBotToken());
+        $telegram_utils->setDateUtils($date_utils);
+        $telegram_utils->setEntityManager($entityManager);
+        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        return $telegram_utils;
     }
 }

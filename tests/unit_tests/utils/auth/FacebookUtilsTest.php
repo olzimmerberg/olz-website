@@ -52,14 +52,25 @@ final class FacebookUtilsTest extends UnitTestCase {
         parent::__construct();
         $this->date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $this->facebook_fetcher = new FakeFacebookUtilsFacebookFetcher($sample_facebook_token_response, $sample_facebook_user_data_response);
-        $this->facebook_utils = new FacebookUtils('fake-app-id', 'fake-app-secret', 'fake-redirect-url', $this->facebook_fetcher, $this->date_utils);
+        $facebook_utils = new FacebookUtils();
+        $facebook_utils->setAppId('fake-app-id');
+        $facebook_utils->setAppSecret('fake-app-secret');
+        $facebook_utils->setRedirectUrl('fake-redirect-url');
+        $facebook_utils->setDateUtils($this->date_utils);
+        $facebook_utils->setFacebookFetcher($this->facebook_fetcher);
+        $this->facebook_utils = $facebook_utils;
     }
 
     public function testModifyFacebookUtils(): void {
         global $sample_facebook_token_response, $sample_facebook_user_data_response;
         $facebook_fetcher = new FakeFacebookUtilsFacebookFetcher($sample_facebook_token_response, $sample_facebook_user_data_response);
+        $facebook_utils = new FacebookUtils();
+        $facebook_utils->setAppId('fake-app-id');
+        $facebook_utils->setAppSecret('fake-app-secret');
+        $facebook_utils->setRedirectUrl('fake-redirect-url');
+        $facebook_utils->setDateUtils($this->date_utils);
+        $facebook_utils->setFacebookFetcher($facebook_fetcher);
 
-        $facebook_utils = new FacebookUtils('fake-app-id', 'fake-app-secret', 'fake-redirect-url', $facebook_fetcher, $this->date_utils);
         $facebook_utils->setAppId('new-app-id');
         $facebook_utils->setAppSecret('new-app-secret');
 

@@ -1,26 +1,24 @@
 <?php
 
 class GoogleUtils {
-    private $client_id;
-    private $client_secret;
-    private $redirect_url;
-    private $google_fetcher;
-    private $date_utils;
-
-    public function __construct($client_id, $client_secret, $redirect_url, $google_fetcher, $date_utils) {
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
-        $this->redirect_url = $redirect_url;
-        $this->google_fetcher = $google_fetcher;
-        $this->date_utils = $date_utils;
-    }
-
     public function setClientId($client_id) {
         $this->client_id = $client_id;
     }
 
     public function setClientSecret($client_secret) {
         $this->client_secret = $client_secret;
+    }
+
+    public function setRedirectUrl($redirect_url) {
+        $this->redirect_url = $redirect_url;
+    }
+
+    public function setDateUtils($date_utils) {
+        $this->date_utils = $date_utils;
+    }
+
+    public function setGoogleFetcher($google_fetcher) {
+        $this->google_fetcher = $google_fetcher;
     }
 
     public function getAuthUrl() {
@@ -234,22 +232,22 @@ class GoogleUtils {
         require_once __DIR__.'/../../config/paths.php';
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
-        require_once __DIR__.'/../date/LiveDateUtils.php';
+        require_once __DIR__.'/../date/DateUtils.php';
         require_once __DIR__.'/../env/EnvUtils.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_google.php';
+        $date_utils = DateUtils::fromEnv();
         $google_fetcher = new GoogleFetcher();
-        $live_date_utils = new LiveDateUtils();
 
-        return new GoogleUtils(
-            $env_utils->getGoogleClientId(),
-            $env_utils->getGoogleClientSecret(),
-            $redirect_url,
-            $google_fetcher,
-            $live_date_utils
-        );
+        $google_utils = new GoogleUtils();
+        $google_utils->setClientId($env_utils->getGoogleClientId());
+        $google_utils->setClientSecret($env_utils->getGoogleClientSecret());
+        $google_utils->setRedirectUrl($redirect_url);
+        $google_utils->setDateUtils($date_utils);
+        $google_utils->setGoogleFetcher($google_fetcher);
+        return $google_utils;
     }
 }

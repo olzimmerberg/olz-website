@@ -1,9 +1,7 @@
 <?php
 
 class UserAgentUtils {
-    private $userAgentString;
-
-    public function __construct($userAgentString) {
+    public function setUserAgentString($userAgentString) {
         $this->userAgentString = $userAgentString;
     }
 
@@ -25,9 +23,9 @@ class UserAgentUtils {
 
     public static function fromEnv() {
         global $_SERVER;
-
-        return new self(
-            $_SERVER['HTTP_USER_AGENT'] ?? '',
-        );
+        $user_agent_string = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $user_agent_utils = new self();
+        $user_agent_utils->setUserAgentString($user_agent_string);
+        return $user_agent_utils;
     }
 }

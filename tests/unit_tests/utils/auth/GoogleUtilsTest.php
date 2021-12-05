@@ -193,14 +193,25 @@ final class GoogleUtilsTest extends UnitTestCase {
         parent::__construct();
         $this->date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $this->google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
-        $this->google_utils = new GoogleUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $this->google_fetcher, $this->date_utils);
+        $google_utils = new GoogleUtils();
+        $google_utils->setClientId('fake-client-id');
+        $google_utils->setClientSecret('fake-client-secret');
+        $google_utils->setRedirectUrl('fake-redirect-url');
+        $google_utils->setDateUtils($this->date_utils);
+        $google_utils->setGoogleFetcher($this->google_fetcher);
+        $this->google_utils = $google_utils;
     }
 
     public function testModifyGoogleUtils(): void {
         global $sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response;
         $fake_google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
+        $google_utils = new GoogleUtils();
+        $google_utils->setClientId('fake-client-id');
+        $google_utils->setClientSecret('fake-client-secret');
+        $google_utils->setRedirectUrl('fake-redirect-url');
+        $google_utils->setDateUtils($this->date_utils);
+        $google_utils->setGoogleFetcher($fake_google_fetcher);
 
-        $google_utils = new GoogleUtils('fake-client-id', 'fake-client-secret', 'fake-redirect-url', $fake_google_fetcher, $this->date_utils);
         $google_utils->setClientId('new-client-id');
         $google_utils->setClientSecret('new-client-secret');
 

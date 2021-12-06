@@ -33,7 +33,7 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         request = getDataForRequest(getDataForRequestDict, form);
     } catch (unk: unknown) {
         const err = getErrorOrThrow(unk);
-        const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe.';
+        const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
         $(form).find('.success-message').text('');
         $(form).find('.error-message').text(errorMessage);
         if (err instanceof ValidationError) {

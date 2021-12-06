@@ -1,11 +1,10 @@
 <?php
 
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
+use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
-use League\CommonMark\HtmlRenderer;
+use League\CommonMark\MarkdownConverter;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/../../model/TelegramLink.php';
@@ -254,21 +253,17 @@ class TelegramUtils {
     }
 
     public function renderMarkdown($markdown) {
-        $environment = new Environment();
-        $environment->addExtension(new InlinesOnlyExtension());
-        $environment->addExtension(new StrikethroughExtension());
-        $environment->addExtension(new AutolinkExtension());
-        $environment->setConfig([
+        $environment = new Environment([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
             'max_nesting_level' => 100,
         ]);
-
-        $parser = new DocParser($environment);
-        $document = $parser->parse($markdown);
-
-        $html_renderer = new HtmlRenderer($environment);
-        return $html_renderer->renderBlock($document);
+        $environment->addExtension(new InlinesOnlyExtension());
+        $environment->addExtension(new StrikethroughExtension());
+        $environment->addExtension(new AutolinkExtension());
+        $converter = new MarkdownConverter($environment);
+        $rendered = $converter->convertToHtml($markdown);
+        return strval($rendered);
     }
 
     public static function fromEnv() {

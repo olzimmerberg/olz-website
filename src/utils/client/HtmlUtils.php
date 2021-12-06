@@ -1,15 +1,15 @@
 <?php
 
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
+use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\HtmlRenderer;
+use League\CommonMark\MarkdownConverter;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class HtmlUtils {
-    const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
+    public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
 
     public function renderMarkdown($markdown, $override_config = []) {
         $default_config = [
@@ -19,17 +19,13 @@ class HtmlUtils {
         ];
         $config = array_merge($default_config, $override_config);
 
-        $environment = Environment::createCommonMarkEnvironment();
+        $environment = new Environment($config);
+        $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addExtension(new AttributesExtension());
-        $environment->setConfig($config);
-
-        $parser = new DocParser($environment);
-        $document = $parser->parse($markdown);
-
-        $html_renderer = new HtmlRenderer($environment);
-        $rendered_html = $html_renderer->renderBlock($document);
-        return $this->sanitize($rendered_html);
+        $converter = new MarkdownConverter($environment);
+        $rendered = $converter->convertToHtml($markdown);
+        return $this->sanitize(strval($rendered));
     }
 
     public function sanitize($html) {

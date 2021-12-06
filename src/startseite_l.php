@@ -128,7 +128,8 @@ while ($row = $result->fetch_assoc()) {
         if ($pfad && $typ == "foto") {
             $rand = [];
             $pfad_galerie = $data_path."img/galerie/";
-            for ($i = 1; is_file($pfad_galerie.$id."/img/".str_pad($i, 3, '0', STR_PAD_LEFT).".jpg"); $i++);
+            for ($i = 1; is_file($pfad_galerie.$id."/img/".str_pad($i, 3, '0', STR_PAD_LEFT).".jpg"); $i++) {
+            }
             $groesse = ($i - 1);
             for ($i = 0; $i < (($groesse > 4) ? 4 : $groesse); $i++) {
                 $randtmp = str_pad(rand(1, $groesse), 3, "0", STR_PAD_LEFT);

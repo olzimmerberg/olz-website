@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use PhpTypescriptApi\Translator;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../src/tools/common.php';
 require_once __DIR__.'/../../fake/FakeFactory.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
@@ -20,6 +21,10 @@ class UnitTestCase extends TestCase {
         global $_SERVER;
         $this->previous_server = $_SERVER;
         $_SERVER = [];
+
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-CH,de';
+        $translator = Translator::getInstance();
+        $translator->setAcceptLangs($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
         date_default_timezone_set('UTC');
 

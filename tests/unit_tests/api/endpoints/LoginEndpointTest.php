@@ -33,8 +33,8 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'usernameOrEmail' => ["Fehlender Schlüssel 'usernameOrEmail'."],
-                'password' => ["Fehlender Schlüssel 'password'."],
+                'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
+                'password' => ["Fehlender Schlüssel: password."],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",

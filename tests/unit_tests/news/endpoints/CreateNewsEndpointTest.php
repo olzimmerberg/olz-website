@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PhpTypeScriptApi\HttpError;
+
 require_once __DIR__.'/../../../../src/news/endpoints/CreateNewsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
@@ -48,24 +50,27 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLogger($logger);
 
-        $result = $endpoint->call([
-            'ownerUserId' => 1,
-            'ownerRoleId' => 1,
-            'author' => 't.u.',
-            'authorUserId' => 2,
-            'authorRoleId' => 2,
-            'title' => 'Test Titel',
-            'teaser' => 'Das muss man gelesen haben!',
-            'content' => 'Sehr viel Inhalt.',
-            'externalUrl' => null,
-            'tags' => ['test', 'unit'],
-            'terminId' => null,
-            'onOff' => true,
-            'imageIds' => [],
-            'fileIds' => [],
-        ]);
-
-        $this->assertSame(['status' => 'ERROR', 'newsId' => null], $result);
+        try {
+            $endpoint->call([
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'author' => 't.u.',
+                'authorUserId' => 2,
+                'authorRoleId' => 2,
+                'title' => 'Test Titel',
+                'teaser' => 'Das muss man gelesen haben!',
+                'content' => 'Sehr viel Inhalt.',
+                'externalUrl' => null,
+                'tags' => ['test', 'unit'],
+                'terminId' => null,
+                'onOff' => true,
+                'imageIds' => [],
+                'fileIds' => [],
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame(403, $err->getCode());
+        }
     }
 
     public function testCreateNewsEndpoint(): void {

@@ -12,7 +12,7 @@ require_once __DIR__.'/../../model/NotificationSubscription.php';
 class WeeklySummaryGetter {
     use Psr\Log\LoggerAwareTrait;
 
-    const CUT_OFF_TIME = '16:00:00';
+    public const CUT_OFF_TIME = '16:00:00';
 
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;

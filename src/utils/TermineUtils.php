@@ -3,7 +3,7 @@
 class TermineUtils {
     private $date_utils;
 
-    const ALL_TYPE_OPTIONS = [
+    public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle Termine"],
         ['ident' => 'training', 'name' => "Trainings"],
         ['ident' => 'ol', 'name' => "Wettkämpfe"],

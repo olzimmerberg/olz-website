@@ -37,6 +37,11 @@ function processLogs(logs: string): string {
     const lines = logs.split('\n');
     const formattingRegex = /(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)/;
     return lines
+        .map((line) => line
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;'))
         .map((line) => (
             line.includes('access forbidden by rule')
                 ? `<div class='greyed-out'>${line}</div>`

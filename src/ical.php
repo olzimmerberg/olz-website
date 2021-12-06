@@ -34,16 +34,16 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $links = $row['link'];
     $dom = new domdocument();
     $dom->loadHTML($links || ' ');
-    $_links = "OLZ-Termin: https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
-    $_attach = "\r\nATTACH;VALUE=URI:https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'];
+    $_links = "OLZ-Termin: {$base_href}{$code_href}termine.php?uid=".$row['id']."#id".$row['id'];
+    $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine.php?uid=".$row['id']."#id".$row['id'];
     foreach ($dom->getElementsByTagName("a") as $a) {
         $text = $a->textContent;
         $url = $a->getAttribute("href");
         $_links .= "\\n".$text.": ".$url;
-        $_attach .= "\r\nATTACH;VALUE=URI:".$url;
+        $_attach .= "\r\nATTACH;FMTTYPE=text/html:".$url;
     }
     $_links .= ($row['solv_uid'] > 0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
-    $_attach .= ($row['solv_uid'] > 0) ? "\r\nATTACH;VALUE=URI:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
+    $_attach .= ($row['solv_uid'] > 0) ? "\r\nATTACH;FMTTYPE=text/html:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
 
     $datum = $row['datum'];
     $datum_end = ($row['datum_end'] > "0000-00-00") ? $row['datum_end'] : $datum;
@@ -58,18 +58,15 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
 "\\n".$_links;
     $ical .=
 "\r\nCATEGORIES:".$row['typ'].
-$_attach.//"\r\nATTACH;VALUE=URI:https://olzimmerberg.ch/termine.php?uid=".$row['id']."#id".$row['id'].
+$_attach.
 "\r\nCLASS:PUBLIC".
 "\r\nUID:olz_termin_".$row['id']."@olzimmerberg.ch".
 "\r\nEND:VEVENT";
 }
 
 $ical .= "\r\nEND:VCALENDAR";
-//echo "<pre>".$ical."</pre>";
 
 // Datei schreiben
 $f = fopen($file_path, "w+");
 fwrite($f, $ical);
 fclose($f);
-
-//echo "<pre>".$ical."</pre>";

@@ -7,7 +7,6 @@ run_tools(
         'reset' => [],
         'dump' => [],
         'get-database-backup' => [],
-        'deploy-cleanup' => [],
         'migrate' => [],
         'backup-monitoring' => [],
         'logs-monitoring' => [],

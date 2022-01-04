@@ -6,7 +6,6 @@ require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/../utils/env/LogsUtils.php';
 require_once __DIR__.'/dev_data.php';
-require_once __DIR__.'/deploy_cleanup.php';
 require_once __DIR__.'/doctrine_migrations.php';
 require_once __DIR__.'/monitoring/backup_monitoring.php';
 require_once __DIR__.'/monitoring/logs_monitoring.php';
@@ -30,9 +29,6 @@ function run_tools($command_config, $server) {
     }
     if ($command === 'get-database-backup') {
         return run_command($command, 'get_database_backup', [$db, $_CONFIG->getDatabaseBackupKey()]);
-    }
-    if ($command === 'deploy-cleanup') {
-        return run_command($command, 'deploy_cleanup', [$deploy_path]);
     }
     if ($command === 'migrate') {
         return run_command($command, 'migrate_to_latest', []);

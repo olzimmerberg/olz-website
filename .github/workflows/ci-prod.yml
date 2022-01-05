@@ -136,8 +136,6 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
-    # - name: Install apt software
-    #   run: sudo apt-get install sshpass
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -161,12 +159,6 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    # - name: Build deployment
-    #   run: ./build-deployment.sh
-    # - name: Deploy over SFTP
-    #   env:
-    #     SSHPASS: ${{ secrets.PROD_FTP_PASSWORD }}
-    #   run: ./deploy.sh hoststar-prod
     - name: Deploy over FTPS
       env:
         USERNAME: ${{ secrets.PROD_FTP_USERNAME }}
@@ -183,8 +175,6 @@ jobs:
       with:
         name: prod-screenshots
         path: ./screenshots
-    # - name: Install apt software
-    #   run: sudo apt-get install sshpass
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -196,10 +186,6 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install dependencies
       run: composer install --no-dev --prefer-dist
-    # - name: Upload over SFTP
-    #   env:
-    #     SSHPASS: ${{ secrets.PROD_FTP_PASSWORD }}
-    #   run: ./deploy.sh hoststar-prod ./ci/ftp-upload-screenshots
     - name: Upload over FTPS
       env:
         USERNAME: ${{ secrets.PROD_FTP_USERNAME }}

@@ -152,8 +152,6 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
-    # - name: Install apt software
-    #   run: sudo apt-get install sshpass
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -177,17 +175,13 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    # - name: Build deployment
-    #   run: ./build-deployment.sh
-    # - name: Deploy over SFTP
-    #   env:
-    #     SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
-    #   run: ./deploy.sh hoststar-test
     - name: Deploy over FTPS
       env:
         USERNAME: ${{ secrets.TEST_FTP_USERNAME }}
         PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
       run: php ./Deploy.php --environment=test --username="$USERNAME"
+    - name: Reset database
+      run: wget -q -O - "https://test.olzimmerberg.ch/tools.php/reset"
 
 
   upload-screenshots:
@@ -200,8 +194,6 @@ jobs:
       with:
         name: test-screenshots
         path: ./screenshots
-    # - name: Install apt software
-    #   run: sudo apt-get install sshpass
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -213,10 +205,6 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install dependencies
       run: composer install --no-dev --prefer-dist
-    # - name: Upload over SFTP
-    #   env:
-    #     SSHPASS: ${{ secrets.TEST_FTP_PASSWORD }}
-    #   run: ./deploy.sh hoststar-test ./ci/ftp-upload-screenshots
     - name: Upload over FTPS
       env:
         USERNAME: ${{ secrets.TEST_FTP_USERNAME }}

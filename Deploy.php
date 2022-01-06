@@ -16,10 +16,26 @@ class Deploy extends AbstractDefaultDeploy {
         shell_exec('npm run webpack-build');
         $fs->mirror(__DIR__.'/src', "{$build_folder_path}/web");
 
-        // TODO:
-        //   cd ./deploy/resultate/
-        //   zip -r ./live_uploader.zip ./live_uploader/
-        //   cd ../../
+        // Zip live uploader, such that it can be downloaded as zip file.
+        $results_path = "{$build_folder_path}/web/resultate";
+        $live_uploader_path = "{$results_path}/live_uploader";
+        $zip_path = "{$results_path}/live_uploader.zip";
+        $zip = new \ZipArchive();
+        $zip->open($zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $directory = new \RecursiveDirectoryIterator($live_uploader_path);
+        $iterator = new \RecursiveIteratorIterator($directory);
+        foreach ($iterator as $item) {
+            $filename = $item->getFileName();
+            if ($filename !== '.' && $filename !== '..') {
+                $real_path = $item->getRealPath();
+                if ($real_path && is_file($real_path)) {
+                    $relative_path = substr($real_path, strlen($live_uploader_path));
+                    $zip->addFile($real_path, $relative_path);
+                }
+            }
+        }
+        $zip->close();
+
         $fs->mirror(__DIR__.'/vendor', "{$build_folder_path}/vendor");
         $fs->copy(__DIR__.'/Deploy.php', "{$build_folder_path}/Deploy.php");
     }

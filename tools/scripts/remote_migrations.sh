@@ -2,7 +2,7 @@
 
 set -e
 
-cd tools/remote_config
+cd ./tools/remote_config
 
 echo -n "Remote Database Password (for ch279178_olz_prod): "
 read -s PASSWORD

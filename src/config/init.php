@@ -13,7 +13,8 @@ mb_internal_encoding('UTF-8');
 
 // Session-Sicherheit
 ini_set('session.cookie_httponly', 1);
-if ($_SERVER['SERVER_NAME'] != '127.0.0.1' && $_SERVER['SERVER_NAME'] != 'localhost') {
+$server_name = $_SERVER['SERVER_NAME'] ?? '';
+if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
     ini_set('session.cookie_secure', 1);
 }
 

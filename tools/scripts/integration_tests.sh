@@ -11,4 +11,9 @@ else
     echo "Integration test server configuration preserved."
 fi
 
-./vendor/bin/phpunit -c ./phpunit.xml --bootstrap vendor/autoload.php $@ tests/integration_tests
+./vendor/bin/phpunit -c ./phpunit.xml --bootstrap ./vendor/autoload.php $@ ./tests/integration_tests
+
+echo ""
+echo "Open the HTML test coverage in a web browser:"
+echo "    file://$(pwd)/php-coverage/html-coverage/index.html"
+echo ""

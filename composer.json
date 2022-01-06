@@ -19,6 +19,19 @@
       "name": "Urs Utzinger"
     }
   ],
+  "scripts": {
+    "check_migrations": "./tools/scripts/check_migrations.sh",
+    "doctrine": "./tools/scripts/doctrine.sh",
+    "fix": "php-cs-fixer fix --config=./.php_cs_config.php -v",
+    "fixdiff": "php-cs-fixer fix --config=./.php_cs_config.php -v --dry-run --diff",
+    "integration_tests": "./tools/scripts/integration_tests.sh",
+    "migrations": "./tools/scripts/migrations.sh",
+    "remote_migrations": "./tools/scripts/remote_migrations.sh",
+    "run": "./tools/scripts/run.sh",
+    "take_screenshots": "./tools/scripts/take_screenshots.sh",
+    "test": "./tools/scripts/test.sh",
+    "unit_tests": "./tools/scripts/unit_tests.sh"
+  },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.16",
     "phpunit/phpunit": "^9",

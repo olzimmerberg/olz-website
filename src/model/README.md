@@ -5,7 +5,7 @@ Beim Verändern dieser Modelle muss eine Datenbank-Migration erstellt werden,
 falls sich die Datenbank-Struktur verändert hat, oder Daten transformiert
 werden müssen:
 
-`./migrations.sh diff`
+`composer migrations diff`
 
 ## Gut zu wissen
 

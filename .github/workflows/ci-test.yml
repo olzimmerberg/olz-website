@@ -54,7 +54,7 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         MOZ_HEADLESS: 1
-      run: ./take-screenshots.sh ${{ matrix.block }}
+      run: composer take_screenshots ${{ matrix.block }}
     - uses: actions/upload-artifact@v1
       with:
         name: test-screenshots
@@ -121,12 +121,8 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    - name: Lint PHP
-      run: cd ./ci; ./php-lint.sh
-    - name: Indented with spaces
-      run: cd ./ci; ./php-indent-spaces.sh
     - name: Code style check
-      run: cd ./ci; ./php-code-style.sh
+      run: composer fixdiff
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
     - name: Lint CSS & SCSS
@@ -136,13 +132,13 @@ jobs:
     - name: Jest Unit Tests
       run: npm run jest-ci
     - name: PHP Unit Tests
-      run: ./unit-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
+      run: composer unit_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-      run: ./integration-test.sh; cat ./php-coverage/coverage.txt || echo "no coverage!"
+      run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: Check database migrations
-      run: cd ./ci; ./check-migrations.sh
+      run: composer check_migrations
 
   deploy-test:
     name: Deploy to test.olzimmerberg.ch

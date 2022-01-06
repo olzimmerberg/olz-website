@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EXIT_CODE=0
-cd ../src/config
+cd ./src/config/
 ./vendor/bin/doctrine-migrations migrations:diff
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 1 ]; then # Could not create migration, as diff is empty.

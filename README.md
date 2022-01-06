@@ -18,7 +18,7 @@
 ## Development-Server starten
 
 - Öffne ein Terminal im Repository-Klon-Ordner
-- Starte den Development-Server: `./run.sh`
+- Starte den Development-Server: `composer run`
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
 ## Development-Daten laden
@@ -29,9 +29,9 @@
 
 ## Tests laufen lassen
 
-- Unit Tests: `./unit-test.sh`
-- Integration Tests: `./integration-test.sh`
-- Für den Code-Coverage-Report: `./test-coverage.sh`
+- Unit Tests: `composer unit_tests`
+- Integration Tests: `composer integration_tests`
+- Für den Code-Coverage-Report: `composer test`
 
 ## Code beitragen
 

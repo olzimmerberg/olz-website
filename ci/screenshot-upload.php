@@ -8,13 +8,7 @@ class ScreenshotUpload extends Deploy {
     }
 
     public function __construct() {
-        $opts = $this->getCommandLineOptions();
-        $environment = $opts['environment'];
-        $username = $opts['username'];
-        $password = $this->getEnvironmentVariable('PASSWORD');
-        $this->environment = $environment;
-        $this->username = $username;
-        $this->password = $password;
+        $this->initFromEnv();
     }
 }
 

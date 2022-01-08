@@ -26,11 +26,11 @@ $remote_url = 'https://olzimmerberg.ch/_/screenshots/';
 $remote_index = json_decode(
     file_get_contents("{$remote_url}index.json.php"), true);
 if ($remote_index === null) {
-    echo 'No JSON screenshot index on master';
+    echo 'No JSON screenshot index on main';
     exit(21);
 }
 if (!isset($remote_index['screenshot_paths'])) {
-    echo 'Invalid JSON screenshot index on master';
+    echo 'Invalid JSON screenshot index on main';
     exit(22);
 }
 $remote_paths = $remote_index['screenshot_paths'];

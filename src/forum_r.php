@@ -16,7 +16,7 @@ require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php
         <li>Ein Eintrag muss mit dem richtigen Namen und Vornamen gemacht werden.</li>
         <li>Es muss eine gültige Emailadresse angegeben werden. An diese Emailadresse wird ein Code geschickt, mit welchem der Eintrag später bearbeitet oder gelöscht werden kann. Um die Gefahr von Spam zu minimieren werden Emailadressen verschlüsselt angezeigt.
         </li>
-        <li>Es liegt im Ermessen des Webmasters Einträge jederzeit zu entfernen, insbesondere wenn sie verletzenden Inhalt haben, gegen Gesetze verstossen oder Spam enthalten.
+        <li>Es liegt im Ermessen der Website-Betreiber, Einträge jederzeit zu entfernen, insbesondere wenn sie verletzenden Inhalt haben, gegen Gesetze verstossen oder Spam enthalten.
         </li>
     </ul>
 </p>-->

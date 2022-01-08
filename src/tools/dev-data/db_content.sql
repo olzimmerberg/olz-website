@@ -150,7 +150,7 @@ VALUES
     ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', ''),
     ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', ''),
     ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', ''),
-    ('25', 'webmaster', NULL, 'Homepage', '', '', '3', '1', NULL, '0', ''),
+    ('25', 'website', NULL, 'Homepage', '', '', '3', '1', NULL, '0', ''),
     ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', ''),
     ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', ''),
     ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', ''),

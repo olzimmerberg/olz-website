@@ -12,16 +12,15 @@ echo olz_header([
 ]);
 
 $role_repo = $entityManager->getRepository(Role::class);
-$webmaster_role = $role_repo->findOneBy(['username' => 'webmaster']);
+$website_role = $role_repo->findOneBy(['username' => 'website']);
 
 echo "<div id='content_rechts'>
 <h2>Datenschutz-Verantwortliche</h2>
-<div>Unsere Webmaster:</div>
 <ul>";
-$webmaster_assignees = $webmaster_role->getUsers();
-foreach ($webmaster_assignees as $webmaster_assignee) {
+$website_assignees = $website_role->getUsers();
+foreach ($website_assignees as $website_assignee) {
     echo "<li>";
-    echo olz_user_info_card($webmaster_assignee);
+    echo olz_user_info_card($website_assignee);
     echo "</li>";
 }
 echo "</ul>

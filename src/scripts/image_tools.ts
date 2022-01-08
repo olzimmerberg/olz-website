@@ -449,7 +449,7 @@ export function olz_images_edit_redraw(
                 }
             } else {
                 // eslint-disable-next-line no-alert
-                alert('Bild-Änderung fehlgeschlagen. Bitte informiere den Webmaster.');
+                alert('Bild-Änderung fehlgeschlagen. Bitte informiere den Sysadmin.');
             }
             confirmdone(i_);
         }).bind(null, i, dbtable, id);

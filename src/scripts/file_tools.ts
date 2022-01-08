@@ -214,7 +214,7 @@ export function olz_files_edit_redraw(
                 }
             } else {
                 // eslint-disable-next-line no-alert
-                alert('Datei-Änderung fehlgeschlagen. Bitte informiere den Webmaster.');
+                alert('Datei-Änderung fehlgeschlagen. Bitte informiere den Sysadmin.');
             }
             confirmdone(i);
         };

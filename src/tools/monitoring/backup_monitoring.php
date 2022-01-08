@@ -2,7 +2,7 @@
 
 function backup_monitoring() {
     $ch = curl_init();
-    $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/master/src/tools/monitoring/backup_monitoring.php)";
+    $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/src/tools/monitoring/backup_monitoring.php)";
 
     curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs?page=1&per_page=1&status=completed");
     curl_setopt($ch, CURLOPT_USERAGENT, $user_agent_string);
@@ -24,8 +24,8 @@ function backup_monitoring() {
     if ($workflow_run['name'] !== 'CI:scheduled') {
         throw new Exception("Expected workflow_run name to be CI:scheduled");
     }
-    if ($workflow_run['head_branch'] !== 'master') {
-        throw new Exception("Expected workflow_run head_branch to be master");
+    if ($workflow_run['head_branch'] !== 'main') {
+        throw new Exception("Expected workflow_run head_branch to be main");
     }
     if ($workflow_run['status'] !== 'completed') {
         throw new Exception("Expected workflow_run status to be completed");

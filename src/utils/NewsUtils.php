@@ -7,9 +7,9 @@ require_once __DIR__.'/../config/doctrine.php';
 class NewsUtils {
     private $date_utils;
 
-    const ARCHIVE_YEARS_THRESHOLD = 5;
+    public const ARCHIVE_YEARS_THRESHOLD = 5;
 
-    const ALL_TYPE_OPTIONS = [
+    public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle News"],
         ['ident' => 'aktuell', 'name' => "Aktuell"],
         // ['ident' => 'galerie', 'name' => "Galerien"],
@@ -17,7 +17,7 @@ class NewsUtils {
         // ['ident' => 'forum', 'name' => "Forum"],
     ];
 
-    const ALL_ARCHIVE_OPTIONS = [
+    public const ALL_ARCHIVE_OPTIONS = [
         ['ident' => 'ohne', 'name' => "ohne Archiv"],
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];

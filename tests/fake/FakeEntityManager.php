@@ -1,7 +1,7 @@
 <?php
 
 class FakeEntityManager {
-    const AUTO_INCREMENT_ID = 270;
+    public const AUTO_INCREMENT_ID = 270;
 
     public $persisted = [];
     public $removed = [];

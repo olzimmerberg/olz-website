@@ -27,33 +27,32 @@
     "integration_tests": "./tools/scripts/integration_tests.sh",
     "migrations": "./tools/scripts/migrations.sh",
     "remote_migrations": "./tools/scripts/remote_migrations.sh",
-    "run": "./tools/scripts/run.sh",
+    "dev_server": "./tools/scripts/dev_server.sh",
     "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
     "unit_tests": "./tools/scripts/unit_tests.sh"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.16",
+    "friendsofphp/php-cs-fixer": "^3.4",
     "phpunit/phpunit": "^9",
     "php-webdriver/webdriver": "^1.8"
   },
   "require": {
-    "doctrine/cache": "^1.11",
+    "allestuetsmerweh/php-deploy": "^1.0",
+    "allestuetsmerweh/php-typescript-api": "^1.0",
+    "doctrine/cache": "^1.1",
     "doctrine/orm": "^2.6.2",
     "doctrine/migrations": "^3.0",
-    "monolog/monolog": "^2.1",
-    "psr/log": "^1.1",
     "ifsnop/mysqldump-php": "^2.9",
-    "phpmailer/phpmailer": "^6.2",
-    "league/commonmark": "^1.5",
-    "php-imap/php-imap": "^3.1",
-    "sabre/dav": "~3.2.0",
-    "allestuetsmerweh/php-typescript-api": "^1.0",
+    "league/commonmark": "^2.1",
     "league/flysystem": "^2.4",
-    "allestuetsmerweh/php-deploy": "^1.0",
-    "league/flysystem-ftp": "^2.3",
-    "symfony/filesystem": "^5.4",
-    "league/flysystem-sftp": "^2.0"
+    "league/flysystem-sftp": "^2.0",
+    "monolog/monolog": "^2.1",
+    "php-imap/php-imap": "^4.4",
+    "phpmailer/phpmailer": "^6.2",
+    "psr/log": "^1.1",
+    "sabre/dav": "^4.3",
+    "symfony/filesystem": "^5.4"
   },
   "autoload": {
     "psr-0": {"": "src/model/"}

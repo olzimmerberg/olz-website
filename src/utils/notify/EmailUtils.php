@@ -1,9 +1,9 @@
 <?php
 
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\HtmlRenderer;
+use League\CommonMark\MarkdownConverter;
 use PhpImap\Mailbox;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -94,19 +94,16 @@ class EmailUtils {
     }
 
     public function renderMarkdown($markdown) {
-        $environment = Environment::createCommonMarkEnvironment();
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->setConfig([
+        $environment = new Environment([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
             'max_nesting_level' => 100,
         ]);
-
-        $parser = new DocParser($environment);
-        $document = $parser->parse($markdown);
-
-        $html_renderer = new HtmlRenderer($environment);
-        return $html_renderer->renderBlock($document);
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $converter = new MarkdownConverter($environment);
+        $rendered = $converter->convertToHtml($markdown);
+        return strval($rendered);
     }
 
     public static function fromEnv() {

@@ -8,7 +8,7 @@ require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../model/NewsEntry.php';
 require_once __DIR__.'/AbstractNewsEndpoint.php';
 
-class CreateNewsEndpoint extends AbstractNewsEndpoint {
+class UpdateNewsEndpoint extends AbstractNewsEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
         global $_CONFIG, $_DATE, $entityManager;
@@ -42,21 +42,22 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
     }
 
     public static function getIdent() {
-        return 'CreateNewsEndpoint';
+        return 'UpdateNewsEndpoint';
     }
 
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-            'newsId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
+            'data' => $news_data_field,
         ]]);
     }
 
     public function getRequestField() {
-        return self::getNewsDataField();
+        $news_data_field = self::getNewsDataField();
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
+            'data' => $news_data_field,
+        ]]);
     }
 
     protected function handle($input) {
@@ -109,7 +110,10 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
             $valid_image_ids[] = $image_id;
         }
 
-        $news_entry = new NewsEntry();
+        $entity_id = $input['id'];
+        $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+        $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
+
         $news_entry->setCreatedAt($now);
         $news_entry->setLastModifiedAt($now);
         $news_entry->setOwnerUser($owner_user);

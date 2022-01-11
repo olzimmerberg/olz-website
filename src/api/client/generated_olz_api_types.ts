@@ -1,5 +1,22 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type OlzNewsData = {
+    'ownerUserId': number|null,
+    'ownerRoleId': number|null,
+    'author': string|null,
+    'authorUserId': number|null,
+    'authorRoleId': number|null,
+    'title': string,
+    'teaser': string,
+    'content': string,
+    'externalUrl': string|null,
+    'tags': Array<string>,
+    'terminId': number|null,
+    'onOff': boolean,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+};
+
 export type OlzTransportConnectionSuggestion = {
     'mainConnection': OlzTransportConnection,
     'sideConnections': Array<{
@@ -8,14 +25,17 @@ export type OlzTransportConnectionSuggestion = {
 }>,
     'debug': string,
 };
+
 export type OlzTransportConnection = {
     'sections': Array<OlzTransportSection>,
 };
+
 export type OlzTransportSection = {
     'departure': OlzTransportHalt,
     'arrival': OlzTransportHalt,
     'passList': Array<OlzTransportHalt>,
 };
+
 export type OlzTransportHalt = {
     'stationId': string,
     'stationName': string,
@@ -48,6 +68,7 @@ export type OlzApiEndpoint =
     'getManagedUsers'|
     'getRegistrationForm'|
     'createNews'|
+    'getNews'|
     'searchTransportConnection'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken';
@@ -198,21 +219,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'registrationForm': number,
             'user': number,
         },
-    createNews: {
-            'ownerUserId': number|null,
-            'ownerRoleId': number|null,
-            'author': string|null,
-            'authorUserId': number|null,
-            'authorRoleId': number|null,
-            'title': string,
-            'teaser': string,
-            'content': string,
-            'externalUrl': string|null,
-            'tags': Array<string>,
-            'terminId': number|null,
-            'onOff': boolean,
-            'imageIds': Array<string>,
-            'fileIds': Array<string>,
+    createNews: OlzNewsData,
+    getNews: {
+            'id': number,
         },
     searchTransportConnection: {
             'destination': string,
@@ -327,6 +336,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createNews: {
             'status': 'OK'|'ERROR',
             'newsId': number|null,
+        },
+    getNews: {
+            'id': number,
+            'data': OlzNewsData,
         },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',

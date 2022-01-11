@@ -6,7 +6,7 @@ use Monolog\Logger;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\FieldUtils;
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/client/HttpUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 

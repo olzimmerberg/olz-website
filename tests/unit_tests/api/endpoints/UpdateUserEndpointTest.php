@@ -35,7 +35,7 @@ class UpdateUserEndpointForTest extends UpdateUserEndpoint {
  * @covers \UpdateUserEndpoint
  */
 final class UpdateUserEndpointTest extends UnitTestCase {
-    const VALID_INPUT = [
+    public const VALID_INPUT = [
         'id' => 2,
         'firstName' => 'First',
         'lastName' => 'Last',

@@ -43,7 +43,19 @@ function olz_news_article($args = []): string {
 
         $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
-        $edit_admin = ($can_edit && !$is_preview) ? "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>" : "";
+        $edit_admin = '';
+        if ($can_edit && !$is_preview) {
+            $edit_admin = $is_migrated ? <<<'ZZZZZZZZZZ'
+            <button
+                id='edit-news-button'
+                class='btn btn-primary'
+                onclick='return initOlzEditNewsModal()'
+            >
+                <img src='icns/edit_16.svg' class='noborder' />
+                Bearbeiten
+            </button>
+            ZZZZZZZZZZ : "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+        }
 
         // Bildercode einfügen
         if ($is_preview) {

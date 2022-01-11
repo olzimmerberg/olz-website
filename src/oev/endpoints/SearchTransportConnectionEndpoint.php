@@ -6,7 +6,7 @@ require_once __DIR__.'/../../api/OlzEndpoint.php';
 require_once __DIR__.'/../utils/CoordinateUtils.php';
 
 class SearchTransportConnectionEndpoint extends OlzEndpoint {
-    const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
+    public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     public function __construct() {
         $filename = __DIR__.'/../../shared/olz_transit_stations.json';

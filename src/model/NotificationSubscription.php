@@ -13,24 +13,24 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  */
 class NotificationSubscription {
-    const DELIVERY_EMAIL = 'email';
-    const DELIVERY_TELEGRAM = 'telegram';
+    public const DELIVERY_EMAIL = 'email';
+    public const DELIVERY_TELEGRAM = 'telegram';
 
-    const ALL_DELIVERY_TYPES = [
+    public const ALL_DELIVERY_TYPES = [
         self::DELIVERY_EMAIL,
         self::DELIVERY_TELEGRAM,
     ];
 
-    const TYPE_DAILY_SUMMARY = 'daily_summary';
-    const TYPE_DEADLINE_WARNING = 'deadline_warning';
-    const TYPE_EMAIL_CONFIG_REMINDER = 'email_config_reminder';
-    const TYPE_IMMEDIATE = 'immediate';
-    const TYPE_MONTHLY_PREVIEW = 'monthly_preview';
-    const TYPE_TELEGRAM_CONFIG_REMINDER = 'telegram_config_reminder';
-    const TYPE_WEEKLY_PREVIEW = 'weekly_preview';
-    const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
+    public const TYPE_DAILY_SUMMARY = 'daily_summary';
+    public const TYPE_DEADLINE_WARNING = 'deadline_warning';
+    public const TYPE_EMAIL_CONFIG_REMINDER = 'email_config_reminder';
+    public const TYPE_IMMEDIATE = 'immediate';
+    public const TYPE_MONTHLY_PREVIEW = 'monthly_preview';
+    public const TYPE_TELEGRAM_CONFIG_REMINDER = 'telegram_config_reminder';
+    public const TYPE_WEEKLY_PREVIEW = 'weekly_preview';
+    public const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
 
-    const ALL_NOTIFICATION_TYPES = [
+    public const ALL_NOTIFICATION_TYPES = [
         self::TYPE_DAILY_SUMMARY,
         self::TYPE_DEADLINE_WARNING,
         self::TYPE_EMAIL_CONFIG_REMINDER,

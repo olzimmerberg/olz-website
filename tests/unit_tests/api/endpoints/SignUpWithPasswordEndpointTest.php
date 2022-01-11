@@ -41,7 +41,7 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
  * @covers \SignUpWithPasswordEndpoint
  */
 final class SignUpWithPasswordEndpointTest extends UnitTestCase {
-    const VALID_INPUT = [
+    public const VALID_INPUT = [
         'firstName' => 'fakeFirstName',
         'lastName' => 'fakeLastName',
         'username' => 'fakeUsername',
@@ -250,7 +250,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame(
                 [
-                    'message' => 'Fehlerhafte Eingabe.',
+                    'message' => 'Fehlerhafte Eingabe',
                     'error' => [
                         'type' => 'ValidationError',
                         'validationErrors' => [
@@ -341,7 +341,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame(
                 [
-                    'message' => 'Fehlerhafte Eingabe.',
+                    'message' => 'Fehlerhafte Eingabe',
                     'error' => [
                         'type' => 'ValidationError',
                         'validationErrors' => [

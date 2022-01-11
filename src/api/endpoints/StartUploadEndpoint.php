@@ -5,7 +5,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class StartUploadEndpoint extends OlzEndpoint {
-    const MAX_LOOP = 100;
+    public const MAX_LOOP = 100;
 
     public function runtimeSetup() {
         parent::runtimeSetup();

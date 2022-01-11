@@ -43,7 +43,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         if (is_file($imgfile)) {
             $ndim = intval($_GET["dim"]) - 1;
             $dim = false;
-            for ($i = 1; $i < 9 && ($ndim >> $i) > 0; $i++);
+            for ($i = 1; $i < 9 && ($ndim >> $i) > 0; $i++) {
+            }
             $dim = (1 << $i);
             if ($dim < 16) {
                 $dim = 16;

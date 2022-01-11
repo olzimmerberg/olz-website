@@ -70,8 +70,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'usernameOrEmail' => ["Fehlender Schlüssel 'usernameOrEmail'."],
-                'recaptchaToken' => ["Fehlender Schlüssel 'recaptchaToken'."],
+                'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
+                'recaptchaToken' => ["Fehlender Schlüssel: recaptchaToken."],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",

@@ -225,16 +225,20 @@ class TelegramUtils {
     }
 
     public function sendConfiguration() {
-        $response = $this->callTelegramApi('setMyCommands', [
-            'commands' => json_encode([
-                [
-                    'command' => '/ich',
-                    'description' => 'Wer bin ich?',
-                ],
-            ]),
-            'scope' => json_encode(['type' => 'all_private_chats']),
-        ]);
-        $response_json = json_encode($response);
+        try {
+            $response = $this->callTelegramApi('setMyCommands', [
+                'commands' => json_encode([
+                    [
+                        'command' => '/ich',
+                        'description' => 'Wer bin ich?',
+                    ],
+                ]),
+                'scope' => json_encode(['type' => 'all_private_chats']),
+            ]);
+            $response_json = json_encode($response);
+        } catch (\Throwable $th) {
+            $this->logger->error("Telegram API: Could not 'setMyCommands'");
+        }
     }
 
     public function callTelegramApi($command, $args) {

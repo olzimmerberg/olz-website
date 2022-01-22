@@ -441,10 +441,10 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     $email->configure($user, "[OLZ] {$title}", $text, $config);
                     $email->send();
                     $this->logger->info("Email sent to user ({$user_id}): {$title}");
-                } catch (\Exception $exc) {
-                    $exc_class = get_class($exc);
-                    $message = $exc->getMessage();
-                    $this->logger->critical("Error sending email to user ({$user_id}): [{$exc_class}] {$message}", []);
+                } catch (\Throwable $th) {
+                    $th_class = get_class($th);
+                    $message = $th->getMessage();
+                    $this->logger->critical("Error sending email to user ({$user_id}): [{$th_class}] {$message}", []);
                 }
                 break;
             case NotificationSubscription::DELIVERY_TELEGRAM:
@@ -461,13 +461,19 @@ class SendDailyNotificationsTask extends BackgroundTask {
                 }
                 $html_title = $this->telegramUtils->renderMarkdown($title);
                 $html_text = $this->telegramUtils->renderMarkdown($text);
-                $this->telegramUtils->callTelegramApi('sendMessage', [
-                    'chat_id' => $user_chat_id,
-                    'parse_mode' => 'HTML',
-                    'text' => "<b>{$html_title}</b>\n\n{$html_text}",
-                    'disable_web_page_preview' => true,
-                ]);
-                $this->logger->info("Telegram sent to user ({$user_id}): {$title}");
+                try {
+                    $this->telegramUtils->callTelegramApi('sendMessage', [
+                        'chat_id' => $user_chat_id,
+                        'parse_mode' => 'HTML',
+                        'text' => "<b>{$html_title}</b>\n\n{$html_text}",
+                        'disable_web_page_preview' => true,
+                    ]);
+                    $this->logger->info("Telegram sent to user ({$user_id}): {$title}");
+                } catch (\Throwable $th) {
+                    $th_class = get_class($th);
+                    $message = $th->getMessage();
+                    $this->logger->critical("Error sending telegram to user ({$user_id}): [{$th_class}] {$message}", []);
+                }
                 break;
             default:
                 $this->logger->critical("Unknown delivery type '{$delivery_type}'");

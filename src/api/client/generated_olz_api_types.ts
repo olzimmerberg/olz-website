@@ -90,8 +90,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'usernameOrEmail': string,
             'recaptchaToken': string,
         },
-    logout: {
-        }|null,
+    logout: Record<string, never>|null,
     updateUser: {
             'id': number,
             'firstName': string,
@@ -152,8 +151,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     executeEmailReaction: {
             'token': string,
         },
-    linkTelegram: {
-        }|null,
+    linkTelegram: Record<string, never>|null,
     onTelegram: {
             'authenticityCode': string,
             'telegramEvent': string,
@@ -213,8 +211,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'ownerUser': number,
             'ownerRole': number,
         },
-    getManagedUsers: {
-        }|null,
+    getManagedUsers: Record<string, never>|null,
     getRegistrationForm: {
             'registrationForm': number,
             'user': number,
@@ -227,17 +224,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'destination': string,
             'arrival': string,
         },
-    getWebdavAccessToken: {
-        }|null,
-    revokeWebdavAccessToken: {
-        }|null,
+    getWebdavAccessToken: Record<string, never>|null,
+    revokeWebdavAccessToken: Record<string, never>|null,
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
-    onDaily: {
-        }|null,
-    onContinuously: {
-        }|null,
+    onDaily: Record<string, never>|null,
+    onContinuously: Record<string, never>|null,
     login: {
             'status': 'INVALID_CREDENTIALS'|'BLOCKED'|'AUTHENTICATED',
         },
@@ -281,8 +274,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'botName': string,
             'pin': string,
         },
-    onTelegram: {
-        }|null,
+    onTelegram: Record<string, never>|null,
     getLogs: {
             'content': string|null,
         },

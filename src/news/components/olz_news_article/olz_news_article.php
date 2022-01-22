@@ -45,11 +45,12 @@ function olz_news_article($args = []): string {
 
         $edit_admin = '';
         if ($can_edit && !$is_preview) {
-            $edit_admin = $is_migrated ? <<<'ZZZZZZZZZZ'
+            $json_id = json_encode(intval($id_tmp));
+            $edit_admin = $is_migrated ? <<<ZZZZZZZZZZ
             <button
                 id='edit-news-button'
                 class='btn btn-primary'
-                onclick='return initOlzEditNewsModal()'
+                onclick='return editNewsArticle({$json_id})'
             >
                 <img src='icns/edit_16.svg' class='noborder' />
                 Bearbeiten

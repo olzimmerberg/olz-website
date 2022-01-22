@@ -179,7 +179,7 @@ while ($row = $result->fetch_assoc()) {
         $news_entry->setTitle($edit_admin.$titel);
         $news_entry->setTeaser($text);
         $news_entry->setId($id);
-        $news_entry->setImageIds(json_decode($image_ids, true));
+        $news_entry->setImageIds(json_decode($image_ids ?? '[]', true));
 
         echo olz_news_list_item(['news_entry' => $news_entry]);
     }

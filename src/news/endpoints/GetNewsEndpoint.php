@@ -69,25 +69,35 @@ class GetNewsEndpoint extends AbstractNewsEndpoint {
         $news_repo = $this->entityManager->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
-        $tags_for_api = explode(' ', trim($news_entry->getTags()));
+        $owner_user = $news_entry->getOwnerUser();
+        $owner_role = $news_entry->getOwnerRole();
+        $author_user = $news_entry->getAuthorUser();
+        $author_role = $news_entry->getAuthorRole();
+        $tags_for_api = array_filter(
+            explode(' ', trim($news_entry->getTags())),
+            function ($item) {
+                return trim($item) != '';
+            }
+        );
+        $termin_id = $news_entry->getTermin();
 
         return [
             'id' => $entity_id,
             'data' => [
-                'ownerUserId' => $news_entry->getOwnerUser()->getId(),
-                'ownerRoleId' => $news_entry->getOwnerRole()->getId(),
+                'ownerUserId' => $owner_user ? $owner_user->getId() : null,
+                'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
                 'author' => $news_entry->getAuthor(),
-                'authorUserId' => $news_entry->getAuthorUser()->getId(),
-                'authorRoleId' => $news_entry->getAuthorRole()->getId(),
+                'authorUserId' => $author_user ? $author_user->getId() : null,
+                'authorRoleId' => $author_role ? $author_role->getId() : null,
                 'title' => $news_entry->getTitle(),
                 'teaser' => $news_entry->getTeaser(),
                 'content' => $news_entry->getContent(),
                 'externalUrl' => $news_entry->getExternalUrl(),
                 'tags' => $tags_for_api,
-                'terminId' => $news_entry->getTerminId(),
-                'onOff' => $news_entry->getOnOff(),
+                'terminId' => $termin_id ? $termin_id : null,
+                'onOff' => $news_entry->getOnOff() ? true : false,
                 'imageIds' => $news_entry->getImageIds(),
-                'fileIds' => $news_entry->getFileIds(),
+                'fileIds' => [], // $news_entry->getFileIds(),
             ],
         ];
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../api/client';
+import {OlzNewsData} from '../../../api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../../components/common/olz_default_form/olz_default_form';
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
@@ -54,9 +55,17 @@ const FORMATTING_NOTES_FOR_USERS = (<>
     </table>
 </>);
 
-export const OlzEditNewsModal = () => {
-    const today = (new Date()).toISOString().substr(0, 10);
-    const [dateValue, setDateValue] = React.useState<string>(today);
+interface OlzEditNewsModalProps {
+    id?: number;
+    data?: OlzNewsData;
+}
+
+export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
+    const [title, setTitle] = React.useState<string>(props.data?.title ?? '');
+    const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
+    const [content, setContent] = React.useState<string>(props.data?.content ?? '');
+    const [author, setAuthor] = React.useState<string>(props.data?.author ?? '');
+    const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
     const [fileIds, setFileIds] = React.useState<string[]>([]);
     const [imageIds, setImageIds] = React.useState<string[]>([]);
 
@@ -112,21 +121,12 @@ export const OlzEditNewsModal = () => {
                         </div>
                         <div className='modal-body'>
                             <div className='form-group'>
-                                <label htmlFor='news-date-input'>Datum</label>
-                                <input
-                                    type='text'
-                                    name='date'
-                                    value={dateValue}
-                                    onChange={e => setDateValue(e.target.value)}
-                                    className='form-control'
-                                    id='news-date-input'
-                                />
-                            </div>
-                            <div className='form-group'>
                                 <label htmlFor='news-title-input'>Titel</label>
                                 <input
                                     type='text'
                                     name='title'
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
                                     className='form-control'
                                     id='news-title-input'
                                 />
@@ -135,6 +135,8 @@ export const OlzEditNewsModal = () => {
                                 <label htmlFor='news-teaser-input'>Teaser</label>
                                 <textarea
                                     name='teaser'
+                                    value={teaser}
+                                    onChange={e => setTeaser(e.target.value)}
                                     className='form-control'
                                     id='news-teaser-input'
                                 />
@@ -143,6 +145,8 @@ export const OlzEditNewsModal = () => {
                                 <label htmlFor='news-content-input'>Inhalt</label>
                                 <textarea
                                     name='content'
+                                    value={content}
+                                    onChange={e => setContent(e.target.value)}
                                     className='form-control'
                                     id='news-content-input'
                                 />
@@ -153,6 +157,8 @@ export const OlzEditNewsModal = () => {
                                 <input
                                     type='text'
                                     name='author'
+                                    value={author}
+                                    onChange={e => setAuthor(e.target.value)}
                                     className='form-control'
                                     id='news-author-input'
                                 />
@@ -162,6 +168,8 @@ export const OlzEditNewsModal = () => {
                                 <input
                                     type='text'
                                     name='external-url'
+                                    value={externalUrl}
+                                    onChange={e => setExternalUrl(e.target.value)}
                                     className='form-control'
                                     id='news-external-url-input'
                                 />
@@ -192,9 +200,9 @@ export const OlzEditNewsModal = () => {
     );
 };
 
-export function initOlzEditNewsModal() {
+export function initOlzEditNewsModal(id?: number, data?: OlzNewsData) {
     ReactDOM.render(
-        <OlzEditNewsModal />,
+        <OlzEditNewsModal id={id} data={data} />,
         document.getElementById('edit-news-react-root'),
     );
     $('#edit-news-modal').modal({backdrop: 'static'});

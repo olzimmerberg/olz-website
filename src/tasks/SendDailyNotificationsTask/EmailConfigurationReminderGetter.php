@@ -6,7 +6,7 @@ require_once __DIR__.'/../../model/NotificationSubscription.php';
 class EmailConfigurationReminderGetter {
     use Psr\Log\LoggerAwareTrait;
 
-    public const DAY_OF_MONTH = 3;
+    public const DAY_OF_MONTH = 22;
 
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;

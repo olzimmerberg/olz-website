@@ -48,7 +48,7 @@ function olz_menu($args = []): string {
     <input type='text' name='anfrage' style='width:100%;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
     </form>";
     $out .= "<div style='padding:2em 0.5em 0em 0.5em;'>
-    <script type='text/javascript'>MailTo(\"olz_uu_01\", \"olzimmerberg.ch\", \"sysadmin\", \"Homepage%20OL%20Zimmerberg\");</script>
+    <script type='text/javascript'>MailTo(\"website\", \"olzimmerberg.ch\", \"sysadmin\", \"Homepage%20OL%20Zimmerberg\");</script>
     </div>
     <div style='padding:0.5em 0.5em 0em 0.5em;'>
     <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' style='float:right;'><img src='{$_CONFIG->getCodeHref()}icns/strava_16.svg' alt='s' class='noborder' /></a>

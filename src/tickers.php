@@ -39,8 +39,11 @@ function termine_ticker($settings) {
     while ($row = mysqli_fetch_array($result)) {
         $datum_tmp = $row['datum'];
         $datum_end = $row['datum_end'];
-        $diff = (strtotime($datum_tmp) - strtotime($heute)) / 86400;
-        $diff_end = (strtotime($datum_end) - strtotime($datum_tmp)) / 86400;
+        $timestamp_tmp = $datum_tmp ? strtotime($datum_tmp) : 0;
+        $timestamp_heute = $heute ? strtotime($heute) : 0;
+        $timestamp_end = $datum_end ? strtotime($datum_end) : 0;
+        $diff = ($timestamp_tmp - $timestamp_heute) / 86400;
+        $diff_end = ($timestamp_end - $timestamp_tmp) / 86400;
         $time = $diff * 86400;
         $class_heute = "";
         if ($diff < (0.95)) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...

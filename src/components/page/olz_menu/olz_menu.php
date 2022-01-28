@@ -101,7 +101,10 @@ function get_menu($menu, $identifier, $_CONFIG): string {
     return $out;
 }
 
-function color($red, $green, $blue): string {
+function color($red_float, $green_float, $blue_float): string {
+    $red = intval($red_float);
+    $green = intval($green_float);
+    $blue = intval($blue_float);
     $redstelle1 = $red % 16;
     $redstelle2 = round(($red - $redstelle1) / 16, 0);
     $greenstelle1 = $green % 16;

@@ -36,7 +36,7 @@ class HttpUtils {
             <p>Aber keine Bange, <a href='startseite.php' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
             <p>Und wenn du felsenfest davon überzeugt bist, dass der Posten hier sein <b>muss</b>, dann hat wohl der Postensetzer einen Fehler gemacht und sollte schläunigst informiert werden:
             <script type='text/javascript'>
-                MailTo("olz_uu_01", "olzimmerberg.ch", "Postensetzer", "Fehler%20{$http_status_code}%20OLZ");
+                MailTo("website", "olzimmerberg.ch", "Postensetzer", "Fehler%20{$http_status_code}%20OLZ");
             </script></p>
         </div>
         ZZZZZZZZZZ;

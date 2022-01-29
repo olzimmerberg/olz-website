@@ -172,7 +172,7 @@ function aktuell_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     $titel = $row['titel'];
     $text = $row['text'];
     $id_tmp = $row['id'];
-    $datum_tmp = date("j. ",$datum_tmp).utf8_encode(strftime("%B",$datum_tmp));
+    $datum_tmp = $_DATE->olzDate("t. MM", $datum_tmp);
     $mehr = "";
     if ($textlaenge_def*5<strlen($datum_tmp)+strlen($titel)+strlen($text)) {
         $text = mb_substr($text,0,($textlaenge_def*5-strlen($datum_tmp)-strlen($titel)));
@@ -553,7 +553,7 @@ function forum_ticker($textlaenge_def=60,$nowrap=false,$listenlaenge=4) {
         $eintrag = $row['eintrag'];
         $datum_tmp = strtotime($row['datum']);
         $id_tmp = $row['id'];
-        $datum_tmp = date("j. ",$datum_tmp).utf8_encode(strftime("%B",$datum_tmp));
+        $datum_tmp = $_DATE->olzDate("t. MM", $datum_tmp);
         $eintrag = mb_substr($eintrag,0,($textlaenge_def - strlen($datum_tmp.$name)));
         $eintrag = mb_substr($eintrag,0,mb_strrpos($eintrag," "));
         if ($zugriff) $edit_admin = "<a href='index.php?page=5&amp;id=$id_tmp&amp;button$db_table=start' class='linkedit'>&nbsp;</a>";
@@ -582,7 +582,7 @@ function blog_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     $titel = $row['titel'];
     $text = $row['text'];
     $id_tmp = $row['id'];
-    $datum_tmp = date("j. ",$datum_tmp).utf8_encode(strftime("%B",$datum_tmp));
+    $datum_tmp = $_DATE->olzDate("t. MM", $datum_tmp);
     $mehr = "";
     if ($textlaenge_def*5<strlen($datum_tmp)+strlen($titel)+strlen($text)) {
         $text = mb_substr($text,0,($textlaenge_def*5-strlen($datum_tmp)-strlen($titel)));
@@ -614,7 +614,7 @@ function galerie_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     $autor = $row['autor'];
     $groesse = $row['groesse'];
     $id_tmp = $row['id'];
-    $foto_datum = strftime("%y%m%d",$datum_tmp);
+    $foto_datum = date("Ymd",$datum_tmp);
     $indexes = array();
     for ($i=0; $i<((3<$groesse)?3:$groesse); $i++) {
         $rand_pic = mt_rand(1, $groesse);
@@ -626,7 +626,7 @@ function galerie_ticker($textlaenge_def=80,$nowrap=false,$offset=0) {
     for ($i=0; $i<count($indexes); $i++) {
         $indexes[$i] = str_pad($indexes[$i] ,3, '0', STR_PAD_LEFT);
     }
-    $datum_tmp = date("j. ",$datum_tmp).utf8_encode(strftime("%B",$datum_tmp));
+    $datum_tmp = $_DATE->olzDate("t. MM", $datum_tmp);
 
     echo "<p><h2><a href='index.php?page=4' style='color:#003508; padding-left:7px;'><b>".$datum_tmp.":</b> ".$titel." (".$autor.")</a></h2>";
     for ($i=0; $i<count($indexes); $i++) {

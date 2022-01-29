@@ -55,7 +55,7 @@ foreach ($news_filters as $news_filter) {
 }
 
 $termine_utils = TermineUtils::fromEnv();
-$termine_filters = $termine_utils->getAllValidFilters();
+$termine_filters = $termine_utils->getAllValidFiltersForSitemap();
 foreach ($termine_filters as $termine_filter) {
     $enc_json_filter = urlencode(json_encode($termine_filter));
     echo get_entry("{$base_url}termine.php?filter={$enc_json_filter}", 'monthly', '0.2');

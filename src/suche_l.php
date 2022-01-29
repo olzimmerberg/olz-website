@@ -5,6 +5,7 @@
 // =============================================================================
 
 require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/config/date.php';
 
 $length_a = 40;
 $length_b = 40;
@@ -49,7 +50,7 @@ if ($sql1 > "") {// TERMINE
         $text = strip_tags($row['text']);
         $id = $row['id'];
         $jahr = date("Y", $datum);
-        $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
+        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_termine .= "<tr><td><a href=\"termine.php#id{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php#id{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -67,7 +68,7 @@ if ($sql1 > "") {// TERMINE
         $titel = strip_tags($row['titel']);
         $text = strip_tags($row['text']).strip_tags($row['textlang']);
         $id = $row['id'];
-        $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
+        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_aktuell .= "<tr><td><a href=\"aktuell.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"aktuell.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -85,7 +86,7 @@ if ($sql1 > "") {// TERMINE
         $titel = strip_tags($row['name']);
         $text = strip_tags($row['eintrag']);
         $id = $row['id'];
-        $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
+        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_forum .= "<tr><td><a href=\"forum.php#id{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"forum.php#id{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -103,7 +104,7 @@ if ($sql1 > "") {// TERMINE
         $datum_ = $row['datum'];
         $titel = strip_tags($row['titel']);
         $id = $row['id'];
-        $datum = date("j. ", $datum).strftime("%B", $datum).date(" Y", $datum);
+        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_galerie .= "<tr><td><a href=\"galerie.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"galerie.php?id={$id}\" class=\"linkint\">".$titel."</a></b></td></tr>";
     }

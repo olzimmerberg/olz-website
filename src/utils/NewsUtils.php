@@ -7,7 +7,7 @@ require_once __DIR__.'/../config/doctrine.php';
 class NewsUtils {
     private $date_utils;
 
-    public const ARCHIVE_YEARS_THRESHOLD = 5;
+    public const ARCHIVE_YEARS_THRESHOLD = 4;
 
     public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle News"],
@@ -123,10 +123,10 @@ class NewsUtils {
     public function getDateRangeOptions($filter = []) {
         $include_archive = ($filter['archiv'] ?? null) === 'mit';
         $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
-        $limit = $include_archive ? ($current_year - 2005) : NewsUtils::ARCHIVE_YEARS_THRESHOLD;
+        $first_year = $include_archive ? 2006 : $current_year - NewsUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [];
-        for ($i = 0; $i < $limit; $i++) {
-            $year_ident = strval($current_year - $i);
+        for ($year = $current_year; $year >= $first_year; $year--) {
+            $year_ident = strval($year);
             $options[] = ['ident' => $year_ident, 'name' => $year_ident];
         }
         return $options;
@@ -200,10 +200,10 @@ class NewsUtils {
         return ($filter['archiv'] ?? null) === 'ohne';
     }
 
-    public function getIsNewsNotArchivedCriteria() {
-        $five_years_ago = $this->date_utils->getCurrentDateInFormat('Y') - NewsUtils::ARCHIVE_YEARS_THRESHOLD;
-        $beginning_of_five_years_ago = "{$five_years_ago}-01-01";
-        return Criteria::expr()->gte('datum', new DateTime($beginning_of_five_years_ago));
+    public function getIsNotArchivedCriteria() {
+        $years_ago = $this->date_utils->getCurrentDateInFormat('Y') - NewsUtils::ARCHIVE_YEARS_THRESHOLD;
+        $beginning_of_years_ago = "{$years_ago}-01-01";
+        return Criteria::expr()->gte('datum', new DateTime($beginning_of_years_ago));
     }
 
     public static function fromEnv() {

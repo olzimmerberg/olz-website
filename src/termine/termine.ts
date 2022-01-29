@@ -1,4 +1,4 @@
-import {CHtoWGSlat, CHtoWGSlng} from './library/wgs84_ch1903/wgs84_ch1903';
+import {CHtoWGSlat, CHtoWGSlng} from '../library/wgs84_ch1903/wgs84_ch1903';
 
 export function toggleMap(id: string, xkoord: number, ykoord: number): boolean {
     const mapid = `map${id}`;

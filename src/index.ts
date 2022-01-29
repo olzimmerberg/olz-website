@@ -28,7 +28,7 @@ export * from './oev/index';
 export * from './profil';
 export * from './scripts/index';
 export * from './styles/index';
-export * from './termine';
+export * from './termine/index';
 export * from './utils/index';
 export * from './webftp';
 

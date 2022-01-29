@@ -6,7 +6,7 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/model/SolvEvent.php';
-require_once __DIR__.'/../../../../src/model/Termin.php';
+require_once __DIR__.'/../../../../src/termine/model/Termin.php';
 require_once __DIR__.'/../../../../src/model/User.php';
 require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';

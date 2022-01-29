@@ -35,10 +35,10 @@ require_once __DIR__.'/StravaLink.php';
 require_once __DIR__.'/StravaLinkRepository.php';
 require_once __DIR__.'/TelegramLink.php';
 require_once __DIR__.'/TelegramLinkRepository.php';
-require_once __DIR__.'/Termin.php';
 require_once __DIR__.'/Throttling.php';
 require_once __DIR__.'/ThrottlingRepository.php';
 require_once __DIR__.'/User.php';
 require_once __DIR__.'/UserRepository.php';
 
 require_once __DIR__.'/../news/model/index.php';
+require_once __DIR__.'/../termine/model/index.php';

@@ -4,7 +4,7 @@ use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
 require_once __DIR__.'/../../model/NotificationSubscription.php';
-require_once __DIR__.'/../../model/Termin.php';
+require_once __DIR__.'/../../termine/model/Termin.php';
 
 class WeeklyPreviewGetter {
     use Psr\Log\LoggerAwareTrait;

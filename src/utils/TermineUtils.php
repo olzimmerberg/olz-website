@@ -1,13 +1,22 @@
 <?php
 
+use Doctrine\Common\Collections\Criteria;
+
 class TermineUtils {
     private $date_utils;
+
+    public const ARCHIVE_YEARS_THRESHOLD = 4;
 
     public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle Termine"],
         ['ident' => 'training', 'name' => "Trainings"],
         ['ident' => 'ol', 'name' => "Wettkämpfe"],
         ['ident' => 'club', 'name' => "Vereinsanlässe"],
+    ];
+
+    public const ALL_ARCHIVE_OPTIONS = [
+        ['ident' => 'ohne', 'name' => "ohne Archiv"],
+        ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
 
     public function setDateUtils($date_utils) {
@@ -18,6 +27,7 @@ class TermineUtils {
         return [
             'typ' => 'alle',
             'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
         ];
     }
 
@@ -34,22 +44,33 @@ class TermineUtils {
         $has_correct_date_range = (
             isset($filter['datum'])
             && array_filter(
-                $this->getDateRangeOptions(),
+                $this->getDateRangeOptions($filter),
                 function ($type_option) use ($filter) {
                     return $type_option['ident'] === $filter['datum'];
                 }
             )
         );
-        return $has_correct_type && $has_correct_date_range;
+        $has_correct_archive = (
+            isset($filter['archiv'])
+            && array_filter(
+                TermineUtils::ALL_ARCHIVE_OPTIONS,
+                function ($archive_option) use ($filter) {
+                    return $archive_option['ident'] === $filter['archiv'];
+                }
+            )
+        );
+        return $has_correct_type && $has_correct_date_range && $has_correct_archive;
     }
 
-    public function getAllValidFilters() {
+    public function getAllValidFiltersForSitemap() {
         $all_valid_filters = [];
         foreach (TermineUtils::ALL_TYPE_OPTIONS as $type_option) {
-            foreach ($this->getDateRangeOptions() as $date_range_option) {
+            $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
+            foreach ($date_range_options as $date_range_option) {
                 $all_valid_filters[] = [
                     'typ' => $type_option['ident'],
                     'datum' => $date_range_option['ident'],
+                    'archiv' => 'ohne',
                 ];
             }
         }
@@ -79,20 +100,34 @@ class TermineUtils {
                 'name' => $date_range_option['name'],
                 'ident' => $date_range_option['ident'],
             ];
-        }, $this->getDateRangeOptions());
+        }, $this->getDateRangeOptions($filter));
     }
 
-    public function getDateRangeOptions() {
+    public function getUiArchiveFilterOptions($filter) {
+        return array_map(function ($archive_option) use ($filter) {
+            $new_filter = $filter;
+            $new_filter['archiv'] = $archive_option['ident'];
+            return [
+                'selected' => $archive_option['ident'] === $filter['archiv'],
+                'new_filter' => $new_filter,
+                'name' => $archive_option['name'],
+                'ident' => $archive_option['ident'],
+            ];
+        }, TermineUtils::ALL_ARCHIVE_OPTIONS);
+    }
+
+    public function getDateRangeOptions($filter = []) {
+        $include_archive = ($filter['archiv'] ?? null) === 'mit';
         $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
-        $last_year_ident = strval($current_year - 1);
-        $this_year_ident = strval($current_year);
-        $next_year_ident = strval($current_year + 1);
-        return [
+        $first_year = $include_archive ? 2006 : $current_year - TermineUtils::ARCHIVE_YEARS_THRESHOLD;
+        $options = [
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
-            ['ident' => $last_year_ident, 'name' => $last_year_ident],
-            ['ident' => $this_year_ident, 'name' => $this_year_ident],
-            ['ident' => $next_year_ident, 'name' => $next_year_ident],
         ];
+        for ($year = $current_year + 1; $year >= $first_year; $year--) {
+            $year_ident = strval($year);
+            $options[] = ['ident' => $year_ident, 'name' => $year_ident];
+        }
+        return $options;
     }
 
     public function getSqlFromFilter($filter) {
@@ -143,16 +178,17 @@ class TermineUtils {
             return "Termine";
         }
         $type_title = $this->getTypeFilterTitle($filter);
+        $archive_title_suffix = $this->getArchiveFilterTitleSuffix($filter);
         if ($filter['datum'] == 'bevorstehend') {
-            return "Bevorstehende {$type_title}";
+            return "Bevorstehende {$type_title}{$archive_title_suffix}";
         }
         if (intval($filter['datum']) > 2000) {
             $year = $filter['datum'];
-            return "{$type_title} {$year}";
+            return "{$type_title} {$year}{$archive_title_suffix}";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
-        return "Termine";
+        return "Termine{$archive_title_suffix}";
         // @codeCoverageIgnoreEnd
     }
 
@@ -167,6 +203,23 @@ class TermineUtils {
             return "Vereinsanlässe";
         }
         return "Termine";
+    }
+
+    private function getArchiveFilterTitleSuffix($filter) {
+        if ($filter['archiv'] === 'mit') {
+            return " (Archiv)";
+        }
+        return "";
+    }
+
+    public function isFilterNotArchived($filter) {
+        return ($filter['archiv'] ?? null) === 'ohne';
+    }
+
+    public function getIsNotArchivedCriteria() {
+        $years_ago = $this->date_utils->getCurrentDateInFormat('Y') - TermineUtils::ARCHIVE_YEARS_THRESHOLD;
+        $beginning_of_years_ago = "{$years_ago}-01-01";
+        return Criteria::expr()->gte('datum', new DateTime($beginning_of_years_ago));
     }
 
     public static function fromEnv() {

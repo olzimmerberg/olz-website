@@ -479,14 +479,14 @@ final class NewsUtilsTest extends UnitTestCase {
         $this->assertSame(false, $news_utils->isFilterNotArchived(['archiv' => 'mit']));
     }
 
-    public function testGetIsNewsNotArchivedCriteria(): void {
+    public function testGetIsNotArchivedCriteria(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsUtils();
         $news_utils->setDateUtils($date_utils);
-        $criteria_expression = $news_utils->getIsNewsNotArchivedCriteria();
+        $criteria_expression = $news_utils->getIsNotArchivedCriteria();
         $this->assertSame('datum', $criteria_expression->getField());
         $this->assertSame(
-            '2015-01-01',
+            '2016-01-01',
             $criteria_expression->getValue()->getValue()->format('Y-m-d')
         );
         $this->assertSame(Comparison::GTE, $criteria_expression->getOperator());

@@ -4,13 +4,53 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
-require_once __DIR__.'/config/database.php';
-require_once __DIR__.'/config/date.php';
-require_once __DIR__.'/utils/TermineUtils.php';
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-$db_table = "termine";
+require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/date.php';
+require_once __DIR__.'/../utils/client/HttpUtils.php';
+require_once __DIR__.'/../utils/env/EnvUtils.php';
+require_once __DIR__.'/../utils/TermineUtils.php';
+require_once __DIR__.'/components/olz_termine_filter/olz_termine_filter.php';
 
-$ter_filter = [["alle", "Alle Termine"], ["training", "Training"], ["ol", "Wettkämpfe"], ["club", "Vereinsanlässe"]];
+$env_utils = EnvUtils::fromEnv();
+$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLogger($logger);
+$validated_get_params = $http_utils->validateGetParams([
+    'filter' => new FieldTypes\StringField(['allow_null' => true]),
+    'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+    'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
+], $_GET);
+
+$current_filter = json_decode($_GET['filter'] ?? '{}', true);
+$termine_utils = TermineUtils::fromEnv();
+
+if (!$termine_utils->isValidFilter($current_filter)) {
+    $enc_json_filter = urlencode(json_encode($termine_utils->getDefaultFilter()));
+    $http_utils->redirect("termine.php?filter={$enc_json_filter}", 308);
+}
+
+$is_not_archived = $termine_utils->isFilterNotArchived($current_filter);
+$allow_robots = $is_not_archived;
+
+require_once __DIR__.'/../components/page/olz_header/olz_header.php';
+echo olz_header([
+    'title' => $termine_utils->getTitleFromFilter($current_filter),
+    'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+    'norobots' => !$allow_robots,
+]);
+
+$enc_current_filter = urlencode(json_encode($current_filter));
+
+echo "
+<div id='content_rechts'>
+<div>";
+include __DIR__.'/termine_r.php';
+echo "</div>
+</div>
+<div id='content_mitte'>
+<form name='Formularl' method='post' action='termine.php?filter={$enc_current_filter}#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
 //-------------------------------------------------------------
 // ZUGRIFF
@@ -118,25 +158,7 @@ if ($zugriff) {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span class='linkint'><a href='termine_tools.php'>Termine-Tools</a></span></div>";
 }
 
-echo "<div style='padding:4px 3px 10px 3px;'><b>Termin-Typ: </b>";
-$type_options = $termine_utils->getUiTypeFilterOptions($current_filter);
-echo implode(" | ", array_map(function ($option) {
-    $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-    $enc_json_filter = urlencode(json_encode($option['new_filter']));
-    $name = $option['name'];
-    $ident = $option['ident'];
-    return "<a href='termine.php?filter={$enc_json_filter}' id='filter-type-{$ident}'{$selected}>{$name}</a>";
-}, $type_options));
-echo "<br /><b>Datum: </b>";
-$date_range_options = $termine_utils->getUiDateRangeFilterOptions($current_filter);
-echo implode(" | ", array_map(function ($option) {
-    $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-    $enc_json_filter = urlencode(json_encode($option['new_filter']));
-    $name = $option['name'];
-    $ident = $option['ident'];
-    return "<a href='termine.php?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
-}, $date_range_options));
-echo "</div>";
+echo olz_termine_filter();
 
 //-------------------------------------------------------------
 //  VORSCHAU - LISTE
@@ -222,7 +244,7 @@ while ($row = mysqli_fetch_array($result)) {
     $titel = $row['titel'];
     $text = $row['text'];
     $text = olz_br(olz_mask_email($text, "", ""));
-    $link = $row['link'];
+    $link = $row['link'] ?? '';
     $event_link = $row['solv_event_link'];
     $id = $row['id'];
     $typ = $row['typ'];
@@ -239,7 +261,7 @@ while ($row = mysqli_fetch_array($result)) {
         $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
         $row_solv = $result_solv->fetch_assoc();
     }
-    $tn = ($zugriff == 1) ? "(".$row['teilnehmer'].($solv_uid > 0 ? ";SOLV" : "").") " : "";
+    $tn = ($zugriff == 1) ? "(".($row['teilnehmer'] ?? '').($solv_uid > 0 ? ";SOLV" : "").") " : "";
 
     // Dateicode einfügen
     preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $link, $matches);
@@ -279,7 +301,7 @@ while ($row = mysqli_fetch_array($result)) {
     } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $heute) {
         $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
     }
-    if (strpos($row['link'], 'Ausschreibung') == 0 and $row['solv_event_link'] > "") {
+    if (strpos($link, 'Ausschreibung') == 0 and $row['solv_event_link'] > "") {
         $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
         $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
     }
@@ -291,7 +313,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
     }
     //SOLV-Ausschreibungs-Link zeigen
-    if ($row_solv && $row_solv["event_link"] and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
+    if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
         $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
         $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
     }
@@ -372,6 +394,11 @@ while ($row = mysqli_fetch_array($result)) {
     $id_spalte = "";
 }
 echo "</table>";
+echo "</form>
+</div>";
+
+require_once __DIR__.'/../components/page/olz_footer/olz_footer.php';
+echo olz_footer();
 
 //-------------------------------------------------------------
 //  Wiederkehrendes Datum anzeigen

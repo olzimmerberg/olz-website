@@ -24,7 +24,7 @@ try {
 
 $news_utils = NewsUtils::fromEnv();
 $news_repo = $entityManager->getRepository(NewsEntry::class);
-$is_not_archived = $news_utils->getIsNewsNotArchivedCriteria();
+$is_not_archived = $news_utils->getIsNotArchivedCriteria();
 $criteria = Criteria::create()
     ->where(Criteria::expr()->andX(
         $is_not_archived,

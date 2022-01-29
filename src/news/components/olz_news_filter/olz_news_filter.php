@@ -8,8 +8,8 @@ function olz_news_filter($args = []): string {
     $news_utils = NewsUtils::fromEnv();
     $current_filter = json_decode($_GET['filter'] ?? '{}', true);
     $out = "";
-
     $out .= "<div style='padding:4px 3px 10px 3px;'>";
+
     // echo "<b>News-Typ: </b>";
     // $type_options = $news_utils->getUiTypeFilterOptions($current_filter);
     // echo implode(" | ", array_map(function ($option) {

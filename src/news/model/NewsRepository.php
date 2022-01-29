@@ -10,7 +10,7 @@ require_once __DIR__.'/../../utils/NewsUtils.php';
 class NewsRepository extends EntityRepository {
     public function getAllActiveIds() {
         $news_utils = NewsUtils::fromEnv();
-        $is_not_archived = $news_utils->getIsNewsNotArchivedCriteria();
+        $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,

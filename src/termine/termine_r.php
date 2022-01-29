@@ -4,9 +4,9 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
-require_once __DIR__.'/config/database.php';
-require_once __DIR__.'/config/date.php';
+require_once __DIR__.'/../components/common/olz_editable_text/olz_editable_text.php';
+require_once __DIR__.'/../config/database.php';
+require_once __DIR__.'/../config/date.php';
 
 echo "<h2>Trainings</h2>";
 
@@ -25,7 +25,7 @@ $titel = $row['titel'];
 $text = $row['text'];
 $id_training = $row['id'];
 
-$datum = date("j. ", $datum).utf8_encode(strftime("%B", $datum));
+$datum = $_DATE->olzDate("t. MM", $datum);
 if ($titel == "") {
     $titel = substr(str_replace("<br>", " ", $text), 0, $textlaenge);
 }

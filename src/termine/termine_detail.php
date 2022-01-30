@@ -90,12 +90,6 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 }
 
 //-------------------------------------------------------------
-// MENÜ
-if ($zugriff and ($db_edit == '0')) {
-    echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
-}
-
-//-------------------------------------------------------------
 // AKTUELL - VORSCHAU
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     require_once __DIR__.'/components/olz_termin_detail/olz_termin_detail.php';

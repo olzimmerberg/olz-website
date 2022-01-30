@@ -79,7 +79,7 @@ function olz_termin_detail($args = []): string {
             $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
             // Tagesanlass
             if ($zeit != "00:00:00") {
-                $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
+                $datum_tmp .= " ".date("H:i", strtotime($zeit));
                 if ($zeit_end != "00:00:00") {
                     $datum_tmp .= " &ndash; ".date("H:i", strtotime($zeit_end));
                 }

@@ -4,7 +4,7 @@
 // Updated 9 dec 2014
 // Please validate your results with NAVREF on-line service: http://www.swisstopo.admin.ch/internet/swisstopo/en/home/apps/calc/navref.html (difference ~ 1-2m)
 
-// Convert WGS lat/long (° dec) to CH y
+// Convert WGS lat/long (ï¿½ dec) to CH y
 function WGStoCHy($lat, $long) {
 
   // Converts decimal degrees sexagesimal seconds
@@ -25,7 +25,7 @@ function WGStoCHy($lat, $long) {
   return $y;
 }
 
-// Convert WGS lat/long (° dec) to CH x
+// Convert WGS lat/long (ï¿½ dec) to CH x
 function WGStoCHx($lat, $long) {
 
   // Converts decimal degrees sexagesimal seconds
@@ -73,7 +73,7 @@ function CHtoWGSlat($y, $x) {
 }
 
 // Convert CH y/x to WGS long
-function CHtoWGSlong($y, $x) {
+function CHtoWGSlng($y, $x) {
 
   // Converts military to civil and  to unit = 1000km
   // Auxiliary values (% Bern)

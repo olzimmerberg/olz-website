@@ -36,6 +36,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
             'blog' => true,
             'galerie' => true,
             'forum' => true,
+            'termine' => true,
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -66,7 +67,13 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/_/forum.php#id2)
         - 06.01. 06:07: [Hallo](http://integration-test.host/_/forum.php#id3)
         
-
+        
+        **Aktualisierte Termine**
+        
+        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/_/termine.php?id=1)
+        - 06.06.: [Brunch OL](http://integration-test.host/_/termine.php?id=2)
+        
+        
         ZZZZZZZZZZ;
         $this->assertSame('Wochenzusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));

@@ -39,6 +39,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             'blog' => true,
             'galerie' => true,
             'forum' => true,
+            'termine' => true,
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -55,7 +56,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         **Kaderblog**
         
         - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/_/blog.php#id1)
+        
 
+        **Aktualisierte Termine**
+        
+        - 06.06.: [Brunch OL](http://integration-test.host/_/termine.php?id=2)
+        
         
         ZZZZZZZZZZ;
         $this->assertSame('Tageszusammenfassung', $notification->title);
@@ -82,6 +88,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             'blog' => true,
             'galerie' => true,
             'forum' => true,
+            'termine' => true,
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -98,7 +105,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         **Forum**
         
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/_/forum.php#id1)
+
         
+        **Aktualisierte Termine**
+
+        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/_/termine.php?id=1)
+
 
         ZZZZZZZZZZ;
         $this->assertSame('Tageszusammenfassung', $notification->title);
@@ -125,6 +137,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             'blog' => true,
             'galerie' => true,
             'forum' => true,
+            'termine' => true,
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'

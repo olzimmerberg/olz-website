@@ -3,11 +3,12 @@
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../news/model/NewsEntry.php';
 require_once __DIR__.'/../../model/Blog.php';
 require_once __DIR__.'/../../model/Galerie.php';
 require_once __DIR__.'/../../model/Forum.php';
 require_once __DIR__.'/../../model/NotificationSubscription.php';
+require_once __DIR__.'/../../news/model/NewsEntry.php';
+require_once __DIR__.'/../../termine/model/Termin.php';
 
 class DailySummaryGetter {
     use Psr\Log\LoggerAwareTrait;
@@ -30,6 +31,8 @@ class DailySummaryGetter {
         $today = new DateTime($this->dateUtils->getIsoToday());
         $minus_one_day = DateInterval::createFromDateString("-1 days");
         $yesterday = (new DateTime($this->dateUtils->getIsoToday()))->add($minus_one_day);
+        $today_at_cut_off = new DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $yesterday_at_cut_off = new DateTime($yesterday->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->orX(
@@ -56,6 +59,17 @@ class DailySummaryGetter {
                 ),
             )
             ->orderBy(['datum' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
+        $termine_criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->lte('modified', $today_at_cut_off),
+                Criteria::expr()->gt('modified', $yesterday_at_cut_off),
+                Criteria::expr()->eq('newsletter', 1),
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -137,6 +151,25 @@ class DailySummaryGetter {
             }
             if (strlen($forum_text) > 0) {
                 $notification_text .= "\n**Forum**\n\n{$forum_text}\n";
+            }
+        }
+
+        if ($args['termine'] ?? false) {
+            $termine_url = "{$base_href}{$code_href}termine.php";
+            $termine_text = '';
+            $termin_repo = $this->entityManager->getRepository(Termin::class);
+            $termine = $termin_repo->matching($termine_criteria);
+            foreach ($termine as $termin) {
+                $id = $termin->getId();
+                $date = $termin->getStartsOn();
+                $pretty_date = $date->format('d.m.');
+                $title = $termin->getTitle();
+                if (strlen(trim($title)) > 0) {
+                    $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}?id={$id})\n";
+                }
+            }
+            if (strlen($termine_text) > 0) {
+                $notification_text .= "\n**Aktualisierte Termine**\n\n{$termine_text}\n";
             }
         }
 

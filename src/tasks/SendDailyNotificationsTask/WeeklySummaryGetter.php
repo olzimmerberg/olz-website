@@ -36,6 +36,8 @@ class WeeklySummaryGetter {
         $today = new DateTime($this->dateUtils->getIsoToday());
         $minus_one_week = DateInterval::createFromDateString("-7 days");
         $last_week = (new DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
+        $today_at_cut_off = new DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $last_week_at_cut_off = new DateTime($last_week->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->orX(
@@ -67,6 +69,17 @@ class WeeklySummaryGetter {
                 )
             )
             ->orderBy(['datum' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
+        $termine_criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->lte('modified', $today_at_cut_off),
+                Criteria::expr()->gt('modified', $last_week_at_cut_off),
+                Criteria::expr()->eq('newsletter', 1),
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -148,6 +161,25 @@ class WeeklySummaryGetter {
             }
             if (strlen($forum_text) > 0) {
                 $notification_text .= "\n**Forum**\n\n{$forum_text}\n";
+            }
+        }
+
+        if ($args['termine'] ?? false) {
+            $termine_url = "{$base_href}{$code_href}termine.php";
+            $termine_text = '';
+            $termin_repo = $this->entityManager->getRepository(Termin::class);
+            $termine = $termin_repo->matching($termine_criteria);
+            foreach ($termine as $termin) {
+                $id = $termin->getId();
+                $date = $termin->getStartsOn();
+                $pretty_date = $date->format('d.m.');
+                $title = $termin->getTitle();
+                if (strlen(trim($title)) > 0) {
+                    $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}?id={$id})\n";
+                }
+            }
+            if (strlen($termine_text) > 0) {
+                $notification_text .= "\n**Aktualisierte Termine**\n\n{$termine_text}\n";
             }
         }
 

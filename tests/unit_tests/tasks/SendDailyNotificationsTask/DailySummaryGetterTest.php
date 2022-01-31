@@ -78,6 +78,20 @@ class FakeDailySummaryGetterForumRepository {
     }
 }
 
+class FakeDailySummaryGetterTerminRepository {
+    public function matching($criteria) {
+        $termin1 = new Termin();
+        $termin1->setId(1);
+        $termin1->setStartsOn(new DateTime('2020-03-20'));
+        $termin1->setTitle('4. Lauf Zürcher Nacht-OL Serie');
+        $termin2 = new Termin();
+        $termin2->setId(2);
+        $termin2->setStartsOn(new DateTime('2020-03-22'));
+        $termin2->setTitle('2. Nationaler OL (Langdistanz)');
+        return [$termin1, $termin2];
+    }
+}
+
 /**
  * @internal
  * @covers \DailySummaryGetter
@@ -89,10 +103,12 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $blog_repo = new FakeDailySummaryGetterBlogRepository();
         $galerie_repo = new FakeDailySummaryGetterGalerieRepository();
         $forum_repo = new FakeDailySummaryGetterForumRepository();
+        $termin_repo = new FakeDailySummaryGetterTerminRepository();
         $entity_manager->repositories['NewsEntry'] = $news_repo;
         $entity_manager->repositories['Blog'] = $blog_repo;
         $entity_manager->repositories['Galerie'] = $galerie_repo;
         $entity_manager->repositories['Forum'] = $forum_repo;
+        $entity_manager->repositories['Termin'] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('DailySummaryGetterTest');
@@ -110,6 +126,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
             'blog' => true,
             'galerie' => true,
             'forum' => true,
+            'termine' => true,
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -140,6 +157,12 @@ final class DailySummaryGetterTest extends UnitTestCase {
         
         - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/forum.php#id1)
         - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/forum.php#id2)
+
+        
+        **Aktualisierte Termine**
+        
+        - 20.03.: [4. Lauf Zürcher Nacht-OL Serie](http://fake-base-url/_/termine.php?id=1)
+        - 22.03.: [2. Nationaler OL (Langdistanz)](http://fake-base-url/_/termine.php?id=2)
 
 
         ZZZZZZZZZZ;

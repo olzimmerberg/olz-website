@@ -356,9 +356,9 @@ while ($row = mysqli_fetch_array($result)) {
     //Tagesanlass
     if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
         $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
-        if ($zeit != "00:00:00") {
+        if ($zeit && $zeit != "00:00:00") {
             $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
-            if ($zeit_end != "00:00:00") {
+            if ($zeit_end && $zeit_end != "00:00:00") {
                 $datum_tmp .= " &ndash; ".date("H:i", strtotime($zeit_end));
             }
         }

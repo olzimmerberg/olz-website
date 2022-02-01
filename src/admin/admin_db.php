@@ -195,7 +195,9 @@ if ($db_table == "aktuell") {// DB AKTUELL
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum (Beginn)", "datum", "olz_current_date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", ""],
+        ["zeit", "Zeit (Beginn)", "zeit", "'00:00:00'", "Format: hh:mm:ss (z.B. '18:30:00')", "", "", ""],
         ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
+        ["zeit_end", "Zeit (Ende)", "zeit", "'00:00:00'", "Format: hh:mm:ss (z.B. '18:30:00')", "", "", ""],
         ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
         ["titel", "Titel", "text", "''", "", "<select name='set_titel' style='width:33%;margin-left:10px;' size='1'
 onchange='Titel_angleichen()' class='dropdown'>
@@ -229,7 +231,7 @@ onchange='Titel_angleichen()' class='dropdown'>
         ["xkoord", "X-Koordinate", "number", "", "", "<input type='button' name='' onclick='koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"	263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:150px;", ""],
         ["ykoord", "Y-Koordinate", "number", "", "", "", "width:150px;", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
-        ["newsletter", "Newsletter", "boolean", "0", "", "", "", ""],
+        ["newsletter", "Newsletter für Änderung", "boolean", "1", "", "", "", ""],
         ["go2ol", "GO2OL-Code", "text", "''", "", "", "", ""],
         ["solv_uid", "SOLV-ID", "number", "", "", "", "", ""],
         //array("datum_anmeldung","Meldeschluss","text","''","Für interne Online-Anmeldungen. Eine Datumsangabe schaltet die interne Online-Anmeldung frei.","","",""),
@@ -546,6 +548,15 @@ if (($do ?? null) == 'submit') {
             }
             return $default;
         }
+        if ($feld_typ == 'zeit') {
+            if ($wert == '') {
+                return 'NULL';
+            }
+            if ($wert == '00:00:00') {
+                return 'NULL';
+            }
+            return $default;
+        }
         return $default;
     }
     foreach ($db_felder as $tmp_feld) {
@@ -725,10 +736,10 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
             $tmp_code = "<p>";
         }
 
-        if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit") { //Input-Typ 'text'
+        if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit" || $feld_typ == "zeit") { //Input-Typ 'text'
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
-        } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einbelndkalender
+        } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einblendkalender
             $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";

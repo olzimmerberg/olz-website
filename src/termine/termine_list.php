@@ -353,12 +353,6 @@ while ($row = mysqli_fetch_array($result)) {
         $edit_anm = "";
     }
 
-    if ($newsletter) {
-        $icn_newsletter = "<img src='icns/newsletter_16.svg' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
-    } else {
-        $icn_newsletter = "";
-    }
-
     //Tagesanlass
     if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
         $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
@@ -389,7 +383,7 @@ while ($row = mysqli_fetch_array($result)) {
 
     // HTML-Ausgabe
     if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
-        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp.$icn_newsletter."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";
 }

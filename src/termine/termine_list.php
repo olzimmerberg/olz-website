@@ -261,7 +261,6 @@ while ($row = mysqli_fetch_array($result)) {
         $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
         $row_solv = $result_solv->fetch_assoc();
     }
-    $tn = ($zugriff == 1) ? "(".($row['teilnehmer'] ?? '').($solv_uid > 0 ? ";SOLV" : "").") " : "";
 
     // Dateicode einfügen
     preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $link, $matches);
@@ -383,7 +382,7 @@ while ($row = mysqli_fetch_array($result)) {
 
     // HTML-Ausgabe
     if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
-        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$tn.$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";
 }

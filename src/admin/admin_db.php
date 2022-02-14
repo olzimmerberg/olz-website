@@ -192,6 +192,15 @@ if ($db_table == "aktuell") {// DB AKTUELL
     ];
 } elseif ($db_table == "termine") {// DB TERMINE
     //include 'parse_solv_ranglisten.php';
+    require_once __DIR__.'/../utils/TermineUtils.php';
+    $checkbox_options = array_map(function ($option) {
+        return [$option['name'], $option['ident']];
+    }, array_filter(
+        TermineUtils::ALL_TYPE_OPTIONS,
+        function ($option) {
+            return $option['ident'] != 'alle';
+        }
+    ));
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum (Beginn)", "datum", "olz_current_date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", ""],
@@ -210,7 +219,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 </select>", "width:60%;font-weight:bold;", ""],
         ["text", "Text", "textarea", "''", "", "", "", " rows='4'"],
 
-        ["typ", "Typ", ["checkbox", [['Klubanlass', 'club'], ['OL', 'ol'], ['Training', 'training']]], "''", "", "", "", ""],
+        ["typ", "Typ", ["checkbox", $checkbox_options], "''", "", "", "", ""],
 
         ["link", "Link", "textarea", "''", "",
             "<p>
@@ -754,7 +763,7 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
                 } else {
                     $checked = "";
                 }
-                $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='{$value}'><span style='vertical-align:bottom;'>{$text}".$feld_spezial.$feld_kommentar."</span></span>";
+                $html_input .= "<span style='padding-right:20px; white-space:nowrap;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='{$value}'><span style='vertical-align:bottom;'>{$text}".$feld_spezial.$feld_kommentar."</span></span> ";
             }
             $html_input .= "</td></tr>\n";
         } elseif ($feld_typ == "boolean") { //Input-Typ 'boolean'

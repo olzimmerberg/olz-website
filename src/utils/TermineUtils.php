@@ -9,6 +9,8 @@ class TermineUtils {
 
     public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle Termine"],
+        ['ident' => 'programm', 'name' => "Jahresprogramm"],
+        ['ident' => 'weekend', 'name' => "Weekends"],
         ['ident' => 'training', 'name' => "Trainings"],
         ['ident' => 'ol', 'name' => "Wettkämpfe"],
         ['ident' => 'club', 'name' => "Vereinsanlässe"],
@@ -158,6 +160,12 @@ class TermineUtils {
         if ($filter['typ'] === 'alle') {
             return "'1' = '1'";
         }
+        if ($filter['typ'] === 'programm') {
+            return "t.typ LIKE '%programm%'";
+        }
+        if ($filter['typ'] === 'weekend') {
+            return "t.typ LIKE '%weekend%'";
+        }
         if ($filter['typ'] === 'training') {
             return "t.typ LIKE '%training%'";
         }
@@ -177,14 +185,44 @@ class TermineUtils {
         if (!$this->isValidFilter($filter)) {
             return "Termine";
         }
-        $type_title = $this->getTypeFilterTitle($filter);
         $archive_title_suffix = $this->getArchiveFilterTitleSuffix($filter);
-        if ($filter['datum'] == 'bevorstehend') {
-            return "Bevorstehende {$type_title}{$archive_title_suffix}";
+        $year_suffix = $this->getDateFilterTitleYearSuffix($filter);
+        $is_upcoming = $filter['datum'] == 'bevorstehend';
+        if ($filter['typ'] === 'alle') {
+            if ($is_upcoming) {
+                return "Bevorstehende Termine{$archive_title_suffix}";
+            }
+            return "Termine{$year_suffix}{$archive_title_suffix}";
         }
-        if (intval($filter['datum']) > 2000) {
-            $year = $filter['datum'];
-            return "{$type_title} {$year}{$archive_title_suffix}";
+        if ($filter['typ'] === 'programm') {
+            if ($is_upcoming) {
+                return "Bevorstehendes Jahresprogramm{$archive_title_suffix}";
+            }
+            return "Jahresprogramm{$year_suffix}{$archive_title_suffix}";
+        }
+        if ($filter['typ'] === 'weekend') {
+            if ($is_upcoming) {
+                return "Bevorstehende Weekends{$archive_title_suffix}";
+            }
+            return "Weekends{$year_suffix}{$archive_title_suffix}";
+        }
+        if ($filter['typ'] === 'training') {
+            if ($is_upcoming) {
+                return "Bevorstehende Trainings{$archive_title_suffix}";
+            }
+            return "Trainingsplan{$year_suffix}{$archive_title_suffix}";
+        }
+        if ($filter['typ'] === 'ol') {
+            if ($is_upcoming) {
+                return "Bevorstehende Wettkämpfe{$archive_title_suffix}";
+            }
+            return "Wettkämpfe{$year_suffix}{$archive_title_suffix}";
+        }
+        if ($filter['typ'] === 'club') {
+            if ($is_upcoming) {
+                return "Bevorstehende Vereinsanlässe{$archive_title_suffix}";
+            }
+            return "Vereinsanlässe{$year_suffix}{$archive_title_suffix}";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -192,17 +230,19 @@ class TermineUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getTypeFilterTitle($filter) {
-        if ($filter['typ'] === 'training') {
-            return "Trainings";
+    private function getDateFilterTitleYearSuffix($filter) {
+        if ($filter['datum'] == 'bevorstehend') {
+            return "";
         }
-        if ($filter['typ'] === 'ol') {
-            return "Wettkämpfe";
+        if (intval($filter['datum']) < 2000) {
+            // @codeCoverageIgnoreStart
+            // Reason: Should not be reached.
+            // TODO: Logging
+            return "";
+            // @codeCoverageIgnoreEnd
         }
-        if ($filter['typ'] === 'club') {
-            return "Vereinsanlässe";
-        }
-        return "Termine";
+        $year = $filter['datum'];
+        return " {$year}";
     }
 
     private function getArchiveFilterTitleSuffix($filter) {

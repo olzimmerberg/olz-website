@@ -31,12 +31,13 @@ if (!$termine_utils->isValidFilter($current_filter)) {
     $http_utils->redirect("termine.php?filter={$enc_json_filter}", 308);
 }
 
+$termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
 $is_not_archived = $termine_utils->isFilterNotArchived($current_filter);
 $allow_robots = $is_not_archived;
 
 require_once __DIR__.'/../components/page/olz_header/olz_header.php';
 echo olz_header([
-    'title' => $termine_utils->getTitleFromFilter($current_filter),
+    'title' => $termine_list_title,
     'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
     'norobots' => !$allow_robots,
 ]);
@@ -159,6 +160,7 @@ if ($zugriff) {
 }
 
 echo olz_termine_filter();
+echo "<h1>{$termine_list_title}</h1>";
 
 //-------------------------------------------------------------
 //  VORSCHAU - LISTE

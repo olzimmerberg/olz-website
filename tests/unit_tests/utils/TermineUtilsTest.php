@@ -100,6 +100,76 @@ final class TermineUtilsTest extends UnitTestCase {
                 'archiv' => 'ohne',
             ],
             [
+                'typ' => 'programm',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2021',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'programm',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2021',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'weekend',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
                 'typ' => 'training',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
@@ -225,6 +295,26 @@ final class TermineUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
+                    'typ' => 'programm',
+                    'datum' => 'bevorstehend',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Jahresprogramm",
+                'ident' => 'programm',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'typ' => 'weekend',
+                    'datum' => 'bevorstehend',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Weekends",
+                'ident' => 'weekend',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
                     'typ' => 'training',
                     'datum' => 'bevorstehend',
                     'archiv' => 'ohne',
@@ -267,6 +357,26 @@ final class TermineUtilsTest extends UnitTestCase {
                 ],
                 'name' => "Alle Termine",
                 'ident' => 'alle',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'typ' => 'programm',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Jahresprogramm",
+                'ident' => 'programm',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'typ' => 'weekend',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Weekends",
+                'ident' => 'weekend',
             ],
             [
                 'selected' => true,
@@ -665,6 +775,22 @@ final class TermineUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%programm%')",
+            $termine_utils->getSqlFromFilter([
+                'typ' => 'programm',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%weekend%')",
+            $termine_utils->getSqlFromFilter([
+                'typ' => 'weekend',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%training%')",
             $termine_utils->getSqlFromFilter([
                 'typ' => 'training',
@@ -712,6 +838,22 @@ final class TermineUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "Bevorstehendes Jahresprogramm",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'programm',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Bevorstehende Weekends",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'weekend',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "Bevorstehende Trainings",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
@@ -744,7 +886,23 @@ final class TermineUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Trainings 2020",
+            "Jahresprogramm 2020",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'programm',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Weekends 2020",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'weekend',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Trainingsplan 2020",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
                 'datum' => '2020',
@@ -752,7 +910,23 @@ final class TermineUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Trainings 2020 (Archiv)",
+            "Wettkämpfe 2020",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'ol',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Vereinsanlässe 2020",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'club',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Trainingsplan 2020 (Archiv)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
                 'datum' => '2020',

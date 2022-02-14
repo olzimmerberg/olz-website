@@ -11,7 +11,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
     if (uploadFile.uploadState === 'UPLOADING') {
         const uploadingFile: UploadingFile = uploadFile;
         return (
-            <div className='olz-upload-image'>
+            <div className='olz-upload-image uploading'>
                 Uploading: {uploadingFile.file.name} - {uploadingFile.uploadId}
                 <OlzProgressBar progress={uploadingFile.uploadProgress} />
             </div>
@@ -19,7 +19,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
     }
     const uploadedFile: UploadedFile = uploadFile;
     return (
-        <div className='olz-upload-image'>
+        <div className='olz-upload-image uploaded'>
             Uploaded: {uploadedFile.uploadId}
         </div>
     );

@@ -174,13 +174,13 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-external-url-input'
                                 />
                             </div>
-                            <div>
+                            <div id='news-images-upload'>
                                 <b>Bilder</b>
                                 <OlzMultiImageUploader
                                     onUploadIdsChange={setImageIds}
                                 />
                             </div>
-                            <div>
+                            <div id='news-files-upload'>
                                 <b>Dateien</b>
                                 <OlzMultiFileUploader
                                     onUploadIdsChange={setFileIds}

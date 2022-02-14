@@ -24,7 +24,8 @@ fi
 npm run webpack-build
 
 # Run dev server
-php -S "$DOMAIN" -t ./dev-server/ &
+mkdir -p ./dev-server/logs
+php -S "$DOMAIN" -t ./dev-server/ > ./dev-server/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
 
 # Run test, allow aborting

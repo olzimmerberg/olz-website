@@ -246,7 +246,7 @@ echo <<<ZZZZZZZZZZ
 </div>
 <div class='text'>
     <h1>Pack die Chance!</h1>
-    <p class='slogan'>Komm an eines unserer speziellen <a href='/pdf/2021_schnuppertrainings.pdf' target='_blank' class='linkpdf'>Schnuppertrainings 2021</a>, oder einfach an ein normales Training:</p>
+    <p class='slogan'>Komm an eines unserer speziellen <a href='/pdf/2022_schnuppertrainings.pdf' target='_blank' class='linkpdf'>Schnuppertrainings 2022</a>, oder einfach an ein normales Training:</p>
     {$next_three_trainings}
 </div>
 

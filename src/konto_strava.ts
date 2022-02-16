@@ -1,5 +1,5 @@
 import {callOlzApi, OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -59,28 +59,34 @@ export function olzKontoLoginWithStrava(code: string): boolean {
 }
 
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<'signUpWithStrava'> = {
-        stravaUser: (f) => getFormField(f, 'strava-user'),
-        accessToken: (f) => getFormField(f, 'access-token'),
-        refreshToken: (f) => getFormField(f, 'refresh-token'),
-        expiresAt: (f) => getFormField(f, 'expires-at'),
-        firstName: (f) => getFormField(f, 'first-name'),
-        lastName: (f) => getFormField(f, 'last-name'),
-        username: (f) => getFormField(f, 'username'),
-        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
-        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
-        gender: (f) => getGender('gender', getFormField(f, 'gender')),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
-        street: (f) => getFormField(f, 'street'),
-        postalCode: (f) => getFormField(f, 'postal-code'),
-        city: (f) => getFormField(f, 'city'),
-        region: (f) => getFormField(f, 'region'),
-        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
+    const getDataForRequestFn: GetDataForRequestFunction<'signUpWithStrava'> = (f) => {
+        const fieldResults = {
+            stravaUser: getFormField(f, 'strava-user'),
+            accessToken: getFormField(f, 'access-token'),
+            refreshToken: getFormField(f, 'refresh-token'),
+            expiresAt: getFormField(f, 'expires-at'),
+            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
+            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
+            username: getRequired(getStringOrNull(getFormField(f, 'username'))),
+            email: getRequired(getEmail(getFormField(f, 'email'))),
+            phone: getPhone(getFormField(f, 'phone')),
+            gender: getGender(getFormField(f, 'gender')),
+            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            street: getFormField(f, 'street'),
+            postalCode: getFormField(f, 'postal-code'),
+            city: getFormField(f, 'city'),
+            region: getFormField(f, 'region'),
+            countryCode: getCountryCode(getFormField(f, 'country-code')),
+        };
+        if (!isFieldResultOrDictThereofValid(fieldResults)) {
+            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     olzDefaultFormSubmit(
         'signUpWithStrava',
-        getDataForRequestDict,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

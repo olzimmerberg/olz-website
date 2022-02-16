@@ -1,40 +1,44 @@
-import {OlzApiResponses, ValidationError} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, showErrorOnField, clearErrorOnField} from './components/common/olz_default_form/olz_default_form';
+import {OlzApiResponses} from './api/client';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<'signUpWithPassword'> = {
-        firstName: (f) => getFormField(f, 'first-name'),
-        lastName: (f) => getFormField(f, 'last-name'),
-        username: (f) => getFormField(f, 'username'),
-        password: (f) => {
-            const password = getFormField(f, 'password');
-            const passwordRepeat = getFormField(f, 'password-repeat');
-            const hasInvalidRepetition = password !== passwordRepeat;
-            if (hasInvalidRepetition) {
-                showErrorOnField(form['password-repeat'], 'Das Passwort und die Wiederholung müssen übereinstimmen!');
-            } else {
-                clearErrorOnField(form['password-repeat']);
-            }
-            const result = getRequired('password', getPassword('password', password));
-            if (hasInvalidRepetition) {
-                throw new ValidationError('', {});
-            }
-            return result;
-        },
-        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
-        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
-        gender: (f) => getGender('gender', getFormField(f, 'gender')),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
-        street: (f) => getFormField(f, 'street') || '',
-        postalCode: (f) => getFormField(f, 'postal-code') || '',
-        city: (f) => getFormField(f, 'city') || '',
-        region: (f) => getFormField(f, 'region') || '',
-        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
+    const getDataForRequestFn: GetDataForRequestFunction<'signUpWithPassword'> = (f) => {
+        const password = getRequired(getPassword(getFormField(f, 'password')));
+        let passwordRepeat = getFormField(f, 'password-repeat');
+        const hasValidRepetition = password.value === passwordRepeat.value;
+        passwordRepeat = getAsserted(
+            () => hasValidRepetition,
+            'Das Passwort und die Wiederholung müssen übereinstimmen!',
+            passwordRepeat,
+        );
+        const fieldResults = {
+            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
+            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
+            username: getRequired(getStringOrNull(getFormField(f, 'username'))),
+            password: password,
+            email: getRequired(getEmail(getFormField(f, 'email'))),
+            phone: getPhone(getFormField(f, 'phone')),
+            gender: getGender(getFormField(f, 'gender')),
+            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            street: getFormField(f, 'street'),
+            postalCode: getFormField(f, 'postal-code'),
+            city: getFormField(f, 'city'),
+            region: getFormField(f, 'region'),
+            countryCode: getCountryCode(getFormField(f, 'country-code')),
+        };
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat)) {
+            return invalidFormData([
+                ...getFieldResultOrDictThereofErrors(fieldResults),
+                ...getFieldResultOrDictThereofErrors(passwordRepeat),
+            ]);
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
+
     };
 
     olzDefaultFormSubmit(
         'signUpWithPassword',
-        getDataForRequestDict,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

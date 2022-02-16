@@ -1,5 +1,5 @@
-import {OlzApiResponses, ValidationError} from '../../../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField, getPassword, getRequired, showErrorOnField, clearErrorOnField} from '../../../components/common/olz_default_form/olz_default_form';
+import {OlzApiResponses} from '../../../api/client';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 
 $(() => {
     $('#change-password-modal').on('shown.bs.modal', () => {
@@ -8,29 +8,35 @@ $(() => {
 });
 
 export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<'updatePassword'> = {
-        id: () => userId,
-        oldPassword: (f) => getFormField(f, 'old'),
-        newPassword: (f) => {
-            const newPassword = getFormField(f, 'new');
-            const repeatPassword = getFormField(f, 'repeat');
-            const hasInvalidRepetition = newPassword !== repeatPassword;
-            if (hasInvalidRepetition) {
-                showErrorOnField(form.repeat, 'Das Passwort und die Wiederholung müssen übereinstimmen!');
-            } else {
-                clearErrorOnField(form.repeat);
-            }
-            const result = getRequired('new', getPassword('new', newPassword));
-            if (hasInvalidRepetition) {
-                throw new ValidationError('', {});
-            }
-            return result;
-        },
+    const getDataForRequestFn: GetDataForRequestFunction<'updatePassword'> = (f) => {
+        const newPassword = getFormField(f, 'new');
+        let repeatPassword = getFormField(f, 'repeat');
+        const hasValidRepetition = newPassword.value === repeatPassword.value;
+        repeatPassword = getAsserted(
+            () => hasValidRepetition,
+            'Das Passwort und die Wiederholung müssen übereinstimmen!',
+            repeatPassword,
+        );
+        const fieldResults = {
+            id: validFieldResult('', userId),
+            oldPassword: getFormField(f, 'old'),
+            newPassword: getRequired(getPassword(newPassword)),
+        };
+        if (
+            !isFieldResultOrDictThereofValid(fieldResults)
+            || !isFieldResultOrDictThereofValid(repeatPassword)
+        ) {
+            return invalidFormData([
+                ...getFieldResultOrDictThereofErrors(fieldResults),
+                ...getFieldResultOrDictThereofErrors(repeatPassword),
+            ]);
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     olzDefaultFormSubmit(
         'updatePassword',
-        getDataForRequestDict,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

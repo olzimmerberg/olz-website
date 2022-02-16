@@ -11,11 +11,156 @@ export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
     'schweiz': 'CH',
 };
 
-export type GetDataForRequestDict<T extends OlzApiEndpoint> = {
-    [fieldId in keyof OlzApiRequests[T]]: (
-        form: HTMLFormElement,
-    ) => OlzApiRequests[T][fieldId]
+// Reusable: Field result
+
+export interface FieldResult<T> {
+    isValid: boolean;
+    fieldId: string;
+    value: T;
+    errors: ValidationError[];
+}
+
+function isAny(thing: unknown): thing is any {
+    return true;
+}
+
+export function isFieldResult<T>(
+    thing: unknown,
+    isT: (val: unknown) => val is T = isAny,
+): thing is FieldResult<T> {
+    const fieldResult = (thing as FieldResult<T>);
+    return (
+        typeof fieldResult?.isValid === 'boolean'
+        && typeof fieldResult?.fieldId === 'string'
+        && isT(fieldResult?.value)
+        && fieldResult?.errors instanceof Array
+    );
+}
+
+export function validFieldResult<T>(
+    fieldId: string,
+    value: T,
+): FieldResult<T> {
+    return {
+        fieldId,
+        isValid: true,
+        value,
+        errors: [],
+    };
+}
+
+export function invalidFieldResult<T>(
+    fieldId: string,
+    errors: ValidationError[],
+    value: T,
+): FieldResult<T> {
+    return {
+        fieldId,
+        isValid: false,
+        value,
+        errors,
+    };
+}
+
+function recordErrorMessages<T>(
+    input: FieldResult<T>,
+    errorMessages: string[],
+): FieldResult<T> {
+    const errors = errorMessages.map((errorMessage) => new ValidationError('', {
+        [input.fieldId]: [errorMessage],
+    }));
+    return recordErrors(input, errors);
+}
+
+function recordErrors<T>(
+    input: FieldResult<T>,
+    errors: ValidationError[],
+): FieldResult<T> {
+    return {
+        fieldId: input.fieldId,
+        isValid: false,
+        value: input.value,
+        errors: [
+            ...input.errors,
+            ...errors,
+        ],
+    };
+}
+
+export type FieldResultOrDictThereof<T> = FieldResult<T>|DictOfFieldResults<T>;
+
+type DictOfFieldResults<T> = T extends Record<string, any> ? {
+    [key in keyof T]: FieldResultOrDictThereof<T[key]>
+} : never;
+
+export function isFieldResultOrDictThereofValid<T>(
+    fieldResultOrDictThereof: FieldResultOrDictThereof<T>,
+): boolean {
+    if (isFieldResult(fieldResultOrDictThereof)) {
+        return fieldResultOrDictThereof.isValid;
+    }
+    return Object.keys(fieldResultOrDictThereof).every((key) =>
+        isFieldResultOrDictThereofValid(fieldResultOrDictThereof[key]));
+}
+
+export function getFieldResultOrDictThereofErrors<T>(
+    fieldResultOrDictThereof: FieldResultOrDictThereof<T>,
+): ValidationError[] {
+    if (isFieldResult(fieldResultOrDictThereof)) {
+        return fieldResultOrDictThereof.errors;
+    }
+    return [].concat(...Object.keys(fieldResultOrDictThereof).map((key) =>
+        getFieldResultOrDictThereofErrors(fieldResultOrDictThereof[key])));
+}
+
+export function getFieldResultOrDictThereofValue<T>(
+    fieldResultOrDictThereof: FieldResultOrDictThereof<T>,
+): T {
+    if (isFieldResult(fieldResultOrDictThereof)) {
+        return fieldResultOrDictThereof.value;
+    }
+    const value: {[key: string]: unknown} = {};
+    for (const key of Object.keys(fieldResultOrDictThereof)) {
+        value[key] = getFieldResultOrDictThereofValue(fieldResultOrDictThereof[key]);
+    }
+    return value as unknown as T;
+}
+
+// ---
+
+export type OlzRequestFieldResult<T extends OlzApiEndpoint> = FieldResultOrDictThereof<OlzApiRequests[T]>;
+
+// Form data for request
+
+type ValidFormDataForRequest<T extends OlzApiEndpoint> = {
+    isValid: true,
+    data: OlzApiRequests[T],
 };
+
+type InvalidFormDataForRequest = {
+    isValid: false,
+    errors: ValidationError[],
+};
+
+export function validFormData<T extends OlzApiEndpoint>(data: OlzApiRequests[T]): ValidFormDataForRequest<T> {
+    return {
+        isValid: true,
+        data,
+    };
+}
+
+export function invalidFormData(errors: ValidationError[]): InvalidFormDataForRequest {
+    return {
+        isValid: false,
+        errors,
+    };
+}
+
+// ---
+
+export type GetDataForRequestFunction<T extends OlzApiEndpoint> = (
+    form: HTMLFormElement,
+)=> ValidFormDataForRequest<T>|InvalidFormDataForRequest;
 
 export type HandleResponseFunction<T extends OlzApiEndpoint> = (
     response: OlzApiResponses[T],
@@ -23,14 +168,14 @@ export type HandleResponseFunction<T extends OlzApiEndpoint> = (
 
 export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
     endpoint: T,
-    getDataForRequestDict: GetDataForRequestDict<T>,
+    getDataForRequestFn: GetDataForRequestFunction<T>,
     form: HTMLFormElement,
     handleResponse: HandleResponseFunction<T>,
 ): Promise<OlzApiResponses[T]> {
     clearValidationErrors(form);
     let request: OlzApiRequests[T]|undefined;
     try {
-        request = getDataForRequest(getDataForRequestDict, form);
+        request = getDataForRequest(getDataForRequestFn, form);
     } catch (unk: unknown) {
         const err = getErrorOrThrow(unk);
         const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
@@ -72,24 +217,25 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
 }
 
 export function getDataForRequest<T extends OlzApiEndpoint>(
-    getDataForRequestDict: GetDataForRequestDict<T>,
+    getDataForRequestFn: GetDataForRequestFunction<T>,
     form: HTMLFormElement,
 ): OlzApiRequests[T] {
-    const fieldIds = Object.keys(getDataForRequestDict) as Array<keyof OlzApiRequests[T]>;
-    const data: Partial<OlzApiRequests[T]> = {};
+    let data: Partial<OlzApiRequests[T]> = {};
     const validationErrors: ValidationError[] = [];
     let hasOtherError = false;
-    fieldIds.map((fieldId) => {
-        try {
-            data[fieldId] = getDataForRequestDict[fieldId](form);
-        } catch (err: unknown) {
+    const result = getDataForRequestFn(form);
+    if (result.isValid === true) {
+        data = result.data;
+    }
+    if (result.isValid === false) {
+        for (const err of result.errors) {
             if (err instanceof ValidationError) {
                 validationErrors.push(err);
             } else {
                 hasOtherError = true;
             }
         }
-    });
+    }
     if (hasOtherError) {
         throw new Error('Unexpected Error in getDataForRequest');
     }
@@ -143,73 +289,109 @@ export function camelCaseToDashCase(camelCaseString: string): string {
     return camelCaseString.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
-export function getCountryCode(fieldId: string, countryCode: string|undefined): string {
-    if (!countryCode) {
-        return '';
+export function getAsserted(
+    assertFn: () => boolean,
+    errorMessage: string,
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!assertFn()) {
+        return recordErrorMessages(input, [errorMessage]);
     }
-    const trimmedCountryCode = countryCode.trim();
-    if (trimmedCountryCode.length === 1) {
-        throw new ValidationError('', {
-            [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
-        });
-    } else if (trimmedCountryCode.length === 2) {
-        return trimmedCountryCode.toUpperCase();
+    return input;
+}
+
+export function getCountryCode(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value) {
+        return {...input, value: null};
     }
-    const normalizedCountryName = trimmedCountryCode.toLowerCase();
+    const trimmedValue = input.value.trim();
+    if (trimmedValue.length === 1) {
+        return recordErrorMessages(input, ['Der Ländercode muss zwei Zeichen lang sein.']);
+    } else if (trimmedValue.length === 2) {
+        return {...input, value: trimmedValue.toUpperCase()};
+    }
+    const normalizedCountryName = trimmedValue.toLowerCase();
     const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
     if (countryCodeByName) {
-        return countryCodeByName;
+        return {...input, value: countryCodeByName};
     }
-    throw new ValidationError('', {
-        [fieldId]: ['Der Ländercode muss zwei Zeichen lang sein.'],
-    });
+    return recordErrorMessages(input, ['Der Ländercode muss zwei Zeichen lang sein.']);
 }
 
-export function getEmail(fieldId: string, emailInput: string|undefined): string|null {
-    if (!emailInput) {
-        return null;
+export function getEmail(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value) {
+        return {...input, value: null};
     }
-    const trimmedEmailInput = emailInput.trim();
-    if (!EMAIL_REGEX.exec(trimmedEmailInput)) {
-        throw new ValidationError('', {
-            [fieldId]: [`Ungültige E-Mail Adresse "${trimmedEmailInput}".`],
-        });
+    const trimmedValue = input.value.trim();
+    if (trimmedValue === '') {
+        return {...input, value: null};
     }
-    return trimmedEmailInput;
+    if (!EMAIL_REGEX.exec(trimmedValue)) {
+        return recordErrorMessages(input, [`Ungültige E-Mail Adresse "${trimmedValue}".`]);
+    }
+    return {...input, value: trimmedValue};
 }
 
-export function getGender(fieldId: string, genderInput: string|undefined|null): 'M'|'F'|'O'|null {
-    switch (genderInput) {
-        case 'M': return 'M';
-        case 'F': return 'F';
-        case 'O': return 'O';
-        case '': return null;
-        case null: return null;
-        case undefined: return null;
-        default: throw new ValidationError('', {
-            [fieldId]: [`Ungültiges Geschlecht "${genderInput}" ausgewählt.`],
-        });
+export function getGender(
+    input: FieldResult<string|undefined|null>,
+): FieldResult<'M'|'F'|'O'|null> {
+    switch (input.value) {
+        case 'M': return {...input, value: input.value};
+        case 'F': return {...input, value: input.value};
+        case 'O': return {...input, value: input.value};
+        case '': return {...input, value: null};
+        case null: return {...input, value: null};
+        case undefined: return {...input, value: null};
+        default:
+            return recordErrorMessages(
+                {...input, value: null},
+                [`Ungültiges Geschlecht "${input}" ausgewählt.`],
+            );
     }
 }
 
-export function getIsoDateTimeFromSwissFormat(fieldId: string, date: string|undefined): string|null {
-    if (date === undefined || date === null || date === '') {
-        return null;
+export function getIsoDateFromSwissFormat(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value || input.value === '') {
+        return {...input, value: null};
     }
-    const res = SWISS_DATETIME_REGEX.exec(date);
+    const res = SWISS_DATE_REGEX.exec(input.value);
     if (!res) {
-        throw new ValidationError('', {
-            [fieldId]: ['Das Datum muss im Format TT.MM.YYYY SS:MM[:SS] sein.'],
-        });
+        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY sein.']);
+    }
+    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]} 12:00:00`);
+    if (!timestamp) {
+        return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
+    }
+    const dateObject = new Date(timestamp);
+    const year = String(dateObject.getFullYear()).padStart(4, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const newValue = `${year}-${month}-${day} 12:00:00`;
+    return {...input, value: newValue};
+}
+
+export function getIsoDateTimeFromSwissFormat(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value || input.value === '') {
+        return {...input, value: null};
+    }
+    const res = SWISS_DATETIME_REGEX.exec(input.value);
+    if (!res) {
+        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY SS:MM[:SS] sein.']);
     }
     const parsedSeconds = res[6] ?? '';
     const timestamp = Date.parse(
         `${res[3]}-${res[2]}-${res[1]} ${res[4]}:${res[5]}${parsedSeconds}`,
     );
     if (!timestamp) {
-        throw new ValidationError('', {
-            [fieldId]: [`"${date}" ist ein ungültiges Datum.`],
-        });
+        return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
     }
     const dateObject = new Date(timestamp);
     const year = String(dateObject.getFullYear()).padStart(4, '0');
@@ -218,73 +400,90 @@ export function getIsoDateTimeFromSwissFormat(fieldId: string, date: string|unde
     const hours = String(dateObject.getHours()).padStart(2, '0');
     const minutes = String(dateObject.getMinutes()).padStart(2, '0');
     const seconds = String(dateObject.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const newValue = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return {...input, value: newValue};
 }
 
-export function getIsoDateFromSwissFormat(fieldId: string, date: string|undefined): string|null {
-    if (date === undefined || date === null || date === '') {
-        return null;
+export function getPassword(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value) {
+        return {...input, value: null};
     }
-    const res = SWISS_DATE_REGEX.exec(date);
-    if (!res) {
-        throw new ValidationError('', {
-            [fieldId]: ['Das Datum muss im Format TT.MM.YYYY sein.'],
-        });
-    }
-    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]} 12:00:00`);
-    if (!timestamp) {
-        throw new ValidationError('', {
-            [fieldId]: [`"${date}" ist ein ungültiges Datum.`],
-        });
-    }
-    const dateObject = new Date(timestamp);
-    const year = String(dateObject.getFullYear()).padStart(4, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day} 12:00:00`;
-}
-
-export function getPassword(fieldId: string, passwordInput: string|undefined): string|null {
-    if (!passwordInput) {
-        return null;
-    }
-    if (passwordInput.length < 8) {
-        throw new ValidationError('', {
-            [fieldId]: ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
-        });
-    }
-    return passwordInput;
-}
-
-export function getPhone(fieldId: string, phoneInput: string|undefined): string|null {
-    if (!phoneInput) {
-        return null;
-    }
-    const phoneInputWithoutSpaces = phoneInput.replace(/\s+/g, '');
-    if (!phoneInputWithoutSpaces) {
-        return null;
-    }
-    if (!/^\+[0-9]+$/.exec(phoneInputWithoutSpaces)) {
-        throw new ValidationError('', {
-            [fieldId]: ['Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'],
-        });
-    }
-    return phoneInputWithoutSpaces;
-}
-
-export function getRequired<T>(fieldId: string, input: T|null|undefined): T {
-    if (input === null || input === undefined) {
-        throw new ValidationError('', {
-            [fieldId]: ['Feld darf nicht leer sein.'],
-        });
+    if (input.value.length < 8) {
+        return recordErrorMessages(input, ['Das Passwort muss mindestens 8 Zeichen lang sein.']);
     }
     return input;
 }
 
-export function getFormField(form: HTMLFormElement, fieldId: string): string|null {
+export function getPhone(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value) {
+        return {...input, value: null};
+    }
+    const valueWithoutSpaces = input.value.replace(/\s+/g, '');
+    if (!valueWithoutSpaces) {
+        return {...input, value: null};
+    }
+    if (!/^\+[0-9]+$/.exec(valueWithoutSpaces)) {
+        return recordErrorMessages(input, ['Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.']);
+    }
+    return {...input, value: valueWithoutSpaces};
+}
+
+export function getRequired<T>(
+    input: FieldResult<T|null|undefined>,
+): FieldResult<T> {
+    if (input.value === null || input.value === undefined) {
+        return recordErrorMessages(input, ['Feld darf nicht leer sein.']);
+    }
+    return input;
+}
+
+export function getStringOrEmpty<T>(
+    input: FieldResult<T|null|undefined>,
+): FieldResult<string> {
+    if (!input.value) {
+        return {...input, value: ''};
+    }
+    const newValue = `${input.value}`;
+    return {...input, value: newValue};
+}
+
+export function getStringOrNull<T>(
+    input: FieldResult<T|null|undefined>,
+): FieldResult<string|null> {
+    if (!input.value) {
+        return {...input, value: null};
+    }
+    const newValue = `${input.value}`;
+    return {...input, value: newValue};
+}
+
+export function getFormField(
+    form: HTMLFormElement,
+    fieldId: string,
+): FieldResult<string|null> {
     const field = form.elements.namedItem(fieldId);
     if (!field || !('value' in field)) {
-        throw new Error(`Error retrieving form field value for: ${fieldId}`);
+        return {
+            fieldId,
+            isValid: false,
+            value: null,
+            errors: [
+                new ValidationError('', {
+                    [fieldId]: [
+                        `Error retrieving form field value for: ${fieldId}`,
+                    ],
+                }),
+            ],
+        };
     }
-    return field.value || null;
+    return {
+        fieldId,
+        isValid: true,
+        value: field.value,
+        errors: [],
+    };
 }

@@ -95,6 +95,9 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         } else {
             $user = new User();
         }
+
+        $birthdate = $input['birthdate'] ? new DateTime($input['birthdate']) : null;
+
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setEmailIsVerified(false);
@@ -104,7 +107,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setFirstName($first_name);
         $user->setLastName($last_name);
         $user->setGender($input['gender']);
-        $user->setBirthdate(new DateTime($input['birthdate']));
+        $user->setBirthdate($birthdate);
         $user->setStreet($input['street']);
         $user->setPostalCode($input['postalCode']);
         $user->setCity($input['city']);

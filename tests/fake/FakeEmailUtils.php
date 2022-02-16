@@ -46,7 +46,7 @@ class FakeMailbox {
 
     public function searchMailbox($query) {
         if ($this->connection_exception) {
-            throw new ConnectionException("Host not found or something.");
+            throw new ConnectionException(["Host not found or something."]);
         }
         if ($query === 'ALL') {
             return array_keys($this->mail_dict);

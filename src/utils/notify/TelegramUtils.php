@@ -248,6 +248,19 @@ class TelegramUtils {
             throw new Exception(json_encode(['ok' => false]));
         }
         if (isset($response['ok']) && !$response['ok']) {
+            $error_code = $response['error_code'] ?? null;
+            $description = $response['description'] ?? null;
+            if (
+                $error_code == 403
+                && $description == 'Forbidden: bot was blocked by the user'
+                && isset($args['chat_id'])
+            ) {
+                $this->logger->notice("We're blocked. Remove telegram link!");
+                $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+                $telegram_link = $telegram_link_repo->findOneBy(['chat_id' => $args['chat_id']]);
+                $this->entityManager->remove($telegram_link);
+                $this->entityManager->flush();
+            }
             $response_json = json_encode($response);
             $this->logger->notice("Telegram API response was not OK: {$response_json}");
             throw new Exception($response_json);

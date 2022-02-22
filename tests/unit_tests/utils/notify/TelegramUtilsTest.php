@@ -93,6 +93,7 @@ class FakeTelegramUtilsTelegramLinkRepository {
 class FakeTelegramUtilsTelegramFetcher {
     public $fetchEmpty = false;
     public $fetchNotOk = false;
+    public $fetchBlocked = false;
     public $fetchWithError = false;
     public $sentCommands = [];
 
@@ -103,6 +104,13 @@ class FakeTelegramUtilsTelegramFetcher {
         }
         if ($this->fetchNotOk) {
             return ['ok' => false];
+        }
+        if ($this->fetchBlocked) {
+            return [
+                'ok' => false,
+                'error_code' => 403,
+                'description' => "Forbidden: bot was blocked by the user",
+            ];
         }
         if ($this->fetchWithError) {
             throw new Exception('fake-telegram-fetcher-exception');
@@ -465,6 +473,32 @@ final class TelegramUtilsTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
     }
 
+    public function testSendConfigurationError(): void {
+        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
+        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
+
+        $telegram_fetcher->fetchNotOk = true;
+        $telegram_utils->sendConfiguration();
+
+        $this->assertSame([
+            ['setMyCommands', [
+                'commands' => '[{"command":"\/ich","description":"Wer bin ich?"}]',
+                'scope' => '{"type":"all_private_chats"}',
+            ], 'fake-bot-token'],
+        ], $telegram_fetcher->sentCommands);
+        $this->assertSame([
+            "NOTICE Telegram API response was not OK: {\"ok\":false}",
+            "ERROR Telegram API: Could not 'setMyCommands'",
+        ], $logger->handler->getPrettyRecords());
+    }
+
     public function testCallTelegramApi(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
@@ -527,6 +561,36 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->assertSame([
                 "NOTICE Telegram API response was not OK: {\"ok\":false}",
             ], $logger->handler->getPrettyRecords());
+        }
+    }
+
+    public function testCallTelegramApiBlocked(): void {
+        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $date_utils = new FixedDateUtils($iso_now);
+        $logger = FakeLogger::create();
+        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils->setEntityManager($entity_manager);
+        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils->setLogger($logger);
+
+        try {
+            $telegram_fetcher->fetchBlocked = true;
+            $result = $telegram_utils->callTelegramApi('fakeCommand', ['chat_id' => 13]);
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame('{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}', $exc->getMessage());
+            $this->assertSame([
+                "NOTICE We're blocked. Remove telegram link!",
+                "NOTICE Telegram API response was not OK: {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: bot was blocked by the user\"}",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(
+                $entity_manager->removed,
+                $entity_manager->flushed_removed
+            );
+            $this->assertSame(1, count($entity_manager->removed));
         }
     }
 

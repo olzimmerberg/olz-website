@@ -667,7 +667,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Sending notification WS title over invalid-delivery to user (2)...",
             "CRITICAL Unknown delivery type 'invalid-delivery'",
             "INFO Sending notification WS title over telegram to user (3)...",
-            "CRITICAL User (3) has no telegram link, but a subscription (17)",
+            "NOTICE User (3) has no telegram link, but a subscription (17)",
             "INFO Getting notification for '{\"no_notification\":true}'...",
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",

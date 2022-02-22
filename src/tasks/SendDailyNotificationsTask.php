@@ -451,7 +451,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
                 $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);
                 if (!$telegram_link) {
-                    $this->logger->critical("User ({$user_id}) has no telegram link, but a subscription ({$subscription_id})");
+                    $this->logger->notice("User ({$user_id}) has no telegram link, but a subscription ({$subscription_id})");
                     return;
                 }
                 $user_chat_id = $telegram_link->getTelegramChatId();

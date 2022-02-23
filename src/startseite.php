@@ -8,7 +8,6 @@ session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
-require_once __DIR__.'/components/page/olz_organization_data/olz_organization_data.php';
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
@@ -24,9 +23,6 @@ $http_utils->validateGetParams([
 
 echo olz_header([
     'description' => "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.",
-    'additional_headers' => [
-        olz_organization_data([]),
-    ],
 ]);
 
 echo "

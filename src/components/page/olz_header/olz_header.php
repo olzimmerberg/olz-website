@@ -25,6 +25,7 @@ function olz_header_without_routing($args = []): string {
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
     require_once __DIR__.'/../../../model/index.php';
+    require_once __DIR__.'/../olz_organization_data/olz_organization_data.php';
 
     $css_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.css";
     $js_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.js";
@@ -46,6 +47,7 @@ function olz_header_without_routing($args = []): string {
     }
 
     $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
+    $olz_organization_data = olz_organization_data([]);
 
     $additional_headers = implode("\n", $args['additional_headers'] ?? []);
 
@@ -62,6 +64,7 @@ function olz_header_without_routing($args = []): string {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{$html_title}</title>
     <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
+    {$olz_organization_data}
     {$additional_headers}
     <link rel='stylesheet' href='{$_CONFIG->getCodeHref()}jsbuild/main.min.css?modified={$css_modified}' />
     <script type='text/javascript' src='{$_CONFIG->getCodeHref()}jsbuild/main.min.js?modified={$js_modified}' onload='olz.loaded()'></script>

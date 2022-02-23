@@ -6,6 +6,7 @@
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
+require_once __DIR__.'/../components/schema/olz_event_data/olz_event_data.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../utils/client/HttpUtils.php';
@@ -384,7 +385,13 @@ while ($row = mysqli_fetch_array($result)) {
 
     // HTML-Ausgabe
     if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
-        echo olz_monate($datum)."<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+        echo olz_monate($datum);
+        echo olz_event_data([
+            'name' => $row['titel'],
+            'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
+            'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
+        ]);
+        echo "<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";
 }

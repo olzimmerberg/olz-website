@@ -25,7 +25,7 @@ function olz_header_without_routing($args = []): string {
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
     require_once __DIR__.'/../../../model/index.php';
-    require_once __DIR__.'/../olz_organization_data/olz_organization_data.php';
+    require_once __DIR__.'/../../schema/olz_organization_data/olz_organization_data.php';
 
     $css_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.css";
     $js_path = "{$_CONFIG->getCodePath()}jsbuild/main.min.js";

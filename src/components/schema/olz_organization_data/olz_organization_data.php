@@ -5,9 +5,10 @@
 // =============================================================================
 
 function olz_organization_data($args = []): string {
-    $organization_data = [
+    $sports_organization_data = [
         '@context' => 'https://schema.org',
-        '@type' => 'Organization',
+        '@type' => 'SportsOrganization',
+        'sport' => 'Orientierungslauf',
         'identifier' => 'https://olzimmerberg.ch',
         'url' => 'https://olzimmerberg.ch',
         'logo' => 'https://olzimmerberg.ch/_/icns/olz_logo_mit_hintergrund.svg',
@@ -24,18 +25,8 @@ function olz_organization_data($args = []): string {
             'https://github.com/olzimmerberg',
         ],
     ];
-    $sports_organization_data = array_merge(
-        $organization_data,
-        [
-            'sport' => 'Orientierungslauf',
-        ]
-    );
-    $json_organization_data = json_encode($organization_data);
     $json_sports_organization_data = json_encode($sports_organization_data);
     return <<<ZZZZZZZZZZ
-    <script type="application/ld+json">
-    {$json_organization_data}
-    </script>
     <script type="application/ld+json">
     {$json_sports_organization_data}
     </script>

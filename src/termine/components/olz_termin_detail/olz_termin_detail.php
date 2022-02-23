@@ -5,6 +5,7 @@ function olz_termin_detail($args = []): string {
 
     require_once __DIR__.'/../../../image_tools.php';
     require_once __DIR__.'/../../../components/common/olz_location_map/olz_location_map.php';
+    require_once __DIR__.'/../../../components/schema/olz_event_data/olz_event_data.php';
 
     $db_table = 'termine';
     $button_name = 'button'.$db_table;
@@ -55,6 +56,12 @@ function olz_termin_detail($args = []): string {
             $row_solv = $result_solv->fetch_assoc();
         }
         $tn = $can_edit ? "(".($row['teilnehmer'] ?? '').($solv_uid > 0 ? ";SOLV" : "").") " : "";
+
+        $out .= olz_event_data([
+            'name' => $titel,
+            'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
+            'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
+        ]);
 
         $out .= "<div class='olz-termin-detail'>";
 

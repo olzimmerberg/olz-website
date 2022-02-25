@@ -48,8 +48,12 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
     public function getResponseField() {
         $news_data_field = self::getNewsDataField();
         return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'ERROR',
+            ]]),
             'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
-            'data' => $news_data_field,
+            // 'data' => $news_data_field,
         ]]);
     }
 
@@ -71,25 +75,25 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $role_repo = $this->entityManager->getRepository(Role::class);
         $current_user = $this->authUtils->getSessionUser();
 
-        $owner_user_id = $input['ownerUserId'] ?? null;
+        $owner_user_id = $input['data']['ownerUserId'] ?? null;
         $owner_user = $current_user;
         if ($owner_user_id) {
             $owner_user = $user_repo->findOneBy(['id' => $owner_user_id]);
         }
 
-        $owner_role_id = $input['ownerRoleId'] ?? null;
+        $owner_role_id = $input['data']['ownerRoleId'] ?? null;
         $owner_role = null;
         if ($owner_role_id) {
             $owner_role = $role_repo->findOneBy(['id' => $owner_role_id]);
         }
 
-        $author_user_id = $input['authorUserId'] ?? null;
+        $author_user_id = $input['data']['authorUserId'] ?? null;
         $author_user = $current_user;
         if ($author_user_id) {
             $author_user = $user_repo->findOneBy(['id' => $author_user_id]);
         }
 
-        $author_role_id = $input['authorRoleId'] ?? null;
+        $author_role_id = $input['data']['authorRoleId'] ?? null;
         $author_role = null;
         if ($author_role_id) {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
@@ -98,11 +102,11 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $today = new DateTime($this->dateUtils->getIsoToday());
         $now = new DateTime($this->dateUtils->getIsoNow());
 
-        $tags_for_db = ' '.implode(' ', $input['tags']).' ';
+        $tags_for_db = $this->getTagsForDb($input['data']['tags']);
 
         $data_path = $this->envUtils->getDataPath();
         $valid_image_ids = [];
-        foreach ($input['imageIds'] as $image_id) {
+        foreach ($input['data']['imageIds'] as $image_id) {
             $image_path = "{$data_path}temp/{$image_id}";
             if (!is_file($image_path)) {
                 $this->logger->warning("Image file {$image_path} does not exist.");
@@ -119,19 +123,19 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry->setLastModifiedAt($now);
         $news_entry->setOwnerUser($owner_user);
         $news_entry->setOwnerRole($owner_role);
-        $news_entry->setAuthor($input['author']);
+        $news_entry->setAuthor($input['data']['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
         $news_entry->setDate($today);
-        $news_entry->setTitle($input['title']);
-        $news_entry->setTeaser($input['teaser']);
-        $news_entry->setContent($input['content']);
-        $news_entry->setExternalUrl($input['externalUrl']);
+        $news_entry->setTitle($input['data']['title']);
+        $news_entry->setTeaser($input['data']['teaser']);
+        $news_entry->setContent($input['data']['content']);
+        $news_entry->setExternalUrl($input['data']['externalUrl']);
         $news_entry->setTags($tags_for_db);
         $news_entry->setImageIds($valid_image_ids);
         // TODO: Do not ignore
         $news_entry->setTermin(0);
-        $news_entry->setOnOff($input['onOff'] ? 1 : 0);
+        $news_entry->setOnOff($input['data']['onOff'] ? 1 : 0);
         $news_entry->setCounter(0);
         $news_entry->setType('aktuell');
         $news_entry->setNewsletter(1);
@@ -142,9 +146,6 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry_id = $news_entry->getId();
 
         $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
-        mkdir($news_entry_img_path);
-        mkdir("{$news_entry_img_path}img/");
-        mkdir("{$news_entry_img_path}thumb/");
         foreach ($valid_image_ids as $image_id) {
             $image_path = "{$data_path}temp/{$image_id}";
             if (!is_file($image_path)) {
@@ -160,8 +161,7 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         }
 
         $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
-        mkdir($news_entry_files_path);
-        foreach ($input['fileIds'] as $file_id) {
+        foreach ($input['data']['fileIds'] as $file_id) {
             $file_path = "{$data_path}temp/{$file_id}";
             if (!is_file($file_path)) {
                 $this->logger->warning("File {$file_path} does not exist.");
@@ -173,7 +173,7 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
 
         return [
             'status' => 'OK',
-            'newsId' => $news_entry_id,
+            'id' => $news_entry_id,
         ];
     }
 }

@@ -4,6 +4,28 @@
     background-color: colors.$white-background-color;
     border: 1px solid colors.$white-border-color;
     border-radius: 2px;
-    margin: 4px 0;
-    padding: 4px;
+    height: 154px;
+    margin: 4px;
+    width: 130px;
+
+    .progress-container {
+        width: 128px;
+        height: 128px;
+        padding: 56px 0;
+    }
+
+    .image {
+        border: 0;
+        object-fit: contain;
+        width: 128px;
+        height: 128px;
+    }
+
+    .info {
+        height: 24px;
+        padding: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }

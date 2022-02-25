@@ -12,12 +12,15 @@ const MAX_IMAGE_SIZE = 800;
 const uploader = Uploader.getInstance();
 
 interface OlzMultiImageUploaderProps {
+    initialUploadIds?: string[];
     onUploadIdsChange?: (uploadIds: string[]) => any;
 }
 
 export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
+    const initialUploadedFiles: UploadedFile[] = props.initialUploadIds?.map(
+        uploadId => ({uploadState: 'UPLOADED', uploadId})) || [];
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
-    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>([]);
+    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(initialUploadedFiles);
 
     React.useEffect(() => {
         const clock = setInterval(() => {
@@ -95,11 +98,13 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
     const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (
-        <div>
-            {uploadFiles.map(uploadFile => <OlzUploadImage
-                key={serializeUploadFile(uploadFile)}
-                uploadFile={uploadFile}
-            />)}
+        <div className='olz-multi-image-uploader'>
+            <div className='state'>
+                {uploadFiles.map(uploadFile => <OlzUploadImage
+                    key={serializeUploadFile(uploadFile)}
+                    uploadFile={uploadFile}
+                />)}
+            </div>
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img

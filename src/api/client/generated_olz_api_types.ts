@@ -69,6 +69,7 @@ export type OlzApiEndpoint =
     'getRegistrationForm'|
     'createNews'|
     'getNews'|
+    'editNews'|
     'updateNews'|
     'deleteNews'|
     'searchTransportConnection'|
@@ -222,6 +223,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getNews: {
             'id': number,
         },
+    editNews: {
+            'id': number,
+        },
     updateNews: {
             'id': number,
             'data': OlzNewsData,
@@ -342,9 +346,13 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
             'data': OlzNewsData,
         },
-    updateNews: {
+    editNews: {
             'id': number,
             'data': OlzNewsData,
+        },
+    updateNews: {
+            'status': 'OK'|'ERROR',
+            'id': number,
         },
     deleteNews: {
             'status': 'OK'|'ERROR',

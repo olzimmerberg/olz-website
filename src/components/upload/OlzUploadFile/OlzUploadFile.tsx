@@ -10,17 +10,25 @@ export const OlzUploadFile = (props: OlzUploadFileProps) => {
     const uploadFile = props.uploadFile;
     if (uploadFile.uploadState === 'UPLOADING') {
         const uploadingFile: UploadingFile = uploadFile;
+        const uploadingInfo = `Uploading: ${uploadingFile.file.name} (${uploadingFile.uploadId})`;
         return (
-            <div className='olz-upload-file uploading'>
-                Uploading: {uploadingFile.file.name} ({uploadingFile.uploadId})
-                <OlzProgressBar progress={uploadingFile.uploadProgress} />
+            <div className='olz-upload-file uploading' title={uploadingInfo}>
+                <div className='progress-container'>
+                    <OlzProgressBar progress={uploadingFile.uploadProgress} />
+                </div>
+                <div className='info'>
+                    {uploadingInfo}
+                </div>
             </div>
         );
     }
     const uploadedFile: UploadedFile = uploadFile;
+    const uploadedInfo = `Uploaded: ${uploadedFile.uploadId}`;
     return (
-        <div className='olz-upload-file uploaded'>
-            Uploaded: {uploadedFile.uploadId}
+        <div className='olz-upload-file uploaded' title={uploadedInfo}>
+            <div className='info'>
+                {uploadedInfo}
+            </div>
         </div>
     );
 };

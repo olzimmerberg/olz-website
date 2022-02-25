@@ -38,8 +38,8 @@ function olz_news_article($args = []): string {
         $autor = ($row['autor'] > '') ? $row['autor'] : "..";
         $datum = $row['datum'];
 
-        $image_ids = json_decode($row['image_ids'] ?? '[]', true);
-        $is_migrated = (bool) $image_ids;
+        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
+        $is_migrated = is_array($image_ids);
 
         $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 

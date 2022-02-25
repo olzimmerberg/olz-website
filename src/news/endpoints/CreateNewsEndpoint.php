@@ -96,7 +96,7 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         $today = new DateTime($this->dateUtils->getIsoToday());
         $now = new DateTime($this->dateUtils->getIsoNow());
 
-        $tags_for_db = ' '.implode(' ', $input['tags']).' ';
+        $tags_for_db = $this->getTagsForDb($input['tags']);
 
         $data_path = $this->envUtils->getDataPath();
         $valid_image_ids = [];

@@ -1,3 +1,11 @@
-#multi-file-uploader-input {
-    width: 100%;
+.olz-multi-file-uploader {
+    .state {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #multi-file-uploader-input {
+        width: 100%;
+    }
 }

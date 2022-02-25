@@ -32,4 +32,8 @@ abstract class AbstractNewsEndpoint extends OlzEndpoint {
             ],
         ]);
     }
+
+    protected function getTagsForDb($tags) {
+        return ' '.implode(' ', $tags ?? []).' ';
+    }
 }

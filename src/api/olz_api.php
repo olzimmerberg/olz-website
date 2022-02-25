@@ -112,6 +112,10 @@ $olz_api->registerEndpoint('getNews', function () {
     require_once __DIR__.'/../news/endpoints/GetNewsEndpoint.php';
     return new GetNewsEndpoint();
 });
+$olz_api->registerEndpoint('editNews', function () {
+    require_once __DIR__.'/../news/endpoints/EditNewsEndpoint.php';
+    return new EditNewsEndpoint();
+});
 $olz_api->registerEndpoint('updateNews', function () {
     require_once __DIR__.'/../news/endpoints/UpdateNewsEndpoint.php';
     return new UpdateNewsEndpoint();

@@ -85,6 +85,8 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
 
+        $new_birthdate = $input['birthdate'] ? new DateTime($input['birthdate']) : null;
+
         $now_datetime = new DateTime($this->dateUtils->getIsoNow());
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
@@ -92,7 +94,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $user->setEmail($input['email']);
         $user->setPhone($input['phone']);
         $user->setGender($input['gender']);
-        $user->setBirthdate(new DateTime($input['birthdate']));
+        $user->setBirthdate($new_birthdate);
         $user->setStreet($input['street']);
         $user->setPostalCode($input['postalCode']);
         $user->setCity($input['city']);

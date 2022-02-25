@@ -1,5 +1,5 @@
 import {OlzApiResponses} from '../../../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../../components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 import {loadScript} from '../../../utils/generalUtils';
 
 $(() => {
@@ -25,14 +25,20 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
     await loadScript(scriptUrl);
     const token = await getRecaptchaToken();
 
-    const getDataForRequestDict: GetDataForRequestDict<'resetPassword'> = {
-        usernameOrEmail: (f) => getFormField(f, 'username_or_email'),
-        recaptchaToken: () => token,
+    const getDataForRequestFn: GetDataForRequestFunction<'resetPassword'> = (f) => {
+        const fieldResults = {
+            usernameOrEmail: getFormField(f, 'username_or_email'),
+            recaptchaToken: validFieldResult('', token),
+        };
+        if (!isFieldResultOrDictThereofValid(fieldResults)) {
+            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     olzDefaultFormSubmit(
         'resetPassword',
-        getDataForRequestDict,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

@@ -1,5 +1,5 @@
 import {OlzApiEndpoint} from '../../../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict} from '../../../components/common/olz_default_form/olz_default_form';
+import {FieldResultOrDictThereof, OlzRequestFieldResult, olzDefaultFormSubmit, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 
 export function olzEditableTextEdit(buttonElement: HTMLButtonElement): void {
     const containerDiv: HTMLElement|null|undefined = buttonElement.parentElement?.parentElement;
@@ -26,20 +26,23 @@ export function olzEditableTextSubmit<T extends OlzApiEndpoint>(
     textArg: string,
     form: HTMLFormElement,
 ): boolean {
-    const getDataForRequestDict: Partial<GetDataForRequestDict<T>> = {};
-
-    const fieldIds = Object.keys(args);
-    fieldIds.map((fieldId) => {
-        const fieldValue = args[fieldId];
-        // @ts-ignore
-        getDataForRequestDict[fieldId] = () => fieldValue;
-    });
-    // @ts-ignore
-    getDataForRequestDict[textArg] = (f) => f.text.value;
+    const getDataForRequestFn: GetDataForRequestFunction<T> = (f: HTMLFormElement) => {
+        const fieldResults: FieldResultOrDictThereof<any> = {
+            [textArg]: getFormField(f, 'text'),
+        };
+        for (const argKey of Object.keys(args)) {
+            fieldResults[argKey] = validFieldResult('', args[argKey]);
+        }
+        const castedFieldResults = fieldResults as OlzRequestFieldResult<T>;
+        if (!isFieldResultOrDictThereofValid(castedFieldResults)) {
+            return invalidFormData(getFieldResultOrDictThereofErrors(castedFieldResults));
+        }
+        return validFormData(getFieldResultOrDictThereofValue(castedFieldResults));
+    };
 
     olzDefaultFormSubmit(
         endpoint,
-        getDataForRequestDict as GetDataForRequestDict<T>,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

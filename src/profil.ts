@@ -1,27 +1,33 @@
 import {OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
-    const getDataForRequestDict: GetDataForRequestDict<'updateUser'> = {
-        id: () => userId,
-        firstName: (f) => getFormField(f, 'first-name'),
-        lastName: (f) => getFormField(f, 'last-name'),
-        username: (f) => getFormField(f, 'username'),
-        phone: (f) => getPhone('phone', getFormField(f, 'phone')),
-        email: (f) => getRequired('email', getEmail('email', getFormField(f, 'email'))),
-        gender: (f) => getGender('gender', getFormField(f, 'gender')),
-        birthdate: (f) => getIsoDateFromSwissFormat('birthdate', getFormField(f, 'birthdate')),
-        street: (f) => getFormField(f, 'street'),
-        postalCode: (f) => getFormField(f, 'postal-code'),
-        city: (f) => getFormField(f, 'city'),
-        region: (f) => getFormField(f, 'region'),
-        countryCode: (f) => getCountryCode('countryCode', getFormField(f, 'country-code')),
-        avatarId: (f) => getFormField(f, 'avatar-id'),
+    const getDataForRequestFunction: GetDataForRequestFunction<'updateUser'> = (f) => {
+        const fieldResults = {
+            id: validFieldResult('', userId),
+            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
+            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
+            username: getRequired(getStringOrNull(getFormField(f, 'username'))),
+            phone: getPhone(getFormField(f, 'phone')),
+            email: getRequired(getEmail(getFormField(f, 'email'))),
+            gender: getGender(getFormField(f, 'gender')),
+            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            street: getFormField(f, 'street'),
+            postalCode: getFormField(f, 'postal-code'),
+            city: getFormField(f, 'city'),
+            region: getFormField(f, 'region'),
+            countryCode: getCountryCode(getFormField(f, 'country-code')),
+            avatarId: getStringOrNull(getFormField(f, 'avatar-id')),
+        };
+        if (!isFieldResultOrDictThereofValid(fieldResults)) {
+            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     olzDefaultFormSubmit(
         'updateUser',
-        getDataForRequestDict,
+        getDataForRequestFunction,
         form,
         handleResponse,
     );

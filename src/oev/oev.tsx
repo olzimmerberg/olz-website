@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField, getIsoDateTimeFromSwissFormat, getRequired} from '../components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../components/common/olz_default_form/olz_default_form';
 import {OlzTransportConnectionSearch} from './components/OlzTransportConnectionSearch';
 
 export function initOlzTransportConnectionSearch() {
@@ -15,14 +15,20 @@ export function initOlzTransportConnectionSearch() {
 export function olzOevSearchConnection(
     form: HTMLFormElement
 ): Promise<OlzApiResponses['searchTransportConnection']> {
-    const getDataForRequestDict: GetDataForRequestDict<'searchTransportConnection'> = {
-        destination: (f) => getRequired('destination', getFormField(f, 'destination')),
-        arrival: (f) => getRequired('arrival', getIsoDateTimeFromSwissFormat('arrival', getFormField(f, 'arrival'))),
+    const getDataForRequestFn: GetDataForRequestFunction<'searchTransportConnection'> = (f) => {
+        const fieldResults = {
+            destination: getRequired(getStringOrNull(getFormField(f, 'destination'))),
+            arrival: getRequired(getIsoDateTimeFromSwissFormat(getFormField(f, 'arrival'))),
+        };
+        if (!isFieldResultOrDictThereofValid(fieldResults)) {
+            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        }
+        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     return olzDefaultFormSubmit(
         'searchTransportConnection',
-        getDataForRequestDict,
+        getDataForRequestFn,
         form,
         handleResponse,
     );

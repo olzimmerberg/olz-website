@@ -69,6 +69,8 @@ export type OlzApiEndpoint =
     'getRegistrationForm'|
     'createNews'|
     'getNews'|
+    'updateNews'|
+    'deleteNews'|
     'searchTransportConnection'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken';
@@ -220,6 +222,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getNews: {
             'id': number,
         },
+    updateNews: {
+            'id': number,
+            'data': OlzNewsData,
+        },
+    deleteNews: {
+            'id': number,
+        },
     searchTransportConnection: {
             'destination': string,
             'arrival': string,
@@ -332,6 +341,13 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getNews: {
             'id': number,
             'data': OlzNewsData,
+        },
+    updateNews: {
+            'id': number,
+            'data': OlzNewsData,
+        },
+    deleteNews: {
+            'status': 'OK'|'ERROR',
         },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',

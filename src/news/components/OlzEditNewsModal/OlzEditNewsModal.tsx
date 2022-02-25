@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../api/client';
 import {OlzNewsData} from '../../../api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, GetDataForRequestDict, getFormField} from '../../../components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
@@ -70,41 +70,90 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
     const [imageIds, setImageIds] = React.useState<string[]>([]);
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
-        const getDataForRequestDict: GetDataForRequestDict<'createNews'> = {
-            ownerUserId: () => null,
-            ownerRoleId: () => null,
-            author: (f) => getFormField(f, 'author'),
-            authorUserId: () => null,
-            authorRoleId: () => null,
-            title: (f) => getFormField(f, 'title'),
-            teaser: (f) => getFormField(f, 'teaser'),
-            content: (f) => getFormField(f, 'content'),
-            externalUrl: (f) => getFormField(f, 'external-url') || null,
-            tags: () => [],
-            terminId: () => null,
-            onOff: () => true,
-            imageIds: () => imageIds,
-            fileIds: () => fileIds,
-        };
-
-        function handleResponse(response: OlzApiResponses['createNews']): string|void {
-            if (response.status !== 'OK') {
-                throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
-            }
-            window.setTimeout(() => {
-                $('#edit-news-modal').modal('hide');
-            }, 3000);
-            return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
-        }
-
         event.preventDefault();
+        
+        if (props.id) {
+            const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
+                const fieldResults = {
+                    id: validFieldResult('', props.id),
+                    data: {
+                        ownerUserId: validFieldResult('', null),
+                        ownerRoleId: validFieldResult('', null),
+                        author: getStringOrNull(getFormField(f, 'author')),
+                        authorUserId: validFieldResult('', null),
+                        authorRoleId: validFieldResult('', null),
+                        title: getStringOrEmpty(getFormField(f, 'title')),
+                        teaser: getStringOrEmpty(getFormField(f, 'teaser')),
+                        content: getStringOrEmpty(getFormField(f, 'content')),
+                        externalUrl: getStringOrNull(getFormField(f, 'external-url')),
+                        tags: validFieldResult('', []),
+                        terminId: validFieldResult('', null),
+                        onOff: validFieldResult('', true),
+                        imageIds: validFieldResult('', imageIds),
+                        fileIds: validFieldResult('', fileIds),
+                    },
+                };
+                if (!isFieldResultOrDictThereofValid(fieldResults)) {
+                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+                }
+                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
+            };
 
-        olzDefaultFormSubmit(
-            'createNews',
-            getDataForRequestDict,
-            event.currentTarget,
-            handleResponse,
-        );
+            const handleUpdateResponse = (response: OlzApiResponses['updateNews']): string|void => {
+                window.setTimeout(() => {
+                    $('#edit-news-modal').modal('hide');
+                }, 3000);
+                return 'News-Eintrag erfolgreich geändert. Bitte warten...';
+            }
+
+            olzDefaultFormSubmit(
+                'updateNews',
+                getDataForRequestFn,
+                event.currentTarget,
+                handleUpdateResponse,
+            );
+        } else {
+            const getDataForRequestFn: GetDataForRequestFunction<'createNews'> = (f) => {
+                const fieldResults = {
+                    ownerUserId: validFieldResult('', null),
+                    ownerRoleId: validFieldResult('', null),
+                    author: getStringOrNull(getFormField(f, 'author')),
+                    authorUserId: validFieldResult('', null),
+                    authorRoleId: validFieldResult('', null),
+                    title: getStringOrEmpty(getFormField(f, 'title')),
+                    teaser: getStringOrEmpty(getFormField(f, 'teaser')),
+                    content: getStringOrEmpty(getFormField(f, 'content')),
+                    externalUrl: getStringOrNull(getFormField(f, 'external-url')),
+                    tags: validFieldResult('', []),
+                    terminId: validFieldResult('', null),
+                    onOff: validFieldResult('', true),
+                    imageIds: validFieldResult('', imageIds),
+                    fileIds: validFieldResult('', fileIds),
+                };
+                if (!isFieldResultOrDictThereofValid(fieldResults)) {
+                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+                }
+                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
+            };
+
+            const handleCreateResponse = (response: OlzApiResponses['createNews']): string|void => {
+                if (response.status !== 'OK') {
+                    throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
+                }
+                window.setTimeout(() => {
+                    $('#edit-news-modal').modal('hide');
+                }, 3000);
+                return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
+            }
+
+            olzDefaultFormSubmit(
+                'createNews',
+                getDataForRequestFn,
+                event.currentTarget,
+                handleCreateResponse,
+            );
+        }
+        
         return false;
     }, [fileIds, imageIds]);
 

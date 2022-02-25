@@ -46,6 +46,7 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
     }
 
     public function getResponseField() {
+        $news_data_field = self::getNewsDataField();
         return new FieldTypes\ObjectField(['field_structure' => [
             'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
             'data' => $news_data_field,

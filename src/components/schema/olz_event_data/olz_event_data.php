@@ -10,9 +10,11 @@ function olz_event_data($args = []): string {
     $end_date = $args['end_date'] ?? null;
     $location = $args['location'] ?? null;
     $place = $location ? [
+        '@type' => 'Place',
         'latitude' => $location['lat'],
         'longitude' => $location['lng'],
-    ] : null;
+        'address' => 'Unbekannt',
+    ] : 'Unbekannt';
     $event_data = [
         '@context' => 'https://schema.org',
         '@type' => 'Event',

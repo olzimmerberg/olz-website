@@ -56,9 +56,13 @@ function olz_termin_detail($args = []): string {
             $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
             $row_solv = $result_solv->fetch_assoc();
         }
-        $has_location = ($xkoord > 0 && $ykoord > 0);
-        $lat = $has_location ? CHtoWGSlat($xkoord, $ykoord) : null;
-        $lng = $has_location ? CHtoWGSlng($xkoord, $ykoord) : null;
+        $has_olz_location = ($xkoord > 0 && $ykoord > 0);
+        $has_solv_location = ($row_solv['coord_x'] > 0 && $row_solv['coord_y'] > 0);
+        $lat = $has_olz_location ? CHtoWGSlat($xkoord, $ykoord) :
+            ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
+        $lng = $has_olz_location ? CHtoWGSlng($xkoord, $ykoord) :
+            ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
+        $has_location = $has_olz_location || $has_solv_location;
 
         $out .= olz_event_data([
             'name' => $titel,

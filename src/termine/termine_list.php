@@ -9,6 +9,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 require_once __DIR__.'/../components/schema/olz_event_data/olz_event_data.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
+require_once __DIR__.'/../library/wgs84_ch1903/wgs84_ch1903.php';
 require_once __DIR__.'/../utils/client/HttpUtils.php';
 require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/../utils/TermineUtils.php';
@@ -264,6 +265,9 @@ while ($row = mysqli_fetch_array($result)) {
         $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
         $row_solv = $result_solv->fetch_assoc();
     }
+    $has_location = ($xkoord > 0 && $ykoord > 0);
+    $lat = $has_location ? CHtoWGSlat($xkoord, $ykoord) : null;
+    $lng = $has_location ? CHtoWGSlng($xkoord, $ykoord) : null;
 
     // Dateicode einfügen
     preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $link, $matches);
@@ -276,7 +280,7 @@ while ($row = mysqli_fetch_array($result)) {
         $link = str_replace($matches[0][$i], $tmp_html, $link);
     }
     //Karte zeigen
-    if ($xkoord > 0 and $datum >= $heute) {
+    if ($has_location && $datum >= $heute) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
     //SOLV-Karte zeigen
@@ -390,6 +394,10 @@ while ($row = mysqli_fetch_array($result)) {
             'name' => $row['titel'],
             'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
             'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
+            'location' => $has_location ? [
+                'lat' => $lat,
+                'lng' => $lng,
+            ] : null,
         ]);
         echo "<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }

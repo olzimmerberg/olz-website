@@ -6,6 +6,7 @@ function olz_termin_detail($args = []): string {
     require_once __DIR__.'/../../../image_tools.php';
     require_once __DIR__.'/../../../components/common/olz_location_map/olz_location_map.php';
     require_once __DIR__.'/../../../components/schema/olz_event_data/olz_event_data.php';
+    require_once __DIR__.'/../../../library/wgs84_ch1903/wgs84_ch1903.php';
 
     $db_table = 'termine';
     $button_name = 'button'.$db_table;
@@ -55,18 +56,24 @@ function olz_termin_detail($args = []): string {
             $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
             $row_solv = $result_solv->fetch_assoc();
         }
-        $tn = $can_edit ? "(".($row['teilnehmer'] ?? '').($solv_uid > 0 ? ";SOLV" : "").") " : "";
+        $has_location = ($xkoord > 0 && $ykoord > 0);
+        $lat = $has_location ? CHtoWGSlat($xkoord, $ykoord) : null;
+        $lng = $has_location ? CHtoWGSlng($xkoord, $ykoord) : null;
 
         $out .= olz_event_data([
             'name' => $titel,
             'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
             'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
+            'location' => $has_location ? [
+                'lat' => $lat,
+                'lng' => $lng,
+            ] : null,
         ]);
 
         $out .= "<div class='olz-termin-detail'>";
 
         //Karte zeigen
-        if ($xkoord > 0 && $ykoord > 0) {
+        if ($has_location) {
             $out .= olz_location_map($xkoord, $ykoord, 13, 720, 360);
         //SOLV-Karte zeigen
         } elseif ($typ != 'meldeschluss' && $row_solv && $row_solv['coord_x'] > 0 && $row_solv['coord_y'] > 0) {

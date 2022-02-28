@@ -21,11 +21,28 @@
         height: 128px;
     }
 
-    .info {
+    .footer {
+        align-items: center;
+        display: flex;
         height: 24px;
+    }
+
+    .info {
+        flex-grow: 1;
         padding: 4px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .button {
+        background-color: rgba(0,0,0,0);
+        flex-grow: 0;
+        height: 24px;
+        width: 24px;
+
+        img {
+            border: 0;
+        }
     }
 }

@@ -90,6 +90,11 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         }
     };
 
+    const onDelete = React.useCallback((uploadId: string) => {
+        setUploadedFiles(uploadedFiles.filter(
+            uploadedFile => uploadedFile.uploadId !== uploadId));
+    }, [uploadedFiles]);
+
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: 'image/jpeg, image/png',
         onDrop,
@@ -103,6 +108,7 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
                 {uploadFiles.map(uploadFile => <OlzUploadImage
                     key={serializeUploadFile(uploadFile)}
                     uploadFile={uploadFile}
+                    onDelete={onDelete}
                 />)}
             </div>
             <div className="dropzone" {...getRootProps()}>

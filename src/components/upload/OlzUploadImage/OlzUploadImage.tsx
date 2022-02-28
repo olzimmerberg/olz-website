@@ -4,6 +4,7 @@ import {UploadFile, UploadingFile, UploadedFile} from '../types';
 
 interface OlzUploadImageProps {
     uploadFile?: UploadFile;
+    onDelete?: (uploadId: string) => any;
 }
 
 export const OlzUploadImage = (props: OlzUploadImageProps) => {
@@ -24,6 +25,11 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
     }
     const uploadedFile: UploadedFile = uploadFile;
     const uploadedInfo = `Uploaded: ${uploadedFile.uploadId}`;
+    const deleteButton = props.onDelete ? (
+        <button className='button' type='button' onClick={() => props.onDelete(uploadedFile.uploadId)}>
+            <img src='icns/delete_16.svg' alt='Lö' />
+        </button>
+    ) : undefined;
     return (
         <div className='olz-upload-image uploaded' title={uploadedInfo}>
             <div className='image-container'>
@@ -33,8 +39,11 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
                     className='image'
                 />
             </div>
-            <div className='info'>
-                {uploadedInfo}
+            <div className='footer'>
+                <div className='info'>
+                    {uploadedInfo}
+                </div>
+                {deleteButton}
             </div>
         </div>
     );

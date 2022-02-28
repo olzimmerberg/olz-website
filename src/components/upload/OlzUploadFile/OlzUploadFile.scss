@@ -21,12 +21,29 @@
         white-space: nowrap;
     }
 
-    &.uploaded .info {
+    &.uploaded .uploaded-file-container {
+        align-items: center;
+        display: flex;
         height: 48px;
-        line-height: 48px;
-        padding: 0 4px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+
+        .info {
+            flex-grow: 1;
+            line-height: 48px;
+            padding: 0 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .button {
+            background-color: rgba(0,0,0,0);
+            flex-grow: 0;
+            height: 24px;
+            width: 24px;
+
+            img {
+                border: 0;
+            }
+        }
     }
 }

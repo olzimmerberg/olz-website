@@ -33,6 +33,7 @@ function olz_footer($args = []): string {
 
     // React modals
 
+    $out .= "<div id='confirmation-dialog-react-root'></div>";
     $out .= "<div id='edit-news-react-root'></div>";
     $out .= "<div id='update-user-avatar-react-root'></div>";
 

@@ -71,7 +71,7 @@ class DeleteNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
         if ($news_entry) {
-            $this->entityManager->remove($access_token);
+            $this->entityManager->remove($news_entry);
             $this->entityManager->flush();
             return ['status' => 'OK'];
         }

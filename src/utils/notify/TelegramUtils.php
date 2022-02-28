@@ -257,7 +257,9 @@ class TelegramUtils {
             ) {
                 $this->logger->notice("We're blocked. Remove telegram link!");
                 $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
-                $telegram_link = $telegram_link_repo->findOneBy(['chat_id' => $args['chat_id']]);
+                $telegram_link = $telegram_link_repo->findOneBy([
+                    'telegram_chat_id' => $args['chat_id'],
+                ]);
                 $this->entityManager->remove($telegram_link);
                 $this->entityManager->flush();
             }

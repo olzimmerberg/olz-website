@@ -57,7 +57,12 @@ function olz_termin_detail($args = []): string {
             $row_solv = $result_solv->fetch_assoc();
         }
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);
-        $has_solv_location = ($row_solv['coord_x'] > 0 && $row_solv['coord_y'] > 0);
+        $has_solv_location = (
+            $typ != 'meldeschluss'
+            && $row_solv
+            && $row_solv['coord_x'] > 0
+            && $row_solv['coord_y'] > 0
+        );
         $lat = $has_olz_location ? CHtoWGSlat($xkoord, $ykoord) :
             ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
         $lng = $has_olz_location ? CHtoWGSlng($xkoord, $ykoord) :
@@ -77,10 +82,10 @@ function olz_termin_detail($args = []): string {
         $out .= "<div class='olz-termin-detail'>";
 
         //Karte zeigen
-        if ($has_location) {
+        if ($has_olz_location) {
             $out .= olz_location_map($xkoord, $ykoord, 13, 720, 360);
         //SOLV-Karte zeigen
-        } elseif ($typ != 'meldeschluss' && $row_solv && $row_solv['coord_x'] > 0 && $row_solv['coord_y'] > 0) {
+        } elseif ($has_solv_location) {
             $out .= olz_location_map($row_solv['coord_x'], $row_solv['coord_y'], 13, 720, 360);
         }
 

@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useDropzone} from 'react-dropzone';
@@ -61,7 +62,9 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
             const changeEvent: OlzUpdateUserAvatarModalChangeEvent = 
                 new CustomEvent('change', {detail: {uploadId, dataUrl: resizedBase64}});
             props.onChange(changeEvent);
-            $('#update-user-avatar-modal').modal('hide');
+            bootstrap.Modal.getInstance(
+                document.getElementById('update-user-avatar-modal'),
+            ).hide();
         } catch (e) {
             console.error(e)
         }
@@ -159,15 +162,13 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
                     <form className='default-form' onSubmit={onSubmit}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='olz-update-user-avatar-label'>Benutzer-Bild</h5>
-                            <button type='button' className='close' data-dismiss='modal' aria-label='Schliessen'>
-                                <span aria-hidden='true'>&times;</span>
-                            </button>
+                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                         </div>
                         <div className='modal-body'>
                             {modalBody}
                         </div>
                         <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button type='submit' className='btn btn-primary' id='submit-button'>OK</button>
                         </div>
                     </form>
@@ -185,5 +186,8 @@ export function initOlzUpdateUserAvatarModal(
         <OlzUpdateUserAvatarModal onChange={onChange} />,
         document.getElementById('update-user-avatar-react-root'),
     );
-    $('#update-user-avatar-modal').modal({backdrop: 'static'});
+    new bootstrap.Modal(
+        document.getElementById('update-user-avatar-modal'),
+        {backdrop: 'static'},
+    ).show();
 }

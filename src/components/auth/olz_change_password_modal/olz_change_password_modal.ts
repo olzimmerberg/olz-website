@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {OlzApiResponses} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 
@@ -47,6 +48,8 @@ function handleResponse(response: OlzApiResponses['updatePassword']): string|voi
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    $('#change-password-modal').modal('hide');
+    bootstrap.Modal.getInstance(
+        document.getElementById('change-password-modal'),
+    ).hide();
     return 'Passwort erfolgreich aktualisiert.';
 }

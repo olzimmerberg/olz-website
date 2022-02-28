@@ -22,10 +22,10 @@ function olz_account_menu($args = []): string {
         }
     }
 
-    $out .= "<a href='#' role='button' id='account-menu-link' data-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
+    $out .= "<a href='#' role='button' id='account-menu-link' data-bs-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
     $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
     $out .= "</a>";
-    $out .= "<div class='dropdown-menu dropdown-menu-right' aria-labelledby='account-menu-link'>";
+    $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
     if ($user) {
         $out .= "<a class='dropdown-item' href='profil.php'>Profil</a>";
         if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) || (($_SESSION['auth'] ?? null) == 'all')) {
@@ -51,8 +51,8 @@ function olz_account_menu($args = []): string {
             class='dropdown-item'
             href='#'
             role='button'
-            data-toggle='modal'
-            data-target='#login-modal'
+            data-bs-toggle='modal'
+            data-bs-target='#login-modal'
         >
             Login
         </a>
@@ -61,8 +61,8 @@ function olz_account_menu($args = []): string {
             class='dropdown-item feature sign-up'
             href='#'
             role='button'
-            data-toggle='modal'
-            data-target='#sign-up-modal'
+            data-bs-toggle='modal'
+            data-bs-target='#sign-up-modal'
         >
             Konto erstellen
         </a>

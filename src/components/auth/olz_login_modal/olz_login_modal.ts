@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {callOlzApi} from '../../../api/client';
 
 $(() => {
@@ -6,7 +7,9 @@ $(() => {
     });
 
     if (window.location.hash === '#login-dialog') {
-        $('#login-modal').modal('show');
+        bootstrap.Modal.getInstance(
+            document.getElementById('login-modal'),
+        ).show();
     }
 });
 
@@ -32,6 +35,10 @@ export function olzLoginModalLogin(): void {
 }
 
 export function olzLoginModalPasswordReset(): void {
-    $('#login-modal').modal('hide');
-    $('#password-reset-modal').modal('show');
+    bootstrap.Modal.getInstance(
+        document.getElementById('login-modal'),
+    ).hide();
+    bootstrap.Modal.getInstance(
+        document.getElementById('password-reset-modal'),
+    ).show();
 }

@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $startseite_url = '/startseite.php';
 
@@ -21,23 +22,23 @@ function test_bild_der_woche($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonbild_der_woche-neuer-eintrag')
     );
-    $new_button->click();
+    click($new_button);
     $text_input = $driver->findElement(
         WebDriverBy::cssSelector('#bild_der_wochetext')
     );
-    $text_input->sendKeys('Neues Bild der Woche');
+    sendKeys($text_input, 'Neues Bild der Woche');
     take_pageshot($driver, 'bild_der_woche_new_edit');
 
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonbild_der_woche-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'bild_der_woche_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonbild_der_woche-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'bild_der_woche_new_finished');
 
     logout($driver, $base_url);
@@ -54,7 +55,7 @@ function test_bild_der_woche_readonly($driver, $base_url) {
     $bild_der_woche_elem = $driver->findElement(
         WebDriverBy::cssSelector('a[href="/img/bild_der_woche//2/img/001.jpg"]')
     );
-    $bild_der_woche_elem->click();
+    click($bild_der_woche_elem);
     $driver->wait()->until(function () use ($driver) {
         $bild_der_woche_lightgallery_img = $driver->findElement(
             WebDriverBy::cssSelector('img[src="/img/bild_der_woche//2/img/001.jpg"]')

@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $service_url = '/service.php';
 
@@ -19,23 +20,23 @@ function test_downloads($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttondownloads-neuer-eintrag')
     );
-    $new_button->click();
+    click($new_button);
     $name_input = $driver->findElement(
         WebDriverBy::cssSelector('#downloadsname')
     );
-    $name_input->sendKeys('Neues Jahresprogramm');
+    sendKeys($name_input, 'Neues Jahresprogramm');
     take_pageshot($driver, 'downloads_new_edit');
 
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttondownloads-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'downloads_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttondownloads-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'downloads_new_finished');
 
     logout($driver, $base_url);

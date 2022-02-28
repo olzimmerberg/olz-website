@@ -21,12 +21,12 @@ if ($user) {
     if (!$has_telegram_link) {
         $content = <<<'ZZZZZZZZZZ'
             <p class="card-text">Mit der Chat-App Telegram halten wir dich immer auf dem Laufenden!</p>
-            <p class="card-text text-right">
+            <p class="card-text text-end">
                 <a 
                     href="#"
                     role="button"
-                    data-toggle="modal"
-                    data-target="#link-telegram-modal"
+                    data-bs-toggle="modal"
+                    data-bs-target="#link-telegram-modal"
                     class="btn btn-light btn-sm"
                 >
                     Aktivieren
@@ -39,7 +39,7 @@ if ($user) {
             <form id='telegram-notifications-form' onsubmit='return olzTelegramNotificationsUpdate(this)'>
                 <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                 {$form}
-                <p class="card-text text-right">
+                <p class="card-text text-end">
                     <button 
                         id='telegram-notifications-submit'
                         type='submit'

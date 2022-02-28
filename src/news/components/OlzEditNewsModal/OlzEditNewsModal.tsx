@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../api/client';
@@ -101,7 +102,9 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
 
             const handleUpdateResponse = (response: OlzApiResponses['updateNews']): string|void => {
                 window.setTimeout(() => {
-                    $('#edit-news-modal').modal('hide');
+                    bootstrap.Modal.getInstance(
+                        document.getElementById('edit-news-modal')
+                    ).hide();
                 }, 3000);
                 return 'News-Eintrag erfolgreich geändert. Bitte warten...';
             }
@@ -141,7 +144,9 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
                 }
                 window.setTimeout(() => {
-                    $('#edit-news-modal').modal('hide');
+                    bootstrap.Modal.getInstance(
+                        document.getElementById('edit-news-modal'),
+                    ).hide();
                 }, 3000);
                 return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
             }
@@ -164,12 +169,10 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     <form className='default-form' onSubmit={onSubmit}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-news-modal-label'>News bearbeiten</h5>
-                            <button type='button' className='close' data-dismiss='modal' aria-label='Schliessen'>
-                                <span aria-hidden='true'>&times;</span>
-                            </button>
+                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                         </div>
                         <div className='modal-body'>
-                            <div className='form-group'>
+                            <div className='mb-3'>
                                 <label htmlFor='news-title-input'>Titel</label>
                                 <input
                                     type='text'
@@ -180,7 +183,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-title-input'
                                 />
                             </div>
-                            <div className='form-group'>
+                            <div className='mb-3'>
                                 <label htmlFor='news-teaser-input'>Teaser</label>
                                 <textarea
                                     name='teaser'
@@ -190,7 +193,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-teaser-input'
                                 />
                             </div>
-                            <div className='form-group'>
+                            <div className='mb-3'>
                                 <label htmlFor='news-content-input'>Inhalt</label>
                                 <textarea
                                     name='content'
@@ -201,7 +204,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                 />
                                 {FORMATTING_NOTES_FOR_USERS}
                             </div>
-                            <div className='form-group'>
+                            <div className='mb-3'>
                                 <label htmlFor='news-author-input'>Autor</label>
                                 <input
                                     type='text'
@@ -212,7 +215,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-author-input'
                                 />
                             </div>
-                            <div className='form-group'>
+                            <div className='mb-3'>
                                 <label htmlFor='news-external-url-input'>Externer Link</label>
                                 <input
                                     type='text'
@@ -240,7 +243,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                             <div className='error-message alert alert-danger' role='alert'></div>
                         </div>
                         <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button type='submit' className='btn btn-primary' id='submit-button'>Speichern</button>
                         </div>
                     </form>
@@ -255,6 +258,9 @@ export function initOlzEditNewsModal(id?: number, data?: OlzNewsData) {
         <OlzEditNewsModal id={id} data={data} />,
         document.getElementById('edit-news-react-root'),
     );
-    $('#edit-news-modal').modal({backdrop: 'static'});
+    new bootstrap.Modal(
+        document.getElementById('edit-news-modal'),
+        {backdrop: 'static'},
+    ).show();
     return false;
 }

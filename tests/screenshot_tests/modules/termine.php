@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $termine_url = '/termine.php';
 
@@ -21,19 +22,19 @@ function test_termine($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttontermine-neuer-eintrag')
     );
-    $new_button->click();
+    click($new_button);
     take_pageshot($driver, 'termine_new_edit');
 
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttontermine-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'termine_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttontermine-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'termine_new_finished');
 
     logout($driver, $base_url);
@@ -54,6 +55,6 @@ function test_termine_readonly($driver, $base_url) {
     $filter_type_training = $driver->findElement(
         WebDriverBy::cssSelector('#filter-type-training')
     );
-    $filter_type_training->click();
+    click($filter_type_training);
     take_pageshot($driver, 'termine_past');
 }

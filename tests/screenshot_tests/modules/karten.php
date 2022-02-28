@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $karten_url = '/karten.php';
 
@@ -21,19 +22,19 @@ function test_karten($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonkarten-neue-karte')
     );
-    $new_button->click();
+    click($new_button);
     take_pageshot($driver, 'karten_new_edit');
 
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonkarten-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'karten_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonkarten-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'karten_new_finished');
 
     logout($driver, $base_url);

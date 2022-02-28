@@ -21,12 +21,10 @@ function olz_sign_up_modal($args = []): string {
             <div class='modal-content'>
                 <div class='modal-header'>
                     <h5 class='modal-title' id='sign-up-modal-label'>Login</h5>
-                    <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
-                        <span aria-hidden='true'>&times;</span>
-                    </button>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                 </div>
                 <div class='modal-body'>
-                    <div class='feature external-login form-group'>
+                    <div class='feature external-login mb-3'>
                         <a href='{$strava_url}' class='login-button strava-button'>
                             <img src='{$_CONFIG->getCodeHref()}icns/login_strava.svg' alt=''>
                             Strava
@@ -46,7 +44,7 @@ function olz_sign_up_modal($args = []): string {
                     </div>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                 </div>
             </div>
         </div>

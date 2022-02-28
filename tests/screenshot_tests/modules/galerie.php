@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $galerie_url = '/galerie.php';
 $galerie_id_2_url = "{$galerie_url}?id=2";
@@ -22,22 +23,22 @@ function test_galerie($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttongalerie-neue-galerie')
     );
-    $new_button->click();
+    click($new_button);
 
     $title_input = $driver->findElement(
         WebDriverBy::cssSelector('#galerietitel')
     );
-    $title_input->sendKeys('Zweimal dasselbe Bild');
+    sendKeys($title_input, 'Zweimal dasselbe Bild');
     $author_input = $driver->findElement(
         WebDriverBy::cssSelector('#galerieautor')
     );
-    $author_input->sendKeys('bot');
+    sendKeys($author_input, 'bot');
 
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('input[type=file]')
     );
     $big_image_path = realpath(__DIR__.'/../../../src/tools/dev-data/sample-data/sample-picture.jpg');
-    $image_upload_input->sendKeys($big_image_path);
+    sendKeys($image_upload_input, $big_image_path);
     $driver->wait()->until(function () use ($driver) {
         $delete_buttons = $driver->findElements(
             WebDriverBy::cssSelector('img[title="löschen"]')
@@ -48,7 +49,7 @@ function test_galerie($driver, $base_url) {
         WebDriverBy::cssSelector('input[type=file]')
     );
     $small_image_path = realpath(__DIR__.'/../../../src/icns/schilf.jpg');
-    $image_upload_input->sendKeys($small_image_path);
+    sendKeys($image_upload_input, $small_image_path);
     $driver->wait()->until(function () use ($driver) {
         $delete_buttons = $driver->findElements(
             WebDriverBy::cssSelector('img[title="löschen"]')
@@ -60,13 +61,13 @@ function test_galerie($driver, $base_url) {
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttongalerie-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'galerie_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttongalerie-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'galerie_new_finished');
 
     logout($driver, $base_url);

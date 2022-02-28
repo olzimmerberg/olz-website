@@ -22,7 +22,7 @@ function get_window_height($driver) {
 }
 
 function window_scroll_to($driver, $x, $y) {
-    $driver->executeScript("window.scrollTo({$x}, {$y})", []);
+    $driver->executeScript("window.scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
 }
 
 function get_window_scroll_x($driver) {

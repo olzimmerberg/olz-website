@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $startseite_url = '/startseite.php';
 
@@ -16,7 +17,7 @@ function test_startseite($driver, $base_url) {
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-submit')
     );
-    $save_button->click();
+    click($save_button);
     $driver->wait()->until(function () use ($driver) {
         $rendered_html = $driver->findElement(
             WebDriverBy::cssSelector('#important-banner .olz-editable-text .rendered-html')
@@ -44,10 +45,10 @@ function test_startseite_readonly($driver, $base_url) {
     $edit_button = $driver->findElement(
         WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-button')
     );
-    $edit_button->click();
+    click($edit_button);
     $text_input = $driver->findElement(
         WebDriverBy::cssSelector('#important-banner .olz-editable-text textarea[name="text"]')
     );
-    $text_input->sendKeys('Neue Information!');
+    sendKeys($text_input, 'Neue Information!');
     take_pageshot($driver, 'startseite_banner_edit');
 }

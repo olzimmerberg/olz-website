@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -34,14 +35,14 @@ export const OlzConfirmationDialog = (props: OlzConfirmationDialogProps) => {
                         <button
                             type='button'
                             className='btn btn-secondary'
-                            data-dismiss='modal'
+                            data-bs-dismiss='modal'
                         >
                             {props.cancelLabel ?? 'Abbrechen'}
                         </button>
                         <button
                             type='button'
                             className={confirmButtonClassName}
-                            data-dismiss='modal'
+                            data-bs-dismiss='modal'
                             id='confirm-button'
                             onClick={props.onConfirm}
                         >
@@ -75,6 +76,9 @@ export async function olzConfirm(
             />,
             document.getElementById('confirmation-dialog-react-root'),
         );
-        $('#confirmation-dialog-modal').modal({backdrop: 'static'});
+        new bootstrap.Modal(
+            document.getElementById('confirmation-dialog-modal'),
+            {backdrop: 'static'},
+        ).show();
     });
 }

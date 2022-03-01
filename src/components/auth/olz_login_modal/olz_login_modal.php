@@ -22,12 +22,10 @@ function olz_login_modal($args = []): string {
                 <form onsubmit='olzLoginModalLogin();return false;'>
                     <div class='modal-header'>
                         <h5 class='modal-title' id='login-modal-label'>Login</h5>
-                        <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                     </div>
                     <div class='modal-body'>
-                        <div class='feature external-login form-group'>
+                        <div class='feature external-login mb-3'>
                             <a href='{$strava_url}' class='login-button strava-button'>
                                 <img src='{$_CONFIG->getCodeHref()}icns/login_strava.svg' alt=''>
                                 Strava
@@ -42,11 +40,11 @@ function olz_login_modal($args = []): string {
                             </a>
                             <br />
                         </div>
-                        <div class='form-group'>
+                        <div class='mb-3'>
                             <label for='login-username-input'>Benutzername oder E-Mail</label>
                             <input type='text' class='form-control test-flaky' id='login-username-input' autofocus />
                         </div>
-                        <div class='form-group'>
+                        <div class='mb-3'>
                             <label for='login-password-input'>Passwort</label>
                             <input type='password' class='form-control' id='login-password-input' />
                         </div>
@@ -54,20 +52,20 @@ function olz_login_modal($args = []): string {
                             <a
                                 id='reset-password-link'
                                 href='#'
-                                data-dismiss='modal'
-                                data-toggle='modal'
-                                data-target='#reset-password-modal'
+                                data-bs-dismiss='modal'
+                                data-bs-toggle='modal'
+                                data-bs-target='#reset-password-modal'
                             >
                                 Passwort vergessen?
                             </a>
                         </div>
-                        <div class='feature sign-up form-group'>
+                        <div class='feature sign-up mb-3'>
                             <a
                                 id='sign-up-link'
                                 href='#'
-                                data-dismiss='modal'
-                                data-toggle='modal'
-                                data-target='#sign-up-modal'
+                                data-bs-dismiss='modal'
+                                data-bs-toggle='modal'
+                                data-bs-target='#sign-up-modal'
                             >
                                 Noch kein OLZ-Konto?
                             </a>
@@ -76,7 +74,7 @@ function olz_login_modal($args = []): string {
                         <div id='login-message' class='alert alert-danger' role='alert'></div>
                     </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                         <button type='submit' class='btn btn-primary' id='login-button'>Login</button>
                     </div>
                 </form>

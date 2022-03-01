@@ -20,7 +20,7 @@ if ($user) {
     if (!$has_email) {
         $content = <<<'ZZZZZZZZZZ'
             <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
-            <p class="card-text text-right">
+            <p class="card-text text-end">
                 <a 
                     href="profil.php"
                     class="btn btn-light btn-sm"
@@ -34,7 +34,7 @@ if ($user) {
             <form id='email-notifications-form' onsubmit='return olzEmailNotificationsUpdate(this)'>
                 <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                 {$form}
-                <p class="card-text text-right">
+                <p class="card-text text-end">
                     <button
                         id='email-notifications-submit'
                         type='submit'

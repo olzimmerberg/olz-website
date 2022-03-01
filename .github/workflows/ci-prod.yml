@@ -54,7 +54,7 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         MOZ_HEADLESS: 1
-      run: composer take_screenshots ${{ matrix.block }}
+      run: composer take_screenshots -- ${{ matrix.block }}
     - uses: actions/upload-artifact@v1
       with:
         name: prod-screenshots

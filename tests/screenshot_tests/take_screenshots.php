@@ -45,10 +45,18 @@ require_once __DIR__.'/modules/webftp.php';
 
 date_default_timezone_set('Europe/Zurich');
 
-// For Selenium 4, Chromedriver or Geckodriver, use http://localhost:4444/
 $host = 'http://localhost:4444/';
 
-$capabilities = DesiredCapabilities::firefox();
+$browser = $argv[1];
+$block_to_run = $argv[2] ?? '';
+
+if ($browser == 'firefox') {
+    $capabilities = DesiredCapabilities::firefox();
+} elseif ($browser == 'chrome') {
+    $capabilities = DesiredCapabilities::chrome();
+} else {
+    exit("Invalid browser: {$browser}");
+}
 
 $driver = RemoteWebDriver::create($host, $capabilities);
 
@@ -115,8 +123,6 @@ $blocks = [
     },
 ];
 
-$block_to_run = $argv[1] ?? '';
-
 try {
     for ($block = 0; $block < count($blocks); $block++) {
         if ($block_to_run == $block || $block_to_run == '') {
@@ -128,7 +134,7 @@ try {
     // $driver->get('http://127.0.0.1:30270/_/');
     // $login_menu = $driver->findElement(WebDriverBy::id('menu_a_page10'));
     // echo "Login text: {$login_menu->getText()}";
-    // $login_menu->click();
+    // click($login_menu);
     // $driver->wait()->until(
     //     WebDriverExpectedCondition::elementToBeClickable(
     //         WebDriverBy::cssSelector('input[name="username"]')
@@ -181,7 +187,7 @@ try {
     // echo "About to click to button with text: '" . $historyButton->getText() . "'\n";
     //
     // // click the element to navigate to revision history page
-    // $historyButton->click();
+    // click($historyButton);
     //
     // // wait until the target page is loaded
     // $driver->wait()->until(

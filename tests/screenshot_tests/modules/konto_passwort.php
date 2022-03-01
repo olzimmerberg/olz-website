@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $konto_passwort_url = '/konto_passwort.php';
 $webftp_url = '/webftp.php';
@@ -18,25 +19,25 @@ function test_konto_passwort($driver, $base_url) {
         WebDriverBy::cssSelector('#profile-password-input')
     );
     $password_input->clear();
-    $password_input->sendKeys('genügend&gleich');
+    sendKeys($password_input, 'genügend&gleich');
     $password_repeat_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-password-repeat-input')
     );
     $password_repeat_input->clear();
-    $password_repeat_input->sendKeys('genügend&gleich');
+    sendKeys($password_repeat_input, 'genügend&gleich');
     $email_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-email-input')
     );
-    $email_input->sendKeys('@olzimmerberg.ch');
+    sendKeys($email_input, '@olzimmerberg.ch');
     $birthdate_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-birthdate-input')
     );
     $birthdate_input->clear();
-    $birthdate_input->sendKeys('13.1.2006');
+    sendKeys($birthdate_input, '13.1.2006');
     $submit_button = $driver->findElement(
         WebDriverBy::cssSelector('#sign-up-with-password-submit-button')
     );
-    $submit_button->click();
+    click($submit_button);
     take_pageshot($driver, 'konto_passwort_submitted');
 
     $driver->get("{$base_url}{$webftp_url}");
@@ -57,50 +58,50 @@ function test_konto_passwort_readonly($driver, $base_url) {
     $first_name_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-first-name-input')
     );
-    $first_name_input->sendKeys('Integration T.');
+    sendKeys($first_name_input, 'Integration T.');
     $last_name_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-last-name-input')
     );
-    $last_name_input->sendKeys('User');
+    sendKeys($last_name_input, 'User');
     $username_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-username-input')
     );
-    $username_input->click();
+    click($username_input);
     $password_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-password-input')
     );
-    $password_input->sendKeys('zukurz');
+    sendKeys($password_input, 'zukurz');
     $password_repeat_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-password-repeat-input')
     );
-    $password_repeat_input->sendKeys('anders');
+    sendKeys($password_repeat_input, 'anders');
     $email_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-email-input')
     );
-    $email_input->sendKeys('konto-passwort-test');
+    sendKeys($email_input, 'konto-passwort-test');
     $gender_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-gender-input')
     );
-    $gender_input->sendKeys('m');
+    sendKeys($gender_input, 'm');
     $birthdate_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-birthdate-input')
     );
-    $birthdate_input->sendKeys('30.2.1999');
+    sendKeys($birthdate_input, '30.2.1999');
     $street_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-street-input')
     );
-    $street_input->sendKeys('Zimmerbergstrasse 270');
+    sendKeys($street_input, 'Zimmerbergstrasse 270');
     $postal_code_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-postal-code-input')
     );
-    $postal_code_input->sendKeys('8800');
+    sendKeys($postal_code_input, '8800');
     $city_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-city-input')
     );
-    $city_input->sendKeys('Thalwil');
+    sendKeys($city_input, 'Thalwil');
     $submit_button = $driver->findElement(
         WebDriverBy::cssSelector('#sign-up-with-password-submit-button')
     );
-    $submit_button->click();
+    click($submit_button);
     take_pageshot($driver, 'konto_passwort_errors');
 }

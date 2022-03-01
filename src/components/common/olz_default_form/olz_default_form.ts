@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../api/client';
 import {getErrorOrThrow} from '../../../utils/generalUtils';
 
@@ -273,16 +274,16 @@ export function showErrorOnField(
     errorMessage: string,
 ): void {
     formInput.classList.add('is-invalid');
-    formInput.setAttribute('data-toggle', 'tooltip');
     formInput.setAttribute('title', errorMessage);
-    $(formInput).tooltip('show');
+    formInput.setAttribute('data-bs-toggle', 'tooltip');
+    new bootstrap.Tooltip(formInput, {container: formInput.parentElement}).show();
 }
 
 export function clearErrorOnField(formInput: Element): void {
     formInput.classList.remove('is-invalid');
-    formInput.removeAttribute('data-toggle');
+    formInput.removeAttribute('data-bs-toggle');
     formInput.removeAttribute('title');
-    $(formInput).tooltip('dispose');
+    new bootstrap.Tooltip(formInput).dispose();
 }
 
 export function camelCaseToDashCase(camelCaseString: string): string {

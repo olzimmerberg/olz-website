@@ -51,7 +51,7 @@ function olz_profile_form($args): string {
     return <<<ZZZZZZZZZZ
 <div class='olz-profile-form'>
     <div class='row{$avatar_class}'>
-        <div class='col form-group avatar-container'>
+        <div class='col mb-3 avatar-container'>
             <img src='{$image_path}' alt='avatar' id='avatar-img' />
             <button
                 type='button'
@@ -79,7 +79,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-first-name-input'>Vorname <span class='required-field-asterisk'>*</span></label>
             <input
                 type='text'
@@ -89,7 +89,7 @@ function olz_profile_form($args): string {
                 id='profile-first-name-input'
             />
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-last-name-input'>Nachname <span class='required-field-asterisk'>*</span></label>
             <input
                 type='text'
@@ -101,7 +101,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-username-input'>Benutzername <span class='required-field-asterisk'>*</span></label>
             <input
                 type='text'
@@ -116,8 +116,8 @@ function olz_profile_form($args): string {
             <button
                 type='button'
                 class='btn btn-secondary{$change_password_class}'
-                data-toggle='modal'
-                data-target='#change-password-modal'
+                data-bs-toggle='modal'
+                data-bs-target='#change-password-modal'
                 id='change-password-button'
             >
                 Passwort ändern
@@ -125,7 +125,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row{$required_password_class}'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-password-input'>Passwort <span class='required-field-asterisk'>*</span></label>
             <input
                 type='password'
@@ -134,7 +134,7 @@ function olz_profile_form($args): string {
                 id='profile-password-input'
             />
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-password-input'>Passwort wiederholen <span class='required-field-asterisk'>*</span></label>
             <input
                 type='password'
@@ -145,7 +145,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-email-input'>E-Mail <span class='required-field-asterisk'>*</span></label>
             <input
                 type='text'
@@ -155,7 +155,7 @@ function olz_profile_form($args): string {
                 id='profile-email-input'
             />
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-phone-input'>Telefonnummer (Format: +41XXXXXXXXX)</label>
             <input
                 type='text'
@@ -167,7 +167,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-gender-input'>Geschlecht</label>
             <select
                 name='gender'
@@ -180,7 +180,7 @@ function olz_profile_form($args): string {
                 <option {$gender_other}value='O'>andere</option>
             </select>
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-birthdate-input'>Geburtsdatum (Format: TT.MM.YYYY)</label>
             <input
                 type='text'
@@ -191,7 +191,7 @@ function olz_profile_form($args): string {
             />
         </div>
     </div>
-    <div class='form-group'>
+    <div class='mb-3'>
         <label for='profile-street-input'>Adresse (mit Hausnummer)</label>
         <input
             type='text'
@@ -202,7 +202,7 @@ function olz_profile_form($args): string {
         />
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-postal-code-input'>PLZ</label>
             <input
                 type='text'
@@ -212,7 +212,7 @@ function olz_profile_form($args): string {
                 id='profile-postal-code-input'
             />
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-city-input'>Wohnort</label>
             <input
                 type='text'
@@ -224,7 +224,7 @@ function olz_profile_form($args): string {
         </div>
     </div>
     <div class='row'>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-region-input'>Region / Kanton (2-Buchstaben-Code, z.B. ZH)</label>
             <input
                 type='text'
@@ -234,7 +234,7 @@ function olz_profile_form($args): string {
                 id='profile-region-input'
             />
         </div>
-        <div class='col form-group'>
+        <div class='col mb-3'>
             <label for='profile-country-code-input'>Land (2-Buchstaben-Code, z.B. CH)</label>
             <input
                 type='text'

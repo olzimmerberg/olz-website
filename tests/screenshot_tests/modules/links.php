@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $service_url = '/service.php';
 
@@ -19,27 +20,27 @@ function test_links($driver, $base_url) {
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonlinks-neuer-eintrag')
     );
-    $new_button->click();
+    click($new_button);
     $name_input = $driver->findElement(
         WebDriverBy::cssSelector('#linksname')
     );
-    $name_input->sendKeys('OLZ');
+    sendKeys($name_input, 'OLZ');
     $url_input = $driver->findElement(
         WebDriverBy::cssSelector('#linksurl')
     );
-    $url_input->sendKeys('https://olzimmerberg.ch');
+    sendKeys($url_input, 'https://olzimmerberg.ch');
     take_pageshot($driver, 'links_new_edit');
 
     $preview_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonlinks-vorschau')
     );
-    $preview_button->click();
+    click($preview_button);
     take_pageshot($driver, 'links_new_preview');
 
     $save_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonlinks-speichern')
     );
-    $save_button->click();
+    click($save_button);
     take_pageshot($driver, 'links_new_finished');
 
     logout($driver, $base_url);

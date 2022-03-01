@@ -12,12 +12,10 @@ function olz_reset_password_modal($args = []): string {
                 >
                     <div class='modal-header'>
                         <h5 class='modal-title' id='reset-password-modal-label'>Passwort zurücksetzen</h5>
-                        <button type='button' class='close' data-dismiss='modal' aria-label='Schliessen'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                     </div>
                     <div class='modal-body'>
-                        <div class='form-group'>
+                        <div class='mb-3'>
                             <label for='reset-password-username-input'>
                                 Benutzername oder E-Mail
                                 <a
@@ -39,7 +37,7 @@ function olz_reset_password_modal($args = []): string {
                         <div class='error-message alert alert-danger' role='alert'></div>
                     </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Abbrechen</button>
+                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                         <button id='reset-password-submit-button' type='submit' class='btn btn-primary'>E-Mail senden</button>
                     </div>
                 </form>

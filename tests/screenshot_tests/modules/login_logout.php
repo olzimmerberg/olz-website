@@ -4,6 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
+require_once __DIR__.'/../utils/wrappers.php';
 
 $startseite_url = '/startseite.php';
 $username = 'admin';
@@ -29,12 +30,12 @@ function test_login_logout_readonly($driver, $base_url) {
     $account_menu_elem = $driver->findElement(
         WebDriverBy::cssSelector('#account-menu-link')
     );
-    $account_menu_elem->click();
+    click($account_menu_elem);
 
     $login_menu_item_elem = $driver->findElement(
         WebDriverBy::cssSelector('#login-menu-item')
     );
-    $login_menu_item_elem->click();
+    click($login_menu_item_elem);
     $driver->wait()->until(function () use ($driver) {
         $login_modal = $driver->findElement(
             WebDriverBy::cssSelector('#login-modal')
@@ -48,15 +49,15 @@ function test_login_logout_readonly($driver, $base_url) {
     $username_elem = $driver->findElement(
         WebDriverBy::cssSelector('#login-username-input')
     );
-    $username_elem->sendKeys($username);
+    sendKeys($username_elem, $username);
     $password_elem = $driver->findElement(
         WebDriverBy::cssSelector('#login-password-input')
     );
-    $password_elem->sendKeys($password);
+    sendKeys($password_elem, $password);
     $login_button_elem = $driver->findElement(
         WebDriverBy::cssSelector('#login-button')
     );
-    $login_button_elem->click();
+    click($login_button_elem);
 
     $driver->get("{$base_url}{$startseite_url}");
     $driver->navigate()->refresh();
@@ -65,13 +66,13 @@ function test_login_logout_readonly($driver, $base_url) {
     $account_menu_elem = $driver->findElement(
         WebDriverBy::cssSelector('#account-menu-link')
     );
-    $account_menu_elem->click();
+    click($account_menu_elem);
     take_pageshot($driver, 'logout_account_menu');
 
     $logout_menu_item_elem = $driver->findElement(
         WebDriverBy::cssSelector('#logout-menu-item')
     );
-    $logout_menu_item_elem->click();
+    click($logout_menu_item_elem);
 
     $driver->get("{$base_url}{$startseite_url}");
     $driver->navigate()->refresh();
@@ -80,6 +81,6 @@ function test_login_logout_readonly($driver, $base_url) {
     $account_menu_elem = $driver->findElement(
         WebDriverBy::cssSelector('#account-menu-link')
     );
-    $account_menu_elem->click();
+    click($account_menu_elem);
     take_pageshot($driver, 'login_account_menu');
 }

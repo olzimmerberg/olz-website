@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {OlzApiResponses} from '../../../api/client';
 import {olzDefaultFormSubmit, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 import {loadScript} from '../../../utils/generalUtils';
@@ -57,6 +58,8 @@ function handleResponse(response: OlzApiResponses['resetPassword']): string|void
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    $('#reset-password-modal').modal('hide');
+    bootstrap.Modal.getInstance(
+        document.getElementById('reset-password-modal'),
+    ).hide();
     return 'E-Mail versendet.';
 }

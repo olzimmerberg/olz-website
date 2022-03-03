@@ -171,7 +171,7 @@ function olz_profile_form($args): string {
             <label for='profile-gender-input'>Geschlecht</label>
             <select
                 name='gender'
-                class='form-control'
+                class='form-control form-select'
                 id='profile-gender-input'
             >
                 <option {$gender_default}value=''>unbekannt</option>

@@ -36,7 +36,7 @@ if ($user && $user->getZugriff() == 'all') {
         <button type='button' class='form-control btn btn-outline-primary' onclick='olzLogsGetNextLog()'>
             Ältere laden
         </button>
-        <select id='log-level-filter-select' class='form-control' onchange='olzLogsLevelFilterChange()'>
+        <select id='log-level-filter-select' class='form-control form-select' onchange='olzLogsLevelFilterChange()'>
             <option value='levels-all' selected>Alle Log-Levels</option>
             <option value='levels-info-higher'>"Info" & höher</option>
             <option value='levels-notice-higher'>"Notice" & höher</option>

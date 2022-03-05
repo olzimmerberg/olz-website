@@ -1,13 +1,18 @@
 <?php
 
-function olz_article_metadata($id) {
-    global $db, $data_path, $data_href;
-    $sql = "SELECT titel, datum, zeit FROM aktuell WHERE id='{$id}'";
+function olz_article_metadata($id_arg) {
+    global $db, $data_path, $data_href, $base_href, $code_href;
+    $id = intval($id_arg);
+    $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";
     $res = $db->query($sql);
     if ($res->num_rows == 0) {
         throw new Exception("No such entry");
     }
     $row = $res->fetch_assoc();
+    $url = "{$base_href}{$code_href}aktuell.php?id={$id}";
+    $json_url = json_encode($url);
+    $html_author = $row['autor'];
+    $json_author = json_encode($html_author);
     $html_title = $row['titel'];
     $json_title = json_encode($html_title);
     $iso_date = $row['datum'].'T'.$row['zeit'];
@@ -29,6 +34,9 @@ function olz_article_metadata($id) {
     {
         "@context": "https://schema.org",
         "@type": "Article",
+        "identifier": {$json_url},
+        "url": {$json_url},
+        "author": {$json_author},
         "headline": {$json_title},
         "image": {$json_images},
         "datePublished": {$json_iso_date},

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/utils/NewsUtils.php';
-require_once __DIR__.'/../common/IntegrationTestCase.php';
+require_once __DIR__.'/../../../../src/news/utils/NewsFilterUtils.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \NewsUtils
+ * @covers \NewsFilterUtils
  */
-final class NewsUtilsIntegrationTest extends IntegrationTestCase {
+final class NewsFilterUtilsIntegrationTest extends IntegrationTestCase {
     public function testFromEnv(): void {
-        $news_utils = NewsUtils::fromEnv();
+        $news_utils = NewsFilterUtils::fromEnv();
         $this->assertSame(false, $news_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2015',

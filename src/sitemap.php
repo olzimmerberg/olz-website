@@ -2,8 +2,8 @@
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/model/index.php';
-require_once __DIR__.'/utils/NewsUtils.php';
-require_once __DIR__.'/utils/TermineUtils.php';
+require_once __DIR__.'/news/utils/NewsFilterUtils.php';
+require_once __DIR__.'/termine/utils/TermineFilterUtils.php';
 
 header('Content-Type: application/xml');
 
@@ -47,14 +47,14 @@ foreach ($verein_ressorts as $verein_ressort) {
     echo get_entry("{$base_url}verein.php?ressort={$verein_ressort}", 'monthly', '0.5');
 }
 
-$news_utils = NewsUtils::fromEnv();
+$news_utils = NewsFilterUtils::fromEnv();
 $news_filters = $news_utils->getAllValidFiltersForSitemap();
 foreach ($news_filters as $news_filter) {
     $enc_json_filter = urlencode(json_encode($news_filter));
     echo get_entry("{$base_url}aktuell.php?filter={$enc_json_filter}", 'monthly', '0.2');
 }
 
-$termine_utils = TermineUtils::fromEnv();
+$termine_utils = TermineFilterUtils::fromEnv();
 $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
 foreach ($termine_filters as $termine_filter) {
     $enc_json_filter = urlencode(json_encode($termine_filter));

@@ -192,11 +192,11 @@ if ($db_table == "aktuell") {// DB AKTUELL
     ];
 } elseif ($db_table == "termine") {// DB TERMINE
     //include 'parse_solv_ranglisten.php';
-    require_once __DIR__.'/../utils/TermineUtils.php';
+    require_once __DIR__.'/../termine/utils/TermineFilterUtils.php';
     $checkbox_options = array_map(function ($option) {
         return [$option['name'], $option['ident']];
     }, array_filter(
-        TermineUtils::ALL_TYPE_OPTIONS,
+        TermineFilterUtils::ALL_TYPE_OPTIONS,
         function ($option) {
             return $option['ident'] != 'alle';
         }

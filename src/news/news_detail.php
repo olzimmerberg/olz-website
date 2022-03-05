@@ -11,8 +11,8 @@ require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../config/doctrine_db.php';
 require_once __DIR__.'/../model/index.php';
-require_once __DIR__.'/../utils/NewsUtils.php';
 require_once __DIR__.'/model/NewsEntry.php';
+require_once __DIR__.'/utils/NewsFilterUtils.php';
 
 $article_metadata = "";
 try {
@@ -22,7 +22,7 @@ try {
     $http_utils->dieWithHttpError(404);
 }
 
-$news_utils = NewsUtils::fromEnv();
+$news_utils = NewsFilterUtils::fromEnv();
 $news_repo = $entityManager->getRepository(NewsEntry::class);
 $is_not_archived = $news_utils->getIsNotArchivedCriteria();
 $criteria = Criteria::create()

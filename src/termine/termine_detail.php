@@ -49,15 +49,11 @@ $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_
 $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
 $result = $db->query($sql);
 $row = $result->fetch_assoc();
-$pretty_date = 'TODO';
-$pretty_author = 'TODO';
 
 $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
 echo <<<ZZZZZZZZZZ
 <div id='content_rechts' class='optional'>
     <div style='padding:4px 3px 10px 3px;'>
-        <b>Datum: </b>{$pretty_date}<br />
-        <b>Autor: </b>{$pretty_author}
     </div>
 </div>
 <div id='content_mitte'>

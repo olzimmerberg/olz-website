@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../src/utils/TermineUtils.php';
-require_once __DIR__.'/../common/IntegrationTestCase.php';
+require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../src/termine/utils/TermineFilterUtils.php';
+require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TermineUtils
+ * @covers \TermineFilterUtils
  */
-final class TermineUtilsIntegrationTest extends IntegrationTestCase {
+final class TermineFilterUtilsIntegrationTest extends IntegrationTestCase {
     public function testFromEnv(): void {
-        $termine_utils = TermineUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv();
         $this->assertSame(false, $termine_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2015',

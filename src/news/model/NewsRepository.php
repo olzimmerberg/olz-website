@@ -5,11 +5,11 @@ use Doctrine\ORM\EntityRepository;
 
 require_once __DIR__.'/NewsEntry.php';
 require_once __DIR__.'/../../config/doctrine.php';
-require_once __DIR__.'/../../utils/NewsUtils.php';
+require_once __DIR__.'/../utils/NewsFilterUtils.php';
 
 class NewsRepository extends EntityRepository {
     public function getAllActiveIds() {
-        $news_utils = NewsUtils::fromEnv();
+        $news_utils = NewsFilterUtils::fromEnv();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(

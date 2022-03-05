@@ -11,10 +11,10 @@ require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../config/doctrine_db.php';
 require_once __DIR__.'/../model/index.php';
-require_once __DIR__.'/../utils/TermineUtils.php';
 require_once __DIR__.'/model/Termin.php';
+require_once __DIR__.'/utils/TermineFilterUtils.php';
 
-$termine_utils = TermineUtils::fromEnv();
+$termine_utils = TermineFilterUtils::fromEnv();
 $termin_repo = $entityManager->getRepository(Termin::class);
 $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
 $criteria = Criteria::create()

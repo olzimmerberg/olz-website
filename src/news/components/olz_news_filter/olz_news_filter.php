@@ -3,9 +3,9 @@
 function olz_news_filter($args = []): string {
     global $_GET;
 
-    require_once __DIR__.'/../../../utils/NewsUtils.php';
+    require_once __DIR__.'/../../utils/NewsFilterUtils.php';
 
-    $news_utils = NewsUtils::fromEnv();
+    $news_utils = NewsFilterUtils::fromEnv();
     $current_filter = json_decode($_GET['filter'] ?? '{}', true);
     $out = "";
     $out .= "<div style='padding:4px 3px 10px 3px;'>";

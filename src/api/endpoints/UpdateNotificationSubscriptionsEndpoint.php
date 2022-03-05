@@ -56,11 +56,13 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             'dailySummaryBlog' => new FieldTypes\BooleanField([]),
             'dailySummaryForum' => new FieldTypes\BooleanField([]),
             'dailySummaryGalerie' => new FieldTypes\BooleanField([]),
+            'dailySummaryTermine' => new FieldTypes\BooleanField([]),
             'weeklySummary' => new FieldTypes\BooleanField([]),
             'weeklySummaryAktuell' => new FieldTypes\BooleanField([]),
             'weeklySummaryBlog' => new FieldTypes\BooleanField([]),
             'weeklySummaryForum' => new FieldTypes\BooleanField([]),
             'weeklySummaryGalerie' => new FieldTypes\BooleanField([]),
+            'weeklySummaryTermine' => new FieldTypes\BooleanField([]),
         ]]);
     }
 
@@ -78,11 +80,13 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         $daily_summary_blog = $input['dailySummaryBlog'];
         $daily_summary_forum = $input['dailySummaryForum'];
         $daily_summary_galerie = $input['dailySummaryGalerie'];
+        $daily_summary_termine = $input['dailySummaryTermine'];
         $has_weekly_summary = $input['weeklySummary'];
         $weekly_summary_aktuell = $input['weeklySummaryAktuell'];
         $weekly_summary_blog = $input['weeklySummaryBlog'];
         $weekly_summary_forum = $input['weeklySummaryForum'];
         $weekly_summary_galerie = $input['weeklySummaryGalerie'];
+        $weekly_summary_termine = $input['weeklySummaryTermine'];
 
         $user_repo = $this->entityManager->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $auth_username]);
@@ -110,6 +114,9 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             }
             if ($daily_summary_galerie) {
                 $args['galerie'] = true;
+            }
+            if ($daily_summary_termine) {
+                $args['termine'] = true;
             }
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
@@ -172,6 +179,9 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             }
             if ($weekly_summary_galerie) {
                 $args['galerie'] = true;
+            }
+            if ($weekly_summary_termine) {
+                $args['termine'] = true;
             }
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);

@@ -16,10 +16,12 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
     $daily_summary_blog_checked = '';
     $daily_summary_forum_checked = '';
     $daily_summary_galerie_checked = '';
+    $daily_summary_termine_checked = '';
     $weekly_summary_aktuell_checked = '';
     $weekly_summary_blog_checked = '';
     $weekly_summary_forum_checked = '';
     $weekly_summary_galerie_checked = '';
+    $weekly_summary_termine_checked = '';
     foreach ($subscriptions as $subscription) {
         $notification_type = $subscription->getNotificationType();
         $args = json_decode($subscription->getNotificationTypeArgs(), true);
@@ -37,6 +39,9 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
                 }
                 if ($args['galerie'] ?? false) {
                     $daily_summary_galerie_checked = ' checked';
+                }
+                if ($args['termine'] ?? false) {
+                    $daily_summary_termine_checked = ' checked';
                 }
                 break;
             case NotificationSubscription::TYPE_DEADLINE_WARNING:
@@ -80,6 +85,9 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
                 }
                 if ($args['galerie'] ?? false) {
                     $weekly_summary_galerie_checked = ' checked';
+                }
+                if ($args['termine'] ?? false) {
+                    $weekly_summary_termine_checked = ' checked';
                 }
                 break;
             default:
@@ -159,6 +167,16 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
                 {$disabled_attribute}
             />
             Neue Galerien
+            <br />
+            &nbsp;&nbsp;
+            <input
+                type='checkbox'
+                name='daily-summary-termine'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$daily_summary_termine_checked}
+                {$disabled_attribute}
+            />
+            Relevante Termine-Änderungen
             <div id='olz-notification-subscriptions-form-daily-summary-warn-message' class='alert alert-warning' role='alert'></div>
         </p>
         <p class='card-text'>
@@ -210,6 +228,16 @@ function olz_notification_subscriptions_form($subscriptions, $options = []) {
                 {$disabled_attribute}
             />
             Neue Galerien
+            <br />
+            &nbsp;&nbsp;
+            <input
+                type='checkbox'
+                name='weekly-summary-termine'
+                onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                {$weekly_summary_termine_checked}
+                {$disabled_attribute}
+            />
+            Relevante Termine-Änderungen
             <div id='olz-notification-subscriptions-form-weekly-summary-warn-message' class='alert alert-warning' role='alert'></div>
         </p>
     ZZZZZZZZZZ;

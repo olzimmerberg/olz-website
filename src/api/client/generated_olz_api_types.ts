@@ -173,11 +173,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'dailySummaryBlog': boolean,
             'dailySummaryForum': boolean,
             'dailySummaryGalerie': boolean,
+            'dailySummaryTermine': boolean,
             'weeklySummary': boolean,
             'weeklySummaryAktuell': boolean,
             'weeklySummaryBlog': boolean,
             'weeklySummaryForum': boolean,
             'weeklySummaryGalerie': boolean,
+            'weeklySummaryTermine': boolean,
         },
     updateOlzText: {
             'id': number,

@@ -61,18 +61,26 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'dailySummaryBlog' => true,
             'dailySummaryForum' => true,
             'dailySummaryGalerie' => true,
+            'dailySummaryTermine' => true,
             'weeklySummary' => true,
             'weeklySummaryAktuell' => true,
             'weeklySummaryBlog' => true,
             'weeklySummaryForum' => true,
             'weeklySummaryGalerie' => true,
+            'weeklySummaryTermine' => true,
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [
                 NotificationSubscription::TYPE_DAILY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
+                json_encode([
+                    'aktuell' => true,
+                    'blog' => true,
+                    'forum' => true,
+                    'galerie' => true,
+                    'termine' => true,
+                ]),
             ],
             [
                 NotificationSubscription::TYPE_DEADLINE_WARNING,
@@ -88,7 +96,13 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             ],
             [
                 NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-                json_encode(['aktuell' => true, 'blog' => true, 'forum' => true, 'galerie' => true]),
+                json_encode([
+                    'aktuell' => true,
+                    'blog' => true,
+                    'forum' => true,
+                    'galerie' => true,
+                    'termine' => true,
+                ]),
             ],
             [
                 NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,

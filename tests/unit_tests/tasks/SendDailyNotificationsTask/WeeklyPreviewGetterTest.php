@@ -103,13 +103,13 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
         **Termine**
         
-        - 24.04.: [Test Termin](http://fake-base-url/_/termine.php#id1)
-        - 28.04. - 29.04.: [End of Week](http://fake-base-url/_/termine.php#id2)
+        - 24.04.: [Test Termin](http://fake-base-url/_/termine.php?id=1)
+        - 28.04. - 29.04.: [End of Week](http://fake-base-url/_/termine.php?id=2)
         
         
         **Meldeschlüsse**
         
-        - 25.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine.php#id3)'
+        - 25.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
 
 
         ZZZZZZZZZZ;

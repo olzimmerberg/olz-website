@@ -34,8 +34,8 @@ while ($row = mysqli_fetch_array($result)) {// Links extrahieren
     $links = $row['link'];
     $dom = new DOMDocument();
     $dom->loadHTML($links || ' ');
-    $_links = "OLZ-Termin: {$base_href}{$code_href}termine.php#id".$row['id'];
-    $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine.php#id".$row['id'];
+    $_links = "OLZ-Termin: {$base_href}{$code_href}termine.php?id=".$row['id'];
+    $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine.php?id=".$row['id'];
     foreach ($dom->getElementsByTagName("a") as $a) {
         $text = $a->textContent;
         $url = $a->getAttribute("href");

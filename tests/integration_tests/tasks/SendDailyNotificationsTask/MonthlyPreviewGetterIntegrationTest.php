@@ -41,17 +41,17 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
         **Termine**
  
-        - 04.08.: [Training -1](http://integration-test.host/_/termine.php#id9)
-        - 11.08.: [Training 0](http://integration-test.host/_/termine.php#id8)
-        - 18.08.: [Training 1](http://integration-test.host/_/termine.php#id3)
-        - 22.08.: [Grossanlass](http://integration-test.host/_/termine.php#id10)
-        - 25.08.: [Training 2](http://integration-test.host/_/termine.php#id4)
-        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/_/termine.php#id5)
+        - 04.08.: [Training -1](http://integration-test.host/_/termine.php?id=9)
+        - 11.08.: [Training 0](http://integration-test.host/_/termine.php?id=8)
+        - 18.08.: [Training 1](http://integration-test.host/_/termine.php?id=3)
+        - 22.08.: [Grossanlass](http://integration-test.host/_/termine.php?id=10)
+        - 25.08.: [Training 2](http://integration-test.host/_/termine.php?id=4)
+        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/_/termine.php?id=5)
 
 
         **Meldeschlüsse**
 
-        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php#id10)'
+        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php?id=10)'
 
 
         ZZZZZZZZZZ;

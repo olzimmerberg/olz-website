@@ -124,8 +124,8 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         
         Folgende Meldeschlüsse stehen bevor:
         
-        - 16.03.: Meldeschluss für '[Test Termin](http://fake-base-url/_/termine.php#id1)'
-        - 16.03.: Meldeschluss für '[End of Month](http://fake-base-url/_/termine.php#id2)'
+        - 16.03.: Meldeschluss für '[Test Termin](http://fake-base-url/_/termine.php?id=1)'
+        - 16.03.: Meldeschluss für '[End of Month](http://fake-base-url/_/termine.php?id=2)'
 
         ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);

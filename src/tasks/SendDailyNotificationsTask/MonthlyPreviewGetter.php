@@ -93,7 +93,7 @@ class MonthlyPreviewGetter {
                 ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
                 : $starts_on->format('d.m.');
             $title = $termin->getTitle();
-            $termine_text .= "- {$date}: [{$title}]({$termine_url}#id{$id})\n";
+            $termine_text .= "- {$date}: [{$title}]({$termine_url}?id={$id})\n";
         }
         return $termine_text;
     }
@@ -130,7 +130,7 @@ class MonthlyPreviewGetter {
             $date = $deadline_date->format('d.m.');
             $id = $termin->getId();
             $title = $termin->getTitle();
-            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}#id{$id})'\n";
+            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
         }
         return $deadlines_text;
     }

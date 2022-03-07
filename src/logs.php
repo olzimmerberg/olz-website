@@ -45,7 +45,12 @@ if ($user && $user->getZugriff() == 'all') {
         </select>
     </div>
     <div id='logs'></div>
-    <script>olzLogsGetFirstLog();</script>
+    <script>
+        $(() => {
+            olzLogsGetFirstLog();
+            olzLogsLevelFilterChange();
+        });
+    </script>
     ZZZZZZZZZZ;
 } else {
     echo "<div id='profile-message' class='alert alert-danger' role='alert'>Kein Zugriff!</div>";

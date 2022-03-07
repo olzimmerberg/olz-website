@@ -52,7 +52,7 @@ if ($sql1 > "") {// TERMINE
         $jahr = date("Y", $datum);
         $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
-        $result_termine .= "<tr><td><a href=\"termine.php#id{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php#id{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_termine .= "<tr><td><a href=\"termine.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     //AKTUELL

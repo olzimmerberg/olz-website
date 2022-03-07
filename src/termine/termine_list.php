@@ -333,6 +333,9 @@ while ($row = mysqli_fetch_array($result)) {
         $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
     }
 
+    if ($typ != 'meldeschluss') {
+        $titel = "<a href='termine.php?filter={$enc_current_filter}&id={$id}'>{$titel}</a>";
+    }
     //SOLV-Übersicht-Link zeigen
     if ($row_solv) {
         $titel .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";

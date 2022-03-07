@@ -39,7 +39,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         
         Folgende Meldeschlüsse stehen bevor:
         
-        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php#id10)'
+        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php?id=10)'
 
         ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);

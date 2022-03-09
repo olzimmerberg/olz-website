@@ -50,7 +50,7 @@ if ($user) {
             href='#'
             role='button'
             data-bs-toggle='modal'
-            data-bs-target='#link-telegram-modal'
+            data-bs-target='#link-strava-modal'
             class='login-button strava-button{$strava_button_class}'
         >
             <img src='{$code_href}icns/login_strava.svg' alt=''>

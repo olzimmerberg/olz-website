@@ -45,7 +45,7 @@ function olz_account_menu($args = []): string {
         </a>
         ZZZZZZZZZZ;
     } else {
-        $out .= <<<'ZZZZZZZZZZ'
+        $out .= <<<ZZZZZZZZZZ
         <a
             id='login-menu-item'
             class='dropdown-item'
@@ -58,13 +58,21 @@ function olz_account_menu($args = []): string {
         </a>
         <a
             id='sign-up-menu-item'
-            class='dropdown-item feature sign-up'
+            class='dropdown-item'
+            href='{$_CONFIG->getCodeHref()}konto_passwort.php'
+            role='button'
+        >
+            Konto erstellen
+        </a>
+        <a
+            id='external-sign-up-menu-item'
+            class='dropdown-item feature external-login'
             href='#'
             role='button'
             data-bs-toggle='modal'
             data-bs-target='#sign-up-modal'
         >
-            Konto erstellen
+            Konto erstellen (extern)
         </a>
         ZZZZZZZZZZ;
     }

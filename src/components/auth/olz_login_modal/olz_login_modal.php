@@ -48,7 +48,7 @@ function olz_login_modal($args = []): string {
                             <label for='login-password-input'>Passwort</label>
                             <input type='password' class='form-control' id='login-password-input' />
                         </div>
-                        <div>
+                        <div class='mb-3'>
                             <a
                                 id='reset-password-link'
                                 href='#'
@@ -59,15 +59,23 @@ function olz_login_modal($args = []): string {
                                 Passwort vergessen?
                             </a>
                         </div>
-                        <div class='feature sign-up mb-3'>
+                        <div class='mb-3'>
                             <a
                                 id='sign-up-link'
+                                href='{$_CONFIG->getCodeHref()}konto_passwort.php'
+                            >
+                                Noch kein OLZ-Konto?
+                            </a>
+                        </div>
+                        <div class='feature external-login mb-3'>
+                            <a
+                                id='external-sign-up-link'
                                 href='#'
                                 data-bs-dismiss='modal'
                                 data-bs-toggle='modal'
                                 data-bs-target='#sign-up-modal'
                             >
-                                Noch kein OLZ-Konto?
+                                Noch kein OLZ-Konto? (extern)
                             </a>
                         </div>
                         <input type='submit' class='hidden' />

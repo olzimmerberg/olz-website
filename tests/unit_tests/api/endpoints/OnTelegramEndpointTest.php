@@ -198,6 +198,25 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         ], $telegram_utils->telegramApiCalls);
     }
 
+    public function testOnTelegramEndpointNoChatId(): void {
+        $telegram_utils = new FakeTelegramUtils();
+        $server_config = new FakeEnvUtils();
+        $logger = new Logger('OnTelegramEndpointTest');
+        $endpoint = new OnTelegramEndpoint();
+        $endpoint->setTelegramUtils($telegram_utils);
+        $endpoint->setEnvUtils($server_config);
+        $endpoint->setLogger($logger);
+
+        $telegram_utils->isAnonymousChat = true;
+        $result = $endpoint->call([
+            'authenticityCode' => 'some-token',
+            'telegramEvent' => getFakeTelegramMessage('test', [], '/start'),
+        ]);
+
+        $this->assertSame([], $result);
+        $this->assertSame([], $telegram_utils->telegramApiCalls);
+    }
+
     public function testOnTelegramEndpointIchCommand(): void {
         $telegram_utils = new FakeTelegramUtils();
         $server_config = new FakeEnvUtils();

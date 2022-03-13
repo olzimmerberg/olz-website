@@ -1,4 +1,12 @@
 .profile {
+    #delete-user-button {
+        float: right;
+    }
+
+    .after-data-protection-section {
+        clear: both;
+    }
+
     .login-button {
         align-items: center;
         border: 1px solid rgb(200, 200, 200);

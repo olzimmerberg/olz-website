@@ -46,6 +46,10 @@ $olz_api->registerEndpoint('signUpWithStrava', function () {
     require_once __DIR__.'/endpoints/SignUpWithStravaEndpoint.php';
     return new SignUpWithStravaEndpoint();
 });
+$olz_api->registerEndpoint('deleteUser', function () {
+    require_once __DIR__.'/endpoints/DeleteUserEndpoint.php';
+    return new DeleteUserEndpoint();
+});
 $olz_api->registerEndpoint('executeEmailReaction', function () {
     require_once __DIR__.'/endpoints/ExecuteEmailReactionEndpoint.php';
     return new ExecuteEmailReactionEndpoint();

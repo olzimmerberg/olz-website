@@ -61,7 +61,7 @@ function olz_news_article($args = []): string {
                     class='btn btn-danger'
                     onclick='return deleteNewsArticle({$json_id})'
                 >
-                    <img src='icns/delete_16.svg' class='noborder' />
+                    <img src='icns/delete_white_16.svg' class='noborder' />
                     Löschen
                 </button>
             </div>

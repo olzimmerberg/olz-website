@@ -11,6 +11,8 @@ class FakeUsers extends FakeFactory {
             function () {
                 $admin_user = new User();
                 $admin_user->setId(2);
+                $admin_user->setFirstName('Admin');
+                $admin_user->setLastName('Istrator');
                 $admin_user->setUsername('admin');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
                 $admin_user->setZugriff('all');
@@ -27,6 +29,8 @@ class FakeUsers extends FakeFactory {
             function () {
                 $vorstand_user = new User();
                 $vorstand_user->setId(3);
+                $vorstand_user->setFirstName('Vorstand');
+                $vorstand_user->setLastName('Mitglied');
                 $vorstand_user->setUsername('vorstand');
                 $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
                 $vorstand_user->setZugriff('aktuell ftp');

@@ -125,7 +125,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
         **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
         
-        Hallo ,
+        Hallo Admin,
         
         *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0}) oder auf folgenden Link:
         

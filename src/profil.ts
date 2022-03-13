@@ -1,5 +1,18 @@
-import {OlzApiResponses} from './api/client';
+import {OlzApiResponses, callOlzApi} from './api/client';
 import {olzDefaultFormSubmit, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
+import {olzConfirm} from './components/common/OlzConfirmationDialog/OlzConfirmationDialog';
+
+export function olzProfileDeleteUser(userId: number): boolean {
+    olzConfirm(
+        'OLZ-Konto wirklich unwiderruflich löschen?',
+        {confirmButtonStyle: 'btn-danger', confirmLabel: 'Löschen'},
+    ).then(() => {
+        callOlzApi('deleteUser', {id: userId}).then(() => {
+            window.location.href = 'startseite.php';
+        });
+    });
+    return false;
+}
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestFunction: GetDataForRequestFunction<'updateUser'> = (f) => {

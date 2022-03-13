@@ -48,11 +48,12 @@ class GetLogsEndpoint extends OlzEndpoint {
         $logs_path = "{$data_path}logs/";
 
         $merged_log_index = 0;
-        foreach (scandir($logs_path, SCANDIR_SORT_DESCENDING) as $filename) {
+        $filenames = $this->scandir($logs_path, SCANDIR_SORT_DESCENDING);
+        foreach ($filenames as $filename) {
             if (preg_match('/^merged-.*\.log$/', $filename)) {
                 if ($merged_log_index == $input['index']) {
                     return [
-                        'content' => file_get_contents("{$logs_path}{$filename}"),
+                        'content' => $this->readFile("{$logs_path}{$filename}"),
                     ];
                 }
                 $merged_log_index++;
@@ -61,5 +62,13 @@ class GetLogsEndpoint extends OlzEndpoint {
         return [
             'content' => null,
         ];
+    }
+
+    protected function scandir($path, $sorting) {
+        return scandir($path, $sorting);
+    }
+
+    protected function readFile($path) {
+        return file_get_contents($path);
     }
 }

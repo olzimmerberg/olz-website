@@ -58,7 +58,18 @@ if ($user) {
         </a>
     </div>
 
-    <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
+    <div class='data-protection-section'>
+        <button
+            id='delete-user-button'
+            class='btn btn-danger'
+            onclick='return olzProfileDeleteUser({$esc_id})'
+        >
+            <img src='icns/delete_white_16.svg' class='noborder' />
+            Konto löschen
+        </button>
+        <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
+    </div>
+    <div class='after-data-protection-section'></div>
 
     <form
         id='profile-form'

@@ -290,6 +290,10 @@ class User {
         $this->last_login_at = $new_last_login_at;
     }
 
+    public function getRoles() {
+        return $this->roles;
+    }
+
     public function __toString() {
         $username = $this->getUsername() ?? '-';
         $id = $this->getId() ?? '-';

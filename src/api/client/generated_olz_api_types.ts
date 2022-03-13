@@ -54,6 +54,7 @@ export type OlzApiEndpoint =
     'signUpWithPassword'|
     'loginWithStrava'|
     'signUpWithStrava'|
+    'deleteUser'|
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
@@ -150,6 +151,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'city': string,
             'region': string,
             'countryCode': string,
+        },
+    deleteUser: {
+            'id': number,
         },
     executeEmailReaction: {
             'token': string,
@@ -281,6 +285,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     signUpWithStrava: {
             'status': 'OK',
+        },
+    deleteUser: {
+            'status': 'OK'|'ERROR',
         },
     executeEmailReaction: {
             'status': 'INVALID_TOKEN'|'OK',

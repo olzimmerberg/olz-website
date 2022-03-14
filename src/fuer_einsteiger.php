@@ -277,13 +277,6 @@ function get_tile($img_name, $options = []) {
     <picture>
         <source
             srcset='
-                {$data_href}img/fuer_einsteiger/thumb/{$img_name}@2x.webp 2x,
-                {$data_href}img/fuer_einsteiger/thumb/{$img_name}.webp 1x
-            '
-            type='image/webp'
-        >
-        <source
-            srcset='
                 {$data_href}img/fuer_einsteiger/thumb/{$img_name}@2x.jpg 2x,
                 {$data_href}img/fuer_einsteiger/thumb/{$img_name}.jpg 1x
             '

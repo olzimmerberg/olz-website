@@ -40,7 +40,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
                 />
             </div>
             <div className='footer'>
-                <div className='info'>
+                <div className='info test-flaky'>
                     {uploadedInfo}
                 </div>
                 {deleteButton}

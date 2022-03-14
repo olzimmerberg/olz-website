@@ -1,5 +1,5 @@
 /* BILD FUNKTIONEN */
-import {obfuscateForUpload} from '../utils/generalUtils';
+import {obfuscateForUpload} from '../utils/uploadUtils';
 
 interface OlzFileEdit {
     count?: number;

@@ -6,7 +6,7 @@
 
 require_once __DIR__.'/config/init.php';
 require_once __DIR__."/config/paths.php";
-require_once __DIR__."/utils/GeneralUtils.php";
+require_once __DIR__."/utils/UploadUtils.php";
 
 global $tables_img_dirs;
 
@@ -128,8 +128,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             return;
         }
         $db_imgpath = $tables_img_dirs[$db_table];
-        $general_utils = GeneralUtils::fromEnv();
-        $content = $general_utils->deobfuscateUpload(str_replace(" ", "+", $_POST["content"]));
+        $upload_utils = UploadUtils::fromEnv();
+        $content = $upload_utils->deobfuscateUpload(str_replace(" ", "+", $_POST["content"]));
         $res = preg_match("/\\;base64\\,(.+)$/", $content, $matches);
         if (!$res) {
             echo json_encode([0, "!res"]);

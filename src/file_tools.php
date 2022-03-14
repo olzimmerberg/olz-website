@@ -6,7 +6,7 @@
 
 require_once __DIR__.'/config/init.php';
 require_once __DIR__."/config/paths.php";
-require_once __DIR__."/utils/GeneralUtils.php";
+require_once __DIR__."/utils/UploadUtils.php";
 
 global $tables_file_dirs, $mime_extensions, $extension_icons;
 
@@ -194,8 +194,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         }
         $temppath = $data_path."temp/".md5($data_path.$db_filepath)."-".$id."-".$part;
         $fp = fopen($temppath, "w+");
-        $general_utils = GeneralUtils::fromEnv();
-        fwrite($fp, $general_utils->deobfuscateUpload(str_replace(" ", "+", $_POST["content"])));
+        $upload_utils = UploadUtils::fromEnv();
+        fwrite($fp, $upload_utils->deobfuscateUpload(str_replace(" ", "+", $_POST["content"])));
         fclose($fp);
 
         if ($_POST["last"] == "1") {

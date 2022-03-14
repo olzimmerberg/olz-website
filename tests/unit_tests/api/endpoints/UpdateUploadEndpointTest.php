@@ -72,12 +72,12 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeEnvUtils();
-        $general_utils = GeneralUtils::fromEnv();
+        $upload_utils = new UploadUtils();
         $logger = FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setGeneralUtils($general_utils);
+        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);

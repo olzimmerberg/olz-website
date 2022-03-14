@@ -11,12 +11,12 @@ class UpdateUploadEndpoint extends OlzEndpoint {
         require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/GeneralUtils.php';
+        require_once __DIR__.'/../../utils/UploadUtils.php';
         $auth_utils = AuthUtils::fromEnv();
-        $general_utils = GeneralUtils::fromEnv();
+        $upload_utils = UploadUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
         $this->setEnvUtils($_CONFIG);
-        $this->setGeneralUtils($general_utils);
+        $this->setUploadUtils($upload_utils);
     }
 
     public function setAuthUtils($new_auth_utils) {
@@ -27,8 +27,8 @@ class UpdateUploadEndpoint extends OlzEndpoint {
         $this->envUtils = $envUtils;
     }
 
-    public function setGeneralUtils($generalUtils) {
-        $this->generalUtils = $generalUtils;
+    public function setUploadUtils($uploadUtils) {
+        $this->uploadUtils = $uploadUtils;
     }
 
     public static function getIdent() {
@@ -69,7 +69,7 @@ class UpdateUploadEndpoint extends OlzEndpoint {
         $part = $input['part'];
         $part_path = "{$upload_path}_{$part}";
 
-        $content = $this->generalUtils->deobfuscateUpload($input['content']);
+        $content = $this->uploadUtils->deobfuscateUpload($input['content']);
         file_put_contents($part_path, $content);
 
         return ['status' => 'OK'];

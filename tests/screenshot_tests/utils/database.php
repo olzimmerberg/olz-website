@@ -10,7 +10,7 @@ function reset_dev_data() {
     for ($i = 0; $i < 50; $i++) {
         $result = file_get_contents("{$base_url}tools.php/reset");
         if ($result == 'reset:SUCCESS') {
-            tock('reset', 'full_db_reset');
+            tock('reset', 'db_reset');
             return;
         }
         sleep(0.5);

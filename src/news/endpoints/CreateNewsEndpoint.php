@@ -17,12 +17,15 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
         require_once __DIR__.'/../../utils/env/EnvUtils.php';
+        require_once __DIR__.'/../../utils/UploadUtils.php';
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
+        $upload_utils = UploadUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
         $this->setDateUtils($_DATE);
         $this->setEntityManager($entityManager);
         $this->setEnvUtils($env_utils);
+        $this->setUploadUtils($upload_utils);
     }
 
     public function setAuthUtils($new_auth_utils) {
@@ -39,6 +42,10 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
 
     public function setEnvUtils($envUtils) {
         $this->envUtils = $envUtils;
+    }
+
+    public function setUploadUtils($uploadUtils) {
+        $this->uploadUtils = $uploadUtils;
     }
 
     public static function getIdent() {
@@ -68,6 +75,7 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         $user_repo = $this->entityManager->getRepository(User::class);
         $role_repo = $this->entityManager->getRepository(Role::class);
         $current_user = $this->authUtils->getSessionUser();
+        $data_path = $this->envUtils->getDataPath();
 
         $owner_user_id = $input['ownerUserId'] ?? null;
         $owner_user = $current_user;
@@ -98,16 +106,7 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
 
         $tags_for_db = $this->getTagsForDb($input['tags']);
 
-        $data_path = $this->envUtils->getDataPath();
-        $valid_image_ids = [];
-        foreach ($input['imageIds'] as $image_id) {
-            $image_path = "{$data_path}temp/{$image_id}";
-            if (!is_file($image_path)) {
-                $this->logger->warning("Image file {$image_path} does not exist.");
-                continue;
-            }
-            $valid_image_ids[] = $image_id;
-        }
+        $valid_image_ids = $this->uploadUtils->getValidUploadIds($input['imageIds']);
 
         $news_entry = new NewsEntry();
         $news_entry->setCreatedAt($now);
@@ -137,34 +136,13 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry_id = $news_entry->getId();
 
         $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
-        mkdir($news_entry_img_path);
-        mkdir("{$news_entry_img_path}img/");
-        mkdir("{$news_entry_img_path}thumb/");
-        foreach ($valid_image_ids as $image_id) {
-            $image_path = "{$data_path}temp/{$image_id}";
-            if (!is_file($image_path)) {
-                // @codeCoverageIgnoreStart
-                // Reason: Should never happen in reality.
-                throw new Exception("Image file {$image_path} previously existed, but not anymore?!?");
-                // @codeCoverageIgnoreEnd
-            }
-            $destination_path = "{$news_entry_img_path}img/{$image_id}";
-            rename($image_path, $destination_path);
-
-            // TODO: Generate default thumbnails.
-        }
+        mkdir("{$news_entry_img_path}img/", 0777, true);
+        mkdir("{$news_entry_img_path}thumb/", 0777, true);
+        $this->uploadUtils->moveUploads($valid_image_ids, "{$news_entry_img_path}img/");
+        // TODO: Generate default thumbnails.
 
         $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
-        mkdir($news_entry_files_path);
-        foreach ($input['fileIds'] as $file_id) {
-            $file_path = "{$data_path}temp/{$file_id}";
-            if (!is_file($file_path)) {
-                $this->logger->warning("File {$file_path} does not exist.");
-                continue;
-            }
-            $destination_path = "{$news_entry_files_path}{$file_id}";
-            rename($file_path, $destination_path);
-        }
+        $this->uploadUtils->moveUploads($input['fileIds'], $news_entry_files_path);
 
         return [
             'status' => 'OK',

@@ -5,13 +5,7 @@ require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/common.php';
 
 /** DO NOT CALL THIS FUNCTION ON PROD! */
-/** TODO: DELETE (only used in reset.php) */
-function init_dev_data($db, $data_path) {
-    return reset_db($db, $data_path);
-}
-
-/** DO NOT CALL THIS FUNCTION ON PROD! */
-function reset_db($db, $data_path) {
+function reset_db($db, $data_path, $full_reset = false) {
     $dev_data_dir = __DIR__.'/dev-data/';
 
     // Overwrite database with dev content.
@@ -22,7 +16,7 @@ function reset_db($db, $data_path) {
     apply_db_migrations();
 
     // Initialize the non-code data file system at $data_path
-    init_dev_data_filesystem($data_path);
+    init_dev_data_filesystem($data_path, $full_reset);
 }
 
 function dump_db($db) {
@@ -121,170 +115,188 @@ function apply_db_migrations() {
     migrate_to('latest');
 }
 
-function init_dev_data_filesystem($data_path) {
-    // Remove existing data.
-    remove_r("{$data_path}downloads");
-    remove_r("{$data_path}files");
-    remove_r("{$data_path}img");
-    remove_r("{$data_path}movies");
-    remove_r("{$data_path}olz_mitglieder");
-    remove_r("{$data_path}OLZimmerbergAblage");
-    remove_r("{$data_path}pdf");
-    remove_r("{$data_path}results");
-    remove_r("{$data_path}temp");
+function init_dev_data_filesystem($data_path, $full_reset = false) {
+    if ($full_reset) {
+        // Remove existing data.
+        remove_r("{$data_path}downloads");
+        remove_r("{$data_path}files");
+        remove_r("{$data_path}img");
+        remove_r("{$data_path}movies");
+        remove_r("{$data_path}olz_mitglieder");
+        remove_r("{$data_path}OLZimmerbergAblage");
+        remove_r("{$data_path}pdf");
+        remove_r("{$data_path}results");
+        remove_r("{$data_path}temp");
+    }
 
     $sample_path = __DIR__.'/dev-data/sample-data/';
 
     // Build downloads/
-    mkdir("{$data_path}downloads");
+    dev_mkdir("{$data_path}downloads");
 
     // Build files/
-    mkdir("{$data_path}files");
-    mkdir("{$data_path}files/aktuell");
-    mkdir("{$data_path}files/aktuell/3");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}files/aktuell/3/001.pdf");
-    mkdir("{$data_path}files/blog");
-    mkdir("{$data_path}files/blog/1");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
-    mkdir("{$data_path}files/downloads");
-    mkdir("{$data_path}files/news");
-    mkdir("{$data_path}files/news/4");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/4/xMpu3ExjfBKa8Cp35bcmsDgq.pdf");
-    mkdir("{$data_path}files/termine");
-    mkdir("{$data_path}files/termine/2");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
+    dev_mkdir("{$data_path}files");
+    dev_mkdir("{$data_path}files/aktuell");
+    dev_mkdir("{$data_path}files/aktuell/3");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}files/aktuell/3/001.pdf");
+    dev_mkdir("{$data_path}files/blog");
+    dev_mkdir("{$data_path}files/blog/1");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
+    dev_mkdir("{$data_path}files/downloads");
+    dev_mkdir("{$data_path}files/news");
+    dev_mkdir("{$data_path}files/news/4");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/4/xMpu3ExjfBKa8Cp35bcmsDgq.pdf");
+    dev_mkdir("{$data_path}files/termine");
+    dev_mkdir("{$data_path}files/termine/2");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
 
     // Build img/
-    mkdir("{$data_path}img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/trophy.png", 140, 140);
-    mkdir("{$data_path}img/aktuell");
-    mkdir("{$data_path}img/aktuell/3");
-    mkdir("{$data_path}img/aktuell/3/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/002.jpg", 800, 600);
-    mkdir("{$data_path}img/blog");
-    mkdir("{$data_path}img/blog/1");
-    mkdir("{$data_path}img/blog/1/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/001.jpg", 800, 600);
-    mkdir("{$data_path}img/bild_der_woche");
-    mkdir("{$data_path}img/bild_der_woche/2");
-    mkdir("{$data_path}img/bild_der_woche/2/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/bild_der_woche/2/img/001.jpg", 800, 600);
-    mkdir("{$data_path}img/fuer_einsteiger");
-    mkdir("{$data_path}img/fuer_einsteiger/img");
-    mkdir("{$data_path}img/fuer_einsteiger/thumb");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/was_ist_ol_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_005.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_006.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_007.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_008.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_009.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_010.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_011.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_012.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_013.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_014.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_015.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_016.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_005.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_006.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_007.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_008.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_009.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_010.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_011.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_012.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_013.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_014.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_015.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_016.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/pack_die_chance_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_004.jpg", 800, 600);
+    dev_mkdir("{$data_path}img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/trophy.png", 140, 140);
+    dev_mkdir("{$data_path}img/aktuell");
+    dev_mkdir("{$data_path}img/aktuell/3");
+    dev_mkdir("{$data_path}img/aktuell/3/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/aktuell/3/img/002.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/blog");
+    dev_mkdir("{$data_path}img/blog/1");
+    dev_mkdir("{$data_path}img/blog/1/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/001.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/bild_der_woche");
+    dev_mkdir("{$data_path}img/bild_der_woche/2");
+    dev_mkdir("{$data_path}img/bild_der_woche/2/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/bild_der_woche/2/img/001.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/fuer_einsteiger");
+    dev_mkdir("{$data_path}img/fuer_einsteiger/img");
+    dev_mkdir("{$data_path}img/fuer_einsteiger/thumb");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/orientierungslauf_004.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/was_ist_ol_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_004.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_005.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_006.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_007.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_008.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_009.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_010.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_011.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_012.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_013.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_014.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_015.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ol_zimmerberg_016.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/wie_anfangen_004.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_004.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_005.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_006.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_007.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_008.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_009.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_010.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_011.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_012.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_013.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_014.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_015.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/trainings_016.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/pack_die_chance_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/fuer_einsteiger/img/ansprechperson_004.jpg", 800, 600);
 
     // Generate thumbs
-    copy(__DIR__."/../../tools/fuer_einsteiger/thumbize.sh", "{$data_path}img/fuer_einsteiger/thumbize.sh");
+    dev_copy(__DIR__."/../../tools/fuer_einsteiger/thumbize.sh", "{$data_path}img/fuer_einsteiger/thumbize.sh");
     $pwd = getcwd();
     chdir("{$data_path}img/fuer_einsteiger");
     shell_exec("sh ./thumbize.sh");
     chdir($pwd);
 
-    mkdir("{$data_path}img/galerie");
-    mkdir("{$data_path}img/galerie/1");
-    mkdir("{$data_path}img/galerie/1/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/1/img/001.jpg", 800, 600);
-    mkdir("{$data_path}img/galerie/2");
-    mkdir("{$data_path}img/galerie/2/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/001.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/002.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/004.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 600);
-    mkdir("{$data_path}img/galerie/3");
-    mkdir("{$data_path}img/galerie/3/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/3/img/001.jpg", 800, 600);
-    mkdir("{$data_path}img/karten");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
-    mkdir("{$data_path}img/news");
-    mkdir("{$data_path}img/news/4");
-    mkdir("{$data_path}img/news/4/img");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/4/img/xkbGJQgO5LFXpTSz2dCnvJzu.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/galerie");
+    dev_mkdir("{$data_path}img/galerie/1");
+    dev_mkdir("{$data_path}img/galerie/1/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/1/img/001.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/galerie/2");
+    dev_mkdir("{$data_path}img/galerie/2/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/001.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/002.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/004.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/galerie/3");
+    dev_mkdir("{$data_path}img/galerie/3/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/3/img/001.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/karten");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
+    dev_mkdir("{$data_path}img/news");
+    dev_mkdir("{$data_path}img/news/4");
+    dev_mkdir("{$data_path}img/news/4/img");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/4/img/xkbGJQgO5LFXpTSz2dCnvJzu.jpg", 800, 600);
 
-    mkdir("{$data_path}img/users");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1@2x.jpg", 168, 240);
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
+    dev_mkdir("{$data_path}img/users");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1@2x.jpg", 168, 240);
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
 
     // Build movies/
-    mkdir("{$data_path}movies");
+    dev_mkdir("{$data_path}movies");
 
     // Build olz_mitglieder/
-    mkdir("{$data_path}olz_mitglieder");
-    mkimg("{$sample_path}sample-picture.jpg", $data_path, "olz_mitglieder/max_muster.jpg", 84, 120);
+    dev_mkdir("{$data_path}olz_mitglieder");
+    dev_mkimg("{$sample_path}sample-picture.jpg", $data_path, "olz_mitglieder/max_muster.jpg", 84, 120);
 
     // Build OLZimmerbergAblage/
-    mkdir("{$data_path}OLZimmerbergAblage");
-    mkdir("{$data_path}OLZimmerbergAblage/vorstand");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/mitgliederliste.pdf");
-    mkdir("{$data_path}OLZimmerbergAblage/vorstand/protokolle");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/protokolle/protokoll.pdf");
-    mkdir("{$data_path}OLZimmerbergAblage/karten");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/uebersicht.pdf");
-    mkdir("{$data_path}OLZimmerbergAblage/karten/wald");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/wald/buchstabenwald.pdf");
+    dev_mkdir("{$data_path}OLZimmerbergAblage");
+    dev_mkdir("{$data_path}OLZimmerbergAblage/vorstand");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/mitgliederliste.pdf");
+    dev_mkdir("{$data_path}OLZimmerbergAblage/vorstand/protokolle");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/protokolle/protokoll.pdf");
+    dev_mkdir("{$data_path}OLZimmerbergAblage/karten");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/uebersicht.pdf");
+    dev_mkdir("{$data_path}OLZimmerbergAblage/karten/wald");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/wald/buchstabenwald.pdf");
 
     // Build pdf/
-    mkdir("{$data_path}pdf");
-    copy("{$sample_path}sample-document.pdf", "{$data_path}pdf/trainingsprogramm.pdf");
+    dev_mkdir("{$data_path}pdf");
+    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}pdf/trainingsprogramm.pdf");
 
     // Build results/
-    mkdir("{$data_path}results");
-    copy("{$sample_path}sample-results.xml", "{$data_path}results/results.xml");
+    dev_mkdir("{$data_path}results");
+    dev_copy("{$sample_path}sample-results.xml", "{$data_path}results/results.xml");
 
     // Build temp/
-    mkdir("{$data_path}temp");
+    dev_mkdir("{$data_path}temp");
 }
 
-function mkimg($source_path, $data_path, $destination_relative_path, $width, $height) {
+function dev_mkdir($path, $mode = 0777, $recursive = false) {
+    if (!is_dir($path)) {
+        mkdir($path, $mode, $recursive);
+    }
+}
+
+function dev_copy($source, $dest) {
+    if (!is_file($dest)) {
+        copy($source, $dest);
+    }
+}
+
+function dev_mkimg($source_path, $data_path, $destination_relative_path, $width, $height) {
+    $destination_path = "{$data_path}{$destination_relative_path}";
+    if (is_file($destination_path)) {
+        return;
+    }
     $tmp_dir = __DIR__.'/dev-data/tmp/';
     if (!is_dir($tmp_dir)) {
         mkdir($tmp_dir);
@@ -311,7 +323,6 @@ function mkimg($source_path, $data_path, $destination_relative_path, $width, $he
         }
         imagedestroy($destination);
     }
-    $destination_path = "{$data_path}{$destination_relative_path}";
     copy($tmp_path, $destination_path);
 }
 

@@ -42,7 +42,7 @@ export const OlzUploadFile = (props: OlzUploadFileProps) => {
     return (
         <div className='olz-upload-file uploaded' title={uploadedInfo}>
             <div className='uploaded-file-container'>
-                <div className='info'>
+                <div className='info test-flaky'>
                     {uploadedInfo}
                 </div>
                 {copyButton}

@@ -1,7 +1,8 @@
 import range from 'lodash/range';
 import {OlzApi} from '../api/client';
 import {EventTarget} from './EventTarget';
-import {assertUnreachable, obfuscateForUpload} from './generalUtils';
+import {assertUnreachable} from './generalUtils';
+import {obfuscateForUpload} from './uploadUtils';
 
 const MAX_CONCURRENT_REQUESTS = 5;
 export const MAX_PART_LENGTH = 1024 * 32;

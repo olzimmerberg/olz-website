@@ -22,7 +22,7 @@ final class DevDataTest extends IntegrationTestCase {
         $old_dev_db_content = file_get_contents($this->dev_db_content_path);
 
         $init_start_time = time();
-        init_dev_data($db, $this->dev_data_path);
+        reset_db($db, $this->dev_data_path, true);
         $init_end_time = time();
 
         $this->assertTrue(is_file("{$this->dev_data_path}olz_mitglieder/max_muster.jpg"));

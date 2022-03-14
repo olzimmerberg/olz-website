@@ -13,6 +13,7 @@ require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../../fake/FakeUploadUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeCreateNewsEndpointRoleRepository {
@@ -80,12 +81,14 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
         $env_utils = new FakeEnvUtils();
+        $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
+        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -137,12 +140,16 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(1, $news_entry->getOnOff());
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/uploaded_image.jpg'));
-        $this->assertSame(true, is_file(__DIR__."/../../tmp/img/news/{$id}/img/uploaded_image.jpg"));
-        $this->assertSame(false, is_file(__DIR__."/../../tmp/img/news/{$id}/img/inexistent.jpg"));
 
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/uploaded_file.jpg'));
-        $this->assertSame(true, is_file(__DIR__."/../../tmp/files/news/{$id}/uploaded_file.pdf"));
-        $this->assertSame(false, is_file(__DIR__."/../../tmp/files/news/{$id}/inexistent.txt"));
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.jpg'],
+                realpath(__DIR__.'/../../../')."/fake/../unit_tests/tmp/img/news/{$id}/img/",
+            ],
+            [
+                ['uploaded_file.pdf', 'inexistent.txt'],
+                realpath(__DIR__.'/../../../')."/fake/../unit_tests/tmp/files/news/{$id}/",
+            ],
+        ], $upload_utils->move_uploads_calls);
     }
 }

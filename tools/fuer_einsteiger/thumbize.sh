@@ -17,8 +17,8 @@ thumbize () {
     echo "$IDENT $CROP_SMALL $CROP_BIG"
     convert -resize "$WIDTH^" -gravity center -crop $CROP_SMALL +repage "./img/$IDENT.jpg" "./thumb/$IDENT.jpg"
     convert -resize "$TWO_WIDTHS^" -gravity center -crop $CROP_BIG +repage "./img/$IDENT.jpg" "./thumb/$IDENT@2x.jpg"
-    convert -resize "$WIDTH^" -gravity center -crop $CROP_SMALL +repage "./img/$IDENT.jpg" "./thumb/$IDENT.webp"
-    convert -resize "$TWO_WIDTHS^" -gravity center -crop $CROP_BIG +repage "./img/$IDENT.jpg" "./thumb/$IDENT@2x.webp"
+    # convert -resize "$WIDTH^" -gravity center -crop $CROP_SMALL +repage "./img/$IDENT.jpg" "./thumb/$IDENT.webp"
+    # convert -resize "$TWO_WIDTHS^" -gravity center -crop $CROP_BIG +repage "./img/$IDENT.jpg" "./thumb/$IDENT@2x.webp"
 }
 
 thumbize "ansprechperson_001" 200 200 + 0 + 0

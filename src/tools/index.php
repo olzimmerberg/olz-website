@@ -22,7 +22,10 @@ function run_tools($command_config, $server) {
         header('Content-Type: text/plain;charset=utf8');
     }
     if ($command === 'reset') {
-        return run_command($command, 'reset_db', [$db, $data_path]);
+        return run_command($command, 'reset_db', [$db, $data_path, false]);
+    }
+    if ($command === 'full_reset') {
+        return run_command($command, 'reset_db', [$db, $data_path, true]);
     }
     if ($command === 'dump') {
         return run_command($command, 'dump_db', [$db]);

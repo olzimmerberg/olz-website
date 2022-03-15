@@ -17,13 +17,16 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
         require_once __DIR__.'/../../utils/env/EnvUtils.php';
+        require_once __DIR__.'/../../utils/EntityUtils.php';
         require_once __DIR__.'/../../utils/UploadUtils.php';
         $auth_utils = AuthUtils::fromEnv();
+        $entity_utils = EntityUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $upload_utils = UploadUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
         $this->setDateUtils($_DATE);
         $this->setEntityManager($entityManager);
+        $this->setEntityUtils($entity_utils);
         $this->setEnvUtils($env_utils);
         $this->setUploadUtils($upload_utils);
     }
@@ -38,6 +41,10 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
 
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
+    }
+
+    public function setEntityUtils($entityUtils) {
+        $this->entityUtils = $entityUtils;
     }
 
     public function setEnvUtils($envUtils) {
@@ -82,18 +89,6 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $role_repo = $this->entityManager->getRepository(Role::class);
         $current_user = $this->authUtils->getSessionUser();
 
-        $owner_user_id = $input['data']['ownerUserId'] ?? null;
-        $owner_user = $current_user;
-        if ($owner_user_id) {
-            $owner_user = $user_repo->findOneBy(['id' => $owner_user_id]);
-        }
-
-        $owner_role_id = $input['data']['ownerRoleId'] ?? null;
-        $owner_role = null;
-        if ($owner_role_id) {
-            $owner_role = $role_repo->findOneBy(['id' => $owner_role_id]);
-        }
-
         $author_user_id = $input['data']['authorUserId'] ?? null;
         $author_user = $current_user;
         if ($author_user_id) {
@@ -107,7 +102,6 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         }
 
         $today = new DateTime($this->dateUtils->getIsoToday());
-        $now = new DateTime($this->dateUtils->getIsoNow());
 
         $tags_for_db = $this->getTagsForDb($input['data']['tags']);
 
@@ -117,10 +111,7 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $news_repo = $this->entityManager->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
-        $news_entry->setCreatedAt($now);
-        $news_entry->setLastModifiedAt($now);
-        $news_entry->setOwnerUser($owner_user);
-        $news_entry->setOwnerRole($owner_role);
+        $this->entityUtils->updateOlzEntity($news_entry, $input['data'] ?? []);
         $news_entry->setAuthor($input['data']['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
@@ -133,7 +124,6 @@ class UpdateNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry->setImageIds($valid_image_ids);
         // TODO: Do not ignore
         $news_entry->setTermin(0);
-        $news_entry->setOnOff($input['data']['onOff'] ? 1 : 0);
         $news_entry->setCounter(0);
         $news_entry->setType('aktuell');
         $news_entry->setNewsletter(1);

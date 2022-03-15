@@ -17,19 +17,22 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../utils/auth/AuthUtils.php';
         require_once __DIR__.'/../../utils/env/EnvUtils.php';
+        require_once __DIR__.'/../../utils/EntityUtils.php';
         require_once __DIR__.'/../../utils/UploadUtils.php';
         $auth_utils = AuthUtils::fromEnv();
+        $entity_utils = EntityUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $upload_utils = UploadUtils::fromEnv();
         $this->setAuthUtils($auth_utils);
         $this->setDateUtils($_DATE);
         $this->setEntityManager($entityManager);
+        $this->setEntityUtils($entity_utils);
         $this->setEnvUtils($env_utils);
         $this->setUploadUtils($upload_utils);
     }
 
-    public function setAuthUtils($new_auth_utils) {
-        $this->authUtils = $new_auth_utils;
+    public function setAuthUtils($authUtils) {
+        $this->authUtils = $authUtils;
     }
 
     public function setDateUtils($dateUtils) {
@@ -38,6 +41,10 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
 
     public function setEntityManager($new_entity_manager) {
         $this->entityManager = $new_entity_manager;
+    }
+
+    public function setEntityUtils($entityUtils) {
+        $this->entityUtils = $entityUtils;
     }
 
     public function setEnvUtils($envUtils) {
@@ -77,18 +84,6 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         $current_user = $this->authUtils->getSessionUser();
         $data_path = $this->envUtils->getDataPath();
 
-        $owner_user_id = $input['ownerUserId'] ?? null;
-        $owner_user = $current_user;
-        if ($owner_user_id) {
-            $owner_user = $user_repo->findOneBy(['id' => $owner_user_id]);
-        }
-
-        $owner_role_id = $input['ownerRoleId'] ?? null;
-        $owner_role = null;
-        if ($owner_role_id) {
-            $owner_role = $role_repo->findOneBy(['id' => $owner_role_id]);
-        }
-
         $author_user_id = $input['authorUserId'] ?? null;
         $author_user = $current_user;
         if ($author_user_id) {
@@ -102,17 +97,13 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         }
 
         $today = new DateTime($this->dateUtils->getIsoToday());
-        $now = new DateTime($this->dateUtils->getIsoNow());
 
         $tags_for_db = $this->getTagsForDb($input['tags']);
 
         $valid_image_ids = $this->uploadUtils->getValidUploadIds($input['imageIds']);
 
         $news_entry = new NewsEntry();
-        $news_entry->setCreatedAt($now);
-        $news_entry->setLastModifiedAt($now);
-        $news_entry->setOwnerUser($owner_user);
-        $news_entry->setOwnerRole($owner_role);
+        $this->entityUtils->createOlzEntity($news_entry, $input);
         $news_entry->setAuthor($input['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
@@ -125,7 +116,6 @@ class CreateNewsEndpoint extends AbstractNewsEndpoint {
         $news_entry->setImageIds($valid_image_ids);
         // TODO: Do not ignore
         $news_entry->setTermin(0);
-        $news_entry->setOnOff($input['onOff'] ? 1 : 0);
         $news_entry->setCounter(0);
         $news_entry->setType('aktuell');
         $news_entry->setNewsletter(1);

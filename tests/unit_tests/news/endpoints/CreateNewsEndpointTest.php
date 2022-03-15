@@ -12,6 +12,7 @@ require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeUploadUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -80,6 +81,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories['Role'] = $role_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
+        $entity_utils = new FakeEntityUtils();
         $env_utils = new FakeEnvUtils();
         $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();
@@ -87,6 +89,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
@@ -126,8 +129,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
-        $this->assertSame($user_repo->default_user, $news_entry->getOwnerUser());
-        $this->assertSame($role_repo->admin_role, $news_entry->getOwnerRole());
         $this->assertSame('t.u.', $news_entry->getAuthor());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame(null, $news_entry->getAuthorRole());
@@ -137,7 +138,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(null, $news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
-        $this->assertSame(1, $news_entry->getOnOff());
+
+        $this->assertSame([
+            [$news_entry, 1, 1, 1],
+        ], $entity_utils->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;
 

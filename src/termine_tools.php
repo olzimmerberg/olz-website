@@ -242,7 +242,7 @@ if ($zugriff == "1") {
     */
 
     // ---
-    //echo "***";
+    // echo "***";
 
     $rechts = "";
 
@@ -275,7 +275,7 @@ if ($zugriff == "1") {
 
     if ($_GET["mode"] == "solvuids" or $mode == "Alle zeigen") {
         $_SESSION["termine_helper"] = "solvuids";
-        //$_SESSION["termine_helper_solvuids_termine"] = solvdataforyear(false);
+        // $_SESSION["termine_helper_solvuids_termine"] = solvdataforyear(false);
         $alle_zeigen = ($mode == "Alle zeigen");
     }
 
@@ -324,15 +324,15 @@ if ($zugriff == "1") {
                 $icn_newsletter = "";
             }
 
-            //Tagesanlass
+            // Tagesanlass
             if (($datum_end == $datum) or ($datum_end == "0000-00-00")) {
                 $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
             }
-            //Mehrtägig innerhalb Monat
+            // Mehrtägig innerhalb Monat
             elseif ($_DATE->olzDate("m", $datum) == $_DATE->olzDate("m", $datum_end)) {
                 $datum_tmp = $_DATE->olzDate("t.-", $datum).$_DATE->olzDate("t. ", $datum_end).$_DATE->olzDate("MM", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
             }
-            //Mehrtägig monatsübergreifend
+            // Mehrtägig monatsübergreifend
             else {
                 $datum_tmp = $_DATE->olzDate("t.m.-", $datum).$_DATE->olzDate("t.m. ", $datum_end).$_DATE->olzDate("jjjj", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
             }
@@ -413,11 +413,11 @@ if ($zugriff == "1") {
         $num = mysqli_num_rows($result);
         for ($i = 0; $i < $num; $i++) {
             $row = mysqli_fetch_array($result);
-            //print_r($row);echo "<br><br>";
+            // print_r($row);echo "<br><br>";
         }
 
-        //mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Update ausgeführt","From: OL Zimmerberg<system@olzimmerberg.ch>");
-        //mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Einloggen: https://www.olzimmerberg.ch/_/termine_tools.php\nAlle Updaten:\n".$update_all_link."\n".$infos."\n\n--------------------------------------------------\n\n\n".$console,"From: OL Zimmerberg<system@olzimmerberg.ch>");
+        // mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Update ausgeführt","From: OL Zimmerberg<system@olzimmerberg.ch>");
+        // mail("simon.hatt@olzimmerberg.ch","Terminaktualisierungen OL Zimmerberg","Einloggen: https://www.olzimmerberg.ch/_/termine_tools.php\nAlle Updaten:\n".$update_all_link."\n".$infos."\n\n--------------------------------------------------\n\n\n".$console,"From: OL Zimmerberg<system@olzimmerberg.ch>");
     }
 
     // COMPARE

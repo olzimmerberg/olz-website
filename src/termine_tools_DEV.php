@@ -121,7 +121,7 @@ if ($zugriff == "1") {
 
     if ($_GET["mode"] == "solvuids" or $mode == "Alle zeigen") {
         $_SESSION["termine_helper"] = "solvuids";
-        //$_SESSION["termine_helper_solvuids_termine"] = solvdataforyear(false);
+        // $_SESSION["termine_helper_solvuids_termine"] = solvdataforyear(false);
         $alle_zeigen = ($mode == "Alle zeigen");
     }
 
@@ -170,15 +170,15 @@ if ($zugriff == "1") {
                 $icn_newsletter = "";
             }
 
-            //Tagesanlass
+            // Tagesanlass
             if (($datum_end == $datum) or ($datum_end == "0000-00-00")) {
                 $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
             }
-            //Mehrtägig innerhalb Monat
+            // Mehrtägig innerhalb Monat
             elseif ($_DATE->olzDate("m", $datum) == $_DATE->olzDate("m", $datum_end)) {
                 $datum_tmp = $_DATE->olzDate("t.-", $datum).$_DATE->olzDate("t. ", $datum_end).$_DATE->olzDate("MM", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
             }
-            //Mehrtägig monatsübergreifend
+            // Mehrtägig monatsübergreifend
             else {
                 $datum_tmp = $_DATE->olzDate("t.m.-", $datum).$_DATE->olzDate("t.m. ", $datum_end).$_DATE->olzDate("jjjj", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
             }
@@ -215,7 +215,7 @@ if ($zugriff == "1") {
         $solv = solvdataforyear(false);
         $solvbyid = [];
         for ($i = 0; $i < count($solv); $i++) {
-            //echo $solv[$i]["uniqueid"]."<br>";
+            // echo $solv[$i]["uniqueid"]."<br>";
             $result = $db->query("SELECT * FROM termine WHERE solv_uid='".intval($solv[$i]["uniqueid"])."'", $conn_id);
             if (mysqli_num_rows($result) > 0) {
                 $solvbyid[$solv[$i]["uniqueid"]] = $solv[$i];

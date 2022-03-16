@@ -35,7 +35,7 @@ html {
     }
     $db_table = "event";
 
-    //-------------------------------------------------------------
+    // -------------------------------------------------------------
     // ZUGRIFF
     if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
         $zugriff = "1";
@@ -50,7 +50,7 @@ html {
         $_SESSION['edit']['db_table'] = $db_table;
     }
 
-    //-------------------------------------------------------------
+    // -------------------------------------------------------------
     // USERVARIABLEN PRÜFEN
     if (isset($id) and is_ganzzahl($id)) {
         $_SESSION[$db_table."id_"] = $id;
@@ -58,7 +58,7 @@ html {
         $id = $_SESSION[$db_table.'id_'] ?? null;
     }
 
-    //-------------------------------------------------------------
+    // -------------------------------------------------------------
     // DATENSATZ EDITIEREN
     if ($zugriff) {
         $functions = ['neu' => 'Neuer Eintrag',
@@ -83,13 +83,13 @@ html {
         $db_edit = "0";
     }
 
-    //-------------------------------------------------------------
+    // -------------------------------------------------------------
     // MENÜ
     if ($zugriff and $db_edit == "0") {
         echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
     }
 
-    //echo "Um Resultate anzeigen zu können, muss eine Exportdatei aus der Auswertungssoftware im Verzeichnis 'zol/' vorhanden sein.<br>Anleitung:<br>1. Neuer Datensatz in der Mysql-Tabelle<p>";
+    // echo "Um Resultate anzeigen zu können, muss eine Exportdatei aus der Auswertungssoftware im Verzeichnis 'zol/' vorhanden sein.<br>Anleitung:<br>1. Neuer Datensatz in der Mysql-Tabelle<p>";
     // Verzeichnis 'zol/' auslesen
     if ($handle = opendir('zol/')) {
         while (($file = readdir($handle)) !== false) {
@@ -100,7 +100,7 @@ html {
         }
         closedir($handle);
     }
-    //var_dump($vorschau);
+    // var_dump($vorschau);
     if ($db_edit == 0 or ($do ?? null) == 'vorschau') {
         if (($do ?? null) == 'vorschau') {
             $sql = "SELECT * FROM event ORDER BY datum DESC LIMIT 1";
@@ -121,7 +121,7 @@ html {
             if (($do ?? null) != 'vorschau') {
                 $edit_admin = "<a href='index.php?id={$id_event}&{$button_name}=start' class='linkedit' title='Event bearbeiten'>&nbsp;</a>";
             }
-            //http://olzimmerberg.ch/zol/parse_result.php?event=zol_180527
+            // http://olzimmerberg.ch/zol/parse_result.php?event=zol_180527
             echo "<div style='margin-bottom:20px;'><b>".$edit_admin.$datum_event.": ".$name_event."</b><br>".$file_event."</div>";
         }
     }

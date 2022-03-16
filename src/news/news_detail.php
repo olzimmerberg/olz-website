@@ -74,7 +74,7 @@ echo <<<ZZZZZZZZZZ
 <form name='Formularl' method='post' action='aktuell.php?id={$id}#id_edit{$id_edit}' enctype='multipart/form-data'>
 ZZZZZZZZZZ;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -102,13 +102,13 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and ($db_edit == '0')) {
     echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // AKTUELL - VORSCHAU
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     require_once __DIR__.'/components/olz_news_article/olz_news_article.php';

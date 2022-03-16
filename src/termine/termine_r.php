@@ -11,12 +11,12 @@ require_once __DIR__.'/../config/date.php';
 echo "<h2>Trainings</h2>";
 
 // NÄCHSTES TRAINIG
-//Konstanten
+// Konstanten
 $db_table = "termine";
 
-//Tabelle auslesen
+// Tabelle auslesen
 $sql = "select * from {$db_table} WHERE ((datum_end >= '{$heute}') OR (datum_end = '0000-00-00') OR (datum_end IS NULL)) AND (datum >= '{$heute}') AND (typ LIKE '%training%') AND (on_off = '1') ORDER BY datum ASC";
-//echo $sql;
+// echo $sql;
 $result = $db->query($sql);
 
 $row = mysqli_fetch_array($result);

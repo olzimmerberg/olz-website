@@ -12,12 +12,12 @@ require_once __DIR__.'/../config/database.php';
 
 $mail_from = 'noreply@olzimmerberg.ch'; // Absenderadresse wird als additional header in mail() benötigt
 
-//***************************************************
-//Formular zur Verwaltung der Mysql-Datenbanken
-//***************************************************
-//Datenbankfelder mit Zusatzinformationen defnieren
-//Inhalt: [0]Feldname, [1]Bezeichnung, [2]Formularfeldtyp(falls 'checkbox:[2][1]=option,Option/falls 'text/textarea': [2][1]=readonly/falls 'select:[2][1]=option,Option,[2][2]=multiple), [3]Startwert, [4]Kommentar, [5]HTML_Zusatz, [6]Stil, [7]Formatierung,[8]Test,[9]Warnung
-//-------------------------------------------------------------
+// ***************************************************
+// Formular zur Verwaltung der Mysql-Datenbanken
+// ***************************************************
+// Datenbankfelder mit Zusatzinformationen defnieren
+// Inhalt: [0]Feldname, [1]Bezeichnung, [2]Formularfeldtyp(falls 'checkbox:[2][1]=option,Option/falls 'text/textarea': [2][1]=readonly/falls 'select:[2][1]=option,Option,[2][2]=multiple), [3]Startwert, [4]Kommentar, [5]HTML_Zusatz, [6]Stil, [7]Formatierung,[8]Test,[9]Warnung
+// -------------------------------------------------------------
 /*
 $_SESSION['edit']['db_table']: Tabelle in Bearbeitung
 $_SESSION['edit']['modus']: 'neuedit'=neu angelegter Datensatz
@@ -109,7 +109,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
     ];
 } elseif ($db_table == "bild_der_woche") {// DB BILD DER WOCHE
     $layout = "1";
-    $img_max_size = 240; //maximale Bildbreite,-höhe
+    $img_max_size = 240; // maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
@@ -120,7 +120,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
 } elseif ($db_table == "blog") {// DB BLOG
     $nutzer = ($_SESSION['user'] ?? null);
     $img_folder = "img";
-    $img_max_size = 240; //maximale Bildbreite,-höhe
+    $img_max_size = 240; // maximale Bildbreite,-höhe
     $db_felder = [
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum", "datum", "olz_current_date('Y-m-d');", "", "", "", ""],
@@ -191,7 +191,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
     ];
 } elseif ($db_table == "termine") {// DB TERMINE
-    //include 'parse_solv_ranglisten.php';
+    // include 'parse_solv_ranglisten.php';
     require_once __DIR__.'/../termine/utils/TermineFilterUtils.php';
     $checkbox_options = array_map(function ($option) {
         return [$option['name'], $option['ident']];
@@ -243,9 +243,9 @@ onchange='Titel_angleichen()' class='dropdown'>
         ["newsletter", "Newsletter für Änderung", "boolean", "1", "", "", "", ""],
         ["go2ol", "GO2OL-Code", "text", "''", "", "", "", ""],
         ["solv_uid", "SOLV-ID", "number", "", "", "", "", ""],
-        //array("datum_anmeldung","Meldeschluss","text","''","Für interne Online-Anmeldungen. Eine Datumsangabe schaltet die interne Online-Anmeldung frei.","","",""),
-        //array("text_anmeldung","Erläuterungen","textarea","''","Erläuterungstext für interne Online-Anmeldungen","",""," rows='4'"),
-        //array("email_anmeldung","Emailadresse Anmeldungen","text","''","Anmeldungen an diese Adresse schicken.","","","")
+        // array("datum_anmeldung","Meldeschluss","text","''","Für interne Online-Anmeldungen. Eine Datumsangabe schaltet die interne Online-Anmeldung frei.","","",""),
+        // array("text_anmeldung","Erläuterungen","textarea","''","Erläuterungstext für interne Online-Anmeldungen","",""," rows='4'"),
+        // array("email_anmeldung","Emailadresse Anmeldungen","text","''","Anmeldungen an diese Adresse schicken.","","","")
     ];
 } elseif ($db_table == "vorstand") {// DB VORSTAND
     $db_felder = [
@@ -271,9 +271,9 @@ onchange='Titel_angleichen()' class='dropdown'>
     ];
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Button-Rückgabe modulieren
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 $_SESSION['edit']['button'] = $_POST[$button_name];
 
 if ($function == "start") {
@@ -328,18 +328,18 @@ if (($do ?? null) == "confirm") {
     $_SESSION['edit']['confirm'] = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USER Code eingeben
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "code") {
     echo "<table class='liste'><tr><td style='width:20%;'><span style='font-weight:bold;'>Code:</span></td><td style='width:80%'>
         <input type='text' name='uid'  style='width:100%;'></td></tr></table>";
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Weiter", "1"], ["Abbrechen", "2"]], "")."</div>";
     unset($_SESSION['edit']['button']);
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DS duplizieren
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "duplicate") {
     $sql = "SELECT * from {$db_table} WHERE (id = '".$id."') ORDER BY id ASC";
     $result = $db->query($sql);
@@ -348,7 +348,7 @@ if (($do ?? null) == "duplicate") {
         $alert = "Kein Datensatz gewählt.";
     } else {
         $row = $result->fetch_assoc();
-        unset($row["id"]); //Remove ID from array
+        unset($row["id"]); // Remove ID from array
         $row = array_filter($row, 'strlen'); // Null-/Leerwerte herausfiltern
         $sql = "INSERT INTO {$db_table}";
         $sql .= " ( ".implode(", ", array_keys($row)).") ";
@@ -364,16 +364,16 @@ if (($do ?? null) == "duplicate") {
     }
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Neuer Datensatz
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "neu") {
     $sql_tmp = [];
     foreach ($db_felder as $tmp_feld) {
         if ($tmp_feld[3] > '') {
             $start_value = "\$start_value = ".$tmp_feld[3];
             eval("{$start_value};");
-            //echo $start_value;
+            // echo $start_value;
             if ($tmp_feld[0] != 'id') {
                 array_push($sql_tmp, $tmp_feld[0]." = '".$start_value."'");
             }
@@ -398,9 +398,9 @@ if (($do ?? null) == "neu") {
     }
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Daten aus DB holen
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "getdata") {
     if ($function == "start_user") {
         $sql = "SELECT * from {$db_table} WHERE (uid = '".$uid."') ORDER BY id ASC";
@@ -432,9 +432,9 @@ if (($do ?? null) == "getdata") {
     }
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Eintrag löschen
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "delete") {
     // Bilder löschen
     if (isset($tables_img_dirs[$db_table])) {
@@ -470,9 +470,9 @@ if (($do ?? null) == "delete") {
     }
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Position verschieben
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if ((($do ?? null) == "up") or (($do ?? null) == "down")) {
     if (($do ?? null) == "up") {
         $offset = "-1.5";
@@ -491,9 +491,9 @@ if ((($do ?? null) == "up") or (($do ?? null) == "down")) {
     }
     $do = "abbruch";
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Eingabe abbrechen
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "abbruch") {
     foreach ($db_felder as $tmp_feld) {
         if (($tmp_feld[2] == "file") and (isset($_SESSION[$db_table]['name'])) and file_exists($tmp_folder."/".$_SESSION[$db_table]['name'])) {
@@ -503,18 +503,18 @@ if (($do ?? null) == "abbruch") {
     unset($_SESSION['edit']);
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Galerie aktivieren
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "activate") {
     $sql = "UPDATE {$db_table} SET on_off='1' WHERE id='".$id."'";
     $result = $db->query($sql);
     unset($_SESSION['edit']);
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Werte in Session-Variablen schreiben
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == "save") {
     foreach ($db_felder as $tmp_feld) {
         $var = $tmp_feld[0];
@@ -523,9 +523,9 @@ if (($do ?? null) == "save") {
     $do = "submit";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DS Speichern
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == 'submit') {
     $sql_tmp = [];
     function user2db($feld_typ, $wert) {
@@ -570,7 +570,7 @@ if (($do ?? null) == 'submit') {
     }
     foreach ($db_felder as $tmp_feld) {
         $var = $tmp_feld[0];
-        //uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+        // uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
         if (is_array($_SESSION[$db_table.$var]) and $tmp_feld[2] == 'boolean') {
             $_SESSION[$db_table.$var] = $_SESSION[$db_table.$var][0];
         } elseif (is_array($_SESSION[$db_table.$var])) {
@@ -645,15 +645,15 @@ if (($do ?? null) == 'submit') {
         // MAIL SENDEN
         foreach ($mail_adress as $mailadress_tmp) {
             mail($mailadress_tmp, $mail_subject, base64_encode($mail_text), $mail_header, $mail_from);
-            //echo $mail_from;
+            // echo $mail_from;
         }
     }
     unset($_SESSION['edit']);
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Vorschau
-//-------------------------------------------------------------
-if (($do ?? null) == 'vorschau') {//include 'upload.php';
+// -------------------------------------------------------------
+if (($do ?? null) == 'vorschau') {// include 'upload.php';
     $vorschau = [];
     foreach ($db_felder as $tmp_feld) {
         $test = "";
@@ -681,7 +681,7 @@ if (($do ?? null) == 'vorschau') {//include 'upload.php';
             }
         }
 
-        //uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
+        // uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
         $wert = ($tmp_feld[2] == 'boolean') ? $_SESSION[$db_table.$var][0] : $_SESSION[$db_table.$var];
         $vorschau[$var] = stripslashes($wert);
     }
@@ -695,9 +695,9 @@ if (($do ?? null) == 'vorschau') {//include 'upload.php';
         $_SESSION['edit']['vorschau'] = "1";
     }
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DS Eingabe
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
     $html_input = "";
     $html_hidden = "";
@@ -745,14 +745,14 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
             $tmp_code = "<p>";
         }
 
-        if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit" || $feld_typ == "zeit") { //Input-Typ 'text'
+        if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit" || $feld_typ == "zeit") { // Input-Typ 'text'
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
-        } elseif ($feld_typ == "datum") { //Input-Typ 'text' mit Einblendkalender
+        } elseif ($feld_typ == "datum") { // Input-Typ 'text' mit Einblendkalender
             $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
-        } elseif ($feld_typ == "textarea") { //Input-Typ 'textarea'
+        } elseif ($feld_typ == "textarea") { // Input-Typ 'textarea'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
-        } elseif ($feld_typ == "checkbox") { //Input-Typ 'checkbox'
+        } elseif ($feld_typ == "checkbox") { // Input-Typ 'checkbox'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code;
             $feld_wert = explode(" ", $feld_wert);
             foreach ($tmp_feld[2][1] as $option) {
@@ -766,7 +766,7 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
                 $html_input .= "<span style='padding-right:20px; white-space:nowrap;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='{$value}'><span style='vertical-align:bottom;'>{$text}".$feld_spezial.$feld_kommentar."</span></span> ";
             }
             $html_input .= "</td></tr>\n";
-        } elseif ($feld_typ == "boolean") { //Input-Typ 'boolean'
+        } elseif ($feld_typ == "boolean") { // Input-Typ 'boolean'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code;
             if (intval($feld_wert) != 0) {
                 $checked = " checked";
@@ -775,7 +775,7 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
             }
             $html_input .= "<span style='padding-right:20px;".$feld_stil."'><input type='checkbox' id='".$feld_name."' name='".$feld_name."[]'".$checked." style='margin-top:0.4em;margin-right:0.5em;' value='1'><span style='vertical-align:bottom;'>".$feld_spezial.$feld_kommentar."</span></span>";
             $html_input .= "</td></tr>\n";
-        } elseif ($feld_typ == "select") { //Input-Typ 'select'
+        } elseif ($feld_typ == "select") { // Input-Typ 'select'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<select size='1' id='".$feld_name."' name='".$feld_name."[]'>";
             $feld_wert = explode(" ", $feld_wert);
             foreach ($tmp_feld[2][1] as $option) {
@@ -789,7 +789,7 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
                 $html_input .= "<p><option".$checked." style='".$feld_stil."' value='{$value}'>{$text}</option >".$feld_spezial.$feld_kommentar."";
             }
             $html_input .= "</select></td></tr>\n";
-        } elseif ($feld_typ == "hidden") { //Input-Typ 'hidden'
+        } elseif ($feld_typ == "hidden") { // Input-Typ 'hidden'
             $html_hidden .= "<input type='hidden' id='".$feld_name."' name='".$feld_name."' value='".stripslashes($feld_wert)."'>\n";
         }
         /*
@@ -859,9 +859,9 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
 
     $_SESSION['edit']['vorschau'] = "0";
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // Menü
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 echo $html_menu;
 if ($alert != "") {
     echo "<div class='buttonbar'><span class='error'>".$alert."</span></div>";

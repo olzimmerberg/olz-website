@@ -58,7 +58,7 @@ function go2oldata() {
     $file = utf8_encode(load_url($url));
     $go2ol_termine = [];
     $res = preg_match_all("/<td.*><a.*href=\"(?P<link>[^\"]+)\".*>(?P<name>.+)<\\/a>.*<\\/td>\\s*<td.*>\\s*<img.*src=\"(?P<post>[^\"]+)\".*>\\s*<label>\\s*<input name=\"solv_uid\" type=\"hidden\" id=\"solv_uid\" value=\"(?P<solv_uid>.+)\".*>\\s*<\\/label>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<verein>.+)<\\/div>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<datum>.+)<\\/div>\\s*<\\/td>\\s*<td.*><div.*>(?P<meldeschluss_ohne>.+)<\\/div>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<meldeschluss_mit>.+)<\\/div>\\s*<\\/td>/i", $file, $matches);
-    //print_r($matches);
+    // print_r($matches);
     for ($i = 0; $i < count($matches["link"]); $i++) {
         $res = preg_match("/(.*\\/|^)([a-zA-Z0-9]+)(\\/.*|$)/", $matches["link"][$i], $matchestmp);
         $go2olident = ($res ? $matchestmp[2] : "");

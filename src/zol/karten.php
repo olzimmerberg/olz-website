@@ -131,17 +131,17 @@ foreach ($bahnen as $_bahn) {
     $kat = implode("' OR kat='", $_bahn);
     $kat = "kat='".$kat."'";
     $sql = "SELECT distinct kat,stand,anzahl FROM {$db_table} WHERE event='{$event}' AND ({$kat})";
-    //echo $sql;
+    // echo $sql;
     $result = $db->query($sql);
     $sum1 = 0;
     $sum2 = 0;
     $var1 = [];
     while ($row = mysqli_fetch_array($result)) {
         $var = explode('/', $row['anzahl']);
-        //echo $row['anzahl']."***";
+        // echo $row['anzahl']."***";
         $angem = ereg_replace("[^0-9]", "", $var[0]);
         $ausgel = ereg_replace("[^0-9]", "", $var[1]);
-        //echo $_bahn."/".$ausgel."***";
+        // echo $_bahn."/".$ausgel."***";
         $var1[] = $row['kat'];
         $sum1 = $sum1 + $ausgel;
         $sum2 = $sum2 + $angem;

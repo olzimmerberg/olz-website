@@ -7,9 +7,9 @@
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/date.php';
 
-//----------------------------------
-//EMAILADRESSE MASKIEREN
-//----------------------------------
+// ----------------------------------
+// EMAILADRESSE MASKIEREN
+// ----------------------------------
 function olz_mask_email($string, $name, $subject) {
     if ($name == "") {
         $name = "Email senden";
@@ -23,16 +23,16 @@ function olz_mask_email($string, $name, $subject) {
     return $string;
 }
 
-//----------------------------------
-//URL ERKENNEN
-//----------------------------------
+// ----------------------------------
+// URL ERKENNEN
+// ----------------------------------
 function olz_find_url($string) {
     if ($name == "") {
         $name = "Email senden";
     }
     $string = str_replace("%20", "x4x8x", $string);
     $res = preg_match_all("@(https?://([-\\w\\.]+)+(:\\d+)?(/([\\w/_\\.]*(\\?\\S+)?)?)?)@", $string, $matches);
-    //$res = preg_match_all('/[a-z]+:\/\/\S+/', $string, $matches);
+    // $res = preg_match_all('/[a-z]+:\/\/\S+/', $string, $matches);
 
     foreach (array_unique($matches[0]) as $url) {
         $linkname = parse_url($url, PHP_URL_HOST);
@@ -41,18 +41,18 @@ function olz_find_url($string) {
     return str_replace("x4x8x", "%20", $string);
 }
 
-//----------------------------------
-//FUNKTION IST GANZZAHL
-//----------------------------------
+// ----------------------------------
+// FUNKTION IST GANZZAHL
+// ----------------------------------
 function is_ganzzahl($string) {
     $tmp = $string;
     settype($string, 'integer');
     return $string."x" == $tmp."x";
 }
 
-//----------------------------------
-//FUNKTION MONATS-ZWISCHENTITEL
-//----------------------------------
+// ----------------------------------
+// FUNKTION MONATS-ZWISCHENTITEL
+// ----------------------------------
 function olz_monate($datum) {
     global $monat, $_DATE;
     $monatstitel = '';
@@ -64,9 +64,9 @@ function olz_monate($datum) {
     return $monatstitel;
 }
 
-//----------------------------------
-//FUNKTION Button-Menu
-//----------------------------------
+// ----------------------------------
+// FUNKTION Button-Menu
+// ----------------------------------
 function olz_buttons($name, $buttons, $off) {
     global $code_href;
     // Icons: 0=neu, 1=edit, 2=Abbrechen, 3=Vorschau
@@ -91,16 +91,16 @@ function olz_buttons($name, $buttons, $off) {
     return "|".implode("|", $html_menu)."|";
 }
 
-//----------------------------------
+// ----------------------------------
 // FUNKTION Ampersand austauschen
-//----------------------------------
+// ----------------------------------
 function olz_amp($text) {
     return str_replace(["&amp;", "&"], ["&", "&amp;"], $text);
 }
 
-//----------------------------------
+// ----------------------------------
 // Variablen Text editieren
-//----------------------------------
+// ----------------------------------
 function get_olz_text($id_text, $editable = true) {
     global $db_edit,$db,$buttonolz_text;
     require_once __DIR__.'/../config/database.php';
@@ -108,7 +108,7 @@ function get_olz_text($id_text, $editable = true) {
     $id_edit = $_GET['id_edit'];
     $html_out = "";
 
-    //Konstanten
+    // Konstanten
     $db_table = "olz_text";
 
     // ZUGRIFF
@@ -194,9 +194,9 @@ function get_olz_text($id_text, $editable = true) {
     return $html_out;
 }
 
-//----------------------------------
-//NEWS-FEED ANZEIGEN
-//----------------------------------
+// ----------------------------------
+// NEWS-FEED ANZEIGEN
+// ----------------------------------
 function make_expandable($text) {
     global $textlaenge_def;
     $text_orig = $text;
@@ -229,16 +229,16 @@ function make_expandable($text) {
     return $text;
 }
 
-//----------------------------------
+// ----------------------------------
 // BR Korrekt setzen
-//----------------------------------
+// ----------------------------------
 function olz_br($text) {
     return str_replace(["\n"], ["<br>"], $text);
 }
 
-//----------------------------------
+// ----------------------------------
 // KORREKTE EMAILADRESSE ÜBERPRÜFEN
-//----------------------------------
+// ----------------------------------
 function olz_is_email($v) {
     $v = trim($v);
     $nonascii = "\x80-\xff"; // Non-ASCII-Chars are not allowed
@@ -264,9 +264,9 @@ function olz_is_email($v) {
     return "0";
 }
 
-//----------------------------------
-//FUNKTION Uid GENERIEREN
-//----------------------------------
+// ----------------------------------
+// FUNKTION Uid GENERIEREN
+// ----------------------------------
 function olz_create_uid($db_table) {
     global $db;
 

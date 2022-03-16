@@ -5,18 +5,18 @@ require_once __DIR__.'/../config/database.php';
 
 session_start();
 
-//-------------------------------------------
+// -------------------------------------------
 // Einstellungen
-//-------------------------------------------
+// -------------------------------------------
 $db_server_local = "localhost:3306";
 $db_user_local = "root";
 $db_pw_local = "root";
 $db_name_local = "db12229638-1";
 $event_default = "zol_190512";
 
-//-------------------------------------------
+// -------------------------------------------
 // UMGEBUNG
-//-------------------------------------------
+// -------------------------------------------
 if ($_SERVER['REMOTE_ADDR'] == "::1") {
     $local = 1;
 }
@@ -32,9 +32,9 @@ $local = 0; // 1 im lokalen WLAN, 0 auf dem olzimmberg.ch-Server
         <meta http-equiv='refresh' content='60'>
 
 <?php
-//-------------------------------------------
+// -------------------------------------------
 // EINSTELLUNGEN
-//-------------------------------------------
+// -------------------------------------------
 $event = (isset($_GET['event'])) ? $_GET['event'] : $_SESSION['event'];
 $event = empty($event) ? $event_default : $event;
 $_SESSION['event'] = $event;
@@ -120,7 +120,7 @@ if (count($IPListe) > 0) {
     if (count($NeueIPListe) > 0) {
         foreach ($NeueIPListe as $Zeile) {
             $GesplitteteZeile = explode("|", $Zeile);
-            if (trim($GesplitteteZeile[1]) == session_id()) { //IP Prüfung
+            if (trim($GesplitteteZeile[1]) == session_id()) { // IP Prüfung
                 $Gefunden = true;
             }
         }
@@ -134,7 +134,7 @@ if (count($IPListe) > 0 && count($NeueIPListe) > 0) {
 }
     if (!$Gefunden) {
         fwrite($FilePointerIP, time()."|".session_id()."\n");
-    } //IP-Liste ergänzen
+    } // IP-Liste ergänzen
     fclose($FilePointerIP);
 
 if (!$Gefunden) {
@@ -144,9 +144,9 @@ $db->query("UPDATE event SET counter_hit_lan = (counter_hit_lan+1) WHERE (name_k
 
 echo "<body style='height:99%; background-repeat:repeat; background-image:url(olzimmerberg.ch/icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
 
-//-------------------------------------------
+// -------------------------------------------
 // EINSTELLUNGEN
-//-------------------------------------------
+// -------------------------------------------
 $spalten = [['rang', 5], ['name', 40], ['jg', 5], ['club', 35], ['zeit', 15]];
 $spalten_count = count($spalten);
 

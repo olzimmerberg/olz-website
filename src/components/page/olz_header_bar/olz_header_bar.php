@@ -76,12 +76,12 @@ function olz_header_bar($args = []): string {
         // Dateicode einfügen
         $textlang = $row["textlang"];
         preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $textlang, $matches);
-        //preg_match_all("/<datei([0-9]+)[^>]*(\s+file=(\"|\')([^\"\']+)(\"|\'))[^>]*>/i", $textlang, $matches_file);
+        // preg_match_all("/<datei([0-9]+)[^>]*(\s+file=(\"|\')([^\"\']+)(\"|\'))[^>]*>/i", $textlang, $matches_file);
 
         for ($i = 0; $i < count($matches[0]); $i++) {
             $tmptext = $matches[4][$i];
             $tmpfile = $matches_file[4][$i];
-            //if($_SESSION['auth']=='all') $out .= $i."***2".$matches_file[4][$i]."<br>";
+            // if($_SESSION['auth']=='all') $out .= $i."***2".$matches_file[4][$i]."<br>";
             if (mb_strlen($tmptext) < 1) {
                 $tmptext = "Datei ".$matches[1][$i];
             }

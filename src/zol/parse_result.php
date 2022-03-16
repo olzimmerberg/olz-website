@@ -1,7 +1,7 @@
 <?php
 
 // DEBUGBLOCK: wenn diese Datei als Standalone getestet wird
-//$event = "zol_160410";
+// $event = "zol_160410";
 
 require_once __DIR__.'/../config/database.php';
 
@@ -39,7 +39,7 @@ $sql = "SELECT stand FROM event WHERE name_kurz='{$event}'";
 $result = $db->query($sql);
 $row = mysqli_fetch_array($result);
 
-//echo microtime(true)."<br>";
+// echo microtime(true)."<br>";
 
 if ($stand == $row['stand'] and false) {
     // Aktualisierungsdatum Resultatdatei = Stand Mysql-DB

@@ -8,17 +8,17 @@ require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
-//echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
-//$kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
-//$kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("florian","Florian Attinger"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
-//$kader = array(array("lilly","Lilly Gross"),array("julia","<a href='http://juliagross.ch' class='linkext' target='blank'>Julia Gross</a>"),array("florian","Florian Attinger"),array("paula","Paula Gross"),array("michael","Michael Felder"));
-//shuffle($kader);
-//foreach($kader as $member)
+// echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
+// $kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
+// $kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("florian","Florian Attinger"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
+// $kader = array(array("lilly","Lilly Gross"),array("julia","<a href='http://juliagross.ch' class='linkext' target='blank'>Julia Gross</a>"),array("florian","Florian Attinger"),array("paula","Paula Gross"),array("michael","Michael Felder"));
+// shuffle($kader);
+// foreach($kader as $member)
 //    {echo "<td><img src='".$data_href."img/".$member[0].".jpg' alt=''><div style='padding-top:5px;text-align:center;'>".$member[1]."</div></td>";
 //    }
-//echo "</tr></table></div><h2></h2>";
+// echo "</tr></table></div><h2></h2>";
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -26,7 +26,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
     $zugriff = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
@@ -36,7 +36,7 @@ if (isset($id) and is_ganzzahl($id)) {
     $id = $_SESSION[$db_table.'id_'] ?? null;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -66,13 +66,13 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     if ($zugriff) {
@@ -110,14 +110,14 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $linkext = $row['linkext'];
 
         $text = str_replace(["<br />", "<br>\r\n<br>"], ["<br>", "<p/>"], stripslashes(nl2br($text)));
-        //$text = stripslashes(nl2br($text));
+        // $text = stripslashes(nl2br($text));
         $text = olz_find_url($text);
         $zeit = date("G:i", strtotime($zeit));
 
         if ((($do ?? null) != 'vorschau') and ((($_SESSION['auth'] ?? null) == 'all') or (ucwords($_SESSION['user'] ?? '') == ucwords($autor)))) {
             $edit_admin = "<a href='blog.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         }
-        //if ($zugriff AND (($do ?? null) != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
+        // if ($zugriff AND (($do ?? null) != 'vorschau')) $edit_admin = "<a href='blog.php?id=$id_tmp&$button_name=start' class='linkedit'>&nbsp;</a>";
         else {
             $edit_admin = "";
         }

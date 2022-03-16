@@ -60,7 +60,7 @@ echo <<<ZZZZZZZZZZ
 <form name='Formularl' method='post' action='termine.php?id={$id}' enctype='multipart/form-data'>
 ZZZZZZZZZZ;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -85,7 +85,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // AKTUELL - VORSCHAU
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     require_once __DIR__.'/components/olz_termin_detail/olz_termin_detail.php';

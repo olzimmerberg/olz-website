@@ -24,7 +24,7 @@ function olz_menu($args = []): string {
         ["", "", ''],
         ["Material & Kleider", "material.php", 'large'],
         ["Service", "service.php", 'large'],
-        //array("Anmeldungen","13",15),
+        // array("Anmeldungen","13",15),
         ["Verein", "verein.php", 'large'],
     ];
 
@@ -71,7 +71,7 @@ function get_menu($menu, $identifier, $_CONFIG): string {
         $redsel = 255 / 4;
         $greensel = $green + (255 - $green) / 2;
         $bgcolorhover = color($redsel, $greensel, 0);
-        //$bgcolorhover = color(255,255,0); // gelb
+        // $bgcolorhover = color(255,255,0); // gelb
         $redlin = 255 * 3 / 8;
         $greenlin = $green + (255 - $green) * 2 / 3;
         $bluelin = 255 * 1 / 8;
@@ -94,7 +94,7 @@ function get_menu($menu, $identifier, $_CONFIG): string {
         if ($menupunkt[0] != "" && $menupunkt[1] != "") {
             $out .= "<a href='".$_CONFIG->getCodeHref().$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
         } else {
-            //$out .= "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
+            // $out .= "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
             $out .= "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";
         }
     }

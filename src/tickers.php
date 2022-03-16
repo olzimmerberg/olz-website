@@ -16,12 +16,12 @@ function termine_ticker($settings) {
     $sql_where = isset($settings["sql_where"]) ? $settings["sql_where"] : "";
     $titel = isset($settings["titel"]) ? $settings["titel"] : "Termine";
     $heute_highlight = isset($settings["heute_highlight"]) ? $settings["heute_highlight"] : true;
-    //Konstanten
+    // Konstanten
     $db_table = "termine";
     $heute = olz_current_date("Y-m-d");
     echo "<div class='layout'>";
     echo "<h4 class='tablebar'>".$titel."</h4>";
-    //Tabelle auslesen
+    // Tabelle auslesen
     $sql = "select * from {$db_table} WHERE ((datum >= '{$heute}') OR (datum_end >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY datum ASC LIMIT {$listenlaenge}";
     $result = $db->query($sql);
 
@@ -68,7 +68,7 @@ function termine_ticker($settings) {
             } else {
                 $datum_end = '';
             }
-            //$datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$_DATE->olzDate('W',$datum_end) : '' ;
+            // $datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$_DATE->olzDate('W',$datum_end) : '' ;
             $datum = $_DATE->olzDate('WW', $datum_tmp).$datum_end.":";
         } elseif ($diff < (14.95 - $wotag)) {
             $case_tmp = 3;
@@ -84,7 +84,7 @@ function termine_ticker($settings) {
         if ($case_tmp < 4) {
             $flag = 0;
         }
-        //if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<div class='tablebar'>".str_replace("[x]",$diff,$sections[$case_tmp-1])."</div>";
+        // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<div class='tablebar'>".str_replace("[x]",$diff,$sections[$case_tmp-1])."</div>";
         if ($case != $case_tmp and strlen($sections[$case_tmp - 1]) > 0) {
             echo "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", $diff, $sections[$case_tmp - 1])."</h2>";
         }
@@ -94,7 +94,7 @@ function termine_ticker($settings) {
         $titel = strip_tags(str_replace("<br>", ", ", $row['titel']));
         $text = strip_tags(str_replace("<br>", ", ", $row['text']));
         $id_tmp = $row['id'];
-        //$datum_tmp = zeitintervall(strtotime($datum_tmp));
+        // $datum_tmp = zeitintervall(strtotime($datum_tmp));
         $datum_tmp = $datum;
         if ($titel == "") {
             $titel = $text;
@@ -146,7 +146,7 @@ function zeitintervall($datum) {
         return "Letzten ".$wochentage_lang[$wday];
     }
     if ($tage < (15 - $wday)) {
-        return $wochentage_lang[$wday]; //(($towday<$wday)?"Diesen ":"Nächsten ")
+        return $wochentage_lang[$wday]; // (($towday<$wday)?"Diesen ":"Nächsten ")
     }
     return $_DATE->olzDate("tt.mm.", $datum);
 }

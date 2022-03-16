@@ -11,9 +11,9 @@ require_once __DIR__.'/../config/database.php';
 
 include 'parse_result.php';
 
-//-------------------------------------------
+// -------------------------------------------
 // EINSTELLUNGEN
-//-------------------------------------------
+// -------------------------------------------
 $zeilen = 30; // Zeilen pro Seite
 $intervall_default = 10; // Zeit pro Seite
 $spalten_def = [['rang', 8], ['name', 72], ['zeit', 20]]; // Spalten und Spaltenbreite in %
@@ -85,7 +85,7 @@ if ($count_kat > 0) { // Resultate vorhanden
         $offset = $repeat_kat * $zeilen + $offset_rang;
 
         $sql = "(SELECT * FROM {$db_table} WHERE kat='{$kat}' AND event='{$event}' ORDER BY rang ASC LIMIT {$offset},{$zeilen})";
-        //echo $sql;
+        // echo $sql;
         $result = $db->query($sql);
         $kat_tmp = $kat;
         $kat = "";
@@ -113,7 +113,7 @@ if ($count_kat > 0) { // Resultate vorhanden
             }
             echo "<tr{$style}>";
             foreach ($spalten_def as $_spalte) {
-                //var_dump($_spalte);
+                // var_dump($_spalte);
                 echo "<td class='".$_spalte[0]."' style='width:".$_spalte[1]."%'>".${$_spalte[0]}."</td>";
             }
             echo "</tr>";
@@ -132,7 +132,7 @@ if ($count_kat > 0) { // Resultate vorhanden
 }
 
 echo "</td></tr></table>";
-//if($local) echo "<span style='font-size:80%;margin-left:10px;'>Die Live-Resultate können auch im lokalen WLAN unter '192.168.178.21' abgerufen werden. (Netzwerk: zol, Passwort: olzimmerberg)</span>";
+// if($local) echo "<span style='font-size:80%;margin-left:10px;'>Die Live-Resultate können auch im lokalen WLAN unter '192.168.178.21' abgerufen werden. (Netzwerk: zol, Passwort: olzimmerberg)</span>";
 
 ?>
     </body>

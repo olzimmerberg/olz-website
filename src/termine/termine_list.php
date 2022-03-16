@@ -55,7 +55,7 @@ echo "</div>
 <div id='content_mitte'>
 <form name='Formularl' method='post' action='termine.php?filter={$enc_current_filter}#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -70,7 +70,7 @@ if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
     $id = $_GET['id'] ?? null;
@@ -79,7 +79,7 @@ if (isset($_GET['id']) and is_ganzzahl($_GET['id'])) {
     $id = $_SESSION[$db_table."id_"] ?? null;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -114,9 +114,9 @@ if ($_SESSION['edit']['table'] ?? null != null) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  Wiederkehrendes Datum speichern
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if ($function == 'save' and $_SESSION[$db_table]['repeat'] == 'repeat') {
     if ($termin_[0] !== $_SESSION[$db_table."datum"]) { // UPDATE Startdatum
         $sql = "DELETE FROM {$db_table} WHERE id='".$_SESSION[$db_table."id"]."'";
@@ -155,7 +155,7 @@ if (($function == 'neu' or $function == 'edit') and $_SESSION['edit']['modus'] =
     echo "<tr><td style='width:20%;padding-top:4px;'><b>Intervall (Tage)</b></td><td style='width:80%'><input type='text' name='intervall_termin' value='{$intervall}'></td></tr></table>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff) {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span class='linkint'><a href='termine_tools.php'>Termine-Tools</a></span></div>";
@@ -164,7 +164,7 @@ if ($zugriff) {
 echo olz_termine_filter();
 echo "<h1>{$termine_list_title}</h1>";
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 $filter_where = $termine_utils->getSqlFromFilter($current_filter);
 $sql_where = <<<ZZZZZZZZZZ
@@ -181,7 +181,7 @@ if (($do ?? null) == 'vorschau') {
     $sql_where = "(t.id ='{$id}')";
 } // Proforma-Abfrage
 
-//$sql = "SELECT * FROM ".$db_table." LEFT JOIN solv_termine ON solv_uid=unique_id ".$sql;
+// $sql = "SELECT * FROM ".$db_table." LEFT JOIN solv_termine ON solv_uid=unique_id ".$sql;
 $sql = <<<ZZZZZZZZZZ
 (
     SELECT
@@ -288,16 +288,16 @@ while ($row = mysqli_fetch_array($result)) {
         $tmp_html = olz_file($db_table, $id, intval($matches[1][$i]), $tmptext);
         $link = str_replace($matches[0][$i], $tmp_html, $link);
     }
-    //Karte zeigen
+    // Karte zeigen
     if ($has_olz_location && $datum >= $heute) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
-    //SOLV-Karte zeigen
+    // SOLV-Karte zeigen
     elseif ($has_solv_location && $datum >= $heute) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
-    //Anmeldungs-Link zeigen
-    //Manueller Anmeldungs-Link entfernen
+    // Anmeldungs-Link zeigen
+    // Manueller Anmeldungs-Link entfernen
     if ($row_solv && ($go2ol > "" or $row_solv['entryportal'] == 1 or $row_solv['entryportal'] == 2)) {
         $var = "Anmeldung";
         $pos1 = strpos($link, $var);
@@ -323,11 +323,11 @@ while ($row = mysqli_fetch_array($result)) {
     if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
         $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv['deadline']);
     }
-    //Ranglisten-Link zeigen
+    // Ranglisten-Link zeigen
     if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
         $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
     }
-    //SOLV-Ausschreibungs-Link zeigen
+    // SOLV-Ausschreibungs-Link zeigen
     if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
         $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
         $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
@@ -336,7 +336,7 @@ while ($row = mysqli_fetch_array($result)) {
     if ($typ != 'meldeschluss') {
         $titel = "<a href='termine.php?filter={$enc_current_filter}&id={$id}'>{$titel}</a>";
     }
-    //SOLV-Übersicht-Link zeigen
+    // SOLV-Übersicht-Link zeigen
     if ($row_solv) {
         $titel .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
     }
@@ -359,7 +359,7 @@ while ($row = mysqli_fetch_array($result)) {
     }
 
     if ($zugriff && $typ != 'meldeschluss' && (($do ?? null) != 'vorschau')) {
-        //Berbeiten-/Duplizieren-Button
+        // Berbeiten-/Duplizieren-Button
         $edit_admin = "<a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
         if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
             $edit_anm = "<a href='anmeldung.php?id_anm={$id}&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";
@@ -371,7 +371,7 @@ while ($row = mysqli_fetch_array($result)) {
         $edit_anm = "";
     }
 
-    //Tagesanlass
+    // Tagesanlass
     if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
         $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
         if ($zeit && $zeit != "00:00:00") {
@@ -381,11 +381,11 @@ while ($row = mysqli_fetch_array($result)) {
             }
         }
     }
-    //Mehrtägig innerhalb Monat
+    // Mehrtägig innerhalb Monat
     elseif ($_DATE->olzDate("m", $datum) == $_DATE->olzDate("m", $datum_end)) {
         $datum_tmp = $_DATE->olzDate("t.-", $datum).$_DATE->olzDate("t. ", $datum_end).$_DATE->olzDate("MM", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
     }
-    //Mehrtägig monatsübergreifend
+    // Mehrtägig monatsübergreifend
     else {
         $datum_tmp = $_DATE->olzDate("t.m.-", $datum).$_DATE->olzDate("t.m. ", $datum_end).$_DATE->olzDate("jjjj", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
     }
@@ -422,9 +422,9 @@ echo "</form>
 require_once __DIR__.'/../components/page/olz_footer/olz_footer.php';
 echo olz_footer();
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  Wiederkehrendes Datum anzeigen
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 if (($do ?? null) == 'vorschau' and $modus_termin == 'repeat') {
     $_SESSION[$db_table]['repeat'] = $modus_termin;
     $_SESSION[$db_table]['intervall'] = $intervall_termin;

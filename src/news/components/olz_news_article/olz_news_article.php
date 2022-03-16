@@ -34,7 +34,7 @@ function olz_news_article($args = []): string {
         $titel = $row['titel'];
         $text = olz_amp($row['text']);
         $textlang = olz_br($row['textlang']);
-        //$textlang = str_replace(array("\n\n","\n"),array("<p>","<br>"),$row['textlang']);
+        // $textlang = str_replace(array("\n\n","\n"),array("<p>","<br>"),$row['textlang']);
         $autor = ($row['autor'] > '') ? $row['autor'] : "..";
         $datum = $row['datum'];
 

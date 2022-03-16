@@ -13,7 +13,7 @@ $karten_typ = [
     'Dorf-Karten' => 'stadt',
     'sCOOL-Karten' => 'scool', ];
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -21,14 +21,14 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
     $zugriff = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
 $id = $_SESSION[$db_table.'id_'] ?? null;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff) {
     $functions = ['neu' => 'Neue Karte',
@@ -53,7 +53,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
     if ($alert != "") {
@@ -62,7 +62,7 @@ if ($zugriff and $db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neue Karte", "0"]], "")."</div>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     if (($do ?? null) == 'vorschau') {
@@ -71,7 +71,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     else {
         $sql = "SELECT * FROM {$db_table} ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END,ort ASC, position ASC";
     }
-    //echo $sql;
+    // echo $sql;
     $result = $db->query($sql);
     $tmp_typ = "";
     $tmp_tag = "";
@@ -107,15 +107,15 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $massstab = "&nbsp;";
         }
 
-        //$thumb_name = strtolower(str_replace(array("ä","ö","ü","-"," ","/"),array("ae","oe","ue","_","_","_"),$name)."_".$jahr."_".preg_replace("[^0-9]", "",substr($massstab,2))).".jpg";
-        //if (file_exists("img/karten/".$thumb_name)){
+        // $thumb_name = strtolower(str_replace(array("ä","ö","ü","-"," ","/"),array("ae","oe","ue","_","_","_"),$name)."_".$jahr."_".preg_replace("[^0-9]", "",substr($massstab,2))).".jpg";
+        // if (file_exists("img/karten/".$thumb_name)){
         if ($thumb > "") {
             $img_info_gross = getimagesize($data_path."img/karten/".$thumb);
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
             $img_href = "{$data_href}img/karten/{$thumb}";
             $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
-        //$map = "<img src='icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
+        // $map = "<img src='icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
         } else {
             $map = '';
         }

@@ -12,7 +12,7 @@ require_once __DIR__.'/config/date.php';
 $tmp_jahr = $_DATE->olzDate("jjjj", "");
 $db_imgpath = $tables_img_dirs[$db_table];
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -20,7 +20,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
     $zugriff = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if ($zugriff and isset($_SESSION['edit'])) {
     $sql = "SELECT datum FROM {$db_table} WHERE (id='{$id}')";
@@ -42,7 +42,7 @@ if (isset($_GET["jahr"])) {
 } else {
     $jahr = $_SESSION[$db_table.'jahr_'] ?? null;
 }
-//if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj","");
+// if ($jahr = "") $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj","");
 if ($id == "") { // Jüngste Nachricht
     $sql = "SELECT id,datum FROM {$db_table} WHERE (on_off = '1') ORDER BY datum DESC LIMIT 1";
     $result = $db->query($sql);
@@ -55,7 +55,7 @@ $jahr = $_SESSION[$db_table.'jahr_'] ?? null;
 
 echo "<h2>Galerien</h2>";
 
-//if ($db_edit=="0") $db->query("DELETE FROM $db_table WHERE titel='' AND autor='' AND on_off='0' AND typ='foto' AND datum<'".date("Y-m-d")."'");
+// if ($db_edit=="0") $db->query("DELETE FROM $db_table WHERE titel='' AND autor='' AND on_off='0' AND typ='foto' AND datum<'".date("Y-m-d")."'");
 
 while ($tmp_jahr >= $end_jahr) {
     echo "<a href='?jahr=".$tmp_jahr."' onclick='runAccordion(\"".$tmp_jahr."\"); return false;'><div class='accordion-title' onselectstart='return false;' name='accordionlink'>".$tmp_jahr."</div></a>

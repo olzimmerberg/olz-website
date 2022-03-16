@@ -23,7 +23,7 @@ echo "<h2>Links</h2>";
 
 $db_table = 'links';
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -39,14 +39,14 @@ if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($id) and is_ganzzahl($id) and ($_SESSION['edit']['db_table'] == $db_table)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-//$id = $_SESSION[$db_table.'id_'] ?? null;
+// $id = $_SESSION[$db_table.'id_'] ?? null;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -72,9 +72,9 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 } else {
     $db_edit = "0";
 }
-//$_SESSION[$db_table."id_"] = $id;
+// $_SESSION[$db_table."id_"] = $id;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
     if ($alert != "") {
@@ -83,7 +83,7 @@ if ($zugriff and $db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 $sql = "SELECT * from {$db_table} ORDER BY position";
 $result = $db->query($sql);
@@ -144,7 +144,7 @@ echo "<h2>Downloads</h2>";
 $db_table = 'downloads';
 $def_folder = 'downloads';
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -160,14 +160,14 @@ if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($id) and is_ganzzahl($id) and ($_SESSION['edit']['db_table'] == $db_table)) {
     $_SESSION[$db_table."id_"] = $id;
 }
-//$id = $_SESSION[$db_table.'id_'] ?? null;
+// $id = $_SESSION[$db_table.'id_'] ?? null;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -196,9 +196,9 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 } else {
     $db_edit = "0";
 }
-//$_SESSION[$db_table."id_"] = $id;
+// $_SESSION[$db_table."id_"] = $id;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
     if ($alert != "") {
@@ -207,7 +207,7 @@ if ($zugriff and $db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 $sql = "SELECT * from {$db_table} ORDER BY position";
 $result = $db->query($sql);
@@ -263,7 +263,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
                 echo "<br>";
             }
         } elseif ($db_edit == "0") {
-            echo "<li>".$edit_admin./*$icon."<a href='$def_folder/$file1' target='_blank'>$name</a>".*/ olz_file($db_table, $id_tmp, 1, $name)."</li>";
+            echo "<li>".$edit_admin./* $icon."<a href='$def_folder/$file1' target='_blank'>$name</a>". */ olz_file($db_table, $id_tmp, 1, $name)."</li>";
         } else {
             echo "<table class='liste'><tr><td style='font-weight:bold;width:20%;'>Bezeichnung:</td><td>{$name}</td></tr>";
             echo "<tr><td style='font-weight:bold;'>Dateiname:</td><td>{$icon}<a href='{$tmp_folder}/{$file1}' target='_blank'>{$file1}</a></td></tr></table>";

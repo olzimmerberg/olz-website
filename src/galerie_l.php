@@ -12,9 +12,9 @@ $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "au
 $breite = 4;
 $pfad_galerie = $data_path."img/galerie/";
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ACTIVATE
-//if ($_GET["action"]=="activate" && $zugriff) $db->query("UPDATE $db_table SET on_off='1' WHERE id='".$id."'");
+// if ($_GET["action"]=="activate" && $zugriff) $db->query("UPDATE $db_table SET on_off='1' WHERE id='".$id."'");
 
 $sql = "SELECT id,datum,on_off FROM {$db_table} WHERE (id='{$id}')";
 $result = $db->query($sql);
@@ -24,7 +24,7 @@ $datum = $row['datum'];
 $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($datum));
 $jahr = $_SESSION[$db_table.'jahr_'];
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = ['neu' => 'Neue Galerie',
@@ -56,7 +56,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 $res = preg_match("/MSIE ([0-9\\.]+)/", $_SERVER["HTTP_USER_AGENT"], $matches);
 /*if ($db_edit=='0' && ($zugriff || !$res || 10<=$matches[1]))
@@ -71,15 +71,15 @@ if ($db_edit == '0' && ($zugriff || !$res)) {
     echo "<div class='buttonbar'><span id='userneuegalerie'></span></div>\n<!-- Dies ist nötig, damit Bots nicht dauernd neue Galerien erstellen --><script type='text/javascript'>document.getElementById(\"userneuegalerie\").innerHTML = ".json_encode(olz_buttons("button".$db_table, $btns, "")).";</script>";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // GALERIE - VORSCHAU
 if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
     $sql = "SELECT * FROM {$db_table} WHERE (id='{$id}')";
     $result = $db->query($sql);
     $row = mysqli_fetch_array($result);
-    //print_r($row);
-    //if ($do=="vorschau") $row = $vorschau;
-    //print_r($row);
+    // print_r($row);
+    // if ($do=="vorschau") $row = $vorschau;
+    // print_r($row);
     $datum = $row['datum'];
     $titel = $row['titel'];
     $autor = $row['autor'];
@@ -126,12 +126,12 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;
-        //if(strpos($html_tmp,".jpg")>0) echo $html_tmp; // Bild vorhanden?
+        // if(strpos($html_tmp,".jpg")>0) echo $html_tmp; // Bild vorhanden?
         echo "</tbody>";
         echo "<tr class='galerie-kopf'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
     } elseif ($typ == "movie") {
         // FILM DIASHOW
-        //Zähler
+        // Zähler
         if ($user == "") {
             $db->query("UPDATE {$db_table} SET counter = (counter+1) WHERE (id = '{$id}')", $conn_id);
         }
@@ -155,14 +155,14 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
             include 'library/flv_info/flvinfo.php';
             $flvinfo = new FLVInfo();
             $movie_info = $flvinfo->getInfo($pfad.$movie, true, true);
-            //var_dump($movie_info);
+            // var_dump($movie_info);
             $movie_width = $movie_info->video->width;
             $movie_height = $movie_info->video->height;
             $movie_height = $movie_height + 20;
             $preview = $pfad.$foto_datum.".jpg";
             $player = "movies/player.swf";
             $skin = "glow.zip";
-            //$skin = "";
+            // $skin = "";
 
             echo "<object id='player1'
                         classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'

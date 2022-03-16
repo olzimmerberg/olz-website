@@ -81,10 +81,10 @@ function olz_termin_detail($args = []): string {
 
         $out .= "<div class='olz-termin-detail'>";
 
-        //Karte zeigen
+        // Karte zeigen
         if ($has_olz_location) {
             $out .= olz_location_map($xkoord, $ykoord, 13, 720, 360);
-        //SOLV-Karte zeigen
+        // SOLV-Karte zeigen
         } elseif ($has_solv_location) {
             $out .= olz_location_map($row_solv['coord_x'], $row_solv['coord_y'], 13, 720, 360);
         }

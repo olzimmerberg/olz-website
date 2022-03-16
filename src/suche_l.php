@@ -13,7 +13,7 @@ $search_key = trim(str_replace([",", ".", ";", "   ", "  "], [" ", " ", " ", " "
 $search_words = explode(" ", $search_key, 4);
 $sql = "";
 
-//TERMINE
+// TERMINE
 for ($n = 0; $n < 3; $n++) {
     $search_key = $search_words[$n];
     if ($n > 0) {
@@ -55,7 +55,7 @@ if ($sql1 > "") {// TERMINE
         $result_termine .= "<tr><td><a href=\"termine.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
-    //AKTUELL
+    // AKTUELL
     $result = $db->query("select * from aktuell WHERE ({$sql1}) AND (on_off = 1) ORDER BY datum DESC");
     $num = mysqli_num_rows($result);
     if ($num > 0) {
@@ -73,7 +73,7 @@ if ($sql1 > "") {// TERMINE
         $result_aktuell .= "<tr><td><a href=\"aktuell.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"aktuell.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
-    //FORUM
+    // FORUM
     $result = $db->query("select * from forum WHERE ({$sql2}) AND (on_off = 1) ORDER BY datum DESC");
     $num = mysqli_num_rows($result);
     if ($num > 0) {

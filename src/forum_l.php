@@ -7,7 +7,7 @@
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -15,7 +15,7 @@ if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/
     $zugriff = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($code)) {
     $uid = $code;
@@ -45,7 +45,7 @@ $id = $_SESSION[$db_table.'id_'] ?? null;
 $jahr = $_SESSION[$db_table.'jahr_'];
 $monat = $_SESSION[$db_table.'monat_'];
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BEARBEITEN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -80,7 +80,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($db_edit == "0") {
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"], ["Eintrag bearbeiten", "1"]], "")."</div>";
@@ -90,7 +90,7 @@ if ($db_edit == "0") {
     }
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 //  VORSCHAU - LISTE
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     if (isset($id_forum)) {
@@ -110,7 +110,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $sql = "SELECT * FROM {$db_table} ".$sql." ORDER BY datum DESC, zeit DESC";
     $result = $db->query($sql);
     echo "<table style='width:100%; table-layout:fixed;' class='liste'><tr><td style='width:20%; border:0px;'></td><td style='width:80%; border:0px;'></td></tr>";
-    //echo $vorschau[0]['name']."***";
+    // echo $vorschau[0]['name']."***";
     while ($row = mysqli_fetch_array($result)) {
         if (($do ?? null) == 'vorschau') {
             $row = $vorschau;
@@ -173,7 +173,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
 
         echo "<div>".olz_monate($datum)."</div>";
         echo "<tr{$class}><td>".$edit_admin."<a name='id{$id}'></a><b>".$_DATE->olzDate("tt. MM", $datum)."</b><br>(".$zeit.")</td>\n<td style='overflow-x:auto;'><b>\n";
-        //echo olz_mask_email($email,$titel,"Forumeintrag OL Zimmerberg")."</b><p>".$name.$eintrag."</p></td></tr>\n";
+        // echo olz_mask_email($email,$titel,"Forumeintrag OL Zimmerberg")."</b><p>".$name.$eintrag."</p></td></tr>\n";
         if ($name > "") {
             echo $titel."</b><p>".olz_mask_email($email, $name, $titel)."| ".$eintrag."</p></td></tr>\n";
         } else {

@@ -30,7 +30,7 @@ echo "</div>";
 echo "<div id='content_mitte'>";
 echo "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = [
@@ -60,7 +60,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and ($db_edit == '0')) {
     echo <<<'ZZZZZZZZZZ'

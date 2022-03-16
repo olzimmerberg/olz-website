@@ -12,11 +12,11 @@ require_once __DIR__.'/tickers.php';
 // <p>Ihr habt sicher gemerkt, dass hier seit unzähligen Wochen dasselbe Bild erschienen ist. Leider hat niemand den Wink mit dem Zaunpfahl bemerkt. Deshalb nun hier explizit der Aufruf: Bitte liefert mir Bilder, am liebsten natürlich von irgendeinem OL, einem Training oder sonst einem Klubanlass. Format, Grösse und Qualität sind nicht so wichtig (ich nehme auch Handybilder). Zückt also eure Kameras und schiesst los ...</p>
 // <script type='text/javascript'>MailTo(\"website\", \"olzimmerberg.ch\", \"Bild mailen\", \"Bild%20der%20Woche\");</script>";
 require_once "image_tools.php";
-//Konstanten
+// Konstanten
 $db_table = 'bild_der_woche';
 $img_folder = "img";
 $id = $_GET['id'] ?? null;
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // ZUGRIFF
 if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
     $zugriff = "1";
@@ -31,14 +31,14 @@ if (isset($_POST[$button_name])) {
     $_SESSION['edit']['db_table'] = $db_table;
 }
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;
 }
 $id = $_SESSION[$db_table.'id_'] ?? null;
 
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // DATENSATZ EDITIEREN
 if ($zugriff) {
     $functions = ['neu' => 'Neuer Eintrag',
@@ -63,12 +63,12 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 } else {
     $db_edit = "0";
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // MENÜ
 if ($zugriff and ($db_edit == '0')) {
     echo "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
 }
-//-------------------------------------------------------------
+// -------------------------------------------------------------
 // BILD DER WOCHE - VORSCHAU
 if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
     $sql = "SELECT * from {$db_table} WHERE (on_off = 1) ORDER BY id ASC LIMIT 1";

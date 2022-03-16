@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20211130230319
+-- MIGRATION: OLZ\Migrations\Version20220317172850
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -61,7 +61,8 @@ VALUES
     ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
     ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115'),
     ('OLZ\\Migrations\\Version20210913161236', '2021-09-13 16:13:26', '152'),
-    ('OLZ\\Migrations\\Version20211130230319', '2021-11-30 23:41:24', '1337');
+    ('OLZ\\Migrations\\Version20211130230319', '2021-11-30 23:41:24', '1337'),
+    ('OLZ\\Migrations\\Version20220317172850', '2022-03-17 17:30:24', '2336');
 
 -- Table downloads
 
@@ -121,6 +122,52 @@ INSERT INTO olz_text
 VALUES
     ('1', '<div><p><b>OL-Training (im Sommerhalbjahr)</b><br>\n<i>für Kartentechnik und Orientierung im Wald (ab 6 Jahren)</i><br>\njeden Dienstag gemäss Terminkalender<br>\n<a href=\"/pdf/Trainingsplan_2020.pdf\" target=\"_blank\">Trainingsplan 2020</a></p>\n<p><b>Hallentraining (im Winterhalbjahr)</b><br>\n<i>für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)</i><br>\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)<br>\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)<br>\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)</p>\n<!--<p><b>Lauftraining</b><br>\n<i>für Ausdauer und Kondition (Jugendliche & Erwachsene)</i><br>\njeden Donnerstag, 18.45 Uhr, 60 Min. (In den Schulferien nur nach Absprache.)</p>-->\n<p><b>Longjoggs (im Winterhalbjahr)</b><br>\n<i>für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)</i><br>\nan Sonntagen gemäss Terminkalender</p></div>', '1'),
     ('22', '⚠️ Wichtige Information! ⚠️', '1');
+
+-- Table quiz_categories
+INSERT INTO quiz_categories
+    (`id`, `parent_category_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', NULL, NULL, NULL, NULL, NULL, 'Kartensymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('2', '1', NULL, NULL, NULL, NULL, 'Geländeformen', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('3', '1', NULL, NULL, NULL, NULL, 'Felsen und Steine', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('4', '1', NULL, NULL, NULL, NULL, 'Gewässer und Sümpfe', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('5', '1', NULL, NULL, NULL, NULL, 'Vegetation', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('6', '1', NULL, NULL, NULL, NULL, 'Künstliche Objekte', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('7', '1', NULL, NULL, NULL, NULL, 'Bahnsymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+
+-- Table quiz_skill
+INSERT INTO quiz_skill
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', NULL, NULL, NULL, NULL, 'Höhenkurve', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('2', NULL, NULL, NULL, NULL, 'Zählkurve', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('3', NULL, NULL, NULL, NULL, 'Formlinie', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('4', NULL, NULL, NULL, NULL, 'Unpassierbare Felswand', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('5', NULL, NULL, NULL, NULL, 'Unpassierbares Gewässer', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('6', NULL, NULL, NULL, NULL, 'Offenes Gebiet', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('7', NULL, NULL, NULL, NULL, 'Befestigte Fläche', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('8', NULL, NULL, NULL, NULL, 'Startpunkt', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+
+-- Table quiz_skill_levels
+INSERT INTO quiz_skill_levels
+    (`id`, `user_id`, `skill_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `value`, `recorded_at`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', '1', '1', '1', NULL, '1', '1', '0.5', '2022-03-17 00:25:26', '1', '2022-03-17 00:25:26', '2022-03-17 00:25:26'),
+    ('2', '1', '2', '1', NULL, '1', '1', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43'),
+    ('3', '2', '5', '2', NULL, '2', '2', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43');
+
+-- Table quiz_skills_categories
+INSERT INTO quiz_skills_categories
+    (`skill_id`, `category_id`)
+VALUES
+    ('1', '2'),
+    ('2', '2'),
+    ('3', '2'),
+    ('4', '3'),
+    ('5', '4'),
+    ('6', '5'),
+    ('7', '6'),
+    ('8', '7');
 
 -- Table roles
 INSERT INTO roles

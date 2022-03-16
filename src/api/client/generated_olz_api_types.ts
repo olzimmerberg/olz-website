@@ -74,6 +74,10 @@ export type OlzApiEndpoint =
     'updateNews'|
     'deleteNews'|
     'searchTransportConnection'|
+    'getMySkillLevels'|
+    'updateMySkillLevels'|
+    'registerSkillCategories'|
+    'registerSkills'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken';
 
@@ -243,6 +247,28 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'destination': string,
             'arrival': string,
         },
+    getMySkillLevels: {
+            'skillFilter': {
+            'categoryIdIn': Array<string>,
+        }|null,
+        },
+    updateMySkillLevels: {
+            'updates': {[key: string]: {
+            'change': number,
+        }},
+        },
+    registerSkillCategories: {
+            'skillCategories': Array<{
+            'name': string,
+            'parentCategoryName': string|null,
+        }>,
+        },
+    registerSkills: {
+            'skills': Array<{
+            'name': string,
+            'categoryIds': Array<string>,
+        }>,
+        },
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
 }
@@ -369,6 +395,18 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     searchTransportConnection: {
             'status': 'OK'|'ERROR',
             'suggestions': Array<OlzTransportConnectionSuggestion>|null,
+        },
+    getMySkillLevels: {[key: string]: {
+            'value': number,
+        }},
+    updateMySkillLevels: {
+            'status': 'OK'|'ERROR',
+        },
+    registerSkillCategories: {
+            'idByName': {[key: string]: string},
+        },
+    registerSkills: {
+            'idByName': {[key: string]: string},
         },
     getWebdavAccessToken: {
             'status': 'OK'|'ERROR',

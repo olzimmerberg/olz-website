@@ -136,6 +136,25 @@ $olz_api->registerEndpoint('searchTransportConnection', function () {
     return new SearchTransportConnectionEndpoint();
 });
 
+// Quiz
+
+$olz_api->registerEndpoint('getMySkillLevels', function () {
+    require_once __DIR__.'/../quiz/endpoints/GetMySkillLevelsEndpoint.php';
+    return new GetMySkillLevelsEndpoint();
+});
+$olz_api->registerEndpoint('updateMySkillLevels', function () {
+    require_once __DIR__.'/../quiz/endpoints/UpdateMySkillLevelsEndpoint.php';
+    return new UpdateMySkillLevelsEndpoint();
+});
+$olz_api->registerEndpoint('registerSkillCategories', function () {
+    require_once __DIR__.'/../quiz/endpoints/RegisterSkillCategoriesEndpoint.php';
+    return new RegisterSkillCategoriesEndpoint();
+});
+$olz_api->registerEndpoint('registerSkills', function () {
+    require_once __DIR__.'/../quiz/endpoints/RegisterSkillsEndpoint.php';
+    return new RegisterSkillsEndpoint();
+});
+
 // WebDAV
 
 $olz_api->registerEndpoint('getWebdavAccessToken', function () {

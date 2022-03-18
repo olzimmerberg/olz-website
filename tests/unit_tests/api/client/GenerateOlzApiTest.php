@@ -12,7 +12,9 @@ final class GenerateOlzApiTest extends UnitTestCase {
     public function testOlzApiHasBeenGenerated(): void {
         $actual_content = file_get_contents(__DIR__.'/../../../../src/api/client/generated_olz_api_types.ts');
 
+        ob_start();
         include __DIR__.'/../../../../src/api/client/generate.php';
+        ob_end_clean();
 
         $expected_content = file_get_contents(__DIR__.'/../../../../src/api/client/generated_olz_api_types.ts');
 

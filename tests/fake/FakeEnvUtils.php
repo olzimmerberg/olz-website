@@ -88,6 +88,10 @@ class FakeEnvUtils {
     public function getEmailReactionKey() {
         return 'aaaaaaaaaaaaaaaaaaaa';
     }
+
+    public function getIdEncryptionKey() {
+        return 'aaaaaaaaaaaaaaaaaaac';
+    }
 }
 
 class FakeLogsUtils {

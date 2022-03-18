@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AccessToken {
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
     /**

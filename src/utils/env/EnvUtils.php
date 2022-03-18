@@ -26,6 +26,7 @@ class EnvUtils {
 
     private $database_backup_key;
     private $email_reaction_key;
+    private $id_encryption_key;
 
     private $cron_authenticity_code;
 
@@ -98,6 +99,7 @@ class EnvUtils {
 
         $this->database_backup_key = $config_dict['database_backup_key'] ?? $this->database_backup_key;
         $this->email_reaction_key = $config_dict['email_reaction_key'] ?? $this->email_reaction_key;
+        $this->id_encryption_key = $config_dict['id_encryption_key'] ?? $this->id_encryption_key;
 
         $this->cron_authenticity_code = $config_dict['cron_authenticity_code'] ?? $this->cron_authenticity_code;
 
@@ -199,6 +201,10 @@ class EnvUtils {
 
     public function getEmailReactionKey() {
         return $this->email_reaction_key;
+    }
+
+    public function getIdEncryptionKey() {
+        return $this->id_encryption_key;
     }
 
     public function getCronAuthenticityCode() {

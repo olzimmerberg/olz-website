@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20211130230319
+-- MIGRATION: OLZ\Migrations\Version20220317172850
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -654,6 +654,104 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quiz_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_category_id` int(11) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_739C61542B18554A` (`owner_user_id`),
+  KEY `IDX_739C61545A75A473` (`owner_role_id`),
+  KEY `IDX_739C61547D182D95` (`created_by_user_id`),
+  KEY `IDX_739C61541A04EF5A` (`last_modified_by_user_id`),
+  KEY `name_index` (`name`),
+  KEY `parent_category_index` (`parent_category_id`),
+  CONSTRAINT `FK_739C61541A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_739C61542B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_739C61545A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_739C6154796A8F92` FOREIGN KEY (`parent_category_id`) REFERENCES `quiz_categories` (`id`),
+  CONSTRAINT `FK_739C61547D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quiz_skill` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_A24E9DF72B18554A` (`owner_user_id`),
+  KEY `IDX_A24E9DF75A75A473` (`owner_role_id`),
+  KEY `IDX_A24E9DF77D182D95` (`created_by_user_id`),
+  KEY `IDX_A24E9DF71A04EF5A` (`last_modified_by_user_id`),
+  KEY `name_index` (`name`),
+  CONSTRAINT `FK_A24E9DF71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A24E9DF72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A24E9DF75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_A24E9DF77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quiz_skills_categories` (
+  `skill_id` bigint(20) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`skill_id`,`category_id`),
+  KEY `IDX_7289B4265585C142` (`skill_id`),
+  KEY `IDX_7289B42612469DE2` (`category_id`),
+  CONSTRAINT `FK_7289B42612469DE2` FOREIGN KEY (`category_id`) REFERENCES `quiz_categories` (`id`),
+  CONSTRAINT `FK_7289B4265585C142` FOREIGN KEY (`skill_id`) REFERENCES `quiz_skill` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quiz_skill_levels` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `skill_id` bigint(20) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `value` double NOT NULL,
+  `recorded_at` datetime NOT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_6699B5F6A76ED395` (`user_id`),
+  KEY `IDX_6699B5F65585C142` (`skill_id`),
+  KEY `IDX_6699B5F62B18554A` (`owner_user_id`),
+  KEY `IDX_6699B5F65A75A473` (`owner_role_id`),
+  KEY `IDX_6699B5F67D182D95` (`created_by_user_id`),
+  KEY `IDX_6699B5F61A04EF5A` (`last_modified_by_user_id`),
+  KEY `user_skill_index` (`user_id`,`skill_id`),
+  CONSTRAINT `FK_6699B5F61A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_6699B5F62B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_6699B5F65585C142` FOREIGN KEY (`skill_id`) REFERENCES `quiz_skill` (`id`),
+  CONSTRAINT `FK_6699B5F65A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_6699B5F67D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_6699B5F6A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

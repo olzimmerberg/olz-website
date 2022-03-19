@@ -7,5 +7,6 @@
         "src/config/vendor/**": true,
         "src/library/**": true,
         "tools/remote_config/vendor/**": true,
+        "**/jsbuild/**": true,
     }
 }

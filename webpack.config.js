@@ -81,6 +81,7 @@ module.exports = [
             publicPath: '/_/jsbuild/',
             filename: '[name].min.js',
             library: 'olz',
+            libraryTarget: 'window',
         },
     },
     {
@@ -91,6 +92,7 @@ module.exports = [
             publicPath: '/_/anmelden/jsbuild/',
             filename: '[name].min.js',
             library: 'olzAnmelden',
+            libraryTarget: 'window',
         },
     },
     {
@@ -101,6 +103,7 @@ module.exports = [
             publicPath: '/_/resultate/jsbuild/',
             filename: '[name].min.js',
             library: 'olzResults',
+            libraryTarget: 'window',
         },
     },
     {
@@ -111,6 +114,7 @@ module.exports = [
             publicPath: './jsbuild/',
             filename: '[name].min.js',
             library: 'olzResults',
+            libraryTarget: 'window',
         },
     },
 ];

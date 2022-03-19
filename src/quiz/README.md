@@ -1,1 +1,1 @@
-# `quiz/`: Quiz um das OL-Wissen zu trainieren
+# `quiz/`: Quiz, um das OL-Wissen zu trainieren

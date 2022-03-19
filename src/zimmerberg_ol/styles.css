@@ -1,0 +1,70 @@
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+.content.carousel img {
+    min-height: 350px;
+    object-fit: cover;
+}
+
+#header-text {
+    bottom: 20px;
+    color: #fff;
+    height: 66%;
+    left: 15%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    position: absolute;
+    right: 15%;
+    text-align: center;
+    text-shadow: 1px 1px 3px #000;
+    z-index: 10;
+}
+
+.nav-item {
+    margin-right: 10px;
+}
+
+h2.section-title {
+    background-color: rgb(180, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    margin-bottom: 0;
+    top: 56px;
+}
+
+.title-anchor,
+.content-anchor {
+    position: relative;
+}
+
+.title-anchor span[id] {
+    position: absolute;
+    top: -56px;
+}
+
+.content-anchor span[id] {
+    position: absolute;
+    top: -94px;
+}
+
+.content {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.content .row img {
+    max-width: 100%;
+}
+
+.sponsor.row .col {
+    text-align: center;
+}
+
+.sponsor-padding {
+    height: 100px;
+}

@@ -3,6 +3,8 @@
 require_once __DIR__.'/AbstractDateUtils.php';
 
 class FixedDateUtils extends AbstractDateUtils {
+    public const UTILS = [];
+
     private $fixed_date;
 
     public function __construct($fixed_date) {

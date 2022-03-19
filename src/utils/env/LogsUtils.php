@@ -5,16 +5,16 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
+require_once __DIR__.'/../WithUtilsTrait.php';
 require_once __DIR__.'/EnvUtils.php';
 
 class LogsUtils {
+    use WithUtilsTrait;
+    public const UTILS = [
+        'envUtils',
+    ];
+
     private static $activated_loggers_stack = [];
-
-    private $envUtils;
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getLogger($ident) {
         $data_path = $this->envUtils->getDataPath();
@@ -43,12 +43,5 @@ class LogsUtils {
         }
         restore_error_handler();
         restore_exception_handler();
-    }
-
-    public static function fromEnv() {
-        $env_utils = EnvUtils::fromEnv();
-        $logs_utils = new self();
-        $logs_utils->setEnvUtils($env_utils);
-        return $logs_utils;
     }
 }

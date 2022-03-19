@@ -1,6 +1,35 @@
 <?php
 
+require_once __DIR__.'/../WithUtilsTrait.php';
+
 class GoogleUtils {
+    use WithUtilsTrait;
+    public const UTILS = [
+        'dateUtils',
+    ];
+
+    public static function fromEnv() {
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
+        require_once __DIR__.'/../date/AbstractDateUtils.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
+
+        $env_utils = EnvUtils::fromEnv();
+        $base_href = $env_utils->getBaseHref();
+        $code_href = $env_utils->getCodeHref();
+        $redirect_url = $base_href.$code_href.'konto_google.php';
+        $google_fetcher = new GoogleFetcher();
+
+        $instance = new self();
+        $instance->populateFromEnv(self::UTILS);
+        $instance->setClientId($env_utils->getGoogleClientId());
+        $instance->setClientSecret($env_utils->getGoogleClientSecret());
+        $instance->setRedirectUrl($redirect_url);
+        $instance->setGoogleFetcher($google_fetcher);
+        return $instance;
+    }
+
     public function setClientId($client_id) {
         $this->client_id = $client_id;
     }
@@ -11,10 +40,6 @@ class GoogleUtils {
 
     public function setRedirectUrl($redirect_url) {
         $this->redirect_url = $redirect_url;
-    }
-
-    public function setDateUtils($date_utils) {
-        $this->date_utils = $date_utils;
     }
 
     public function setGoogleFetcher($google_fetcher) {
@@ -56,7 +81,7 @@ class GoogleUtils {
         ];
         $userinfo_response = $this->google_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        $now_secs = strtotime($this->date_utils->getIsoNow());
+        $now_secs = strtotime($this->dateUtils->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],
@@ -226,28 +251,5 @@ class GoogleUtils {
         $month = str_pad($date['month'], 2, '0', STR_PAD_LEFT);
         $day = str_pad($date['day'], 2, '0', STR_PAD_LEFT);
         return "{$year}-{$month}-{$day}";
-    }
-
-    public static function fromEnv() {
-        require_once __DIR__.'/../../config/paths.php';
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
-        require_once __DIR__.'/../date/DateUtils.php';
-        require_once __DIR__.'/../env/EnvUtils.php';
-
-        $env_utils = EnvUtils::fromEnv();
-        $base_href = $env_utils->getBaseHref();
-        $code_href = $env_utils->getCodeHref();
-        $redirect_url = $base_href.$code_href.'konto_google.php';
-        $date_utils = DateUtils::fromEnv();
-        $google_fetcher = new GoogleFetcher();
-
-        $google_utils = new GoogleUtils();
-        $google_utils->setClientId($env_utils->getGoogleClientId());
-        $google_utils->setClientSecret($env_utils->getGoogleClientSecret());
-        $google_utils->setRedirectUrl($redirect_url);
-        $google_utils->setDateUtils($date_utils);
-        $google_utils->setGoogleFetcher($google_fetcher);
-        return $google_utils;
     }
 }

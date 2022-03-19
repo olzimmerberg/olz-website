@@ -6,6 +6,12 @@ require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class OlzMailer extends PHPMailer {
     use Psr\Log\LoggerAwareTrait;
+    // TODO: Those are not actually used. It's just to avoid a test error.
+    public const UTILS = [
+        'emailUtils',
+        'envUtils',
+        'logger',
+    ];
 
     private $emailUtils;
     private $envUtils;

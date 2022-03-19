@@ -1,6 +1,8 @@
 <?php
 
 abstract class AbstractSession {
+    public const UTILS = [];
+
     abstract public function has($key);
 
     abstract public function get($key);

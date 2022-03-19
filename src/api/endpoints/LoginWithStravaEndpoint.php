@@ -20,25 +20,6 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         'profilePictureUrl' => null,
     ];
 
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/StravaUtils.php';
-        $strava_utils = StravaUtils::fromEnv();
-        $this->setEntityManager($entityManager);
-        $this->setStravaUtils($strava_utils);
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setStravaUtils($strava_utils) {
-        $this->stravaUtils = $strava_utils;
-    }
-
     public static function getIdent() {
         return 'LoginWithStravaEndpoint';
     }

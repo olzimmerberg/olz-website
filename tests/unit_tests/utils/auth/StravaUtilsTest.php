@@ -51,31 +51,31 @@ class FakeStravaUtilsStravaFetcher {
  * @covers \StravaUtils
  */
 final class StravaUtilsTest extends UnitTestCase {
-    private $strava_utils;
+    private $stravaUtils;
 
     public function __construct() {
         global $sample_strava_fetcher_response;
         parent::__construct();
         $this->fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($sample_strava_fetcher_response);
-        $strava_utils = new StravaUtils();
-        $strava_utils->setClientId('fake-client-id');
-        $strava_utils->setClientSecret('fake-client-secret');
-        $strava_utils->setRedirectUrl('fake-redirect-url');
-        $strava_utils->setStravaFetcher($this->fake_strava_fetcher);
-        $this->strava_utils = $strava_utils;
+        $stravaUtils = new StravaUtils();
+        $stravaUtils->setClientId('fake-client-id');
+        $stravaUtils->setClientSecret('fake-client-secret');
+        $stravaUtils->setRedirectUrl('fake-redirect-url');
+        $stravaUtils->setStravaFetcher($this->fake_strava_fetcher);
+        $this->stravaUtils = $stravaUtils;
     }
 
     public function testModifyStravaUtils(): void {
         global $sample_strava_fetcher_response;
         $fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($sample_strava_fetcher_response);
-        $strava_utils = new StravaUtils();
-        $strava_utils->setClientId('fake-client-id');
-        $strava_utils->setClientSecret('fake-client-secret');
-        $strava_utils->setRedirectUrl('fake-redirect-url');
-        $strava_utils->setStravaFetcher($fake_strava_fetcher);
+        $stravaUtils = new StravaUtils();
+        $stravaUtils->setClientId('fake-client-id');
+        $stravaUtils->setClientSecret('fake-client-secret');
+        $stravaUtils->setRedirectUrl('fake-redirect-url');
+        $stravaUtils->setStravaFetcher($fake_strava_fetcher);
 
-        $strava_utils->setClientId('new-client-id');
-        $strava_utils->setClientSecret('new-client-secret');
+        $stravaUtils->setClientId('new-client-id');
+        $stravaUtils->setClientSecret('new-client-secret');
 
         $this->assertSame(
             'https://www.strava.com/oauth/authorize'.
@@ -84,7 +84,7 @@ final class StravaUtilsTest extends UnitTestCase {
                 '&response_type=code'.
                 '&approval_prompt=auto'.
                 '&scope=profile:read_all',
-            str_replace('&amp;', '&', urldecode($strava_utils->getAuthUrl()))
+            str_replace('&amp;', '&', urldecode($stravaUtils->getAuthUrl()))
         );
     }
 
@@ -96,7 +96,7 @@ final class StravaUtilsTest extends UnitTestCase {
                 '&response_type=code'.
                 '&approval_prompt=auto'.
                 '&scope=profile:read_all',
-                str_replace('&amp;', '&', urldecode($this->strava_utils->getAuthUrl()))
+                str_replace('&amp;', '&', urldecode($this->stravaUtils->getAuthUrl()))
         );
     }
 
@@ -114,22 +114,22 @@ final class StravaUtilsTest extends UnitTestCase {
             'region' => 'Zürich',
             'country' => 'Switzerland',
             'profile_picture_url' => 'http://fake-url',
-        ], $this->strava_utils->getTokenDataForCode('fake-code'));
+        ], $this->stravaUtils->getTokenDataForCode('fake-code'));
     }
 
     public function testGetTokenDataForInvalidCode(): void {
         global $empty_people_api_response;
         $fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($empty_people_api_response);
-        $strava_utils = new StravaUtils();
-        $strava_utils->setClientId('fake-client-id');
-        $strava_utils->setClientSecret('fake-client-secret');
-        $strava_utils->setRedirectUrl('fake-redirect-url');
-        $strava_utils->setStravaFetcher($fake_strava_fetcher);
+        $stravaUtils = new StravaUtils();
+        $stravaUtils->setClientId('fake-client-id');
+        $stravaUtils->setClientSecret('fake-client-secret');
+        $stravaUtils->setRedirectUrl('fake-redirect-url');
+        $stravaUtils->setStravaFetcher($fake_strava_fetcher);
 
-        $this->assertSame(null, $strava_utils->getTokenDataForCode('fake-code'));
+        $this->assertSame(null, $stravaUtils->getTokenDataForCode('fake-code'));
     }
 
     public function testGetUserData(): void {
-        $this->assertSame('fake-code', $this->strava_utils->getUserData('fake-code'));
+        $this->assertSame('fake-code', $this->stravaUtils->getUserData('fake-code'));
     }
 }

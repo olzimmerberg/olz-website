@@ -1,6 +1,9 @@
 <?php
 
 class GeneralUtils {
+    use WithUtilsTrait;
+    public const UTILS = [];
+
     public function base64EncodeUrl($string) {
         return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($string));
     }
@@ -29,9 +32,5 @@ class GeneralUtils {
             $output .= '#'.($i - 1).' '.$entry['file'].':'.$entry['line'].' - '.$func.PHP_EOL;
         }
         return $output;
-    }
-
-    public static function fromEnv() {
-        return new self();
     }
 }

@@ -5,25 +5,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class FinishUploadEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG;
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $this->setAuthUtils($auth_utils);
-        $this->setEnvUtils($_CONFIG);
-    }
-
-    public function setAuthUtils($new_auth_utils) {
-        $this->authUtils = $new_auth_utils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
     public static function getIdent() {
         return 'FinishUploadEndpoint';
     }

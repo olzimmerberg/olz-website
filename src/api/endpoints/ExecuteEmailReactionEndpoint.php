@@ -8,25 +8,6 @@ require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../../utils/notify/EmailUtils.php';
 
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/notify/EmailUtils.php';
-        $email_utils = EmailUtils::fromEnv();
-        $this->setEntityManager($entityManager);
-        $this->setEmailUtils($email_utils);
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setEmailUtils($new_email_utils) {
-        $this->emailUtils = $new_email_utils;
-    }
-
     public static function getIdent() {
         return 'ExecuteEmailReactionEndpoint';
     }

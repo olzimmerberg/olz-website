@@ -6,38 +6,6 @@ require_once __DIR__.'/../../api/OlzEndpoint.php';
 require_once __DIR__.'/../../model/AccessToken.php';
 
 class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG, $_DATE, $entityManager;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/GeneralUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $general_utils = GeneralUtils::fromEnv();
-        $this->setAuthUtils($auth_utils);
-        $this->setDateUtils($_DATE);
-        $this->setEntityManager($entityManager);
-        $this->setGeneralUtils($general_utils);
-    }
-
-    public function setAuthUtils($new_auth_utils) {
-        $this->authUtils = $new_auth_utils;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setGeneralUtils($generalUtils) {
-        $this->generalUtils = $generalUtils;
-    }
-
     public static function getIdent() {
         return 'GetWebdavAccessTokenEndpoint';
     }

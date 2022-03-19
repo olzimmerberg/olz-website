@@ -1,8 +1,11 @@
 <?php
 
-require_once __DIR__.'/GeneralUtils.php';
+require_once __DIR__.'/WithUtilsTrait.php';
 
 class IdUtils {
+    use WithUtilsTrait;
+    public const UTILS = [];
+
     public function toExternalId($internal_id, $type = '') {
         $int_internal_id = intval($internal_id);
         if (strval($int_internal_id) !== strval($internal_id)) {
@@ -31,9 +34,5 @@ class IdUtils {
 
     private function trimmedBase64Encode($string) {
         return trim(base64_encode($string), '=');
-    }
-
-    public static function fromEnv() {
-        return new self();
     }
 }

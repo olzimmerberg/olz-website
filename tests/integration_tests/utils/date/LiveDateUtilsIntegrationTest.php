@@ -9,7 +9,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
  * @internal
  * @covers \LiveDateUtils
  */
-final class LiveDateUtilsTest extends IntegrationTestCase {
+final class LiveDateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCurrentDateInFormat(): void {
         $live_date_utils = new LiveDateUtils();
         $this->assertMatchesRegularExpression('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $live_date_utils->getCurrentDateInFormat('Y-m-d H:i:s'));

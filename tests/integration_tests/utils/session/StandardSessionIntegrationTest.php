@@ -9,7 +9,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
  * @internal
  * @covers \StandardSession
  */
-final class StandardSessionTest extends IntegrationTestCase {
+final class StandardSessionIntegrationTest extends IntegrationTestCase {
     public function testStandardSession(): void {
         $standard_session = new StandardSession();
 

@@ -1,6 +1,35 @@
 <?php
 
+require_once __DIR__.'/../WithUtilsTrait.php';
+
 class FacebookUtils {
+    use WithUtilsTrait;
+    public const UTILS = [
+        'dateUtils',
+    ];
+
+    public static function fromEnv() {
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
+        require_once __DIR__.'/../date/AbstractDateUtils.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
+
+        $env_utils = EnvUtils::fromEnv();
+        $base_href = $env_utils->getBaseHref();
+        $code_href = $env_utils->getCodeHref();
+        $redirect_url = $base_href.$code_href.'konto_facebook.php';
+        $facebook_fetcher = new FacebookFetcher();
+
+        $instance = new self();
+        $instance->populateFromEnv(self::UTILS);
+        $instance->setAppId($env_utils->getFacebookAppId());
+        $instance->setAppSecret($env_utils->getFacebookAppSecret());
+        $instance->setRedirectUrl($redirect_url);
+        $instance->setFacebookFetcher($facebook_fetcher);
+        return $instance;
+    }
+
     public function setAppId($app_id) {
         $this->app_id = $app_id;
     }
@@ -11,10 +40,6 @@ class FacebookUtils {
 
     public function setRedirectUrl($redirect_url) {
         $this->redirect_url = $redirect_url;
-    }
-
-    public function setDateUtils($date_utils) {
-        $this->date_utils = $date_utils;
     }
 
     public function setFacebookFetcher($facebook_fetcher) {
@@ -59,7 +84,7 @@ class FacebookUtils {
         ];
         $userinfo_response = $this->facebook_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        $now_secs = strtotime($this->date_utils->getIsoNow());
+        $now_secs = strtotime($this->dateUtils->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],
@@ -77,28 +102,5 @@ class FacebookUtils {
 
     public function getUserData($token_data) {
         return $token_data;
-    }
-
-    public static function fromEnv() {
-        require_once __DIR__.'/../../config/paths.php';
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../fetchers/FacebookFetcher.php';
-        require_once __DIR__.'/../date/DateUtils.php';
-        require_once __DIR__.'/../env/EnvUtils.php';
-
-        $env_utils = EnvUtils::fromEnv();
-        $base_href = $env_utils->getBaseHref();
-        $code_href = $env_utils->getCodeHref();
-        $redirect_url = $base_href.$code_href.'konto_facebook.php';
-        $date_utils = DateUtils::fromEnv();
-        $facebook_fetcher = new FacebookFetcher();
-
-        $facebook_utils = new FacebookUtils();
-        $facebook_utils->setAppId($env_utils->getFacebookAppId());
-        $facebook_utils->setAppSecret($env_utils->getFacebookAppSecret());
-        $facebook_utils->setRedirectUrl($redirect_url);
-        $facebook_utils->setDateUtils($date_utils);
-        $facebook_utils->setFacebookFetcher($facebook_fetcher);
-        return $facebook_utils;
     }
 }

@@ -184,36 +184,36 @@ class FakeGoogleUtilsGoogleFetcher {
  * @covers \GoogleUtils
  */
 final class GoogleUtilsTest extends UnitTestCase {
-    private $google_utils;
+    private $googleUtils;
     private $google_fetcher;
-    private $date_utils;
+    private $dateUtils;
 
     public function __construct() {
         global $sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response;
         parent::__construct();
-        $this->date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $this->dateUtils = new FixedDateUtils('2020-03-13 19:30:00');
         $this->google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
-        $google_utils = new GoogleUtils();
-        $google_utils->setClientId('fake-client-id');
-        $google_utils->setClientSecret('fake-client-secret');
-        $google_utils->setRedirectUrl('fake-redirect-url');
-        $google_utils->setDateUtils($this->date_utils);
-        $google_utils->setGoogleFetcher($this->google_fetcher);
-        $this->google_utils = $google_utils;
+        $googleUtils = new GoogleUtils();
+        $googleUtils->setClientId('fake-client-id');
+        $googleUtils->setClientSecret('fake-client-secret');
+        $googleUtils->setRedirectUrl('fake-redirect-url');
+        $googleUtils->setDateUtils($this->dateUtils);
+        $googleUtils->setGoogleFetcher($this->google_fetcher);
+        $this->googleUtils = $googleUtils;
     }
 
     public function testModifyGoogleUtils(): void {
         global $sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response;
         $fake_google_fetcher = new FakeGoogleUtilsGoogleFetcher($sample_google_token_response, $sample_google_userinfo_response, $sample_people_api_response);
-        $google_utils = new GoogleUtils();
-        $google_utils->setClientId('fake-client-id');
-        $google_utils->setClientSecret('fake-client-secret');
-        $google_utils->setRedirectUrl('fake-redirect-url');
-        $google_utils->setDateUtils($this->date_utils);
-        $google_utils->setGoogleFetcher($fake_google_fetcher);
+        $googleUtils = new GoogleUtils();
+        $googleUtils->setClientId('fake-client-id');
+        $googleUtils->setClientSecret('fake-client-secret');
+        $googleUtils->setRedirectUrl('fake-redirect-url');
+        $googleUtils->setDateUtils($this->dateUtils);
+        $googleUtils->setGoogleFetcher($fake_google_fetcher);
 
-        $google_utils->setClientId('new-client-id');
-        $google_utils->setClientSecret('new-client-secret');
+        $googleUtils->setClientId('new-client-id');
+        $googleUtils->setClientSecret('new-client-secret');
 
         $this->assertSame(
             'https://accounts.google.com/o/oauth2/v2/auth'.
@@ -226,7 +226,7 @@ final class GoogleUtilsTest extends UnitTestCase {
                 'https://www.googleapis.com/auth/user.birthday.read '.
                 'https://www.googleapis.com/auth/user.gender.read '.
                 'https://www.googleapis.com/auth/user.phonenumbers.read',
-            urldecode($google_utils->getAuthUrl())
+            urldecode($googleUtils->getAuthUrl())
         );
     }
 
@@ -242,7 +242,7 @@ final class GoogleUtilsTest extends UnitTestCase {
                 'https://www.googleapis.com/auth/user.birthday.read '.
                 'https://www.googleapis.com/auth/user.gender.read '.
                 'https://www.googleapis.com/auth/user.phonenumbers.read',
-            urldecode($this->google_utils->getAuthUrl())
+            urldecode($this->googleUtils->getAuthUrl())
         );
     }
 
@@ -258,7 +258,7 @@ final class GoogleUtilsTest extends UnitTestCase {
             'email' => 'max@muster.ch',
             'verified_email' => true,
             'profile_picture_url' => 'http://fake-url',
-        ], $this->google_utils->getTokenDataForCode('fake-code'));
+        ], $this->googleUtils->getTokenDataForCode('fake-code'));
     }
 
     public function testGetUserData(): void {
@@ -269,60 +269,60 @@ final class GoogleUtilsTest extends UnitTestCase {
             'region' => 'Kanton Zürich',
             'country' => 'CH',
             'birthday' => '1989-11-09',
-        ], $this->google_utils->getUserData([], []));
+        ], $this->googleUtils->getUserData([], []));
     }
 
     public function testExtractFirstName(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('Given', $this->google_utils->extractFirstName($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractFirstName($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('Given', $this->googleUtils->extractFirstName($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractFirstName($empty_people_api_response));
     }
 
     public function testExtractLastName(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('Family', $this->google_utils->extractLastName($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractLastName($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('Family', $this->googleUtils->extractLastName($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractLastName($empty_people_api_response));
     }
 
     public function testExtractGender(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('M', $this->google_utils->extractGender($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractGender($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('M', $this->googleUtils->extractGender($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractGender($empty_people_api_response));
     }
 
     public function testExtractStreet(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('Tischenloostrasse 57', $this->google_utils->extractStreet($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractStreet($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('Tischenloostrasse 57', $this->googleUtils->extractStreet($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractStreet($empty_people_api_response));
     }
 
     public function testExtractPostalCode(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('8800', $this->google_utils->extractPostalCode($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractPostalCode($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('8800', $this->googleUtils->extractPostalCode($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractPostalCode($empty_people_api_response));
     }
 
     public function testExtractCity(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('Thalwil', $this->google_utils->extractCity($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractCity($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('Thalwil', $this->googleUtils->extractCity($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractCity($empty_people_api_response));
     }
 
     public function testExtractRegion(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('Kanton Zürich', $this->google_utils->extractRegion($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractRegion($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('Kanton Zürich', $this->googleUtils->extractRegion($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractRegion($empty_people_api_response));
     }
 
     public function testExtractCountry(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('CH', $this->google_utils->extractCountry($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractCountry($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('CH', $this->googleUtils->extractCountry($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractCountry($empty_people_api_response));
     }
 
     public function testExtractBirthday(): void {
-        global $google_utils, $sample_people_api_response, $empty_people_api_response;
-        $this->assertSame('1989-11-09', $this->google_utils->extractBirthday($sample_people_api_response));
-        $this->assertSame(null, $this->google_utils->extractBirthday($empty_people_api_response));
+        global $googleUtils, $sample_people_api_response, $empty_people_api_response;
+        $this->assertSame('1989-11-09', $this->googleUtils->extractBirthday($sample_people_api_response));
+        $this->assertSame(null, $this->googleUtils->extractBirthday($empty_people_api_response));
     }
 }

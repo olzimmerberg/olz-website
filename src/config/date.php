@@ -7,8 +7,8 @@
 global $_DATE;
 
 if (!isset($_DATE)) {
-    require_once __DIR__.'/../utils/date/DateUtils.php';
-    $_DATE = DateUtils::fromEnv();
+    require_once __DIR__.'/../utils/date/AbstractDateUtils.php';
+    $_DATE = AbstractDateUtils::fromEnv();
 }
 
 date_default_timezone_set('Europe/Zurich');

@@ -1,6 +1,32 @@
 <?php
 
+require_once __DIR__.'/../WithUtilsTrait.php';
+
 class StravaUtils {
+    use WithUtilsTrait;
+    public const UTILS = [];
+
+    public static function fromEnv() {
+        require_once __DIR__.'/../../config/paths.php';
+        require_once __DIR__.'/../../config/server.php';
+        require_once __DIR__.'/../../fetchers/StravaFetcher.php';
+        require_once __DIR__.'/../env/EnvUtils.php';
+
+        $env_utils = EnvUtils::fromEnv();
+        $base_href = $env_utils->getBaseHref();
+        $code_href = $env_utils->getCodeHref();
+        $redirect_url = $base_href.$code_href.'konto_strava.php';
+        $strava_fetcher = new StravaFetcher();
+
+        $instance = new self();
+        $instance->populateFromEnv(self::UTILS);
+        $instance->setClientId($env_utils->getStravaClientId());
+        $instance->setClientSecret($env_utils->getStravaClientSecret());
+        $instance->setRedirectUrl($redirect_url);
+        $instance->setStravaFetcher($strava_fetcher);
+        return $instance;
+    }
+
     public function setClientId($client_id) {
         $this->client_id = $client_id;
     }
@@ -60,25 +86,5 @@ class StravaUtils {
 
     public function getUserData($token_data) {
         return $token_data;
-    }
-
-    public static function fromEnv() {
-        require_once __DIR__.'/../../config/paths.php';
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../fetchers/StravaFetcher.php';
-        require_once __DIR__.'/../env/EnvUtils.php';
-
-        $env_utils = EnvUtils::fromEnv();
-        $base_href = $env_utils->getBaseHref();
-        $code_href = $env_utils->getCodeHref();
-        $redirect_url = $base_href.$code_href.'konto_strava.php';
-        $strava_fetcher = new StravaFetcher();
-
-        $strava_utils = new StravaUtils();
-        $strava_utils->setClientId($env_utils->getStravaClientId());
-        $strava_utils->setClientSecret($env_utils->getStravaClientSecret());
-        $strava_utils->setRedirectUrl($redirect_url);
-        $strava_utils->setStravaFetcher($strava_fetcher);
-        return $strava_utils;
     }
 }

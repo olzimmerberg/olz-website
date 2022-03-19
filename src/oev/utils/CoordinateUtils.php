@@ -1,6 +1,11 @@
 <?php
 
+require_once __DIR__.'/../../utils/WithUtilsTrait.php';
+
 class CoordinateUtils {
+    use WithUtilsTrait;
+    public const UTILS = [];
+
     public function getCenter($points) {
         $sum_x = 0;
         $sum_y = 0;
@@ -18,9 +23,5 @@ class CoordinateUtils {
         $x_diff = $point_a['x'] - $point_b['x'];
         $y_diff = $point_a['y'] - $point_b['y'];
         return sqrt($x_diff * $x_diff + $y_diff * $y_diff);
-    }
-
-    public static function fromEnv() {
-        return new self();
     }
 }

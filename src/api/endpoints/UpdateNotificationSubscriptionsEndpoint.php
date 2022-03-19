@@ -7,25 +7,6 @@ require_once __DIR__.'/../../model/NotificationSubscription.php';
 require_once __DIR__.'/../../model/User.php';
 
 class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG, $_DATE, $entityManager;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        $date_utils = $_DATE;
-        $this->setEntityManager($entityManager);
-        $this->setDateUtils($date_utils);
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
     public static function getIdent() {
         return 'UpdateNotificationSubscriptionsEndpoint';
     }

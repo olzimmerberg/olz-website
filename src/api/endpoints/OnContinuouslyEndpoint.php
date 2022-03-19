@@ -9,27 +9,25 @@ require_once __DIR__.'/../../model/Throttling.php';
 class OnContinuouslyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $_CONFIG, $_DATE, $entityManager;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../tasks/ProcessEmailTask.php';
         require_once __DIR__.'/../../tasks/SendDailyNotificationsTask.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/notify/EmailUtils.php';
-        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $date_utils = $_DATE;
-        $email_utils = EmailUtils::fromEnv();
-        $telegram_utils = TelegramUtils::fromEnv();
-        $process_email_task = new ProcessEmailTask($entityManager, $auth_utils, $email_utils, $date_utils, $_CONFIG);
-        $send_daily_notifications_task = new SendDailyNotificationsTask($entityManager, $email_utils, $telegram_utils, $date_utils, $_CONFIG);
+        $process_email_task = new ProcessEmailTask(
+            $this->entityManager,
+            $this->authUtils,
+            $this->emailUtils,
+            $this->dateUtils,
+            $this->envUtils
+        );
+        $send_daily_notifications_task = new SendDailyNotificationsTask(
+            $this->entityManager,
+            $this->emailUtils,
+            $this->telegramUtils,
+            $this->dateUtils,
+            $this->envUtils
+        );
         $this->setProcessEmailTask($process_email_task);
         $this->setSendDailyNotificationsTask($send_daily_notifications_task);
-        $this->setEntityManager($entityManager);
-        $this->setDateUtils($date_utils);
-        $this->setEnvUtils($_CONFIG);
     }
 
     public function setSendDailyNotificationsTask($sendDailyNotificationsTask) {
@@ -38,18 +36,6 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
 
     public function setProcessEmailTask($processEmailTask) {
         $this->processEmailTask = $processEmailTask;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
     }
 
     public static function getIdent() {

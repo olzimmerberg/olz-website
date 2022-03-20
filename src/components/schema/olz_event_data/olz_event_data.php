@@ -13,6 +13,7 @@ function olz_event_data($args = []): string {
         '@type' => 'Place',
         'latitude' => $location['lat'],
         'longitude' => $location['lng'],
+        'name' => $location['name'] ?? null,
         'address' => 'Unbekannt',
     ] : 'Unbekannt';
     $event_data = [
@@ -22,6 +23,8 @@ function olz_event_data($args = []): string {
         'startDate' => $start_date,
         'endDate' => $end_date,
         'location' => $place,
+        'eventAttendanceMode' => 'OfflineEventAttendanceMode',
+        'eventStatus' => 'EventScheduled',
     ];
     $json_event_data = json_encode($event_data);
     return <<<ZZZZZZZZZZ

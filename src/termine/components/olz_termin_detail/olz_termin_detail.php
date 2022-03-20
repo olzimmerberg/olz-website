@@ -67,6 +67,8 @@ function olz_termin_detail($args = []): string {
             ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
         $lng = $has_olz_location ? CHtoWGSlng($xkoord, $ykoord) :
             ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
+        $location_name = $has_olz_location ? null :
+            ($has_solv_location ? $row_solv['location'] : null);
         $has_location = $has_olz_location || $has_solv_location;
 
         $out .= olz_event_data([
@@ -76,6 +78,7 @@ function olz_termin_detail($args = []): string {
             'location' => $has_location ? [
                 'lat' => $lat,
                 'lng' => $lng,
+                'name' => $location_name,
             ] : null,
         ]);
 

@@ -276,6 +276,8 @@ while ($row = mysqli_fetch_array($result)) {
         ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
     $lng = $has_olz_location ? CHtoWGSlng($xkoord, $ykoord) :
         ($has_solv_location ? CHtoWGSlng($row_solv['coord_x'], $row_solv['coord_y']) : null);
+    $location_name = $has_olz_location ? null :
+        ($has_solv_location ? $row_solv['location'] : null);
     $has_location = $has_olz_location || $has_solv_location;
 
     // Dateicode einfügen
@@ -409,6 +411,7 @@ while ($row = mysqli_fetch_array($result)) {
             'location' => $has_location ? [
                 'lat' => $lat,
                 'lng' => $lng,
+                'name' => $location_name,
             ] : null,
         ]);
         echo "<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";

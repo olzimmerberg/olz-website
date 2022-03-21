@@ -6,9 +6,9 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/quiz/endpoints/RegisterSkillsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/utils/IdUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
+require_once __DIR__.'/../../../fake/FakeIdUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeRegisterSkillsEndpointSkillCategoryRepository {
@@ -51,43 +51,35 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
         $skill_repo = new FakeRegisterSkillsEndpointSkillRepository();
         $entity_manager->repositories['Skill'] = $skill_repo;
         $entity_utils = new FakeEntityUtils();
-        $id_utils = new IdUtils();
         $logger = new Logger('RegisterSkillsEndpointTest');
         $endpoint = new RegisterSkillsEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils($id_utils);
+        $endpoint->setIdUtils(new FakeIdUtils());
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
             'skills' => [
                 [
                     'name' => 'Child Category 1 Skill',
-                    'categoryIds' => [
-                        $id_utils->toExternalId(2, 'SkillCategory'),
-                    ],
+                    'categoryIds' => ['SkillCategory:2'],
                 ],
                 [
                     'name' => 'Multi Category Skill',
-                    'categoryIds' => [
-                        $id_utils->toExternalId(1, 'SkillCategory'),
-                        $id_utils->toExternalId(3, 'SkillCategory'),
-                    ],
+                    'categoryIds' => ['SkillCategory:1', 'SkillCategory:3'],
                 ],
                 [
                     'name' => 'Parent Category Skill',
-                    'categoryIds' => [
-                        $id_utils->toExternalId(1, 'SkillCategory'),
-                    ],
+                    'categoryIds' => ['SkillCategory:1'],
                 ],
             ],
         ]);
 
         $this->assertSame([
             'idByName' => [
-                'Child Category 1 Skill' => 'MTEtbXdHRU1R',
-                'Multi Category Skill' => 'MjcwLW13R0VNUQ',
-                'Parent Category Skill' => 'MjcwLW13R0VNUQ',
+                'Child Category 1 Skill' => 'Skill:11',
+                'Multi Category Skill' => 'Skill:270',
+                'Parent Category Skill' => 'Skill:270',
             ],
         ], $result);
 

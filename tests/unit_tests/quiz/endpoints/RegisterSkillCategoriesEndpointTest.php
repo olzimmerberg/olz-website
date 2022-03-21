@@ -6,9 +6,9 @@ use Monolog\Logger;
 
 require_once __DIR__.'/../../../../src/quiz/endpoints/RegisterSkillCategoriesEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/utils/IdUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
+require_once __DIR__.'/../../../fake/FakeIdUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeRegisterSkillCategoriesEndpointSkillCategoryRepository {
@@ -37,12 +37,11 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
         $skill_category_repo = new FakeRegisterSkillCategoriesEndpointSkillCategoryRepository();
         $entity_manager->repositories['SkillCategory'] = $skill_category_repo;
         $entity_utils = new FakeEntityUtils();
-        $id_utils = new IdUtils();
         $logger = new Logger('RegisterSkillCategoriesEndpointTest');
         $endpoint = new RegisterSkillCategoriesEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils($id_utils);
+        $endpoint->setIdUtils(new FakeIdUtils());
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -64,9 +63,9 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'idByName' => [
-                'Child Category 1' => 'MTEtSGIwVUdR',
-                'Child Category 2' => 'MjcwLUhiMFVHUQ',
-                'Parent Category' => 'MjcwLUhiMFVHUQ',
+                'Child Category 1' => 'SkillCategory:11',
+                'Child Category 2' => 'SkillCategory:270',
+                'Parent Category' => 'SkillCategory:270',
             ],
         ], $result);
 

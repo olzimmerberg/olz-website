@@ -7,9 +7,9 @@ use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../src/quiz/endpoints/GetMySkillLevelsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/utils/IdUtils.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../fake/FakeIdUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeGetMySkillLevelsEndpointSkillRepository {
@@ -104,12 +104,11 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories['Skill'] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
-        $id_utils = new IdUtils();
         $logger = new Logger('GetMySkillLevelsEndpointTest');
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setIdUtils($id_utils);
+        $endpoint->setIdUtils(new FakeIdUtils());
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
@@ -117,9 +116,9 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'MS1td0dFTVE' => ['value' => 0.5],
-            'Mi1td0dFTVE' => ['value' => 0.25],
-            'My1td0dFTVE' => ['value' => 0],
+            'Skill:1' => ['value' => 0.5],
+            'Skill:2' => ['value' => 0.25],
+            'Skill:3' => ['value' => 0],
         ], $result);
 
         $this->assertSame([], $entity_manager->persisted);
@@ -134,24 +133,22 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories['Skill'] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
-        $id_utils = new IdUtils();
         $logger = new Logger('GetMySkillLevelsEndpointTest');
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setIdUtils($id_utils);
+        $endpoint->setIdUtils(new FakeIdUtils());
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'skillFilter' => ['categoryIdIn' => [
-                $id_utils->toExternalId(1, 'SkillCategory'),
-                $id_utils->toExternalId(2, 'SkillCategory'),
-            ]],
+            'skillFilter' => [
+                'categoryIdIn' => ['SkillCategory:1', 'SkillCategory:2'],
+            ],
         ]);
 
         $this->assertSame([
-            'NC1td0dFTVE' => ['value' => 0.75],
-            'NS1td0dFTVE' => ['value' => 0],
+            'Skill:4' => ['value' => 0.75],
+            'Skill:5' => ['value' => 0],
         ], $result);
 
         $this->assertSame([], $entity_manager->persisted);

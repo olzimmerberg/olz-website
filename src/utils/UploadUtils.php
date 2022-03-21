@@ -1,11 +1,13 @@
 <?php
 
-class UploadUtils {
-    use Psr\Log\LoggerAwareTrait;
+require_once __DIR__.'/WithUtilsTrait.php';
 
-    public function setEnvUtils($env_utils) {
-        $this->envUtils = $env_utils;
-    }
+class UploadUtils {
+    use WithUtilsTrait;
+    public const UTILS = [
+        'envUtils',
+        'logger',
+    ];
 
     /**
      * Kompatibilitäts-Layer, falls der Hoster eine bescheuerte Content Security
@@ -72,14 +74,5 @@ class UploadUtils {
             $destination_path = "{$new_base_path}{$upload_id}";
             rename($upload_path, $destination_path);
         }
-    }
-
-    public static function fromEnv() {
-        $upload_utils = new self();
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
-        $upload_utils->setEnvUtils($env_utils);
-        $upload_utils->setLogger($logger);
-        return $upload_utils;
     }
 }

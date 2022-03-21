@@ -7,32 +7,6 @@ require_once __DIR__.'/../OlzEndpoint.php';
 class StartUploadEndpoint extends OlzEndpoint {
     public const MAX_LOOP = 100;
 
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG;
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/GeneralUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $general_utils = GeneralUtils::fromEnv();
-        $this->setAuthUtils($auth_utils);
-        $this->setEnvUtils($_CONFIG);
-        $this->setGeneralUtils($general_utils);
-    }
-
-    public function setAuthUtils($new_auth_utils) {
-        $this->authUtils = $new_auth_utils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
-    public function setGeneralUtils($generalUtils) {
-        $this->generalUtils = $generalUtils;
-    }
-
     public static function getIdent() {
         return 'StartUploadEndpoint';
     }

@@ -92,6 +92,14 @@ class FakeEnvUtils {
     public function getIdEncryptionKey() {
         return 'aaaaaaaaaaaaaaaaaaac';
     }
+
+    public function getTelegramBotName() {
+        return 'fake-bot-name';
+    }
+
+    public function getTelegramBotToken() {
+        return 'fake-bot-token';
+    }
 }
 
 class FakeLogsUtils {

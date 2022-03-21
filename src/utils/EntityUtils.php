@@ -1,25 +1,15 @@
 <?php
 
 require_once __DIR__.'/../model/OlzEntity.php';
+require_once __DIR__.'/WithUtilsTrait.php';
 
 class EntityUtils {
-    use Psr\Log\LoggerAwareTrait;
-
-    public function setAuthUtils($authUtils) {
-        $this->authUtils = $authUtils;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
+    use WithUtilsTrait;
+    public const UTILS = [
+        'authUtils',
+        'dateUtils',
+        'entityManager',
+    ];
 
     public function createOlzEntity(OlzEntity $entity, $input) {
         $user_repo = $this->entityManager->getRepository(User::class);
@@ -73,23 +63,5 @@ class EntityUtils {
         $entity->setOnOff($on_off);
         $entity->setLastModifiedAt($now_datetime);
         $entity->setLastModifiedByUser($current_user);
-    }
-
-    public static function fromEnv() {
-        global $entityManager;
-        require_once __DIR__.'/../config/doctrine_db.php';
-        require_once __DIR__.'/auth/AuthUtils.php';
-        require_once __DIR__.'/date/DateUtils.php';
-        require_once __DIR__.'/env/EnvUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $date_utils = DateUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
-        $entity_utils = new self();
-        $entity_utils->setAuthUtils($auth_utils);
-        $entity_utils->setDateUtils($date_utils);
-        $entity_utils->setEntityManager($entityManager);
-        $entity_utils->setLogger($logger);
-        return $entity_utils;
     }
 }

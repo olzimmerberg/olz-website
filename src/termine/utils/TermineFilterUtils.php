@@ -2,8 +2,14 @@
 
 use Doctrine\Common\Collections\Criteria;
 
+require_once __DIR__.'/../../config/doctrine.php';
+require_once __DIR__.'/../../utils/WithUtilsTrait.php';
+
 class TermineFilterUtils {
-    private $date_utils;
+    use WithUtilsTrait;
+    public const UTILS = [
+        'dateUtils',
+    ];
 
     public const ARCHIVE_YEARS_THRESHOLD = 4;
 
@@ -20,10 +26,6 @@ class TermineFilterUtils {
         ['ident' => 'ohne', 'name' => "ohne Archiv"],
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
-
-    public function setDateUtils($date_utils) {
-        $this->date_utils = $date_utils;
-    }
 
     public function getDefaultFilter() {
         return [
@@ -120,7 +122,7 @@ class TermineFilterUtils {
 
     public function getDateRangeOptions($filter = []) {
         $include_archive = ($filter['archiv'] ?? null) === 'mit';
-        $current_year = intval($this->date_utils->getCurrentDateInFormat('Y'));
+        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
@@ -142,7 +144,7 @@ class TermineFilterUtils {
     }
 
     private function getSqlDateRangeFilter($filter) {
-        $today = $this->date_utils->getIsoToday();
+        $today = $this->dateUtils->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
             return "(t.datum >= '{$today}') OR (t.datum_end >= '{$today}')";
         }
@@ -257,16 +259,8 @@ class TermineFilterUtils {
     }
 
     public function getIsNotArchivedCriteria() {
-        $years_ago = $this->date_utils->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+        $years_ago = $this->dateUtils->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('datum', new DateTime($beginning_of_years_ago));
-    }
-
-    public static function fromEnv() {
-        require_once __DIR__.'/../../utils/date/DateUtils.php';
-        $date_utils = DateUtils::fromEnv();
-        $termine_utils = new self();
-        $termine_utils->setDateUtils($date_utils);
-        return $termine_utils;
     }
 }

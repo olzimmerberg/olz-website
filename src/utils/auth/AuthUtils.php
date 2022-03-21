@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/../../model/index.php';
+require_once __DIR__.'/../WithUtilsTrait.php';
 
 class AuthBlockedException extends Exception {
 }
@@ -9,32 +10,17 @@ class InvalidCredentialsException extends Exception {
 }
 
 class AuthUtils {
-    use Psr\Log\LoggerAwareTrait;
-
-    protected $entityManager;
-    protected $session;
+    use WithUtilsTrait;
+    public const UTILS = [
+        'dateUtils',
+        'entityManager',
+        'getParams',
+        'logger',
+        'server',
+        'session',
+    ];
 
     protected $cached_permission_map_by_user = [];
-
-    public function setDateUtils($date_utils) {
-        $this->dateUtils = $date_utils;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setGetParams($getParams) {
-        $this->getParams = $getParams;
-    }
-
-    public function setServer($server) {
-        $this->server = $server;
-    }
-
-    public function setSession($session) {
-        $this->session = $session;
-    }
 
     public function authenticate($username_or_email, $password) {
         $ip_address = $this->server['REMOTE_ADDR'];
@@ -173,25 +159,5 @@ class AuthUtils {
 
     public function isPasswordAllowed($password) {
         return strlen($password) >= 8;
-    }
-
-    public static function fromEnv() {
-        global $_GET, $_SERVER, $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../date/DateUtils.php';
-        require_once __DIR__.'/../env/EnvUtils.php';
-        require_once __DIR__.'/../session/StandardSession.php';
-        $session = new StandardSession();
-        $date_utils = DateUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
-        $auth_utils = new self();
-        $auth_utils->setDateUtils($date_utils);
-        $auth_utils->setEntityManager($entityManager);
-        $auth_utils->setGetParams($_GET);
-        $auth_utils->setLogger($logger);
-        $auth_utils->setServer($_SERVER);
-        $auth_utils->setSession($session);
-        return $auth_utils;
     }
 }

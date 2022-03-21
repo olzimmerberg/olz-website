@@ -6,17 +6,6 @@ use PhpTypeScriptApi\HttpError;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class GetLogsEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG;
-        require_once __DIR__.'/../../config/server.php';
-        $this->setEnvUtils($_CONFIG);
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
     public static function getIdent() {
         return 'GetLogsEndpoint';
     }

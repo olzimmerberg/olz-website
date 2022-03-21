@@ -7,52 +7,6 @@ require_once __DIR__.'/../../api/OlzEndpoint.php';
 require_once __DIR__.'/../QuizConstants.php';
 
 class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_DATE, $entityManager;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/env/EnvUtils.php';
-        require_once __DIR__.'/../../utils/EntityUtils.php';
-        require_once __DIR__.'/../../utils/IdUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $entity_utils = EntityUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $id_utils = IdUtils::fromEnv();
-        $this->setAuthUtils($auth_utils);
-        $this->setDateUtils($_DATE);
-        $this->setEntityManager($entityManager);
-        $this->setEntityUtils($entity_utils);
-        $this->setEnvUtils($env_utils);
-        $this->setIdUtils($id_utils);
-    }
-
-    public function setAuthUtils($authUtils) {
-        $this->authUtils = $authUtils;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setEntityUtils($entityUtils) {
-        $this->entityUtils = $entityUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
-    public function setIdUtils($idUtils) {
-        $this->idUtils = $idUtils;
-    }
-
     public static function getIdent() {
         return 'UpdateMySkillLevelsEndpoint';
     }

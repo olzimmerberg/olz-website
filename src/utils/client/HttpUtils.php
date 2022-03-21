@@ -1,18 +1,16 @@
 <?php
 
-use PhpTypeScriptApi\Fields\FieldUtils;
 use PhpTypeScriptApi\Fields\ValidationError;
 
 require_once __DIR__.'/../../config/vendor/autoload.php';
+require_once __DIR__.'/../WithUtilsTrait.php';
 
 class HttpUtils {
-    use Psr\Log\LoggerAwareTrait;
-
-    protected $fieldUtils;
-
-    public function setFieldUtils($new_field_utils) {
-        $this->fieldUtils = $new_field_utils;
-    }
+    use WithUtilsTrait;
+    public const UTILS = [
+        'fieldUtils',
+        'logger',
+    ];
 
     public function dieWithHttpError(int $http_status_code) {
         $this->sendHttpResponseCode($http_status_code);
@@ -115,11 +113,4 @@ class HttpUtils {
     }
 
     // @codeCoverageIgnoreEnd
-
-    public static function fromEnv() {
-        $http_utils = new self();
-        $field_utils = FieldUtils::create();
-        $http_utils->setFieldUtils($field_utils);
-        return $http_utils;
-    }
 }

@@ -6,31 +6,6 @@ use PhpTypeScriptApi\HttpError;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class OnTelegramEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $_CONFIG, $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
-        $telegram_utils = TelegramUtils::fromEnv();
-        $this->setTelegramUtils($telegram_utils);
-        $this->setEntityManager($entityManager);
-        $this->setEnvUtils($_CONFIG);
-    }
-
-    public function setTelegramUtils($telegram_utils) {
-        $this->telegramUtils = $telegram_utils;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
     public static function getIdent() {
         return 'OnTelegramEndpoint';
     }

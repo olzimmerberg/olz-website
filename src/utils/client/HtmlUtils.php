@@ -9,6 +9,9 @@ use League\CommonMark\MarkdownConverter;
 require_once __DIR__.'/../../config/vendor/autoload.php';
 
 class HtmlUtils {
+    use WithUtilsTrait;
+    public const UTILS = [];
+
     public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
 
     public function renderMarkdown($markdown, $override_config = []) {
@@ -48,9 +51,5 @@ class HtmlUtils {
             "$1<script>MailTo(\"$2\", \"$3\", \"E-Mail\")</script>$4",
             $html
         );
-    }
-
-    public static function fromEnv() {
-        return new self();
     }
 }

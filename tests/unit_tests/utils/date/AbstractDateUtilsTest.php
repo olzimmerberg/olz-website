@@ -21,7 +21,7 @@ class FakeDateUtils extends AbstractDateUtils {
  * @internal
  * @covers \AbstractDateUtils
  */
-final class DateUtilsTest extends UnitTestCase {
+final class AbstractDateUtilsTest extends UnitTestCase {
     public function testGetIsoNow(): void {
         $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
         $this->assertSame('2020-03-13 19:30:00', $date_utils->getIsoNow());

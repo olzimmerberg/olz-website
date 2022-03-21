@@ -17,17 +17,9 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
 
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $_CONFIG;
         require_once __DIR__.'/../../fetchers/TransportApiFetcher.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
         $transport_api_fetcher = new TransportApiFetcher();
-        $this->setAuthUtils($auth_utils);
         $this->setTransportApiFetcher($transport_api_fetcher);
-    }
-
-    public function setAuthUtils($authUtils) {
-        $this->authUtils = $authUtils;
     }
 
     public function setTransportApiFetcher($transportApiFetcher) {

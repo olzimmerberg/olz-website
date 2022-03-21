@@ -3,6 +3,11 @@
 require_once __DIR__.'/AbstractSession.php';
 
 class MemorySession extends AbstractSession {
+    // TODO: Those are not actually used. It's just to avoid a test error.
+    public const UTILS = [
+        'session',
+    ];
+
     public $session_storage = [];
     public $cleared = false;
 

@@ -4,6 +4,8 @@ require_once __DIR__.'/../../config/init.php';
 require_once __DIR__.'/AbstractSession.php';
 
 class StandardSession extends AbstractSession {
+    public const UTILS = [];
+
     public function __construct() {
         $session_already_exists = session_id() != '' && isset($_SESSION);
         if ($session_already_exists) {

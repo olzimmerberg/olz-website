@@ -9,24 +9,29 @@ use League\CommonMark\MarkdownConverter;
 require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/../../model/TelegramLink.php';
 require_once __DIR__.'/../../model/User.php';
+require_once __DIR__.'/../WithUtilsTrait.php';
 
 class TelegramUtils {
+    use WithUtilsTrait;
     use Psr\Log\LoggerAwareTrait;
+    public const UTILS = [
+        'dateUtils',
+        'entityManager',
+        'envUtils',
+        'logger',
+    ];
 
-    public function setBotName($botName) {
-        $this->botName = $botName;
-    }
+    public static function fromEnv() {
+        require_once __DIR__.'/../../fetchers/TelegramFetcher.php';
+        require_once __DIR__.'/../../model/index.php';
 
-    public function setBotToken($botToken) {
-        $this->botToken = $botToken;
-    }
+        $telegram_fetcher = new TelegramFetcher();
 
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
+        $instance = new self();
+        $instance->setTelegramFetcher($telegram_fetcher);
+        $instance->populateFromEnv(self::UTILS);
 
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
+        return $instance;
     }
 
     public function setTelegramFetcher($telegramFetcher) {
@@ -34,7 +39,11 @@ class TelegramUtils {
     }
 
     public function getBotName() {
-        return $this->botName;
+        return $this->envUtils->getTelegramBotName();
+    }
+
+    private function getBotToken() {
+        return $this->envUtils->getTelegramBotToken();
     }
 
     public function getFreshPinForUser(User $user) {
@@ -242,7 +251,7 @@ class TelegramUtils {
     }
 
     public function callTelegramApi($command, $args) {
-        $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->botToken);
+        $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {
             $this->logger->warning("Telegram API response was empty");
             throw new Exception(json_encode(['ok' => false]));
@@ -283,30 +292,5 @@ class TelegramUtils {
         $converter = new MarkdownConverter($environment);
         $rendered = $converter->convertToHtml($markdown);
         return strval($rendered);
-    }
-
-    public static function fromEnv() {
-        global $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../config/server.php';
-        require_once __DIR__.'/../../fetchers/TelegramFetcher.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../date/DateUtils.php';
-        require_once __DIR__.'/../env/EnvUtils.php';
-
-        $date_utils = DateUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $telegram_fetcher = new TelegramFetcher();
-        $logger = $env_utils->getLogsUtils()->getLogger('TelegramUtils');
-
-        $telegram_utils = new self();
-        $telegram_utils->setBotName($env_utils->getTelegramBotName());
-        $telegram_utils->setBotToken($env_utils->getTelegramBotToken());
-        $telegram_utils->setDateUtils($date_utils);
-        $telegram_utils->setEntityManager($entityManager);
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
-        $telegram_utils->setLogger($logger);
-
-        return $telegram_utils;
     }
 }

@@ -6,38 +6,6 @@ use PhpTypeScriptApi\Fields\ValidationError;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class UpdateUserEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        global $entityManager, $_DATE;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../model/index.php';
-        require_once __DIR__.'/../../utils/auth/AuthUtils.php';
-        require_once __DIR__.'/../../utils/env/EnvUtils.php';
-        $auth_utils = AuthUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $this->setAuthUtils($auth_utils);
-        $this->setDateUtils($_DATE);
-        $this->setEntityManager($entityManager);
-        $this->setEnvUtils($env_utils);
-    }
-
-    public function setAuthUtils($new_auth_utils) {
-        $this->authUtils = $new_auth_utils;
-    }
-
-    public function setDateUtils($new_date_utils) {
-        $this->dateUtils = $new_date_utils;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setEnvUtils($new_env_utils) {
-        $this->envUtils = $new_env_utils;
-    }
-
     public static function getIdent() {
         return 'UpdateUserEndpoint';
     }

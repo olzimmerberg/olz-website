@@ -9,25 +9,22 @@ require_once __DIR__.'/../../model/Throttling.php';
 class OnDailyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $_CONFIG, $_DATE, $entityManager;
-        require_once __DIR__.'/../../config/date.php';
-        require_once __DIR__.'/../../config/doctrine_db.php';
-        require_once __DIR__.'/../../config/server.php';
         require_once __DIR__.'/../../fetchers/SolvFetcher.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../tasks/CleanTempDirectoryTask.php';
         require_once __DIR__.'/../../tasks/SyncSolvTask.php';
-        require_once __DIR__.'/../../utils/notify/TelegramUtils.php';
-        $telegram_utils = TelegramUtils::fromEnv();
-        $date_utils = $_DATE;
-        $clean_temp_directory_task = new CleanTempDirectoryTask($date_utils, $_CONFIG);
-        $sync_solv_task = new SyncSolvTask($entityManager, new SolvFetcher(), $date_utils, $_CONFIG);
+        $clean_temp_directory_task = new CleanTempDirectoryTask(
+            $this->dateUtils,
+            $this->envUtils
+        );
+        $sync_solv_task = new SyncSolvTask(
+            $this->entityManager,
+            new SolvFetcher(),
+            $this->dateUtils,
+            $this->envUtils
+        );
         $this->setCleanTempDirectoryTask($clean_temp_directory_task);
         $this->setSyncSolvTask($sync_solv_task);
-        $this->setEntityManager($entityManager);
-        $this->setDateUtils($date_utils);
-        $this->setEnvUtils($_CONFIG);
-        $this->setTelegramUtils($telegram_utils);
     }
 
     public function setCleanTempDirectoryTask($cleanTempDirectoryTask) {
@@ -36,22 +33,6 @@ class OnDailyEndpoint extends OlzEndpoint {
 
     public function setSyncSolvTask($syncSolvTask) {
         $this->syncSolvTask = $syncSolvTask;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
-    public function setTelegramUtils($telegramUtils) {
-        $this->telegramUtils = $telegramUtils;
     }
 
     public static function getIdent() {

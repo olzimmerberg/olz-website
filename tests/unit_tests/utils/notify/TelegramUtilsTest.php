@@ -140,7 +140,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new TelegramUtils();
-        $telegram_utils->setBotName('fake-bot-name');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setLogger($logger);
 
         $this->assertSame('fake-bot-name', $telegram_utils->getBotName());
@@ -456,7 +456,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -480,7 +480,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -506,7 +506,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -525,7 +525,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -548,7 +548,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -572,7 +572,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEntityManager($entity_manager);
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 
@@ -601,7 +601,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setBotToken('fake-bot-token');
+        $telegram_utils->setEnvUtils(new FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
         $telegram_utils->setLogger($logger);
 

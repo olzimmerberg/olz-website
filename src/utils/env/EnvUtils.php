@@ -5,6 +5,8 @@ require_once __DIR__.'/../../config/vendor/autoload.php';
 require_once __DIR__.'/LogsUtils.php';
 
 class EnvUtils {
+    public const UTILS = [];
+
     private $data_path;
     private $data_href;
     private $code_path;
@@ -291,15 +293,15 @@ class EnvUtils {
         return $this->smtp_from;
     }
 
-    protected $logs_utils;
+    protected $logsUtils;
 
     public function getLogsUtils() {
-        if ($this->logs_utils == null) {
-            $logs_utils = new LogsUtils();
-            $logs_utils->setEnvUtils($this);
-            $this->logs_utils = $logs_utils;
+        if ($this->logsUtils == null) {
+            $logsUtils = new LogsUtils();
+            $logsUtils->setEnvUtils($this);
+            $this->logsUtils = $logsUtils;
         }
-        return $this->logs_utils;
+        return $this->logsUtils;
     }
 
     protected static $from_env_instance;

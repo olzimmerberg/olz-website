@@ -1,6 +1,8 @@
 <?php
 
 abstract class AbstractDateUtils {
+    public const UTILS = [];
+
     public const WEEKDAYS_SHORT_DE = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     public const WEEKDAYS_LONG_DE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
     public const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
@@ -69,5 +71,23 @@ abstract class AbstractDateUtils {
             array_push($years, $year);
         }
         return $years;
+    }
+
+    public static function fromEnv() {
+        require_once __DIR__.'/../env/EnvUtils.php';
+
+        $env_utils = EnvUtils::fromEnv();
+        $class_name = $env_utils->getDateUtilsClassName();
+        $class_args = $env_utils->getDateUtilsClassArgs();
+
+        if ($class_name == 'FixedDateUtils') {
+            require_once __DIR__.'/FixedDateUtils.php';
+            return new FixedDateUtils($class_args[0]);
+        }
+        if ($class_name == 'LiveDateUtils') {
+            require_once __DIR__.'/LiveDateUtils.php';
+            return new LiveDateUtils();
+        }
+        throw new Exception("Invalid DateUtils class name: {$class_name}");
     }
 }

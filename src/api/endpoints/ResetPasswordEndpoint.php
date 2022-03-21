@@ -9,36 +9,10 @@ require_once __DIR__.'/../../model/User.php';
 class ResetPasswordEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        global $_CONFIG, $entityManager;
-        require_once __DIR__.'/../../config/doctrine_db.php';
         require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
-        require_once __DIR__.'/../../utils/notify/EmailUtils.php';
-        require_once __DIR__.'/../../utils/GeneralUtils.php';
-        $email_utils = EmailUtils::fromEnv();
-        $general_utils = GeneralUtils::fromEnv();
         $google_fetcher = new GoogleFetcher();
-        $this->setEmailUtils($email_utils);
-        $this->setEntityManager($entityManager);
-        $this->setEnvUtils($_CONFIG);
-        $this->setGeneralUtils($general_utils);
         $this->setGoogleFetcher($google_fetcher);
-    }
-
-    public function setEmailUtils($emailUtils) {
-        $this->emailUtils = $emailUtils;
-    }
-
-    public function setEntityManager($new_entity_manager) {
-        $this->entityManager = $new_entity_manager;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
-    public function setGeneralUtils($generalUtils) {
-        $this->generalUtils = $generalUtils;
     }
 
     public function setGoogleFetcher($new_google_fetcher) {

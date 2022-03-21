@@ -5,10 +5,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 require_once __DIR__.'/../OlzEndpoint.php';
 
 class LogoutEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-    }
-
     public static function getIdent() {
         return 'LogoutEndpoint';
     }

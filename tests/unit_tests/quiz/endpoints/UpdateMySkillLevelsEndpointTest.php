@@ -8,10 +8,10 @@ use PhpTypeScriptApi\HttpError;
 require_once __DIR__.'/../../../../src/quiz/endpoints/UpdateMySkillLevelsEndpoint.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../src/utils/IdUtils.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
+require_once __DIR__.'/../../../fake/FakeIdUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeUpdateMySkillLevelsEndpointSkillRepository {
@@ -53,7 +53,6 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query['any'] = false;
-        $id_utils = new IdUtils();
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -79,22 +78,21 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
         $entity_utils = new FakeEntityUtils();
-        $id_utils = new IdUtils();
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils($id_utils);
+        $endpoint->setIdUtils(new FakeIdUtils());
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
             'updates' => [
-                $id_utils->toExternalId(1, 'Skill') => [
+                'Skill:1' => [
                     'change' => 0.5,
                 ],
-                $id_utils->toExternalId(2, 'Skill') => [
+                'Skill:2' => [
                     'change' => -0.1,
                 ],
             ],

@@ -1,13 +1,17 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingContext {
+    createConicGradient(startAngle: number, x: number, y: number): CanvasGradient {
+        throw new Error('Method not implemented.');
+    }
+
     canvas: HTMLCanvasElement;
     getContextAttributes(): CanvasRenderingContext2DSettings {
         throw new Error('Method not implemented.');
     }
 
     globalAlpha: number;
-    globalCompositeOperation: string;
+    globalCompositeOperation: GlobalCompositeOperation;
 
     public drawnImages: Array<{image: any, sx: any, sy: any, sw?: any, sh?: any, dx?: any, dy?: any, dw?: any, dh?: any}> = [];
     drawImage(image: CanvasImageSource, dx: number, dy: number): void;

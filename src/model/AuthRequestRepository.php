@@ -6,6 +6,9 @@ require_once __DIR__.'/AuthRequest.php';
 require_once __DIR__.'/../config/doctrine.php';
 
 class AuthRequestRepository extends EntityRepository {
+    public const NUM_TRIES = 32;
+    public const TRIES_RESET_INTERVAL = '+8 hour'; // Reset after 8h
+
     public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
         if ($timestamp === null) {
             $timestamp = new DateTime();
@@ -20,14 +23,12 @@ class AuthRequestRepository extends EntityRepository {
     }
 
     public function canAuthenticate($ip_address, $timestamp = null) {
-        $NUM_TRIES = 7;
-        $TRIES_RESET_INTERVAL = DateInterval::createFromDateString('+1 hour'); // Reset after 1h
-
+        $tries_reset_interval = DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {
             $timestamp = new DateTime();
         }
         $sanitized_ip_address = DBEsc($ip_address);
-        $min_timestamp = $timestamp->sub($TRIES_RESET_INTERVAL);
+        $min_timestamp = $timestamp->sub($tries_reset_interval);
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
@@ -38,7 +39,7 @@ class AuthRequestRepository extends EntityRepository {
                 AND ar.action IN ('AUTHENTICATED', 'BLOCKED', 'INVALID_CREDENTIALS')
             ORDER BY ar.timestamp DESC";
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setMaxResults($NUM_TRIES);
+        $query->setMaxResults(self::NUM_TRIES);
         $auth_requests = $query->getResult();
         $num_unsuccessful_auth_requests = 0;
         foreach ($auth_requests as $auth_request) {
@@ -48,18 +49,16 @@ class AuthRequestRepository extends EntityRepository {
             }
             $num_unsuccessful_auth_requests++;
         }
-        return $num_unsuccessful_auth_requests < $NUM_TRIES;
+        return $num_unsuccessful_auth_requests < self::NUM_TRIES;
     }
 
     public function canValidateAccessToken($ip_address, $timestamp = null) {
-        $NUM_TRIES = 7;
-        $TRIES_RESET_INTERVAL = DateInterval::createFromDateString('+1 hour'); // Reset after 1h
-
+        $tries_reset_interval = DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {
             $timestamp = new DateTime();
         }
         $sanitized_ip_address = DBEsc($ip_address);
-        $min_timestamp = $timestamp->sub($TRIES_RESET_INTERVAL);
+        $min_timestamp = $timestamp->sub($tries_reset_interval);
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
@@ -70,7 +69,7 @@ class AuthRequestRepository extends EntityRepository {
                 AND ar.action IN ('TOKEN_VALIDATED', 'TOKEN_BLOCKED', 'INVALID_TOKEN', 'EXPIRED_TOKEN')
             ORDER BY ar.timestamp DESC";
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setMaxResults($NUM_TRIES);
+        $query->setMaxResults(self::NUM_TRIES);
         $auth_requests = $query->getResult();
         $num_unsuccessful_auth_requests = 0;
         foreach ($auth_requests as $auth_request) {
@@ -80,6 +79,6 @@ class AuthRequestRepository extends EntityRepository {
             }
             $num_unsuccessful_auth_requests++;
         }
-        return $num_unsuccessful_auth_requests < $NUM_TRIES;
+        return $num_unsuccessful_auth_requests < self::NUM_TRIES;
     }
 }

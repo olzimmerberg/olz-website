@@ -49,7 +49,7 @@
     "league/flysystem": "^2.4",
     "league/flysystem-sftp": "^2.0",
     "monolog/monolog": "^2.1",
-    "php-imap/php-imap": "^4.4",
+    "php-imap/php-imap": "^5.0",
     "phpmailer/phpmailer": "^6.2",
     "psr/log": "^1.1",
     "sabre/dav": "^4.3",

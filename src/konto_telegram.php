@@ -42,7 +42,7 @@ if ($user) {
     }
 } else {
     echo "<div>Bitte einloggen, um Telegram-Chat zu verlinken...</div>";
-    echo "<div><a href='#' role='button' data-bs-toggle='modal' data-bs-target='#login-modal'><b>Login</b></a></div>";
+    echo "<div><a href='#login-dialog' role='button'><b>Login</b></a></div>";
 }
 
 echo "</div>

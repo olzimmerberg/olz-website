@@ -58,7 +58,7 @@ function handleResponse(response: OlzApiResponses['resetPassword']): string|void
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    bootstrap.Modal.getInstance(
+    bootstrap.Modal.getOrCreateInstance(
         document.getElementById('reset-password-modal'),
     ).hide();
     return 'E-Mail versendet.';

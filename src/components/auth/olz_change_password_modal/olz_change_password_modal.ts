@@ -48,7 +48,7 @@ function handleResponse(response: OlzApiResponses['updatePassword']): string|voi
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    bootstrap.Modal.getInstance(
+    bootstrap.Modal.getOrCreateInstance(
         document.getElementById('change-password-modal'),
     ).hide();
     return 'Passwort erfolgreich aktualisiert.';

@@ -82,8 +82,21 @@ function olz_login_modal($args = []): string {
                         <div id='login-message' class='alert alert-danger' role='alert'></div>
                     </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
-                        <button type='submit' class='btn btn-primary' id='login-button'>Login</button>
+                        <button
+                            type='button'
+                            class='btn btn-secondary'
+                            data-bs-dismiss='modal'
+                            onclick='olzLoginModalCancel()'
+                        >
+                            Abbrechen
+                        </button>
+                        <button
+                            type='submit'
+                            class='btn btn-primary'
+                            id='login-button'
+                        >
+                            Login
+                        </button>
                     </div>
                 </form>
             </div>

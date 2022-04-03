@@ -2,15 +2,17 @@ import * as bootstrap from 'bootstrap';
 import {callOlzApi} from '../../../api/client';
 
 $(() => {
-    $('#login-modal').on('shown.bs.modal', () => {
+    const loginModalElem = document.getElementById('login-modal');
+    loginModalElem.addEventListener('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
     });
-
-    if (window.location.hash === '#login-dialog') {
-        bootstrap.Modal.getInstance(
-            document.getElementById('login-modal'),
-        ).show();
-    }
+    const openLoginDialogIfHash = () => {
+        if (window.location.hash === '#login-dialog') {
+            bootstrap.Modal.getOrCreateInstance(loginModalElem).show();
+        }
+    };
+    window.addEventListener('hashchange', openLoginDialogIfHash);
+    openLoginDialogIfHash();
 });
 
 export function olzLoginModalLogin(): void {
@@ -23,6 +25,7 @@ export function olzLoginModalLogin(): void {
     )
         .then((response) => {
             if (response.status === 'AUTHENTICATED') {
+                window.location.href = '#';
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();
             } else {
@@ -34,11 +37,18 @@ export function olzLoginModalLogin(): void {
         });
 }
 
-export function olzLoginModalPasswordReset(): void {
-    bootstrap.Modal.getInstance(
+export function olzLoginModalCancel(): void {
+    bootstrap.Modal.getOrCreateInstance(
         document.getElementById('login-modal'),
     ).hide();
-    bootstrap.Modal.getInstance(
+    window.location.href = '#';
+}
+
+export function olzLoginModalPasswordReset(): void {
+    bootstrap.Modal.getOrCreateInstance(
+        document.getElementById('login-modal'),
+    ).hide();
+    bootstrap.Modal.getOrCreateInstance(
         document.getElementById('password-reset-modal'),
     ).show();
 }

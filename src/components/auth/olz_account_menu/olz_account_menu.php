@@ -49,10 +49,8 @@ function olz_account_menu($args = []): string {
         <a
             id='login-menu-item'
             class='dropdown-item'
-            href='#'
+            href='#login-dialog'
             role='button'
-            data-bs-toggle='modal'
-            data-bs-target='#login-modal'
         >
             Login
         </a>

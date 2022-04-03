@@ -11,12 +11,4 @@ abstract class OlzEndpoint extends Endpoint {
     public function runtimeSetup() {
         $this->populateFromEnv();
     }
-
-    public function setSession(AbstractSession $new_session) {
-        $this->session = $new_session;
-    }
-
-    public function setServer($new_server) {
-        $this->server = $new_server;
-    }
 }

@@ -50,19 +50,22 @@ class ResetPasswordEndpoint extends OlzEndpoint {
             $user = $user_repo->findOneBy(['email' => $username_or_email]);
         }
         if (!$user) {
+            $this->logger->notice("Password reset for unknown user: {$username_or_email}.");
             return ['status' => 'DENIED'];
         }
 
         $verification = $this->googleFetcher->fetchRecaptchaVerification([
             'secret' => $this->envUtils->getRecaptchaSecretKey(),
             'response' => $token,
-            // 'remoteip' => // TODO
+            'remoteip' => $this->server['REMOTE_ADDR'],
         ]);
         $success = $verification['success'] ?? null;
         if ($success === null) {
+            $this->logger->notice("reCaptcha verification error.");
             return ['status' => 'ERROR'];
         }
         if (!$success) {
+            $this->logger->notice("reCaptcha denied.");
             return ['status' => 'DENIED'];
         }
 

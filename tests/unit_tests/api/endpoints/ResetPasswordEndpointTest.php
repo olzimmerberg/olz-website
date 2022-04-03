@@ -22,6 +22,7 @@ class FakeResetPasswordEndpointGoogleFetcher {
         $successful_request = [
             'secret' => 'some-secret-key',
             'response' => 'fake-recaptcha-token',
+            'remoteip' => '1.2.3.4',
         ];
         if ($siteverify_request_data == $successful_request) {
             return ['success' => true];
@@ -29,6 +30,7 @@ class FakeResetPasswordEndpointGoogleFetcher {
         $unsuccessful_request = [
             'secret' => 'some-secret-key',
             'response' => 'invalid-recaptcha-token',
+            'remoteip' => '1.2.3.4',
         ];
         if ($siteverify_request_data == $unsuccessful_request) {
             return ['success' => false];
@@ -36,6 +38,7 @@ class FakeResetPasswordEndpointGoogleFetcher {
         $null_request = [
             'secret' => 'some-secret-key',
             'response' => 'null-recaptcha-token',
+            'remoteip' => '1.2.3.4',
         ];
         if ($siteverify_request_data == $null_request) {
             return null;
@@ -46,6 +49,10 @@ class FakeResetPasswordEndpointGoogleFetcher {
 }
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
+    public function __construct() {
+        $this->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+    }
+
     protected function getRandomPassword() {
         return 'fake-new-password';
     }
@@ -200,6 +207,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'DENIED'], $result);
         $this->assertSame([
             "INFO Valid user request",
+            "NOTICE Password reset for unknown user: invalid.",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }
@@ -225,6 +233,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'DENIED'], $result);
         $this->assertSame([
             "INFO Valid user request",
+            "NOTICE reCaptcha denied.",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }
@@ -250,6 +259,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([
             "INFO Valid user request",
+            "NOTICE reCaptcha verification error.",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }

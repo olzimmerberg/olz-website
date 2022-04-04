@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
+require_once __DIR__.'/../../../../src/anmelden/endpoints/GetManagedUsersEndpoint.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @coversNothing
+ * @covers \GetManagedUsersEndpoint
  */
 final class GetManagedUsersEndpointTest extends UnitTestCase {
-    public function testNothing(): void {
-        $this->assertTrue(true);
+    public function testGetManagedUsersEndpointIdent(): void {
+        $endpoint = new GetManagedUsersEndpoint();
+        $this->assertSame('GetManagedUsersEndpoint', $endpoint->getIdent());
     }
 }

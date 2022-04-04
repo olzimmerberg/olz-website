@@ -89,21 +89,21 @@ $olz_api->registerEndpoint('finishUpload', function () {
 
 // Anmelden
 
+$olz_api->registerEndpoint('createBooking', function () {
+    require_once __DIR__.'/../anmelden/endpoints/CreateBookingEndpoint.php';
+    return new CreateBookingEndpoint();
+});
 $olz_api->registerEndpoint('createRegistration', function () {
     require_once __DIR__.'/../anmelden/endpoints/CreateRegistrationEndpoint.php';
     return new CreateRegistrationEndpoint();
-});
-$olz_api->registerEndpoint('createRegistrationForm', function () {
-    require_once __DIR__.'/../anmelden/endpoints/CreateRegistrationFormEndpoint.php';
-    return new CreateRegistrationFormEndpoint();
 });
 $olz_api->registerEndpoint('getManagedUsers', function () {
     require_once __DIR__.'/../anmelden/endpoints/GetManagedUsersEndpoint.php';
     return new GetManagedUsersEndpoint();
 });
-$olz_api->registerEndpoint('getRegistrationForm', function () {
-    require_once __DIR__.'/../anmelden/endpoints/GetRegistrationFormEndpoint.php';
-    return new GetRegistrationFormEndpoint();
+$olz_api->registerEndpoint('getRegistration', function () {
+    require_once __DIR__.'/../anmelden/endpoints/GetRegistrationEndpoint.php';
+    return new GetRegistrationEndpoint();
 });
 
 // News

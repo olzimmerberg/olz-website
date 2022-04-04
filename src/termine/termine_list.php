@@ -197,7 +197,6 @@ $sql = <<<ZZZZZZZZZZ
         t.typ as typ,
         t.on_off as on_off,
         t.newsletter as newsletter,
-        t.datum_anmeldung as datum_anmeldung,
         t.xkoord as xkoord,
         t.ykoord as ykoord,
         t.go2ol as go2ol,
@@ -218,7 +217,6 @@ $sql = <<<ZZZZZZZZZZ
         'meldeschluss' as typ,
         t.on_off as on_off,
         NULL as newsletter,
-        NULL as datum_anmeldung,
         NULL as xkoord,
         NULL as ykoord,
         t.go2ol as go2ol,
@@ -254,7 +252,6 @@ while ($row = mysqli_fetch_array($result)) {
     $typ = $row['typ'];
     $on_off = $row['on_off'];
     $newsletter = $row['newsletter'];
-    $datum_anmeldung = $row['datum_anmeldung'];
     $xkoord = $row['xkoord'];
     $ykoord = $row['ykoord'];
     $go2ol = $row['go2ol'];
@@ -299,18 +296,6 @@ while ($row = mysqli_fetch_array($result)) {
         $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
     }
     // Anmeldungs-Link zeigen
-    // Manueller Anmeldungs-Link entfernen
-    if ($row_solv && ($go2ol > "" or $row_solv['entryportal'] == 1 or $row_solv['entryportal'] == 2)) {
-        $var = "Anmeldung";
-        $pos1 = strpos($link, $var);
-        if ($pos1 > 0) {
-            $pos2 = strrpos(substr($link, 0, $pos1), "<");
-            $pos3 = strpos(substr($link, $pos1), ">");
-            $search = substr($link, $pos2, ($pos1 - $pos2 + $pos3 + strlen($var)));
-            $link = str_replace($search, "", $link);
-        }
-    }
-
     if ($go2ol > "" and $datum >= $heute) {
         $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
     } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $heute) {
@@ -356,21 +341,11 @@ while ($row = mysqli_fetch_array($result)) {
     }
     $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
-    if ($datum_anmeldung and ($datum_anmeldung != '0000-00-00') and ($datum_anmeldung != '') and ($zugriff) and ($datum_anm > $heute)) {
-        $link = "<div class='linkint'><a href='anmeldung.php?id_anm={$id}'>Online-Anmeldung</a></div>".$link;
-    }
-
     if ($zugriff && $typ != 'meldeschluss' && (($do ?? null) != 'vorschau')) {
         // Berbeiten-/Duplizieren-Button
         $edit_admin = "<a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
-        if ($datum_anmeldung && ($datum_anmeldung != '') and ($datum_anmeldung != '0000-00-00')) {
-            $edit_anm = "<a href='anmeldung.php?id_anm={$id}&buttonanm_felder=start' class='linkedit' title='Online-Anmeldung bearbeiten'>&nbsp;</a>";
-        } else {
-            $edit_anm = "";
-        }
     } else {
         $edit_admin = "";
-        $edit_anm = "";
     }
 
     // Tagesanlass
@@ -414,7 +389,7 @@ while ($row = mysqli_fetch_array($result)) {
                 'name' => $location_name,
             ] : null,
         ]);
-        echo "<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$edit_anm.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
+        echo "<tr".$class.">\n\t<td style='width:25%;'><div style='position:absolute; margin-top:-50px;' id='id".$id."'>&nbsp;</div>".$edit_admin.$datum_tmp."</td><td style='width:55%;'{$id_spalte}>".$text."<div id='map{$id}' style='display:none;width:100%;text-align:left;margin:0px;padding-top:4px;clear:both;'></div></td><td style='width:20%;'>".$link."</td>\n</tr>\n";
     }
     $id_spalte = "";
 }

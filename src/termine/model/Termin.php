@@ -71,18 +71,6 @@ class Termin {
      */
     private $on_off;
     /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datum_anmeldung;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $text_anmeldung;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $email_anmeldung;
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $xkoord;

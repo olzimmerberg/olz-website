@@ -43,6 +43,7 @@ require_once __DIR__.'/User.php';
 require_once __DIR__.'/UserRepository.php';
 
 // Don't forget to change `src/config/doctrine.php`
+require_once __DIR__.'/../anmelden/model/index.php';
 require_once __DIR__.'/../news/model/index.php';
 require_once __DIR__.'/../quiz/model/index.php';
 require_once __DIR__.'/../termine/model/index.php';

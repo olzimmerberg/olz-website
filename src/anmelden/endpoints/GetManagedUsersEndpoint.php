@@ -31,8 +31,8 @@ class GetManagedUsersEndpoint extends OlzEndpoint {
                 'item_field' => new FieldTypes\ObjectField([
                     'field_structure' => [
                         'id' => new FieldTypes\IntegerField([]),
-                        'firstName' => new FieldTypes\IntegerField([]),
-                        'lastName' => new FieldTypes\IntegerField([]),
+                        'firstName' => new FieldTypes\StringField([]),
+                        'lastName' => new FieldTypes\StringField([]),
                     ],
                 ]),
                 'allow_null' => true,

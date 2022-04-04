@@ -62,51 +62,6 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
         ["tags", "Tags", "hidden", "''", "", "", "", ""],
     ];
-} elseif ($db_table == "anmeldung") {// DB ANMELDUNG
-    $send_mail = "on";
-    $db_felder = [
-        ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["datum", "Datum", ["text", " readonly"], "olz_current_date('Y-m-d');", "", "", "", ""],
-        ["event_id", "event_id", "hidden", $id_event, "", "", "", ""],
-        ["name", "Name, Vorname", "text", "''", "", "", ""],
-        ["email", "Emailadresse", "text", "''", "", "", "", "", "olz_is_email", "Bitte gültige Emailadresse angegen."],
-        ["anzahl", "Anzahl Teilnehmer", "text", "''", "", "", "", "", "!empty", "Bitte Teilnehmeranzahl angegen."],
-        ["zeit", "text", "hidden", "olz_current_date('H:i:s');", "", "", "", ""],
-    ];
-
-    $sql = "SELECT * from anm_felder WHERE (event_id=".$_SESSION[$db_table.'id_event_'].") ORDER BY position ASC";
-    $result = $db->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        $label = $row['label'];
-        $position = $row['position'];
-        $typ = $row['typ'];
-        $info = $row['info'];
-        $standard = $row['standard'];
-        $test = $row['test'];
-        $test_result = $row['test_result'];
-        $var = "feld".$position;
-        if ($typ == 'checkbox') {
-            $typ = ["checkbox", [["", "1"]]];
-        } else {
-            $typ = "\"".$typ."\"";
-        }
-        array_push($db_felder, ["{$var}", "{$label}", $typ, "'{$standard}'", "{$info}", "", "", "", "{$test}", "{$test_result}"]);
-    }
-    array_push($db_felder, ["on_off", "on_off", "hidden", "'0'", "", "", "", "", "", ""]);
-    array_push($db_felder, ["uid", "Code", ["text", " readonly"], "olz_create_uid(\"{$db_table}\")", "", "", "", ""]);
-} elseif ($db_table == "anm_felder") {// DB ANM_FELDER (Zusatzfelder Anmeldung)
-    $db_felder = [
-        ["id", "ID", "hidden", "''", "", "", "", ""],
-        ["event_id", "event_id", "hidden", "'{$id_anm}'", "", "", "", ""],
-        ["label", "Label", "text", "''", "", "", "", ""],
-        ["position", "Position", "text", "'{$next_pos}'", "", "", "", ""],
-        ["typ", "Typ", ["select", [["Textfeld", "text"], ["Text mehrzeilig", "textarea"], ["Checkbox", "checkbox"]]], "'text'", "", "", "", ""],
-        ["info", "Info", "textarea", "''", "", "", "", " rows='4'"],
-        ["zeigen", "Position Liste", "text", "''", "", "", "", ""],
-        ["standard", "Standardwert", "text", "''", "", "", "", ""],
-        ["test", "Feldwertprüfung", "text", "''", "", "", "", ""],
-        ["test_result", "Feldwertprüfung Text", "text", "''", "", "", "", ""],
-    ];
 } elseif ($db_table == "bild_der_woche") {// DB BILD DER WOCHE
     $layout = "1";
     $img_max_size = 240; // maximale Bildbreite,-höhe
@@ -243,9 +198,6 @@ onchange='Titel_angleichen()' class='dropdown'>
         ["newsletter", "Newsletter für Änderung", "boolean", "1", "", "", "", ""],
         ["go2ol", "GO2OL-Code", "text", "''", "", "", "", ""],
         ["solv_uid", "SOLV-ID", "number", "", "", "", "", ""],
-        // array("datum_anmeldung","Meldeschluss","text","''","Für interne Online-Anmeldungen. Eine Datumsangabe schaltet die interne Online-Anmeldung frei.","","",""),
-        // array("text_anmeldung","Erläuterungen","textarea","''","Erläuterungstext für interne Online-Anmeldungen","",""," rows='4'"),
-        // array("email_anmeldung","Emailadresse Anmeldungen","text","''","Anmeldungen an diese Adresse schicken.","","","")
     ];
 } elseif ($db_table == "vorstand") {// DB VORSTAND
     $db_felder = [
@@ -590,7 +542,7 @@ if (($do ?? null) == 'submit') {
         $db->query($sql);
     }
 
-    if (in_array($db_table, ["anmeldung", "forum"])) { // Nach Abschicken aktivieren
+    if (in_array($db_table, ["forum"])) { // Nach Abschicken aktivieren
         $sql = "UPDATE {$db_table} SET on_off='1' WHERE (id = '".$_SESSION[$db_table."id"]."')";
         $db->query($sql);
     }
@@ -615,23 +567,6 @@ if (($do ?? null) == 'submit') {
         if ($db_table == "forum") {
             $felder_tmp = [["name", "Name"], ["email", "Email-Adresse"], ["eintrag", "Eintrag"]];
             $feedback = "Dein Eintrag wurde gespeichert. Du erhältst ein Bestätigungsmail mit einem Code. Damit kannst du deinen Eintrag jederzeit ändern oder löschen.";
-        } elseif ($db_table == 'anmeldung') {
-            $sql = "SELECT * FROM termine WHERE (id='{$id_event}')";
-            $result = $db->query($sql);
-            $row = $result->fetch_assoc();
-            $mail_text .= "\n".$row['titel']."\n";
-
-            if (!$local) {
-                array_push($mail_adress, $row['email_anmeldung']);
-            } // Organisatormail
-
-            $felder_tmp = [["name", "Name, Vorname"], ["email", "Email-Adresse"], ["anzahl", "Anzahl Teilnehmer"]];
-            $sql = "SELECT * FROM anm_felder WHERE (event_id='{$id_anm}') AND (typ<>'hidden') ORDER BY position ASC";
-            $result = $db->query($sql);
-            while ($row = $result->fetch_assoc()) {
-                array_push($felder_tmp, ["feld".$row['position'], $row['label']]);
-            }
-            $feedback = "Deine Anmeldung wurde gespeichert. Du erhältst ein Bestätigungsmail mit einem Code. Damit kannst du die Anmeldung bis zum Meldeschluss jederzeit ändern.";
         }
 
         // MAILTEXT

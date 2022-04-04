@@ -11,7 +11,7 @@ class FakeEntityUtils {
     public function createOlzEntity(OlzEntity $entity, $input) {
         $this->create_olz_entity_calls[] = [
             $entity,
-            $input['onOff'] ? 1 : 0,
+            ($input['onOff'] ?? null) ? 1 : 0,
             $input['ownerUserId'] ?? null,
             $input['ownerRoleId'] ?? null,
         ];
@@ -20,7 +20,7 @@ class FakeEntityUtils {
     public function updateOlzEntity(OlzEntity $entity, $input) {
         $this->update_olz_entity_calls[] = [
             $entity,
-            $input['onOff'] ? 1 : 0,
+            ($input['onOff'] ?? null) ? 1 : 0,
             $input['ownerUserId'] ?? null,
             $input['ownerRoleId'] ?? null,
         ];

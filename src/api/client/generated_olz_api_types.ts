@@ -1,5 +1,15 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type OlzRegistrationInfo = {
+    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'reservation',
+    'isOptional': boolean,
+    'title': string,
+    'description': string,
+    'options': Array<{
+    'text': string,
+}>|null,
+};
+
 export type OlzNewsData = {
     'ownerUserId': number|null,
     'ownerRoleId': number|null,
@@ -64,10 +74,10 @@ export type OlzApiEndpoint =
     'startUpload'|
     'updateUpload'|
     'finishUpload'|
+    'createBooking'|
     'createRegistration'|
-    'createRegistrationForm'|
     'getManagedUsers'|
-    'getRegistrationForm'|
+    'getRegistration'|
     'createNews'|
     'getNews'|
     'editNews'|
@@ -205,29 +215,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'id': string,
             'numberOfParts': number,
         },
-    createRegistration: {
-            'registrationForm': number,
-            'fieldValues': {[key: string]: any},
+    createBooking: {
+            'registrationId': string,
+            'values': {[key: string]: any},
         },
-    createRegistrationForm: {
+    createRegistration: {
             'title': string,
             'description': string,
-            'fields': Array<{
-            'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'booking',
-            'isOptional': boolean,
-            'title': string,
-            'description': string,
-            'options': Array<string>|null,
-        }>,
+            'infos': Array<OlzRegistrationInfo>,
             'opensAt': string|null,
             'closesAt': string|null,
-            'ownerUser': number,
-            'ownerRole': number,
+            'ownerUserId': number,
+            'ownerRoleId': number,
+            'onOff': boolean,
         },
     getManagedUsers: Record<string, never>|null,
-    getRegistrationForm: {
-            'registrationForm': number,
-            'user': number,
+    getRegistration: {
+            'registrationId': string,
+            'userId': number,
         },
     createNews: OlzNewsData,
     getNews: {
@@ -342,36 +347,35 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     finishUpload: {
             'status': 'OK'|'ERROR',
         },
+    createBooking: {
+            'status': 'OK'|'ERROR',
+            'bookingId': string|null,
+        },
     createRegistration: {
             'status': 'OK'|'ERROR',
-        },
-    createRegistrationForm: {
-            'status': 'OK'|'ERROR',
+            'registrationId': string|null,
         },
     getManagedUsers: {
             'status': 'OK'|'ERROR',
             'managedUsers': Array<{
             'id': number,
-            'firstName': number,
-            'lastName': number,
+            'firstName': string,
+            'lastName': string,
         }>|null,
         },
-    getRegistrationForm: {
-            'status': 'OK'|'ERROR',
+    getRegistration: {
+            'id': string,
+            'data': {
             'title': string,
             'description': string,
-            'fields': Array<{
-            'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'booking',
-            'isOptional': boolean,
-            'title': string,
-            'description': string,
-            'options': Array<string>|null,
-        }>,
+            'infos': Array<OlzRegistrationInfo>,
             'opensAt': string|null,
             'closesAt': string|null,
-            'ownerUser': number,
-            'ownerRole': number,
+            'ownerUserId': number,
+            'ownerRoleId': number|null,
+            'onOff': boolean,
             'prefillValues': {[key: string]: any}|null,
+        },
         },
     createNews: {
             'status': 'OK'|'ERROR',

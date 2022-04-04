@@ -33,14 +33,18 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'title' => 'Test Titel',
-                'description' => 'Test Description',
-                'infos' => [],
-                'opensAt' => null,
-                'closesAt' => null,
-                'ownerUserId' => 1,
-                'ownerRoleId' => 1,
-                'onOff' => true,
+                'meta' => [
+                    'ownerUserId' => 1,
+                    'ownerRoleId' => 1,
+                    'onOff' => true,
+                ],
+                'data' => [
+                    'title' => 'Test Titel',
+                    'description' => 'Test Description',
+                    'infos' => [],
+                    'opensAt' => null,
+                    'closesAt' => null,
+                ],
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -63,34 +67,38 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'title' => 'Training',
-            'description' => 'Training vom 17.3.2020 im Landforst.',
-            'infos' => [
-                [
-                    'title' => 'Vorname',
-                    'description' => '',
-                    'type' => 'firstName',
-                    'isOptional' => false,
-                    'options' => null,
-                ],
-                [
-                    'title' => 'Nachname',
-                    'description' => '',
-                    'type' => 'lastName',
-                    'isOptional' => false,
-                    'options' => null,
-                ],
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
             ],
-            'opensAt' => null,
-            'closesAt' => null,
-            'ownerUserId' => 1,
-            'ownerRoleId' => 1,
-            'onOff' => true,
+            'data' => [
+                'title' => 'Training',
+                'description' => 'Training vom 17.3.2020 im Landforst.',
+                'infos' => [
+                    [
+                        'title' => 'Vorname',
+                        'description' => '',
+                        'type' => 'firstName',
+                        'isOptional' => false,
+                        'options' => null,
+                    ],
+                    [
+                        'title' => 'Nachname',
+                        'description' => '',
+                        'type' => 'lastName',
+                        'isOptional' => false,
+                        'options' => null,
+                    ],
+                ],
+                'opensAt' => null,
+                'closesAt' => null,
+            ],
         ]);
 
         $this->assertSame([
             'status' => 'OK',
-            'registrationId' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(3, count($entity_manager->persisted));
         $this->assertSame(3, count($entity_manager->flushed_persisted));

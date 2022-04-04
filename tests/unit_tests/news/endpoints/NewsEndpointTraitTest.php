@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../../../src/news/endpoints/AbstractNewsEndpoint.php';
+require_once __DIR__.'/../../../../src/news/endpoints/NewsEndpointTrait.php';
 require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
@@ -15,7 +15,9 @@ require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
-class AbstractNewsConcreteEndpoint extends AbstractNewsEndpoint {
+class NewsEndpointTraitConcreteEndpoint {
+    use NewsEndpointTrait;
+
     public static function getIdent() {
         return 'ident';
     }
@@ -34,13 +36,16 @@ class AbstractNewsConcreteEndpoint extends AbstractNewsEndpoint {
 
 /**
  * @internal
- * @covers \AbstractNewsEndpoint
+ * @covers \NewsEndpointTrait
  */
-final class AbstractNewsEndpointTest extends UnitTestCase {
-    public function testAbstractNewsEndpoint(): void {
-        $endpoint = new AbstractNewsConcreteEndpoint();
-        $field = $endpoint->getNewsDataField();
+final class NewsEndpointTraitTest extends UnitTestCase {
+    public function testNewsEndpointTrait(): void {
+        $endpoint = new NewsEndpointTraitConcreteEndpoint();
+        $this->assertSame(false, $endpoint->usesExternalId());
+
+        $field = $endpoint->getEntityDataField(/* allow_null= */ false);
         $this->assertSame(true, $field instanceof FieldTypes\ObjectField);
+        $this->assertSame(false, $field->getAllowNull());
         $field_structure = $field->getFieldStructure();
         $keys = array_keys($field_structure);
         sort($keys);
@@ -52,9 +57,6 @@ final class AbstractNewsEndpointTest extends UnitTestCase {
             'externalUrl',
             'fileIds',
             'imageIds',
-            'onOff',
-            'ownerRoleId',
-            'ownerUserId',
             'tags',
             'teaser',
             'terminId',

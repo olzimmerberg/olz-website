@@ -1,6 +1,7 @@
 <?php
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 /**
  * @ORM\MappedSuperclass
@@ -93,5 +94,17 @@ class OlzEntity {
 
     public function setLastModifiedByUser($new_last_modified_by_user) {
         $this->last_modified_by_user = $new_last_modified_by_user;
+    }
+
+    public static function getMetaField(bool $allow_null) {
+        return new FieldTypes\ObjectField([
+            'export_as' => $allow_null ? 'OlzMetaDataOrNull' : 'OlzMetaData',
+            'field_structure' => [
+                'ownerUserId' => new FieldTypes\IntegerField(['allow_null' => true]),
+                'ownerRoleId' => new FieldTypes\IntegerField(['allow_null' => true]),
+                'onOff' => new FieldTypes\BooleanField(['default_value' => true]),
+            ],
+            'allow_null' => $allow_null,
+        ]);
     }
 }

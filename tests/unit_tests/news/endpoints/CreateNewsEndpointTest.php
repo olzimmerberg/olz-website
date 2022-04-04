@@ -54,20 +54,24 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'ownerUserId' => 1,
-                'ownerRoleId' => 1,
-                'author' => 't.u.',
-                'authorUserId' => 2,
-                'authorRoleId' => 2,
-                'title' => 'Test Titel',
-                'teaser' => 'Das muss man gelesen haben!',
-                'content' => 'Sehr viel Inhalt.',
-                'externalUrl' => null,
-                'tags' => ['test', 'unit'],
-                'terminId' => null,
-                'onOff' => true,
-                'imageIds' => [],
-                'fileIds' => [],
+                'meta' => [
+                    'ownerUserId' => 1,
+                    'ownerRoleId' => 1,
+                    'onOff' => true,
+                ],
+                'data' => [
+                    'author' => 't.u.',
+                    'authorUserId' => 2,
+                    'authorRoleId' => 2,
+                    'title' => 'Test Titel',
+                    'teaser' => 'Das muss man gelesen haben!',
+                    'content' => 'Sehr viel Inhalt.',
+                    'externalUrl' => null,
+                    'tags' => ['test', 'unit'],
+                    'terminId' => null,
+                    'imageIds' => [],
+                    'fileIds' => [],
+                ],
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -103,26 +107,30 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/files/news/');
 
         $result = $endpoint->call([
-            'ownerUserId' => 1,
-            'ownerRoleId' => 1,
-            'author' => 't.u.',
-            'authorUserId' => 2,
-            'authorRoleId' => 2,
-            'title' => 'Test Titel',
-            'teaser' => 'Das muss man gelesen haben!',
-            'content' => 'Sehr viel Inhalt.',
-            'externalUrl' => null,
-            'tags' => ['test', 'unit'],
-            'terminId' => null,
-            'onOff' => true,
-            'imageIds' => ['uploaded_image.jpg', 'inexistent.jpg'],
-            'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'author' => 't.u.',
+                'authorUserId' => 2,
+                'authorRoleId' => 2,
+                'title' => 'Test Titel',
+                'teaser' => 'Das muss man gelesen haben!',
+                'content' => 'Sehr viel Inhalt.',
+                'externalUrl' => null,
+                'tags' => ['test', 'unit'],
+                'terminId' => null,
+                'imageIds' => ['uploaded_image.jpg', 'inexistent.jpg'],
+                'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
+            ],
         ]);
 
         $user_repo = $entity_manager->repositories['User'];
         $this->assertSame([
             'status' => 'OK',
-            'newsId' => FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));

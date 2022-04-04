@@ -1,5 +1,24 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type OlzMetaData = {
+    'ownerUserId': number|null,
+    'ownerRoleId': number|null,
+    'onOff': boolean,
+};
+
+export type OlzBookingData = {
+    'registrationId': string,
+    'values': {[key: string]: any},
+};
+
+export type OlzRegistrationData = {
+    'title': string,
+    'description': string,
+    'infos': Array<OlzRegistrationInfo>,
+    'opensAt': string|null,
+    'closesAt': string|null,
+};
+
 export type OlzRegistrationInfo = {
     'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'reservation',
     'isOptional': boolean,
@@ -11,8 +30,6 @@ export type OlzRegistrationInfo = {
 };
 
 export type OlzNewsData = {
-    'ownerUserId': number|null,
-    'ownerRoleId': number|null,
     'author': string|null,
     'authorUserId': number|null,
     'authorRoleId': number|null,
@@ -22,10 +39,29 @@ export type OlzNewsData = {
     'externalUrl': string|null,
     'tags': Array<string>,
     'terminId': number|null,
-    'onOff': boolean,
     'imageIds': Array<string>,
     'fileIds': Array<string>,
 };
+
+export type OlzMetaDataOrNull = {
+    'ownerUserId': number|null,
+    'ownerRoleId': number|null,
+    'onOff': boolean,
+}|null;
+
+export type OlzNewsDataOrNull = {
+    'author': string|null,
+    'authorUserId': number|null,
+    'authorRoleId': number|null,
+    'title': string,
+    'teaser': string,
+    'content': string,
+    'externalUrl': string|null,
+    'tags': Array<string>,
+    'terminId': number|null,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+}|null;
 
 export type OlzTransportConnectionSuggestion = {
     'mainConnection': OlzTransportConnection,
@@ -216,25 +252,21 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'numberOfParts': number,
         },
     createBooking: {
-            'registrationId': string,
-            'values': {[key: string]: any},
+            'meta': OlzMetaData,
+            'data': OlzBookingData,
         },
     createRegistration: {
-            'title': string,
-            'description': string,
-            'infos': Array<OlzRegistrationInfo>,
-            'opensAt': string|null,
-            'closesAt': string|null,
-            'ownerUserId': number,
-            'ownerRoleId': number,
-            'onOff': boolean,
+            'meta': OlzMetaData,
+            'data': OlzRegistrationData,
         },
     getManagedUsers: Record<string, never>|null,
     getRegistration: {
-            'registrationId': string,
-            'userId': number,
+            'id': string,
         },
-    createNews: OlzNewsData,
+    createNews: {
+            'meta': OlzMetaData,
+            'data': OlzNewsData,
+        },
     getNews: {
             'id': number,
         },
@@ -243,7 +275,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     updateNews: {
             'id': number,
-            'data': OlzNewsData,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzNewsDataOrNull,
         },
     deleteNews: {
             'id': number,
@@ -349,11 +382,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     createBooking: {
             'status': 'OK'|'ERROR',
-            'bookingId': string|null,
+            'id': string,
         },
     createRegistration: {
             'status': 'OK'|'ERROR',
-            'registrationId': string|null,
+            'id': string,
         },
     getManagedUsers: {
             'status': 'OK'|'ERROR',
@@ -365,28 +398,21 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     getRegistration: {
             'id': string,
-            'data': {
-            'title': string,
-            'description': string,
-            'infos': Array<OlzRegistrationInfo>,
-            'opensAt': string|null,
-            'closesAt': string|null,
-            'ownerUserId': number,
-            'ownerRoleId': number|null,
-            'onOff': boolean,
-            'prefillValues': {[key: string]: any}|null,
-        },
+            'meta': OlzMetaData,
+            'data': OlzRegistrationData,
         },
     createNews: {
             'status': 'OK'|'ERROR',
-            'newsId': number|null,
+            'id': number,
         },
     getNews: {
             'id': number,
+            'meta': OlzMetaData,
             'data': OlzNewsData,
         },
     editNews: {
             'id': number,
+            'meta': OlzMetaData,
             'data': OlzNewsData,
         },
     updateNews: {

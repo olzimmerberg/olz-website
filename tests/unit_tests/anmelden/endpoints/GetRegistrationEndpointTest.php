@@ -64,16 +64,17 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call([
-            'registrationId' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
-            'userId' => 1,
+            'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
         ]);
 
         $this->assertSame([
             'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
-            'data' => [
+            'meta' => [
                 'ownerUserId' => 2,
                 'ownerRoleId' => null,
                 'onOff' => true,
+            ],
+            'data' => [
                 'title' => 'Test title',
                 'description' => '',
                 'infos' => [
@@ -94,7 +95,6 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
                 ],
                 'opensAt' => null,
                 'closesAt' => null,
-                'prefillValues' => [],
             ],
         ], $result);
         $this->assertSame(0, count($entity_manager->persisted));

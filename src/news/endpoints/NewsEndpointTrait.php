@@ -2,15 +2,15 @@
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../api/OlzEndpoint.php';
+trait NewsEndpointTrait {
+    public function usesExternalId(): bool {
+        return false;
+    }
 
-abstract class AbstractNewsEndpoint extends OlzEndpoint {
-    public static function getNewsDataField() {
+    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
         return new FieldTypes\ObjectField([
-            'export_as' => 'OlzNewsData',
+            'export_as' => $allow_null ? 'OlzNewsDataOrNull' : 'OlzNewsData',
             'field_structure' => [
-                'ownerUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'ownerRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'author' => new FieldTypes\StringField(['allow_null' => true]),
                 'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
@@ -22,7 +22,6 @@ abstract class AbstractNewsEndpoint extends OlzEndpoint {
                     'item_field' => new FieldTypes\StringField([]),
                 ]),
                 'terminId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'onOff' => new FieldTypes\BooleanField(['default_value' => true]),
                 'imageIds' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
                 ]),
@@ -30,6 +29,7 @@ abstract class AbstractNewsEndpoint extends OlzEndpoint {
                     'item_field' => new FieldTypes\StringField([]),
                 ]),
             ],
+            'allow_null' => $allow_null,
         ]);
     }
 

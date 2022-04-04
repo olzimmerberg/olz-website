@@ -3,27 +3,31 @@
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+require_once __DIR__.'/../../api/OlzEntityEndpoint.php';
+require_once __DIR__.'/../../model/OlzEntity.php';
 require_once __DIR__.'/../../model/Role.php';
 require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../model/NewsEntry.php';
-require_once __DIR__.'/AbstractNewsEndpoint.php';
+require_once __DIR__.'/NewsEndpointTrait.php';
 
-class EditNewsEndpoint extends AbstractNewsEndpoint {
+class EditNewsEndpoint extends OlzEntityEndpoint {
+    use NewsEndpointTrait;
+
     public static function getIdent() {
         return 'EditNewsEndpoint';
     }
 
     public function getResponseField() {
-        $news_data_field = self::getNewsDataField();
         return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
-            'data' => $news_data_field,
+            'id' => $this->getIdField(/* allow_null= */ false),
+            'meta' => OlzEntity::getMetaField(/* allow_null= */ false),
+            'data' => $this->getEntityDataField(/* allow_null= */ false),
         ]]);
     }
 
     public function getRequestField() {
         return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 1]),
+            'id' => $this->getIdField(/* allow_null= */ false),
         ]]);
     }
 
@@ -60,9 +64,12 @@ class EditNewsEndpoint extends AbstractNewsEndpoint {
 
         return [
             'id' => $entity_id,
-            'data' => [
+            'meta' => [
                 'ownerUserId' => $owner_user ? $owner_user->getId() : null,
                 'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
+                'onOff' => $news_entry->getOnOff() ? true : false,
+            ],
+            'data' => [
                 'author' => $news_entry->getAuthor(),
                 'authorUserId' => $author_user ? $author_user->getId() : null,
                 'authorRoleId' => $author_role ? $author_role->getId() : null,
@@ -72,7 +79,6 @@ class EditNewsEndpoint extends AbstractNewsEndpoint {
                 'externalUrl' => $news_entry->getExternalUrl(),
                 'tags' => $tags_for_api,
                 'terminId' => $termin_id ? $termin_id : null,
-                'onOff' => $news_entry->getOnOff() ? true : false,
                 'imageIds' => $image_ids,
                 'fileIds' => [], // $news_entry->getFileIds(),
             ],

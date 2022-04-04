@@ -1,35 +1,20 @@
 <?php
 
-use PhpTypeScriptApi\Fields\FieldTypes;
+require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';
+require_once __DIR__.'/BookingEndpointTrait.php';
 
-require_once __DIR__.'/../../api/OlzEndpoint.php';
+class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
+    use BookingEndpointTrait;
 
-class CreateBookingEndpoint extends OlzEndpoint {
     public static function getIdent() {
         return 'CreateBookingEndpoint';
     }
 
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-            'bookingId' => new FieldTypes\StringField(['allow_null' => true]),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'registrationId' => new FieldTypes\StringField(['allow_null' => false]),
-            // see README for documentation.
-            'values' => new FieldTypes\DictField(['item_field' => new FieldTypes\Field()]),
-        ]]);
-    }
-
     protected function handle($input) {
         $current_user = $this->authUtils->getSessionUser();
-        $external_registration_id = $input['registrationId'];
+        $input_data = $input['data'];
+
+        $external_registration_id = $input_data['registrationId'];
         $internal_registration_id = $this->idUtils->toInternalId($external_registration_id, 'Registration');
         $registration_repo = $this->entityManager->getRepository(Registration::class);
         $registration = $registration_repo->findOneBy(['id' => $internal_registration_id]);
@@ -40,7 +25,7 @@ class CreateBookingEndpoint extends OlzEndpoint {
 
         $valid_values = [];
         $registration_info_repo = $this->entityManager->getRepository(RegistrationInfo::class);
-        foreach ($input['values'] as $ident => $value) {
+        foreach ($input_data['values'] as $ident => $value) {
             $registration_info = $registration_info_repo->findOneBy([
                 'registration' => $registration,
                 'ident' => $ident,
@@ -54,7 +39,7 @@ class CreateBookingEndpoint extends OlzEndpoint {
         $values_json = json_encode($valid_values);
 
         $booking = new Booking();
-        $this->entityUtils->createOlzEntity($booking, ['onOff' => 1]);
+        $this->entityUtils->createOlzEntity($booking, $input['meta']);
         $booking->setRegistration($registration);
         $booking->setUser($current_user);
         $booking->setFormData($values_json);
@@ -67,7 +52,7 @@ class CreateBookingEndpoint extends OlzEndpoint {
 
         return [
             'status' => 'OK',
-            'bookingId' => $external_booking_id,
+            'id' => $external_booking_id,
         ];
     }
 }

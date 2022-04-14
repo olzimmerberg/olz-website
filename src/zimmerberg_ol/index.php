@@ -39,7 +39,7 @@ echo <<<ZZZZZZZZZZ
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-samstag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						13. Nat. OL (Mitteldistanz)
+						11. Nat. OL (Langdistanz)
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-samstag">
 						<a class="dropdown-item" href="#ausschreibung-samstag">Ausschreibung</a>
@@ -51,7 +51,7 @@ echo <<<ZZZZZZZZZZ
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-sonntag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						14. Nat. OL (Langdistanz)
+						12. Nat. OL (Mitteldistanz)
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-sonntag">
 						<a class="dropdown-item" href="#ausschreibung-sonntag">Ausschreibung</a>
@@ -60,11 +60,6 @@ echo <<<ZZZZZZZZZZ
 						<a class="dropdown-item" href="#streckendaten-sonntag">Streckendaten</a>
 						-->
 					</div>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link" href="#corona" role="button">
-						Corona
-					</a>
 				</li>
 				<!--
 				<li class="nav-item dropdown">
@@ -85,7 +80,7 @@ echo <<<ZZZZZZZZZZ
 	<div class="content carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img class="d-block w-100" src="{$img_root}churfirsten.jpg" alt="Posten und Churfirsten">
+				<img class="d-block w-100" src="{$img_root}madrisa_aussicht.jpg" alt="Aussicht von Madrisa, mit Posten">
 			</div>
 			<div id="header-text">
 				<h1>{$event_title}</h1>
@@ -98,10 +93,12 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<p><i>Liebe OL-Läuferinnen und OL-Läufer,</i></p>
-		<p>Die OLG St. Gallen/Appenzell und die OL Zimmerberg laden Euch zum nationalen OL-Wochenende am 2./3. Oktober 2021 am Flumserberg, hoch über dem Walensee, sehr herzlich ein. Das voralpine Gebiet wurde 2018 erstmals kartiert und bisher nur einmal für den jährlichen Wettkampf der Arge Alp im gleichen Jahr benützt. Das abwechslungsreiche Gelände und die erfahrenen Bahnleger versprechen interessante und anforderungsreiche Wettkämpfe. Wir wünschen Euch viel Erfolg beim präzisen Anlaufen der OL Posten und ein erinnerungswürdiges Wochenende in einer herrlichen voralpinen Natur.</p>
-		<p><i>Chers coureurs d'orientation,</i></p>
-		<p>Les clubs OLG St. Gallen/Appenzell et OL Zimmerberg vous invitent cordialement au week-end national de course d'orientation les 2/3 octobre 2021 à Flumserberg, au-dessus du Walensee. La zone préalpine a été cartographiée pour la première fois en 2018 et n'a jusqu'à présent été utilisée qu'une seule fois pour le concours annuel Arge Alp, la même année. Le terrain varié et l'expérience des traceurs promettent des compétitions intéressantes et passionnantes. Nous vous souhaitons bonne chance dans l'approche précise des postes de course d'orientation et un week-end mémorable dans une belle nature préalpine.</p>
+		<p><i>Herzlich willkommen am OL-Weekend Klosters &ndash; Davos</i></p>
+		<p>Zum Abschluss der ereignisreichen nationalen Saison 2022 bieten dir die OL Zimmerberg und die OLG Davos zwei weitere OL-Leckerbissen an. Im neuen OL-Gelände Madrisa, hoch über Klosters, organisieren wir am Samstag, 1.10. einen Langdistanz-OL. Der letzte nationale OL in diesem Jahr, ein Mitteldistanzlauf, findet dann am Sonntag, 2.10. im Drussatschawald bei Davos Wolfgang statt.</p>
+		<p>Ebenfalls in Klosters und Davos trifft sich am gleichen Wochenende die OL Weltelite zum Weltcupfinale, welches als Hauptprobe für die WM 2023 in Flims-Laax gilt.</p>
+		<p>Wir freuen uns auf ein faszinierendes OL-Weekend in den Bündner Bergen.</p>
+		<p>Die Co-Laufleiter</p>
+		<p>Martin Gross und Thomas Attinger</p>
 	</div>
 
 	<!-- News -->
@@ -114,12 +111,11 @@ echo <<<ZZZZZZZZZZ
 	</h2>
 	<div class="content">
 		<p></p>
-		<p><i>9. September: <b>Die Weisungen sind online!</b></i></p>
-		<p><i>21. September: <b>Weisungen Langdistanz-OL am 3.10.2021 mit definitiven Bahndaten</b></i></p>
-		<p><b>Das Anmeldeportal go2ol ist wieder offen für die Offen-Kategorien (OK, OM, OL) bis 30.9. resp. 1.10.</b></p>
-		<p><b>Achtung: Parkgebühr Tannenheim und Tannenbodenalp offiziell eingeführt (Tagestarif CHF 8)</b></p>
-		<p><b>Attention: Introduction offizielle de la taxe de stationnement (CHF 8/jour)</b></p>
-		<p><b>Camper-Parkplatz Flumserberg: </b>⁣<a href="https://heidiland.com/de/home/map-details/bikercamping-flumserberg-9e793cfa-0a4d-4bfd-ae0d-8b8e255e23a2.html" target="_blank">BikerCamping Flumserberg</a>. (Hier dürfen natürlich auch Nicht-Biker übernachten. 😊)<br /><i>Campen auf den normalen Parkplätzen ist nicht erlaubt.</i></p>
+		<p>
+			<i>Noch nicht verfügbar.</i>
+		</p>
+		<!--<p><i>9. September: <b>Die Weisungen sind online!</b></i></p>-->
+		<p></p>
 	</div>
 
 	<!-- Laufgebiet -->
@@ -133,8 +129,10 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<p>Abwechslungsreiches Gelände mit Alpweiden, Wald und teils felsigen Partien; mehrheitlich gut bis sehr gut belaufbar; zwischen 1400 und 2000 m.ü.M.; in höheren Lagen auch voralpiner Charakter.</p>
-		<p><a href="{$img_root}flumserberg_2018_340x297_96dpi.png" target="_blank">Karte von 2018</a></p>
+		<p>
+			<i>Noch nicht verfügbar.</i>
+		</p>
+		<p></p>
 	</div>
 
 	<!-- Samstag -->
@@ -143,7 +141,7 @@ echo <<<ZZZZZZZZZZ
 		<span id="samstag"></span>
 	</div>
 	<h2 class="section-title navbar sticky-top shadow">
-		Samstag, 2. Oktober 2021: 13. Nat. OL (Mitteldistanz)
+		Samstag, 1. Oktober 2022: 11. Nat. OL (Langdistanz)
 	</h2>
 
 	<div class="content carousel slide" data-ride="carousel">
@@ -152,6 +150,9 @@ echo <<<ZZZZZZZZZZ
 				<img class="d-block w-100" src="{$img_root}heidelbeer.jpg" alt="Posten Heidelbeer">
 			</div>
 		</div>
+		<p>
+			<i>Bild noch von der Flumsi.</i>
+		</p>
 	</div>
 
 	<div class="content-anchor">
@@ -162,8 +163,7 @@ echo <<<ZZZZZZZZZZ
 	<div class="content">
 		<p></p>
 		<p>
-			<a href="{$pdf_root}2021_07_28_Ausschreibung_OLZ_D.pdf" target="_blank">Update-Ausschreibung (D)</a> - 
-			<a href="{$pdf_root}2021_07_28_Ausschreibung_OLZ_FR.pdf" target="_blank">Update-Annonce (F)</a>
+			<i>Noch nicht verfügbar.</i>
 		</p>
 		<p></p>
 	</div>
@@ -176,36 +176,10 @@ echo <<<ZZZZZZZZZZ
 	<div class="content">
 		<p></p>
 		<p>
-			<a href="{$pdf_root}2021_09_09_Weisungen_OLZ_D.pdf" target="_blank">Weisungen (D)</a> - 
-			<a href="{$pdf_root}2021_09_08_Weisungen_OLZ_F.pdf" target="_blank">Directives (F)</a>
-		</p>
-		<p><b>Offen-Kategorien</b> haben am Samstag 2.10. einen fliegenden Start, das heisst du kannst einfach zum Start gehen, wann du willst. Letzter Start: 15:00.</p>
-		<p></p>
-		<p>
-			<a href="http://www.olgsga.ch/galerien/13-nationaler-ol-2021/" target="_blank">Fotos</a> - 
-			<a href="https://www.youtube.com/watch?v=ySK3uRmAWYM" target="_blank">Video</a>
+			<i>Noch nicht verfügbar.</i>
 		</p>
 		<p></p>
 	</div>
-
-	<!--
-	<div class="content-anchor">
-		<span id="streckendaten-samstag"></span>
-	</div>
-	<h3 class="content">Streckendaten</h3>
-
-	<div class="content">
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-	</div>
-
-	-->
 
 	<!-- Sonntag -->
 
@@ -213,7 +187,7 @@ echo <<<ZZZZZZZZZZ
 		<span id="sonntag"></span>
 	</div>
 	<h2 class="section-title navbar sticky-top shadow">
-		Sonntag, 3. Oktober 2021: 14. Nat. OL (Langdistanz)
+		Sonntag, 2. Oktober 2022: 12. Nat. OL (Mitteldistanz)
 	</h2>
 
 	<div class="content carousel slide" data-ride="carousel">
@@ -222,6 +196,9 @@ echo <<<ZZZZZZZZZZ
 				<img class="d-block w-100" src="{$img_root}halboffen.jpg" alt="Posten Halboffen">
 			</div>
 		</div>
+		<p>
+			<i>Bild noch von der Flumsi.</i>
+		</p>
 	</div>
 
 	<div class="content-anchor">
@@ -232,8 +209,7 @@ echo <<<ZZZZZZZZZZ
 	<div class="content">
 		<p></p>
 		<p>
-			<a href="{$pdf_root}2021_08_09_Ausschreibung_SGA_D.pdf" target="_blank">Ausschreibung (D)</a> - 
-			<a href="{$pdf_root}2021_08_09_Ausschreibung_SGA_FR.pdf" target="_blank">Annonce (F)</a>
+			<i>Noch nicht verfügbar.</i>
 		</p>
 		<p></p>
 	</div>
@@ -246,72 +222,10 @@ echo <<<ZZZZZZZZZZ
 	<div class="content">
 		<p></p>
 		<p>
-			<a href="{$pdf_root}2021_09_21_Weisungen_SGA_D.pdf" target="_blank">Weisungen (D)</a> - 
-			<a href="{$pdf_root}2021_09_21_Weisungen_SGA_F.pdf" target="_blank">Directives (F)</a>
+			<i>Noch nicht verfügbar.</i>
 		</p>
-		<p><b>Offen-Kategorien</b> beziehen am Sonntag 3.10. die Startnummer zusammen mit der Startzeit am Informationsstand. Letzter Start: 12:30.</p>
-		<p></p>
-		<p><a href="http://www.olgsga.ch/galerien/14-nationaler-ol-2021/" target="_blank">Fotos</a></p>
 		<p></p>
 	</div>
-
-	<!--
-
-	<div class="content-anchor">
-		<span id="streckendaten-sonntag"></span>
-	</div>
-	<h3 class="content">Streckendaten</h3>
-
-	<div class="content">
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-	</div>
-
-	-->
-
-	<!-- Corona -->
-
-	<div class="title-anchor">
-		<span id="corona"></span>
-	</div>
-	<h2 class="section-title navbar sticky-top shadow">
-		Corona
-	</h2>
-
-	<div class="content">
-		<p></p>
-		<p>Alle Teilnehmenden müssen mittels eines gültigen Covid-Zertifikats einen GGG Status (geimpft, getestet, genesen) vorweisen.</p>
-		<p>Wir weisen ausdrücklich darauf hin, dass Personen mit Covid-Symptomen nicht nach Flumserberg anreisen sollen.</p>
-		<p>Vor Ort bieten wir keine Testmöglichkeiten an.</p>
-		<p><b>Ablauf Corona-Check bei der Ankunft</b></p>
-		<ul>
-			<li>Wir bitten alle, sich am Anreisetag mit einem gültigen Covid-Zertifikat (geimpft, getestet, genesen) und einer Identitätskarte / Pass / Fahrausweis beim Corona-Check bei der Talstation in Flumserberg-Tannenheim (Samstag) bzw. Flumserberg-Tannenbodenalp (Sonntag) zu melden. Kinder bis und mit der Kategorie D/H 16 (bis Jahrgang 2005) müssen den Ausweis, aber kein Covid-Zertifikat vorweisen.</li>
-			<li>Wer nicht geimpft ist, muss mit einem gültigen Test anreisen: PCR Test nicht älter als 72h oder einem Antigentest durchgeführt durch eine autorisierte Person nicht älter als 48h. Der Selbsttest für Zuhause wird nicht akzeptiert.</li>
-			<li>Nach dem Vorweisen des Zertifikates und dem Ausweis wird ein Armband abgegeben, welches auch für den Sonntag zum Start berechtigt.</li>
-			<li>Auf den Gondelbahnen (SeaJet, BergJet) besteht Maskenpflicht, nicht aber auf den Sesselbahnen.</li>
-			<li>Es muss mit Wartezeiten gerechnet werden.</li>
-		</ul>
-	</div>
-
-	<!-- Kontakt -->
-	<!--
-
-	<div class="title-anchor">
-		<span id="kontakt"></span>
-	</div>
-	<h2 class="section-title navbar sticky-top shadow">
-		Kontakt
-	</h2>
-
-	<div class="content">
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem unde, at explicabo illo laudantium eligendi. Officia, sapiente? Ipsa nisi et maiores, exercitationem, eaque reiciendis vero voluptatibus mollitia maxime, facilis reprehenderit!</p>
-	</div>
-	-->
 
 	<!-- Sponsoren -->
 
@@ -326,10 +240,10 @@ echo <<<ZZZZZZZZZZ
 		<p class="sponsor-padding"></p>
 		<div class="sponsor row">
 			<div class="col">
-				<img src="{$img_root}sponsor-bergbahnen.png" alt="Bergbahnen Flumserberg"/>
+				<img src="{$img_root}sponsor-davosklosters.jpg" alt="Davos Klosters"/>
 			</div>
 			<div class="col">
-				<img src="{$img_root}sponsor-sport-toto-fonds.jpg" alt="Sport Toto Fonds"/>
+				<img src="{$img_root}sponsor-swisslos.png" alt="Swisslos"/>
 			</div>
 			<div class="col">
 				<img src="{$img_root}sponsor-migros.png" alt="Migros"/>
@@ -338,24 +252,15 @@ echo <<<ZZZZZZZZZZ
 		<p class="sponsor-padding"></p>
 		<div class="sponsor row">
 			<div class="col">
-				<img src="{$img_root}sponsor-robotron.png" alt="Robotron"/>
+				<img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
 			</div>
 			<div class="col">
-				<img src="{$img_root}sponsor-flumroc.jpg" alt="Flumroc" style="width: 70%;"/>
+				<img src="{$img_root}sponsor-olgdavos.png" alt="OLG Davos"/>
 			</div>
 			<div class="col">
 				<a href="https://senstech.ch/" target="_blank">
 					<img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
 				</a>
-			</div>
-		</div>
-		<p class="sponsor-padding"></p>
-		<div class="sponsor row">
-			<div class="col">
-				<img src="{$img_root}sponsor-quarten.jpg" alt="Quarten"/>
-			</div>
-			<div class="col">
-				<img src="{$img_root}sponsor-molseralp.png" alt="Molseralp"/>
 			</div>
 		</div>
 		<p class="sponsor-padding"></p>

@@ -1,3 +1,14 @@
+.logo-container {
+    position: relative;
+    width: 140px;
+}
+
+.logo-img {
+    height: 100px;
+    position: absolute;
+    top: -20px;
+}
+
 h1 {
     font-size: 4rem;
 }
@@ -30,8 +41,8 @@ h2 {
 }
 
 h2.section-title {
-    background-color: rgb(180, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: #00a3ae;
+    color: #fff;
     font-size: 18px;
     margin-bottom: 0;
     top: 56px;

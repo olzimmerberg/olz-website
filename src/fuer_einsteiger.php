@@ -126,7 +126,7 @@ echo <<<ZZZZZZZZZZ
     <p class='slogan'>Wird dir das Joggen zu langweilig, die Strassenläufe zu eintönig, die Finnenbahn zu öde?</p>
     <p class='slogan'>Möchtest du die Wälder deiner Region besser kennenlernen, als das vielleicht beim Wandern oder auf dem Vita-Parcours der Fall ist?</p>
     <p class='slogan'>Suchst du eine Outdoor-Sportart, die dich technisch und läuferisch herausfordert?</p>
-    <p class='important'>Dann ist OL vielleicht etwas für dich!</p>
+    <p class='important'>Dann ist OL vielleicht ein Sport für dich!</p>
 </div>
 
 <div class='clear-both'></div>

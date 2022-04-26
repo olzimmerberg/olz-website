@@ -5,6 +5,10 @@ $(() => {
     const loginModalElem = document.getElementById('login-modal');
     loginModalElem.addEventListener('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
+        window.location.href = '#login-dialog';
+    });
+    loginModalElem.addEventListener('hidden.bs.modal', () => {
+        window.location.href = '#';
     });
     const openLoginDialogIfHash = () => {
         if (window.location.hash === '#login-dialog') {
@@ -35,6 +39,13 @@ export function olzLoginModalLogin(): void {
         .catch((err) => {
             $('#login-message').text(err.message);
         });
+}
+
+export function olzLoginModalShow(): void {
+    bootstrap.Modal.getOrCreateInstance(
+        document.getElementById('login-modal'),
+    ).show();
+    window.location.href = '#login-dialog';
 }
 
 export function olzLoginModalCancel(): void {

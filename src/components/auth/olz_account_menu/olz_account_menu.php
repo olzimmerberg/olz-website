@@ -50,6 +50,7 @@ function olz_account_menu($args = []): string {
             id='login-menu-item'
             class='dropdown-item'
             href='#login-dialog'
+            onclick='olzLoginModalShow()'
             role='button'
         >
             Login

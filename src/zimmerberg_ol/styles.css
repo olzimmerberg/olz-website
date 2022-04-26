@@ -1,5 +1,38 @@
+* {
+    font-family: Calibri,Verdana,Helvetica,sans-serif !important;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.navbar-collapse {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.nav-link {
+    color: #14939d !important;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
 .logo-container {
-    position: relative;
+    position: absolute;
+    right: 0;
     width: 140px;
 }
 
@@ -9,15 +42,11 @@
     top: -20px;
 }
 
-h1 {
-    font-size: 4rem;
+.header-carousel {
+    margin-top: 56px;
 }
 
-h2 {
-    font-size: 3rem;
-}
-
-.content.carousel img {
+.header-carousel img {
     min-height: 350px;
     object-fit: cover;
 }
@@ -36,16 +65,26 @@ h2 {
     z-index: 10;
 }
 
-.nav-item {
-    margin-right: 10px;
-}
-
-h2.section-title {
+.section-title {
     background-color: #00a3ae;
     color: #fff;
     font-size: 18px;
-    margin-bottom: 0;
+    margin: 0;
+    padding: 8px 16px;
+}
+
+.section-title.sticky-top {
     top: 56px;
+}
+
+.first-line {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.second-line {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .title-anchor,
@@ -60,20 +99,47 @@ h2.section-title {
 
 .content-anchor span[id] {
     position: absolute;
-    top: -94px;
+    top: -118px;
 }
 
 .content {
-    margin: 0 auto;
-    max-width: 1000px;
+    margin: 20px 20px 0;
+}
+
+.content .info-table td {
+    border-top: solid #888 1px;
+    vertical-align: top;
+}
+
+.content .info-table td:first-child {
+    width: 33%;
 }
 
 .content .row img {
     max-width: 100%;
 }
 
-.sponsor.row .col {
+.row {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.row .col {
     text-align: center;
+}
+
+.organisatoren.row {
+    height: 100px;
+    margin: 50px 0;
+}
+
+.organisatoren.row img {
+    max-height: 100px;
+}
+
+.sponsor .row {
+    height: 100px;
 }
 
 .sponsor-padding {

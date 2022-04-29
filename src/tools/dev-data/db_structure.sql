@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220321214214
+-- MIGRATION: OLZ\Migrations\Version20220502152929
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -559,36 +559,6 @@ CREATE TABLE `forum` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `old_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zugriff` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `root` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email_is_verified` tinyint(1) NOT NULL,
-  `email_verification_token` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'M(ale), F(emale), or O(ther)',
-  `street` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `postal_code` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `region` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country_code` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'two-letter code (ISO-3166-alpha-2)',
-  `birthdate` date DEFAULT NULL,
-  `phone` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `last_login_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `username_index` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quiz_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_category_id` int(11) DEFAULT NULL,
@@ -805,6 +775,49 @@ CREATE TABLE `termine` (
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zugriff` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `root` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_is_verified` tinyint(1) NOT NULL,
+  `email_verification_token` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'M(ale), F(emale), or O(ther)',
+  `street` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `postal_code` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `region` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country_code` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'two-letter code (ISO-3166-alpha-2)',
+  `birthdate` date DEFAULT NULL,
+  `phone` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_login_at` datetime DEFAULT NULL,
+  `parent_user` int(11) DEFAULT NULL,
+  `member_type` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Aktiv, Ehrenmitglied, Verein, Sponsor',
+  `member_last_paid` date DEFAULT NULL,
+  `wants_postal_mail` tinyint(1) NOT NULL DEFAULT 0,
+  `postal_title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'if not {m: Herr, f: Frau, o: }',
+  `postal_name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'if not ''First Last''',
+  `joined_on` date DEFAULT curdate(),
+  `joined_reason` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `left_on` date DEFAULT NULL,
+  `left_reason` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `solv_number` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `si_card_number` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `username_index` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

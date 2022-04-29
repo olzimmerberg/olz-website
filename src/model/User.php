@@ -17,6 +17,10 @@ class User {
      */
     public $id;
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public $parent_user;
+    /**
      * @ORM\Column(type="string", nullable=false)
      */
     public $username;
@@ -25,11 +29,11 @@ class User {
      */
     public $old_username;
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      */
     public $password;
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      */
     public $email;
     /**
@@ -49,7 +53,9 @@ class User {
      */
     public $last_name;
     /**
-     * @ORM\Column(type="string", length=2, nullable=true, options={"comment": "M(ale), F(emale), or O(ther)"})
+     * @ORM\Column(type="string", length=2, nullable=true, options={
+     *     "comment": "M(ale), F(emale), or O(ther)"
+     * })
      */
     public $gender;
     /**
@@ -69,7 +75,9 @@ class User {
      */
     public $region;
     /**
-     * @ORM\Column(type="string", length=3, nullable=true, options={"comment": "two-letter code (ISO-3166-alpha-2)"})
+     * @ORM\Column(type="string", length=3, nullable=true, options={
+     *     "comment": "two-letter code (ISO-3166-alpha-2)"
+     * })
      */
     public $country_code;
     /**
@@ -88,6 +96,60 @@ class User {
      * @ORM\Column(type="text", nullable=true)
      */
     public $root;
+    /**
+     * @ORM\Column(type="string", length=3, nullable=true, options={
+     *     "comment": "Aktiv, Ehrenmitglied, Verein, Sponsor"
+     * })
+     */
+    public $member_type;
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    public $member_last_paid;
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default": 0})
+     */
+    public $wants_postal_mail;
+    /**
+     * @ORM\Column(type="text", nullable=true, options={
+     *     "comment": "if not {m: Herr, f: Frau, o: }"
+     * })
+     */
+    public $postal_title;
+    /**
+     * @ORM\Column(type="text", nullable=true, options={
+     *     "comment": "if not 'First Last'"
+     * })
+     */
+    public $postal_name;
+    /**
+     * @ORM\Column(type="date", nullable=true, options={"default": "CURRENT_DATE"})
+     */
+    public $joined_on;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $joined_reason;
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    public $left_on;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $left_reason;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $solv_number;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public $si_card_number;
+    /**
+     * @ORM\Column(type="text", nullable=false, options={"default": ""})
+     */
+    public $notes;
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      * @ORM\JoinTable(name="users_roles")
@@ -264,6 +326,102 @@ class User {
 
     public function setRoot($new_root) {
         $this->root = $new_root;
+    }
+
+    public function getMemberType() {
+        return $this->member_type;
+    }
+
+    public function setMemberType($new_member_type) {
+        $this->member_type = $new_member_type;
+    }
+
+    public function getMemberLastPaid() {
+        return $this->member_last_paid;
+    }
+
+    public function setMemberLastPaid($new_member_last_paid) {
+        $this->member_last_paid = $new_member_last_paid;
+    }
+
+    public function getWantsPostalMail() {
+        return $this->wants_postal_mail;
+    }
+
+    public function setWantsPostalMail($new_wants_postal_mail) {
+        $this->wants_postal_mail = $new_wants_postal_mail;
+    }
+
+    public function getPostalTitle() {
+        return $this->postal_title;
+    }
+
+    public function setPostalTitle($new_postal_title) {
+        $this->postal_title = $new_postal_title;
+    }
+
+    public function getPostalName() {
+        return $this->postal_name;
+    }
+
+    public function setPostalName($new_postal_name) {
+        $this->postal_name = $new_postal_name;
+    }
+
+    public function getJoinedOn() {
+        return $this->joined_on;
+    }
+
+    public function setJoinedOn($new_joined_on) {
+        $this->joined_on = $new_joined_on;
+    }
+
+    public function getJoinedReason() {
+        return $this->joined_reason;
+    }
+
+    public function setJoinedReason($new_joined_reason) {
+        $this->joined_reason = $new_joined_reason;
+    }
+
+    public function getLeftOn() {
+        return $this->left_on;
+    }
+
+    public function setLeftOn($new_left_on) {
+        $this->left_on = $new_left_on;
+    }
+
+    public function getLeftReason() {
+        return $this->left_reason;
+    }
+
+    public function setLeftReason($new_left_reason) {
+        $this->left_reason = $new_left_reason;
+    }
+
+    public function getSolvNumber() {
+        return $this->solv_number;
+    }
+
+    public function setSolvNumber($new_solv_number) {
+        $this->solv_number = $new_solv_number;
+    }
+
+    public function getSiCardNumber() {
+        return $this->si_card_number;
+    }
+
+    public function setSiCardNumber($new_si_card_number) {
+        $this->si_card_number = $new_si_card_number;
+    }
+
+    public function getNotes() {
+        return $this->notes;
+    }
+
+    public function setNotes($new_notes) {
+        $this->notes = $new_notes;
     }
 
     public function getCreatedAt() {

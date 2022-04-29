@@ -60,6 +60,17 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $user->setZugriff('');
         $user->setRoot(null);
+        $user->setMemberType(null);
+        $user->setMemberLastPaid(null);
+        $user->setWantsPostalMail(false);
+        $user->setPostalTitle(null);
+        $user->setPostalName(null);
+        $user->setJoinedReason("Online (Strava)");
+        $user->setLeftOn(null);
+        $user->setLeftReason(null);
+        $user->setSolvNumber(null);
+        $user->setSiCardNumber(null);
+        $user->setNotes('');
 
         $strava_link = new StravaLink();
         $strava_link->setStravaUser($input['stravaUser']);

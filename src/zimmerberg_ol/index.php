@@ -24,7 +24,7 @@ echo <<<ZZZZZZZZZZ
 	<meta name="keywords" content="OL" />
 </head>
 
-<body>
+<body class="olz-override-root">
 
 	<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -266,7 +266,7 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="title-anchor">
 		<span id="sonntag"></span>
 	</div>
-	<h2 class="section-title-day section-title sticky-top shadow">
+	<h2 class="section-title sticky-top shadow">
 		<div class="first-line">
 			Sonntag, 2. Oktober 2022: 12. Nat. OL Davos (Mitteldistanz)
 		</div>

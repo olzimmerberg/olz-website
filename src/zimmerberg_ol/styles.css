@@ -144,6 +144,7 @@ ul.news {
 .row {
     align-items: center;
     display: flex;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -151,8 +152,14 @@ ul.news {
     text-align: center;
 }
 
-.sponsor .row {
-    height: 100px;
+.sponsors .col {
+    margin: 50px 0;
+    min-height: 150px;
+}
+
+.sponsors .col img {
+    max-height: 150px;
+    max-width: 200px;
 }
 
 .sponsor-padding {
@@ -178,5 +185,19 @@ ul.news {
 
     .content-anchor span[id] {
         top: -172px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .sponsors .col {
+        margin: 10px 0;
+    }
+
+    .sponsors .col:empty {
+        height: 0;
+        margin: 0;
+        min-height: 0;
     }
 }

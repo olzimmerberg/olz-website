@@ -131,6 +131,18 @@ class DeleteUserEndpoint extends OlzEndpoint {
             $user->setCountryCode(null);
             $user->setZugriff('');
             $user->setRoot(null);
+            $user->setMemberType(null);
+            $user->setMemberLastPaid(null);
+            $user->setWantsPostalMail(false);
+            $user->setPostalTitle(null);
+            $user->setPostalName(null);
+            $user->setJoinedOn(null);
+            $user->setJoinedReason(null);
+            $user->setLeftOn(null);
+            $user->setLeftReason(null);
+            $user->setSolvNumber(null);
+            $user->setSiCardNumber(null);
+            $user->setNotes('');
             $user->setLastModifiedAt($now_datetime);
         } else {
             $this->logger->warning("Removing user {$user}.");

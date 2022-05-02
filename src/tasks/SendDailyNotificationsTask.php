@@ -472,7 +472,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
                 } catch (\Throwable $th) {
                     $th_class = get_class($th);
                     $message = $th->getMessage();
-                    $this->logger->critical("Error sending telegram to user ({$user_id}): [{$th_class}] {$message}", []);
+                    $this->logger->error("Error sending telegram to user ({$user_id}): [{$th_class}] {$message}", []);
                 }
                 break;
             default:

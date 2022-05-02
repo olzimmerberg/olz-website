@@ -1,10 +1,9 @@
-.olz-override-root .header-bar {
+.olz-override-root .header-bar,
+.olz-override-root .fixed-top,
+.olz-override-root .sticky-top {
     position: absolute;
 }
 
 .olz-override-root * {
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
     transition: none !important;
 }

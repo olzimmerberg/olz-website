@@ -42,7 +42,7 @@ class AuthUtils {
         }
 
         // If the password is wrong, authentication fails.
-        if (!$user || !password_verify($password, $user->getPasswordHash())) {
+        if (!$user || !$password || !password_verify($password, $user->getPasswordHash())) {
             $message = "Login attempt with invalid credentials from IP: {$ip_address} (user: {$username_or_email}).";
             $this->logger->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username_or_email);

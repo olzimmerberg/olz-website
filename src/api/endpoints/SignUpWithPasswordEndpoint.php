@@ -90,6 +90,18 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $user->setZugriff('');
         $user->setRoot(null);
+        $user->setMemberType(null);
+        $user->setMemberLastPaid(null);
+        $user->setWantsPostalMail(false);
+        $user->setPostalTitle(null);
+        $user->setPostalName(null);
+        $user->setJoinedOn($now_datetime);
+        $user->setJoinedReason("Online (OLZ-Konto erstellen)");
+        $user->setLeftOn(null);
+        $user->setLeftReason(null);
+        $user->setSolvNumber(null);
+        $user->setSiCardNumber(null);
+        $user->setNotes('');
         $user->setCreatedAt($now_datetime);
         $user->setLastModifiedAt($now_datetime);
         $user->setLastLoginAt(null);

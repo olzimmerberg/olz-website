@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220502152929
+-- MIGRATION: OLZ\Migrations\Version20220502172202
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -66,7 +66,7 @@ VALUES
     ('OLZ\\Migrations\\Version20211130230319', '2021-11-30 23:41:24', '1337'),
     ('OLZ\\Migrations\\Version20220317172850', '2022-03-17 17:30:24', '2336'),
     ('OLZ\\Migrations\\Version20220321214214', '2022-03-21 21:44:24', '2066'),
-    ('OLZ\\Migrations\\Version20220502152929', '2022-05-02 15:30:04', '108');
+    ('OLZ\\Migrations\\Version20220502172202', '2022-05-02 17:22:32', '107');
 
 -- Table downloads
 
@@ -290,10 +290,10 @@ VALUES
 INSERT INTO users
     (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`)
 VALUES
-    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@test.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, '2022-05-02', NULL, NULL, NULL, NULL, NULL, ''),
-    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp webdav olz_text_1 aktuell galerie bild_der_woche', 'vorstand', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, '2022-05-02', NULL, NULL, NULL, NULL, NULL, ''),
-    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp webdav', 'karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, '2022-05-02', NULL, NULL, NULL, NULL, NULL, ''),
-    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, '2022-05-02', NULL, NULL, NULL, NULL, NULL, '');
+    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@test.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
+    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp webdav olz_text_1 aktuell galerie bild_der_woche', 'vorstand', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
+    ('3', 'karten', NULL, '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', '', 'Karen', 'Karten', 'ftp webdav', 'karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
+    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@test.olzimmerberg.ch', 'Hacker', 'Man', 'all', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 -- Table users_roles
 INSERT INTO users_roles

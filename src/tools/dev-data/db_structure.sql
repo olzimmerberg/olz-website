@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220502152929
+-- MIGRATION: OLZ\Migrations\Version20220502172202
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -808,7 +808,7 @@ CREATE TABLE `users` (
   `wants_postal_mail` tinyint(1) NOT NULL DEFAULT 0,
   `postal_title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'if not {m: Herr, f: Frau, o: }',
   `postal_name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'if not ''First Last''',
-  `joined_on` date DEFAULT curdate(),
+  `joined_on` date DEFAULT NULL,
   `joined_reason` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `left_on` date DEFAULT NULL,
   `left_reason` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,

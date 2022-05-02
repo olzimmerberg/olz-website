@@ -1,17 +1,17 @@
 * {
-    font-family: Calibri,Verdana,Helvetica,sans-serif !important;
+    font-family: Calibri,'Open Sans',Verdana,Helvetica,sans-serif !important;
 }
 
 body {
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 900px;
 }
 
-h1 {
+#header-text h1 {
     font-size: 3em;
 }
 
-h2 {
+#header-text h2 {
     font-size: 2em;
 }
 
@@ -21,29 +21,38 @@ p {
 
 .navbar-collapse {
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 900px;
 }
 
 .nav-link {
     color: #14939d !important;
+    font-size: 18px;
     font-weight: bold;
+    line-height: 40px;
     margin-right: 10px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.dropdown-menu {
+    width: 250px;
 }
 
 .logo-container {
-    position: absolute;
+    position: fixed;
     right: 0;
-    width: 140px;
+    width: 180px;
+    z-index: 10000;
 }
 
 .logo-img {
-    height: 100px;
+    height: 130px;
     position: absolute;
-    top: -20px;
+    top: -63px;
 }
 
 .header-carousel {
-    margin-top: 56px;
+    margin-top: 72px;
 }
 
 .header-carousel img {
@@ -70,11 +79,20 @@ p {
     color: #fff;
     font-size: 18px;
     margin: 0;
+    min-height: 58px;
+    padding: 8px 16px;
+}
+
+.section-subtitle {
+    background-color: #00a3ae;
+    color: #fff;
+    font-size: 18px;
+    margin: 0;
     padding: 8px 16px;
 }
 
 .section-title.sticky-top {
-    top: 56px;
+    top: 72px;
 }
 
 .first-line {
@@ -94,12 +112,12 @@ p {
 
 .title-anchor span[id] {
     position: absolute;
-    top: -56px;
+    top: -72px;
 }
 
 .content-anchor span[id] {
     position: absolute;
-    top: -118px;
+    top: -134px;
 }
 
 .content {
@@ -119,6 +137,10 @@ p {
     max-width: 100%;
 }
 
+ul.news {
+    padding-left: 20px;
+}
+
 .row {
     align-items: center;
     display: flex;
@@ -129,19 +151,32 @@ p {
     text-align: center;
 }
 
-.organisatoren.row {
-    height: 100px;
-    margin: 50px 0;
-}
-
-.organisatoren.row img {
-    max-height: 100px;
-}
-
 .sponsor .row {
     height: 100px;
 }
 
 .sponsor-padding {
     height: 100px;
+}
+
+@media screen and (max-width: 900px) {
+    #header-text h1 {
+        font-size: 6vw;
+    }
+
+    #header-text h2 {
+        font-size: 4vw;
+    }
+
+    .section-title {
+        min-height: 98px;
+    }
+
+    .title-anchor span[id] {
+        top: -110px;
+    }
+
+    .content-anchor span[id] {
+        top: -172px;
+    }
 }

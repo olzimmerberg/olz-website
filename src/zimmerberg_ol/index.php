@@ -5,6 +5,18 @@ $event_date = "1. und 2. Oktober 2022";
 $img_root = "/img/zol_2022/";
 $pdf_root = "/pdf/zol_2022/";
 
+$css_path = "styles.css";
+$css_modified = is_file($css_path) ? filemtime($css_path) : 0;
+
+$translations = [
+    'de' => [
+        'news' => 'News',
+    ],
+    'fr' => [
+        'news' => 'Nouvelles',
+    ],
+];
+
 echo <<<ZZZZZZZZZZ
 <!DOCTYPE html>
 <html lang="de">
@@ -13,7 +25,7 @@ echo <<<ZZZZZZZZZZ
 	<title>{$event_title}</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon" />
-	<link rel="stylesheet" href="styles.css"> 
+	<link rel="stylesheet" href="styles.css?modified={$css_modified}">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -26,7 +38,7 @@ echo <<<ZZZZZZZZZZ
 
 <body class="olz-override-root">
 
-	<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+	<nav class="navbar py-3 fixed-top navbar-expand-lg navbar-light bg-light shadow">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
@@ -68,12 +80,12 @@ echo <<<ZZZZZZZZZZ
 				</li>
 			</ul>
 		</div>
-		<div class="logo-container">
-			<a href="#">
-				<img src="{$img_root}logo_100.png" alt="" class="logo-img">
-			</a>
-		</div>
 	</nav>
+	<div class="logo-container">
+		<a href="#">
+			<img src="{$img_root}220502_Logo_uu.png" alt="" class="logo-img">
+		</a>
+	</div>
 
 	<!-- Header -->
 
@@ -93,15 +105,6 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<div class="organisatoren row">
-			<div class="col">
-				<img src="{$img_root}organisator-olzimmerberg.png" alt="OL Zimmerberg"/>
-			</div>
-			<div class="col">
-				<img src="{$img_root}organisator-olgdavos.png" alt="OLG Davos"/>
-			</div>
-		</div>
-		<p></p>
 		<p><i>Herzlich willkommen am OL-Weekend Klosters &ndash; Davos</i></p>
 		<p>Zum Abschluss der ereignisreichen nationalen Saison 2022 bieten dir die OL Zimmerberg und die OLG Davos zwei weitere OL-Leckerbissen an. Im neuen OL-Gelände Madrisa, hoch über Klosters, organisieren wir am Samstag, 1.10. einen Langdistanz-OL. Der letzte nationale OL in diesem Jahr, ein Mitteldistanzlauf, findet dann am Sonntag, 2.10. im Drussatschawald bei Davos Wolfgang statt.</p>
 		<p>Ebenfalls in Klosters und Davos trifft sich am gleichen Wochenende die OL Weltelite zum Weltcupfinale, welches als Hauptprobe für die WM 2023 in Flims-Laax-Falera gilt.</p>
@@ -115,13 +118,13 @@ echo <<<ZZZZZZZZZZ
 	<div class="title-anchor">
 		<span id="news"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		News
 	</h2>
 	<div class="content">
-			<ul>
+		<ul class="news">
 			<li>26.4.2022: Homepage ist online</li>
-			</ul>
+		</ul>
 	</div>
 
 
@@ -154,26 +157,33 @@ echo <<<ZZZZZZZZZZ
 	<div class="content-anchor">
 		<span id="laufgebiet-samstag"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		Laufgebiet
 	</h2>
 
 	<div class="content">
 		<p></p>
 		<p>
-Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeldern<br>mehrheitlich gut bis sehr gut belaufbar; zwischen 1900-2300 m ü.M.		</p>
+Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeldern<br>mehrheitlich gut bis sehr gut belaufbar; zwischen 1900-2300 m ü.M.</p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="ausschreibung-samstag"></span>
 	</div>
-	<h2 class="section-title shadow">Ausschreibung (Stand 27.4.22)</h2>
+	<h2 class="section-subtitle shadow">Ausschreibung (Stand 2.5.22)</h2>
 
 	<div class="content">
 		<p></p>
 
 		<table class="info-table">
+		<tr>
+			<td>Veranstalter</td>
+			<td>
+				<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a>
+				und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>
+			</td>
+		</tr>
 		<tr>
 			<td>Auskunft/Laufleitung</td>
 			<td>Martin Gross, m.gross@active.ch, 079 827 59 53</td>
@@ -224,7 +234,7 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="anmeldung-samstag"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		Anmeldung
 	</h2>
 
@@ -238,7 +248,7 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="weisungen-samstag"></span>
 	</div>
-	<h2 class="section-title shadow">Weisungen</h2>
+	<h2 class="section-subtitle shadow">Weisungen</h2>
 
 	<div class="content">
 		<p></p>
@@ -251,7 +261,7 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="streckendaten-samstag"></span>
 	</div>
-	<h2 class="section-title shadow">Streckendaten</h2>
+	<h2 class="section-subtitle shadow">Streckendaten</h2>
 
 	<div class="content">
 		<p></p>
@@ -291,7 +301,7 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="laufgebiet-sonntag"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		Laufgebiet
 	</h2>
 
@@ -305,12 +315,19 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="content-anchor">
 		<span id="ausschreibung-sonntag"></span>
 	</div>
-	<h2 class="section-title shadow">Ausschreibung</h2>
+	<h2 class="section-subtitle shadow">Ausschreibung (Stand 2.5.22)</h2>
 
 	<div class="content">
 		<p></p>
 
 		<table class="info-table">
+		<tr>
+			<td>Veranstalter</td>
+			<td>
+				<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a>
+				und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>
+			</td>
+		</tr>
 		<tr>
 			<td>Auskunft/Laufleitung</td>
 			<td>Martin Gross, m.gross@active.ch, 079 827 59 53</td>
@@ -361,7 +378,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="content-anchor">
 		<span id="anmeldung-sonntag"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		Anmeldung
 	</h2>
 
@@ -375,7 +392,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="content-anchor">
 		<span id="weisungen-sonntag"></span>
 	</div>
-	<h2 class="section-title shadow">
+	<h2 class="section-subtitle shadow">
 		Weisungen
 	</h2>
 
@@ -390,7 +407,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="content-anchor">
 		<span id="streckendaten-sonntag"></span>
 	</div>
-	<h2 class="section-title shadow">Streckendaten</h2>
+	<h2 class="section-subtitle shadow">Streckendaten</h2>
 
 	<div class="content">
 		<p></p>
@@ -405,7 +422,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="title-anchor">
 		<span id="sponsoren"></span>
 	</div>
-	<h2 class="section-title">
+	<h2 class="section-subtitle">
 		Sponsoren
 	</h2>
 
@@ -426,11 +443,23 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 				<img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
 			</div>
 			<div class="col">
-				<img src="{$img_root}organisator-olgdavos.png" alt="OLG Davos"/>
 			</div>
 			<div class="col">
 				<a href="https://senstech.ch/" target="_blank">
 					<img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<img src="{$img_root}EGK_logo.png" alt="EGK"/>
+			</div>
+			<div class="col">
+				<img src="{$img_root}emmi_logo.jpg" alt="Emmi"/>
+			</div>
+			<div class="col">
+				<a href="https://senstech.ch/" target="_blank">
+					<img src="{$img_root}FW_Logo.png" alt="Focus Water"/>
 				</a>
 			</div>
 		</div>

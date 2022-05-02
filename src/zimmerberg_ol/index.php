@@ -74,7 +74,7 @@ echo <<<ZZZZZZZZZZ
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link" href="https://woc2023.ch/wcf-2022/" role="button">
+					<a class="nav-link" href="https://woc2023.ch/wcf-2022/" target="_blank" role="button">
 						World Cup Final 2022
 					</a>
 				</li>
@@ -83,7 +83,7 @@ echo <<<ZZZZZZZZZZ
 	</nav>
 	<div class="logo-container">
 		<a href="#">
-			<img src="{$img_root}220502_Logo_uu.png" alt="" class="logo-img">
+			<img src="{$img_root}logo_260.png" alt="" class="logo-img">
 		</a>
 	</div>
 
@@ -145,7 +145,7 @@ echo <<<ZZZZZZZZZZ
 	<div class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img class="d-block w-100" src="{$img_root}madrisa_posten_2.jpg" alt="Posten Heidelbeer">
+				<img class="d-block w-100" src="{$img_root}madrisa_posten_3.jpg" alt="Posten Heidelbeer">
 			</div>
 		</div>
 		<p>
@@ -442,8 +442,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 			<div class="col">
 				<img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
 			</div>
-			<div class="col">
-			</div>
+			<div class="col"></div>
 			<div class="col">
 				<a href="https://senstech.ch/" target="_blank">
 					<img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
@@ -452,14 +451,14 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 		</div>
 		<div class="row">
 			<div class="col">
-				<img src="{$img_root}EGK_logo.png" alt="EGK"/>
+				<img src="{$img_root}sponsor-egk.png" alt="EGK"/>
 			</div>
 			<div class="col">
-				<img src="{$img_root}emmi_logo.jpg" alt="Emmi"/>
+				<img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
 			</div>
 			<div class="col">
 				<a href="https://senstech.ch/" target="_blank">
-					<img src="{$img_root}FW_Logo.png" alt="Focus Water"/>
+					<img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
 				</a>
 			</div>
 		</div>

@@ -123,7 +123,7 @@ class User {
      */
     public $postal_name;
     /**
-     * @ORM\Column(type="date", nullable=true, options={"default": "CURRENT_DATE"})
+     * @ORM\Column(type="date", nullable=true)
      */
     public $joined_on;
     /**

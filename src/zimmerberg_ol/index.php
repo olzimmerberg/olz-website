@@ -51,7 +51,7 @@ echo <<<ZZZZZZZZZZ
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-samstag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						11. Nat. OL (Langdistanz)
+						11. Nat. OL (Lang)
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-samstag">
 						<a class="dropdown-item" href="#laufgebiet-samstag">Laufgebiet</a>
@@ -63,7 +63,7 @@ echo <<<ZZZZZZZZZZ
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-sonntag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						12. Nat. OL (Mitteldistanz)
+						12. Nat. OL (Mittel)
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-sonntag">
 						<a class="dropdown-item" href="#laufgebiet-sonntag">Laufgebiet</a>

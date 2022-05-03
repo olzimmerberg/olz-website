@@ -153,8 +153,7 @@ ul.news {
 }
 
 .sponsors .col {
-    margin: 50px 0;
-    min-height: 150px;
+    margin: 25px 0;
 }
 
 .sponsors .col img {
@@ -193,6 +192,7 @@ ul.news {
 
     .sponsors .col {
         margin: 10px 0;
+        min-height: 150px;
     }
 
     .sponsors .col:empty {

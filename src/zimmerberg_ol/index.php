@@ -292,7 +292,6 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 			</div>
 		</div>
 		<p>
-			<i>Bild noch von der Flumsi.</i>
 		</p>
 	</div>
 

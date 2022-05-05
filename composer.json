@@ -3,7 +3,7 @@
   "type": "project",
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "8.0"
     },
     "allow-plugins": {
       "composer/package-versions-deprecated": false

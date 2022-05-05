@@ -1,25 +1,29 @@
 <?php
 
-$event_title = "Nationales OL-Weekend Davos Klosters";
-$event_date = "1. und 2. Oktober 2022";
 $img_root = "/img/zol_2022/";
 $pdf_root = "/pdf/zol_2022/";
 
 $css_path = "styles.css";
 $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
 
-$translations = [
-    'de' => [
-        'news' => 'News',
-    ],
-    'fr' => [
-        'news' => 'Nouvelles',
-    ],
-];
+require_once __DIR__.'/translations.php';
+$selected_lang = $_GET['lang'] === 'fr' ? 'fr' : 'de';
+$_ = $translations[$selected_lang];
+
+$lang_selection = array_map(
+    function ($language) use ($selected_lang) {
+        if ($language == $selected_lang) {
+            return "<span class=\"lang selected\">{$language}</span>";
+        }
+        return "<a href=\"?lang={$language}\" class=\"lang\">{$language}</a>";
+    },
+    $languages
+);
+$lang_selection_html = implode(' | ', $lang_selection);
 
 echo <<<ZZZZZZZZZZ
 <!DOCTYPE html>
-<html lang="de">
+<html lang="{$selected_lang}">
 
 <head>
 	<title>{$event_title}</title>
@@ -46,39 +50,42 @@ echo <<<ZZZZZZZZZZ
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item dropdown">
 					<a class="nav-link" href="#news" role="button">
-						News
+						{$_->news}
 					</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-samstag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						11. Nat. OL (Lang)
+						{$_->nat11}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-samstag">
-						<a class="dropdown-item" href="#laufgebiet-samstag">Laufgebiet</a>
-						<a class="dropdown-item" href="#ausschreibung-samstag">Ausschreibung</a>
-						<a class="dropdown-item disabled" href="#anmeldung-samstag">Anmeldung</a>
-						<a class="dropdown-item disabled" href="#weisungen-samstag">Weisungen</a>
-						<a class="dropdown-item disabled" href="#streckendaten-samstag">Streckendaten</a>
+						<a class="dropdown-item" href="#laufgebiet-samstag">{$_->terrain}</a>
+						<a class="dropdown-item" href="#ausschreibung-samstag">{$_->announcement}</a>
+						<a class="dropdown-item disabled" href="#anmeldung-samstag">{$_->entry}</a>
+						<a class="dropdown-item disabled" href="#weisungen-samstag">{$_->directives}</a>
+						<a class="dropdown-item disabled" href="#streckendaten-samstag">{$_->course_data}</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-sonntag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						12. Nat. OL (Mittel)
+						{$_->nat12}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-sonntag">
-						<a class="dropdown-item" href="#laufgebiet-sonntag">Laufgebiet</a>
-						<a class="dropdown-item" href="#ausschreibung-sonntag">Ausschreibung</a>
-						<a class="dropdown-item disabled" href="#anmeldung-sonntag">Anmeldung</a>
-						<a class="dropdown-item disabled" href="#weisungen-sonntag">Weisungen</a>
-						<a class="dropdown-item disabled" href="#streckendaten-sonntag">Streckendaten</a>
+						<a class="dropdown-item" href="#laufgebiet-sonntag">{$_->terrain}</a>
+						<a class="dropdown-item" href="#ausschreibung-sonntag">{$_->announcement}</a>
+						<a class="dropdown-item disabled" href="#anmeldung-sonntag">{$_->entry}</a>
+						<a class="dropdown-item disabled" href="#weisungen-sonntag">{$_->directives}</a>
+						<a class="dropdown-item disabled" href="#streckendaten-sonntag">{$_->course_data}</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link" href="https://woc2023.ch/wcf-2022/" target="_blank" role="button">
-						World Cup Final 2022
+						{$_->wcf2022}
 					</a>
 				</li>
 			</ul>
+			<div class="language-selection">
+				{$lang_selection_html}
+			</div>
 		</div>
 	</nav>
 	<div class="logo-container">
@@ -95,8 +102,8 @@ echo <<<ZZZZZZZZZZ
 				<img class="d-block w-100" src="{$img_root}madrisa_aussicht_2.jpg" alt="Aussicht von Madrisa, mit Posten">
 			</div>
 			<div id="header-text">
-				<h1>{$event_title}</h1>
-				<h2>{$event_date}</h2>
+				<h1>{$_->event_title}</h1>
+				<h2>{$_->event_date}</h2>
 			</div>
 		</div>
 	</div>
@@ -105,12 +112,12 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<p><i>Herzlich willkommen am OL-Weekend Klosters &ndash; Davos</i></p>
-		<p>Zum Abschluss der ereignisreichen nationalen Saison 2022 bieten dir die OL Zimmerberg und die OLG Davos zwei weitere OL-Leckerbissen an. Im neuen OL-Gelände Madrisa, hoch über Klosters, organisieren wir am Samstag, 1.10. einen Langdistanz-OL. Der letzte nationale OL in diesem Jahr, ein Mitteldistanzlauf, findet dann am Sonntag, 2.10. im Drussatschawald bei Davos Wolfgang statt.</p>
-		<p>Ebenfalls in Klosters und Davos trifft sich am gleichen Wochenende die OL Weltelite zum Weltcupfinale, welches als Hauptprobe für die WM 2023 in Flims-Laax-Falera gilt.</p>
-		<p>Wir freuen uns auf ein faszinierendes OL-Weekend in den Bündner Bergen.</p>
-		<p>Die Co-Laufleiter</p>
-		<p>Martin Gross und Thomas Attinger</p>
+		<p><i>{$_->intro1}</i></p>
+		<p>{$_->intro2}</p>
+		<p>{$_->intro3}</p>
+		<p>{$_->intro4}</p>
+		<p>{$_->intro5}</p>
+		<p>{$_->intro6}</p>
 	</div>
 
 	<!-- News -->
@@ -119,11 +126,11 @@ echo <<<ZZZZZZZZZZ
 		<span id="news"></span>
 	</div>
 	<h2 class="section-subtitle shadow">
-		News
+		{$_->news}
 	</h2>
 	<div class="content">
 		<ul class="news">
-			<li>26.4.2022: Homepage ist online</li>
+			<li>{$_->news1}</li>
 		</ul>
 	</div>
 
@@ -135,10 +142,10 @@ echo <<<ZZZZZZZZZZ
 	</div>
 	<h2 class="section-title sticky-top shadow">
 		<div class="first-line">
-			Samstag, 1. Oktober 2022: 11. Nat. OL Madrisa (Langdistanz)
+			{$_->nat11title}
 		</div>
 		<div class="second-line">
-			15. Zimmerberg OL, Lauf zählt für die Jugend-OL-Meisterschaft ZH/SH (JOM)
+			{$_->nat11subtitle}
 		</div>
 	</h2>
 
@@ -157,72 +164,146 @@ echo <<<ZZZZZZZZZZ
 	<div class="content-anchor">
 		<span id="laufgebiet-samstag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">
-		Laufgebiet
-	</h2>
+	<h2 class="section-subtitle shadow">{$_->terrain}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeldern<br>mehrheitlich gut bis sehr gut belaufbar; zwischen 1900-2300 m ü.M.</p>
+		<p>{$_->terrain_sat_text}</p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="ausschreibung-samstag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">Ausschreibung (Stand 2.5.22)</h2>
+	<h2 class="section-subtitle shadow">{$_->announcement}</h2>
 
 	<div class="content">
 		<p></p>
 
 		<table class="info-table">
 		<tr>
-			<td>Veranstalter</td>
-			<td>
-				<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a>
-				und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>
-			</td>
+			<td>{$_->organizer}</td>
+			<td>{$_->organizer_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Auskunft/Laufleitung</td>
-			<td>Martin Gross, m.gross@active.ch, 079 827 59 53</td>
+			<td>{$_->event_lead}</td>
+			<td>{$_->event_lead_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Wettkampf</td>
-			<td>Langdistanz mit Einzelstart, Distanzen gemäss WO</td>
+			<td>{$_->event_lead_co}</td>
+			<td>{$_->event_lead_co_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Karte</td>
-			<td>
-				Madrisa, 1:10'000/1:7'500, Äquidistanz 5m, Stand Sommer 2022<br>
-				Kartografie: Flavio Poltera<br>
-				1:7'500 und grössere Postenbeschreibung ab D/H 50<p>
-				(Versuchsbewilligung 2021/2022 Swiss Orienteering und Unterstützung OL-Gönnerclub)<br>
-				1:10'000 auch für D/HE und D/H 18-20: Ausnahmebewilligung!
-			</td>
+			<td>{$_->course_setter}</td>
+			<td>{$_->course_setter_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Kategorien</td>
-			<td>
-				Alle nach WO plus D80/H85 (Versuchsbewilligung 2022).
-				Zudem Offen kurz (OK), Offen Mittel (OM), Offen Lang (OL) und sCOOL
-			</td>
+			<td>{$_->judge}</td>
+			<td>{$_->judge_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Wettkampfzentrum</td>
-			<td>
-			Madrisa, Bergstation Klosters-Madrisa-Bahn
-			Einfache, gedeckte Garderobe. Keine Duschen.
-			</td>
+			<td>{$_->information}</td>
+			<td>{$_->information_sat_text}</td>
 		</tr>
 		<tr>
-			<td>OL-Weekend</td>
-			<td>Am 2. Oktober 2022 findet der 12. Nationale OL (Mitteldistanz) in Davos statt, ebenso organisiert durch OL Zimmerberg/OLG Davos</td>
+			<td>{$_->competition}</td>
+			<td>{$_->competition_sat_text}</td>
 		</tr>
 		<tr>
-			<td>Programm Weltcupfinal</td>
-			<td>Anschliessend an den 11. Nationalen OL findet auf Madrisa eine Weltcup-Staffel statt.</td>
+			<td>{$_->map}</td>
+			<td>{$_->map_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->classes}</td>
+			<td>{$_->classes_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->event_centre}</td>
+			<td>{$_->event_centre_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->access}</td>
+			<td>{$_->access_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->route_to_start}</td>
+			<td>{$_->route_to_start_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->entry_online}</td>
+			<td>{$_->entry_online_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->fees}</td>
+			<td>{$_->fees_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->deadline}</td>
+			<td>{$_->deadline_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->mutations}</td>
+			<td>{$_->mutations_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_times}</td>
+			<td>{$_->start_times_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_order}</td>
+			<td>{$_->start_order_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_lists}</td>
+			<td>{$_->start_lists_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->evaluation}</td>
+			<td>{$_->evaluation_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->anti_doping}</td>
+			<td>{$_->anti_doping_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->insurance}</td>
+			<td>{$_->insurance_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->daycare}</td>
+			<td>{$_->daycare_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->childrens_o}</td>
+			<td>{$_->childrens_o_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->food}</td>
+			<td>{$_->food_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->weekend}</td>
+			<td>{$_->weekend_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->program_wcf}</td>
+			<td>{$_->program_wcf_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->housing}</td>
+			<td>{$_->housing_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->special_remarks}</td>
+			<td>{$_->special_remarks_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->early_birds}</td>
+			<td>{$_->early_birds_sat_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->company}</td>
+			<td>{$_->company_sat_text}</td>
 		</tr>
 		</table>
 
@@ -234,40 +315,33 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="anmeldung-samstag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">
-		Anmeldung
-	</h2>
+	<h2 class="section-subtitle shadow">{$_->entry}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-<i>Noch nicht verfügbar.</i></p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="weisungen-samstag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">Weisungen</h2>
+	<h2 class="section-subtitle shadow">{$_->directives}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-			<i>Noch nicht verfügbar.</i>
-		</p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="streckendaten-samstag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">Streckendaten</h2>
+	<h2 class="section-subtitle shadow">{$_->course_data}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-			<i>Noch nicht verfügbar.</i>
-		</p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 
@@ -278,10 +352,10 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	</div>
 	<h2 class="section-title sticky-top shadow">
 		<div class="first-line">
-			Sonntag, 2. Oktober 2022: 12. Nat. OL Davos (Mitteldistanz)
+			{$_->nat12title}
 		</div>
 		<div class="second-line">
-			16. Zimmerberg OL, 29. Davoser OL
+			{$_->nat12subtitle}
 		</div>
 	</h2>
 
@@ -300,72 +374,138 @@ Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeld
 	<div class="content-anchor">
 		<span id="laufgebiet-sonntag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">
-		Laufgebiet
-	</h2>
+	<h2 class="section-subtitle shadow">{$_->terrain}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; mehrheitlich gut belaufbar; zwischen 1600-1800 m.ü.M		</p>
+		<p>{$_->terrain_sun_text}</p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="ausschreibung-sonntag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">Ausschreibung (Stand 2.5.22)</h2>
+	<h2 class="section-subtitle shadow">{$_->announcement}</h2>
 
 	<div class="content">
 		<p></p>
 
 		<table class="info-table">
 		<tr>
-			<td>Veranstalter</td>
-			<td>
-				<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a>
-				und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>
-			</td>
+			<td>{$_->organizer}</td>
+			<td>{$_->organizer_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Auskunft/Laufleitung</td>
-			<td>Martin Gross, m.gross@active.ch, 079 827 59 53</td>
+			<td>{$_->event_lead}</td>
+			<td>{$_->event_lead_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Wettkampf</td>
-			<td>Mitteldistanz, Distanzen gemäss WO</td>
+			<td>{$_->event_lead_co}</td>
+			<td>{$_->event_lead_co_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Karte</td>
-			<td>
-				Drussetscha, 1:10'000/1:7'500, Äquidistanz 5m, Stand Sommer 2022<p>
-				Kartografie: Urs Steiner<p>
-				1:7'500 und grössere Postenbeschreibung ab D/H 50 (Versuchsbewilligung 2021/2022 Swiss Orienteering und Unterstützung OL-Gönnerklub)
-			</td>
+			<td>{$_->course_setter}</td>
+			<td>{$_->course_setter_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Kategorien</td>
-			<td>
-				Alle nach WO plus D80/H85 (Versuchsbewilligung 2022).
-				Zudem Offen kurz (OK), Offen Mittel (OM), Offen Lang (OL) und sCOOL
-			</td>
+			<td>{$_->judge}</td>
+			<td>{$_->judge_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Wettkampfzentrum</td>
-			<td>
-				Höhwald, Davos Wolfgang<p>
-				Garderobe in Klubzelten. Keine Duschen.
-			</td>
+			<td>{$_->information}</td>
+			<td>{$_->information_sun_text}</td>
 		</tr>
 		<tr>
-			<td>OL-Weekend</td>
-			<td>
-				Am 1. Oktober 2022 findet der 11. Nationale OL (Langdistanz) in Klosters statt, ebenso organisiert durch OL Zimmerberg/OLG Davos
-			</td>
+			<td>{$_->competition}</td>
+			<td>{$_->competition_sun_text}</td>
 		</tr>
 		<tr>
-			<td>Programm Weltcupfinal</td>
-			<td>Anschliessend an den Nationalen OL findet am gleichen Ort ein Weltcup-Mitteldistanz-Lauf statt.</td>
+			<td>{$_->map}</td>
+			<td>{$_->map_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->classes}</td>
+			<td>{$_->classes_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->event_centre}</td>
+			<td>{$_->event_centre_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->access}</td>
+			<td>{$_->access_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->route_to_start}</td>
+			<td>{$_->route_to_start_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->entry_online}</td>
+			<td>{$_->entry_online_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->fees}</td>
+			<td>{$_->fees_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->deadline}</td>
+			<td>{$_->deadline_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->mutations}</td>
+			<td>{$_->mutations_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_times}</td>
+			<td>{$_->start_times_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_order}</td>
+			<td>{$_->start_order_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->start_lists}</td>
+			<td>{$_->start_lists_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->evaluation}</td>
+			<td>{$_->evaluation_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->anti_doping}</td>
+			<td>{$_->anti_doping_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->insurance}</td>
+			<td>{$_->insurance_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->daycare}</td>
+			<td>{$_->daycare_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->childrens_o}</td>
+			<td>{$_->childrens_o_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->food}</td>
+			<td>{$_->food_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->weekend}</td>
+			<td>{$_->weekend_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->program_wcf}</td>
+			<td>{$_->program_wcf_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->housing}</td>
+			<td>{$_->housing_sun_text}</td>
+		</tr>
+		<tr>
+			<td>{$_->special_remarks}</td>
+			<td>{$_->special_remarks_sun_text}</td>
 		</tr>
 		</table>
 		
@@ -377,42 +517,33 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="content-anchor">
 		<span id="anmeldung-sonntag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">
-		Anmeldung
-	</h2>
+	<h2 class="section-subtitle shadow">{$_->entry}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-<i>Noch nicht verfügbar.</i></p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 	
 	<div class="content-anchor">
 		<span id="weisungen-sonntag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">
-		Weisungen
-	</h2>
+	<h2 class="section-subtitle shadow">{$_->directives}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-			<i>Noch nicht verfügbar.</i>
-		</p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 
 	<div class="content-anchor">
 		<span id="streckendaten-sonntag"></span>
 	</div>
-	<h2 class="section-subtitle shadow">Streckendaten</h2>
+	<h2 class="section-subtitle shadow">{$_->course_data}</h2>
 
 	<div class="content">
 		<p></p>
-		<p>
-			<i>Noch nicht verfügbar.</i>
-		</p>
+		<p><i>{$_->not_yet_available}</i></p>
 		<p></p>
 	</div>
 
@@ -421,9 +552,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 	<div class="title-anchor">
 		<span id="sponsoren"></span>
 	</div>
-	<h2 class="section-subtitle">
-		Sponsoren
-	</h2>
+	<h2 class="section-subtitle">{$_->sponsors}</h2>
 
 	<div class="content sponsors">
 		<div class="row">
@@ -456,9 +585,7 @@ Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; meh
 				<img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
 			</div>
 			<div class="col">
-				<a href="https://senstech.ch/" target="_blank">
-					<img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
-				</a>
+				<img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
 			</div>
 		</div>
 		<p class="sponsor-padding"></p>

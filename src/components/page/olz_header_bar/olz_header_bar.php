@@ -103,6 +103,9 @@ function olz_header_bar($args = []): string {
 
     // $out .= olz_header_jom_counter();
 
+    // Nat. OL Weekend Davos Klosters
+    $out .= "<div class='header-box'><a href='{$_CONFIG->getCodeHref()}zimmerberg_ol/'><img src='{$_CONFIG->getDataHref()}img/zol_2022/logo_260.png' alt='trophy' style='position:relative; height:130px;' class='noborder' /></a></div>";
+
     // OLZ Trophy 2017
     $out .= "<div class='header-box'><a href='trophy.php'><img src='{$_CONFIG->getDataHref()}img/trophy.png' alt='trophy' style='position:relative; top:5px;' class='noborder' /></a></div>";
 

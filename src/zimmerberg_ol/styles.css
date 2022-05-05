@@ -38,6 +38,18 @@ p {
     width: 250px;
 }
 
+.lang {
+    font-size: 18px;
+}
+
+a.lang {
+    color: #14939d !important;
+}
+
+.lang.selected {
+    font-weight: bold;
+}
+
 .logo-container {
     position: fixed;
     right: 0;
@@ -165,7 +177,22 @@ ul.news {
     height: 100px;
 }
 
+@media screen and (max-width: 1280px) {
+    .navbar-nav {
+        margin-right: 0 !important;
+    }
+
+    .language-selection {
+        margin-left: 20px;
+        margin-right: auto !important;
+    }
+}
+
 @media screen and (max-width: 900px) {
+    .language-selection {
+        margin-left: 0;
+    }
+
     #header-text h1 {
         font-size: 6vw;
     }

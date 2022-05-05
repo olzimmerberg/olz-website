@@ -18,8 +18,13 @@ function test_zimmerberg_ol($driver, $base_url) {
 function test_zimmerberg_ol_readonly($driver, $base_url) {
     global $zimmerberg_ol_url;
 
-    $driver->get("{$base_url}{$zimmerberg_ol_url}");
+    $driver->get("{$base_url}{$zimmerberg_ol_url}?lang=de");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$zimmerberg_ol_url}");
-    take_pageshot($driver, 'zimmerberg_ol');
+    $driver->get("{$base_url}{$zimmerberg_ol_url}?lang=de");
+    take_pageshot($driver, 'zimmerberg_ol_de');
+
+    $driver->get("{$base_url}{$zimmerberg_ol_url}?lang=fr");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$zimmerberg_ol_url}?lang=fr");
+    take_pageshot($driver, 'zimmerberg_ol_fr');
 }

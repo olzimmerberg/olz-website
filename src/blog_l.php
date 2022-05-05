@@ -96,18 +96,18 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $autor = ucwords($row['autor']);
         $titel = $row['titel'];
         $text = $row['text'];
-        $bild1 = $row['bild1'];
-        $bild2 = $row['bild2'];
-        $file1 = $row['file1'];
-        $file1_name = $row['file1_name'];
-        $file2 = $row['file2'];
-        $file2_name = $row['file2_name'];
+        $bild1 = $row['bild1'] ?? '';
+        $bild2 = $row['bild2'] ?? '';
+        $file1 = $row['file1'] ?? '';
+        $file1_name = $row['file1_name'] ?? '';
+        $file2 = $row['file2'] ?? '';
+        $file2_name = $row['file2_name'] ?? '';
         $datum = $row['datum'];
         $zeit = $row['zeit'];
         $id_tmp = $row['id'];
         $on_off = $row['on_off'];
-        $counter = $row['counter'];
-        $linkext = $row['linkext'];
+        $counter = $row['counter'] ?? 0;
+        $linkext = $row['linkext'] ?? '';
 
         $text = str_replace(["<br />", "<br>\r\n<br>"], ["<br>", "<p/>"], stripslashes(nl2br($text)));
         // $text = stripslashes(nl2br($text));

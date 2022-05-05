@@ -30,6 +30,9 @@ function olz_news_article($args = []): string {
             $id_tmp = intval($row['id']);
             $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id_tmp}'");
         }
+        if (!$row) {
+            continue;
+        }
         $id_tmp = $row['id'];
         $titel = $row['titel'];
         $text = olz_amp($row['text']);

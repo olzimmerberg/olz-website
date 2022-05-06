@@ -27,9 +27,6 @@ function olz_mask_email($string, $name, $subject) {
 // URL ERKENNEN
 // ----------------------------------
 function olz_find_url($string) {
-    if ($name == "") {
-        $name = "Email senden";
-    }
     $string = str_replace("%20", "x4x8x", $string);
     $res = preg_match_all("@(https?://([-\\w\\.]+)+(:\\d+)?(/([\\w/_\\.]*(\\?\\S+)?)?)?)@", $string, $matches);
     // $res = preg_match_all('/[a-z]+:\/\/\S+/', $string, $matches);

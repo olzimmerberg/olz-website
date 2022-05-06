@@ -117,7 +117,7 @@ if ($_SESSION['edit']['table'] ?? null != null) {
 // -------------------------------------------------------------
 //  Wiederkehrendes Datum speichern
 // -------------------------------------------------------------
-if ($function == 'save' and $_SESSION[$db_table]['repeat'] == 'repeat') {
+if ($function == 'save' and ($_SESSION[$db_table]['repeat'] ?? null) == 'repeat') {
     if ($termin_[0] !== $_SESSION[$db_table."datum"]) { // UPDATE Startdatum
         $sql = "DELETE FROM {$db_table} WHERE id='".$_SESSION[$db_table."id"]."'";
         $result = $db->query($sql);
@@ -247,7 +247,7 @@ while ($row = mysqli_fetch_array($result)) {
     $text = $row['text'];
     $text = olz_br(olz_mask_email($text, "", ""));
     $link = $row['link'] ?? '';
-    $event_link = $row['solv_event_link'];
+    $event_link = $row['solv_event_link'] ?? '';
     $id = $row['id'];
     $typ = $row['typ'];
     $on_off = $row['on_off'];
@@ -303,7 +303,7 @@ while ($row = mysqli_fetch_array($result)) {
     } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $heute) {
         $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
     }
-    if (strpos($link, 'Ausschreibung') == 0 and $row['solv_event_link'] > "") {
+    if (strpos($link, 'Ausschreibung') == 0 and ($row['solv_event_link'] ?? '') > "") {
         $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
         $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
     }

@@ -77,7 +77,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 // -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
-    if ($alert != "") {
+    if (($alert ?? '') != '') {
         echo "<div class='buttonbar'><span class='error'>".$alert."</span></div>\n";
     }
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
@@ -109,6 +109,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $id_tmp = $row['id'];
         $name = $row['name'];
         $url = $row['url'];
+        $on_off = $row['on_off'];
         if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
@@ -128,10 +129,10 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
                 echo "<br>";
             }
         } elseif ($db_edit == "0") {
-            echo "<li>".$edit_admin.$icon."<a href='{$url}' class='linkext' target='_blank'>{$name}</a></li>";
+            echo "<li>".$edit_admin."<a href='{$url}' class='linkext' target='_blank'>{$name}</a></li>";
         } else {
             echo "<table class='liste'><tr><td style='font-weight:bold;width:20%;'>Bezeichnung:</td><td>{$name}</td></tr>";
-            echo "<tr><td style='font-weight:bold;'>URL:</td><td>{$icon}<a href='{$url}' class='linkext' target='_blank'>{$url}</a></td></tr></table>";
+            echo "<tr><td style='font-weight:bold;'>URL:</td><td><a href='{$url}' class='linkext' target='_blank'>{$url}</a></td></tr></table>";
         }
     }
     echo "</ul>";
@@ -201,7 +202,7 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
 // -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {
-    if ($alert != "") {
+    if (($alert ?? '') != '') {
         echo "<div class='buttonbar'><span class='error'>".$alert."</span></div>\n";
     }
     echo "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
@@ -232,8 +233,8 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         }
         $id_tmp = $row['id'];
         $name = $row['name'];
-        $typ = $row['typ'];
-        $file1 = $row['file1'];
+        $on_off = $row['on_off'];
+        $file1 = $row['file1'] ?? '';
         if ($zugriff and (($do ?? null) != 'vorschau')) {
             $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
@@ -249,7 +250,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         include 'library/phpWebFileManager/icons.inc.php';
         $var = explode(".", $file1);
         $ext = strtolower(end($var));
-        $icon = $fm_cfg['icons']['ext'][$ext];
+        $icon = $fm_cfg['icons']['ext'][$ext] ?? '';
         if ($ext != "" and $ext !== 'pdf') {
             $icon = "<img src='icns/".$icon."' class='noborder' style='margin-right:6px;vertical-align:middle;'>";
         } else {

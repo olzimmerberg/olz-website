@@ -113,8 +113,8 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["titel", "Titel", "text", "''", "", "", "", ""],
         ["autor", "Autor", "text", "''", "", "", "", "", "", ""],
         ["counter", "Counter", "hidden", "'0'", "", "", "", "", "", ""],
-        ["typ", "Typ", ($_SESSION["auth"] == "all" ? ["select", [["Fotos", "foto"], ["Film", "movie"]]] : "hidden"), "'foto'", "", "", "", "", "", ""],
-        ["content", "Filmangaben", ($_SESSION["auth"] == "all" ? "text" : "hidden"), "''", "", "", "", "", "", ""],
+        ["typ", "Typ", (($_SESSION['auth'] ?? null) == "all" ? ["select", [["Fotos", "foto"], ["Film", "movie"]]] : "hidden"), "'foto'", "", "", "", "", "", ""],
+        ["content", "Filmangaben", (($_SESSION['auth'] ?? null) == "all" ? "text" : "hidden"), "''", "", "", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
     ];
     if (($_SESSION['auth'] ?? null) != null) {
@@ -244,17 +244,17 @@ if ($function == "start") {
     $do = "vorschau";
 } elseif ($function == "code") {
     $do = "code";
-} elseif (($function == "abbruch") and ($_SESSION['edit']['replace'] == "1")) {
+} elseif (($function == "abbruch") and (($_SESSION['edit']['replace'] ?? null) == "1")) {
     $do = "deletefile";
-} elseif (($function == "abbruch") and ($_SESSION['edit']['modus'] == "neuedit")) {
+} elseif (($function == "abbruch") and (($_SESSION['edit']['modus'] ?? null) == "neuedit")) {
     $do = "delete";
 } elseif ($function == "abbruch") {
     $do = "abbruch";
-} elseif (($function == "save") and ($_SESSION['edit']['vorschau'] == "0")) {
+} elseif (($function == "save") and (($_SESSION['edit']['vorschau'] ?? null) == "0")) {
     $do = "save";
 } elseif ($function == "save") {
     $do = "submit";
-} elseif (($function == "delete") and ($_SESSION['edit']['confirm'] == "1")) {
+} elseif (($function == "delete") and (($_SESSION['edit']['confirm'] ?? null) == "1")) {
     $do = "delete";
 } elseif ($function == "delete") {
     $do = "confirm";
@@ -311,7 +311,7 @@ if (($do ?? null) == "duplicate") {
         $_SESSION['edit']['modus'] = "neuedit";
         $do = "getdata";
     }
-    if ($_SESSION['edit']['modus'] != "neuedit") {
+    if (($_SESSION['edit']['modus'] ?? null) != "neuedit") {
         $_SESSION['edit']['modus'] = "";
     }
 }
@@ -379,7 +379,7 @@ if (($do ?? null) == "getdata") {
         }
         $do = "edit";
     }
-    if ($_SESSION['edit']['modus'] != "neuedit") {
+    if (($_SESSION['edit']['modus'] ?? null) != "neuedit") {
         $_SESSION['edit']['modus'] = "";
     }
 }
@@ -528,7 +528,7 @@ if (($do ?? null) == 'submit') {
         } elseif (is_array($_SESSION[$db_table.$var])) {
             $_SESSION[$db_table.$var] = explode(" ", $_SESSION[$db_table.$var]);
         }
-        array_push($sql_tmp, $delimiter.$var." = ".user2db($tmp_feld[2], $_SESSION[$db_table.$var]));
+        array_push($sql_tmp, $var." = ".user2db($tmp_feld[2], $_SESSION[$db_table.$var]));
     }
 
     $sql = "UPDATE {$db_table} SET ".implode(",", $sql_tmp)." WHERE (id = '".$_SESSION[$db_table."id"]."')";
@@ -551,7 +551,7 @@ if (($do ?? null) == 'submit') {
         include 'ical.php';
     }
     // BESTAETIGUNGSMAIL
-    if ($send_mail == "on") {
+    if (($send_mail ?? null) == "on") {
         $page_links = [
             'forum' => 'forum.php',
         ];
@@ -560,7 +560,7 @@ if (($do ?? null) == 'submit') {
         $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8 \nContent-Transfer-Encoding: base64";
         $mail_subject = "OL Zimmerberg - ".ucfirst($db_table);
         $mail_adress = ["u.utzinger@sunrise.ch"]; // Kontrollmail
-        if (!$local) {
+        if (!($local ?? null)) {
             array_push($mail_adress, $_SESSION[$db_table."email"]);
         } // Usermail
 
@@ -595,7 +595,7 @@ if (($do ?? null) == 'vorschau') {// include 'upload.php';
         $var = $tmp_feld[0];
         if (isset($_POST[$db_table."id"])) {
             if (is_array($tmp_feld[2][1])) {
-                if ($_POST[$db_table.$var] == "") {
+                if (($_POST[$db_table.$var] ?? '') == '') {
                     $_SESSION[$db_table.$var] = "";
                 } else {
                     $_SESSION[$db_table.$var] = implode(" ", $_POST[$db_table.$var]);
@@ -682,11 +682,11 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
 
         if ($feld_typ == "text" || $feld_typ == "number" || $feld_typ == "datumzeit" || $feld_typ == "zeit") { // Input-Typ 'text'
             $feld_stil = ($feld_stil == "") ? "style='width:95%;'" : "style='".$feld_stil."'";
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw.$feld_format.">".$feld_spezial.(${$var_alert} ?? '').$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "datum") { // Input-Typ 'text' mit Einblendkalender
-            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "\n<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<input type='text' id='".$feld_name."' name='".$feld_name."' value='".htmlspecialchars(stripslashes($feld_wert), ENT_QUOTES)."' ".$feld_stil.$feld_rw." class='datepicker' size='10'>".$feld_spezial.(${$var_alert} ?? '').$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "textarea") { // Input-Typ 'textarea'
-            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.${$var_alert}.$feld_kommentar."</td></tr>\n";
+            $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code."<textarea id='".$feld_name."' name='".$feld_name."'".$feld_format." style='width:95%;".$feld_stil."'".$feld_rw.">".stripslashes($feld_wert)."</textarea>".$feld_spezial.(${$var_alert} ?? '').$feld_kommentar."</td></tr>\n";
         } elseif ($feld_typ == "checkbox") { // Input-Typ 'checkbox'
             $html_input .= "<tr><td{$bez_style}><b>".$feld_bezeichnung.":</b>".$tmp_code;
             $feld_wert = explode(" ", $feld_wert);
@@ -781,9 +781,9 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
 
     if (isset($_SESSION['edit']['replace'])) {
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Überschreiben", "3"], ["Abbrechen", "2"]], "")."</div>";
-    } elseif ($_SESSION['edit']['confirm'] == "1") {
+    } elseif (($_SESSION['edit']['confirm'] ?? null) == "1") {
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Löschen", "5"], ["Abbrechen", "2"]], "")."</div>";
-    } elseif ($_SESSION['edit']['modus'] == "neuedit") {
+    } elseif (($_SESSION['edit']['modus'] ?? null) == "neuedit") {
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Vorschau", "3"], ["Abbrechen", "2"]], "")."</div>";
     }
     /*elseif ($db_table=="galerie")
@@ -797,11 +797,11 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
 // -------------------------------------------------------------
 // Menü
 // -------------------------------------------------------------
-echo $html_menu;
-if ($alert != "") {
+echo $html_menu ?? '';
+if (($alert ?? '') != '') {
     echo "<div class='buttonbar'><span class='error'>".$alert."</span></div>";
 }
 $alert = "";
-if ($html_input.$html_hidden > "") {
+if (($html_input ?? '').($html_hidden ?? '') > "") {
     echo "<table class='liste'>".$html_input."</table>".$html_hidden;
 }

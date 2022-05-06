@@ -28,7 +28,7 @@ if (isset($id) and is_ganzzahl($id)) {
 if (isset($jahr) and in_array($jahr, $jahre)) {
     $_SESSION[$db_table."jahr_"] = $jahr;
 } else {
-    $jahr = $_SESSION[$db_table."jahr_"];
+    $jahr = ($_SESSION[$db_table."jahr_"] ?? '');
 }
 if ($jahr == "") {
     $_SESSION[$db_table.'jahr_'] = $_DATE->olzDate("jjjj", "");
@@ -36,7 +36,7 @@ if ($jahr == "") {
 if (isset($monat) and in_array($monat, $monate)) {
     $_SESSION[$db_table."monat_"] = $monat;
 } else {
-    $monat = $_SESSION[$db_table."monat_"];
+    $monat = ($_SESSION[$db_table."monat_"] ?? '');
 }
 if ($monat == "") {
     $_SESSION[$db_table.'monat_'] = "alle";

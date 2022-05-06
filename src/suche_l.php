@@ -14,8 +14,13 @@ $search_words = explode(" ", $search_key, 4);
 $sql = "";
 
 // TERMINE
+$or = '';
+$sql1 = '';
+$sql2 = '';
+$sql3 = '';
+$search = '';
 for ($n = 0; $n < 3; $n++) {
-    $search_key = $search_words[$n];
+    $search_key = $search_words[$n] ?? '';
     if ($n > 0) {
         $or = " AND ";
     }
@@ -35,6 +40,10 @@ for ($n = 0; $n < 3; $n++) {
 
 echo "<h2>Suchresultate (Suche nach: {$search})</h2>";
 
+$result_termine = '';
+$result_aktuell = '';
+$result_galerie = '';
+$result_forum = '';
 if ($sql1 > "") {// TERMINE
     $sql = "select * from termine WHERE ({$sql1}) AND (on_off = 1) ORDER BY datum DESC";
     $result = $db->query($sql);
@@ -112,7 +121,7 @@ if ($sql1 > "") {// TERMINE
     $text = $result_termine.$result_aktuell.$result_galerie.$result_forum;
     // HIGHLITE
     for ($n = 0; $n < 3; $n++) {
-        $search_key = $search_words[$n];
+        $search_key = $search_words[$n] ?? '';
         $search_variants = [
             $search_key,
             strtoupper($search_key),
@@ -133,7 +142,7 @@ function cutout($text) {
     for ($m = 0; $m < 3; $m++) {
         $prefix = "...";
         $suffix = "...";
-        $search_key = $search_words[$m];
+        $search_key = $search_words[$m] ?? '';
         $start = strpos(strtolower($text), $search_key);
         if ($start > 0) {
             $m = 3;

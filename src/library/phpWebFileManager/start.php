@@ -570,7 +570,7 @@ function fm_main() /* {{{ */
 				if (strlen($fm_cfg['url']['root']) > 0 && $fm_cfg['url']['root'][0] == '/') {
 					$view_url_prefix_ue = $fm_cfg['url']['root'].$fm_dir_ue;
 				} else {
-					$view_url = parse_url((strcasecmp($_SERVER['HTTPS'], 'on') ? 'http' : 'https')
+					$view_url = parse_url((strcasecmp(($_SERVER['HTTPS'] ?? ''), 'on') ? 'http' : 'https')
 							.'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
 					$view_url['path'] = fm_get_path_without_scriptname($view_url)
 						. (strlen($fm_cfg['url']['root']) > 0 ? $fm_cfg['url']['root'] : $fm_cfg['dir']['root'])

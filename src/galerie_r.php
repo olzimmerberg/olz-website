@@ -26,7 +26,7 @@ if ($zugriff and isset($_SESSION['edit'])) {
     $sql = "SELECT datum FROM {$db_table} WHERE (id='{$id}')";
     $result = $db->query($sql);
     $row = mysqli_fetch_array($result);
-    $datum = $row['datum'];
+    $datum = $row['datum'] ?? null;
 }
 if (isset($_GET["id"]) and is_ganzzahl($_GET["id"])) {
     $_SESSION[$db_table."id_"] = $id;

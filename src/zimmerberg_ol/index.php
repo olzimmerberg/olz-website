@@ -1,7 +1,6 @@
 <?php
 
 $img_root = "/img/zol_2022/";
-$pdf_root = "/pdf/zol_2022/";
 
 $css_path = "styles.css";
 $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
@@ -179,6 +178,8 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
+		<p>{$_->announcement_pdf_sat}</p>
+		<p></p>
 
 		<table class="info-table">
 		<tr>
@@ -301,10 +302,12 @@ echo <<<ZZZZZZZZZZ
 			<td>{$_->early_birds}</td>
 			<td>{$_->early_birds_sat_text}</td>
 		</tr>
-		<tr>
-			<td>{$_->company}</td>
-			<td>{$_->company_sat_text}</td>
-		</tr>
+		<!--
+			<tr>
+				<td>{$_->company}</td>
+				<td>{$_->company_sat_text}</td>
+			</tr>
+		-->
 		</table>
 
 		<p></p>
@@ -388,6 +391,8 @@ echo <<<ZZZZZZZZZZ
 	<h2 class="section-subtitle shadow">{$_->announcement}</h2>
 
 	<div class="content">
+		<p></p>
+		<p>{$_->announcement_pdf_sun}</p>
 		<p></p>
 
 		<table class="info-table">
@@ -555,6 +560,15 @@ echo <<<ZZZZZZZZZZ
 	<h2 class="section-subtitle">{$_->sponsors}</h2>
 
 	<div class="content sponsors">
+		<p><b>{$_->main_sponsor}</b></p>
+		<div class="row">
+			<div class="col">
+				<img src="{$img_root}sponsor-egk.png" alt="EGK"/>
+			</div>
+			<div class="col"></div>
+			<div class="col"></div>
+		</div>
+		<p><b>{$_->co_sponsors}</b></p>
 		<div class="row">
 			<div class="col">
 				<img src="{$img_root}sponsor-davosklosters.jpg" alt="Davos Klosters"/>
@@ -570,23 +584,21 @@ echo <<<ZZZZZZZZZZ
 			<div class="col">
 				<img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
 			</div>
-			<div class="col"></div>
-			<div class="col">
-				<a href="https://senstech.ch/" target="_blank">
-					<img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
-				</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<img src="{$img_root}sponsor-egk.png" alt="EGK"/>
-			</div>
 			<div class="col">
 				<img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
 			</div>
 			<div class="col">
 				<img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<a href="https://senstech.ch/" target="_blank">
+					<img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
+				</a>
+			</div>
+			<div class="col"></div>
+			<div class="col"></div>
 		</div>
 		<p class="sponsor-padding"></p>
 	</div>

@@ -1,5 +1,7 @@
 <?php
 
+$pdf_root = "/pdf/zol_2022/";
+
 $languages = ['de', 'fr'];
 
 class Translation {
@@ -24,7 +26,7 @@ $translations_de = [
     'event_title' => 'Nationales OL-Weekend Davos Klosters',
     'event_date' => '1. und 2. Oktober 2022',
     'nat11title' => 'Samstag, 1. Oktober 2022: 11. Nat. OL Madrisa (Langdistanz)',
-    'nat11subtitle' => '15. Zimmerberg OL, Lauf zählt für die Jugend-OL-Meisterschaft ZH/SH (JOM)',
+    'nat11subtitle' => '15. Zimmerberg OL, 10. Klosterser OL, Lauf zählt für die Jugend-OL-Meisterschaft ZH/SH (JOM)',
     'nat12title' => 'Sonntag, 2. Oktober 2022: 12. Nat. OL Davos (Mitteldistanz)',
     'nat12subtitle' => '16. Zimmerberg OL, 29. Davoser OL',
     'terrain' => 'Laufgebiet',
@@ -41,8 +43,10 @@ $translations_de = [
     'intro5' => 'Die Co-Laufleiter',
     'intro6' => 'Martin Gross und Thomas Attinger',
     'news1' => '26.4.2022: Homepage ist online',
+    'announcement_pdf_sat' => "<a href=\"{$pdf_root}2022_05_08_Ausschreibung_Samstag.pdf\" target=\"_blank\">Download als PDF</a>",
+    'announcement_pdf_sun' => "<a href=\"{$pdf_root}2022_05_08_Ausschreibung_Sonntag.pdf\" target=\"_blank\">Download als PDF</a>",
     'terrain_sat_text' => 'Abwechslungsreiches Gelände mit Alpweiden, teils felsigen Partien und Blockfeldern; mehrheitlich gut bis sehr gut belaufbar; zwischen 1900-2300 m ü.M.',
-    'terrain_sun_text' => 'Abwechslungsreiches Gelände mit Wald, Alpweiden und teils felsigen Partien; mehrheitlich gut belaufbar; zwischen 1600-1800 m.ü.M',
+    'terrain_sun_text' => 'Abwechslungsreiches Gelände mit Wald, Alpweiden und Blockfeldern; mehrheitlich gut belaufbar; zwischen 1600-1800 m.ü.M',
     'organizer' => 'Veranstalter',
     'organizer_sat_text' => '<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a> und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>',
     'organizer_sun_text' => '<a href="https://olzimmerberg.ch/" target="_blank">OL Zimmerberg</a> und <a href="https://www.olg-davos.ch/" target="_blank">OLG Davos</a>',
@@ -92,7 +96,7 @@ $translations_de = [
     'mutations_sat_text' => 'Nach Meldeschluss CHF 10, Änderungen SI-Card gratis, letzte Mutation bis 29. September 2022',
     'mutations_sun_text' => 'Nach Meldeschluss CHF 10, Änderungen SI-Card gratis, letzte Mutation bis 29. September 2022',
     'start_times' => 'Startzeiten',
-    'start_times_sat_text' => '10.00 bis ca. 14.00 Uhr',
+    'start_times_sat_text' => 'Ca. 10.00 bis ca. 14.00 Uhr',
     'start_times_sun_text' => '09:45 bis ca. 13:45 Uhr',
     'start_order' => 'Startreihenfolge',
     'start_order_sat_text' => 'Ausgeloste Startzeiten nach Regionen',
@@ -119,8 +123,8 @@ $translations_de = [
     'food_sat_text' => 'Berg-Restaurants Madrisa, siehe Detail-Infos in den Weisungen',
     'food_sun_text' => 'Festzelt beim WKZ, siehe Detail-Infos in den Weisungen',
     'weekend' => 'OL-Weekend',
-    'weekend_sat_text' => 'Am 1. Oktober 2022 findet der 12. Nationale OL (Mitteldistanz) in Davos statt, ebenso organisiert durch OL Zimmerberg/OLG Davos.<br>Am 2. Oktober 2022 kann im selben WKZ wie am Sonntag der Weltcup Final der Langdistanz verfolgt werden.',
-    'weekend_sun_text' => 'Am 1. Oktober 2022 findet der 11. Nationale OL (Langdistanz) in Klosters statt, ebenso organisiert durch OL Zimmerberg/OLG Davos<br>Am 2. Oktober 2022 kann im selben WKZ wie am Sonntag der Weltcup Final der Langdistanz verfolgt werden.',
+    'weekend_sat_text' => 'Am Sonntag, 2. Oktober 2022 findet der 12. Nationale OL (Mitteldistanz) in Davos statt, ebenso organisiert durch OL Zimmerberg/OLG Davos.<br>Am Montag, 3. Oktober 2022 kann im selben WKZ wie am Sonntag der Weltcup Final der Langdistanz verfolgt werden.',
+    'weekend_sun_text' => 'Am Samstag, 1. Oktober 2022 findet der 11. Nationale OL (Langdistanz) in Klosters statt, ebenso organisiert durch OL Zimmerberg/OLG Davos.<br>Am Montag, 3. Oktober 2022 kann im selben WKZ wie am Sonntag der Weltcup Final der Langdistanz verfolgt werden.',
     'program_wcf' => 'Programm Weltcupfinal',
     'program_wcf_sat_text' => 'Anschliessend an den 11. Nationalen OL findet auf Madrisa eine Weltcup-Staffel statt.  Details siehe <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
     'program_wcf_sun_text' => 'Anschliessend an den Nationalen OL findet am gleichen Ort ein Weltcup-Mitteldistanz-Lauf statt. Details siehe <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
@@ -134,6 +138,8 @@ $translations_de = [
     'early_birds_sat_text' => 'Die Rundsicht und der Berggenuss auf Madrisa ist beinahe unbegrenzt. Hingegen ist die Kapazität der Bergbahn begrenzt, weil auch anschliessend noch der OL-Weltcup-Tross hochfahren muss. Teilnehmende auf Frühbergfahrten bis ca. 08.45 Uhr werden deshalb belohnt. (Infos folgen auf Homepage, wenn Abstimmung mit OL-Weltcup und Fernsehen erfolgt ist.)',
     'company' => 'Begleitpersonen',
     'company_sat_text' => 'Kombiticket für CHF 35 für Retourfahrt (darin inbegriffen Konsumationsgutschein am Lauftag CHF 20); Retourfahrt alleine CHF 29',
+    'main_sponsor' => 'Hauptsponsor',
+    'co_sponsors' => 'Co-Sponsoren',
 ];
 
 $translations_fr = [
@@ -144,7 +150,7 @@ $translations_fr = [
     'event_title' => 'Weekend CO nationaux Davos Klosters',
     'event_date' => '1<sup>er</sup> et 2 octobre 2022',
     'nat11title' => 'Samedi 1<sup>er</sup> octobre 2022: 11<sup>ème</sup> CO nationale à Madrisa (longue distance)',
-    'nat11subtitle' => '15<sup>ème</sup> CO Zimmerberg, Course comptant pour la sélection de la génération montante ZH/SH',
+    'nat11subtitle' => '15<sup>ème</sup> CO Zimmerberg, 10<sup>ème</sup> CO Klosters, Course comptant pour la sélection de la génération montante ZH/SH',
     'nat12title' => 'Dimanche 2 octobre 2022: 12<sup>ème</sup> CO nationale à Davos (moyenne distance)',
     'nat12subtitle' => '16<sup>ème</sup> CO Zimmerberg, 29<sup>ème</sup> CO Davos',
     'terrain' => 'Terrain',
@@ -161,6 +167,8 @@ $translations_fr = [
     'intro5' => '',
     'intro6' => '',
     'news1' => '26.4.2022: Le site est disponible en ligne',
+    'announcement_pdf_sat' => "<a href=\"{$pdf_root}2022_05_08_Annonce_Samedi.pdf\" target=\"_blank\">Télécharger PDF</a>",
+    'announcement_pdf_sun' => "<a href=\"{$pdf_root}2022_05_08_Annonce_Dimanche.pdf\" target=\"_blank\">Télécharger PDF</a>",
     'terrain_sat_text' => 'Terrain varié se situant à la limite de la flore arborescente, comprenant des prairies alpines, quelques zones rocheuses et chaos rocheux, permettant généralement une bonne (voire une très bonne) courabilité. Terrain se situant entre 1900 et 2300 mètres d\'altitude.',
     'terrain_sun_text' => 'Terrain varié comprenant des zones forestières, des prairies alpines et quelques chaos rocheux, permettant généralement une bonne courabilité. Terrain se situant entre 1600 et 1800 mètres d\'altitude.',
     'organizer' => 'Organisateur',
@@ -214,8 +222,8 @@ $translations_fr = [
     'mutations_sat_text' => 'Après la date limite d\'inscription : CHF 10<br>Modifications concernant la puce SI-Card : gratuit<br>Les mutations sont possibles jusqu\'au 29 septembre 2022',
     'mutations_sun_text' => 'Après la date limite d\'inscription : CHF 10<br>Modifications concernant la puce SI-Card : gratuit<br>Les mutations sont possibles jusqu\'au 29 septembre 2022',
     'start_times' => 'Heures des départs',
-    'start_times_sat_text' => 'A partir de 10h00 jusqu’à environ 14h00',
-    'start_times_sun_text' => 'A partir de 09h45 jusqu’à environ 13h45',
+    'start_times_sat_text' => 'De 10h00 jusqu\'à 14h00 environ',
+    'start_times_sun_text' => 'A partir de 09h45 jusqu\'à environ 13h45',
     'start_order' => 'Ordre des départs',
     'start_order_sat_text' => 'Heures de départs tirées au sort par régions',
     'start_order_sun_text' => 'Heures de départs tirées au sort par régions',
@@ -241,10 +249,10 @@ $translations_fr = [
     'food_sat_text' => 'Restaurants au niveau de la station amont de la ligne téléphérique Madrisabahn, voir les informations détaillées dans les Directives',
     'food_sun_text' => 'Chapiteau au centre de course, voir les informations détaillées dans les Directives',
     'weekend' => 'Weekend CO',
-    'weekend_sat_text' => 'Le 1<sup>er</sup> octobre 2022 aura lieu la 12ème CO nationale (moyenne distance) à Davos, qui sera également organisée par OL Zimmerberg / OLG Davos<br>Le 2 octobre 2022, il vous sera possible de suivre la finale de la coupe du monde de longue distance au même emplacement que le centre de course de la compétition de dimanche.',
-    'weekend_sun_text' => 'Le 1<sup>er</sup> octobre 2022 aura lieu la 12ème CO nationale (moyenne distance) à Davos, qui sera également organisée par OL Zimmerberg / OLG Davos<br>Le 2 octobre 2022, il vous sera possible de suivre la finale de la coupe du monde de longue distance au même emplacement que le centre de course de la compétition de dimanche.',
+    'weekend_sat_text' => 'Le 2 octobre 2022 aura lieu la 12<sup>ème</sup> CO nationale (moyenne distance) à Davos, qui sera également organisée par OL Zimmerberg / OLG Davos<br>Le 3 octobre 2022, il vous sera possible de suivre la finale de la coupe du monde de longue distance au même emplacement que le centre de course de la compétition de dimanche.',
+    'weekend_sun_text' => 'Le 1<sup>er</sup> octobre 2022 aura lieu la 11<sup>ème</sup> CO nationale (longue distance) à Klosters, qui sera également organisée par OL Zimmerberg / OLG Davos<br>Le 3 octobre 2022, il vous sera possible de suivre la finale de la coupe du monde de longue distance au même emplacement que le centre de course de la compétition de dimanche.',
     'program_wcf' => 'Programme de la finale de la coupe du monde',
-    'program_wcf_sat_text' => 'A l\'occasion que la 11ème CO Nationale aura lieu à Madrisa une épreuve de coupe du monde type relais. Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
+    'program_wcf_sat_text' => 'A l\'occasion que la 11<sup>ème</sup> CO Nationale aura lieu à Madrisa une épreuve de coupe du monde type relais. Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
     'program_wcf_sun_text' => 'A l\'occasion de la CO Nationale aura lieu sur le même terrain une course Moyenne distance de la coupe du monde.  Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
     'housing' => 'Hébergements',
     'housing_sat_text' => 'Voir le site <a href="https://www.davos.ch/informieren/unterkuenfte" target="_blank">Unterkünfte &ndash; von Hotel bis Berghütte | Davos Klosters</a>',
@@ -256,6 +264,8 @@ $translations_fr = [
     'early_birds_sat_text' => 'La vue panoramique et les joies de la montagne sont presque sans limites. En revanche, la capacité de la ligne téléphérique est limitée, notamment en raison de la coupe du monde. Les participants qui emprunteront la ligne avant 8h45 seront pour cette raison récompensés (les infos seront publiées sur la page d\'accueil si l\'accord est obtenu vis-à-vis de la coupe du monde et la retransmission télévisuelle).',
     'company' => 'Accompagnants',
     'company_sat_text' => 'Ticket combiné à CHF 35 pour le trajet du retour (comprenant un avoir de CHF 20 pour les consommations le jour de la course), prix pour un trajet retour seul : CHF 29',
+    'main_sponsor' => 'Sponsor principal',
+    'co_sponsors' => 'Co-sponsors',
 ];
 
 $translations = [

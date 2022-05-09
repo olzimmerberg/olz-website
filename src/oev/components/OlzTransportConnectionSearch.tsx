@@ -8,6 +8,18 @@ export const OlzTransportConnectionSearch = () => {
     const [connectionSuggestions, setConnectionSuggestions] =
         React.useState<OlzTransportConnectionSuggestion[]>([]);
 
+    const destinationInput = React.useRef<HTMLInputElement>();
+    const arrivalInput = React.useRef<HTMLInputElement>();
+
+    React.useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (!destinationInput.current || !arrivalInput.current) {
+            return;
+        }
+        destinationInput.current.value = params.get('nach');
+        arrivalInput.current.value = params.get('ankunft');
+    }, [destinationInput, arrivalInput]);
+
     const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         olzOevSearchConnection(e.target as HTMLFormElement)
@@ -34,6 +46,7 @@ export const OlzTransportConnectionSearch = () => {
                     name='destination'
                     className='form-control'
                     id='oev-destination-input'
+                    ref={destinationInput}
                 />
             </div>
             <div>
@@ -46,6 +59,7 @@ export const OlzTransportConnectionSearch = () => {
                     name='arrival'
                     className='form-control'
                     id='oev-arrival-input'
+                    ref={arrivalInput}
                 />
             </div>
             <p>

@@ -20,6 +20,10 @@ export function olzOevSearchConnection(
             destination: getRequired(getStringOrNull(getFormField(f, 'destination'))),
             arrival: getRequired(getIsoDateTimeFromSwissFormat(getFormField(f, 'arrival'))),
         };
+        const nach = getFormField(f, 'destination').value;
+        const ankunft = getFormField(f, 'arrival').value;
+        const queryParams = `?nach=${nach}&ankunft=${ankunft}`;
+        window.history.pushState({} , '', queryParams);
         if (!isFieldResultOrDictThereofValid(fieldResults)) {
             return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
         }

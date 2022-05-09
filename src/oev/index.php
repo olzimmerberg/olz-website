@@ -20,10 +20,8 @@ $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
-    'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-    'archiv' => new FieldTypes\BooleanField(['allow_null' => true]),
-    'buttonaktuell' => new FieldTypes\StringField(['allow_null' => true]),
-    'filter' => new FieldTypes\StringField(['allow_null' => true]),
+    'nach' => new FieldTypes\StringField(['allow_null' => true]),
+    'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 $id = $_GET['id'] ?? null;

@@ -1,12 +1,12 @@
 import React from 'react';
 import {olzOevSearchConnection} from '../oev';
 import {OlzApiResponses} from '../../api/client';
-import {OlzTransportConnectionSuggestion} from '../../api/client/generated_olz_api_types';
+import {OlzTransportSuggestion} from '../../api/client/generated_olz_api_types';
 import {OlzTransportConnectionView} from './OlzTransportConnectionView';
 
 export const OlzTransportConnectionSearch = () => {
     const [connectionSuggestions, setConnectionSuggestions] =
-        React.useState<OlzTransportConnectionSuggestion[]>([]);
+        React.useState<OlzTransportSuggestion[]>([]);
 
     const destinationInput = React.useRef<HTMLInputElement>();
     const arrivalInput = React.useRef<HTMLInputElement>();

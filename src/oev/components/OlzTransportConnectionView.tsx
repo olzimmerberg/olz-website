@@ -1,6 +1,6 @@
 import React from 'react';
 import olzTransitStations from '../../shared/olz_transit_stations.json';
-import {OlzTransportConnectionSuggestion, OlzTransportHalt, OlzTransportSection} from '../../api/client/generated_olz_api_types';
+import {OlzTransportSuggestion, OlzTransportHalt, OlzTransportSection} from '../../api/client/generated_olz_api_types';
 
 import './OlzTransportConnectionView.scss';
 
@@ -9,8 +9,12 @@ for (const olzTransitStation of olzTransitStations) {
     IS_OLZ_STATION[olzTransitStation.id] = true;
 }
 
+const BACKGROUND_COLOR = 'rgb(220,220,220)';
+const TRANSIT_COLOR = 'rgb(100,100,100)';
+const CHANGE_COLOR = 'rgb(170,170,170)';
+
 interface OlzTransportConnectionViewProps {
-    suggestion: OlzTransportConnectionSuggestion;
+    suggestion: OlzTransportSuggestion;
 }
 
 export const OlzTransportConnectionView = (
@@ -86,30 +90,68 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
     const heightPerInstruction = 20;
     const height = instructions.length * heightPerInstruction;
     const startIndexByConnection: {[connection: number]: number} = {};
+    const endIndexByConnection: {[connection: number]: number} = {};
     return (
         <svg width={500} height={height}>
-            <rect x={0} y={0} width={500} height={height} fill='rgb(200,200,200)' />
+            <rect x={0} y={0} width={500} height={height} fill={BACKGROUND_COLOR} />
             {instructions.flatMap((instruction, index) => {
+                const output: React.ReactElement[] = [];
                 if (instruction.role === 'departure') {
+                    const endIndex = endIndexByConnection[instruction.connection];
                     startIndexByConnection[instruction.connection] = index;
-                    return [];
+                    if (endIndex !== undefined) {
+                        output.push(
+                            <line
+                                x1={instruction.connection * 20 + 10}
+                                y1={endIndex * 20 + 10}
+                                x2={instruction.connection * 20 + 10}
+                                y2={index * 20 + 10}
+                                stroke={CHANGE_COLOR}
+                                stroke-width={10}
+                                stroke-linecap='round'
+                            />
+                        );
+                    }
                 }
                 if (instruction.role === 'arrival') {
                     const startIndex = startIndexByConnection[instruction.connection];
-                    return [
-                        (
-                            <line
-                                x1={instruction.connection * 20 + 10}
-                                y1={startIndex * 20 + 10}
-                                x2={instruction.connection * 20 + 10}
-                                y2={index * 20 + 10}
-                                stroke='rgb(100,100,100)'
-                                stroke-width={10}
-                            />
-                        ),
-                    ];
+                    endIndexByConnection[instruction.connection] = index;
+                    output.push(
+                        <line
+                            x1={instruction.connection * 20 + 10}
+                            y1={startIndex * 20 + 10}
+                            x2={instruction.connection * 20 + 10}
+                            y2={index * 20 + 10}
+                            stroke={TRANSIT_COLOR}
+                            stroke-width={10}
+                            stroke-linecap='round'
+                        />
+                    );
                 }
-                return [];
+                output.push(...instruction.joinConnections?.flatMap(joinConnection => {
+                    const endIndex = endIndexByConnection[joinConnection];
+                    return [
+                        <line
+                            x1={joinConnection * 20 + 10}
+                            y1={endIndex * 20 + 10}
+                            x2={joinConnection * 20 + 10}
+                            y2={index * 20 + 10}
+                            stroke={CHANGE_COLOR}
+                            stroke-width={10}
+                            stroke-linecap='round'
+                        />,
+                        <line
+                            x1={joinConnection * 20 + 10}
+                            y1={index * 20 + 10}
+                            x2={10}
+                            y2={index * 20 + 10}
+                            stroke={CHANGE_COLOR}
+                            stroke-width={10}
+                            stroke-linecap='round'
+                        />
+                    ]
+                }));
+                return output;
             })}
             {instructions.map((instruction, index) => (<>
                 <circle
@@ -136,41 +178,83 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
     );
 }
 
-type HaltRole = 'departure'|'halt'|'arrival';
+type HaltRole = 'departure'|'halt'|'arrival'|'skip';
 
 interface PaintInstruction {
-    connection: number; // 0 = main connection, n = nth side connection
+    connection?: number; // 0 = main connection, n = nth side connection
     stationId: string;
     stationName: string;
     time: string;
     role: HaltRole;
+    joinConnections: number[];
 }
 
-export function getPaintInstructions(suggestion: OlzTransportConnectionSuggestion) {
+export function getPaintInstructions(suggestion: OlzTransportSuggestion) {
+    const joinConnectionsByStationId: {[stationId: string]: number[]} = {};
+    suggestion.sideConnections.map((sideConnection, sideConnectionIndex) => {
+        const stationId = sideConnection.joiningStationId;
+        const existingJoinConnections = joinConnectionsByStationId[stationId] ?? [];
+        joinConnectionsByStationId[stationId] = [
+            ...existingJoinConnections,
+            sideConnectionIndex + 1,
+        ];
+    });
+    const skippedOriginInstructions: PaintInstruction[] = 
+        suggestion.originInfo.filter(originInfo => originInfo.isSkipped).map(
+            originInfo => getPaintInstruction(undefined, originInfo.halt, 'skip'));
     const mainConnectionInstructions: PaintInstruction[] = 
-        suggestion.mainConnection.sections.flatMap(
-            section => getPaintInstructionsFromSection(0, section));
+        suggestion.mainConnection.sections
+            .flatMap(section => getPaintInstructionsFromSection(0, section))
+            .reverse()
+            .map(instruction => {
+                const joinConnections = joinConnectionsByStationId[instruction.stationId] ?? [];
+                joinConnectionsByStationId[instruction.stationId] = [];
+                return {
+                    ...instruction,
+                    joinConnections,
+                }
+            })
+            .reverse();
     const sideConnectionInstructions: PaintInstruction[] = 
         suggestion.sideConnections.flatMap((sideConnection, sideConnectionIndex) => {
-            const instructions = sideConnection.connection.sections.flatMap(
+            const joiningStationId = sideConnection.joiningStationId;
+            let hasJoined = false;
+            const sectionsToDraw = sideConnection.connection.sections.map(section => {
+                if (hasJoined) {
+                    return null;
+                }
+                if (section.departure.stationId === joiningStationId) {
+                    hasJoined = true;
+                    return null;
+                }
+                if (section.arrival.stationId === joiningStationId) {
+                    hasJoined = true;
+                    return section;
+                }
+                const joiningIndex = section.passList.findIndex(
+                    halt => halt.stationId === joiningStationId);
+                if (joiningIndex > -1) {
+                    hasJoined = true;
+                    return {
+                        ...section, 
+                        passList: section.passList.slice(0, joiningIndex),
+                        arrival: section.passList[joiningIndex],
+                    }
+                }
+                return section;
+            }).filter(section => section !== null);
+            return sectionsToDraw.flatMap(
                 section => getPaintInstructionsFromSection(
                     sideConnectionIndex + 1, section));
-            const joiningStationIndex = instructions.findIndex(instruction => 
-                instruction.stationId === sideConnection.joiningStationId);
-            return [
-                ...instructions.slice(0, joiningStationIndex),
-                {
-                    ...instructions[joiningStationIndex],
-                    role: 'arrival',
-                },
-            ];
         });
     const instructions = [
+        ...skippedOriginInstructions,
         ...mainConnectionInstructions,
         ...sideConnectionInstructions,
     ];
     instructions.sort((instructionA, instructionB) => 
         instructionA.time > instructionB.time ? 1 : -1);
+    console.log(instructions);
     return instructions;
 }
 
@@ -178,6 +262,9 @@ function getPaintInstructionsFromSection(
     connection: number,
     section: OlzTransportSection,
 ): PaintInstruction[] {
+    if (section.isWalk) {
+        return [];
+    }
     return [
         getPaintInstruction(connection, section.departure, 'departure'),
         ...section.passList.map(
@@ -187,15 +274,16 @@ function getPaintInstructionsFromSection(
 }
 
 function getPaintInstruction(
-    connection: number,
+    connection: number|undefined,
     halt: OlzTransportHalt,
     role: HaltRole,
-) {
+): PaintInstruction {
     return {
         connection,
         stationId: halt.stationId,
         stationName: halt.stationName,
         time: halt.time,
         role,
+        joinConnections: [],
     };
 }

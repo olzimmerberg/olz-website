@@ -63,12 +63,13 @@ export type OlzNewsDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
-export type OlzTransportConnectionSuggestion = {
+export type OlzTransportSuggestion = {
     'mainConnection': OlzTransportConnection,
     'sideConnections': Array<{
     'connection': OlzTransportConnection,
     'joiningStationId': string,
 }>,
+    'originInfo': Array<OlzOriginInfo>,
     'debug': string,
 };
 
@@ -80,12 +81,19 @@ export type OlzTransportSection = {
     'departure': OlzTransportHalt,
     'arrival': OlzTransportHalt,
     'passList': Array<OlzTransportHalt>,
+    'isWalk': boolean,
 };
 
 export type OlzTransportHalt = {
     'stationId': string,
     'stationName': string,
     'time': string,
+};
+
+export type OlzOriginInfo = {
+    'halt': OlzTransportHalt,
+    'isSkipped': boolean,
+    'rating': number,
 };
 
 // eslint-disable-next-line no-shadow
@@ -424,7 +432,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',
-            'suggestions': Array<OlzTransportConnectionSuggestion>|null,
+            'suggestions': Array<OlzTransportSuggestion>|null,
         },
     getMySkillLevels: {[key: string]: {
             'value': number,

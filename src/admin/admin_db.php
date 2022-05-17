@@ -557,9 +557,12 @@ if (($do ?? null) == 'submit') {
         ];
         $page_link = $page_links[$db_table];
         $mail_text = ucfirst($db_table)." OL Zimmerberg\n************************\n";
-        $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8 \nContent-Transfer-Encoding: base64";
+        $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\n";
         $mail_subject = "OL Zimmerberg - ".ucfirst($db_table);
-        $mail_adress = ["u.utzinger@sunrise.ch"]; // Kontrollmail
+        $mail_adress = [ // Kontrollmail
+            "u.utzinger@sunrise.ch",
+            "website@olzimmerberg.ch",
+        ];
         if (!($local ?? null)) {
             array_push($mail_adress, $_SESSION[$db_table."email"]);
         } // Usermail
@@ -579,7 +582,7 @@ if (($do ?? null) == 'submit') {
 
         // MAIL SENDEN
         foreach ($mail_adress as $mailadress_tmp) {
-            mail($mailadress_tmp, $mail_subject, base64_encode($mail_text), $mail_header, $mail_from);
+            mail($mailadress_tmp, $mail_subject, $mail_text, $mail_header, $mail_from);
             // echo $mail_from;
         }
     }

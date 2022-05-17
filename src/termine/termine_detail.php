@@ -98,3 +98,6 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
 
 echo "</form>
 </div>";
+
+require_once __DIR__.'/../components/page/olz_footer/olz_footer.php';
+echo olz_footer();

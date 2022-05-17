@@ -90,14 +90,8 @@ function olz_news_article($args = []): string {
         );
 
         // Dateicode einfügen
-        $text = replace_file_tags(
-            $text,
-            $id
-        );
-        $textlang = replace_file_tags(
-            $textlang,
-            $id
-        );
+        $text = replace_file_tags($text, 'aktuell', $id);
+        $textlang = replace_file_tags($textlang, 'aktuell', $id);
 
         $out .= "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
         $out .= "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";

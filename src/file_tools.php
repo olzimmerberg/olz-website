@@ -305,7 +305,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 }
 
-function replace_file_tags($text, $id, $icon = "mini") {
+function replace_file_tags($text, $db_table, $id, $icon = "mini") {
     preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
     for ($i = 0; $i < count($matches[0]); $i++) {
         $index = $matches[1][$i];
@@ -317,7 +317,7 @@ function replace_file_tags($text, $id, $icon = "mini") {
 
         if ($is_migrated) {
             $new_html = olz_file(
-                'news',
+                $db_table == 'aktuell' ? 'news' : $db_table,
                 $id,
                 $index,
                 $tmptext,
@@ -325,7 +325,7 @@ function replace_file_tags($text, $id, $icon = "mini") {
             );
         } else {
             $new_html = olz_file(
-                'aktuell',
+                $db_table == 'news' ? 'aktuell' : $db_table,
                 $id,
                 intval($index),
                 $tmptext,

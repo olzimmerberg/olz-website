@@ -157,7 +157,15 @@ ul.news {
     align-items: center;
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
+    margin: 0 -20px;
+}
+
+.row > img {
+    flex-shrink: 1;
+    margin: 5px;
+    width: 100%;
 }
 
 .row .col {
@@ -213,7 +221,7 @@ ul.news {
         top: -172px;
     }
 
-    .row {
+    .sponsors .row {
         flex-direction: column;
     }
 

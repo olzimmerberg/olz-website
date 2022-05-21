@@ -169,6 +169,16 @@ echo <<<ZZZZZZZZZZ
 		<p></p>
 		<p>{$_->terrain_sat_text}</p>
 		<p></p>
+		<div class="row">
+			<img src="{$img_root}madrisa_offen.jpg" alt="">
+			<img src="{$img_root}madrisa_alpin.jpg" alt="">
+		</div>
+		<div class="row">
+			<img src="{$img_root}karte_madrisa_karst.jpg" alt="">
+			<img src="{$img_root}karte_madrisa_heide.jpg" alt="">
+			<img src="{$img_root}karte_madrisa_weide.jpg" alt="">
+		</div>
+		<p></p>
 	</div>
 
 	<div class="content-anchor">

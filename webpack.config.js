@@ -117,4 +117,15 @@ module.exports = [
             libraryTarget: 'window',
         },
     },
+    {
+        ...defaultConfig,
+        entry: './src/zimmerberg_ol/index.ts',
+        output: {
+            path: path.resolve(__dirname, 'src/zimmerberg_ol/jsbuild'),
+            publicPath: '/_/zimmerberg_ol/jsbuild/',
+            filename: '[name].min.js',
+            library: 'olzZimmerbergOl',
+            libraryTarget: 'window',
+        },
+    },
 ];

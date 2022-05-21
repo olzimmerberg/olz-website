@@ -2,8 +2,10 @@
 
 $img_root = "/img/zol_2022/";
 
-$css_path = "styles.css";
+$css_path = "jsbuild/main.min.css";
 $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
+$js_path = "jsbuild/main.min.js";
+$js_modified = is_file($js_path) ? filemtime($js_path) : 0;
 
 require_once __DIR__.'/translations.php';
 $selected_lang = $_GET['lang'] === 'fr' ? 'fr' : 'de';
@@ -26,12 +28,10 @@ echo <<<ZZZZZZZZZZ
 
 <head>
 	<title>{$event_title}</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 	<link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon" />
-	<link rel="stylesheet" href="styles.css?modified={$css_modified}">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="{$css_path}?modified={$css_modified}">
+	<script type="text/javascript" src="{$js_path}?modified={$js_modified}"></script>
 
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +42,7 @@ echo <<<ZZZZZZZZZZ
 <body class="olz-override-root">
 
 	<nav class="navbar py-3 fixed-top navbar-expand-lg navbar-light bg-light shadow">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,7 +53,7 @@ echo <<<ZZZZZZZZZZ
 					</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-samstag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-samstag" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{$_->nat11}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-samstag">
@@ -65,7 +65,7 @@ echo <<<ZZZZZZZZZZ
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-sonntag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown-sonntag" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{$_->nat12}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbar-dropdown-sonntag">
@@ -169,14 +169,14 @@ echo <<<ZZZZZZZZZZ
 		<p></p>
 		<p>{$_->terrain_sat_text}</p>
 		<p></p>
-		<div class="row">
-			<img src="{$img_root}madrisa_offen.jpg" alt="">
-			<img src="{$img_root}madrisa_alpin.jpg" alt="">
+		<div class="img row">
+			<div class="col"><img src="{$img_root}madrisa_offen.jpg" alt=""></div>
+			<div class="col"><img src="{$img_root}madrisa_alpin.jpg" alt=""></div>
 		</div>
-		<div class="row">
-			<img src="{$img_root}karte_madrisa_karst.jpg" alt="">
-			<img src="{$img_root}karte_madrisa_heide.jpg" alt="">
-			<img src="{$img_root}karte_madrisa_weide.jpg" alt="">
+		<div class="img row">
+			<div class="col"><img src="{$img_root}karte_madrisa_karst.jpg" alt=""></div>
+			<div class="col"><img src="{$img_root}karte_madrisa_heide.jpg" alt=""></div>
+			<div class="col"><img src="{$img_root}karte_madrisa_weide.jpg" alt=""></div>
 		</div>
 		<p></p>
 	</div>

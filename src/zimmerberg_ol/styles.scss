@@ -1,5 +1,7 @@
+@import '~bootstrap/scss/bootstrap';
+
 * {
-    font-family: Calibri,'Open Sans',Verdana,Helvetica,sans-serif !important;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 
 body {
@@ -162,14 +164,13 @@ ul.news {
     margin: 0 -20px;
 }
 
-.row > img {
-    flex-shrink: 1;
-    margin: 5px;
-    width: 100%;
-}
-
 .row .col {
     text-align: center;
+}
+
+
+.img.row .col {
+    padding: 5px;
 }
 
 .sponsors .col {

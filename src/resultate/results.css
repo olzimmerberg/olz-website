@@ -8,7 +8,7 @@ body {
 }
 
 .mainbg {
-    background-image: url(../icns/mainbg.png);
+    background-image: url('../icns/mainbg.png');
     background-repeat: repeat;
 }
 

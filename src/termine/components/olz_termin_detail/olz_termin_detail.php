@@ -1,7 +1,7 @@
 <?php
 
 function olz_termin_detail($args = []): string {
-    global $db, $_DATE;
+    global $db, $_DATE, $heute;
 
     require_once __DIR__.'/../../../image_tools.php';
     require_once __DIR__.'/../../../components/common/olz_location_map/olz_location_map.php';

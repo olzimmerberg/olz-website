@@ -5,14 +5,28 @@
 // =============================================================================
 
 use Doctrine\Common\Collections\Criteria;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../config/doctrine_db.php';
+require_once __DIR__.'/../config/paths.php';
+require_once __DIR__.'/../config/server.php';
 require_once __DIR__.'/../model/index.php';
+require_once __DIR__.'/../utils/client/HttpUtils.php';
+require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/model/Termin.php';
 require_once __DIR__.'/utils/TermineFilterUtils.php';
+
+$env_utils = EnvUtils::fromEnv();
+$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLogger($logger);
+$validated_get_params = $http_utils->validateGetParams([
+    'filter' => new FieldTypes\StringField(['allow_null' => true]),
+    'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+    'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
+], $_GET);
 
 $termine_utils = TermineFilterUtils::fromEnv();
 $termin_repo = $entityManager->getRepository(Termin::class);
@@ -28,12 +42,17 @@ $criteria = Criteria::create()
 $news_entries = $termin_repo->matching($criteria);
 $num_news_entries = $news_entries->count();
 $no_robots = $num_news_entries !== 1;
+$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+$canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}termine.php?id={$id}";
 
 require_once __DIR__.'/../components/page/olz_header/olz_header.php';
 echo olz_header([
     'title' => "Termin",
     'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
     'norobots' => $no_robots,
+    'additional_headers' => [
+        "<link rel='canonical' href='{$canonical_uri}'/>",
+    ],
 ]);
 
 $button_name = 'button'.$db_table;

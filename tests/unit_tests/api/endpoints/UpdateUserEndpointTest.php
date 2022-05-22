@@ -49,6 +49,8 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         'city' => 'Muster',
         'region' => 'ZH',
         'countryCode' => 'CH',
+        'siCardNumber' => 1234567,
+        'solvNumber' => 'JACK7NORRIS',
         'avatarId' => 'fake-avatar-id.jpg',
     ];
 

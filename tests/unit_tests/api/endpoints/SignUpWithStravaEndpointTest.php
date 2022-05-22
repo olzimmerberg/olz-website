@@ -67,6 +67,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
                 'city' => null,
                 'region' => null,
                 'countryCode' => null,
+                'siCardNumber' => null,
+                'solvNumber' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
@@ -117,6 +119,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'city' => 'fakeCity',
             'region' => 'fakeRegion',
             'countryCode' => 'fakeCountryCode',
+            'siCardNumber' => 1234567,
+            'solvNumber' => 'JACK7NORRIS',
         ]);
 
         $this->assertSame([

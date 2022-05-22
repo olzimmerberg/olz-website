@@ -1,5 +1,5 @@
 import {OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithPassword'> = (f) => {
@@ -11,7 +11,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             'Das Passwort und die Wiederholung müssen übereinstimmen!',
             passwordRepeat,
         );
-        const fieldResults = {
+        const fieldResults: OlzRequestFieldResult<'signUpWithPassword'> = {
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
             lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
             username: getRequired(getStringOrNull(getFormField(f, 'username'))),
@@ -25,6 +25,8 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             city: getFormField(f, 'city'),
             region: getFormField(f, 'region'),
             countryCode: getCountryCode(getFormField(f, 'country-code')),
+            siCardNumber: getInteger(getFormField(f, 'si-card-number')),
+            solvNumber: getFormField(f, 'solv-number'),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat)) {
             return invalidFormData([
@@ -32,8 +34,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
                 ...getFieldResultOrDictThereofErrors(passwordRepeat),
             ]);
         }
-        return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-
+        return validFormData<'signUpWithPassword'>(getFieldResultOrDictThereofValue(fieldResults));
     };
 
     olzDefaultFormSubmit(

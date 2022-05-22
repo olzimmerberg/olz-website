@@ -377,6 +377,23 @@ export function getIsoDateFromSwissFormat(
     return {...input, value: newValue};
 }
 
+export function getInteger(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<number|null> {
+    if (!input.value) {
+        return {...input, value: null};
+    }
+    const trimmed = input.value.trim();
+    if (!/^[0-9]+$/.test(trimmed)) {
+        return recordErrorMessages(
+            {...input, value: null},
+            ['Wert muss eine Ganzzahl sein.'],
+        );
+    }
+    const number = Number(trimmed);
+    return {...input, value: number};
+}
+
 export function getIsoDateTimeFromSwissFormat(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {

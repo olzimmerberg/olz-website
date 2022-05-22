@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import {OlzApiResponses} from '../../../api/client';
-import {olzDefaultFormSubmit, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 
 $(() => {
     $('#change-password-modal').on('shown.bs.modal', () => {
@@ -18,7 +18,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
             'Das Passwort und die Wiederholung müssen übereinstimmen!',
             repeatPassword,
         );
-        const fieldResults = {
+        const fieldResults: OlzRequestFieldResult<'updatePassword'> = {
             id: validFieldResult('', userId),
             oldPassword: getFormField(f, 'old'),
             newPassword: getRequired(getPassword(newPassword)),

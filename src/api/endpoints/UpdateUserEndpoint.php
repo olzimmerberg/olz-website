@@ -34,6 +34,8 @@ class UpdateUserEndpoint extends OlzEndpoint {
             'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'region' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
+            'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
+            'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'avatarId' => new FieldTypes\StringField(['allow_null' => true]),
         ]]);
     }
@@ -68,6 +70,8 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $user->setCity($input['city']);
         $user->setRegion($input['region']);
         $user->setCountryCode($input['countryCode']);
+        $user->setSiCardNumber($input['siCardNumber']);
+        $user->setSolvNumber($input['solvNumber']);
         $user->setLastModifiedAt($now_datetime);
         $this->entityManager->flush();
 

@@ -26,6 +26,8 @@ function olz_profile_form($args): string {
     $esc_city = htmlentities($defaults['city'] ?? '');
     $esc_region = htmlentities($defaults['region'] ?? '');
     $esc_country_code = htmlentities($defaults['country_code'] ?? '');
+    $esc_si_card_number = htmlentities($defaults['si_card_number'] ?? '');
+    $esc_solv_number = htmlentities($defaults['solv_number'] ?? '');
 
     $show_avatar = $defaults['show_avatar'] ?? false;
     $show_change_password = $defaults['show_change_password'] ?? false;
@@ -235,13 +237,35 @@ function olz_profile_form($args): string {
             />
         </div>
         <div class='col mb-3'>
-            <label for='profile-country-code-input'>Land (2-Buchstaben-Code, z.B. CH)</label>
+            <label for='profile-si-card-number-input'>Land (2-Buchstaben-Code, z.B. CH)</label>
             <input
                 type='text'
                 name='country-code'
                 value='{$esc_country_code}'
                 class='form-control'
                 id='profile-country-code-input'
+            />
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col mb-3'>
+            <label for='profile-si-card-number-input'>SI-Card-Nummer (Badge-Nummer)</label>
+            <input
+                type='text'
+                name='si-card-number'
+                value='{$esc_si_card_number}'
+                class='form-control'
+                id='profile-si-card-number-input'
+            />
+        </div>
+        <div class='col mb-3'>
+            <label for='solv-number-input'>SOLV-Nummer (siehe <a href='https://www.o-l.ch/cgi-bin/solvdb' target='_blank'>SOLV-DB</a>)</label>
+            <input
+                type='text'
+                name='solv-number'
+                value='{$esc_solv_number}'
+                class='form-control'
+                id='solv-number-input'
             />
         </div>
     </div>

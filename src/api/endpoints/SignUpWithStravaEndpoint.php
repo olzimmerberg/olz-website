@@ -35,6 +35,8 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
             'city' => new FieldTypes\StringField(['allow_empty' => true]),
             'region' => new FieldTypes\StringField(['allow_empty' => true]),
             'countryCode' => new FieldTypes\StringField(['allow_empty' => true]),
+            'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
+            'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
         ]]);
     }
 
@@ -58,6 +60,8 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $user->setCity($input['city']);
         $user->setRegion($input['region']);
         $user->setCountryCode($input['countryCode']);
+        $user->setSiCardNumber($input['siCardNumber']);
+        $user->setSolvNumber($input['solvNumber']);
         $user->setZugriff('');
         $user->setRoot(null);
         $user->setMemberType(null);
@@ -65,11 +69,10 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $user->setWantsPostalMail(false);
         $user->setPostalTitle(null);
         $user->setPostalName(null);
-        $user->setJoinedReason("Online (Strava)");
+        $user->setJoinedOn(null);
+        $user->setJoinedReason(null);
         $user->setLeftOn(null);
         $user->setLeftReason(null);
-        $user->setSolvNumber(null);
-        $user->setSiCardNumber(null);
         $user->setNotes('');
 
         $strava_link = new StravaLink();

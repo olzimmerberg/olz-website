@@ -167,6 +167,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'city': string|null,
             'region': string|null,
             'countryCode': string|null,
+            'siCardNumber': number|null,
+            'solvNumber': string|null,
             'avatarId': string|null,
         },
     updatePassword: {
@@ -188,6 +190,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'city': string|null,
             'region': string|null,
             'countryCode': string|null,
+            'siCardNumber': number|null,
+            'solvNumber': string|null,
         },
     loginWithStrava: {
             'code': string,
@@ -209,6 +213,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'city': string,
             'region': string,
             'countryCode': string,
+            'siCardNumber': number|null,
+            'solvNumber': string|null,
         },
     deleteUser: {
             'id': number,

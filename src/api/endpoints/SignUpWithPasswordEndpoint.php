@@ -33,6 +33,8 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'region' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
+            'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
+            'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
         ]]);
     }
 
@@ -88,6 +90,8 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setCity($input['city']);
         $user->setRegion($input['region']);
         $user->setCountryCode($input['countryCode']);
+        $user->setSiCardNumber($input['siCardNumber']);
+        $user->setSolvNumber($input['solvNumber']);
         $user->setZugriff('');
         $user->setRoot(null);
         $user->setMemberType(null);
@@ -95,12 +99,10 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setWantsPostalMail(false);
         $user->setPostalTitle(null);
         $user->setPostalName(null);
-        $user->setJoinedOn($now_datetime);
-        $user->setJoinedReason("Online (OLZ-Konto erstellen)");
+        $user->setJoinedOn(null);
+        $user->setJoinedReason(null);
         $user->setLeftOn(null);
         $user->setLeftReason(null);
-        $user->setSolvNumber(null);
-        $user->setSiCardNumber(null);
         $user->setNotes('');
         $user->setCreatedAt($now_datetime);
         $user->setLastModifiedAt($now_datetime);

@@ -1,5 +1,5 @@
 import {callOlzApi, OlzApiResponses} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -60,7 +60,7 @@ export function olzKontoLoginWithStrava(code: string): boolean {
 
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithStrava'> = (f) => {
-        const fieldResults = {
+        const fieldResults: OlzRequestFieldResult<'signUpWithStrava'> = {
             stravaUser: getFormField(f, 'strava-user'),
             accessToken: getFormField(f, 'access-token'),
             refreshToken: getFormField(f, 'refresh-token'),
@@ -77,6 +77,8 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
             city: getFormField(f, 'city'),
             region: getFormField(f, 'region'),
             countryCode: getCountryCode(getFormField(f, 'country-code')),
+            siCardNumber: getInteger(getFormField(f, 'si-card-number')),
+            solvNumber: getFormField(f, 'solv-number'),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults)) {
             return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));

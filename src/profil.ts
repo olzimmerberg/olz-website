@@ -1,5 +1,5 @@
 import {OlzApiResponses, callOlzApi} from './api/client';
-import {olzDefaultFormSubmit, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 import {olzConfirm} from './components/common/OlzConfirmationDialog/OlzConfirmationDialog';
 
 export function olzProfileDeleteUser(userId: number): boolean {
@@ -16,7 +16,7 @@ export function olzProfileDeleteUser(userId: number): boolean {
 
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestFunction: GetDataForRequestFunction<'updateUser'> = (f) => {
-        const fieldResults = {
+        const fieldResults: OlzRequestFieldResult<'updateUser'> = {
             id: validFieldResult('', userId),
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
             lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
@@ -30,6 +30,8 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
             city: getFormField(f, 'city'),
             region: getFormField(f, 'region'),
             countryCode: getCountryCode(getFormField(f, 'country-code')),
+            siCardNumber: getInteger(getFormField(f, 'si-card-number')),
+            solvNumber: getFormField(f, 'solv-number'),
             avatarId: getStringOrNull(getFormField(f, 'avatar-id')),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults)) {

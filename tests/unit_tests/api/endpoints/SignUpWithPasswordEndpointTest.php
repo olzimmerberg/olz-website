@@ -55,6 +55,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         'city' => 'fakeCity',
         'region' => 'fakeRegion',
         'countryCode' => 'CC',
+        'siCardNumber' => 1234567,
+        'solvNumber' => 'JACK7NORRIS',
     ];
 
     public function testSignUpWithPasswordEndpointIdent(): void {
@@ -83,6 +85,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'city' => null,
                 'region' => null,
                 'countryCode' => null,
+                'siCardNumber' => null,
+                'solvNumber' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {

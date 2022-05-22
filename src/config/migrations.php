@@ -13,7 +13,7 @@ return [
         'execution_time_column_name' => 'execution_time',
     ],
     'migrations_paths' => [
-        'OLZ\Migrations' => '../model/migrations',
+        'OLZ\Migrations' => '../../migrations',
     ],
     'all_or_nothing' => true,
     'check_database_platform' => true,

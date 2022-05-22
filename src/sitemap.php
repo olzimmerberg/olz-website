@@ -42,6 +42,11 @@ foreach ($aktuell_ids as $aktuell_id) {
     echo get_entry("{$base_url}aktuell.php?id={$aktuell_id}", 'monthly', '0.3');
 }
 
+$termine_ids = $entityManager->getRepository(Termin::class)->getAllActiveIds();
+foreach ($termine_ids as $termine_id) {
+    echo get_entry("{$base_url}termine.php?id={$termine_id}", 'monthly', '0.2');
+}
+
 $verein_ressorts = $entityManager->getRepository(Role::class)->getAllActiveRessorts();
 foreach ($verein_ressorts as $verein_ressort) {
     echo get_entry("{$base_url}verein.php?ressort={$verein_ressort}", 'monthly', '0.5');

@@ -2,7 +2,7 @@
 
 namespace Facebook\WebDriver;
 
-require_once __DIR__.'/../../../src/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../../public/_/utils/notify/EmailUtils.php';
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 

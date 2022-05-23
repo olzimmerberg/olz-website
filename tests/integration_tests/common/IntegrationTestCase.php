@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../../public/_/config/vendor/autoload.php';
 
 /**
  * @internal
@@ -34,9 +34,9 @@ class IntegrationTestCase extends TestCase {
 
     protected function resetDb(): void {
         global $db, $data_path;
-        require_once __DIR__.'/../../../src/config/database.php';
-        require_once __DIR__.'/../../../src/config/paths.php';
-        require_once __DIR__.'/../../../src/tools/dev_data.php';
+        require_once __DIR__.'/../../../public/_/config/database.php';
+        require_once __DIR__.'/../../../public/_/config/paths.php';
+        require_once __DIR__.'/../../../public/_/tools/dev_data.php';
 
         reset_db($db, $data_path);
     }

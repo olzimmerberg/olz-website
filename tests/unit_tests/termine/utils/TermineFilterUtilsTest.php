@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Doctrine\Common\Collections\Expr\Comparison;
 
-require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../src/termine/utils/TermineFilterUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../public/_/termine/utils/TermineFilterUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

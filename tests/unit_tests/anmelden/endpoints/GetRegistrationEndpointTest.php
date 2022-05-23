@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/anmelden/endpoints/GetRegistrationEndpoint.php';
+require_once __DIR__.'/../../../../public/_/anmelden/endpoints/GetRegistrationEndpoint.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeGetRegistrationEndpointRegistrationRepository {

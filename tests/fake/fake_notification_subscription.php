@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../src/model/NotificationSubscription.php';
+require_once __DIR__.'/../../public/_/model/NotificationSubscription.php';
 
 function get_fake_notification_subscription($id, $delivery_type, $user, $notification_type, $notification_type_args, $created_at = null) {
     if ($created_at == null) {

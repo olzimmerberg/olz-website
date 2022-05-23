@@ -10,7 +10,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
  */
 final class AllEndpointsCoveredTest extends UnitTestCase {
     public function testAllCommonEndpointsCovered(): void {
-        $endpoints_path = __DIR__.'/../../../../src/api/endpoints';
+        $endpoints_path = __DIR__.'/../../../../public/_/api/endpoints';
 
         $this->assertTrue(is_dir($endpoints_path));
         $endpoints_files = scandir($endpoints_path);
@@ -30,7 +30,7 @@ final class AllEndpointsCoveredTest extends UnitTestCase {
     }
 
     public function testAllModulesEndpointsCovered(): void {
-        $src_path = __DIR__.'/../../../../src/';
+        $src_path = __DIR__.'/../../../../public/_/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $endpoints_folders = glob("{$src_realpath}/*/endpoints/");

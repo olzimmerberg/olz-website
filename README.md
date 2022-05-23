@@ -11,9 +11,9 @@
 - Installiere `composer`
 - Installiere `MySQL`
 - Erstelle eine MySQL Datenbank
-- Kopiere `dev-server/config.template.php` nach `dev-server/config.php`
-- Gib die Zugangsdaten zur lokalen Datenbank in `dev-server/config.php` ein
-- Achte darauf, dass `dev-server/config.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
+- Kopiere `public/config.template.php` nach `public/config.php`
+- Gib die Zugangsdaten zur lokalen Datenbank in `public/config.php` ein
+- Achte darauf, dass `public/config.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
 
 ## Development-Server starten
 

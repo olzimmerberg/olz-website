@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/utils/env/EnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
@@ -19,9 +19,6 @@ final class EnvUtilsTest extends UnitTestCase {
 
         $env_utils->setCodePath('//_/');
         $env_utils->setCodeHref('/_/');
-
-        $env_utils->setDeployPath('//deploy/');
-        $env_utils->setDeployHref('/deploy/');
 
         $env_utils->setBaseHref("http://localhost/");
 
@@ -75,8 +72,6 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('/', $env_utils->getDataHref());
         $this->assertSame('//_/', $env_utils->getCodePath());
         $this->assertSame('/_/', $env_utils->getCodeHref());
-        $this->assertSame('//deploy/', $env_utils->getDeployPath());
-        $this->assertSame('/deploy/', $env_utils->getDeployHref());
         $this->assertSame('http://localhost/', $env_utils->getBaseHref());
         $this->assertSame('localhost', $env_utils->getMysqlHost());
         $this->assertSame('3306', $env_utils->getMysqlPort());

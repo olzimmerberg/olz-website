@@ -6,7 +6,7 @@ use PhpTypescriptApi\Translator;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../vendor/autoload.php';
-require_once __DIR__.'/../../../src/tools/common.php';
+require_once __DIR__.'/../../../public/_/tools/common.php';
 require_once __DIR__.'/../../fake/FakeFactory.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 

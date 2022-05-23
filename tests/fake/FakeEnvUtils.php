@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../src/config/vendor/autoload.php';
+require_once __DIR__.'/../../public/_/config/vendor/autoload.php';
 
 class FakeEnvUtils {
     public $has_unlimited_cron = false;

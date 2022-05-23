@@ -41,9 +41,9 @@ fi
 BROWSER_DRIVER_PID=$!
 
 # Configure dev server
-if [ ! -z DB_PORT ] && [ ! -f ./dev-server/config.php ]; then
-    cp ./dev-server/config.template.php ./dev-server/config.php
-    sed -i "s/3306/$DB_PORT/g" ./dev-server/config.php
+if [ ! -z DB_PORT ] && [ ! -f ./public/config.php ]; then
+    cp ./public/config.template.php ./public/config.php
+    sed -i "s/3306/$DB_PORT/g" ./public/config.php
     echo "Dev server configured."
 else
     echo "Dev server configuration preserved."
@@ -53,8 +53,8 @@ fi
 npm run webpack-build
 
 # Run dev server
-mkdir -p ./dev-server/logs
-php -S "$DOMAIN" -t ./dev-server/ > ./dev-server/logs/take-screenshots.log 2>&1 &
+mkdir -p ./public/logs
+php -S "$DOMAIN" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
 
 # Run test, allow aborting

@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {EventTarget} from '../../../src/utils/EventTarget';
+import {EventTarget} from '../../../public/_/utils/EventTarget';
 
 describe('EventTarget', () => {
     it('works (integration test)', async () => {

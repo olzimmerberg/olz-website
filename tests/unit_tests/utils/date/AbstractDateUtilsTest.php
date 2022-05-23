@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/utils/date/AbstractDateUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/date/AbstractDateUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeDateUtils extends AbstractDateUtils {

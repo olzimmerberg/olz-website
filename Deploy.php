@@ -12,12 +12,13 @@ class Deploy extends AbstractDefaultDeploy {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
 
-        $fs->remove(__DIR__.'/src/jsbuild');
+        $fs->remove(__DIR__.'/public/_/jsbuild');
         shell_exec('npm run webpack-build');
-        $fs->mirror(__DIR__.'/src', "{$build_folder_path}/web");
+        $fs->remove(__DIR__.'/node_modules');
+        $fs->mirror(__DIR__, $build_folder_path);
 
         // Zip live uploader, such that it can be downloaded as zip file.
-        $results_path = "{$build_folder_path}/web/resultate";
+        $results_path = "{$build_folder_path}/public/_/resultate";
         $live_uploader_path = "{$results_path}/live_uploader";
         $zip_path = "{$results_path}/live_uploader.zip";
         $zip = new \ZipArchive();
@@ -35,9 +36,6 @@ class Deploy extends AbstractDefaultDeploy {
             }
         }
         $zip->close();
-
-        $fs->mirror(__DIR__.'/vendor', "{$build_folder_path}/vendor");
-        $fs->copy(__DIR__.'/Deploy.php', "{$build_folder_path}/Deploy.php");
     }
 
     protected function getFlysystemFilesystem() {
@@ -86,24 +84,22 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function install($public_path) {
         $fs = new Symfony\Component\Filesystem\Filesystem();
-
-        $fs->mirror(__DIR__.'/web', "{$public_path}/deploy/candidate", null, ['delete' => true]);
-        $fs->mirror(__DIR__.'/vendor', "{$public_path}/deploy/candidate/config/vendor", null, ['delete' => true]);
-        $fs->mkdir("{$public_path}/deploy/candidate/screenshots/generated");
-
-        try {
-            $fs->remove("{$public_path}/deploy/previous");
-        } catch (\Throwable $th) {
-            // ignore
-        }
-        try {
-            $fs->rename("{$public_path}/deploy/live", "{$public_path}/deploy/previous");
-        } catch (\Throwable $th) {
-            // ignore
-        }
-        $fs->rename("{$public_path}/deploy/candidate", "{$public_path}/deploy/live");
-        $fs->remove("{$public_path}/_");
-        $fs->symlink("{$public_path}/deploy/live", "{$public_path}/_");
+        $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
+        $fs->mirror(__DIR__.'/vendor', __DIR__.'/public/_/config/vendor');
+        $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
+        $index_path = "{$public_path}/index.php";
+        $index_contents = file_get_contents(__DIR__.'/public/index.php');
+        $updated_index_contents = str_replace(
+            "require_once dirname(__DIR__).'/vendor/autoload_runtime.php';",
+            "require_once dirname(__DIR__).'/{$this->getRemotePrivatePath()}/deploy/live/vendor/autoload_runtime.php';",
+            $index_contents,
+        );
+        unlink($index_path);
+        file_put_contents($index_path, $updated_index_contents);
+        $fs->rename("{$public_path}/_", "{$public_path}/_old");
+        $fs->rename(__DIR__.'/public/_', "{$public_path}/_");
+        $fs->mkdir("{$public_path}/_/screenshots/generated");
+        $fs->remove("{$public_path}/_old");
     }
 }
 

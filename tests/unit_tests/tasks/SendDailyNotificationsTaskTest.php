@@ -10,12 +10,12 @@ require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../fake/FakeUserRepository.php';
-require_once __DIR__.'/../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../src/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../src/model/TelegramLink.php';
-require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask/Notification.php';
-require_once __DIR__.'/../../../src/tasks/SendDailyNotificationsTask.php';
-require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../public/_/model/NotificationSubscription.php';
+require_once __DIR__.'/../../../public/_/model/TelegramLink.php';
+require_once __DIR__.'/../../../public/_/tasks/SendDailyNotificationsTask/Notification.php';
+require_once __DIR__.'/../../../public/_/tasks/SendDailyNotificationsTask.php';
+require_once __DIR__.'/../../../public/_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 $user1 = FakeUsers::defaultUser(true);

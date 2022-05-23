@@ -1,23 +1,24 @@
 /deploy
 /deploy.zip
-/dev-server/*
-!/dev-server/_
-!/dev-server/config.template.php
-!/dev-server/deploy
-!/dev-server/index.php
-!/dev-server/tools.php
+/public/*
+!/public/.htaccess
+!/public/_
+!/public/config.template.php
+!/public/index.php
+!/public/tools.php
 /screenshots
-/src/olz_ical.ics
-/src/resultate/live_uploader/public_html/data
-/src/screenshots/generated
-/src/tools/dev-data/tmp/*
-/src/tools/tmp/*
+/public/_/olz_ical.ics
+/public/_/resultate/live_uploader/public_html/data
+/public/_/screenshots/generated
+/public/_/tools/dev-data/tmp/*
+/public/_/tools/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*
 /tools/fuer_einsteiger/thumb/*
 /tools/fuer_einsteiger/unused/*
 
 # PHP tooling
+/var
 /vendor
 /php-coverage
 .php-cs-fixer.cache
@@ -30,5 +31,25 @@
 # JavaScript tooling
 /coverage
 /node_modules/
-/src/**/jsbuild/
+/public/_/**/jsbuild/
 /tscbuild/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

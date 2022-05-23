@@ -1,0 +1,48 @@
+@use '../../../styles/colors' as colors;
+
+.olz-upload-image {
+    background-color: colors.$white-background-color;
+    border: 1px solid colors.$white-border-color;
+    border-radius: 2px;
+    height: 154px;
+    margin: 4px;
+    width: 130px;
+
+    .progress-container {
+        height: 128px;
+        padding: 56px 0;
+        width: 128px;
+    }
+
+    .image {
+        border: 0;
+        height: 128px;
+        object-fit: contain;
+        width: 128px;
+    }
+
+    .footer {
+        align-items: center;
+        display: flex;
+        height: 24px;
+    }
+
+    .info {
+        flex-grow: 1;
+        overflow: hidden;
+        padding: 4px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .button {
+        background-color: rgba(0, 0, 0, 0);
+        flex-grow: 0;
+        height: 24px;
+        width: 24px;
+
+        img {
+            border: 0;
+        }
+    }
+}

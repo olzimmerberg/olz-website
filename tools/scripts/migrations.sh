@@ -2,7 +2,7 @@
 
 set -e
 
-cd src/config
+cd public/_/config
 ./vendor/bin/doctrine-migrations "$@"
 cd ../../
 exit $?

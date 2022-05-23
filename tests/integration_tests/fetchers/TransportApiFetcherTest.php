@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/fetchers/TransportApiFetcher.php';
+require_once __DIR__.'/../../../public/_/fetchers/TransportApiFetcher.php';
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**

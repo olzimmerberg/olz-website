@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {getFakeContext} from '../../fake/FakeContext';
-import {loadImageFromBase64, getBase64FromCanvas, getResizedDimensions, getCanvasOfSize, getCroppedCanvas, getRadianAngle, getResizedCanvas} from '../../../src/utils/imageUtils';
+import {loadImageFromBase64, getBase64FromCanvas, getResizedDimensions, getCanvasOfSize, getCroppedCanvas, getRadianAngle, getResizedCanvas} from '../../../public/_/utils/imageUtils';
 
 const FAKE_IMAGE = new Image(800, 600);
 

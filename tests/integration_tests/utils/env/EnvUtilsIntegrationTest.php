@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/env/EnvUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 class FakeIntegrationTestEnvUtils extends EnvUtils {
@@ -27,15 +27,10 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         );
         $this->assertSame('/', $env_utils->getDataHref());
         $this->assertMatchesRegularExpression(
-            '/\/src\/$/',
+            '/\/public\/_\/$/',
             $env_utils->getCodePath()
         );
         $this->assertSame('/_/', $env_utils->getCodeHref());
-        $this->assertMatchesRegularExpression(
-            '/\/tests\/integration_tests\/document\-root\/deploy\/$/',
-            $env_utils->getDeployPath()
-        );
-        $this->assertSame('/deploy/', $env_utils->getDeployHref());
         $this->assertSame('http://integration-test.host', $env_utils->getBaseHref());
     }
 
@@ -90,7 +85,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         $config_path = FakeIntegrationTestEnvUtils::getConfigPath();
 
         $this->assertMatchesRegularExpression(
-            '/\/src\/utils\/env\/\.\.\/\.\.\/\.\.\/dev-server\/config.php$/',
+            '/\/public\/_\/utils\/env\/\.\.\/\.\.\/\.\.\/config.php$/',
             $config_path
         );
 

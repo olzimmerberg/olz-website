@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/termine/model/Termin.php';
-require_once __DIR__.'/../../../../src/model/User.php';
-require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/WeeklySummaryGetter.php';
-require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/termine/model/Termin.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/WeeklySummaryGetter.php';
+require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/model/OlzEntity.php';
-require_once __DIR__.'/../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../src/utils/EntityUtils.php';
+require_once __DIR__.'/../../../public/_/model/OlzEntity.php';
+require_once __DIR__.'/../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../public/_/utils/EntityUtils.php';
 require_once __DIR__.'/../../fake/fake_role.php';
 require_once __DIR__.'/../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../fake/FakeUsers.php';

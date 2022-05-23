@@ -1,9 +1,8 @@
+coverage/
 deploy/
-dev-server/_/
-dev-server/deploy/current/
 jsbuild/
-src/config/vendor/
-src/library/
+public/_/config/vendor/
+public/_/library/
 node_modules/
 php-coverage/
 tscbuild/

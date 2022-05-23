@@ -2,13 +2,13 @@
 
 // Server Configuration
 global $_CONFIG;
-require_once __DIR__.'/../../src/config/server.php';
+require_once __DIR__.'/../../public/_/config/server.php';
 
 $telegram_api_url = 'https://api.telegram.org/bot'.$_CONFIG->getTelegramBotToken().'/';
 $authenticity_code = $_CONFIG->getTelegramAuthenticityCode();
 
 $server_domain = $argv[1];
-$simulator_config_path = __DIR__.'/../../dev-server/telegram_webhook_simulator.json';
+$simulator_config_path = __DIR__.'/../../public/telegram_webhook_simulator.json';
 $simulator_config = json_decode(file_get_contents($simulator_config_path), true);
 $max_message_id = $simulator_config['max_message_id'];
 if (!$max_message_id) {

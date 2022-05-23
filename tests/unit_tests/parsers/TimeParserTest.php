@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/parsers/TimeParser.php';
+require_once __DIR__.'/../../../public/_/parsers/TimeParser.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**

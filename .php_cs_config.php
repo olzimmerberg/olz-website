@@ -1,10 +1,11 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('src/library/')
+    ->in(__DIR__.'/')
+    ->exclude('public/_/library/')
     ->exclude('deploy/')
     ->exclude('node_modules/')
-    ->in(__DIR__.'/')
+    ->exclude('var/')
 ;
 
 $config = new PhpCsFixer\Config();

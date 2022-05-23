@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/model/User.php';
-require_once __DIR__.'/../../../../src/utils/GeneralUtils.php';
-require_once __DIR__.'/../../../../src/utils/notify/OlzMailer.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../public/_/utils/GeneralUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/notify/OlzMailer.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

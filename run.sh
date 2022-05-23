@@ -14,7 +14,7 @@ echo "Telegram Webhook Simulator PID: $TELEGRAM_WEBHOOK_SIMULATOR_PID"
 
 # Run dev server, allow aborting
 set +e
-php -S 127.0.0.1:30270 -t ./dev-server/
+php -S 127.0.0.1:30270 -t ./public/
 
 # Clean up
 kill -9 $TELEGRAM_WEBHOOK_SIMULATOR_PID

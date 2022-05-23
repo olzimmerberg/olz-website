@@ -2,8 +2,8 @@
 
 use PhpImap\Exceptions\ConnectionException;
 
-require_once __DIR__.'/../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../src/utils/GeneralUtils.php';
+require_once __DIR__.'/../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../public/_/utils/GeneralUtils.php';
 
 class FakeEmailUtils {
     use Psr\Log\LoggerAwareTrait;

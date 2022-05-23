@@ -52,7 +52,7 @@ const defaultConfig = {
         }),
         new WebpackShellPluginNext({
             onBuildStart: {
-                scripts: ['php ./src/api/client/generate.php'],
+                scripts: ['php ./public/_/api/client/generate.php'],
                 blocking: true,
                 parallel: false,
             },
@@ -75,9 +75,9 @@ const defaultConfig = {
 module.exports = [
     {
         ...defaultConfig,
-        entry: './src/index.ts',
+        entry: './public/_/index.ts',
         output: {
-            path: path.resolve(__dirname, 'src/jsbuild'),
+            path: path.resolve(__dirname, 'public/_/jsbuild'),
             publicPath: '/_/jsbuild/',
             filename: '[name].min.js',
             library: 'olz',
@@ -86,9 +86,9 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/anmelden/index.tsx',
+        entry: './public/_/anmelden/index.tsx',
         output: {
-            path: path.resolve(__dirname, 'src/anmelden/jsbuild'),
+            path: path.resolve(__dirname, 'public/_/anmelden/jsbuild'),
             publicPath: '/_/anmelden/jsbuild/',
             filename: '[name].min.js',
             library: 'olzAnmelden',
@@ -97,9 +97,9 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/resultate/index.ts',
+        entry: './public/_/resultate/index.ts',
         output: {
-            path: path.resolve(__dirname, 'src/resultate/jsbuild'),
+            path: path.resolve(__dirname, 'public/_/resultate/jsbuild'),
             publicPath: '/_/resultate/jsbuild/',
             filename: '[name].min.js',
             library: 'olzResults',
@@ -108,9 +108,9 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/resultate/live_uploader/public_html/index.ts',
+        entry: './public/_/resultate/live_uploader/public_html/index.ts',
         output: {
-            path: path.resolve(__dirname, 'src/resultate/live_uploader/public_html/jsbuild'),
+            path: path.resolve(__dirname, 'public/_/resultate/live_uploader/public_html/jsbuild'),
             publicPath: './jsbuild/',
             filename: '[name].min.js',
             library: 'olzResults',
@@ -119,9 +119,9 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './src/zimmerberg_ol/index.ts',
+        entry: './public/_/zimmerberg_ol/index.ts',
         output: {
-            path: path.resolve(__dirname, 'src/zimmerberg_ol/jsbuild'),
+            path: path.resolve(__dirname, 'public/_/zimmerberg_ol/jsbuild'),
             publicPath: '/_/zimmerberg_ol/jsbuild/',
             filename: '[name].min.js',
             library: 'olzZimmerbergOl',

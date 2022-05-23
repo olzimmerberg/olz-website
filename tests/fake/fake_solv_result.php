@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../src/model/SolvResult.php';
+require_once __DIR__.'/../../public/_/model/SolvResult.php';
 
 function get_fake_solv_result() {
     $solv_result = new SolvResult();

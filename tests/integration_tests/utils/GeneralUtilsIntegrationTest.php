@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../src/utils/GeneralUtils.php';
+require_once __DIR__.'/../../../public/_/utils/GeneralUtils.php';
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**

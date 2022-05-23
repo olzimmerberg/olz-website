@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EXIT_CODE=0
-cd ./src/config/
+cd ./public/_/config/
 ./vendor/bin/doctrine-migrations migrations:diff
 EXIT_CODE=$?
 cd ../../

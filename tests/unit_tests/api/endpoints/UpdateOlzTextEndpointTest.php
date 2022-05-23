@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../src/api/endpoints/UpdateOlzTextEndpoint.php';
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/model/OlzText.php';
-require_once __DIR__.'/../../../../src/model/User.php';
-require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../public/_/api/endpoints/UpdateOlzTextEndpoint.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/model/OlzText.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

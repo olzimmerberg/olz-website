@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';

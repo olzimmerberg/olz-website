@@ -10,7 +10,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
  */
 final class AllUtilsCoveredTest extends UnitTestCase {
     public function testAllCommonUtilsCovered(): void {
-        $utils_path = __DIR__.'/../../../src/utils/';
+        $utils_path = __DIR__.'/../../../public/_/utils/';
         $this->assertTrue(is_dir($utils_path));
         $utils_realpath = realpath($utils_path);
         $utils_files = array_map(
@@ -38,7 +38,7 @@ final class AllUtilsCoveredTest extends UnitTestCase {
     }
 
     public function testAllModulesUtilsCovered(): void {
-        $src_path = __DIR__.'/../../../src/';
+        $src_path = __DIR__.'/../../../public/_/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $utils_folders = glob("{$src_realpath}/*/utils/");

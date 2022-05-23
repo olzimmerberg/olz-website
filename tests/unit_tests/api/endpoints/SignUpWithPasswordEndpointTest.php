@@ -10,12 +10,12 @@ require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
-require_once __DIR__.'/../../../../src/api/endpoints/SignUpWithPasswordEndpoint.php';
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/model/index.php';
-require_once __DIR__.'/../../../../src/utils/auth/StravaUtils.php';
-require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../public/_/api/endpoints/SignUpWithPasswordEndpoint.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/model/index.php';
+require_once __DIR__.'/../../../../public/_/utils/auth/StravaUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSignUpWithPasswordEndpointAuthRequestRepository {

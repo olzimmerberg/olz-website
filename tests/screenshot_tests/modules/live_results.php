@@ -2,11 +2,11 @@
 
 namespace Facebook\WebDriver;
 
-require_once __DIR__.'/../../../src/config/date.php';
+require_once __DIR__.'/../../../public/_/config/date.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $startseite_url = '/startseite.php';
-$live_file_path = './dev-server/results/_live.json';
+$live_file_path = './public/results/_live.json';
 
 function test_live_results($driver, $base_url) {
     global $live_file_path, $startseite_url;

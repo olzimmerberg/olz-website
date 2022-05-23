@@ -10,13 +10,13 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
  */
 final class DevDataTest extends IntegrationTestCase {
     private $dev_data_path = __DIR__.'/../document-root/';
-    private $dev_db_structure_path = __DIR__.'/../../../src/tools/dev-data/db_structure.sql';
-    private $dev_db_content_path = __DIR__.'/../../../src/tools/dev-data/db_content.sql';
+    private $dev_db_structure_path = __DIR__.'/../../../public/_/tools/dev-data/db_structure.sql';
+    private $dev_db_content_path = __DIR__.'/../../../public/_/tools/dev-data/db_content.sql';
 
     public function testInitAndDump(): void {
         global $db;
-        require_once __DIR__.'/../../../src/config/database.php';
-        require_once __DIR__.'/../../../src/tools/dev_data.php';
+        require_once __DIR__.'/../../../public/_/config/database.php';
+        require_once __DIR__.'/../../../public/_/tools/dev_data.php';
 
         $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
         $old_dev_db_content = file_get_contents($this->dev_db_content_path);
@@ -39,8 +39,8 @@ final class DevDataTest extends IntegrationTestCase {
 
     public function testDumpIsFromCurrentMigration(): void {
         global $db;
-        require_once __DIR__.'/../../../src/config/database.php';
-        require_once __DIR__.'/../../../src/tools/dev_data.php';
+        require_once __DIR__.'/../../../public/_/config/database.php';
+        require_once __DIR__.'/../../../public/_/tools/dev_data.php';
 
         $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
         $old_dev_db_content = file_get_contents($this->dev_db_content_path);

@@ -10,10 +10,10 @@ require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
-require_once __DIR__.'/../../../../src/api/endpoints/OnTelegramEndpoint.php';
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/model/TelegramLink.php';
-require_once __DIR__.'/../../../../src/model/User.php';
+require_once __DIR__.'/../../../../public/_/api/endpoints/OnTelegramEndpoint.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/model/TelegramLink.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnTelegramEndpointTelegramLinkRepository {

@@ -11,5 +11,6 @@ module.exports = {
         'max-nesting-depth': 10,
         'selector-max-id': 3,
         'selector-no-qualifying-type': null,
+        'selector-max-compound-selectors': 5,
     },
 };

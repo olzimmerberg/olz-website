@@ -1,0 +1,11 @@
+#update-user-avatar-modal {
+    .hidden {
+        display: none;
+    }
+
+    .cropper-container {
+        height: 300px;
+        position: relative;
+        width: 100%;
+    }
+}

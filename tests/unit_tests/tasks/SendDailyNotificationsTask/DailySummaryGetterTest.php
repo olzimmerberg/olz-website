@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/news/model/NewsEntry.php';
-require_once __DIR__.'/../../../../src/model/Blog.php';
-require_once __DIR__.'/../../../../src/model/Forum.php';
-require_once __DIR__.'/../../../../src/model/Galerie.php';
-require_once __DIR__.'/../../../../src/model/User.php';
-require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
-require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/news/model/NewsEntry.php';
+require_once __DIR__.'/../../../../public/_/model/Blog.php';
+require_once __DIR__.'/../../../../public/_/model/Forum.php';
+require_once __DIR__.'/../../../../public/_/model/Galerie.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
+require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

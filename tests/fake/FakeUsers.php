@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../src/model/User.php';
+require_once __DIR__.'/../../public/_/model/User.php';
 require_once __DIR__.'/FakeFactory.php';
 
 class FakeUsers extends FakeFactory {

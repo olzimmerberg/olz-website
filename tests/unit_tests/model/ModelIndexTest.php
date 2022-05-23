@@ -11,7 +11,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 final class ModelIndexTest extends UnitTestCase {
     public function testAllModelsImportedInEachModuleIndex(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../src/config/doctrine.php';
+        require_once __DIR__.'/../../../public/_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
         foreach ($doctrine_model_folders as $model_path) {
@@ -37,18 +37,18 @@ final class ModelIndexTest extends UnitTestCase {
             foreach ($model_files as $model_file) {
                 $pattern = '/require_once __DIR__\\.\'\/'.preg_quote($model_file).'\';/';
                 $res = preg_match($pattern, $index_content, $matches);
-                $this->assertSame(1, $res, "Missing import for {$model_file} in src/model/index.php");
+                $this->assertSame(1, $res, "Missing import for {$model_file} in public/_/model/index.php");
             }
         }
     }
 
     public function testAllModulesImportedInMainIndex(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../src/config/doctrine.php';
+        require_once __DIR__.'/../../../public/_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
-        $src_path = __DIR__.'/../../../src/';
-        $main_model_path = __DIR__.'/../../../src/model/';
+        $src_path = __DIR__.'/../../../public/_/';
+        $main_model_path = __DIR__.'/../../../public/_/model/';
         $this->assertTrue(is_dir($src_path));
         $this->assertTrue(is_dir($main_model_path));
         $src_realpath = realpath($src_path);
@@ -64,16 +64,16 @@ final class ModelIndexTest extends UnitTestCase {
             $model_path_pattern = str_replace('/', '\/', preg_quote($model_path_from_src));
             $pattern = '/require_once __DIR__\\.\'\/\\.\\.'.$model_path_pattern.'\/index\\.php\';/';
             $res = preg_match($pattern, $main_index_content, $matches);
-            $this->assertSame(1, $res, "Missing import for {$model_path_from_src} in src/model/index.php");
+            $this->assertSame(1, $res, "Missing import for {$model_path_from_src} in public/_/model/index.php");
         }
     }
 
     public function testAllModulesListedInDoctrine(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../src/config/doctrine.php';
+        require_once __DIR__.'/../../../public/_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
-        $src_path = __DIR__.'/../../../src/';
+        $src_path = __DIR__.'/../../../public/_/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $model_folder_indexes = glob("{$src_realpath}/*/model/index.php");

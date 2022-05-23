@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/utils/auth/AuthUtils.php';
-require_once __DIR__.'/../../../../src/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../public/_/utils/auth/AuthUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeLogger.php';

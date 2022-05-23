@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {assertUnreachable, getErrorOrThrow} from '../../../src/utils/generalUtils';
+import {assertUnreachable, getErrorOrThrow} from '../../../public/_/utils/generalUtils';
 
 describe('assertUnreachable', () => {
     it('works if it is unreachable', () => {

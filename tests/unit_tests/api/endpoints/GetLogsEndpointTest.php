@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/api/endpoints/GetLogsEndpoint.php';
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../public/_/api/endpoints/GetLogsEndpoint.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 

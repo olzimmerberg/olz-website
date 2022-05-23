@@ -2,12 +2,16 @@
   "name": "olzimmerberg/olz-website",
   "type": "project",
   "config": {
-    "platform": {
-      "php": "8.0"
-    },
     "allow-plugins": {
-      "composer/package-versions-deprecated": false
-    }
+      "composer/package-versions-deprecated": false,
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "optimize-autoloader": true,
+    "preferred-install": {
+        "*": "dist"
+    },
+    "sort-packages": true
   },
   "license": "MIT",
   "authors": [
@@ -31,19 +35,35 @@
     "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
     "to_external_id": "php ./tools/scripts/to_external_id.php",
-    "unit_tests": "./tools/scripts/unit_tests.sh"
+    "unit_tests": "./tools/scripts/unit_tests.sh",
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+        "@auto-scripts"
+    ],
+    "post-update-cmd": [
+        "@auto-scripts"
+    ]
   },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.4",
-    "phpunit/phpunit": "^9",
-    "php-webdriver/webdriver": "^1.8"
+    "paragonie/sodium_compat": "^1.17",
+    "php-webdriver/webdriver": "^1.8",
+    "phpunit/phpunit": "^9"
   },
   "require": {
+    "php": ">=8.0.2",
     "allestuetsmerweh/php-deploy": "^1.0",
     "allestuetsmerweh/php-typescript-api": "^1.0",
     "doctrine/cache": "^1.1",
     "doctrine/orm": "^2.6.2",
     "doctrine/migrations": "^3.0",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
     "ifsnop/mysqldump-php": "^2.9",
     "league/commonmark": "^2.1",
     "league/flysystem": "^2.4",
@@ -53,10 +73,43 @@
     "phpmailer/phpmailer": "^6.2",
     "psr/log": "^1.1",
     "sabre/dav": "^4.3",
+    "symfony/apache-pack": "^1.0",
+    "symfony/console": "6.0.*",
+    "symfony/dotenv": "6.0.*",
     "symfony/filesystem": "^5.4",
+    "symfony/flex": "^2",
+    "symfony/framework-bundle": "6.0.*",
+    "symfony/http-client": "6.0.*",
+    "symfony/monolog-bundle": "^3.8",
+    "symfony/runtime": "6.0.*",
+    "symfony/yaml": "6.0.*",
     "doctrine/annotations": "^1.13"
   },
   "autoload": {
-    "psr-0": {"": "src/model/"}
+    "psr-4": {
+        "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+        "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php80": "*"
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+      "symfony": {
+          "allow-contrib": false,
+          "require": "6.0.*"
+      }
   }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../src/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../src/model/User.php';
-require_once __DIR__.'/../../../../src/tasks/SendDailyNotificationsTask/Notification.php';
+require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

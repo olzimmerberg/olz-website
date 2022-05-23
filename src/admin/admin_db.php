@@ -557,7 +557,7 @@ if (($do ?? null) == 'submit') {
         ];
         $page_link = $page_links[$db_table];
         $mail_text = ucfirst($db_table)." OL Zimmerberg\n************************\n";
-        $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\n";
+        $mail_header = "From: OL Zimmerberg <".$db_table."@olzimmerberg.ch>\nContent-Type: text/plain; charset=UTF-8\n";
         $mail_subject = "OL Zimmerberg - ".ucfirst($db_table);
         $mail_adress = [ // Kontrollmail
             "u.utzinger@sunrise.ch",

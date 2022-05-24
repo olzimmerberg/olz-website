@@ -3,21 +3,30 @@
 use League\Flysystem\PhpseclibV2\SftpAdapter;
 use League\Flysystem\PhpseclibV2\SftpConnectionProvider;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Logger;
 use PhpDeploy\AbstractDefaultDeploy;
 
 require_once __DIR__.'/vendor/autoload.php';
 
 class Deploy extends AbstractDefaultDeploy {
+    use \Psr\Log\LoggerAwareTrait;
+
     protected function populateFolder() {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
 
+        $this->logger->info("Remove jsbuild...");
         $fs->remove(__DIR__.'/public/_/jsbuild');
+        $this->logger->info("Webpack build...");
         shell_exec('npm run webpack-build');
+        $this->logger->info("Remove node_modules...");
         $fs->remove(__DIR__.'/node_modules');
+        $this->logger->info("Copy to build...");
         $fs->mirror(__DIR__, $build_folder_path);
 
         // Zip live uploader, such that it can be downloaded as zip file.
+        $this->logger->info("Zip live_results...");
         $results_path = "{$build_folder_path}/public/_/resultate";
         $live_uploader_path = "{$results_path}/live_uploader";
         $zip_path = "{$results_path}/live_uploader.zip";
@@ -36,6 +45,8 @@ class Deploy extends AbstractDefaultDeploy {
             }
         }
         $zip->close();
+
+        $this->logger->info("Done populating build folder.");
     }
 
     protected function getFlysystemFilesystem() {
@@ -84,8 +95,12 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function install($public_path) {
         $fs = new Symfony\Component\Filesystem\Filesystem();
+
+        $this->logger->info("Prepare for installation...");
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/public/_/config/vendor');
+
+        $this->logger->info("Install...");
         $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
         $index_path = "{$public_path}/index.php";
         $index_contents = file_get_contents(__DIR__.'/public/index.php');
@@ -100,10 +115,14 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->rename(__DIR__.'/public/_', "{$public_path}/_");
         $fs->mkdir("{$public_path}/_/screenshots/generated");
         $fs->remove("{$public_path}/_old");
+        $this->logger->info("Install done.");
     }
 }
 
 if (isset($_SERVER['argv']) && basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
     $deploy = new Deploy();
+    $logger = new Logger('deploy');
+    $logger->pushHandler(new ErrorLogHandler());
+    $deploy->setLogger($logger);
     $deploy->cli();
 }

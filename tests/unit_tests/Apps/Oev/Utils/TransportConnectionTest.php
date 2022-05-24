@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/oev/utils/TransportConnection.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Oev\Utils\TransportConnection;
+
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 require_once __DIR__.'/TransportSectionTest.php';
 
 /**
@@ -33,8 +34,8 @@ final class TransportConnectionTest extends UnitTestCase {
         );
     }
 
-    public function testParseFromTransportApi(): void {
-        $object = TransportConnection::parseFromTransportApi(self::SAMPLE_API_CONNECTION);
+    public function testFromTransportApi(): void {
+        $object = TransportConnection::fromTransportApi(self::SAMPLE_API_CONNECTION);
         $sections = $object->getSections();
         $this->assertSame([[16, 14, 15]], array_map(function ($section) {
             return array_map(function ($halt) {
@@ -48,18 +49,18 @@ final class TransportConnectionTest extends UnitTestCase {
                     'departure' => [
                         'stationId' => 16,
                         'stationName' => 'Station-sous-test',
-                        'time' => null,
+                        'time' => '2022-05-17 14:12:54',
                     ],
                     'arrival' => [
                         'stationId' => 15,
                         'stationName' => 'Testwil',
-                        'time' => null,
+                        'time' => '2022-05-17 15:03:13',
                     ],
                     'passList' => [
                         [
                             'stationId' => 14,
                             'stationName' => 'Testingen',
-                            'time' => null,
+                            'time' => '2022-05-17 14:46:14',
                         ],
                     ],
                     'isWalk' => false,

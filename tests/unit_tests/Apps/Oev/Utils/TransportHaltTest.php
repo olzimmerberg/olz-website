@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/oev/utils/TransportHalt.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Oev\Utils\TransportHalt;
+
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
@@ -57,7 +58,7 @@ final class TransportHaltTest extends UnitTestCase {
     }
 
     public function testTransportHalt(): void {
-        $object = TransportHalt::parseFromTransportApi(self::SAMPLE_API_HALT);
+        $object = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT);
         $this->assertSame(14, $object->getStationId());
         $this->assertSame('Testingen', $object->getStationName());
         $this->assertSame(1652791574, $object->getTimeSeconds());
@@ -66,7 +67,7 @@ final class TransportHaltTest extends UnitTestCase {
         $this->assertSame([
             'stationId' => 14,
             'stationName' => 'Testingen',
-            'time' => null,
+            'time' => '2022-05-17 14:46:14',
         ], $object->getFieldValue());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Oev\Utils;
+
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -62,16 +64,32 @@ class TransportSuggestion {
         return $this->mainConnection;
     }
 
+    public function setMainConnection($new_main_connection) {
+        $this->mainConnection = $new_main_connection;
+    }
+
     public function getSideConnections() {
         return $this->sideConnections;
+    }
+
+    public function addSideConnection($new_side_connection) {
+        $this->sideConnections[] = $new_side_connection;
     }
 
     public function getOriginInfo() {
         return $this->originInfo;
     }
 
+    public function setOriginInfo($new_origin_info) {
+        $this->originInfo = $new_origin_info;
+    }
+
     public function getDebug() {
         return $this->debug;
+    }
+
+    public function addDebug($line) {
+        $this->debug[] = $line;
     }
 
     public function generateOriginInfo($origin_stations) {

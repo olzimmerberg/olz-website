@@ -19,6 +19,6 @@ if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
 // Session start
 function session_start_if_cookie_set() {
     if (isset($_COOKIE[session_name()])) {
-        session_start();
+        @session_start();
     }
 }

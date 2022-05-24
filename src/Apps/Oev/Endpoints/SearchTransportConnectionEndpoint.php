@@ -1,17 +1,19 @@
 <?php
 
+namespace Olz\Apps\Oev\Endpoints;
+
+use Olz\Apps\Oev\Utils\CoordinateUtils;
+use Olz\Apps\Oev\Utils\TransportConnection;
+use Olz\Apps\Oev\Utils\TransportSuggestion;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../api/OlzEndpoint.php';
-require_once __DIR__.'/../utils/CoordinateUtils.php';
-require_once __DIR__.'/../utils/TransportSuggestion.php';
-require_once __DIR__.'/../utils/TransportConnection.php';
+require_once __DIR__.'/../../../../_/api/OlzEndpoint.php';
 
-class SearchTransportConnectionEndpoint extends OlzEndpoint {
+class SearchTransportConnectionEndpoint extends \OlzEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     public function __construct() {
-        $filename = __DIR__.'/../../shared/olz_transit_stations.json';
+        $filename = __DIR__.'/../../../../_/shared/olz_transit_stations.json';
         $content = file_get_contents($filename);
         $data = json_decode($content, true);
         $this->originStations = $data;
@@ -19,8 +21,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
 
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../fetchers/TransportApiFetcher.php';
-        $transport_api_fetcher = new TransportApiFetcher();
+        require_once __DIR__.'/../../../../_/fetchers/TransportApiFetcher.php';
+        $transport_api_fetcher = new \TransportApiFetcher();
         $this->setTransportApiFetcher($transport_api_fetcher);
     }
 
@@ -73,10 +75,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $suggestions = [];
         foreach ($all_connections as $main_connection) {
             $suggestion = new TransportSuggestion();
-            $suggestion->mainConnection = $main_connection;
-            $suggestion->sideConnections = [];
-            $suggestion->originInfo = [];
-            $suggestion->debug = [];
+            $suggestion->setMainConnection($main_connection);
 
             $result = $this->processMainConnection($main_connection);
             // For each station on the main connection, the departure time:
@@ -84,10 +83,10 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             // For each origin station, the departure time using the main connection:
             $latest_departure_by_station_id = $result['latest_departure_by_station_id'];
 
-            $suggestion->debug[] = "Latest joining time by station id:";
-            $suggestion->debug[] = json_encode($latest_joining_time_by_station_id, JSON_PRETTY_PRINT);
-            $suggestion->debug[] = "Latest departure time by station id:";
-            $suggestion->debug[] = json_encode($latest_departure_by_station_id, JSON_PRETTY_PRINT);
+            $suggestion->addDebug("Latest joining time by station id:");
+            $suggestion->addDebug(json_encode($latest_joining_time_by_station_id, JSON_PRETTY_PRINT));
+            $suggestion->addDebug("Latest departure time by station id:");
+            $suggestion->addDebug(json_encode($latest_departure_by_station_id, JSON_PRETTY_PRINT));
 
             foreach ($all_connections as $connection) {
                 $joining_station_id = $this->getJoiningStationFromConnection(
@@ -110,17 +109,17 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                             'connection' => $connection,
                             'joiningStationId' => $joining_station_id,
                         ];
-                        $suggestion->sideConnections[] = $side_connection;
+                        $suggestion->addSideConnection($side_connection);
                     }
                 }
             }
 
             $origin_info = $suggestion->getOriginInfo($this->originStations);
-            $suggestion->originInfo = $origin_info;
+            $suggestion->setOriginInfo($origin_info);
             foreach ($origin_info as $station_info) {
                 $station_name = $station_info['halt']['stationName'];
                 $rating = $station_info['rating'];
-                $suggestion->debug[] = "Station info {$station_name} {$rating}";
+                $suggestion->addDebug("Station info {$station_name} {$rating}");
             }
 
             $all_stations_covered = true;
@@ -133,6 +132,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 $suggestions[] = $suggestion->getFieldValue();
             }
         }
+
         return ['status' => 'OK', 'suggestions' => $suggestions];
     }
 
@@ -162,21 +162,22 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 throw new \Exception('Request to transport API failed');
             }
             foreach ($api_connections as $api_connection) {
-                $connection = TransportConnection::parseFromTransportApi($api_connection);
-                $sections = $connection->sections ?? [];
+                $connection = TransportConnection::fromTransportApi($api_connection);
+                $sections = $connection->getSections() ?? [];
                 foreach ($sections as $section) {
                     $halts = $section->getHalts();
                     foreach ($halts as $halt) {
-                        $is_covered_by_station_id[$halt->stationId] = true;
+                        $halt_station_id = $halt->getStationId();
+                        $is_covered_by_station_id[$halt_station_id] = true;
                         $connections_from_halt =
-                            $connections_by_origin_station_id[$halt->stationId] ?? [];
+                        $connections_by_origin_station_id[$halt_station_id] ?? [];
                         $relevant_connections_from_halt = array_values(array_filter(
                             $connections_from_halt,
                             function ($connection_from_halt) use ($connection) {
                                 return !$connection->isSuperConnectionOf($connection_from_halt);
                             }
                         ));
-                        $connections_by_origin_station_id[$halt->stationId] =
+                        $connections_by_origin_station_id[$halt_station_id] =
                             $relevant_connections_from_halt;
                     }
                 }
@@ -245,12 +246,12 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
 
         $latest_joining_time_by_station_id = [];
 
-        $sections = $main_connection->sections ?? [];
+        $sections = $main_connection->getSections() ?? [];
         foreach ($sections as $section) {
             $halts = $section->getHalts();
             foreach ($halts as $halt) {
-                $station_id = $halt->stationId;
-                $time = $halt->timeSeconds ?? 0;
+                $station_id = $halt->getStationId();
+                $time = $halt->getTimeSeconds() ?? 0;
                 if (($latest_joining_time_by_station_id[$station_id] ?? 0) < $time) {
                     $latest_joining_time_by_station_id[$station_id] = $time;
                 }
@@ -275,8 +276,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $look_for_joining_station = true;
         $halts = $connection->getFlatHalts();
         foreach ($halts as $halt) {
-            $station_id = $halt->stationId;
-            $time = $halt->timeSeconds;
+            $station_id = $halt->getStationId();
+            $time = $halt->getTimeSeconds();
             $latest_joining_at_station =
                 $latest_joining_time_by_station_id[$station_id] ?? $time;
             $can_join_at_station =
@@ -301,8 +302,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $is_before_joining = true;
         $halts = $connection->getFlatHalts();
         foreach ($halts as $halt) {
-            $station_id = $halt->stationId;
-            $time = $halt->timeSeconds;
+            $station_id = $halt->getStationId();
+            $time = $halt->getTimeSeconds();
             if ($station_id === $joining_station_id) {
                 $is_before_joining = false;
             }

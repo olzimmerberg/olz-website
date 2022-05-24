@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/oev/endpoints/SearchTransportConnectionEndpoint.php';
-require_once __DIR__.'/../../../fake/fake_role.php';
-require_once __DIR__.'/../../../fake/FakeUsers.php';
-require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
-require_once __DIR__.'/../../../fake/FakeLogger.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
+
+require_once __DIR__.'/../../../../fake/fake_role.php';
+require_once __DIR__.'/../../../../fake/FakeUsers.php';
+require_once __DIR__.'/../../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../../fake/FakeLogger.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher {
     public function fetchConnection($request_data) {
@@ -51,9 +52,22 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'arrival' => '2021-09-22 09:00:00',
         ]);
 
-        // echo json_encode($result,  JSON_PRETTY_PRINT);
-        // $this->assertSame([], $result);
-        $this->assertSame(1, 1);
+        $this->assertSame('OK', $result['status']);
+        $this->assertSame(8, count($result['suggestions']));
+        $suggestion0 = $result['suggestions'][0];
+        $this->assertSame(1, count($suggestion0['mainConnection']['sections']));
+        $this->assertSame([2, 3], array_map(function ($side_connection) {
+            return count($side_connection['connection']['sections']);
+        }, $suggestion0['sideConnections']));
+        $this->assertSame(['8503202', '8503000'], array_map(function ($side_connection) {
+            return $side_connection['joiningStationId'];
+        }, $suggestion0['sideConnections']));
+        $this->assertSame([], $suggestion0['originInfo']);
+
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testSearchTransportConnectionEndpointExample2(): void {
@@ -71,9 +85,12 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'arrival' => '2021-10-01 13:15:00',
         ]);
 
-        // echo json_encode($result,  JSON_PRETTY_PRINT);
-        // $this->assertSame([], $result);
-        $this->assertSame(1, 1);
+        $this->assertSame('OK', $result['status']);
+        $this->assertSame(0, count($result['suggestions']));
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testSearchTransportConnectionEndpointFailingRequest(): void {
@@ -91,7 +108,18 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'arrival' => '2021-10-01 13:15:00',
         ]);
 
-        $this->assertSame(['status' => 'ERROR', 'suggestions' => null], $result);
+        $this->assertSame([
+            'status' => 'ERROR',
+            'suggestions' => null,
+        ], $result);
+        $this->assertSame([
+            'INFO Valid user request',
+            'ERROR Exception: Unmocked transport API request: {"from":"8503207","to":"inexistent","date":"2021-10-01","time":"13:15","isArr',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords(function ($record, $level_name, $message) {
+            $cropped_message = substr($message, 0, 120);
+            return "{$level_name} {$cropped_message}";
+        }));
     }
 
     public function testSearchTransportConnectionEndpointNoAccess(): void {
@@ -107,6 +135,13 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'arrival' => '2021-10-01 13:15:00',
         ]);
 
-        $this->assertSame(['status' => 'ERROR', 'suggestions' => null], $result);
+        $this->assertSame([
+            'status' => 'ERROR',
+            'suggestions' => null,
+        ], $result);
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
     }
 }

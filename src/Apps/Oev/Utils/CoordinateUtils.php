@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Oev\Utils;
+
 use Olz\Utils\WithUtilsTrait;
 
 class CoordinateUtils {

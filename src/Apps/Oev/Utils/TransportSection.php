@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Oev\Utils;
+
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -12,6 +14,7 @@ class TransportSection {
     protected $departure;
     protected $arrival;
     protected $passList = [];
+    protected $isWalk;
 
     public static function getField() {
         $halt_field = TransportHalt::getField();
@@ -28,31 +31,35 @@ class TransportSection {
         ]);
     }
 
-    public static function parseFromTransportApi($api_section) {
+    public static function fromTransportApi($api_section) {
         $section = new self();
-        $section->isWalk = (
+        $section->parseFromTransportApi($api_section);
+        return $section;
+    }
+
+    protected function parseFromTransportApi($api_section) {
+        $this->isWalk = (
             ($api_section['journey'] ?? null) === null
             && $api_section['walk']
         );
-        $section->departure = TransportHalt::parseFromTransportApi($api_section['departure']);
-        $section->arrival = TransportHalt::parseFromTransportApi($api_section['arrival']);
-        $section->passList = [];
+        $this->departure = TransportHalt::fromTransportApi($api_section['departure']);
+        $this->arrival = TransportHalt::fromTransportApi($api_section['arrival']);
+        $this->passList = [];
 
         $pass_list = $api_section['journey']['passList'] ?? [];
         foreach ($pass_list as $pass_location) {
-            $halt = TransportHalt::parseFromTransportApi($pass_location);
-            if ($halt->getStationId() === $section->departure->getStationId()) {
+            $halt = TransportHalt::fromTransportApi($pass_location);
+            if ($halt->getStationId() === $this->departure->getStationId()) {
                 continue;
             }
-            if ($halt->getStationId() === $section->arrival->getStationId()) {
+            if ($halt->getStationId() === $this->arrival->getStationId()) {
                 continue;
             }
             if (!$halt->getTimeSeconds()) {
                 continue;
             }
-            $section->passList[] = $halt;
+            $this->passList[] = $halt;
         }
-        return $section;
     }
 
     public function getFieldValue() {

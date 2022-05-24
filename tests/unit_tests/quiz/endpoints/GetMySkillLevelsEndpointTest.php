@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillLevel;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -32,7 +34,7 @@ class FakeGetMySkillLevelsEndpointSkillRepository {
             return [$skill_4, $skill_5];
         }
         $category_ids_json = json_encode($category_ids);
-        throw new Exception("Not mocked: {$category_ids_json}");
+        throw new \Exception("Not mocked: {$category_ids_json}");
     }
 }
 
@@ -64,7 +66,7 @@ class FakeGetMySkillLevelsEndpointSkillLevelRepository {
             return [$skill_level_4];
         }
         $category_ids_json = json_encode($category_ids);
-        throw new Exception("Not mocked: {$category_ids_json}");
+        throw new \Exception("Not mocked: {$category_ids_json}");
     }
 }
 
@@ -101,9 +103,9 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query['any'] = true;
         $entity_manager = new FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories['Skill'] = $skill_repo;
+        $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
+        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $logger = new Logger('GetMySkillLevelsEndpointTest');
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -130,9 +132,9 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query['any'] = true;
         $entity_manager = new FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories['Skill'] = $skill_repo;
+        $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
+        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $logger = new Logger('GetMySkillLevelsEndpointTest');
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);

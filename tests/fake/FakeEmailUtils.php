@@ -51,7 +51,7 @@ class FakeMailbox {
         if ($query === 'ALL') {
             return array_keys($this->mail_dict);
         }
-        throw new Exception("Expected 'ALL' query to searchMailbox");
+        throw new \Exception("Expected 'ALL' query to searchMailbox");
     }
 
     public function getMail($mail_id, $should_mark_read) {
@@ -86,7 +86,7 @@ class FakeOlzMailer {
         $text_provokes_error = str_contains(
             $this->email_to_send[2], 'provoke_error');
         if ($title_provokes_error || $text_provokes_error) {
-            throw new Exception("Provoked Error");
+            throw new \Exception("Provoked Error");
         }
         $this->emails_sent[] = $this->email_to_send;
     }

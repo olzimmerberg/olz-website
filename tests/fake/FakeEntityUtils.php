@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../_/config/vendor/autoload.php';
+use App\Entity\OlzEntity;
 
 class FakeEntityUtils {
     public $create_olz_entity_calls = [];

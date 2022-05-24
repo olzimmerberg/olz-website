@@ -2,7 +2,6 @@
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../model/OlzEntity.php';
 require_once __DIR__.'/OlzEndpoint.php';
 
 abstract class OlzEntityEndpoint extends OlzEndpoint {

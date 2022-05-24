@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../model/SolvEvent.php';
+use App\Entity\SolvEvent;
 
 class SolvEventParser {
     public $solv_entryportals = [

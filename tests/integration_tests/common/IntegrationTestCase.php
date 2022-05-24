@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 require_once __DIR__.'/../../../_/config/vendor/autoload.php';
 
@@ -10,12 +10,12 @@ require_once __DIR__.'/../../../_/config/vendor/autoload.php';
  * @internal
  * @coversNothing
  */
-class IntegrationTestCase extends TestCase {
+class IntegrationTestCase extends KernelTestCase {
     private $previous_document_root;
     private static $is_first_call = true;
 
     protected function setUp(): void {
-        global $_SERVER;
+        global $_SERVER, $entityManager;
         $this->previous_server = $_SERVER;
         $_SERVER = [
             'DOCUMENT_ROOT' => realpath(__DIR__.'/../document-root/'),
@@ -26,6 +26,9 @@ class IntegrationTestCase extends TestCase {
             $this->resetDb();
             $this::$is_first_call = false;
         }
+
+        $kernel = self::bootKernel();
+        $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
     }
 
     protected function tearDown(): void {

@@ -1,10 +1,11 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\SolvEvent;
+use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
-require_once __DIR__.'/../../termine/model/Termin.php';
 
 class DeadlineWarningGetter {
     use \Psr\Log\LoggerAwareTrait;
@@ -26,13 +27,13 @@ class DeadlineWarningGetter {
         if ($days_arg <= 0 || $days_arg > 7) {
             return null;
         }
-        $given_days = DateInterval::createFromDateString("+{$days_arg} days");
-        $in_given_days = (new DateTime($this->dateUtils->getIsoToday()))->add($given_days);
+        $given_days = \DateInterval::createFromDateString("+{$days_arg} days");
+        $in_given_days = (new \DateTime($this->dateUtils->getIsoToday()))->add($given_days);
 
         $termin_repo = $this->entityManager->getRepository(Termin::class);
         $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('deadline', new DateTime($in_given_days->format('Y-m-d'))))
+            ->where(Criteria::expr()->eq('deadline', new \DateTime($in_given_days->format('Y-m-d'))))
             ->orderBy(['date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)

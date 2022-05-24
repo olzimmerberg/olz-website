@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\Role;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/config/init.php';
@@ -10,7 +11,6 @@ require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/client/HttpUtils.php';
 require_once __DIR__.'/utils/env/EnvUtils.php';
 $env_utils = EnvUtils::fromEnv();

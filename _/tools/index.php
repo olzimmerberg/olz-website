@@ -57,10 +57,10 @@ function run_command($command, $callback, $args) {
     LogsUtils::activateLogger($logger);
     try {
         if (!is_callable($callback)) {
-            throw new Exception('callback not callable');
+            throw new \Exception('callback not callable');
         }
         if (!is_array($args)) {
-            throw new Exception('args is not an array');
+            throw new \Exception('args is not an array');
         }
         call_user_func_array($callback, $args);
         echo "{$command}:SUCCESS";

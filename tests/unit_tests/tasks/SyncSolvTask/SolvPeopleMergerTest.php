@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvPerson;
+use App\Entity\SolvResult;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_person.php';
@@ -56,9 +58,9 @@ final class SolvPeopleMergerTest extends UnitTestCase {
     public function testSolvPeopleMerger(): void {
         $entity_manager = new FakeEntityManager();
         $solv_person_repo = new FakeSolvPeopleMergerSolvPersonRepository();
-        $entity_manager->repositories['SolvPerson'] = $solv_person_repo;
+        $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
         $solv_result_repo = new FakeSolvPeopleMergerSolvResultRepository();
-        $entity_manager->repositories['SolvResult'] = $solv_result_repo;
+        $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
         $logger = new Logger('SolvPeopleMergerTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
@@ -69,7 +71,7 @@ final class SolvPeopleMergerTest extends UnitTestCase {
         $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(0, count($flushed));
 
-        $solv_result_repo = $entity_manager->getRepository('SolvResult');
+        $solv_result_repo = $entity_manager->getRepository(SolvResult::class);
         $this->assertSame([['old' => 2, 'new' => 1]], $solv_result_repo->merged);
     }
 }

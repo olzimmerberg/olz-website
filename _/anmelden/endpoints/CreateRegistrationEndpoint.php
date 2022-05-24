@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Anmelden\Registration;
+use App\Entity\Anmelden\RegistrationInfo;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';
@@ -25,8 +27,8 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
         $this->entityUtils->createOlzEntity($registration, $input['meta']);
         $registration->setTitle($input_data['title']);
         $registration->setDescription($input_data['description']);
-        $registration->setOpensAt($input_data['opensAt'] ? new DateTime($input_data['opensAt']) : null);
-        $registration->setClosesAt($input_data['closesAt'] ? new DateTime($input_data['closesAt']) : null);
+        $registration->setOpensAt($input_data['opensAt'] ? new \DateTime($input_data['opensAt']) : null);
+        $registration->setClosesAt($input_data['closesAt'] ? new \DateTime($input_data['closesAt']) : null);
 
         $this->entityManager->persist($registration);
 

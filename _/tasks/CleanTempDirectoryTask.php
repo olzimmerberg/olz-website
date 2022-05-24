@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__.'/../model/index.php';
 require_once __DIR__.'/common/BackgroundTask.php';
 
 class CleanTempDirectoryTask extends BackgroundTask {

@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__.'/../../_/model/User.php';
+use App\Entity\User;
+
 require_once __DIR__.'/FakeFactory.php';
 
 class FakeUsers extends FakeFactory {

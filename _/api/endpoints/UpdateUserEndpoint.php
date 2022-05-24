@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 
@@ -55,9 +56,9 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
 
-        $new_birthdate = $input['birthdate'] ? new DateTime($input['birthdate']) : null;
+        $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setUsername($new_username);

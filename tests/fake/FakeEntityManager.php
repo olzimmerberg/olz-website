@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\User;
+
 class FakeEntityManager {
     public const AUTO_INCREMENT_ID = 270;
 
@@ -13,12 +15,16 @@ class FakeEntityManager {
     public function __construct() {
         require_once __DIR__.'/FakeUserRepository.php';
         $this->repositories = [
-            'User' => new FakeUserRepository(),
+            User::class => new FakeUserRepository(),
         ];
     }
 
     public function getRepository($class) {
-        return $this->repositories[$class] ?? null;
+        $repo = $this->repositories[$class] ?? null;
+        if (!$repo) {
+            throw new \Exception("Repository was not mocked: {$class}");
+        }
+        return $repo;
     }
 
     public function persist($object) {

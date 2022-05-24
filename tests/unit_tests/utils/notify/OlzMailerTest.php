@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../_/utils/notify/OlzMailer.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';

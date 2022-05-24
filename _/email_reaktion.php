@@ -13,7 +13,6 @@ echo olz_header([
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/notify/EmailUtils.php';
 
 $email_utils = EmailUtils::fromEnv();

@@ -12,7 +12,7 @@ class FakeIdUtils {
     public function toInternalId($external_id, $type = '') {
         $res = preg_match('/^(.+):([0-9]+)$/', $external_id, $matches);
         if (!$res || $matches[1] !== $type) {
-            throw new Exception("Invalid serialized ID: Type mismatch");
+            throw new \Exception("Invalid serialized ID: Type mismatch");
         }
         return intval($matches[2]);
     }

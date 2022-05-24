@@ -60,7 +60,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         }
 
         $destination = $input['destination'];
-        $arrival_datetime = new DateTime($input['arrival']);
+        $arrival_datetime = new \DateTime($input['arrival']);
         try {
             $all_connections =
                 $this->getConnectionsFromOriginsToDestination(
@@ -159,7 +159,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             ]);
             $api_connections = $connection_response['connections'] ?? null;
             if ($api_connections === null) {
-                throw new Exception('Request to transport API failed');
+                throw new \Exception('Request to transport API failed');
             }
             foreach ($api_connections as $api_connection) {
                 $connection = TransportConnection::parseFromTransportApi($api_connection);

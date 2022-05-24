@@ -1,12 +1,13 @@
 <?php
 
+use App\Entity\User;
+
 function olz_account_menu($args = []): string {
     global $_CONFIG, $entityManager;
     $out = '';
 
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
-    require_once __DIR__.'/../../../model/index.php';
 
     $user_repo = $entityManager->getRepository(User::class);
     $username = ($_SESSION['user'] ?? null);

@@ -10,9 +10,9 @@ class FakeThrottlingRepository {
             if (!$this->last_daily_notifications) {
                 return null;
             }
-            return new DateTime($this->last_daily_notifications);
+            return new \DateTime($this->last_daily_notifications);
         }
-        throw new Exception("this should never happen");
+        throw new \Exception("this should never happen");
     }
 
     public function recordOccurrenceOf($event_name, $datetime) {

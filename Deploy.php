@@ -86,7 +86,7 @@ class Deploy extends AbstractDefaultDeploy {
         if ($this->environment === 'prod') {
             return "https://olzimmerberg.ch";
         }
-        throw new Exception("Environment must be `test` or `prod`");
+        throw new \Exception("Environment must be `test` or `prod`");
     }
 
     public function getRemotePrivatePath() {

@@ -88,6 +88,6 @@ abstract class AbstractDateUtils {
             require_once __DIR__.'/LiveDateUtils.php';
             return new LiveDateUtils();
         }
-        throw new Exception("Invalid DateUtils class name: {$class_name}");
+        throw new \Exception("Invalid DateUtils class name: {$class_name}");
     }
 }

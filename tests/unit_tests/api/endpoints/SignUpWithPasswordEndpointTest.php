@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\AuthRequest;
+use App\Entity\User;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -11,8 +13,6 @@ require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../_/api/endpoints/SignUpWithPasswordEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/index.php';
 require_once __DIR__.'/../../../../_/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
@@ -151,7 +151,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForNewUser(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -182,19 +182,19 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'timestamp' => null,
                 'username' => 'fakeUsername',
             ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         // TODO: Check created user!
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $user_repo->userToBeFound = $existing_user;
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -225,17 +225,19 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'timestamp' => null,
                 'username' => 'fakeUsername',
             ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
         $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
         $user_repo->userToBeFound = $existing_user;
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -270,7 +272,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
@@ -280,7 +282,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             }
             return null;
         };
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -311,11 +313,13 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'timestamp' => null,
                 'username' => 'fakeUsername',
             ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
         $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $user_repo = new FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
@@ -326,7 +330,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             }
             return null;
         };
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -143,7 +144,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $result = $endpoint->call(self::VALID_INPUT);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
@@ -202,7 +203,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         ));
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());

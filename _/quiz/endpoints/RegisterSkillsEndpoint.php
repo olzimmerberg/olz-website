@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../api/OlzEndpoint.php';
@@ -51,7 +53,7 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
                 $internal_category_id = $this->idUtils->toInternalId($external_category_id, 'SkillCategory');
                 $category = $skill_category_repo->findOneBy(['id' => $internal_category_id]);
                 if (!$category) {
-                    throw new Exception("No such category: {$internal_category_id}");
+                    throw new \Exception("No such category: {$internal_category_id}");
                 }
                 $skill->addCategory($category);
             }

@@ -1,9 +1,10 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\TelegramLink;
+use App\Entity\User;
+
 require_once __DIR__.'/../config/init.php';
-require_once __DIR__.'/../model/NotificationSubscription.php';
-require_once __DIR__.'/../model/TelegramLink.php';
-require_once __DIR__.'/../model/User.php';
 require_once __DIR__.'/common/BackgroundTask.php';
 require_once __DIR__.'/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/SendDailyNotificationsTask/DeadlineWarningGetter.php';
@@ -107,7 +108,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
     protected function autoupdateEmailNotificationSubscriptions() {
         $email_notifications_state = $this->getEmailConfigReminderState();
 
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
         $user_repo = $this->entityManager->getRepository(User::class);
         foreach ($email_notifications_state as $user_id => $state) {
@@ -191,7 +192,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
     private function autoupdateTelegramNotificationSubscriptions() {
         $telegram_notifications_state = $this->getTelegramConfigReminderState();
 
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
         $user_repo = $this->entityManager->getRepository(User::class);
         foreach ($telegram_notifications_state as $user_id => $state) {

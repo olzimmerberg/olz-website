@@ -132,8 +132,8 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
     } elseif ($typ == "movie") {
         // FILM DIASHOW
         // Zähler
-        if ($user == "") {
-            $db->query("UPDATE {$db_table} SET counter = (counter+1) WHERE (id = '{$id}')", $conn_id);
+        if (($user ?? null) == "") {
+            $db->query("UPDATE {$db_table} SET counter = (counter+1) WHERE (id = '{$id}')");
         }
         $pfad = "movies/";
         $movie = $foto_datum.".flv";

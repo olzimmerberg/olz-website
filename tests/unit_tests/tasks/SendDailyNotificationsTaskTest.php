@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Entity\NotificationSubscription;
+use App\Entity\TelegramLink;
+use App\Entity\User;
+
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/FakeUsers.php';
 require_once __DIR__.'/../../fake/FakeEmailUtils.php';
@@ -10,9 +14,6 @@ require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../fake/FakeUserRepository.php';
-require_once __DIR__.'/../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../_/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../_/model/TelegramLink.php';
 require_once __DIR__.'/../../../_/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../../_/tasks/SendDailyNotificationsTask.php';
 require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
@@ -491,11 +492,11 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
     public function testSendDailyNotificationsTask(): void {
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
-        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $telegram_utils = new FakeTelegramUtils();

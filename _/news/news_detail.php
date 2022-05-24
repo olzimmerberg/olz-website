@@ -4,14 +4,13 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
+use App\Entity\News\NewsEntry;
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../config/doctrine_db.php';
-require_once __DIR__.'/../model/index.php';
-require_once __DIR__.'/model/NewsEntry.php';
 require_once __DIR__.'/utils/NewsFilterUtils.php';
 
 $article_metadata = "";

@@ -2,7 +2,6 @@
 
 use Doctrine\Common\Collections\Criteria;
 
-require_once __DIR__.'/../../config/doctrine.php';
 require_once __DIR__.'/../../utils/WithUtilsTrait.php';
 
 class TermineFilterUtils {
@@ -261,6 +260,6 @@ class TermineFilterUtils {
     public function getIsNotArchivedCriteria() {
         $years_ago = $this->dateUtils->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
-        return Criteria::expr()->gte('datum', new DateTime($beginning_of_years_ago));
+        return Criteria::expr()->gte('datum', new \DateTime($beginning_of_years_ago));
     }
 }

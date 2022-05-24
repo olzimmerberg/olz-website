@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\Role;
+use App\Entity\User;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/news/endpoints/CreateNewsEndpoint.php';
@@ -82,7 +84,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $role_repo = new FakeCreateNewsEndpointRoleRepository();
-        $entity_manager->repositories['Role'] = $role_repo;
+        $entity_manager->repositories[Role::class] = $role_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
         $entity_utils = new FakeEntityUtils();
@@ -127,7 +129,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             ],
         ]);
 
-        $user_repo = $entity_manager->repositories['User'];
+        $user_repo = $entity_manager->repositories[User::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,

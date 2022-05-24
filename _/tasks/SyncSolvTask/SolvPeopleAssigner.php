@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__.'/../../model/index.php';
+use App\Entity\SolvPerson;
+use App\Entity\SolvResult;
 
 class SolvPeopleAssigner {
     use \Psr\Log\LoggerAwareTrait;

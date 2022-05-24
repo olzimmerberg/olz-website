@@ -8,6 +8,9 @@
       "symfony/runtime": true
     },
     "optimize-autoloader": true,
+    "platform": {
+      "php": "8.0.2"
+    },
     "preferred-install": {
         "*": "dist"
     },
@@ -65,6 +68,8 @@
     "allestuetsmerweh/php-typescript-api": "^1.0",
     "doctrine/annotations": "^1.13",
     "doctrine/cache": "^1.1",
+    "doctrine/doctrine-bundle": "^2.6",
+    "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/migrations": "^3.0",
     "doctrine/orm": "^2.6.2",
     "ifsnop/mysqldump-php": "^2.9",
@@ -83,7 +88,9 @@
     "symfony/flex": "^2",
     "symfony/framework-bundle": "6.0.*",
     "symfony/http-client": "6.0.*",
+    "symfony/maker-bundle": "^1.43",
     "symfony/monolog-bundle": "^3.8",
+    "symfony/proxy-manager-bridge": "6.0.*",
     "symfony/requirements-checker": "^2.0",
     "symfony/runtime": "6.0.*",
     "symfony/yaml": "6.0.*"

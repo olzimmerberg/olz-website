@@ -1,10 +1,10 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
-require_once __DIR__.'/../../model/User.php';
 require_once __DIR__.'/../../utils/notify/EmailUtils.php';
 
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {

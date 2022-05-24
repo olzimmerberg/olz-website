@@ -1,10 +1,11 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\SolvEvent;
+use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
-require_once __DIR__.'/../../termine/model/Termin.php';
 
 class MonthlyPreviewGetter {
     use \Psr\Log\LoggerAwareTrait;
@@ -36,12 +37,12 @@ class MonthlyPreviewGetter {
             return null; // not anymore this month
         }
 
-        $one_month = DateInterval::createFromDateString('+1 months');
-        $two_months = DateInterval::createFromDateString('+2 months');
-        $today = new DateTime($this->dateUtils->getIsoToday());
-        $next_month = (new DateTime($this->dateUtils->getIsoToday()))->add($one_month);
-        $in_two_months = (new DateTime($this->dateUtils->getIsoToday()))->add($two_months);
-        $end_of_timespan = new DateTime($in_two_months->format('Y-m-01'));
+        $one_month = \DateInterval::createFromDateString('+1 months');
+        $two_months = \DateInterval::createFromDateString('+2 months');
+        $today = new \DateTime($this->dateUtils->getIsoToday());
+        $next_month = (new \DateTime($this->dateUtils->getIsoToday()))->add($one_month);
+        $in_two_months = (new \DateTime($this->dateUtils->getIsoToday()))->add($two_months);
+        $end_of_timespan = new \DateTime($in_two_months->format('Y-m-01'));
 
         $notification_text = '';
         $termine_text = $this->getTermineText($today, $end_of_timespan);

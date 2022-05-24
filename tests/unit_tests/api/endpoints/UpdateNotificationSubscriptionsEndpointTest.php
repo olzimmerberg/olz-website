@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\NotificationSubscription;
+use App\Entity\User;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../_/api/endpoints/UpdateNotificationSubscriptionsEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/NotificationSubscription.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -37,7 +37,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('UpdateNotificationSubscriptionsEndpointTest');
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
@@ -129,7 +129,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = new Logger('UpdateNotificationSubscriptionsEndpointTest');
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();

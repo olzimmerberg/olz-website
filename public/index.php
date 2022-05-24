@@ -61,7 +61,13 @@ $response = $kernel->handle($request);
  */
 $scriptFile = LegacyBridge::prepareLegacyScript($request, $response, __DIR__);
 if ($scriptFile !== null) {
-    require $scriptFile;
+    if (preg_match('/\.php$/', $scriptFile)) {
+        require $scriptFile;
+    } else {
+        $mime_type = mime_content_type($scriptFile);
+        header("Content-Type: {$mime_type}");
+        echo file_get_contents($scriptFile);
+    }
 } else {
     $response->send();
 }

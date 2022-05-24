@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillCategory;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/RegisterSkillsEndpoint.php';
@@ -47,9 +49,9 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
     public function testRegisterSkillsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $skill_category_repo = new FakeRegisterSkillsEndpointSkillCategoryRepository();
-        $entity_manager->repositories['SkillCategory'] = $skill_category_repo;
+        $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
         $skill_repo = new FakeRegisterSkillsEndpointSkillRepository();
-        $entity_manager->repositories['Skill'] = $skill_repo;
+        $entity_manager->repositories[Skill::class] = $skill_repo;
         $entity_utils = new FakeEntityUtils();
         $logger = new Logger('RegisterSkillsEndpointTest');
         $endpoint = new RegisterSkillsEndpoint();

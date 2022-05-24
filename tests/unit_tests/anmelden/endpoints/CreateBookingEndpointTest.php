@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\Anmelden\Registration;
+use App\Entity\Anmelden\RegistrationInfo;
+
 require_once __DIR__.'/../../../../_/anmelden/endpoints/CreateBookingEndpoint.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -13,7 +16,7 @@ class FakeCreateBookingEndpointRegistrationRepository {
             return $registration;
         }
         $where_json = json_encode($where);
-        throw new Exception("Query not mocked in findOneBy: {$where_json}", 1);
+        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
     }
 }
 
@@ -26,7 +29,7 @@ class FakeCreateBookingEndpointRegistrationInfoRepository {
             return new RegistrationInfo();
         }
         $where_json = json_encode($where);
-        throw new Exception("Query not mocked in findOneBy: {$where_json}", 1);
+        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
     }
 }
 
@@ -43,9 +46,9 @@ final class CreateBookingEndpointTest extends UnitTestCase {
     public function testCreateBookingEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $registration_repo = new FakeCreateBookingEndpointRegistrationRepository();
-        $entity_manager->repositories['Registration'] = $registration_repo;
+        $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
-        $entity_manager->repositories['RegistrationInfo'] = $registration_info_repo;
+        $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new FakeEntityUtils();

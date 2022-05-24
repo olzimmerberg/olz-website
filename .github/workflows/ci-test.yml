@@ -19,7 +19,7 @@ jobs:
         env:
           MYSQL_USER: db-username
           MYSQL_PASSWORD: db-password
-          MYSQL_DATABASE: db-schema
+          MYSQL_DATABASE: db-schema_test
           MYSQL_ROOT_PASSWORD: db-password
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
@@ -93,7 +93,7 @@ jobs:
         env:
           MYSQL_USER: db-username
           MYSQL_PASSWORD: db-password
-          MYSQL_DATABASE: db-schema
+          MYSQL_DATABASE: db-schema_test
           MYSQL_ROOT_PASSWORD: db-password
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:

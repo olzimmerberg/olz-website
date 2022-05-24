@@ -161,19 +161,19 @@ class AMF0Parser {
 			case self::TYPE_OBJECT:		// Object 0x03
 				return $this->readObject();
 			case self::TYPE_MOVIECLIP:		// MovieClip
-				throw new Exception("Unhandled AMF type: MovieClip (04)");
+				throw new \Exception("Unhandled AMF type: MovieClip (04)");
 				break;
 			case self::TYPE_NULL:		// NULL 0x05
 				return NULL;
 			case self::TYPE_UNDEFINED:		// Undefined 0x06
 				return 'undefined';
 			case self::TYPE_REFERENCE:		// Reference
-				throw new Exception("Unhandled AMF type: Reference (07)");
+				throw new \Exception("Unhandled AMF type: Reference (07)");
 				break;
 			case self::TYPE_MIXEDARRAY : 	// Mixed array 0x08
 				return $this->readMixedArray();
 			case self::TYPE_OBJECT_TERM: 	// ObjectTerm
-				throw new Exception("Unhandled AMF type: ObjectTerm (09) -- should only happen in the getObject function");
+				throw new \Exception("Unhandled AMF type: ObjectTerm (09) -- should only happen in the getObject function");
 				break;
 			case self::TYPE_ARRAY:	// Array 0x0a
 				return $this->readArray();
@@ -182,17 +182,17 @@ class AMF0Parser {
 			case self::TYPE_LONGSTRING: 	// LongString
 				return $this->readLongString();
 			case TYPE_RECORDSET: 	// Recordset
-				throw new Exception("Unhandled AMF type: Unsupported (0E)");
+				throw new \Exception("Unhandled AMF type: Unsupported (0E)");
 				break;
 			case self::TYPE_XML: 	// XML
 				return $this->readLongString();
 			case self::TYPE_TYPED_OBJECT: 	// Typed Object
 				return $this->readTypedObject();
 			case TYPE_AMF3: 	// AMF3
-				throw new Exception("Unhandled AMF type: AMF3 (11)");
+				throw new \Exception("Unhandled AMF type: AMF3 (11)");
 				break;
 			default:
-				throw new Exception("Unhandled AMF type: unknown (0x".dechex($dataType).") at offset ".$this->index-1);
+				throw new \Exception("Unhandled AMF type: unknown (0x".dechex($dataType).") at offset ".$this->index-1);
 		}
 	} // readPacket function
 	
@@ -481,7 +481,7 @@ class AMF0Parser {
 			case self::TYPE_OBJECT:
 				return $this->writeObject($value);
 			default:
-				throw new Exception('Unhandled AMF0 type: 0x'.dechex($type));
+				throw new \Exception('Unhandled AMF0 type: 0x'.dechex($type));
 		} //switch($type)
 	} // writePacket function
 	

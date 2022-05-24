@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillLevel;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -74,9 +76,9 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $skill_repo = new FakeUpdateMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories['Skill'] = $skill_repo;
+        $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories['SkillLevel'] = $skill_level_repo;
+        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $entity_utils = new FakeEntityUtils();
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\Throttling;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -62,7 +63,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
@@ -88,7 +89,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = null;
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
@@ -117,7 +118,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([

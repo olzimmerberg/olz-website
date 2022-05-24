@@ -24,7 +24,7 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher {
             return json_decode(file_get_contents($file_path), true);
         }
         $pretty_request = json_encode($request_data);
-        throw new Exception("Unmocked transport API request: {$pretty_request}");
+        throw new \Exception("Unmocked transport API request: {$pretty_request}");
     }
 }
 

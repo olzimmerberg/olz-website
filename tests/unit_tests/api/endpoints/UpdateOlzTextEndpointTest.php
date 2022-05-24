@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Entity\OlzText;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../_/api/endpoints/UpdateOlzTextEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/OlzText.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -61,7 +59,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query = ['olz_text_3' => true];
         $entity_manager = new FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
-        $entity_manager->repositories['OlzText'] = $olz_text_repo;
+        $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -85,7 +83,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query = ['olz_text_1' => true];
         $entity_manager = new FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
-        $entity_manager->repositories['OlzText'] = $olz_text_repo;
+        $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -98,7 +96,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $olz_text = $entity_manager->getRepository('OlzText')->olz_text;
+        $olz_text = $entity_manager->getRepository(OlzText::class)->olz_text;
         $this->assertSame(1, $olz_text->getId());
         $this->assertSame('New **content**!', $olz_text->getText());
     }

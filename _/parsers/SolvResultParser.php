@@ -1,7 +1,8 @@
 <?php
 
+use App\Entity\SolvResult;
+
 require_once __DIR__.'/TimeParser.php';
-require_once __DIR__.'/../model/SolvResult.php';
 
 class SolvResultParser {
     public function __construct() {

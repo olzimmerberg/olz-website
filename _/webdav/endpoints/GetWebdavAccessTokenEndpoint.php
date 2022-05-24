@@ -1,9 +1,9 @@
 <?php
 
+use App\Entity\AccessToken;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../api/OlzEndpoint.php';
-require_once __DIR__.'/../../model/AccessToken.php';
 
 class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -42,7 +42,7 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
         ]);
 
         if (!$access_token) {
-            $now = new DateTime($this->dateUtils->getIsoNow());
+            $now = new \DateTime($this->dateUtils->getIsoNow());
             $token = $this->generateRandomAccessToken();
 
             $access_token = new AccessToken();

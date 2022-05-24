@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../_/model/SolvEvent.php';
+use App\Entity\SolvEvent;
 
 function get_fake_solv_event() {
     $solv_event = new SolvEvent();

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../_/model/SolvResult.php';
+use App\Entity\SolvResult;
 
 function get_fake_solv_result() {
     $solv_result = new SolvResult();

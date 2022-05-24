@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+
 function olz_notification_subscriptions_form($subscriptions, $options = []) {
     $out = '';
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvEvent;
+use App\Entity\Termine\Termin;
+use App\Entity\User;
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/WeeklyPreviewGetter.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
@@ -20,10 +20,10 @@ class FakeWeeklyPreviewGetterSolvEventRepository {
         }
         $solv_event = new SolvEvent();
         $solv_event->setSolvUid(123);
-        $solv_event->setDeadline(new DateTime('2020-04-25 19:30:00'));
+        $solv_event->setDeadline(new \DateTime('2020-04-25 19:30:00'));
         $solv_event_without_termin = new SolvEvent();
         $solv_event_without_termin->setSolvUid(321);
-        $solv_event_without_termin->setDeadline(new DateTime('2020-04-24 19:30:00'));
+        $solv_event_without_termin->setDeadline(new \DateTime('2020-04-24 19:30:00'));
         return [$solv_event, $solv_event_without_termin];
     }
 }
@@ -35,12 +35,12 @@ class FakeWeeklyPreviewGetterTerminRepository {
         }
         $termin = new Termin();
         $termin->setId(1);
-        $termin->setStartsOn(new DateTime('2020-04-24 19:30:00'));
+        $termin->setStartsOn(new \DateTime('2020-04-24 19:30:00'));
         $termin->setTitle('Test Termin');
         $range_termin = new Termin();
         $range_termin->setId(2);
-        $range_termin->setStartsOn(new DateTime('2020-04-28'));
-        $range_termin->setEndsOn(new DateTime('2020-04-29'));
+        $range_termin->setStartsOn(new \DateTime('2020-04-28'));
+        $range_termin->setEndsOn(new \DateTime('2020-04-29'));
         $range_termin->setTitle('End of Week');
         return [$termin, $range_termin];
     }
@@ -49,7 +49,7 @@ class FakeWeeklyPreviewGetterTerminRepository {
         if ($where == ['solv_uid' => 123, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(3);
-            $termin->setStartsOn(new DateTime('2020-04-18 19:30:00'));
+            $termin->setStartsOn(new \DateTime('2020-04-18 19:30:00'));
             $termin->setTitle('Termin mit Meldeschluss');
             return $termin;
         }
@@ -78,9 +78,9 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetter(): void {
         $entity_manager = new FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('WeeklyPreviewGetterTest');
@@ -120,9 +120,9 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testEmptyWeeklyPreviewGetter(): void {
         $entity_manager = new FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('WeeklyPreviewGetterTest');

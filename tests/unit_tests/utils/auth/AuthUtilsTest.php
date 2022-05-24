@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\AccessToken;
+use App\Entity\AuthRequest;
+
 require_once __DIR__.'/../../../../_/utils/auth/AuthUtils.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
@@ -17,7 +20,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token->setId(1);
             $token->setToken('valid-token-1');
             $token->setUser(FakeUsers::adminUser());
-            $token->setExpiresAt(new DateTime('2022-01-24 00:00:00'));
+            $token->setExpiresAt(new \DateTime('2022-01-24 00:00:00'));
             return $token;
         }
         if ($where === ['token' => 'expired-token-1']) {
@@ -25,7 +28,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token->setId(2);
             $token->setToken('expired-token-1');
             $token->setUser(FakeUsers::adminUser());
-            $token->setExpiresAt(new DateTime('2020-01-11 20:00:00'));
+            $token->setExpiresAt(new \DateTime('2020-01-11 20:00:00'));
             return $token;
         }
         return null;
@@ -63,7 +66,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectCredentials(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -101,7 +104,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectEmailCredentials(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -139,7 +142,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithWrongUsername(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -181,7 +184,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithWrongPassword(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -224,7 +227,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_authenticate = false;
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -267,9 +270,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -305,9 +308,9 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testValidateInvalidAccessToken(): void {
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -350,9 +353,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -395,10 +398,10 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testValidateAccessTokenCanNotValidate(): void {
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_validate_access_token = false;
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
@@ -501,9 +504,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
@@ -531,9 +534,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
@@ -547,9 +550,9 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testGetTokenUserForInvalidToken(): void {
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);

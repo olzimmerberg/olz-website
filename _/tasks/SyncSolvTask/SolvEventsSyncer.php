@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__.'/../../model/index.php';
+use App\Entity\SolvEvent;
+
 require_once __DIR__.'/../../parsers/SolvEventParser.php';
 
 class SolvEventsSyncer {

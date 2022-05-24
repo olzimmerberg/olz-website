@@ -6,7 +6,7 @@ function logs_monitoring() {
     $data_path = $env_utils->getDataPath();
     $logs_path = "{$data_path}logs/";
     if (!is_dir($logs_path)) {
-        throw new Exception("Expected {$logs_path} to be a directory");
+        throw new \Exception("Expected {$logs_path} to be a directory");
     }
 
     $last_two_merged_log_file_contents = "";
@@ -21,12 +21,12 @@ function logs_monitoring() {
         }
     }
 
-    $now = new DateTime();
-    $minus_one_hour = DateInterval::createFromDateString("-1 hours");
+    $now = new \DateTime();
+    $minus_one_hour = \DateInterval::createFromDateString("-1 hours");
     $one_hour_ago = $now->add($minus_one_hour);
 
-    $now = new DateTime();
-    $minus_one_day = DateInterval::createFromDateString("-1 days");
+    $now = new \DateTime();
+    $minus_one_day = \DateInterval::createFromDateString("-1 days");
     $one_day_ago = $now->add($minus_one_day);
 
     $logs_in_last_hour = [];
@@ -78,19 +78,19 @@ function logs_monitoring() {
 
 function check_emergencies($logs_in_last_hour, $logs_in_last_day) {
     if (count(array_filter($logs_in_last_hour, 'is_emergency_line')) > 0) {
-        throw new Exception("Expected no emergencies");
+        throw new \Exception("Expected no emergencies");
     }
 }
 
 function check_alerts($logs_in_last_hour, $logs_in_last_day) {
     if (count(array_filter($logs_in_last_hour, 'is_alert_line')) > 0) {
-        throw new Exception("Expected no alerts");
+        throw new \Exception("Expected no alerts");
     }
 }
 
 function check_critical($logs_in_last_hour, $logs_in_last_day) {
     if (count(array_filter($logs_in_last_hour, 'is_critical_line')) > 0) {
-        throw new Exception("Expected no critical log entries");
+        throw new \Exception("Expected no critical log entries");
     }
 }
 
@@ -100,12 +100,12 @@ function check_many_errors($logs_in_last_hour, $logs_in_last_day) {
 
     $errors_per_hour = count(array_filter($logs_in_last_hour, 'is_error_line'));
     if ($errors_per_hour > $limit_per_hour) {
-        throw new Exception("Expected fewer error log entries per hour ({$errors_per_hour} > {$limit_per_hour})");
+        throw new \Exception("Expected fewer error log entries per hour ({$errors_per_hour} > {$limit_per_hour})");
     }
 
     $errors_per_day = count(array_filter($logs_in_last_day, 'is_error_line'));
     if ($errors_per_day > $limit_per_day) {
-        throw new Exception("Expected fewer error log entries per day ({$errors_per_day} > {$limit_per_day})");
+        throw new \Exception("Expected fewer error log entries per day ({$errors_per_day} > {$limit_per_day})");
     }
 }
 
@@ -115,12 +115,12 @@ function check_many_warnings($logs_in_last_hour, $logs_in_last_day) {
 
     $warnings_per_hour = count(array_filter($logs_in_last_hour, 'is_warning_line'));
     if ($warnings_per_hour > $limit_per_hour) {
-        throw new Exception("Expected fewer warning log entries per hour ({$warnings_per_hour} > {$limit_per_hour})");
+        throw new \Exception("Expected fewer warning log entries per hour ({$warnings_per_hour} > {$limit_per_hour})");
     }
 
     $warnings_per_day = count(array_filter($logs_in_last_day, 'is_warning_line'));
     if ($warnings_per_day > $limit_per_day) {
-        throw new Exception("Expected fewer warning log entries per day ({$warnings_per_day} > {$limit_per_day})");
+        throw new \Exception("Expected fewer warning log entries per day ({$warnings_per_day} > {$limit_per_day})");
     }
 }
 
@@ -130,12 +130,12 @@ function check_many_notices($logs_in_last_hour, $logs_in_last_day) {
 
     $notices_per_hour = count(array_filter($logs_in_last_hour, 'is_notice_line'));
     if ($notices_per_hour > $limit_per_hour) {
-        throw new Exception("Expected fewer notice log entries per hour ({$notices_per_hour} > {$limit_per_hour})");
+        throw new \Exception("Expected fewer notice log entries per hour ({$notices_per_hour} > {$limit_per_hour})");
     }
 
     $notices_per_day = count(array_filter($logs_in_last_day, 'is_notice_line'));
     if ($notices_per_day > $limit_per_day) {
-        throw new Exception("Expected fewer notice log entries per day ({$notices_per_day} > {$limit_per_day})");
+        throw new \Exception("Expected fewer notice log entries per day ({$notices_per_day} > {$limit_per_day})");
     }
 }
 

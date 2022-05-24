@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
+
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/FakeUsers.php';
 require_once __DIR__.'/../../fake/FakeAuthUtils.php';
@@ -9,9 +11,6 @@ require_once __DIR__.'/../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../_/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../_/model/TelegramLink.php';
 require_once __DIR__.'/../../../_/tasks/ProcessEmailTask.php';
 require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
@@ -153,7 +152,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->run();
 
-        $user_repo = $entity_manager->repositories['User'];
+        $user_repo = $entity_manager->repositories[User::class];
         $this->assertSame([
             [$user_repo->fake_process_email_task_user, 'Test subject', 'Test text'],
         ], $email_utils->olzMailer->emails_sent);

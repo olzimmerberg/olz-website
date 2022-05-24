@@ -1,12 +1,14 @@
 <?php
 
+use App\Entity\Role;
+use App\Entity\User;
+
 function olz_organigramm($args = []): string {
     global $entityManager;
 
     require_once __DIR__.'/../../../components/users/olz_user_info_with_popup/olz_user_info_with_popup.php';
     require_once __DIR__.'/../../../config/paths.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
-    require_once __DIR__.'/../../../model/index.php';
     require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
 
     $auth_utils = AuthUtils::fromEnv();

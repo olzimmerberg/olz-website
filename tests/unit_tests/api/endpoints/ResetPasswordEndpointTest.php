@@ -44,7 +44,7 @@ class FakeResetPasswordEndpointGoogleFetcher {
             return null;
         }
         $request_json = json_encode($siteverify_request_data);
-        throw new Exception("Unexpected Request: {$request_json}");
+        throw new \Exception("Unexpected Request: {$request_json}");
     }
 }
 
@@ -114,7 +114,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEmailUtils($email_utils);
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
@@ -144,7 +144,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ZZZZZZZZZZ;
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
-            [$user_repo->admin_user, '[OLZ] Passwort zurücksetzen', $expected_text],
+            [FakeUsers::adminUser(), '[OLZ] Passwort zurücksetzen', $expected_text],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",
@@ -160,7 +160,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEmailUtils($email_utils);
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
@@ -191,7 +191,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
@@ -217,7 +217,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
@@ -243,7 +243,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);

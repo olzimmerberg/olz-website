@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\AuthRequest;
+use App\Entity\StravaLink;
+use App\Entity\User;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -10,8 +13,6 @@ require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../_/api/endpoints/LoginWithStravaEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/index.php';
 require_once __DIR__.'/../../../../_/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -19,9 +20,9 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 class FakeLoginWithStravaEndpointEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
-            'AuthRequest' => new FakeLoginWithStravaEndpointAuthRequestRepository(),
-            'StravaLink' => new FakeLoginWithStravaEndpointStravaLinkRepository(),
-            'User' => new FakeUserRepository(),
+            AuthRequest::class => new FakeLoginWithStravaEndpointAuthRequestRepository(),
+            StravaLink::class => new FakeLoginWithStravaEndpointStravaLinkRepository(),
+            User::class => new FakeUserRepository(),
         ];
     }
 }
@@ -160,7 +161,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
                 'timestamp' => null,
                 'username' => 'user',
             ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testLoginWithStravaEndpointWithNewUser(): void {
@@ -213,7 +214,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'profilePictureUrl' => 'fake_profile',
         ], $result);
         $this->assertSame([], $session->session_storage);
-        $this->assertSame([], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testLoginWithStravaEndpointWithInvalidCode(): void {
@@ -260,6 +261,6 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'status' => 'INVALID_CODE',
         ], $result);
         $this->assertSame([], $session->session_storage);
-        $this->assertSame([], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 }

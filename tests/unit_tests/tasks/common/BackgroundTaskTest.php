@@ -53,7 +53,7 @@ class FakeFailingTask extends BackgroundTask {
 
     protected function runSpecificTask() {
         $this->task_run = true;
-        throw new Exception("Fake Error", 1);
+        throw new \Exception("Fake Error", 1);
     }
 }
 

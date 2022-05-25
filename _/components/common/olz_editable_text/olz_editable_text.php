@@ -1,13 +1,13 @@
 <?php
 
-use App\Entity\OlzText;
+use Olz\Entity\OlzText;
+use Olz\Utils\AuthUtils;
+use Olz\Utils\HtmlUtils;
 
 function olz_editable_text($args = []): string {
     global $entityManager, $code_href;
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/paths.php';
-    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
-    require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 
     $olz_text_id = intval($args['olz_text_id'] ?? 0);
     if ($olz_text_id > 0) {

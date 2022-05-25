@@ -1,13 +1,13 @@
 <?php
 
-use App\Entity\AccessToken;
-use App\Entity\FacebookLink;
-use App\Entity\GoogleLink;
-use App\Entity\News\NewsEntry;
-use App\Entity\NotificationSubscription;
-use App\Entity\StravaLink;
-use App\Entity\TelegramLink;
-use App\Entity\User;
+use Olz\Entity\AccessToken;
+use Olz\Entity\FacebookLink;
+use Olz\Entity\GoogleLink;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\StravaLink;
+use Olz\Entity\TelegramLink;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';

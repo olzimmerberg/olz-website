@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Entity\Quiz\Skill;
-use App\Entity\Quiz\SkillLevel;
 use Monolog\Logger;
+use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillLevel;
+use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/UpdateMySkillLevelsEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';

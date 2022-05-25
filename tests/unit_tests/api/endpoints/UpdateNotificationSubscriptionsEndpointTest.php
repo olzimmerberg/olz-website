@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Entity\NotificationSubscription;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\MemorySession;
 
 require_once __DIR__.'/../../../../_/api/endpoints/UpdateNotificationSubscriptionsEndpoint.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Anmelden;
+namespace Olz\Entity\Anmelden;
 
 require_once __DIR__.'/Booking.php';
 require_once __DIR__.'/Registration.php';

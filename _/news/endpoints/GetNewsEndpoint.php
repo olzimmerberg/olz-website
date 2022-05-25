@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\News\NewsEntry;
+use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../api/OlzGetEntityEndpoint.php';

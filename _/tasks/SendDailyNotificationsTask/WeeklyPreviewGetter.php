@@ -1,9 +1,9 @@
 <?php
 
-use App\Entity\NotificationSubscription;
-use App\Entity\SolvEvent;
-use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\SolvEvent;
+use Olz\Entity\Termine\Termin;
 
 require_once __DIR__.'/Notification.php';
 

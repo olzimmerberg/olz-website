@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-use App\Entity\User;
+use Olz\Entity\User;
 
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

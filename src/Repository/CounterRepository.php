@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Olz\Repository;
 
-use App\Entity\Counter;
 use Doctrine\ORM\EntityRepository;
+use Olz\Entity\Counter;
 
 class CounterRepository extends EntityRepository {
     public function record($page, $date, $referrer, $user_agent) {

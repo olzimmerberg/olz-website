@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Utils\FixedDateUtils;
 
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/news/utils/NewsFilterUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 

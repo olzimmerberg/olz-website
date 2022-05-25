@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\OlzText;
+use Olz\Entity\OlzText;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';

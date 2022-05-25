@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\GoogleLinkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\GoogleLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=GoogleLinkRepository::class)

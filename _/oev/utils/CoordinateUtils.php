@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../utils/WithUtilsTrait.php';
+use Olz\Utils\WithUtilsTrait;
 
 class CoordinateUtils {
     use WithUtilsTrait;

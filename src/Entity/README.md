@@ -1,4 +1,4 @@
-# `model/`: Daten-Modell
+# `Entity/`: Daten-Modell
 
 Hier ist definiert, was in der Datenbank gespeichert werden soll.
 Beim Verändern dieser Modelle muss eine Datenbank-Migration erstellt werden,

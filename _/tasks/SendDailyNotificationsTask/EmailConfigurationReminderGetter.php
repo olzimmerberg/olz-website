@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\NotificationSubscription;
+use Olz\Entity\NotificationSubscription;
 
 require_once __DIR__.'/Notification.php';
 

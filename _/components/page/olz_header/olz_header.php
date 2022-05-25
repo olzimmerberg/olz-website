@@ -1,6 +1,7 @@
 <?php
 
-use App\Entity\Counter;
+use Olz\Entity\Counter;
+use Olz\Utils\HttpUtils;
 
 function olz_header($args = []): string {
     global $_CONFIG, $_SERVER;
@@ -12,7 +13,6 @@ function olz_header($args = []): string {
     $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
     if ($is_insecure_nonlocal || $host_has_www) {
         $request_uri = $_SERVER['REQUEST_URI'];
-        require_once __DIR__.'/../../../utils/client/HttpUtils.php';
         HttpUtils::fromEnv()->redirect("https://{$host}{$request_uri}", 308);
     }
 

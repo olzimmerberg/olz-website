@@ -1,8 +1,7 @@
 <?php
 
 use Doctrine\Common\Collections\Criteria;
-
-require_once __DIR__.'/../../utils/WithUtilsTrait.php';
+use Olz\Utils\WithUtilsTrait;
 
 class TermineFilterUtils {
     use WithUtilsTrait;

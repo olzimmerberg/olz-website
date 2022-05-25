@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Olz\Repository;
 
-use App\Entity\AuthRequest;
 use Doctrine\ORM\EntityRepository;
+use Olz\Entity\AuthRequest;
 
 class AuthRequestRepository extends EntityRepository {
     public const NUM_TRIES = 32;
@@ -34,7 +34,7 @@ class AuthRequestRepository extends EntityRepository {
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
-            FROM App\\Entity\\AuthRequest ar 
+            FROM Olz\\Entity\\AuthRequest ar 
             WHERE 
                 ar.ip_address='{$sanitized_ip_address}' 
                 AND ar.timestamp>'{$sanitized_min_timestamp}'
@@ -66,7 +66,7 @@ class AuthRequestRepository extends EntityRepository {
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
-            FROM App\\Entity\\AuthRequest ar 
+            FROM Olz\\Entity\\AuthRequest ar 
             WHERE 
                 ar.ip_address='{$sanitized_ip_address}' 
                 AND ar.timestamp>'{$sanitized_min_timestamp}'

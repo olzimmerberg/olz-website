@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Quiz;
+namespace Olz\Repository\Quiz;
 
 use Doctrine\ORM\EntityRepository;
 

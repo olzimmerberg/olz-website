@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Anmelden;
+namespace Olz\Entity\Anmelden;
 
-use App\Entity\OlzEntity;
-use App\Repository\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
+use Olz\Repository\RegistrationRepository;
 
 /**
  * @ORM\Entity(repositoryClass=RegistrationRepository::class)

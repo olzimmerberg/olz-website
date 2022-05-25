@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 global $db;
@@ -11,8 +13,6 @@ session_start_if_cookie_set();
 
 require_once __DIR__.'/../admin/olz_functions.php';
 
-require_once __DIR__.'/../utils/client/HttpUtils.php';
-require_once __DIR__.'/../utils/env/EnvUtils.php';
 $env_utils = EnvUtils::fromEnv();
 $logger = $env_utils->getLogsUtils()->getLogger('anmelden');
 $http_utils = HttpUtils::fromEnv();

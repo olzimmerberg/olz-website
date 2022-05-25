@@ -6,13 +6,13 @@
 // Datei `config.php` vorhanden sein, die von hier aus importiert wird.
 // =============================================================================
 
-require_once __DIR__.'/../utils/env/EnvUtils.php';
+use Olz\Utils\EnvUtils;
 
 global $_CONFIG;
 
 try {
     $_CONFIG = EnvUtils::fromEnv(); // $_ENV is a PHP predefined variable, unfortunately :/
-} catch (Exception $exc) {
+} catch (\Exception $exc) {
     echo $exc->getMessage();
     exit(1);
 }

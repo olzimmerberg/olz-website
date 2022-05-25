@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\SolvEventRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\SolvEventRepository;
 
 require_once __DIR__.'/common.php';
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\TelegramLinkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\TelegramLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=TelegramLinkRepository::class)

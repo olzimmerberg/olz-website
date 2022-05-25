@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Utils\AuthBlockedException;
+use Olz\Utils\InvalidCredentialsException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';

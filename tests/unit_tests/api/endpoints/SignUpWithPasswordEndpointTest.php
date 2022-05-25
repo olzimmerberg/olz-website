@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Entity\AuthRequest;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\AuthRequest;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';
@@ -13,9 +15,6 @@ require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../_/api/endpoints/SignUpWithPasswordEndpoint.php';
-require_once __DIR__.'/../../../../_/utils/auth/StravaUtils.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSignUpWithPasswordEndpointAuthRequestRepository {

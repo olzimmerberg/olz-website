@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\Throttling;
+use Olz\Entity\Throttling;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

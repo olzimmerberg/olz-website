@@ -1,9 +1,7 @@
 <?php
 
+use Olz\Utils\GeneralUtils;
 use PhpImap\Exceptions\ConnectionException;
-
-require_once __DIR__.'/../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../_/utils/GeneralUtils.php';
 
 class FakeEmailUtils {
     use Psr\Log\LoggerAwareTrait;

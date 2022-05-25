@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\OlzEntity;
+use Olz\Entity\OlzEntity;
 
 class FakeEntityUtils {
     public $create_olz_entity_calls = [];

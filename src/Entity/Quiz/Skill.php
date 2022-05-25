@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Quiz;
+namespace Olz\Entity\Quiz;
 
-use App\Entity\OlzEntity;
-use App\Repository\SkillRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
+use Olz\Repository\SkillRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SkillRepository::class)

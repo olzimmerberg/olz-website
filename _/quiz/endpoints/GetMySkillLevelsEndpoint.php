@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\Quiz\Skill;
-use App\Entity\Quiz\SkillLevel;
+use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

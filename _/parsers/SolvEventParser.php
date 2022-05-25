@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\SolvEvent;
+use Olz\Entity\SolvEvent;
 
 class SolvEventParser {
     public $solv_entryportals = [

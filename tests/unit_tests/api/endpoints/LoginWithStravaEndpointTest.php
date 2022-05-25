@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Entity\AuthRequest;
-use App\Entity\StravaLink;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\AuthRequest;
+use Olz\Entity\StravaLink;
+use Olz\Entity\User;
+use Olz\Utils\MemorySession;
+use Olz\Utils\StravaUtils;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';
@@ -13,8 +15,6 @@ require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../_/api/endpoints/LoginWithStravaEndpoint.php';
-require_once __DIR__.'/../../../../_/utils/auth/StravaUtils.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeLoginWithStravaEndpointEntityManager extends FakeEntityManager {

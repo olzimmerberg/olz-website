@@ -2,7 +2,8 @@
 
 namespace Facebook\WebDriver;
 
-require_once __DIR__.'/../../../_/utils/notify/EmailUtils.php';
+use Olz\Utils\EmailUtils;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
@@ -14,7 +15,7 @@ function test_email_reaktion($driver, $base_url) {
 
     test_email_reaktion_readonly($driver, $base_url);
 
-    $email_utils = \EmailUtils::fromEnv();
+    $email_utils = EmailUtils::fromEnv();
     $token = $email_utils->encryptEmailReactionToken([
         'action' => 'unsubscribe',
         'user' => 1,

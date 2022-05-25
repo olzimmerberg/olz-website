@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\Role;
+use Olz\Entity\Role;
 
 require_once __DIR__.'/config/init.php';
 

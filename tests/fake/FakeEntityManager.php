@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\User;
+use Olz\Entity\User;
 
 class FakeEntityManager {
     public const AUTO_INCREMENT_ID = 270;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Quiz;
+namespace Olz\Entity\Quiz;
 
-use App\Entity\OlzEntity;
-use App\Repository\SkillLevelRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
+use Olz\Repository\SkillLevelRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SkillLevelRepository::class)
@@ -21,7 +21,7 @@ class SkillLevel extends OlzEntity {
      */
     private $id;
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;

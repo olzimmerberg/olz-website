@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Entity\Quiz\Skill;
-use App\Entity\Quiz\SkillLevel;
 use Monolog\Logger;
+use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/GetMySkillLevelsEndpoint.php';

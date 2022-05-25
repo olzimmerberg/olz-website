@@ -1,5 +1,5 @@
 <?php
 
-namespace App\Entity\Termine;
+namespace Olz\Entity\Termine;
 
 require_once __DIR__.'/Termin.php';

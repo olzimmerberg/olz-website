@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\SolvResult;
+use Olz\Entity\SolvResult;
 
 function get_fake_solv_result() {
     $solv_result = new SolvResult();

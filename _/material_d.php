@@ -4,7 +4,7 @@
 // Informationsseite zum klubeigenen Material.
 // =============================================================================
 
-use App\Entity\Role;
+use Olz\Entity\Role;
 
 ?>
 

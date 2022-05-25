@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\StravaLink;
+use Olz\Entity\StravaLink;
 
 function get_fake_strava_link() {
     $strava_link = new StravaLink();

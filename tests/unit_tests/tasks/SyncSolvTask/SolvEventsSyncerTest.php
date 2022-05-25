@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Entity\SolvEvent;
 use Monolog\Logger;
+use Olz\Entity\SolvEvent;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';

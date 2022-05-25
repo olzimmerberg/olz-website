@@ -2,7 +2,7 @@
 
 // TODO: Reactivate this standard procedure once migration is finished:
 
-// use App\Kernel;
+// use Olz\Kernel;
 
 // $deploy_path = dirname(__DIR__);
 
@@ -14,8 +14,8 @@
 
 // TODO: Delete this legacy migration procedure:
 
-use App\Kernel;
-use App\LegacyBridge;
+use Olz\Kernel;
+use Olz\LegacyBridge;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;

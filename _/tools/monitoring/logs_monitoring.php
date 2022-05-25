@@ -1,7 +1,8 @@
 <?php
 
+use Olz\Utils\EnvUtils;
+
 function logs_monitoring() {
-    require_once __DIR__.'/../../utils/env/EnvUtils.php';
     $env_utils = EnvUtils::fromEnv();
     $data_path = $env_utils->getDataPath();
     $logs_path = "{$data_path}logs/";

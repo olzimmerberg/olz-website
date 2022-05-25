@@ -1,10 +1,10 @@
 <?php
 
+use Olz\Utils\AuthUtils;
 use Sabre\DAV;
 
 require_once __DIR__.'/../config/doctrine_db.php';
 require_once __DIR__.'/../config/paths.php';
-require_once __DIR__.'/../utils/auth/AuthUtils.php';
 require_once __DIR__.'/CallbackAuthBackend.php';
 
 error_reporting(0);

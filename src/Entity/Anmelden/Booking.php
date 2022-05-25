@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Anmelden;
+namespace Olz\Entity\Anmelden;
 
-use App\Entity\OlzEntity;
-use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
+use Olz\Repository\BookingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
@@ -23,7 +23,7 @@ class Booking extends OlzEntity {
      */
     private $registration;
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;

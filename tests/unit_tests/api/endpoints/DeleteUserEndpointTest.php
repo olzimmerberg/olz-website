@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-use App\Entity\AccessToken;
-use App\Entity\FacebookLink;
-use App\Entity\GoogleLink;
-use App\Entity\News\NewsEntry;
-use App\Entity\NotificationSubscription;
-use App\Entity\StravaLink;
-use App\Entity\TelegramLink;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\AccessToken;
+use Olz\Entity\FacebookLink;
+use Olz\Entity\GoogleLink;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\StravaLink;
+use Olz\Entity\TelegramLink;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\MemorySession;
 
 require_once __DIR__.'/../../../../_/api/endpoints/DeleteUserEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

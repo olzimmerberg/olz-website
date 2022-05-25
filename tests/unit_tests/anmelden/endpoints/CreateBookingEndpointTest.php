@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Entity\Anmelden\Registration;
-use App\Entity\Anmelden\RegistrationInfo;
+use Olz\Entity\Anmelden\Registration;
+use Olz\Entity\Anmelden\RegistrationInfo;
+use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../../../_/anmelden/endpoints/CreateBookingEndpoint.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

@@ -1,8 +1,7 @@
 <?php
 
+use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Endpoint;
-
-require_once __DIR__.'/../utils/WithUtilsTrait.php';
 
 abstract class OlzEndpoint extends Endpoint {
     use \Psr\Log\LoggerAwareTrait;

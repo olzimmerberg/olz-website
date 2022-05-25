@@ -1,6 +1,8 @@
 <?php
 
-use App\Entity\AccessToken;
+use Olz\Entity\AccessToken;
+use Olz\Utils\AuthUtils;
+use Olz\Utils\EnvUtils;
 
 // Datei herunterladen
 if (($_GET['ftp_mode'] ?? null) == 'get_file') {
@@ -17,8 +19,7 @@ session_start();
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/utils/auth/AuthUtils.php';
-require_once __DIR__.'/utils/env/EnvUtils.php';
+
 echo olz_header([
     'title' => "Web FTP",
     'norobots' => true,

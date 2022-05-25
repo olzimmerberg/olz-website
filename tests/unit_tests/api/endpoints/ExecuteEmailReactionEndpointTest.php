@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Entity\NotificationSubscription;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\User;
 
 require_once __DIR__.'/../../../../_/api/endpoints/ExecuteEmailReactionEndpoint.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';

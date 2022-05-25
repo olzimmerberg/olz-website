@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\AuthRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\AuthRequestRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AuthRequestRepository::class)

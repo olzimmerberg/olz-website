@@ -1,8 +1,8 @@
 <?php
 
-use App\Entity\AuthRequest;
-use App\Entity\StravaLink;
-use App\Entity\User;
+use Olz\Entity\AuthRequest;
+use Olz\Entity\StravaLink;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';

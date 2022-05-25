@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace Olz\Repository;
 
-use App\Entity\Throttling;
 use Doctrine\ORM\EntityRepository;
+use Olz\Entity\Throttling;
 
 class ThrottlingRepository extends EntityRepository {
     public function getLastOccurrenceOf($event_name) {

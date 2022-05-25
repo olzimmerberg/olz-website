@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/anmelden/endpoints/CreateRegistrationEndpoint.php';

@@ -1,12 +1,13 @@
 <?php
 
+use Olz\Utils\FacebookUtils;
+use Olz\Utils\GoogleUtils;
+use Olz\Utils\StravaUtils;
+
 function olz_login_modal($args = []): string {
     global $_CONFIG;
 
     require_once __DIR__.'/../../../config/server.php';
-    require_once __DIR__.'/../../../utils/auth/GoogleUtils.php';
-    require_once __DIR__.'/../../../utils/auth/FacebookUtils.php';
-    require_once __DIR__.'/../../../utils/auth/StravaUtils.php';
 
     $strava_utils = StravaUtils::fromEnv();
     $google_utils = GoogleUtils::fromEnv();

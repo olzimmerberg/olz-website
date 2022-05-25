@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../_/config/vendor/autoload.php';
-
 class FakeIdUtils {
     public function toExternalId($internal_id, $type = '') {
         return "{$type}:{$internal_id}";

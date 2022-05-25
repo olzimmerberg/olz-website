@@ -4,8 +4,10 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
-use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\Termine\Termin;
+use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../config/database.php';
@@ -13,8 +15,6 @@ require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../config/doctrine_db.php';
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/server.php';
-require_once __DIR__.'/../utils/client/HttpUtils.php';
-require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/utils/TermineFilterUtils.php';
 
 $env_utils = EnvUtils::fromEnv();

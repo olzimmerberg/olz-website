@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\SolvEvent;
+use Olz\Entity\SolvEvent;
 
 require_once __DIR__.'/../../parsers/SolvResultParser.php';
 

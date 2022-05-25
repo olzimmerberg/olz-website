@@ -4,7 +4,7 @@
 // Die Informationsseite für Anfänger, Einsteiger, Neulinge.
 // =============================================================================
 
-use App\Entity\Role;
+use Olz\Entity\Role;
 
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 

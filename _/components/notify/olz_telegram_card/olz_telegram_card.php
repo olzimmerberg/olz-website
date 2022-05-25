@@ -1,8 +1,8 @@
 <?php
 
-use App\Entity\NotificationSubscription;
-use App\Entity\TelegramLink;
-use App\Entity\User;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\TelegramLink;
+use Olz\Entity\User;
 
 require_once __DIR__.'/../../../config/doctrine_db.php';
 require_once __DIR__.'/../../../config/paths.php';

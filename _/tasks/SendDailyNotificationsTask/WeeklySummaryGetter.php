@@ -1,12 +1,12 @@
 <?php
 
-use App\Entity\Blog;
-use App\Entity\Forum;
-use App\Entity\Galerie;
-use App\Entity\News\NewsEntry;
-use App\Entity\NotificationSubscription;
-use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\Blog;
+use Olz\Entity\Forum;
+use Olz\Entity\Galerie;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\Termine\Termin;
 
 require_once __DIR__.'/Notification.php';
 

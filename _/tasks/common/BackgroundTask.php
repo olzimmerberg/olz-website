@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../utils/env/LogsUtils.php';
+use Olz\Utils\LogsUtils;
 
 abstract class BackgroundTask {
     use \Psr\Log\LoggerAwareTrait;
@@ -27,7 +27,7 @@ abstract class BackgroundTask {
             $this->logger->info("Running task {$this->getIdent()}...");
             $this->runSpecificTask();
             $this->logger->info("Finished task {$this->getIdent()}.");
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             $this->logger->error("Error running task {$this->getIdent()}.", [$exc]);
         } finally {
             $this->logger->info("Teardown task {$this->getIdent()}...");

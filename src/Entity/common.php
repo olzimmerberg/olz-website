@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
 function sanitize_datetime_value($value) {
     if ($value == null) {

@@ -22,9 +22,9 @@ foreach ($local_paths as $local_path) {
     }
 }
 
-$remote_url = 'https://olzimmerberg.ch/_/screenshots/';
+$remote_url = 'https://olzimmerberg.ch/';
 $remote_index = json_decode(
-    file_get_contents("{$remote_url}index.json.php"), true);
+    file_get_contents("{$remote_url}screenshots/index.json.php"), true);
 if ($remote_index === null) {
     echo 'No JSON screenshot index on main';
     exit(21);
@@ -37,7 +37,7 @@ $remote_paths = $remote_index['screenshot_paths'];
 $remote_screenshots = [];
 foreach ($remote_paths as $remote_path) {
     $remote_name = parse_screenshot_name($remote_path);
-    $remote_screenshots[$remote_name] = file_get_contents("{$remote_url}generated/{$remote_path}");
+    $remote_screenshots[$remote_name] = file_get_contents("{$remote_url}screenshots/generated/{$remote_path}");
 }
 
 function parse_approvals($serialized_approvals) {

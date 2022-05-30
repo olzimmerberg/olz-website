@@ -99,6 +99,7 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger->info("Prepare for installation...");
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
+        $fs->mkdir(__DIR__.'/_/screenshots/generated');
 
         $this->logger->info("Install...");
         $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
@@ -114,7 +115,6 @@ class Deploy extends AbstractDefaultDeploy {
         file_put_contents($index_path, $updated_index_contents);
         $fs->rename("{$public_path}/_", "{$public_path}/_old");
         $fs->rename(__DIR__.'/public/_', "{$public_path}/_");
-        $fs->mkdir("{$public_path}/_/screenshots/generated");
         $fs->remove("{$public_path}/_old");
         $this->logger->info("Install done.");
     }

@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../config/paths.php';
 
-$main_href = 'https://olzimmerberg.ch/_/';
+$main_href = 'https://olzimmerberg.ch/';
 
 echo "<style>\n";
 echo "body { margin: 0; }\n";
@@ -77,7 +77,7 @@ function loadNext(index) {
     }
     const loadLocal = new Promise((resolve) => {
         const localElem = document.getElementById('local-'+screenshotPaths[index]);
-        localElem.src = '/_/screenshots/generated/' + screenshotPaths[index];
+        localElem.src = '/screenshots/generated/' + screenshotPaths[index];
         localElem.onload = resolve;
         localElem.onerror = resolve;
     });

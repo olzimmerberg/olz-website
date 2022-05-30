@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/model/SolvEvent.php';
-require_once __DIR__.'/../../../../public/_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
-require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/model/SolvEvent.php';
+require_once __DIR__.'/../../../../_/termine/model/Termin.php';
+require_once __DIR__.'/../../../../_/model/User.php';
+require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -19,7 +19,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
         global $entityManager;
-        require_once __DIR__.'/../../../../public/_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
         $logger = new Logger('DeadlineWarningGetterIntegrationTest');
@@ -39,7 +39,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         
         Folgende Meldeschlüsse stehen bevor:
         
-        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php?id=10)'
+        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine.php?id=10)'
 
         ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);

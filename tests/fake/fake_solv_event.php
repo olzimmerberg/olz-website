@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../public/_/model/SolvEvent.php';
+require_once __DIR__.'/../../_/model/SolvEvent.php';
 
 function get_fake_solv_event() {
     $solv_event = new SolvEvent();

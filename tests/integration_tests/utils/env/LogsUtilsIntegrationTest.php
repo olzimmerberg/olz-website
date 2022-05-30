@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/utils/env/LogsUtils.php';
+require_once __DIR__.'/../../../../_/utils/env/LogsUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**

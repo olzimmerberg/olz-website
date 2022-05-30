@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../../public/_/api/endpoints/LoginEndpoint.php';
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../_/api/endpoints/LoginEndpoint.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';

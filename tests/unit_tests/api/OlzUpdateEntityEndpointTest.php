@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../../public/_/api/OlzUpdateEntityEndpoint.php';
+require_once __DIR__.'/../../../_/api/OlzUpdateEntityEndpoint.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 

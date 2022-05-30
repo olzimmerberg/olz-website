@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../public/_/utils/WithUtilsTrait.php';
+require_once __DIR__.'/../../../_/utils/WithUtilsTrait.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 // Accessing trait var WithUtilsTrait::$ALL_UTILS is deprecated.
@@ -16,7 +16,7 @@ class AllDependenciesDeclaredClassWithUtilsTrait {
  */
 final class AllDependenciesDeclaredTest extends UnitTestCase {
     public function testAllCommonUtilsCovered(): void {
-        $src_path = __DIR__.'/../../../public/_/';
+        $src_path = __DIR__.'/../../../_/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $utils_files = array_merge(

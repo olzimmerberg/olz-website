@@ -1,8 +1,8 @@
 /* eslint-env jasmine */
 
 import cloneDeep from 'lodash/cloneDeep';
-import {OlzApi, OlzApiResponses} from '../../../public/_/api/client/index';
-import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../public/_/utils/Uploader';
+import {OlzApi, OlzApiResponses} from '../../../_/api/client/index';
+import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../_/utils/Uploader';
 import {FakeOlzApi} from '../../fake/FakeOlzApi';
 
 class UploaderForUnitTest extends Uploader {

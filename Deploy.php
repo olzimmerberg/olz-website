@@ -27,7 +27,7 @@ class Deploy extends AbstractDefaultDeploy {
 
         // Zip live uploader, such that it can be downloaded as zip file.
         $this->logger->info("Zip live_results...");
-        $results_path = "{$build_folder_path}/public/_/resultate";
+        $results_path = "{$build_folder_path}/_/resultate";
         $live_uploader_path = "{$results_path}/live_uploader";
         $zip_path = "{$results_path}/live_uploader.zip";
         $zip = new \ZipArchive();
@@ -98,15 +98,16 @@ class Deploy extends AbstractDefaultDeploy {
 
         $this->logger->info("Prepare for installation...");
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
-        $fs->mirror(__DIR__.'/vendor', __DIR__.'/public/_/config/vendor');
+        $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
 
         $this->logger->info("Install...");
         $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
+        $fs->mirror(__DIR__.'/public/icns', "{$public_path}/icns");
         $index_path = "{$public_path}/index.php";
         $index_contents = file_get_contents(__DIR__.'/public/index.php');
         $updated_index_contents = str_replace(
-            "require_once dirname(__DIR__).'/vendor/autoload_runtime.php';",
-            "require_once dirname(__DIR__).'/{$this->getRemotePrivatePath()}/deploy/live/vendor/autoload_runtime.php';",
+            "deploy_path = dirname(__DIR__);",
+            "deploy_path = dirname(__DIR__).'/{$this->getRemotePrivatePath()}/deploy/live';",
             $index_contents,
         );
         unlink($index_path);

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../public/_/model/SolvPerson.php';
+require_once __DIR__.'/../../_/model/SolvPerson.php';
 
 function get_fake_solv_person() {
     $solv_person = new SolvPerson();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../public/_/parsers/SolvResultParser.php';
+require_once __DIR__.'/../../../_/parsers/SolvResultParser.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**

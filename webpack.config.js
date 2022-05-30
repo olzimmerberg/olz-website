@@ -52,7 +52,7 @@ const defaultConfig = {
         }),
         new WebpackShellPluginNext({
             onBuildStart: {
-                scripts: ['php ./public/_/api/client/generate.php'],
+                scripts: ['php ./_/api/client/generate.php'],
                 blocking: true,
                 parallel: false,
             },
@@ -75,7 +75,7 @@ const defaultConfig = {
 module.exports = [
     {
         ...defaultConfig,
-        entry: './public/_/index.ts',
+        entry: './_/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/_/jsbuild'),
             publicPath: '/_/jsbuild/',
@@ -86,7 +86,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './public/_/anmelden/index.tsx',
+        entry: './_/anmelden/index.tsx',
         output: {
             path: path.resolve(__dirname, 'public/_/anmelden/jsbuild'),
             publicPath: '/_/anmelden/jsbuild/',
@@ -97,7 +97,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './public/_/resultate/index.ts',
+        entry: './_/resultate/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/_/resultate/jsbuild'),
             publicPath: '/_/resultate/jsbuild/',
@@ -108,7 +108,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './public/_/resultate/live_uploader/public_html/index.ts',
+        entry: './_/resultate/live_uploader/public_html/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/_/resultate/live_uploader/public_html/jsbuild'),
             publicPath: './jsbuild/',
@@ -119,7 +119,7 @@ module.exports = [
     },
     {
         ...defaultConfig,
-        entry: './public/_/zimmerberg_ol/index.ts',
+        entry: './_/zimmerberg_ol/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/_/zimmerberg_ol/jsbuild'),
             publicPath: '/_/zimmerberg_ol/jsbuild/',

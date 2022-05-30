@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/api/endpoints/ExecuteEmailReactionEndpoint.php';
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
+require_once __DIR__.'/../../../../_/api/endpoints/ExecuteEmailReactionEndpoint.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/model/NotificationSubscription.php';
+require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';

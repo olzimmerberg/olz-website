@@ -7,7 +7,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\FieldUtils;
 
 require_once __DIR__.'/../../../../vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/utils/client/HttpUtils.php';
+require_once __DIR__.'/../../../../_/utils/client/HttpUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**

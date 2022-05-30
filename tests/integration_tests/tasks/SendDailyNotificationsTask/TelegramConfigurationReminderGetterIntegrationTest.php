@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
-require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/TelegramConfigurationReminderGetter.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/termine/model/Termin.php';
+require_once __DIR__.'/../../../../_/model/User.php';
+require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/TelegramConfigurationReminderGetter.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -38,7 +38,7 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
 
         **Du möchtest eigentlich Push-Nachrichten erhalten?**
         
-        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"](http://integration-test.host/_/service.php) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"](http://integration-test.host/service.php) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
 
 
         **Du möchtest gar keine Push-Nachrichten erhalten?**

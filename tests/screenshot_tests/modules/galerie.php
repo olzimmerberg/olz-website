@@ -37,7 +37,7 @@ function test_galerie($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('input[type=file]')
     );
-    $big_image_path = realpath(__DIR__.'/../../../public/_/tools/dev-data/sample-data/sample-picture.jpg');
+    $big_image_path = realpath(__DIR__.'/../../../_/tools/dev-data/sample-data/sample-picture.jpg');
     sendKeys($image_upload_input, $big_image_path);
     $driver->wait()->until(function () use ($driver) {
         $delete_buttons = $driver->findElements(
@@ -48,7 +48,7 @@ function test_galerie($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('input[type=file]')
     );
-    $small_image_path = realpath(__DIR__.'/../../../public/_/icns/schilf.jpg');
+    $small_image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
     sendKeys($image_upload_input, $small_image_path);
     $driver->wait()->until(function () use ($driver) {
         $delete_buttons = $driver->findElements(

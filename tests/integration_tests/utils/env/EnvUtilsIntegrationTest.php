@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../../../_/utils/env/EnvUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 class FakeIntegrationTestEnvUtils extends EnvUtils {
@@ -27,10 +27,10 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         );
         $this->assertSame('/', $env_utils->getDataHref());
         $this->assertMatchesRegularExpression(
-            '/\/public\/_\/$/',
+            '/\/_\/$/',
             $env_utils->getCodePath()
         );
-        $this->assertSame('/_/', $env_utils->getCodeHref());
+        $this->assertSame('/', $env_utils->getCodeHref());
         $this->assertSame('http://integration-test.host', $env_utils->getBaseHref());
     }
 
@@ -85,7 +85,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         $config_path = FakeIntegrationTestEnvUtils::getConfigPath();
 
         $this->assertMatchesRegularExpression(
-            '/\/public\/_\/utils\/env\/\.\.\/\.\.\/\.\.\/config.php$/',
+            '/\/_\/utils\/env\/\.\.\/\.\.\/\.\.\/public\/config.php$/',
             $config_path
         );
 

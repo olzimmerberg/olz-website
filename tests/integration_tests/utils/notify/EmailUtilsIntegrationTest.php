@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../../../_/utils/notify/EmailUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 final class EmailUtilsIntegrationTest extends IntegrationTestCase {
     public function testEmailUtilsFromEnv(): void {
         global $_CONFIG;
-        require_once __DIR__.'/../../../../public/_/config/server.php';
+        require_once __DIR__.'/../../../../_/config/server.php';
 
         $email_utils = EmailUtils::fromEnv();
 

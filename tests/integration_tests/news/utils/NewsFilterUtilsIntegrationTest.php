@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/news/utils/NewsFilterUtils.php';
+require_once __DIR__.'/../../../../_/news/utils/NewsFilterUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**

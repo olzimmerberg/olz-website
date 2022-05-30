@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../public/_/config/vendor/autoload.php';
+require_once __DIR__.'/../../_/config/vendor/autoload.php';
 require_once __DIR__.'/FakeLogHandler.php';
 
 class FakeLogger extends Monolog\Logger {

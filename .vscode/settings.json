@@ -2,7 +2,7 @@
     "search.exclude": {
         "coverage/**": true,
         "php-coverage/**": true,
-        "public/_/config/vendor/**": true,
+        "_/config/vendor/**": true,
         "public/_/library/**": true,
         "tools/remote_config/vendor/**": true,
         "**/jsbuild/**": true,

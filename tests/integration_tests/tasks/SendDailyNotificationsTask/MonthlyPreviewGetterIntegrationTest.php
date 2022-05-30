@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
-require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/termine/model/Termin.php';
+require_once __DIR__.'/../../../../_/model/User.php';
+require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -18,7 +18,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
         global $entityManager;
-        require_once __DIR__.'/../../../../public/_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
         $logger = new Logger('MonthlyPreviewGetterIntegrationTest');
@@ -41,17 +41,17 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
         **Termine**
  
-        - 04.08.: [Training -1](http://integration-test.host/_/termine.php?id=9)
-        - 11.08.: [Training 0](http://integration-test.host/_/termine.php?id=8)
-        - 18.08.: [Training 1](http://integration-test.host/_/termine.php?id=3)
-        - 22.08.: [Grossanlass](http://integration-test.host/_/termine.php?id=10)
-        - 25.08.: [Training 2](http://integration-test.host/_/termine.php?id=4)
-        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/_/termine.php?id=5)
+        - 04.08.: [Training -1](http://integration-test.host/termine.php?id=9)
+        - 11.08.: [Training 0](http://integration-test.host/termine.php?id=8)
+        - 18.08.: [Training 1](http://integration-test.host/termine.php?id=3)
+        - 22.08.: [Grossanlass](http://integration-test.host/termine.php?id=10)
+        - 25.08.: [Training 2](http://integration-test.host/termine.php?id=4)
+        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine.php?id=5)
 
 
         **Meldeschlüsse**
 
-        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/_/termine.php?id=10)'
+        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine.php?id=10)'
 
 
         ZZZZZZZZZZ;

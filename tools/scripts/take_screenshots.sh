@@ -2,8 +2,6 @@
 
 set -e
 
-DOMAIN='127.0.0.1:30270'
-
 BROWSER='firefox'
 SET_INDEX=''
 
@@ -54,7 +52,8 @@ npm run webpack-build
 
 # Run dev server
 mkdir -p ./public/logs
-php -S "$DOMAIN" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
+# php -S "127.0.0.1:30270" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
+symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
 
 # Run test, allow aborting

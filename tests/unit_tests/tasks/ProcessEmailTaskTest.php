@@ -9,11 +9,11 @@ require_once __DIR__.'/../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../fake/FakeLogger.php';
 require_once __DIR__.'/../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../public/_/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../public/_/model/TelegramLink.php';
-require_once __DIR__.'/../../../public/_/tasks/ProcessEmailTask.php';
-require_once __DIR__.'/../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../_/model/NotificationSubscription.php';
+require_once __DIR__.'/../../../_/model/TelegramLink.php';
+require_once __DIR__.'/../../../_/tasks/ProcessEmailTask.php';
+require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 class FakeProcessEmailTaskMail {

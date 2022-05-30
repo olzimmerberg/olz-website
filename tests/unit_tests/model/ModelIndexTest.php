@@ -11,7 +11,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 final class ModelIndexTest extends UnitTestCase {
     public function testAllModelsImportedInEachModuleIndex(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../public/_/config/doctrine.php';
+        require_once __DIR__.'/../../../_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
         foreach ($doctrine_model_folders as $model_path) {
@@ -44,11 +44,11 @@ final class ModelIndexTest extends UnitTestCase {
 
     public function testAllModulesImportedInMainIndex(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../public/_/config/doctrine.php';
+        require_once __DIR__.'/../../../_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
-        $src_path = __DIR__.'/../../../public/_/';
-        $main_model_path = __DIR__.'/../../../public/_/model/';
+        $src_path = __DIR__.'/../../../_/';
+        $main_model_path = __DIR__.'/../../../_/model/';
         $this->assertTrue(is_dir($src_path));
         $this->assertTrue(is_dir($main_model_path));
         $src_realpath = realpath($src_path);
@@ -70,10 +70,10 @@ final class ModelIndexTest extends UnitTestCase {
 
     public function testAllModulesListedInDoctrine(): void {
         global $doctrine_model_folders;
-        require_once __DIR__.'/../../../public/_/config/doctrine.php';
+        require_once __DIR__.'/../../../_/config/doctrine.php';
         $this->assertGreaterThan(0, count($doctrine_model_folders));
 
-        $src_path = __DIR__.'/../../../public/_/';
+        $src_path = __DIR__.'/../../../_/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $model_folder_indexes = glob("{$src_realpath}/*/model/index.php");

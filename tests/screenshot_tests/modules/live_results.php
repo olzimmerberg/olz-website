@@ -2,7 +2,7 @@
 
 namespace Facebook\WebDriver;
 
-require_once __DIR__.'/../../../public/_/config/date.php';
+require_once __DIR__.'/../../../_/config/date.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $startseite_url = '/startseite.php';

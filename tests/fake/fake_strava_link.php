@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../public/_/model/StravaLink.php';
+require_once __DIR__.'/../../_/model/StravaLink.php';
 
 function get_fake_strava_link() {
     $strava_link = new StravaLink();

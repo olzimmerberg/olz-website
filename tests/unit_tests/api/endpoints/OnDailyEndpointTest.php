@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../../public/_/api/endpoints/OnDailyEndpoint.php';
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/api/endpoints/OnDailyEndpoint.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeTask.php';

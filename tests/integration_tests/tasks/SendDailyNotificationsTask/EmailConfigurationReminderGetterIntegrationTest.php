@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
-require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/EmailConfigurationReminderGetter.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/termine/model/Termin.php';
+require_once __DIR__.'/../../../../_/model/User.php';
+require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/EmailConfigurationReminderGetter.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -39,7 +39,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
 
         **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        In diesem Fall musst du dich auf der Website [*einloggen*](http://integration-test.host/_/service.php#login-dialog), und unter ["Service"](http://integration-test.host/_/service.php) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website [*einloggen*](http://integration-test.host/service.php#login-dialog), und unter ["Service"](http://integration-test.host/service.php) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
         Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@test.olzimmerberg.ch` registriert.
 

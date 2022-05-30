@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/news/model/NewsEntry.php';
-require_once __DIR__.'/../../../../public/_/model/Blog.php';
-require_once __DIR__.'/../../../../public/_/model/Forum.php';
-require_once __DIR__.'/../../../../public/_/model/Galerie.php';
-require_once __DIR__.'/../../../../public/_/model/User.php';
-require_once __DIR__.'/../../../../public/_/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
-require_once __DIR__.'/../../../../public/_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/news/model/NewsEntry.php';
+require_once __DIR__.'/../../../../_/model/Blog.php';
+require_once __DIR__.'/../../../../_/model/Forum.php';
+require_once __DIR__.'/../../../../_/model/Galerie.php';
+require_once __DIR__.'/../../../../_/model/User.php';
+require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
+require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
@@ -21,7 +21,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
         global $entityManager;
-        require_once __DIR__.'/../../../../public/_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $date_utils = new FixedDateUtils('2020-01-01 12:51:00');
         $logger = new Logger('DailySummaryGetterIntegrationTest');
@@ -50,17 +50,17 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Aktuell**
         
-        - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/_/aktuell.php?id=3)
+        - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/aktuell.php?id=3)
         
         
         **Kaderblog**
         
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/_/blog.php#id1)
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id1)
         
 
         **Aktualisierte Termine**
         
-        - 06.06.: [Brunch OL](http://integration-test.host/_/termine.php?id=2)
+        - 06.06.: [Brunch OL](http://integration-test.host/termine.php?id=2)
         
         
         ZZZZZZZZZZ;
@@ -70,7 +70,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
     public function testDailySummaryGetterDay2(): void {
         global $entityManager;
-        require_once __DIR__.'/../../../../public/_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $date_utils = new FixedDateUtils('2020-01-02 12:51:00');
         $logger = new Logger('DailySummaryGetterIntegrationTest');
@@ -99,17 +99,17 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Galerien**
         
-        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/_/galerie.php?id=1)
+        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/galerie.php?id=1)
         
         
         **Forum**
         
-        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/_/forum.php#id1)
+        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)
 
         
         **Aktualisierte Termine**
 
-        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/_/termine.php?id=1)
+        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/termine.php?id=1)
 
 
         ZZZZZZZZZZ;
@@ -119,7 +119,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
     public function testDailySummaryGetterDay3(): void {
         global $entityManager;
-        require_once __DIR__.'/../../../../public/_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $date_utils = new FixedDateUtils('2020-01-03 12:51:00');
         $logger = new Logger('DailySummaryGetterIntegrationTest');
@@ -148,7 +148,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Galerien**
         
-        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/_/galerie.php?id=2)
+        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/galerie.php?id=2)
         
 
         ZZZZZZZZZZ;

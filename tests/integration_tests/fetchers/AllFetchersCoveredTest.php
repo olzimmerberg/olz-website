@@ -10,7 +10,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
  */
 final class AllFetchersCoveredTest extends IntegrationTestCase {
     public function testAllFetchersCovered(): void {
-        $fetchers_path = __DIR__.'/../../../public/_/fetchers';
+        $fetchers_path = __DIR__.'/../../../_/fetchers';
 
         $this->assertTrue(is_dir($fetchers_path));
         $fetchers_files = scandir($fetchers_path);

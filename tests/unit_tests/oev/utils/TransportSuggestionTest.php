@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/oev/utils/TransportSuggestion.php';
+require_once __DIR__.'/../../../../_/oev/utils/TransportSuggestion.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

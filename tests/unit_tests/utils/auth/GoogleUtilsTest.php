@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../public/_/utils/auth/GoogleUtils.php';
+require_once __DIR__.'/../../../../_/utils/auth/GoogleUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 $sample_google_token_response = [

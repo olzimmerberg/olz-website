@@ -3,6 +3,7 @@
 /public/*
 !/public/.htaccess
 !/public/_
+!/public/icns
 !/public/config.template.php
 !/public/index.php
 !/public/tools.php
@@ -10,8 +11,13 @@
 /public/_/olz_ical.ics
 /public/_/resultate/live_uploader/public_html/data
 /public/_/screenshots/generated
-/public/_/tools/dev-data/tmp/*
-/public/_/tools/tmp/*
+/_/tools/dev-data/tmp/*
+/_/tools/tmp/*
+/_/olz_ical.ics
+/_/resultate/live_uploader/public_html/data
+/_/screenshots/generated
+/_/tools/dev-data/tmp/*
+/_/tools/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*
 /tools/fuer_einsteiger/thumb/*

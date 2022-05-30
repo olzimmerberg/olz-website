@@ -1,8 +1,8 @@
 coverage/
 deploy/
 jsbuild/
-public/_/config/vendor/
-public/_/library/
+_/config/vendor/
+_/library/
 node_modules/
 php-coverage/
 tscbuild/

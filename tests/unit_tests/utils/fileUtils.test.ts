@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {readBase64} from '../../../public/_/utils/fileUtils';
+import {readBase64} from '../../../_/utils/fileUtils';
 
 const SIMPLE_FILE = new File(['simple'], 'simple.txt', {type: 'text/plain'});
 

@@ -1,0 +1,524 @@
+/*
+
+// =============================================================================
+// Alle CSS Definitionen der Website.
+// =============================================================================
+
+
+CLASS
+box: Boxen [z.B. für Bilder]
+nobox: kein Rahmen [z.B. rechte Seite (Schema <h2>TITEL</h2><div class='nobox'>INHALT</div>)]
+tablebar: Zwischentitel in Tabelle [z.B. Forum, Monatstitel]
+dropdown: Knopf mit Rahmen [z.B. in "admin_db.php"]
+button: Knopf ohne Rahmen [z.B. Forum "Neuer Eintrag"]
+thumbs (für tr oder table): Thumbnails vierspaltig [z.B. Galerie Vorschau Startseite]
+foto (für tr oder table): Bild (einspaltig) [z.B. Flash-Video Anzeige]
+galerie-kopf (für tr oder table): Zellen vierspaltig [z.B. Galerie Header]
+liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
+image (für table): Linksbündiges Bild [z.B. Aktuell]
+*/
+
+body {
+    background-image: url('../../public/icns/brushedbgschwarz.png');
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    z-index: -2;
+}
+
+input {
+    font-size: 12px;
+}
+
+h6 {
+    font-size: 12px;
+}
+
+* {
+    border: 0;
+    font-family: 'Open Sans', arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    empty-cells: show;
+    table-layout: auto;
+    width: 100%;
+}
+
+table.image {
+    float: left;
+    padding: 0 10px 5px 0;
+}
+
+thead td {
+    background-color: #e6e6e6;
+    border: 1px solid #808080;
+    font-weight: bold;
+}
+
+.kartenstatistik td,
+.kartenstatistik span {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px;
+}
+
+h2,
+h3 {
+    clear: left;
+}
+
+.mainbg {
+    background-image: url('../../public/icns/mainbg.png');
+    background-repeat: repeat;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.olz-editable-text ul,
+.olz-role-page ul,
+ul.bullet-list {
+    list-style-type: disc;
+    padding-left: 16px;
+}
+
+.thumbs td {
+    height: 120px;
+    padding: 5px;
+    width: 25%;
+}
+
+.foto td {
+    height: 625px;
+    padding: 10px;
+}
+
+.paragraf {
+    display: block;
+    padding-top: 10px;
+}
+
+#countdown {
+    border-collapse: separate collapse;
+    border-spacing: 10px 1px;
+}
+
+#countdown td {
+    background-color: #ddd;
+    border: 1px solid #fff;
+    text-align: center;
+}
+
+.kartenstatistik td {
+    background-color: #ddd;
+    border: solid 1px #808080;
+}
+
+.zeit,
+.rang {
+    padding-right: 10px !important;
+    text-align: right;
+}
+
+.box-ganz > div {
+    background-image: url('../../public/icns/mainbg.png');
+    background-repeat: repeat;
+    border-left: 5px solid;
+    border-radius: 3px;
+    height: 133px;
+    width: 222px;
+}
+
+.heute {
+    background-color: #d4e7ce;
+    margin: 0;
+}
+
+p.heute > a {
+    color: #000;
+}
+
+p.heute {
+    padding: 5px 8px 8px;
+}
+
+tr.off * {
+    color: #808080 !important;
+}
+/*-----------AUSSCHREIBUNG-------------*/
+.hide {
+    display: none;
+}
+
+.menu-aus {
+    background-color: #d4e7ce;
+    border: solid 1px #007521;
+    font-weight: bold;
+    padding: 3px;
+    text-align: center;
+}
+
+.trenner {
+    background-color: #d4e7ce;
+    height: 10px;
+}
+
+/*-----------ABSTAENDE-------------*/
+.banner {
+    background-color: #d4e7ce;
+    border-bottom: 1px solid #007521;
+    border-top: 1px solid #007521;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+h2,
+h3,
+.buttonbar {
+    margin: 8px 0 4px;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.box-content h3 {
+    margin: 0 -5px 4px;
+    padding-top: 0;
+}
+
+h6,
+.section,
+li,
+.nobox,
+.tablebar {
+    margin: 0 0 4px;
+    padding: 0;
+}
+
+p,
+ul,
+div.thumb,
+.paragraf {
+    margin: 4px 6px 8px 8px;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp td,
+.liste td,
+.galerie-kopf td,
+.tablebar,
+.accordion-title {
+    padding: 1px 8px 2px;
+}
+
+.titel {
+    padding-bottom: 0;
+}
+
+/*-----------RAHMEN-------------*/
+.nobox,
+.noborder,
+input.button {
+    border: 0;
+}
+
+.titel,
+h2,
+h3,
+.buttonbar {
+    border-bottom: 1px solid #007521;
+}
+
+img,
+input,
+textarea,
+.box,
+.thumbs img {
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #444;
+    border-right: 1px solid #aaa;
+    border-top: 1px solid #444;
+}
+
+.dropdown {
+    border-bottom: 1px solid #999;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #999;
+    border-top: 1px solid #ddd;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp td,
+.liste td {
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #999;
+}
+
+/*-----------HINTERGRUND-------------*/
+.tablebar,
+.galerie-kopf td,
+.accordion-title {
+    background-image: url('../../public/icns/listheaderbg.png') !important;
+    background-repeat: repeat;
+}
+
+.dropdown {
+    background-color: #ded;
+}
+
+a,
+span,
+div,
+li {
+    background: no-repeat left top;
+}
+
+input.button {
+    background-color: transparent;
+}
+
+.olz-text-insert {
+    background-color: #f5b8b7;
+    border: solid 1px;
+}
+
+.selected {
+    background-color: #f5b8b7;
+}
+
+.karten {
+    background-color: #ded;
+}
+
+
+/*-------SCHRIFTEIGENSCHAFTEN--------*/
+.titel {
+    font-size: 115%;
+    vertical-align: bottom;
+}
+
+a {
+    color: #007521;
+    text-decoration: none;
+}
+
+a.text {
+    color: #000;
+}
+
+a:hover,
+.accordion-title {
+    color: #000;
+}
+
+.passe * {
+    color: #999;
+}
+
+.error {
+    color: #e11 !important;
+}
+
+.dropdown,
+input.button {
+    color: #007521;
+}
+
+h2,
+h3,
+.buttonbar,
+.dropdown,
+.button,
+.tablebar,
+.titel,
+.galerie-kopf td,
+.accordion-title {
+    font-weight: bold;
+}
+
+h2,
+h3,
+h2 a,
+h4.tablebar {
+    font-size: 115%;
+}
+
+h6,
+.section,
+.dropdown,
+input.button,
+.thumbs td,
+.galerie-kopf *,
+.foto td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.blog td {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.bahndaten td:first-child {
+    font-weight: bold;
+}
+
+/*-----------------LINKS------------------*/
+/* für a, span, div, li */
+.linkblack,
+.linkedit,
+.linkimg,
+.linkmap,
+.linkmovie,
+.linkneu,
+.linkoev,
+.linkduplicate {
+    background-position: left center;
+}
+
+.linkblack,
+.linkedit,
+.linkimg,
+.linkmap,
+.linkmovie,
+.linkneu,
+.linkoev {
+    padding: 0 6px 0 16px;
+}
+
+.linkedit2 {
+    padding: 0 0 0 16px;
+}
+
+.linkblack {
+    background-image: url('../../public/icns/link_internal_selected_16.svg');
+}
+
+.linkedit {
+    background-image: url('../../public/icns/edit_16.svg');
+}
+
+.linkduplicate {
+    background-image: url('../../public/icns/duplicate_16.svg');
+}
+
+.linkext,
+.olz-editable-text a[href^='http://'],
+.olz-editable-text a[href^='https://'] {
+    background-image: url('../../public/icns/link_external_16.svg');
+    background-position: left center;
+    padding: 0 6px 0 16px;
+}
+
+.linkimg {
+    background-image: url('../../public/icns/link_slides_16.svg');
+}
+
+.linkint,
+.olz-editable-text a[href^='/'] {
+    background-image: url('../../public/icns/link_internal_16.svg');
+    background-position: left center;
+    padding: 0 6px 0 16px;
+}
+
+.linkmap {
+    background-image: url('../../public/icns/link_map_16.svg');
+}
+
+.linkmail,
+.olz-editable-text a[href^='mailto:'] {
+    background-image: url('../../public/icns/link_mail_16.svg');
+    background-position: left center;
+    padding: 0 6px 0 16px;
+}
+
+.linkmovie {
+    background-image: url('../../public/icns/link_movie_16.svg');
+}
+
+.linkneu {
+    background-image: url('../../public/icns/new_16.svg');
+}
+
+.linkoev {
+    background-image: url('../../public/icns/publ_transport_16.svg');
+}
+
+.linkol {
+    background-image: url('../../public/icns/orienteering_forest_16.svg');
+    background-position: left center;
+    padding: 0 6px 0 19px;
+}
+
+.linkpdf,
+.olz-editable-text a[href$='.pdf'] {
+    background-image: url('../../public/icns/link_pdf_16.svg');
+    background-position: left center;
+    padding: 0 6px 0 19px;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.liste_ftp a[href$='.pdf'] {
+    background-image: url('');
+    padding-left: 0;
+}
+
+/*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/
+.accordion-title,
+.accordion-content {
+    position: relative;
+}
+
+.accordion-title {
+    cursor: pointer;
+    font-size: 115%;
+    overflow: hidden;
+    user-select: none;
+}
+
+.accordion-content {
+    height: 1px;
+    overflow: hidden;
+    width: 100%;/* IE Erlaubt 0px nicht */
+}
+
+.accordion-content- {
+    height: auto;
+}
+
+.responsive-flex {
+    display: flex;
+    flex-direction: row;
+
+    .responsive-flex-2 {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 832px) {
+    .responsive-flex {
+        flex-direction: column;
+
+        .responsive-flex-2 {
+            width: 100%;
+        }
+    }
+}
+
+.olz-override-root .lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.olz-override-root .ui-datepicker {
+    background-color: rgb(255, 255, 255);
+}

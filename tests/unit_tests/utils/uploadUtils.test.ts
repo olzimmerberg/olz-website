@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {obfuscateForUpload, deobfuscateUpload} from '../../../public/_/utils/uploadUtils';
+import {obfuscateForUpload, deobfuscateUpload} from '../../../_/utils/uploadUtils';
 
 describe('obfuscateForUpload', () => {
     it('for simple string', () => {

@@ -9,7 +9,7 @@ use Doctrine\ORM\Tools\Setup;
 
 global $doctrine_model_folders;
 
-require_once __DIR__.'/../../public/_/config/doctrine.php';
+require_once __DIR__.'/../../_/config/doctrine.php';
 
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(

@@ -7,9 +7,9 @@ use Monolog\Logger;
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
-require_once __DIR__.'/../../../../public/_/api/endpoints/LinkTelegramEndpoint.php';
-require_once __DIR__.'/../../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../public/_/utils/session/MemorySession.php';
+require_once __DIR__.'/../../../../_/api/endpoints/LinkTelegramEndpoint.php';
+require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

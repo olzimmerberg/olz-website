@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 use PhpTypeScriptApi\Fields\FieldUtils;
 
-require_once __DIR__.'/../../../public/_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../public/_/utils/auth/AuthUtils.php';
-require_once __DIR__.'/../../../public/_/utils/auth/StravaUtils.php';
-require_once __DIR__.'/../../../public/_/utils/date/FixedDateUtils.php';
-require_once __DIR__.'/../../../public/_/utils/env/EnvUtils.php';
-require_once __DIR__.'/../../../public/_/utils/notify/EmailUtils.php';
-require_once __DIR__.'/../../../public/_/utils/notify/TelegramUtils.php';
-require_once __DIR__.'/../../../public/_/utils/session/StandardSession.php';
-require_once __DIR__.'/../../../public/_/utils/EntityUtils.php';
-require_once __DIR__.'/../../../public/_/utils/GeneralUtils.php';
-require_once __DIR__.'/../../../public/_/utils/IdUtils.php';
-require_once __DIR__.'/../../../public/_/utils/UploadUtils.php';
-require_once __DIR__.'/../../../public/_/utils/WithUtilsTrait.php';
+require_once __DIR__.'/../../../_/config/vendor/autoload.php';
+require_once __DIR__.'/../../../_/utils/auth/AuthUtils.php';
+require_once __DIR__.'/../../../_/utils/auth/StravaUtils.php';
+require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
+require_once __DIR__.'/../../../_/utils/env/EnvUtils.php';
+require_once __DIR__.'/../../../_/utils/notify/EmailUtils.php';
+require_once __DIR__.'/../../../_/utils/notify/TelegramUtils.php';
+require_once __DIR__.'/../../../_/utils/session/StandardSession.php';
+require_once __DIR__.'/../../../_/utils/EntityUtils.php';
+require_once __DIR__.'/../../../_/utils/GeneralUtils.php';
+require_once __DIR__.'/../../../_/utils/IdUtils.php';
+require_once __DIR__.'/../../../_/utils/UploadUtils.php';
+require_once __DIR__.'/../../../_/utils/WithUtilsTrait.php';
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 class WithUtilsTraitIntegrationClassWithUtilsTrait {

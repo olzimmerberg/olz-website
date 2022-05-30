@@ -1,0 +1,24 @@
+.site-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.site-background {
+    background-image: url('../../../../public/icns/mainbg.png');
+    background-repeat: repeat;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    min-height: 700px;
+    padding-top: 180px;
+    position: relative;
+}
+
+@media screen and (max-width: 1200px) {
+    .site-container {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin: 0 auto;
+    }
+}

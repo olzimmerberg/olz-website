@@ -126,7 +126,7 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
 }
 echo "\n";
 echo "To see the changes:\n";
-echo "https://test.olzimmerberg.ch/_/screenshots/\n";
+echo "https://test.olzimmerberg.ch/screenshots/\n";
 if (!$all_approved) {
     echo "\n";
     echo "Not all approvals received.\n";

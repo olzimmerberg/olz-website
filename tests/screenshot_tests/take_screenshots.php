@@ -11,6 +11,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 require_once __DIR__.'/utils/database.php';
+require_once __DIR__.'/utils/screenshot.php';
 require_once __DIR__.'/utils/timing.php';
 require_once __DIR__.'/utils/window.php';
 
@@ -62,10 +63,9 @@ if ($browser == 'firefox') {
 $driver = RemoteWebDriver::create($host, $capabilities);
 
 $base_url = 'http://127.0.0.1:30270/';
-$code_href = "{$base_url}_/";
 
 function init_test_block($driver) {
-    reset_dev_data();
+    full_reset_dev_data();
 
     reset_timing();
 
@@ -73,53 +73,53 @@ function init_test_block($driver) {
 }
 
 $blocks = [
-    function ($driver, $code_href) {
+    function ($driver, $base_url) {
         init_test_block($driver);
 
         // no specific order
-        test_bild_der_woche($driver, $code_href);
-        test_aktuell($driver, $code_href);
-        test_leistungssport($driver, $code_href);
-        test_termine($driver, $code_href);
-        test_galerie($driver, $code_href);
+        test_bild_der_woche($driver, $base_url);
+        test_aktuell($driver, $base_url);
+        test_leistungssport($driver, $base_url);
+        test_termine($driver, $base_url);
+        test_galerie($driver, $base_url);
 
         echo get_pretty_timing_report();
     },
-    function ($driver, $code_href) {
+    function ($driver, $base_url) {
         init_test_block($driver);
 
         // no specific order
-        test_startseite($driver, $code_href);
-        test_forum($driver, $code_href);
-        test_karten($driver, $code_href);
-        test_material($driver, $code_href);
-        test_links($driver, $code_href);
-        test_downloads($driver, $code_href);
-        test_email_reaktion($driver, $code_href);
-        test_verein($driver, $code_href);
-        test_trophy($driver, $code_href);
-        test_error($driver, $code_href);
-        test_suche($driver, $code_href);
-        test_zimmerberg_ol($driver, $code_href);
+        test_startseite($driver, $base_url);
+        test_forum($driver, $base_url);
+        test_karten($driver, $base_url);
+        test_material($driver, $base_url);
+        test_links($driver, $base_url);
+        test_downloads($driver, $base_url);
+        test_email_reaktion($driver, $base_url);
+        test_verein($driver, $base_url);
+        test_trophy($driver, $base_url);
+        test_error($driver, $base_url);
+        test_suche($driver, $base_url);
+        test_zimmerberg_ol($driver, $base_url);
 
         echo get_pretty_timing_report();
     },
-    function ($driver, $code_href) {
+    function ($driver, $base_url) {
         init_test_block($driver);
 
         // no specific order
-        test_fuer_einsteiger($driver, $code_href);
-        test_fragen_und_antworten($driver, $code_href);
-        test_datenschutz($driver, $code_href);
-        test_webdav($driver, $code_href);
-        test_login_logout($driver, $code_href);
-        test_profil($driver, $code_href);
-        test_webftp($driver, $code_href);
-        test_live_results($driver, $code_href);
-        test_resultate($driver, $code_href);
-        test_konto_passwort($driver, $code_href);
-        test_service($driver, $code_href);
-        test_newsletter($driver, $code_href);
+        test_fuer_einsteiger($driver, $base_url);
+        test_fragen_und_antworten($driver, $base_url);
+        test_datenschutz($driver, $base_url);
+        test_webdav($driver, $base_url);
+        test_login_logout($driver, $base_url);
+        test_profil($driver, $base_url);
+        test_webftp($driver, $base_url);
+        test_live_results($driver, $base_url);
+        test_resultate($driver, $base_url);
+        test_konto_passwort($driver, $base_url);
+        test_service($driver, $base_url);
+        test_newsletter($driver, $base_url);
 
         echo get_pretty_timing_report();
     },
@@ -129,7 +129,7 @@ try {
     for ($block = 0; $block < count($blocks); $block++) {
         if ($block_to_run == $block || $block_to_run == '') {
             $function = $blocks[$block];
-            $function($driver, $code_href);
+            $function($driver, $base_url);
         }
     }
 
@@ -213,6 +213,9 @@ try {
     // // dump current cookies to output
     // $cookies = $driver->manage()->getCookies();
     // print_r($cookies);
+} catch (\Exception $e) {
+    take_pageshot($driver, '_error_screenshot');
+    throw $e;
 } finally {
     $driver->quit();
 }

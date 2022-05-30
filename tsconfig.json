@@ -22,13 +22,13 @@
     "target": "es5"
   },
   "include": [
-    "public/_/**/*",
+    "_/**/*",
     "tests/fake/**/*",
     "tests/unit_tests/**/*"
   ],
   "exclude": [
     "node_modules",
     "public/_/**/jsbuild",
-    "public/_/config/vendor"
+    "_/config/vendor"
   ]
 }

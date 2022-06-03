@@ -50,6 +50,7 @@ class LegacyBridge {
     private static function useLegacyScript($script_path) {
         $_SERVER["SCRIPT_FILENAME"] = realpath($script_path);
         $_SERVER["SCRIPT_NAME"] = realpath($script_path);
+        $_SERVER["PHP_SELF"] = substr(realpath($script_path), strlen(realpath(__DIR__.'/../_')));
         return $script_path;
     }
 }

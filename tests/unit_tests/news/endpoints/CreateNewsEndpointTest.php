@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Entity\Role;
-use App\Entity\User;
+use Olz\Entity\Role;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/news/endpoints/CreateNewsEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';

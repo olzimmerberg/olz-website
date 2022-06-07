@@ -1,8 +1,8 @@
 <?php
 
-use App\Entity\News\NewsEntry;
-use App\Entity\Role;
-use App\Entity\User;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Role;
+use Olz\Entity\User;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';

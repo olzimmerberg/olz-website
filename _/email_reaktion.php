@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Utils\EmailUtils;
+
 require_once __DIR__.'/config/init.php';
 
 session_start();
@@ -13,7 +15,6 @@ echo olz_header([
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/utils/notify/EmailUtils.php';
 
 $email_utils = EmailUtils::fromEnv();
 $token = $_GET['token'] ?? '';

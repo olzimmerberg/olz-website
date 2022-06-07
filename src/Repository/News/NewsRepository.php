@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\News;
+namespace Olz\Repository\News;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;

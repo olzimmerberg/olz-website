@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../utils/env/EnvUtils.php';
+use Olz\Utils\EnvUtils;
 
 $olz_api = require __DIR__.'/olz_api.php';
 

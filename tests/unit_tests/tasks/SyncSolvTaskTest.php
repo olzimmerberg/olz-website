@@ -3,12 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../fake/FakeEnvUtils.php';
-require_once __DIR__.'/../../../_/config/vendor/autoload.php';
 require_once __DIR__.'/../../../_/tasks/SyncSolvTask.php';
-require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 class FakeSolvEventsSyncer {

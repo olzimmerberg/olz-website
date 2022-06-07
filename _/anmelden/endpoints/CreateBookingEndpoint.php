@@ -1,8 +1,8 @@
 <?php
 
-use App\Entity\Anmelden\Booking;
-use App\Entity\Anmelden\Registration;
-use App\Entity\Anmelden\RegistrationInfo;
+use Olz\Entity\Anmelden\Booking;
+use Olz\Entity\Anmelden\Registration;
+use Olz\Entity\Anmelden\RegistrationInfo;
 
 require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';
 require_once __DIR__.'/BookingEndpointTrait.php';

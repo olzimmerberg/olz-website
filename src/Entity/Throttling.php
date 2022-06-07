@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\ThrottlingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\ThrottlingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ThrottlingRepository::class)

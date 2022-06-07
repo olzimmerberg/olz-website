@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Entity\NotificationSubscription;
-use App\Entity\TelegramLink;
-use App\Entity\User;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\TelegramLink;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../fake/fake_notification_subscription.php';
 require_once __DIR__.'/../../fake/FakeUsers.php';
@@ -16,7 +17,6 @@ require_once __DIR__.'/../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../_/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../../_/tasks/SendDailyNotificationsTask.php';
-require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 $user1 = FakeUsers::defaultUser(true);

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Entity\SolvEvent;
-use App\Entity\Termine\Termin;
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\SolvEvent;
+use Olz\Entity\Termine\Termin;
+use Olz\Entity\User;
+use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

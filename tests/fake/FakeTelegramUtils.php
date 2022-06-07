@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\TelegramLink;
+use Olz\Entity\TelegramLink;
 
 class FakeTelegramUtils {
     public $isAnonymousChat = false;

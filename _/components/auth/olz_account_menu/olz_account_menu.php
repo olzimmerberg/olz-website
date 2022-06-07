@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\User;
+use Olz\Entity\User;
 
 function olz_account_menu($args = []): string {
     global $_CONFIG, $entityManager;

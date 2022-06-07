@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Anmelden;
+namespace Olz\Repository\Anmelden;
 
 use Doctrine\ORM\EntityRepository;
 

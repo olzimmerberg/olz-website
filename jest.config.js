@@ -35,7 +35,7 @@ const jestConfig = {
         './_/features/': percentCoverage(50),
         './_/library/': percentCoverage(0),
         './_/scripts/': percentCoverage(0),
-        './_/utils/': percentCoverage(100),
+        './src/Utils/': percentCoverage(100),
     },
 };
 module.exports = jestConfig;

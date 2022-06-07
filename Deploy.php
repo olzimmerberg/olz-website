@@ -100,6 +100,9 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
+        if ($fs->exists("{$public_path}/_old")) {
+            $fs->remove("{$public_path}/_old");
+        }
 
         $this->logger->info("Install...");
         $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
@@ -113,9 +116,13 @@ class Deploy extends AbstractDefaultDeploy {
         );
         unlink($index_path);
         file_put_contents($index_path, $updated_index_contents);
-        $fs->rename("{$public_path}/_", "{$public_path}/_old");
+        if ($fs->exists("{$public_path}/_")) {
+            $fs->rename("{$public_path}/_", "{$public_path}/_old");
+        }
         $fs->rename(__DIR__.'/public/_', "{$public_path}/_");
-        $fs->remove("{$public_path}/_old");
+        if ($fs->exists("{$public_path}/_old")) {
+            $fs->remove("{$public_path}/_old");
+        }
         $this->logger->info("Install done.");
     }
 }

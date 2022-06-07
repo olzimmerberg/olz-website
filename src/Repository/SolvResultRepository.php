@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repository;
+namespace Olz\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
 class SolvResultRepository extends EntityRepository {
     public function getUnassignedSolvResults() {
-        $dql = "SELECT sr FROM App\\Entity\\SolvResult sr WHERE sr.person = '0'";
+        $dql = "SELECT sr FROM Olz\\Entity\\SolvResult sr WHERE sr.person = '0'";
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
@@ -18,7 +18,7 @@ class SolvResultRepository extends EntityRepository {
                 sr.name,
                 sr.birth_year,
                 sr.domicile
-            FROM App\\Entity\\SolvResult sr
+            FROM Olz\\Entity\\SolvResult sr
             WHERE sr.person != '0'
         ";
         $query = $this->getEntityManager()->createQuery($dql);
@@ -33,7 +33,7 @@ class SolvResultRepository extends EntityRepository {
         $sane_domicile = $db->escape_string($solv_result->getDomicile());
         $dql = "
             SELECT sr.person
-            FROM App\\Entity\\SolvResult sr
+            FROM Olz\\Entity\\SolvResult sr
             WHERE
                 sr.name = '{$sane_name}'
                 AND sr.birth_year = '{$sane_birth_year}'
@@ -53,7 +53,7 @@ class SolvResultRepository extends EntityRepository {
         $sane_old_id = intval($old_person_id);
         $sane_new_id = intval($new_person_id);
         $dql = "
-            UPDATE App\\Entity\\SolvResult sr
+            UPDATE Olz\\Entity\\SolvResult sr
             SET sr.person = '{$sane_new_id}'
             WHERE sr.person = '{$sane_old_id}'
         ";
@@ -65,7 +65,7 @@ class SolvResultRepository extends EntityRepository {
         $sane_id = intval($id);
         $dql = "
             SELECT COUNT(sr.id)
-            FROM App\\Entity\\SolvResult sr
+            FROM Olz\\Entity\\SolvResult sr
             WHERE sr.person = '{$sane_id}'";
         $query = $this->getEntityManager()->createQuery($dql);
         try {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\StravaLinkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\StravaLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=StravaLinkRepository::class)

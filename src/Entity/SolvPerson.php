@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\SolvPersonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\SolvPersonRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SolvPersonRepository::class)

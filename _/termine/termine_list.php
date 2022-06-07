@@ -4,14 +4,14 @@
 // Zeigt geplante und vergangene Termine an.
 // =============================================================================
 
+use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../components/schema/olz_event_data/olz_event_data.php';
 require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/../config/date.php';
 require_once __DIR__.'/../library/wgs84_ch1903/wgs84_ch1903.php';
-require_once __DIR__.'/../utils/client/HttpUtils.php';
-require_once __DIR__.'/../utils/env/EnvUtils.php';
 require_once __DIR__.'/components/olz_termine_filter/olz_termine_filter.php';
 require_once __DIR__.'/utils/TermineFilterUtils.php';
 

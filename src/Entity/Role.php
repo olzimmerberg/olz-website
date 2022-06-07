@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\RoleRepository;
 
 /**
  * @ORM\Entity(repositoryClass=RoleRepository::class)

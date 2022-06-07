@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import {readBase64} from '../../../utils/fileUtils';
-import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../utils/imageUtils';
-import {Uploader} from '../../../utils/Uploader';
+import {readBase64} from '../../../../src/Utils/fileUtils';
+import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
+import {Uploader} from '../../../../src/Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';

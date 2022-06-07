@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Quiz;
+namespace Olz\Entity\Quiz;
 
 require_once __DIR__.'/Skill.php';
 require_once __DIR__.'/SkillCategory.php';

@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\News\NewsEntry;
-use App\Entity\OlzEntity;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

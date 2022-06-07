@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Entity\OlzText;
 use Monolog\Logger;
+use Olz\Entity\OlzText;
 
 require_once __DIR__.'/../../../../_/api/endpoints/UpdateOlzTextEndpoint.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';

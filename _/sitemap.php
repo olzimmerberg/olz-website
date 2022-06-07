@@ -1,8 +1,8 @@
 <?php
 
-use App\Entity\News\NewsEntry;
-use App\Entity\Role;
-use App\Entity\Termin;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Role;
+use Olz\Entity\Termin;
 
 require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/news/utils/NewsFilterUtils.php';

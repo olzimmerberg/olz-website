@@ -97,12 +97,12 @@
   },
   "autoload": {
     "psr-4": {
-        "App\\": "src/"
+        "Olz\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-        "App\\Tests\\": "tests/"
+        "Olz\\Tests\\": "tests/"
     }
   },
   "replace": {

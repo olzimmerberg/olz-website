@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\SolvPerson;
-use App\Entity\SolvResult;
+use Olz\Entity\SolvPerson;
+use Olz\Entity\SolvResult;
 
 class SolvPeopleAssigner {
     use \Psr\Log\LoggerAwareTrait;

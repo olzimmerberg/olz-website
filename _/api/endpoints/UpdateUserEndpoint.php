@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\User;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 

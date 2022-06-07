@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\User;
+use Olz\Entity\User;
 
 function olz_change_password_modal($args = []): string {
     global $entityManager;

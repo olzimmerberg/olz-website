@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\News;
+namespace Olz\Entity\News;
 
-use App\Entity\OlzEntity;
-use App\Repository\News\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
+use Olz\Repository\News\NewsRepository;
 
 /**
  * @ORM\Entity(repositoryClass=NewsRepository::class)
@@ -60,12 +60,12 @@ class NewsEntry extends OlzEntity {
      */
     private $autor;
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
      * @ORM\JoinColumn(name="author_user_id", referencedColumnName="id", nullable=true)
      */
     private $author_user;
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Role")
+     * @ORM\ManyToOne(targetEntity="\Olz\Entity\Role")
      * @ORM\JoinColumn(name="author_role_id", referencedColumnName="id", nullable=true)
      */
     private $author_role;

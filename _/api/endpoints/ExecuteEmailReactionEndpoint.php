@@ -1,11 +1,10 @@
 <?php
 
-use App\Entity\NotificationSubscription;
-use App\Entity\User;
+use Olz\Entity\NotificationSubscription;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../utils/notify/EmailUtils.php';
 
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {
     public static function getIdent() {

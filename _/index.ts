@@ -29,7 +29,7 @@ export * from './profil';
 export * from './scripts/index';
 export * from './styles/index';
 export * from './termine/index';
-export * from './utils/index';
+export * from '../src/Utils/index';
 export * from './webftp';
 
 /* @ts-ignore: Ignore file is not a module. */

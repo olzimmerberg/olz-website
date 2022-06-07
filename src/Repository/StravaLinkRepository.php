@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace Olz\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

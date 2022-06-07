@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use Olz\Utils\MemorySession;
 
 require_once __DIR__.'/../../../../_/api/endpoints/LogoutEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**

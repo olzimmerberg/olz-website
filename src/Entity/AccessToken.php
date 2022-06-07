@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\AccessTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\AccessTokenRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AccessTokenRepository::class)

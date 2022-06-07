@@ -1,14 +1,14 @@
 <?php
 
-use App\Entity\Role;
+use Olz\Entity\Role;
+use Olz\Utils\AuthUtils;
+use Olz\Utils\HtmlUtils;
 
 function olz_role_page($args = []): string {
     global $entityManager;
 
     require_once __DIR__.'/../../../components/users/olz_user_info_card/olz_user_info_card.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
-    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
-    require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 
     $auth_utils = AuthUtils::fromEnv();
     $is_member = $auth_utils->hasPermission('member');

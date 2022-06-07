@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Entity\TelegramLink;
 use Monolog\Logger;
+use Olz\Entity\TelegramLink;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../fake/FakeUsers.php';

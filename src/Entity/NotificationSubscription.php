@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\NotificationSubscriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\NotificationSubscriptionRepository;
 
 /**
  * @ORM\Entity(repositoryClass=NotificationSubscriptionRepository::class)

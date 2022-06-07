@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\SolvPerson;
+use Olz\Entity\SolvPerson;
 
 function get_fake_solv_person() {
     $solv_person = new SolvPerson();

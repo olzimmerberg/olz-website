@@ -4,10 +4,11 @@
 // Konfiguration der Datums- und Zeitfunktionen
 // =============================================================================
 
+use Olz\Utils\AbstractDateUtils;
+
 global $_DATE;
 
 if (!isset($_DATE)) {
-    require_once __DIR__.'/../utils/date/AbstractDateUtils.php';
     $_DATE = AbstractDateUtils::fromEnv();
 }
 

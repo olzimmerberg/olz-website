@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Entity\SolvPerson;
-use App\Entity\SolvResult;
 use Monolog\Logger;
+use Olz\Entity\SolvPerson;
+use Olz\Entity\SolvResult;
 
 require_once __DIR__.'/../../../fake/fake_solv_person.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';

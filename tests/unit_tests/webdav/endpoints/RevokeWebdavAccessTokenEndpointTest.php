@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\AccessToken;
+use Olz\Entity\AccessToken;
 
 require_once __DIR__.'/../../../../_/webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
 require_once __DIR__.'/../../../fake/fake_role.php';

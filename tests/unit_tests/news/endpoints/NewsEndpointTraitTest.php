@@ -5,8 +5,6 @@ declare(strict_types=1);
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../../../_/news/endpoints/NewsEndpointTrait.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';

@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__.'/utils/client/HttpUtils.php';
-require_once __DIR__.'/utils/env/EnvUtils.php';
+use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 
 $env_utils = EnvUtils::fromEnv();
 $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));

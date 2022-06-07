@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\GalerieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\GalerieRepository;
 
 /**
  * @ORM\Entity(repositoryClass=GalerieRepository::class)

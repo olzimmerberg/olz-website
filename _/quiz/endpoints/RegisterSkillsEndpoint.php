@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\Quiz\Skill;
-use App\Entity\Quiz\SkillCategory;
+use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../api/OlzEndpoint.php';

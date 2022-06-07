@@ -5,9 +5,9 @@ import {useDropzone} from 'react-dropzone';
 import Cropper from 'react-easy-crop';
 import {Point, Area} from "react-easy-crop/types";
 import {OlzProgressBar} from '../../common/OlzProgressBar/OlzProgressBar';
-import {readBase64} from '../../../utils/fileUtils';
-import {getBase64FromCanvas, getCanvasOfSize, getCroppedCanvas, loadImageFromBase64} from '../../../utils/imageUtils';
-import {Uploader} from '../../../utils/Uploader';
+import {readBase64} from '../../../../src/Utils/fileUtils';
+import {getBase64FromCanvas, getCanvasOfSize, getCroppedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
+import {Uploader} from '../../../../src/Utils/Uploader';
 
 const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 10.0;

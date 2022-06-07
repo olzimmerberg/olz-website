@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\User;
+use Olz\Entity\User;
 use PhpImap\Exceptions\ConnectionException;
 
 require_once __DIR__.'/common/BackgroundTask.php';

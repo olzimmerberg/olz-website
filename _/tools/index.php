@@ -1,10 +1,12 @@
 <?php
 
+use Olz\Utils\EnvUtils;
+use Olz\Utils\GeneralUtils;
+use Olz\Utils\LogsUtils;
+
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/server.php';
 require_once __DIR__.'/../config/database.php';
-require_once __DIR__.'/../utils/env/EnvUtils.php';
-require_once __DIR__.'/../utils/env/LogsUtils.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/doctrine_migrations.php';
 require_once __DIR__.'/monitoring/backup_monitoring.php';
@@ -52,7 +54,6 @@ function run_tools($command_config, $server) {
 }
 
 function run_command($command, $callback, $args) {
-    require_once __DIR__.'/../utils/env/EnvUtils.php';
     $logger = EnvUtils::fromEnv()->getLogsUtils()->getLogger("Tool:{$command}");
     LogsUtils::activateLogger($logger);
     try {
@@ -64,11 +65,10 @@ function run_command($command, $callback, $args) {
         }
         call_user_func_array($callback, $args);
         echo "{$command}:SUCCESS";
-    } catch (Exception $exc) {
+    } catch (\Exception $exc) {
         http_response_code(500);
         echo "{$command}:ERROR\n";
         echo $exc->getMessage()."\n";
-        require_once __DIR__.'/../utils/GeneralUtils.php';
         $general_utils = GeneralUtils::fromEnv();
         $pretty_trace = $general_utils->getPrettyTrace($exc->getTrace());
         echo $pretty_trace;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\Role;
+use Olz\Entity\Role;
 
 function get_fake_role() {
     $role = new Role();

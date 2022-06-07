@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Entity\User;
 use Monolog\Logger;
+use Olz\Entity\User;
+use Olz\Utils\EnvUtils;
+use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/TelegramConfigurationReminderGetter.php';
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import {readBase64} from '../../../utils/fileUtils';
-import {Uploader} from '../../../utils/Uploader';
+import {readBase64} from '../../../../src/Utils/fileUtils';
+import {Uploader} from '../../../../src/Utils/Uploader';
 import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';

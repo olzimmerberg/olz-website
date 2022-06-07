@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Entity\Quiz\SkillCategory;
 use Monolog\Logger;
+use Olz\Entity\Quiz\SkillCategory;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/RegisterSkillCategoriesEndpoint.php';
 require_once __DIR__.'/../../../../_/config/vendor/autoload.php';

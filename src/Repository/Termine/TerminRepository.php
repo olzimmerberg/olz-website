@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Termine;
+namespace Olz\Repository\Termine;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;

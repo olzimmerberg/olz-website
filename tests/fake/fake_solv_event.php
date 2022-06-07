@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\SolvEvent;
+use Olz\Entity\SolvEvent;
 
 function get_fake_solv_event() {
     $solv_event = new SolvEvent();

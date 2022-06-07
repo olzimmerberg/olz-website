@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace Olz\Controller;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

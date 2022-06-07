@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository\Quiz;
+namespace Olz\Repository\Quiz;
 
-use App\Entity\Skill;
 use Doctrine\ORM\EntityRepository;
+use Olz\Entity\Skill;
 
 class SkillLevelRepository extends EntityRepository {
     public function getSkillLevelsForUserId($user_id) {

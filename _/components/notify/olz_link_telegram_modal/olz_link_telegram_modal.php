@@ -1,10 +1,11 @@
 <?php
 
+use Olz\Utils\UserAgentUtils;
+
 function olz_link_telegram_modal($args = []): string {
     global $_CONFIG;
 
     require_once __DIR__.'/../../../config/server.php';
-    require_once __DIR__.'/../../../utils/client/UserAgentUtils.php';
 
     $user_agent_utils = UserAgentUtils::fromEnv();
 

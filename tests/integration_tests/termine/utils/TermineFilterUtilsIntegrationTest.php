@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/termine/utils/TermineFilterUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 

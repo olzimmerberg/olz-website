@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace Olz\Entity;
 
-use App\Repository\FacebookLinkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\FacebookLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=FacebookLinkRepository::class)

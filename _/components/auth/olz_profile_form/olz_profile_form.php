@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Utils\AuthUtils;
+
 function olz_profile_form($args): string {
     global $_CONFIG;
 
@@ -36,7 +38,6 @@ function olz_profile_form($args): string {
     $change_password_class = $show_change_password ? '' : ' hidden';
     $required_password_class = $show_required_password ? '' : ' hidden';
 
-    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
     $auth_utils = AuthUtils::fromEnv();
     $user = $auth_utils->getAuthenticatedUser();
     $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials=".urlencode('?');

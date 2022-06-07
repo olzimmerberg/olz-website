@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\NotificationSubscription;
+use Olz\Entity\NotificationSubscription;
 
 function get_fake_notification_subscription($id, $delivery_type, $user, $notification_type, $notification_type_args, $created_at = null) {
     if ($created_at == null) {

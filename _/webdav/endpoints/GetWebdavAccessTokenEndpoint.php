@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\AccessToken;
+use Olz\Entity\AccessToken;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../api/OlzEndpoint.php';

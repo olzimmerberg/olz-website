@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../api/client';
-import {getErrorOrThrow} from '../../../utils/generalUtils';
+import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

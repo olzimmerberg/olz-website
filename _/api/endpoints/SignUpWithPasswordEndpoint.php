@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\AuthRequest;
-use App\Entity\User;
+use Olz\Entity\AuthRequest;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 

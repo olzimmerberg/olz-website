@@ -1,7 +1,8 @@
 <?php
 
-use App\Entity\Role;
-use App\Entity\User;
+use Olz\Entity\Role;
+use Olz\Entity\User;
+use Olz\Utils\AuthUtils;
 
 function olz_organigramm($args = []): string {
     global $entityManager;
@@ -9,7 +10,6 @@ function olz_organigramm($args = []): string {
     require_once __DIR__.'/../../../components/users/olz_user_info_with_popup/olz_user_info_with_popup.php';
     require_once __DIR__.'/../../../config/paths.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
-    require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
 
     $auth_utils = AuthUtils::fromEnv();
     $has_all_permissions = $auth_utils->hasPermission('all');

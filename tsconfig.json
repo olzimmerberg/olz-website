@@ -23,6 +23,7 @@
   },
   "include": [
     "_/**/*",
+    "src/**/*",
     "tests/fake/**/*",
     "tests/unit_tests/**/*"
   ],

@@ -4,8 +4,8 @@
 // Aktuelle Berichte von offiziellen Vereinsorganen.
 // =============================================================================
 
-use App\Entity\News\NewsEntry;
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\News\NewsEntry;
 
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/database.php';
@@ -17,7 +17,7 @@ $article_metadata = "";
 try {
     require_once __DIR__.'/components/olz_article_metadata/olz_article_metadata.php';
     $article_metadata = olz_article_metadata($id);
-} catch (Exception $exc) {
+} catch (\Exception $exc) {
     $http_utils->dieWithHttpError(404);
 }
 

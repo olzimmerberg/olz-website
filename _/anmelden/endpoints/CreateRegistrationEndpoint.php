@@ -1,7 +1,7 @@
 <?php
 
-use App\Entity\Anmelden\Registration;
-use App\Entity\Anmelden\RegistrationInfo;
+use Olz\Entity\Anmelden\Registration;
+use Olz\Entity\Anmelden\RegistrationInfo;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';

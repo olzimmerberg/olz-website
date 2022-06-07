@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity\Termine;
+namespace Olz\Entity\Termine;
 
-use App\Repository\Termine\TerminRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Repository\Termine\TerminRepository;
 
 /**
  * @ORM\Entity(repositoryClass=TerminRepository::class)

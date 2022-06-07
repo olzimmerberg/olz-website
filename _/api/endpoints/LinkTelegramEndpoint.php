@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';

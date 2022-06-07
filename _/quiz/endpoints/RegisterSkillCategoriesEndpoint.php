@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../../api/OlzEndpoint.php';
@@ -53,7 +54,7 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
             } else {
                 $parent_category = $category_by_name[$parent_name] ?? null;
                 if ($parent_category === null) {
-                    throw new Exception("No such parent category: {$parent_name}");
+                    throw new \Exception("No such parent category: {$parent_name}");
                 }
                 $category->setParentCategory($parent_category);
             }

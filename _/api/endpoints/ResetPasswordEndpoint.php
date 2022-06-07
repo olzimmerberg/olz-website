@@ -1,15 +1,13 @@
 <?php
 
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/AuthRequest.php';
-require_once __DIR__.'/../../model/User.php';
 
 class ResetPasswordEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../fetchers/GoogleFetcher.php';
         $google_fetcher = new GoogleFetcher();
         $this->setGoogleFetcher($google_fetcher);

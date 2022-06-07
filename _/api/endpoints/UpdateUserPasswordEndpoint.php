@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 
@@ -49,7 +50,7 @@ class UpdateUserPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'INVALID_OLD'];
         }
 
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
         $user->setLastModifiedAt($now_datetime);
         $this->entityManager->flush();

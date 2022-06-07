@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220502172202
+-- MIGRATION: DoctrineMigrations\Version20220601201046
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -49,24 +49,25 @@ VALUES
 INSERT INTO doctrine_migration_versions
     (`version`, `executed_at`, `execution_time`)
 VALUES
-    ('OLZ\\Migrations\\Version20200409192051', '2020-05-11 22:04:20', NULL),
-    ('OLZ\\Migrations\\Version20200423071546', '2020-05-11 22:04:20', NULL),
-    ('OLZ\\Migrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
-    ('OLZ\\Migrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
-    ('OLZ\\Migrations\\Version20200913095953', '2020-09-13 10:09:28', '48'),
-    ('OLZ\\Migrations\\Version20201123220256', '2020-11-23 22:03:05', '584'),
-    ('OLZ\\Migrations\\Version20210116164757', '2021-01-16 16:48:06', '577'),
-    ('OLZ\\Migrations\\Version20210129192635', '2021-01-29 19:27:00', '221'),
-    ('OLZ\\Migrations\\Version20210317183728', '2021-03-17 18:38:32', '27'),
-    ('OLZ\\Migrations\\Version20210405231205', '2021-04-11 18:49:37', '89'),
-    ('OLZ\\Migrations\\Version20210411185009', '2021-04-11 18:51:04', '266'),
-    ('OLZ\\Migrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
-    ('OLZ\\Migrations\\Version20210822133337', '2021-08-22 13:35:13', '115'),
-    ('OLZ\\Migrations\\Version20210913161236', '2021-09-13 16:13:26', '152'),
-    ('OLZ\\Migrations\\Version20211130230319', '2021-11-30 23:41:24', '1337'),
-    ('OLZ\\Migrations\\Version20220317172850', '2022-03-17 17:30:24', '2336'),
-    ('OLZ\\Migrations\\Version20220321214214', '2022-03-21 21:44:24', '2066'),
-    ('OLZ\\Migrations\\Version20220502172202', '2022-05-02 17:22:32', '107');
+    ('DoctrineMigrations\\Version20200409192051', '2020-05-11 22:04:20', NULL),
+    ('DoctrineMigrations\\Version20200423071546', '2020-05-11 22:04:20', NULL),
+    ('DoctrineMigrations\\Version20200511211417', '2020-05-11 22:08:43', NULL),
+    ('DoctrineMigrations\\Version20200620113946', '2020-06-20 11:40:19', NULL),
+    ('DoctrineMigrations\\Version20200913095953', '2020-09-13 10:09:28', '48'),
+    ('DoctrineMigrations\\Version20201123220256', '2020-11-23 22:03:05', '584'),
+    ('DoctrineMigrations\\Version20210116164757', '2021-01-16 16:48:06', '577'),
+    ('DoctrineMigrations\\Version20210129192635', '2021-01-29 19:27:00', '221'),
+    ('DoctrineMigrations\\Version20210317183728', '2021-03-17 18:38:32', '27'),
+    ('DoctrineMigrations\\Version20210405231205', '2021-04-11 18:49:37', '89'),
+    ('DoctrineMigrations\\Version20210411185009', '2021-04-11 18:51:04', '266'),
+    ('DoctrineMigrations\\Version20210628131310', '2021-06-28 14:37:03', '1254'),
+    ('DoctrineMigrations\\Version20210822133337', '2021-08-22 13:35:13', '115'),
+    ('DoctrineMigrations\\Version20210913161236', '2021-09-13 16:13:26', '152'),
+    ('DoctrineMigrations\\Version20211130230319', '2021-11-30 23:41:24', '1337'),
+    ('DoctrineMigrations\\Version20220317172850', '2022-03-17 17:30:24', '2336'),
+    ('DoctrineMigrations\\Version20220321214214', '2022-03-21 21:44:24', '2066'),
+    ('DoctrineMigrations\\Version20220502172202', '2022-05-02 17:22:32', '107'),
+    ('DoctrineMigrations\\Version20220601201046', '2022-06-01 20:11:14', '75');
 
 -- Table downloads
 
@@ -76,7 +77,7 @@ VALUES
 
 -- Table forum
 INSERT INTO forum
-    (`id`, `name`, `email`, `eintrag`, `uid`, `datum`, `zeit`, `on_off`, `allowHTML`, `name2`, `newsletter`)
+    (`id`, `name`, `email`, `eintrag`, `uid`, `datum`, `zeit`, `on_off`, `allow_html`, `name2`, `newsletter`)
 VALUES
     ('1', 'Guets Nois! 🎉', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois! 🎉', 'hd35lm6glq', '2020-01-01', '21:45:37', '1', '0', 'Bruno 😃 Beispielmitglied', '1'),
     ('2', 'Verspätete Neujahrsgrüsse', 'beispiel@olzimmerberg.ch', 'Has vergesse, aber au vo mier no Guets Nois!', 'bQjNZ2sy', '2020-01-03', '18:42:01', '1', '0', 'Erwin Exempel', '1'),

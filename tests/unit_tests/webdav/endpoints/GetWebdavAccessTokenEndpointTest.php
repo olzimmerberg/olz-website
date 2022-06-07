@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+use App\Entity\AccessToken;
+
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/utils/GeneralUtils.php';
 require_once __DIR__.'/../../../../_/webdav/endpoints/GetWebdavAccessTokenEndpoint.php';
@@ -51,7 +52,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
     public function testGetWebdavAccessTokenEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['webdav' => true];
         $general_utils = GeneralUtils::fromEnv();

@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\User;
+
 require_once __DIR__.'/config/init.php';
 
 session_start();
@@ -14,7 +16,6 @@ echo olz_header([
 ]);
 
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/utils/notify/TelegramUtils.php';
 
 $telegram_utils = TelegramUtils::fromEnv();

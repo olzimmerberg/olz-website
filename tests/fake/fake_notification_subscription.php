@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__.'/../../_/model/NotificationSubscription.php';
+use App\Entity\NotificationSubscription;
 
 function get_fake_notification_subscription($id, $delivery_type, $user, $notification_type, $notification_type_args, $created_at = null) {
     if ($created_at == null) {
-        $created_at = new DateTime('2020-03-13 19:30:00');
+        $created_at = new \DateTime('2020-03-13 19:30:00');
     }
     $notification_subscription = new NotificationSubscription();
     $notification_subscription->setId($id);

@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../_/model/OlzEntity.php';
+use App\Entity\OlzEntity;
+use App\Entity\Role;
+use App\Entity\User;
+
 require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../_/utils/EntityUtils.php';
 require_once __DIR__.'/../../fake/fake_role.php';
@@ -35,7 +38,7 @@ final class EntityUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $role_repo = new FakeEntityUtilsRoleRepository();
-        $entity_manager->repositories['Role'] = $role_repo;
+        $entity_manager->repositories[Role::class] = $role_repo;
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setDateUtils($date_utils);
@@ -65,12 +68,12 @@ final class EntityUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
         $role_repo = new FakeEntityUtilsRoleRepository();
-        $entity_manager->repositories['Role'] = $role_repo;
+        $entity_manager->repositories[Role::class] = $role_repo;
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setDateUtils($date_utils);
         $entity_utils->setEntityManager($entity_manager);
-        $then_datetime = new DateTime('2019-01-01 19:30:00');
+        $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();
         $entity->setOnOff(1);
         $entity->setOwnerUser(FakeUsers::vorstandUser());
@@ -83,7 +86,7 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity_utils->updateOlzEntity(
             $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
 
-        $user_repo = $entity_manager->repositories['User'];
+        $user_repo = $entity_manager->repositories[User::class];
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame($user_repo->default_user, $entity->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $entity->getOwnerRole());

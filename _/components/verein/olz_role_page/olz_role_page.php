@@ -1,11 +1,12 @@
 <?php
 
+use App\Entity\Role;
+
 function olz_role_page($args = []): string {
     global $entityManager;
 
     require_once __DIR__.'/../../../components/users/olz_user_info_card/olz_user_info_card.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
-    require_once __DIR__.'/../../../model/index.php';
     require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
     require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 

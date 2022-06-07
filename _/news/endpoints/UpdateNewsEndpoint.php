@@ -1,11 +1,11 @@
 <?php
 
+use App\Entity\News\NewsEntry;
+use App\Entity\Role;
+use App\Entity\User;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../api/OlzUpdateEntityEndpoint.php';
-require_once __DIR__.'/../../model/Role.php';
-require_once __DIR__.'/../../model/User.php';
-require_once __DIR__.'/../model/NewsEntry.php';
 require_once __DIR__.'/NewsEndpointTrait.php';
 
 class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
@@ -39,7 +39,7 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
-        $today = new DateTime($this->dateUtils->getIsoToday());
+        $today = new \DateTime($this->dateUtils->getIsoToday());
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
 

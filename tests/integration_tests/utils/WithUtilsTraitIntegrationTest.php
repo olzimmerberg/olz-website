@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldUtils;
 
-require_once __DIR__.'/../../../_/config/vendor/autoload.php';
 require_once __DIR__.'/../../../_/utils/auth/AuthUtils.php';
 require_once __DIR__.'/../../../_/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../_/utils/date/FixedDateUtils.php';
@@ -42,7 +42,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'entityManager' => function ($value) {
                 try {
-                    $value->getRepository('User');
+                    $value->getRepository(User::class);
                     return true;
                 } catch (\Throwable $th) {
                     return false;

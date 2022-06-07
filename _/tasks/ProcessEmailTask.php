@@ -1,8 +1,8 @@
 <?php
 
+use App\Entity\User;
 use PhpImap\Exceptions\ConnectionException;
 
-require_once __DIR__.'/../model/index.php';
 require_once __DIR__.'/common/BackgroundTask.php';
 
 class ProcessEmailTask extends BackgroundTask {

@@ -1,7 +1,8 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
 
 class TelegramConfigurationReminderGetter {
     use \Psr\Log\LoggerAwareTrait;

@@ -1,6 +1,9 @@
 <?php
 
-require_once __DIR__.'/../../model/index.php';
+use App\Entity\AccessToken;
+use App\Entity\AuthRequest;
+use App\Entity\User;
+
 require_once __DIR__.'/../WithUtilsTrait.php';
 
 class AuthBlockedException extends Exception {

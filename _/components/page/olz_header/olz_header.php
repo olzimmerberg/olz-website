@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Counter;
+
 function olz_header($args = []): string {
     global $_CONFIG, $_SERVER;
 
@@ -24,7 +26,6 @@ function olz_header_without_routing($args = []): string {
     require_once __DIR__.'/../../../config/date.php';
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/server.php';
-    require_once __DIR__.'/../../../model/index.php';
     require_once __DIR__.'/../../schema/olz_organization_data/olz_organization_data.php';
 
     $css_path = __DIR__.'/../../../../public/_/jsbuild/main.min.css';

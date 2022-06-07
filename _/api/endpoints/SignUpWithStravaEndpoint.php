@@ -1,5 +1,8 @@
 <?php
 
+use App\Entity\AuthRequest;
+use App\Entity\StravaLink;
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
@@ -78,7 +81,7 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $strava_link = new StravaLink();
         $strava_link->setStravaUser($input['stravaUser']);
         $strava_link->setAccessToken($input['accessToken']);
-        $strava_link->setExpiresAt(new DateTime($input['expiresAt']));
+        $strava_link->setExpiresAt(new \DateTime($input['expiresAt']));
         $strava_link->setRefreshToken($input['refreshToken']);
         $strava_link->setUser($user);
 

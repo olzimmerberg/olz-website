@@ -1,5 +1,9 @@
 <?php
 
+use App\Entity\StravaLink;
+use App\Entity\TelegramLink;
+use App\Entity\User;
+
 require_once __DIR__.'/config/init.php';
 
 session_start();
@@ -14,7 +18,6 @@ echo olz_header([
 
 require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/model/index.php';
 
 $user_repo = $entityManager->getRepository(User::class);
 $username = ($_SESSION['user'] ?? null);

@@ -1,16 +1,15 @@
 <?php
 
+use App\Entity\Throttling;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/Throttling.php';
 
 class OnDailyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
         require_once __DIR__.'/../../fetchers/SolvFetcher.php';
-        require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../tasks/CleanTempDirectoryTask.php';
         require_once __DIR__.'/../../tasks/SyncSolvTask.php';
         $clean_temp_directory_task = new CleanTempDirectoryTask(
@@ -69,8 +68,8 @@ class OnDailyEndpoint extends OlzEndpoint {
         if (!$last_daily) {
             return false;
         }
-        $now = new DateTime($this->dateUtils->getIsoNow());
-        $min_interval = DateInterval::createFromDateString('+22 hours');
+        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $min_interval = \DateInterval::createFromDateString('+22 hours');
         $min_now = $last_daily->add($min_interval);
         return $now < $min_now;
     }

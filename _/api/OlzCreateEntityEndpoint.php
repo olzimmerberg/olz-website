@@ -1,8 +1,8 @@
 <?php
 
+use App\Entity\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../model/OlzEntity.php';
 require_once __DIR__.'/OlzEntityEndpoint.php';
 
 abstract class OlzCreateEntityEndpoint extends OlzEntityEndpoint {

@@ -1,10 +1,10 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
-require_once __DIR__.'/../../model/User.php';
 
 class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -49,7 +49,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $auth_username = $this->session->get('user');
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
 
         $delivery_type = $input['deliveryType'];
         $has_monthly_preview = $input['monthlyPreview'];

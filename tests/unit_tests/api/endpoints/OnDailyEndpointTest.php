@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\Throttling;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -39,7 +40,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
@@ -62,7 +63,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
@@ -85,7 +86,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
@@ -110,7 +111,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
@@ -137,7 +138,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $throttling_repo = new FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories['Throttling'] = $throttling_repo;
+        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new FakeEnvUtils();
         $telegram_utils = new FakeTelegramUtils();

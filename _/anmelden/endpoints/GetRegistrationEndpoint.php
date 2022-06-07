@@ -1,5 +1,8 @@
 <?php
 
+use App\Entity\Anmelden\Registration;
+use App\Entity\Anmelden\RegistrationInfo;
+
 require_once __DIR__.'/../../api/OlzGetEntityEndpoint.php';
 require_once __DIR__.'/../AnmeldenConstants.php';
 require_once __DIR__.'/RegistrationEndpointTrait.php';

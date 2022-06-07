@@ -4,7 +4,7 @@
 // Konfiguration der Datenbank-Verbindung
 // =============================================================================
 
-global $db;
+global $db, $_CONFIG;
 
 if (!isset($db)) {
     require_once __DIR__.'/server.php';

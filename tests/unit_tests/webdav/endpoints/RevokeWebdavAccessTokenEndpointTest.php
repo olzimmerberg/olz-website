@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
+use App\Entity\AccessToken;
+
 require_once __DIR__.'/../../../../_/webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
 require_once __DIR__.'/../../../fake/fake_role.php';
 require_once __DIR__.'/../../../fake/FakeUsers.php';
@@ -43,7 +44,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
     public function testRevokeWebdavAccessTokenEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $access_token_repo = new FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository();
-        $entity_manager->repositories['AccessToken'] = $access_token_repo;
+        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['webdav' => true];
         $logger = FakeLogger::create();

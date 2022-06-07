@@ -482,12 +482,14 @@ if (($do ?? null) == "save") {
 if (($do ?? null) == 'submit') {
     $sql_tmp = [];
     function user2db($feld_typ, $wert) {
-        $default = "'".DBEsc(trim($wert))."'";
+        global $db;
+        require_once __DIR__.'/../config/database.php';
+        $default = "'".$db->escape_string(trim($wert))."'";
         if ($feld_typ == 'boolean') {
             return $wert != '' ? '1' : '0';
         }
         if ($feld_typ == 'number') {
-            return DBEsc(''.intval($wert));
+            return $db->escape_string(''.intval($wert));
         }
         if ($feld_typ == 'datum') {
             if ($wert == '') {

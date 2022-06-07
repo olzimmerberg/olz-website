@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvEvent;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
@@ -165,7 +166,7 @@ final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {
         $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeSolvResultsSyncerSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSolvResultsSyncerSolvFetcher();
         $logger = new Logger('SolvResultsSyncerTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -177,7 +178,7 @@ final class SolvResultsSyncerTest extends UnitTestCase {
         $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(3, count($flushed));
 
-        $solv_event_repo = $entity_manager->getRepository('SolvEvent');
+        $solv_event_repo = $entity_manager->getRepository(SolvEvent::class);
         $this->assertSame([20201 => 1234], $solv_event_repo->updatedRankIdBySolvUid);
         $this->assertSame('Martin Tester', $flushed[0]->getName());
         $this->assertSame('Unser Gewinner', $flushed[1]->getName());

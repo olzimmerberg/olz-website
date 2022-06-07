@@ -1,6 +1,9 @@
 <?php
 
-require_once __DIR__.'/../model/OlzEntity.php';
+use App\Entity\OlzEntity;
+use App\Entity\Role;
+use App\Entity\User;
+
 require_once __DIR__.'/WithUtilsTrait.php';
 
 class EntityUtils {
@@ -15,7 +18,7 @@ class EntityUtils {
         $user_repo = $this->entityManager->getRepository(User::class);
         $role_repo = $this->entityManager->getRepository(Role::class);
         $current_user = $this->authUtils->getSessionUser();
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
 
         $on_off = ($input['onOff'] ?? false) ? 1 : 0;
 
@@ -44,7 +47,7 @@ class EntityUtils {
         $user_repo = $this->entityManager->getRepository(User::class);
         $role_repo = $this->entityManager->getRepository(Role::class);
         $current_user = $this->authUtils->getSessionUser();
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
 
         $on_off = ($input['onOff'] ?? null) ? 1 : 0;
 

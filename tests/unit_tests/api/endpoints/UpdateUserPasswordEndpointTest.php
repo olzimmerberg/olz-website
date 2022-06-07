@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -76,7 +77,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'OTHER_USER'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
@@ -109,7 +110,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
@@ -144,7 +145,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('12345678', $admin_user->getPasswordHash()));
         $this->assertSame(

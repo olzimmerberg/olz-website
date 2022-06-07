@@ -1,5 +1,13 @@
 <?php
 
+use App\Entity\AccessToken;
+use App\Entity\FacebookLink;
+use App\Entity\GoogleLink;
+use App\Entity\News\NewsEntry;
+use App\Entity\NotificationSubscription;
+use App\Entity\StravaLink;
+use App\Entity\TelegramLink;
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
@@ -118,7 +126,7 @@ class DeleteUserEndpoint extends OlzEndpoint {
 
         $should_keep_basic_info = $has_user_roles || $has_news_authorship;
         if ($should_keep_basic_info) {
-            $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+            $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
             $user->setEmail('');
             $user->setPasswordHash('');
             $user->setPhone('');

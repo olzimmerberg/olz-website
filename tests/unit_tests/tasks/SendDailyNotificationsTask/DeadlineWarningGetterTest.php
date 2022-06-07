@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvEvent;
+use App\Entity\Termine\Termin;
+use App\Entity\User;
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/SolvEvent.php';
-require_once __DIR__.'/../../../../_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/DeadlineWarningGetter.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -22,13 +21,13 @@ class FakeDeadlineWarningGetterSolvEventRepository {
             return [];
         }
         $solv_event1 = new SolvEvent();
-        $solv_event1->setDeadline(new DateTime('2020-03-16'));
+        $solv_event1->setDeadline(new \DateTime('2020-03-16'));
         $solv_event1->setSolvUid(1111);
         $solv_event2 = new SolvEvent();
-        $solv_event2->setDeadline(new DateTime('2020-03-16'));
+        $solv_event2->setDeadline(new \DateTime('2020-03-16'));
         $solv_event2->setSolvUid(2222);
         $solv_event3 = new SolvEvent();
-        $solv_event3->setDeadline(new DateTime('2020-03-16'));
+        $solv_event3->setDeadline(new \DateTime('2020-03-16'));
         $solv_event3->setSolvUid(3333);
         return [$solv_event1, $solv_event2, $solv_event3];
     }
@@ -39,15 +38,15 @@ class FakeDeadlineWarningGetterTerminRepository {
         if ($where == ['solv_uid' => 1111, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(1);
-            $termin->setStartsOn(new DateTime('2020-04-13 19:30:00'));
+            $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
             $termin->setTitle('Test Termin');
             return $termin;
         }
         if ($where == ['solv_uid' => 2222, 'on_off' => 1]) {
             $range_termin = new Termin();
             $range_termin->setId(2);
-            $range_termin->setStartsOn(new DateTime('2020-04-20'));
-            $range_termin->setEndsOn(new DateTime('2020-04-30'));
+            $range_termin->setStartsOn(new \DateTime('2020-04-20'));
+            $range_termin->setEndsOn(new \DateTime('2020-04-30'));
             $range_termin->setTitle('End of Month');
             return $range_termin;
         }
@@ -80,8 +79,8 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $solv_event_repo->has_no_deadlines = true;
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');
@@ -103,8 +102,8 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('DeadlineWarningGetterTest');

@@ -44,7 +44,7 @@ final class AbstractDateUtilsTest extends UnitTestCase {
 
     public function testOlzDateFromDateTime(): void {
         $date_utils = new FakeDateUtils('2020-08-13 19:30:00');
-        $datetime = new DateTime('2020-03-13 19:30:00');
+        $datetime = new \DateTime('2020-03-13 19:30:00');
         $this->assertSame('Freitag, 13. März 2020', $date_utils->olzDate('WW, t. MM jjjj', $datetime));
     }
 

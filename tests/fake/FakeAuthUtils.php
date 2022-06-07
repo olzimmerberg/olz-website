@@ -20,7 +20,7 @@ class FakeAuthUtils {
             return false;
         }
         if ($has_permission === null) {
-            throw new Exception("hasPermission has not been mocked for {$query}");
+            throw new \Exception("hasPermission has not been mocked for {$query}");
         }
         return $has_permission;
     }

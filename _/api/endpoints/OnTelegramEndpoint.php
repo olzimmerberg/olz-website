@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\TelegramLink;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

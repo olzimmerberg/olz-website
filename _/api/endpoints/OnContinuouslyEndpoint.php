@@ -1,15 +1,14 @@
 <?php
 
+use App\Entity\Throttling;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/Throttling.php';
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../model/index.php';
         require_once __DIR__.'/../../tasks/ProcessEmailTask.php';
         require_once __DIR__.'/../../tasks/SendDailyNotificationsTask.php';
         $process_email_task = new ProcessEmailTask(
@@ -91,9 +90,9 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
         $last_daily_notifications = $throttling_repo->getLastOccurrenceOf('daily_notifications');
         $is_too_soon = false;
         if ($last_daily_notifications) {
-            $now = new DateTime($this->dateUtils->getIsoNow());
+            $now = new \DateTime($this->dateUtils->getIsoNow());
             // Consider daylight saving change date => not 23 hours!
-            $min_interval = DateInterval::createFromDateString('+22 hours');
+            $min_interval = \DateInterval::createFromDateString('+22 hours');
             $min_now = $last_daily_notifications->add($min_interval);
             $is_too_soon = $now < $min_now;
         }

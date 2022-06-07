@@ -3,8 +3,6 @@
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/AuthRequest.php';
-require_once __DIR__.'/../../model/User.php';
 
 class LoginEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -44,7 +42,7 @@ class LoginEndpoint extends OlzEndpoint {
             ];
         }
 
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $user->setLastLoginAt($now_datetime);
         $this->entityManager->flush();
 

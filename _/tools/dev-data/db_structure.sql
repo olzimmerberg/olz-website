@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: OLZ\Migrations\Version20220502172202
+-- MIGRATION: DoctrineMigrations\Version20220601201046
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,16 +40,6 @@ CREATE TABLE `bild_der_woche` (
   PRIMARY KEY (`id`),
   KEY `datum_index` (`datum`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `executed_at` datetime DEFAULT NULL,
-  `execution_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -540,25 +530,6 @@ CREATE TABLE `blog` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `forum` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eintrag` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `uid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `datum` date DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `on_off` int(11) DEFAULT NULL,
-  `allowHTML` int(11) DEFAULT NULL,
-  `name2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`),
-  KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quiz_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_category_id` int(11) DEFAULT NULL,
@@ -818,6 +789,35 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `forum` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eintrag` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `datum` date DEFAULT NULL,
+  `zeit` time DEFAULT NULL,
+  `on_off` int(11) DEFAULT NULL,
+  `allow_html` int(11) DEFAULT NULL,
+  `name2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -1,10 +1,11 @@
 <?php
 
+use App\Entity\OlzText;
+
 function olz_editable_text($args = []): string {
     global $entityManager, $code_href;
     require_once __DIR__.'/../../../config/doctrine_db.php';
     require_once __DIR__.'/../../../config/paths.php';
-    require_once __DIR__.'/../../../model/index.php';
     require_once __DIR__.'/../../../utils/auth/AuthUtils.php';
     require_once __DIR__.'/../../../utils/client/HtmlUtils.php';
 

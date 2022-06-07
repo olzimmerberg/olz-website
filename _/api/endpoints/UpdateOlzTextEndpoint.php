@@ -1,10 +1,9 @@
 <?php
 
+use App\Entity\OlzText;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/../OlzEndpoint.php';
-require_once __DIR__.'/../../model/OlzText.php';
-require_once __DIR__.'/../../model/User.php';
 
 class UpdateOlzTextEndpoint extends OlzEndpoint {
     public static function getIdent() {

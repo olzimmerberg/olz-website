@@ -311,7 +311,7 @@ class EnvUtils {
 
             $config_path = self::getConfigPath();
             if (!is_file($config_path)) {
-                throw new Exception("Konfigurationsdatei nicht gefunden!");
+                throw new \Exception("Konfigurationsdatei nicht gefunden!");
             }
 
             $configuration = require $config_path;
@@ -348,7 +348,7 @@ class EnvUtils {
             $general_utils = GeneralUtils::fromEnv();
             $pretty_trace = $general_utils->getPrettyTrace($trace);
 
-            throw new Exception("Unit tests should never use EnvUtils::fromEnv!\n\n{$pretty_trace}");
+            throw new \Exception("Unit tests should never use EnvUtils::fromEnv!\n\n{$pretty_trace}");
         }
     }
 }

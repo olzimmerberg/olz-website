@@ -1,9 +1,8 @@
 <?php
 
 declare(strict_types=1);
+use App\Entity\User;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/Notification.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 

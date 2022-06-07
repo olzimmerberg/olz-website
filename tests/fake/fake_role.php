@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../_/model/Role.php';
+use App\Entity\Role;
 
 function get_fake_role() {
     $role = new Role();

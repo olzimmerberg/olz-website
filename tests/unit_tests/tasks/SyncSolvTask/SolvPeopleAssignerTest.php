@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvResult;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../fake/fake_solv_result.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/SolvPerson.php';
 require_once __DIR__.'/../../../../_/tasks/SyncSolvTask/SolvPeopleAssigner.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeSolvPeopleAssignerEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
-            'SolvResult' => new FakeSolvPeopleAssignerSolvResultRepository(),
+            SolvResult::class => new FakeSolvPeopleAssignerSolvResultRepository(),
         ];
     }
 }
@@ -268,7 +267,7 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
         $job->setLogger($logger);
         $job->assignSolvPeople();
 
-        $solv_result_repo = $entity_manager->getRepository('SolvResult');
+        $solv_result_repo = $entity_manager->getRepository(SolvResult::class);
         $test_runner_result = $solv_result_repo->testRunnerResult;
         $this->assertSame(1, $test_runner_result->getPerson());
         $typo_result = $solv_result_repo->typoResult;

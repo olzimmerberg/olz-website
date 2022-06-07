@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

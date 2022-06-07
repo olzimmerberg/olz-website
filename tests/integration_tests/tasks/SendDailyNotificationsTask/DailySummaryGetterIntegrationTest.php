@@ -2,14 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\User;
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/news/model/NewsEntry.php';
-require_once __DIR__.'/../../../../_/model/Blog.php';
-require_once __DIR__.'/../../../../_/model/Forum.php';
-require_once __DIR__.'/../../../../_/model/Galerie.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/DailySummaryGetter.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../common/IntegrationTestCase.php';

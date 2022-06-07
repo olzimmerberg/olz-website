@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\TelegramLink;
+
 class FakeTelegramUtils {
     public $isAnonymousChat = false;
     public $configurationSent = false;
@@ -14,7 +16,7 @@ class FakeTelegramUtils {
 
     public function linkChatUsingPin($pin, $chat_id, $user_id) {
         if ($pin != 'validpin') {
-            throw new Exception('Error linking chat using PIN.');
+            throw new \Exception('Error linking chat using PIN.');
         }
         $user = FakeUsers::defaultUser(true);
         $user->setFirstName('Fakefirst');

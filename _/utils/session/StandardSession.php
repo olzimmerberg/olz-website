@@ -26,7 +26,7 @@ class StandardSession extends AbstractSession {
             global $_SESSION;
             $_SESSION = [];
             // TODO: This is commented out such that integration tests can still run...
-            // throw new Exception("Could not create session.");
+            // throw new \Exception("Could not create session.");
         }
     }
 

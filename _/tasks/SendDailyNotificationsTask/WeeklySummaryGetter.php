@@ -1,13 +1,14 @@
 <?php
 
+use App\Entity\Blog;
+use App\Entity\Forum;
+use App\Entity\Galerie;
+use App\Entity\News\NewsEntry;
+use App\Entity\NotificationSubscription;
+use App\Entity\Termine\Termin;
 use Doctrine\Common\Collections\Criteria;
 
 require_once __DIR__.'/Notification.php';
-require_once __DIR__.'/../../news/model/NewsEntry.php';
-require_once __DIR__.'/../../model/Blog.php';
-require_once __DIR__.'/../../model/Galerie.php';
-require_once __DIR__.'/../../model/Forum.php';
-require_once __DIR__.'/../../model/NotificationSubscription.php';
 
 class WeeklySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
@@ -33,17 +34,17 @@ class WeeklySummaryGetter {
             return null;
         }
 
-        $today = new DateTime($this->dateUtils->getIsoToday());
-        $minus_one_week = DateInterval::createFromDateString("-7 days");
-        $last_week = (new DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
-        $today_at_cut_off = new DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
-        $last_week_at_cut_off = new DateTime($last_week->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $today = new \DateTime($this->dateUtils->getIsoToday());
+        $minus_one_week = \DateInterval::createFromDateString("-7 days");
+        $last_week = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
+        $today_at_cut_off = new \DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $last_week_at_cut_off = new \DateTime($last_week->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->orX(
                     Criteria::expr()->andX(
                         Criteria::expr()->eq('datum', $today),
-                        Criteria::expr()->lte('zeit', new DateTime(self::CUT_OFF_TIME)),
+                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
                     ),
                     Criteria::expr()->andX(
                         Criteria::expr()->lt('datum', $today),
@@ -51,7 +52,7 @@ class WeeklySummaryGetter {
                     ),
                     Criteria::expr()->andX(
                         Criteria::expr()->eq('datum', $last_week),
-                        Criteria::expr()->gt('zeit', new DateTime(self::CUT_OFF_TIME)),
+                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
                     ),
                 ),
                 Criteria::expr()->eq('on_off', 1),

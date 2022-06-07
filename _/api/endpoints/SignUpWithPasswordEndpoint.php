@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\AuthRequest;
+use App\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 
@@ -39,7 +41,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];
         $username = $input['username'];
@@ -73,7 +75,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             $user = new User();
         }
 
-        $birthdate = $input['birthdate'] ? new DateTime($input['birthdate']) : null;
+        $birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
         $user->setUsername($username);
         $user->setEmail($email);

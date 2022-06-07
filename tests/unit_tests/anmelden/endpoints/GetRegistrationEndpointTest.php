@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Entity\Anmelden\Registration;
+use App\Entity\Anmelden\RegistrationInfo;
+
 require_once __DIR__.'/../../../../_/anmelden/endpoints/GetRegistrationEndpoint.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
@@ -17,7 +20,7 @@ class FakeGetRegistrationEndpointRegistrationRepository {
             return $registration;
         }
         $where_json = json_encode($where);
-        throw new Exception("Query not mocked in findOneBy: {$where_json}", 1);
+        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
     }
 }
 
@@ -50,9 +53,9 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
     public function testGetRegistrationEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $registration_repo = new FakeGetRegistrationEndpointRegistrationRepository();
-        $entity_manager->repositories['Registration'] = $registration_repo;
+        $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeGetRegistrationEndpointRegistrationInfoRepository();
-        $entity_manager->repositories['RegistrationInfo'] = $registration_info_repo;
+        $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $logger = FakeLogger::create();

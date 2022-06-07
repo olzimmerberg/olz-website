@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvEvent;
+use App\Entity\Termine\Termin;
+use App\Entity\User;
 use Monolog\Logger;
 
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/SolvEvent.php';
-require_once __DIR__.'/../../../../_/termine/model/Termin.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../../_/tasks/SendDailyNotificationsTask/MonthlyPreviewGetter.php';
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -21,10 +20,10 @@ class FakeMonthlyPreviewGetterSolvEventRepository {
         }
         $solv_event = new SolvEvent();
         $solv_event->setSolvUid(123);
-        $solv_event->setDeadline(new DateTime('2020-04-13 19:30:00'));
+        $solv_event->setDeadline(new \DateTime('2020-04-13 19:30:00'));
         $solv_event_without_termin = new SolvEvent();
         $solv_event_without_termin->setSolvUid(321);
-        $solv_event_without_termin->setDeadline(new DateTime('2020-04-15 19:30:00'));
+        $solv_event_without_termin->setDeadline(new \DateTime('2020-04-15 19:30:00'));
         return [$solv_event, $solv_event_without_termin];
     }
 }
@@ -36,12 +35,12 @@ class FakeMonthlyPreviewGetterTerminRepository {
         }
         $termin = new Termin();
         $termin->setId(1);
-        $termin->setStartsOn(new DateTime('2020-04-13 19:30:00'));
+        $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
         $termin->setTitle('Test Termin');
         $range_termin = new Termin();
         $range_termin->setId(2);
-        $range_termin->setStartsOn(new DateTime('2020-04-20'));
-        $range_termin->setEndsOn(new DateTime('2020-04-30'));
+        $range_termin->setStartsOn(new \DateTime('2020-04-20'));
+        $range_termin->setEndsOn(new \DateTime('2020-04-30'));
         $range_termin->setTitle('End of Month');
         return [$termin, $range_termin];
     }
@@ -50,7 +49,7 @@ class FakeMonthlyPreviewGetterTerminRepository {
         if ($where == ['solv_uid' => 123, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(3);
-            $termin->setStartsOn(new DateTime('2020-04-18 19:30:00'));
+            $termin->setStartsOn(new \DateTime('2020-04-18 19:30:00'));
             $termin->setTitle('Termin mit Meldeschluss');
             return $termin;
         }
@@ -109,9 +108,9 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetter(): void {
         $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('MonthlyPreviewGetterTest');
@@ -151,9 +150,9 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testEmptyMonthlyPreviewGetter(): void {
         $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
-        $entity_manager->repositories['Termin'] = $termin_repo;
+        $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
         $env_utils = new FakeEnvUtils();
         $logger = new Logger('MonthlyPreviewGetterTest');

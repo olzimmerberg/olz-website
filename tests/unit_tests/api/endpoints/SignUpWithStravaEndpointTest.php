@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\AuthRequest;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -9,8 +10,6 @@ require_once __DIR__.'/../../../fake/FakeUsers.php';
 require_once __DIR__.'/../../../fake/fake_strava_link.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../../_/api/endpoints/SignUpWithStravaEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/index.php';
 require_once __DIR__.'/../../../../_/utils/auth/StravaUtils.php';
 require_once __DIR__.'/../../../../_/utils/session/MemorySession.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
@@ -93,7 +92,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     public function testSignUpWithStravaEndpointWithValidData(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories['AuthRequest'] = $auth_request_repo;
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = new Logger('SignUpWithStravaEndpointTest');
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -139,6 +138,6 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
                 'timestamp' => null,
                 'username' => 'fakeUsername',
             ],
-        ], $entity_manager->getRepository('AuthRequest')->auth_requests);
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 }

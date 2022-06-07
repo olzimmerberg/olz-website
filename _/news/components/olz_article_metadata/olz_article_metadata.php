@@ -6,7 +6,7 @@ function olz_article_metadata($id_arg) {
     $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";
     $res = $db->query($sql);
     if ($res->num_rows == 0) {
-        throw new Exception("No such entry");
+        throw new \Exception("No such entry");
     }
     $row = $res->fetch_assoc();
     $url = "{$base_href}{$code_href}aktuell.php?id={$id}";

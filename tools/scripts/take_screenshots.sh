@@ -38,13 +38,22 @@ else
 fi
 BROWSER_DRIVER_PID=$!
 
-# Configure dev server
-if [ ! -z DB_PORT ] && [ ! -f ./public/config.php ]; then
+# Configure env
+if [ ! -z DB_PORT ] && [ ! -f ./tests/integration_tests/document-root/config.php ]; then
     cp ./public/config.template.php ./public/config.php
     sed -i "s/3306/$DB_PORT/g" ./public/config.php
-    echo "Dev server configured."
+    echo "Dev server env configured."
 else
-    echo "Dev server configuration preserved."
+    echo "Dev server env configuration preserved."
+fi
+
+# Configure symfony
+if [ ! -z DB_PORT ] && [ ! -f .env.local ]; then
+    cp .env .env.local
+    sed -i "s/:3306/:$DB_PORT/g" .env.local
+    echo "Dev server symfony configured."
+else
+    echo "Dev server symfony configuration preserved."
 fi
 
 # Build JavaScript code
@@ -55,6 +64,7 @@ mkdir -p ./public/logs
 # php -S "127.0.0.1:30270" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
 symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
+sleep 1
 
 # Run test, allow aborting
 set +e

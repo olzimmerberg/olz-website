@@ -19,15 +19,15 @@ class IdUtils {
     protected function serializeId($internal_id, $type) {
         $int_internal_id = intval($internal_id);
         if (strval($int_internal_id) !== strval($internal_id)) {
-            throw new Exception("Internal ID must be int");
+            throw new \Exception("Internal ID must be int");
         }
         if ($int_internal_id < 0) {
-            throw new Exception("Internal ID must be positive");
+            throw new \Exception("Internal ID must be positive");
         }
         $type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
         $id_hex = str_pad(dechex($int_internal_id), 10, '0', STR_PAD_LEFT);
         if (strlen($id_hex) > 10) {
-            throw new Exception("Internal ID must be at most 40 bits");
+            throw new \Exception("Internal ID must be at most 40 bits");
         }
         return hex2bin($type_hash_hex.$id_hex);
     }
@@ -58,7 +58,7 @@ class IdUtils {
         $type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
         $serialized_id_hex = bin2hex($serialized_id);
         if (substr($serialized_id_hex, 0, 4) !== $type_hash_hex) {
-            throw new Exception("Invalid serialized ID: Type mismatch");
+            throw new \Exception("Invalid serialized ID: Type mismatch");
         }
         return hexdec(substr($serialized_id_hex, 4));
     }

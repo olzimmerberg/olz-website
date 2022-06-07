@@ -32,7 +32,7 @@ function dump_db($db) {
 
 function get_database_backup($db, $key) {
     if (!$key || strlen($key) < 10) {
-        throw new Exception("No valid key");
+        throw new \Exception("No valid key");
     }
     $sql = '';
     $sql .= dump_db_structure_sql($db);
@@ -86,7 +86,7 @@ function init_dev_data_db_structure_for_content($db, $dev_data_dir) {
     $sql_content = file_get_contents("{$dev_data_dir}db_content.sql");
     $has_migration = preg_match('/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/', $sql_content, $matches);
     if (!$has_migration) {
-        throw new Exception("The db_content.sql file MUST contain the migration version", 1);
+        throw new \Exception("The db_content.sql file MUST contain the migration version", 1);
     }
     $version = $matches[1];
 
@@ -413,7 +413,7 @@ function dump_db_content_sql($db) {
                     if ($content === null) {
                         $field_values[] = 'NULL';
                     } else {
-                        $sane_content = DBEsc("{$content}");
+                        $sane_content = $db->escape_string("{$content}");
                         $field_values[] = "'{$sane_content}'";
                     }
                 }

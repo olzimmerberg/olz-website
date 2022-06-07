@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Quiz\Skill;
+use App\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
@@ -39,7 +41,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
         $current_user = $this->authUtils->getSessionUser();
         $skill_repo = $this->entityManager->getRepository(Skill::class);
         $skill_level_repo = $this->entityManager->getRepository(SkillLevel::class);
-        $now_datetime = new DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
 
         foreach ($input['updates'] as $external_skill_id => $update) {
             $internal_skill_id = $this->idUtils->toInternalId($external_skill_id, 'Skill');
@@ -50,7 +52,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
             if ($skill_level === null) {
                 $skill = $skill_repo->findOneBy(['id' => $internal_skill_id]);
                 if (!$skill) {
-                    throw new Exception("No such skill: {$internal_skill_id}");
+                    throw new \Exception("No such skill: {$internal_skill_id}");
                 }
                 $skill_level = new SkillLevel();
                 $this->entityUtils->createOlzEntity($skill_level, ['onOff' => 1]);

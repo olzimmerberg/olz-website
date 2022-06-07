@@ -1,9 +1,10 @@
 <?php
 
+use App\Entity\News\NewsEntry;
+
 require_once __DIR__.'/../components/common/olz_posting_list_item/olz_posting_list_item.php';
 require_once __DIR__.'/components/olz_news_filter/olz_news_filter.php';
 require_once __DIR__.'/components/olz_news_list_item/olz_news_list_item.php';
-require_once __DIR__.'/model/NewsEntry.php';
 require_once __DIR__.'/utils/NewsFilterUtils.php';
 
 $news_utils = NewsFilterUtils::fromEnv();

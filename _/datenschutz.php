@@ -1,9 +1,10 @@
 <?php
 
+use App\Entity\Role;
+
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/admin/olz_functions.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
-require_once __DIR__.'/model/index.php';
 
 require_once __DIR__.'/components/page/olz_header/olz_header.php';
 echo olz_header([

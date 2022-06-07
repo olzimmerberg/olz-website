@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\Role;
+
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
@@ -28,7 +30,6 @@ echo "<style>
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/tickers.php';
 
 $role_repo = $entityManager->getRepository(Role::class);

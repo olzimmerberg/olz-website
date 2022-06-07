@@ -586,7 +586,7 @@ class Flvinfo {
 			// Open output file, and write header
 			$o = fopen($out,'w');
 			if (!$o) {
-				throw new Exception('Cannot open output file!');
+				throw new \Exception('Cannot open output file!');
 			}
 			fwrite($o, $buf, 9);
 			

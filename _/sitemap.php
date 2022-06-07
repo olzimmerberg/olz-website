@@ -1,7 +1,10 @@
 <?php
 
+use App\Entity\News\NewsEntry;
+use App\Entity\Role;
+use App\Entity\Termin;
+
 require_once __DIR__.'/config/doctrine_db.php';
-require_once __DIR__.'/model/index.php';
 require_once __DIR__.'/news/utils/NewsFilterUtils.php';
 require_once __DIR__.'/termine/utils/TermineFilterUtils.php';
 

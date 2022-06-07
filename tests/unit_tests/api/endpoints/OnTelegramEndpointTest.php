@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\TelegramLink;
 use Monolog\Logger;
 use PhpTypeScriptApi\HttpError;
 
@@ -11,9 +12,6 @@ require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
 require_once __DIR__.'/../../../fake/FakeTelegramUtils.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
 require_once __DIR__.'/../../../../_/api/endpoints/OnTelegramEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/TelegramLink.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 class FakeOnTelegramEndpointTelegramLinkRepository {
@@ -130,7 +128,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $server_config = new FakeEnvUtils();
         $entity_manager = new FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
-        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
@@ -222,7 +220,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $server_config = new FakeEnvUtils();
         $entity_manager = new FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
-        $entity_manager->repositories['TelegramLink'] = $telegram_link_repo;
+        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $logger = new Logger('OnTelegramEndpointTest');
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);

@@ -1,8 +1,10 @@
 <?php
 
+use App\Entity\NotificationSubscription;
+use App\Entity\User;
+
 require_once __DIR__.'/../../../config/doctrine_db.php';
 require_once __DIR__.'/../../../config/paths.php';
-require_once __DIR__.'/../../../model/index.php';
 require_once __DIR__.'/../olz_notification_subscriptions_form/olz_notification_subscriptions_form.php';
 
 $user_repo = $entityManager->getRepository(User::class);

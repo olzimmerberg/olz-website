@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Entity\AccessToken;
+use App\Entity\FacebookLink;
+use App\Entity\GoogleLink;
+use App\Entity\News\NewsEntry;
+use App\Entity\NotificationSubscription;
+use App\Entity\StravaLink;
+use App\Entity\TelegramLink;
+use App\Entity\User;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../_/api/endpoints/DeleteUserEndpoint.php';
@@ -123,13 +131,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = true;
-        $entity_manager->repositories['NewsEntry'] = $news_repo;
-        $entity_manager->repositories['NotificationSubscription'] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['TelegramLink'] = new FakeDeleteUserEndpointTelegramLinkRepository();
-        $entity_manager->repositories['StravaLink'] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories['GoogleLink'] = new FakeDeleteUserEndpointGoogleLinkRepository();
-        $entity_manager->repositories['FacebookLink'] = new FakeDeleteUserEndpointFacebookLinkRepository();
-        $entity_manager->repositories['AccessToken'] = new FakeDeleteUserEndpointAccessTokenRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
+        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
+        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
+        $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
+        $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
+        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
@@ -152,7 +160,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['id' => 2]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('Admin', $admin_user->getFirstName());
         $this->assertSame('Istrator', $admin_user->getLastName());
@@ -196,13 +204,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager = new FakeEntityManager();
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = false;
-        $entity_manager->repositories['NewsEntry'] = $news_repo;
-        $entity_manager->repositories['NotificationSubscription'] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['TelegramLink'] = new FakeDeleteUserEndpointTelegramLinkRepository();
-        $entity_manager->repositories['StravaLink'] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories['GoogleLink'] = new FakeDeleteUserEndpointGoogleLinkRepository();
-        $entity_manager->repositories['FacebookLink'] = new FakeDeleteUserEndpointFacebookLinkRepository();
-        $entity_manager->repositories['AccessToken'] = new FakeDeleteUserEndpointAccessTokenRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
+        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
+        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
+        $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
+        $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
+        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
@@ -225,7 +233,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['id' => 2]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository('User')->admin_user;
+        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(8, count($entity_manager->removed));
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);

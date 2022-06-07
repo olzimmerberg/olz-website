@@ -2,16 +2,34 @@
 
 set -e
 
-# Configure database
+# Configure env
 if [ ! -z DB_PORT ] && [ ! -f ./tests/integration_tests/document-root/config.php ]; then
     cp ./tests/integration_tests/document-root/config.template.php ./tests/integration_tests/document-root/config.php
     sed -i "s/'3306'/'$DB_PORT'/g" ./tests/integration_tests/document-root/config.php
-    echo "Integration test server configured."
+    echo "Integration test server env configured."
 else
-    echo "Integration test server configuration preserved."
+    echo "Integration test server env configuration preserved."
 fi
 
-./vendor/bin/phpunit -c ./phpunit.xml --bootstrap ./vendor/autoload.php $@ ./tests/integration_tests
+# Configure symfony
+if [ ! -z DB_PORT ] && [ ! -f .env.test.local ]; then
+    cp .env.test .env.test.local
+    sed -i "s/:3306/:$DB_PORT/g" .env.test.local
+    echo "Integration test server symfony configured."
+else
+    echo "Integration test server symfony configuration preserved."
+fi
+
+# Configure dev server symfony
+if [ ! -z DB_PORT ] && [ ! -f .env.local ]; then
+    cp .env .env.local
+    sed -i "s/:3306/:$DB_PORT/g" .env.local
+    echo "Dev server symfony configured."
+else
+    echo "Dev server symfony configuration preserved."
+fi
+
+./vendor/bin/phpunit -c ./phpunit.xml $@ ./tests/integration_tests
 
 echo ""
 echo "Open the HTML test coverage in a web browser:"

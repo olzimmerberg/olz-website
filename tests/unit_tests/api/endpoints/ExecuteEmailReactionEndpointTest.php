@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\NotificationSubscription;
+use App\Entity\User;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../../_/api/endpoints/ExecuteEmailReactionEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
-require_once __DIR__.'/../../../../_/model/NotificationSubscription.php';
-require_once __DIR__.'/../../../../_/model/User.php';
 require_once __DIR__.'/../../../fake/FakeEmailUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeUserRepository.php';
@@ -52,7 +51,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -86,7 +85,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
         $subscription->setNotificationTypeArgs('{"cancelled":false}');
         $notification_subscription_repo->subscriptions_to_find = [$subscription];
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -109,7 +108,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories['NotificationSubscription'] = $notification_subscription_repo;
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -153,6 +152,8 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $logger = new Logger('ExecuteEmailReactionEndpointTest');
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
+        $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
+        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -207,7 +208,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -232,7 +233,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
@@ -252,7 +253,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeUserRepository();
-        $entity_manager->repositories['User'] = $user_repo;
+        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);

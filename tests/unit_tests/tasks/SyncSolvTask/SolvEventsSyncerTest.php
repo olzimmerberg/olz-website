@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Entity\SolvEvent;
 use Monolog\Logger;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
@@ -66,7 +67,7 @@ final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {
         $entity_manager = new FakeEntityManager();
         $solv_event_repo = new FakeSolvEventsSyncerSolvEventRepository();
-        $entity_manager->repositories['SolvEvent'] = $solv_event_repo;
+        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();
         $logger = new Logger('SolvEventsSyncerTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
@@ -80,7 +81,7 @@ final class SolvEventsSyncerTest extends UnitTestCase {
         $this->assertSame('20201', $flushed[0]->getSolvUid());
         $this->assertSame('Inserted Event', $flushed[0]->getName());
         $this->assertSame('2020-03-13 09:13:27', $flushed[0]->getLastModification()->format('Y-m-d H:i:s'));
-        $solv_event_repo = $entity_manager->getRepository('SolvEvent');
+        $solv_event_repo = $entity_manager->getRepository(SolvEvent::class);
         $modified_event = $solv_event_repo->modifiedEvent;
         $this->assertSame(20202, $modified_event->getSolvUid());
         $this->assertSame('Modified Event (after)', $modified_event->getName());

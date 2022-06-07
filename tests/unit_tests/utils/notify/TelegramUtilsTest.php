@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/model/TelegramLink.php';
+use App\Entity\TelegramLink;
+use App\Entity\User;
+
 require_once __DIR__.'/../../../../_/utils/date/FixedDateUtils.php';
 require_once __DIR__.'/../../../../_/utils/notify/TelegramUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
@@ -24,7 +26,7 @@ $generated_pin_3 = '00000003';
 class FakeTelegramUtilsEntityManager extends FakeEntityManager {
     public function __construct() {
         $this->repositories = [
-            'TelegramLink' => new FakeTelegramUtilsTelegramLinkRepository(),
+            TelegramLink::class => new FakeTelegramUtilsTelegramLinkRepository(),
         ];
     }
 }
@@ -43,7 +45,7 @@ class FakeTelegramUtilsTelegramLinkRepository {
             return [];
         }
         $query_json = json_encode($where);
-        throw new Exception("findBy query not mocked: {$query_json}");
+        throw new \Exception("findBy query not mocked: {$query_json}");
     }
 
     public function findOneBy($where) {
@@ -51,12 +53,12 @@ class FakeTelegramUtilsTelegramLinkRepository {
 
         $valid_pin_link = new TelegramLink();
         $valid_pin_link->setPin($valid_pin);
-        $valid_pin_link->setPinExpiresAt(new DateTime('2020-03-13 19:35:00')); // in 5 minutes
+        $valid_pin_link->setPinExpiresAt(new \DateTime('2020-03-13 19:35:00')); // in 5 minutes
         $valid_pin_link->setUser(new User()); // in 5 minutes
 
         $expired_pin_link = new TelegramLink();
         $expired_pin_link->setPin($expired_pin);
-        $expired_pin_link->setPinExpiresAt(new DateTime('2020-03-13 19:25:00')); // 5 minutes ago
+        $expired_pin_link->setPinExpiresAt(new \DateTime('2020-03-13 19:25:00')); // 5 minutes ago
 
         $null_pin_link = new TelegramLink();
         $null_pin_link->setPin(null);
@@ -113,7 +115,7 @@ class FakeTelegramUtilsTelegramFetcher {
             ];
         }
         if ($this->fetchWithError) {
-            throw new Exception('fake-telegram-fetcher-exception');
+            throw new \Exception('fake-telegram-fetcher-exception');
         }
         return ['result' => 'interesting'];
     }

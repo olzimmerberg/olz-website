@@ -6,7 +6,6 @@ use Monolog\Logger;
 use Olz\Entity\Quiz\SkillCategory;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/RegisterSkillCategoriesEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
 require_once __DIR__.'/../../../fake/FakeIdUtils.php';

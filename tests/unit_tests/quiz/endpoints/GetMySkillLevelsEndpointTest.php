@@ -8,7 +8,6 @@ use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../../_/quiz/endpoints/GetMySkillLevelsEndpoint.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeIdUtils.php';

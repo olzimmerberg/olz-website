@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-require_once __DIR__.'/../../../_/config/vendor/autoload.php';
-
 /**
  * @internal
  * @coversNothing

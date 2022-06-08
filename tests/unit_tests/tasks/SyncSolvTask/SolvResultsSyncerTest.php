@@ -7,7 +7,6 @@ use Olz\Entity\SolvEvent;
 
 require_once __DIR__.'/../../../fake/fake_solv_event.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../../_/config/vendor/autoload.php';
 require_once __DIR__.'/../../../../_/tasks/SyncSolvTask/SolvResultsSyncer.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 

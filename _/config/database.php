@@ -24,8 +24,3 @@ if ($db->connect_error) {
 $db->set_charset('utf8mb4');
 $db->query("SET NAMES utf8mb4");
 $db->query("SET time_zone = '+00:00';");
-
-function DBEsc($str) {
-    global $db;
-    return $db->escape_string($str);
-}

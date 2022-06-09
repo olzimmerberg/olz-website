@@ -44,7 +44,7 @@ $etappen = [
         "Bahnhof Küsnacht ZH",
         "?",
         "Keine, im Freien; WC vorhanden (?)",
-        false,
+        "/files/termine/6115/001.pdf?modified=1654330702",
         "<div style='color:red;'>rot <i>(schwierig, 3-4km)</i></div><div style='color:blue;'>blau <i>(einfach, 2-3km)</i></div><div style='color:green;'>grün <i>(einfach, 1-2km)</i></div>",
         "gratis",
         "2022-trophy-kuesnacht",

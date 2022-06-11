@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/oev/utils/TransportSection.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Oev\Utils\TransportSection;
+
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 require_once __DIR__.'/TransportHaltTest.php';
 
 /**
@@ -38,7 +39,7 @@ final class TransportSectionTest extends UnitTestCase {
     }
 
     public function testTransportSection(): void {
-        $object = TransportSection::parseFromTransportApi(self::SAMPLE_API_SECTION);
+        $object = TransportSection::fromTransportApi(self::SAMPLE_API_SECTION);
 
         $departure = $object->getDeparture();
         $this->assertSame(16, $departure->getStationId());
@@ -67,18 +68,18 @@ final class TransportSectionTest extends UnitTestCase {
             'departure' => [
                 'stationId' => 16,
                 'stationName' => 'Station-sous-test',
-                'time' => null,
+                'time' => '2022-05-17 14:12:54',
             ],
             'arrival' => [
                 'stationId' => 15,
                 'stationName' => 'Testwil',
-                'time' => null,
+                'time' => '2022-05-17 15:03:13',
             ],
             'passList' => [
                 [
                     'stationId' => 14,
                     'stationName' => 'Testingen',
-                    'time' => null,
+                    'time' => '2022-05-17 14:46:14',
                 ],
             ],
             'isWalk' => false,

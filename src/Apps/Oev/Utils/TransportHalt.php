@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Oev\Utils;
+
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -23,13 +25,17 @@ class TransportHalt {
         ]);
     }
 
-    public static function parseFromTransportApi($api_halt) {
-        date_default_timezone_set('Europe/Zurich');
+    public static function fromTransportApi($api_halt) {
         $halt = new self();
-        $halt->stationId = $api_halt['station']['id'];
-        $halt->stationName = $api_halt['station']['name'];
-        $halt->timeSeconds = $api_halt['departureTimestamp'] ?? $api_halt['arrivalTimestamp'] ?? null;
+        $halt->parseFromTransportApi($api_halt);
         return $halt;
+    }
+
+    protected function parseFromTransportApi($api_halt) {
+        date_default_timezone_set('Europe/Zurich');
+        $this->stationId = $api_halt['station']['id'];
+        $this->stationName = $api_halt['station']['name'];
+        $this->timeSeconds = $api_halt['departureTimestamp'] ?? $api_halt['arrivalTimestamp'] ?? null;
     }
 
     public function getStationId() {
@@ -52,7 +58,7 @@ class TransportHalt {
         return [
             'stationId' => $this->stationId,
             'stationName' => $this->stationName,
-            'time' => $this->timeString,
+            'time' => $this->getTimeString(),
         ];
     }
 }

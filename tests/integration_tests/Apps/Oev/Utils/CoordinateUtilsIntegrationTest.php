@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/oev/utils/CoordinateUtils.php';
-require_once __DIR__.'/../../common/IntegrationTestCase.php';
+use Olz\Apps\Oev\Utils\CoordinateUtils;
+
+require_once __DIR__.'/../../../common/IntegrationTestCase.php';
 
 /**
  * @internal

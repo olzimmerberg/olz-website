@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Oev\Utils;
+
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -23,15 +25,19 @@ class TransportConnection {
         ]);
     }
 
-    public static function parseFromTransportApi($api_connection) {
+    public static function fromTransportApi($api_connection) {
         $connection = new self();
-        $connection->sections = [];
+        $connection->parseFromTransportApi($api_connection);
+        return $connection;
+    }
+
+    protected function parseFromTransportApi($api_connection) {
+        $this->sections = [];
         $api_sections = $api_connection['sections'] ?? [];
         foreach ($api_sections as $api_section) {
-            $section = TransportSection::parseFromTransportApi($api_section);
-            $connection->sections[] = $section;
+            $section = TransportSection::fromTransportApi($api_section);
+            $this->sections[] = $section;
         }
-        return $connection;
     }
 
     public function getFieldValue() {
@@ -53,8 +59,8 @@ class TransportConnection {
         foreach ($super_halts as $super_halt) {
             $sub_halt = $sub_halts[$sub_halt_index];
             if (
-                $super_halt->stationId === $sub_halt->stationId
-                && $super_halt->timeSeconds === $sub_halt->timeSeconds
+                $super_halt->getStationId() === $sub_halt->getStationId()
+                && $super_halt->getTimeSeconds() === $sub_halt->getTimeSeconds()
             ) {
                 $sub_halt_index++;
                 if ($sub_halt_index >= count($sub_halts)) {

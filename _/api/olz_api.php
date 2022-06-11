@@ -130,8 +130,8 @@ $olz_api->registerEndpoint('deleteNews', function () {
 // ÖV
 
 $olz_api->registerEndpoint('searchTransportConnection', function () {
-    require_once __DIR__.'/../oev/endpoints/SearchTransportConnectionEndpoint.php';
-    return new SearchTransportConnectionEndpoint();
+    require_once __DIR__.'/../../src/Apps/Oev/Endpoints/SearchTransportConnectionEndpoint.php';
+    return new Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint();
 });
 
 // Quiz

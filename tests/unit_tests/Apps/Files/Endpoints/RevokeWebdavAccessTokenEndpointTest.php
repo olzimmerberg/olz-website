@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
+use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 
-require_once __DIR__.'/../../../../_/webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
-require_once __DIR__.'/../../../fake/fake_role.php';
-require_once __DIR__.'/../../../fake/FakeUsers.php';
-require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
-require_once __DIR__.'/../../../fake/FakeLogger.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/fake_role.php';
+require_once __DIR__.'/../../../../fake/FakeUsers.php';
+require_once __DIR__.'/../../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../../fake/FakeLogger.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {

@@ -4,8 +4,8 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/timing.php';
 
-$login_api_url = '/api/index.php/login';
-$logout_api_url = '/api/index.php/logout';
+$login_api_url = '/api/login';
+$logout_api_url = '/api/logout';
 
 function login($driver, $base_url, $username, $password) {
     global $login_api_url;

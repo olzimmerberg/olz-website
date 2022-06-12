@@ -1,11 +1,11 @@
 <?php
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../api/OlzEntityEndpoint.php';
 require_once __DIR__.'/NewsEndpointTrait.php';
 
 class EditNewsEndpoint extends OlzEntityEndpoint {

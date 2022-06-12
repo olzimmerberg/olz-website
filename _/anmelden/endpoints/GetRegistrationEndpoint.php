@@ -1,9 +1,9 @@
 <?php
 
+use Olz\Api\OlzGetEntityEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 
-require_once __DIR__.'/../../api/OlzGetEntityEndpoint.php';
 require_once __DIR__.'/../AnmeldenConstants.php';
 require_once __DIR__.'/RegistrationEndpointTrait.php';
 

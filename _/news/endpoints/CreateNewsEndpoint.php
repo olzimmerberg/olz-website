@@ -1,11 +1,11 @@
 <?php
 
+use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';
 require_once __DIR__.'/NewsEndpointTrait.php';
 
 class CreateNewsEndpoint extends OlzCreateEntityEndpoint {

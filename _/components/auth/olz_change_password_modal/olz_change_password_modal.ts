@@ -1,5 +1,5 @@
 import * as bootstrap from 'bootstrap';
-import {OlzApiResponses} from '../../../api/client';
+import {OlzApiResponses} from '../../../../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 
 $(() => {

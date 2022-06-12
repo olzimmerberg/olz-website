@@ -24,7 +24,6 @@ const jestConfig = {
     },
     coverageThreshold: {
         './_/': percentCoverage(6),
-        './_/api/': percentCoverage(13),
         './_/components/': percentCoverage(9),
         './_/components/auth': percentCoverage(0),
         './_/components/common': percentCoverage(53),
@@ -35,6 +34,7 @@ const jestConfig = {
         './_/features/': percentCoverage(50),
         './_/library/': percentCoverage(0),
         './_/scripts/': percentCoverage(0),
+        './src/Api/': percentCoverage(13),
         './src/Utils/': percentCoverage(100),
     },
 };

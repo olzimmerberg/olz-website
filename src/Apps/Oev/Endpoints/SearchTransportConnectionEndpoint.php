@@ -2,14 +2,13 @@
 
 namespace Olz\Apps\Oev\Endpoints;
 
+use Olz\Api\OlzEndpoint;
 use Olz\Apps\Oev\Utils\CoordinateUtils;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../../../_/api/OlzEndpoint.php';
-
-class SearchTransportConnectionEndpoint extends \OlzEndpoint {
+class SearchTransportConnectionEndpoint extends OlzEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     public function __construct() {

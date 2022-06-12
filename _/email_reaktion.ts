@@ -1,4 +1,4 @@
-import {callOlzApi} from './api/client';
+import {callOlzApi} from './../src/Api/client';
 
 export function olzExecuteEmailReaction(token: string): boolean {
     callOlzApi(

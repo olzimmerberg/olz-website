@@ -1,4 +1,4 @@
-import {callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../../src/Api/client';
 import {initOlzEditNewsModal} from '../OlzEditNewsModal/OlzEditNewsModal';
 import {olzConfirm} from '../../../components/common/OlzConfirmationDialog/OlzConfirmationDialog';
 

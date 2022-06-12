@@ -5,11 +5,8 @@ namespace Olz\Utils;
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
-
-class AuthBlockedException extends \Exception {
-}
-class InvalidCredentialsException extends \Exception {
-}
+use Olz\Exceptions\AuthBlockedException;
+use Olz\Exceptions\InvalidCredentialsException;
 
 class AuthUtils {
     use WithUtilsTrait;

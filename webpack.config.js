@@ -52,7 +52,7 @@ const defaultConfig = {
         }),
         new WebpackShellPluginNext({
             onBuildStart: {
-                scripts: ['php ./_/api/client/generate.php'],
+                scripts: ['php ./src/Api/OlzApi.php'],
                 blocking: true,
                 parallel: false,
             },

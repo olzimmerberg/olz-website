@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/../../vendor/autoload.php';
+
 // Server Configuration
 global $_CONFIG;
 require_once __DIR__.'/../../_/config/server.php';
@@ -33,7 +35,7 @@ while (true) {
     foreach ($api_resp['result'] as $key => $value) {
         echo "Processing message ".$value['update_id']."...\n";
         $max_message_id = max($value['update_id'], $max_message_id);
-        $url = "http://{$server_domain}/_/api/index.php/onTelegram?authenticityCode={$authenticity_code}";
+        $url = "http://{$server_domain}/api/onTelegram?authenticityCode={$authenticity_code}";
         $dev_ctx = stream_context_create([
             'http' => [
                 'header' => "Content-type: application/json\r\n",

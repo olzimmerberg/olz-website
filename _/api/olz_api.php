@@ -156,12 +156,12 @@ $olz_api->registerEndpoint('registerSkills', function () {
 // WebDAV
 
 $olz_api->registerEndpoint('getWebdavAccessToken', function () {
-    require_once __DIR__.'/../webdav/endpoints/GetWebdavAccessTokenEndpoint.php';
-    return new GetWebdavAccessTokenEndpoint();
+    require_once __DIR__.'/../../src/Apps/Files/Endpoints/GetWebdavAccessTokenEndpoint.php';
+    return new Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint();
 });
 $olz_api->registerEndpoint('revokeWebdavAccessToken', function () {
-    require_once __DIR__.'/../webdav/endpoints/RevokeWebdavAccessTokenEndpoint.php';
-    return new RevokeWebdavAccessTokenEndpoint();
+    require_once __DIR__.'/../../src/Apps/Files/Endpoints/RevokeWebdavAccessTokenEndpoint.php';
+    return new Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint();
 });
 
 return $olz_api;

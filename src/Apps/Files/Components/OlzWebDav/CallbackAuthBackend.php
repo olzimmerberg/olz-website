@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sabre\DAV\Auth\Backend;
+namespace Olz\Apps\Files\Components\OlzWebDav;
 
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -12,7 +12,7 @@ use Sabre\HTTP\ResponseInterface;
  *
  * This backend works by calling a function to determine the authenticated user.
  */
-class CallbackAuthBackend implements BackendInterface {
+class CallbackAuthBackend implements Sabre\DAV\Auth\Backend\BackendInterface {
     /**
      * This is the prefix that will be used to generate principal urls.
      *

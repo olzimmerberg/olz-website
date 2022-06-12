@@ -1,11 +1,13 @@
 <?php
 
+namespace Olz\Apps\Files\Endpoints;
+
 use Olz\Entity\AccessToken;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../api/OlzEndpoint.php';
+require_once __DIR__.'/../../../../_/api/OlzEndpoint.php';
 
-class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
+class GetWebdavAccessTokenEndpoint extends \OlzEndpoint {
     public static function getIdent() {
         return 'GetWebdavAccessTokenEndpoint';
     }

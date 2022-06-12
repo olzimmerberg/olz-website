@@ -1,4 +1,4 @@
-# `oev/`: Tool für die Suche von gemeinsamen ÖV-Verbindungen
+# `Oev/`: App für die Suche von gemeinsamen ÖV-Verbindungen
 
 Nutzt das [swiss public transport API](https://transport.opendata.ch/).
 

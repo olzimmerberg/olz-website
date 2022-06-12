@@ -1,0 +1,28 @@
+<?php
+
+namespace Olz\Controller\Apps;
+
+use Olz\Apps\Files\Components\OlzWebDav\OlzWebDav;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class FilesController extends AbstractController {
+    #[Route('/apps/files/webdav/{path}', requirements: ['path' => '.*'])]
+    public function webdav(
+        Request $request,
+        LoggerInterface $logger
+    ): Response {
+        $html_out = OlzWebDav::render();
+        $response = new Response($html_out);
+        foreach (headers_list() as $header) {
+            $colon_position = strpos($header, ':');
+            $key = substr($header, 0, $colon_position);
+            $value = substr($header, $colon_position + 1);
+            $response->headers->set($key, $value);
+        }
+        return $response;
+    }
+}

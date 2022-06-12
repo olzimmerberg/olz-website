@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OevController extends AbstractController {
-    #[Route('/oev/')]
+    #[Route('/apps/oev/')]
     public function index(
         Request $request,
         LoggerInterface $logger,

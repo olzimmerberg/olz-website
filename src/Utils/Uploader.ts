@@ -1,5 +1,5 @@
 import range from 'lodash/range';
-import {OlzApi} from '../../_/api/client';
+import {OlzApi} from '../Api/client';
 import {EventTarget} from './EventTarget';
 import {assertUnreachable} from './generalUtils';
 import {obfuscateForUpload} from './uploadUtils';

@@ -62,7 +62,7 @@ if ($browser == 'firefox') {
 
 $driver = RemoteWebDriver::create($host, $capabilities);
 
-$base_url = 'http://127.0.0.1:30270/';
+$base_url = 'http://127.0.0.1:30270';
 
 function init_test_block($driver) {
     full_reset_dev_data();

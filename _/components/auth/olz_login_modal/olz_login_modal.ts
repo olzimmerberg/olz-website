@@ -1,5 +1,5 @@
 import * as bootstrap from 'bootstrap';
-import {callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../../src/Api/client';
 
 $(() => {
     const loginModalElem = document.getElementById('login-modal');

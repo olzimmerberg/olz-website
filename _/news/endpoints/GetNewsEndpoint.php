@@ -1,9 +1,9 @@
 <?php
 
+use Olz\Api\OlzGetEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../api/OlzGetEntityEndpoint.php';
 require_once __DIR__.'/NewsEndpointTrait.php';
 
 class GetNewsEndpoint extends OlzGetEntityEndpoint {

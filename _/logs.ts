@@ -1,4 +1,4 @@
-import {callOlzApi} from './api/client';
+import {callOlzApi} from './../src/Api/client';
 
 let logIndex = 0;
 

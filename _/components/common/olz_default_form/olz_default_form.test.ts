@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {ValidationError} from '../../../api/client';
+import {ValidationError} from '../../../../src/Api/client';
 import {EMAIL_REGEX, FieldResult, isFieldResult, validFieldResult, invalidFieldResult, FieldResultOrDictThereof, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getDataForRequest, camelCaseToDashCase, getAsserted, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getIsoDateTimeFromSwissFormat, getPassword, getPhone, getRequired, getStringOrEmpty, getStringOrNull} from './olz_default_form';
 
 describe('EMAIL_REGEX', () => {

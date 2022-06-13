@@ -1,10 +1,9 @@
 <?php
 
+use Olz\Api\OlzEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
-
-require_once __DIR__.'/../../api/OlzEndpoint.php';
 
 class RegisterSkillsEndpoint extends OlzEndpoint {
     public static function getIdent() {

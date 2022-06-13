@@ -1,4 +1,4 @@
-import {OlzApiResponses} from './api/client';
+import {OlzApiResponses} from './../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {

@@ -1,4 +1,4 @@
-import {callOlzApi} from '../../../api/client';
+import {callOlzApi} from '../../../../src/Api/client';
 
 export function olzTelegramNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
     const monthlyPreview = form['monthly-preview'].checked ?? false;

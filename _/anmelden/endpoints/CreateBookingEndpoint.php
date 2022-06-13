@@ -1,10 +1,10 @@
 <?php
 
+use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 
-require_once __DIR__.'/../../api/OlzCreateEntityEndpoint.php';
 require_once __DIR__.'/BookingEndpointTrait.php';
 
 class CreateBookingEndpoint extends OlzCreateEntityEndpoint {

@@ -1,5 +1,5 @@
 import * as bootstrap from 'bootstrap';
-import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../api/client';
+import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../../src/Api/client';
 import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -254,8 +254,8 @@ export function showValidationErrors<T extends OlzApiEndpoint>(
     const validationErrorDict = error?.getErrorsByField() || {};
     const fieldIds = Object.keys(validationErrorDict) as Array<keyof OlzApiRequests[T]>;
     fieldIds.map((fieldId) => {
-        const formInput = form[camelCaseToDashCase(`${fieldId}`)];
-        const errorMessage = error?.getErrorsForField(`${fieldId}`).join('\n');
+        const formInput = form[camelCaseToDashCase(String(fieldId))];
+        const errorMessage = error?.getErrorsForField(String(fieldId)).join('\n');
         if (errorMessage) {
             showErrorOnField(formInput, errorMessage);
         }

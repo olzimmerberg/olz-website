@@ -1,4 +1,4 @@
-import {OlzApiResponses, callOlzApi} from './api/client';
+import {OlzApiResponses, callOlzApi} from './../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
 import {olzConfirm} from './components/common/OlzConfirmationDialog/OlzConfirmationDialog';
 

@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {OlzApiResponses} from '../../../api/client';
-import {OlzNewsData} from '../../../api/client/generated_olz_api_types';
+import {OlzApiResponses} from '../../../../src/Api/client';
+import {OlzNewsData} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../components/common/olz_default_form/olz_default_form';
 import {OlzMultiFileUploader} from '../../../components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../components/upload/OlzMultiImageUploader/OlzMultiImageUploader';

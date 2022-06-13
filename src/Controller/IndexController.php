@@ -14,7 +14,9 @@ class IndexController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): RedirectResponse {
-        return new RedirectResponse("/startseite.php", 301, ['X-OLZ-Redirect' => 'index']);
+        $query_string = $request->getQueryString();
+        $url = $query_string ? "/startseite.php?{$query_string}" : '/startseite.php';
+        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'index']);
     }
 
     #[Route('/_/')]

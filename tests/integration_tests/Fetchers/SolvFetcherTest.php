@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../_/fetchers/SolvFetcher.php';
+use Olz\Fetchers\SolvFetcher;
+
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**

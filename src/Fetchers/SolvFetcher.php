@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class SolvFetcher {
     private $base_url = "https://www.o-l.ch/";
 

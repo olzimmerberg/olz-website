@@ -4,13 +4,13 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\User;
+use Olz\Fetchers\GoogleFetcher;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class ResetPasswordEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../../_/fetchers/GoogleFetcher.php';
-        $google_fetcher = new \GoogleFetcher();
+        $google_fetcher = new GoogleFetcher();
         $this->setGoogleFetcher($google_fetcher);
     }
 

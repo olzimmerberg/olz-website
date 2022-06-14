@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Parsers;
+
 class TimeParser {
     public function time_str_to_seconds($time_str) {
         $res = preg_match("/^(([0-9]+)[:\\.])?([0-9]+)[:\\.]([0-9]+)$/", $time_str, $matches);

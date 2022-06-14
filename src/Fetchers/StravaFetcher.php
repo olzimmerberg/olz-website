@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class StravaFetcher {
     public function fetchTokenDataForCode($token_request_data) {
         $strava_token_url = 'https://www.strava.com/api/v3/oauth/token';

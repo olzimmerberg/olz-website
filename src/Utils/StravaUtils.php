@@ -2,6 +2,8 @@
 
 namespace Olz\Utils;
 
+use Olz\Fetchers\StravaFetcher;
+
 class StravaUtils {
     use WithUtilsTrait;
     public const UTILS = [];
@@ -9,13 +11,12 @@ class StravaUtils {
     public static function fromEnv() {
         require_once __DIR__.'/../../_/config/paths.php';
         require_once __DIR__.'/../../_/config/server.php';
-        require_once __DIR__.'/../../_/fetchers/StravaFetcher.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_strava.php';
-        $strava_fetcher = new \StravaFetcher();
+        $strava_fetcher = new StravaFetcher();
 
         $instance = new self();
         $instance->populateFromEnv(self::UTILS);

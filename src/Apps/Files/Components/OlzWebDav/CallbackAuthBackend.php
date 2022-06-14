@@ -12,7 +12,7 @@ use Sabre\HTTP\ResponseInterface;
  *
  * This backend works by calling a function to determine the authenticated user.
  */
-class CallbackAuthBackend implements Sabre\DAV\Auth\Backend\BackendInterface {
+class CallbackAuthBackend implements \Sabre\DAV\Auth\Backend\BackendInterface {
     /**
      * This is the prefix that will be used to generate principal urls.
      *

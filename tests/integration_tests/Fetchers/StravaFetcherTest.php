@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../_/fetchers/StravaFetcher.php';
+use Olz\Fetchers\StravaFetcher;
+
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**

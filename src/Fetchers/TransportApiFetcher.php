@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class TransportApiFetcher {
     /**
      * Fetch a public transport connection.

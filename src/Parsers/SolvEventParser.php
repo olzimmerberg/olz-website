@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Parsers;
+
 use Olz\Entity\SolvEvent;
 
 class SolvEventParser {

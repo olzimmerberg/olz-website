@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class FacebookFetcher {
     public function fetchTokenDataForCode($token_request_data) {
         $facebook_token_url = 'https://graph.facebook.com/v8.0/oauth/access_token';

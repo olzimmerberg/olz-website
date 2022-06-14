@@ -2,6 +2,8 @@
 
 namespace Olz\Utils;
 
+use Olz\Fetchers\FacebookFetcher;
+
 class FacebookUtils {
     use WithUtilsTrait;
     public const UTILS = [
@@ -11,13 +13,12 @@ class FacebookUtils {
     public static function fromEnv() {
         require_once __DIR__.'/../../_/config/paths.php';
         require_once __DIR__.'/../../_/config/server.php';
-        require_once __DIR__.'/../../_/fetchers/FacebookFetcher.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_facebook.php';
-        $facebook_fetcher = new \FacebookFetcher();
+        $facebook_fetcher = new FacebookFetcher();
 
         $instance = new self();
         $instance->populateFromEnv(self::UTILS);

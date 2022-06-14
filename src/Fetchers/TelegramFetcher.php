@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class TelegramFetcher {
     public function callTelegramApi($command, $args, $bot_token) {
         $telegram_url = "https://api.telegram.org/bot{$bot_token}/{$command}";

@@ -2,6 +2,8 @@
 
 namespace Olz\Utils;
 
+use Olz\Fetchers\GoogleFetcher;
+
 class GoogleUtils {
     use WithUtilsTrait;
     public const UTILS = [
@@ -11,13 +13,12 @@ class GoogleUtils {
     public static function fromEnv() {
         require_once __DIR__.'/../../_/config/paths.php';
         require_once __DIR__.'/../../_/config/server.php';
-        require_once __DIR__.'/../../_/fetchers/GoogleFetcher.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = $base_href.$code_href.'konto_google.php';
-        $google_fetcher = new \GoogleFetcher();
+        $google_fetcher = new GoogleFetcher();
 
         $instance = new self();
         $instance->populateFromEnv(self::UTILS);

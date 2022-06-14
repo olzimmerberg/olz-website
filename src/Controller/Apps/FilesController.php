@@ -10,8 +10,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FilesController extends AbstractController {
+    #[Route('/apps/files/webdav')]
+    public function webdavIndex(
+        Request $request,
+        LoggerInterface $logger
+    ): Response {
+        return $this->webdav($request, $logger);
+    }
+
     #[Route('/apps/files/webdav/{path}', requirements: ['path' => '.*'])]
-    public function webdav(
+    public function webdavPath(
+        Request $request,
+        LoggerInterface $logger
+    ): Response {
+        return $this->webdav($request, $logger);
+    }
+
+    protected function webdav(
         Request $request,
         LoggerInterface $logger
     ): Response {

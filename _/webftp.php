@@ -70,7 +70,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     </form>";
 
     echo "<br/><br/>
-    <p>Experimentell: <a href='{$code_href}webdav/server.php/' class='linkext'>WebDAV im Browser</a></b></p>";
+    <p>Experimentell: <a href='/apps/files/webdav' class='linkext'>WebDAV im Browser</a></b></p>";
 
     $auth_utils = AuthUtils::fromEnv();
     $user = $auth_utils->getSessionUser();
@@ -80,7 +80,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
         $env_utils = EnvUtils::fromEnv();
         $token = $access_token->getToken();
         $code_url = "{$env_utils->getBaseHref()}{$env_utils->getCodeHref()}";
-        $webdav_url = "{$code_url}webdav/server.php/access_token__{$token}/";
+        $webdav_url = "/apps/files/webdav/access_token__{$token}/";
         $enc_webdav_url = htmlentities($webdav_url);
         echo "<p>
             WebDAV-Zugang:

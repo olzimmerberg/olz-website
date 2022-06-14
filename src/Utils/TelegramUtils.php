@@ -9,6 +9,7 @@ use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use League\CommonMark\MarkdownConverter;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
+use Olz\Fetchers\TelegramFetcher;
 
 class TelegramUtils {
     use WithUtilsTrait;
@@ -22,9 +23,7 @@ class TelegramUtils {
     ];
 
     public static function fromEnv() {
-        require_once __DIR__.'/../../_/fetchers/TelegramFetcher.php';
-
-        $telegram_fetcher = new \TelegramFetcher();
+        $telegram_fetcher = new TelegramFetcher();
 
         $instance = new self();
         $instance->setTelegramFetcher($telegram_fetcher);

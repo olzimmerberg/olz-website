@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../_/fetchers/FacebookFetcher.php';
+use Olz\Fetchers\FacebookFetcher;
+
 require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**

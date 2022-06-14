@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../_/parsers/SolvEventParser.php';
+use Olz\Parsers\SolvEventParser;
+
 require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**

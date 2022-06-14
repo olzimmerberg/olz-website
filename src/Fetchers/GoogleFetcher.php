@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Fetchers;
+
 class GoogleFetcher {
     public function fetchRecaptchaVerification($siteverify_request_data) {
         $google_siteverify_url = 'https://www.google.com/recaptcha/api/siteverify';

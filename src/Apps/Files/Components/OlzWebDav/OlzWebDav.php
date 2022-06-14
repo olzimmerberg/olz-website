@@ -33,7 +33,7 @@ class OlzWebDav {
         $server = new DAV\Server($root_directory);
         $server->setBaseUri("/apps/files/webdav{$stripped_path_info}");
 
-        $auth_backend = new DAV\Auth\Backend\CallbackAuthBackend(
+        $auth_backend = new CallbackAuthBackend(
             function () use ($auth_utils, $user) {
                 $has_permission = $auth_utils->hasPermission('webdav', $user);
                 if ($has_permission) {

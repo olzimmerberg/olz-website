@@ -6,6 +6,7 @@ use Olz\Api\OlzEndpoint;
 use Olz\Apps\Oev\Utils\CoordinateUtils;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
+use Olz\Fetchers\TransportApiFetcher;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class SearchTransportConnectionEndpoint extends OlzEndpoint {
@@ -20,8 +21,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
 
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../../../_/fetchers/TransportApiFetcher.php';
-        $transport_api_fetcher = new \TransportApiFetcher();
+        $transport_api_fetcher = new TransportApiFetcher();
         $this->setTransportApiFetcher($transport_api_fetcher);
     }
 

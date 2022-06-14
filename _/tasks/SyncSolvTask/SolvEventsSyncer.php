@@ -1,8 +1,7 @@
 <?php
 
 use Olz\Entity\SolvEvent;
-
-require_once __DIR__.'/../../parsers/SolvEventParser.php';
+use Olz\Parsers\SolvEventParser;
 
 class SolvEventsSyncer {
     use \Psr\Log\LoggerAwareTrait;

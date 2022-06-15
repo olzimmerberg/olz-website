@@ -4,22 +4,22 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Throttling;
+use Olz\Tasks\ProcessEmailTask;
+use Olz\Tasks\SendDailyNotificationsTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../../_/tasks/ProcessEmailTask.php';
-        require_once __DIR__.'/../../../_/tasks/SendDailyNotificationsTask.php';
-        $process_email_task = new \ProcessEmailTask(
+        $process_email_task = new ProcessEmailTask(
             $this->entityManager,
             $this->authUtils,
             $this->emailUtils,
             $this->dateUtils,
             $this->envUtils
         );
-        $send_daily_notifications_task = new \SendDailyNotificationsTask(
+        $send_daily_notifications_task = new SendDailyNotificationsTask(
             $this->entityManager,
             $this->emailUtils,
             $this->telegramUtils,

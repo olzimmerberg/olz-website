@@ -10,10 +10,12 @@ setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de_DE.UTF8');
 mb_internal_encoding('UTF-8');
 
 // Session-Sicherheit
-ini_set('session.cookie_httponly', 1);
-$server_name = $_SERVER['SERVER_NAME'] ?? '';
-if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
-    ini_set('session.cookie_secure', 1);
+if (!headers_sent()) {
+    ini_set('session.cookie_httponly', 1);
+    $server_name = $_SERVER['SERVER_NAME'] ?? '';
+    if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
+        ini_set('session.cookie_secure', 1);
+    }
 }
 
 // Session start

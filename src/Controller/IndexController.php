@@ -29,7 +29,7 @@ class IndexController extends AbstractController {
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_index']);
     }
 
-    #[Route('/_/{folder}/')]
+    #[Route('/_/{folder}/', requirements: ['folder' => '[^\.]+'])]
     public function underscore_folder_index(
         Request $request,
         LoggerInterface $logger,

@@ -18,30 +18,4 @@ class IndexController extends AbstractController {
         $url = $query_string ? "/startseite.php?{$query_string}" : '/startseite.php';
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'index']);
     }
-
-    #[Route('/_/')]
-    public function underscore_index(
-        Request $request,
-        LoggerInterface $logger,
-    ): RedirectResponse {
-        $query_string = $request->getQueryString();
-        $url = $query_string ? "/index.php?{$query_string}" : '/index.php';
-        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_index']);
-    }
-
-    #[Route('/_/{folder}/', requirements: ['folder' => '[^\.]+'])]
-    public function underscore_folder_index(
-        Request $request,
-        LoggerInterface $logger,
-        string $folder,
-    ): RedirectResponse {
-        $query_string = $request->getQueryString();
-        $html_exists = is_file("./_/{$folder}/index.html");
-        if ($html_exists) {
-            $url = $query_string ? "/{$folder}/index.html?{$query_string}" : "/{$folder}/index.html";
-            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_folder_index']);
-        }
-        $url = $query_string ? "/{$folder}/index.php?{$query_string}" : "/{$folder}/index.php";
-        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_folder_index']);
-    }
 }

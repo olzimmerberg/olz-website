@@ -21,7 +21,7 @@ class LegacyBridge {
             return self::useLegacyScript($script_path);
         }
         $res = preg_match('/^(.+\.php)(\/.*)$/', $path, $matches);
-        if ($res) {
+        if ($res && !preg_match('/\.php/', $matches[2])) {
             $script_path = self::getLegacyScript(__DIR__."/../_/{$matches[1]}");
             if ($script_path !== null) {
                 $_SERVER["PATH_INFO"] = $matches[2];

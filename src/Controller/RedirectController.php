@@ -14,4 +14,11 @@ class RedirectController extends AbstractController {
         $url = $query_string ? "/{$file}.php?{$query_string}" : "/{$file}.php";
         return new RedirectResponse($url, 308);
     }
+
+    #[Route('/_/{file}.php/index.php')]
+    public function get(Request $request, string $file): RedirectResponse {
+        $query_string = $request->getQueryString();
+        $url = $query_string ? "/{$file}.php?{$query_string}" : "/{$file}.php";
+        return new RedirectResponse($url, 308);
+    }
 }

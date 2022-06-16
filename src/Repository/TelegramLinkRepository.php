@@ -8,7 +8,7 @@ class TelegramLinkRepository extends EntityRepository {
     public function getActivatedTelegramLinks() {
         $dql = "
             SELECT tl
-            FROM Olz\\Entity\\TelegramLink tl
+            FROM Olz:TelegramLink tl
             WHERE (
                 tl.user IS NOT NULL
                 AND tl.telegram_chat_id IS NOT NULL

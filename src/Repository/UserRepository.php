@@ -9,7 +9,7 @@ class UserRepository extends EntityRepository {
         global $db;
         require_once __DIR__.'/../../_/config/database.php';
         $sane_username = $db->escape_string($username);
-        $dql = "SELECT u FROM Olz\\Entity\\User u WHERE u.username LIKE '{$sane_username}'";
+        $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE '{$sane_username}'";
 
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getOneOrNullResult();
@@ -18,7 +18,7 @@ class UserRepository extends EntityRepository {
     public function getUsersWithLogin() {
         $dql = <<<'ZZZZZZZZZZ'
         SELECT u
-        FROM Olz\\Entity\\User u
+        FROM Olz:User u
         WHERE
             u.email != ''
             AND

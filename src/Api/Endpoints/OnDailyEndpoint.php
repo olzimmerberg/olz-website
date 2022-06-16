@@ -5,19 +5,19 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Throttling;
 use Olz\Fetchers\SolvFetcher;
+use Olz\Tasks\CleanTempDirectoryTask;
+use Olz\Tasks\SyncSolvTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class OnDailyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        require_once __DIR__.'/../../../_/tasks/CleanTempDirectoryTask.php';
-        require_once __DIR__.'/../../../_/tasks/SyncSolvTask.php';
-        $clean_temp_directory_task = new \CleanTempDirectoryTask(
+        $clean_temp_directory_task = new CleanTempDirectoryTask(
             $this->dateUtils,
             $this->envUtils
         );
-        $sync_solv_task = new \SyncSolvTask(
+        $sync_solv_task = new SyncSolvTask(
             $this->entityManager,
             new SolvFetcher(),
             $this->dateUtils,

@@ -7,10 +7,10 @@ use Doctrine\ORM\EntityRepository;
 class RoleRepository extends EntityRepository {
     public function getRolesWithParent($roleId, $limit = 100) {
         if ($roleId === null) {
-            $dql = "SELECT r FROM Olz\\Entity\\Role r WHERE r.parent_role IS NULL ORDER BY r.index_within_parent ASC";
+            $dql = "SELECT r FROM Olz:Role r WHERE r.parent_role IS NULL ORDER BY r.index_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql);
         } else {
-            $dql = "SELECT r FROM Olz\\Entity\\Role r WHERE r.parent_role = ?1 ORDER BY r.index_within_parent ASC";
+            $dql = "SELECT r FROM Olz:Role r WHERE r.parent_role = ?1 ORDER BY r.index_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $roleId);
         }
         $query->setMaxResults($limit);
@@ -22,7 +22,7 @@ class RoleRepository extends EntityRepository {
         // descriptions have been updated. This is just temporary logic!
         $dql = "
             SELECT r.username
-            FROM Olz\\Entity\\Role r
+            FROM Olz:Role r
             WHERE r.guide != ''";
         $query = $this->getEntityManager()->createQuery($dql);
         $result = $query->getResult();

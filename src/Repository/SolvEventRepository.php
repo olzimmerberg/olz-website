@@ -10,7 +10,7 @@ class SolvEventRepository extends EntityRepository {
         $sane_next_year = $sane_year + 1;
         $dql = "
             SELECT se
-            FROM Olz\\Entity\\SolvEvent se
+            FROM Olz:SolvEvent se
             WHERE
                 se.date >= '{$sane_year}-01-01'
                 AND se.date < '{$sane_next_year}-01-01'
@@ -25,7 +25,7 @@ class SolvEventRepository extends EntityRepository {
         $sane_solv_uid = $db->escape_string($solv_uid);
         $sane_rank_link = $db->escape_string($rank_link);
         $dql = "
-            UPDATE Olz\\Entity\\SolvEvent se
+            UPDATE Olz:SolvEvent se
             SET se.rank_link = '{$sane_rank_link}'
             WHERE se.solv_uid = '{$sane_solv_uid}'
         ";
@@ -36,7 +36,7 @@ class SolvEventRepository extends EntityRepository {
     public function deleteBySolvUid($solv_uid) {
         $sane_solv_uid = intval($solv_uid);
         $dql = "
-            DELETE Olz\\Entity\\SolvEvent se
+            DELETE Olz:SolvEvent se
             WHERE se.solv_uid = '{$sane_solv_uid}'
         ";
         $query = $this->getEntityManager()->createQuery($dql);

@@ -26,4 +26,21 @@ class ApiController extends AbstractController {
         $request->server->set('PATH_INFO', "/{$endpoint_name}");
         return $olz_api->getResponse($request);
     }
+
+    // TODO: Remove!
+    #[Route('/api/index.php/{endpoint_name}')]
+    public function oldIndex(
+        Request $request,
+        LoggerInterface $logger,
+        string $endpoint_name
+    ): JsonResponse {
+        $olz_api = OlzApi::getInstance();
+
+        $env_utils = EnvUtils::fromEnv();
+        $logger = $env_utils->getLogsUtils()->getLogger('OlzApi');
+        $olz_api->setLogger($logger);
+
+        $request->server->set('PATH_INFO', "/{$endpoint_name}");
+        return $olz_api->getResponse($request);
+    }
 }

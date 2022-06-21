@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \FacebookFetcher
+ * @covers \Olz\Fetchers\FacebookFetcher
  */
 final class FacebookFetcherTest extends IntegrationTestCase {
     public function __construct() {

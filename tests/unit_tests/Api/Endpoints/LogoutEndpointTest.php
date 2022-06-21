@@ -10,7 +10,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \LogoutEndpoint
+ * @covers \Olz\Api\Endpoints\LogoutEndpoint
  */
 final class LogoutEndpointTest extends UnitTestCase {
     public function testLogoutEndpointIdent(): void {

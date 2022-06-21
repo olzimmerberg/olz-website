@@ -105,20 +105,16 @@ class OlzApi extends Api {
         // Anmelden
 
         $olz_api->registerEndpoint('createBooking', function () {
-            require_once __DIR__.'/../../_/anmelden/endpoints/CreateBookingEndpoint.php';
-            return new \CreateBookingEndpoint();
+            return new \Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint();
         });
         $olz_api->registerEndpoint('createRegistration', function () {
-            require_once __DIR__.'/../../_/anmelden/endpoints/CreateRegistrationEndpoint.php';
-            return new \CreateRegistrationEndpoint();
+            return new \Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint();
         });
         $olz_api->registerEndpoint('getManagedUsers', function () {
-            require_once __DIR__.'/../../_/anmelden/endpoints/GetManagedUsersEndpoint.php';
-            return new \GetManagedUsersEndpoint();
+            return new \Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint();
         });
         $olz_api->registerEndpoint('getRegistration', function () {
-            require_once __DIR__.'/../../_/anmelden/endpoints/GetRegistrationEndpoint.php';
-            return new \GetRegistrationEndpoint();
+            return new \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint();
         });
 
         // News

@@ -12,7 +12,7 @@ class WithUtilsTraitClassWithUtilsTrait {
 
 /**
  * @internal
- * @covers \WithUtilsTrait
+ * @covers \Olz\Utils\WithUtilsTrait
  */
 final class WithUtilsTraitTest extends UnitTestCase {
     public function testCanSetAndGetAllUtils(): void {

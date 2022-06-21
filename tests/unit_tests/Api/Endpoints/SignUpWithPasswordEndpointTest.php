@@ -37,7 +37,7 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
 
 /**
  * @internal
- * @covers \SignUpWithPasswordEndpoint
+ * @covers \Olz\Api\Endpoints\SignUpWithPasswordEndpoint
  */
 final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public const VALID_INPUT = [

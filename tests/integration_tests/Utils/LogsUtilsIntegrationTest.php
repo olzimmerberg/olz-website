@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \LogsUtils
+ * @covers \Olz\Utils\LogsUtils
  */
 final class LogsUtilsIntegrationTest extends IntegrationTestCase {
     public function testLogsUtilsFromEnv(): void {

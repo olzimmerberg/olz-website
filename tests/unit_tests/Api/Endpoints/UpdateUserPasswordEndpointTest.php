@@ -15,7 +15,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \UpdateUserPasswordEndpoint
+ * @covers \Olz\Api\Endpoints\UpdateUserPasswordEndpoint
  */
 final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointIdent(): void {

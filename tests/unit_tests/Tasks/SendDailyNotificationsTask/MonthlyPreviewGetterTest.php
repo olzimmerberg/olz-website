@@ -58,7 +58,7 @@ class FakeMonthlyPreviewGetterTerminRepository {
 
 /**
  * @internal
- * @covers \MonthlyPreviewGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {

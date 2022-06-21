@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \LiveDateUtils
+ * @covers \Olz\Utils\LiveDateUtils
  */
 final class LiveDateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCurrentDateInFormat(): void {

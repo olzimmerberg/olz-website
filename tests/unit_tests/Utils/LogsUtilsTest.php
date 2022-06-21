@@ -11,7 +11,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \LogsUtils
+ * @covers \Olz\Utils\LogsUtils
  */
 final class LogsUtilsTest extends UnitTestCase {
     public function testLogsUtilsGetLogger(): void {

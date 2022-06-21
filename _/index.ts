@@ -1,6 +1,6 @@
 // =============================================================================
 // Der Index von allem Frontend Code.
-// Webpack generiert daraus den Ordner `jsbuild/`.
+// Webpack generiert daraus den Ordner `jsbuild/olz`.
 // =============================================================================
 
 import lightGallery from 'lightgallery';

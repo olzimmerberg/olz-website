@@ -183,7 +183,7 @@ class FakeGoogleUtilsGoogleFetcher {
 
 /**
  * @internal
- * @covers \GoogleUtils
+ * @covers \Olz\Utils\GoogleUtils
  */
 final class GoogleUtilsTest extends UnitTestCase {
     private $googleUtils;

@@ -38,7 +38,7 @@ class IdUtilsIdUtilsForTest extends IdUtils {
 
 /**
  * @internal
- * @covers \IdUtils
+ * @covers \Olz\Utils\IdUtils
  */
 final class IdUtilsTest extends UnitTestCase {
     public function testToExternalId(): void {

@@ -18,7 +18,7 @@ class FakeEnvUtilsForSendmail extends FakeEnvUtils {
 
 /**
  * @internal
- * @covers \EmailUtils
+ * @covers \Olz\Utils\EmailUtils
  */
 final class EmailUtilsTest extends UnitTestCase {
     public function testGetImapMailbox(): void {

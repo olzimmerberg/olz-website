@@ -32,7 +32,7 @@ class UpdateUserEndpointForTest extends UpdateUserEndpoint {
 
 /**
  * @internal
- * @covers \UpdateUserEndpoint
+ * @covers \Olz\Api\Endpoints\UpdateUserEndpoint
  */
 final class UpdateUserEndpointTest extends UnitTestCase {
     public const VALID_INPUT = [

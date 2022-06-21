@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \TransportSuggestion
+ * @covers \Olz\Apps\Oev\Utils\TransportSuggestion
  */
 final class TransportSuggestionTest extends UnitTestCase {
     public function testGetField(): void {

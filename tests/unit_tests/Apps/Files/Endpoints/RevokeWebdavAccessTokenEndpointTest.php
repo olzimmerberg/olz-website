@@ -20,7 +20,7 @@ class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
 
 /**
  * @internal
- * @covers \RevokeWebdavAccessTokenEndpoint
+ * @covers \Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint
  */
 final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
     public function testRevokeWebdavAccessTokenEndpointIdent(): void {

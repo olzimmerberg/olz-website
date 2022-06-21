@@ -22,7 +22,7 @@ class UpdateUserEndpointForIntegrationTest extends UpdateUserEndpoint {
 
 /**
  * @internal
- * @covers \UpdateUserEndpoint
+ * @covers \Olz\Api\Endpoints\UpdateUserEndpoint
  */
 final class UpdateUserEndpointIntegrationTest extends IntegrationTestCase {
     public function testUnlink(): void {

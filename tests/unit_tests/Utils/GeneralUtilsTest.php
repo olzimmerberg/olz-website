@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \GeneralUtils
+ * @covers \Olz\Utils\GeneralUtils
  */
 final class GeneralUtilsTest extends UnitTestCase {
     public function testBase64EncodeUrl(): void {

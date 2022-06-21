@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TelegramConfigurationReminderGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter
  */
 final class TelegramConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
     public function testTelegramConfigurationReminderGetter(): void {

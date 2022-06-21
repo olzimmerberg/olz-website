@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \UpdateUploadEndpoint
+ * @covers \Olz\Api\Endpoints\UpdateUploadEndpoint
  */
 final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpointIdent(): void {

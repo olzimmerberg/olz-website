@@ -17,7 +17,7 @@ class Deploy extends AbstractDefaultDeploy {
         $build_folder_path = $this->getLocalBuildFolderPath();
 
         $this->logger->info("Remove jsbuild...");
-        $fs->remove(__DIR__.'/public/_/jsbuild');
+        $fs->remove(__DIR__.'/public/jsbuild');
         $this->logger->info("Webpack build...");
         shell_exec('npm run webpack-build');
         $this->logger->info("Remove node_modules...");
@@ -116,12 +116,12 @@ class Deploy extends AbstractDefaultDeploy {
         );
         unlink($index_path);
         file_put_contents($index_path, $updated_index_contents);
-        if ($fs->exists("{$public_path}/_")) {
-            $fs->rename("{$public_path}/_", "{$public_path}/_old");
+        if ($fs->exists("{$public_path}/jsbuild")) {
+            $fs->rename("{$public_path}/jsbuild", "{$public_path}/old_jsbuild");
         }
-        $fs->rename(__DIR__.'/public/_', "{$public_path}/_");
-        if ($fs->exists("{$public_path}/_old")) {
-            $fs->remove("{$public_path}/_old");
+        $fs->rename(__DIR__.'/public/jsbuild', "{$public_path}/jsbuild");
+        if ($fs->exists("{$public_path}/old_jsbuild")) {
+            $fs->remove("{$public_path}/old_jsbuild");
         }
         $this->logger->info("Install done.");
     }

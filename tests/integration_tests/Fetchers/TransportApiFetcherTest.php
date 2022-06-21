@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TransportApiFetcher
+ * @covers \Olz\Fetchers\TransportApiFetcher
  */
 final class TransportApiFetcherTest extends IntegrationTestCase {
     public function __construct() {

@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TelegramFetcher
+ * @covers \Olz\Fetchers\TelegramFetcher
  */
 final class TelegramFetcherTest extends IntegrationTestCase {
     public function __construct() {

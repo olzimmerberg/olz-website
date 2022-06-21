@@ -11,7 +11,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \FinishUploadEndpoint
+ * @covers \Olz\Api\Endpoints\FinishUploadEndpoint
  */
 final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointIdent(): void {

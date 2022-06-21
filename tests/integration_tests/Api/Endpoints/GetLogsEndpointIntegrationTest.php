@@ -22,7 +22,7 @@ class GetLogsEndpointForIntegrationTest extends GetLogsEndpoint {
 
 /**
  * @internal
- * @covers \GetLogsEndpoint
+ * @covers \Olz\Api\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointIntegrationTest extends IntegrationTestCase {
     public function testScandir(): void {

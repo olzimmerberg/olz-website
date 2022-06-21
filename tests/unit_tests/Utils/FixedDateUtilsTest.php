@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \FixedDateUtils
+ * @covers \Olz\Utils\FixedDateUtils
  */
 final class FixedDateUtilsTest extends UnitTestCase {
     public function testCurrentDateInFormat(): void {

@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \DailySummaryGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter
  */
 final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {

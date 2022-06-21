@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \TransportHalt
+ * @covers \Olz\Apps\Oev\Utils\TransportHalt
  */
 final class TransportHaltTest extends UnitTestCase {
     public const SAMPLE_API_HALT = [

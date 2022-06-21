@@ -32,7 +32,7 @@ class OlzDeleteEntityConcreteEndpoint extends OlzDeleteEntityEndpoint {
 
 /**
  * @internal
- * @covers \OlzDeleteEntityEndpoint
+ * @covers \Olz\Api\OlzDeleteEntityEndpoint
  */
 final class OlzDeleteEntityEndpointTest extends UnitTestCase {
     public function testOlzDeleteEntityEndpointInternalId(): void {

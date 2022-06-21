@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TelegramUtils
+ * @covers \Olz\Utils\TelegramUtils
  */
 final class TelegramUtilsIntegrationTest extends IntegrationTestCase {
     public function testTelegramUtilsFromEnv(): void {

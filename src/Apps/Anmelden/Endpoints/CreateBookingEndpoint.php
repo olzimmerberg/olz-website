@@ -1,11 +1,11 @@
 <?php
 
+namespace Olz\Apps\Anmelden\Endpoints;
+
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-
-require_once __DIR__.'/BookingEndpointTrait.php';
 
 class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
     use BookingEndpointTrait;

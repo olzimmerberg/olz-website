@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \SolvResultParser
+ * @covers \Olz\Parsers\SolvResultParser
  */
 final class SolvResultParserTest extends UnitTestCase {
     private $results_2006_path = __DIR__.'/data/results-2006.json';

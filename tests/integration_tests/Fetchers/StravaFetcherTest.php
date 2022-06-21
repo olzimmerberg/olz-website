@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \StravaFetcher
+ * @covers \Olz\Fetchers\StravaFetcher
  */
 final class StravaFetcherTest extends IntegrationTestCase {
     public function __construct() {

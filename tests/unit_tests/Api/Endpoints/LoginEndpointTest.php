@@ -17,7 +17,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \LoginEndpoint
+ * @covers \Olz\Api\Endpoints\LoginEndpoint
  */
 final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointIdent(): void {

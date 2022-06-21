@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \HttpUtils
+ * @covers \Olz\Utils\HttpUtils
  */
 final class HttpUtilsTest extends UnitTestCase {
     public function testExists(): void {

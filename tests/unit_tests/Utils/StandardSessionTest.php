@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \StandardSession
+ * @covers \Olz\Utils\StandardSession
  */
 final class StandardSessionTest extends UnitTestCase {
     public function testExists(): void {

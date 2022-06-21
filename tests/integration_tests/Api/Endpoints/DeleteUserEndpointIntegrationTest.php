@@ -26,7 +26,7 @@ class DeleteUserEndpointForIntegrationTest extends DeleteUserEndpoint {
 
 /**
  * @internal
- * @covers \DeleteUserEndpoint
+ * @covers \Olz\Api\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointIntegrationTest extends IntegrationTestCase {
     public function testIsFile(): void {

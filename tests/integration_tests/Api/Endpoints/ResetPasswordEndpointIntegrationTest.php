@@ -18,7 +18,7 @@ class ResetPasswordEndpointForIntegrationTest extends ResetPasswordEndpoint {
 
 /**
  * @internal
- * @covers \ResetPasswordEndpoint
+ * @covers \Olz\Api\Endpoints\ResetPasswordEndpoint
  */
 final class ResetPasswordEndpointIntegrationTest extends IntegrationTestCase {
     public function testGetRandomPassword(): void {

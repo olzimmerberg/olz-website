@@ -33,7 +33,7 @@ class OlzUpdateEntityConcreteEndpoint extends OlzUpdateEntityEndpoint {
 
 /**
  * @internal
- * @covers \OlzUpdateEntityEndpoint
+ * @covers \Olz\Api\OlzUpdateEntityEndpoint
  */
 final class OlzUpdateEntityEndpointTest extends UnitTestCase {
     public function testOlzUpdateEntityEndpointInternalId(): void {

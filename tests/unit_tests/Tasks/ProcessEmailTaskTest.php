@@ -27,7 +27,7 @@ class FakeProcessEmailTaskMail {
 
 /**
  * @internal
- * @covers \ProcessEmailTask
+ * @covers \Olz\Tasks\ProcessEmailTask
  */
 final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithImapError(): void {

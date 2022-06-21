@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \UserAgentUtils
+ * @covers \Olz\Utils\UserAgentUtils
  */
 final class UserAgentUtilsTest extends UnitTestCase {
     public function testIPhone(): void {

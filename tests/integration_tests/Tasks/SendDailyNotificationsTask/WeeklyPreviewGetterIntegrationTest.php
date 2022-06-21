@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \WeeklyPreviewGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter
  */
 final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklyPreviewGetter(): void {

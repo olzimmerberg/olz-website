@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \EnvUtils
+ * @covers \Olz\Utils\EnvUtils
  */
 final class EnvUtilsTest extends UnitTestCase {
     public function testConfigure(): void {

@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \GoogleFetcher
+ * @covers \Olz\Fetchers\GoogleFetcher
  */
 final class GoogleFetcherTest extends IntegrationTestCase {
     public function __construct() {

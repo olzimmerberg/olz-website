@@ -68,7 +68,7 @@ class FakeLoginWithStravaEndpointStravaFetcher {
 
 /**
  * @internal
- * @covers \LoginWithStravaEndpoint
+ * @covers \Olz\Api\Endpoints\LoginWithStravaEndpoint
  */
 final class LoginWithStravaEndpointTest extends UnitTestCase {
     public function testLoginWithStravaEndpointIdent(): void {

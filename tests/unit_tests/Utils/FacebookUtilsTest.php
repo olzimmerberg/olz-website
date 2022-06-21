@@ -42,7 +42,7 @@ class FakeFacebookUtilsFacebookFetcher {
 
 /**
  * @internal
- * @covers \FacebookUtils
+ * @covers \Olz\Utils\FacebookUtils
  */
 final class FacebookUtilsTest extends UnitTestCase {
     private $facebookUtils;

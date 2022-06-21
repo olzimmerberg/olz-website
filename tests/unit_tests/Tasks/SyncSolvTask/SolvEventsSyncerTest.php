@@ -60,7 +60,7 @@ class FakeSolvEventsSyncerSolvFetcher {
 
 /**
  * @internal
- * @covers \SolvEventsSyncer
+ * @covers \Olz\Tasks\SyncSolvTask\SolvEventsSyncer
  */
 final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {

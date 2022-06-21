@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/anmelden/endpoints/GetManagedUsersEndpoint.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint;
+
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \GetManagedUsersEndpoint
+ * @covers \Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint
  */
 final class GetManagedUsersEndpointTest extends UnitTestCase {
     public function testGetManagedUsersEndpointIdent(): void {

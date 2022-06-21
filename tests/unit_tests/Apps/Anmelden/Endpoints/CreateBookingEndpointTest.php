@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Utils\FixedDateUtils;
 
-require_once __DIR__.'/../../../../_/anmelden/endpoints/CreateBookingEndpoint.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeCreateBookingEndpointRegistrationRepository {
     public function findOneBy($where) {
@@ -36,7 +36,7 @@ class FakeCreateBookingEndpointRegistrationInfoRepository {
 
 /**
  * @internal
- * @covers \CreateBookingEndpoint
+ * @covers \Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint
  */
 final class CreateBookingEndpointTest extends UnitTestCase {
     public function testCreateBookingEndpointIdent(): void {

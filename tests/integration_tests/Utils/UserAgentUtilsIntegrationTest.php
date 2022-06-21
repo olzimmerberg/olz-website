@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \UserAgentUtils
+ * @covers \Olz\Utils\UserAgentUtils
  */
 final class UserAgentUtilsIntegrationTest extends IntegrationTestCase {
     public function testUserAgentUtilsFromEnv(): void {

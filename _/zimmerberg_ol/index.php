@@ -2,12 +2,12 @@
 
 $img_root = "/img/zol_2022/";
 
-$css_path = __DIR__.'/../../../../../public/_/jsbuild/main.min.css';
-$js_path = __DIR__.'/../../../../../public/_/jsbuild/main.min.js';
+$css_path = __DIR__.'/../../../../../public/jsbuild/zimmerberg_ol/main.min.css';
+$js_path = __DIR__.'/../../../../../public/jsbuild/zimmerberg_ol/main.min.js';
 $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
 $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-$css_href = "/_/zimmerberg_ol/jsbuild/main.min.css?modified={$css_modified}";
-$js_href = "/_/zimmerberg_ol/jsbuild/main.min.js?modified={$js_modified}";
+$css_href = "/jsbuild/zimmerberg_ol/main.min.css?modified={$css_modified}";
+$js_href = "/jsbuild/zimmerberg_ol/main.min.js?modified={$js_modified}";
 
 require_once __DIR__.'/translations.php';
 $selected_lang = ($_GET['lang'] ?? 'de') === 'fr' ? 'fr' : 'de';

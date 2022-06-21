@@ -1,11 +1,10 @@
 <?php
 
+namespace Olz\Apps\Anmelden\Endpoints;
+
 use Olz\Api\OlzGetEntityEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-
-require_once __DIR__.'/../AnmeldenConstants.php';
-require_once __DIR__.'/RegistrationEndpointTrait.php';
 
 class GetRegistrationEndpoint extends OlzGetEntityEndpoint {
     use RegistrationEndpointTrait;

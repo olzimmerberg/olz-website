@@ -15,7 +15,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \OnContinuouslyEndpoint
+ * @covers \Olz\Api\Endpoints\OnContinuouslyEndpoint
  */
 final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpointIdent(): void {

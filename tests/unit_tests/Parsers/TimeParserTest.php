@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \TimeParser
+ * @covers \Olz\Parsers\TimeParser
  */
 final class TimeParserTest extends UnitTestCase {
     public function testParseTimeWithoutHour(): void {

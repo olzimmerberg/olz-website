@@ -25,7 +25,7 @@ class WithUtilsTraitIntegrationClassWithUtilsTrait {
 
 /**
  * @internal
- * @covers \WithUtilsTrait
+ * @covers \Olz\Utils\WithUtilsTrait
  */
 final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
     public function testCanSetAndGetAllUtils(): void {

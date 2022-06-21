@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \CoordinateUtils
+ * @covers \Olz\Apps\Oev\Utils\CoordinateUtils
  */
 final class CoordinateUtilsTest extends UnitTestCase {
     public function testGetCenter(): void {

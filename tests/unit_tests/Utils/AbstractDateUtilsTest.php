@@ -20,7 +20,7 @@ class FakeDateUtils extends AbstractDateUtils {
 
 /**
  * @internal
- * @covers \AbstractDateUtils
+ * @covers \Olz\Utils\AbstractDateUtils
  */
 final class AbstractDateUtilsTest extends UnitTestCase {
     public function testGetIsoNow(): void {

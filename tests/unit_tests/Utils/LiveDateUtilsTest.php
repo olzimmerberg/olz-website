@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \LiveDateUtils
+ * @covers \Olz\Utils\LiveDateUtils
  */
 final class LiveDateUtilsTest extends UnitTestCase {
     public function testExists(): void {

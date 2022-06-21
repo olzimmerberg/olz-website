@@ -28,12 +28,12 @@ function olz_header_without_routing($args = []): string {
     require_once __DIR__.'/../../../config/server.php';
     require_once __DIR__.'/../../schema/olz_organization_data/olz_organization_data.php';
 
-    $css_path = __DIR__.'/../../../../public/_/jsbuild/main.min.css';
-    $js_path = __DIR__.'/../../../../public/_/jsbuild/main.min.js';
+    $css_path = __DIR__.'/../../../../public/jsbuild/olz/main.min.css';
+    $js_path = __DIR__.'/../../../../public/jsbuild/olz/main.min.js';
     $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
     $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-    $css_href = "/_/jsbuild/main.min.css?modified={$css_modified}";
-    $js_href = "/_/jsbuild/main.min.js?modified={$js_modified}";
+    $css_href = "/jsbuild/olz/main.min.css?modified={$css_modified}";
+    $js_href = "/jsbuild/olz/main.min.js?modified={$js_modified}";
 
     if (!isset($refresh)) {
         $refresh = '';

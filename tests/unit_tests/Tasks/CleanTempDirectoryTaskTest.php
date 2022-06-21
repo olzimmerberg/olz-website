@@ -46,7 +46,7 @@ class FakeCleanTempDirectoryTask extends CleanTempDirectoryTask {
 
 /**
  * @internal
- * @covers \CleanTempDirectoryTask
+ * @covers \Olz\Tasks\CleanTempDirectoryTask
  */
 final class CleanTempDirectoryTaskTest extends UnitTestCase {
     public function testCleanTempDirectoryTaskErrorOpening(): void {

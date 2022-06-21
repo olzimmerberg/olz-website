@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {RegistrationView} from './RegistrationView';
+import {OlzRegistrationView} from './Components/index';
 
 ReactDOM.render(
-    <RegistrationView />,
+    <OlzRegistrationView />,
     document.getElementById('react-root'),
 );

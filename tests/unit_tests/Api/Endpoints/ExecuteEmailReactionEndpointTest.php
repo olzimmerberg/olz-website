@@ -38,7 +38,7 @@ class FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository {
 
 /**
  * @internal
- * @covers \ExecuteEmailReactionEndpoint
+ * @covers \Olz\Api\Endpoints\ExecuteEmailReactionEndpoint
  */
 final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     public function testExecuteEmailReactionEndpointIdent(): void {

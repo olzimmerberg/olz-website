@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \HtmlUtils
+ * @covers \Olz\Utils\HtmlUtils
  */
 final class HtmlUtilsTest extends UnitTestCase {
     public function testRenderMarkdown(): void {

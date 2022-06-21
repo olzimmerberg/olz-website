@@ -13,7 +13,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \EmailConfigurationReminderGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     public function testEmailConfigurationReminderGetterOnWrongDay(): void {

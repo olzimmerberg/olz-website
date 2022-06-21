@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/anmelden/endpoints/GetPrefillValuesEndpoint.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
+
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \GetPrefillValuesEndpoint
+ * @covers \Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint
  */
 final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpointIdent(): void {

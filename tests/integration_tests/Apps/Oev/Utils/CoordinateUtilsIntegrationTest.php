@@ -8,7 +8,7 @@ require_once __DIR__.'/../../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \CoordinateUtils
+ * @covers \Olz\Apps\Oev\Utils\CoordinateUtils
  */
 final class CoordinateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCoordinateUtilsFromEnv(): void {

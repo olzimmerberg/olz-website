@@ -82,7 +82,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 
 /**
  * @internal
- * @covers \SolvPeopleAssigner
+ * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleAssigner
  */
 final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {

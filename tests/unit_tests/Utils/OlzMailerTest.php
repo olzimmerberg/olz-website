@@ -24,7 +24,7 @@ class OlzMailerForTest extends OlzMailer {
 
 /**
  * @internal
- * @covers \OlzMailer
+ * @covers \Olz\Utils\OlzMailer
  */
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {

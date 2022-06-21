@@ -1,5 +1,8 @@
 <?php
 
+namespace Olz\Apps\Anmelden\Endpoints;
+
+use Olz\Apps\Anmelden\AnmeldenConstants;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 trait RegistrationEndpointTrait {

@@ -33,7 +33,7 @@ class FakeSignUpWithStravaEndpointAuthRequestRepository {
 
 /**
  * @internal
- * @covers \SignUpWithStravaEndpoint
+ * @covers \Olz\Api\Endpoints\SignUpWithStravaEndpoint
  */
 final class SignUpWithStravaEndpointTest extends UnitTestCase {
     public function testSignUpWithStravaEndpointIdent(): void {

@@ -58,7 +58,7 @@ class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
 
 /**
  * @internal
- * @covers \ResetPasswordEndpoint
+ * @covers \Olz\Api\Endpoints\ResetPasswordEndpoint
  */
 final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointIdent(): void {

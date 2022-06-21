@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \MemorySession
+ * @covers \Olz\Utils\MemorySession
  */
 final class MemorySessionTest extends UnitTestCase {
     public function testMemorySessionInit(): void {

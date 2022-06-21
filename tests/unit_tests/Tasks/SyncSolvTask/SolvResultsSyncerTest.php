@@ -159,7 +159,7 @@ class FakeSolvResultsSyncerSolvFetcher {
 
 /**
  * @internal
- * @covers \SolvResultsSyncer
+ * @covers \Olz\Tasks\SyncSolvTask\SolvResultsSyncer
  */
 final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {

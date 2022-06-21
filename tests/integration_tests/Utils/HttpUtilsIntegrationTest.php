@@ -45,7 +45,7 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
 
 /**
  * @internal
- * @covers \HttpUtils
+ * @covers \Olz\Utils\HttpUtils
  */
 final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testHttpUtilsError(): void {

@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \SolvFetcher
+ * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {
     public function __construct() {

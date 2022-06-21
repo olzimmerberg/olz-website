@@ -92,7 +92,7 @@ class DeleteUserEndpointForTest extends DeleteUserEndpoint {
 
 /**
  * @internal
- * @covers \DeleteUserEndpoint
+ * @covers \Olz\Api\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointTest extends UnitTestCase {
     public function testDeleteUserEndpointIdent(): void {

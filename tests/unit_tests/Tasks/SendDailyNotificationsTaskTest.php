@@ -486,7 +486,7 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
 
 /**
  * @internal
- * @covers \SendDailyNotificationsTask
+ * @covers \Olz\Tasks\SendDailyNotificationsTask
  */
 final class SendDailyNotificationsTaskTest extends UnitTestCase {
     public function testSendDailyNotificationsTask(): void {

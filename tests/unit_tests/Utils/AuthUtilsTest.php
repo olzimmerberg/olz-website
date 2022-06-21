@@ -60,7 +60,7 @@ class FakeAuthUtilsAuthRequestRepository {
 
 /**
  * @internal
- * @covers \AuthUtils
+ * @covers \Olz\Utils\AuthUtils
  */
 final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectCredentials(): void {

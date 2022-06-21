@@ -12,7 +12,7 @@ require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \EmailConfigurationReminderGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
     public function testEmailConfigurationReminderGetter(): void {

@@ -9,7 +9,7 @@ require_once __DIR__.'/TransportSectionTest.php';
 
 /**
  * @internal
- * @covers \TransportConnection
+ * @covers \Olz\Apps\Oev\Utils\TransportConnection
  */
 final class TransportConnectionTest extends UnitTestCase {
     public const SAMPLE_API_CONNECTION = [

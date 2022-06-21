@@ -49,7 +49,7 @@ class FakeStravaUtilsStravaFetcher {
 
 /**
  * @internal
- * @covers \StravaUtils
+ * @covers \Olz\Utils\StravaUtils
  */
 final class StravaUtilsTest extends UnitTestCase {
     private $stravaUtils;

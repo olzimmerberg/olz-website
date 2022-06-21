@@ -51,7 +51,7 @@ class FakeSolvPeopleMergerSolvResultRepository {
 
 /**
  * @internal
- * @covers \SolvPeopleMerger
+ * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleMerger
  */
 final class SolvPeopleMergerTest extends UnitTestCase {
     public function testSolvPeopleMerger(): void {

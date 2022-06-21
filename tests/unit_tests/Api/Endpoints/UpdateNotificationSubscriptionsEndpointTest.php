@@ -27,7 +27,7 @@ class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
 
 /**
  * @internal
- * @covers \UpdateNotificationSubscriptionsEndpoint
+ * @covers \Olz\Api\Endpoints\UpdateNotificationSubscriptionsEndpoint
  */
 final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointIdent(): void {

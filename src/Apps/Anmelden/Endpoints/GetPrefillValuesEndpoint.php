@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Anmelden\Endpoints;
+
 use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 

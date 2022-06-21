@@ -35,7 +35,7 @@ class GetLogsEndpointForTest extends GetLogsEndpoint {
 
 /**
  * @internal
- * @covers \GetLogsEndpoint
+ * @covers \Olz\Api\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointIdent(): void {

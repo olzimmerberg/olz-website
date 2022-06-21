@@ -94,7 +94,7 @@ class FakeWeeklySummaryGetterTerminRepository {
 
 /**
  * @internal
- * @covers \WeeklySummaryGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\WeeklySummaryGetter
  */
 final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {

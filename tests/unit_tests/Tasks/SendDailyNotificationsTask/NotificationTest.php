@@ -9,7 +9,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \Notification
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\Notification
  */
 final class NotificationTest extends UnitTestCase {
     public function testNotification(): void {

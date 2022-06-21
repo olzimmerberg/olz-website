@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Anmelden\Endpoints;
+
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 trait BookingEndpointTrait {

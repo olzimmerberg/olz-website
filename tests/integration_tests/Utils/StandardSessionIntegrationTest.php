@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \StandardSession
+ * @covers \Olz\Utils\StandardSession
  */
 final class StandardSessionIntegrationTest extends IntegrationTestCase {
     public function testStandardSession(): void {

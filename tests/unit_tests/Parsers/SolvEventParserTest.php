@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \SolvEventParser
+ * @covers \Olz\Parsers\SolvEventParser
  */
 final class SolvEventParserTest extends UnitTestCase {
     private $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';

@@ -14,7 +14,7 @@
     "stylelint": "stylelint ./**/*.*css --fix",
     "test": "npm run jest",
     "tsc": "tsc",
-    "webpack-analyze": "webpack-bundle-analyzer ./public/_/jsbuild/stats.json",
+    "webpack-analyze": "webpack-bundle-analyzer ./public/jsbuild/olz/stats.json",
     "webpack-build": "webpack --mode='production'",
     "webpack-watch": "webpack --watch"
   },

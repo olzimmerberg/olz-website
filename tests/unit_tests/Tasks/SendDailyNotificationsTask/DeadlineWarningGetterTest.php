@@ -56,7 +56,7 @@ class FakeDeadlineWarningGetterTerminRepository {
 
 /**
  * @internal
- * @covers \DeadlineWarningGetter
+ * @covers \Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter
  */
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {

@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \HtmlUtils
+ * @covers \Olz\Utils\HtmlUtils
  */
 final class HtmlUtilsIntegrationTest extends IntegrationTestCase {
     public function testHtmlUtilsFromEnv(): void {

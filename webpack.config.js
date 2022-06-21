@@ -1,6 +1,7 @@
 /* global __dirname, module, require */
 /* exported module */
 
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
@@ -72,35 +73,53 @@ const defaultConfig = {
     devtool: 'source-map',
 };
 
+const appsPath = './src/Apps';
+const apps = fs.readdirSync(appsPath);
+const appConfigs = apps
+    .filter((app) => fs.lstatSync(`${appsPath}/${app}`).isDirectory())
+    .map((app) => {
+        let extension = null;
+        if (fs.existsSync(`${appsPath}/${app}/index.ts`)) {
+            extension = 'ts';
+        } else if (fs.existsSync(`${appsPath}/${app}/index.tsx`)) {
+            extension = 'tsx';
+        }
+        if (!extension) {
+            return null;
+        }
+        return {
+            ...defaultConfig,
+            entry: `${appsPath}/${app}/index.${extension}`,
+            output: {
+                path: path.resolve(__dirname, `public/jsbuild/app-${app}`),
+                publicPath: `/jsbuild/app-${app}/`,
+                filename: '[name].min.js',
+                library: 'olz',
+                libraryTarget: 'window',
+            },
+        };
+    })
+    .filter((config) => config !== null);
+
 module.exports = [
     {
         ...defaultConfig,
         entry: './_/index.ts',
         output: {
-            path: path.resolve(__dirname, 'public/_/jsbuild'),
-            publicPath: '/_/jsbuild/',
+            path: path.resolve(__dirname, 'public/jsbuild/olz'),
+            publicPath: '/jsbuild/olz/',
             filename: '[name].min.js',
             library: 'olz',
             libraryTarget: 'window',
         },
     },
-    {
-        ...defaultConfig,
-        entry: './_/anmelden/index.tsx',
-        output: {
-            path: path.resolve(__dirname, 'public/_/anmelden/jsbuild'),
-            publicPath: '/_/anmelden/jsbuild/',
-            filename: '[name].min.js',
-            library: 'olzAnmelden',
-            libraryTarget: 'window',
-        },
-    },
+    ...appConfigs,
     {
         ...defaultConfig,
         entry: './_/resultate/index.ts',
         output: {
-            path: path.resolve(__dirname, 'public/_/resultate/jsbuild'),
-            publicPath: '/_/resultate/jsbuild/',
+            path: path.resolve(__dirname, 'public/jsbuild/resultate'),
+            publicPath: '/jsbuild/resultate/',
             filename: '[name].min.js',
             library: 'olzResults',
             libraryTarget: 'window',
@@ -110,8 +129,8 @@ module.exports = [
         ...defaultConfig,
         entry: './_/resultate/live_uploader/public_html/index.ts',
         output: {
-            path: path.resolve(__dirname, 'public/_/resultate/live_uploader/public_html/jsbuild'),
-            publicPath: './jsbuild/',
+            path: path.resolve(__dirname, 'public/jsbuild/live_uploader'),
+            publicPath: './jsbuild/live_uploader/',
             filename: '[name].min.js',
             library: 'olzResults',
             libraryTarget: 'window',
@@ -121,8 +140,8 @@ module.exports = [
         ...defaultConfig,
         entry: './_/zimmerberg_ol/index.ts',
         output: {
-            path: path.resolve(__dirname, 'public/_/zimmerberg_ol/jsbuild'),
-            publicPath: '/_/zimmerberg_ol/jsbuild/',
+            path: path.resolve(__dirname, 'public/jsbuild/zimmerberg_ol'),
+            publicPath: '/jsbuild/zimmerberg_ol/',
             filename: '[name].min.js',
             library: 'olzZimmerbergOl',
             libraryTarget: 'window',

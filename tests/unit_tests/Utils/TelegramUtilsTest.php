@@ -133,7 +133,7 @@ class DeterministicTelegramUtils extends TelegramUtils {
 
 /**
  * @internal
- * @covers \TelegramUtils
+ * @covers \Olz\Utils\TelegramUtils
  */
 final class TelegramUtilsTest extends UnitTestCase {
     public function testGenerateTelegramPin(): void {

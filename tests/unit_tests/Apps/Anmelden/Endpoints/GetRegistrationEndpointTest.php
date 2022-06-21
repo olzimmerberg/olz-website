@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Utils\FixedDateUtils;
 
-require_once __DIR__.'/../../../../_/anmelden/endpoints/GetRegistrationEndpoint.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeGetRegistrationEndpointRegistrationRepository {
     public function findOneBy($where) {
@@ -43,7 +43,7 @@ class FakeGetRegistrationEndpointRegistrationInfoRepository {
 
 /**
  * @internal
- * @covers \GetRegistrationEndpoint
+ * @covers \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint
  */
 final class GetRegistrationEndpointTest extends UnitTestCase {
     public function testGetRegistrationEndpointIdent(): void {

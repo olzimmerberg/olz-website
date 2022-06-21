@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Anmelden;
+
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class AnmeldenConstants {

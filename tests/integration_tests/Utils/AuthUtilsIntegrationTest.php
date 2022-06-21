@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \AuthUtils
+ * @covers \Olz\Utils\AuthUtils
  */
 final class AuthUtilsIntegrationTest extends IntegrationTestCase {
     public function testAuthUtilsFromEnv(): void {

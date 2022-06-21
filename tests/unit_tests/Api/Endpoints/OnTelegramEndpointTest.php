@@ -62,7 +62,7 @@ function getFakeTelegramMessage($from_key, $chat_key, $text) {
 
 /**
  * @internal
- * @covers \OnTelegramEndpoint
+ * @covers \Olz\Api\Endpoints\OnTelegramEndpoint
  */
 final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointIdent(): void {

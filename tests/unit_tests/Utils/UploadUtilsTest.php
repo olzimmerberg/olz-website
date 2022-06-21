@@ -8,7 +8,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \UploadUtils
+ * @covers \Olz\Utils\UploadUtils
  */
 final class UploadUtilsTest extends UnitTestCase {
     public function testObfuscateForUpload(): void {

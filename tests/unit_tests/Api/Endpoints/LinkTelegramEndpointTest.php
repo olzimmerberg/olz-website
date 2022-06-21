@@ -13,7 +13,7 @@ require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \LinkTelegramEndpoint
+ * @covers \Olz\Api\Endpoints\LinkTelegramEndpoint
  */
 final class LinkTelegramEndpointTest extends UnitTestCase {
     public function testLinkTelegramEndpointIdent(): void {

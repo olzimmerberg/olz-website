@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
+use Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../../_/anmelden/endpoints/CreateRegistrationEndpoint.php';
-require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeIdUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../../fake/FakeIdUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \CreateRegistrationEndpoint
+ * @covers \Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint
  */
 final class CreateRegistrationEndpointTest extends UnitTestCase {
     public function testCreateRegistrationEndpointIdent(): void {

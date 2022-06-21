@@ -18,7 +18,7 @@ class DeterministicStartUploadEndpoint extends StartUploadEndpoint {
 
 /**
  * @internal
- * @covers \StartUploadEndpoint
+ * @covers \Olz\Api\Endpoints\StartUploadEndpoint
  */
 final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpointIdent(): void {

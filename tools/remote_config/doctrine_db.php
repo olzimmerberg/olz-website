@@ -7,13 +7,9 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
-global $doctrine_model_folders;
-
-require_once __DIR__.'/../../_/config/doctrine.php';
-
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(
-    $doctrine_model_folders,
+    [__DIR__.'/../../src/Entity'],
     $isDevMode,
     null,
     null,

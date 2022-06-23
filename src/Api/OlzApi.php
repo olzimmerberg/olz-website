@@ -120,24 +120,19 @@ class OlzApi extends Api {
         // News
 
         $olz_api->registerEndpoint('createNews', function () {
-            require_once __DIR__.'/../../_/news/endpoints/CreateNewsEndpoint.php';
-            return new \CreateNewsEndpoint();
+            return new \Olz\News\Endpoints\CreateNewsEndpoint();
         });
         $olz_api->registerEndpoint('getNews', function () {
-            require_once __DIR__.'/../../_/news/endpoints/GetNewsEndpoint.php';
-            return new \GetNewsEndpoint();
+            return new \Olz\News\Endpoints\GetNewsEndpoint();
         });
         $olz_api->registerEndpoint('editNews', function () {
-            require_once __DIR__.'/../../_/news/endpoints/EditNewsEndpoint.php';
-            return new \EditNewsEndpoint();
+            return new \Olz\News\Endpoints\EditNewsEndpoint();
         });
         $olz_api->registerEndpoint('updateNews', function () {
-            require_once __DIR__.'/../../_/news/endpoints/UpdateNewsEndpoint.php';
-            return new \UpdateNewsEndpoint();
+            return new \Olz\News\Endpoints\UpdateNewsEndpoint();
         });
         $olz_api->registerEndpoint('deleteNews', function () {
-            require_once __DIR__.'/../../_/news/endpoints/DeleteNewsEndpoint.php';
-            return new \DeleteNewsEndpoint();
+            return new \Olz\News\Endpoints\DeleteNewsEndpoint();
         });
 
         // ÖV

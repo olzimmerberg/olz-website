@@ -23,7 +23,6 @@ export * from './fuer_einsteiger';
 export * from './konto_passwort';
 export * from './konto_strava';
 export * from './logs';
-export * from './news/index';
 export * from './profil';
 export * from './scripts/index';
 export * from './styles/index';
@@ -31,6 +30,7 @@ export * from './termine/index';
 export * from './webftp';
 
 export * from '../src/Apps/index';
+export * from '../src/News/index';
 export * from '../src/Utils/index';
 
 /* @ts-ignore: Ignore file is not a module. */

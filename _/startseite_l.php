@@ -5,6 +5,7 @@
 // =============================================================================
 
 use Olz\Entity\News\NewsEntry;
+use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
@@ -23,7 +24,6 @@ require_once __DIR__.'/image_tools.php';
 require_once __DIR__.'/file_tools.php';
 require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
 require_once __DIR__.'/components/common/olz_posting_list_item/olz_posting_list_item.php';
-require_once __DIR__.'/news/components/olz_news_list_item/olz_news_list_item.php';
 
 $banner_text = olz_editable_text(['olz_text_id' => 22]);
 if (trim(strip_tags($banner_text)) !== '') {
@@ -183,7 +183,7 @@ while ($row = $result->fetch_assoc()) {
         $news_entry->setId($id);
         $news_entry->setImageIds(json_decode($image_ids ?? '[]', true));
 
-        echo olz_news_list_item(['news_entry' => $news_entry]);
+        echo OlzNewsListItem::render(['news_entry' => $news_entry]);
     }
     // if ($thistype!='galerie') $text = "<a href='".$link."' style='display:block;color:#000000;' class='paragraf'>".$text."</a>";
 

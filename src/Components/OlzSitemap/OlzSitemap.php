@@ -5,11 +5,11 @@ namespace Olz\Components\OlzSitemap;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\Termine\Termin;
+use Olz\News\Utils\NewsFilterUtils;
 
 class OlzSitemap {
     public static function render() {
         require_once __DIR__.'/../../../_/config/doctrine_db.php';
-        require_once __DIR__.'/../../../_/news/utils/NewsFilterUtils.php';
         require_once __DIR__.'/../../../_/termine/utils/TermineFilterUtils.php';
 
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -45,7 +45,7 @@ class OlzSitemap {
             $out .= self::getEntry("{$base_url}verein.php?ressort={$verein_ressort}", 'monthly', '0.5');
         }
 
-        $news_utils = \NewsFilterUtils::fromEnv();
+        $news_utils = NewsFilterUtils::fromEnv();
         $news_filters = $news_utils->getAllValidFiltersForSitemap();
         foreach ($news_filters as $news_filter) {
             $enc_json_filter = urlencode(json_encode($news_filter));

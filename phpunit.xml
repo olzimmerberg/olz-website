@@ -34,7 +34,7 @@
             <directory suffix=".php">./src/Api</directory>
             <directory suffix=".php">./src/Fetchers</directory>
             <!-- <directory suffix=".php">./src/model</directory> -->
-            <directory suffix=".php">./_/news/endpoints</directory>
+            <directory suffix=".php">./src/News/Endpoints</directory>
             <directory suffix=".php">./src/Apps/Oev/Endpoints</directory>
             <directory suffix=".php">./src/Apps/Oev/utils</directory>
             <directory suffix=".php">./src/Parsers</directory>

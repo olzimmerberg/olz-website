@@ -4,12 +4,11 @@ namespace Olz\Repository\News;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
-
-require_once __DIR__.'/../../../_/news/utils/NewsFilterUtils.php';
+use Olz\News\Utils\NewsFilterUtils;
 
 class NewsRepository extends EntityRepository {
     public function getAllActiveIds() {
-        $news_utils = \NewsFilterUtils::fromEnv();
+        $news_utils = NewsFilterUtils::fromEnv();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(

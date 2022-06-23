@@ -26,6 +26,9 @@ $_SESSION['edit']['replace']: ersetzen bestätigen
 $_SESSION['edit']['vorschau']: '1'= speichern aus Vorschau
 $_SESSION['edit']['button']: letzter Klick
 */
+
+global $tables_img_dirs, $tables_file_dirs;
+
 require_once __DIR__.'/../image_tools.php';
 require_once __DIR__.'/../file_tools.php';
 
@@ -777,7 +780,6 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
             }
         */
     }
-
     if (isset($tables_img_dirs[$db_table])) {
         $html_input .= "<tr><td colspan='2' style='padding:0px 5px 0px 5px;' class='tablebar'>Bilder</td></tr><tr><td colspan='2'>".olz_images_edit($db_table, $id)."</td></tr>";
     }

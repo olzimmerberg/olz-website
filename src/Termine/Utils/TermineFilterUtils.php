@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Termine\Utils;
+
 use Doctrine\Common\Collections\Criteria;
 use Olz\Utils\WithUtilsTrait;
 

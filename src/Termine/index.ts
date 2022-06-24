@@ -1,4 +1,4 @@
 import './termine.scss';
 
-export * from './components/index';
+export * from './Components/index';
 export * from './termine';

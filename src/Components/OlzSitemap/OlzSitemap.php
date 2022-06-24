@@ -6,11 +6,11 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzSitemap {
     public static function render() {
         require_once __DIR__.'/../../../_/config/doctrine_db.php';
-        require_once __DIR__.'/../../../_/termine/utils/TermineFilterUtils.php';
 
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $out .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
@@ -52,7 +52,7 @@ class OlzSitemap {
             $out .= self::getEntry("{$base_url}aktuell.php?filter={$enc_json_filter}", 'monthly', '0.2');
         }
 
-        $termine_utils = \TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
             $enc_json_filter = urlencode(json_encode($termine_filter));

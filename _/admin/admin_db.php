@@ -8,6 +8,9 @@
 // getestet werden.
 // =============================================================================
 
+use Olz\Termine\Components\OlzICal\OlzICal;
+use Olz\Termine\Utils\TermineFilterUtils;
+
 require_once __DIR__.'/../config/database.php';
 
 $mail_from = 'noreply@olzimmerberg.ch'; // Absenderadresse wird als additional header in mail() benötigt
@@ -27,7 +30,7 @@ $_SESSION['edit']['vorschau']: '1'= speichern aus Vorschau
 $_SESSION['edit']['button']: letzter Klick
 */
 
-global $tables_img_dirs, $tables_file_dirs;
+global $tables_img_dirs, $tables_file_dirs, $data_path;
 
 require_once __DIR__.'/../image_tools.php';
 require_once __DIR__.'/../file_tools.php';
@@ -151,7 +154,6 @@ if ($db_table == "aktuell") {// DB AKTUELL
     ];
 } elseif ($db_table == "termine") {// DB TERMINE
     // include 'parse_solv_ranglisten.php';
-    require_once __DIR__.'/../termine/utils/TermineFilterUtils.php';
     $checkbox_options = array_map(function ($option) {
         return [$option['name'], $option['ident']];
     }, array_filter(
@@ -422,7 +424,9 @@ if (($do ?? null) == "delete") {
     $do = "abbruch";
     // ical-DATEI AKTUALISIEREN
     if (in_array($db_table, ["termine"])) {
-        include __DIR__.'/../ical.php';
+        $ical = OlzICal::render();
+        $file_path = "{$data_path}olz_ical.ics";
+        file_put_contents($file_path, $ical);
     }
 }
 
@@ -554,7 +558,9 @@ if (($do ?? null) == 'submit') {
     }
     // ical-DATEI AKTUALISIEREN
     if (in_array($db_table, ["termine"])) {
-        include __DIR__.'/../ical.php';
+        $ical = OlzICal::render();
+        $file_path = "{$data_path}olz_ical.ics";
+        file_put_contents($file_path, $ical);
     }
     // BESTAETIGUNGSMAIL
     if (($send_mail ?? null) == "on") {
@@ -610,7 +616,7 @@ if (($do ?? null) == 'vorschau') {// include 'upload.php';
                     $_SESSION[$db_table.$var] = implode(" ", $_POST[$db_table.$var]);
                 }
             } else {
-                $_SESSION[$db_table.$var] = $_POST[$db_table.$var];
+                $_SESSION[$db_table.$var] = $_POST[$db_table.$var] ?? '';
             }
             if (isset($tmp_feld[8]) and ($tmp_feld[8] != '')) { // Feldwert überprüfen
                 $tmp = "\$test=".$tmp_feld[8]."(\$_SESSION['".$db_table.$var."']);";
@@ -626,7 +632,7 @@ if (($do ?? null) == 'vorschau') {// include 'upload.php';
         }
 
         // uu, 29.12.19 > Checkbox-Felder vom Typ 'boolean' werden als Array behandelt > 1. Wert abfragen
-        $wert = ($tmp_feld[2] == 'boolean') ? $_SESSION[$db_table.$var][0] : $_SESSION[$db_table.$var];
+        $wert = ($tmp_feld[2] == 'boolean') ? ($_SESSION[$db_table.$var][0] ?? false) : $_SESSION[$db_table.$var];
         $vorschau[$var] = stripslashes($wert);
     }
 

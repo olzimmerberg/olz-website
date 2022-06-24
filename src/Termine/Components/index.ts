@@ -1,0 +1,1 @@
+import './OlzTerminDetail/OlzTerminDetail.scss';

@@ -4,12 +4,11 @@ namespace Olz\Repository\Termine;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
-
-require_once __DIR__.'/../../../_/termine/utils/TermineFilterUtils.php';
+use Olz\Termine\Utils\TermineFilterUtils;
 
 class TerminRepository extends EntityRepository {
     public function getAllActiveIds() {
-        $termine_utils = \TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv();
         $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(

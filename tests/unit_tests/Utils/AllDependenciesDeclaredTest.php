@@ -17,14 +17,12 @@ class AllDependenciesDeclaredClassWithUtilsTrait {
  */
 final class AllDependenciesDeclaredTest extends UnitTestCase {
     public function testAllCommonUtilsCovered(): void {
-        $src_path = __DIR__.'/../../../_/';
+        $src_path = __DIR__.'/../../../src/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         $utils_files = array_merge(
-            glob("{$src_realpath}/utils/*.php"),
-            glob("{$src_realpath}/utils/**/*.php"),
-            glob("{$src_realpath}/*/utils/*.php"),
-            glob("{$src_realpath}/*/utils/**/*.php"),
+            glob("{$src_realpath}/Utils/*.php"),
+            glob("{$src_realpath}/*/Utils/*.php"),
         );
         $util_paths = array_filter(
             $utils_files,
@@ -39,10 +37,9 @@ final class AllDependenciesDeclaredTest extends UnitTestCase {
         foreach ($util_paths as $util_path) {
             require_once $util_path;
             $util_path_contents = file_get_contents($util_path);
-            $util_basename = basename($util_path);
-            $res = preg_match('/^(.+)\.php$/', $util_basename, $matches);
+            $res = preg_match('/\/src\/(.+)\.php$/', $util_path, $matches);
             $this->assertSame(1, $res);
-            $class_name = $matches[1];
+            $class_name = '\\Olz\\'.str_replace('/', '\\', $matches[1]);
             $declared_dependencies = $class_name::UTILS;
             $all_utils = AllDependenciesDeclaredClassWithUtilsTrait::$ALL_UTILS;
             foreach ($all_utils as $util_name) {
@@ -52,12 +49,12 @@ final class AllDependenciesDeclaredTest extends UnitTestCase {
                 if ($is_used) {
                     $this->assertTrue(
                         $is_declared,
-                        "{$util_name} is used but not declared in {$util_basename}"
+                        "{$util_name} is used but not declared in {$class_name}"
                     );
                 } else {
                     $this->assertFalse(
                         $is_declared,
-                        "{$util_name} is declared but not used in {$util_basename}"
+                        "{$util_name} is declared but not used in {$class_name}"
                     );
                 }
             }

@@ -33,10 +33,11 @@ class OlzAccountMenu {
         if ($user) {
             $out .= "<a class='dropdown-item' href='profil.php'>Profil</a>";
             if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) || (($_SESSION['auth'] ?? null) == 'all')) {
-                $out .= "<a class='dropdown-item' href='webftp.php'>WebFTP</a>";
+                $out .= "<a class='dropdown-item' href='/webftp.php'>WebFTP</a>";
             }
             if (($_SESSION['auth'] ?? null) == 'all') {
-                $out .= "<a class='dropdown-item' href='logs.php'>Logs</a>";
+                $out .= "<a class='dropdown-item' href='/apps/'>Apps</a>";
+                $out .= "<a class='dropdown-item' href='/logs.php'>Logs</a>";
             }
             $out .= <<<'ZZZZZZZZZZ'
             <a

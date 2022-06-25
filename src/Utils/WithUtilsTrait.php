@@ -156,6 +156,13 @@ trait WithUtilsTrait {
         $this->uploadUtils = $uploadUtils;
     }
 
+    // TODO: Enable symfony dependency injection (fromEnv in constructor)
+    // public function __construct($from_env = true) {
+    //     if ($from_env) {
+    //         $this->populateFromEnv(self::UTILS);
+    //     }
+    // }
+
     public function populateFromEnv($utils = null) {
         if ($utils === null) {
             $utils = self::$ALL_UTILS;

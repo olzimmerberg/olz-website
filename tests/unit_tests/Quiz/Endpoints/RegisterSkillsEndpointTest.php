@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;
 
-require_once __DIR__.'/../../../../_/quiz/endpoints/RegisterSkillsEndpoint.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
 require_once __DIR__.'/../../../fake/FakeIdUtils.php';
@@ -37,7 +37,7 @@ class FakeRegisterSkillsEndpointSkillRepository {
 
 /**
  * @internal
- * @covers \RegisterSkillsEndpoint
+ * @covers \Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint
  */
 final class RegisterSkillsEndpointTest extends UnitTestCase {
     public function testRegisterSkillsEndpointIdent(): void {

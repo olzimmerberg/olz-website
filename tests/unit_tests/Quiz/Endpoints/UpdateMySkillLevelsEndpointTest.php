@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../../_/quiz/endpoints/UpdateMySkillLevelsEndpoint.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
@@ -43,7 +43,7 @@ class FakeUpdateMySkillLevelsEndpointSkillLevelRepository {
 
 /**
  * @internal
- * @covers \UpdateMySkillLevelsEndpoint
+ * @covers \Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint
  */
 final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     public function testUpdateMySkillLevelsEndpointIdent(): void {

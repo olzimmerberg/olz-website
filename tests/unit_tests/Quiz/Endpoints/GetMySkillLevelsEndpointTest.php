@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
+use Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../../_/quiz/endpoints/GetMySkillLevelsEndpoint.php';
 require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
 require_once __DIR__.'/../../../fake/FakeEntityManager.php';
 require_once __DIR__.'/../../../fake/FakeIdUtils.php';
@@ -71,7 +71,7 @@ class FakeGetMySkillLevelsEndpointSkillLevelRepository {
 
 /**
  * @internal
- * @covers \GetMySkillLevelsEndpoint
+ * @covers \Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint
  */
 final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointIdent(): void {

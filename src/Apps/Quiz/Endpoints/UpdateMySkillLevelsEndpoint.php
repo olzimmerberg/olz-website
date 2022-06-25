@@ -1,12 +1,13 @@
 <?php
 
+namespace Olz\Apps\Quiz\Endpoints;
+
 use Olz\Api\OlzEndpoint;
+use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
-
-require_once __DIR__.'/../QuizConstants.php';
 
 class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
     public static function getIdent() {

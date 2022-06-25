@@ -3,9 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzNewsData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../_/components/common/olz_default_form/olz_default_form';
-import {OlzMultiFileUploader} from '../../../../_/components/upload/OlzMultiFileUploader/OlzMultiFileUploader';
-import {OlzMultiImageUploader} from '../../../../_/components/upload/OlzMultiImageUploader/OlzMultiImageUploader';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
+import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
 const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>Hinweise:</b></div>

@@ -1,5 +1,8 @@
 <?php
 
+use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\FacebookUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -7,9 +10,7 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Facebook Konto",
     'description' => "OLZ-Login mit Facebook.",
     'norobots' => true,
@@ -28,7 +29,7 @@ echo "<pre>";
 print_r($user_data);
 echo "</pre><br/>";
 
-echo olz_profile_form([
+echo OlzProfileForm::render([
     'first_name' => $user_data['first_name'],
     'last_name' => $user_data['last_name'],
     'email' => $user_data['email'],
@@ -42,5 +43,4 @@ echo olz_profile_form([
 echo "</div>
 </div>";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

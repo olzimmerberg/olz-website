@@ -4,15 +4,18 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
+use Olz\Components\Notify\OlzEmailCard\OlzEmailCard;
+use Olz\Components\Notify\OlzTelegramCard\OlzTelegramCard;
+
 require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
 echo "<div class='responsive-flex'>";
 echo "<div class='responsive-flex-2'>";
-include __DIR__.'/components/notify/olz_telegram_card/olz_telegram_card.php';
+echo OlzTelegramCard::render();
 echo "</div>";
 echo "<div class='responsive-flex-2'>";
-include __DIR__.'/components/notify/olz_email_card/olz_email_card.php';
+echo OlzEmailCard::render();
 echo "</div>";
 echo "</div>";
 

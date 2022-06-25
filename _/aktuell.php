@@ -28,8 +28,6 @@ $http_utils->validateGetParams([
 
 $id = $_GET['id'] ?? null;
 
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-
 require_once __DIR__.'/file_tools.php';
 require_once __DIR__.'/image_tools.php';
 

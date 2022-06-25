@@ -1,5 +1,5 @@
-import {callOlzApi, OlzApiResponses} from './../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
+import {callOlzApi, OlzApiResponses} from '../src/Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');

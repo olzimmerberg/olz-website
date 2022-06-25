@@ -16,7 +16,6 @@ import './profil.scss';
 import './startseite.scss';
 import './webftp.scss';
 
-export * from './components/index';
 export * from './email_reaktion';
 export * from './features/index';
 export * from './fuer_einsteiger';
@@ -29,6 +28,7 @@ export * from './styles/index';
 export * from './webftp';
 
 export * from '../src/Apps/index';
+export * from '../src/Components/index';
 export * from '../src/News/index';
 export * from '../src/Termine/index';
 export * from '../src/Utils/index';

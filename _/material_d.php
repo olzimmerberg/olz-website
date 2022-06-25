@@ -4,6 +4,7 @@
 // Informationsseite zum klubeigenen Material.
 // =============================================================================
 
+use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
 ?>
@@ -82,14 +83,12 @@ use Olz\Entity\Role;
 <b>Kontakt für Bestellung, Abholung und Rückgabe des Materials:</b>
 <?php
 
-require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
-
 $role_repo = $entityManager->getRepository(Role::class);
 $sportident_role = $role_repo->findOneBy(['username' => 'sportident']);
 
 $sportident_assignees = $sportident_role->getUsers();
 foreach ($sportident_assignees as $sportident_assignee) {
-    echo olz_user_info_card($sportident_assignee);
+    echo OlzUserInfoCard::render(['user' => $sportident_assignee]);
 }
 
 ?>

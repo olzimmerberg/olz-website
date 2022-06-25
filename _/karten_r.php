@@ -4,7 +4,8 @@
 // Das Verzeichnis unserer Karten.
 // =============================================================================
 
-require_once __DIR__.'/components/schema/olz_map_data/olz_map_data.php';
+use Olz\Components\Schema\OlzMapData\OlzMapData;
+
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 
@@ -130,7 +131,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         if ($typ != $tmp_typ) {
             echo $tmp_tag."<h2><img src='icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";
         }
-        echo olz_map_data([
+        echo OlzMapData::render([
             'name' => $name,
             'year' => $jahr,
             'scale' => $massstab,

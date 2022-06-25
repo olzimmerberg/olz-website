@@ -7,6 +7,8 @@
 namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
@@ -49,8 +51,7 @@ class OlzNewsDetail {
 
         $out = '';
 
-        require_once __DIR__.'/../../../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header([
+        $out .= OlzHeader::render([
             'title' => "Aktuell",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $no_robots,
@@ -137,8 +138,7 @@ class OlzNewsDetail {
         $out .= "</form>
         </div>";
 
-        require_once __DIR__.'/../../../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
 
         return $out;
     }

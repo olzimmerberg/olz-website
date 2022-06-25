@@ -1,13 +1,15 @@
 <?php
 
+use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+
 require_once __DIR__.'/config/init.php';
 
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "OLZ-Konto mit Passwort",
     'description' => "OLZ-Login mit Passwort.",
     'norobots' => true,
@@ -26,7 +28,7 @@ echo <<<'ZZZZZZZZZZ'
 >
     <div class='success-message alert alert-success' role='alert'></div>
 ZZZZZZZZZZ;
-echo olz_profile_form([
+echo OlzProfileForm::render([
     'show_avatar' => false,
     'show_required_password' => true,
 ]);
@@ -40,5 +42,4 @@ ZZZZZZZZZZ;
 echo "</div>
 </div>";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

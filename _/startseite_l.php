@@ -4,6 +4,8 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 
@@ -22,10 +24,8 @@ require_once __DIR__.'/config/date.php';
 
 require_once __DIR__.'/image_tools.php';
 require_once __DIR__.'/file_tools.php';
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
-require_once __DIR__.'/components/common/olz_posting_list_item/olz_posting_list_item.php';
 
-$banner_text = olz_editable_text(['olz_text_id' => 22]);
+$banner_text = OlzEditableText::render(['olz_text_id' => 22]);
 if (trim(strip_tags($banner_text)) !== '') {
     echo "<div id='important-banner' class='banner'>";
     echo $banner_text;
@@ -93,7 +93,7 @@ while ($row = $result->fetch_assoc()) {
              $text = str_replace($matches[0][$i], $tmptext, $text);
          }*/
 
-        echo olz_posting_list_item([
+        echo OlzPostingListItem::render([
             'icon' => $icon,
             'date' => $datum,
             'title' => $edit_admin.$titel,
@@ -111,7 +111,7 @@ while ($row = $result->fetch_assoc()) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
 
-        echo olz_posting_list_item([
+        echo OlzPostingListItem::render([
             'icon' => $icon,
             'date' => $datum,
             'title' => $edit_admin.$titel,
@@ -155,7 +155,7 @@ while ($row = $result->fetch_assoc()) {
             $icon = "icns/entry_type_movie_20.svg";
         }
 
-        echo olz_posting_list_item([
+        echo OlzPostingListItem::render([
             'icon' => $icon,
             'date' => $datum,
             'title' => $edit_admin.$titel,

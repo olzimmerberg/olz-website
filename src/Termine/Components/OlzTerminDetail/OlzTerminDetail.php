@@ -2,13 +2,14 @@
 
 namespace Olz\Termine\Components\OlzTerminDetail;
 
+use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
+use Olz\Components\Schema\OlzEventData\OlzEventData;
+
 class OlzTerminDetail {
     public static function render($args = []) {
         global $db, $_DATE, $heute;
 
         require_once __DIR__.'/../../../../_/image_tools.php';
-        require_once __DIR__.'/../../../../_/components/common/olz_location_map/olz_location_map.php';
-        require_once __DIR__.'/../../../../_/components/schema/olz_event_data/olz_event_data.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
         $db_table = 'termine';
@@ -73,7 +74,7 @@ class OlzTerminDetail {
                 ($has_solv_location ? $row_solv['location'] : null);
             $has_location = $has_olz_location || $has_solv_location;
 
-            $out .= olz_event_data([
+            $out .= OlzEventData::render([
                 'name' => $titel,
                 'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
                 'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
@@ -88,10 +89,22 @@ class OlzTerminDetail {
 
             // Karte zeigen
             if ($has_olz_location) {
-                $out .= olz_location_map($xkoord, $ykoord, 13, 720, 360);
+                $out .= OlzLocationMap::render([
+                    'xkoord' => $xkoord,
+                    'ykoord' => $ykoord,
+                    'zoom' => 13,
+                    'width' => 720,
+                    'height' => 360,
+                ]);
             // SOLV-Karte zeigen
             } elseif ($has_solv_location) {
-                $out .= olz_location_map($row_solv['coord_x'], $row_solv['coord_y'], 13, 720, 360);
+                $out .= OlzLocationMap::render([
+                    'xkoord' => $row_solv['coord_x'],
+                    'ykoord' => $row_solv['coord_y'],
+                    'zoom' => 13,
+                    'width' => 720,
+                    'height' => 360,
+                ]);
             }
 
             // Date & Title

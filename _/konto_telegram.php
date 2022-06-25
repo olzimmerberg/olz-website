@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
 use Olz\Utils\TelegramUtils;
 
@@ -8,9 +10,7 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "OLZ Konto mit Telegram",
     'description' => "OLZ-Login mit Telegram.",
     'norobots' => true,
@@ -49,5 +49,4 @@ if ($user) {
 echo "</div>
 </div>";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

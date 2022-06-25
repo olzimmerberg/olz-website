@@ -1,6 +1,6 @@
 import {callOlzApi} from '../../../../src/Api/client';
 import {initOlzEditNewsModal} from '../OlzEditNewsModal/OlzEditNewsModal';
-import {olzConfirm} from '../../../../_/components/common/OlzConfirmationDialog/OlzConfirmationDialog';
+import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
 export function editNewsArticle(newsId: number): boolean {
     callOlzApi('editNews', {id: newsId})

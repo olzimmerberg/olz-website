@@ -1,5 +1,9 @@
 <?php
 
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
 require_once __DIR__.'/config/init.php';
@@ -7,13 +11,12 @@ require_once __DIR__.'/config/init.php';
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/config/server.php';
 
 $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 $canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}fuer_einsteiger.php";
 
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Für Einsteiger",
     'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
     'additional_headers' => [
@@ -27,8 +30,6 @@ echo "<style>
 }
 </style>";
 
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
-require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/tickers.php';
 
@@ -38,11 +39,11 @@ $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 $contact_information = "<div style='padding:0px 10px 0px 10px;'>";
 $nachwuchs_assignees = $nachwuchs_role->getUsers();
 foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
-    $contact_information .= olz_user_info_card($nachwuchs_assignee);
+    $contact_information .= OlzUserInfoCard::render(['user' => $nachwuchs_assignee]);
 }
 $contact_information .= "</div>";
 
-$trainings_information = olz_editable_text(['olz_text_id' => 1]);
+$trainings_information = OlzEditableText::render(['olz_text_id' => 1]);
 
 ob_start();
 termine_ticker([
@@ -306,5 +307,4 @@ function get_tile($img_name, $options = []) {
     ZZZZZZZZZZ;
 }
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

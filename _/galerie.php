@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -40,8 +42,7 @@ if (isset($_GET['id'])) {
     }
 }
 
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => $html_title,
     'description' => "Bilder und Videos von Anlässen der OL Zimmerberg.",
     'norobots' => true,
@@ -75,5 +76,4 @@ echo "</form>
 </div>
 ";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

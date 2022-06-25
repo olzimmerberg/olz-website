@@ -1,5 +1,8 @@
 <?php
 
+use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
@@ -9,14 +12,12 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Profil",
     'description' => "Alles rund um dein persönliches OLZ-Konto.",
     'norobots' => true,
 ]);
 
-require_once __DIR__.'/components/auth/olz_profile_form/olz_profile_form.php';
 require_once __DIR__.'/config/doctrine_db.php';
 
 $user_repo = $entityManager->getRepository(User::class);
@@ -86,7 +87,7 @@ if ($user) {
             value='{$esc_id}'
         />
     ZZZZZZZZZZ;
-    echo olz_profile_form([
+    echo OlzProfileForm::render([
         'show_avatar' => true,
         'show_change_password' => true,
         'first_name' => $user->getFirstName(),
@@ -113,5 +114,4 @@ if ($user) {
 }
 echo "</div>";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

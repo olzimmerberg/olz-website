@@ -4,8 +4,6 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
-
 ?>
 <div>
     <h2>PC-Konto</h2>

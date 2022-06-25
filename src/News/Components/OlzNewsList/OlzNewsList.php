@@ -2,6 +2,8 @@
 
 namespace Olz\News\Components\OlzNewsList;
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
@@ -14,8 +16,6 @@ class OlzNewsList {
         global $db_table, $db, $_SESSION;
 
         $db_table = 'aktuell';
-
-        require_once __DIR__.'/../../../../_/components/common/olz_posting_list_item/olz_posting_list_item.php';
 
         $http_utils = HttpUtils::fromEnv();
         $news_utils = NewsFilterUtils::fromEnv();
@@ -31,8 +31,7 @@ class OlzNewsList {
 
         $out = '';
 
-        require_once __DIR__.'/../../../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header([
+        $out .= OlzHeader::render([
             'title' => "Aktuell",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => !$allow_robots,
@@ -144,8 +143,7 @@ class OlzNewsList {
         $out .= "</form>";
         $out .= "</div>";
 
-        require_once __DIR__.'/../../../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
 
         return $out;
     }

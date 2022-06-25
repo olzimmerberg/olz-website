@@ -1,7 +1,7 @@
 import React from 'react';
 import {OlzApiResponses} from '../../../../Api/client';
 import {OlzTransportSuggestion} from '../../../../Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../../_/components/common/olz_default_form/olz_default_form';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
 
 export function olzOevSearchConnection(

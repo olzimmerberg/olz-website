@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
 
 require_once __DIR__.'/config/init.php';
@@ -7,8 +9,7 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Logs",
     'norobots' => true,
 ]);
@@ -58,5 +59,4 @@ if ($user && $user->getZugriff() == 'all') {
 }
 echo "</div>";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

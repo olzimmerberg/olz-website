@@ -1,10 +1,12 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+
 function die_with_http_error($http_status_code) {
     http_response_code($http_status_code);
 
-    require_once __DIR__.'/components/page/olz_header/olz_header.php';
-    echo olz_header([
+    echo OlzHeader::render([
         'title' => "Fehler",
     ]);
 
@@ -26,7 +28,6 @@ function die_with_http_error($http_status_code) {
     </div>
     ZZZZZZZZZZ;
 
-    require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-    echo olz_footer();
+    echo OlzFooter::render();
     exit('');
 }

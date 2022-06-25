@@ -4,10 +4,10 @@
 // Die Informationsseite für Anfänger, Einsteiger, Neulinge.
 // =============================================================================
 
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
-require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 require_once __DIR__.'/tickers.php';
 
 $role_repo = $entityManager->getRepository(Role::class);
@@ -33,7 +33,7 @@ Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='te
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>
 ZZZZZZZZZZ;
-echo olz_editable_text(['olz_text_id' => 1]);
+echo OlzEditableText::render(['olz_text_id' => 1]);
 echo <<<'ZZZZZZZZZZ'
 </div>
 <div>
@@ -66,7 +66,7 @@ Fürs Büssli anmelden kannst du dich bei:
 ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
-    echo olz_user_info_card($buessli_assignee);
+    echo OlzUserInfoCard::render(['user' => $buessli_assignee]);
 }
 echo <<<'ZZZZZZZZZZ'
 </div>
@@ -80,7 +80,7 @@ Unser <b>Clubbüssli</b> fährt auch zu manchen Anlässen. Ob es zum nächsten O
 ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
-    echo olz_user_info_card($buessli_assignee);
+    echo OlzUserInfoCard::render(['user' => $buessli_assignee]);
 }
 echo <<<'ZZZZZZZZZZ'
 </div>
@@ -98,7 +98,7 @@ Melde dich bei:
 ZZZZZZZZZZ;
 $aktuariat_assignees = $aktuariat_role->getUsers();
 foreach ($aktuariat_assignees as $aktuariat_assignee) {
-    echo olz_user_info_card($aktuariat_assignee);
+    echo OlzUserInfoCard::render(['user' => $aktuariat_assignee]);
 }
 echo <<<'ZZZZZZZZZZ'
 </div>
@@ -147,6 +147,6 @@ Die Website-Entwickler danken für euer Verständnis.
 ZZZZZZZZZZ;
 $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
-    echo olz_user_info_card($buessli_assignee);
+    echo OlzUserInfoCard::render(['user' => $buessli_assignee]);
 }
 echo "</div>";

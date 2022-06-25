@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\AccessToken;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
@@ -17,10 +19,9 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
 require_once __DIR__.'/config/doctrine_db.php';
 
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Web FTP",
     'norobots' => true,
 ]);
@@ -121,5 +122,4 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     </div>";
 }
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

@@ -2,6 +2,8 @@
 
 namespace Olz\Apps\Oev\Components\OlzOev;
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
@@ -29,8 +31,7 @@ class OlzOev {
 
         $id = $_GET['id'] ?? null;
 
-        require_once __DIR__.'/../../../../../_/components/page/olz_header/olz_header.php';
-        echo olz_header([
+        echo OlzHeader::render([
             'title' => "ÖV-Tool",
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
         ]);
@@ -54,7 +55,6 @@ class OlzOev {
 
         echo "</div>";
 
-        require_once __DIR__.'/../../../../../_/components/page/olz_footer/olz_footer.php';
-        echo olz_footer();
+        echo OlzFooter::render();
     }
 }

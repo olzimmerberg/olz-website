@@ -2,6 +2,8 @@
 
 namespace Olz\Utils;
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use PhpTypeScriptApi\Fields\ValidationError;
 
 class HttpUtils {
@@ -15,8 +17,7 @@ class HttpUtils {
         $this->sendHttpResponseCode($http_status_code);
 
         $out = "";
-        require_once __DIR__.'/../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header_without_routing([
+        $out .= OlzHeaderWithoutRouting::render([
             'title' => "Fehler",
         ]);
 
@@ -38,8 +39,7 @@ class HttpUtils {
         </div>
         ZZZZZZZZZZ;
 
-        require_once __DIR__.'/../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
         $this->sendHttpBody($out);
         $this->exitExecution();
     }
@@ -49,8 +49,7 @@ class HttpUtils {
         $this->sendHeader("Location: {$redirect_url}");
 
         $out = "";
-        require_once __DIR__.'/../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header_without_routing([
+        $out .= OlzHeaderWithoutRouting::render([
             'title' => "Weiterleitung...",
         ]);
 
@@ -62,8 +61,7 @@ class HttpUtils {
         </div>
         ZZZZZZZZZZ;
 
-        require_once __DIR__.'/../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
         $this->sendHttpBody($out);
         $this->exitExecution();
     }

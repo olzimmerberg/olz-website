@@ -6,6 +6,9 @@
 
 namespace Olz\Termine\Components\OlzTermineList;
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
@@ -17,7 +20,6 @@ class OlzTermineList {
     public static function render($args = []) {
         global $db_table, $monate, $_DATE, $heute;
 
-        require_once __DIR__.'/../../../../_/components/schema/olz_event_data/olz_event_data.php';
         require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
@@ -46,8 +48,7 @@ class OlzTermineList {
 
         $out = '';
 
-        require_once __DIR__.'/../../../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header([
+        $out .= OlzHeader::render([
             'title' => $termine_list_title,
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => !$allow_robots,
@@ -391,7 +392,7 @@ class OlzTermineList {
             // HTML-Ausgabe
             if ((($_SESSION['termin_filter'] ?? null) == "resultat" and (strpos($link, "Rangliste") > "" or strpos($link, "Resultat") > "")) or (($_SESSION['termin_filter'] ?? null) != "resultat")) {
                 $out .= olz_monate($datum);
-                $out .= olz_event_data([
+                $out .= OlzEventData::render([
                     'name' => $row['titel'],
                     'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
                     'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
@@ -409,8 +410,7 @@ class OlzTermineList {
         $out .= "</form>
         </div>";
 
-        require_once __DIR__.'/../../../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
 
         // -------------------------------------------------------------
         //  Wiederkehrendes Datum anzeigen

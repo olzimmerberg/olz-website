@@ -1,13 +1,14 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/users/olz_user_info_card/olz_user_info_card.php';
 
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-echo olz_header([
+echo OlzHeader::render([
     'title' => "Datenschutz",
     'description' => "Die Datenschutzerklärung für die Website der OL Zimmerberg.",
 ]);
@@ -21,7 +22,7 @@ echo "<div id='content_rechts'>
 $website_assignees = $website_role->getUsers();
 foreach ($website_assignees as $website_assignee) {
     echo "<li>";
-    echo olz_user_info_card($website_assignee);
+    echo OlzUserInfoCard::render(['user' => $website_assignee]);
     echo "</li>";
 }
 echo "</ul>
@@ -56,5 +57,4 @@ echo "</ul>
 </div>
 ";
 
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
-echo olz_footer();
+echo OlzFooter::render();

@@ -1,5 +1,9 @@
 <?php
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Components\Verein\OlzOrganigramm\OlzOrganigramm;
+use Olz\Components\Verein\OlzRolePage\OlzRolePage;
 use Olz\Entity\Role;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
@@ -10,8 +14,6 @@ require_once __DIR__.'/config/init.php';
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/components/page/olz_header/olz_header.php';
-require_once __DIR__.'/components/page/olz_footer/olz_footer.php';
 require_once __DIR__.'/config/doctrine_db.php';
 
 $env_utils = EnvUtils::fromEnv();
@@ -35,26 +37,24 @@ if (isset($_GET['ressort'])) {
     // This is just temporary logic!
     $no_robots = ($role->getGuide() === '');
 
-    echo olz_header([
+    echo OlzHeader::render([
         'title' => $role->getName(),
         'description' => "Ressort {$role->getName()} der OL Zimmerberg.",
         'norobots' => $no_robots,
     ]);
 
-    require_once __DIR__.'/components/verein/olz_role_page/olz_role_page.php';
-    echo olz_role_page(['role' => $role]);
+    echo OlzRolePage::render(['role' => $role]);
 
-    echo olz_footer();
+    echo OlzFooter::render();
 } else {
-    echo olz_header([
+    echo OlzHeader::render([
         'title' => "Kontakt",
         'description' => "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.",
     ]);
 
     echo "<div id='content_double'>";
-    require_once __DIR__.'/components/verein/olz_organigramm/olz_organigramm.php';
-    echo olz_organigramm();
+    echo OlzOrganigramm::render();
     echo "</div>";
 
-    echo olz_footer();
+    echo OlzFooter::render();
 }

@@ -2,6 +2,8 @@
 
 namespace Olz\Apps\Anmelden\Components\OlzAnmelden;
 
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -27,8 +29,7 @@ class OlzAnmelden {
 
         $out = '';
 
-        require_once __DIR__.'/../../../../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header([
+        $out .= OlzHeader::render([
             'title' => 'Anmelden',
             'description' => "Hier kann man sich für OLZ-Anlässe anmelden.",
         ]);
@@ -48,8 +49,7 @@ class OlzAnmelden {
         $out .= "<link rel='stylesheet' href='{$css_href}' />";
         $out .= "<script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>";
 
-        require_once __DIR__.'/../../../../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
 
         return $out;
     }

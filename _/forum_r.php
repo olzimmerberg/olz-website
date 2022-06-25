@@ -4,7 +4,7 @@
 // Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
 // =============================================================================
 
-require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php';
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
 ?>
 
@@ -21,5 +21,5 @@ require_once __DIR__.'/components/common/olz_editable_text/olz_editable_text.php
     </ul>
 </p>-->
 <?php
-echo olz_editable_text(['olz_text_id' => 4]);
+echo OlzEditableText::render(['olz_text_id' => 4]);
 ?>

@@ -7,6 +7,8 @@
 namespace Olz\Termine\Components\OlzTermineDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
@@ -53,8 +55,7 @@ class OlzTermineDetail {
 
         $out = '';
 
-        require_once __DIR__.'/../../../../_/components/page/olz_header/olz_header.php';
-        $out .= olz_header([
+        $out .= OlzHeader::render([
             'title' => "Termin",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $no_robots,
@@ -128,8 +129,7 @@ class OlzTermineDetail {
         $out .= "</form>
         </div>";
 
-        require_once __DIR__.'/../../../../_/components/page/olz_footer/olz_footer.php';
-        $out .= olz_footer();
+        $out .= OlzFooter::render();
 
         return $out;
     }

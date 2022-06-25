@@ -6,11 +6,12 @@
 
 namespace Olz\Termine\Components\OlzTermineSidebar;
 
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
+
 class OlzTermineSidebar {
     public static function render($args = []) {
         global $heute, $db, $_DATE;
 
-        require_once __DIR__.'/../../../../_/components/common/olz_editable_text/olz_editable_text.php';
         require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
 
@@ -39,11 +40,11 @@ class OlzTermineSidebar {
         if ($row['datum'] > 0) {
             $out .= "<p><b>Nächstes Training: </b>{$datum}<br>{$titel}, {$text}</p>";
         }
-        $out .= olz_editable_text(['olz_text_id' => 1]);
+        $out .= OlzEditableText::render(['olz_text_id' => 1]);
         $out .= "<h2>Downloads und Links</h2>";
-        $out .= olz_editable_text(['olz_text_id' => 2]);
+        $out .= OlzEditableText::render(['olz_text_id' => 2]);
         $out .= "<h2>Newsletter</h2>";
-        $out .= olz_editable_text(['olz_text_id' => 3]);
+        $out .= OlzEditableText::render(['olz_text_id' => 3]);
 
         return $out;
     }

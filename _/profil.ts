@@ -1,6 +1,6 @@
-import {OlzApiResponses, callOlzApi} from './../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from './components/common/olz_default_form/olz_default_form';
-import {olzConfirm} from './components/common/OlzConfirmationDialog/OlzConfirmationDialog';
+import {OlzApiResponses, callOlzApi} from '../src/Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzConfirm} from '../src/Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
 export function olzProfileDeleteUser(userId: number): boolean {
     olzConfirm(

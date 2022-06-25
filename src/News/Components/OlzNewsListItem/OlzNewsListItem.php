@@ -2,11 +2,11 @@
 
 namespace Olz\News\Components\OlzNewsListItem;
 
+use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
+
 class OlzNewsListItem {
     public static function render($args = []) {
         global $code_href;
-
-        require_once __DIR__.'/../../../../_/components/common/olz_posting_list_item/olz_posting_list_item.php';
 
         $news_entry = $args['news_entry'];
         $out = "";
@@ -36,7 +36,7 @@ class OlzNewsListItem {
             $text = str_replace($matches[0][$i], $new_text, $text);
         }
 
-        $out .= olz_posting_list_item([
+        $out .= OlzPostingListItem::render([
             'icon' => $icon,
             'date' => $datum,
             'title' => $title,

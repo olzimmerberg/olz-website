@@ -145,20 +145,16 @@ class OlzApi extends Api {
         // Quiz
 
         $olz_api->registerEndpoint('getMySkillLevels', function () {
-            require_once __DIR__.'/../../_/quiz/endpoints/GetMySkillLevelsEndpoint.php';
-            return new \GetMySkillLevelsEndpoint();
+            return new \Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint();
         });
         $olz_api->registerEndpoint('updateMySkillLevels', function () {
-            require_once __DIR__.'/../../_/quiz/endpoints/UpdateMySkillLevelsEndpoint.php';
-            return new \UpdateMySkillLevelsEndpoint();
+            return new \Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint();
         });
         $olz_api->registerEndpoint('registerSkillCategories', function () {
-            require_once __DIR__.'/../../_/quiz/endpoints/RegisterSkillCategoriesEndpoint.php';
-            return new \RegisterSkillCategoriesEndpoint();
+            return new \Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint();
         });
         $olz_api->registerEndpoint('registerSkills', function () {
-            require_once __DIR__.'/../../_/quiz/endpoints/RegisterSkillsEndpoint.php';
-            return new \RegisterSkillsEndpoint();
+            return new \Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint();
         });
 
         // WebDAV

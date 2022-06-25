@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz\Apps\Quiz\Endpoints;
+
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;

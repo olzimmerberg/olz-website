@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/../../../../_/termine/utils/TermineFilterUtils.php';
+use Olz\Termine\Utils\TermineFilterUtils;
+
 require_once __DIR__.'/../../common/IntegrationTestCase.php';
 
 /**
  * @internal
- * @covers \TermineFilterUtils
+ * @covers \Olz\Termine\Utils\TermineFilterUtils
  */
 final class TermineFilterUtilsIntegrationTest extends IntegrationTestCase {
     public function testFromEnv(): void {

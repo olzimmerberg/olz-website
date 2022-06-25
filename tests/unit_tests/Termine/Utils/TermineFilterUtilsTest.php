@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FixedDateUtils;
 
-require_once __DIR__.'/../../../../_/termine/utils/TermineFilterUtils.php';
 require_once __DIR__.'/../../common/UnitTestCase.php';
 
 /**
  * @internal
- * @covers \TermineFilterUtils
+ * @covers \Olz\Termine\Utils\TermineFilterUtils
  */
 final class TermineFilterUtilsTest extends UnitTestCase {
     public function testGetDefaultFilter(): void {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Controller\Apps;
+namespace Olz\Apps\Oev;
 
 use Olz\Apps\Oev\Components\OlzOev\OlzOev;
 use Psr\Log\LoggerInterface;

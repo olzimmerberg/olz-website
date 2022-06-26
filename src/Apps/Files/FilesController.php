@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Controller\Apps;
+namespace Olz\Apps\Files;
 
 use Olz\Apps\Files\Components\OlzWebDav\OlzWebDav;
 use Psr\Log\LoggerInterface;

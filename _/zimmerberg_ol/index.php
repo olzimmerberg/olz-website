@@ -1,9 +1,13 @@
 <?php
 
+use Olz\Utils\EnvUtils;
+
 $img_root = "/img/zol_2022/";
 
-$css_path = __DIR__.'/../../../../../public/jsbuild/zimmerberg_ol/main.min.css';
-$js_path = __DIR__.'/../../../../../public/jsbuild/zimmerberg_ol/main.min.js';
+$env_utils = EnvUtils::fromEnv();
+$data_path = $env_utils->getDataPath();
+$css_path = "{$data_path}jsbuild/zimmerberg_ol/main.min.css";
+$js_path = "{$data_path}jsbuild/zimmerberg_ol/main.min.js";
 $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
 $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
 $css_href = "/jsbuild/zimmerberg_ol/main.min.css?modified={$css_modified}";

@@ -77,10 +77,6 @@ class OlzApi extends Api {
             require_once __DIR__.'/Endpoints/OnTelegramEndpoint.php';
             return new Endpoints\OnTelegramEndpoint();
         });
-        $olz_api->registerEndpoint('getLogs', function () {
-            require_once __DIR__.'/Endpoints/GetLogsEndpoint.php';
-            return new Endpoints\GetLogsEndpoint();
-        });
         $olz_api->registerEndpoint('updateNotificationSubscriptions', function () {
             require_once __DIR__.'/Endpoints/UpdateNotificationSubscriptionsEndpoint.php';
             return new Endpoints\UpdateNotificationSubscriptionsEndpoint();
@@ -115,6 +111,12 @@ class OlzApi extends Api {
         });
         $olz_api->registerEndpoint('getRegistration', function () {
             return new \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint();
+        });
+
+        // Logs
+
+        $olz_api->registerEndpoint('getLogs', function () {
+            return new \Olz\Apps\Logs\Endpoints\GetLogsEndpoint();
         });
 
         // News

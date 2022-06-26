@@ -37,7 +37,6 @@ class OlzAccountMenu {
             }
             if (($_SESSION['auth'] ?? null) == 'all') {
                 $out .= "<a class='dropdown-item' href='/apps/'>Apps</a>";
-                $out .= "<a class='dropdown-item' href='/logs.php'>Logs</a>";
             }
             $out .= <<<'ZZZZZZZZZZ'
             <a

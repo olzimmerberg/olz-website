@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Api\Endpoints;
+namespace Olz\Apps\Logs\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;

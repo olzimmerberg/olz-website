@@ -5,6 +5,7 @@ namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
+use Olz\Utils\EnvUtils;
 
 class OlzHeaderWithoutRouting {
     public static function render($args = []) {
@@ -15,8 +16,10 @@ class OlzHeaderWithoutRouting {
         require_once __DIR__.'/../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../_/config/server.php';
 
-        $css_path = __DIR__.'/../../../../public/jsbuild/olz/main.min.css';
-        $js_path = __DIR__.'/../../../../public/jsbuild/olz/main.min.js';
+        $env_utils = EnvUtils::fromEnv();
+        $data_path = $env_utils->getDataPath();
+        $css_path = "{$data_path}jsbuild/olz/main.min.css";
+        $js_path = "{$data_path}jsbuild/olz/main.min.js";
         $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
         $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
         $css_href = "/jsbuild/olz/main.min.css?modified={$css_modified}";

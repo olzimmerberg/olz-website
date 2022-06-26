@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Anmelden\Components\OlzAnmelden;
 
+use Olz\Apps\Anmelden\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EnvUtils;
@@ -34,20 +35,10 @@ class OlzAnmelden {
             'description' => "Hier kann man sich für OLZ-Anlässe anmelden.",
         ]);
 
-        $css_path = __DIR__.'/../../../../public/jsbuild/app-Anmelden/main.min.css';
-        $js_path = __DIR__.'/../../../../public/jsbuild/app-Anmelden/main.min.js';
-        $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
-        $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-        $css_href = "/jsbuild/app-Anmelden/main.min.css?modified={$css_modified}";
-        $js_href = "/jsbuild/app-Anmelden/main.min.js?modified={$js_modified}";
-
-        $js_path = "{$_CONFIG->getCodePath()}anmelden/jsbuild/main.min.js";
-        $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-
         $out .= "<div id='content_double'><div id='react-root'>Lädt...</div></div>";
 
-        $out .= "<link rel='stylesheet' href='{$css_href}' />";
-        $out .= "<script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>";
+        $metadata = new Metadata();
+        $out .= $metadata->getJsCssImports();
 
         $out .= OlzFooter::render();
 

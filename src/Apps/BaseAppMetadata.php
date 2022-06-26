@@ -3,6 +3,7 @@
 namespace Olz\Apps;
 
 use Olz\Entity\User;
+use Olz\Utils\EnvUtils;
 
 abstract class BaseAppMetadata {
     abstract public function getDisplayName(): string;
@@ -46,5 +47,22 @@ abstract class BaseAppMetadata {
             $mime_type = 'image/png';
             return "data:{$mime_type};base64,{$base64}";
         }
+    }
+
+    public function getJsCssImports() {
+        $env_utils = EnvUtils::fromEnv();
+        $data_path = $env_utils->getDataPath();
+        $basename = $this->getBasename();
+        $css_path = "{$data_path}jsbuild/app-{$basename}/main.min.css";
+        $js_path = "{$data_path}jsbuild/app-{$basename}/main.min.js";
+        $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
+        $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
+        $css_href = "/jsbuild/app-{$basename}/main.min.css?modified={$css_modified}";
+        $js_href = "/jsbuild/app-{$basename}/main.min.js?modified={$js_modified}";
+
+        $out = '';
+        $out .= "<link rel='stylesheet' href='{$css_href}' />";
+        $out .= "<script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>";
+        return $out;
     }
 }

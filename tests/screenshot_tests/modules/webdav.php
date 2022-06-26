@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$webdav_url = '/webdav/server.php';
+$webdav_url = '/apps/files/webdav/';
 
 function test_webdav($driver, $base_url) {
     global $webdav_url;
@@ -27,13 +27,6 @@ function test_webdav_readonly($driver, $base_url) {
             ...document.querySelectorAll(propTableSelector),
         ].map(elem => elem.classList.add('test-flaky'));
     ZZZZZZZZZZ;
-
-    $token_path_component = 'access_token__aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-    $driver->get("{$base_url}{$webdav_url}/{$token_path_component}");
-    $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$webdav_url}/{$token_path_component}");
-    $driver->executeScript($declare_flaky_elements);
-    take_pageshot($driver, 'webdav_admin_token');
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$webdav_url}");

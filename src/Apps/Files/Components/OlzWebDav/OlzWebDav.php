@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Files\Components\OlzWebDav;
 
+use Olz\Apps\Files\Service\CallbackAuthBackend;
 use Olz\Utils\AuthUtils;
 use Sabre\DAV;
 

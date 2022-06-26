@@ -107,6 +107,7 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger->info("Install...");
         $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
         $fs->mirror(__DIR__.'/public/icns', "{$public_path}/icns");
+        $fs->mirror(__DIR__.'/public/bundles', "{$public_path}/bundles");
         $index_path = "{$public_path}/index.php";
         $index_contents = file_get_contents(__DIR__.'/public/index.php');
         $updated_index_contents = str_replace(

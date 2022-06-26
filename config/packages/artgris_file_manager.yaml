@@ -1,0 +1,4 @@
+artgris_file_manager:
+    conf:
+        default:
+            service: Olz\Apps\Files\Service\OlzArtgrisFileManagerConf

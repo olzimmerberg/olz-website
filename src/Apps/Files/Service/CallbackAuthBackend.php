@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Apps\Files\Components\OlzWebDav;
+namespace Olz\Apps\Files\Service;
 
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;

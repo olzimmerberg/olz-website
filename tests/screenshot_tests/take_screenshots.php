@@ -16,6 +16,8 @@ require_once __DIR__.'/utils/timing.php';
 require_once __DIR__.'/utils/window.php';
 
 require_once __DIR__.'/modules/aktuell.php';
+require_once __DIR__.'/modules/app_files.php';
+require_once __DIR__.'/modules/apps.php';
 require_once __DIR__.'/modules/bild_der_woche.php';
 require_once __DIR__.'/modules/datenschutz.php';
 require_once __DIR__.'/modules/downloads.php';
@@ -101,6 +103,7 @@ $blocks = [
         test_error($driver, $base_url);
         test_suche($driver, $base_url);
         test_zimmerberg_ol($driver, $base_url);
+        test_apps($driver, $base_url);
 
         echo get_pretty_timing_report();
     },
@@ -120,6 +123,7 @@ $blocks = [
         test_konto_passwort($driver, $base_url);
         test_service($driver, $base_url);
         test_newsletter($driver, $base_url);
+        test_app_files($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

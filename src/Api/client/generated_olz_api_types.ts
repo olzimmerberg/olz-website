@@ -112,7 +112,6 @@ export type OlzApiEndpoint =
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
-    'getLogs'|
     'updateNotificationSubscriptions'|
     'updateOlzText'|
     'startUpload'|
@@ -122,6 +121,7 @@ export type OlzApiEndpoint =
     'createRegistration'|
     'getManagedUsers'|
     'getRegistration'|
+    'getLogs'|
     'createNews'|
     'getNews'|
     'editNews'|
@@ -227,9 +227,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'authenticityCode': string,
             'telegramEvent': string,
         },
-    getLogs: {
-            'index': number,
-        },
     updateNotificationSubscriptions: {
             'deliveryType': 'email'|'telegram',
             'monthlyPreview': boolean,
@@ -276,6 +273,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getManagedUsers: Record<string, never>|null,
     getRegistration: {
             'id': string,
+        },
+    getLogs: {
+            'index': number,
         },
     createNews: {
             'meta': OlzMetaData,
@@ -375,9 +375,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'pin': string,
         },
     onTelegram: Record<string, never>|null,
-    getLogs: {
-            'content': string|null,
-        },
     updateNotificationSubscriptions: {
             'status': 'OK'|'ERROR',
         },
@@ -414,6 +411,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': string,
             'meta': OlzMetaData,
             'data': OlzRegistrationData,
+        },
+    getLogs: {
+            'content': string|null,
         },
     createNews: {
             'status': 'OK'|'ERROR',

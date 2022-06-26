@@ -1,4 +1,6 @@
-import {callOlzApi} from './../src/Api/client';
+import {callOlzApi} from '../../../../Api/client';
+
+import './OlzLogs.scss';
 
 let logIndex = 0;
 
@@ -64,3 +66,8 @@ function processLogs(logs: string): string {
         })
         .join('\n');
 }
+
+$(() => {
+    olzLogsGetFirstLog();
+    olzLogsLevelFilterChange();
+});

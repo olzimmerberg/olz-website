@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use Olz\Api\Endpoints\GetLogsEndpoint;
+use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../fake/FakeEnvUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/FakeEnvUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 /**
  * @internal
@@ -35,7 +35,7 @@ class GetLogsEndpointForTest extends GetLogsEndpoint {
 
 /**
  * @internal
- * @covers \Olz\Api\Endpoints\GetLogsEndpoint
+ * @covers \Olz\Apps\Logs\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointIdent(): void {

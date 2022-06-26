@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Olz\Api\Endpoints\GetLogsEndpoint;
+use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 
-require_once __DIR__.'/../../common/IntegrationTestCase.php';
+require_once __DIR__.'/../../../common/IntegrationTestCase.php';
 
 /**
  * @internal
@@ -22,7 +22,7 @@ class GetLogsEndpointForIntegrationTest extends GetLogsEndpoint {
 
 /**
  * @internal
- * @covers \Olz\Api\Endpoints\GetLogsEndpoint
+ * @covers \Olz\Apps\Logs\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointIntegrationTest extends IntegrationTestCase {
     public function testScandir(): void {
@@ -36,7 +36,7 @@ final class GetLogsEndpointIntegrationTest extends IntegrationTestCase {
 
     public function testReadFile(): void {
         $endpoint = new GetLogsEndpointForIntegrationTest();
-        $path = __DIR__.'/../../document-root/temp/get_logs_endpoint.txt';
+        $path = __DIR__.'/../../../document-root/temp/get_logs_endpoint.txt';
         file_put_contents($path, 'some content');
         $this->assertSame('some content', $endpoint->testOnlyReadFile($path));
         unlink($path);

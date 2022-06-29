@@ -291,6 +291,7 @@ function dev_mkdir($path, $mode = 0777, $recursive = false) {
 function dev_copy($source, $dest) {
     if (!is_file($dest)) {
         copy($source, $dest);
+        touch($dest, 1584118800, 1584118800);
     }
 }
 

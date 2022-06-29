@@ -122,6 +122,7 @@ export type OlzApiEndpoint =
     'getManagedUsers'|
     'getRegistration'|
     'getLogs'|
+    'updateResults'|
     'createNews'|
     'getNews'|
     'editNews'|
@@ -277,6 +278,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getLogs: {
             'index': number,
         },
+    updateResults: {
+            'file': string,
+            'content': string,
+        },
     createNews: {
             'meta': OlzMetaData,
             'data': OlzNewsData,
@@ -414,6 +419,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     getLogs: {
             'content': string|null,
+        },
+    updateResults: {
+            'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
         },
     createNews: {
             'status': 'OK'|'ERROR',

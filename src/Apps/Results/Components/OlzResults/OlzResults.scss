@@ -7,21 +7,14 @@ body {
     font-family: 'Open Sans', arial, sans-serif;
 }
 
-.mainbg {
-    background-image: url('../../public/icns/mainbg.png');
-    background-repeat: repeat;
+.content_double {
+    position: relative;
 }
 
 #title-box {
-    background: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
-    color: rgb(255, 255, 0);
     height: 50px;
-    left: 0;
     overflow: hidden;
     padding: 0 10px;
-    position: absolute;
-    right: 0;
-    top: 0;
 }
 
 #title-box #title {
@@ -31,7 +24,6 @@ body {
 }
 
 #classes-box {
-    bottom: 0;
     left: 0;
     overflow: auto;
     position: absolute;
@@ -40,7 +32,6 @@ body {
 }
 
 #content-box {
-    bottom: 0;
     left: 200px;
     overflow: auto;
     position: absolute;
@@ -49,7 +40,7 @@ body {
 }
 
 #grafik-box {
-    bottom: 0;
+    min-height: 400px;
     overflow: auto;
     position: absolute;
     right: 0;

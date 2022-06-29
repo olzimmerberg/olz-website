@@ -1,3 +1,5 @@
+import './OlzResults.scss';
+
 let filePath: string|undefined = undefined;
 let xmlDoc: XMLDocument|undefined = undefined;
 
@@ -283,7 +285,7 @@ function showRanking(classInd: number) {
     htmlout += (climb ? climb.textContent : '?');
     htmlout += ' m, ';
     htmlout += (numberOfControls ? numberOfControls.textContent : '?');
-    htmlout += ' Posten)</div><div class=\'mobileonly\'><br /><a href=\'javascript:olzResults.setHash(&quot;grafik&quot;, 2)\' id=\'grafiklink\'>Grafik</a></div><br /><table>';
+    htmlout += ' Posten)</div><div class=\'mobileonly\'><br /><a href=\'javascript:olz.setHash(&quot;grafik&quot;, 2)\' id=\'grafiklink\'>Grafik</a></div><br /><table>';
     for (let i = 0; i < ranking.length; i++) {
         const position = ranking[i].querySelector('Result > Position');
         const firstName = ranking[i].querySelector('Person > Name > Given');
@@ -325,7 +327,7 @@ function showClasses(res: number) {
     for (let i = 0; i < classes.length; i++) {
         const shortName = classes[i].querySelector('ShortName');
         const name = classes[i].querySelector('Name');
-        htmlout += `<a class='classlink${i === res ? ' selected' : ''}' href='javascript:olzResults.setHash(&quot;class${i}&quot;, 1)'>${shortName ? shortName.textContent : name.textContent}</a>`;
+        htmlout += `<a class='classlink${i === res ? ' selected' : ''}' href='javascript:olz.setHash(&quot;class${i}&quot;, 1)'>${shortName ? shortName.textContent : name.textContent}</a>`;
     }
     document.getElementById('classes-box').innerHTML = htmlout;
 }

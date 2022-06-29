@@ -119,6 +119,12 @@ class OlzApi extends Api {
             return new \Olz\Apps\Logs\Endpoints\GetLogsEndpoint();
         });
 
+        // Results
+
+        $olz_api->registerEndpoint('updateResults', function () {
+            return new \Olz\Apps\Results\Endpoints\UpdateResultsEndpoint();
+        });
+
         // News
 
         $olz_api->registerEndpoint('createNews', function () {

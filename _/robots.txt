@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /resultate/
+Disallow: /apps/resultate/
 Disallow: /downloads/
 Disallow: /files/
 Disallow: /img/

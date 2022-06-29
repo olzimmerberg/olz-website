@@ -25,27 +25,6 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger->info("Copy to build...");
         $fs->mirror(__DIR__, $build_folder_path);
 
-        // Zip live uploader, such that it can be downloaded as zip file.
-        $this->logger->info("Zip live_results...");
-        $results_path = "{$build_folder_path}/_/resultate";
-        $live_uploader_path = "{$results_path}/live_uploader";
-        $zip_path = "{$results_path}/live_uploader.zip";
-        $zip = new \ZipArchive();
-        $zip->open($zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-        $directory = new \RecursiveDirectoryIterator($live_uploader_path);
-        $iterator = new \RecursiveIteratorIterator($directory);
-        foreach ($iterator as $item) {
-            $filename = $item->getFileName();
-            if ($filename !== '.' && $filename !== '..') {
-                $real_path = $item->getRealPath();
-                if ($real_path && is_file($real_path)) {
-                    $relative_path = substr($real_path, strlen($live_uploader_path));
-                    $zip->addFile($real_path, $relative_path);
-                }
-            }
-        }
-        $zip->close();
-
         $this->logger->info("Done populating build folder.");
     }
 

@@ -9,11 +9,11 @@ use Olz\Entity\Quiz\SkillLevel;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
-require_once __DIR__.'/../../../fake/FakeIdUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../../fake/FakeEntityUtils.php';
+require_once __DIR__.'/../../../../fake/FakeIdUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeUpdateMySkillLevelsEndpointSkillRepository {
     public function findOneBy($where) {

@@ -10,7 +10,7 @@ class OlzLocationMap {
         $width = $args['width'] ?? 400;
         $height = $args['height'] ?? 300;
 
-        require_once __DIR__.'/../../../library/wgs84_ch1903/wgs84_ch1903.php';
+        require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
         $lat = number_format(CHtoWGSlat($xkoord, $ykoord), 6, '.', '');
         $lng = number_format(CHtoWGSlng($xkoord, $ykoord), 6, '.', '');
 

@@ -6,10 +6,10 @@ use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint;
 use Olz\Entity\Quiz\SkillCategory;
 
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeEntityUtils.php';
-require_once __DIR__.'/../../../fake/FakeIdUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../../fake/FakeEntityUtils.php';
+require_once __DIR__.'/../../../../fake/FakeIdUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeRegisterSkillCategoriesEndpointSkillCategoryRepository {
     public function findOneBy($where) {

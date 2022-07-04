@@ -8,10 +8,10 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../fake/FakeAuthUtils.php';
-require_once __DIR__.'/../../../fake/FakeEntityManager.php';
-require_once __DIR__.'/../../../fake/FakeIdUtils.php';
-require_once __DIR__.'/../../common/UnitTestCase.php';
+require_once __DIR__.'/../../../../fake/FakeAuthUtils.php';
+require_once __DIR__.'/../../../../fake/FakeEntityManager.php';
+require_once __DIR__.'/../../../../fake/FakeIdUtils.php';
+require_once __DIR__.'/../../../common/UnitTestCase.php';
 
 class FakeGetMySkillLevelsEndpointSkillRepository {
     public function findAll() {

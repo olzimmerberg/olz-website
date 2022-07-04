@@ -116,28 +116,6 @@ module.exports = [
     ...appConfigs,
     {
         ...defaultConfig,
-        entry: './_/resultate/index.ts',
-        output: {
-            path: path.resolve(__dirname, 'public/jsbuild/resultate'),
-            publicPath: '/jsbuild/resultate/',
-            filename: '[name].min.js',
-            library: 'olzResults',
-            libraryTarget: 'window',
-        },
-    },
-    {
-        ...defaultConfig,
-        entry: './_/resultate/live_uploader/public_html/index.ts',
-        output: {
-            path: path.resolve(__dirname, 'public/jsbuild/live_uploader'),
-            publicPath: './jsbuild/live_uploader/',
-            filename: '[name].min.js',
-            library: 'olzResults',
-            libraryTarget: 'window',
-        },
-    },
-    {
-        ...defaultConfig,
         entry: './_/zimmerberg_ol/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/jsbuild/zimmerberg_ol'),

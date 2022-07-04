@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$resultate_url = '/resultate/?file=results.xml#/class0';
+$resultate_url = '/apps/resultate/?file=results.xml#/class0';
 
 function test_resultate($driver, $base_url) {
     global $resultate_url;

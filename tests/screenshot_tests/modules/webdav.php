@@ -25,7 +25,10 @@ function test_webdav_readonly($driver, $base_url) {
         [
             ...document.querySelectorAll(columnSelector),
             ...document.querySelectorAll(propTableSelector),
-        ].map(elem => elem.classList.add('test-flaky'));
+        ].map(elem => {
+            elem.style.minWidth = '250px';
+            elem.classList.add('test-flaky');
+        });
     ZZZZZZZZZZ;
 
     login($driver, $base_url, 'admin', 'adm1n');

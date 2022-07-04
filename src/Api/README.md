@@ -1,5 +1,12 @@
-# `api/`: Das OLZ-API (Application Programming Interface)
+# `Api/`: Das OLZ-API (Application Programming Interface)
 
-Dieser Ordner enthält die Implementierung des OLZ-API.
+Wir haben ein auf Remote-Procedure-Call (RPC) basiertes, typisiertes API (mit [`php-typescript-api`](https://github.com/allestuetsmerweh/php-typescript-api)):
 
-Dieses API soll eines Tages die CMS (Content Management System) Funktionalität in `admin/admin_db.php` ersetzen.
+- Das API wird in [`OlzApi.php`](./OlzApi.php) spezifiziert
+- Jeder RPC wird in einer Datei `<Funktion>Endpoint.php` implementiert, mit einer Klasse, die von einem Endpoint (z.B. [`Olz\Api\OlzEndpoint`](./OlzEndpoint.php)) erbt.
+    - Für generelle RPCs [`Olz\Api\Endpoints\<Funktion>Endpoint`](./Endpoints/)
+    - Für modul-spezifische RPCs `Olz\<Modul>\Endpoints\<Funktion>Endpoint` (z.B. für [`News`-Modul](../News/Endpoints/))
+    - Für [App](../Apps/)-spezifische RPCs `Olz\Apps\<App>\Endpoints` (z.B. für [Resultate (`Results`)](../Apps/Results/Endpoints/))
+- Der Client-Code wird bei jedem Build (z.B. `npm run webpack-build` oder `composer run`) in [/client`](./client/) generiert, und kann mit `olzApi.call(...)` aufgerufen werden.
+
+Dieses API soll eines Tages die CMS (Content Management System) Funktionalität in `_/admin/admin_db.php` ersetzen.

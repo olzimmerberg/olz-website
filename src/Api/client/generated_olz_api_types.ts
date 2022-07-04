@@ -6,29 +6,6 @@ export type OlzMetaData = {
     'onOff': boolean,
 };
 
-export type OlzBookingData = {
-    'registrationId': string,
-    'values': {[key: string]: any},
-};
-
-export type OlzRegistrationData = {
-    'title': string,
-    'description': string,
-    'infos': Array<OlzRegistrationInfo>,
-    'opensAt': string|null,
-    'closesAt': string|null,
-};
-
-export type OlzRegistrationInfo = {
-    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'reservation',
-    'isOptional': boolean,
-    'title': string,
-    'description': string,
-    'options': Array<{
-    'text': string,
-}>|null,
-};
-
 export type OlzNewsData = {
     'author': string|null,
     'authorUserId': number|null,
@@ -62,6 +39,29 @@ export type OlzNewsDataOrNull = {
     'imageIds': Array<string>,
     'fileIds': Array<string>,
 }|null;
+
+export type OlzBookingData = {
+    'registrationId': string,
+    'values': {[key: string]: any},
+};
+
+export type OlzRegistrationData = {
+    'title': string,
+    'description': string,
+    'infos': Array<OlzRegistrationInfo>,
+    'opensAt': string|null,
+    'closesAt': string|null,
+};
+
+export type OlzRegistrationInfo = {
+    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'reservation',
+    'isOptional': boolean,
+    'title': string,
+    'description': string,
+    'options': Array<{
+    'text': string,
+}>|null,
+};
 
 export type OlzTransportSuggestion = {
     'mainConnection': OlzTransportConnection,
@@ -117,24 +117,24 @@ export type OlzApiEndpoint =
     'startUpload'|
     'updateUpload'|
     'finishUpload'|
-    'createBooking'|
-    'createRegistration'|
-    'getManagedUsers'|
-    'getRegistration'|
-    'getLogs'|
-    'updateResults'|
     'createNews'|
     'getNews'|
     'editNews'|
     'updateNews'|
     'deleteNews'|
+    'createBooking'|
+    'createRegistration'|
+    'getManagedUsers'|
+    'getRegistration'|
+    'getWebdavAccessToken'|
+    'revokeWebdavAccessToken'|
+    'getLogs'|
     'searchTransportConnection'|
     'getMySkillLevels'|
     'updateMySkillLevels'|
     'registerSkillCategories'|
     'registerSkills'|
-    'getWebdavAccessToken'|
-    'revokeWebdavAccessToken';
+    'updateResults';
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
 
@@ -263,25 +263,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'id': string,
             'numberOfParts': number,
         },
-    createBooking: {
-            'meta': OlzMetaData,
-            'data': OlzBookingData,
-        },
-    createRegistration: {
-            'meta': OlzMetaData,
-            'data': OlzRegistrationData,
-        },
-    getManagedUsers: Record<string, never>|null,
-    getRegistration: {
-            'id': string,
-        },
-    getLogs: {
-            'index': number,
-        },
-    updateResults: {
-            'file': string,
-            'content': string,
-        },
     createNews: {
             'meta': OlzMetaData,
             'data': OlzNewsData,
@@ -299,6 +280,23 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     deleteNews: {
             'id': number,
+        },
+    createBooking: {
+            'meta': OlzMetaData,
+            'data': OlzBookingData,
+        },
+    createRegistration: {
+            'meta': OlzMetaData,
+            'data': OlzRegistrationData,
+        },
+    getManagedUsers: Record<string, never>|null,
+    getRegistration: {
+            'id': string,
+        },
+    getWebdavAccessToken: Record<string, never>|null,
+    revokeWebdavAccessToken: Record<string, never>|null,
+    getLogs: {
+            'index': number,
         },
     searchTransportConnection: {
             'destination': string,
@@ -326,8 +324,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'categoryIds': Array<string>,
         }>,
         },
-    getWebdavAccessToken: Record<string, never>|null,
-    revokeWebdavAccessToken: Record<string, never>|null,
+    updateResults: {
+            'file': string,
+            'content': string,
+        },
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -396,33 +396,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     finishUpload: {
             'status': 'OK'|'ERROR',
         },
-    createBooking: {
-            'status': 'OK'|'ERROR',
-            'id': string,
-        },
-    createRegistration: {
-            'status': 'OK'|'ERROR',
-            'id': string,
-        },
-    getManagedUsers: {
-            'status': 'OK'|'ERROR',
-            'managedUsers': Array<{
-            'id': number,
-            'firstName': string,
-            'lastName': string,
-        }>|null,
-        },
-    getRegistration: {
-            'id': string,
-            'meta': OlzMetaData,
-            'data': OlzRegistrationData,
-        },
-    getLogs: {
-            'content': string|null,
-        },
-    updateResults: {
-            'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
-        },
     createNews: {
             'status': 'OK'|'ERROR',
             'id': number,
@@ -444,6 +417,37 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     deleteNews: {
             'status': 'OK'|'ERROR',
         },
+    createBooking: {
+            'status': 'OK'|'ERROR',
+            'id': string,
+        },
+    createRegistration: {
+            'status': 'OK'|'ERROR',
+            'id': string,
+        },
+    getManagedUsers: {
+            'status': 'OK'|'ERROR',
+            'managedUsers': Array<{
+            'id': number,
+            'firstName': string,
+            'lastName': string,
+        }>|null,
+        },
+    getRegistration: {
+            'id': string,
+            'meta': OlzMetaData,
+            'data': OlzRegistrationData,
+        },
+    getWebdavAccessToken: {
+            'status': 'OK'|'ERROR',
+            'token': string|null,
+        },
+    revokeWebdavAccessToken: {
+            'status': 'OK'|'ERROR',
+        },
+    getLogs: {
+            'content': string|null,
+        },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',
             'suggestions': Array<OlzTransportSuggestion>|null,
@@ -460,12 +464,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     registerSkills: {
             'idByName': {[key: string]: string},
         },
-    getWebdavAccessToken: {
-            'status': 'OK'|'ERROR',
-            'token': string|null,
-        },
-    revokeWebdavAccessToken: {
-            'status': 'OK'|'ERROR',
+    updateResults: {
+            'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
         },
 }
 

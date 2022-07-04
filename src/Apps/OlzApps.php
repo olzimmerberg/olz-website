@@ -2,6 +2,8 @@
 
 namespace Olz\Apps;
 
+use PhpTypeScriptApi\Api;
+
 class OlzApps {
     public static function getAppPaths() {
         $entries = scandir(__DIR__);
@@ -18,7 +20,7 @@ class OlzApps {
     public static function getApps() {
         $app_paths = self::getAppPaths();
         $apps = [];
-        foreach ($app_paths as $key => $app_path) {
+        foreach ($app_paths as $app_path) {
             $app_basename = basename($app_path);
             $metadata_class_name = "\\Olz\\Apps\\{$app_basename}\\Metadata";
             if (class_exists($metadata_class_name)) {
@@ -37,5 +39,17 @@ class OlzApps {
             }
         }
         return $apps_for_user;
+    }
+
+    public static function registerAllEndpoints(Api $api) {
+        $app_paths = self::getAppPaths();
+        foreach ($app_paths as $app_path) {
+            $app_basename = basename($app_path);
+            $endpoints_class_name = "\\Olz\\Apps\\{$app_basename}\\{$app_basename}Endpoints";
+            if (class_exists($endpoints_class_name)) {
+                $endpoints = new $endpoints_class_name();
+                $endpoints->register($api);
+            }
+        }
     }
 }

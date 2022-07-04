@@ -4,3 +4,5 @@ import {Api} from 'php-typescript-api';
 export class OlzApi extends Api<OlzApiEndpoint, OlzApiRequests, OlzApiResponses> {
     public baseUrl = '/api';
 }
+
+export const olzApi = new OlzApi();

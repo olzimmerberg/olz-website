@@ -1,11 +1,13 @@
 # Website der OL Zimmerberg
 
-## Code laden
+## Get started
+
+### Code laden
 
 - Installiere `git`
-- [Klone dieses Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
+- [Klone dieses Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-## Development-Server konfigurieren
+### Development-Server konfigurieren
 
 - Installiere `PHP`
 - Installiere `composer`
@@ -15,27 +17,45 @@
 - Gib die Zugangsdaten zur lokalen Datenbank in `public/config.php` ein
 - Achte darauf, dass `public/config.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
 
-## Development-Server starten
+### Development-Server starten
 
 - Öffne ein Terminal im Repository-Klon-Ordner
 - Starte den Development-Server: `composer run`
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
-## Development-Daten laden
+### Development-Daten laden
 
 - Starte den Development-Server (siehe oben)
 - Gehe in einem Browser zur URL [`http://127.0.0.1:30270/tools.php/reset`](http://127.0.0.1:30270/tools.php/reset)
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
-## Tests laufen lassen
+### Tests laufen lassen
 
 - Unit Tests: `composer unit_tests`
 - Integration Tests: `composer integration_tests`
 - Für den Code-Coverage-Report: `composer test`
 
-## Code beitragen
+### Code beitragen
 
 [Mit git](https://git-scm.com/book/en/v2)
+
+## Aufbau / Entwicklung
+
+### Apps
+
+siehe [`src/Apps`](./src/Apps/).
+
+### Symfony-Migration
+
+siehe [`_`](./_/).
+
+### OLZ-API
+
+siehe [`src/Api`](./src/Api/).
+
+### Komponenten
+
+siehe [`src/Components`](./src/Components/).
 
 ### Namen / Sprache
 

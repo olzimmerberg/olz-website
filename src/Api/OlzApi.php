@@ -2,6 +2,7 @@
 
 namespace Olz\Api;
 
+use Olz\Apps\OlzApps;
 use PhpTypeScriptApi\Api;
 
 require_once __DIR__.'/../../vendor/autoload.php';
@@ -98,33 +99,6 @@ class OlzApi extends Api {
             return new Endpoints\FinishUploadEndpoint();
         });
 
-        // Anmelden
-
-        $olz_api->registerEndpoint('createBooking', function () {
-            return new \Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint();
-        });
-        $olz_api->registerEndpoint('createRegistration', function () {
-            return new \Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint();
-        });
-        $olz_api->registerEndpoint('getManagedUsers', function () {
-            return new \Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint();
-        });
-        $olz_api->registerEndpoint('getRegistration', function () {
-            return new \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint();
-        });
-
-        // Logs
-
-        $olz_api->registerEndpoint('getLogs', function () {
-            return new \Olz\Apps\Logs\Endpoints\GetLogsEndpoint();
-        });
-
-        // Results
-
-        $olz_api->registerEndpoint('updateResults', function () {
-            return new \Olz\Apps\Results\Endpoints\UpdateResultsEndpoint();
-        });
-
         // News
 
         $olz_api->registerEndpoint('createNews', function () {
@@ -143,38 +117,7 @@ class OlzApi extends Api {
             return new \Olz\News\Endpoints\DeleteNewsEndpoint();
         });
 
-        // ÖV
-
-        $olz_api->registerEndpoint('searchTransportConnection', function () {
-            require_once __DIR__.'/../Apps/Oev/Endpoints/SearchTransportConnectionEndpoint.php';
-            return new \Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint();
-        });
-
-        // Quiz
-
-        $olz_api->registerEndpoint('getMySkillLevels', function () {
-            return new \Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint();
-        });
-        $olz_api->registerEndpoint('updateMySkillLevels', function () {
-            return new \Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint();
-        });
-        $olz_api->registerEndpoint('registerSkillCategories', function () {
-            return new \Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint();
-        });
-        $olz_api->registerEndpoint('registerSkills', function () {
-            return new \Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint();
-        });
-
-        // WebDAV
-
-        $olz_api->registerEndpoint('getWebdavAccessToken', function () {
-            require_once __DIR__.'/../Apps/Files/Endpoints/GetWebdavAccessTokenEndpoint.php';
-            return new \Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint();
-        });
-        $olz_api->registerEndpoint('revokeWebdavAccessToken', function () {
-            require_once __DIR__.'/../Apps/Files/Endpoints/RevokeWebdavAccessTokenEndpoint.php';
-            return new \Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint();
-        });
+        OlzApps::registerAllEndpoints($olz_api);
 
         return $olz_api;
     }

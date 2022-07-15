@@ -98,6 +98,22 @@ class FakeEnvUtils {
     public function getTelegramBotToken() {
         return 'fake-bot-token';
     }
+
+    public function getAppMonitoringUsername() {
+        return 'fake';
+    }
+
+    public function getAppMonitoringPassword() {
+        return 'asdf';
+    }
+
+    public function getAppStatisticsUsername() {
+        return 'fake';
+    }
+
+    public function getAppStatisticsPassword() {
+        return 'qwer';
+    }
 }
 
 class FakeLogsUtils {

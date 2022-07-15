@@ -15,9 +15,11 @@ final class OlzAppsTest extends UnitTestCase {
         'Anmelden',
         'Files',
         'Logs',
+        'Monitoring',
         'Oev',
         'Quiz',
         'Results',
+        'Statistics',
     ];
 
     public function testGetAppPaths(): void {

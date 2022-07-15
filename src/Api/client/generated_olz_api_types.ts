@@ -129,12 +129,14 @@ export type OlzApiEndpoint =
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
     'getLogs'|
+    'getAppMonitoringCredentials'|
     'searchTransportConnection'|
     'getMySkillLevels'|
     'updateMySkillLevels'|
     'registerSkillCategories'|
     'registerSkills'|
-    'updateResults';
+    'updateResults'|
+    'getAppStatisticsCredentials';
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
 
@@ -298,6 +300,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getLogs: {
             'index': number,
         },
+    getAppMonitoringCredentials: Record<string, never>,
     searchTransportConnection: {
             'destination': string,
             'arrival': string,
@@ -328,6 +331,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'file': string,
             'content': string,
         },
+    getAppStatisticsCredentials: Record<string, never>,
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -448,6 +452,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getLogs: {
             'content': string|null,
         },
+    getAppMonitoringCredentials: {
+            'username': string,
+            'password': string,
+        },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',
             'suggestions': Array<OlzTransportSuggestion>|null,
@@ -466,6 +474,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     updateResults: {
             'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
+        },
+    getAppStatisticsCredentials: {
+            'username': string,
+            'password': string,
         },
 }
 

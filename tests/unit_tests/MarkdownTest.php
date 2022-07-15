@@ -22,7 +22,6 @@ final class MarkdownTest extends UnitTestCase {
         $markdown_paths = [];
         foreach ($git_paths as $git_path) {
             if (preg_match('/\.md$/', $git_path)) {
-                echo "{$git_path}\n";
                 $markdown_paths[] = $git_path;
             }
         }

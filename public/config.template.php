@@ -50,6 +50,12 @@ $configure_env_utils = function ($env_utils) {
         'smtp_username' => 'fake-user@olzimmerberg.ch',
         'smtp_password' => '1234',
         'smtp_from' => 'fake-user@olzimmerberg.ch',
+
+        'app_monitoring_username' => 'fake-user',
+        'app_monitoring_password' => 'asdf',
+
+        'app_statistics_username' => 'fake-user',
+        'app_statistics_password' => 'qwer',
     ]);
 };
 if (isset($_CONFIG)) {

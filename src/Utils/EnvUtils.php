@@ -57,6 +57,12 @@ class EnvUtils {
     private $smtp_password;
     private $smtp_from;
 
+    private $app_monitoring_username;
+    private $app_monitoring_password;
+
+    private $app_statistics_username;
+    private $app_statistics_password;
+
     public function setDataPath($data_path) {
         $this->data_path = $data_path;
     }
@@ -121,6 +127,12 @@ class EnvUtils {
         $this->smtp_username = $config_dict['smtp_username'] ?? $this->smtp_username;
         $this->smtp_password = $config_dict['smtp_password'] ?? $this->smtp_password;
         $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
+
+        $this->app_monitoring_username = $config_dict['app_monitoring_username'] ?? $this->app_monitoring_username;
+        $this->app_monitoring_password = $config_dict['app_monitoring_password'] ?? $this->app_monitoring_password;
+
+        $this->app_statistics_username = $config_dict['app_statistics_username'] ?? $this->app_statistics_username;
+        $this->app_statistics_password = $config_dict['app_statistics_password'] ?? $this->app_statistics_password;
     }
 
     public function getDataPath() {
@@ -273,6 +285,22 @@ class EnvUtils {
 
     public function getSmtpFrom() {
         return $this->smtp_from;
+    }
+
+    public function getAppMonitoringUsername() {
+        return $this->app_monitoring_username;
+    }
+
+    public function getAppMonitoringPassword() {
+        return $this->app_monitoring_password;
+    }
+
+    public function getAppStatisticsUsername() {
+        return $this->app_statistics_username;
+    }
+
+    public function getAppStatisticsPassword() {
+        return $this->app_statistics_password;
     }
 
     protected $logsUtils;

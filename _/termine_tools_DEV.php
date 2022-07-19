@@ -40,7 +40,7 @@ if ($_GET["visitor"] == "map") {
 if ($_GET["visitor"] == "cronjob") {
     $_GET["mode"] = "check";
 }
-if ((($_SESSION['auth'] ?? null) == 'all') or (in_array("termine", preg_split('/ /', $_SESSION['auth'] ?? '')))) {
+if ((($_SESSION['auth'] ?? null) == 'all') or in_array("termine", preg_split('/ /', $_SESSION['auth'] ?? ''))) {
     $zugriff = "1";
 } elseif ($_GET["mode"] == "kml" && $_GET["visitor"] == "map") {
     header("Content-Type:application/vnd.google-earth.kml+xml");

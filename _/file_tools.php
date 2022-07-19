@@ -255,11 +255,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             }
 
             // Write uploaded file to destination
-            $fp = fopen($abspath."/".str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT).".".$ext, "w+");
+            $fp = fopen($abspath."/".str_pad($newindex + 1, 3, "0", STR_PAD_LEFT).".".$ext, "w+");
             fwrite($fp, $filedata);
             fclose($fp);
 
-            echo json_encode([1, str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT), $files, strlen($base64), strlen($filedata)]);
+            echo json_encode([1, str_pad($newindex + 1, 3, "0", STR_PAD_LEFT), $files, strlen($base64), strlen($filedata)]);
         } else {
             echo json_encode([1, "continue"]);
         }

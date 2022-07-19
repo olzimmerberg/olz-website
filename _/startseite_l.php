@@ -79,7 +79,7 @@ while ($row = $result->fetch_assoc()) {
         $text = mb_substr($text, 0, $textlaenge_def);
         $text = mb_substr($text, 0, mb_strrpos($text, " "));
         $text = $text." (...)";
-        if ((($_SESSION['auth'] ?? null) == 'all') or ((in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
@@ -107,7 +107,7 @@ while ($row = $result->fetch_assoc()) {
         $link = "forum.php#id".$id;
         $icon = "icns/entry_type_forum_20.svg";
         $titel = "Forum: ".$titel;
-        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
 
@@ -123,7 +123,7 @@ while ($row = $result->fetch_assoc()) {
         $typ = $row['f3'];
         $link = "galerie.php?id=".$id;
         $icon = "icns/entry_type_gallery_20.svg";
-        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
         $text = "";
@@ -166,7 +166,7 @@ while ($row = $result->fetch_assoc()) {
         $textlang = $row['f7'];
         $image_ids = $row['f1'];
         $titel = "Aktuell: ".$titel;
-        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')))) {
+        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
         }
         if ($aktuell_typ != 'aktuell') {
@@ -192,9 +192,9 @@ while ($row = $result->fetch_assoc()) {
     <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
     ".$text."</div>";
     */
-/* TEST ICONS
-    echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;background-image:url(icns/_$icon);background-position:3% 6%;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
-    <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
-    ".$text."</div>";*/
+    /* TEST ICONS
+        echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;background-image:url(icns/_$icon);background-position:3% 6%;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
+        <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
+        ".$text."</div>";*/
 }
 ?>

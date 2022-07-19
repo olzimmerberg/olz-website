@@ -132,10 +132,10 @@ if (count($IPListe) > 0 && count($NeueIPListe) > 0) {
         fwrite($FilePointerIP, trim($Zeile)."\n");
     }
 }
-    if (!$Gefunden) {
-        fwrite($FilePointerIP, time()."|".session_id()."\n");
-    } // IP-Liste ergänzen
-    fclose($FilePointerIP);
+if (!$Gefunden) {
+    fwrite($FilePointerIP, time()."|".session_id()."\n");
+} // IP-Liste ergänzen
+fclose($FilePointerIP);
 
 if (!$Gefunden) {
     $db->query("UPDATE event SET counter_ip_lan = (counter_ip_lan+1) WHERE (name_kurz = '{$event}')");

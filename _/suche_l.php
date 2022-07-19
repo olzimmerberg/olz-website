@@ -155,5 +155,5 @@ function cutout($text) {
     if (strlen($text) < ($length_a + $length_b)) {
         $suffix = "";
     }
-    $text = substr($text, ($start - $length_a), ($length_a + $length_b));
+    $text = substr($text, $start - $length_a, $length_a + $length_b);
 }

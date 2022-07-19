@@ -58,7 +58,7 @@ class OlzHeaderBar {
         $header_spalten = 2;
 
         $db_table = "aktuell";
-        $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) ? true : false;
+        $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? ''))) ? true : false;
         $button_name = 'button'.$db_table;
         if (isset($_GET[$button_name])) {
             $_POST[$button_name] = $_GET[$button_name];

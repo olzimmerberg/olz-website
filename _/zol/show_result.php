@@ -90,7 +90,7 @@ if ($count_kat > 0) { // Resultate vorhanden
         $kat_tmp = $kat;
         $kat = "";
         $counter = 1;
-        echo "<td style='width:".round((100 / $spalten - 2), 0)."%;padding-right:20px;vertical-align:top;'><table width='100%;border:solid 1px;vertical-align:top;'>";
+        echo "<td style='width:".round(100 / $spalten - 2, 0)."%;padding-right:20px;vertical-align:top;'><table width='100%;border:solid 1px;vertical-align:top;'>";
 
         while ($row = mysqli_fetch_array($result)) {
             $rang = $row['rang'];

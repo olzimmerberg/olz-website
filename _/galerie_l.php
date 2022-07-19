@@ -104,7 +104,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
             $continue = false;
             $html_tmp .= "<tr class='thumbs'>";
             for ($x = 0; $x < $breite; $x++) {
-                $foto_000 = str_pad(($y * $breite + $x + 1), 3, '0', STR_PAD_LEFT);
+                $foto_000 = str_pad($y * $breite + $x + 1, 3, '0', STR_PAD_LEFT);
                 $pfad_img = $pfad_galerie.$id."/img/".$foto_000.".jpg";
                 if (is_file($pfad_img)) {
                     $html_tmp .= "<td id='galerietd".($y * $breite + $x + 1)."'>";
@@ -122,7 +122,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
                 break;
             }
         }
-        echo "<tr class='galerie-kopf'><td style='padding:auto;'></td><td>&nbsp;</td><td>1...".($continue)."</td><td>&nbsp;</td></tr>";
+        echo "<tr class='galerie-kopf'><td style='padding:auto;'></td><td>&nbsp;</td><td>1...".$continue."</td><td>&nbsp;</td></tr>";
 
         echo "<tbody id='galerieindex'>";
         echo $html_tmp;

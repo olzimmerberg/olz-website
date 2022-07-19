@@ -14,7 +14,7 @@ const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>2. Text mit Fettschrift hervorheben:</b> Fetten Text mit '&lt;b&gt;' beginnen und mit '&lt;/b&gt;' beenden, 
     Bsp: '&lt;b&gt;dies ist fetter Text&lt;/b&gt;' wird zu '<b>dies ist fetter Text</b>'</div>
     <div><b>3. Bilder:</b></div>
-    <table>
+    <table><tbody>
         <tr className='tablebar'>
             <td><b>Bildnummer</b></td>
             <td><b>Wie einbinden?</b></td>
@@ -27,9 +27,9 @@ const FORMATTING_NOTES_FOR_USERS = (<>
             <td>2. Bild</td>
             <td>&lt;BILD2&gt;</td>
         </tr>
-    </table>
+    </tbody></table>
     <div><b>4. Dateien:</b></div>
-    <table>
+    <table><tbody>
         <tr className='tablebar'>
             <td><b>Dateiname</b></td>
             <td><b>Wie einbinden?</b></td>
@@ -53,7 +53,7 @@ const FORMATTING_NOTES_FOR_USERS = (<>
                 backgroundRepeat: 'no-repeat',
             }}>Ausschreibung als PDF</a></td>
         </tr>
-    </table>
+    </tbody></table>
 </>);
 
 interface OlzEditNewsModalProps {

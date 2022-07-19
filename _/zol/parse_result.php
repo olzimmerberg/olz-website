@@ -102,7 +102,7 @@ if ($stand == $row['stand'] and false) {
             $kat = mb_convert_encoding($kat, "utf-8", "ISO-8859-1");
             $kat = explode(chr(194), $kat); // chr(194) = ' ' ???
             $kat = $kat[0];
-            $kat_count_tmp = trim(substr($var, $pos1, ($pos2 - $pos1 + 1)));
+            $kat_count_tmp = trim(substr($var, $pos1, $pos2 - $pos1 + 1));
             $kat_count = ($kat_count_tmp > "") ? $kat_count_tmp : $kat_count;
             continue;
         }

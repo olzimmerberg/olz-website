@@ -10,6 +10,7 @@ require_once __DIR__.'/../common/IntegrationTestCase.php';
 /**
  * @internal
  * covers different Classes!
+ * @coversNothing
  */
 final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {

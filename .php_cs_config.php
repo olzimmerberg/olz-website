@@ -23,7 +23,6 @@ return $config
         'increment_style' => [
             'style' => 'post',
         ],
-        'php_unit_test_class_requires_covers' => false,
         'single_quote' => false,
         'yoda_style' => [
             'always_move_variable' => false,

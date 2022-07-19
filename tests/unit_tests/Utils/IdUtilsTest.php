@@ -9,6 +9,7 @@ require_once __DIR__.'/../common/UnitTestCase.php';
 
 /**
  * @internal
+ * @coversNothing
  */
 class IdUtilsIdUtilsForTest extends IdUtils {
     public function testOnlySerializeId($internal_id, $type) {

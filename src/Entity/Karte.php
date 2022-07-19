@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="karten",
  * )
  */
-class karten {
+class Karte {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */

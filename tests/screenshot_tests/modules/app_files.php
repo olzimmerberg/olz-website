@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$app_files_url = '/apps/files/?conf=default';
+$app_files_url = '/apps/files/?conf=default&tree=0';
 
 function test_app_files($driver, $base_url) {
     global $app_files_url;

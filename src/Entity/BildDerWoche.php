@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
  * )
  */
-class bild_der_woche {
+class BildDerWoche {
     /**
      * @ORM\Column(type="date", nullable=true)
      */

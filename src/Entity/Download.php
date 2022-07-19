@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="downloads",
  * )
  */
-class downloads {
+class Download {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */

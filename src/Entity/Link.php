@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="links",
  * )
  */
-class links {
+class Link {
     /**
      * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
      */

@@ -57,6 +57,10 @@ siehe [`src/Api`](./src/Api/).
 
 siehe [`src/Components`](./src/Components/).
 
+### Datenbank
+
+siehe [`migrations`](./migrations/).
+
 ### Namen / Sprache
 
 Wo Umlaute zu Problemen führen könnten, sollen englische Namen verwendet werden.

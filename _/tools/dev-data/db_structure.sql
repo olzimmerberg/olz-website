@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20220601201046
+-- MIGRATION: DoctrineMigrations\Version20220719182315
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,25 +57,6 @@ CREATE TABLE `downloads` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name_kurz` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `datum` date DEFAULT NULL,
-  `counter_ip_lan` int(11) NOT NULL DEFAULT 0,
-  `counter_hit_lan` int(11) NOT NULL DEFAULT 0,
-  `counter_ip_web` int(11) NOT NULL DEFAULT 0,
-  `counter_hit_web` int(11) NOT NULL DEFAULT 0,
-  `stand` datetime DEFAULT NULL,
-  `kat_gruppen` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `karten` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `locked` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `galerie` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` int(11) NOT NULL,
@@ -90,38 +71,6 @@ CREATE TABLE `galerie` (
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT NULL,
-  `table_parent` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pfad` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild_name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jwoc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nr` int(11) DEFAULT NULL,
-  `name` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pos` int(11) DEFAULT NULL,
-  `time1` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `time2` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `time3` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `time4` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `time5` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `diff` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `starttime` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cat` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -152,23 +101,6 @@ CREATE TABLE `links` (
   `position` int(11) DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `on_off` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `olz_result` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rang` int(11) DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `club` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `jg` int(11) DEFAULT NULL,
-  `zeit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `stand` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `anzahl` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `event` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,58 +167,6 @@ CREATE TABLE `solv_results` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `person_run_unique` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `termine_go2ol` (
-  `solv_uid` int(11) NOT NULL,
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ident` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `post` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `verein` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datum` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meldeschluss1` date NOT NULL,
-  `meldeschluss2` date NOT NULL,
-  PRIMARY KEY (`solv_uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `termine_solv` (
-  `solv_uid` int(11) NOT NULL,
-  `date` date DEFAULT NULL,
-  `duration` int(11) DEFAULT NULL,
-  `kind` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `day_night` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `national` int(11) DEFAULT NULL,
-  `region` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `event_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `event_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `club` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `map` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `coord_x` int(11) DEFAULT NULL,
-  `coord_y` int(11) DEFAULT NULL,
-  `deadline` date DEFAULT NULL,
-  `entryportal` int(11) DEFAULT NULL,
-  `last_modification` datetime DEFAULT NULL,
-  PRIMARY KEY (`solv_uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `trainingsphotos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datum` date NOT NULL,
-  `pfad` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

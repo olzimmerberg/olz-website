@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20220601201046
+-- MIGRATION: DoctrineMigrations\Version20220719182315
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -67,11 +67,10 @@ VALUES
     ('DoctrineMigrations\\Version20220317172850', '2022-03-17 17:30:24', '2336'),
     ('DoctrineMigrations\\Version20220321214214', '2022-03-21 21:44:24', '2066'),
     ('DoctrineMigrations\\Version20220502172202', '2022-05-02 17:22:32', '107'),
-    ('DoctrineMigrations\\Version20220601201046', '2022-06-01 20:11:14', '75');
+    ('DoctrineMigrations\\Version20220601201046', '2022-06-01 20:11:14', '75'),
+    ('DoctrineMigrations\\Version20220719182315', '2022-07-19 18:49:59', '247');
 
 -- Table downloads
-
--- Table event
 
 -- Table facebook_links
 
@@ -92,10 +91,6 @@ VALUES
     ('3', '0', 'Test Video', '2020-08-15', NULL, 'admin', '1', 'movie', '2', 'https://youtu.be/JVL0vgcnM6c');
 
 -- Table google_links
-
--- Table images
-
--- Table jwoc
 
 -- Table karten
 INSERT INTO karten
@@ -118,8 +113,6 @@ VALUES
     ('5', '2', 'telegram', 'deadline_warning', '{\"days\":3}', '2021-01-30 17:37:23'),
     ('6', '1', 'email', 'daily_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23'),
     ('7', '4', 'email', 'weekly_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23');
-
--- Table olz_result
 
 -- Table olz_text
 INSERT INTO olz_text
@@ -279,13 +272,7 @@ VALUES
     ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training -1', '', '', '', '', 'training', '1', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
     ('10', '2020-08-22', NULL, NULL, '00:00:00', '00:00:00', '0', 'Grossanlass', 'gal', 'Mit allem drum und dran!', NULL, NULL, 'ol', '1', NULL, NULL, '12345', NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', '0');
 
--- Table termine_go2ol
-
--- Table termine_solv
-
 -- Table throttlings
-
--- Table trainingsphotos
 
 -- Table users
 INSERT INTO users

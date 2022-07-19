@@ -3,9 +3,9 @@
 set -e
 
 # Configure env
-if [ ! -z DB_PORT ] && [ ! -f ./tests/integration_tests/document-root/config.php ]; then
-    cp ./tests/integration_tests/document-root/config.template.php ./tests/integration_tests/document-root/config.php
-    sed -i "s/'3306'/'$DB_PORT'/g" ./tests/integration_tests/document-root/config.php
+if [ ! -z DB_PORT ] && [ ! -f ./tests/IntegrationTests/document-root/config.php ]; then
+    cp ./tests/IntegrationTests/document-root/config.template.php ./tests/IntegrationTests/document-root/config.php
+    sed -i "s/'3306'/'$DB_PORT'/g" ./tests/IntegrationTests/document-root/config.php
     echo "Integration test server env configured."
 else
     echo "Integration test server env configuration preserved."
@@ -29,7 +29,7 @@ else
     echo "Dev server symfony configuration preserved."
 fi
 
-./vendor/bin/phpunit -c ./phpunit.xml $@ ./tests/integration_tests
+./vendor/bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
 
 echo ""
 echo "Open the HTML test coverage in a web browser:"

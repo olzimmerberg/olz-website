@@ -39,7 +39,7 @@ fi
 BROWSER_DRIVER_PID=$!
 
 # Configure env
-if [ ! -z DB_PORT ] && [ ! -f ./tests/integration_tests/document-root/config.php ]; then
+if [ ! -z DB_PORT ] && [ ! -f ./tests/IntegrationTests/document-root/config.php ]; then
     cp ./public/config.template.php ./public/config.php
     sed -i "s/3306/$DB_PORT/g" ./public/config.php
     echo "Dev server env configured."

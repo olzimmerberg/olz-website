@@ -27,8 +27,8 @@
 .php-cs-fixer.cache
 .php_cs.cache
 .phpunit.result.cache
-/tests/integration_tests/document-root/*
-!/tests/integration_tests/document-root/config.template.php
+/tests/IntegrationTests/document-root/*
+!/tests/IntegrationTests/document-root/config.template.php
 /tests/UnitTests/tmp/*
 
 # JavaScript tooling

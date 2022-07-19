@@ -65,7 +65,7 @@ class OlzTelegramCard {
             }
 
             return <<<ZZZZZZZZZZ
-            <div class="telegram-card text-white bg-telegram mb-2">
+            <div class="telegram-card card text-white bg-telegram mb-2">
                 <h5 class="card-header">
                     <img src='{$code_href}icns/login_telegram.svg' alt=''>
                     Nachrichten-Push

@@ -24,7 +24,7 @@ if ($groesse > 0) {
     for ($i = 0; $i < $reihen; $i++) {
         echo "<tr class='thumbs'>";
         for ($n = 0; $n < $breite; $n++) {
-            $foto_000 = str_pad(($i * $breite + $n + 1), 3, '0', STR_PAD_LEFT);
+            $foto_000 = str_pad($i * $breite + $n + 1, 3, '0', STR_PAD_LEFT);
             if (($i * $breite + $n + 1) > $groesse) {
                 echo "</tr><td id='galerietd".($i * $breite + $n + 1)."'>&nbsp;</td>";
             } else {
@@ -32,7 +32,7 @@ if ($groesse > 0) {
                 $pfad_thumb = $pfad_galerie.$bild_name.$bild_nr."_thumb.jpg";
                 $pfad_img = $pfad_galerie.$bild_name.$bild_nr."_gross.jpg";
                 echo "<td id='galerietd".($i * $breite + $n + 1)."'>";
-                echo "<a href='".$pfad_img."' class='lightview' rel='gallery[myset]'><img src='".$pfad_thumb."' alt='' onerror='onimageloaderror(this)' id='".($foto_000)."'></a>";
+                echo "<a href='".$pfad_img."' class='lightview' rel='gallery[myset]'><img src='".$pfad_thumb."' alt='' onerror='onimageloaderror(this)' id='".$foto_000."'></a>";
                 echo "</td>";
             }
         }

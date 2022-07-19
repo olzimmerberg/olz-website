@@ -11,7 +11,7 @@ if (($_GET['ftp_mode'] ?? null) == 'get_file') {
     require_once __DIR__.'/config/paths.php';
     $pfad = urldecode($_GET['pfad']);
     header("Location: {$data_href}OLZimmerbergAblage/{$pfad}");
-    exit();
+    exit;
 }
 
 require_once __DIR__.'/config/init.php';

@@ -149,7 +149,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         $abspath = $data_path.$db_imgpath."/".$id;
         $newindex = 0;
         for ($i = 0; true; $i++) {
-            if (!is_file($abspath."/img/".str_pad(($i + 1), 3, "0", STR_PAD_LEFT).".jpg")) {
+            if (!is_file($abspath."/img/".str_pad($i + 1, 3, "0", STR_PAD_LEFT).".jpg")) {
                 $newindex = $i;
                 break;
             }
@@ -192,12 +192,12 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         // Create Full-size image
         $maxdim = 800;
         if ($info[2] == IMAGETYPE_JPEG && $wid * $maxdim >= $swid && $hei * $maxdim >= $shei) {
-            copy($filename, $abspath."/img/".str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT).".jpg");
+            copy($filename, $abspath."/img/".str_pad($newindex + 1, 3, "0", STR_PAD_LEFT).".jpg");
         } else {
             $img = imagecreatetruecolor($wid * $maxdim, $hei * $maxdim);
             imagesavealpha($img, true);
             imagecopyresampled($img, $source, 0, 0, 0, 0, $wid * $maxdim, $hei * $maxdim, $swid, $shei);
-            imagejpeg($img, $abspath."/img/".str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT).".jpg", 90);
+            imagejpeg($img, $abspath."/img/".str_pad($newindex + 1, 3, "0", STR_PAD_LEFT).".jpg", 90);
             imagedestroy($img);
         }
 
@@ -211,7 +211,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
                 }
             }
         }
-        echo json_encode([1, str_pad(($newindex + 1), 3, "0", STR_PAD_LEFT), $info]);
+        echo json_encode([1, str_pad($newindex + 1, 3, "0", STR_PAD_LEFT), $info]);
     }
 
     if ($_GET["request"] == "change") {
@@ -308,7 +308,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
                     $data_path.$db_imgpath."/".$id."/img/".str_pad($i - 1, 3, "0", STR_PAD_LEFT).".jpg",
                     $data_path.$db_imgpath."/".$id."/img/".str_pad($i, 3, "0", STR_PAD_LEFT).".jpg"
                 );
-                $log .= ", ".($i - 1)."=>".($i);
+                $log .= ", ".($i - 1)."=>".$i;
             }
             rename(
                 $data_path.$db_imgpath."/".$id."/img/tmp.jpg",
@@ -343,17 +343,17 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         $db_imgpath = $tables_img_dirs[$db_table];
         $newindex = 0;
         for ($i = 0; true; $i++) {
-            if (!is_file($data_path.$db_imgpath."/".$id."/img/".str_pad(($i + 1), 3, "0", STR_PAD_LEFT).".jpg")) {
+            if (!is_file($data_path.$db_imgpath."/".$id."/img/".str_pad($i + 1, 3, "0", STR_PAD_LEFT).".jpg")) {
                 $newindex = $i;
                 break;
             }
         }
         $log = "";
         for ($i = 0; true; $i++) {
-            if (is_file($data_path.$db_imgpath."/".$fromid."/img/".str_pad(($i + 1), 3, "0", STR_PAD_LEFT).".jpg")) {
+            if (is_file($data_path.$db_imgpath."/".$fromid."/img/".str_pad($i + 1, 3, "0", STR_PAD_LEFT).".jpg")) {
                 copy(
-                    $data_path.$db_imgpath."/".$fromid."/img/".str_pad(($i + 1), 3, "0", STR_PAD_LEFT).".jpg",
-                    $data_path.$db_imgpath."/".$id."/img/".str_pad(($newindex + $i + 1), 3, "0", STR_PAD_LEFT).".jpg"
+                    $data_path.$db_imgpath."/".$fromid."/img/".str_pad($i + 1, 3, "0", STR_PAD_LEFT).".jpg",
+                    $data_path.$db_imgpath."/".$id."/img/".str_pad($newindex + $i + 1, 3, "0", STR_PAD_LEFT).".jpg"
                 );
             } else {
                 break;

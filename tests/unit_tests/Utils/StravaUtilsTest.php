@@ -97,7 +97,7 @@ final class StravaUtilsTest extends UnitTestCase {
                 '&response_type=code'.
                 '&approval_prompt=auto'.
                 '&scope=profile:read_all',
-                str_replace('&amp;', '&', urldecode($this->stravaUtils->getAuthUrl()))
+            str_replace('&amp;', '&', urldecode($this->stravaUtils->getAuthUrl()))
         );
     }
 

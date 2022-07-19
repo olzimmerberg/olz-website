@@ -46,7 +46,7 @@ function termine_ticker($settings) {
         $diff_end = ($timestamp_end - $timestamp_tmp) / 86400;
         $time = $diff * 86400;
         $class_heute = "";
-        if ($diff < (0.95)) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
+        if ($diff < 0.95) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
             $case_tmp = 1;
             if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
                 $datum_end = '(bis '.$_DATE->olzDate('WW t.m.', $datum_end).')';
@@ -103,7 +103,7 @@ function termine_ticker($settings) {
         }
         $mehr = "";
         if ($textlaenge_def < strlen($datum_tmp) + strlen($titel)) {
-            $titel = mb_substr($titel, 0, ($textlaenge_def - strlen($datum_tmp)));
+            $titel = mb_substr($titel, 0, $textlaenge_def - strlen($datum_tmp));
             $titel = mb_substr($titel, 0, mb_strrpos($titel, " "));
             $mehr = " ...";
         }

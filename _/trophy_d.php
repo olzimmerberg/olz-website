@@ -120,12 +120,12 @@ echo "</table>";
     <b>Rangliste (vorläufig)</b><br>
     <table><tr><th style='width:1%;'>Gemeinde</th><th style='width:40px;'>&nbsp;</th><th style='width:auto;'>Starts</th></tr><?php
     arsort($gemeindeduell);
-    foreach ($gemeindeduell as $k => $v) {
-        if (strlen($k) > 0) {
-            echo "<tr><td>".$k."</td><td></td><td>".$v."</td></tr>";
-        }
+foreach ($gemeindeduell as $k => $v) {
+    if (strlen($k) > 0) {
+        echo "<tr><td>".$k."</td><td></td><td>".$v."</td></tr>";
     }
-    ?></table><br><br></td></tr>-->
+}
+?></table><br><br></td></tr>-->
 <tr><td>Preise:</td><td style='padding-left:10px;'>In allen Kategorien gibt es eine Einzelrangliste für jeden Lauf, dem Sieger gebührt Ruhm und Ehre.<br>
     Wer drei oder mehr Läufe absolviert, erhält am dritten Lauf einen Erinnerungspreis.</td></tr>
 <tr><td>Auskunft:</td><td style='padding-left:10px;'>Martin Gross, Kirchstrasse 7, 8805 Richterswil<br>

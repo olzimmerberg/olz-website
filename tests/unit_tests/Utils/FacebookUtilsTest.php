@@ -93,7 +93,7 @@ final class FacebookUtilsTest extends UnitTestCase {
                 '&redirect_uri=fake-redirect-url'.
                 '&response_type=code'.
                 '&scope=email,public_profile',
-                urldecode($this->facebookUtils->getAuthUrl())
+            urldecode($this->facebookUtils->getAuthUrl())
         );
     }
 

@@ -69,7 +69,7 @@
   "dependencies": {
     "bootstrap": "^5.1.3",
     "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.2",
     "lightgallery": "^2",
     "lodash": "^4.17.21",
     "php-typescript-api": "^1.0.1",

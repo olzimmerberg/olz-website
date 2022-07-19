@@ -120,13 +120,13 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["titel", "Titel", "text", "''", "", "", "", ""],
         ["autor", "Autor", "text", "''", "", "", "", "", "", ""],
         ["counter", "Counter", "hidden", "'0'", "", "", "", "", "", ""],
-        ["typ", "Typ", (($_SESSION['auth'] ?? null) == "all" ? ["select", [["Fotos", "foto"], ["Film", "movie"]]] : "hidden"), "'foto'", "", "", "", "", "", ""],
-        ["content", "Filmangaben", (($_SESSION['auth'] ?? null) == "all" ? "text" : "hidden"), "''", "", "", "", "", "", ""],
+        ["typ", "Typ", ($_SESSION['auth'] ?? null) == "all" ? ["select", [["Fotos", "foto"], ["Film", "movie"]]] : "hidden", "'foto'", "", "", "", "", "", ""],
+        ["content", "Filmangaben", ($_SESSION['auth'] ?? null) == "all" ? "text" : "hidden", "''", "", "", "", "", "", ""],
         ["termin", "Termin", "hidden", "0", "", "", "", ""],
     ];
     if (($_SESSION['auth'] ?? null) != null) {
         array_push($db_felder,
-                    ["on_off", "Aktiv", "boolean", "1", "", "", "", ""]);
+            ["on_off", "Aktiv", "boolean", "1", "", "", "", ""]);
     }
 } elseif ($db_table == "karten") {// DB KARTEN
     $db_felder = [

@@ -37,7 +37,7 @@ class OlzNewsList {
             'norobots' => !$allow_robots,
         ]);
 
-        $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or (in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? '')))) ? '1' : '0';
+        $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? ''))) ? '1' : '0';
 
         $out .= "<div id='content_rechts'>";
         $out .= "<h2>Filter</h2>";

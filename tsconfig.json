@@ -24,8 +24,8 @@
   "include": [
     "_/**/*",
     "src/**/*",
-    "tests/fake/**/*",
-    "tests/unit_tests/**/*"
+    "tests/Fake/**/*",
+    "tests/UnitTests/**/*"
   ],
   "exclude": [
     "node_modules",

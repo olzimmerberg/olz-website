@@ -370,7 +370,7 @@ class EnvUtils {
         $first_arg = $argv[0] ?? '';
         $is_phpunit = preg_match('/phpunit$/', $first_arg);
         $last_arg = $argv[count($argv) - 1] ?? '';
-        $executing_unit_tests = preg_match('/unit_tests$/', $last_arg);
+        $executing_unit_tests = preg_match('/UnitTests$/', $last_arg);
         if ($is_phpunit && $executing_unit_tests) {
             $trace = debug_backtrace();
             $general_utils = GeneralUtils::fromEnv();

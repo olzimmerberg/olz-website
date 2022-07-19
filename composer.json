@@ -14,7 +14,7 @@
       "php": "8.0.2"
     },
     "preferred-install": {
-        "*": "dist"
+      "*": "dist"
     },
     "sort-packages": true
   },
@@ -48,10 +48,10 @@
       "vendor/bin/requirements-checker": "php-script"
     },
     "post-install-cmd": [
-        "@auto-scripts"
+      "@auto-scripts"
     ],
     "post-update-cmd": [
-        "@auto-scripts"
+      "@auto-scripts"
     ]
   },
   "minimum-stability": "stable",
@@ -101,12 +101,12 @@
   },
   "autoload": {
     "psr-4": {
-        "Olz\\": "src/"
+      "Olz\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-        "Olz\\Tests\\": "tests/"
+      "Olz\\Tests\\": "tests/"
     }
   },
   "replace": {
@@ -121,9 +121,9 @@
     "symfony/symfony": "*"
   },
   "extra": {
-      "symfony": {
-          "allow-contrib": false,
-          "require": "6.0.*"
-      }
+    "symfony": {
+      "allow-contrib": false,
+      "require": "6.0.*"
+    }
   }
 }

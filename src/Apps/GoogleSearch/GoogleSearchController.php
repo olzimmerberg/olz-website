@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GoogleSearchController extends AbstractController {
-    #[Route('/apps/google_search')]
+    #[Route('/apps/search_engines')]
     public function index(
         Request $request,
         LoggerInterface $logger

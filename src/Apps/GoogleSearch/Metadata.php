@@ -8,7 +8,7 @@ use Olz\Utils\AuthUtils;
 
 class Metadata extends BaseAppMetadata {
     public function getDisplayName(): string {
-        return 'Google Analyse';
+        return 'Suchmaschinen-Analyse';
     }
 
     public function getPath(): string {
@@ -16,7 +16,7 @@ class Metadata extends BaseAppMetadata {
     }
 
     public function getHref(): string {
-        return '/apps/google_search';
+        return '/apps/search_engines';
     }
 
     public function isAccessibleToUser(?User $user): bool {

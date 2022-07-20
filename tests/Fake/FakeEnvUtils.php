@@ -101,6 +101,14 @@ class FakeEnvUtils {
         return 'fake-bot-token';
     }
 
+    public function getAppGoogleSearchUsername() {
+        return 'fake@gmail.com';
+    }
+
+    public function getAppGoogleSearchPassword() {
+        return 'zxcv';
+    }
+
     public function getAppMonitoringUsername() {
         return 'fake';
     }

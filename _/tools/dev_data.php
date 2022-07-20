@@ -286,13 +286,14 @@ function dev_mkdir($path, $mode = 0777, $recursive = false) {
     if (!is_dir($path)) {
         mkdir($path, $mode, $recursive);
     }
+    touch($path, 1584118800, 1584118800);
 }
 
 function dev_copy($source, $dest) {
     if (!is_file($dest)) {
         copy($source, $dest);
-        touch($dest, 1584118800, 1584118800);
     }
+    touch($dest, 1584118800, 1584118800);
 }
 
 function dev_mkimg($source_path, $data_path, $destination_relative_path, $width, $height) {

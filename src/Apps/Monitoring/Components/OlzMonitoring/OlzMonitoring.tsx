@@ -1,5 +1,6 @@
 import React from 'react';
 import {olzApi} from '../../../../Api/client';
+import {OlzCopyableCredential} from '../../../../Components/Auth/OlzCopyableCredential/OlzCopyableCredential';
 
 import './OlzMonitoring.scss';
 
@@ -17,7 +18,17 @@ export const OlzMonitoring = () => {
     }, []);
 
     return (<>
-        <div>Username: {username} &mdash; Password: {password}</div>
+        <div>
+            <OlzCopyableCredential
+                label='Benutername'
+                value={username}
+            />
+            <wbr />
+            <OlzCopyableCredential
+                label='Passwort'
+                value={password}
+            />
+        </div>
         <iframe
             className='monitoring-iframe'
             src={OLZ_MONITORING_URL}

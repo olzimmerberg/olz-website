@@ -68,6 +68,9 @@ final class EnvUtilsTest extends UnitTestCase {
             'smtp_password' => '1234',
             'smtp_from' => 'fake-user@olzimmerberg.ch',
 
+            'app_google_search_username' => 'fake-user@gmail.com',
+            'app_google_search_password' => 'zxcv',
+
             'app_monitoring_username' => 'fake-user',
             'app_monitoring_password' => 'asdf',
 
@@ -113,6 +116,8 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpUsername());
         $this->assertSame('1234', $env_utils->getSmtpPassword());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpFrom());
+        $this->assertSame('fake-user@gmail.com', $env_utils->getAppGoogleSearchUsername());
+        $this->assertSame('zxcv', $env_utils->getAppGoogleSearchPassword());
         $this->assertSame('fake-user', $env_utils->getAppMonitoringUsername());
         $this->assertSame('asdf', $env_utils->getAppMonitoringPassword());
         $this->assertSame('fake-user', $env_utils->getAppStatisticsUsername());

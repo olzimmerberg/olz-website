@@ -51,6 +51,9 @@ $configure_env_utils = function ($env_utils) {
         'smtp_password' => '1234',
         'smtp_from' => 'fake-user@olzimmerberg.ch',
 
+        'app_google_search_username' => 'fake-user@gmail.com',
+        'app_google_search_password' => 'zxcv',
+
         'app_monitoring_username' => 'fake-user',
         'app_monitoring_password' => 'asdf',
 

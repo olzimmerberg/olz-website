@@ -128,6 +128,7 @@ export type OlzApiEndpoint =
     'getRegistration'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
+    'getAppGoogleSearchCredentials'|
     'getLogs'|
     'getAppMonitoringCredentials'|
     'searchTransportConnection'|
@@ -297,6 +298,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
+    getAppGoogleSearchCredentials: Record<string, never>,
     getLogs: {
             'index': number,
         },
@@ -448,6 +450,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     revokeWebdavAccessToken: {
             'status': 'OK'|'ERROR',
+        },
+    getAppGoogleSearchCredentials: {
+            'username': string,
+            'password': string,
         },
     getLogs: {
             'content': string|null,

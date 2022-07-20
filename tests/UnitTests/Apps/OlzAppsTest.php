@@ -15,6 +15,7 @@ final class OlzAppsTest extends UnitTestCase {
     public const BASENAMES = [
         'Anmelden',
         'Files',
+        'GoogleSearch',
         'Logs',
         'Monitoring',
         'Oev',

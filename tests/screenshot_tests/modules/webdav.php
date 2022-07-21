@@ -54,4 +54,18 @@ function test_webdav_readonly($driver, $base_url) {
     $driver->executeScript($declare_flaky_elements);
     take_pageshot($driver, 'webdav_karten_php_session');
     logout($driver, $base_url);
+
+    login($driver, $base_url, 'benutzer', 'b3nu723r');
+    $driver->get("{$base_url}{$webdav_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$webdav_url}");
+    $driver->executeScript($declare_flaky_elements);
+    take_pageshot($driver, 'webdav_benutzer_php_session');
+    logout($driver, $base_url);
+
+    $driver->get("{$base_url}{$webdav_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$webdav_url}");
+    $driver->executeScript($declare_flaky_elements);
+    take_pageshot($driver, 'webdav_anonym_php_session');
 }

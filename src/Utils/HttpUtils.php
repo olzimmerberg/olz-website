@@ -24,7 +24,7 @@ class HttpUtils {
         $out .= <<<ZZZZZZZZZZ
         <div id='content_rechts'>
             <h2>&nbsp;</h2>
-            <img src='icns/schilf.jpg' style='width:98%;' alt=''>
+            <img src='/icns/schilf.jpg' style='width:98%;' alt=''>
         </div>
         <div id='content_mitte'>
             <h2>Fehler {$http_status_code}: Die gewünschte Seite konnte nicht gefunden werden.</h2>

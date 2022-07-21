@@ -5,7 +5,7 @@ namespace Facebook\WebDriver;
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
-$app_files_url = '/apps/files/?conf=default&tree=0';
+$app_files_url = '/apps/files/';
 
 function test_app_files($driver, $base_url) {
     global $app_files_url;
@@ -38,4 +38,16 @@ function test_app_files_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$app_files_url}");
     take_pageshot($driver, 'app_files_karten');
     logout($driver, $base_url);
+
+    login($driver, $base_url, 'benutzer', 'b3nu723r');
+    $driver->get("{$base_url}{$app_files_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$app_files_url}");
+    take_pageshot($driver, 'app_files_benutzer');
+    logout($driver, $base_url);
+
+    $driver->get("{$base_url}{$app_files_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$app_files_url}");
+    take_pageshot($driver, 'app_files_anonym');
 }

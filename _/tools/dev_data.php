@@ -261,14 +261,16 @@ function init_dev_data_filesystem($data_path, $full_reset = false) {
 
     // Build OLZimmerbergAblage/
     dev_mkdir("{$data_path}OLZimmerbergAblage");
-    dev_mkdir("{$data_path}OLZimmerbergAblage/vorstand");
-    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/mitgliederliste.pdf");
-    dev_mkdir("{$data_path}OLZimmerbergAblage/vorstand/protokolle");
-    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/vorstand/protokolle/protokoll.pdf");
-    dev_mkdir("{$data_path}OLZimmerbergAblage/karten");
-    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/uebersicht.pdf");
-    dev_mkdir("{$data_path}OLZimmerbergAblage/karten/wald");
-    dev_copy("{$sample_path}sample-document.pdf", "{$data_path}OLZimmerbergAblage/karten/wald/buchstabenwald.pdf");
+    $dokumente_path = "{$data_path}OLZimmerbergAblage/OLZ Dokumente";
+    dev_mkdir("{$dokumente_path}");
+    dev_mkdir("{$dokumente_path}/vorstand");
+    dev_copy("{$sample_path}sample-document.pdf", "{$dokumente_path}/vorstand/mitgliederliste.pdf");
+    dev_mkdir("{$dokumente_path}/vorstand/protokolle");
+    dev_copy("{$sample_path}sample-document.pdf", "{$dokumente_path}/vorstand/protokolle/protokoll.pdf");
+    dev_mkdir("{$dokumente_path}/karten");
+    dev_copy("{$sample_path}sample-document.pdf", "{$dokumente_path}/karten/uebersicht.pdf");
+    dev_mkdir("{$dokumente_path}/karten/wald");
+    dev_copy("{$sample_path}sample-document.pdf", "{$dokumente_path}/karten/wald/buchstabenwald.pdf");
 
     // Build pdf/
     dev_mkdir("{$data_path}pdf");

@@ -38,4 +38,16 @@ function test_apps_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$apps_url}");
     take_pageshot($driver, 'apps_karten');
     logout($driver, $base_url);
+
+    login($driver, $base_url, 'benutzer', 'b3nu723r');
+    $driver->get("{$base_url}{$apps_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$apps_url}");
+    take_pageshot($driver, 'apps_benutzer');
+    logout($driver, $base_url);
+
+    $driver->get("{$base_url}{$apps_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$apps_url}");
+    take_pageshot($driver, 'apps_anonym');
 }

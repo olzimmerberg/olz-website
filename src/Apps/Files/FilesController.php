@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Files;
 
+use Olz\Apps\Files\Components\OlzFiles\OlzFiles;
 use Olz\Apps\Files\Components\OlzWebDav\OlzWebDav;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FilesController extends AbstractController {
+    #[Route('/apps/files/')]
+    public function index(
+        Request $request,
+        LoggerInterface $logger
+    ): Response {
+        $html_out = OlzFiles::render();
+        return new Response($html_out);
+    }
+
     #[Route('/apps/files/webdav')]
     public function webdavIndex(
         Request $request,

@@ -5,6 +5,7 @@ namespace Olz\Apps\Files\Service;
 use Artgris\Bundle\FileManagerBundle\Service\CustomConfServiceInterface;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 
 class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
     public function getConf($extra = []) {
@@ -13,7 +14,13 @@ class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
 
         $auth_utils = AuthUtils::fromEnv();
         $user = $auth_utils->getAuthenticatedUser();
+        if (!$user) {
+            HttpUtils::fromEnv()->dieWithHttpError(401);
+        }
         $user_root = $user ? $user->getRoot() : '';
+        if (!$user_root) {
+            HttpUtils::fromEnv()->dieWithHttpError(403);
+        }
 
         return [
             'dir' => "{$data_path}OLZimmerbergAblage/{$user_root}",

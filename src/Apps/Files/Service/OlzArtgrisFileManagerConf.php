@@ -17,6 +17,9 @@ class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }
+        if (!$auth_utils->hasPermission('ftp', $user)) {
+            HttpUtils::fromEnv()->dieWithHttpError(403);
+        }
         $user_root = $user ? $user->getRoot() : '';
         if (!$user_root) {
             HttpUtils::fromEnv()->dieWithHttpError(403);

@@ -14,7 +14,14 @@ const defaultConfig = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                use: 'ts-loader',
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            experimentalWatchApi: true,
+                        },
+                    },
+                ],
                 exclude: /node_modules/,
             },
             {

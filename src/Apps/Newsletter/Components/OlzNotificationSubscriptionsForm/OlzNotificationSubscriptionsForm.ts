@@ -1,3 +1,5 @@
+import './OlzNotificationSubscriptionsForm.scss';
+
 export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement): void {
     if (!elem.form) {
         return;

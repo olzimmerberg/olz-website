@@ -1,8 +1,8 @@
 <?php
 
-namespace Olz\Components\Notify\OlzTelegramCard;
+namespace Olz\Apps\Newsletter\Components\OlzTelegramCard;
 
-use Olz\Components\Notify\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
+use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
@@ -11,8 +11,8 @@ class OlzTelegramCard {
     public static function render($args = []) {
         global $entityManager, $code_href;
 
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-        require_once __DIR__.'/../../../../_/config/paths.php';
+        require_once __DIR__.'/../../../../../_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../../_/config/paths.php';
 
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
@@ -45,7 +45,7 @@ class OlzTelegramCard {
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
-                    <form id='telegram-notifications-form' onsubmit='return olzTelegramNotificationsUpdate(this)'>
+                    <form id='telegram-notifications-form' onsubmit='return olz.olzTelegramNotificationsUpdate(this)'>
                         <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                         {$form}
                         <p class="card-text text-end">

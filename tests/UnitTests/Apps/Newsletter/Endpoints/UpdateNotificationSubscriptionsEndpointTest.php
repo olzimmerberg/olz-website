@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Monolog\Logger;
-use Olz\Api\Endpoints\UpdateNotificationSubscriptionsEndpoint;
+use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 use Olz\Tests\Fake\FakeEntityManager;
@@ -28,7 +28,7 @@ class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
 
 /**
  * @internal
- * @covers \Olz\Api\Endpoints\UpdateNotificationSubscriptionsEndpoint
+ * @covers \Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint
  */
 final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointIdent(): void {

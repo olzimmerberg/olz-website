@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Api\Endpoints;
+namespace Olz\Apps\Newsletter\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\NotificationSubscription;

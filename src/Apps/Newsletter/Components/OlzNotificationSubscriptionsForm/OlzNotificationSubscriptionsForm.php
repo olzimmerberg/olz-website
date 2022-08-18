@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Components\Notify\OlzNotificationSubscriptionsForm;
+namespace Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm;
 
 use Olz\Entity\NotificationSubscription;
 
@@ -128,7 +128,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_checked}
                     {$disabled_attribute}
                 />
@@ -138,7 +138,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary-aktuell'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_aktuell_checked}
                     {$disabled_attribute}
                 />
@@ -148,7 +148,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary-blog'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_blog_checked}
                     {$disabled_attribute}
                 />
@@ -158,7 +158,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary-forum'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_forum_checked}
                     {$disabled_attribute}
                 />
@@ -168,7 +168,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary-galerie'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_galerie_checked}
                     {$disabled_attribute}
                 />
@@ -178,7 +178,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='daily-summary-termine'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_termine_checked}
                     {$disabled_attribute}
                 />
@@ -189,7 +189,7 @@ class OlzNotificationSubscriptionsForm {
                 <input 
                     type='checkbox' 
                     name='weekly-summary' 
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_checked}
                     {$disabled_attribute}
                 />
@@ -199,7 +199,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='weekly-summary-aktuell'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_aktuell_checked}
                     {$disabled_attribute}
                 />
@@ -209,7 +209,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='weekly-summary-blog'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_blog_checked}
                     {$disabled_attribute}
                 />
@@ -219,7 +219,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='weekly-summary-forum'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_forum_checked}
                     {$disabled_attribute}
                 />
@@ -229,7 +229,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='weekly-summary-galerie'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_galerie_checked}
                     {$disabled_attribute}
                 />
@@ -239,7 +239,7 @@ class OlzNotificationSubscriptionsForm {
                 <input
                     type='checkbox'
                     name='weekly-summary-termine'
-                    onchange='olzNotificationSubscriptionsFormOnChange(this)'
+                    onchange='olz.olzNotificationSubscriptionsFormOnChange(this)'
                     {$weekly_summary_termine_checked}
                     {$disabled_attribute}
                 />

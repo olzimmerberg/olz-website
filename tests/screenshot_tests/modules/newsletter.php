@@ -6,25 +6,25 @@ require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$service_url = '/service.php';
+$newsletter_url = '/apps/newsletter';
 $name = 'Test, User';
 $email = 'newsletter-test@olzimmerberg.ch';
 
 function test_newsletter($driver, $base_url) {
-    global $service_url, $name, $email;
+    global $newsletter_url, $name, $email;
     tick('newsletter');
 
     login($driver, $base_url, 'vorstand', 'v0r57and');
-    $driver->get("{$base_url}{$service_url}");
+    $driver->get("{$base_url}{$newsletter_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$service_url}");
+    $driver->get("{$base_url}{$newsletter_url}");
 
     take_pageshot($driver, 'newsletter_vorstand');
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$service_url}");
+    $driver->get("{$base_url}{$newsletter_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$service_url}");
+    $driver->get("{$base_url}{$newsletter_url}");
 
     take_pageshot($driver, 'newsletter_original');
 

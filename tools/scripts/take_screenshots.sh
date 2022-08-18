@@ -56,6 +56,8 @@ else
     echo "Dev server symfony configuration preserved."
 fi
 
+export NODE_OPTIONS="--max-old-space-size=4096"
+
 # Build JavaScript code
 npm run webpack-build
 

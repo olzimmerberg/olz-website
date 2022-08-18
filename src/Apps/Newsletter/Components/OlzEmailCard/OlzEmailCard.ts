@@ -1,6 +1,8 @@
-import {callOlzApi} from '../../../../src/Api/client';
+import './OlzEmailCard.scss';
 
-export function olzTelegramNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
+import {callOlzApi} from '../../../../../src/Api/client';
+
+export function olzEmailNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
     const monthlyPreview = form['monthly-preview'].checked ?? false;
     const weeklyPreview = form['weekly-preview'].checked ?? false;
     const deadlineWarning = form['deadline-warning'].checked ?? false;
@@ -21,20 +23,20 @@ export function olzTelegramNotificationsUpdate(form: Record<string, {value?: str
 
     callOlzApi(
         'updateNotificationSubscriptions',
-        {deliveryType: 'telegram', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryGalerie, dailySummaryTermine, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryGalerie, weeklySummaryTermine},
+        {deliveryType: 'email', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryGalerie, dailySummaryTermine, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryGalerie, weeklySummaryTermine},
     )
         .then((response) => {
             if (response.status === 'OK') {
-                $('#telegram-notifications-success-message').text('Benachrichtigungen erfolgreich aktualisiert.');
-                $('#telegram-notifications-error-message').text('');
+                $('#email-notifications-success-message').text('Benachrichtigungen erfolgreich aktualisiert.');
+                $('#email-notifications-error-message').text('');
             } else {
-                $('#telegram-notifications-success-message').text('');
-                $('#telegram-notifications-error-message').text('Fehler bei der Änderung der Benachrichtigungen.');
+                $('#email-notifications-success-message').text('');
+                $('#email-notifications-error-message').text('Fehler bei der Änderung der Benachrichtigungen.');
             }
         })
         .catch(() => {
-            $('#telegram-notifications-success-message').text('');
-            $('#telegram-notifications-error-message').text('Benachrichtigungen konnten nicht geändert werden.');
+            $('#email-notifications-success-message').text('');
+            $('#email-notifications-error-message').text('Benachrichtigungen konnten nicht geändert werden.');
         });
     return false;
 }

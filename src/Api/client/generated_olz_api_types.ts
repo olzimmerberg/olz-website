@@ -112,7 +112,6 @@ export type OlzApiEndpoint =
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
-    'updateNotificationSubscriptions'|
     'updateOlzText'|
     'startUpload'|
     'updateUpload'|
@@ -131,6 +130,7 @@ export type OlzApiEndpoint =
     'getAppGoogleSearchCredentials'|
     'getLogs'|
     'getAppMonitoringCredentials'|
+    'updateNotificationSubscriptions'|
     'searchTransportConnection'|
     'getMySkillLevels'|
     'updateMySkillLevels'|
@@ -231,25 +231,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'authenticityCode': string,
             'telegramEvent': string,
         },
-    updateNotificationSubscriptions: {
-            'deliveryType': 'email'|'telegram',
-            'monthlyPreview': boolean,
-            'weeklyPreview': boolean,
-            'deadlineWarning': boolean,
-            'deadlineWarningDays': '1'|'2'|'3'|'7',
-            'dailySummary': boolean,
-            'dailySummaryAktuell': boolean,
-            'dailySummaryBlog': boolean,
-            'dailySummaryForum': boolean,
-            'dailySummaryGalerie': boolean,
-            'dailySummaryTermine': boolean,
-            'weeklySummary': boolean,
-            'weeklySummaryAktuell': boolean,
-            'weeklySummaryBlog': boolean,
-            'weeklySummaryForum': boolean,
-            'weeklySummaryGalerie': boolean,
-            'weeklySummaryTermine': boolean,
-        },
     updateOlzText: {
             'id': number,
             'text': string,
@@ -303,6 +284,25 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'index': number,
         },
     getAppMonitoringCredentials: Record<string, never>,
+    updateNotificationSubscriptions: {
+            'deliveryType': 'email'|'telegram',
+            'monthlyPreview': boolean,
+            'weeklyPreview': boolean,
+            'deadlineWarning': boolean,
+            'deadlineWarningDays': '1'|'2'|'3'|'7',
+            'dailySummary': boolean,
+            'dailySummaryAktuell': boolean,
+            'dailySummaryBlog': boolean,
+            'dailySummaryForum': boolean,
+            'dailySummaryGalerie': boolean,
+            'dailySummaryTermine': boolean,
+            'weeklySummary': boolean,
+            'weeklySummaryAktuell': boolean,
+            'weeklySummaryBlog': boolean,
+            'weeklySummaryForum': boolean,
+            'weeklySummaryGalerie': boolean,
+            'weeklySummaryTermine': boolean,
+        },
     searchTransportConnection: {
             'destination': string,
             'arrival': string,
@@ -386,9 +386,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'pin': string,
         },
     onTelegram: Record<string, never>|null,
-    updateNotificationSubscriptions: {
-            'status': 'OK'|'ERROR',
-        },
     updateOlzText: {
             'status': 'OK'|'ERROR',
         },
@@ -461,6 +458,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getAppMonitoringCredentials: {
             'username': string,
             'password': string,
+        },
+    updateNotificationSubscriptions: {
+            'status': 'OK'|'ERROR',
         },
     searchTransportConnection: {
             'status': 'OK'|'ERROR',

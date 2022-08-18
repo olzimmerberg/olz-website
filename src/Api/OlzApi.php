@@ -78,10 +78,6 @@ class OlzApi extends Api {
             require_once __DIR__.'/Endpoints/OnTelegramEndpoint.php';
             return new Endpoints\OnTelegramEndpoint();
         });
-        $olz_api->registerEndpoint('updateNotificationSubscriptions', function () {
-            require_once __DIR__.'/Endpoints/UpdateNotificationSubscriptionsEndpoint.php';
-            return new Endpoints\UpdateNotificationSubscriptionsEndpoint();
-        });
         $olz_api->registerEndpoint('updateOlzText', function () {
             require_once __DIR__.'/Endpoints/UpdateOlzTextEndpoint.php';
             return new Endpoints\UpdateOlzTextEndpoint();

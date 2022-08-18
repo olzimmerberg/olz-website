@@ -1,8 +1,8 @@
 <?php
 
-namespace Olz\Components\Notify\OlzEmailCard;
+namespace Olz\Apps\Newsletter\Components\OlzEmailCard;
 
-use Olz\Components\Notify\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
+use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 
@@ -10,8 +10,8 @@ class OlzEmailCard {
     public static function render($args = []) {
         global $entityManager, $code_href;
 
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-        require_once __DIR__.'/../../../../_/config/paths.php';
+        require_once __DIR__.'/../../../../../_/config/doctrine_db.php';
+        require_once __DIR__.'/../../../../../_/config/paths.php';
 
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
@@ -39,7 +39,7 @@ class OlzEmailCard {
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
-                    <form id='email-notifications-form' onsubmit='return olzEmailNotificationsUpdate(this)'>
+                    <form id='email-notifications-form' onsubmit='return olz.olzEmailNotificationsUpdate(this)'>
                         <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                         {$form}
                         <p class="card-text text-end">

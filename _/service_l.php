@@ -4,22 +4,20 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
-use Olz\Components\Notify\OlzEmailCard\OlzEmailCard;
-use Olz\Components\Notify\OlzTelegramCard\OlzTelegramCard;
+use Olz\Components\OlzAppsList\OlzAppsList;
+use Olz\Utils\AuthUtils;
 
 require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
-echo "<div class='responsive-flex'>";
-echo "<div class='responsive-flex-2'>";
-echo OlzTelegramCard::render();
-echo "</div>";
-echo "<div class='responsive-flex-2'>";
-echo OlzEmailCard::render();
-echo "</div>";
-echo "</div>";
-
 echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
+
+$auth_utils = AuthUtils::fromEnv();
+if ($auth_utils->hasPermission('any')) {
+    echo "<h1>Apps</h1>";
+    echo OlzAppsList::render();
+}
+
 echo "<div class='responsive-flex'>";
 echo "<div class='responsive-flex-2'>";
 echo "<h2>Links</h2>";

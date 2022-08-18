@@ -19,7 +19,11 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger->info("Remove jsbuild...");
         $fs->remove(__DIR__.'/public/jsbuild');
         $this->logger->info("Webpack build...");
-        shell_exec('npm run webpack-build');
+        $commands = [
+            'export NODE_OPTIONS="--max-old-space-size=4096"',
+            'npm run webpack-build',
+        ];
+        shell_exec(implode(';', $commands));
         $this->logger->info("Remove node_modules...");
         $fs->remove(__DIR__.'/node_modules');
         $this->logger->info("Copy to build...");

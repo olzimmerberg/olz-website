@@ -31,7 +31,7 @@ class OlzAccountMenu {
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {
-            $out .= "<a class='dropdown-item' href='profil.php'>Profil</a>";
+            $out .= "<a class='dropdown-item' href='/profil.php'>Profil</a>";
             $out .= "<a class='dropdown-item' href='/apps/'>Apps</a>";
             $out .= <<<'ZZZZZZZZZZ'
             <a

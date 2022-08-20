@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Quiz;
 
+use Olz\Apps\Quiz\Components\OlzQuiz\OlzQuiz;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ class QuizController extends AbstractController {
         Request $request,
         LoggerInterface $logger
     ): Response {
-        return new Response('TODO: Quiz');
+        $html_out = OlzQuiz::render([]);
+        return new Response($html_out);
     }
 }

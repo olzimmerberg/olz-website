@@ -1,0 +1,44 @@
+.apps-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.hypothetical {
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
+        filter: blur(1px);
+    }
+}
+
+.app-container {
+    width: 160px;
+    text-align: center;
+
+    .app-icon {
+        border: 0;
+        max-width: 80px;
+    }
+}
+
+.hypothetical-container {
+    margin-top: 50px;
+}
+
+.hypothetical-overlay {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+.auth-buttons {
+    margin: 20px 50px;
+
+    .btn {
+        margin: 0 10px;
+    }
+}
+
+.openmoji-credits {
+    margin-top: 30px;
+    font-size: 80%;
+}

@@ -102,6 +102,8 @@ if ($user) {
         'city' => $user->getCity(),
         'region' => $user->getRegion(),
         'country_code' => $user->getCountryCode(),
+        'si_card_number' => $user->getSiCardNumber(),
+        'solv_number' => $user->getSolvNumber(),
     ]);
     echo <<<'ZZZZZZZZZZ'
         <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>

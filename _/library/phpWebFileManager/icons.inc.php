@@ -161,6 +161,7 @@ $fm_cfg['icons']['ext'] = array(
 	'diff'   => 'link_any_16.svg',
 
 	'ocd'    => 'link_ocd_16.svg',
+	'omap'   => 'link_any_16.svg',
 
 	'pdf'    => 'link_pdf_16.svg',
 

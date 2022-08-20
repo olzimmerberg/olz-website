@@ -3,7 +3,7 @@
         "coverage/**": true,
         "php-coverage/**": true,
         "_/config/vendor/**": true,
-        "public/_/library/**": true,
+        "_/library/**": true,
         "tools/remote_config/vendor/**": true,
         "**/jsbuild/**": true,
     }

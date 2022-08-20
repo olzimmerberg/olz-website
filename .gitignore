@@ -2,13 +2,11 @@
 /deploy.zip
 /public/*
 !/public/.htaccess
-!/public/_
 !/public/icns
 !/public/config.template.php
 !/public/index.php
 !/public/tools.php
 /screenshots
-/public/_/olz_ical.ics
 /_/tools/dev-data/tmp/*
 /_/tools/tmp/*
 /_/olz_ical.ics
@@ -34,7 +32,6 @@
 # JavaScript tooling
 /coverage
 /node_modules/
-/public/_/**/jsbuild/
 /tscbuild/
 
 ###> symfony/framework-bundle ###

@@ -30,7 +30,7 @@ class OlzEmailCard {
                     <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
                     <p class="card-text text-end">
                         <a 
-                            href="profil.php"
+                            href="/profil.php"
                             class="btn btn-light btn-sm"
                         >
                             E-Mail Adresse eintragen

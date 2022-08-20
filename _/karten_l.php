@@ -29,11 +29,11 @@ while ($row = mysqli_fetch_array($result)) {
         $icon = 'orienteering_scool_16.svg';
     }
 
-    $pois .= "Map.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
+    $pois .= "theMap.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
 }
 
 echo "<script type=\"text/javascript\">
-    var Map = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
+    var theMap = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
     ".$pois."\n"."function goto(x,y,z,name) {
     var x=x;
     var x0 = Number(window.localStorage.getItem('x0'));
@@ -42,21 +42,21 @@ echo "<script type=\"text/javascript\">
     var z=z;
     var name=name;
     window.location.hash=\"top\";
-    //Map.removeAllPOIs();
+    //theMap.removeAllPOIs();
 
     x0 = (x0>'') ? x0 : 687500 ;
     y0 = (y0>'') ? y0 : 237000 ;
     x1 = Math.round((x+x0)/2);
     y1 = Math.round((y+y0)/2);
     z1 = 32;
-    Map.go({ center:[x1,y1], zoom:z1, animated:true });
+    theMap.go({ center:[x1,y1], zoom:z1, animated:true });
 
     window.localStorage.setItem('x0', x);
     window.localStorage.setItem('y0', y);
 
     // Add a custom POI
-    //Map.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/orienteering_forest_16.svg\" }));\n
-    setTimeout(\"Map.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
+    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/orienteering_forest_16.svg\" }));\n
+    setTimeout(\"theMap.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
     }
 </script>";
 ?>

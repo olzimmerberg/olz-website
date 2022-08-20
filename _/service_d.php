@@ -5,18 +5,16 @@
 // =============================================================================
 
 use Olz\Components\OlzAppsList\OlzAppsList;
-use Olz\Utils\AuthUtils;
 
 require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
 
 echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
-$auth_utils = AuthUtils::fromEnv();
-if ($auth_utils->hasPermission('any')) {
-    echo "<h1>Apps</h1>";
-    echo OlzAppsList::render();
-}
+echo "<h1>Service</h1>";
+echo "<h2>Apps</h2>";
+echo OlzAppsList::render();
+echo "<br /><br />";
 
 echo "<div class='responsive-flex'>";
 echo "<div class='responsive-flex-2'>";

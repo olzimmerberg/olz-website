@@ -28,11 +28,8 @@ echo OlzHeader::render([
     'description' => "Diverse Online-Tools rund um OL und die OL Zimmerberg.",
 ]);
 
-echo "<div id='content_rechts'>";
-include __DIR__.'/service_r.php';
-echo "</div>
-<div id='content_mitte'>";
-include __DIR__.'/service_l.php';
+echo "<div id='content_double'>";
+include __DIR__.'/service_d.php';
 echo "</div>";
 
 echo OlzFooter::render();

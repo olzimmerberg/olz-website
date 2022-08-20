@@ -2,7 +2,5 @@
 
 set -e
 
-cd public/_/config
-./vendor/bin/doctrine-migrations "$@"
-cd ../../
+bin/console doctrine:migrations:"$@"
 exit $?

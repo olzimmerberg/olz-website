@@ -84,7 +84,7 @@ class OlzNewsList {
         // MENÜ
         if ($zugriff and ($db_edit == '0')) {
             $out .= <<<'ZZZZZZZZZZ'
-            <div class='feature news'>
+            <div>
                 <button
                     id='create-news-button'
                     class='btn btn-primary'

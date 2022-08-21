@@ -8,14 +8,9 @@ use Olz\Api\Endpoints\StartUploadEndpoint;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake\FakeUploadUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
-
-class DeterministicStartUploadEndpoint extends StartUploadEndpoint {
-    protected function getRandomUploadId() {
-        return 'AAAAAAAAAAAAAAAAAAAAAAAA';
-    }
-}
 
 /**
  * @internal
@@ -49,11 +44,13 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
+        $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();
-        $endpoint = new DeterministicStartUploadEndpoint();
+        $endpoint = new StartUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
+        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -74,11 +71,13 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
+        $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
+        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['suffix' => null]);
@@ -96,11 +95,13 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $auth_utils->has_permission_by_query = ['any' => true];
         $env_utils = new FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
+        $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
+        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLogger($logger);
 
         $result = $endpoint->call(['suffix' => '.pdf']);

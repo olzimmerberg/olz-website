@@ -34,6 +34,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
+        $data_path = $this->envUtils->getDataPath();
 
         $entity_id = $input['id'];
         $news_repo = $this->entityManager->getRepository(NewsEntry::class);
@@ -52,12 +53,23 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         $termin_id = $news_entry->getTermin();
 
         $image_ids = $news_entry->getImageIds();
-        $data_path = $this->envUtils->getDataPath();
         $news_entry_img_path = "{$data_path}img/news/{$entity_id}/";
         foreach ($image_ids as $image_id) {
             $image_path = "{$news_entry_img_path}img/{$image_id}";
             $temp_path = "{$data_path}temp/{$image_id}";
             copy($image_path, $temp_path);
+        }
+
+        $file_ids = [];
+        $news_entry_files_path = "{$data_path}files/news/{$entity_id}/";
+        $files_path_entries = scandir($news_entry_files_path);
+        foreach ($files_path_entries as $file_id) {
+            if (substr($file_id, 0, 1) != '.') {
+                $file_ids[] = $file_id;
+                $file_path = "{$news_entry_files_path}{$file_id}";
+                $temp_path = "{$data_path}temp/{$file_id}";
+                copy($file_path, $temp_path);
+            }
         }
 
         return [
@@ -78,7 +90,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
                 'tags' => $tags_for_api,
                 'terminId' => $termin_id ? $termin_id : null,
                 'imageIds' => $image_ids,
-                'fileIds' => [], // $news_entry->getFileIds(),
+                'fileIds' => $file_ids,
             ],
         ];
     }

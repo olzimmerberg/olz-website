@@ -67,7 +67,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
     const [content, setContent] = React.useState<string>(props.data?.content ?? '');
     const [author, setAuthor] = React.useState<string>(props.data?.author ?? '');
     const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
-    const [fileIds, setFileIds] = React.useState<string[]>([]);
+    const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
     const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
@@ -242,6 +242,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                             <div id='news-files-upload'>
                                 <b>Dateien</b>
                                 <OlzMultiFileUploader
+                                    initialUploadIds={fileIds}
                                     onUploadIdsChange={setFileIds}
                                 />
                             </div>

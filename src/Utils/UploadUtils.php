@@ -6,8 +6,11 @@ class UploadUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'envUtils',
+        'generalUtils',
         'logger',
     ];
+
+    private $suffixPattern = '[a-z0-9]+';
 
     /**
      * Kompatibilitäts-Layer, falls der Hoster eine bescheuerte Content Security
@@ -46,10 +49,29 @@ class UploadUtils {
         return $content;
     }
 
+    public function isUploadId($potential_upload_id) {
+        return (bool) preg_match(
+            "/^[a-zA-Z0-9_-]{24}\\.{$this->suffixPattern}$/",
+            $potential_upload_id
+        );
+    }
+
+    public function getRandomUploadId($suffix) {
+        if (!preg_match("/^\\.{$this->suffixPattern}$/", $suffix)) {
+            throw new \Exception("Invalid upload ID suffix: {$suffix}");
+        }
+        $random_id = $this->generalUtils->base64EncodeUrl(openssl_random_pseudo_bytes(18));
+        return "{$random_id}{$suffix}";
+    }
+
     public function getValidUploadIds($upload_ids) {
         $data_path = $this->envUtils->getDataPath();
         $valid_upload_ids = [];
         foreach ($upload_ids as $upload_id) {
+            if (!$this->isUploadId($upload_id)) {
+                $this->logger->warning("Upload ID {$upload_id} is invalid.");
+                continue;
+            }
             $upload_path = "{$data_path}temp/{$upload_id}";
             if (!is_file($upload_path)) {
                 $this->logger->warning("Upload file {$upload_path} does not exist.");
@@ -60,12 +82,27 @@ class UploadUtils {
         return $valid_upload_ids;
     }
 
+    public function getStoredUploadIds($base_path) {
+        $stored_upload_ids = [];
+        $entries = scandir($base_path);
+        foreach ($entries as $upload_id) {
+            if ($this->isUploadId($upload_id)) {
+                $stored_upload_ids[] = $upload_id;
+            }
+        }
+        return $stored_upload_ids;
+    }
+
     public function moveUploads($upload_ids, $new_base_path) {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0777, true);
         }
         $data_path = $this->envUtils->getDataPath();
         foreach ($upload_ids as $upload_id) {
+            if (!$this->isUploadId($upload_id)) {
+                $this->logger->warning("Upload ID {$upload_id} is invalid.");
+                continue;
+            }
             $upload_path = "{$data_path}temp/{$upload_id}";
             if (!is_file($upload_path)) {
                 $this->logger->warning("Upload file {$upload_path} does not exist.");

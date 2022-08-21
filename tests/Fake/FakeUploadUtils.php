@@ -7,6 +7,10 @@ namespace Olz\Tests\Fake;
 class FakeUploadUtils {
     public $move_uploads_calls = [];
 
+    public function getRandomUploadId($suffix) {
+        return "AAAAAAAAAAAAAAAAAAAAAAAA{$suffix}";
+    }
+
     public function getValidUploadIds($upload_ids) {
         return $upload_ids;
     }

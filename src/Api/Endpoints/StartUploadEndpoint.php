@@ -43,7 +43,7 @@ class StartUploadEndpoint extends OlzEndpoint {
         $upload_id = '';
         $continue = true;
         for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
-            $upload_id = "{$this->getRandomUploadId()}{$suffix}";
+            $upload_id = $this->uploadUtils->getRandomUploadId($suffix);
             $upload_path = "{$temp_path}{$upload_id}";
             if (!is_file($upload_path)) {
                 file_put_contents($upload_path, '');
@@ -58,9 +58,5 @@ class StartUploadEndpoint extends OlzEndpoint {
             'status' => 'OK',
             'id' => $upload_id,
         ];
-    }
-
-    protected function getRandomUploadId() {
-        return $this->generalUtils->base64EncodeUrl(openssl_random_pseudo_bytes(18));
     }
 }

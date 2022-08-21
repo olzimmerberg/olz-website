@@ -728,7 +728,7 @@ function fm_main() /* {{{ */
 							} else {
 								if ($fm_cfg['perm']['file']['view'])  {
 									//echo '<a target="_blank" href="'.$view_url_prefix_ue.$entry_ue.'">';
-									echo '<a target="_blank" href="webftp.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'">';
+									echo '<a target="_blank" href="webftp.php?ftp_mode=get_file&pfad='.urlencode($fm_dir_ue.$entry_ue).'" download="'.basename($entry_ue).'">';
 									//echo $view_url_prefix_ue."***".$entry_ue;
 
 								}

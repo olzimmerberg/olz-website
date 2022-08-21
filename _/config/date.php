@@ -6,7 +6,7 @@
 
 use Olz\Utils\AbstractDateUtils;
 
-global $_DATE;
+global $_DATE, $heute, $start_jahr, $end_jahr, $jahre, $wochentage, $wochentage_lang, $monate;
 
 if (!isset($_DATE)) {
     $_DATE = AbstractDateUtils::fromEnv();

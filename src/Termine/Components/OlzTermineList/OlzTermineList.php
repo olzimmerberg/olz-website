@@ -18,7 +18,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList {
     public static function render($args = []) {
-        global $db_table, $monate, $_DATE, $heute;
+        global $db, $db_table, $monate, $_DATE, $heute;
 
         require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';

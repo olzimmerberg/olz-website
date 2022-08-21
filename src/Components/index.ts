@@ -1,5 +1,6 @@
 export * from './Auth/index';
 export * from './Common/index';
+export * from './Error/index';
 export * from './Notify/index';
 export * from './OlzAppsList/OlzAppsList';
 export * from './Page/index';

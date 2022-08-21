@@ -2,6 +2,7 @@
 
 namespace Olz\Utils;
 
+use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use PhpTypeScriptApi\Fields\ValidationError;
@@ -16,30 +17,10 @@ class HttpUtils {
     public function dieWithHttpError(int $http_status_code) {
         $this->sendHttpResponseCode($http_status_code);
 
-        $out = "";
-        $out .= OlzHeaderWithoutRouting::render([
-            'title' => "Fehler",
+        $out = OlzErrorPage::render([
+            'http_status_code' => $http_status_code,
         ]);
 
-        $out .= <<<ZZZZZZZZZZ
-        <div id='content_rechts'>
-            <h2>&nbsp;</h2>
-            <img src='/icns/schilf.jpg' style='width:98%;' alt=''>
-        </div>
-        <div id='content_mitte'>
-            <h2>Fehler {$http_status_code}: Die gewünschte Seite konnte nicht gefunden werden.</h2>
-            <p><b>Hier bist du voll im Schilf!</b></p>
-            <p>Kein Posten weit und breit.</p>
-            <p>Vielleicht hast du falsch abgezeichnet? Oder der Posten wurde bereits abgeräumt!</p>
-            <p>Aber keine Bange, <a href='startseite.php' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
-            <p>Und wenn du felsenfest davon überzeugt bist, dass der Posten hier sein <b>muss</b>, dann hat wohl der Postensetzer einen Fehler gemacht und sollte schläunigst informiert werden:
-            <script type='text/javascript'>
-                MailTo("website", "olzimmerberg.ch", "Postensetzer", "Fehler%20{$http_status_code}%20OLZ");
-            </script></p>
-        </div>
-        ZZZZZZZZZZ;
-
-        $out .= OlzFooter::render();
         $this->sendHttpBody($out);
         $this->exitExecution();
     }

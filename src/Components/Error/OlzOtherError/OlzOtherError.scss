@@ -1,0 +1,15 @@
+.error-image-xxx {
+    float: right;
+    margin: 0 20px 20px 0;
+}
+
+@media screen and (max-width: 832px) {
+    .error-image-container-xxx {
+        text-align: center;
+    }  
+
+    .error-image-xxx {
+        float: none;
+        margin: 0 auto;
+    }
+}

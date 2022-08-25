@@ -17,7 +17,7 @@ use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail {
     public static function render($args = []) {
-        global $db_table, $id, $db, $_DATE, $_GET, $_POST, $_SESSION;
+        global $db_table, $id, $db, $_DATE, $_GET, $_POST, $_SESSION, $entityManager;
 
         require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';

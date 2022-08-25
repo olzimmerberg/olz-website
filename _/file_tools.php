@@ -306,74 +306,80 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 }
 
-function replace_file_tags($text, $db_table, $id, $icon = "mini") {
-    preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
-    for ($i = 0; $i < count($matches[0]); $i++) {
-        $index = $matches[1][$i];
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-        $tmptext = $matches[4][$i];
-        if (mb_strlen($tmptext) < 1) {
-            $tmptext = "Datei ".$index;
-        }
+if (!function_exists('replace_file_tags')) {
+    function replace_file_tags($text, $db_table, $id, $icon = "mini") {
+        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $index = $matches[1][$i];
+            $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+            $tmptext = $matches[4][$i];
+            if (mb_strlen($tmptext) < 1) {
+                $tmptext = "Datei ".$index;
+            }
 
-        if ($is_migrated) {
-            $new_html = olz_file(
-                $db_table == 'aktuell' ? 'news' : $db_table,
-                $id,
-                $index,
-                $tmptext,
-                $icon
-            );
-        } else {
-            $new_html = olz_file(
-                $db_table == 'news' ? 'aktuell' : $db_table,
-                $id,
-                intval($index),
-                $tmptext,
-                $icon
-            );
+            if ($is_migrated) {
+                $new_html = olz_file(
+                    $db_table == 'aktuell' ? 'news' : $db_table,
+                    $id,
+                    $index,
+                    $tmptext,
+                    $icon
+                );
+            } else {
+                $new_html = olz_file(
+                    $db_table == 'news' ? 'aktuell' : $db_table,
+                    $id,
+                    intval($index),
+                    $tmptext,
+                    $icon
+                );
+            }
+            $text = str_replace($matches[0][$i], $new_html, $text);
         }
-        $text = str_replace($matches[0][$i], $new_html, $text);
+        return $text;
     }
-    return $text;
 }
 
-function olz_file($db_table, $id, $index, $text, $icon = "mini") {
-    global $code_href, $data_href, $data_path, $tables_file_dirs;
-    if (!isset($tables_file_dirs[$db_table])) {
-        return "Ungültige db_table (in olz_file)";
-    }
-    $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-    $db_filepath = $tables_file_dirs[$db_table];
-    $file_dir = $data_path.$db_filepath."/".$id;
-    if (is_dir($file_dir)) {
-        if ($is_migrated) {
-            $filename = substr($index, 1);
-            return "<a href='".$data_href.$db_filepath."/".$id."/".$filename."?modified=".filemtime($file_dir."/".$filename)."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$filename."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+if (!function_exists('olz_file')) {
+    function olz_file($db_table, $id, $index, $text, $icon = "mini") {
+        global $code_href, $data_href, $data_path, $tables_file_dirs;
+        if (!isset($tables_file_dirs[$db_table])) {
+            return "Ungültige db_table (in olz_file)";
         }
-        $files = scandir($file_dir);
-        for ($i = 0; $i < count($files); $i++) {
-            if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
-                if (intval($matches[1]) == $index) {
-                    return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($file_dir."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
+        $db_filepath = $tables_file_dirs[$db_table];
+        $file_dir = $data_path.$db_filepath."/".$id;
+        if (is_dir($file_dir)) {
+            if ($is_migrated) {
+                $filename = substr($index, 1);
+                return "<a href='".$data_href.$db_filepath."/".$id."/".$filename."?modified=".filemtime($file_dir."/".$filename)."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$filename."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+            }
+            $files = scandir($file_dir);
+            for ($i = 0; $i < count($files); $i++) {
+                if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
+                    if (intval($matches[1]) == $index) {
+                        return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($file_dir."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
+                    }
                 }
             }
+        } else {
+            return "<span style='color:#ff0000; font-style:italic;'>!is_dir ".$db_filepath."/".$id."</span>";
         }
-    } else {
-        return "<span style='color:#ff0000; font-style:italic;'>!is_dir ".$db_filepath."/".$id."</span>";
+        return "<span style='color:#ff0000; font-style:italic;'>Datei nicht vorhanden (in olz_file)</span>";
     }
-    return "<span style='color:#ff0000; font-style:italic;'>Datei nicht vorhanden (in olz_file)</span>";
 }
 
-function olz_files_edit($db_table, $id) {
-    global $tables_file_dirs;
-    if (!isset($tables_file_dirs[$db_table])) {
-        return "Ungültige db_table (in olz_files_edit)";
+if (!function_exists('olz_files_edit')) {
+    function olz_files_edit($db_table, $id) {
+        global $tables_file_dirs;
+        if (!isset($tables_file_dirs[$db_table])) {
+            return "Ungültige db_table (in olz_files_edit)";
+        }
+        $db_filepath = $tables_file_dirs[$db_table];
+        $htmlout = "";
+        $ident = "olzfileedit".md5($db_table."-".$id);
+        $htmlout .= "<div id='".$ident."'></div>";
+        $htmlout .= "<script type='text/javascript'>olz_files_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
+        return $htmlout;
     }
-    $db_filepath = $tables_file_dirs[$db_table];
-    $htmlout = "";
-    $ident = "olzfileedit".md5($db_table."-".$id);
-    $htmlout .= "<div id='".$ident."'></div>";
-    $htmlout .= "<script type='text/javascript'>olz_files_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
-    return $htmlout;
 }

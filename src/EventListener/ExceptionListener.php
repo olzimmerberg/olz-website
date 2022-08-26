@@ -11,7 +11,13 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 #[AsEventListener(event: 'kernel.exception', method: 'onKernelException')]
 final class ExceptionListener {
+    private static $is_handling_exception = false;
+
     public function onKernelException(ExceptionEvent $event) {
+        if (self::$is_handling_exception) {
+            return;
+        }
+        self::$is_handling_exception = true;
         $exception = $event->getThrowable();
 
         $logger = LogsUtils::fromEnv()->getLogger('KERNEL');

@@ -6,6 +6,8 @@
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
+global $db;
+
 require_once __DIR__.'/config/database.php';
 
 echo "<h2>OLZ-Zielsprint-Challenge 2020</h2>";

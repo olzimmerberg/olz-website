@@ -4,6 +4,8 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
+global $db;
+
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/tickers.php';
 

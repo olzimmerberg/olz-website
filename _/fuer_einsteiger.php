@@ -6,6 +6,8 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
+global $_CONFIG;
+
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();

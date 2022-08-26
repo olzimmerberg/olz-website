@@ -4,6 +4,8 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
+global $db, $_DATE;
+
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';

@@ -5,6 +5,8 @@
 // TODO(simon): Was davon funktioniert überhaupt noch? Tests?
 // =============================================================================
 
+global $db, $_DATE;
+
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 

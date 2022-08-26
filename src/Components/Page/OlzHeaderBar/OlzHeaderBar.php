@@ -25,7 +25,9 @@ class OlzHeaderBar {
         $out .= "<div class='above-header'>";
         $out .= "<div class='account-menu-container'>";
 
-        $out .= OlzAccountMenu::render();
+        if (!($args['skip_auth_menu'] ?? false)) {
+            $out .= OlzAccountMenu::render();
+        }
 
         $out .= "</div>";
         $out .= "</div>";

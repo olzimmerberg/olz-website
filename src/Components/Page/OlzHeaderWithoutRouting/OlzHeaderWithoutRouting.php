@@ -65,7 +65,9 @@ class OlzHeaderWithoutRouting {
         $out .= "<body class='olz-override-root'>\n";
         $out .= "<a name='top'></a>";
 
-        $out .= OlzHeaderBar::render();
+        $out .= OlzHeaderBar::render([
+            'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
+        ]);
 
         $out .= "<div class='site-container'>";
         $out .= "<div class='site-background'>";

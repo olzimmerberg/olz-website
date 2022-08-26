@@ -3,6 +3,8 @@
 // DEBUGBLOCK: wenn diese Datei als Standalone getestet wird
 // $event = "zol_160410";
 
+global $db;
+
 require_once __DIR__.'/../config/database.php';
 
 if ($local) {

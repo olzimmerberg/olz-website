@@ -11,6 +11,8 @@
 use Olz\Termine\Components\OlzICal\OlzICal;
 use Olz\Termine\Utils\TermineFilterUtils;
 
+global $db;
+
 require_once __DIR__.'/../config/database.php';
 
 $mail_from = 'noreply@olzimmerberg.ch'; // Absenderadresse wird als additional header in mail() benötigt

@@ -4,6 +4,8 @@
 // Kann auf der Website nach einem Suchbegriff suchen.
 // =============================================================================
 
+global $db, $_DATE;
+
 require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 

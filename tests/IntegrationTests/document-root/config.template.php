@@ -5,6 +5,8 @@
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', 1);
 
+global $_CONFIG;
+
 $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
         'mysql_host' => 'localhost',

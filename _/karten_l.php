@@ -6,6 +6,8 @@
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
+global $db;
+
 require_once __DIR__.'/config/database.php';
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';

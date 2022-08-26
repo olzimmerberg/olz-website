@@ -72,13 +72,15 @@ class OlzHeaderWithoutRouting {
         $out .= "<div class='site-container'>";
         $out .= "<div class='site-background'>";
 
-        $counter_repo = $entityManager->getRepository(Counter::class);
-        $counter_repo->record(
-            $_SERVER['REQUEST_URI'] ?? '',
-            $_DATE,
-            $_SERVER['HTTP_REFERER'] ?? '',
-            $_SERVER['HTTP_USER_AGENT'] ?? ''
-        );
+        if (!($args['skip_counter'] ?? false)) {
+            $counter_repo = $entityManager->getRepository(Counter::class);
+            $counter_repo->record(
+                $_SERVER['REQUEST_URI'] ?? '',
+                $_DATE,
+                $_SERVER['HTTP_REFERER'] ?? '',
+                $_SERVER['HTTP_USER_AGENT'] ?? ''
+            );
+        }
 
         return $out;
     }

@@ -14,13 +14,15 @@ final class ExceptionListener {
     private static $is_handling_exception = false;
 
     public function onKernelException(ExceptionEvent $event) {
+        $logger = LogsUtils::fromEnv()->getLogger('KERNEL');
+        $exception = $event->getThrowable();
+
         if (self::$is_handling_exception) {
+            $logger->warning("Is already handling exception: {$exception}");
             return;
         }
         self::$is_handling_exception = true;
-        $exception = $event->getThrowable();
 
-        $logger = LogsUtils::fromEnv()->getLogger('KERNEL');
         $response = new Response();
 
         if ($exception instanceof HttpExceptionInterface) {

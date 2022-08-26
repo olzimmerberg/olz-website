@@ -37,7 +37,9 @@ class Olz401Unauthorized {
         <p>...und falls du noch kein OLZ-Konto besitzst, kannst du <a href='{$code_href}konto_passwort.php' class='linkint'>hier eins erstellen</a>.</p>
         ZZZZZZZZZZ;
         $out .= "</div>";
-        $out .= OlzFooter::render();
+        $out .= OlzFooter::render([
+            'skip_modals' => true,
+        ]);
 
         return $out;
     }

@@ -24,12 +24,13 @@ class OlzFooter {
         $out .= "</div>"; // site-container
 
         // "Legacy" component modals
-
-        $out .= OlzLoginModal::render();
-        $out .= OlzResetPasswordModal::render();
-        $out .= OlzSignUpModal::render();
-        $out .= OlzChangePasswordModal::render();
-        $out .= OlzLinkTelegramModal::render();
+        if (!($args['skip_modals'] ?? false)) {
+            $out .= OlzLoginModal::render();
+            $out .= OlzResetPasswordModal::render();
+            $out .= OlzSignUpModal::render();
+            $out .= OlzChangePasswordModal::render();
+            $out .= OlzLinkTelegramModal::render();
+        }
 
         // React modals
 

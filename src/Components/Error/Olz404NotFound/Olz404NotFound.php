@@ -41,7 +41,9 @@ class Olz404NotFound {
         </script></p>
         ZZZZZZZZZZ;
         $out .= "</div>";
-        $out .= OlzFooter::render();
+        $out .= OlzFooter::render([
+            'skip_modals' => true,
+        ]);
 
         return $out;
     }

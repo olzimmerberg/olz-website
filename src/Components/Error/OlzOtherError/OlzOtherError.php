@@ -41,7 +41,9 @@ class OlzOtherError {
         <p>In der Zwischenzeit kannst du dir <a href='{$code_href}startseite.php' class='linkint'>am Start ein wenig die Beine vertreten</a>, oder es später nochmals versuchen.</p>
         ZZZZZZZZZZ;
         $out .= "</div>";
-        $out .= OlzFooter::render();
+        $out .= OlzFooter::render([
+            'skip_modals' => true,
+        ]);
 
         return $out;
     }

@@ -36,7 +36,9 @@ class Olz403Forbidden {
         <p>Du hast eine Sondererlaubnis? Dann müsstest du dich evtl. ausloggen, und <a href='#login-dialog' class='linkint'>mit einem berechtigten Konto wieder einloggen</a>.</p>
         ZZZZZZZZZZ;
         $out .= "</div>";
-        $out .= OlzFooter::render();
+        $out .= OlzFooter::render([
+            'skip_modals' => true,
+        ]);
 
         return $out;
     }

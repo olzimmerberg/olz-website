@@ -16,6 +16,7 @@ class OlzOtherError {
         $out .= OlzHeaderWithoutRouting::render([
             'title' => "Fehler",
             'skip_auth_menu' => true,
+            'skip_counter' => true,
         ]);
         $out .= "<div id='content_double'>";
         $out .= <<<ZZZZZZZZZZ

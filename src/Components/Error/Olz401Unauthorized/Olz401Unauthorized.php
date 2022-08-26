@@ -14,6 +14,7 @@ class Olz401Unauthorized {
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
             'title' => "Fehler",
+            'skip_auth_menu' => true,
         ]);
         $out .= "<div id='content_double'>";
         $out .= <<<ZZZZZZZZZZ

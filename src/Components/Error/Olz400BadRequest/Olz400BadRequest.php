@@ -41,7 +41,9 @@ class Olz400BadRequest {
         </script></p>
         ZZZZZZZZZZ;
         $out .= "</div>";
-        $out .= OlzFooter::render();
+        $out .= OlzFooter::render([
+            'skip_modals' => true,
+        ]);
 
         return $out;
     }

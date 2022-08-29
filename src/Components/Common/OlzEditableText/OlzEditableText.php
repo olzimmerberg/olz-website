@@ -19,7 +19,7 @@ class OlzEditableText {
 
             $args['permission'] = "olz_text_{$olz_text_id}";
             $args['get_text'] = function () use ($olz_text) {
-                return $olz_text ? $olz_text->getText() : '';
+                return $olz_text ? ($olz_text->getText() ?? '') : '';
             };
             $args['endpoint'] = 'updateOlzText';
             $args['args'] = ['id' => $olz_text_id];

@@ -40,9 +40,14 @@ p {
     width: 250px;
 }
 
-.language-selection {
+.header-right {
     margin-left: auto !important;
     margin-right: 0;
+}
+
+.banner-icon {
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 .lang {
@@ -59,6 +64,7 @@ a.lang {
 
 .logo-container {
     position: fixed;
+    top: 0;
     right: 0;
     width: 180px;
     z-index: 10000;
@@ -67,11 +73,23 @@ a.lang {
 .logo-img {
     height: 130px;
     position: absolute;
-    top: -63px;
+    top: 9px;
 }
 
-.header-carousel {
-    margin-top: 72px;
+.nav-spacer {
+    height: 72px;
+}
+
+.banner {
+    background-color: rgb(255, 120, 120);
+    border: 1px solid rgb(200, 0, 0);
+    border-width: 1px 0;
+    margin: 15px 0;
+    padding: 5px 20px;
+
+    p {
+        margin: 0;
+    }
 }
 
 .header-carousel img {
@@ -196,14 +214,14 @@ ul.news {
         margin-right: 0 !important;
     }
 
-    .language-selection {
+    .header-right {
         margin-left: 20px;
         margin-right: auto !important;
     }
 }
 
 @media screen and (max-width: 900px) {
-    .language-selection {
+    .header-right {
         margin-left: 0;
     }
 

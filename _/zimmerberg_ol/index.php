@@ -1,6 +1,10 @@
 <?php
 
+use Olz\Entity\OlzText;
 use Olz\Utils\EnvUtils;
+
+global $entityManager;
+require_once __DIR__.'/../config/doctrine_db.php';
 
 $img_root = "/img/zol_2022/";
 
@@ -27,6 +31,19 @@ $lang_selection = array_map(
     $languages
 );
 $lang_selection_html = implode(' | ', $lang_selection);
+
+$olz_text_repo = $entityManager->getRepository(OlzText::class);
+$olz_text = $olz_text_repo->findOneBy(['id' => 23]);
+$banner = $olz_text ? ($olz_text->getText() ?? '') : '';
+$banner_icon = '';
+if (trim(strip_tags($banner)) !== '') {
+    $banner = "<div class='banner'>{$banner}</div>";
+    $banner_icon = <<<'ZZZZZZZZZZ'
+	<a href="#wichtig" class="banner-icon">
+		<img src="/icns/cancel_16.svg" alt="!"/>
+	</a>
+	ZZZZZZZZZZ;
+}
 
 echo <<<ZZZZZZZZZZ
 <!DOCTYPE html>
@@ -88,7 +105,8 @@ echo <<<ZZZZZZZZZZ
 					</a>
 				</li>
 			</ul>
-			<div class="language-selection">
+			<div class="header-right">
+				{$banner_icon}
 				{$lang_selection_html}
 			</div>
 		</div>
@@ -98,9 +116,14 @@ echo <<<ZZZZZZZZZZ
 			<img src="{$img_root}logo_260.png" alt="" class="logo-img">
 		</a>
 	</div>
+	<div class="nav-spacer"></div>
 
 	<!-- Header -->
 
+	<div class="content-anchor">
+		<span id="wichtig"></span>
+	</div>
+	{$banner}
 	<div class="header-carousel carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">

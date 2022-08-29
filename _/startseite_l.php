@@ -9,7 +9,7 @@ use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 
-global $db;
+global $db, $_DATE;
 
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/database.php';

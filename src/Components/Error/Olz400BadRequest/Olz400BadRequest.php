@@ -16,6 +16,7 @@ class Olz400BadRequest {
             'title' => "Fehler",
             'skip_auth_menu' => true,
             'skip_counter' => true,
+            'skip_top_boxes' => true,
         ]);
         $out .= "<div id='content_double'>";
         $out .= <<<ZZZZZZZZZZ

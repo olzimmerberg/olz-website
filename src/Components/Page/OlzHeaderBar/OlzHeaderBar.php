@@ -14,7 +14,6 @@ class OlzHeaderBar {
         global $_CONFIG, $db, $zugriff, $button_name;
         $out = '';
 
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/server.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
         require_once __DIR__.'/../../../../_/image_tools.php';
@@ -57,55 +56,59 @@ class OlzHeaderBar {
         }
         $out .= "<div style='flex-grow:1;'></div>";
 
-        $header_spalten = 2;
+        if (!($args['skip_top_boxes'] ?? false)) {
+            require_once __DIR__.'/../../../../_/config/database.php';
 
-        $db_table = "aktuell";
-        $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? ''))) ? true : false;
-        $button_name = 'button'.$db_table;
-        if (isset($_GET[$button_name])) {
-            $_POST[$button_name] = $_GET[$button_name];
-        }
-        if (isset($_POST[$button_name])) {
-            $_SESSION['edit']['db_table'] = $db_table;
-        }
+            $header_spalten = 2;
 
-        $sql = "SELECT * FROM {$db_table} WHERE (on_off != '0') AND (typ LIKE '%box%') ORDER BY typ ASC";
-        $result = $db->query($sql);
-
-        $ganze = [];
-        while ($row = mysqli_fetch_array($result)) {
-            $wichtig = substr($row["typ"], 3 + strpos(strtolower($row["typ"]), "box"));
-            if ($wichtig == "" || !in_array($wichtig, [0, 1, 2])) {
-                $wichtig = 2;
+            $db_table = "aktuell";
+            $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? ''))) ? true : false;
+            $button_name = 'button'.$db_table;
+            if (isset($_GET[$button_name])) {
+                $_POST[$button_name] = $_GET[$button_name];
+            }
+            if (isset($_POST[$button_name])) {
+                $_SESSION['edit']['db_table'] = $db_table;
             }
 
-            // Dateicode einfügen
-            $textlang = $row["textlang"];
-            preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $textlang, $matches);
-            // preg_match_all("/<datei([0-9]+)[^>]*(\s+file=(\"|\')([^\"\']+)(\"|\'))[^>]*>/i", $textlang, $matches_file);
+            $sql = "SELECT * FROM {$db_table} WHERE (on_off != '0') AND (typ LIKE '%box%') ORDER BY typ ASC";
+            $result = $db->query($sql);
 
-            for ($i = 0; $i < count($matches[0]); $i++) {
-                $tmptext = $matches[4][$i];
-                $tmpfile = $matches_file[4][$i];
-                // if($_SESSION['auth']=='all') $out .= $i."***2".$matches_file[4][$i]."<br>";
-                if (mb_strlen($tmptext) < 1) {
-                    $tmptext = "Datei ".$matches[1][$i];
+            $ganze = [];
+            while ($row = mysqli_fetch_array($result)) {
+                $wichtig = substr($row["typ"], 3 + strpos(strtolower($row["typ"]), "box"));
+                if ($wichtig == "" || !in_array($wichtig, [0, 1, 2])) {
+                    $wichtig = 2;
                 }
-                $tmp_html = olz_file($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
-                $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
+
+                // Dateicode einfügen
+                $textlang = $row["textlang"];
+                preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $textlang, $matches);
+                // preg_match_all("/<datei([0-9]+)[^>]*(\s+file=(\"|\')([^\"\']+)(\"|\'))[^>]*>/i", $textlang, $matches_file);
+
+                for ($i = 0; $i < count($matches[0]); $i++) {
+                    $tmptext = $matches[4][$i];
+                    $tmpfile = $matches_file[4][$i];
+                    // if($_SESSION['auth']=='all') $out .= $i."***2".$matches_file[4][$i]."<br>";
+                    if (mb_strlen($tmptext) < 1) {
+                        $tmptext = "Datei ".$matches[1][$i];
+                    }
+                    $tmp_html = olz_file($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
+                    $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
+                }
+
+                $tmp = ["id" => $row["id"], "wichtig" => $wichtig, "titel" => $row["titel"], "textlang" => $textlang];
+                array_push($ganze, $tmp);
             }
 
-            $tmp = ["id" => $row["id"], "wichtig" => $wichtig, "titel" => $row["titel"], "textlang" => $textlang];
-            array_push($ganze, $tmp);
-        }
+            $html_first_row = "";
+            for ($i = 0; $i < $header_spalten; $i++) {
+                $html_first_row = self::htmlbox($ganze[0], 1, $zugriff, $button_name).$html_first_row;
+                array_splice($ganze, 0, 1);
+            }
 
-        $html_first_row = "";
-        for ($i = 0; $i < $header_spalten; $i++) {
-            $html_first_row = self::htmlbox($ganze[0], 1, $zugriff, $button_name).$html_first_row;
-            array_splice($ganze, 0, 1);
+            $out .= $html_first_row;
         }
-
-        $out .= $html_first_row;
 
         // $out .= OlzHeaderJomCounter::render();
 

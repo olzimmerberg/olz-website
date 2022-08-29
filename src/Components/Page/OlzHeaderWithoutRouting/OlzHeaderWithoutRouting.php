@@ -67,6 +67,7 @@ class OlzHeaderWithoutRouting {
 
         $out .= OlzHeaderBar::render([
             'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
+            'skip_top_boxes' => $args['skip_top_boxes'] ?? false,
         ]);
 
         $out .= "<div class='site-container'>";

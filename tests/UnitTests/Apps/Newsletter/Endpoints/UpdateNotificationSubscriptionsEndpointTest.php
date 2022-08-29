@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Api\Endpoints;
+namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
 use Monolog\Logger;
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;

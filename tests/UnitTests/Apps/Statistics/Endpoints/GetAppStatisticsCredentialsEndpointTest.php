@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Apps\Results\Endpoints;
+namespace Olz\Tests\UnitTests\Apps\Statistics\Endpoints;
 
 use Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint;
 use Olz\Tests\Fake\FakeEnvUtils;

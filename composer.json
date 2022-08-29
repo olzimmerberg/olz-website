@@ -11,7 +11,7 @@
     },
     "optimize-autoloader": true,
     "platform": {
-      "php": "8.0.2"
+      "php": "8.1"
     },
     "preferred-install": {
       "*": "dist"
@@ -63,7 +63,7 @@
     "phpunit/phpunit": "^9"
   },
   "require": {
-    "php": ">=8.0.2",
+    "php": ">=8.1",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "allestuetsmerweh/php-deploy": "^1.0",

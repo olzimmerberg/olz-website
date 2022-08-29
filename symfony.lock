@@ -167,23 +167,11 @@
     "php-webdriver/webdriver": {
         "version": "1.12.1"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.3.0"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.6.1"
-    },
     "phpmailer/phpmailer": {
         "version": "v6.6.0"
     },
     "phpseclib/phpseclib": {
         "version": "2.0.37"
-    },
-    "phpspec/prophecy": {
-        "version": "v1.15.0"
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.15"
@@ -535,8 +523,5 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
-    },
-    "webmozart/assert": {
-        "version": "1.10.0"
     }
 }

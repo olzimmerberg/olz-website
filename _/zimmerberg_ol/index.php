@@ -17,6 +17,8 @@ $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
 $css_href = "/jsbuild/zimmerberg_ol/main.min.css?modified={$css_modified}";
 $js_href = "/jsbuild/zimmerberg_ol/main.min.js?modified={$js_modified}";
 
+// Translation
+
 require_once __DIR__.'/translations.php';
 $selected_lang = ($_GET['lang'] ?? 'de') === 'fr' ? 'fr' : 'de';
 $_ = $translations[$selected_lang];
@@ -32,6 +34,8 @@ $lang_selection = array_map(
 );
 $lang_selection_html = implode(' | ', $lang_selection);
 
+// Banner
+
 $olz_text_repo = $entityManager->getRepository(OlzText::class);
 $olz_text = $olz_text_repo->findOneBy(['id' => 23]);
 $banner = $olz_text ? ($olz_text->getText() ?? '') : '';
@@ -44,6 +48,137 @@ if (trim(strip_tags($banner)) !== '') {
 	</a>
 	ZZZZZZZZZZ;
 }
+
+// Course data
+
+$course_data_sat_rows = [
+    ['course' => 'HE', 'distance' => '10.6', 'elevation' => '560'],
+    ['course' => 'HAL', 'distance' => '7.7', 'elevation' => '450'],
+    ['course' => 'HAM', 'distance' => '6.1', 'elevation' => '250'],
+    ['course' => 'HAK', 'distance' => '4.1', 'elevation' => '180'],
+    ['course' => 'HB', 'distance' => '4.3', 'elevation' => '210'],
+    ['course' => 'H35', 'distance' => '6.1', 'elevation' => '300'],
+    ['course' => 'H40', 'distance' => '6.3', 'elevation' => '300'],
+    ['course' => 'H45', 'distance' => '6.2', 'elevation' => '295'],
+    ['course' => 'H50', 'distance' => '6.2', 'elevation' => '290'],
+    ['course' => 'H55', 'distance' => '6.1', 'elevation' => '275'],
+    ['course' => 'H60', 'distance' => '5.5', 'elevation' => '210'],
+    ['course' => 'H65', 'distance' => '5.0', 'elevation' => '230'],
+    ['course' => 'H70', 'distance' => '4.8', 'elevation' => '180'],
+    ['course' => 'H75', 'distance' => '4.2', 'elevation' => '160'],
+    ['course' => 'H80', 'distance' => '3.5', 'elevation' => '100'],
+    ['course' => 'H85', 'distance' => '3.2', 'elevation' => '90'],
+    ['course' => 'H20', 'distance' => '8.5', 'elevation' => '450'],
+    ['course' => 'H18', 'distance' => '7.3', 'elevation' => '330'],
+    ['course' => 'H16', 'distance' => '6.0', 'elevation' => '280'],
+    ['course' => 'H14', 'distance' => '4.7', 'elevation' => '220'],
+    ['course' => 'H12', 'distance' => '3.3', 'elevation' => '160'],
+    ['course' => 'H10', 'distance' => '2.2', 'elevation' => '60'],
+    ['course' => 'DE', 'distance' => '7.4', 'elevation' => '345'],
+    ['course' => 'DAL', 'distance' => '5.2', 'elevation' => '280'],
+    ['course' => 'DAM', 'distance' => '4.9', 'elevation' => '180'],
+    ['course' => 'DAK', 'distance' => '3.1', 'elevation' => '150'],
+    ['course' => 'DB', 'distance' => '2.9', 'elevation' => '140'],
+    ['course' => 'D35', 'distance' => '5.2', 'elevation' => '230'],
+    ['course' => 'D40', 'distance' => '5.0', 'elevation' => '270'],
+    ['course' => 'D45', 'distance' => '4.8', 'elevation' => '240'],
+    ['course' => 'D50', 'distance' => '5.3', 'elevation' => '200'],
+    ['course' => 'D55', 'distance' => '4.6', 'elevation' => '215'],
+    ['course' => 'D60', 'distance' => '5.0', 'elevation' => '190'],
+    ['course' => 'D65', 'distance' => '4.9', 'elevation' => '170'],
+    ['course' => 'D70', 'distance' => '3.9', 'elevation' => '160'],
+    ['course' => 'D75', 'distance' => '3.0', 'elevation' => '70'],
+    ['course' => 'D80', 'distance' => '2.6', 'elevation' => '60'],
+    ['course' => 'D20', 'distance' => '5.7', 'elevation' => '270'],
+    ['course' => 'D18', 'distance' => '5.5', 'elevation' => '210'],
+    ['course' => 'D16', 'distance' => '5.1', 'elevation' => '190'],
+    ['course' => 'D14', 'distance' => '4.3', 'elevation' => '170'],
+    ['course' => 'D12', 'distance' => '2.9', 'elevation' => '150'],
+    ['course' => 'D10', 'distance' => '2.2', 'elevation' => '60'],
+    ['course' => 'OL', 'distance' => '4.0', 'elevation' => '170'],
+    ['course' => 'OM', 'distance' => '3.5', 'elevation' => '120'],
+    ['course' => 'OK', 'distance' => '2.2', 'elevation' => '70'],
+    ['course' => 'sCOOL', 'distance' => '2.1', 'elevation' => '60'],
+];
+
+$course_data_sun_rows = [
+    ['course' => 'HE', 'distance' => '5.4', 'elevation' => '215'],
+    ['course' => 'HAL', 'distance' => '5.1', 'elevation' => '225'],
+    ['course' => 'HAM', 'distance' => '3.7', 'elevation' => '160'],
+    ['course' => 'HAK', 'distance' => '3.5', 'elevation' => '120'],
+    ['course' => 'HB', 'distance' => '3.2', 'elevation' => '120'],
+    ['course' => 'H35', 'distance' => '4.1', 'elevation' => '175'],
+    ['course' => 'H40', 'distance' => '3.9', 'elevation' => '155'],
+    ['course' => 'H45', 'distance' => '4.0', 'elevation' => '160'],
+    ['course' => 'H50', 'distance' => '4.0', 'elevation' => '175'],
+    ['course' => 'H55', 'distance' => '3.8', 'elevation' => '145'],
+    ['course' => 'H60', 'distance' => '3.6', 'elevation' => '155'],
+    ['course' => 'H65', 'distance' => '3.3', 'elevation' => '110'],
+    ['course' => 'H70', 'distance' => '3.2', 'elevation' => '105'],
+    ['course' => 'H75', 'distance' => '2.8', 'elevation' => '105'],
+    ['course' => 'H80', 'distance' => '2.1', 'elevation' => '60'],
+    ['course' => 'H85', 'distance' => '2.1', 'elevation' => '60'],
+    ['course' => 'H20', 'distance' => '5.1', 'elevation' => '235'],
+    ['course' => 'H18', 'distance' => '4.7', 'elevation' => '160'],
+    ['course' => 'H16', 'distance' => '3.9', 'elevation' => '180'],
+    ['course' => 'H14', 'distance' => '3.2', 'elevation' => '125'],
+    ['course' => 'H12', 'distance' => '2.9', 'elevation' => '75'],
+    ['course' => 'H10', 'distance' => '2.2', 'elevation' => '40'],
+    ['course' => 'DE', 'distance' => '3.8', 'elevation' => '185'],
+    ['course' => 'DAL', 'distance' => '3.7', 'elevation' => '140'],
+    ['course' => 'DAM', 'distance' => '3.5', 'elevation' => '130'],
+    ['course' => 'DAK', 'distance' => '2.7', 'elevation' => '105'],
+    ['course' => 'DB', 'distance' => '2.6', 'elevation' => '60'],
+    ['course' => 'D35', 'distance' => '3.5', 'elevation' => '115'],
+    ['course' => 'D40', 'distance' => '3.6', 'elevation' => '150'],
+    ['course' => 'D45', 'distance' => '3.4', 'elevation' => '130'],
+    ['course' => 'D50', 'distance' => '3.7', 'elevation' => '145'],
+    ['course' => 'D55', 'distance' => '3.4', 'elevation' => '120'],
+    ['course' => 'D60', 'distance' => '3.1', 'elevation' => '115'],
+    ['course' => 'D65', 'distance' => '2.6', 'elevation' => '95'],
+    ['course' => 'D70', 'distance' => '2.6', 'elevation' => '90'],
+    ['course' => 'D75', 'distance' => '2.1', 'elevation' => '105'],
+    ['course' => 'D80', 'distance' => '2.2', 'elevation' => '60'],
+    ['course' => 'D20', 'distance' => '3.8', 'elevation' => '145'],
+    ['course' => 'D18', 'distance' => '3.6', 'elevation' => '150'],
+    ['course' => 'D16', 'distance' => '3.4', 'elevation' => '120'],
+    ['course' => 'D14', 'distance' => '3.2', 'elevation' => '125'],
+    ['course' => 'D12', 'distance' => '2.8', 'elevation' => '75'],
+    ['course' => 'D10', 'distance' => '2.2', 'elevation' => '40'],
+    ['course' => 'OK', 'distance' => '4.1', 'elevation' => '155'],
+    ['course' => 'OM', 'distance' => '3.2', 'elevation' => '110'],
+    ['course' => 'OK', 'distance' => '2.2', 'elevation' => '40'],
+];
+
+function render_course_data($rows) {
+    global $_;
+    $out = '<table class="course-data">';
+    $columns = ['course', 'distance', 'elevation'];
+    $out .= '<tr>';
+    foreach ($columns as $column) {
+        $translation_key = "course_data_{$column}";
+        $column_title = $_->{$translation_key};
+        $out .= "<th>{$column_title}</th>";
+    }
+    $out .= '</tr>';
+    foreach ($rows as $row) {
+        $out .= '</tr>';
+        foreach ($columns as $column) {
+            $cell_data = $row[$column];
+            $prefix_key = "course_data_{$column}_prefix";
+            $prefix = $_->{$prefix_key};
+            $suffix_key = "course_data_{$column}_suffix";
+            $suffix = $_->{$suffix_key};
+            $out .= "<td>{$prefix}{$cell_data}{$suffix}</td>";
+        }
+        $out .= '</tr>';
+    }
+    $out .= '</table>';
+    return $out;
+}
+
+$course_data_sat = render_course_data($course_data_sat_rows);
+$course_data_sun = render_course_data($course_data_sun_rows);
 
 echo <<<ZZZZZZZZZZ
 <!DOCTYPE html>
@@ -383,7 +518,9 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<p><i>{$_->not_yet_available}</i></p>
+		<p><i>{$_->tentative}</i></p>
+		<p></p>
+		{$course_data_sat}
 		<p></p>
 	</div>
 
@@ -587,7 +724,9 @@ echo <<<ZZZZZZZZZZ
 
 	<div class="content">
 		<p></p>
-		<p><i>{$_->not_yet_available}</i></p>
+		<p><i>{$_->tentative}</i></p>
+		<p></p>
+		{$course_data_sun}
 		<p></p>
 	</div>
 

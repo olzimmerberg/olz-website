@@ -163,6 +163,7 @@ a.lang {
 
 .content .info-table td {
     border-top: solid #888 1px;
+    padding-right: 10px;
     vertical-align: top;
 }
 
@@ -194,6 +195,14 @@ ul.news {
 
 .img.row .col {
     padding: 5px;
+}
+
+.course-data {
+    td, th {
+        border-top: solid #888 1px;
+        padding-right: 15px;
+        vertical-align: top;
+    }
 }
 
 .sponsors .col {

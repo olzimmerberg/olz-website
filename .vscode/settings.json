@@ -1,4 +1,10 @@
 {
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.rulers": [
+        80
+    ],
+    "editor.tabSize": 4,
     "search.exclude": {
         "coverage/**": true,
         "php-coverage/**": true,
@@ -6,5 +12,5 @@
         "_/library/**": true,
         "tools/remote_config/vendor/**": true,
         "**/jsbuild/**": true,
-    }
+    },
 }

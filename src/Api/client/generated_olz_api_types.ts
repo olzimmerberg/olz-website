@@ -137,7 +137,8 @@ export type OlzApiEndpoint =
     'registerSkillCategories'|
     'registerSkills'|
     'updateResults'|
-    'getAppStatisticsCredentials';
+    'getAppStatisticsCredentials'|
+    'getAppYoutubeCredentials';
 
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
 
@@ -334,6 +335,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'content': string,
         },
     getAppStatisticsCredentials: Record<string, never>,
+    getAppYoutubeCredentials: Record<string, never>,
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
@@ -482,6 +484,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
         },
     getAppStatisticsCredentials: {
+            'username': string,
+            'password': string,
+        },
+    getAppYoutubeCredentials: {
             'username': string,
             'password': string,
         },

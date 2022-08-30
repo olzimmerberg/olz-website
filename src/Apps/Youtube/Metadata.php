@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Apps\Statistics;
+namespace Olz\Apps\Youtube;
 
 use Olz\Apps\BaseAppMetadata;
 use Olz\Entity\User;
@@ -8,7 +8,7 @@ use Olz\Utils\AuthUtils;
 
 class Metadata extends BaseAppMetadata {
     public function getDisplayName(): string {
-        return 'Website-Statistiken';
+        return 'YouTube-Kanal';
     }
 
     public function getPath(): string {
@@ -16,11 +16,11 @@ class Metadata extends BaseAppMetadata {
     }
 
     public function getHref(): string {
-        return '/apps/statistics/';
+        return '/apps/youtube/';
     }
 
     public function isAccessibleToUser(?User $user): bool {
         $auth_utils = AuthUtils::fromEnv();
-        return $auth_utils->hasPermission('vorstand', $user);
+        return $auth_utils->hasPermission('all', $user);
     }
 }

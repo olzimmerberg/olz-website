@@ -7,6 +7,8 @@
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
+global $entityManager;
+
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(
     [__DIR__.'/../../src/Entity'],

@@ -634,7 +634,7 @@ echo <<<ZZZZZZZZZZ
                     <div class="dropdown-menu" aria-labelledby="navbar-dropdown-samstag">
                         <a class="dropdown-item" href="#laufgebiet-samstag">{$_->terrain}</a>
                         <a class="dropdown-item" href="#ausschreibung-samstag">{$_->announcement}</a>
-                        <a class="dropdown-item disabled" href="#anmeldung-samstag">{$_->entry}</a>
+                        <a class="dropdown-item" href="#anmeldung-samstag">{$_->entry}</a>
                         <a class="dropdown-item disabled" href="#weisungen-samstag">{$_->directives}</a>
                         <a class="dropdown-item" href="#streckendaten-samstag">{$_->course_data}</a>
                     </div>
@@ -646,7 +646,7 @@ echo <<<ZZZZZZZZZZ
                     <div class="dropdown-menu" aria-labelledby="navbar-dropdown-sonntag">
                         <a class="dropdown-item" href="#laufgebiet-sonntag">{$_->terrain}</a>
                         <a class="dropdown-item" href="#ausschreibung-sonntag">{$_->announcement}</a>
-                        <a class="dropdown-item disabled" href="#anmeldung-sonntag">{$_->entry}</a>
+                        <a class="dropdown-item" href="#anmeldung-sonntag">{$_->entry}</a>
                         <a class="dropdown-item disabled" href="#weisungen-sonntag">{$_->directives}</a>
                         <a class="dropdown-item" href="#streckendaten-sonntag">{$_->course_data}</a>
                     </div>
@@ -913,7 +913,7 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
-        <p><i>{$_->not_yet_available}</i></p>
+        <p>{$_->entry_sat_text}</p>
         <p></p>
     </div>
 
@@ -1119,7 +1119,7 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
-        <p><i>{$_->not_yet_available}</i></p>
+        <p>{$_->entry_sun_text}</p>
         <p></p>
     </div>
     

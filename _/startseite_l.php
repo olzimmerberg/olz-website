@@ -85,7 +85,7 @@ while ($row = $result->fetch_assoc()) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
-        $bild = olz_image("blog", $id, 1, 110, null, " style='float:left; margin:0px 5px 0px 0px;'");
+        $bild = olz_image("blog", $id, 1, 110, 'image', " style='float:left; margin:0px 5px 0px 0px;'");
         $text = str_replace("<BILD1>", $bild, $text);
 
         // Dateicode einfügen
@@ -141,7 +141,7 @@ while ($row = $result->fetch_assoc()) {
                     $randtmp = rand(1, $groesse);
                 }
                 array_push($rand, $randtmp);
-                $text .= "<td class='test-flaky'>".olz_image("galerie", $id, $randtmp, 110, null)."</td>";
+                $text .= "<td class='test-flaky'>".olz_image("galerie", $id, $randtmp, 110, 'image')."</td>";
             }
         }
         if ($typ == 'foto') {

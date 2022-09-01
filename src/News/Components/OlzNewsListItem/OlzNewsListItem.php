@@ -25,7 +25,7 @@ class OlzNewsListItem {
             $text,
             $news_entry->getId(),
             $image_ids,
-            null,
+            'image',
             " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
         );
 

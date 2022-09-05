@@ -356,6 +356,9 @@ $translations_fr = [
     'early_birds_sat_text' => 'La vue panoramique et les joies de la montagne sont presque sans limites. En revanche, la capacité de la ligne téléphérique est limitée, notamment en raison de la coupe du monde. Les participants qui emprunteront la ligne avant 8h45 seront pour cette raison récompensés (les infos seront publiées sur la page d\'accueil si l\'accord est obtenu vis-à-vis de la coupe du monde et la retransmission télévisuelle).',
     'company' => 'Accompagnants',
     'company_sat_text' => 'Ticket combiné à CHF 35 pour le trajet du retour (comprenant un avoir de CHF 20 pour les consommations le jour de la course), prix pour un trajet retour seul : CHF 29',
+    'entry_sat_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Inscription sur ol-events.ch</a><br>Date limite d\'inscription: Lundi 19 septembre 2022, 23h59',
+    'entry_sun_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Inscription sur ol-events.ch</a><br>Date limite d\'inscription: Lundi 19 septembre 2022, 23h59',
+
     'course_data_course' => 'Course',
     'course_data_distance' => 'Distance',
     'course_data_elevation' => 'Montée',

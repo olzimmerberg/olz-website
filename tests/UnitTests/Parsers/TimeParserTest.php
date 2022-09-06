@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Parsers\TimeParser
  */
 final class TimeParserTest extends UnitTestCase {

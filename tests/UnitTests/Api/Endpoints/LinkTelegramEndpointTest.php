@@ -13,6 +13,7 @@ use Olz\Utils\MemorySession;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\LinkTelegramEndpoint
  */
 final class LinkTelegramEndpointTest extends UnitTestCase {

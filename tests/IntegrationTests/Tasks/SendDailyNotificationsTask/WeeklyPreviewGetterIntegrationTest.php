@@ -13,6 +13,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter
  */
 final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {

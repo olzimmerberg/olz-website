@@ -1,7 +1,7 @@
 <?php
 
-use League\Flysystem\PhpseclibV2\SftpAdapter;
-use League\Flysystem\PhpseclibV2\SftpConnectionProvider;
+use League\Flysystem\PhpseclibV3\SftpAdapter;
+use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;

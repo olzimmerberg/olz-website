@@ -34,6 +34,7 @@ class OlzCreateEntityConcreteEndpoint extends OlzCreateEntityEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\OlzCreateEntityEndpoint
  */
 final class OlzCreateEntityEndpointTest extends UnitTestCase {

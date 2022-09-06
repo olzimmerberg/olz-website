@@ -59,6 +59,7 @@ class FakeFailingTask extends BackgroundTask {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\Common\BackgroundTask
  */
 final class BackgroundTaskTest extends UnitTestCase {

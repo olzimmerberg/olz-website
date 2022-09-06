@@ -14,6 +14,7 @@ class AllDependenciesDeclaredClassWithUtilsTrait {
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AllDependenciesDeclaredTest extends UnitTestCase {

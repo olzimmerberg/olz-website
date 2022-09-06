@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Termine\Utils\TermineFilterUtils
  */
 final class TermineFilterUtilsIntegrationTest extends IntegrationTestCase {

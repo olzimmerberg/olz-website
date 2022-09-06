@@ -9,6 +9,7 @@ use Olz\Utils\AuthUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\AuthUtils
  */
 final class AuthUtilsIntegrationTest extends IntegrationTestCase {

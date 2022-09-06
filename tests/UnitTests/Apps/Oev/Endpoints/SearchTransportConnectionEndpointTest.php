@@ -28,6 +28,7 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint
  */
 final class SearchTransportConnectionEndpointTest extends UnitTestCase {

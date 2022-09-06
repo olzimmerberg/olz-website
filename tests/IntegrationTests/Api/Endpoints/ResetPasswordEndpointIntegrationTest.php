@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ResetPasswordEndpointForIntegrationTest extends ResetPasswordEndpoint {
@@ -19,6 +20,7 @@ class ResetPasswordEndpointForIntegrationTest extends ResetPasswordEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\ResetPasswordEndpoint
  */
 final class ResetPasswordEndpointIntegrationTest extends IntegrationTestCase {

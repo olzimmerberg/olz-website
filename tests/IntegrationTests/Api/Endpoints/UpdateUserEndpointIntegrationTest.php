@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class UpdateUserEndpointForIntegrationTest extends UpdateUserEndpoint {
@@ -23,6 +24,7 @@ class UpdateUserEndpointForIntegrationTest extends UpdateUserEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\UpdateUserEndpoint
  */
 final class UpdateUserEndpointIntegrationTest extends IntegrationTestCase {

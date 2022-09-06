@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Parsers\SolvEventParser
  */
 final class SolvEventParserTest extends UnitTestCase {

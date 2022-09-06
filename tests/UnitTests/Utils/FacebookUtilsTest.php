@@ -43,6 +43,7 @@ class FakeFacebookUtilsFacebookFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\FacebookUtils
  */
 final class FacebookUtilsTest extends UnitTestCase {

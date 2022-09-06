@@ -184,6 +184,7 @@ class FakeGoogleUtilsGoogleFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\GoogleUtils
  */
 final class GoogleUtilsTest extends UnitTestCase {

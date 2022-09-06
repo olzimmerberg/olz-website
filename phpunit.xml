@@ -15,10 +15,10 @@
     </php>
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory>./tests/unit_tests</directory>
+            <directory>./tests/UnitTests</directory>
         </testsuite>
         <testsuite name="Integration Tests">
-            <directory>./tests/integration_tests</directory>
+            <directory>./tests/IntegrationTests</directory>
         </testsuite>
     </testsuites>
     <coverage 

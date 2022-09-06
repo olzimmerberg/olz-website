@@ -18,6 +18,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\LoginEndpoint
  */
 final class LoginEndpointTest extends UnitTestCase {

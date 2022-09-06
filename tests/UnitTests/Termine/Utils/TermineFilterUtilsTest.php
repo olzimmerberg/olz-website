@@ -11,6 +11,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Termine\Utils\TermineFilterUtils
  */
 final class TermineFilterUtilsTest extends UnitTestCase {

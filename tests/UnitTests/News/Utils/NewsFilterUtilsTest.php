@@ -11,6 +11,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\News\Utils\NewsFilterUtils
  */
 final class NewsFilterUtilsTest extends UnitTestCase {

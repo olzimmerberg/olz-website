@@ -11,6 +11,7 @@ use PhpTypeScriptApi\Endpoint;
 /**
  * @internal
  * covers different Classes!
+ *
  * @coversNothing
  */
 final class OlzApiIntegrationTest extends IntegrationTestCase {

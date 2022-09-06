@@ -13,6 +13,7 @@ use Olz\Utils\OlzMailer;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class OlzMailerForTest extends OlzMailer {
@@ -25,6 +26,7 @@ class OlzMailerForTest extends OlzMailer {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\OlzMailer
  */
 final class OlzMailerTest extends UnitTestCase {

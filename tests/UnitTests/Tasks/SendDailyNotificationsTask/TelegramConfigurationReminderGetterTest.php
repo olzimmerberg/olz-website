@@ -14,6 +14,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter
  */
 final class TelegramConfigurationReminderGetterTest extends UnitTestCase {

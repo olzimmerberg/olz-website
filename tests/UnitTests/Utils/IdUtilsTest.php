@@ -10,6 +10,7 @@ use Olz\Utils\IdUtils;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class IdUtilsIdUtilsForTest extends IdUtils {
@@ -40,6 +41,7 @@ class IdUtilsIdUtilsForTest extends IdUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\IdUtils
  */
 final class IdUtilsTest extends UnitTestCase {

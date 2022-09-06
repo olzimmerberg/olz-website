@@ -13,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Youtube\Endpoints\GetAppYoutubeCredentialsEndpoint
  */
 final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {

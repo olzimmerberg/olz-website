@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Oev\Utils\TransportHalt
  */
 final class TransportHaltTest extends UnitTestCase {

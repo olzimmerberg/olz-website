@@ -12,6 +12,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\FinishUploadEndpoint
  */
 final class FinishUploadEndpointTest extends UnitTestCase {

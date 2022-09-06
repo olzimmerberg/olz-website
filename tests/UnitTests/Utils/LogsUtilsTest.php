@@ -12,6 +12,7 @@ use Olz\Utils\LogsUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\LogsUtils
  */
 final class LogsUtilsTest extends UnitTestCase {

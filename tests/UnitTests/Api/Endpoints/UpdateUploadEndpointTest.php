@@ -13,6 +13,7 @@ use Olz\Utils\UploadUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\UpdateUploadEndpoint
  */
 final class UpdateUploadEndpointTest extends UnitTestCase {

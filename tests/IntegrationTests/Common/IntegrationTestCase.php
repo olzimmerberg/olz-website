@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class IntegrationTestCase extends KernelTestCase {

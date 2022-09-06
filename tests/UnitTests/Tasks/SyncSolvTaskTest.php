@@ -54,6 +54,7 @@ class FakeSolvPeopleMerger {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SyncSolvTask
  */
 final class SyncSolvTaskTest extends UnitTestCase {

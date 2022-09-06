@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint
  */
 final class GetPrefillValuesEndpointTest extends UnitTestCase {

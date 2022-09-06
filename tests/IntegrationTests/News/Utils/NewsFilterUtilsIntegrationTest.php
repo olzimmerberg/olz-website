@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\News\Utils\NewsFilterUtils
  */
 final class NewsFilterUtilsIntegrationTest extends IntegrationTestCase {

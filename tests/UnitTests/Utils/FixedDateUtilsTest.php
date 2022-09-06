@@ -9,6 +9,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\FixedDateUtils
  */
 final class FixedDateUtilsTest extends UnitTestCase {

@@ -33,6 +33,7 @@ class FakeEntityUtilsRoleRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\EntityUtils
  */
 final class EntityUtilsTest extends UnitTestCase {

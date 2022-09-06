@@ -13,6 +13,7 @@ use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {

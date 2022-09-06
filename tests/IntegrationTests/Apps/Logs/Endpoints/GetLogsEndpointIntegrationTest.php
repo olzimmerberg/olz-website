@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class GetLogsEndpointForIntegrationTest extends GetLogsEndpoint {
@@ -23,6 +24,7 @@ class GetLogsEndpointForIntegrationTest extends GetLogsEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Logs\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointIntegrationTest extends IntegrationTestCase {

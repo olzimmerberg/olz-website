@@ -8,6 +8,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class DevDataTest extends IntegrationTestCase {

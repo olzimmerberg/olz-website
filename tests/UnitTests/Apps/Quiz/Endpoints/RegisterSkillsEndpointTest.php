@@ -38,6 +38,7 @@ class FakeRegisterSkillsEndpointSkillRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint
  */
 final class RegisterSkillsEndpointTest extends UnitTestCase {

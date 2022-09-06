@@ -36,6 +36,7 @@ class FakeCreateNewsEndpointRoleRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\News\Endpoints\CreateNewsEndpoint
  */
 final class CreateNewsEndpointTest extends UnitTestCase {

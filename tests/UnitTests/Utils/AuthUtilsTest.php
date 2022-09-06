@@ -61,6 +61,7 @@ class FakeAuthUtilsAuthRequestRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\AuthUtils
  */
 final class AuthUtilsTest extends UnitTestCase {

@@ -30,6 +30,7 @@ class DeterministicGetWebdavAccessTokenEndpoint extends GetWebdavAccessTokenEndp
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint
  */
 final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {

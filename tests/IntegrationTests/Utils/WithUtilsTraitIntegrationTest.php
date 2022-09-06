@@ -26,6 +26,7 @@ class WithUtilsTraitIntegrationClassWithUtilsTrait {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\WithUtilsTrait
  */
 final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {

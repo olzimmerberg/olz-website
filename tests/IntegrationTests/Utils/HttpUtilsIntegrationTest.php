@@ -12,6 +12,7 @@ use PhpTypeScriptApi\Fields\FieldUtils;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class HttpUtilsForIntegrationTest extends HttpUtils {
@@ -46,6 +47,7 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\HttpUtils
  */
 final class HttpUtilsIntegrationTest extends IntegrationTestCase {

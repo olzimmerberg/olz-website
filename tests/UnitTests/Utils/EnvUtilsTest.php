@@ -9,6 +9,7 @@ use Olz\Utils\EnvUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\EnvUtils
  */
 final class EnvUtilsTest extends UnitTestCase {

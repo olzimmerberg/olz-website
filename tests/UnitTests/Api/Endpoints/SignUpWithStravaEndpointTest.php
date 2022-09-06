@@ -34,6 +34,7 @@ class FakeSignUpWithStravaEndpointAuthRequestRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\SignUpWithStravaEndpoint
  */
 final class SignUpWithStravaEndpointTest extends UnitTestCase {

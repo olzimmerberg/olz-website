@@ -9,6 +9,7 @@ use Olz\Utils\HttpUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\HttpUtils
  */
 final class HttpUtilsTest extends UnitTestCase {

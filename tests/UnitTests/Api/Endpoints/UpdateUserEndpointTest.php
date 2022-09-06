@@ -17,6 +17,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class UpdateUserEndpointForTest extends UpdateUserEndpoint {
@@ -34,6 +35,7 @@ class UpdateUserEndpointForTest extends UpdateUserEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\UpdateUserEndpoint
  */
 final class UpdateUserEndpointTest extends UnitTestCase {

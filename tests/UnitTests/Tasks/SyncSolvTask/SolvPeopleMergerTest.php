@@ -53,6 +53,7 @@ class FakeSolvPeopleMergerSolvResultRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleMerger
  */
 final class SolvPeopleMergerTest extends UnitTestCase {

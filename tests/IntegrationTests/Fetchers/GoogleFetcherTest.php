@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Fetchers\GoogleFetcher
  */
 final class GoogleFetcherTest extends IntegrationTestCase {

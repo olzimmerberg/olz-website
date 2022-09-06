@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Fetchers\StravaFetcher
  */
 final class StravaFetcherTest extends IntegrationTestCase {

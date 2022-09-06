@@ -9,6 +9,7 @@ use Olz\Utils\UserAgentUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\UserAgentUtils
  */
 final class UserAgentUtilsIntegrationTest extends IntegrationTestCase {

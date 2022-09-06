@@ -17,6 +17,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint
  */
 final class CreateRegistrationEndpointTest extends UnitTestCase {

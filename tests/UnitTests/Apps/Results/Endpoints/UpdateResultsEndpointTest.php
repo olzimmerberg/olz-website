@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Results\Endpoints\UpdateResultsEndpoint
  */
 final class UpdateResultsEndpointTest extends UnitTestCase {

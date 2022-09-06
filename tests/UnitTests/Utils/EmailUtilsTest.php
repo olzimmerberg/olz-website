@@ -19,6 +19,7 @@ class FakeEnvUtilsForSendmail extends FakeEnvUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\EmailUtils
  */
 final class EmailUtilsTest extends UnitTestCase {

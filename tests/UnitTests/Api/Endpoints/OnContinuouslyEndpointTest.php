@@ -17,6 +17,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\OnContinuouslyEndpoint
  */
 final class OnContinuouslyEndpointTest extends UnitTestCase {

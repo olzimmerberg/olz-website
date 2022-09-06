@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {

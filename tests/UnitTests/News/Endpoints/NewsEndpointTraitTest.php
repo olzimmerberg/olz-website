@@ -31,6 +31,7 @@ class NewsEndpointTraitConcreteEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\News\Endpoints\NewsEndpointTrait
  */
 final class NewsEndpointTraitTest extends UnitTestCase {

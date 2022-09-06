@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Fetchers\TelegramFetcher
  */
 final class TelegramFetcherTest extends IntegrationTestCase {

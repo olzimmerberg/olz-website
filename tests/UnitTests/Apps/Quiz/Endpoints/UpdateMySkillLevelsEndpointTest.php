@@ -44,6 +44,7 @@ class FakeUpdateMySkillLevelsEndpointSkillLevelRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint
  */
 final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {

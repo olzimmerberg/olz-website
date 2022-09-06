@@ -21,6 +21,7 @@ class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint
  */
 final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {

@@ -13,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint
  */
 final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {

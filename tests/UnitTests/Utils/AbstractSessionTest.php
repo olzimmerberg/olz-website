@@ -9,6 +9,7 @@ use Olz\Utils\AbstractSession;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\AbstractSession
  */
 final class AbstractSessionTest extends UnitTestCase {

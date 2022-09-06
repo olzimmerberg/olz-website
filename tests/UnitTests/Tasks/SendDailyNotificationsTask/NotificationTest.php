@@ -10,6 +10,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\Notification
  */
 final class NotificationTest extends UnitTestCase {

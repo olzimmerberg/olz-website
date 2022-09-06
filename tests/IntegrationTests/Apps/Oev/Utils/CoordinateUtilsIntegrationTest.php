@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Oev\Utils\CoordinateUtils
  */
 final class CoordinateUtilsIntegrationTest extends IntegrationTestCase {

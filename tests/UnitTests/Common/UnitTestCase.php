@@ -13,6 +13,7 @@ require_once __DIR__.'/../../../_/tools/common.php';
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class UnitTestCase extends TestCase {

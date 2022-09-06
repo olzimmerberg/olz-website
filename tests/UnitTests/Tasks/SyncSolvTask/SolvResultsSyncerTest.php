@@ -161,6 +161,7 @@ class FakeSolvResultsSyncerSolvFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SyncSolvTask\SolvResultsSyncer
  */
 final class SolvResultsSyncerTest extends UnitTestCase {

@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Oev\Utils\CoordinateUtils
  */
 final class CoordinateUtilsTest extends UnitTestCase {

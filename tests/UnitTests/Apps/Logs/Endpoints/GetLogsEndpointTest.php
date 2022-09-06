@@ -13,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class GetLogsEndpointForTest extends GetLogsEndpoint {
@@ -36,6 +37,7 @@ class GetLogsEndpointForTest extends GetLogsEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Logs\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointTest extends UnitTestCase {

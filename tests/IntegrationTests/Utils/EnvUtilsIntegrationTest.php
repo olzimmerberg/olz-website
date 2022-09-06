@@ -17,6 +17,7 @@ class FakeIntegrationTestEnvUtils extends EnvUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\EnvUtils
  */
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {

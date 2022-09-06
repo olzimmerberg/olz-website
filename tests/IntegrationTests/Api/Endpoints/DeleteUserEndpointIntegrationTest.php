@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class DeleteUserEndpointForIntegrationTest extends DeleteUserEndpoint {
@@ -27,6 +28,7 @@ class DeleteUserEndpointForIntegrationTest extends DeleteUserEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointIntegrationTest extends IntegrationTestCase {

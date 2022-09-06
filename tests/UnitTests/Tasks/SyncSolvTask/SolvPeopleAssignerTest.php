@@ -84,6 +84,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleAssigner
  */
 final class SolvPeopleAssignerTest extends UnitTestCase {

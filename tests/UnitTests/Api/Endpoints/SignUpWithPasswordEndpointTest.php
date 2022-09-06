@@ -38,6 +38,7 @@ class FakeSignUpWithPasswordEndpointAuthRequestRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\SignUpWithPasswordEndpoint
  */
 final class SignUpWithPasswordEndpointTest extends UnitTestCase {

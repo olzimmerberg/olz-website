@@ -10,6 +10,7 @@ use Olz\Utils\UploadUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\UploadUtils
  */
 final class UploadUtilsTest extends UnitTestCase {

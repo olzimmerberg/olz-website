@@ -135,6 +135,7 @@ class DeterministicTelegramUtils extends TelegramUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\TelegramUtils
  */
 final class TelegramUtilsTest extends UnitTestCase {

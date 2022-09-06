@@ -9,6 +9,7 @@ use Olz\Utils\HtmlUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\HtmlUtils
  */
 final class HtmlUtilsIntegrationTest extends IntegrationTestCase {

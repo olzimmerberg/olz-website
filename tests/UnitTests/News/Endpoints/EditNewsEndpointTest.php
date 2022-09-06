@@ -11,6 +11,7 @@ require_once __DIR__.'/../../../Fake/fake_role.php';
 
 /**
  * @internal
+ *
  * @covers \Olz\News\Endpoints\EditNewsEndpoint
  */
 final class EditNewsEndpointTest extends UnitTestCase {

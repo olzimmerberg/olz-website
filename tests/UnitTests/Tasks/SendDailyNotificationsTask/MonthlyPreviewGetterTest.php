@@ -59,6 +59,7 @@ class FakeMonthlyPreviewGetterTerminRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {

@@ -9,6 +9,7 @@ use Olz\Utils\TelegramUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\TelegramUtils
  */
 final class TelegramUtilsIntegrationTest extends IntegrationTestCase {

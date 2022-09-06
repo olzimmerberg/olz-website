@@ -28,6 +28,7 @@ class FakeUpdateOlzTextEndpointOlzTextRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\UpdateOlzTextEndpoint
  */
 final class UpdateOlzTextEndpointTest extends UnitTestCase {

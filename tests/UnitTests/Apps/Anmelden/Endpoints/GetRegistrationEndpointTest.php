@@ -49,6 +49,7 @@ class FakeGetRegistrationEndpointRegistrationInfoRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint
  */
 final class GetRegistrationEndpointTest extends UnitTestCase {

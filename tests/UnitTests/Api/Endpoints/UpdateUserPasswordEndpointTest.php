@@ -16,6 +16,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\UpdateUserPasswordEndpoint
  */
 final class UpdateUserPasswordEndpointTest extends UnitTestCase {

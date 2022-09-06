@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests;
 
-namespace Olz\Tests\UnitTests;
-
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
@@ -16,6 +14,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class MarkdownTest extends UnitTestCase {

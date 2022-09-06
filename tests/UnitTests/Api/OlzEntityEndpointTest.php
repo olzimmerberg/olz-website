@@ -43,6 +43,7 @@ class OlzEntityConcreteEndpoint extends OlzEntityEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\OlzEntityEndpoint
  */
 final class OlzEntityEndpointTest extends UnitTestCase {

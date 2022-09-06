@@ -28,6 +28,7 @@ class FakeProcessEmailTaskMail {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\ProcessEmailTask
  */
 final class ProcessEmailTaskTest extends UnitTestCase {

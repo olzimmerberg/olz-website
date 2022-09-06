@@ -43,6 +43,7 @@ class FakeCreateBookingEndpointRegistrationInfoRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint
  */
 final class CreateBookingEndpointTest extends UnitTestCase {

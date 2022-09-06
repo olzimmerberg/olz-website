@@ -71,6 +71,7 @@ class FakeDeleteUserEndpointAccessTokenRepository {
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class DeleteUserEndpointForTest extends DeleteUserEndpoint {
@@ -94,6 +95,7 @@ class DeleteUserEndpointForTest extends DeleteUserEndpoint {
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointTest extends UnitTestCase {

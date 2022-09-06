@@ -62,6 +62,7 @@ class FakeSolvEventsSyncerSolvFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SyncSolvTask\SolvEventsSyncer
  */
 final class SolvEventsSyncerTest extends UnitTestCase {

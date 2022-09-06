@@ -14,6 +14,7 @@ use Olz\Utils\GeneralUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\StartUploadEndpoint
  */
 final class StartUploadEndpointTest extends UnitTestCase {

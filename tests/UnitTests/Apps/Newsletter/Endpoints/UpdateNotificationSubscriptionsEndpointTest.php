@@ -28,6 +28,7 @@ class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint
  */
 final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {

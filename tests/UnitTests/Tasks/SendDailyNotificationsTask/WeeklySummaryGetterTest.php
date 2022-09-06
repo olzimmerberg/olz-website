@@ -95,6 +95,7 @@ class FakeWeeklySummaryGetterTerminRepository {
 
 /**
  * @internal
+ *
  * @covers \Olz\Tasks\SendDailyNotificationsTask\WeeklySummaryGetter
  */
 final class WeeklySummaryGetterTest extends UnitTestCase {

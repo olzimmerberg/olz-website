@@ -21,6 +21,7 @@ class FakeDateUtils extends AbstractDateUtils {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\AbstractDateUtils
  */
 final class AbstractDateUtilsTest extends UnitTestCase {

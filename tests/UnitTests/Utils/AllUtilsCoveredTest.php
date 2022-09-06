@@ -8,6 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AllUtilsCoveredTest extends UnitTestCase {

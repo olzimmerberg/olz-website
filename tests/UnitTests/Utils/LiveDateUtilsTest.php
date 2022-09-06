@@ -9,6 +9,7 @@ use Olz\Utils\LiveDateUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\LiveDateUtils
  */
 final class LiveDateUtilsTest extends UnitTestCase {

@@ -11,6 +11,7 @@ use Olz\Utils\MemorySession;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\LogoutEndpoint
  */
 final class LogoutEndpointTest extends UnitTestCase {

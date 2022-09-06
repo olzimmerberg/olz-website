@@ -9,6 +9,7 @@ use Olz\Utils\EmailUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\EmailUtils
  */
 final class EmailUtilsIntegrationTest extends IntegrationTestCase {

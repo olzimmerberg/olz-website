@@ -9,6 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
+ *
  * @covers \Olz\Fetchers\TransportApiFetcher
  */
 final class TransportApiFetcherTest extends IntegrationTestCase {

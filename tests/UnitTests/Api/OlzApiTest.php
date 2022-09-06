@@ -10,6 +10,7 @@ use PhpTypeScriptApi\Endpoint;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class OlzApiTest extends UnitTestCase {

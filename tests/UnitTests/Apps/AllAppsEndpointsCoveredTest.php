@@ -9,6 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AllAppsEndpointsCoveredTest extends UnitTestCase {

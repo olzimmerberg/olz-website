@@ -9,6 +9,7 @@ use Olz\Utils\GeneralUtils;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\GeneralUtils
  */
 final class GeneralUtilsIntegrationTest extends IntegrationTestCase {

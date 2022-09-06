@@ -18,6 +18,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Api\Endpoints\OnDailyEndpoint
  */
 final class OnDailyEndpointTest extends UnitTestCase {

@@ -50,6 +50,7 @@ class FakeStravaUtilsStravaFetcher {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\StravaUtils
  */
 final class StravaUtilsTest extends UnitTestCase {

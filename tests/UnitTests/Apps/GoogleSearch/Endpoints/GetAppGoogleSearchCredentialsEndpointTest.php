@@ -13,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\GoogleSearch\Endpoints\GetAppGoogleSearchCredentialsEndpoint
  */
 final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {

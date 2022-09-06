@@ -9,6 +9,7 @@ use Olz\Utils\StandardSession;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\StandardSession
  */
 final class StandardSessionIntegrationTest extends IntegrationTestCase {

@@ -9,6 +9,7 @@ use Olz\Utils\MemorySession;
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\MemorySession
  */
 final class MemorySessionTest extends UnitTestCase {

@@ -13,6 +13,7 @@ class WithUtilsTraitClassWithUtilsTrait {
 
 /**
  * @internal
+ *
  * @covers \Olz\Utils\WithUtilsTrait
  */
 final class WithUtilsTraitTest extends UnitTestCase {

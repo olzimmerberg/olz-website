@@ -11,6 +11,7 @@ require_once __DIR__.'/TransportSectionTest.php';
 
 /**
  * @internal
+ *
  * @covers \Olz\Apps\Oev\Utils\TransportConnection
  */
 final class TransportConnectionTest extends UnitTestCase {

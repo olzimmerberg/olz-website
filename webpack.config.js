@@ -65,6 +65,7 @@ const defaultConfig = {
                 parallel: false,
             },
         }),
+        // Usage: npm run webpack-analyze ./path/to/stats.json
         new StatsWriterPlugin({
             fields: null,
             stats: {chunkModules: true},

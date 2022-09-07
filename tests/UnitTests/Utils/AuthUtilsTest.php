@@ -141,6 +141,44 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
     }
 
+    public function testAuthenticateWithCorrectUsernameEmailCredentials(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
+        $logger = FakeLogger::create();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'inexistent',
+        ];
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setLogger($logger);
+        $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $auth_utils->setSession($session);
+
+        $result = $auth_utils->authenticate('admin@olzimmerberg.ch', 'adm1n');
+
+        $this->assertNotSame(null, FakeUsers::adminUser());
+        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertSame([
+            'user' => 'inexistent', // for now, we don't modify the session
+        ], $session->session_storage);
+        $this->assertSame([
+            [
+                'ip_address' => '1.2.3.4',
+                'action' => 'AUTHENTICATED',
+                'timestamp' => null,
+                'username' => 'admin@olzimmerberg.ch',
+            ],
+        ], $auth_request_repo->auth_requests);
+        $this->assertSame([
+            "INFO User login successful: admin@olzimmerberg.ch",
+            "INFO   Auth: all",
+            "INFO   Root: karten",
+        ], $logger->handler->getPrettyRecords());
+    }
+
     public function testAuthenticateWithWrongUsername(): void {
         $entity_manager = new FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();

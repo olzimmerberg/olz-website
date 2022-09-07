@@ -238,6 +238,10 @@ if ($auth_utils->hasPermission('zol22')) {
             <td>{$_->map_symbols_sat_text}</td>
         </tr>
         <tr>
+            <td>{$_->terrain_directives}</td>
+            <td>{$_->terrain_directives_sat_text}</td>
+        </tr>
+        <tr>
             <td>{$_->forbidden_area}</td>
             <td>{$_->forbidden_area_sat_text}</td>
         </tr>
@@ -355,8 +359,8 @@ if ($auth_utils->hasPermission('zol22')) {
             <td>{$_->daycare_directives_sat_text}</td>
         </tr>
         <tr>
-            <td>{$_->childrens_o}</td>
-            <td>{$_->childrens_o_sat_text}</td>
+            <td>{$_->childrens_o_string_o}</td>
+            <td>{$_->childrens_o_directives_sat_text}</td>
         </tr>
         <tr>
             <td>{$_->toilets}</td>
@@ -368,7 +372,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->weekend}</td>
-            <td>{$_->weekend_sat_text}</td>
+            <td>{$_->weekend_directives_sat_text}</td>
         </tr>
         <tr>
             <td>{$_->program_wcf}</td>
@@ -442,6 +446,10 @@ if ($auth_utils->hasPermission('zol22')) {
         <tr>
             <td>{$_->map}</td>
             <td>{$_->map_sun_text}</td>
+        </tr>
+        <tr>
+            <td>{$_->terrain_directives}</td>
+            <td>{$_->terrain_directives_sun_text}</td>
         </tr>
         <tr>
             <td>{$_->forbidden_area}</td>
@@ -567,7 +575,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->childrens_o}</td>
-            <td>{$_->childrens_o_sun_text}</td>
+            <td>{$_->childrens_o_directives_sun_text}</td>
         </tr>
         <tr>
             <td>{$_->toilets}</td>
@@ -583,7 +591,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->weekend}</td>
-            <td>{$_->weekend_sun_text}</td>
+            <td>{$_->weekend_directives_sun_text}</td>
         </tr>
         <tr>
             <td>{$_->program_wcf}</td>

@@ -46,17 +46,25 @@ class OlzMenu {
         }
         $out .= self::getMenu($menu, "mainmenu", $_CONFIG);
 
-        $out .= "<form name='Suche' method='get' action='suche.php' style='white-space:nowrap; width:180px;'>
-        <input type='text' name='anfrage' style='width:100%;color:#888888;padding:3px;background-color:#eeeeee;border:1px solid #aaaaaa;margin-top:2em;' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
+        $out .= "<form name='Suche' method='get' action='suche.php'>
+        <input type='text' name='anfrage' id='site-search' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
         </form>";
-        $out .= "<div style='padding:2em 0.5em 0em 0.5em;'>
+        $out .= "<div class='sysadmin-mail'>
         <script type='text/javascript'>MailTo(\"website\", \"olzimmerberg.ch\", \"sysadmin\", \"Homepage%20OL%20Zimmerberg\");</script>
         </div>
-        <div style='padding:0.5em 0.5em 0em 0.5em;'>
-        <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' style='float:right;'><img src='{$_CONFIG->getCodeHref()}icns/strava_16.svg' alt='s' class='noborder' /></a>
-        <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/facebook_16.svg' alt='f' class='noborder' /></a>
-        <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/youtube_16.svg' alt='Y' class='noborder' /></a>
-        <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' style='float:right; margin-right: 8px;'><img src='{$_CONFIG->getCodeHref()}icns/github_16.svg' alt='g' class='noborder' /></a>
+        <div class='platform-links'>
+        <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' class='platform-link'>
+            <img src='{$_CONFIG->getCodeHref()}icns/github_16.svg' alt='g' class='noborder' />
+        </a>
+        <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' class='platform-link'>
+            <img src='{$_CONFIG->getCodeHref()}icns/youtube_16.svg' alt='Y' class='noborder' />
+        </a>
+        <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' class='platform-link'>
+            <img src='{$_CONFIG->getCodeHref()}icns/facebook_16.svg' alt='f' class='noborder' />
+        </a>
+        <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' class='platform-link'>
+            <img src='{$_CONFIG->getCodeHref()}icns/strava_16.svg' alt='s' class='noborder' />
+        </a>
         </div>
         </div>";
 

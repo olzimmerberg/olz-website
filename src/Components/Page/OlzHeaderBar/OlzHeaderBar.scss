@@ -112,6 +112,34 @@
     max-width: 1200px;
 }
 
+#weekend-link {
+    img {
+        border: 0;
+        position: relative;
+        height: 130px;
+    }
+
+    &:hover {
+        img {
+            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        }
+    }
+}
+
+#trophy-link {
+    img {
+        border: 0;
+        position: relative;
+        top: 5px;
+    }
+
+    &:hover {
+        img {
+            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        }
+    }
+}
+
 @media screen and (max-width: 1024px) {
     #olz-logo {
         margin-left: 30px;

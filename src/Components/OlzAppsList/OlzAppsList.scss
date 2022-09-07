@@ -18,6 +18,12 @@
         border: 0;
         max-width: 80px;
     }
+
+    &:hover {
+        .app-icon {
+            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        }
+    }
 }
 
 .hypothetical-container {

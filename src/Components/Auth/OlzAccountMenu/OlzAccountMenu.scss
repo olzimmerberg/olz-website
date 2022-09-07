@@ -12,6 +12,10 @@
     object-fit: cover;
     transition: width 0.5s, height 0.5s, margin 0.5s;
     width: 42px;
+
+    &:hover {
+        box-shadow: 0 0.5px 5px rgba(0, 0, 0, 1);
+    }
 }
 
 .header-bar.minified .account-thumbnail {

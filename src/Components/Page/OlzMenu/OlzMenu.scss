@@ -38,6 +38,36 @@
     }
 }
 
+#site-search {
+    width: 100%;
+    color: #888888;
+    padding: 3px;
+    background-color: #eeeeee;
+    border: 1px solid #aaaaaa;
+    margin-top: 24px;
+}
+
+.sysadmin-mail {
+    padding: 24px 6px 0 6px;
+}
+
+.platform-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 6px 6px 0 6px;
+
+    .platform-link {
+        margin-left: 8px;
+
+        &:hover {
+            img {
+                filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 1024px) {
     .menu {
         background-image: url('../../../../public/icns/mainbg.png');

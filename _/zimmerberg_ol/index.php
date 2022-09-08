@@ -251,7 +251,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td colspan="2">
-                <img src="{$img_root}wkz_sat.png" alt="Anreise"/>
+                {$_->event_centre_sat_img}
             </td>
         </tr>
         <tr>
@@ -461,7 +461,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td colspan="2">
-                <img src="{$img_root}wkz_sun.png" alt="Anreise"/>
+                {$_->event_centre_sun_img}
             </td>
         </tr>
         <tr>

@@ -158,6 +158,8 @@ $translations_de = [
     'terrain_directives_sun_text' => 'Abwechslungsreiches Gelände mit Wald, Alpweiden und Blockfeldern; mehrheitlich gut belaufbar; 1600-1800 m.ü.M',
     'forbidden_area' => 'Sperrgebiete',
     'forbidden_area_sat_text' => "Sind auf der Karte eingedruckt. Missachtung führt zur Disqualifikation.<br>Einzelne gefährliche Stellen (z.B. felsige Trichterlöcher) sind mit Trassierband markiert. Zur besseren Lesbarkeit sind diese Stellen auf der Karte jedoch nicht als Sperrgebiet eingetragen.",
+    'event_centre_sat_img' => "<img src=\"{$img_root}wkz_sat_de.png\" alt=\"WKZ\"/>",
+    'event_centre_sun_img' => "<img src=\"{$img_root}wkz_sun_de.png\" alt=\"WKZ\"/>",
     'forbidden_area_sun_text' => "Sind auf der Karte eingedruckt. Missachtung führt zur Disqualifikation.<br>Das Betreten/Überschreiten des RHB-Bahngeleises ausserhalb des von OL-Funktionären kontrollierten Bahnübergangs mit Andreas-Kreuz ist strengstens verboten und führt zur Disqualifikation. Der Veranstalter lehnt jegliche diesbezügliche Haftung ab.<br>Die RHB-Bahngeleise werden im Wettkampf mittels einer Unterführung unterquert (OL-Posten in Unterführung).",
     'information_evaluation' => 'Information/Auswertung',
     'information_evaluation_sat_text' => "Mutationen, Gebühr CHF 10.00<br>Miete von SI-Cards CHF 2.00<br>Unterzeichnung Anti-Doping Erklärung<br>Kasse für Offen Kategorien incl. sCOOL<br>Rückerstattung von CHF 5.00 für Läufer/innen mit einer Klosters Gästekarte<br>Auslesen SI-Card",
@@ -366,6 +368,9 @@ $translations_fr = [
     'company_sat_text' => 'Ticket combiné à CHF 35 pour le trajet du retour (comprenant un avoir de CHF 20 pour les consommations le jour de la course), prix pour un trajet retour seul : CHF 29',
     'entry_sat_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Inscription sur ol-events.ch</a><br>Date limite d\'inscription: Lundi 19 septembre 2022, 23h59',
     'entry_sun_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Inscription sur ol-events.ch</a><br>Date limite d\'inscription: Lundi 19 septembre 2022, 23h59',
+
+    'event_centre_sat_img' => "<img src=\"{$img_root}wkz_sat_fr.png\" alt=\"Cdc\"/>",
+    'event_centre_sun_img' => "<img src=\"{$img_root}wkz_sun_fr.png\" alt=\"Cdc\"/>",
 
     'course_data_course' => 'Course',
     'course_data_distance' => 'Distance',

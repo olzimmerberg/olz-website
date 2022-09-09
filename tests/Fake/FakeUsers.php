@@ -19,6 +19,7 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setFirstName('Admin');
                 $admin_user->setLastName('Istrator');
                 $admin_user->setUsername('admin');
+                $admin_user->setEmail('admin-user@test.olzimmerberg.ch');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
                 $admin_user->setZugriff('all');
                 $admin_user->setRoot('karten');
@@ -37,6 +38,7 @@ class FakeUsers extends FakeFactory {
                 $vorstand_user->setFirstName('Vorstand');
                 $vorstand_user->setLastName('Mitglied');
                 $vorstand_user->setUsername('vorstand');
+                $vorstand_user->setEmail('vorstand-user@test.olzimmerberg.ch');
                 $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
                 $vorstand_user->setZugriff('aktuell ftp');
                 $vorstand_user->setRoot('vorstand');
@@ -57,6 +59,7 @@ class FakeUsers extends FakeFactory {
                 $default_user->setUsername('user');
                 $default_user->setEmail('default-user@olzimmerberg.ch');
                 $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));
+                $default_user->setParentUserId(2);
                 return $default_user;
             }
         );

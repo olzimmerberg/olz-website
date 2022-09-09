@@ -3,7 +3,9 @@
 namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzEndpoint;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 class GetManagedUsersEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -37,9 +39,27 @@ class GetManagedUsersEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        // TODO: Implement
+        $has_access = $this->authUtils->hasPermission('any');
+        $auth_user = $this->authUtils->getAuthenticatedUser();
+        if (!$has_access || !$auth_user) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
+
+        $auth_user_id = $auth_user->getId();
+        $user_repo = $this->entityManager->getRepository(User::class);
+        $users = $user_repo->findBy(['parent_user' => $auth_user_id]);
+        $managed_users = [];
+        foreach ($users as $user) {
+            $managed_users[] = [
+                'id' => $user->getId(),
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+            ];
+        }
+
         return [
-            'status' => 'ERROR',
+            'status' => 'OK',
+            'managedUsers' => $managed_users,
         ];
     }
 }

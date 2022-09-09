@@ -5,6 +5,7 @@ namespace Olz\Apps\Anmelden;
 use Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint;
 use Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint;
 use Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint;
+use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
 use Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint;
 use Olz\Apps\BaseAppEndpoints;
 use PhpTypeScriptApi\Api;
@@ -19,6 +20,9 @@ class AnmeldenEndpoints extends BaseAppEndpoints {
         });
         $api->registerEndpoint('getManagedUsers', function () {
             return new GetManagedUsersEndpoint();
+        });
+        $api->registerEndpoint('getPrefillValues', function () {
+            return new GetPrefillValuesEndpoint();
         });
         $api->registerEndpoint('getRegistration', function () {
             return new GetRegistrationEndpoint();

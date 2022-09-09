@@ -124,6 +124,7 @@ export type OlzApiEndpoint =
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
+    'getPrefillValues'|
     'getRegistration'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
@@ -275,6 +276,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzRegistrationData,
         },
     getManagedUsers: Record<string, never>|null,
+    getPrefillValues: {
+            'userId': number|null,
+        },
     getRegistration: {
             'id': string,
         },
@@ -437,6 +441,22 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'firstName': string,
             'lastName': string,
         }>|null,
+        },
+    getPrefillValues: {
+            'firstName': string,
+            'lastName': string,
+            'username': string,
+            'email': string,
+            'phone': string|null,
+            'gender': 'M'|'F'|'O'|null,
+            'birthdate': string|null,
+            'street': string|null,
+            'postalCode': string|null,
+            'city': string|null,
+            'region': string|null,
+            'countryCode': string|null,
+            'siCardNumber': number|null,
+            'solvNumber': string|null,
         },
     getRegistration: {
             'id': string,

@@ -331,6 +331,14 @@ class User {
         $this->root = $new_root;
     }
 
+    public function getParentUserId() {
+        return $this->parent_user;
+    }
+
+    public function setParentUserId($new_parent_user_id) {
+        $this->parent_user = $new_parent_user_id;
+    }
+
     public function getMemberType() {
         return $this->member_type;
     }

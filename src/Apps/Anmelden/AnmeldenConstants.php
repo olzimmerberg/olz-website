@@ -5,7 +5,7 @@ namespace Olz\Apps\Anmelden;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class AnmeldenConstants {
-    public const VALID_INFO_TYPES = ['email', 'firstName', 'lastName', 'gender', 'street', 'postalCode', 'city', 'region', 'countryCode', 'birthdate', 'phone', 'string', 'enum', 'reservation'];
+    public const VALID_INFO_TYPES = ['email', 'firstName', 'lastName', 'gender', 'street', 'postalCode', 'city', 'region', 'countryCode', 'birthdate', 'phone', 'siCardNumber', 'solvNumber', 'string', 'enum', 'reservation'];
 
     public static function getRegistrationInfoField() {
         return new FieldTypes\ObjectField([

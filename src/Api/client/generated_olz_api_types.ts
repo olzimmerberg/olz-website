@@ -54,7 +54,7 @@ export type OlzRegistrationData = {
 };
 
 export type OlzRegistrationInfo = {
-    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'string'|'enum'|'reservation',
+    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'siCardNumber'|'solvNumber'|'string'|'enum'|'reservation',
     'isOptional': boolean,
     'title': string,
     'description': string,

@@ -70,7 +70,7 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
         $city = $user->getCity();
         $region = $user->getRegion();
         $country_code = $user->getCountryCode();
-        $si_card_number = $user->getSiCardNumber();
+        $si_card_number = intval($user->getSiCardNumber());
         $solv_number = $user->getSolvNumber();
 
         return [
@@ -80,13 +80,13 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
             'email' => $email,
             'phone' => $phone,
             'gender' => $gender,
-            'birthdate' => $birthdate,
+            'birthdate' => $birthdate ? $birthdate->format('Y-m-d H:i:s') : null,
             'street' => $street,
             'postalCode' => $postal_code,
             'city' => $city,
             'region' => $region,
             'countryCode' => $country_code,
-            'siCardNumber' => $si_card_number,
+            'siCardNumber' => $si_card_number ? $si_card_number : null,
             'solvNumber' => $solv_number,
         ];
     }

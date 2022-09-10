@@ -23,6 +23,16 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
                 $admin_user->setZugriff('all');
                 $admin_user->setRoot('karten');
+                $admin_user->setPhone('+410123456');
+                $admin_user->setGender('M');
+                $admin_user->setBirthdate(new \DateTime('2000-01-01'));
+                $admin_user->setStreet('Data Hwy. 42');
+                $admin_user->setPostalCode('19216811');
+                $admin_user->setRegion('XX');
+                $admin_user->setCity('Test');
+                $admin_user->setCountryCode('CH');
+                $admin_user->setSiCardNumber('127001');
+                $admin_user->setSolvNumber('000ADM');
                 return $admin_user;
             }
         );

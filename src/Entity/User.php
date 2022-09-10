@@ -94,7 +94,7 @@ class User {
     /**
      * @ORM\Column(type="text", nullable=false)
      */
-    public $zugriff;
+    public $permissions;
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -315,12 +315,12 @@ class User {
         $this->phone = $new_phone;
     }
 
-    public function getZugriff() {
-        return $this->zugriff;
+    public function getPermissions() {
+        return $this->permissions;
     }
 
-    public function setZugriff($new_zugriff) {
-        $this->zugriff = $new_zugriff;
+    public function setPermissions($new_permissions) {
+        $this->permissions = $new_permissions;
     }
 
     public function getRoot() {

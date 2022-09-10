@@ -96,8 +96,7 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
 
         $user = $strava_link->getUser();
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        // Mögliche Werte für 'zugriff': all, ftp, termine, mail
-        $this->session->set('auth', $user->getZugriff());
+        $this->session->set('auth', $user->getPermissions());
         $this->session->set('root', $root);
         $this->session->set('user', $user->getUsername());
         $this->session->set('user_id', $user->getId());

@@ -41,7 +41,7 @@ class OlzLogs {
         ZZZZZZZZZZ;
 
         $out .= "<div id='content_double'>";
-        if ($user && $user->getZugriff() == 'all') {
+        if ($user && $user->getPermissions() == 'all') {
             $out .= <<<'ZZZZZZZZZZ'
             <div class='logs-header'>
                 <button type='button' class='form-control btn btn-outline-primary' onclick='olz.olzLogsGetNextLog()'>

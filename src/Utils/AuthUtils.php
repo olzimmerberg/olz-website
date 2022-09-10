@@ -54,7 +54,7 @@ class AuthUtils {
         }
 
         $this->logger->info("User login successful: {$username_or_email}");
-        $this->logger->info("  Auth: {$user->getZugriff()}");
+        $this->logger->info("  Auth: {$user->getPermissions()}");
         $this->logger->info("  Root: {$user->getRoot()}");
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED', $username_or_email);
         return $user;
@@ -122,7 +122,7 @@ class AuthUtils {
         if ($permission_map != null) {
             return $permission_map;
         }
-        $permission_list = preg_split('/[ ]+/', $user->getZugriff());
+        $permission_list = preg_split('/[ ]+/', $user->getPermissions());
         $permission_map = ['any' => true];
         foreach ($permission_list as $permission) {
             $permission_map[$permission] = true;

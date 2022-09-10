@@ -138,7 +138,7 @@ class DeleteUserEndpoint extends OlzEndpoint {
             $user->setCity(null);
             $user->setRegion(null);
             $user->setCountryCode(null);
-            $user->setZugriff('');
+            $user->setPermissions('');
             $user->setRoot(null);
             $user->setMemberType(null);
             $user->setMemberLastPaid(null);

@@ -35,7 +35,7 @@ class OlzAppsList {
             $code_href = $env_utils->getCodeHref();
             $hypothetical_logged_in_user = new User();
             $hypothetical_logged_in_user->setId(null);
-            $hypothetical_logged_in_user->setZugriff('');
+            $hypothetical_logged_in_user->setPermissions('');
             $logged_in_apps = OlzApps::getAppsForUser($hypothetical_logged_in_user);
             $available_app_paths = [];
             foreach ($available_apps as $available_app) {

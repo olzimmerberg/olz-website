@@ -66,7 +66,7 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $user->setSiCardNumber($input['siCardNumber']);
         $user->setSolvNumber($input['solvNumber']);
-        $user->setZugriff('');
+        $user->setPermissions('');
         $user->setRoot(null);
         $user->setMemberType(null);
         $user->setMemberLastPaid(null);
@@ -91,8 +91,7 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $this->entityManager->flush();
 
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        // Mögliche Werte für 'zugriff': all, ftp, termine, mail
-        $this->session->set('auth', $user->getZugriff());
+        $this->session->set('auth', $user->getPermissions());
         $this->session->set('root', $root);
         $this->session->set('user', $user->getUsername());
         $this->session->set('user_id', $user->getId());

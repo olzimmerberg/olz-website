@@ -32,17 +32,17 @@ class FakeUserRepository {
         }
         if ($where === ['username' => 'noaccess']) {
             $this->noaccess_user = FakeUsers::defaultUser(true);
-            $this->noaccess_user->setZugriff('ftp');
+            $this->noaccess_user->setPermissions('ftp');
             return $this->noaccess_user;
         }
         if ($where === ['username' => 'specific']) {
             $this->specific_user = FakeUsers::defaultUser(true);
-            $this->specific_user->setZugriff('test');
+            $this->specific_user->setPermissions('test');
             return $this->specific_user;
         }
         if ($where === ['username' => 'no']) {
             $this->no_access_user = FakeUsers::defaultUser(true);
-            $this->no_access_user->setZugriff('');
+            $this->no_access_user->setPermissions('');
             return $this->no_access_user;
         }
         return null;

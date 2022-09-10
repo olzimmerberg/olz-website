@@ -33,6 +33,10 @@ class Role {
      */
     public $description;
     /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    public $permissions;
+    /**
      * @ORM\Column(type="text", nullable=false, options={"comment": "restricted access"})
      */
     public $guide;
@@ -95,6 +99,14 @@ class Role {
 
     public function getDescription() {
         return $this->description;
+    }
+
+    public function getPermissions() {
+        return $this->permissions;
+    }
+
+    public function setPermissions($new_permissions) {
+        $this->permissions = $new_permissions;
     }
 
     public function getGuide() {

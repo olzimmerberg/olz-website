@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20220820142330
+-- MIGRATION: DoctrineMigrations\Version20220910163629
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -69,7 +69,8 @@ VALUES
     ('DoctrineMigrations\\Version20220502172202', '2022-05-02 17:22:32', '107'),
     ('DoctrineMigrations\\Version20220601201046', '2022-06-01 20:11:14', '75'),
     ('DoctrineMigrations\\Version20220719182315', '2022-07-19 18:49:59', '247'),
-    ('DoctrineMigrations\\Version20220820142330', '2022-08-20 14:32:06', '130');
+    ('DoctrineMigrations\\Version20220820142330', '2022-08-20 14:32:06', '130'),
+    ('DoctrineMigrations\\Version20220910163629', '2022-09-10 16:37:39', '121');
 
 -- Table downloads
 
@@ -171,57 +172,57 @@ VALUES
 
 -- Table roles
 INSERT INTO roles
-    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`)
+    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`, `permissions`)
 VALUES
-    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', 'Organisiert Anlässe', '', NULL, '0', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...'),
-    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', ''),
-    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', ''),
-    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', ''),
-    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', NULL, '1', ''),
-    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', NULL, '1', ''),
-    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', ''),
-    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', ''),
-    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1', ''),
-    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1', ''),
-    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1', ''),
-    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1', ''),
-    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0', ''),
-    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0', ''),
-    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0', ''),
-    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1', ''),
-    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0', ''),
-    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', NULL, '0', ''),
-    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', NULL, '0', ''),
-    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1', ''),
-    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0', ''),
-    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', ''),
-    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', ''),
-    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', ''),
-    ('25', 'website', NULL, 'Homepage', '', '', '3', '1', NULL, '0', ''),
-    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', ''),
-    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', ''),
-    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', ''),
-    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1', ''),
-    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0', ''),
-    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0', ''),
-    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0', ''),
-    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0', ''),
-    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0', ''),
-    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0', ''),
-    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0', ''),
-    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0', ''),
-    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0', ''),
-    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0', ''),
-    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0', ''),
-    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0', ''),
-    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0', ''),
-    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0', ''),
-    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1', ''),
-    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0', ''),
-    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', ''),
-    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', ''),
-    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', ''),
-    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '');
+    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', 'Organisiert Anlässe', '', NULL, '0', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...', ''),
+    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', '', ''),
+    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', '', ''),
+    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', '', ''),
+    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', NULL, '1', '', ''),
+    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', NULL, '1', '', ''),
+    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', '', ''),
+    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', '', ''),
+    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1', '', ''),
+    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1', '', ''),
+    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1', '', ''),
+    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1', '', ''),
+    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0', '', ''),
+    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0', '', ''),
+    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0', '', ''),
+    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1', '', ''),
+    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0', '', ''),
+    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', NULL, '0', '', ''),
+    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', NULL, '0', '', ''),
+    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1', '', ''),
+    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0', '', ''),
+    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', '', ''),
+    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', '', ''),
+    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', '', ''),
+    ('25', 'website', NULL, 'Homepage', '', '', '3', '1', NULL, '0', '', ''),
+    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', '', ''),
+    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', '', ''),
+    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', '', ''),
+    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1', '', ''),
+    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0', '', ''),
+    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0', '', ''),
+    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0', '', ''),
+    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0', '', ''),
+    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0', '', ''),
+    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0', '', ''),
+    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0', '', ''),
+    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0', '', ''),
+    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0', '', ''),
+    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0', '', ''),
+    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0', '', ''),
+    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0', '', ''),
+    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0', '', ''),
+    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0', '', ''),
+    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1', '', ''),
+    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0', '', ''),
+    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', '', ''),
+    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', '', ''),
+    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', '', ''),
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '');
 
 -- Table solv_events
 INSERT INTO solv_events
@@ -278,7 +279,7 @@ VALUES
 
 -- Table users
 INSERT INTO users
-    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `zugriff`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`)
+    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `permissions`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`)
 VALUES
     ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@test.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', 'OLZ Dokumente', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
     ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', '', 'Volker', 'Vorstand', 'ftp webdav olz_text_1 aktuell galerie bild_der_woche', 'OLZ Dokumente/vorstand', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),

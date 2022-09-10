@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20220820142330
+-- MIGRATION: DoctrineMigrations\Version20220910163629
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -296,24 +296,6 @@ CREATE TABLE `counter` (
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `old_username` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'public',
-  `page` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `parent_role` int(11) DEFAULT NULL,
-  `index_within_parent` int(11) DEFAULT NULL,
-  `featured_index` int(11) DEFAULT NULL,
-  `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
-  `guide` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'restricted access',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -659,6 +641,25 @@ CREATE TABLE `aktuell` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_username` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'public',
+  `page` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parent_role` int(11) DEFAULT NULL,
+  `index_within_parent` int(11) DEFAULT NULL,
+  `featured_index` int(11) DEFAULT NULL,
+  `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
+  `guide` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'restricted access',
+  `permissions` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -667,7 +668,7 @@ CREATE TABLE `users` (
   `email` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zugriff` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `permissions` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `root` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_is_verified` tinyint(1) NOT NULL,
   `email_verification_token` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,

@@ -68,7 +68,7 @@ class ProcessEmailTask extends BackgroundTask {
                         'no_header' => true,
                         'no_unsubscribe' => true,
                     ]);
-                    // This is probably dangerous (Might get us an spamming lists?):
+                    // This is probably dangerous (Might get us on spamming lists?):
                     // $email->setFrom($mail->fromAddress, $mail->fromName);
                     $email->addReplyTo($mail->fromAddress, $mail->fromName);
                     $email->send();

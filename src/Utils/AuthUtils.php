@@ -20,6 +20,7 @@ class AuthUtils {
     ];
 
     protected $cached_permission_map_by_user = [];
+    protected $cached_permission_map_by_role = [];
 
     public function authenticate($username_or_email, $password) {
         $ip_address = $this->server['REMOTE_ADDR'];
@@ -128,6 +129,29 @@ class AuthUtils {
             $permission_map[$permission] = true;
         }
         $this->cached_permission_map_by_user[$user_id] = $permission_map;
+        return $permission_map;
+    }
+
+    public function hasRolePermission($query, $role) {
+        $permission_map = $this->getRolePermissionMap($role);
+        return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
+    }
+
+    protected function getRolePermissionMap($role) {
+        if (!$role) {
+            return ['any' => false];
+        }
+        $role_id = $role->getId();
+        $permission_map = $this->cached_permission_map_by_role[$role_id] ?? null;
+        if ($permission_map != null) {
+            return $permission_map;
+        }
+        $permission_list = preg_split('/[ ]+/', $role->getPermissions());
+        $permission_map = ['any' => true];
+        foreach ($permission_list as $permission) {
+            $permission_map[$permission] = true;
+        }
+        $this->cached_permission_map_by_role[$role_id] = $permission_map;
         return $permission_map;
     }
 

@@ -124,4 +124,8 @@ class Role {
     public function getUsers() {
         return $this->users;
     }
+
+    public function addUser($new_user) {
+        $this->users->add($new_user);
+    }
 }

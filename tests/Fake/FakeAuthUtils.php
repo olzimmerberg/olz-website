@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-require_once __DIR__.'/FakeUsers.php';
-
 class FakeAuthUtils {
     public $authenticate_user;
     public $authenticate_with_error;
     public $has_permission_by_query = [];
+    public $has_role_permission_by_query = [];
 
     public function authenticate($username_or_email, $password) {
         if ($this->authenticate_with_error) {
@@ -21,6 +20,17 @@ class FakeAuthUtils {
     public function hasPermission($query, $user = null) {
         $has_permission = $this->has_permission_by_query[$query] ?? null;
         if ($user !== null && $user->getUsername() === 'no-permission') {
+            return false;
+        }
+        if ($has_permission === null) {
+            throw new \Exception("hasPermission has not been mocked for {$query}");
+        }
+        return $has_permission;
+    }
+
+    public function hasRolePermission($query, $role) {
+        $has_permission = $this->has_role_permission_by_query[$query] ?? null;
+        if ($role !== null && $role->getUsername() === 'no-role-permission') {
             return false;
         }
         if ($has_permission === null) {

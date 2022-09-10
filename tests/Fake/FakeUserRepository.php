@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-require_once __DIR__.'/FakeUsers.php';
-
 class FakeUserRepository {
     public $userToBeFound;
     public $userToBeFoundForQuery;
+    public $fakeProcessEmailTaskUser;
 
     public function findOneBy($where) {
         if ($this->userToBeFound !== null) {
@@ -56,7 +55,7 @@ class FakeUserRepository {
             $fake_process_email_task_user->setFirstName('First');
             $fake_process_email_task_user->setLastName('User');
             $fake_process_email_task_user->setEmail('someone@gmail.com');
-            $this->fake_process_email_task_user = $fake_process_email_task_user;
+            $this->fakeProcessEmailTaskUser = $fake_process_email_task_user;
             return $fake_process_email_task_user;
         }
         if ($username === 'no-permission') {

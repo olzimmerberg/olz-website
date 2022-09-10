@@ -5,6 +5,12 @@ namespace Olz\Repository;
 use Doctrine\ORM\EntityRepository;
 
 class RoleRepository extends EntityRepository {
+    public function findFuzzilyByUsername($username) {
+        $dql = "SELECT r FROM Olz:Role r WHERE r.username LIKE ?1";
+        $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
+        return $query->getOneOrNullResult();
+    }
+
     public function getRolesWithParent($roleId, $limit = 100) {
         if ($roleId === null) {
             $dql = "SELECT r FROM Olz:Role r WHERE r.parent_role IS NULL ORDER BY r.index_within_parent ASC";

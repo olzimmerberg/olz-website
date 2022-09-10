@@ -41,6 +41,11 @@ $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
 $user_provoke_error->setLastName('Error');
 
+$user_no_telegram_link = FakeUsers::defaultUser(true);
+$user_no_telegram_link->setId(4);
+$user_no_telegram_link->setFirstName('No Telegram');
+$user_no_telegram_link->setLastName('Link');
+
 $all_notification_subscriptions = [
     get_fake_notification_subscription(
         1,
@@ -189,6 +194,13 @@ $all_notification_subscriptions = [
         NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
         json_encode(['cancelled' => true]),
     ),
+    get_fake_notification_subscription(
+        22,
+        NotificationSubscription::DELIVERY_TELEGRAM,
+        $user_no_telegram_link,
+        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]),
+    ),
 ];
 
 class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
@@ -282,7 +294,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
 
 class FakeSendDailyNotificationsTaskTelegramLinkRepository {
     public function findOneBy($where) {
-        global $user1, $user2, $user3;
+        global $user1, $user2, $user3, $user_provoke_error;
         if ($where == ['user' => $user1]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('11111');
@@ -298,11 +310,16 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
             $telegram_link->setTelegramChatId(null);
             return $telegram_link;
         }
+        if ($where == ['user' => $user_provoke_error]) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setTelegramChatId('provoke_error');
+            return $telegram_link;
+        }
         return null;
     }
 
     public function getActivatedTelegramLinks() {
-        global $user1, $user2, $user3;
+        global $user1, $user2, $user3, $user_provoke_error;
 
         $telegram_link_1 = new TelegramLink();
         $telegram_link_1->setUser($user1);
@@ -316,7 +333,11 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
         $telegram_link_3->setUser($user3);
         $telegram_link_3->setTelegramChatId('33333');
 
-        return [$telegram_link_1, $telegram_link_2, $telegram_link_3];
+        $telegram_link_4 = new TelegramLink();
+        $telegram_link_4->setUser($user_provoke_error);
+        $telegram_link_4->setTelegramChatId('provoke_error');
+
+        return [$telegram_link_1, $telegram_link_2, $telegram_link_3, $telegram_link_4];
     }
 }
 
@@ -671,12 +692,14 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Sending notification WS title over invalid-delivery to user (2)...",
             "CRITICAL Unknown delivery type 'invalid-delivery'",
             "INFO Sending notification WS title over telegram to user (3)...",
-            "NOTICE User (3) has no telegram link, but a subscription (17)",
+            "ERROR Error sending telegram to user (3): [Exception] provoked telegram error",
+            "INFO Sending notification WS title over telegram to user (4)...",
+            "NOTICE User (4) has no telegram link, but a subscription (22)",
             "INFO Getting notification for '{\"no_notification\":true}'...",
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",
             "INFO Sending notification provoke_error over email to user (2)...",
-            "CRITICAL Error sending email to user (2): [Exception] Provoked Error",
+            "CRITICAL Error sending email to user (2): [Exception] Provoked Mailer Error",
             "INFO Sending 'invalid-type' notifications...",
             "CRITICAL Unknown notification type 'invalid-type'",
             "INFO Sending 'telegram_config_reminder' notifications...",

@@ -180,7 +180,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",
-            "CRITICAL Error sending password reset email to user (3): Provoked Error",
+            "CRITICAL Error sending password reset email to user (3): Provoked Mailer Error",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }

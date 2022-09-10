@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Entity\Role;
 use Olz\Entity\User;
 
 class FakeEntityManager {
@@ -17,9 +18,9 @@ class FakeEntityManager {
     public $repositories = [];
 
     public function __construct() {
-        require_once __DIR__.'/FakeUserRepository.php';
         $this->repositories = [
             User::class => new FakeUserRepository(),
+            Role::class => new FakeRoleRepository(),
         ];
     }
 

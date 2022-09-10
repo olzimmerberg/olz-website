@@ -38,7 +38,9 @@ class FakeEmailUtils {
 }
 
 class FakeMailbox {
+    public $unexpected_value_exception = false;
     public $connection_exception = false;
+    public $exception = false;
     public $mail_dict = [];
     public $deleted_mail_dict = [];
     public $expunged_mail_dict = [];
@@ -47,8 +49,14 @@ class FakeMailbox {
     }
 
     public function searchMailbox($query) {
+        if ($this->unexpected_value_exception) {
+            throw new \UnexpectedValueException("Phew, that was unexpected.");
+        }
         if ($this->connection_exception) {
             throw new ConnectionException(["Host not found or something."]);
+        }
+        if ($this->exception) {
+            throw new \Exception("Failed at something else.");
         }
         if ($query === 'ALL') {
             return array_keys($this->mail_dict);
@@ -88,7 +96,7 @@ class FakeOlzMailer {
         $text_provokes_error = str_contains(
             $this->email_to_send[2], 'provoke_error');
         if ($title_provokes_error || $text_provokes_error) {
-            throw new \Exception("Provoked Error");
+            throw new \Exception("Provoked Mailer Error");
         }
         $this->emails_sent[] = $this->email_to_send;
     }

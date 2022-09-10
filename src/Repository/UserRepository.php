@@ -6,12 +6,8 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository {
     public function findFuzzilyByUsername($username) {
-        global $db;
-        require_once __DIR__.'/../../_/config/database.php';
-        $sane_username = $db->escape_string($username);
-        $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE '{$sane_username}'";
-
-        $query = $this->getEntityManager()->createQuery($dql);
+        $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE ?1";
+        $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 

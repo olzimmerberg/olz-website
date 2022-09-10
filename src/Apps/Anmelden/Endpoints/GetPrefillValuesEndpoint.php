@@ -51,7 +51,7 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
         if ($user_id) {
             $user_repo = $this->entityManager->getRepository(User::class);
             $user = $user_repo->findOneBy(['id' => $user_id]);
-            if ($user->getParentUserId() != $auth_user->getId()) {
+            if (!$user || $user->getParentUserId() != $auth_user->getId()) {
                 throw new HttpError(403, "Kein Zugriff!");
             }
         } else {

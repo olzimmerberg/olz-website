@@ -7,8 +7,6 @@ namespace Olz\Tests\Fake;
 use Monolog\Handler\HandlerInterface;
 use Monolog\LogRecord;
 
-require_once __DIR__.'/FakeEnvUtils.php';
-
 class FakeLogHandler implements HandlerInterface {
     public $records = [];
 

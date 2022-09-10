@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-require_once __DIR__.'/FakeLogHandler.php';
-
 class FakeLogger extends \Monolog\Logger {
     public $handler;
 

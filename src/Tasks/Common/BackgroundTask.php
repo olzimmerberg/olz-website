@@ -30,7 +30,8 @@ abstract class BackgroundTask {
             $this->runSpecificTask();
             $this->logger->info("Finished task {$this->getIdent()}.");
         } catch (\Exception $exc) {
-            $this->logger->error("Error running task {$this->getIdent()}.", [$exc]);
+            $message = $exc->getMessage();
+            $this->logger->error("Error running task {$this->getIdent()}: {$message}.", [$exc]);
         } finally {
             $this->logger->info("Teardown task {$this->getIdent()}...");
             $this->teardown();

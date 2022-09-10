@@ -54,6 +54,9 @@ class FakeTelegramUtils {
     }
 
     public function callTelegramApi($command, $args) {
+        if ($args['chat_id'] == 'provoke_error') {
+            throw new \Exception('provoked telegram error');
+        }
         $this->telegramApiCalls[] = [$command, $args];
         return [];
     }

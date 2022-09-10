@@ -6,8 +6,6 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\User;
 
-require_once __DIR__.'/FakeFactory.php';
-
 class FakeUsers extends FakeFactory {
     public static function adminUser($fresh = false) {
         return self::getFake(

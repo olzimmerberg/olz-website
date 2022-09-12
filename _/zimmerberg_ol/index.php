@@ -239,7 +239,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->terrain_directives}</td>
-            <td>{$_->terrain_directives_sat_text}</td>
+            <td>{$_->terrain_sat_text}</td>
         </tr>
         <tr>
             <td>{$_->forbidden_area}</td>
@@ -292,7 +292,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->route_to_start}</td>
-            <td>{$_->route_to_start_directives_sat_text}</td>
+            <td>{$_->route_to_start_sat_text}</td>
         </tr>
         <tr>
             <td>{$_->start_procedure}</td>
@@ -449,7 +449,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->terrain_directives}</td>
-            <td>{$_->terrain_directives_sun_text}</td>
+            <td>{$_->terrain_sun_text}</td>
         </tr>
         <tr>
             <td>{$_->forbidden_area}</td>
@@ -474,7 +474,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td colspan="2">
-                <img src="{$img_root}uebersicht_sun.png" alt="Anreise"/>
+                {$_->overview_sun_img}
             </td>
         </tr>
         <tr>
@@ -483,7 +483,7 @@ if ($auth_utils->hasPermission('zol22')) {
         </tr>
         <tr>
             <td>{$_->route_to_start}</td>
-            <td>{$_->route_to_start_directives_sun_text}</td>
+            <td>{$_->route_to_start_sun_text}</td>
         </tr>
         <tr>
             <td>{$_->entry_open}</td>

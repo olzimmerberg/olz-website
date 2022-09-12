@@ -31,7 +31,7 @@ class OlzHeaderWithoutRouting {
         $html_title = "OL Zimmerberg";
         if (isset($args['title'])) {
             $title_arg = htmlspecialchars($args['title']);
-            $html_title = "OL Zimmerberg - {$title_arg}";
+            $html_title = "{$title_arg} - OL Zimmerberg";
         }
         $html_description = "";
         if (isset($args['description'])) {

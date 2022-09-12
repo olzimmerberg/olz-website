@@ -51,15 +51,6 @@ class OlzNewsDetail {
 
         $out = '';
 
-        $out .= OlzHeader::render([
-            'title' => "Aktuell",
-            'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
-            'norobots' => $no_robots,
-            'additional_headers' => [
-                $article_metadata,
-            ],
-        ]);
-
         $button_name = 'button'.$db_table;
         if (isset($_GET[$button_name])) {
             $_POST[$button_name] = $_GET[$button_name];
@@ -73,10 +64,20 @@ class OlzNewsDetail {
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
-        $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
-        $pretty_author = $row['autor'];
+
+        $title = $row['titel'] ?? '';
+        $out .= OlzHeader::render([
+            'title' => "{$title} - Aktuell",
+            'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+            'norobots' => $no_robots,
+            'additional_headers' => [
+                $article_metadata,
+            ],
+        ]);
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
+        $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
+        $pretty_author = $row['autor'];
         $out .= <<<ZZZZZZZZZZ
         <div id='content_rechts' class='optional'>
             <div style='padding:4px 3px 10px 3px;'>

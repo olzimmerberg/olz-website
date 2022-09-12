@@ -55,15 +55,6 @@ class OlzTermineDetail {
 
         $out = '';
 
-        $out .= OlzHeader::render([
-            'title' => "Termin",
-            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
-            'norobots' => $no_robots,
-            'additional_headers' => [
-                "<link rel='canonical' href='{$canonical_uri}'/>",
-            ],
-        ]);
-
         $button_name = 'button'.$db_table;
         if (isset($_GET[$button_name])) {
             $_POST[$button_name] = $_GET[$button_name];
@@ -77,6 +68,16 @@ class OlzTermineDetail {
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
+
+        $title = $row['titel'] ?? '';
+        $out .= OlzHeader::render([
+            'title' => "{$title} - Termine",
+            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'norobots' => $no_robots,
+            'additional_headers' => [
+                "<link rel='canonical' href='{$canonical_uri}'/>",
+            ],
+        ]);
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
         $out .= <<<ZZZZZZZZZZ

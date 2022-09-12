@@ -49,7 +49,7 @@ class Role {
      */
     public $parent_role;
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, options={"comment": "negative value: hide role"})
      */
     public $index_within_parent;
     /**

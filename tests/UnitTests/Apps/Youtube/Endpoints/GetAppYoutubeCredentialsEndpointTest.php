@@ -70,6 +70,7 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
+                "WARNING HTTP error 403",
             ], $logger->handler->getPrettyRecords());
         }
     }
@@ -88,6 +89,7 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
+                "WARNING HTTP error 403",
             ], $logger->handler->getPrettyRecords());
         }
     }

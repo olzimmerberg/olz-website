@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Common;
 
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeFactory;
-use PhpTypescriptApi\Translator;
+use PhpTypeScriptApi\Translator;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/../../../_/tools/common.php';

@@ -38,7 +38,7 @@ if (isset($_GET['ressort'])) {
     $no_robots = ($role->getGuide() === '');
 
     echo OlzHeader::render([
-        'title' => $role->getName(),
+        'title' => "{$role->getName()} - Verein",
         'description' => "Ressort {$role->getName()} der OL Zimmerberg.",
         'norobots' => $no_robots,
     ]);
@@ -48,7 +48,7 @@ if (isset($_GET['ressort'])) {
     echo OlzFooter::render();
 } else {
     echo OlzHeader::render([
-        'title' => "Kontakt",
+        'title' => "Verein",
         'description' => "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.",
     ]);
 

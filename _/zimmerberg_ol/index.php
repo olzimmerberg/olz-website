@@ -254,6 +254,8 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
+        <p>{$_->directives_pdf_sat}</p>
+        <p></p>
         {$directives_sat}
         <p></p>
     </div>
@@ -343,6 +345,8 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
+        <p>{$_->directives_pdf_sun}</p>
+        <p></p>
         {$directives_sun}
         <p></p>
     </div>
@@ -407,6 +411,9 @@ echo <<<ZZZZZZZZZZ
             </div>
             <div class="col"></div>
             <div class="col"></div>
+        </div>
+        <div class="row">
+            <img src="{$img_root}sponsor-swisstopo.png" alt="Swisstopo"/>
         </div>
         <p class="sponsor-padding"></p>
     </div>

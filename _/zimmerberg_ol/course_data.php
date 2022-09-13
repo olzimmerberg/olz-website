@@ -542,7 +542,7 @@ $course_data_sun_rows = [
     [
         'course' => 'HE',
         'distance' => '5.4',
-        'elevation' => '215',
+        'elevation' => '240',
         'controls' => '22',
         'scale' => '1:10\'000',
     ],
@@ -556,7 +556,7 @@ $course_data_sun_rows = [
     [
         'course' => 'HAM',
         'distance' => '3.7',
-        'elevation' => '160m',
+        'elevation' => '160',
         'controls' => '14',
         'scale' => '1:10\'000',
     ],

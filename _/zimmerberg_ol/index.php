@@ -267,12 +267,59 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
-        <p><i>{$_->tentative}</i></p>
-        <p></p>
         {$course_data_sat}
         <p></p>
         <p>{$_->course_data_legend_sat}</p>
         <p></p>
+    </div>
+
+    <div class="content sponsors">
+        <p><b>{$_->main_sponsor}</b></p>
+        <div class="row">
+            <div class="col">
+                <img src="{$img_root}sponsor-egk.png" alt="EGK"/>
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+        <p><b>{$_->co_sponsors}</b></p>
+        <div class="row">
+            <div class="col">
+                <img src="{$img_root}sponsor-davosklosters.jpg" alt="Davos Klosters"/>
+            </div>
+            <div class="col">
+                <img src="{$img_root}sponsor-migros.png" alt="Migros"/>
+            </div>
+            <div class="col">
+                <img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="{$img_root}sponsor-swisslos.png" alt="Swisslos"/>
+            </div>
+            <div class="col">
+                <img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
+            </div>
+            <div class="col">
+                <a href="https://senstech.ch/" target="_blank">
+                    <img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
+            </div>
+            <div class="col">
+                <img src="{$img_root}sponsor-madrisa.png" alt="Madrisa"/>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <img src="{$img_root}sponsor-swisstopo.png" alt="Swisstopo"/>
+        </div>
+        <p class="sponsor-padding"></p>
     </div>
 
     <!-- Sonntag -->
@@ -358,8 +405,6 @@ echo <<<ZZZZZZZZZZ
 
     <div class="content">
         <p></p>
-        <p><i>{$_->tentative}</i></p>
-        <p></p>
         {$course_data_sun}
         <p></p>
     </div>
@@ -386,31 +431,22 @@ echo <<<ZZZZZZZZZZ
                 <img src="{$img_root}sponsor-davosklosters.jpg" alt="Davos Klosters"/>
             </div>
             <div class="col">
-                <img src="{$img_root}sponsor-swisslos.png" alt="Swisslos"/>
+                <img src="{$img_root}sponsor-migros.png" alt="Migros"/>
             </div>
             <div class="col">
-                <img src="{$img_root}sponsor-migros.png" alt="Migros"/>
+                <img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <img src="{$img_root}sponsor-graubuenden.jpg" alt="Graubünden"/>
-            </div>
-            <div class="col">
-                <img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
+                <img src="{$img_root}sponsor-swisslos.png" alt="Swisslos"/>
             </div>
             <div class="col">
                 <img src="{$img_root}sponsor-focuswater.png" alt="Focus Water"/>
             </div>
-        </div>
-        <div class="row">
             <div class="col">
-                <a href="https://senstech.ch/" target="_blank">
-                    <img src="{$img_root}sponsor-senstech.jpg" alt="Senstech"/>
-                </a>
+                <img src="{$img_root}sponsor-emmi.png" alt="Emmi"/>
             </div>
-            <div class="col"></div>
-            <div class="col"></div>
         </div>
         <div class="row">
             <img src="{$img_root}sponsor-swisstopo.png" alt="Swisstopo"/>

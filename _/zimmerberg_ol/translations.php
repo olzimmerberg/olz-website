@@ -131,7 +131,7 @@ $translations_de = [
     'weekend_sun_text' => 'Am Samstag, 1. Oktober 2022 findet der 11. Nationale OL (Langdistanz) in Klosters statt, ebenso organisiert durch OL Zimmerberg/OLG Davos.<br>Am Montag, 3. Oktober 2022 kann im selben WKZ wie am Sonntag der Weltcup Final der Langdistanz verfolgt werden.',
     'program_wcf' => 'Programm Weltcupfinal',
     'program_wcf_sat_text' => 'Während dem 11. Nationalen OL findet auf Madrisa eine Weltcup-Staffel statt. Details siehe <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
-    'program_wcf_sun_text' => 'Parallel zum Nationalen OL findet am gleichen Ort ein Weltcup-Mitteldistanz-Lauf statt. Details siehe <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.<br>15.05 Uhr Rangverkündigung OL Staffel Weltcup<br>15.15 Uhr Rangverkündigung OL Mitteldistanz Weltcup',
+    'program_wcf_sun_text' => 'Parallel zum Nationalen OL findet am gleichen Ort ein Weltcup-Mitteldistanz-Lauf statt. Details siehe <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.<br>Unser Nationaler OL überschneidet sich nicht nur zeitlich, sondern auch örtlich mit der Weltcup-Mitteldistanz. Beeinflussungen - ob positiv oder negativ - sind unerwünscht und unfair.<br>15.05 Uhr Rangverkündigung OL Staffel Weltcup<br>15.15 Uhr Rangverkündigung OL Mitteldistanz Weltcup',
     'housing' => 'Unterkunft',
     'housing_sat_text' => 'Siehe <a href="https://www.davos.ch/informieren/unterkuenfte" target="_blank">Unterkünfte &ndash; von Hotel bis Berghütte | Davos Klosters</a>',
     'housing_sun_text' => 'Siehe <a href="https://www.davos.ch/informieren/unterkuenfte" target="_blank">Unterkünfte &ndash; von Hotel bis Berghütte | Davos Klosters</a>',
@@ -146,8 +146,8 @@ $translations_de = [
     'entry_sun_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Anmeldung auf ol-events.ch</a><br>Meldeschluss: Montag, 19. September 2022, 23:59',
 
     // Directives
-    'directives_pdf_sat' => "<a href=\"{$pdf_root}2022_09_12_Weisungen_Samstag.pdf\" target=\"_blank\">Download als PDF</a>",
-    'directives_pdf_sun' => "<a href=\"{$pdf_root}2022_09_12_Weisungen_Sonntag.pdf\" target=\"_blank\">Download als PDF</a>",
+    'directives_pdf_sat' => "<a href=\"{$pdf_root}2022_09_14_Weisungen_Samstag.pdf\" target=\"_blank\">Download als PDF</a>",
+    'directives_pdf_sun' => "<a href=\"{$pdf_root}2022_09_14_Weisungen_Sonntag.pdf\" target=\"_blank\">Download als PDF</a>",
     'briefing' => 'Das Wichtigste vorab',
     'briefing_sat_text' => 'Langdistanz-OL<br>WKZ Madrisa, offen ab 07.30 Uhr<br>Karte Madrisa (2022) 1:10\'000/1:7\'500<br>Startzeiten ab 09.30 Uhr, Zeitbedarf zum Start ca. 40 Minuten<br>Weg zum WKZ: Alle Teilnehmer/-innen erreichen das WKZ nur via Gondelbahn Klosters Madrisa. Wartezeiten an Talstation wegen parallel stattfindendem Weltcuplauf einrechnen.<br>Weltcupläufer/-innen haben bei der Bergfahrt Vortritt. Kommt es deswegen zu Verspätungen, wird am Start eine neue Startzeit zugewiesen.',
     'briefing_sun_text' => 'Mitteldistanz-OL<br>WKZ Höhwald, Davos Wolfgang, offen ab 08:30 Uhr<br>Karte Drussetscha, 1:10\'000/1:7\'500, Stand Sommer 2022<br>Startzeiten ab 09.45 Uhr, Zeitbedarf zum Start ca. 20 Minuten<br>ÖV und PP in Davos Dorf. Shuttlebus nach Davos Wolfgang Seebüel.<br>Ausstieg in RhB Station Davos Wolfgang ist nicht gestattet.',
@@ -382,7 +382,7 @@ $translations_fr = [
     'weekend_sun_text' => 'Le 1<sup>er</sup> octobre 2022 aura lieu la 11<sup>ème</sup> CO nationale (longue distance) à Klosters, qui sera également organisée par OL Zimmerberg / OLG Davos<br>Le 3 octobre 2022, il vous sera possible de suivre la finale de la coupe du monde de longue distance au même emplacement que le centre de course de la compétition de dimanche.',
     'program_wcf' => 'Programme de la finale de la coupe du monde',
     'program_wcf_sat_text' => 'A l\'occasion de la 11<sup>ème</sup> CO Nationale aura lieu à Madrisa une épreuve de coupe du monde type relais. Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.',
-    'program_wcf_sun_text' => 'En parallèle de la CO Nationale aura lieu sur le même terrain une course Moyenne distance de la coupe du monde.  Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.<br>15H05 Proclamation des résultats de l\'épreuve relais de la coupe du monde<br>15H15 Proclamation des résultats de la CO moyenne distance de la coupe du monde',
+    'program_wcf_sun_text' => 'En parallèle de la CO Nationale aura lieu sur le même terrain une course Moyenne distance de la coupe du monde.  Voir les informations détaillées sur le site <a href="https://www.ol-weltcup.ch" target="_blank">www.ol-weltcup.ch</a>.<br>Notre CO nationale ne chevauche pas simplement l\'épreuve Moyenne distance de la coupe du monde d\'un point de vue temporel, mais également d\'un point de vue spatial. Toutes influences positives ou négatives ne sont pas souhaitées et sont jugées comme déloyal.<br>15H05 Proclamation des résultats de l\'épreuve relais de la coupe du monde<br>15H15 Proclamation des résultats de la CO moyenne distance de la coupe du monde',
     'housing' => 'Hébergements',
     'housing_sat_text' => 'Voir le site <a href="https://www.davos.ch/informieren/unterkuenfte" target="_blank">Unterkünfte &ndash; von Hotel bis Berghütte | Davos Klosters</a>',
     'housing_sun_text' => 'Voir le site <a href="https://www.davos.ch/informieren/unterkuenfte" target="_blank">Unterkünfte &ndash; von Hotel bis Berghütte | Davos Klosters</a>',
@@ -397,8 +397,8 @@ $translations_fr = [
     'entry_sun_text' => '<a href="https://portal.ol-events.ch/events/102" target="_blank">Inscription sur ol-events.ch</a><br>Date limite d\'inscription: Lundi 19 septembre 2022, 23h59',
 
     // Directives
-    'directives_pdf_sat' => "<a href=\"{$pdf_root}2022_09_12_Directives_Samedi.pdf\" target=\"_blank\">Télécharger PDF</a>",
-    'directives_pdf_sun' => "<a href=\"{$pdf_root}2022_09_12_Directives_Dimanche.pdf\" target=\"_blank\">Télécharger PDF</a>",
+    'directives_pdf_sat' => "<a href=\"{$pdf_root}2022_09_14_Directives_Samedi.pdf\" target=\"_blank\">Télécharger PDF</a>",
+    'directives_pdf_sun' => "<a href=\"{$pdf_root}2022_09_14_Directives_Dimanche.pdf\" target=\"_blank\">Télécharger PDF</a>",
     'briefing' => 'Au préalable, le plus important',
     'briefing_sat_text' => 'CO Longue distance<br>Centre de Course à Madrisa, ouvert à partir de 07H30<br>Carte Madrisa (2022) 1:10\'000/1:7\'500<br>Heures des départs à partir de 09H30, temps de parcours du centre de course au départ d\'environ 40 minutes<br>Accès au centre de course : Tous les participants doivent rejoindre le centre de course uniquement en empruntant la télécabine Klosters-Madrisa. Veuillez prendre en compte le possible temps d\'attente à la station avale en raison du déroulement parallèle de la coupe du monde.<br>Les participants à la coupe du monde ont priorité lors de la montée en télécabine. Dans le cas d\'un éventuel retard, une nouvelle heure de départ sera attribuée à la zone de départ.',
     'briefing_sun_text' => 'CO Moyenne distance<br>Centre de course Höhwald, Davos Wolfgang, ouvert à partir de 08H30<br>Carte Drussetscha, 1:10\'000/1:7\'500, état été 2022<br>Heures des départs à partir de 09H45, temps de parcours du centre de course au départ d\'environ 20 minutes<br>Transports publics et parkings à Davos Dorf. Bus navette vers Davos Wolfgang Seebüel.<br>Interdiction de descendre du train à la gare de Davos Wolfgang.',

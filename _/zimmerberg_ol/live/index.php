@@ -1,8 +1,8 @@
 <?php
 
 $today = date('Y-m-d');
-$link_saturday = 'http://www.compass-zos.ch/resultate/resultate_13_nat_ol_2021.html';
-$link_sunday = 'https://liveresultat.orientering.se/followfull.php?comp=20113&lang=de';
+$link_saturday = 'https://compass-zos.ch/resultate/resultate_11_nat_ol_2022.html';
+$link_sunday = 'https://compass-zos.ch/resultate/resultate_12_nat_ol_2022.html';
 
 if ($today === '2022-10-01') {
     header("Location: {$link_saturday}");

@@ -60,6 +60,69 @@ class TransportSuggestion {
         ];
     }
 
+    public static function fromFieldValue($value) {
+        $instance = new self();
+        $instance->populateFromFieldValue($value);
+        return $instance;
+    }
+
+    protected function populateFromFieldValue($value) {
+        $this->mainConnection = TransportConnection::fromFieldValue($value['mainConnection']);
+        $this->sideConnections = array_map(function ($side_connection) {
+            return [
+                'connection' => TransportConnection::fromFieldValue($side_connection['connection']),
+                'joiningStationId' => $side_connection['joiningStationId'],
+            ];
+        }, $value['sideConnections']);
+        $this->originInfo = $value['originInfo'];
+        $this->debug = explode("\n", $value['debug']);
+    }
+
+    public function getPrettyPrint() {
+        $all_entries = [];
+        foreach ($this->mainConnection->getFlatHalts() as $halt) {
+            $all_entries[] = [
+                'halt' => $halt,
+                'connection_index' => 0,
+                'is_joining_halt' => false,
+            ];
+        }
+        $side_connection_index = 1;
+        foreach ($this->sideConnections as $side_connection) {
+            $has_joined = false;
+            foreach ($side_connection['connection']->getFlatHalts() as $halt) {
+                $is_joining_halt = $side_connection['joiningStationId'] == $halt->getStationId();
+                if (!$has_joined) {
+                    $all_entries[] = [
+                        'halt' => $halt,
+                        'connection_index' => $side_connection_index,
+                        'is_joining_halt' => $is_joining_halt,
+                    ];
+                }
+                if ($is_joining_halt) {
+                    $has_joined = true;
+                }
+            }
+            $side_connection_index++;
+        }
+        usort(
+            $all_entries,
+            function ($entry_a, $entry_b) {
+                $entry_a_value = $entry_a['halt']->getTimeSeconds();
+                $entry_b_value = $entry_b['halt']->getTimeSeconds();
+                return $entry_a_value < $entry_b_value ? -1 : 1;
+            }
+        );
+        $num_connections = count($this->sideConnections) + 1;
+        return implode("\n", array_map(function ($entry) use ($num_connections) {
+            $before_dot = str_repeat('  ', $entry['connection_index']);
+            $after_dot = str_repeat('  ', $num_connections - $entry['connection_index'] - 1);
+            $dot = $entry['is_joining_halt'] ? '<' : 'O';
+            $halt = $entry['halt'];
+            return "{$before_dot}{$dot}{$after_dot} {$halt->getTimeString()} {$halt->getStationName()}";
+        }, $all_entries));
+    }
+
     public function getMainConnection() {
         return $this->mainConnection;
     }

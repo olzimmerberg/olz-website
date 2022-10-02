@@ -72,4 +72,31 @@ final class TransportHaltTest extends UnitTestCase {
             'time' => '2022-05-17 14:46:14',
         ], $object->getFieldValue());
     }
+
+    public function testTransportHaltEquals(): void {
+        $object1 = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT);
+        $object2 = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT);
+        $object3 = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT_NEITHER);
+        $object4 = $object1;
+
+        $this->assertSame(true, $object1->equals($object1));
+        $this->assertSame(true, $object1->equals($object2));
+        $this->assertSame(false, $object1->equals($object3));
+        $this->assertSame(true, $object1->equals($object4));
+
+        $this->assertSame(true, $object2->equals($object1));
+        $this->assertSame(true, $object2->equals($object2));
+        $this->assertSame(false, $object2->equals($object3));
+        $this->assertSame(true, $object2->equals($object4));
+
+        $this->assertSame(false, $object3->equals($object1));
+        $this->assertSame(false, $object3->equals($object2));
+        $this->assertSame(true, $object3->equals($object3));
+        $this->assertSame(false, $object3->equals($object4));
+
+        $this->assertSame(true, $object4->equals($object1));
+        $this->assertSame(true, $object4->equals($object2));
+        $this->assertSame(false, $object4->equals($object3));
+        $this->assertSame(true, $object4->equals($object4));
+    }
 }

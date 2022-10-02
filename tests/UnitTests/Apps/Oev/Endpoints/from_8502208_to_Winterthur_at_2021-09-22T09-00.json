@@ -1,1 +1,3088 @@
-{"connections":[{"from":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"to":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:08:00+0200","arrivalTimestamp":1632290880,"departure":null,"departureTimestamp":null,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}},"duration":"00d00:53:00","transfers":1,"service":null,"products":["S24","S12"],"capacity1st":null,"capacity2nd":null,"sections":[{"journey":{"name":"020426","category":"S","subcategory":null,"categoryCode":null,"number":"24","operator":"SBB","to":"Schaffhausen","passList":[{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},{"station":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null},"arrival":"2021-09-22T07:17:00+0200","arrivalTimestamp":1632287820,"departure":"2021-09-22T07:17:00+0200","departureTimestamp":1632287820,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null}},{"station":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null},"arrival":"2021-09-22T07:21:00+0200","arrivalTimestamp":1632288060,"departure":"2021-09-22T07:21:00+0200","departureTimestamp":1632288060,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null}},{"station":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null},"arrival":"2021-09-22T07:23:00+0200","arrivalTimestamp":1632288180,"departure":"2021-09-22T07:23:00+0200","departureTimestamp":1632288180,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null}},{"station":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null},"arrival":"2021-09-22T07:25:00+0200","arrivalTimestamp":1632288300,"departure":"2021-09-22T07:25:00+0200","departureTimestamp":1632288300,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null}},{"station":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null},"arrival":"2021-09-22T07:28:00+0200","arrivalTimestamp":1632288480,"departure":"2021-09-22T07:28:00+0200","departureTimestamp":1632288480,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null}},{"station":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null},"arrival":"2021-09-22T07:32:00+0200","arrivalTimestamp":1632288720,"departure":"2021-09-22T07:33:00+0200","departureTimestamp":1632288780,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null}},{"station":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null},"arrival":"2021-09-22T07:34:00+0200","arrivalTimestamp":1632288840,"departure":"2021-09-22T07:34:00+0200","departureTimestamp":1632288840,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null}},{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T07:39:00+0200","arrivalTimestamp":1632289140,"departure":null,"departureTimestamp":null,"delay":null,"platform":"3","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"arrival":{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T07:39:00+0200","arrivalTimestamp":1632289140,"departure":null,"departureTimestamp":null,"delay":null,"platform":"3","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}}},{"journey":{"name":"019227","category":"S","subcategory":null,"categoryCode":null,"number":"12","operator":"SBB","to":"Wil SG","passList":[{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T07:39:00+0200","arrivalTimestamp":1632289140,"departure":"2021-09-22T07:46:00+0200","departureTimestamp":1632289560,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},{"station":{"id":"8503003","name":"Z\u00fcrich Stadelhofen","score":null,"coordinate":{"type":"WGS84","x":47.366607,"y":8.548492},"distance":null},"arrival":"2021-09-22T07:49:00+0200","arrivalTimestamp":1632289740,"departure":"2021-09-22T07:50:00+0200","departureTimestamp":1632289800,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503003","name":"Z\u00fcrich Stadelhofen","score":null,"coordinate":{"type":"WGS84","x":47.366607,"y":8.548492},"distance":null}},{"station":{"id":"8503147","name":"Stettbach","score":null,"coordinate":{"type":"WGS84","x":47.397209,"y":8.596144},"distance":null},"arrival":"2021-09-22T07:55:00+0200","arrivalTimestamp":1632290100,"departure":"2021-09-22T07:56:00+0200","departureTimestamp":1632290160,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503147","name":"Stettbach","score":null,"coordinate":{"type":"WGS84","x":47.397209,"y":8.596144},"distance":null}},{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:08:00+0200","arrivalTimestamp":1632290880,"departure":null,"departureTimestamp":null,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T07:39:00+0200","arrivalTimestamp":1632289140,"departure":"2021-09-22T07:46:00+0200","departureTimestamp":1632289560,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},"arrival":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:08:00+0200","arrivalTimestamp":1632290880,"departure":null,"departureTimestamp":null,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}}]},{"from":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"to":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:16:00+0200","arrivalTimestamp":1632291360,"departure":null,"departureTimestamp":null,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}},"duration":"00d01:01:00","transfers":0,"service":null,"products":["S24"],"capacity1st":null,"capacity2nd":null,"sections":[{"journey":{"name":"020426","category":"S","subcategory":null,"categoryCode":null,"number":"24","operator":"SBB","to":"Schaffhausen","passList":[{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},{"station":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null},"arrival":"2021-09-22T07:17:00+0200","arrivalTimestamp":1632287820,"departure":"2021-09-22T07:17:00+0200","departureTimestamp":1632287820,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null}},{"station":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null},"arrival":"2021-09-22T07:21:00+0200","arrivalTimestamp":1632288060,"departure":"2021-09-22T07:21:00+0200","departureTimestamp":1632288060,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null}},{"station":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null},"arrival":"2021-09-22T07:23:00+0200","arrivalTimestamp":1632288180,"departure":"2021-09-22T07:23:00+0200","departureTimestamp":1632288180,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null}},{"station":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null},"arrival":"2021-09-22T07:25:00+0200","arrivalTimestamp":1632288300,"departure":"2021-09-22T07:25:00+0200","departureTimestamp":1632288300,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null}},{"station":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null},"arrival":"2021-09-22T07:28:00+0200","arrivalTimestamp":1632288480,"departure":"2021-09-22T07:28:00+0200","departureTimestamp":1632288480,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null}},{"station":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null},"arrival":"2021-09-22T07:32:00+0200","arrivalTimestamp":1632288720,"departure":"2021-09-22T07:33:00+0200","departureTimestamp":1632288780,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null}},{"station":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null},"arrival":"2021-09-22T07:34:00+0200","arrivalTimestamp":1632288840,"departure":"2021-09-22T07:34:00+0200","departureTimestamp":1632288840,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null}},{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T07:39:00+0200","arrivalTimestamp":1632289140,"departure":"2021-09-22T07:44:00+0200","departureTimestamp":1632289440,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},{"station":{"id":"8503015","name":"Z\u00fcrich Wipkingen","score":null,"coordinate":{"type":"WGS84","x":47.393037,"y":8.529384},"distance":null},"arrival":"2021-09-22T07:47:00+0200","arrivalTimestamp":1632289620,"departure":"2021-09-22T07:47:00+0200","departureTimestamp":1632289620,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503015","name":"Z\u00fcrich Wipkingen","score":null,"coordinate":{"type":"WGS84","x":47.393037,"y":8.529384},"distance":null}},{"station":{"id":"8503006","name":"Z\u00fcrich Oerlikon","score":null,"coordinate":{"type":"WGS84","x":47.411526,"y":8.54414},"distance":null},"arrival":"2021-09-22T07:51:00+0200","arrivalTimestamp":1632289860,"departure":"2021-09-22T07:52:00+0200","departureTimestamp":1632289920,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503006","name":"Z\u00fcrich Oerlikon","score":null,"coordinate":{"type":"WGS84","x":47.411526,"y":8.54414},"distance":null}},{"station":{"id":"8503016","name":"Z\u00fcrich Flughafen","score":null,"coordinate":{"type":"WGS84","x":47.450379,"y":8.562398},"distance":null},"arrival":"2021-09-22T07:56:00+0200","arrivalTimestamp":1632290160,"departure":"2021-09-22T07:57:00+0200","departureTimestamp":1632290220,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503016","name":"Z\u00fcrich Flughafen","score":null,"coordinate":{"type":"WGS84","x":47.450379,"y":8.562398},"distance":null}},{"station":{"id":"8503307","name":"Bassersdorf","score":null,"coordinate":{"type":"WGS84","x":47.438535,"y":8.626077},"distance":null},"arrival":"2021-09-22T08:01:00+0200","arrivalTimestamp":1632290460,"departure":"2021-09-22T08:01:00+0200","departureTimestamp":1632290460,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503307","name":"Bassersdorf","score":null,"coordinate":{"type":"WGS84","x":47.438535,"y":8.626077},"distance":null}},{"station":{"id":"8503305","name":"Effretikon","score":null,"coordinate":{"type":"WGS84","x":47.425808,"y":8.686673},"distance":null},"arrival":"2021-09-22T08:06:00+0200","arrivalTimestamp":1632290760,"departure":"2021-09-22T08:08:00+0200","departureTimestamp":1632290880,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503305","name":"Effretikon","score":null,"coordinate":{"type":"WGS84","x":47.425808,"y":8.686673},"distance":null}},{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:16:00+0200","arrivalTimestamp":1632291360,"departure":null,"departureTimestamp":null,"delay":null,"platform":"8","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:15:00+0200","departureTimestamp":1632287700,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"arrival":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:16:00+0200","arrivalTimestamp":1632291360,"departure":null,"departureTimestamp":null,"delay":null,"platform":"8","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}}]},{"from":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"to":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:38:00+0200","arrivalTimestamp":1632292680,"departure":null,"departureTimestamp":null,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}},"duration":"00d00:53:00","transfers":1,"service":null,"products":["S24","S12"],"capacity1st":null,"capacity2nd":null,"sections":[{"journey":{"name":"020428","category":"S","subcategory":null,"categoryCode":null,"number":"24","operator":"SBB","to":"Weinfelden","passList":[{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},{"station":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null},"arrival":"2021-09-22T07:47:00+0200","arrivalTimestamp":1632289620,"departure":"2021-09-22T07:47:00+0200","departureTimestamp":1632289620,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null}},{"station":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null},"arrival":"2021-09-22T07:51:00+0200","arrivalTimestamp":1632289860,"departure":"2021-09-22T07:51:00+0200","departureTimestamp":1632289860,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null}},{"station":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null},"arrival":"2021-09-22T07:53:00+0200","arrivalTimestamp":1632289980,"departure":"2021-09-22T07:53:00+0200","departureTimestamp":1632289980,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null}},{"station":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null},"arrival":"2021-09-22T07:55:00+0200","arrivalTimestamp":1632290100,"departure":"2021-09-22T07:55:00+0200","departureTimestamp":1632290100,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null}},{"station":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null},"arrival":"2021-09-22T07:58:00+0200","arrivalTimestamp":1632290280,"departure":"2021-09-22T07:58:00+0200","departureTimestamp":1632290280,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null}},{"station":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null},"arrival":"2021-09-22T08:02:00+0200","arrivalTimestamp":1632290520,"departure":"2021-09-22T08:03:00+0200","departureTimestamp":1632290580,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null}},{"station":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null},"arrival":"2021-09-22T08:04:00+0200","arrivalTimestamp":1632290640,"departure":"2021-09-22T08:04:00+0200","departureTimestamp":1632290640,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null}},{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T08:09:00+0200","arrivalTimestamp":1632290940,"departure":null,"departureTimestamp":null,"delay":null,"platform":"3","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"arrival":{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T08:09:00+0200","arrivalTimestamp":1632290940,"departure":null,"departureTimestamp":null,"delay":null,"platform":"3","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}}},{"journey":{"name":"019229","category":"S","subcategory":null,"categoryCode":null,"number":"12","operator":"SBB","to":"Schaffhausen","passList":[{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T08:09:00+0200","arrivalTimestamp":1632290940,"departure":"2021-09-22T08:16:00+0200","departureTimestamp":1632291360,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},{"station":{"id":"8503003","name":"Z\u00fcrich Stadelhofen","score":null,"coordinate":{"type":"WGS84","x":47.366607,"y":8.548492},"distance":null},"arrival":"2021-09-22T08:19:00+0200","arrivalTimestamp":1632291540,"departure":"2021-09-22T08:20:00+0200","departureTimestamp":1632291600,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503003","name":"Z\u00fcrich Stadelhofen","score":null,"coordinate":{"type":"WGS84","x":47.366607,"y":8.548492},"distance":null}},{"station":{"id":"8503147","name":"Stettbach","score":null,"coordinate":{"type":"WGS84","x":47.397209,"y":8.596144},"distance":null},"arrival":"2021-09-22T08:25:00+0200","arrivalTimestamp":1632291900,"departure":"2021-09-22T08:26:00+0200","departureTimestamp":1632291960,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503147","name":"Stettbach","score":null,"coordinate":{"type":"WGS84","x":47.397209,"y":8.596144},"distance":null}},{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:38:00+0200","arrivalTimestamp":1632292680,"departure":null,"departureTimestamp":null,"delay":null,"platform":"7","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T08:09:00+0200","arrivalTimestamp":1632290940,"departure":"2021-09-22T08:16:00+0200","departureTimestamp":1632291360,"delay":null,"platform":"43\/44","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},"arrival":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:38:00+0200","arrivalTimestamp":1632292680,"departure":null,"departureTimestamp":null,"delay":null,"platform":"7","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}}]},{"from":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"to":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:46:00+0200","arrivalTimestamp":1632293160,"departure":null,"departureTimestamp":null,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}},"duration":"00d01:01:00","transfers":0,"service":null,"products":["S24"],"capacity1st":null,"capacity2nd":null,"sections":[{"journey":{"name":"020428","category":"S","subcategory":null,"categoryCode":null,"number":"24","operator":"SBB","to":"Weinfelden","passList":[{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},{"station":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null},"arrival":"2021-09-22T07:47:00+0200","arrivalTimestamp":1632289620,"departure":"2021-09-22T07:47:00+0200","departureTimestamp":1632289620,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502209","name":"Oberrieden Dorf","score":null,"coordinate":{"type":"WGS84","x":47.276729,"y":8.577659},"distance":null}},{"station":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null},"arrival":"2021-09-22T07:51:00+0200","arrivalTimestamp":1632289860,"departure":"2021-09-22T07:51:00+0200","departureTimestamp":1632289860,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503202","name":"Thalwil","score":null,"coordinate":{"type":"WGS84","x":47.29598,"y":8.564768},"distance":null}},{"station":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null},"arrival":"2021-09-22T07:53:00+0200","arrivalTimestamp":1632289980,"departure":"2021-09-22T07:53:00+0200","departureTimestamp":1632289980,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503201","name":"R\u00fcschlikon","score":null,"coordinate":{"type":"WGS84","x":47.307129,"y":8.555164},"distance":null}},{"station":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null},"arrival":"2021-09-22T07:55:00+0200","arrivalTimestamp":1632290100,"departure":"2021-09-22T07:55:00+0200","departureTimestamp":1632290100,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503200","name":"Kilchberg ZH","score":null,"coordinate":{"type":"WGS84","x":47.324424,"y":8.548011},"distance":null}},{"station":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null},"arrival":"2021-09-22T07:58:00+0200","arrivalTimestamp":1632290280,"departure":"2021-09-22T07:58:00+0200","departureTimestamp":1632290280,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503009","name":"Z\u00fcrich Wollishofen","score":null,"coordinate":{"type":"WGS84","x":47.347437,"y":8.5336},"distance":null}},{"station":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null},"arrival":"2021-09-22T08:02:00+0200","arrivalTimestamp":1632290520,"departure":"2021-09-22T08:03:00+0200","departureTimestamp":1632290580,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503010","name":"Z\u00fcrich Enge","score":null,"coordinate":{"type":"WGS84","x":47.364095,"y":8.530818},"distance":null}},{"station":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null},"arrival":"2021-09-22T08:04:00+0200","arrivalTimestamp":1632290640,"departure":"2021-09-22T08:04:00+0200","departureTimestamp":1632290640,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503011","name":"Z\u00fcrich Wiedikon","score":null,"coordinate":{"type":"WGS84","x":47.371477,"y":8.523488},"distance":null}},{"station":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null},"arrival":"2021-09-22T08:09:00+0200","arrivalTimestamp":1632290940,"departure":"2021-09-22T08:14:00+0200","departureTimestamp":1632291240,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503000","name":"Z\u00fcrich HB","score":null,"coordinate":{"type":"WGS84","x":47.377847,"y":8.540502},"distance":null}},{"station":{"id":"8503015","name":"Z\u00fcrich Wipkingen","score":null,"coordinate":{"type":"WGS84","x":47.393037,"y":8.529384},"distance":null},"arrival":"2021-09-22T08:17:00+0200","arrivalTimestamp":1632291420,"departure":"2021-09-22T08:17:00+0200","departureTimestamp":1632291420,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503015","name":"Z\u00fcrich Wipkingen","score":null,"coordinate":{"type":"WGS84","x":47.393037,"y":8.529384},"distance":null}},{"station":{"id":"8503006","name":"Z\u00fcrich Oerlikon","score":null,"coordinate":{"type":"WGS84","x":47.411526,"y":8.54414},"distance":null},"arrival":"2021-09-22T08:21:00+0200","arrivalTimestamp":1632291660,"departure":"2021-09-22T08:22:00+0200","departureTimestamp":1632291720,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503006","name":"Z\u00fcrich Oerlikon","score":null,"coordinate":{"type":"WGS84","x":47.411526,"y":8.54414},"distance":null}},{"station":{"id":"8503016","name":"Z\u00fcrich Flughafen","score":null,"coordinate":{"type":"WGS84","x":47.450379,"y":8.562398},"distance":null},"arrival":"2021-09-22T08:26:00+0200","arrivalTimestamp":1632291960,"departure":"2021-09-22T08:27:00+0200","departureTimestamp":1632292020,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503016","name":"Z\u00fcrich Flughafen","score":null,"coordinate":{"type":"WGS84","x":47.450379,"y":8.562398},"distance":null}},{"station":{"id":"8503307","name":"Bassersdorf","score":null,"coordinate":{"type":"WGS84","x":47.438535,"y":8.626077},"distance":null},"arrival":"2021-09-22T08:31:00+0200","arrivalTimestamp":1632292260,"departure":"2021-09-22T08:31:00+0200","departureTimestamp":1632292260,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503307","name":"Bassersdorf","score":null,"coordinate":{"type":"WGS84","x":47.438535,"y":8.626077},"distance":null}},{"station":{"id":"8503305","name":"Effretikon","score":null,"coordinate":{"type":"WGS84","x":47.425808,"y":8.686673},"distance":null},"arrival":"2021-09-22T08:36:00+0200","arrivalTimestamp":1632292560,"departure":"2021-09-22T08:38:00+0200","departureTimestamp":1632292680,"delay":null,"platform":null,"prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8503305","name":"Effretikon","score":null,"coordinate":{"type":"WGS84","x":47.425808,"y":8.686673},"distance":null}},{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:46:00+0200","arrivalTimestamp":1632293160,"departure":null,"departureTimestamp":null,"delay":null,"platform":"7","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}],"capacity1st":null,"capacity2nd":null},"walk":null,"departure":{"station":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"arrival":null,"arrivalTimestamp":null,"departure":"2021-09-22T07:45:00+0200","departureTimestamp":1632289500,"delay":null,"platform":"4","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}},"arrival":{"station":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"arrival":"2021-09-22T08:46:00+0200","arrivalTimestamp":1632293160,"departure":null,"departureTimestamp":null,"delay":null,"platform":"7","prognosis":{"platform":null,"arrival":null,"departure":null,"capacity1st":null,"capacity2nd":null},"realtimeAvailability":null,"location":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}}}]}],"from":{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null},"to":{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null},"stations":{"from":[{"id":"8502208","name":"Horgen Oberdorf","score":null,"coordinate":{"type":"WGS84","x":47.258743,"y":8.589815},"distance":null}],"to":[{"id":"8506000","name":"Winterthur","score":null,"coordinate":{"type":"WGS84","x":47.500331,"y":8.723822},"distance":null}]}}
+{
+    "connections": [
+        {
+            "from": {
+                "station": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2021-09-22T07:15:00+0200",
+                "departureTimestamp": 1632287700,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                },
+                "arrival": "2021-09-22T08:08:00+0200",
+                "arrivalTimestamp": 1632290880,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "43\/44",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d00:53:00",
+            "transfers": 1,
+            "service": null,
+            "products": [
+                "S24",
+                "S12"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "020426",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "24",
+                        "operator": "SBB",
+                        "to": "Schaffhausen",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2021-09-22T07:15:00+0200",
+                                "departureTimestamp": 1632287700,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:17:00+0200",
+                                "arrivalTimestamp": 1632287820,
+                                "departure": "2021-09-22T07:17:00+0200",
+                                "departureTimestamp": 1632287820,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:21:00+0200",
+                                "arrivalTimestamp": 1632288060,
+                                "departure": "2021-09-22T07:21:00+0200",
+                                "departureTimestamp": 1632288060,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:23:00+0200",
+                                "arrivalTimestamp": 1632288180,
+                                "departure": "2021-09-22T07:23:00+0200",
+                                "departureTimestamp": 1632288180,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:25:00+0200",
+                                "arrivalTimestamp": 1632288300,
+                                "departure": "2021-09-22T07:25:00+0200",
+                                "departureTimestamp": 1632288300,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:28:00+0200",
+                                "arrivalTimestamp": 1632288480,
+                                "departure": "2021-09-22T07:28:00+0200",
+                                "departureTimestamp": 1632288480,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:32:00+0200",
+                                "arrivalTimestamp": 1632288720,
+                                "departure": "2021-09-22T07:33:00+0200",
+                                "departureTimestamp": 1632288780,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:34:00+0200",
+                                "arrivalTimestamp": 1632288840,
+                                "departure": "2021-09-22T07:34:00+0200",
+                                "departureTimestamp": 1632288840,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:39:00+0200",
+                                "arrivalTimestamp": 1632289140,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "3",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2021-09-22T07:15:00+0200",
+                        "departureTimestamp": 1632287700,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T07:39:00+0200",
+                        "arrivalTimestamp": 1632289140,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "3",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "019227",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "12",
+                        "operator": "SBB",
+                        "to": "Wil SG",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:39:00+0200",
+                                "arrivalTimestamp": 1632289140,
+                                "departure": "2021-09-22T07:46:00+0200",
+                                "departureTimestamp": 1632289560,
+                                "delay": null,
+                                "platform": "43\/44",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503003",
+                                    "name": "Z\u00fcrich Stadelhofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.366607,
+                                        "y": 8.548492
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:49:00+0200",
+                                "arrivalTimestamp": 1632289740,
+                                "departure": "2021-09-22T07:50:00+0200",
+                                "departureTimestamp": 1632289800,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503003",
+                                    "name": "Z\u00fcrich Stadelhofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.366607,
+                                        "y": 8.548492
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503147",
+                                    "name": "Stettbach",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.397209,
+                                        "y": 8.596144
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:55:00+0200",
+                                "arrivalTimestamp": 1632290100,
+                                "departure": "2021-09-22T07:56:00+0200",
+                                "departureTimestamp": 1632290160,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503147",
+                                    "name": "Stettbach",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.397209,
+                                        "y": 8.596144
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:08:00+0200",
+                                "arrivalTimestamp": 1632290880,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T07:39:00+0200",
+                        "arrivalTimestamp": 1632289140,
+                        "departure": "2021-09-22T07:46:00+0200",
+                        "departureTimestamp": 1632289560,
+                        "delay": null,
+                        "platform": "43\/44",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:08:00+0200",
+                        "arrivalTimestamp": 1632290880,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2021-09-22T07:15:00+0200",
+                "departureTimestamp": 1632287700,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                },
+                "arrival": "2021-09-22T08:16:00+0200",
+                "arrivalTimestamp": 1632291360,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:01:00",
+            "transfers": 0,
+            "service": null,
+            "products": [
+                "S24"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "020426",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "24",
+                        "operator": "SBB",
+                        "to": "Schaffhausen",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2021-09-22T07:15:00+0200",
+                                "departureTimestamp": 1632287700,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:17:00+0200",
+                                "arrivalTimestamp": 1632287820,
+                                "departure": "2021-09-22T07:17:00+0200",
+                                "departureTimestamp": 1632287820,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:21:00+0200",
+                                "arrivalTimestamp": 1632288060,
+                                "departure": "2021-09-22T07:21:00+0200",
+                                "departureTimestamp": 1632288060,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:23:00+0200",
+                                "arrivalTimestamp": 1632288180,
+                                "departure": "2021-09-22T07:23:00+0200",
+                                "departureTimestamp": 1632288180,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:25:00+0200",
+                                "arrivalTimestamp": 1632288300,
+                                "departure": "2021-09-22T07:25:00+0200",
+                                "departureTimestamp": 1632288300,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:28:00+0200",
+                                "arrivalTimestamp": 1632288480,
+                                "departure": "2021-09-22T07:28:00+0200",
+                                "departureTimestamp": 1632288480,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:32:00+0200",
+                                "arrivalTimestamp": 1632288720,
+                                "departure": "2021-09-22T07:33:00+0200",
+                                "departureTimestamp": 1632288780,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:34:00+0200",
+                                "arrivalTimestamp": 1632288840,
+                                "departure": "2021-09-22T07:34:00+0200",
+                                "departureTimestamp": 1632288840,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:39:00+0200",
+                                "arrivalTimestamp": 1632289140,
+                                "departure": "2021-09-22T07:44:00+0200",
+                                "departureTimestamp": 1632289440,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503015",
+                                    "name": "Z\u00fcrich Wipkingen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.393037,
+                                        "y": 8.529384
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:47:00+0200",
+                                "arrivalTimestamp": 1632289620,
+                                "departure": "2021-09-22T07:47:00+0200",
+                                "departureTimestamp": 1632289620,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503015",
+                                    "name": "Z\u00fcrich Wipkingen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.393037,
+                                        "y": 8.529384
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503006",
+                                    "name": "Z\u00fcrich Oerlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.411526,
+                                        "y": 8.54414
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:51:00+0200",
+                                "arrivalTimestamp": 1632289860,
+                                "departure": "2021-09-22T07:52:00+0200",
+                                "departureTimestamp": 1632289920,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503006",
+                                    "name": "Z\u00fcrich Oerlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.411526,
+                                        "y": 8.54414
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503016",
+                                    "name": "Z\u00fcrich Flughafen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.450379,
+                                        "y": 8.562398
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:56:00+0200",
+                                "arrivalTimestamp": 1632290160,
+                                "departure": "2021-09-22T07:57:00+0200",
+                                "departureTimestamp": 1632290220,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503016",
+                                    "name": "Z\u00fcrich Flughafen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.450379,
+                                        "y": 8.562398
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503307",
+                                    "name": "Bassersdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.438535,
+                                        "y": 8.626077
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:01:00+0200",
+                                "arrivalTimestamp": 1632290460,
+                                "departure": "2021-09-22T08:01:00+0200",
+                                "departureTimestamp": 1632290460,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503307",
+                                    "name": "Bassersdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.438535,
+                                        "y": 8.626077
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503305",
+                                    "name": "Effretikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.425808,
+                                        "y": 8.686673
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:06:00+0200",
+                                "arrivalTimestamp": 1632290760,
+                                "departure": "2021-09-22T08:08:00+0200",
+                                "departureTimestamp": 1632290880,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503305",
+                                    "name": "Effretikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.425808,
+                                        "y": 8.686673
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:16:00+0200",
+                                "arrivalTimestamp": 1632291360,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "8",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2021-09-22T07:15:00+0200",
+                        "departureTimestamp": 1632287700,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:16:00+0200",
+                        "arrivalTimestamp": 1632291360,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "8",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2021-09-22T07:45:00+0200",
+                "departureTimestamp": 1632289500,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                },
+                "arrival": "2021-09-22T08:38:00+0200",
+                "arrivalTimestamp": 1632292680,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "43\/44",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d00:53:00",
+            "transfers": 1,
+            "service": null,
+            "products": [
+                "S24",
+                "S12"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "020428",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "24",
+                        "operator": "SBB",
+                        "to": "Weinfelden",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2021-09-22T07:45:00+0200",
+                                "departureTimestamp": 1632289500,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:47:00+0200",
+                                "arrivalTimestamp": 1632289620,
+                                "departure": "2021-09-22T07:47:00+0200",
+                                "departureTimestamp": 1632289620,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:51:00+0200",
+                                "arrivalTimestamp": 1632289860,
+                                "departure": "2021-09-22T07:51:00+0200",
+                                "departureTimestamp": 1632289860,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:53:00+0200",
+                                "arrivalTimestamp": 1632289980,
+                                "departure": "2021-09-22T07:53:00+0200",
+                                "departureTimestamp": 1632289980,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:55:00+0200",
+                                "arrivalTimestamp": 1632290100,
+                                "departure": "2021-09-22T07:55:00+0200",
+                                "departureTimestamp": 1632290100,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:58:00+0200",
+                                "arrivalTimestamp": 1632290280,
+                                "departure": "2021-09-22T07:58:00+0200",
+                                "departureTimestamp": 1632290280,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:02:00+0200",
+                                "arrivalTimestamp": 1632290520,
+                                "departure": "2021-09-22T08:03:00+0200",
+                                "departureTimestamp": 1632290580,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:04:00+0200",
+                                "arrivalTimestamp": 1632290640,
+                                "departure": "2021-09-22T08:04:00+0200",
+                                "departureTimestamp": 1632290640,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:09:00+0200",
+                                "arrivalTimestamp": 1632290940,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "3",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2021-09-22T07:45:00+0200",
+                        "departureTimestamp": 1632289500,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:09:00+0200",
+                        "arrivalTimestamp": 1632290940,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "3",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "019229",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "12",
+                        "operator": "SBB",
+                        "to": "Schaffhausen",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:09:00+0200",
+                                "arrivalTimestamp": 1632290940,
+                                "departure": "2021-09-22T08:16:00+0200",
+                                "departureTimestamp": 1632291360,
+                                "delay": null,
+                                "platform": "43\/44",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503003",
+                                    "name": "Z\u00fcrich Stadelhofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.366607,
+                                        "y": 8.548492
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:19:00+0200",
+                                "arrivalTimestamp": 1632291540,
+                                "departure": "2021-09-22T08:20:00+0200",
+                                "departureTimestamp": 1632291600,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503003",
+                                    "name": "Z\u00fcrich Stadelhofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.366607,
+                                        "y": 8.548492
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503147",
+                                    "name": "Stettbach",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.397209,
+                                        "y": 8.596144
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:25:00+0200",
+                                "arrivalTimestamp": 1632291900,
+                                "departure": "2021-09-22T08:26:00+0200",
+                                "departureTimestamp": 1632291960,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503147",
+                                    "name": "Stettbach",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.397209,
+                                        "y": 8.596144
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:38:00+0200",
+                                "arrivalTimestamp": 1632292680,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "7",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:09:00+0200",
+                        "arrivalTimestamp": 1632290940,
+                        "departure": "2021-09-22T08:16:00+0200",
+                        "departureTimestamp": 1632291360,
+                        "delay": null,
+                        "platform": "43\/44",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:38:00+0200",
+                        "arrivalTimestamp": 1632292680,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "7",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2021-09-22T07:45:00+0200",
+                "departureTimestamp": 1632289500,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8502208",
+                    "name": "Horgen Oberdorf",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.258743,
+                        "y": 8.589815
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                },
+                "arrival": "2021-09-22T08:46:00+0200",
+                "arrivalTimestamp": 1632293160,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8506000",
+                    "name": "Winterthur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.500331,
+                        "y": 8.723822
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:01:00",
+            "transfers": 0,
+            "service": null,
+            "products": [
+                "S24"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "020428",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "24",
+                        "operator": "SBB",
+                        "to": "Weinfelden",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2021-09-22T07:45:00+0200",
+                                "departureTimestamp": 1632289500,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502208",
+                                    "name": "Horgen Oberdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.258743,
+                                        "y": 8.589815
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:47:00+0200",
+                                "arrivalTimestamp": 1632289620,
+                                "departure": "2021-09-22T07:47:00+0200",
+                                "departureTimestamp": 1632289620,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8502209",
+                                    "name": "Oberrieden Dorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.276729,
+                                        "y": 8.577659
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:51:00+0200",
+                                "arrivalTimestamp": 1632289860,
+                                "departure": "2021-09-22T07:51:00+0200",
+                                "departureTimestamp": 1632289860,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:53:00+0200",
+                                "arrivalTimestamp": 1632289980,
+                                "departure": "2021-09-22T07:53:00+0200",
+                                "departureTimestamp": 1632289980,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503201",
+                                    "name": "R\u00fcschlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.307129,
+                                        "y": 8.555164
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:55:00+0200",
+                                "arrivalTimestamp": 1632290100,
+                                "departure": "2021-09-22T07:55:00+0200",
+                                "departureTimestamp": 1632290100,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503200",
+                                    "name": "Kilchberg ZH",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.324424,
+                                        "y": 8.548011
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T07:58:00+0200",
+                                "arrivalTimestamp": 1632290280,
+                                "departure": "2021-09-22T07:58:00+0200",
+                                "departureTimestamp": 1632290280,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503009",
+                                    "name": "Z\u00fcrich Wollishofen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.347437,
+                                        "y": 8.5336
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:02:00+0200",
+                                "arrivalTimestamp": 1632290520,
+                                "departure": "2021-09-22T08:03:00+0200",
+                                "departureTimestamp": 1632290580,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503010",
+                                    "name": "Z\u00fcrich Enge",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.364095,
+                                        "y": 8.530818
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:04:00+0200",
+                                "arrivalTimestamp": 1632290640,
+                                "departure": "2021-09-22T08:04:00+0200",
+                                "departureTimestamp": 1632290640,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503011",
+                                    "name": "Z\u00fcrich Wiedikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371477,
+                                        "y": 8.523488
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:09:00+0200",
+                                "arrivalTimestamp": 1632290940,
+                                "departure": "2021-09-22T08:14:00+0200",
+                                "departureTimestamp": 1632291240,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503015",
+                                    "name": "Z\u00fcrich Wipkingen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.393037,
+                                        "y": 8.529384
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:17:00+0200",
+                                "arrivalTimestamp": 1632291420,
+                                "departure": "2021-09-22T08:17:00+0200",
+                                "departureTimestamp": 1632291420,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503015",
+                                    "name": "Z\u00fcrich Wipkingen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.393037,
+                                        "y": 8.529384
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503006",
+                                    "name": "Z\u00fcrich Oerlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.411526,
+                                        "y": 8.54414
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:21:00+0200",
+                                "arrivalTimestamp": 1632291660,
+                                "departure": "2021-09-22T08:22:00+0200",
+                                "departureTimestamp": 1632291720,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503006",
+                                    "name": "Z\u00fcrich Oerlikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.411526,
+                                        "y": 8.54414
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503016",
+                                    "name": "Z\u00fcrich Flughafen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.450379,
+                                        "y": 8.562398
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:26:00+0200",
+                                "arrivalTimestamp": 1632291960,
+                                "departure": "2021-09-22T08:27:00+0200",
+                                "departureTimestamp": 1632292020,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503016",
+                                    "name": "Z\u00fcrich Flughafen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.450379,
+                                        "y": 8.562398
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503307",
+                                    "name": "Bassersdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.438535,
+                                        "y": 8.626077
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:31:00+0200",
+                                "arrivalTimestamp": 1632292260,
+                                "departure": "2021-09-22T08:31:00+0200",
+                                "departureTimestamp": 1632292260,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503307",
+                                    "name": "Bassersdorf",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.438535,
+                                        "y": 8.626077
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503305",
+                                    "name": "Effretikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.425808,
+                                        "y": 8.686673
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:36:00+0200",
+                                "arrivalTimestamp": 1632292560,
+                                "departure": "2021-09-22T08:38:00+0200",
+                                "departureTimestamp": 1632292680,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503305",
+                                    "name": "Effretikon",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.425808,
+                                        "y": 8.686673
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2021-09-22T08:46:00+0200",
+                                "arrivalTimestamp": 1632293160,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "7",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8506000",
+                                    "name": "Winterthur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.500331,
+                                        "y": 8.723822
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2021-09-22T07:45:00+0200",
+                        "departureTimestamp": 1632289500,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8502208",
+                            "name": "Horgen Oberdorf",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.258743,
+                                "y": 8.589815
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2021-09-22T08:46:00+0200",
+                        "arrivalTimestamp": 1632293160,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "7",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8506000",
+                            "name": "Winterthur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.500331,
+                                "y": 8.723822
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "from": {
+        "id": "8502208",
+        "name": "Horgen Oberdorf",
+        "score": null,
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.258743,
+            "y": 8.589815
+        },
+        "distance": null
+    },
+    "to": {
+        "id": "8506000",
+        "name": "Winterthur",
+        "score": null,
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.500331,
+            "y": 8.723822
+        },
+        "distance": null
+    },
+    "stations": {
+        "from": [
+            {
+                "id": "8502208",
+                "name": "Horgen Oberdorf",
+                "score": null,
+                "coordinate": {
+                    "type": "WGS84",
+                    "x": 47.258743,
+                    "y": 8.589815
+                },
+                "distance": null
+            }
+        ],
+        "to": [
+            {
+                "id": "8506000",
+                "name": "Winterthur",
+                "score": null,
+                "coordinate": {
+                    "type": "WGS84",
+                    "x": 47.500331,
+                    "y": 8.723822
+                },
+                "distance": null
+            }
+        ]
+    }
+}

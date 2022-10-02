@@ -87,7 +87,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             $suggestion->addDebug("Latest departure time by station id:");
             $suggestion->addDebug(json_encode($latest_departure_by_station_id, JSON_PRETTY_PRINT));
 
-            foreach ($all_connections as $connection) {
+            foreach (array_reverse($all_connections) as $connection) {
                 $joining_station_id = $this->getJoiningStationFromConnection(
                     $connection,
                     $latest_joining_time_by_station_id,
@@ -128,14 +128,19 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 }
             }
             if ($all_stations_covered) {
-                $suggestions[] = $suggestion->getFieldValue();
+                $normalized_suggestion = $this->getNormalizedSuggestion(
+                    $suggestion, $latest_departure_by_station_id);
+                $suggestions[] = $normalized_suggestion->getFieldValue();
             }
         }
 
         return ['status' => 'OK', 'suggestions' => $suggestions];
     }
 
-    protected function getConnectionsFromOriginsToDestination($destination, $arrival_datetime) {
+    protected function getConnectionsFromOriginsToDestination(
+        $destination,
+        $arrival_datetime,
+    ) {
         $most_peripheral_stations = $this->getMostPeripheralOriginStations();
         $arrival_date = $arrival_datetime->format('Y-m-d');
         $arrival_time = $arrival_datetime->format('H:i');
@@ -162,23 +167,20 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             }
             foreach ($api_connections as $api_connection) {
                 $connection = TransportConnection::fromTransportApi($api_connection);
-                $sections = $connection->getSections() ?? [];
-                foreach ($sections as $section) {
-                    $halts = $section->getHalts();
-                    foreach ($halts as $halt) {
-                        $halt_station_id = $halt->getStationId();
-                        $is_covered_by_station_id[$halt_station_id] = true;
-                        $connections_from_halt =
+                $halts = $connection->getFlatHalts();
+                foreach ($halts as $halt) {
+                    $halt_station_id = $halt->getStationId();
+                    $is_covered_by_station_id[$halt_station_id] = true;
+                    $connections_from_halt =
                         $connections_by_origin_station_id[$halt_station_id] ?? [];
-                        $relevant_connections_from_halt = array_values(array_filter(
-                            $connections_from_halt,
-                            function ($connection_from_halt) use ($connection) {
-                                return !$connection->isSuperConnectionOf($connection_from_halt);
-                            }
-                        ));
-                        $connections_by_origin_station_id[$halt_station_id] =
-                            $relevant_connections_from_halt;
+                    $relevant_connections_from_halt = [];
+                    foreach ($connections_from_halt as $connection_from_halt) {
+                        if (!$connection->isSuperConnectionOf($connection_from_halt)) {
+                            $relevant_connections_from_halt[] = $connection_from_halt;
+                        }
                     }
+                    $connections_by_origin_station_id[$halt_station_id] =
+                        $relevant_connections_from_halt;
                 }
                 $connections_from_station = $connections_by_origin_station_id[$station_id] ?? [];
                 $connections_from_station[] = $connection;
@@ -269,7 +271,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     protected function getJoiningStationFromConnection(
         $connection,
         $latest_joining_time_by_station_id,
-        $latest_departure_by_station_id
+        $latest_departure_by_station_id,
     ) {
         $joining_station_id = null;
         $look_for_joining_station = true;
@@ -285,7 +287,9 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 $joining_station_id = $station_id;
                 $look_for_joining_station = false;
             }
-            if (($latest_departure_by_station_id[$station_id] ?? null) === 0) {
+            $is_unserved_origin_station =
+                ($latest_departure_by_station_id[$station_id] ?? null) === 0;
+            if ($is_unserved_origin_station) {
                 $look_for_joining_station = true;
             }
         }
@@ -295,7 +299,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     protected function shouldUseConnection(
         $connection,
         $joining_station_id,
-        $latest_departure_by_station_id
+        $latest_departure_by_station_id,
     ) {
         $use_this_connection = false;
         $is_before_joining = true;
@@ -317,6 +321,60 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             'use_this_connection' => $use_this_connection,
             'latest_departure_by_station_id' => $latest_departure_by_station_id,
         ];
+    }
+
+    protected function getNormalizedSuggestion(
+        $suggestion,
+        $latest_departure_by_station_id,
+    ) {
+        $normalized_suggestion = new TransportSuggestion();
+
+        $normalized_main_connection = $this->getNormalizedConnection(
+            $suggestion->getMainConnection(), $latest_departure_by_station_id);
+        $normalized_suggestion->setMainConnection($normalized_main_connection);
+
+        foreach ($suggestion->getSideConnections() as $side_connection) {
+            $normalized_connection = $this->getNormalizedConnection(
+                $side_connection['connection'], $latest_departure_by_station_id);
+            if ($normalized_connection !== null) {
+                $normalized_side_connection = [
+                    'connection' => $normalized_connection,
+                    'joiningStationId' => $side_connection['joiningStationId'],
+                ];
+                $normalized_suggestion->addSideConnection($normalized_side_connection);
+            }
+        }
+
+        $origin_info = $normalized_suggestion->getOriginInfo($this->originStations);
+        $normalized_suggestion->setOriginInfo($origin_info);
+
+        foreach ($suggestion->getDebug() as $line) {
+            $normalized_suggestion->addDebug($line);
+        }
+
+        return $normalized_suggestion;
+    }
+
+    protected function getNormalizedConnection(
+        $connection,
+        $latest_departure_by_station_id,
+    ) {
+        $crop_from_halt = null;
+        foreach ($connection->getFlatHalts() as $halt) {
+            $station_id = $halt->getStationId();
+            $latest_departure = $latest_departure_by_station_id[$station_id] ?? null;
+            if ($latest_departure === null) {
+                continue;
+            }
+            $halt_is_latest_departure = $halt->getTimeSeconds() >= $latest_departure;
+            if ($crop_from_halt === null && $halt_is_latest_departure) {
+                $crop_from_halt = $halt;
+            }
+        }
+        if ($crop_from_halt === null) {
+            return null;
+        }
+        return $connection->getCropped($crop_from_halt, null);
     }
 
     protected function isOriginStation($station_id) {

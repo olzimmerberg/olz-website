@@ -71,4 +71,22 @@ final class TransportConnectionTest extends UnitTestCase {
             ],
         ], $object->getFieldValue());
     }
+
+    public function testIsSuperConnectionOf(): void {
+        $super_connection = TransportConnection::fromTransportApi(
+            [
+                'sections' => [
+                    // just has the section twice
+                    TransportSectionTest::SAMPLE_API_SECTION,
+                    TransportSectionTest::SAMPLE_API_SECTION,
+                ],
+            ]
+        );
+        $sub_connection = TransportConnection::fromTransportApi(self::SAMPLE_API_CONNECTION);
+
+        $this->assertSame(true, $super_connection->isSuperConnectionOf($sub_connection));
+        $this->assertSame(true, $super_connection->isSuperConnectionOf($super_connection));
+        $this->assertSame(true, $sub_connection->isSuperConnectionOf($sub_connection));
+        $this->assertSame(false, $sub_connection->isSuperConnectionOf($super_connection));
+    }
 }

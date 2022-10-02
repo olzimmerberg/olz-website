@@ -38,6 +38,27 @@ class TransportHalt {
         $this->timeSeconds = $api_halt['departureTimestamp'] ?? $api_halt['arrivalTimestamp'] ?? null;
     }
 
+    public function getFieldValue() {
+        return [
+            'stationId' => $this->stationId,
+            'stationName' => $this->stationName,
+            'time' => $this->getTimeString(),
+        ];
+    }
+
+    public static function fromFieldValue($value) {
+        $instance = new self();
+        $instance->populateFromFieldValue($value);
+        return $instance;
+    }
+
+    protected function populateFromFieldValue($value) {
+        date_default_timezone_set('Europe/Zurich');
+        $this->stationId = $value['stationId'];
+        $this->stationName = $value['stationName'];
+        $this->timeSeconds = strtotime($value['time']);
+    }
+
     public function getStationId() {
         return $this->stationId;
     }
@@ -54,11 +75,10 @@ class TransportHalt {
         return $this->timeSeconds ? date('Y-m-d H:i:s', $this->timeSeconds) : null;
     }
 
-    public function getFieldValue() {
-        return [
-            'stationId' => $this->stationId,
-            'stationName' => $this->stationName,
-            'time' => $this->getTimeString(),
-        ];
+    public function equals($other_halt) {
+        return
+            $this->getStationId() === $other_halt->getStationId()
+            && $this->getTimeSeconds() === $other_halt->getTimeSeconds()
+        ;
     }
 }

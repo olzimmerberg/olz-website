@@ -121,16 +121,19 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 $suggestion->addDebug("Station info {$station_name} {$rating}");
             }
 
-            $all_stations_covered = true;
+            $missing_stations_covered = [];
             foreach ($latest_departure_by_station_id as $station_id => $latest_departure) {
                 if ($latest_departure === 0) {
-                    $all_stations_covered = false;
+                    $missing_stations_covered[] = $station_id;
                 }
             }
-            if ($all_stations_covered) {
+            if (count($missing_stations_covered) === 0) {
                 $normalized_suggestion = $this->getNormalizedSuggestion(
                     $suggestion, $latest_departure_by_station_id);
                 $suggestions[] = $normalized_suggestion->getFieldValue();
+            } else {
+                $missing_station_ids_covered = implode(', ', $missing_stations_covered);
+                $this->logger->info("Suggestion omitted: {$suggestion->getPrettyPrint()}\n\nMissing stations: {$missing_station_ids_covered}");
             }
         }
 

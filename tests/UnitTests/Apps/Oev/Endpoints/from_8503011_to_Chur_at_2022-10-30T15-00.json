@@ -1,0 +1,4168 @@
+{
+    "connections": [
+        {
+            "from": {
+                "station": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2022-10-30T11:58:00+0100",
+                "departureTimestamp": 1667127480,
+                "delay": null,
+                "platform": null,
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                },
+                "arrival": "2022-10-30T13:43:00+0100",
+                "arrivalTimestamp": 1667133780,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "7",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:45:00",
+            "transfers": 1,
+            "service": null,
+            "products": [
+                "14",
+                "IR 35"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "010041",
+                        "category": "T",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "14",
+                        "operator": "VBZ    F",
+                        "to": "Z\u00fcrich, Seebach",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2022-10-30T11:58:00+0100",
+                                "departureTimestamp": 1667127480,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T11:59:00+0100",
+                                "arrivalTimestamp": 1667127540,
+                                "departure": "2022-10-30T11:59:00+0100",
+                                "departureTimestamp": 1667127540,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:00:00+0100",
+                                "arrivalTimestamp": 1667127600,
+                                "departure": "2022-10-30T12:01:00+0100",
+                                "departureTimestamp": 1667127660,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:03:00+0100",
+                                "arrivalTimestamp": 1667127780,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2022-10-30T11:58:00+0100",
+                        "departureTimestamp": 1667127480,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:03:00+0100",
+                        "arrivalTimestamp": 1667127780,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": null,
+                    "walk": {
+                        "duration": 540
+                    },
+                    "departure": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:03:00+0100",
+                        "arrivalTimestamp": 1667127780,
+                        "departure": "2022-10-30T12:03:00+0100",
+                        "departureTimestamp": 1667127780,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:12:00+0100",
+                        "arrivalTimestamp": 1667128320,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "002367",
+                        "category": "IR",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "35",
+                        "operator": "SOB-sob",
+                        "to": "Chur",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:12:00+0100",
+                                "arrivalTimestamp": 1667128320,
+                                "departure": "2022-10-30T12:12:00+0100",
+                                "departureTimestamp": 1667128320,
+                                "delay": null,
+                                "platform": "8",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:21:00+0100",
+                                "arrivalTimestamp": 1667128860,
+                                "departure": "2022-10-30T12:21:00+0100",
+                                "departureTimestamp": 1667128860,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:31:00+0100",
+                                "arrivalTimestamp": 1667129460,
+                                "departure": "2022-10-30T12:31:00+0100",
+                                "departureTimestamp": 1667129460,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:38:00+0100",
+                                "arrivalTimestamp": 1667129880,
+                                "departure": "2022-10-30T12:41:00+0100",
+                                "departureTimestamp": 1667130060,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:48:00+0100",
+                                "arrivalTimestamp": 1667130480,
+                                "departure": "2022-10-30T12:48:00+0100",
+                                "departureTimestamp": 1667130480,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:58:00+0100",
+                                "arrivalTimestamp": 1667131080,
+                                "departure": "2022-10-30T12:59:00+0100",
+                                "departureTimestamp": 1667131140,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:14:00+0100",
+                                "arrivalTimestamp": 1667132040,
+                                "departure": "2022-10-30T13:14:00+0100",
+                                "departureTimestamp": 1667132040,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:23:00+0100",
+                                "arrivalTimestamp": 1667132580,
+                                "departure": "2022-10-30T13:23:00+0100",
+                                "departureTimestamp": 1667132580,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:27:00+0100",
+                                "arrivalTimestamp": 1667132820,
+                                "departure": "2022-10-30T13:28:00+0100",
+                                "departureTimestamp": 1667132880,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:33:00+0100",
+                                "arrivalTimestamp": 1667133180,
+                                "departure": "2022-10-30T13:34:00+0100",
+                                "departureTimestamp": 1667133240,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:43:00+0100",
+                                "arrivalTimestamp": 1667133780,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "7",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:12:00+0100",
+                        "arrivalTimestamp": 1667128320,
+                        "departure": "2022-10-30T12:12:00+0100",
+                        "departureTimestamp": 1667128320,
+                        "delay": null,
+                        "platform": "8",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:43:00+0100",
+                        "arrivalTimestamp": 1667133780,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "7",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2022-10-30T12:18:00+0100",
+                "departureTimestamp": 1667128680,
+                "delay": null,
+                "platform": null,
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                },
+                "arrival": "2022-10-30T13:52:00+0100",
+                "arrivalTimestamp": 1667134320,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "9",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:34:00",
+            "transfers": 1,
+            "service": null,
+            "products": [
+                "14",
+                "IC 3"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "010680",
+                        "category": "T",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "14",
+                        "operator": "VBZ    F",
+                        "to": "Z\u00fcrich, Seebach",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2022-10-30T12:18:00+0100",
+                                "departureTimestamp": 1667128680,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:19:00+0100",
+                                "arrivalTimestamp": 1667128740,
+                                "departure": "2022-10-30T12:19:00+0100",
+                                "departureTimestamp": 1667128740,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:20:00+0100",
+                                "arrivalTimestamp": 1667128800,
+                                "departure": "2022-10-30T12:21:00+0100",
+                                "departureTimestamp": 1667128860,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:23:00+0100",
+                                "arrivalTimestamp": 1667128980,
+                                "departure": "2022-10-30T12:23:00+0100",
+                                "departureTimestamp": 1667128980,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591262",
+                                    "name": "Z\u00fcrich, L\u00f6wenplatz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.375888,
+                                        "y": 8.537416
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:25:00+0100",
+                                "arrivalTimestamp": 1667129100,
+                                "departure": "2022-10-30T12:25:00+0100",
+                                "departureTimestamp": 1667129100,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591262",
+                                    "name": "Z\u00fcrich, L\u00f6wenplatz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.375888,
+                                        "y": 8.537416
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8587348",
+                                    "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377237,
+                                        "y": 8.539337
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:27:00+0100",
+                                "arrivalTimestamp": 1667129220,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8587348",
+                                    "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377237,
+                                        "y": 8.539337
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2022-10-30T12:18:00+0100",
+                        "departureTimestamp": 1667128680,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8587348",
+                            "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377237,
+                                "y": 8.539337
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:27:00+0100",
+                        "arrivalTimestamp": 1667129220,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8587348",
+                            "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377237,
+                                "y": 8.539337
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": null,
+                    "walk": {
+                        "duration": 420
+                    },
+                    "departure": {
+                        "station": {
+                            "id": "8587348",
+                            "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377237,
+                                "y": 8.539337
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:27:00+0100",
+                        "arrivalTimestamp": 1667129220,
+                        "departure": "2022-10-30T12:27:00+0100",
+                        "departureTimestamp": 1667129220,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8587348",
+                            "name": "Z\u00fcrich, Bahnhofplatz\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377237,
+                                "y": 8.539337
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:34:00+0100",
+                        "arrivalTimestamp": 1667129640,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "000569",
+                        "category": "IC",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "3",
+                        "operator": "SBB",
+                        "to": "Chur",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:34:00+0100",
+                                "arrivalTimestamp": 1667129640,
+                                "departure": "2022-10-30T12:38:00+0100",
+                                "departureTimestamp": 1667129880,
+                                "delay": null,
+                                "platform": "9",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:33:00+0100",
+                                "arrivalTimestamp": 1667133180,
+                                "departure": "2022-10-30T13:33:00+0100",
+                                "departureTimestamp": 1667133180,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:42:00+0100",
+                                "arrivalTimestamp": 1667133720,
+                                "departure": "2022-10-30T13:42:00+0100",
+                                "departureTimestamp": 1667133720,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:52:00+0100",
+                                "arrivalTimestamp": 1667134320,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "9",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:34:00+0100",
+                        "arrivalTimestamp": 1667129640,
+                        "departure": "2022-10-30T12:38:00+0100",
+                        "departureTimestamp": 1667129880,
+                        "delay": null,
+                        "platform": "9",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:52:00+0100",
+                        "arrivalTimestamp": 1667134320,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "9",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2022-10-30T12:28:00+0100",
+                "departureTimestamp": 1667129280,
+                "delay": null,
+                "platform": null,
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                },
+                "arrival": "2022-10-30T14:26:00+0100",
+                "arrivalTimestamp": 1667136360,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "4",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:58:00",
+            "transfers": 3,
+            "service": null,
+            "products": [
+                "14",
+                "S25",
+                "S4",
+                "S12"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "011026",
+                        "category": "T",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "14",
+                        "operator": "VBZ    F",
+                        "to": "Z\u00fcrich, Seebach",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2022-10-30T12:28:00+0100",
+                                "departureTimestamp": 1667129280,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:29:00+0100",
+                                "arrivalTimestamp": 1667129340,
+                                "departure": "2022-10-30T12:29:00+0100",
+                                "departureTimestamp": 1667129340,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:30:00+0100",
+                                "arrivalTimestamp": 1667129400,
+                                "departure": "2022-10-30T12:31:00+0100",
+                                "departureTimestamp": 1667129460,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:33:00+0100",
+                                "arrivalTimestamp": 1667129580,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2022-10-30T12:28:00+0100",
+                        "departureTimestamp": 1667129280,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:33:00+0100",
+                        "arrivalTimestamp": 1667129580,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": null,
+                    "walk": {
+                        "duration": 540
+                    },
+                    "departure": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:33:00+0100",
+                        "arrivalTimestamp": 1667129580,
+                        "departure": "2022-10-30T12:33:00+0100",
+                        "departureTimestamp": 1667129580,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:42:00+0100",
+                        "arrivalTimestamp": 1667130120,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "020547",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "25",
+                        "operator": "SBB",
+                        "to": "Linthal",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:42:00+0100",
+                                "arrivalTimestamp": 1667130120,
+                                "departure": "2022-10-30T12:43:00+0100",
+                                "departureTimestamp": 1667130180,
+                                "delay": null,
+                                "platform": "6",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:00:00+0100",
+                                "arrivalTimestamp": 1667131200,
+                                "departure": "2022-10-30T13:00:00+0100",
+                                "departureTimestamp": 1667131200,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:06:00+0100",
+                                "arrivalTimestamp": 1667131560,
+                                "departure": "2022-10-30T13:06:00+0100",
+                                "departureTimestamp": 1667131560,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503220",
+                                    "name": "Lachen SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.190065,
+                                        "y": 8.852718
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:11:00+0100",
+                                "arrivalTimestamp": 1667131860,
+                                "departure": "2022-10-30T13:11:00+0100",
+                                "departureTimestamp": 1667131860,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503220",
+                                    "name": "Lachen SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.190065,
+                                        "y": 8.852718
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:16:00+0100",
+                                "arrivalTimestamp": 1667132160,
+                                "departure": "2022-10-30T13:16:00+0100",
+                                "departureTimestamp": 1667132160,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:25:00+0100",
+                                "arrivalTimestamp": 1667132700,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "9",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T12:42:00+0100",
+                        "arrivalTimestamp": 1667130120,
+                        "departure": "2022-10-30T12:43:00+0100",
+                        "departureTimestamp": 1667130180,
+                        "delay": null,
+                        "platform": "6",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503225",
+                            "name": "Ziegelbr\u00fccke",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.136149,
+                                "y": 9.06005
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:25:00+0100",
+                        "arrivalTimestamp": 1667132700,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "9",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503225",
+                            "name": "Ziegelbr\u00fccke",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.136149,
+                                "y": 9.06005
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "011456",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "4",
+                        "operator": "SOB-sob",
+                        "to": "Sargans",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:25:00+0100",
+                                "arrivalTimestamp": 1667132700,
+                                "departure": "2022-10-30T13:28:00+0100",
+                                "departureTimestamp": 1667132880,
+                                "delay": null,
+                                "platform": "10",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509418",
+                                    "name": "M\u00fchlehorn",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.117838,
+                                        "y": 9.173015
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:34:00+0100",
+                                "arrivalTimestamp": 1667133240,
+                                "departure": "2022-10-30T13:34:00+0100",
+                                "departureTimestamp": 1667133240,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509418",
+                                    "name": "M\u00fchlehorn",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.117838,
+                                        "y": 9.173015
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509417",
+                                    "name": "Murg",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.113174,
+                                        "y": 9.215038
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:37:00+0100",
+                                "arrivalTimestamp": 1667133420,
+                                "departure": "2022-10-30T13:37:00+0100",
+                                "departureTimestamp": 1667133420,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509417",
+                                    "name": "Murg",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.113174,
+                                        "y": 9.215038
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509416",
+                                    "name": "Unterterzen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.113854,
+                                        "y": 9.255021
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:40:00+0100",
+                                "arrivalTimestamp": 1667133600,
+                                "departure": "2022-10-30T13:40:00+0100",
+                                "departureTimestamp": 1667133600,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509416",
+                                    "name": "Unterterzen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.113854,
+                                        "y": 9.255021
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:46:00+0100",
+                                "arrivalTimestamp": 1667133960,
+                                "departure": "2022-10-30T13:46:00+0100",
+                                "departureTimestamp": 1667133960,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509413",
+                                    "name": "Flums",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.096611,
+                                        "y": 9.34793
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:50:00+0100",
+                                "arrivalTimestamp": 1667134200,
+                                "departure": "2022-10-30T13:50:00+0100",
+                                "departureTimestamp": 1667134200,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509413",
+                                    "name": "Flums",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.096611,
+                                        "y": 9.34793
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509412",
+                                    "name": "Mels",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.053742,
+                                        "y": 9.41776
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:54:00+0100",
+                                "arrivalTimestamp": 1667134440,
+                                "departure": "2022-10-30T13:54:00+0100",
+                                "departureTimestamp": 1667134440,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509412",
+                                    "name": "Mels",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.053742,
+                                        "y": 9.41776
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:58:00+0100",
+                                "arrivalTimestamp": 1667134680,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "5",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503225",
+                            "name": "Ziegelbr\u00fccke",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.136149,
+                                "y": 9.06005
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:25:00+0100",
+                        "arrivalTimestamp": 1667132700,
+                        "departure": "2022-10-30T13:28:00+0100",
+                        "departureTimestamp": 1667132880,
+                        "delay": null,
+                        "platform": "10",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503225",
+                            "name": "Ziegelbr\u00fccke",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.136149,
+                                "y": 9.06005
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8509411",
+                            "name": "Sargans",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.044825,
+                                "y": 9.446259
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:58:00+0100",
+                        "arrivalTimestamp": 1667134680,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "5",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509411",
+                            "name": "Sargans",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.044825,
+                                "y": 9.446259
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "012253",
+                        "category": "S",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "12",
+                        "operator": "THURBO",
+                        "to": "Chur",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:58:00+0100",
+                                "arrivalTimestamp": 1667134680,
+                                "departure": "2022-10-30T14:06:00+0100",
+                                "departureTimestamp": 1667135160,
+                                "delay": null,
+                                "platform": "6",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:11:00+0100",
+                                "arrivalTimestamp": 1667135460,
+                                "departure": "2022-10-30T14:11:00+0100",
+                                "departureTimestamp": 1667135460,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509003",
+                                    "name": "Maienfeld",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.003841,
+                                        "y": 9.529224
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:13:00+0100",
+                                "arrivalTimestamp": 1667135580,
+                                "departure": "2022-10-30T14:13:00+0100",
+                                "departureTimestamp": 1667135580,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509003",
+                                    "name": "Maienfeld",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.003841,
+                                        "y": 9.529224
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:18:00+0100",
+                                "arrivalTimestamp": 1667135880,
+                                "departure": "2022-10-30T14:18:00+0100",
+                                "departureTimestamp": 1667135880,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:26:00+0100",
+                                "arrivalTimestamp": 1667136360,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "4",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8509411",
+                            "name": "Sargans",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.044825,
+                                "y": 9.446259
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:58:00+0100",
+                        "arrivalTimestamp": 1667134680,
+                        "departure": "2022-10-30T14:06:00+0100",
+                        "departureTimestamp": 1667135160,
+                        "delay": null,
+                        "platform": "6",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509411",
+                            "name": "Sargans",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.044825,
+                                "y": 9.446259
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T14:26:00+0100",
+                        "arrivalTimestamp": 1667136360,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "4",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "from": {
+                "station": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                },
+                "arrival": null,
+                "arrivalTimestamp": null,
+                "departure": "2022-10-30T12:58:00+0100",
+                "departureTimestamp": 1667131080,
+                "delay": null,
+                "platform": null,
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8573710",
+                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 47.371426,
+                        "y": 8.524189
+                    },
+                    "distance": null
+                }
+            },
+            "to": {
+                "station": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                },
+                "arrival": "2022-10-30T14:43:00+0100",
+                "arrivalTimestamp": 1667137380,
+                "departure": null,
+                "departureTimestamp": null,
+                "delay": null,
+                "platform": "7",
+                "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                },
+                "realtimeAvailability": null,
+                "location": {
+                    "id": "8509000",
+                    "name": "Chur",
+                    "score": null,
+                    "coordinate": {
+                        "type": "WGS84",
+                        "x": 46.853078,
+                        "y": 9.528939
+                    },
+                    "distance": null
+                }
+            },
+            "duration": "00d01:45:00",
+            "transfers": 1,
+            "service": null,
+            "products": [
+                "14",
+                "IR 35"
+            ],
+            "capacity1st": null,
+            "capacity2nd": null,
+            "sections": [
+                {
+                    "journey": {
+                        "name": "012086",
+                        "category": "T",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "14",
+                        "operator": "VBZ    F",
+                        "to": "Z\u00fcrich, Seebach",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": "2022-10-30T12:58:00+0100",
+                                "departureTimestamp": 1667131080,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8573710",
+                                    "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.371426,
+                                        "y": 8.524189
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T12:59:00+0100",
+                                "arrivalTimestamp": 1667131140,
+                                "departure": "2022-10-30T12:59:00+0100",
+                                "departureTimestamp": 1667131140,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591427",
+                                    "name": "Z\u00fcrich, Werd",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.372318,
+                                        "y": 8.526842
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:00:00+0100",
+                                "arrivalTimestamp": 1667131200,
+                                "departure": "2022-10-30T13:01:00+0100",
+                                "departureTimestamp": 1667131260,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591381",
+                                    "name": "Z\u00fcrich, Stauffacher",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37342,
+                                        "y": 8.529248
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:03:00+0100",
+                                "arrivalTimestamp": 1667131380,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8591367",
+                                    "name": "Z\u00fcrich, Sihlpost\/HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.37609,
+                                        "y": 8.534202
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        },
+                        "arrival": null,
+                        "arrivalTimestamp": null,
+                        "departure": "2022-10-30T12:58:00+0100",
+                        "departureTimestamp": 1667131080,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8573710",
+                            "name": "Z\u00fcrich Wiedikon, Bahnhof",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.371426,
+                                "y": 8.524189
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:03:00+0100",
+                        "arrivalTimestamp": 1667131380,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": null,
+                    "walk": {
+                        "duration": 540
+                    },
+                    "departure": {
+                        "station": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:03:00+0100",
+                        "arrivalTimestamp": 1667131380,
+                        "departure": "2022-10-30T13:03:00+0100",
+                        "departureTimestamp": 1667131380,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8591367",
+                            "name": "Z\u00fcrich, Sihlpost\/HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.37609,
+                                "y": 8.534202
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:12:00+0100",
+                        "arrivalTimestamp": 1667131920,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": null,
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    }
+                },
+                {
+                    "journey": {
+                        "name": "002369",
+                        "category": "IR",
+                        "subcategory": null,
+                        "categoryCode": null,
+                        "number": "35",
+                        "operator": "SOB-sob",
+                        "to": "Chur",
+                        "passList": [
+                            {
+                                "station": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:12:00+0100",
+                                "arrivalTimestamp": 1667131920,
+                                "departure": "2022-10-30T13:12:00+0100",
+                                "departureTimestamp": 1667131920,
+                                "delay": null,
+                                "platform": "9",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503000",
+                                    "name": "Z\u00fcrich HB",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.377847,
+                                        "y": 8.540502
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": null,
+                                "arrivalTimestamp": null,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "0000176",
+                                    "name": "Zimmerberg-Basistunnel",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.351675,
+                                        "y": 8.52196
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:21:00+0100",
+                                "arrivalTimestamp": 1667132460,
+                                "departure": "2022-10-30T13:21:00+0100",
+                                "departureTimestamp": 1667132460,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503202",
+                                    "name": "Thalwil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.29598,
+                                        "y": 8.564768
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:31:00+0100",
+                                "arrivalTimestamp": 1667133060,
+                                "departure": "2022-10-30T13:31:00+0100",
+                                "departureTimestamp": 1667133060,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503206",
+                                    "name": "W\u00e4denswil",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.229306,
+                                        "y": 8.675218
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:38:00+0100",
+                                "arrivalTimestamp": 1667133480,
+                                "departure": "2022-10-30T13:41:00+0100",
+                                "departureTimestamp": 1667133660,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503209",
+                                    "name": "Pf\u00e4ffikon SZ",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.202994,
+                                        "y": 8.778136
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:48:00+0100",
+                                "arrivalTimestamp": 1667134080,
+                                "departure": "2022-10-30T13:48:00+0100",
+                                "departureTimestamp": 1667134080,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503221",
+                                    "name": "Siebnen-Wangen",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.182664,
+                                        "y": 8.900711
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T13:58:00+0100",
+                                "arrivalTimestamp": 1667134680,
+                                "departure": "2022-10-30T13:59:00+0100",
+                                "departureTimestamp": 1667134740,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8503225",
+                                    "name": "Ziegelbr\u00fccke",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.136149,
+                                        "y": 9.06005
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:14:00+0100",
+                                "arrivalTimestamp": 1667135640,
+                                "departure": "2022-10-30T14:14:00+0100",
+                                "departureTimestamp": 1667135640,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509414",
+                                    "name": "Walenstadt",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.119869,
+                                        "y": 9.312985
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:23:00+0100",
+                                "arrivalTimestamp": 1667136180,
+                                "departure": "2022-10-30T14:23:00+0100",
+                                "departureTimestamp": 1667136180,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509411",
+                                    "name": "Sargans",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.044825,
+                                        "y": 9.446259
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:27:00+0100",
+                                "arrivalTimestamp": 1667136420,
+                                "departure": "2022-10-30T14:28:00+0100",
+                                "departureTimestamp": 1667136480,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509004",
+                                    "name": "Bad Ragaz",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 47.010305,
+                                        "y": 9.50523
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:33:00+0100",
+                                "arrivalTimestamp": 1667136780,
+                                "departure": "2022-10-30T14:34:00+0100",
+                                "departureTimestamp": 1667136840,
+                                "delay": null,
+                                "platform": null,
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509002",
+                                    "name": "Landquart",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.967437,
+                                        "y": 9.554043
+                                    },
+                                    "distance": null
+                                }
+                            },
+                            {
+                                "station": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                },
+                                "arrival": "2022-10-30T14:43:00+0100",
+                                "arrivalTimestamp": 1667137380,
+                                "departure": null,
+                                "departureTimestamp": null,
+                                "delay": null,
+                                "platform": "7",
+                                "prognosis": {
+                                    "platform": null,
+                                    "arrival": null,
+                                    "departure": null,
+                                    "capacity1st": null,
+                                    "capacity2nd": null
+                                },
+                                "realtimeAvailability": null,
+                                "location": {
+                                    "id": "8509000",
+                                    "name": "Chur",
+                                    "score": null,
+                                    "coordinate": {
+                                        "type": "WGS84",
+                                        "x": 46.853078,
+                                        "y": 9.528939
+                                    },
+                                    "distance": null
+                                }
+                            }
+                        ],
+                        "capacity1st": null,
+                        "capacity2nd": null
+                    },
+                    "walk": null,
+                    "departure": {
+                        "station": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T13:12:00+0100",
+                        "arrivalTimestamp": 1667131920,
+                        "departure": "2022-10-30T13:12:00+0100",
+                        "departureTimestamp": 1667131920,
+                        "delay": null,
+                        "platform": "9",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8503000",
+                            "name": "Z\u00fcrich HB",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 47.377847,
+                                "y": 8.540502
+                            },
+                            "distance": null
+                        }
+                    },
+                    "arrival": {
+                        "station": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        },
+                        "arrival": "2022-10-30T14:43:00+0100",
+                        "arrivalTimestamp": 1667137380,
+                        "departure": null,
+                        "departureTimestamp": null,
+                        "delay": null,
+                        "platform": "7",
+                        "prognosis": {
+                            "platform": null,
+                            "arrival": null,
+                            "departure": null,
+                            "capacity1st": null,
+                            "capacity2nd": null
+                        },
+                        "realtimeAvailability": null,
+                        "location": {
+                            "id": "8509000",
+                            "name": "Chur",
+                            "score": null,
+                            "coordinate": {
+                                "type": "WGS84",
+                                "x": 46.853078,
+                                "y": 9.528939
+                            },
+                            "distance": null
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "from": {
+        "id": "8503011",
+        "name": "Z\u00fcrich Wiedikon",
+        "score": null,
+        "coordinate": {
+            "type": "WGS84",
+            "x": 47.371477,
+            "y": 8.523488
+        },
+        "distance": null
+    },
+    "to": {
+        "id": "8509000",
+        "name": "Chur",
+        "score": null,
+        "coordinate": {
+            "type": "WGS84",
+            "x": 46.853078,
+            "y": 9.528939
+        },
+        "distance": null
+    },
+    "stations": {
+        "from": [
+            {
+                "id": "8503011",
+                "name": "Z\u00fcrich Wiedikon",
+                "score": null,
+                "coordinate": {
+                    "type": "WGS84",
+                    "x": 47.371477,
+                    "y": 8.523488
+                },
+                "distance": null
+            }
+        ],
+        "to": [
+            {
+                "id": "8509000",
+                "name": "Chur",
+                "score": null,
+                "coordinate": {
+                    "type": "WGS84",
+                    "x": 46.853078,
+                    "y": 9.528939
+                },
+                "distance": null
+            }
+        ]
+    }
+}

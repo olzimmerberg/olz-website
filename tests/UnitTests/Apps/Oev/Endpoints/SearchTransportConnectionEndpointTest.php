@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Oev\Endpoints;
 use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
+use Olz\Fetchers\TransportApiFetcher;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -24,7 +25,15 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher {
             return json_decode(file_get_contents($file_path), true);
         }
         $pretty_request = json_encode($request_data);
-        throw new \Exception("Unmocked transport API request: {$pretty_request}");
+        if (preg_match('/inexistent/', $file_path)) {
+            throw new \Exception("Unmocked transport API request: {$pretty_request}");
+        }
+        $real_fetcher = new TransportApiFetcher();
+        $real_data = $real_fetcher->fetchConnection($request_data);
+        $suggested_file_path =
+            __DIR__."/from_{$from}_to_{$to}_at_{$date}T{$time}.suggestion.json";
+        file_put_contents($suggested_file_path, json_encode($real_data, JSON_PRETTY_PRINT));
+        throw new \Exception("Unmocked transport API request:; Suggestion written to {$suggested_file_path}.");
     }
 }
 
@@ -141,8 +150,14 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Valid user request',
+            'INFO Suggestion omitted:   O   2021-09-22 07:10:00 Langnau-G',
+            'INFO Suggestion omitted:   O   2021-09-22 07:10:00 Langnau-G',
+            'INFO Suggestion omitted:   O   2021-09-22 07:10:00 Langnau-G',
+            'INFO Suggestion omitted: O 2021-09-22 07:10:00 Langnau-Gatti',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], array_map(function ($line) {
+            return substr($line, 0, 60);
+        }, $logger->handler->getPrettyRecords()));
 
         $this->assertSame('OK', $result['status']);
         $this->assertSame(8, count($result['suggestions']));
@@ -288,10 +303,106 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Valid user request',
+            'INFO Suggestion omitted:     O   2021-10-01 07:10:00 Kilchbe',
+            'INFO Suggestion omitted:       O   2021-10-01 07:10:00 Kilch',
+            'INFO Suggestion omitted:             O   2021-10-01 08:05:00',
+            'INFO Suggestion omitted:             O   2021-10-01 08:05:00',
+            'INFO Suggestion omitted:     O     2021-10-01 07:05:00 Langn',
+            'INFO Suggestion omitted:       O       2021-10-01 07:10:00 K',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:     O       2021-10-01 07:10:00 Kil',
+            'INFO Suggestion omitted:     O       2021-10-01 08:05:00 Lan',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:     O     2021-10-01 07:05:00 Langn',
+            'INFO Suggestion omitted:       O     2021-10-01 07:10:00 Kil',
+            'INFO Suggestion omitted:         O     2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:         O     2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:     O     2021-10-01 07:05:00 Langn',
+            'INFO Suggestion omitted:         O   2021-10-01 08:05:00 Adl',
+            'INFO Suggestion omitted: O       2021-10-01 07:05:00 Langnau',
+            'INFO Suggestion omitted:     O       2021-10-01 07:10:00 Kil',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:           O   2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:         O   2021-10-01 08:05:00 Adl',
+            'INFO Suggestion omitted:         O     2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:         O   2021-10-01 08:05:00 Adl',
+            'INFO Suggestion omitted:         O     2021-10-01 08:05:00 A',
+            'INFO Suggestion omitted:   O     2021-10-01 07:05:00 Langnau',
+            'INFO Suggestion omitted:     O       2021-10-01 07:10:00 Kil',
+            'INFO Suggestion omitted:         O   2021-10-01 08:05:00 Adl',
+            'INFO Suggestion omitted:         O   2021-10-01 08:05:00 Adl',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], array_map(function ($line) {
+            return substr($line, 0, 60);
+        }, $logger->handler->getPrettyRecords()));
         $this->assertSame('OK', $result['status']);
         $this->assertSame(0, count($result['suggestions']));
+    }
+
+    public function testSearchTransportConnectionEndpointExample3(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
+        $logger = FakeLogger::create();
+        $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
+        $endpoint->setLogger($logger);
+
+        $result = $endpoint->call([
+            'destination' => 'Chur',
+            'arrival' => '2022-10-30 15:00:00',
+        ]);
+
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Suggestion omitted: O   2022-10-30 11:45:00 Richterswil',
+            'INFO Suggestion omitted:   O     2022-10-30 11:15:00 Horgen ',
+            'INFO Suggestion omitted:           O             2022-10-30 ',
+            'INFO Suggestion omitted:     O         2022-10-30 11:15:00 H',
+            'INFO Suggestion omitted:       O           2022-10-30 11:15:',
+            'INFO Suggestion omitted:           O         2022-10-30 11:1',
+            'INFO Suggestion omitted:         O           2022-10-30 11:1',
+            'INFO Suggestion omitted:   O 2022-10-30 11:45:00 Richterswil',
+            'INFO Suggestion omitted:   O       2022-10-30 11:15:00 Horge',
+            'INFO Suggestion omitted:           O           2022-10-30 11',
+            'INFO Suggestion omitted:           O               2022-10-3',
+            'INFO Suggestion omitted:     O         2022-10-30 11:15:00 H',
+            'INFO Suggestion omitted:         O           2022-10-30 11:1',
+            'INFO Suggestion omitted:           O         2022-10-30 11:1',
+            'INFO Suggestion omitted:     O       2022-10-30 11:15:00 Hor',
+            'INFO Suggestion omitted:       O       2022-10-30 11:15:00 H',
+            'INFO Suggestion omitted:           O       2022-10-30 11:15:',
+            'INFO Suggestion omitted:         O         2022-10-30 11:15:',
+            'INFO Suggestion omitted:     O         2022-10-30 11:15:00 H',
+            'INFO Suggestion omitted:         O               2022-10-30 ',
+            'INFO Suggestion omitted:   O     2022-10-30 11:15:00 Horgen ',
+            'INFO Suggestion omitted:   O     2022-10-30 11:15:00 Horgen ',
+            'INFO Suggestion omitted:           O             2022-10-30 ',
+            'INFO Suggestion omitted: O       2022-10-30 11:15:00 Horgen ',
+            'INFO Suggestion omitted:   O         2022-10-30 11:15:00 Hor',
+            'INFO Suggestion omitted:         O             2022-10-30 11',
+            'INFO Suggestion omitted:       O               2022-10-30 11',
+            'INFO Suggestion omitted:     O         2022-10-30 11:15:00 H',
+            'INFO Suggestion omitted:       O           2022-10-30 11:15:',
+            'INFO Suggestion omitted:         O               2022-10-30 ',
+            'INFO Suggestion omitted:         O             2022-10-30 11',
+            'INFO Valid user response',
+        ], array_map(function ($line) {
+            return substr($line, 0, 60);
+        }, $logger->handler->getPrettyRecords()));
+
+        $this->assertSame('OK', $result['status']);
+        // $this->assertSame(8, count($result['suggestions']));
+
+        $pretty_prints = array_map(function ($suggestion) {
+            $transport_suggestion = TransportSuggestion::fromFieldValue($suggestion);
+            return $transport_suggestion->getPrettyPrint();
+        }, $result['suggestions']);
+        // TODO: Fix; Change to rating-based system (missing station => worse rating)
+        $this->assertSame([], $pretty_prints);
     }
 
     public function testSearchTransportConnectionEndpointFailingRequest(): void {

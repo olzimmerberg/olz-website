@@ -153,27 +153,53 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
                 }));
                 return output;
             })}
-            {instructions.map((instruction, index) => (<>
-                <circle
-                    cx={instruction.connection * 20 + 10}
-                    cy={index * 20 + 10}
-                    r={7}
-                    stroke='rgb(0,0,0)'
-                    stroke-width={2}
-                    fill='rgb(255,255,255)'
-                />
-                <text
-                    x={numConnections * 20 + 5}
-                    y={index * 20 + 15}
-                    fill='rgb(0,0,0)'
-                    style={{
-                        fontWeight: 'bold',
-                        fontSize: 14,
-                    }}
-                >
-                    {`${instruction.time.substr(11, 5)} ${instruction.stationName}`}
-                </text>
-            </>))}
+            {instructions.map((instruction, index) => {
+                const isImportant = IS_OLZ_STATION[instruction.stationId] || instruction.role !== 'halt';
+                if (isImportant) {
+                    return (<>
+                        <circle
+                            cx={instruction.connection * 20 + 10}
+                            cy={index * 20 + 10}
+                            r={7}
+                            stroke='rgb(0,0,0)'
+                            stroke-width={2}
+                            fill='rgb(255,255,255)'
+                        />
+                        <text
+                            x={numConnections * 20 + 5}
+                            y={index * 20 + 15}
+                            fill='rgb(0,0,0)'
+                            style={{
+                                fontWeight: 'bold',
+                                fontSize: 14,
+                            }}
+                        >
+                            {`${instruction.time.substr(11, 5)} ${instruction.stationName}`}
+                        </text>
+                    </>);
+                }
+                return (<>
+                    <circle
+                        cx={instruction.connection * 20 + 10}
+                        cy={index * 20 + 10}
+                        r={3}
+                        stroke='none'
+                        stroke-width={0}
+                        fill='rgb(255,255,255)'
+                    />
+                    <text
+                        x={numConnections * 20 + 5}
+                        y={index * 20 + 15}
+                        fill='rgb(0,0,0)'
+                        style={{
+                            fontWeight: 'regular',
+                            fontSize: 12,
+                        }}
+                    >
+                        {`${instruction.time.substr(11, 5)} ${instruction.stationName}`}
+                    </text>
+                </>);
+            })}
         </svg>
     );
 }

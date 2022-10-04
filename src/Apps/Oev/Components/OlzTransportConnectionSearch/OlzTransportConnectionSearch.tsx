@@ -39,7 +39,7 @@ function handleResponse(response: OlzApiResponses['searchTransportConnection']):
 
 export const OlzTransportConnectionSearch = () => {
     const [connectionSuggestions, setConnectionSuggestions] =
-        React.useState<OlzTransportSuggestion[]>([]);
+        React.useState<OlzTransportSuggestion[]|null>(null);
 
     const destinationInput = React.useRef<HTMLInputElement>();
     const arrivalInput = React.useRef<HTMLInputElement>();
@@ -61,6 +61,15 @@ export const OlzTransportConnectionSearch = () => {
             });
         return false;
     }, []);
+
+    const connectionSuggestionViews = connectionSuggestions === null 
+        ? ''
+        : (connectionSuggestions.length === 0 
+            ? (<div className='alert alert-warning'>Keine Verbindungen gefunden</div>) 
+            : connectionSuggestions.map(suggestion => (
+                <OlzTransportConnectionView suggestion={suggestion} />
+            ))
+        );
 
     return (<>
         <form
@@ -102,8 +111,6 @@ export const OlzTransportConnectionSearch = () => {
             <button type='submit' className='btn btn-primary'>Verbindung suchen</button>
             <div className='error-message alert alert-danger' role='alert'></div>
         </form>
-        {connectionSuggestions.map(suggestion => (
-            <OlzTransportConnectionView suggestion={suggestion} />
-        ))}
+        {connectionSuggestionViews}
     </>);
 }

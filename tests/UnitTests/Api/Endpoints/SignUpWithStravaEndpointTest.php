@@ -48,7 +48,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $logger = new Logger('SignUpWithStravaEndpointTest');
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'stravaUser' => null,
@@ -100,7 +100,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'stravaUser' => 'fakeStravaUser',

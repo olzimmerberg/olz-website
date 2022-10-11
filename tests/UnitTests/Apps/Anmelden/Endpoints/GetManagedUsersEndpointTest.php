@@ -45,7 +45,7 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([]);
@@ -67,7 +67,7 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 

@@ -54,7 +54,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -82,7 +82,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');

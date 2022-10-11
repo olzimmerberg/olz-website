@@ -35,8 +35,8 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $skill_repo = $this->entityManager->getRepository(Skill::class);
-        $skill_category_repo = $this->entityManager->getRepository(SkillCategory::class);
+        $skill_repo = $this->entityManager()->getRepository(Skill::class);
+        $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);
         $skill_by_name = [];
         foreach ($input['skills'] as $input_skill) {
             $skill_name = $input_skill['name'];
@@ -46,12 +46,12 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
                 $skill = $existing_skill;
             } else {
                 $skill = new Skill();
-                $this->entityUtils->createOlzEntity($skill, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($skill, ['onOff' => 1]);
             }
             $skill->setName($skill_name);
             $skill->clearCategories();
             foreach ($skill_category_ids as $external_category_id) {
-                $internal_category_id = $this->idUtils->toInternalId($external_category_id, 'SkillCategory');
+                $internal_category_id = $this->idUtils()->toInternalId($external_category_id, 'SkillCategory');
                 $category = $skill_category_repo->findOneBy(['id' => $internal_category_id]);
                 if (!$category) {
                     throw new \Exception("No such category: {$internal_category_id}");
@@ -62,13 +62,13 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
         }
 
         foreach ($skill_by_name as $skill_name => $skill) {
-            $this->entityManager->persist($skill);
+            $this->entityManager()->persist($skill);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         $id_by_name = [];
         foreach ($skill_by_name as $skill_name => $skill) {
-            $id_by_name[$skill_name] = $this->idUtils->toExternalId($skill->getId(), 'Skill');
+            $id_by_name[$skill_name] = $this->idUtils()->toExternalId($skill->getId(), 'Skill');
         }
         return ['idByName' => $id_by_name];
     }

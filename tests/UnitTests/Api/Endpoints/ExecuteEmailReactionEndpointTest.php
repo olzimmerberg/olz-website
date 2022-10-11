@@ -57,7 +57,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -91,7 +91,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -114,7 +114,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -138,7 +138,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -159,7 +159,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -178,7 +178,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'invalid',
@@ -196,7 +196,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode('')]);
 
@@ -214,7 +214,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -239,7 +239,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -259,7 +259,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $email_utils = new FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',

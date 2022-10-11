@@ -21,7 +21,7 @@ final class WithUtilsTraitTest extends UnitTestCase {
         $all_utils = array_filter(
             WithUtilsTraitClassWithUtilsTrait::$ALL_UTILS,
             function ($util_name) {
-                return $util_name !== 'logger';
+                return $util_name !== 'log';
             }
         );
         $instance = new WithUtilsTraitClassWithUtilsTrait();
@@ -30,7 +30,7 @@ final class WithUtilsTraitTest extends UnitTestCase {
             $cap_util_name = ucfirst($util_name);
             $setter_name = "set{$cap_util_name}";
             $instance->{$setter_name}($util_name);
-            $this->assertSame($util_name, $instance->{$util_name});
+            $this->assertSame($util_name, $instance->{$util_name}());
         }
     }
 }

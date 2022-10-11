@@ -45,7 +45,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -73,7 +73,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 123,
@@ -106,7 +106,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 9999,

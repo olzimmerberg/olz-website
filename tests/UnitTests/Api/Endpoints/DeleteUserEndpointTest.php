@@ -118,7 +118,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'wrong_user',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 1]);
 
@@ -158,7 +158,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 2]);
 
@@ -231,7 +231,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 2]);
 

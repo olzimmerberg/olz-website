@@ -91,7 +91,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call(['code' => null]);
             $this->fail('Exception expected.');
@@ -132,7 +132,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
@@ -197,7 +197,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
@@ -244,7 +244,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'invalid-code']);
 

@@ -77,7 +77,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -115,7 +115,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -153,7 +153,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -191,7 +191,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -233,7 +233,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -276,7 +276,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -322,7 +322,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -359,7 +359,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -405,7 +405,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -450,7 +450,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -552,7 +552,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
     }
@@ -582,7 +582,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(FakeUsers::adminUser(), $auth_utils->getTokenUser());
     }
@@ -597,7 +597,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'invalid-token']);
-        $auth_utils->setLogger($logger);
+        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(null, $auth_utils->getTokenUser());
     }

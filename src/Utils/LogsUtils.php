@@ -15,7 +15,7 @@ class LogsUtils {
     private static $activated_loggers_stack = [];
 
     public function getLogger($ident) {
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $log_path = "{$data_path}logs/";
         if (!is_dir($log_path)) {
             mkdir($log_path, 0777, true);

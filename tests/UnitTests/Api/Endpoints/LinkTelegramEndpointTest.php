@@ -36,7 +36,7 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 

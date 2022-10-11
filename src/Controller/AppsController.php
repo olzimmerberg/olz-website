@@ -15,13 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AppsController extends AbstractController {
     #[Route('/apps/')]
     public function index(
-        // TODO: Enable symfony-style dependency injection
-        // AuthUtils $auth_utils,
+        AuthUtils $auth_utils,
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
         $out = '';
         $out .= OlzHeader::render([]);
         $out .= "<div id='content_double'>";

@@ -39,14 +39,14 @@ class GetManagedUsersEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
-        $auth_user = $this->authUtils->getAuthenticatedUser();
+        $has_access = $this->authUtils()->hasPermission('any');
+        $auth_user = $this->authUtils()->getAuthenticatedUser();
         if (!$has_access || !$auth_user) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
         $auth_user_id = $auth_user->getId();
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $users = $user_repo->findBy(['parent_user' => $auth_user_id]);
         $managed_users = [];
         foreach ($users as $user) {

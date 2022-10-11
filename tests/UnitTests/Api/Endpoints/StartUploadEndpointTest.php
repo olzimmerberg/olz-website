@@ -29,7 +29,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -52,7 +52,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -79,7 +79,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -103,7 +103,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => '.pdf']);
 

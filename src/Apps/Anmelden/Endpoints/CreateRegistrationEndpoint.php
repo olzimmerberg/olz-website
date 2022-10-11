@@ -15,7 +15,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
@@ -23,13 +23,13 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
         $input_data = $input['data'];
 
         $registration = new Registration();
-        $this->entityUtils->createOlzEntity($registration, $input['meta']);
+        $this->entityUtils()->createOlzEntity($registration, $input['meta']);
         $registration->setTitle($input_data['title']);
         $registration->setDescription($input_data['description']);
         $registration->setOpensAt($input_data['opensAt'] ? new \DateTime($input_data['opensAt']) : null);
         $registration->setClosesAt($input_data['closesAt'] ? new \DateTime($input_data['closesAt']) : null);
 
-        $this->entityManager->persist($registration);
+        $this->entityManager()->persist($registration);
 
         foreach ($input_data['infos'] as $index => $info_spec) {
             $title_ident = preg_replace('/[^a-zA-Z0-9]+/', '_', $info_spec['title']);
@@ -38,7 +38,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
             $options_json = json_encode($info_spec['options']);
 
             $registration_info = new RegistrationInfo();
-            $this->entityUtils->createOlzEntity($registration_info, $input['meta']);
+            $this->entityUtils()->createOlzEntity($registration_info, $input['meta']);
             $registration_info->setRegistration($registration);
             $registration_info->setIndexWithinRegistration($index);
             $registration_info->setIdent($ident);
@@ -48,12 +48,12 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
             $registration_info->setIsOptional($info_spec['isOptional'] ? true : false);
             $registration_info->setOptions($options_json);
 
-            $this->entityManager->persist($registration_info);
+            $this->entityManager()->persist($registration_info);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         $internal_id = $registration->getId();
-        $external_id = $this->idUtils->toExternalId($internal_id, 'Registration');
+        $external_id = $this->idUtils()->toExternalId($internal_id, 'Registration');
 
         return [
             'status' => 'OK',

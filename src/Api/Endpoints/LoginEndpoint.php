@@ -34,7 +34,7 @@ class LoginEndpoint extends OlzEndpoint {
         $password = $input['password'];
 
         try {
-            $user = $this->authUtils->authenticate($username_or_email, $password);
+            $user = $this->authUtils()->authenticate($username_or_email, $password);
         } catch (AuthBlockedException $exc) {
             return [
                 'status' => 'BLOCKED',
@@ -45,15 +45,15 @@ class LoginEndpoint extends OlzEndpoint {
             ];
         }
 
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $user->setLastLoginAt($now_datetime);
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session->set('auth', $user->getPermissions());
-        $this->session->set('root', $root);
-        $this->session->set('user', $user->getUsername());
-        $this->session->set('user_id', $user->getId());
+        $this->session()->set('auth', $user->getPermissions());
+        $this->session()->set('root', $root);
+        $this->session()->set('user', $user->getUsername());
+        $this->session()->set('user_id', $user->getId());
         return [
             'status' => 'AUTHENTICATED',
         ];

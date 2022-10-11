@@ -49,8 +49,8 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session->get('user');
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $auth_username = $this->session()->get('user');
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $delivery_type = $input['deliveryType'];
         $has_monthly_preview = $input['monthlyPreview'];
@@ -70,16 +70,16 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         $weekly_summary_galerie = $input['weeklySummaryGalerie'];
         $weekly_summary_termine = $input['weeklySummaryTermine'];
 
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $auth_username]);
-        $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
+        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
 
         $existing_subscriptions = $notification_subscription_repo->findBy([
             'user' => $user,
             'delivery_type' => $delivery_type,
         ]);
         foreach ($existing_subscriptions as $subscription) {
-            $this->entityManager->remove($subscription);
+            $this->entityManager()->remove($subscription);
         }
 
         // TYPE_DAILY_SUMMARY
@@ -106,7 +106,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $subscription->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
             $subscription->setNotificationTypeArgs(json_encode($args));
             $subscription->setCreatedAt($now_datetime);
-            $this->entityManager->persist($subscription);
+            $this->entityManager()->persist($subscription);
         }
 
         // TYPE_DEADLINE_WARNING
@@ -120,7 +120,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $subscription->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
             $subscription->setNotificationTypeArgs(json_encode($args));
             $subscription->setCreatedAt($now_datetime);
-            $this->entityManager->persist($subscription);
+            $this->entityManager()->persist($subscription);
         }
 
         // TYPE_MONTHLY_PREVIEW
@@ -132,7 +132,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $subscription->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
             $subscription->setNotificationTypeArgs(json_encode($args));
             $subscription->setCreatedAt($now_datetime);
-            $this->entityManager->persist($subscription);
+            $this->entityManager()->persist($subscription);
         }
 
         // TYPE_WEEKLY_PREVIEW
@@ -144,7 +144,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
             $subscription->setNotificationTypeArgs(json_encode($args));
             $subscription->setCreatedAt($now_datetime);
-            $this->entityManager->persist($subscription);
+            $this->entityManager()->persist($subscription);
         }
 
         // TYPE_WEEKLY_SUMMARY
@@ -171,7 +171,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
             $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
             $subscription->setNotificationTypeArgs(json_encode($args));
             $subscription->setCreatedAt($now_datetime);
-            $this->entityManager->persist($subscription);
+            $this->entityManager()->persist($subscription);
         }
 
         // The user actively chose this, so even if they unselected all
@@ -186,9 +186,9 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         $subscription->setNotificationType($notification_type);
         $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
         $subscription->setCreatedAt($now_datetime);
-        $this->entityManager->persist($subscription);
+        $this->entityManager()->persist($subscription);
 
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         return ['status' => 'OK'];
     }

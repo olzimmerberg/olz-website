@@ -69,7 +69,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             'idUtils' => function ($value) {
                 return $value instanceof IdUtils;
             },
-            'logger' => function ($value) {
+            'log' => function ($value) {
                 return method_exists($value, 'warning');
             },
             'server' => function ($value) {
@@ -92,9 +92,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
         $instance = new WithUtilsTraitIntegrationClassWithUtilsTrait();
         $this->assertGreaterThan(0, count($all_utils));
         foreach ($all_utils as $util_name) {
-            $cap_util_name = ucfirst($util_name);
-            $getter_name = "get{$cap_util_name}";
-            $value_from_env = $instance->{$getter_name}();
+            $value_from_env = $instance->{$util_name}();
             $check = $check_by_util_name[$util_name];
             $this->assertTrue(
                 $check($value_from_env),

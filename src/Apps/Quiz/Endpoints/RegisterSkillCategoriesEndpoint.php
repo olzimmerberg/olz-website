@@ -32,7 +32,7 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $skill_category_repo = $this->entityManager->getRepository(SkillCategory::class);
+        $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);
         $category_by_name = [];
         foreach ($input['skillCategories'] as $input_category) {
             $category_name = $input_category['name'];
@@ -41,7 +41,7 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
                 $category = $existing_category;
             } else {
                 $category = new SkillCategory();
-                $this->entityUtils->createOlzEntity($category, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($category, ['onOff' => 1]);
             }
             $category->setName($category_name);
             $category_by_name[$category_name] = $category;
@@ -62,13 +62,13 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
         }
 
         foreach ($category_by_name as $category_name => $category) {
-            $this->entityManager->persist($category);
+            $this->entityManager()->persist($category);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         $id_by_name = [];
         foreach ($category_by_name as $category_name => $category) {
-            $id_by_name[$category_name] = $this->idUtils->toExternalId($category->getId(), 'SkillCategory');
+            $id_by_name[$category_name] = $this->idUtils()->toExternalId($category->getId(), 'SkillCategory');
         }
         return ['idByName' => $id_by_name];
     }

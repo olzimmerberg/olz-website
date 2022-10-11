@@ -18,7 +18,7 @@ trait WithUtilsTrait {
         'generalUtils',
         'getParams',
         'idUtils',
-        'logger',
+        'log',
         'server',
         'session',
         'stravaUtils',
@@ -26,159 +26,220 @@ trait WithUtilsTrait {
         'uploadUtils',
     ];
 
-    public function getAuthUtils() {
+    public function authUtils() {
+        return $this->getOrCreate('authUtils');
+    }
+
+    public function createAuthUtils() {
         return AuthUtils::fromEnv();
     }
 
     public function setAuthUtils($authUtils) {
-        $this->authUtils = $authUtils;
+        $this->utilsCache['authUtils'] = $authUtils;
     }
 
-    public function getDateUtils() {
+    public function dateUtils() {
+        return $this->getOrCreate('dateUtils');
+    }
+
+    public function createDateUtils() {
         return AbstractDateUtils::fromEnv();
     }
 
     public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
+        $this->utilsCache['dateUtils'] = $dateUtils;
     }
 
-    public function getEmailUtils() {
+    public function emailUtils() {
+        return $this->getOrCreate('emailUtils');
+    }
+
+    public function createEmailUtils() {
         return EmailUtils::fromEnv();
     }
 
     public function setEmailUtils($emailUtils) {
-        $this->emailUtils = $emailUtils;
+        $this->utilsCache['emailUtils'] = $emailUtils;
     }
 
-    public function getEntityManager() {
+    public function entityManager() {
+        return $this->getOrCreate('entityManager');
+    }
+
+    public function createEntityManager() {
         global $entityManager;
         require_once __DIR__.'/../../_/config/doctrine_db.php';
         return $entityManager;
     }
 
     public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
+        $this->utilsCache['entityManager'] = $entityManager;
     }
 
-    public function getEntityUtils() {
+    public function entityUtils() {
+        return $this->getOrCreate('entityUtils');
+    }
+
+    public function createEntityUtils() {
         return EntityUtils::fromEnv();
     }
 
     public function setEntityUtils($entityUtils) {
-        $this->entityUtils = $entityUtils;
+        $this->utilsCache['entityUtils'] = $entityUtils;
     }
 
-    public function getEnvUtils() {
+    public function envUtils() {
+        return $this->getOrCreate('envUtils');
+    }
+
+    public function createEnvUtils() {
         return EnvUtils::fromEnv();
     }
 
     public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
+        $this->utilsCache['envUtils'] = $envUtils;
     }
 
-    public function getFieldUtils() {
+    public function fieldUtils() {
+        return $this->getOrCreate('fieldUtils');
+    }
+
+    public function createFieldUtils() {
         return FieldUtils::create();
     }
 
     public function setFieldUtils($fieldUtils) {
-        $this->fieldUtils = $fieldUtils;
+        $this->utilsCache['fieldUtils'] = $fieldUtils;
     }
 
-    public function getGeneralUtils() {
+    public function generalUtils() {
+        return $this->getOrCreate('generalUtils');
+    }
+
+    public function createGeneralUtils() {
         return GeneralUtils::fromEnv();
     }
 
     public function setGeneralUtils($generalUtils) {
-        $this->generalUtils = $generalUtils;
+        $this->utilsCache['generalUtils'] = $generalUtils;
     }
 
-    public function getGetParams() {
+    public function getParams() {
+        return $this->getOrCreate('getParams');
+    }
+
+    public function createGetParams() {
         global $_GET;
         return $_GET;
     }
 
     public function setGetParams($getParams) {
-        $this->getParams = $getParams;
+        $this->utilsCache['getParams'] = $getParams;
     }
 
-    public function getIdUtils() {
+    public function idUtils() {
+        return $this->getOrCreate('idUtils');
+    }
+
+    public function createIdUtils() {
         return IdUtils::fromEnv();
     }
 
     public function setIdUtils($idUtils) {
-        $this->idUtils = $idUtils;
+        $this->utilsCache['idUtils'] = $idUtils;
     }
 
-    public function getLogger() {
+    public function log() {
+        return $this->getOrCreate('log');
+    }
+
+    public function createLog() {
         $called_class = get_called_class();
         $logs_utils = LogsUtils::fromEnv();
         return $logs_utils->getLogger(strval($called_class));
     }
 
-    public function getServer() {
+    public function setLog($log) {
+        $this->setLogger($log);
+        $this->utilsCache['log'] = $log;
+    }
+
+    public function server() {
+        return $this->getOrCreate('server');
+    }
+
+    public function createServer() {
         global $_SERVER;
         return $_SERVER;
     }
 
     public function setServer($server) {
-        $this->server = $server;
+        $this->utilsCache['server'] = $server;
     }
 
-    public function getSession() {
+    public function session() {
+        return $this->getOrCreate('session');
+    }
+
+    public function createSession() {
         return new StandardSession();
     }
 
     public function setSession($session) {
-        $this->session = $session;
+        $this->utilsCache['session'] = $session;
     }
 
-    public function getStravaUtils() {
+    public function stravaUtils() {
+        return $this->getOrCreate('stravaUtils');
+    }
+
+    public function createStravaUtils() {
         return StravaUtils::fromEnv();
     }
 
     public function setStravaUtils($stravaUtils) {
-        $this->stravaUtils = $stravaUtils;
+        $this->utilsCache['stravaUtils'] = $stravaUtils;
     }
 
-    public function getTelegramUtils() {
+    public function telegramUtils() {
+        return $this->getOrCreate('telegramUtils');
+    }
+
+    public function createTelegramUtils() {
         return TelegramUtils::fromEnv();
     }
 
     public function setTelegramUtils($telegram_utils) {
-        $this->telegramUtils = $telegram_utils;
+        $this->utilsCache['telegramUtils'] = $telegram_utils;
     }
 
-    public function getUploadUtils() {
+    public function uploadUtils() {
+        return $this->getOrCreate('uploadUtils');
+    }
+
+    public function createUploadUtils() {
         return UploadUtils::fromEnv();
     }
 
     public function setUploadUtils($uploadUtils) {
-        $this->uploadUtils = $uploadUtils;
+        $this->utilsCache['uploadUtils'] = $uploadUtils;
     }
 
-    // TODO: Enable symfony dependency injection (fromEnv in constructor)
-    // public function __construct($from_env = true) {
-    //     if ($from_env) {
-    //         $this->populateFromEnv(self::UTILS);
-    //     }
-    // }
+    private $utilsCache = [];
 
-    public function populateFromEnv($utils = null) {
-        if ($utils === null) {
-            $utils = self::$ALL_UTILS;
+    protected function getOrCreate($util_name) {
+        $util = $this->utilsCache[$util_name] ?? null;
+        if ($util) {
+            return $util;
         }
-        foreach ($utils as $util_name) {
-            $cap_util_name = ucfirst($util_name);
-            $getter_name = "get{$cap_util_name}";
-            $setter_name = "set{$cap_util_name}";
-            $value_from_env = $this->{$getter_name}();
-            $this->{$setter_name}($value_from_env);
-        }
+        $cap_util_name = ucfirst($util_name);
+        $creator_name = "create{$cap_util_name}";
+        $util = $this->{$creator_name}();
+        $this->utilsCache[$util_name] = $util;
+        return $util;
     }
 
     public static function fromEnv() {
-        $instance = new self();
-        $instance->populateFromEnv(self::UTILS);
-        return $instance;
+        return new self();
     }
 }

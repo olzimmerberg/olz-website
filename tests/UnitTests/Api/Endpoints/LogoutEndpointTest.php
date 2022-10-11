@@ -30,7 +30,7 @@ final class LogoutEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 

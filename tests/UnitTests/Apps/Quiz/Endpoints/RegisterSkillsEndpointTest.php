@@ -59,7 +59,7 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'skills' => [

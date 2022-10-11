@@ -28,7 +28,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
@@ -51,7 +51,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
 
@@ -80,7 +80,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');

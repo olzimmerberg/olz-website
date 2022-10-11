@@ -2,27 +2,24 @@
 
 namespace Olz\Components\Auth\OlzAccountMenu;
 
-use Olz\Entity\User;
+use Olz\Utils\AuthUtils;
+use Olz\Utils\EnvUtils;
 
 class OlzAccountMenu {
     public static function render($args = []) {
-        global $_CONFIG, $entityManager;
         $out = '';
 
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-        require_once __DIR__.'/../../../../_/config/server.php';
-
-        $user_repo = $entityManager->getRepository(User::class);
-        $username = ($_SESSION['user'] ?? null);
-        $user = $user_repo->findOneBy(['username' => $username]);
-        $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials=".urlencode('?');
+        $auth_utils = AuthUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
+        $user = $auth_utils->getAuthenticatedUser();
+        $image_path = "{$env_utils->getCodeHref()}icns/user.php?initials=".urlencode('?');
         if ($user) {
             $user_image_path = "img/users/{$user->getId()}.jpg";
-            if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {
-                $image_path = "{$_CONFIG->getDataHref()}{$user_image_path}";
+            if (is_file("{$env_utils->getDataPath()}{$user_image_path}")) {
+                $image_path = "{$env_utils->getDataHref()}{$user_image_path}";
             } else {
                 $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
-                $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials={$initials}";
+                $image_path = "{$env_utils->getCodeHref()}icns/user.php?initials={$initials}";
             }
         }
 
@@ -57,7 +54,7 @@ class OlzAccountMenu {
             <a
                 id='sign-up-menu-item'
                 class='dropdown-item'
-                href='{$_CONFIG->getCodeHref()}konto_passwort.php'
+                href='{$env_utils->getCodeHref()}konto_passwort.php'
                 role='button'
             >
                 Konto erstellen

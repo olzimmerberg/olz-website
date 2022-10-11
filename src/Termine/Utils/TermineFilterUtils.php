@@ -122,7 +122,7 @@ class TermineFilterUtils {
 
     public function getDateRangeOptions($filter = []) {
         $include_archive = ($filter['archiv'] ?? null) === 'mit';
-        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
@@ -144,7 +144,7 @@ class TermineFilterUtils {
     }
 
     private function getSqlDateRangeFilter($filter) {
-        $today = $this->dateUtils->getIsoToday();
+        $today = $this->dateUtils()->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
             return "(t.datum >= '{$today}') OR (t.datum_end >= '{$today}')";
         }
@@ -259,7 +259,7 @@ class TermineFilterUtils {
     }
 
     public function getIsNotArchivedCriteria() {
-        $years_ago = $this->dateUtils->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+        $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('datum', new \DateTime($beginning_of_years_ago));
     }

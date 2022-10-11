@@ -28,22 +28,22 @@ class RevokeWebdavAccessTokenEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('webdav');
+        $has_access = $this->authUtils()->hasPermission('webdav');
         if (!$has_access) {
             return ['status' => 'ERROR'];
         }
 
-        $current_user = $this->authUtils->getSessionUser();
+        $current_user = $this->authUtils()->getSessionUser();
 
-        $access_token_repo = $this->entityManager->getRepository(AccessToken::class);
+        $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
         $access_token = $access_token_repo->findOneBy([
             'user' => $current_user,
             'purpose' => 'WebDAV',
         ]);
 
         if ($access_token) {
-            $this->entityManager->remove($access_token);
-            $this->entityManager->flush();
+            $this->entityManager()->remove($access_token);
+            $this->entityManager()->flush();
         }
 
         return [

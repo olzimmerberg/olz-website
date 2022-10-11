@@ -30,7 +30,7 @@ final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointWithoutInput(): void {
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -48,7 +48,7 @@ final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointWithNullInput(): void {
         $logger = FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -79,7 +79,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 
@@ -111,7 +111,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'wrooong']);
 
@@ -133,7 +133,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 

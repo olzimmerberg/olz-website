@@ -16,15 +16,15 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('news');
+        $has_access = $this->authUtils()->hasPermission('news');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $role_repo = $this->entityManager->getRepository(Role::class);
-        $current_user = $this->authUtils->getSessionUser();
-        $data_path = $this->envUtils->getDataPath();
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $current_user = $this->authUtils()->getSessionUser();
+        $data_path = $this->envUtils()->getDataPath();
         $input_data = $input['data'];
 
         $author_user_id = $input_data['authorUserId'] ?? null;
@@ -39,14 +39,14 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
 
-        $valid_image_ids = $this->uploadUtils->getValidUploadIds($input_data['imageIds']);
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 
         $news_entry = new NewsEntry();
-        $this->entityUtils->createOlzEntity($news_entry, $input['meta']);
+        $this->entityUtils()->createOlzEntity($news_entry, $input['meta']);
         $news_entry->setAuthor($input_data['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
@@ -64,19 +64,19 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         $news_entry->setType('aktuell');
         $news_entry->setNewsletter(1);
 
-        $this->entityManager->persist($news_entry);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($news_entry);
+        $this->entityManager()->flush();
 
         $news_entry_id = $news_entry->getId();
 
         $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
         mkdir("{$news_entry_img_path}img/", 0777, true);
         mkdir("{$news_entry_img_path}thumb/", 0777, true);
-        $this->uploadUtils->moveUploads($valid_image_ids, "{$news_entry_img_path}img/");
+        $this->uploadUtils()->moveUploads($valid_image_ids, "{$news_entry_img_path}img/");
         // TODO: Generate default thumbnails.
 
         $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
-        $this->uploadUtils->moveUploads($input_data['fileIds'], $news_entry_files_path);
+        $this->uploadUtils()->moveUploads($input_data['fileIds'], $news_entry_files_path);
 
         return [
             'status' => 'OK',

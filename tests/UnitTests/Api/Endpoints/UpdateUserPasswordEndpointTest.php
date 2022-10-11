@@ -39,7 +39,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -69,7 +69,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'not_admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -102,7 +102,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -137,7 +137,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,

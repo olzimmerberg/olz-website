@@ -34,7 +34,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -51,7 +51,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 

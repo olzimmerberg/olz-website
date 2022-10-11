@@ -34,7 +34,7 @@ class UpdateResultsEndpoint extends OlzEndpoint {
         $filename = $input['file'];
         $is_filename_ok = preg_match('/^[a-z0-9\-\.]+$/', $filename);
         if (!$is_filename_ok) {
-            $this->logger->warning("Filename must match ^[a-z0-9\\-\\.]+$: {$filename}");
+            $this->log()->warning("Filename must match ^[a-z0-9\\-\\.]+$: {$filename}");
             return ['status' => 'INVALID_FILENAME'];
         }
         $results_data_path = realpath("{$data_path}results");
@@ -44,7 +44,7 @@ class UpdateResultsEndpoint extends OlzEndpoint {
         }
         $new_content = base64_decode($input['content']);
         if (!$new_content) {
-            $this->logger->warning("Invalid base64 data");
+            $this->log()->warning("Invalid base64 data");
             return ['status' => 'INVALID_BASE64_DATA'];
         }
         file_put_contents($file_path, $new_content);

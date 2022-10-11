@@ -87,7 +87,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $logger = new Logger('GetMySkillLevelsEndpointTest');
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -112,7 +112,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'skillFilter' => null,
@@ -141,7 +141,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'skillFilter' => [

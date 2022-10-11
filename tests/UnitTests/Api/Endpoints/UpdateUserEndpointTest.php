@@ -77,7 +77,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'wrong_user',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -103,7 +103,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(array_merge(
@@ -142,7 +142,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -198,7 +198,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(array_merge(
             self::VALID_INPUT,

@@ -55,7 +55,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             return ['status' => 'ERROR', 'suggestions' => null];
         }
@@ -67,7 +67,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 $this->getConnectionsFromOriginsToDestination(
                     $destination, $arrival_datetime);
         } catch (\Throwable $th) {
-            $this->logger->error($th);
+            $this->log()->error($th);
             return ['status' => 'ERROR', 'suggestions' => null];
         }
 
@@ -133,7 +133,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 $suggestions[] = $normalized_suggestion->getFieldValue();
             } else {
                 $missing_station_ids_covered = implode(', ', $missing_stations_covered);
-                $this->logger->info("Suggestion omitted: {$suggestion->getPrettyPrint()}\n\nMissing stations: {$missing_station_ids_covered}");
+                $this->log()->info("Suggestion omitted: {$suggestion->getPrettyPrint()}\n\nMissing stations: {$missing_station_ids_covered}");
             }
         }
 

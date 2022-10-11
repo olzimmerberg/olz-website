@@ -51,7 +51,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_EMAIL,
@@ -143,7 +143,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_TELEGRAM,

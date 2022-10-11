@@ -89,7 +89,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -110,7 +110,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -135,7 +135,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -156,7 +156,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -177,7 +177,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $telegram_utils->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -204,7 +204,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $telegram_utils->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -227,7 +227,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

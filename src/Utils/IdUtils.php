@@ -35,7 +35,7 @@ class IdUtils {
     protected function encryptId($serialized_id) {
         $plaintext = $serialized_id;
         $algo = self::ALGO;
-        $key = $this->envUtils->getIdEncryptionKey();
+        $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode(self::BASE64_IV);
         $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         return $this->trimmedBase64Encode($ciphertext);
@@ -49,7 +49,7 @@ class IdUtils {
     protected function decryptId($encrypted_id) {
         $ciphertext = base64_decode($encrypted_id);
         $algo = self::ALGO;
-        $key = $this->envUtils->getIdEncryptionKey();
+        $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode(self::BASE64_IV);
         return openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv);
     }

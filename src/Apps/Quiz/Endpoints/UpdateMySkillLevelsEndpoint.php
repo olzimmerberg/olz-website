@@ -34,18 +34,18 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $current_user = $this->authUtils->getSessionUser();
-        $skill_repo = $this->entityManager->getRepository(Skill::class);
-        $skill_level_repo = $this->entityManager->getRepository(SkillLevel::class);
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $current_user = $this->authUtils()->getSessionUser();
+        $skill_repo = $this->entityManager()->getRepository(Skill::class);
+        $skill_level_repo = $this->entityManager()->getRepository(SkillLevel::class);
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         foreach ($input['updates'] as $external_skill_id => $update) {
-            $internal_skill_id = $this->idUtils->toInternalId($external_skill_id, 'Skill');
+            $internal_skill_id = $this->idUtils()->toInternalId($external_skill_id, 'Skill');
             $skill_level = $skill_level_repo->findOneBy([
                 'skill' => $internal_skill_id,
                 'user' => $current_user,
@@ -56,12 +56,12 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
                     throw new \Exception("No such skill: {$internal_skill_id}");
                 }
                 $skill_level = new SkillLevel();
-                $this->entityUtils->createOlzEntity($skill_level, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($skill_level, ['onOff' => 1]);
                 $skill_level->setSkill($skill);
                 $skill_level->setUser($current_user);
                 $skill_level->setRecordedAt($now_datetime);
                 $skill_level->setValue(QuizConstants::INITIAL_SKILL_LEVEL_VALUE);
-                $this->entityManager->persist($skill_level);
+                $this->entityManager()->persist($skill_level);
             }
             $value_change = $update['change'] ?? 0;
             $value = $skill_level->getValue();
@@ -70,7 +70,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
             $skill_level->setValue($value);
         }
 
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         return ['status' => 'OK'];
     }

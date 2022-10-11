@@ -27,11 +27,11 @@ class LogoutEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $this->session->delete('auth');
-        $this->session->delete('root');
-        $this->session->delete('user');
-        $this->session->delete('user_id');
-        $this->session->clear();
+        $this->session()->delete('auth');
+        $this->session()->delete('root');
+        $this->session()->delete('user');
+        $this->session()->delete('user_id');
+        $this->session()->clear();
         return [
             'status' => 'SESSION_CLOSED',
         ];

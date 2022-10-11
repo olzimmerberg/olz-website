@@ -4,11 +4,14 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
+
+global $_DATE;
 
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 // KONSTANTEN
 $tmp_jahr = $_DATE->olzDate("jjjj", "");

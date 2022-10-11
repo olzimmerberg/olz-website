@@ -13,16 +13,17 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail {
     public static function render($args = []) {
-        global $db_table, $id, $db, $_DATE, $_GET, $_POST, $_SESSION, $entityManager;
+        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION, $entityManager;
 
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
+        $db = DbUtils::fromEnv()->getDb();
         $db_table = 'aktuell';
         $id = $_GET['id'] ?? null;
 

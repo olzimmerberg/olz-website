@@ -2,13 +2,14 @@
 
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-global $db;
 require_once __DIR__.'/config/init.php';
-require_once __DIR__.'/config/database.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 session_start();
 

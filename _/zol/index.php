@@ -1,8 +1,8 @@
 <?php
 
-global $db;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/../config/database.php';
+$db = DbUtils::fromEnv()->getDb();
 
 if ($_GET['modus'] == 'logo') {
     echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'

@@ -4,10 +4,11 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
-global $db;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/tickers.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 // echo "<form name='Formular2' method='post' action='index.php' enctype='multipart/form-data'>
 // <h2>GESUCHT 'BILD DER WOCHE'</h2>

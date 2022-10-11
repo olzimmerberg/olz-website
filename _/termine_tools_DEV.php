@@ -5,10 +5,13 @@
 // TODO(simon): Was davon funktioniert überhaupt noch? Tests?
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/config/database.php';
+global $_DATE;
+
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 // $_GET["visitor"]=="map"
 // $_GET["visitor"]=="cronjob"

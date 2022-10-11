@@ -4,10 +4,13 @@
 // Unser Forum, wo Mitglieder und Besucher Einträge schreiben können.
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/config/database.php';
+global $_DATE;
+
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 // -------------------------------------------------------------
 // ZUGRIFF

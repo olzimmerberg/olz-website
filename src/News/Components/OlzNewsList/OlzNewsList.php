@@ -9,12 +9,14 @@ use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsList {
     public static function render($args = []) {
-        global $db_table, $db, $_SESSION;
+        global $db_table, $_SESSION;
 
+        $db = DbUtils::fromEnv()->getDb();
         $db_table = 'aktuell';
 
         $http_utils = HttpUtils::fromEnv();

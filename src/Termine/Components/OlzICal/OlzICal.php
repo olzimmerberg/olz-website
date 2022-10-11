@@ -8,16 +8,18 @@
 
 namespace Olz\Termine\Components\OlzICal;
 
+use Olz\Utils\DbUtils;
+
 class OlzICal {
     public static function render($args = []) {
-        global $base_href, $code_href, $db, $_DATE;
+        global $base_href, $code_href, $_DATE;
 
         require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
+        $db = DbUtils::fromEnv()->getDb();
         $jahr = olz_current_date('Y');
 
         // Termine abfragen

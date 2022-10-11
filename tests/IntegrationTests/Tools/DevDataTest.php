@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Tools;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DbUtils;
 
 /**
  * @internal
@@ -17,9 +18,8 @@ final class DevDataTest extends IntegrationTestCase {
     private $dev_db_content_path = __DIR__.'/../../../_/tools/dev-data/db_content.sql';
 
     public function testInitAndDump(): void {
-        global $db;
-        require_once __DIR__.'/../../../_/config/database.php';
         require_once __DIR__.'/../../../_/tools/dev_data.php';
+        $db = DbUtils::fromEnv()->getDb();
 
         $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
         $old_dev_db_content = file_get_contents($this->dev_db_content_path);
@@ -41,9 +41,8 @@ final class DevDataTest extends IntegrationTestCase {
     }
 
     public function testDumpIsFromCurrentMigration(): void {
-        global $db;
-        require_once __DIR__.'/../../../_/config/database.php';
         require_once __DIR__.'/../../../_/tools/dev_data.php';
+        $db = DbUtils::fromEnv()->getDb();
 
         $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
         $old_dev_db_content = file_get_contents($this->dev_db_content_path);

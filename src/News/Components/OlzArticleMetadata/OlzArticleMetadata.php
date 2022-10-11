@@ -2,9 +2,13 @@
 
 namespace Olz\News\Components\OlzArticleMetadata;
 
+use Olz\Utils\DbUtils;
+
 class OlzArticleMetadata {
     public static function render($id_arg) {
-        global $db, $data_path, $data_href, $base_href, $code_href;
+        global $data_path, $data_href, $base_href, $code_href;
+        $db = DbUtils::fromEnv()->getDb();
+
         $id = intval($id_arg);
         $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";
         $res = $db->query($sql);

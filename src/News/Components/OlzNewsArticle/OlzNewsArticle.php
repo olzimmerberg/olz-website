@@ -2,12 +2,15 @@
 
 namespace Olz\News\Components\OlzNewsArticle;
 
+use Olz\Utils\DbUtils;
+
 class OlzNewsArticle {
     public static function render($args = []) {
-        global $db, $_DATE;
+        global $_DATE;
 
         require_once __DIR__.'/../../../../_/image_tools.php';
 
+        $db = DbUtils::fromEnv()->getDb();
         $db_table = 'aktuell';
         $id = $args['id'];
         $arg_row = $args['row'] ?? null;

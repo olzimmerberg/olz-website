@@ -12,20 +12,21 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail {
     public static function render($args = []) {
-        global $db, $db_table, $entityManager, $id, $_CONFIG;
+        global $db_table, $entityManager, $id, $_CONFIG;
 
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
         require_once __DIR__.'/../../../../_/config/server.php';
 
+        $db = DbUtils::fromEnv()->getDb();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);

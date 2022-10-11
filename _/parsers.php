@@ -5,11 +5,12 @@
 // TODO(simon): DEPRECATED?
 // =============================================================================
 
-require_once __DIR__.'/config/database.php';
+use Olz\Utils\DbUtils;
+
 require_once __DIR__.'/config/date.php';
 
 function solvdataforyear($year) {
-    global $db;
+    $db = DbUtils::fromEnv()->getDb();
     if (!$year) {
         $year = olz_current_date("Y");
     }
@@ -52,7 +53,7 @@ function solvdataforyear($year) {
 }
 
 function go2oldata() {
-    global $db;
+    $db = DbUtils::fromEnv()->getDb();
 
     $url = "http://www.go2ol.ch/index.asp";
     $file = utf8_encode(load_url($url));

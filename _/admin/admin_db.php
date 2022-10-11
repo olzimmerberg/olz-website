@@ -10,10 +10,9 @@
 
 use Olz\Termine\Components\OlzICal\OlzICal;
 use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Utils\DbUtils;
 
-global $db;
-
-require_once __DIR__.'/../config/database.php';
+$db = DbUtils::fromEnv()->getDb();
 
 $mail_from = 'noreply@olzimmerberg.ch'; // Absenderadresse wird als additional header in mail() benötigt
 
@@ -491,8 +490,8 @@ if (($do ?? null) == "save") {
 if (($do ?? null) == 'submit') {
     $sql_tmp = [];
     function user2db($feld_typ, $wert) {
-        global $db;
-        require_once __DIR__.'/../config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $default = "'".$db->escape_string(trim($wert))."'";
         if ($feld_typ == 'boolean') {
             return $wert != '' ? '1' : '0';

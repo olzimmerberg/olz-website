@@ -3,6 +3,7 @@
 namespace Olz\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Olz\Utils\DbUtils;
 
 class SolvEventRepository extends EntityRepository {
     public function getSolvEventsForYear($year) {
@@ -20,8 +21,8 @@ class SolvEventRepository extends EntityRepository {
     }
 
     public function setResultForSolvEvent($solv_uid, $rank_link) {
-        global $db;
-        require_once __DIR__.'/../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $sane_solv_uid = $db->escape_string($solv_uid);
         $sane_rank_link = $db->escape_string($rank_link);
         $dql = "

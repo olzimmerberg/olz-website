@@ -4,11 +4,14 @@
 // Neuigkeiten von unseren Leistungssportlern.
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
+
+global $_DATE;
 
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 // echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
 // $kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));

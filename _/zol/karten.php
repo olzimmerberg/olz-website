@@ -96,10 +96,13 @@ function getCookie(name) {
 
 <?php
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/../config/database.php';
+global $_DATE;
+
 require_once __DIR__.'/../config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 $db_table = "olz_result";
 $event = (isset($_GET['event'])) ? $_GET['event'] : $_SESSION['event'];

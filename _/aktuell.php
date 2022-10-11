@@ -6,10 +6,7 @@ use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-global $db;
-
 require_once __DIR__.'/config/init.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/paths.php';
 
 session_start_if_cookie_set();

@@ -28,17 +28,13 @@ class GetNewsEndpoint extends OlzGetEntityEndpoint {
         $owner_role = $news_entry->getOwnerRole();
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
-        $tags_for_api = array_filter(
-            explode(' ', trim($news_entry->getTags())),
-            function ($item) {
-                return trim($item) != '';
-            }
-        );
+        $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
         $termin_id = $news_entry->getTermin();
 
         $file_ids = [];
         $news_entry_files_path = "{$data_path}files/news/{$entity_id}/";
-        $files_path_entries = scandir($news_entry_files_path);
+        $files_path_entries = is_dir($news_entry_files_path)
+            ? scandir($news_entry_files_path) : [];
         foreach ($files_path_entries as $file_id) {
             if (substr($file_id, 0, 1) != '.') {
                 $file_ids[] = $file_id;
@@ -47,9 +43,12 @@ class GetNewsEndpoint extends OlzGetEntityEndpoint {
 
         return [
             'id' => $entity_id,
-            'data' => [
+            'meta' => [
                 'ownerUserId' => $owner_user ? $owner_user->getId() : null,
                 'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
+                'onOff' => $news_entry->getOnOff() ? true : false,
+            ],
+            'data' => [
                 'author' => $news_entry->getAuthor(),
                 'authorUserId' => $author_user ? $author_user->getId() : null,
                 'authorRoleId' => $author_role ? $author_role->getId() : null,
@@ -59,7 +58,6 @@ class GetNewsEndpoint extends OlzGetEntityEndpoint {
                 'externalUrl' => $news_entry->getExternalUrl(),
                 'tags' => $tags_for_api,
                 'terminId' => $termin_id ? $termin_id : null,
-                'onOff' => $news_entry->getOnOff() ? true : false,
                 'imageIds' => $news_entry->getImageIds(),
                 'fileIds' => $file_ids,
             ],

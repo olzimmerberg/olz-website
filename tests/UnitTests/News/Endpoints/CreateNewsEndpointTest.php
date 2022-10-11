@@ -17,23 +17,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../Fake/fake_role.php';
-
-class FakeCreateNewsEndpointRoleRepository {
-    public function __construct() {
-        $admin_role = get_fake_role();
-        $admin_role->setId(1);
-        $this->admin_role = $admin_role;
-    }
-
-    public function findOneBy($where) {
-        if ($where === ['id' => 1]) {
-            return $this->admin_role;
-        }
-        return null;
-    }
-}
-
 /**
  * @internal
  *
@@ -78,14 +61,16 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
         }
     }
 
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
-        $role_repo = new FakeCreateNewsEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $role_repo;
         $auth_utils = new FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['news' => true];
         $entity_utils = new FakeEntityUtils();
@@ -130,7 +115,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             ],
         ]);
 
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+
         $user_repo = $entity_manager->repositories[User::class];
+        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
@@ -142,7 +133,9 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthor());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
-        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
+        $this->assertSame('2020-03-13', $news_entry->getDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());

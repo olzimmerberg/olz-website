@@ -15,7 +15,7 @@ class FakeRoles extends FakeFactory {
                 $admin_role = new Role();
                 $admin_role->setId(2);
                 $admin_role->setUsername('admin_role');
-                $vorstand_role->setPermissions('all');
+                $admin_role->setPermissions('all');
                 return $admin_role;
             }
         );

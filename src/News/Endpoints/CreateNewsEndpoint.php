@@ -39,7 +39,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
-        $today = new \DateTime($this->dateUtils->getIsoToday());
+        $now = new \DateTime($this->dateUtils->getIsoNow());
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
 
@@ -50,7 +50,8 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         $news_entry->setAuthor($input_data['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
-        $news_entry->setDate($today);
+        $news_entry->setDate($now);
+        $news_entry->setTime($now);
         $news_entry->setTitle($input_data['title']);
         $news_entry->setTeaser($input_data['teaser']);
         $news_entry->setContent($input_data['content']);

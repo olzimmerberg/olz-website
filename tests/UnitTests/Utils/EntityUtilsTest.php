@@ -14,23 +14,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\FixedDateUtils;
 
-require_once __DIR__.'/../../Fake/fake_role.php';
-
-class FakeEntityUtilsRoleRepository {
-    public function __construct() {
-        $admin_role = get_fake_role();
-        $admin_role->setId(2);
-        $this->admin_role = $admin_role;
-    }
-
-    public function findOneBy($where) {
-        if ($where === ['id' => 2]) {
-            return $this->admin_role;
-        }
-        return null;
-    }
-}
-
 /**
  * @internal
  *
@@ -41,8 +24,6 @@ final class EntityUtilsTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
-        $role_repo = new FakeEntityUtilsRoleRepository();
-        $entity_manager->repositories[Role::class] = $role_repo;
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setDateUtils($date_utils);
@@ -52,6 +33,7 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity_utils->createOlzEntity(
             $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
 
+        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame(FakeUsers::defaultUser(), $entity->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $entity->getOwnerRole());
@@ -71,8 +53,6 @@ final class EntityUtilsTest extends UnitTestCase {
         $auth_utils = new FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new FakeEntityManager();
-        $role_repo = new FakeEntityUtilsRoleRepository();
-        $entity_manager->repositories[Role::class] = $role_repo;
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setDateUtils($date_utils);
@@ -91,6 +71,7 @@ final class EntityUtilsTest extends UnitTestCase {
             $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
 
         $user_repo = $entity_manager->repositories[User::class];
+        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame($user_repo->default_user, $entity->getOwnerUser());
         $this->assertSame($role_repo->admin_role, $entity->getOwnerRole());

@@ -96,12 +96,10 @@ class WeeklySummaryGetter {
             $aktuells = $aktuell_repo->matching($criteria);
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();
-                $date = $aktuell->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $aktuell->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $aktuell->getDate(), $aktuell->getTime());
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$aktuell_url}?id={$id})\n";
+                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$aktuell_url}?id={$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
                 $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
@@ -115,12 +113,10 @@ class WeeklySummaryGetter {
             $blogs = $blog_repo->matching($criteria);
             foreach ($blogs as $blog) {
                 $id = $blog->getId();
-                $date = $blog->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $blog->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $blog->getDate(), $blog->getTime());
                 $title = $blog->getTitle();
-                $blog_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$blog_url}#id{$id})\n";
+                $blog_text .= "- {$pretty_datetime}: [{$title}]({$blog_url}#id{$id})\n";
             }
             if (strlen($blog_text) > 0) {
                 $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
@@ -134,8 +130,8 @@ class WeeklySummaryGetter {
             $galeries = $galerie_repo->matching($date_only_criteria);
             foreach ($galeries as $galerie) {
                 $id = $galerie->getId();
-                $date = $galerie->getDate();
-                $pretty_date = $date->format('d.m.');
+                $pretty_date = $this->getPrettyDateAndMaybeTime(
+                    $galerie->getDate());
                 $title = $galerie->getTitle();
                 $galerie_text .= "- {$pretty_date}: [{$title}]({$galerie_url}?id={$id})\n";
             }
@@ -151,13 +147,11 @@ class WeeklySummaryGetter {
             $forums = $forum_repo->matching($criteria);
             foreach ($forums as $forum) {
                 $id = $forum->getId();
-                $date = $forum->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $forum->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $forum->getDate(), $forum->getTime());
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
-                    $forum_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$forum_url}#id{$id})\n";
+                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$forum_url}#id{$id})\n";
                 }
             }
             if (strlen($forum_text) > 0) {
@@ -172,8 +166,8 @@ class WeeklySummaryGetter {
             $termine = $termin_repo->matching($termine_criteria);
             foreach ($termine as $termin) {
                 $id = $termin->getId();
-                $date = $termin->getStartsOn();
-                $pretty_date = $date->format('d.m.');
+                $pretty_date = $this->getPrettyDateAndMaybeTime(
+                    $termin->getStartsOn());
                 $title = $termin->getTitle();
                 if (strlen(trim($title)) > 0) {
                     $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}?id={$id})\n";
@@ -194,5 +188,17 @@ class WeeklySummaryGetter {
         return new Notification($title, $text, [
             'notification_type' => NotificationSubscription::TYPE_WEEKLY_SUMMARY,
         ]);
+    }
+
+    protected function getPrettyDateAndMaybeTime($date, $time = null) {
+        if (!$date) {
+            return "??";
+        }
+        $pretty_date = $date->format('d.m.');
+        if (!$time) {
+            return $pretty_date;
+        }
+        $pretty_time = $time->format('H:i');
+        return "{$pretty_date} {$pretty_time}";
     }
 }

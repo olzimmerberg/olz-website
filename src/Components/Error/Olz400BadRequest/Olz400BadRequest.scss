@@ -1,15 +1,19 @@
-.error-image-400 {
-    float: right;
-    margin: 0 20px 20px 0;
+.error-image-container-400 {
+    text-align: center;
 }
 
-@media screen and (max-width: 832px) {
+.error-image-400 {
+    float: none;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 832px) {
     .error-image-container-400 {
-        text-align: center;
-    }  
+        text-align: left;
+    }
 
     .error-image-400 {
-        float: none;
-        margin: 0 auto;
+        float: right;
+        margin: 0 20px 20px 0;
     }
 }

@@ -12,7 +12,6 @@ import './index.scss';
 import './konto_passwort.scss';
 import './konto_strava.scss';
 import './profil.scss';
-import './startseite.scss';
 import './webftp.scss';
 
 export * from './email_reaktion';
@@ -28,6 +27,7 @@ export * from './webftp';
 export * from '../src/Apps/index';
 export * from '../src/Components/index';
 export * from '../src/News/index';
+export * from '../src/Startseite/index';
 export * from '../src/Termine/index';
 export * from '../src/Utils/index';
 

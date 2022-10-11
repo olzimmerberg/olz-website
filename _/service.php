@@ -26,7 +26,7 @@ echo OlzHeader::render([
     'description' => "Diverse Online-Tools rund um OL und die OL Zimmerberg.",
 ]);
 
-echo "<div id='content_double'>";
+echo "<div class='content-full'>";
 include __DIR__.'/service_d.php';
 echo "</div>";
 

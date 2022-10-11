@@ -113,6 +113,12 @@ class OlzApi extends Api {
             return new \Olz\News\Endpoints\DeleteNewsEndpoint();
         });
 
+        // Startseite
+
+        $olz_api->registerEndpoint('createWeeklyPicture', function () {
+            return new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint();
+        });
+
         OlzApps::registerAllEndpoints($olz_api);
 
         return $olz_api;

@@ -50,6 +50,9 @@ class UploadUtils {
     }
 
     public function isUploadId($potential_upload_id) {
+        if (!is_string($potential_upload_id)) {
+            return false;
+        }
         return (bool) preg_match(
             "/^[a-zA-Z0-9_-]{24}\\.{$this->suffixPattern}$/",
             $potential_upload_id
@@ -65,21 +68,28 @@ class UploadUtils {
     }
 
     public function getValidUploadIds($upload_ids) {
-        $data_path = $this->envUtils()->getDataPath();
         $valid_upload_ids = [];
         foreach ($upload_ids as $upload_id) {
-            if (!$this->isUploadId($upload_id)) {
-                $this->log()->warning("Upload ID {$upload_id} is invalid.");
-                continue;
+            $upload_id_or_null = $this->getValidUploadId($upload_id);
+            if ($upload_id_or_null !== null) {
+                $valid_upload_ids[] = $upload_id;
             }
-            $upload_path = "{$data_path}temp/{$upload_id}";
-            if (!is_file($upload_path)) {
-                $this->log()->warning("Upload file {$upload_path} does not exist.");
-                continue;
-            }
-            $valid_upload_ids[] = $upload_id;
         }
         return $valid_upload_ids;
+    }
+
+    public function getValidUploadId($upload_id) {
+        if (!$this->isUploadId($upload_id)) {
+            $this->log()->warning("Upload ID {$upload_id} is invalid.");
+            return null;
+        }
+        $data_path = $this->envUtils()->getDataPath();
+        $upload_path = "{$data_path}temp/{$upload_id}";
+        if (!is_file($upload_path)) {
+            $this->log()->warning("Upload file {$upload_path} does not exist.");
+            return null;
+        }
+        return $upload_id;
     }
 
     public function getStoredUploadIds($base_path) {

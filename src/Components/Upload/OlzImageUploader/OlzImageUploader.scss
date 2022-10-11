@@ -1,0 +1,11 @@
+.olz-image-uploader {
+    .state {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #image-uploader-input {
+        width: 100%;
+    }
+}

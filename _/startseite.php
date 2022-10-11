@@ -1,7 +1,9 @@
 <?php
 
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -17,22 +19,30 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([
     'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-    'buttonbild_der_woche' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 echo OlzHeader::render([
     'description' => "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.",
 ]);
 
+$banner_text = OlzEditableText::render(['olz_text_id' => 22]);
+if (trim(strip_tags($banner_text)) !== '') {
+    echo "<div class='content-full'><div id='important-banner' class='banner'>";
+    echo $banner_text;
+    echo "</div></div>";
+}
+
+echo OlzCustomizableHome::render();
+
 echo "
-<div id='content_rechts'>
+<div class='content-right'>
 <form name='Formularr' method='post' action='startseite.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/startseite_r.php';
 echo "</div>
 </form>
 </div>
-<div id='content_mitte'>";
+<div class='content-middle'>";
 include __DIR__.'/startseite_l.php';
 echo "</div>";
 

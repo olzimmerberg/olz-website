@@ -33,10 +33,10 @@ final class AllEndpointsCoveredTest extends UnitTestCase {
     }
 
     public function testAllModulesEndpointsCovered(): void {
-        $src_path = __DIR__.'/../../../../_/';
+        $src_path = __DIR__.'/../../../../src/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
-        $endpoints_folders = glob("{$src_realpath}/*/endpoints/");
+        $endpoints_folders = glob("{$src_realpath}/*/Endpoints/");
         foreach ($endpoints_folders as $endpoints_folder) {
             $endpoints_files = scandir($endpoints_folder);
             $endpoints = array_filter(

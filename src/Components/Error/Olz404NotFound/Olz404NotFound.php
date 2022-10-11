@@ -18,7 +18,7 @@ class Olz404NotFound {
             'skip_counter' => true,
             'skip_top_boxes' => true,
         ]);
-        $out .= "<div id='content_double'>";
+        $out .= "<div class='content-full'>";
         $out .= <<<ZZZZZZZZZZ
         <div class='error-image-container-404'>
             <img

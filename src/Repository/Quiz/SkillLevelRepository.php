@@ -17,7 +17,6 @@ class SkillLevelRepository extends EntityRepository {
     }
 
     public function getSkillLevelsForUserIdInCategories($user_id, $category_ids) {
-        require_once __DIR__.'/Skill.php';
         $sane_user_id = intval($user_id);
         $skill_repo = $this->getEntityManager()->getRepository(Skill::class);
         $skills = $skill_repo->getSkillsInCategories($category_ids);

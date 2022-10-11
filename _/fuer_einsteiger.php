@@ -109,7 +109,7 @@ $ansprechperson_003 = get_tile('ansprechperson_003');
 $ansprechperson_004 = get_tile('ansprechperson_004');
 
 echo <<<ZZZZZZZZZZ
-<div id='content_double'>
+<div class='content-full'>
 <div class='fuer-einsteiger'>
 
 <div class='intro'>

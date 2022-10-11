@@ -36,6 +36,7 @@ class OlzFooter {
 
         $out .= "<div id='confirmation-dialog-react-root'></div>";
         $out .= "<div id='edit-news-react-root'></div>";
+        $out .= "<div id='edit-weekly-picture-react-root'></div>";
         $out .= "<div id='update-user-avatar-react-root'></div>";
 
         $out .= "</body>

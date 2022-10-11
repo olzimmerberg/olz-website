@@ -37,14 +37,14 @@ if (isset($_POST[$button_name])) {
 }
 
 echo "
-<div id='content_rechts'>
+<div class='content-right'>
 <form name='Formularr' method='post' action='karten.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/karten_r.php';
 echo "</div>
 </form>
 </div>
-<div id='content_mitte'>";
+<div class='content-middle'>";
 include __DIR__.'/karten_l.php';
 echo "</div>";
 

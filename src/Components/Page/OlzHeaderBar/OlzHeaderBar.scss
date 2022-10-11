@@ -69,17 +69,24 @@
 .menu-container {
     margin: 0 auto;
     max-width: 1200px;
+    transition: opacity 0.2s;
+    opacity: 1;
+}
+
+.menu-closed .menu-container {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #olz-logo {
     height: 130px;
-    margin-left: 10px;
+    margin-left: 30px;
     transition: margin 0.5s;
 }
 
 #menu-switch {
     cursor: pointer;
-    opacity: 0;
+    opacity: 1;
     position: absolute;
     transition: opacity 0.5s;
     z-index: 1; /* menu switch in front of logo */
@@ -92,10 +99,6 @@
 
 .menu-close {
     position: absolute;
-    transition: opacity 0.2s;
-}
-
-.menu-container {
     transition: opacity 0.2s;
 }
 
@@ -140,17 +143,17 @@
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) {
     #olz-logo {
-        margin-left: 30px;
+        margin-left: 10px;
     }
 
     #menu-switch {
-        opacity: 1;
+        opacity: 0;
     }
 
     .menu-closed .menu-container {
-        opacity: 0;
-        pointer-events: none;
+        opacity: 1;
+        pointer-events: all;
     }
 }

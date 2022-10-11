@@ -34,7 +34,7 @@ class OlzRolePage {
         }
 
         $out = "";
-        $out .= "<div id='content_double' class='olz-role-page'>";
+        $out .= "<div class='content-full olz-role-page'>";
         $out .= "<nav aria-label='breadcrumb'>";
         $out .= "<ol class='breadcrumb'>";
         $out .= "<li class='breadcrumb-item'><a href='verein.php'>OL Zimmerberg</a></li>";

@@ -80,13 +80,13 @@ class OlzNewsDetail {
         $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
         $pretty_author = $row['autor'];
         $out .= <<<ZZZZZZZZZZ
-        <div id='content_rechts' class='optional'>
+        <div class='content-right optional'>
             <div style='padding:4px 3px 10px 3px;'>
                 <b>Datum: </b>{$pretty_date}<br />
                 <b>Autor: </b>{$pretty_author}
             </div>
         </div>
-        <div id='content_mitte'>
+        <div class='content-middle'>
         <form name='Formularl' method='post' action='aktuell.php?id={$id}#id_edit{$id_edit}' enctype='multipart/form-data'>
         ZZZZZZZZZZ;
 

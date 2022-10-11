@@ -21,7 +21,7 @@ final class Version20200423071546 extends AbstractMigration {
         $this->addSql('ALTER TABLE users_roles ADD CONSTRAINT FK_51498A8EA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE users_roles ADD CONSTRAINT FK_51498A8ED60322AC FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE');
 
-        $rows = $this->connection->fetchAll('SELECT * FROM user');
+        $rows = $this->connection->fetchAllAssociative('SELECT * FROM user');
         foreach ($rows as $row) {
             $user = [
                 'username' => $row['benutzername'],

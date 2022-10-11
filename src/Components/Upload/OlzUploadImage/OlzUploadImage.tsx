@@ -2,9 +2,11 @@ import React from 'react';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 
+import './OlzUploadImage.scss';
+
 interface OlzUploadImageProps {
     uploadFile?: UploadFile;
-    onDelete?: (uploadId: string) => any;
+    onDelete?: (uploadId: string) => unknown;
 }
 
 export const OlzUploadImage = (props: OlzUploadImageProps) => {

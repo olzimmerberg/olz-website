@@ -84,7 +84,7 @@ function test_create_aktuell_old($driver, $base_url) {
     $driver->get("{$base_url}{$aktuell_id_3_url}");
 
     $edit_button = $driver->findElement(
-        WebDriverBy::cssSelector('#content_mitte .linkedit')
+        WebDriverBy::cssSelector('.content-middle .linkedit')
     );
     click($edit_button);
     $text_input = $driver->findElement(
@@ -186,7 +186,7 @@ function test_create_aktuell_new($driver, $base_url) {
     $driver->get("{$base_url}{$aktuell_id_3_url}");
 
     // $edit_button = $driver->findElement(
-    //     WebDriverBy::cssSelector('#content_mitte .linkedit')
+    //     WebDriverBy::cssSelector('.content-middle .linkedit')
     // );
     // click($edit_button);
     // $text_input = $driver->findElement(

@@ -27,7 +27,7 @@ class HtmlUtils {
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addExtension(new AttributesExtension());
         $converter = new MarkdownConverter($environment);
-        $rendered = $converter->convertToHtml($markdown);
+        $rendered = $converter->convert($markdown);
         return $this->sanitize(strval($rendered));
     }
 

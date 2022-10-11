@@ -39,7 +39,7 @@ class OlzLogs {
         </style>
         ZZZZZZZZZZ;
 
-        $out .= "<div id='content_double'>";
+        $out .= "<div class='content-full'>";
         if ($user && $user->getPermissions() == 'all') {
             $out .= <<<'ZZZZZZZZZZ'
             <div class='logs-header'>

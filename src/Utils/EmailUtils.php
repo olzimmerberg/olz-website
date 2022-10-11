@@ -100,7 +100,7 @@ class EmailUtils {
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $converter = new MarkdownConverter($environment);
-        $rendered = $converter->convertToHtml($markdown);
+        $rendered = $converter->convert($markdown);
         return strval($rendered);
     }
 }

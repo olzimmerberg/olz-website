@@ -52,7 +52,7 @@ if (isset($_GET['ressort'])) {
         'description' => "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.",
     ]);
 
-    echo "<div id='content_double'>";
+    echo "<div class='content-full'>";
     echo OlzOrganigramm::render();
     echo "</div>";
 

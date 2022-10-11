@@ -83,11 +83,11 @@ class OlzTermineDetail {
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
         $out .= <<<ZZZZZZZZZZ
-        <div id='content_rechts' class='optional'>
+        <div class='content-right optional'>
             <div style='padding:4px 3px 10px 3px;'>
             </div>
         </div>
-        <div id='content_mitte'>
+        <div class='content-middle'>
         <form name='Formularl' method='post' action='termine.php?id={$id}' enctype='multipart/form-data'>
         ZZZZZZZZZZ;
 

@@ -40,6 +40,12 @@ export type OlzNewsDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
+export type OlzWeeklyPictureData = {
+    'text': string,
+    'imageId': string,
+    'alternativeImageId': string|null,
+};
+
 export type OlzBookingData = {
     'registrationId': string,
     'values': {[key: string]: any},
@@ -121,6 +127,7 @@ export type OlzApiEndpoint =
     'editNews'|
     'updateNews'|
     'deleteNews'|
+    'createWeeklyPicture'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -266,6 +273,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     deleteNews: {
             'id': number,
+        },
+    createWeeklyPicture: {
+            'meta': OlzMetaData,
+            'data': OlzWeeklyPictureData,
         },
     createBooking: {
             'meta': OlzMetaData,
@@ -425,6 +436,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     deleteNews: {
             'status': 'OK'|'ERROR',
+        },
+    createWeeklyPicture: {
+            'status': 'OK'|'ERROR',
+            'id': number,
         },
     createBooking: {
             'status': 'OK'|'ERROR',

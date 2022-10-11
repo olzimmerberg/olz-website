@@ -59,12 +59,12 @@ class OlzTermineList {
         $enc_current_filter = urlencode(json_encode($current_filter));
 
         $out .= "
-        <div id='content_rechts'>
+        <div class='content-right'>
         <div>";
         $out .= OlzTermineSidebar::render();
         $out .= "</div>
         </div>
-        <div id='content_mitte'>
+        <div class='content-middle'>
         <form name='Formularl' method='post' action='termine.php?filter={$enc_current_filter}#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
         // -------------------------------------------------------------

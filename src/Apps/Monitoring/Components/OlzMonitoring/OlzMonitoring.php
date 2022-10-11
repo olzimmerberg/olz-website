@@ -37,7 +37,7 @@ class OlzMonitoring {
         </style>
         ZZZZZZZZZZ;
 
-        $out .= "<div id='content_double'><div id='react-root'>Lädt...</div></div>";
+        $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";
 
         $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();

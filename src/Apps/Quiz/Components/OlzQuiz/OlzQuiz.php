@@ -27,7 +27,7 @@ class OlzQuiz {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <div id='content_double'>
+        <div class='content-full'>
             <iframe class='quiz-iframe' src='https://quiz.bitter.li/'></iframe>
         </div>
         ZZZZZZZZZZ;

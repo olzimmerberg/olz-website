@@ -2,9 +2,10 @@
 
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 $env_utils = EnvUtils::fromEnv();
-$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);

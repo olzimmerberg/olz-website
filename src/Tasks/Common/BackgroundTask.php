@@ -6,11 +6,14 @@ use Olz\Utils\LogsUtils;
 
 abstract class BackgroundTask {
     use \Psr\Log\LoggerAwareTrait;
+    // TODO: use WithUtilsTrait;
 
     public function __construct($dateUtils, $envUtils) {
         $this->dateUtils = $dateUtils;
         $this->envUtils = $envUtils;
-        $logger = $this->envUtils->getLogsUtils()->getLogger("Task:{$this->getIdent()}");
+        $logs_utils = new LogsUtils();
+        $logs_utils->setEnvUtils($envUtils);
+        $logger = $logs_utils->getLogger("Task:{$this->getIdent()}");
         $this->setLogger($logger);
     }
 

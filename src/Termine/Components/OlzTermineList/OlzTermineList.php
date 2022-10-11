@@ -12,8 +12,8 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList {
@@ -24,8 +24,7 @@ class OlzTermineList {
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $validated_get_params = $http_utils->validateGetParams([

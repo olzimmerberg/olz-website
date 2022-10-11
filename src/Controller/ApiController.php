@@ -3,7 +3,7 @@
 namespace Olz\Controller;
 
 use Olz\Api\OlzApi;
-use Olz\Utils\EnvUtils;
+use Olz\Utils\LogsUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,8 +19,7 @@ class ApiController extends AbstractController {
     ): JsonResponse {
         $olz_api = OlzApi::getInstance();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('OlzApi');
+        $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
         $olz_api->setLogger($logger);
 
         $request->server->set('PATH_INFO', "/{$endpoint_name}");
@@ -36,8 +35,7 @@ class ApiController extends AbstractController {
     ): JsonResponse {
         $olz_api = OlzApi::getInstance();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('OlzApi');
+        $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
         $olz_api->setLogger($logger);
 
         $request->server->set('PATH_INFO', "/{$endpoint_name}");

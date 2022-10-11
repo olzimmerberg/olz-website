@@ -5,8 +5,8 @@ namespace Olz\Apps\Monitoring\Components\OlzMonitoring;
 use Olz\Apps\Monitoring\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzMonitoring {
     public static function render($args = []) {
@@ -14,8 +14,7 @@ class OlzMonitoring {
 
         session_start_if_cookie_set();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('monitoring');
+        $logger = LogsUtils::fromEnv()->getLogger('monitoring');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $http_utils->validateGetParams([], $_GET);

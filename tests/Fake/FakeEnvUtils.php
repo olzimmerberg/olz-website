@@ -10,10 +10,6 @@ class FakeEnvUtils {
     public $has_unlimited_cron = false;
     public $fake_data_path;
 
-    public function getLogsUtils() {
-        return new FakeLogsUtils();
-    }
-
     public function hasUnlimitedCron() {
         return $this->has_unlimited_cron;
     }

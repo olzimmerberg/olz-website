@@ -1,6 +1,5 @@
 <?php
 
-use Olz\Utils\EnvUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
 
@@ -54,7 +53,7 @@ function run_tools($command_config, $server) {
 }
 
 function run_command($command, $callback, $args) {
-    $logger = EnvUtils::fromEnv()->getLogsUtils()->getLogger("Tool:{$command}");
+    $logger = LogsUtils::fromEnv()->getLogger("Tool:{$command}");
     LogsUtils::activateLogger($logger);
     try {
         if (!is_callable($callback)) {

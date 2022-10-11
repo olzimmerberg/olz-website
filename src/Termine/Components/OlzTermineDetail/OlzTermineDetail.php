@@ -12,8 +12,8 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail {
@@ -26,8 +26,7 @@ class OlzTermineDetail {
         require_once __DIR__.'/../../../../_/config/paths.php';
         require_once __DIR__.'/../../../../_/config/server.php';
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $validated_get_params = $http_utils->validateGetParams([

@@ -111,8 +111,8 @@ trait WithUtilsTrait {
 
     public function getLogger() {
         $called_class = get_called_class();
-        $env_utils = $this->getEnvUtils();
-        return $env_utils->getLogsUtils()->getLogger(strval($called_class));
+        $logs_utils = LogsUtils::fromEnv();
+        return $logs_utils->getLogger(strval($called_class));
     }
 
     public function getServer() {

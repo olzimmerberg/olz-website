@@ -14,8 +14,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 
-require_once __DIR__.'/../../../../Fake/fake_role.php';
-
 class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {
         return null;

@@ -12,8 +12,6 @@ use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-require_once __DIR__.'/../../../../Fake/fake_role.php';
-
 class FakeSearchTransportConnectionEndpointTransportApiFetcher {
     public function fetchConnection($request_data) {
         $from = str_replace(' ', '_', $request_data['from']);

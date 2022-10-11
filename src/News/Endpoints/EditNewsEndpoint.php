@@ -44,12 +44,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         $owner_role = $news_entry->getOwnerRole();
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
-        $tags_for_api = array_filter(
-            explode(' ', trim($news_entry->getTags())),
-            function ($item) {
-                return trim($item) != '';
-            }
-        );
+        $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
         $termin_id = $news_entry->getTermin();
 
         $image_ids = $news_entry->getImageIds();

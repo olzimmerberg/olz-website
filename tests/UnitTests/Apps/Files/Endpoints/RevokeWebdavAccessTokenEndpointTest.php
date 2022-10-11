@@ -11,8 +11,6 @@ use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-require_once __DIR__.'/../../../../Fake/fake_role.php';
-
 class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {
         return new AccessToken();

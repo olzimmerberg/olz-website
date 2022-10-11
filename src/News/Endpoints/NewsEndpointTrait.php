@@ -38,4 +38,15 @@ trait NewsEndpointTrait {
     protected function getTagsForDb($tags) {
         return ' '.implode(' ', $tags ?? []).' ';
     }
+
+    protected function getTagsForApi($tags) {
+        $tags_string = $tags ?? '';
+        $tags_for_api = [];
+        foreach (explode(' ', $tags_string) as $tag) {
+            if (trim($tag) != '') {
+                $tags_for_api[] = trim($tag);
+            }
+        }
+        return $tags_for_api;
+    }
 }

@@ -8,8 +8,6 @@ use Olz\News\Endpoints\NewsEndpointTrait;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/../../../Fake/fake_role.php';
-
 class NewsEndpointTraitConcreteEndpoint {
     use NewsEndpointTrait;
 

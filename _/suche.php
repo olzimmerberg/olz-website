@@ -2,8 +2,8 @@
 
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/config/init.php';
@@ -11,8 +11,7 @@ require_once __DIR__.'/config/init.php';
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
-$env_utils = EnvUtils::fromEnv();
-$logger = $env_utils->getLogsUtils()->getLogger(basename(__FILE__));
+$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
 $http_utils->setLogger($logger);
 $http_utils->validateGetParams([

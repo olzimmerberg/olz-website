@@ -5,8 +5,8 @@ namespace Olz\Apps\Youtube\Components\OlzYoutube;
 use Olz\Apps\Youtube\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzYoutube {
     public static function render($args = []) {
@@ -14,8 +14,7 @@ class OlzYoutube {
 
         session_start_if_cookie_set();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('Youtube');
+        $logger = LogsUtils::fromEnv()->getLogger('Youtube');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $http_utils->validateGetParams([], $_GET);

@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzFiles {
     public static function render($args = []) {
@@ -16,7 +17,7 @@ class OlzFiles {
         session_start_if_cookie_set();
 
         $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('files');
+        $logger = LogsUtils::fromEnv()->getLogger('files');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $http_utils->validateGetParams([], $_GET);

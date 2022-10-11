@@ -317,17 +317,6 @@ class EnvUtils {
         return $this->app_statistics_password;
     }
 
-    protected $logsUtils;
-
-    public function getLogsUtils() {
-        if ($this->logsUtils == null) {
-            $logsUtils = new LogsUtils();
-            $logsUtils->setEnvUtils($this);
-            $this->logsUtils = $logsUtils;
-        }
-        return $this->logsUtils;
-    }
-
     protected static $from_env_instance;
 
     public static function fromEnv() {

@@ -5,8 +5,8 @@ namespace Olz\Apps\GoogleSearch\Components\OlzGoogleSearch;
 use Olz\Apps\GoogleSearch\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzGoogleSearch {
     public static function render($args = []) {
@@ -14,8 +14,7 @@ class OlzGoogleSearch {
 
         session_start_if_cookie_set();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('GoogleSearch');
+        $logger = LogsUtils::fromEnv()->getLogger('GoogleSearch');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $http_utils->validateGetParams([], $_GET);

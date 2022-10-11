@@ -5,8 +5,8 @@ namespace Olz\Apps\Quiz\Components\OlzQuiz;
 use Olz\Apps\Quiz\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzQuiz {
     public static function render($args = []) {
@@ -14,8 +14,7 @@ class OlzQuiz {
 
         session_start_if_cookie_set();
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = $env_utils->getLogsUtils()->getLogger('Quiz');
+        $logger = LogsUtils::fromEnv()->getLogger('Quiz');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
         $http_utils->validateGetParams([], $_GET);

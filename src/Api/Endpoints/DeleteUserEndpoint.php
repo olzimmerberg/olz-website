@@ -34,9 +34,9 @@ class DeleteUserEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session->get('user');
+        $auth_username = $this->session()->get('user');
 
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);
         $user_id = $user->getId();
 
@@ -45,89 +45,89 @@ class DeleteUserEndpoint extends OlzEndpoint {
         }
 
         // Remove news ownership
-        $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         $news_entries = $news_repo->findBy(['owner_user' => $user]);
         foreach ($news_entries as $news_entry) {
             $news_entry->setOwnerUser(null);
-            $this->entityManager->remove($news_entry);
+            $this->entityManager()->remove($news_entry);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove notification subscriptions
-        $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
+        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
         $subscriptions = $notification_subscription_repo->findBy(['user' => $user]);
         foreach ($subscriptions as $subscription) {
-            $this->entityManager->remove($subscription);
+            $this->entityManager()->remove($subscription);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove telegram links
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $telegram_links = $telegram_link_repo->findBy(['user' => $user]);
         foreach ($telegram_links as $telegram_link) {
-            $this->entityManager->remove($telegram_link);
+            $this->entityManager()->remove($telegram_link);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove strava links
-        $strava_link_repo = $this->entityManager->getRepository(StravaLink::class);
+        $strava_link_repo = $this->entityManager()->getRepository(StravaLink::class);
         $strava_links = $strava_link_repo->findBy(['user' => $user]);
         foreach ($strava_links as $strava_link) {
-            $this->entityManager->remove($strava_link);
+            $this->entityManager()->remove($strava_link);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove google links
-        $google_link_repo = $this->entityManager->getRepository(GoogleLink::class);
+        $google_link_repo = $this->entityManager()->getRepository(GoogleLink::class);
         $google_links = $google_link_repo->findBy(['user' => $user]);
         foreach ($google_links as $google_link) {
-            $this->entityManager->remove($google_link);
+            $this->entityManager()->remove($google_link);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove facebook links
-        $facebook_link_repo = $this->entityManager->getRepository(FacebookLink::class);
+        $facebook_link_repo = $this->entityManager()->getRepository(FacebookLink::class);
         $facebook_links = $facebook_link_repo->findBy(['user' => $user]);
         foreach ($facebook_links as $facebook_link) {
-            $this->entityManager->remove($facebook_link);
+            $this->entityManager()->remove($facebook_link);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove access tokens
-        $access_token_repo = $this->entityManager->getRepository(AccessToken::class);
+        $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
         $access_tokens = $access_token_repo->findBy(['user' => $user]);
         foreach ($access_tokens as $access_token) {
-            $this->entityManager->remove($access_token);
+            $this->entityManager()->remove($access_token);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         // Remove avatar
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $avatar_path = "{$data_path}img/users/{$user_id}.jpg";
         if ($this->isFile($avatar_path)) {
             $this->unlink($avatar_path);
         }
 
         // Log out
-        if ($this->session->get('user') === $user->getUsername()) {
-            $this->session->delete('auth');
-            $this->session->delete('root');
-            $this->session->delete('user');
-            $this->session->delete('user_id');
-            $this->session->clear();
+        if ($this->session()->get('user') === $user->getUsername()) {
+            $this->session()->delete('auth');
+            $this->session()->delete('root');
+            $this->session()->delete('user');
+            $this->session()->delete('user_id');
+            $this->session()->clear();
         }
 
         // Check user roles
         $has_user_roles = count($user->getRoles()) > 0;
 
         // Check news authorship
-        $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['author_user' => $user]);
         $has_news_authorship = $news_entry !== null;
 
         $should_keep_basic_info = $has_user_roles || $has_news_authorship;
         if ($should_keep_basic_info) {
-            $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+            $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
             $user->setEmail('');
             $user->setPasswordHash('');
             $user->setPhone('');
@@ -154,10 +154,10 @@ class DeleteUserEndpoint extends OlzEndpoint {
             $user->setNotes('');
             $user->setLastModifiedAt($now_datetime);
         } else {
-            $this->logger->warning("Removing user {$user}.");
-            $this->entityManager->remove($user);
+            $this->log()->warning("Removing user {$user}.");
+            $this->entityManager()->remove($user);
         }
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         return [
             'status' => 'OK',

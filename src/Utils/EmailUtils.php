@@ -17,15 +17,15 @@ class EmailUtils {
     public const UTILS = [
         'envUtils',
         'generalUtils',
-        'logger',
+        'log',
     ];
 
     public function getImapMailbox() {
-        $imap_host = $this->envUtils->getImapHost();
-        $imap_port = $this->envUtils->getImapPort();
-        $imap_flags = $this->envUtils->getImapFlags();
-        $imap_username = $this->envUtils->getImapUsername();
-        $imap_password = $this->envUtils->getImapPassword();
+        $imap_host = $this->envUtils()->getImapHost();
+        $imap_port = $this->envUtils()->getImapPort();
+        $imap_flags = $this->envUtils()->getImapFlags();
+        $imap_username = $this->envUtils()->getImapUsername();
+        $imap_password = $this->envUtils()->getImapPassword();
 
         $mailbox_name = "{{$imap_host}:{$imap_port}{$imap_flags}}";
         // Documentation at https://github.com/barbushin/php-imap
@@ -37,18 +37,18 @@ class EmailUtils {
     }
 
     public function createEmail() {
-        $mail = new OlzMailer($this, $this->envUtils, true);
+        $mail = new OlzMailer($this, $this->envUtils(), true);
 
-        if ($this->envUtils->getSmtpHost() !== null) {
+        if ($this->envUtils()->getSmtpHost() !== null) {
             $mail->SMTPDebug = SMTP::DEBUG_OFF;
             // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->isSMTP();
-            $mail->Host = $this->envUtils->getSmtpHost();
+            $mail->Host = $this->envUtils()->getSmtpHost();
             $mail->SMTPAuth = true;
-            $mail->Username = $this->envUtils->getSmtpUsername();
-            $mail->Password = $this->envUtils->getSmtpPassword();
+            $mail->Username = $this->envUtils()->getSmtpUsername();
+            $mail->Password = $this->envUtils()->getSmtpPassword();
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port = intval($this->envUtils->getSmtpPort());
+            $mail->Port = intval($this->envUtils()->getSmtpPort());
         } else {
             $mail->isSendmail();
         }
@@ -56,9 +56,9 @@ class EmailUtils {
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
 
-        $mail->setFrom($this->envUtils->getSmtpFrom(), 'OL Zimmerberg');
+        $mail->setFrom($this->envUtils()->getSmtpFrom(), 'OL Zimmerberg');
 
-        $mail->setLogger($this->logger);
+        $mail->setLogger($this->log());
 
         return $mail;
     }
@@ -66,27 +66,27 @@ class EmailUtils {
     public function encryptEmailReactionToken($data) {
         $plaintext = json_encode($data);
         $algo = 'aes-256-gcm';
-        $key = $this->envUtils->getEmailReactionKey();
+        $key = $this->envUtils()->getEmailReactionKey();
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
         $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
-        return $this->generalUtils->base64EncodeUrl(json_encode([
+        return $this->generalUtils()->base64EncodeUrl(json_encode([
             'algo' => $algo,
-            'iv' => $this->generalUtils->base64EncodeUrl($iv),
-            'tag' => $this->generalUtils->base64EncodeUrl($tag),
-            'ciphertext' => $this->generalUtils->base64EncodeUrl($ciphertext),
+            'iv' => $this->generalUtils()->base64EncodeUrl($iv),
+            'tag' => $this->generalUtils()->base64EncodeUrl($tag),
+            'ciphertext' => $this->generalUtils()->base64EncodeUrl($ciphertext),
         ]));
     }
 
     public function decryptEmailReactionToken($token) {
-        $decrypt_data = json_decode($this->generalUtils->base64DecodeUrl($token), true);
+        $decrypt_data = json_decode($this->generalUtils()->base64DecodeUrl($token), true);
         if (!$decrypt_data) {
             return null;
         }
-        $ciphertext = $this->generalUtils->base64DecodeUrl($decrypt_data['ciphertext']);
+        $ciphertext = $this->generalUtils()->base64DecodeUrl($decrypt_data['ciphertext']);
         $algo = $decrypt_data['algo'] ?? 'aes-256-gcm';
-        $key = $this->envUtils->getEmailReactionKey();
-        $iv = $this->generalUtils->base64DecodeUrl($decrypt_data['iv']);
-        $tag = $this->generalUtils->base64DecodeUrl($decrypt_data['tag']);
+        $key = $this->envUtils()->getEmailReactionKey();
+        $iv = $this->generalUtils()->base64DecodeUrl($decrypt_data['iv']);
+        $tag = $this->generalUtils()->base64DecodeUrl($decrypt_data['tag']);
         $plaintext = openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         return json_decode($plaintext, true);
     }

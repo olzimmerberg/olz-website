@@ -72,7 +72,7 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,

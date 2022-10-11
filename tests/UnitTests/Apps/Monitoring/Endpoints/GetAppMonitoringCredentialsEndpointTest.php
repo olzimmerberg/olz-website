@@ -34,7 +34,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
         ];
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -61,7 +61,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
         ];
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -80,7 +80,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);

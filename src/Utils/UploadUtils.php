@@ -7,7 +7,7 @@ class UploadUtils {
     public const UTILS = [
         'envUtils',
         'generalUtils',
-        'logger',
+        'log',
     ];
 
     private $suffixPattern = '[a-z0-9]+';
@@ -60,21 +60,21 @@ class UploadUtils {
         if (!preg_match("/^\\.{$this->suffixPattern}$/", $suffix)) {
             throw new \Exception("Invalid upload ID suffix: {$suffix}");
         }
-        $random_id = $this->generalUtils->base64EncodeUrl(openssl_random_pseudo_bytes(18));
+        $random_id = $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(18));
         return "{$random_id}{$suffix}";
     }
 
     public function getValidUploadIds($upload_ids) {
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $valid_upload_ids = [];
         foreach ($upload_ids as $upload_id) {
             if (!$this->isUploadId($upload_id)) {
-                $this->logger->warning("Upload ID {$upload_id} is invalid.");
+                $this->log()->warning("Upload ID {$upload_id} is invalid.");
                 continue;
             }
             $upload_path = "{$data_path}temp/{$upload_id}";
             if (!is_file($upload_path)) {
-                $this->logger->warning("Upload file {$upload_path} does not exist.");
+                $this->log()->warning("Upload file {$upload_path} does not exist.");
                 continue;
             }
             $valid_upload_ids[] = $upload_id;
@@ -97,15 +97,15 @@ class UploadUtils {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0777, true);
         }
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         foreach ($upload_ids as $upload_id) {
             if (!$this->isUploadId($upload_id)) {
-                $this->logger->warning("Upload ID {$upload_id} is invalid.");
+                $this->log()->warning("Upload ID {$upload_id} is invalid.");
                 continue;
             }
             $upload_path = "{$data_path}temp/{$upload_id}";
             if (!is_file($upload_path)) {
-                $this->logger->warning("Upload file {$upload_path} does not exist.");
+                $this->log()->warning("Upload file {$upload_path} does not exist.");
                 continue;
             }
             $destination_path = "{$new_base_path}{$upload_id}";

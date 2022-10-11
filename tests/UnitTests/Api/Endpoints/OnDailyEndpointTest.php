@@ -49,7 +49,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         try {
@@ -72,7 +72,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = null;
         try {
@@ -95,7 +95,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         $server_config->has_unlimited_cron = true;
@@ -121,7 +121,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -151,7 +151,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

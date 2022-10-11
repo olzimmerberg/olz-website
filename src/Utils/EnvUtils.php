@@ -323,6 +323,8 @@ class EnvUtils {
         if (self::$from_env_instance == null) {
             global $_SERVER;
 
+            self::assertValidFromEnvContext();
+
             $env_utils = new self();
 
             $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
@@ -338,8 +340,6 @@ class EnvUtils {
 
             $protocol = $has_https ? 'https://' : 'http://';
             $env_utils->setBaseHref("{$protocol}{$http_host}");
-
-            self::assertValidFromEnvContext();
 
             $config_path = self::getConfigPath();
             if (!is_file($config_path)) {

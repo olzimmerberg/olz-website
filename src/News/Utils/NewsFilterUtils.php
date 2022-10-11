@@ -27,7 +27,7 @@ class NewsFilterUtils {
     ];
 
     public function getDefaultFilter() {
-        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         return [
             'typ' => 'aktuell',
             'datum' => strval($current_year),
@@ -122,7 +122,7 @@ class NewsFilterUtils {
 
     public function getDateRangeOptions($filter = []) {
         $include_archive = ($filter['archiv'] ?? null) === 'mit';
-        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [];
         for ($year = $current_year; $year >= $first_year; $year--) {
@@ -142,7 +142,7 @@ class NewsFilterUtils {
     }
 
     private function getSqlDateRangeFilter($filter) {
-        $today = $this->dateUtils->getIsoToday();
+        $today = $this->dateUtils()->getIsoToday();
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
             return "YEAR(n.datum) = '{$sane_year}'";
@@ -201,7 +201,7 @@ class NewsFilterUtils {
     }
 
     public function getIsNotArchivedCriteria() {
-        $years_ago = $this->dateUtils->getCurrentDateInFormat('Y') - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+        $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('datum', new \DateTime($beginning_of_years_ago));
     }

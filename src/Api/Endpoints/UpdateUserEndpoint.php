@@ -43,9 +43,9 @@ class UpdateUserEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session->get('user');
+        $auth_username = $this->session()->get('user');
 
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);
 
         if ($user->getUsername() !== $auth_username) {
@@ -53,13 +53,13 @@ class UpdateUserEndpoint extends OlzEndpoint {
         }
 
         $new_username = $input['username'];
-        if (!$this->authUtils->isUsernameAllowed($new_username)) {
+        if (!$this->authUtils()->isUsernameAllowed($new_username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
 
         $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setUsername($new_username);
@@ -75,10 +75,10 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $user->setSiCardNumber($input['siCardNumber']);
         $user->setSolvNumber($input['solvNumber']);
         $user->setLastModifiedAt($now_datetime);
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         $user_id = $user->getId();
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $avatar_id = $input['avatarId'];
         $source_path = "{$data_path}temp/{$avatar_id}";
         $destination_path = "{$data_path}img/users/{$user_id}.jpg";
@@ -88,7 +88,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
             $this->rename($source_path, $destination_path);
         }
 
-        $this->session->set('user', $input['username']);
+        $this->session()->set('user', $input['username']);
 
         return [
             'status' => 'OK',

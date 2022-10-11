@@ -52,7 +52,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -103,7 +103,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');

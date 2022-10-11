@@ -70,7 +70,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $logger = new Logger('SignUpWithPasswordEndpointTest');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'firstName' => null,
@@ -113,7 +113,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(array_merge(self::VALID_INPUT, ['username' => 'invalid@']));
@@ -137,7 +137,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(array_merge(self::VALID_INPUT, ['password' => 'short']));
@@ -163,7 +163,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -206,7 +206,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -249,7 +249,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(self::VALID_INPUT);
@@ -294,7 +294,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -342,7 +342,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(self::VALID_INPUT);

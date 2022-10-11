@@ -30,7 +30,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         $mailbox = $email_utils->getImapMailbox();
 
@@ -46,7 +46,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
 
@@ -64,7 +64,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
     }
@@ -76,7 +76,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
 
@@ -136,7 +136,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
 
@@ -196,7 +196,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
-        $email_utils->setLogger($logger);
+        $email_utils->setLog($logger);
 
         // Ignore HTML
         $html = $email_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");

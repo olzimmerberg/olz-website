@@ -41,7 +41,7 @@ final class OlzCreateEntityEndpointTest extends UnitTestCase {
     public function testOlzCreateEntityEndpointInternalId(): void {
         $endpoint = new OlzCreateEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
-        $endpoint->setLogger(FakeLogger::create());
+        $endpoint->setLog(FakeLogger::create());
         $result = $endpoint->call([
             'meta' => [
                 'ownerUserId' => 1,
@@ -59,7 +59,7 @@ final class OlzCreateEntityEndpointTest extends UnitTestCase {
     public function testOlzCreateEntityEndpointExternalId(): void {
         $endpoint = new OlzCreateEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
-        $endpoint->setLogger(FakeLogger::create());
+        $endpoint->setLog(FakeLogger::create());
         $result = $endpoint->call([
             'meta' => [
                 'ownerUserId' => 1,

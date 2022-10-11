@@ -37,14 +37,14 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $current_user = $this->authUtils->getSessionUser();
-        $skill_repo = $this->entityManager->getRepository(Skill::class);
-        $skill_level_repo = $this->entityManager->getRepository(SkillLevel::class);
+        $current_user = $this->authUtils()->getSessionUser();
+        $skill_repo = $this->entityManager()->getRepository(Skill::class);
+        $skill_level_repo = $this->entityManager()->getRepository(SkillLevel::class);
 
         $external_category_ids = $input['skillFilter']['categoryIdIn'] ?? null;
 
@@ -55,7 +55,7 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
         } else {
             $internal_category_ids = array_map(
                 function ($id) {
-                    return $this->idUtils->toInternalId($id, 'SkillCategory');
+                    return $this->idUtils()->toInternalId($id, 'SkillCategory');
                 },
                 $external_category_ids,
             );
@@ -67,13 +67,13 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
         $skill_level_by_skill_id = [];
         foreach ($skills as $skill) {
             $internal_skill_id = $skill->getId();
-            $external_skill_id = $this->idUtils->toExternalId($internal_skill_id, 'Skill');
+            $external_skill_id = $this->idUtils()->toExternalId($internal_skill_id, 'Skill');
             $value = QuizConstants::INITIAL_SKILL_LEVEL_VALUE;
             $skill_level_by_skill_id[$external_skill_id] = ['value' => $value];
         }
         foreach ($skill_levels as $skill_level) {
             $internal_skill_id = $skill_level->getSkill()->getId();
-            $external_skill_id = $this->idUtils->toExternalId($internal_skill_id, 'Skill');
+            $external_skill_id = $this->idUtils()->toExternalId($internal_skill_id, 'Skill');
             $value = $skill_level->getValue();
             $skill_level_by_skill_id[$external_skill_id] = ['value' => $value];
         }

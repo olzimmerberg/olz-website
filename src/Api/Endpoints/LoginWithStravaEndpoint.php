@@ -56,16 +56,16 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $ip_address = $this->server['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
+        $ip_address = $this->server()['REMOTE_ADDR'];
+        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
-        $token_data = $this->stravaUtils->getTokenDataForCode($input['code']);
+        $token_data = $this->stravaUtils()->getTokenDataForCode($input['code']);
         if (!$token_data) {
             return array_merge(self::NULL_RESPONSE, [
                 'status' => 'INVALID_CODE',
             ]);
         }
-        $user_data = $this->stravaUtils->getUserData($token_data);
+        $user_data = $this->stravaUtils()->getUserData($token_data);
         if (!$user_data) {
             return array_merge(self::NULL_RESPONSE, [
                 'status' => 'INVALID_CODE',
@@ -73,7 +73,7 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         }
 
         $strava_user = strval($user_data['user_identifier']);
-        $strava_link_repo = $this->entityManager->getRepository(StravaLink::class);
+        $strava_link_repo = $this->entityManager()->getRepository(StravaLink::class);
         $strava_link = $strava_link_repo->findOneBy(['strava_user' => $strava_user]);
 
         if (!$strava_link) {
@@ -96,10 +96,10 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
 
         $user = $strava_link->getUser();
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session->set('auth', $user->getPermissions());
-        $this->session->set('root', $root);
-        $this->session->set('user', $user->getUsername());
-        $this->session->set('user_id', $user->getId());
+        $this->session()->set('auth', $user->getPermissions());
+        $this->session()->set('root', $root);
+        $this->session()->set('user', $user->getUsername());
+        $this->session()->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_STRAVA', $user->getUsername());
         return array_merge(self::NULL_RESPONSE, [
             'status' => 'AUTHENTICATED',

@@ -70,7 +70,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointWithoutInput(): void {
         $logger = FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -88,7 +88,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointWithNullInput(): void {
         $logger = FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -121,7 +121,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setGeneralUtils($general_utils);
         $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
         $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -167,7 +167,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setGeneralUtils($general_utils);
         $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
         $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         $vorstand_user = FakeUsers::vorstandUser();
         $vorstand_user->setFirstName('provoke_error');
 
@@ -196,7 +196,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
         $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
@@ -222,7 +222,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
         $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -248,7 +248,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
         $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',

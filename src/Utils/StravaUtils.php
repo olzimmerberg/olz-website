@@ -19,7 +19,6 @@ class StravaUtils {
         $strava_fetcher = new StravaFetcher();
 
         $instance = new self();
-        $instance->populateFromEnv(self::UTILS);
         $instance->setClientId($env_utils->getStravaClientId());
         $instance->setClientSecret($env_utils->getStravaClientSecret());
         $instance->setRedirectUrl($redirect_url);

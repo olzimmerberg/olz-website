@@ -9,7 +9,7 @@ class UserAgentUtils {
     ];
 
     public function getUserAgentString() {
-        return $this->server['HTTP_USER_AGENT'] ?? '';
+        return $this->server()['HTTP_USER_AGENT'] ?? '';
     }
 
     public function isAndroidDevice(): bool {

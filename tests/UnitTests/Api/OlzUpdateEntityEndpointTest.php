@@ -41,7 +41,7 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
     public function testOlzUpdateEntityEndpointInternalId(): void {
         $endpoint = new OlzUpdateEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
-        $endpoint->setLogger(FakeLogger::create());
+        $endpoint->setLog(FakeLogger::create());
         $result = $endpoint->call([
             'id' => 5,
             'meta' => [
@@ -60,7 +60,7 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
     public function testOlzUpdateEntityEndpointExternalId(): void {
         $endpoint = new OlzUpdateEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
-        $endpoint->setLogger(FakeLogger::create());
+        $endpoint->setLog(FakeLogger::create());
         $result = $endpoint->call([
             'id' => 'external-id',
             'meta' => [

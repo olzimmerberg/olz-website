@@ -15,10 +15,10 @@ class EntityUtils {
     ];
 
     public function createOlzEntity(OlzEntity $entity, $input) {
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $role_repo = $this->entityManager->getRepository(Role::class);
-        $current_user = $this->authUtils->getSessionUser();
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $current_user = $this->authUtils()->getSessionUser();
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $on_off = ($input['onOff'] ?? false) ? 1 : 0;
 
@@ -44,10 +44,10 @@ class EntityUtils {
     }
 
     public function updateOlzEntity(OlzEntity $entity, $input) {
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $role_repo = $this->entityManager->getRepository(Role::class);
-        $current_user = $this->authUtils->getSessionUser();
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $current_user = $this->authUtils()->getSessionUser();
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $on_off = ($input['onOff'] ?? null) ? 1 : 0;
 

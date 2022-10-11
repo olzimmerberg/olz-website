@@ -42,21 +42,21 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];
         $username = $input['username'];
         $email = $input['email'];
-        $this->logger->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
-        if (!$this->authUtils->isUsernameAllowed($username)) {
+        $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
+        if (!$this->authUtils()->isUsernameAllowed($username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        if (!$this->authUtils->isPasswordAllowed($input['password'])) {
+        if (!$this->authUtils()->isPasswordAllowed($input['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
-        $ip_address = $this->server['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $ip_address = $this->server()['REMOTE_ADDR'];
+        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
 
         $same_username_user = $user_repo->findOneBy(['username' => $username]);
         $same_email_user = $user_repo->findOneBy(['email' => $email]);
@@ -111,14 +111,14 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setLastModifiedAt($now_datetime);
         $user->setLastLoginAt(null);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($user);
+        $this->entityManager()->flush();
 
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session->set('auth', $user->getPermissions());
-        $this->session->set('root', $root);
-        $this->session->set('user', $user->getUsername());
-        $this->session->set('user_id', $user->getId());
+        $this->session()->set('auth', $user->getPermissions());
+        $this->session()->set('root', $root);
+        $this->session()->set('user', $user->getUsername());
+        $this->session()->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
 
         return ['status' => 'OK'];

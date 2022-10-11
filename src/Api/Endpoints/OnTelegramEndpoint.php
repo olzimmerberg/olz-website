@@ -36,7 +36,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $expected_code = $this->envUtils->getTelegramAuthenticityCode();
+        $expected_code = $this->envUtils()->getTelegramAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {
             throw new HttpError(403, "Kein Zugriff!");
@@ -48,30 +48,30 @@ class OnTelegramEndpoint extends OlzEndpoint {
         $message_user_id = $telegram_event['message']['from']['id'] ?? null;
 
         if ($message_chat_id === null) {
-            $this->logger->notice('Telegram message without chat_id', [$telegram_event]);
+            $this->log()->notice('Telegram message without chat_id', [$telegram_event]);
             return [];
         }
 
-        $this->telegramUtils->callTelegramApi('sendChatAction', [
+        $this->telegramUtils()->callTelegramApi('sendChatAction', [
             'chat_id' => $message_chat_id,
             'action' => 'typing',
         ]);
 
-        $telegram_pin_chars = $this->telegramUtils->getTelegramPinChars();
-        $telegram_pin_length = $this->telegramUtils->getTelegramPinLength();
+        $telegram_pin_chars = $this->telegramUtils()->getTelegramPinChars();
+        $telegram_pin_length = $this->telegramUtils()->getTelegramPinLength();
 
         if (preg_match("/^\\/start ([{$telegram_pin_chars}]{{$telegram_pin_length}})$/", $message_text, $matches)) {
             try {
                 $pin = $matches[1];
-                $telegram_link = $this->telegramUtils->linkChatUsingPin($pin, $message_chat_id, $message_user_id);
+                $telegram_link = $this->telegramUtils()->linkChatUsingPin($pin, $message_chat_id, $message_user_id);
                 $user = $telegram_link->getUser();
                 $user_first_name = $user->getFirstName();
-                $this->telegramUtils->callTelegramApi('sendMessage', [
+                $this->telegramUtils()->callTelegramApi('sendMessage', [
                     'chat_id' => $message_chat_id,
                     'text' => "Hallo, {$user_first_name}!",
                 ]);
             } catch (\Exception $exc) {
-                $this->telegramUtils->callTelegramApi('sendMessage', [
+                $this->telegramUtils()->callTelegramApi('sendMessage', [
                     'chat_id' => $message_chat_id,
                     'text' => $exc->getMessage(),
                 ]);
@@ -80,19 +80,19 @@ class OnTelegramEndpoint extends OlzEndpoint {
         }
 
         if (preg_match("/^\\/start\\s*$/", $message_text, $matches)) {
-            $this->telegramUtils->startAnonymousChat($message_chat_id, $message_user_id);
+            $this->telegramUtils()->startAnonymousChat($message_chat_id, $message_user_id);
         }
 
-        $chat_state = $this->telegramUtils->getChatState($message_chat_id);
+        $chat_state = $this->telegramUtils()->getChatState($message_chat_id);
         if ($chat_state == null) {
-            $this->telegramUtils->startAnonymousChat($message_chat_id, $message_user_id);
-            $chat_state = $this->telegramUtils->getChatState($message_chat_id);
+            $this->telegramUtils()->startAnonymousChat($message_chat_id, $message_user_id);
+            $chat_state = $this->telegramUtils()->getChatState($message_chat_id);
         }
 
-        $is_anonymous_chat = $this->telegramUtils->isAnonymousChat($message_chat_id);
+        $is_anonymous_chat = $this->telegramUtils()->isAnonymousChat($message_chat_id);
         if ($is_anonymous_chat) {
-            $pin = $this->telegramUtils->getFreshPinForChat($message_chat_id);
-            $this->telegramUtils->callTelegramApi('sendMessage', [
+            $pin = $this->telegramUtils()->getFreshPinForChat($message_chat_id);
+            $this->telegramUtils()->callTelegramApi('sendMessage', [
                 'chat_id' => $message_chat_id,
                 'parse_mode' => 'HTML',
                 'text' => "<b>Willkommen bei der OL Zimmerberg!</b>\n\nDamit dieser Chat zu irgendwas zu gebrauchen ist, musst du <a href=\"https://olzimmerberg.ch/konto_telegram.php?pin={$pin}\">hier dein OLZ-Konto verlinken</a>.\n\nDieser Link wird nach 10 Minuten ungültig; wähle /start, um einen neuen Link zu erhalten.",
@@ -101,7 +101,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
             return [];
         }
 
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $telegram_link = $telegram_link_repo->findOneBy([
             'telegram_chat_id' => $message_chat_id,
         ]);
@@ -114,7 +114,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
             <b>Benutzername:</b> {$user->getUsername()}
             <b>E-Mail:</b> {$user->getEmail()}
             ZZZZZZZZZZ;
-            $this->telegramUtils->callTelegramApi('sendMessage', [
+            $this->telegramUtils()->callTelegramApi('sendMessage', [
                 'chat_id' => $message_chat_id,
                 'parse_mode' => 'HTML',
                 'text' => $response_message,
@@ -122,7 +122,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
             return [];
         }
 
-        $this->telegramUtils->callTelegramApi('sendMessage', [
+        $this->telegramUtils()->callTelegramApi('sendMessage', [
             'chat_id' => $message_chat_id,
             'text' => 'Hä?',
         ]);

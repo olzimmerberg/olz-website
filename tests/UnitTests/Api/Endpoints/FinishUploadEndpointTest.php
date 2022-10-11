@@ -27,7 +27,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
@@ -49,7 +49,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
 
@@ -75,7 +75,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -103,7 +103,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -132,7 +132,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -163,7 +163,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');

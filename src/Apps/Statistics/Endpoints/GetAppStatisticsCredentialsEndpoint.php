@@ -23,16 +23,16 @@ class GetAppStatisticsCredentialsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        if ($this->session->get('auth') != 'all') {
+        if ($this->session()->get('auth') != 'all') {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $username = $this->session->get('user');
-        $this->logger->info("Statistics credentials access by {$username}.");
+        $username = $this->session()->get('user');
+        $this->log()->info("Statistics credentials access by {$username}.");
 
         return [
-            'username' => $this->envUtils->getAppStatisticsUsername(),
-            'password' => $this->envUtils->getAppStatisticsPassword(),
+            'username' => $this->envUtils()->getAppStatisticsUsername(),
+            'password' => $this->envUtils()->getAppStatisticsPassword(),
         ];
     }
 }

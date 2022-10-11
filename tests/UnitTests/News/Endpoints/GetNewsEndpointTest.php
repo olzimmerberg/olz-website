@@ -55,7 +55,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -83,7 +83,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -128,7 +128,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/news/');

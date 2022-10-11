@@ -43,7 +43,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new GetWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -63,7 +63,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setGeneralUtils($general_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 

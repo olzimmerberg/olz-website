@@ -27,30 +27,30 @@ class FinishUploadEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             return ['status' => 'ERROR'];
         }
 
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $upload_id = $input['id'];
         $upload_path = "{$data_path}temp/{$upload_id}";
         if (!is_file($upload_path)) {
-            $this->logger->error("Could not finish upload. Invalid ID: '{$upload_id}'.");
+            $this->log()->error("Could not finish upload. Invalid ID: '{$upload_id}'.");
             return ['status' => 'ERROR'];
         }
 
         $num_parts = $input['numberOfParts'];
         $first_part_path = "{$upload_path}_0";
         if (!is_file($first_part_path)) {
-            $this->logger->error("Upload with ID {$upload_id} is missing the first part.");
+            $this->log()->error("Upload with ID {$upload_id} is missing the first part.");
             return ['status' => 'ERROR'];
         }
         $first_content = file_get_contents($first_part_path);
         @unlink($first_part_path);
         $res = preg_match("/^data\\:([^\\;]*)\\;base64\\,(.+)$/", $first_content, $matches);
         if (!$res) {
-            $this->logger->error("Upload with ID {$upload_id} does not have base64 header.");
+            $this->log()->error("Upload with ID {$upload_id} does not have base64 header.");
             return ['status' => 'ERROR'];
         }
         $mime_type = $matches[1];
@@ -68,7 +68,7 @@ class FinishUploadEndpoint extends OlzEndpoint {
         }
         if (count($missing_parts) > 0) {
             $pretty_missing_parts = implode(', ', $missing_parts);
-            $this->logger->error("Upload with ID {$upload_id} is missing parts {$pretty_missing_parts}.");
+            $this->log()->error("Upload with ID {$upload_id} is missing parts {$pretty_missing_parts}.");
             return ['status' => 'ERROR'];
         }
         $binary_data = base64_decode(str_replace(" ", "+", $base64));

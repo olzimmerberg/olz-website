@@ -21,7 +21,6 @@ class GoogleUtils {
         $google_fetcher = new GoogleFetcher();
 
         $instance = new self();
-        $instance->populateFromEnv(self::UTILS);
         $instance->setClientId($env_utils->getGoogleClientId());
         $instance->setClientSecret($env_utils->getGoogleClientSecret());
         $instance->setRedirectUrl($redirect_url);
@@ -80,7 +79,7 @@ class GoogleUtils {
         ];
         $userinfo_response = $this->google_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        $now_secs = strtotime($this->dateUtils->getIsoNow());
+        $now_secs = strtotime($this->dateUtils()->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],

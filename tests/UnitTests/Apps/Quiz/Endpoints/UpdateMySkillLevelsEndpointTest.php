@@ -59,7 +59,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -88,7 +88,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'updates' => [

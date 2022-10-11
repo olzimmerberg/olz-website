@@ -11,7 +11,7 @@ class OlzMailer extends PHPMailer {
     public const UTILS = [
         'emailUtils',
         'envUtils',
-        'logger',
+        'log',
     ];
 
     private $emailUtils;

@@ -19,7 +19,7 @@ class TelegramUtils {
         'dateUtils',
         'entityManager',
         'envUtils',
-        'logger',
+        'log',
     ];
 
     public static function fromEnv() {
@@ -27,7 +27,6 @@ class TelegramUtils {
 
         $instance = new self();
         $instance->setTelegramFetcher($telegram_fetcher);
-        $instance->populateFromEnv(self::UTILS);
 
         return $instance;
     }
@@ -37,11 +36,11 @@ class TelegramUtils {
     }
 
     public function getBotName() {
-        return $this->envUtils->getTelegramBotName();
+        return $this->envUtils()->getTelegramBotName();
     }
 
     private function getBotToken() {
-        return $this->envUtils->getTelegramBotToken();
+        return $this->envUtils()->getTelegramBotToken();
     }
 
     public function getFreshPinForUser(User $user) {
@@ -50,13 +49,13 @@ class TelegramUtils {
     }
 
     public function startAnonymousChat($chat_id, $user_id): TelegramLink {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing != null) {
             return $existing;
         }
 
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $telegram_link = new TelegramLink();
         $telegram_link->setPin(null);
@@ -68,13 +67,13 @@ class TelegramUtils {
         $telegram_link->setCreatedAt($now);
         $telegram_link->setLinkedAt(null);
 
-        $this->entityManager->persist($telegram_link);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($telegram_link);
+        $this->entityManager()->flush();
         return $telegram_link;
     }
 
     public function startChatForUser(User $user): TelegramLink {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing_telegram_link = $telegram_link_repo->findOneBy(['user' => $user->getId()]);
 
         if ($existing_telegram_link != null) {
@@ -82,7 +81,7 @@ class TelegramUtils {
             return $existing_telegram_link;
         }
 
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $telegram_link = new TelegramLink();
         $telegram_link->setUser($user);
@@ -93,15 +92,15 @@ class TelegramUtils {
         $telegram_link->setLinkedAt(null);
         $this->setNewPinForLink($telegram_link);
 
-        $this->entityManager->persist($telegram_link);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($telegram_link);
+        $this->entityManager()->flush();
         return $telegram_link;
     }
 
     public function linkChatUsingPin($pin, $chat_id, $user_id) {
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing_telegram_link = $telegram_link_repo->findOneBy(['pin' => $pin]);
 
         if ($existing_telegram_link == null) {
@@ -114,14 +113,14 @@ class TelegramUtils {
         $existing_telegram_link->setTelegramUserId($user_id);
         $existing_telegram_link->setLinkedAt($now);
 
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
         return $existing_telegram_link;
     }
 
     public function linkUserUsingPin($pin, $user) {
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing_telegram_link = $telegram_link_repo->findOneBy(['pin' => $pin]);
         $redundant_telegram_links = $telegram_link_repo->findBy(['user' => $user->getId()]);
 
@@ -135,10 +134,10 @@ class TelegramUtils {
         $existing_telegram_link->setLinkedAt($now);
 
         foreach ($redundant_telegram_links as $redundant_telegram_link) {
-            $this->entityManager->remove($redundant_telegram_link);
+            $this->entityManager()->remove($redundant_telegram_link);
         }
 
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
         return $existing_telegram_link;
     }
 
@@ -147,7 +146,7 @@ class TelegramUtils {
     }
 
     public function getFreshPinForChat($chat_id) {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
             throw new \Exception('Unbekannter Chat.');
@@ -158,13 +157,13 @@ class TelegramUtils {
 
     public function setNewPinForLink($telegram_link) {
         $pin = $this->generateUniqueTelegramPin();
-        $now = new \DateTime($this->dateUtils->getIsoNow());
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
         $pin_expires_at = $now->add($this->getTelegramExpirationInterval());
 
         $telegram_link->setPin($pin);
         $telegram_link->setPinExpiresAt($pin_expires_at);
 
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         return $telegram_link;
     }
@@ -172,9 +171,9 @@ class TelegramUtils {
     public function generateUniqueTelegramPin() {
         while (true) {
             $pin = $this->generateTelegramPin();
-            $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+            $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
             $existing = $telegram_link_repo->findOneBy(['pin' => $pin]);
-            $now = new \DateTime($this->dateUtils->getIsoNow());
+            $now = new \DateTime($this->dateUtils()->getIsoNow());
             if ($existing == null || $now > $existing->getPinExpiresAt()) {
                 return $pin;
             }
@@ -205,7 +204,7 @@ class TelegramUtils {
     }
 
     public function isAnonymousChat($chat_id) {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
             return true;
@@ -214,7 +213,7 @@ class TelegramUtils {
     }
 
     public function getChatState($chat_id) {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
             return null;
@@ -223,7 +222,7 @@ class TelegramUtils {
     }
 
     public function setChatState($chat_id, $chat_state) {
-        $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
             throw new \Exception('Unbekannter Chat.');
@@ -244,14 +243,14 @@ class TelegramUtils {
             ]);
             $response_json = json_encode($response);
         } catch (\Throwable $th) {
-            $this->logger->error("Telegram API: Could not 'setMyCommands'");
+            $this->log()->error("Telegram API: Could not 'setMyCommands'");
         }
     }
 
     public function callTelegramApi($command, $args) {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {
-            $this->logger->warning("Telegram API response was empty");
+            $this->log()->warning("Telegram API response was empty");
             throw new \Exception(json_encode(['ok' => false]));
         }
         if (isset($response['ok']) && !$response['ok']) {
@@ -262,19 +261,19 @@ class TelegramUtils {
                 && $description == 'Forbidden: bot was blocked by the user'
                 && isset($args['chat_id'])
             ) {
-                $this->logger->notice("We're blocked. Remove telegram link!");
-                $telegram_link_repo = $this->entityManager->getRepository(TelegramLink::class);
+                $this->log()->notice("We're blocked. Remove telegram link!");
+                $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy([
                     'telegram_chat_id' => $args['chat_id'],
                 ]);
-                $this->entityManager->remove($telegram_link);
-                $this->entityManager->flush();
+                $this->entityManager()->remove($telegram_link);
+                $this->entityManager()->flush();
             }
             $response_json = json_encode($response);
-            $this->logger->notice("Telegram API response was not OK: {$response_json}");
+            $this->log()->notice("Telegram API response was not OK: {$response_json}");
             throw new \Exception($response_json);
         }
-        $this->logger->info("Telegram API call successful", [$command, $args, $response]);
+        $this->log()->info("Telegram API call successful", [$command, $args, $response]);
         return $response;
     }
 

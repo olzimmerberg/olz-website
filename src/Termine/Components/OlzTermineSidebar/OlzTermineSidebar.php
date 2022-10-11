@@ -27,17 +27,17 @@ class OlzTermineSidebar {
         $result = $db->query($sql);
 
         $row = mysqli_fetch_array($result);
-        $datum = strtotime($row['datum']);
-        $titel = $row['titel'];
-        $text = $row['text'];
-        $id_training = $row['id'];
+        if ($row) {
+            $datum = strtotime($row['datum']);
+            $titel = $row['titel'];
+            $text = $row['text'];
+            $id_training = $row['id'];
 
-        $datum = $_DATE->olzDate("t. MM", $datum);
-        if ($titel == "") {
-            $titel = substr(str_replace("<br>", " ", $text), 0, $textlaenge);
-        }
+            $datum = $_DATE->olzDate("t. MM", $datum);
+            if ($titel == "") {
+                $titel = substr(str_replace("<br>", " ", $text), 0, $textlaenge);
+            }
 
-        if ($row['datum'] > 0) {
             $out .= "<p><b>Nächstes Training: </b>{$datum}<br>{$titel}, {$text}</p>";
         }
         $out .= OlzEditableText::render(['olz_text_id' => 1]);

@@ -11,7 +11,7 @@ class HttpUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'fieldUtils',
-        'logger',
+        'log',
     ];
 
     public function dieWithHttpError(int $http_status_code) {
@@ -53,14 +53,14 @@ class HttpUtils {
         foreach ($get_params as $key => $value) {
             $field = $fields[$key] ?? null;
             if (!$field) {
-                $this->logger->notice("Unknown GET param '{$key}'");
+                $this->log()->notice("Unknown GET param '{$key}'");
                 $has_error = true;
             } else {
                 try {
-                    $validated_get_params[$key] = $this->fieldUtils->validate(
+                    $validated_get_params[$key] = $this->fieldUtils()->validate(
                         $field, $get_params[$key] ?? null, ['parse' => true]);
                 } catch (ValidationError $verr) {
-                    $this->logger->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
+                    $this->log()->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
                     $has_error = true;
                 }
             }

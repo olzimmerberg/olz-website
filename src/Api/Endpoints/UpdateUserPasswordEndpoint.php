@@ -31,16 +31,16 @@ class UpdateUserPasswordEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session->get('user');
+        $auth_username = $this->session()->get('user');
 
         $old_password = $input['oldPassword'];
         $new_password = $input['newPassword'];
 
-        if (!$this->authUtils->isPasswordAllowed($new_password)) {
+        if (!$this->authUtils()->isPasswordAllowed($new_password)) {
             throw new ValidationError(['newPassword' => ["Das neue Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
 
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);
 
         if ($user->getUsername() !== $auth_username) {
@@ -51,10 +51,10 @@ class UpdateUserPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'INVALID_OLD'];
         }
 
-        $now_datetime = new \DateTime($this->dateUtils->getIsoNow());
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
         $user->setLastModifiedAt($now_datetime);
-        $this->entityManager->flush();
+        $this->entityManager()->flush();
 
         return ['status' => 'OK'];
     }

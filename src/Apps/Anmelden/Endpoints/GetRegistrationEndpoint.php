@@ -15,12 +15,12 @@ class GetRegistrationEndpoint extends OlzGetEntityEndpoint {
 
     protected function handle($input) {
         $external_id = $input['id'];
-        $internal_id = $this->idUtils->toInternalId($external_id, 'Registration');
-        $registration_repo = $this->entityManager->getRepository(Registration::class);
+        $internal_id = $this->idUtils()->toInternalId($external_id, 'Registration');
+        $registration_repo = $this->entityManager()->getRepository(Registration::class);
         $registration = $registration_repo->findOneBy(['id' => $internal_id]);
 
         $infos = [];
-        $registration_info_repo = $this->entityManager->getRepository(RegistrationInfo::class);
+        $registration_info_repo = $this->entityManager()->getRepository(RegistrationInfo::class);
         $registration_infos = $registration_info_repo->findBy(
             ['registration' => $registration, 'onOff' => true],
             ['indexWithinRegistration' => 'ASC'],

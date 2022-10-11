@@ -34,7 +34,7 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -69,7 +69,7 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new FakeIdUtils());
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'meta' => [

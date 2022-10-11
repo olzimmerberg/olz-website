@@ -139,7 +139,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Winterthur',
@@ -292,7 +292,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Flumserberg Tannenheim',
@@ -347,7 +347,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Chur',
@@ -411,7 +411,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'inexistent',
@@ -438,7 +438,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $logger = FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Flumserberg Tannenheim',

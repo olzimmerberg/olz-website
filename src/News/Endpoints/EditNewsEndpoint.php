@@ -30,14 +30,14 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('news');
+        $has_access = $this->authUtils()->hasPermission('news');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
 
         $entity_id = $input['id'];
-        $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
         $owner_user = $news_entry->getOwnerUser();

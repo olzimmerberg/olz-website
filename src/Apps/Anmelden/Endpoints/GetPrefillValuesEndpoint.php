@@ -41,15 +41,15 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
-        $auth_user = $this->authUtils->getAuthenticatedUser();
+        $has_access = $this->authUtils()->hasPermission('any');
+        $auth_user = $this->authUtils()->getAuthenticatedUser();
         if (!$has_access || !$auth_user) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
         $user_id = $input['userId'] ?? null;
         if ($user_id) {
-            $user_repo = $this->entityManager->getRepository(User::class);
+            $user_repo = $this->entityManager()->getRepository(User::class);
             $user = $user_repo->findOneBy(['id' => $user_id]);
             if (!$user || $user->getParentUserId() != $auth_user->getId()) {
                 throw new HttpError(403, "Kein Zugriff!");

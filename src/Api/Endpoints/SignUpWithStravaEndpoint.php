@@ -45,8 +45,8 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $ip_address = $this->server['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
+        $ip_address = $this->server()['REMOTE_ADDR'];
+        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
         $user = new User();
         $user->setUsername($input['username']);
@@ -86,15 +86,15 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $strava_link->setRefreshToken($input['refreshToken']);
         $strava_link->setUser($user);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->persist($strava_link);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($user);
+        $this->entityManager()->persist($strava_link);
+        $this->entityManager()->flush();
 
         $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session->set('auth', $user->getPermissions());
-        $this->session->set('root', $root);
-        $this->session->set('user', $user->getUsername());
-        $this->session->set('user_id', $user->getId());
+        $this->session()->set('auth', $user->getPermissions());
+        $this->session()->set('root', $root);
+        $this->session()->set('user', $user->getUsername());
+        $this->session()->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_STRAVA', $user->getUsername());
 
         return ['status' => 'OK'];

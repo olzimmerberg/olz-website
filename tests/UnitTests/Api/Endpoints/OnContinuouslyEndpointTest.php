@@ -39,7 +39,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpointWrongToken(): void {
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeEnvUtils());
 
@@ -57,7 +57,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new FakeEnvUtils());
@@ -82,7 +82,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
@@ -112,7 +112,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $process_email_task = new FakeTask();
         $logger = new Logger('OnContinuouslyEndpointTest');
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
         $endpoint->setProcessEmailTask($process_email_task);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));

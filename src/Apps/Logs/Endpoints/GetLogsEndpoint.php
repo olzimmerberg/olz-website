@@ -27,14 +27,14 @@ class GetLogsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        if ($this->session->get('auth') != 'all') {
+        if ($this->session()->get('auth') != 'all') {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $username = $this->session->get('user');
-        $this->logger->info("Logs access by {$username}.");
+        $username = $this->session()->get('user');
+        $this->log()->info("Logs access by {$username}.");
 
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $logs_path = "{$data_path}logs/";
 
         $merged_log_index = 0;

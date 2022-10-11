@@ -58,7 +58,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         ];
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['index' => 1]);
 
@@ -79,7 +79,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         ];
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(['index' => 0]);
@@ -94,7 +94,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $endpoint = new GetLogsEndpointForTest();
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(['index' => 0]);

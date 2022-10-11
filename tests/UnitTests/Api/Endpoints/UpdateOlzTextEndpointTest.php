@@ -45,7 +45,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 1,
@@ -65,7 +65,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 3,
@@ -89,7 +89,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLogger($logger);
+        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 1,

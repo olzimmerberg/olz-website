@@ -14,7 +14,7 @@ class AuthUtils {
         'dateUtils',
         'entityManager',
         'getParams',
-        'logger',
+        'log',
         'server',
         'session',
     ];
@@ -23,19 +23,19 @@ class AuthUtils {
     protected $cached_permission_map_by_role = [];
 
     public function authenticate($username_or_email, $password) {
-        $ip_address = $this->server['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
+        $ip_address = $this->server()['REMOTE_ADDR'];
+        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
         // If there are invalid credentials provided too often, we block.
         $can_login = $auth_request_repo->canAuthenticate($ip_address);
         if (!$can_login) {
             $message = "Login attempt from blocked IP: {$ip_address} (user: {$username_or_email}).";
-            $this->logger->notice($message);
+            $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'BLOCKED', $username_or_email);
             throw new AuthBlockedException($message);
         }
 
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $username_or_email]);
         if (!$user) {
             $user = $user_repo->findOneBy(['email' => $username_or_email]);
@@ -49,44 +49,44 @@ class AuthUtils {
         // If the password is wrong, authentication fails.
         if (!$user || !$password || !password_verify($password, $user->getPasswordHash())) {
             $message = "Login attempt with invalid credentials from IP: {$ip_address} (user: {$username_or_email}).";
-            $this->logger->notice($message);
+            $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username_or_email);
             throw new InvalidCredentialsException($message);
         }
 
-        $this->logger->info("User login successful: {$username_or_email}");
-        $this->logger->info("  Auth: {$user->getPermissions()}");
-        $this->logger->info("  Root: {$user->getRoot()}");
+        $this->log()->info("User login successful: {$username_or_email}");
+        $this->log()->info("  Auth: {$user->getPermissions()}");
+        $this->log()->info("  Root: {$user->getRoot()}");
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED', $username_or_email);
         return $user;
     }
 
     public function validateAccessToken($access_token) {
-        $ip_address = $this->server['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager->getRepository(AuthRequest::class);
+        $ip_address = $this->server()['REMOTE_ADDR'];
+        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
         // If there are invalid credentials provided too often, we block.
         $can_validate = $auth_request_repo->canValidateAccessToken($ip_address);
         if (!$can_validate) {
             $message = "Access token validation from blocked IP: {$ip_address}.";
-            $this->logger->notice($message);
+            $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_BLOCKED', '');
             throw new AuthBlockedException($message);
         }
 
-        $access_token_repo = $this->entityManager->getRepository(AccessToken::class);
+        $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
         $access_token = $access_token_repo->findOneBy(['token' => $access_token]);
         $user = $access_token ? $access_token->getUser() : null;
 
         // If the access token is invalid, authentication fails.
         if (!$access_token || !$user) {
             $message = "Invalid access token validation from IP: {$ip_address}.";
-            $this->logger->notice($message);
+            $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_TOKEN', '');
             throw new InvalidCredentialsException($message);
         }
 
-        $now = $this->dateUtils->getIsoNow();
+        $now = $this->dateUtils()->getIsoNow();
         $expires_at = $access_token->getExpiresAt();
         $is_access_token_expired = (
             $expires_at !== null
@@ -96,12 +96,12 @@ class AuthUtils {
         // If the access token is expired, authentication fails.
         if ($is_access_token_expired) {
             $message = "Expired access token validation from IP: {$ip_address}.";
-            $this->logger->notice($message);
+            $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'EXPIRED_TOKEN', '');
             throw new InvalidCredentialsException($message);
         }
 
-        $this->logger->info("Token validation successful: {$access_token->getId()}");
+        $this->log()->info("Token validation successful: {$access_token->getId()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
         return $user;
     }
@@ -164,7 +164,7 @@ class AuthUtils {
     }
 
     public function getTokenUser() {
-        $access_token = $this->getParams['access_token'] ?? null;
+        $access_token = $this->getParams()['access_token'] ?? null;
         if (!$access_token) {
             return null;
         }
@@ -176,8 +176,8 @@ class AuthUtils {
     }
 
     public function getSessionUser() {
-        $auth_username = $this->session->get('user');
-        $user_repo = $this->entityManager->getRepository(User::class);
+        $auth_username = $this->session()->get('user');
+        $user_repo = $this->entityManager()->getRepository(User::class);
         return $user_repo->findOneBy(['username' => $auth_username]);
     }
 

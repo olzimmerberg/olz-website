@@ -21,7 +21,6 @@ class FacebookUtils {
         $facebook_fetcher = new FacebookFetcher();
 
         $instance = new self();
-        $instance->populateFromEnv(self::UTILS);
         $instance->setAppId($env_utils->getFacebookAppId());
         $instance->setAppSecret($env_utils->getFacebookAppSecret());
         $instance->setRedirectUrl($redirect_url);
@@ -83,7 +82,7 @@ class FacebookUtils {
         ];
         $userinfo_response = $this->facebook_fetcher->fetchUserData($userinfo_request_data, $token_response);
 
-        $now_secs = strtotime($this->dateUtils->getIsoNow());
+        $now_secs = strtotime($this->dateUtils()->getIsoNow());
 
         return [
             'token_type' => $token_response['token_type'],

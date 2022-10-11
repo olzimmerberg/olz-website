@@ -29,10 +29,10 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $token = $input['token'];
-        $reaction_data = $this->emailUtils->decryptEmailReactionToken($token);
+        $reaction_data = $this->emailUtils()->decryptEmailReactionToken($token);
 
         if (!$reaction_data) {
-            $this->logger->error("Invalid email reaction token: {$token}", [$reaction_data]);
+            $this->log()->error("Invalid email reaction token: {$token}", [$reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
 
@@ -41,10 +41,10 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
             case 'unsubscribe':
                 $user = intval($reaction_data['user'] ?? '0');
                 if ($user <= 0) {
-                    $this->logger->error("Invalid user {$user} to unsubscribe from email notifications.", [$reaction_data]);
+                    $this->log()->error("Invalid user {$user} to unsubscribe from email notifications.", [$reaction_data]);
                     return ['status' => 'INVALID_TOKEN'];
                 }
-                $notification_subscription_repo = $this->entityManager->getRepository(NotificationSubscription::class);
+                $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
                 if (isset($reaction_data['notification_type'])) {
                     $notification_type = $reaction_data['notification_type'];
                     $subscriptions = $notification_subscription_repo->findBy([
@@ -54,14 +54,14 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                     ]);
                     $num_subscriptions = count($subscriptions);
                     if ($num_subscriptions > 1) {
-                        $this->logger->warning("This is odd: Multiple email notification subscriptions will be deleted for just one notification type: {$notification_type}.", [$reaction_data, $subscriptions]);
+                        $this->log()->warning("This is odd: Multiple email notification subscriptions will be deleted for just one notification type: {$notification_type}.", [$reaction_data, $subscriptions]);
                     }
                     foreach ($subscriptions as $subscription) {
-                        $this->logger->notice("Removing email subscription: {$subscription}.");
+                        $this->log()->notice("Removing email subscription: {$subscription}.");
                         $this->removeNotificationSubscription($subscription);
                     }
-                    $this->entityManager->flush();
-                    $this->logger->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
+                    $this->entityManager()->flush();
+                    $this->log()->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
                     return ['status' => 'OK'];
                 }
                 if (isset($reaction_data['notification_type_all'])) {
@@ -71,33 +71,33 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                     ]);
                     $num_subscriptions = count($subscriptions);
                     foreach ($subscriptions as $subscription) {
-                        $this->logger->notice("Removing email subscription: {$subscription}.", [$reaction_data]);
+                        $this->log()->notice("Removing email subscription: {$subscription}.", [$reaction_data]);
                         $this->removeNotificationSubscription($subscription);
                     }
-                    $this->entityManager->flush();
-                    $this->logger->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
+                    $this->entityManager()->flush();
+                    $this->log()->notice("{$num_subscriptions} email notification subscriptions removed.", [$reaction_data]);
                     return ['status' => 'OK'];
                 }
-                $this->logger->error("Invalid email notification type to unsubscribe from.", [$reaction_data]);
+                $this->log()->error("Invalid email notification type to unsubscribe from.", [$reaction_data]);
                 return ['status' => 'INVALID_TOKEN'];
             case 'reset_password':
                 $user_id = intval($reaction_data['user'] ?? '0');
-                $user_repo = $this->entityManager->getRepository(User::class);
+                $user_repo = $this->entityManager()->getRepository(User::class);
                 $user = $user_repo->findOneBy(['id' => $user_id]);
                 if (!$user) {
-                    $this->logger->error("Invalid user {$user_id} to reset password.", [$reaction_data]);
+                    $this->log()->error("Invalid user {$user_id} to reset password.", [$reaction_data]);
                     return ['status' => 'INVALID_TOKEN'];
                 }
                 $new_password = $reaction_data['new_password'];
                 if (strlen($new_password) < 8) {
-                    $this->logger->error("New password is too short.", [$reaction_data]);
+                    $this->log()->error("New password is too short.", [$reaction_data]);
                     return ['status' => 'INVALID_TOKEN'];
                 }
                 $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
-                $this->entityManager->flush();
+                $this->entityManager()->flush();
                 return ['status' => 'OK'];
             default:
-                $this->logger->error("Unknown email reaction action: {$action}.", [$reaction_data]);
+                $this->log()->error("Unknown email reaction action: {$action}.", [$reaction_data]);
                 return ['status' => 'INVALID_TOKEN'];
         }
     }
@@ -107,7 +107,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         if ($subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER) {
             $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
         } else {
-            $this->entityManager->remove($subscription);
+            $this->entityManager()->remove($subscription);
         }
     }
 }

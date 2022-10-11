@@ -29,21 +29,21 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('webdav');
+        $has_access = $this->authUtils()->hasPermission('webdav');
         if (!$has_access) {
             return ['status' => 'ERROR', 'token' => null];
         }
 
-        $current_user = $this->authUtils->getSessionUser();
+        $current_user = $this->authUtils()->getSessionUser();
 
-        $access_token_repo = $this->entityManager->getRepository(AccessToken::class);
+        $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
         $access_token = $access_token_repo->findOneBy([
             'user' => $current_user,
             'purpose' => 'WebDAV',
         ]);
 
         if (!$access_token) {
-            $now = new \DateTime($this->dateUtils->getIsoNow());
+            $now = new \DateTime($this->dateUtils()->getIsoNow());
             $token = $this->generateRandomAccessToken();
 
             $access_token = new AccessToken();
@@ -53,8 +53,8 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
             $access_token->setCreatedAt($now);
             $access_token->setExpiresAt(null);
 
-            $this->entityManager->persist($access_token);
-            $this->entityManager->flush();
+            $this->entityManager()->persist($access_token);
+            $this->entityManager()->flush();
         }
 
         return [
@@ -64,6 +64,6 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
     }
 
     protected function generateRandomAccessToken() {
-        return $this->generalUtils->base64EncodeUrl(openssl_random_pseudo_bytes(18));
+        return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(18));
     }
 }

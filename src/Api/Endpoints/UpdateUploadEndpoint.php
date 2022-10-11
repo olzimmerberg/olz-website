@@ -28,23 +28,23 @@ class UpdateUploadEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             return ['status' => 'ERROR'];
         }
 
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $upload_id = $input['id'];
         $upload_path = "{$data_path}temp/{$upload_id}";
         if (!is_file($upload_path)) {
-            $this->logger->error("Could not update upload. Invalid ID: '{$upload_id}'.");
+            $this->log()->error("Could not update upload. Invalid ID: '{$upload_id}'.");
             return ['status' => 'ERROR'];
         }
 
         $part = $input['part'];
         $part_path = "{$upload_path}_{$part}";
 
-        $content = $this->uploadUtils->deobfuscateUpload($input['content']);
+        $content = $this->uploadUtils()->deobfuscateUpload($input['content']);
         file_put_contents($part_path, $content);
 
         return ['status' => 'OK'];

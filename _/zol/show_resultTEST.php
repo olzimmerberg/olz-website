@@ -25,10 +25,11 @@ div#wn2 {
 
 <?php
 
-global $db;
+use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/../config/init.php';
-require_once __DIR__.'/config/database.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 include __DIR__.'/parse_result.php';
 $event = 'zol_160410';

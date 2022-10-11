@@ -5,12 +5,15 @@
 // TODO(simon): Was davon ist in Gebrauch? Was soll geschehen?
 // =============================================================================
 
+use Olz\Utils\DbUtils;
+
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
 
 function termine_ticker($settings) {
-    global $db, $_DATE;
+    global $_DATE;
+    $db = DbUtils::fromEnv()->getDb();
+
     $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;
     $listenlaenge = isset($settings["eintrag_anzahl"]) ? intval($settings["eintrag_anzahl"]) : 8;
     $sql_where = isset($settings["sql_where"]) ? $settings["sql_where"] : "";

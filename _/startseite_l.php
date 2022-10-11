@@ -8,12 +8,14 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
+use Olz\Utils\DbUtils;
 
-global $db, $_DATE;
+global $_DATE;
 
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 ?>
 

@@ -12,18 +12,19 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList {
     public static function render($args = []) {
-        global $db, $db_table, $monate, $_DATE, $heute;
+        global $db_table, $monate, $_DATE, $heute;
 
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
+        $db = DbUtils::fromEnv()->getDb();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);

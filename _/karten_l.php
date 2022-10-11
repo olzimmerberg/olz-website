@@ -5,10 +5,9 @@
 // =============================================================================
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Utils\DbUtils;
 
-global $db;
-
-require_once __DIR__.'/config/database.php';
+$db = DbUtils::fromEnv()->getDb();
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
 

@@ -4,11 +4,14 @@
 // Fotogalerie mit Bildern von Anlässen.
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
+
+global $_DATE;
 
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"];
 $breite = 4;

@@ -1,9 +1,6 @@
 <?php
 
-global $db;
-
 require_once __DIR__.'/../config/paths.php';
-require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/common.php';
 
 /** DO NOT CALL THIS FUNCTION ON PROD! */
@@ -355,7 +352,6 @@ function dump_db_structure_sql($db) {
         ."\n"
     );
     global $_CONFIG;
-    require_once __DIR__.'/../config/database.php';
     require_once __DIR__.'/../../vendor/autoload.php';
     $dump_filename = tempnam(__DIR__.'/tmp', 'OLZ');
     $mysql_server = $_CONFIG->getMysqlServer();

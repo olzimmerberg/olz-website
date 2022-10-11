@@ -4,10 +4,13 @@
 // Kann auf der Website nach einem Suchbegriff suchen.
 // =============================================================================
 
-global $db, $_DATE;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/config/database.php';
+global $_DATE;
+
 require_once __DIR__.'/config/date.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 $length_a = 40;
 $length_b = 40;

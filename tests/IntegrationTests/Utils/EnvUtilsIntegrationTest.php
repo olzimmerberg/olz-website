@@ -22,7 +22,6 @@ class FakeIntegrationTestEnvUtils extends EnvUtils {
  */
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
-        global $db;
         $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
         $this->assertMatchesRegularExpression(
             '/\/tests\/IntegrationTests\/document\-root\/$/',

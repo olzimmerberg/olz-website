@@ -2,13 +2,14 @@
 
 namespace Olz\Components\Page\OlzHeaderStats;
 
+use Olz\Utils\DbUtils;
+
 class OlzHeaderStats {
     public static function render($args = []) {
         // OLZ Statistik Trainings/Wettkämpfe 2014
         // ---------------------------------------
 
-        global $db;
-        require_once __DIR__.'/../../../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
 
         $sql = "SELECT SUM(teilnehmer),count(*) FROM termine WHERE datum>'2013-12-31' AND teilnehmer>0 AND (typ LIKE '%training%')";
         $result = $db->query($sql);

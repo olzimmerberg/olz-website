@@ -2,6 +2,8 @@
 
 namespace Olz\Components\Page\OlzHeaderJomCounter;
 
+use Olz\Utils\DbUtils;
+
 class OlzHeaderJomCounter {
     public static function render($args = []) {
         // OLZ JOM-Counter 2020
@@ -27,8 +29,8 @@ class OlzHeaderJomCounter {
         // Simon Hatt - 20
         // Tiziana Rigamonti - 650
 
-        global $db;
-        require_once __DIR__.'/../../../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $out = '';
 
         $jom_solv_uids_2019 = [9610, 9543, 9781, 9636, 9542, 9541, 9380, 9390, 9950, 9815, 9821];

@@ -4,6 +4,8 @@
 // Wiederverwendbare Komponenten der Website.
 // =============================================================================
 
+use Olz\Utils\DbUtils;
+
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/date.php';
 
@@ -99,8 +101,8 @@ function olz_amp($text) {
 // Variablen Text editieren
 // ----------------------------------
 function get_olz_text($id_text, $editable = true) {
-    global $db_edit,$db,$buttonolz_text;
-    require_once __DIR__.'/../config/database.php';
+    global $db_edit,$buttonolz_text;
+    $db = DbUtils::fromEnv()->getDb();
 
     $id_edit = $_GET['id_edit'];
     $html_out = "";
@@ -265,9 +267,7 @@ function olz_is_email($v) {
 // FUNKTION Uid GENERIEREN
 // ----------------------------------
 function olz_create_uid($db_table) {
-    global $db;
-
-    require_once __DIR__.'/../config/database.php';
+    $db = DbUtils::fromEnv()->getDb();
 
     $uid = "";
     do {

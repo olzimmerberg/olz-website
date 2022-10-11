@@ -8,10 +8,11 @@ namespace Olz\Components\Page\OlzHeaderBar;
 
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
 use Olz\Components\Page\OlzMenu\OlzMenu;
+use Olz\Utils\DbUtils;
 
 class OlzHeaderBar {
     public static function render($args = []) {
-        global $_CONFIG, $db, $zugriff, $button_name;
+        global $_CONFIG, $zugriff, $button_name;
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/server.php';
@@ -57,7 +58,7 @@ class OlzHeaderBar {
         $out .= "<div style='flex-grow:1;'></div>";
 
         if (!($args['skip_top_boxes'] ?? false)) {
-            require_once __DIR__.'/../../../../_/config/database.php';
+            $db = DbUtils::fromEnv()->getDb();
 
             $header_spalten = 2;
 

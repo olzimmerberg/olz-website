@@ -3,6 +3,7 @@
 namespace Olz\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Olz\Utils\DbUtils;
 
 class SolvResultRepository extends EntityRepository {
     public function getUnassignedSolvResults() {
@@ -26,8 +27,8 @@ class SolvResultRepository extends EntityRepository {
     }
 
     public function getExactPersonId($solv_result) {
-        global $db;
-        require_once __DIR__.'/../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $sane_name = $db->escape_string($solv_result->getName());
         $sane_birth_year = $db->escape_string($solv_result->getBirthYear());
         $sane_domicile = $db->escape_string($solv_result->getDomicile());

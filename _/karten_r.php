@@ -5,11 +5,11 @@
 // =============================================================================
 
 use Olz\Components\Schema\OlzMapData\OlzMapData;
-
-global $db;
+use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/config/paths.php';
-require_once __DIR__.'/config/database.php';
+
+$db = DbUtils::fromEnv()->getDb();
 
 $karten_typ = [
     'OL-Karten' => 'ol',

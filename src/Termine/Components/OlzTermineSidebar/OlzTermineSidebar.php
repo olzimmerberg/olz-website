@@ -7,13 +7,15 @@
 namespace Olz\Termine\Components\OlzTermineSidebar;
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Utils\DbUtils;
 
 class OlzTermineSidebar {
     public static function render($args = []) {
-        global $heute, $db, $_DATE;
+        global $heute, $_DATE;
 
-        require_once __DIR__.'/../../../../_/config/database.php';
         require_once __DIR__.'/../../../../_/config/date.php';
+
+        $db = DbUtils::fromEnv()->getDb();
 
         $out = "<h2>Trainings</h2>";
 

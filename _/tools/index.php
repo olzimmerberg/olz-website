@@ -1,18 +1,20 @@
 <?php
 
+use Olz\Utils\DbUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
 
 require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/server.php';
-require_once __DIR__.'/../config/database.php';
 require_once __DIR__.'/dev_data.php';
 require_once __DIR__.'/doctrine_migrations.php';
 require_once __DIR__.'/monitoring/backup_monitoring.php';
 require_once __DIR__.'/monitoring/logs_monitoring.php';
 
 function run_tools($command_config, $server) {
-    global $db, $data_path, $_CONFIG;
+    $db = DbUtils::fromEnv()->getDb();
+    global $data_path, $_CONFIG;
+
     set_time_limit(600); // This might take some time...
     $has_command = preg_match('/^\/([a-z0-9\-\_]+)$/i', $server['PATH_INFO'], $matches);
     $command = $has_command ? $matches[1] : null;

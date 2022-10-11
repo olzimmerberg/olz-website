@@ -4,6 +4,7 @@ namespace Olz\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Olz\Entity\AuthRequest;
+use Olz\Utils\DbUtils;
 
 class AuthRequestRepository extends EntityRepository {
     public const NUM_TRIES = 32;
@@ -23,8 +24,8 @@ class AuthRequestRepository extends EntityRepository {
     }
 
     public function canAuthenticate($ip_address, $timestamp = null) {
-        global $db;
-        require_once __DIR__.'/../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {
             $timestamp = new \DateTime();
@@ -55,8 +56,8 @@ class AuthRequestRepository extends EntityRepository {
     }
 
     public function canValidateAccessToken($ip_address, $timestamp = null) {
-        global $db;
-        require_once __DIR__.'/../../_/config/database.php';
+        $db = DbUtils::fromEnv()->getDb();
+
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {
             $timestamp = new \DateTime();

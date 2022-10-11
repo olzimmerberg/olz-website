@@ -5,11 +5,11 @@
 // =============================================================================
 
 use Olz\Components\OlzAppsList\OlzAppsList;
+use Olz\Utils\DbUtils;
 
-global $db;
-
-require_once __DIR__.'/config/database.php';
 require_once "file_tools.php";
+
+$db = DbUtils::fromEnv()->getDb();
 
 echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 

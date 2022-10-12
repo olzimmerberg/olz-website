@@ -9,7 +9,6 @@ use Sabre\DAV;
 
 class OlzWebDav {
     public static function render() {
-        require_once __DIR__.'/../../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../../_/config/paths.php';
 
         error_reporting(0);

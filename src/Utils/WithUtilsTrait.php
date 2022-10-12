@@ -67,9 +67,7 @@ trait WithUtilsTrait {
     }
 
     public function createEntityManager() {
-        global $entityManager;
-        require_once __DIR__.'/../../_/config/doctrine_db.php';
-        return $entityManager;
+        return DbUtils::fromEnv()->getEntityManager();
     }
 
     public function setEntityManager($entityManager) {

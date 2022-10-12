@@ -6,6 +6,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
+use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/config/init.php';
 
@@ -18,8 +19,7 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
-require_once __DIR__.'/config/doctrine_db.php';
-
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $user_repo = $entityManager->getRepository(User::class);
 $username = ($_SESSION['user'] ?? null);
 $user = $user_repo->findOneBy(['username' => $username]);

@@ -2,14 +2,13 @@
 
 use Olz\Entity\OlzText;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
-
-global $entityManager;
-require_once __DIR__.'/../config/doctrine_db.php';
 
 $img_root = "/img/zol_2022/";
 
 $auth_utils = AuthUtils::fromEnv();
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $env_utils = EnvUtils::fromEnv();
 $data_path = $env_utils->getDataPath();
 $css_path = "{$data_path}jsbuild/zimmerberg_ol/main.min.css";

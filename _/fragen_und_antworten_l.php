@@ -7,9 +7,11 @@
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/tickers.php';
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
 $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);

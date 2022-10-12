@@ -5,6 +5,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\Utils\DbUtils;
 
 global $_CONFIG;
 
@@ -35,6 +36,7 @@ echo "<style>
 require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/tickers.php';
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 

@@ -6,7 +6,9 @@
 
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\Utils\DbUtils;
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 

@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
 
@@ -18,9 +19,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
-        global $entityManager;
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
         $logger = new Logger('DeadlineWarningGetterIntegrationTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));

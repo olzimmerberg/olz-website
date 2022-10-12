@@ -3,6 +3,7 @@
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
+use Olz\Utils\DbUtils;
 use Olz\Utils\TelegramUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -16,11 +17,10 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
-require_once __DIR__.'/config/doctrine_db.php';
-
 $telegram_utils = TelegramUtils::fromEnv();
 $pin = $_GET['pin'];
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $user_repo = $entityManager->getRepository(User::class);
 $username = ($_SESSION['user'] ?? null);
 $user = $user_repo->findOneBy(['username' => $username]);

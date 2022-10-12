@@ -11,7 +11,6 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/config/doctrine_db.php';
 
 $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();

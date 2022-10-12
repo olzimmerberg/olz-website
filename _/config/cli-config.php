@@ -4,8 +4,8 @@
 // Konfiguration für das Doctrine-Kommandozeilen-Programm.
 // =============================================================================
 
-global $entityManager;
+use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/doctrine_db.php';
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 
 return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet($entityManager);

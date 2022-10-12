@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
 
-use Monolog\Logger;
 use Olz\Entity\SolvEvent;
 use Olz\Tasks\SyncSolvTask\SolvEventsSyncer;
 use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 require_once __DIR__.'/../../../Fake/fake_solv_event.php';
@@ -71,8 +71,7 @@ final class SolvEventsSyncerTest extends UnitTestCase {
         $solv_event_repo = new FakeSolvEventsSyncerSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();
-        $logger = new Logger('SolvEventsSyncerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new SolvEventsSyncer($entity_manager, $solv_fetcher);
         $job->setLogger($logger);

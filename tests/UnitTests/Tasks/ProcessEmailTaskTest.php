@@ -42,8 +42,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -65,8 +70,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -88,8 +98,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -113,8 +128,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -138,8 +158,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -163,8 +188,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -195,8 +225,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $user_repo = $entity_manager->repositories[User::class];
@@ -223,8 +258,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -255,8 +295,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $role_repo = $entity_manager->repositories[Role::class];
@@ -292,8 +337,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
 
-        $job = new ProcessEmailTask($entity_manager, $auth_utils, $email_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame([], $email_utils->olzMailer->emails_sent);

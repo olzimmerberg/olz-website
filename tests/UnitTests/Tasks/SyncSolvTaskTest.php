@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks;
 
-use Monolog\Logger;
 use Olz\Tasks\SyncSolvTask;
 use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -63,20 +63,30 @@ final class SyncSolvTaskTest extends UnitTestCase {
         $solv_fetcher = null;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
-        $logger = new Logger('SyncSolvTaskTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
         $solv_events_syncer = new FakeSolvEventsSyncer();
         $solv_results_syncer = new FakeSolvResultsSyncer();
         $solv_people_assigner = new FakeSolvPeopleAssigner();
         $solv_people_merger = new FakeSolvPeopleMerger();
 
-        $job = new SyncSolvTask($entity_manager, $solv_fetcher, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new SyncSolvTask();
+        $job->setDateUtils($date_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setSolvFetcher($solv_fetcher);
+        $job->setLog($logger);
         $job->setSolvEventsSyncer($solv_events_syncer);
         $job->setSolvResultsSyncer($solv_results_syncer);
         $job->setSolvPeopleAssigner($solv_people_assigner);
         $job->setSolvPeopleMerger($solv_people_merger);
         $job->run();
+
+        $this->assertSame([
+            'INFO Setup task SyncSolv...',
+            'INFO Running task SyncSolv...',
+            'INFO Finished task SyncSolv.',
+            'INFO Teardown task SyncSolv...',
+        ], $logger->handler->getPrettyRecords());
 
         $this->assertSame([2020, 2019, 2021, 2018], $solv_events_syncer->years_synced);
         $this->assertSame([2020], $solv_results_syncer->years_synced);

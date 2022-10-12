@@ -534,8 +534,13 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
         $weekly_summary_getter = new FakeSendDailyNotificationsTaskWeeklySummaryGetter();
 
-        $job = new SendDailyNotificationsTask($entity_manager, $email_utils, $telegram_utils, $date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new SendDailyNotificationsTask();
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setTelegramUtils($telegram_utils);
+        $job->setLog($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
         $job->setEmailConfigurationReminderGetter($email_configuration_reminder_getter);
@@ -544,6 +549,78 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $job->setWeeklyPreviewGetter($weekly_preview_getter);
         $job->setWeeklySummaryGetter($weekly_summary_getter);
         $job->run();
+
+        $this->assertSame([
+            "INFO Setup task SendDailyNotifications...",
+            "INFO Running task SendDailyNotifications...",
+            "INFO Autogenerating notifications...",
+            "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
+            "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
+            "INFO Removing telegram configuration reminder subscription for 'user (ID:1)'...",
+            "INFO Generating telegram configuration reminder subscription for 'vorstand (ID:3)'...",
+            "INFO Sending 'monthly_preview' notifications...",
+            "INFO Getting notification for '[]'...",
+            "INFO Sending notification MP title over email to user (1)...",
+            "INFO Email sent to user (1): MP title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'weekly_preview' notifications...",
+            "INFO Getting notification for '[]'...",
+            "INFO Sending notification WP title over telegram to user (1)...",
+            "INFO Telegram sent to user (1): WP title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'deadline_warning' notifications...",
+            "INFO Getting notification for '{\"days\":7}'...",
+            "INFO Sending notification DW title {\"days\":7} over telegram to user (1)...",
+            "INFO Telegram sent to user (1): DW title {\"days\":7}",
+            "INFO Getting notification for '{\"days\":3}'...",
+            "INFO Sending notification DW title {\"days\":3} over telegram to user (2)...",
+            "INFO Telegram sent to user (2): DW title {\"days\":3}",
+            "INFO Sending notification DW title {\"days\":3} over telegram to user (3)...",
+            "CRITICAL User (3) has a telegram link without chat ID, but a subscription (7)",
+            "INFO Sending notification DW title {\"days\":3} over email to user (1)...",
+            "INFO Email sent to user (1): DW title {\"days\":3}",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'daily_summary' notifications...",
+            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
+            "INFO Sending notification DS title over email to user (1)...",
+            "INFO Email sent to user (1): DS title",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'weekly_summary' notifications...",
+            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
+            "INFO Sending notification WS title over email to user (2)...",
+            "INFO Email sent to user (2): WS title",
+            "INFO Sending notification WS title over invalid-delivery to user (2)...",
+            "CRITICAL Unknown delivery type 'invalid-delivery'",
+            "INFO Sending notification WS title over telegram to user (3)...",
+            "ERROR Error sending telegram to user (3): [Exception] provoked telegram error",
+            "INFO Sending notification WS title over telegram to user (4)...",
+            "NOTICE User (4) has no telegram link, but a subscription (22)",
+            "INFO Getting notification for '{\"no_notification\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Getting notification for '{\"provoke_error\":true}'...",
+            "INFO Sending notification provoke_error over email to user (2)...",
+            "CRITICAL Error sending email to user (2): [Exception] Provoked Mailer Error",
+            "INFO Sending 'invalid-type' notifications...",
+            "CRITICAL Unknown notification type 'invalid-type'",
+            "INFO Sending 'telegram_config_reminder' notifications...",
+            "INFO Getting notification for '{\"cancelled\":false}'...",
+            "INFO Sending notification TCR title {\"cancelled\":false} over telegram to user (2)...",
+            "INFO Telegram sent to user (2): TCR title {\"cancelled\":false}",
+            "INFO Getting notification for '{\"cancelled\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Sending 'email_config_reminder' notifications...",
+            "INFO Getting notification for '{\"cancelled\":false}'...",
+            "INFO Sending notification ECR title {\"cancelled\":false} over email to user (1)...",
+            "INFO Email sent to user (1): ECR title {\"cancelled\":false}",
+            "INFO Getting notification for '{\"cancelled\":true}'...",
+            "INFO Nothing to send.",
+            "INFO Finished task SendDailyNotifications.",
+            "INFO Teardown task SendDailyNotifications...",
+        ], $logger->handler->getPrettyRecords());
 
         global $user1, $user2;
         $this->assertSame([
@@ -646,76 +723,5 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $this->assertSame($entity_manager, $weekly_summary_getter->entityManager);
         $this->assertSame($date_utils, $weekly_summary_getter->dateUtils);
         $this->assertSame($env_utils, $weekly_summary_getter->envUtils);
-        $this->assertSame([
-            "INFO Setup task SendDailyNotifications...",
-            "INFO Running task SendDailyNotifications...",
-            "INFO Autogenerating notifications...",
-            "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
-            "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
-            "INFO Removing telegram configuration reminder subscription for 'user (ID:1)'...",
-            "INFO Generating telegram configuration reminder subscription for 'vorstand (ID:3)'...",
-            "INFO Sending 'monthly_preview' notifications...",
-            "INFO Getting notification for '[]'...",
-            "INFO Sending notification MP title over email to user (1)...",
-            "INFO Email sent to user (1): MP title",
-            "INFO Getting notification for '{\"no_notification\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Sending 'weekly_preview' notifications...",
-            "INFO Getting notification for '[]'...",
-            "INFO Sending notification WP title over telegram to user (1)...",
-            "INFO Telegram sent to user (1): WP title",
-            "INFO Getting notification for '{\"no_notification\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Sending 'deadline_warning' notifications...",
-            "INFO Getting notification for '{\"days\":7}'...",
-            "INFO Sending notification DW title {\"days\":7} over telegram to user (1)...",
-            "INFO Telegram sent to user (1): DW title {\"days\":7}",
-            "INFO Getting notification for '{\"days\":3}'...",
-            "INFO Sending notification DW title {\"days\":3} over telegram to user (2)...",
-            "INFO Telegram sent to user (2): DW title {\"days\":3}",
-            "INFO Sending notification DW title {\"days\":3} over telegram to user (3)...",
-            "CRITICAL User (3) has a telegram link without chat ID, but a subscription (7)",
-            "INFO Sending notification DW title {\"days\":3} over email to user (1)...",
-            "INFO Email sent to user (1): DW title {\"days\":3}",
-            "INFO Getting notification for '{\"no_notification\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Sending 'daily_summary' notifications...",
-            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
-            "INFO Sending notification DS title over email to user (1)...",
-            "INFO Email sent to user (1): DS title",
-            "INFO Getting notification for '{\"no_notification\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Sending 'weekly_summary' notifications...",
-            "INFO Getting notification for '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}'...",
-            "INFO Sending notification WS title over email to user (2)...",
-            "INFO Email sent to user (2): WS title",
-            "INFO Sending notification WS title over invalid-delivery to user (2)...",
-            "CRITICAL Unknown delivery type 'invalid-delivery'",
-            "INFO Sending notification WS title over telegram to user (3)...",
-            "ERROR Error sending telegram to user (3): [Exception] provoked telegram error",
-            "INFO Sending notification WS title over telegram to user (4)...",
-            "NOTICE User (4) has no telegram link, but a subscription (22)",
-            "INFO Getting notification for '{\"no_notification\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Getting notification for '{\"provoke_error\":true}'...",
-            "INFO Sending notification provoke_error over email to user (2)...",
-            "CRITICAL Error sending email to user (2): [Exception] Provoked Mailer Error",
-            "INFO Sending 'invalid-type' notifications...",
-            "CRITICAL Unknown notification type 'invalid-type'",
-            "INFO Sending 'telegram_config_reminder' notifications...",
-            "INFO Getting notification for '{\"cancelled\":false}'...",
-            "INFO Sending notification TCR title {\"cancelled\":false} over telegram to user (2)...",
-            "INFO Telegram sent to user (2): TCR title {\"cancelled\":false}",
-            "INFO Getting notification for '{\"cancelled\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Sending 'email_config_reminder' notifications...",
-            "INFO Getting notification for '{\"cancelled\":false}'...",
-            "INFO Sending notification ECR title {\"cancelled\":false} over email to user (1)...",
-            "INFO Email sent to user (1): ECR title {\"cancelled\":false}",
-            "INFO Getting notification for '{\"cancelled\":true}'...",
-            "INFO Nothing to send.",
-            "INFO Finished task SendDailyNotifications.",
-            "INFO Teardown task SendDailyNotifications...",
-        ], $logger->handler->getPrettyRecords());
     }
 }

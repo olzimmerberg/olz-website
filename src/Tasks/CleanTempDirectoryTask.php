@@ -10,10 +10,10 @@ class CleanTempDirectoryTask extends BackgroundTask {
     }
 
     protected function runSpecificTask() {
-        $data_path = $this->envUtils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp";
         $this->temp_realpath = realpath($temp_path);
-        $now = strtotime($this->dateUtils->getCurrentDateInFormat('Y-m-d H:i:s'));
+        $now = strtotime($this->dateUtils()->getCurrentDateInFormat('Y-m-d H:i:s'));
         $cleaning_delay = 86400 * 2;
         $this->clean_older_than = $now - $cleaning_delay;
 

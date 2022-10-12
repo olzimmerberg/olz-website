@@ -11,30 +11,24 @@ use Olz\Tasks\SyncSolvTask\SolvResultsSyncer;
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
-    public function __construct($entityManager, $solvFetcher, $dateUtils, $envUtils) {
-        parent::__construct($dateUtils, $envUtils);
-        $this->entityManager = $entityManager;
+    public function setSolvFetcher($solvFetcher) {
         $this->solvFetcher = $solvFetcher;
-        $this->solvEventsSyncer = new SolvEventsSyncer($entityManager, $solvFetcher, $this->logger);
-        $this->solvResultsSyncer = new SolvResultsSyncer($entityManager, $solvFetcher, $this->logger);
-        $this->solvPeopleAssigner = new SolvPeopleAssigner($entityManager, $this->logger);
-        $this->solvPeopleMerger = new SolvPeopleMerger($entityManager, $this->logger);
     }
 
-    public function setSolvEventsSyncer($new_solv_events_syncer) {
-        $this->solvEventsSyncer = $new_solv_events_syncer;
+    public function setSolvEventsSyncer($solvEventsSyncer) {
+        $this->solvEventsSyncer = $solvEventsSyncer;
     }
 
-    public function setSolvResultsSyncer($new_solv_results_syncer) {
-        $this->solvResultsSyncer = $new_solv_results_syncer;
+    public function setSolvResultsSyncer($solvResultsSyncer) {
+        $this->solvResultsSyncer = $solvResultsSyncer;
     }
 
-    public function setSolvPeopleAssigner($new_solv_people_assigner) {
-        $this->solvPeopleAssigner = $new_solv_people_assigner;
+    public function setSolvPeopleAssigner($solvPeopleAssigner) {
+        $this->solvPeopleAssigner = $solvPeopleAssigner;
     }
 
-    public function setSolvPeopleMerger($new_solv_people_merger) {
-        $this->solvPeopleMerger = $new_solv_people_merger;
+    public function setSolvPeopleMerger($solvPeopleMerger) {
+        $this->solvPeopleMerger = $solvPeopleMerger;
     }
 
     protected static function getIdent() {
@@ -49,9 +43,10 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function syncSolvEvents() {
-        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
-        $events_syncer = $this->solvEventsSyncer;
-        $events_syncer->setLogger($this->logger);
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $events_syncer = $this->solvEventsSyncer ?? new SolvEventsSyncer(
+            $this->entityManager(), $this->solvFetcher);
+        $events_syncer->setLogger($this->log());
         $events_syncer->syncSolvEventsForYear($current_year);
         $events_syncer->syncSolvEventsForYear($current_year - 1);
         $events_syncer->syncSolvEventsForYear($current_year + 1);
@@ -59,21 +54,24 @@ class SyncSolvTask extends BackgroundTask {
     }
 
     private function syncSolvResults() {
-        $current_year = intval($this->dateUtils->getCurrentDateInFormat('Y'));
-        $results_syncer = $this->solvResultsSyncer;
-        $results_syncer->setLogger($this->logger);
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $results_syncer = $this->solvResultsSyncer ?? new SolvResultsSyncer(
+            $this->entityManager(), $this->solvFetcher);
+        $results_syncer->setLogger($this->log());
         $results_syncer->syncSolvResultsForYear($current_year);
     }
 
     private function assignSolvPeople() {
-        $people_assigner = $this->solvPeopleAssigner;
-        $people_assigner->setLogger($this->logger);
+        $people_assigner = $this->solvPeopleAssigner ?? new SolvPeopleAssigner(
+            $this->entityManager());
+        $people_assigner->setLogger($this->log());
         $people_assigner->assignSolvPeople();
     }
 
     private function mergeSolvPeople() {
-        $people_merger = $this->solvPeopleMerger;
-        $people_merger->setLogger($this->logger);
+        $people_merger = $this->solvPeopleMerger ?? new SolvPeopleMerger(
+            $this->entityManager());
+        $people_merger->setLogger($this->log());
         $people_merger->mergeSolvPeople();
     }
 }

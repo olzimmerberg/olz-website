@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
 
-use Monolog\Logger;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Tasks\SyncSolvTask\SolvPeopleMerger;
 use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 require_once __DIR__.'/../../../Fake/fake_solv_person.php';
@@ -63,8 +63,7 @@ final class SolvPeopleMergerTest extends UnitTestCase {
         $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
         $solv_result_repo = new FakeSolvPeopleMergerSolvResultRepository();
         $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
-        $logger = new Logger('SolvPeopleMergerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new SolvPeopleMerger($entity_manager);
         $job->setLogger($logger);

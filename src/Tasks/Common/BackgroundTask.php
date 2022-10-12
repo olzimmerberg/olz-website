@@ -3,19 +3,10 @@
 namespace Olz\Tasks\Common;
 
 use Olz\Utils\LogsUtils;
+use Olz\Utils\WithUtilsTrait;
 
 abstract class BackgroundTask {
-    use \Psr\Log\LoggerAwareTrait;
-    // TODO: use WithUtilsTrait;
-
-    public function __construct($dateUtils, $envUtils) {
-        $this->dateUtils = $dateUtils;
-        $this->envUtils = $envUtils;
-        $logs_utils = new LogsUtils();
-        $logs_utils->setEnvUtils($envUtils);
-        $logger = $logs_utils->getLogger("Task:{$this->getIdent()}");
-        $this->setLogger($logger);
-    }
+    use WithUtilsTrait;
 
     protected function setup() {
     }
@@ -24,23 +15,23 @@ abstract class BackgroundTask {
     }
 
     public function run() {
-        LogsUtils::activateLogger($this->logger);
+        LogsUtils::activateLogger($this->log());
 
-        $this->logger->info("Setup task {$this->getIdent()}...");
+        $this->log()->info("Setup task {$this->getIdent()}...");
         $this->setup();
         try {
-            $this->logger->info("Running task {$this->getIdent()}...");
+            $this->log()->info("Running task {$this->getIdent()}...");
             $this->runSpecificTask();
-            $this->logger->info("Finished task {$this->getIdent()}.");
+            $this->log()->info("Finished task {$this->getIdent()}.");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
-            $this->logger->error("Error running task {$this->getIdent()}: {$message}.", [$exc]);
+            $this->log()->error("Error running task {$this->getIdent()}: {$message}.", [$exc]);
         } finally {
-            $this->logger->info("Teardown task {$this->getIdent()}...");
+            $this->log()->info("Teardown task {$this->getIdent()}...");
             $this->teardown();
         }
 
-        LogsUtils::deactivateLogger($this->logger);
+        LogsUtils::deactivateLogger($this->log());
     }
 
     abstract protected static function getIdent();

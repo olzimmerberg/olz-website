@@ -12,20 +12,8 @@ use PhpTypeScriptApi\HttpError;
 class OnContinuouslyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        $process_email_task = new ProcessEmailTask(
-            $this->entityManager(),
-            $this->authUtils(),
-            $this->emailUtils(),
-            $this->dateUtils(),
-            $this->envUtils()
-        );
-        $send_daily_notifications_task = new SendDailyNotificationsTask(
-            $this->entityManager(),
-            $this->emailUtils(),
-            $this->telegramUtils(),
-            $this->dateUtils(),
-            $this->envUtils()
-        );
+        $process_email_task = new ProcessEmailTask();
+        $send_daily_notifications_task = new SendDailyNotificationsTask();
         $this->setProcessEmailTask($process_email_task);
         $this->setSendDailyNotificationsTask($send_daily_notifications_task);
     }

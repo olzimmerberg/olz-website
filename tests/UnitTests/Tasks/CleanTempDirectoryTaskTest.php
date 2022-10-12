@@ -60,9 +60,11 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         mkdir($temp_path);
         $temp_realpath = realpath($temp_path);
 
-        $job = new FakeCleanTempDirectoryTask($date_utils, $env_utils);
+        $job = new FakeCleanTempDirectoryTask();
+        $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->opendir_override_result = false;
-        $job->setLogger($logger);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
@@ -88,8 +90,10 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         file_put_contents("{$temp_path}/file.txt", "test");
         $temp_realpath = realpath($temp_path);
 
-        $job = new FakeCleanTempDirectoryTask($date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job = new FakeCleanTempDirectoryTask();
+        $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertEqualsCanonicalizing([
@@ -119,9 +123,11 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         file_put_contents("{$temp_path}/file.txt", "test");
         $temp_realpath = realpath($temp_path);
 
-        $job = new FakeCleanTempDirectoryTask($date_utils, $env_utils);
+        $job = new FakeCleanTempDirectoryTask();
+        $job->setDateUtils($date_utils);
+        $job->setEnvUtils($env_utils);
         $job->filemtime_response = strtotime('2020-03-13 19:30:00');
-        $job->setLogger($logger);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);

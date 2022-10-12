@@ -8,19 +8,12 @@ use Olz\Tasks\Common\BackgroundTask;
 use PhpImap\Exceptions\ConnectionException;
 
 class ProcessEmailTask extends BackgroundTask {
-    public function __construct($entityManager, $authUtils, $emailUtils, $dateUtils, $envUtils) {
-        parent::__construct($dateUtils, $envUtils);
-        $this->entityManager = $entityManager;
-        $this->authUtils = $authUtils;
-        $this->emailUtils = $emailUtils;
-    }
-
     protected static function getIdent() {
         return "ProcessEmail";
     }
 
     protected function runSpecificTask() {
-        $mailbox = $this->emailUtils->getImapMailbox();
+        $mailbox = $this->emailUtils()->getImapMailbox();
         $mailbox->setAttachmentsIgnore(true);
 
         try {
@@ -36,8 +29,8 @@ class ProcessEmailTask extends BackgroundTask {
             return;
         }
 
-        $user_repo = $this->entityManager->getRepository(User::class);
-        $role_repo = $this->entityManager->getRepository(Role::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
 
         foreach ($mail_ids as $mail_id) {
             $mail = $mailbox->getMail($mail_id, /* do not mark as seen */ false);
@@ -53,7 +46,7 @@ class ProcessEmailTask extends BackgroundTask {
                 $user = $user_repo->findFuzzilyByUsername($username);
                 $role = $role_repo->findFuzzilyByUsername($username);
                 if ($user != null) {
-                    $has_user_email_permission = $this->authUtils->hasPermission('user_email', $user);
+                    $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
                     if (!$has_user_email_permission) {
                         $this->logger->info("E-Mail to user with no user_email permission: {$username}");
                         continue;
@@ -61,7 +54,7 @@ class ProcessEmailTask extends BackgroundTask {
                     $this->forwardEmailToUser($mail, $user, $to_address);
                 }
                 if ($role != null) {
-                    $has_role_email_permission = $this->authUtils->hasRolePermission('role_email', $role);
+                    $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
                     if (!$has_role_email_permission) {
                         $this->logger->info("E-Mail to role with no role_email permission: {$username}");
                         continue;
@@ -89,8 +82,8 @@ class ProcessEmailTask extends BackgroundTask {
         $subject = $mail->subject;
         $text = $mail->textPlain;
         try {
-            $this->emailUtils->setLogger($this->logger);
-            $email = $this->emailUtils->createEmail();
+            $this->emailUtils()->setLogger($this->logger);
+            $email = $this->emailUtils()->createEmail();
             $email->configure($user, $subject, $text, [
                 'no_header' => true,
                 'no_unsubscribe' => true,

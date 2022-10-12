@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Olz\Entity\SolvResult;
 use Olz\Tasks\SyncSolvTask\SolvPeopleAssigner;
 use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 require_once __DIR__.'/../../../Fake/fake_solv_event.php';
@@ -90,8 +91,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = new Logger('SolvPeopleAssignerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);

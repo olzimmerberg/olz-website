@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\Common;
 
-use Monolog\Logger;
 use Olz\Tasks\Common\BackgroundTask;
 use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -66,11 +66,10 @@ final class BackgroundTaskTest extends UnitTestCase {
     public function testBackgroundTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
-        $logger = new Logger('SyncSolvTaskTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new FakeBackgroundTask($date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame(true, $job->setup_called);
@@ -81,11 +80,10 @@ final class BackgroundTaskTest extends UnitTestCase {
     public function testTaskWithoutSetupTeardown(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
-        $logger = new Logger('SyncSolvTaskTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new FakeTaskWithoutSetupTeardown($date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame(true, $job->task_run);
@@ -94,11 +92,10 @@ final class BackgroundTaskTest extends UnitTestCase {
     public function testFailingTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
-        $logger = new Logger('SyncSolvTaskTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = FakeLogger::create();
 
         $job = new FakeFailingTask($date_utils, $env_utils);
-        $job->setLogger($logger);
+        $job->setLog($logger);
         $job->run();
 
         $this->assertSame(true, $job->task_run);

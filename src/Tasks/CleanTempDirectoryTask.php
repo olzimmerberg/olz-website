@@ -23,7 +23,7 @@ class CleanTempDirectoryTask extends BackgroundTask {
     private function recursiveCleanDirectory($directory) {
         $handle = $this->opendir($directory);
         if (!$handle) {
-            $this->logger->warning("Failed to open directory {$directory}");
+            $this->log()->warning("Failed to open directory {$directory}");
             return;
         }
         while (false !== ($entry = $this->readdir($handle))) {

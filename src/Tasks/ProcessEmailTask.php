@@ -19,13 +19,13 @@ class ProcessEmailTask extends BackgroundTask {
         try {
             $mail_ids = $mailbox->searchMailbox('ALL');
         } catch (\UnexpectedValueException $uve) {
-            $this->logger->critical("UnexpectedValueException in searchMailbox.", [$uve]);
+            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
             return;
         } catch (ConnectionException $exc) {
-            $this->logger->critical("Could not search IMAP mailbox.", [$exc]);
+            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
             return;
         } catch (\Exception $exc) {
-            $this->logger->critical("Exception in searchMailbox.", [$exc]);
+            $this->log()->critical("Exception in searchMailbox.", [$exc]);
             return;
         }
 
@@ -39,7 +39,7 @@ class ProcessEmailTask extends BackgroundTask {
             foreach ($to_addresses as $to_address) {
                 $is_match = preg_match('/^([\S]+)@olzimmerberg\.ch$/', $to_address, $matches);
                 if (!$is_match) {
-                    $this->logger->info("E-Mail to non-olzimmerberg.ch address: {$to_address}");
+                    $this->log()->info("E-Mail to non-olzimmerberg.ch address: {$to_address}");
                     continue;
                 }
                 $username = $matches[1];
@@ -48,7 +48,7 @@ class ProcessEmailTask extends BackgroundTask {
                 if ($user != null) {
                     $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
                     if (!$has_user_email_permission) {
-                        $this->logger->info("E-Mail to user with no user_email permission: {$username}");
+                        $this->log()->info("E-Mail to user with no user_email permission: {$username}");
                         continue;
                     }
                     $this->forwardEmailToUser($mail, $user, $to_address);
@@ -56,7 +56,7 @@ class ProcessEmailTask extends BackgroundTask {
                 if ($role != null) {
                     $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
                     if (!$has_role_email_permission) {
-                        $this->logger->info("E-Mail to role with no role_email permission: {$username}");
+                        $this->log()->info("E-Mail to role with no role_email permission: {$username}");
                         continue;
                     }
                     $role_users = $role->getUsers();
@@ -65,7 +65,7 @@ class ProcessEmailTask extends BackgroundTask {
                     }
                 }
                 if ($user == null && $role == null) {
-                    $this->logger->info("E-Mail to inexistent user/role username: {$username}");
+                    $this->log()->info("E-Mail to inexistent user/role username: {$username}");
                     continue;
                 }
             }
@@ -82,7 +82,7 @@ class ProcessEmailTask extends BackgroundTask {
         $subject = $mail->subject;
         $text = $mail->textPlain;
         try {
-            $this->emailUtils()->setLogger($this->logger);
+            $this->emailUtils()->setLogger($this->log());
             $email = $this->emailUtils()->createEmail();
             $email->configure($user, $subject, $text, [
                 'no_header' => true,
@@ -92,10 +92,10 @@ class ProcessEmailTask extends BackgroundTask {
             // $email->setFrom($mail->fromAddress, $mail->fromName);
             $email->addReplyTo($mail->fromAddress, $mail->fromName);
             $email->send();
-            $this->logger->info("Email forwarded from {$to_address} to {$forward_address}");
+            $this->log()->info("Email forwarded from {$to_address} to {$forward_address}");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
-            $this->logger->critical("Error forwarding email from {$to_address} to {$forward_address}: {$message}");
+            $this->log()->critical("Error forwarding email from {$to_address} to {$forward_address}: {$message}");
         }
     }
 }

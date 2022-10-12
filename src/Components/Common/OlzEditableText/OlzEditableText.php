@@ -4,16 +4,17 @@ namespace Olz\Components\Common\OlzEditableText;
 
 use Olz\Entity\OlzText;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\HtmlUtils;
 
 class OlzEditableText {
     public static function render($args = []) {
-        global $entityManager, $code_href;
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
+        global $code_href;
         require_once __DIR__.'/../../../../_/config/paths.php';
 
         $olz_text_id = intval($args['olz_text_id'] ?? 0);
         if ($olz_text_id > 0) {
+            $entityManager = DbUtils::fromEnv()->getEntityManager();
             $olz_text_repo = $entityManager->getRepository(OlzText::class);
             $olz_text = $olz_text_repo->findOneBy(['id' => $olz_text_id]);
 

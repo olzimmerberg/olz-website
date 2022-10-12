@@ -5,17 +5,18 @@ namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 class OlzHeaderWithoutRouting {
     public static function render($args = []) {
-        global $_CONFIG, $_DATE, $_SERVER, $entityManager;
+        global $_CONFIG, $_DATE, $_SERVER;
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../_/config/server.php';
 
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $env_utils = EnvUtils::fromEnv();
         $data_path = $env_utils->getDataPath();
         $css_path = "{$data_path}jsbuild/olz/main.min.css";

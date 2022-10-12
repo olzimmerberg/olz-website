@@ -6,10 +6,10 @@ use Olz\Apps\Logs\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
+use Olz\Utils\DbUtils;
 
 class OlzLogs {
     public static function render() {
-        global $entityManager;
         require_once __DIR__.'/../../../../../_/config/init.php';
 
         session_start();
@@ -23,8 +23,7 @@ class OlzLogs {
             'norobots' => true,
         ]);
 
-        require_once __DIR__.'/../../../../../_/config/doctrine_db.php';
-
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
         $user = $user_repo->findOneBy(['username' => $username]);

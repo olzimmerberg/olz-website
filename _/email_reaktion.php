@@ -14,7 +14,6 @@ echo OlzHeader::render([
     'description' => "Reaktion auf E-Mail.",
 ]);
 
-require_once __DIR__.'/config/doctrine_db.php';
 require_once __DIR__.'/config/paths.php';
 
 $email_utils = EmailUtils::fromEnv();

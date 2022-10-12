@@ -6,17 +6,16 @@ use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DbUtils;
 
 class OlzOrganigramm {
     public static function render($args = []) {
-        global $entityManager;
-
         require_once __DIR__.'/../../../../_/config/paths.php';
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $auth_utils = AuthUtils::fromEnv();
         $has_all_permissions = $auth_utils->hasPermission('all');
 
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $user_repo = $entityManager->getRepository(User::class);
 

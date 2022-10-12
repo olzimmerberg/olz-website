@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
 
@@ -18,9 +19,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklyPreviewGetter(): void {
-        global $entityManager;
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-13 16:00:00'); // a Thursday
         $logger = new Logger('WeeklyPreviewGetterIntegrationTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));

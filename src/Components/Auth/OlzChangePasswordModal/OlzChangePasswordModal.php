@@ -3,13 +3,11 @@
 namespace Olz\Components\Auth\OlzChangePasswordModal;
 
 use Olz\Entity\User;
+use Olz\Utils\DbUtils;
 
 class OlzChangePasswordModal {
     public static function render($args = []) {
-        global $entityManager;
-
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
         $user = $user_repo->findOneBy(['username' => $username]);

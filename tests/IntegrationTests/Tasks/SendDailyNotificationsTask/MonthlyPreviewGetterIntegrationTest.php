@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
 
@@ -18,9 +19,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
-        global $entityManager;
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
-
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
         $logger = new Logger('MonthlyPreviewGetterIntegrationTest');
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));

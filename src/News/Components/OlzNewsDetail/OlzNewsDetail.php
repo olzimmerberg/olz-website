@@ -18,12 +18,12 @@ use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail {
     public static function render($args = []) {
-        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION, $entityManager;
+        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION;
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
 
         $db = DbUtils::fromEnv()->getDb();
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $db_table = 'aktuell';
         $id = $_GET['id'] ?? null;
 

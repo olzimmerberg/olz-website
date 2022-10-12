@@ -5,14 +5,15 @@ namespace Olz\Apps\Newsletter\Components\OlzEmailCard;
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
+use Olz\Utils\DbUtils;
 
 class OlzEmailCard {
     public static function render($args = []) {
-        global $entityManager, $code_href;
+        global $code_href;
 
-        require_once __DIR__.'/../../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../../_/config/paths.php';
 
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
         $user = $user_repo->findOneBy(['username' => $username]);

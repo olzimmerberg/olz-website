@@ -6,6 +6,7 @@
 
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\Utils\DbUtils;
 
 ?>
 
@@ -83,6 +84,7 @@ use Olz\Entity\Role;
 <b>Kontakt für Bestellung, Abholung und Rückgabe des Materials:</b>
 <?php
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $sportident_role = $role_repo->findOneBy(['username' => 'sportident']);
 

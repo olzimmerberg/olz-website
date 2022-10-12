@@ -6,6 +6,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\AccessToken;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 // Datei herunterladen
@@ -21,7 +22,6 @@ require_once __DIR__.'/config/init.php';
 session_start();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/config/doctrine_db.php';
 
 echo OlzHeader::render([
     'title' => "Web FTP",
@@ -76,6 +76,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
     <p>Experimentell: <a href='/apps/files/webdav' class='linkext'>WebDAV im Browser</a></b></p>";
 
     $auth_utils = AuthUtils::fromEnv();
+    $entityManager = DbUtils::fromEnv()->getEntityManager();
     $user = $auth_utils->getSessionUser();
     $access_token_repo = $entityManager->getRepository(AccessToken::class);
     $access_token = $access_token_repo->findOneBy(['user' => $user, 'purpose' => 'WebDAV']);

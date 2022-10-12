@@ -4,6 +4,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/config/init.php';
 
@@ -16,6 +17,7 @@ echo OlzHeader::render([
     'description' => "Die Datenschutzerklärung für die Website der OL Zimmerberg.",
 ]);
 
+$entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $website_role = $role_repo->findOneBy(['username' => 'website']);
 

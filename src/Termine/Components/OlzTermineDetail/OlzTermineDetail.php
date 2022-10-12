@@ -19,14 +19,14 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail {
     public static function render($args = []) {
-        global $db_table, $entityManager, $id, $_CONFIG;
+        global $db_table, $id, $_CONFIG;
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/doctrine_db.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
         require_once __DIR__.'/../../../../_/config/server.php';
 
         $db = DbUtils::fromEnv()->getDb();
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);

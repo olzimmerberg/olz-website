@@ -67,8 +67,6 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
-        $this->assertEqualsCanonicalizing([], $job->unlink_calls);
         $this->assertSame([
             'INFO Setup task CleanTempDirectory...',
             'INFO Running task CleanTempDirectory...',
@@ -76,6 +74,9 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
             'INFO Finished task CleanTempDirectory.',
             'INFO Teardown task CleanTempDirectory...',
         ], $logger->handler->getPrettyRecords());
+
+        $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
+        $this->assertEqualsCanonicalizing([], $job->unlink_calls);
     }
 
     public function testCleanTempDirectoryTaskRemovesEverything(): void {

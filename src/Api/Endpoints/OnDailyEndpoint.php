@@ -13,16 +13,9 @@ use PhpTypeScriptApi\HttpError;
 class OnDailyEndpoint extends OlzEndpoint {
     public function runtimeSetup() {
         parent::runtimeSetup();
-        $clean_temp_directory_task = new CleanTempDirectoryTask(
-            $this->dateUtils(),
-            $this->envUtils()
-        );
-        $sync_solv_task = new SyncSolvTask(
-            $this->entityManager(),
-            new SolvFetcher(),
-            $this->dateUtils(),
-            $this->envUtils()
-        );
+        $clean_temp_directory_task = new CleanTempDirectoryTask();
+        $sync_solv_task = new SyncSolvTask();
+        $sync_solv_task->setSolvFetcher(new SolvFetcher());
         $this->setCleanTempDirectoryTask($clean_temp_directory_task);
         $this->setSyncSolvTask($sync_solv_task);
     }

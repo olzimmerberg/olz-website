@@ -346,7 +346,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -354,5 +353,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 }

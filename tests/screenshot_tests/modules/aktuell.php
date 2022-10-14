@@ -28,6 +28,10 @@ function test_create_aktuell_old($driver, $base_url) {
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$aktuell_url}");
 
+    $does_not_work_link = $driver->findElement(
+        WebDriverBy::cssSelector('#does-not-work-link')
+    );
+    click($does_not_work_link);
     $new_button = $driver->findElement(
         WebDriverBy::cssSelector('#buttonaktuell-neuer-eintrag')
     );

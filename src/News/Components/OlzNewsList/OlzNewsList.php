@@ -95,10 +95,10 @@ class OlzNewsList {
                     <img src='icns/new_white_16.svg' class='noborder' />
                     Neuer Eintrag
                 </button>
-                &nbsp; &lt;-- Neu! &mdash; Falls es nicht funktioniert, "Neuer Eintrag" unten (grün) klicken.
+                &nbsp; <b>&lt;&ndash; Neu! &mdash;</b> <a href='https://youtu.be/w33dL0ntGWs' target='_blank'>Demo-Video auf YouTube</a>. <a href='#' onclick='document.getElementById(&quot;news-buttonbar&quot;).style.display = &quot;block&quot;' style='color:red; text-decoration:underline;' id='does-not-work-link'>Funktioniert nicht!</a>
             </div>
             ZZZZZZZZZZ;
-            $out .= "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
+            $out .= "<div id='news-buttonbar' class='buttonbar' style='display: none;'>\n<div>Bitte dem Sysadmin melden, dass es nicht funktioniert. <b><span style='color:red;'>!!! wird Ende Jahr abgeschaltet !!!</span></b>.</div>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
         }
 
         if (($do ?? null) == 'vorschau') {

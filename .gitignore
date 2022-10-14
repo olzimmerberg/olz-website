@@ -7,11 +7,10 @@
 !/public/index.php
 !/public/tools.php
 /screenshots
-/_/tools/dev-data/tmp/*
+/src/Utils/data/tmp/*
 /_/tools/tmp/*
 /_/olz_ical.ics
 /_/screenshots/generated
-/_/tools/dev-data/tmp/*
 /_/tools/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*

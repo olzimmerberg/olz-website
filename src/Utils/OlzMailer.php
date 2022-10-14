@@ -7,12 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 class OlzMailer extends PHPMailer {
     use \Psr\Log\LoggerAwareTrait;
 
-    // TODO: Those are not actually used. It's just to avoid a test error.
-    public const UTILS = [
-        'emailUtils',
-        'envUtils',
-        'log',
-    ];
+    public const UTILS = [];
 
     private $emailUtils;
     private $envUtils;

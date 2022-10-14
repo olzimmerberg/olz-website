@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="viewport" content="initial-scale=0.8, width=device-width">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+   <title>SOLV</title>
+   <script type="text/javascript" src="/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="/jquery/jcanvas.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $('#cgraph').click(function() {
+      $('#resform').submit();
+    });
+    $('#czwizt').click(function() {
+      $('#resform').submit();
+    });
+
+    $('#imgx').change(function() {
+      $('#resform').submit();
+    });
+    $('#imgy').change(function() {
+      $('#resform').submit();
+    });
+
+  });
+
+</script>
+</head>
+<body text="#000000" bgcolor="#ffffff"
+link="#ff0000" vlink="#990000" alink="#ff0000" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" >
+
+<style type="text/css"><!--
+p,h1,h2,h3,ul,ol,td,th,center { font-family: verdana,arial,helvetica,sans-serif; line-height: 1.4em; }
+h1 { font-size: 16pt; }
+h2 { font-size: 11pt; }
+h3 { font-size: 9pt; margin-bottom: 2pt; }
+p,ul,ol,center { margin-top: 5pt; margin-bottom: 5pt; font-size: 8pt; }
+p.sml { font-size: 7pt; }
+td { font-size: 8pt; }
+th { text-align: left; font-size: 9pt; font-weight: bold; }
+td.menu { font-family: arial,helvetica; font-size: 9pt; }
+td.title { font-family: arial,helvetica; font-size: 8pt; font-weight:bold; }
+a { color: #de0000; text-decoration: none; }
+a:hover {  color: #6b6b6b; text-decoration: none; }
+a.help { text-decoration: none; }
+a.menu { text-decoration: none; }
+a.sml { font-size: 7pt; text-decoration: none; }
+input, textarea { font-size: 9pt; }
+input:focus, textarea:focus { background-color: #ffcaca;}
+td.linkbar { color:#505050; font-size: 9pt; }
+td.linkbar a { color:#505050; text-decoration: none; }
+td.linkbar a:hover { color:#ffffff; text-decoration: none; }
+td blockquote { color:#0000d0; margin-left:20px; margin-bottom:0px; }
+td pre { font-family: "Courier New", Courier, monospace; font-size: 10pt; }
+dl { margin-bottom: 0pt; }
+dt { font-weight:bold; }
+dd { margin-left:20px; }
+.msgname { color:#000000; }
+.msgprevw { color:#606060; margin-left:20px; }
+.newsprevw { color:#606060; margin-left:4px; }
+.chmpname { color:#000000; margin-left:4px; }
+.courier { font-family: "Courier New", Courier, monospace; font-size: 9pt; }
+.more { margin-left:10px; font-size: 8pt; font-weight: normal; text-decoration: none; }
+.ndeco { color:#ff0000; text-decoration: none; }
+.cmsauth { color:#606060; }
+.cmslead { font-weight: bold; }
+--></style>
+<table border=0 cellspacing=0 cellpadding=0 width="100%" bgcolor="#ffffff">
+<tr><td colspan=5><img src="/images/pix.gif" alt="" height="0" width="660"></td></tr>
+<tr>
+<td style="background-color:#DE0000" valign="bottom" align="left" width="175"><img src="/images/pix.gif" alt="" height="1" width="175"></td>
+<td width="40"><img src="/images/pix.gif" alt="" height="90" width="40"></td>
+<td valign="center"><a href="http://www.swiss-orienteering.ch/"><img src="/images/logo_swisso.png" width=236 height=80 border=0 alt=""></a></td>
+<td width="99%"></td>
+<td><img src="/images/pix.gif" alt="" height=1 width=10></td>
+</tr>
+<tr bgcolor="#d0d0d0">
+<td colspan=5>
+<table border=0 cellspacing=0 cellpadding=0 width="100%" bgcolor="#c0c0c0">
+<tr>
+<td style="background-color:#000000" valign="bottom" align="left"><img src="/images/pix.gif" alt="" height="17" width="17"></td>
+<td><img src="/images/pix.gif" alt="" height="1" width="10"></td>
+<td class="linkbar" width="100%" colspan=1>
+<a href="http://www.swiss-orienteering.ch/">home</a> | 
+<a href="//www.o-l.ch/">o-l.ch</a> | 
+<a href="https://www.swiss-orienteering.ch/de/forum/aktuell.html">forum</a> |
+<a href="/cgi-bin/fixtures">termine</a> | 
+<a href="/cgi-bin/results?type=start">startlisten</a> | 
+<a href="/cgi-bin/results">ranglisten</a> | 
+<a href="/cgi-bin/pliste">punkteliste</a> | 
+<a href="/cgi-bin/solvdb">läufer DB</a>
+
+</td>
+<td class="linkbar" align=right>
+<a href="/cgi-bin/admin">admin</a>
+</td>
+<td><img src="/images/pix.gif" alt="" height=1 width=10></td>
+</tr>
+</table>
+</td></tr>
+</table>
+<img src="/images/pix.gif" alt="" height=10 width=1>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td><img src="/images/pix.gif" alt="" height=1 width=10></td>
+<td valign=top>
+<h2>4. Milchsuppe-Abend OL 2020 <a href="/cgi-bin/fixtures?mode=show&unique_id=10563" class="more">» Info</a></h2>
+<table border="0" cellspacing="0" cellpadding="0" width="630" bgcolor="#ffffff">
+
+<tr><td colspan="3" width="100%" height="2" bgcolor="#de0000"></td></tr>
+<tr><td colspan="3" width="100%" height="8" bgcolor="#ffffff"></td></tr>
+<tr><td width="210">OL Zimmerberg</td><td width="210" align="center">Chopfholz</td>
+<td width="210" align="right"><a href="//map.search.ch/682775,240275?z=64" class="small">Θ</a>, 26. Aug. 2020</td></tr>
+<tr><td colspan="3">
+<a href="https://olzimmerberg.ch/files/aktuell//504/002.pdf?modified=1597421504">» Ausschreibung</a>
+
+<a href="results?rl_id=5404&zwizt=1">» Rangliste</a>
+ 
+</td></tr>
+<tr><td colspan="3" width="100%" height=8 bgcolor="#ffffff"></td></tr>
+<tr><td colspan="3" width="100%" height="2" bgcolor="#de0000"></td></tr>
+</table>
+<b><p></p><a href="results?type=rang&year=2020&rl_id=5404&kat=C&zwizt=1">C</a></b>
+<pre>( 3.7 km,  70 m, 11 Po.)  42 Teilnehmer
+
+<b>  1. Conrad Hückstädt       76  Horgen                                   26:20</b>
+    1.   2.14 (3)  2.   5.26 (3)  3.   8.37 (2)  4.  11.29 (1)  5.  16.45 (1) 
+    32   2.14 (3)  59   3.12 (6)  45   3.11 (1)  40   2.52 (1)  41   5.16 (9) 
+         0.16           0.27           0.00           0.00           1.37     
+    6.  19.05 (1)  7.  21.28 (1)  8.  23.10 (1)  9.  23.58 (1) 10.  24.42 (1) 
+    44   2.20 (1)  36   2.23 (1)  55   1.42 (3)  42   0.48 (6)  43   0.44 (1) 
+         0.00           0.00           0.11           0.07           0.00     
+   11.  26.08 (1)      26.20 (1) 
+    39   1.26 (1)  Zi   0.12 (5) 
+         0.00           0.02     
+<b> 32. Roland, TimMiro Füssin 11  Zürich             OL Zimmerberg         56:56</b>
+    1.   4.04(33)  2.   9.58(35)  3.  17.14(29)  4.  23.58(30)  5.  32.04(32) 
+    32   4.04(33)  59   5.54(31)  45   7.16(25)  40   6.44(26)  41   8.06(33) 
+         2.06           3.09           4.05           3.52           4.27     
+    6.  36.56(29)  7.  47.12(33)  8.  50.40(34)  9.  52.03(33) 10.  53.39(33) 
+    44   4.52(22)  36  10.16(41)  55   3.28(31)  42   1.23(21)  43   1.36(33) 
+         2.32           7.53           1.57           0.42           0.52     
+   11.  56.36(32)      56.56(32) 
+    39   2.57(31)  Zi   0.20(32) 
+         1.31           0.10     
+</pre>
+<p>Total: 1 Teilnehmer des Clubs.
+</p><table border="0" cellspacing="0" cellpadding="0" width="630" bgcolor="#ffffff">
+<tr><td colspan="3" width="100%" height="2" bgcolor="#de0000"></td></tr>
+<tr><td colspan="3" width="100%" height="8" bgcolor="#ffffff"></td></tr>
+</table>
+<table border=0 cellspacing=0 cellpadding=0><tr>
+<td>
+<form id="resform" method="get" action="results">
+<input type=hidden name=type value=rang>
+<input type=hidden name=year value=2020>
+<input type=hidden name=rl_id value="5404">
+<input type=hidden name=club value="OL+Zimmerberg">
+  <input type="checkbox" id="czwizt" name="zwizt" value="1" checked> Zwischenzeiten  
+</form>
+</table>
+</td>
+<td><img src="/images/pix.gif" alt="" height=1 width=10></td>
+</table>
+<p> </p>
+<table border=0 cellspacing=0 cellpadding=0 width="100%">
+<tr><td><img src="/images/pix.gif" alt="" height=1 width=10></td><td colspan=6><img src="/images/pix.gif" alt="" height="0" width="650"></td></tr>
+<tr><td width="100%" height="1" colspan=7 bgcolor="#a0a0a0"></td></tr>
+<tr><td width="100%" height="2" colspan=7></td></tr>
+<tr><td><img src="/images/pix.gif" alt="" height=1 width=10></td>
+<td width="100%" colspan=6>© 2004-2022 by SOLV Internet Team.
+Mail to <a href="mailto:oltech@swiss-orienteering.ch">oltech@swiss-orienteering.ch</a>
+</td></tr>
+<tr><td width="100%" colspan=7><img src="/images/pix.gif" alt="" height=2 width=1></td></tr>
+</table>
+</body>
+</html>

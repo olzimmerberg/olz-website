@@ -1,0 +1,43 @@
+{
+  "ResultLists" : [
+     {
+      "UniqueID"  : 10241,
+      "EventDate" : "2020-08-15",
+      "EventName" : "Zimmerberg Berg-OL",
+      "EventCity" : "",
+      "EventMap"  : "Mullern ob Mollis (GL)",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 5377,
+      "ResultType"    : 0,
+      "ResultModTime" : "20200815T152839"
+    }
+    , {
+      "UniqueID"  : 10563,
+      "EventDate" : "2020-08-26",
+      "EventName" : "4. Milchsuppe-Abend OL 2020",
+      "EventCity" : "",
+      "EventMap"  : "Chopfholz",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "uebr",
+      "SubTitle"  : "",
+      "ResultListID"  : 5404,
+      "ResultType"    : 0,
+      "ResultModTime" : "20200826T202153"
+    }
+    , {
+      "UniqueID"  : 10317,
+      "EventDate" : "2020-10-25",
+      "EventName" : "Zimmerberg-OL / JOM-Schlusslauf",
+      "EventCity" : "ZÃ¼rich",
+      "EventMap"  : "Uetliberg",
+      "EventClub" : "OL Zimmerberg",
+      "EventType" : "reg",
+      "SubTitle"  : "",
+      "ResultListID"  : 5554,
+      "ResultType"    : 0,
+      "ResultModTime" : "20201026T165641"
+    }
+  ]
+}

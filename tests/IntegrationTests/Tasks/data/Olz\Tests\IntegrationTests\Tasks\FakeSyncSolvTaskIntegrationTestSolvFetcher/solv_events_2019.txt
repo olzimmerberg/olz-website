@@ -1,0 +1,4 @@
+unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
+9380;2019-05-12;1;foot;day;1;ZH/SH;**A;2. Nationaler OL (Sprint);http://olzimmerberg.ch/?page=11;OL Zimmerberg;Richterswil;;695375;229375;2019-04-29;1;2019-01-04 23:59:56
+9782;2019-05-12;1;foot;day;0;ZH/SH;170S;Sprintstaffel;http://olzimmerberg.ch/?page=11;OL Zimmerberg;Richterswil;Richterswil;695375;229375;2019-04-29;1;2019-05-13 09:59:08
+10111;2019-08-28;1;foot;day;0;ZH/SH;164;5. Milchsuppe-Abend OL;http://www.olzimmerberg.ch;OL Zimmerberg;Horgen;Horgen;;;;0;2019-03-15 14:34:19

@@ -8,7 +8,7 @@ Ausserdem müssen die Testdaten dann aktualisiert werden:
 
 - `git checkout main`
 - `./run.sh`
-- `http://127.0.0.1:30270/tools.php/reset` aufrufen
+- `http://127.0.0.1:30270/tools.php/reset-structure` aufrufen
 - `git checkout -`
 - `php bin/console doctrine:migrations:migrate`
 - `./run.sh`

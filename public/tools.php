@@ -5,8 +5,9 @@ require_once __DIR__.'/../_/tools/index.php';
 
 run_tools(
     [
-        'reset' => [],
-        'full_reset' => [],
+        'reset-content' => [],
+        'reset-structure' => [],
+        'full-reset' => [],
         'dump' => [],
         'get-database-backup' => [],
         'migrate' => [],

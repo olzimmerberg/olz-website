@@ -1,0 +1,4 @@
+unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
+10241;2020-08-15;1;foot;day;0;GL/GR;142;Zimmerberg Berg-OL;https://olzimmerberg.ch/files/aktuell/504/009.pdf;OL Zimmerberg;Mullern ob Mollis (GL);;726275;216450;2020-08-10;1;2020-06-20 23:48:37
+10563;2020-08-26;1;foot;day;0;ZH/SH;166;4. Milchsuppe-Abend OL 2020;https://olzimmerberg.ch/files/aktuell//504/002.pdf?modified=1597421504;OL Zimmerberg;Chopfholz;;682775;240275;2020-08-24;3;2020-08-23 23:32:05
+10317;2020-10-25;1;foot;day;0;ZH/SH;*57;13. Zimmerberg-OL / JOM-Schlusslauf;http://www.olzimmerberg.ch;OL Zimmerberg;Uetliberg;Zürich Triemli;680150;246500;;0;2020-10-13 00:39:12

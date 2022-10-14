@@ -1,20 +1,14 @@
 <?php
 
-use Olz\Utils\DbUtils;
+use Olz\Utils\DevDataUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
 
-require_once __DIR__.'/../config/paths.php';
-require_once __DIR__.'/../config/server.php';
-require_once __DIR__.'/dev_data.php';
-require_once __DIR__.'/doctrine_migrations.php';
 require_once __DIR__.'/monitoring/backup_monitoring.php';
 require_once __DIR__.'/monitoring/logs_monitoring.php';
 
 function run_tools($command_config, $server) {
-    $db = DbUtils::fromEnv()->getDb();
-    global $data_path, $_CONFIG;
-
     set_time_limit(600); // This might take some time...
     $has_command = preg_match('/^\/([a-z0-9\-\_]+)$/i', $server['PATH_INFO'], $matches);
     $command = $has_command ? $matches[1] : null;
@@ -24,26 +18,53 @@ function run_tools($command_config, $server) {
     if ($command) {
         header('Content-Type: text/plain;charset=utf8');
     }
-    if ($command === 'reset') {
-        return run_command($command, 'reset_db', [$db, $data_path, false]);
+    if ($command === 'reset-content') {
+        return run_command($command, function () {
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->resetDbContent();
+        });
     }
-    if ($command === 'full_reset') {
-        return run_command($command, 'reset_db', [$db, $data_path, true]);
+    if ($command === 'reset-structure') {
+        return run_command($command, function () {
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->resetDbStructure();
+        });
+    }
+    if ($command === 'full-reset') {
+        return run_command($command, function () {
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->fullResetDb();
+        });
     }
     if ($command === 'dump') {
-        return run_command($command, 'dump_db', [$db]);
+        return run_command($command, function () {
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->dumpDb();
+        });
     }
     if ($command === 'get-database-backup') {
-        return run_command($command, 'get_database_backup', [$db, $_CONFIG->getDatabaseBackupKey()]);
+        return run_command($command, function () {
+            $env_utils = EnvUtils::fromEnv();
+            $key = $env_utils->getDatabaseBackupKey();
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->getDbBackup($key);
+        });
     }
     if ($command === 'migrate') {
-        return run_command($command, 'migrate_to_latest', []);
+        return run_command($command, function () {
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->migrateTo('latest');
+        });
     }
     if ($command === 'backup-monitoring') {
-        return run_command($command, 'backup_monitoring', []);
+        return run_command($command, function () {
+            backup_monitoring();
+        });
     }
     if ($command === 'logs-monitoring') {
-        return run_command($command, 'logs_monitoring', []);
+        return run_command($command, function () {
+            logs_monitoring();
+        });
     }
     // No command to execute => show index
     echo "<h1>Tools</h1>";
@@ -54,17 +75,14 @@ function run_tools($command_config, $server) {
     }
 }
 
-function run_command($command, $callback, $args) {
+function run_command($command, $fn) {
     $logger = LogsUtils::fromEnv()->getLogger("Tool:{$command}");
     LogsUtils::activateLogger($logger);
     try {
-        if (!is_callable($callback)) {
-            throw new \Exception('callback not callable');
+        if (!is_callable($fn)) {
+            throw new \Exception('fn not callable');
         }
-        if (!is_array($args)) {
-            throw new \Exception('args is not an array');
-        }
-        call_user_func_array($callback, $args);
+        $fn();
         echo "{$command}:SUCCESS";
     } catch (\Exception $exc) {
         http_response_code(500);

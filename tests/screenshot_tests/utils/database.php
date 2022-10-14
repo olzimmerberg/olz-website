@@ -8,8 +8,8 @@ function full_reset_dev_data() {
     global $base_url;
     tick('full_reset');
     for ($i = 0; $i < 1000; $i++) {
-        $result = file_get_contents("{$base_url}/tools.php/full_reset");
-        if ($result == 'full_reset:SUCCESS') {
+        $result = file_get_contents("{$base_url}/tools.php/full-reset");
+        if ($result == 'full-reset:SUCCESS') {
             tock('full_reset', 'db_full_reset');
             return;
         }
@@ -22,8 +22,8 @@ function reset_dev_data() {
     global $base_url;
     tick('reset');
     for ($i = 0; $i < 100; $i++) {
-        $result = file_get_contents("{$base_url}/tools.php/reset");
-        if ($result == 'reset:SUCCESS') {
+        $result = file_get_contents("{$base_url}/tools.php/reset-content");
+        if ($result == 'reset-content:SUCCESS') {
             tock('reset', 'db_reset');
             return;
         }

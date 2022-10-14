@@ -7,6 +7,7 @@ namespace Olz\Tests\IntegrationTests\Utils;
 use Olz\Entity\User;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DbUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
@@ -38,6 +39,9 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'dateUtils' => function ($value) {
                 return $value instanceof FixedDateUtils;
+            },
+            'dbUtils' => function ($value) {
+                return $value instanceof DbUtils;
             },
             'emailUtils' => function ($value) {
                 return $value instanceof EmailUtils;

@@ -1,0 +1,4 @@
+unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
+11289;2021-08-25;1;foot;day;0;ZH/SH;;3. Milchsuppen Abend OL;https://www.olzimmerberg.ch;OL Zimmerberg;Thalwil;Schulhaus Sonnenberg;684623;238644;;0;2021-06-03 07:19:41
+10364;2021-10-02;1;foot;day;1;NOS;**A;13. Nationaler OL (Mitteldistanz);https://www.flumserberg2021.ch;OLG St. Gallen/Appenzell OL Zimmerberg;Flumserberg;;740500;215975;2021-09-20;1;2021-08-17 09:42:02
+10366;2021-10-03;1;foot;day;1;NOS;**A;14. Nationaler OL (Langdistanz);https://www.flumserberg2021.ch;OLG St. Gallen/Appenzell OL Zimmerberg;Flumserberg;;739825;217375;2021-09-20;1;2021-08-17 09:42:06

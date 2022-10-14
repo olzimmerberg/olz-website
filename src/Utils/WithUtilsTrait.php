@@ -10,6 +10,7 @@ trait WithUtilsTrait {
     public static $ALL_UTILS = [
         'authUtils',
         'dateUtils',
+        'dbUtils',
         'emailUtils',
         'entityManager',
         'entityUtils',
@@ -48,6 +49,18 @@ trait WithUtilsTrait {
 
     public function setDateUtils($dateUtils) {
         $this->utilsCache['dateUtils'] = $dateUtils;
+    }
+
+    public function dbUtils() {
+        return $this->getOrCreate('dbUtils');
+    }
+
+    public function createDbUtils() {
+        return DbUtils::fromEnv();
+    }
+
+    public function setDbUtils($dbUtils) {
+        $this->utilsCache['dbUtils'] = $dbUtils;
     }
 
     public function emailUtils() {

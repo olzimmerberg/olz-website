@@ -15,7 +15,7 @@ class OnDailyEndpoint extends OlzEndpoint {
         parent::runtimeSetup();
         $clean_temp_directory_task = new CleanTempDirectoryTask();
         $sync_solv_task = new SyncSolvTask();
-        $sync_solv_task->setSolvFetcher(new SolvFetcher());
+        $sync_solv_task->setSolvFetcher($this->getDefaultSolvFetcher());
         $this->setCleanTempDirectoryTask($clean_temp_directory_task);
         $this->setSyncSolvTask($sync_solv_task);
     }
@@ -86,5 +86,9 @@ class OnDailyEndpoint extends OlzEndpoint {
         $this->telegramUtils()->sendConfiguration();
 
         return [];
+    }
+
+    protected function getDefaultSolvFetcher() {
+        return new SolvFetcher();
     }
 }

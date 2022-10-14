@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Common;
 
-use Olz\Utils\DbUtils;
+use Olz\Utils\DevDataUtils;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class IntegrationTestCase extends KernelTestCase {
     private $previous_document_root;
     private static $is_first_call = true;
+    private static $is_db_locked = false;
 
     protected function setUp(): void {
         global $_SERVER, $entityManager;
@@ -25,7 +26,8 @@ class IntegrationTestCase extends KernelTestCase {
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (cloud; RiscV) Selenium (like Gecko)',
         ];
         if ($this::$is_first_call) {
-            $this->resetDb();
+            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
         }
 
@@ -37,13 +39,29 @@ class IntegrationTestCase extends KernelTestCase {
         $_SERVER = $this->previous_server;
     }
 
-    protected function resetDb(): void {
-        global $data_path;
-        require_once __DIR__.'/../../../_/config/paths.php';
-        require_once __DIR__.'/../../../_/tools/dev_data.php';
+    protected function withLockedDb($fn): void {
+        $this->lockDb();
+        try {
+            $fn();
+        } finally {
+            $this->resetDbContent();
+            $this->unlockDb();
+        }
+    }
 
-        $db = DbUtils::fromEnv()->getDb();
+    private function lockDb(): void {
+        while ($this::$is_db_locked) {
+            usleep(100 * 1000);
+        }
+        $this::$is_db_locked = true;
+    }
 
-        reset_db($db, $data_path);
+    private function unlockDb(): void {
+        $this::$is_db_locked = false;
+    }
+
+    protected function resetDbContent(): void {
+        $dev_data_utils = DevDataUtils::fromEnv();
+        $dev_data_utils->resetDbContent();
     }
 }

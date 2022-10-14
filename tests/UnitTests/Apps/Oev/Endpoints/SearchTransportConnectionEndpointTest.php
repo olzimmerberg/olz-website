@@ -9,29 +9,27 @@ use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
 use Olz\Tests\Fake\FakeAuthUtils;
+use Olz\Tests\Fake\FakeFetcher;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-class FakeSearchTransportConnectionEndpointTransportApiFetcher {
+class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeFetcher {
     public function fetchConnection($request_data) {
         $from = str_replace(' ', '_', $request_data['from']);
         $to = str_replace(' ', '_', $request_data['to']);
         $date = $request_data['date'];
         $time = str_replace(':', '-', $request_data['time']);
-        $file_path = __DIR__."/from_{$from}_to_{$to}_at_{$date}T{$time}.json";
-        if (is_file($file_path)) {
-            return json_decode(file_get_contents($file_path), true);
-        }
-        $pretty_request = json_encode($request_data);
-        if (preg_match('/inexistent/', $file_path)) {
-            throw new \Exception("Unmocked transport API request: {$pretty_request}");
-        }
-        $real_fetcher = new TransportApiFetcher();
-        $real_data = $real_fetcher->fetchConnection($request_data);
-        $suggested_file_path =
-            __DIR__."/from_{$from}_to_{$to}_at_{$date}T{$time}.suggestion.json";
-        file_put_contents($suggested_file_path, json_encode($real_data, JSON_PRETTY_PRINT));
-        throw new \Exception("Unmocked transport API request:; Suggestion written to {$suggested_file_path}.");
+        $request_ident = "from_{$from}_to_{$to}_at_{$date}T{$time}";
+
+        $response = $this->getMockedResponse(
+            $request_ident, __DIR__,
+            function () use ($request_data) {
+                $real_fetcher = new TransportApiFetcher();
+                $real_data = $real_fetcher->fetchConnection($request_data);
+                return json_encode($real_data, JSON_PRETTY_PRINT);
+            }
+        );
+        return json_decode($response, true);
     }
 }
 
@@ -420,10 +418,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Valid user request',
-            'ERROR Exception: Unmocked transport API request: {"from":"8503207","to":"inexistent","date":"2021-10-01","time":"13:15","isArr',
+            'ERROR Exception: Unmocked request: from_8503207_to_inexistent_at_2021-10-01T13-15 in',
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords(function ($record, $level_name, $message) {
-            $cropped_message = substr($message, 0, 120);
+            $cropped_message = substr($message, 0, 78);
             return "{$level_name} {$cropped_message}";
         }));
         $this->assertSame([

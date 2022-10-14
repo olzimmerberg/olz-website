@@ -55,7 +55,7 @@ function test_create_aktuell_old($driver, $base_url) {
     $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
     sendKeys($image_upload_input, $image_path);
     $file_upload_input = $upload_inputs[1];
-    $document_path = realpath(__DIR__.'/../../../_/tools/dev-data/sample-data/sample-document.pdf');
+    $document_path = realpath(__DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf');
     sendKeys($file_upload_input, $document_path);
     $driver->wait()->until(function () use ($driver) {
         $delete_buttons = $driver->findElements(
@@ -149,7 +149,7 @@ function test_create_aktuell_new($driver, $base_url) {
     $file_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-files-upload input[type=file]')
     );
-    $document_path = realpath(__DIR__.'/../../../_/tools/dev-data/sample-data/sample-document.pdf');
+    $document_path = realpath(__DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf');
     sendKeys($file_upload_input, $document_path);
     $driver->wait()->until(function () use ($driver) {
         $file_uploaded = $driver->findElements(

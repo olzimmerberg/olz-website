@@ -9,6 +9,7 @@ namespace Olz\Components\Page\OlzHeaderBar;
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 use Olz\Utils\DbUtils;
+use Olz\Utils\FileUtils;
 
 class OlzHeaderBar {
     public static function render($args = []) {
@@ -17,8 +18,8 @@ class OlzHeaderBar {
 
         require_once __DIR__.'/../../../../_/config/server.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-        require_once __DIR__.'/../../../../_/image_tools.php';
-        require_once __DIR__.'/../../../../_/file_tools.php';
+
+        $file_utils = FileUtils::fromEnv();
 
         $out .= "<div id='header-bar' class='header-bar menu-closed'>";
 
@@ -94,7 +95,7 @@ class OlzHeaderBar {
                     if (mb_strlen($tmptext) < 1) {
                         $tmptext = "Datei ".$matches[1][$i];
                     }
-                    $tmp_html = olz_file($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
+                    $tmp_html = $file_utils->olzFile($db_table, $row["id"], intval($matches[1][$i]), $tmptext);
                     $textlang = str_replace($matches[0][$i], $tmp_html, $textlang);
                 }
 

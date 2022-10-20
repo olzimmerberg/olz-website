@@ -3,16 +3,16 @@
 namespace Olz\News\Components\OlzNewsArticle;
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzNewsArticle {
     public static function render($args = []) {
         global $_DATE;
 
-        require_once __DIR__.'/../../../../_/image_tools.php';
-
         $db = DbUtils::fromEnv()->getDb();
         $image_utils = ImageUtils::fromEnv();
+        $file_utils = FileUtils::fromEnv();
         $db_table = 'aktuell';
         $id = $args['id'];
         $arg_row = $args['row'] ?? null;
@@ -98,8 +98,8 @@ class OlzNewsArticle {
             );
 
             // Dateicode einfügen
-            $text = replace_file_tags($text, 'aktuell', $id);
-            $textlang = replace_file_tags($textlang, 'aktuell', $id);
+            $text = $file_utils->replaceFileTags($text, 'aktuell', $id);
+            $textlang = $file_utils->replaceFileTags($textlang, 'aktuell', $id);
 
             $out .= "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
             $out .= "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";

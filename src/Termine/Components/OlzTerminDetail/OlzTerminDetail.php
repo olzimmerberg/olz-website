@@ -5,15 +5,16 @@ namespace Olz\Termine\Components\OlzTerminDetail;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Utils\DbUtils;
+use Olz\Utils\FileUtils;
 
 class OlzTerminDetail {
     public static function render($args = []) {
         global $_DATE, $heute;
 
-        require_once __DIR__.'/../../../../_/image_tools.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
         $db = DbUtils::fromEnv()->getDb();
+        $file_utils = FileUtils::fromEnv();
         $db_table = 'termine';
         $button_name = 'button'.$db_table;
         $id = $args['id'];
@@ -148,7 +149,7 @@ class OlzTerminDetail {
             $out .= "<div>".$text."</div>";
 
             // Link
-            $link = replace_file_tags($link, 'termine', $id);
+            $link = $file_utils->replaceFileTags($link, 'termine', $id);
             if ($go2ol > "" and $datum >= $heute) {
                 $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
             } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $heute) {

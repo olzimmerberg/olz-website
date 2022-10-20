@@ -48,8 +48,6 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
-require_once __DIR__.'/image_tools.php';
-
 $db_table = 'galerie';
 $id = $_GET['id'] ?? null;
 

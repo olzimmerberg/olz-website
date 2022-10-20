@@ -5,6 +5,7 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
 global $_DATE;
@@ -14,6 +15,7 @@ require_once __DIR__.'/config/date.php';
 
 $db = DbUtils::fromEnv()->getDb();
 $image_utils = ImageUtils::fromEnv();
+$file_utils = FileUtils::fromEnv();
 
 // echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
 // $kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
@@ -148,7 +150,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             if (mb_strlen($tmptext) < 1) {
                 $tmptext = "Datei ".$matches[1][$i];
             }
-            $tmp_html = olz_file($db_table, $id_tmp, intval($matches[1][$i]), $tmptext);
+            $tmp_html = $file_utils->olzFile($db_table, $id_tmp, intval($matches[1][$i]), $tmptext);
             $text = str_replace($matches[0][$i], $tmp_html, $text);
         }
 

@@ -4,6 +4,7 @@
 // Funktionen für Datei-Upload, z.B. PDFs in Aktuell-Einträgen.
 // =============================================================================
 
+use Olz\Utils\FileUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -11,61 +12,9 @@ require_once __DIR__."/config/paths.php";
 
 global $tables_file_dirs, $mime_extensions, $extension_icons;
 
-$tables_file_dirs = [
-    "aktuell" => "files/aktuell/",
-    "blog" => "files/blog/",
-    "downloads" => "files/downloads/",
-    "termine" => "files/termine/",
-    "news" => "files/news/",
-];
-
-$mime_extensions = [
-    "text/csv" => "csv",
-    "text/html" => "html",
-    "text/plain" => "txt",
-    "text/rtf" => "rtf",
-    "text/vcard" => "vcf",
-    "text/xml" => "xml",
-    "application/pdf" => "pdf",
-    "application/msexcel" => "xls",
-    "application/x-msexcel" => "xls",
-    "application/x-ms-excel" => "xls",
-    "application/x-excel" => "xls",
-    "application/x-dos_ms_excel" => "xls",
-    "application/xls" => "xls",
-    "application/x-xls" => "xls",
-    "application/msword" => "doc",
-    "application/vnd.ms-excel" => "xls",
-    "application/vnd.ms-powerpoint" => "ppt",
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation" => "pptx",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx",
-    "application/x-pdf" => "pdf",
-    "application/zip" => "zip",
-    "image/gif" => "gif",
-    "image/jpeg" => "jpg",
-    "image/png" => "png",
-];
-
-$extension_icons = [
-    "csv" => "txt",
-    "doc" => "doc",
-    "docx" => "doc",
-    "gif" => "image",
-    "html" => "html",
-    "jpg" => "image",
-    "pdf" => "pdf",
-    "png" => "image",
-    "ppt" => "ppt",
-    "pptx" => "ppt",
-    "rtf" => "txt",
-    "txt" => "txt",
-    "vcf" => "txt",
-    "xml" => "txt",
-    "xls" => "xls",
-    "xlsx" => "xls",
-    "zip" => "zip",
-];
+$tables_file_dirs = FileUtils::TABLES_FILE_DIRS;
+$mime_extensions = FileUtils::MIME_EXTENSIONS;
+$extension_icons = FileUtils::EXTENSION_ICONS;
 
 if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     if (!isset($_GET["request"])) {
@@ -303,69 +252,6 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             }
         }
         echo json_encode([1, intval($_POST["delete"])]);
-    }
-}
-
-if (!function_exists('replace_file_tags')) {
-    function replace_file_tags($text, $db_table, $id, $icon = "mini") {
-        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $index = $matches[1][$i];
-            $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-            $tmptext = $matches[4][$i];
-            if (mb_strlen($tmptext) < 1) {
-                $tmptext = "Datei ".$index;
-            }
-
-            if ($is_migrated) {
-                $new_html = olz_file(
-                    $db_table == 'aktuell' ? 'news' : $db_table,
-                    $id,
-                    $index,
-                    $tmptext,
-                    $icon
-                );
-            } else {
-                $new_html = olz_file(
-                    $db_table == 'news' ? 'aktuell' : $db_table,
-                    $id,
-                    intval($index),
-                    $tmptext,
-                    $icon
-                );
-            }
-            $text = str_replace($matches[0][$i], $new_html, $text);
-        }
-        return $text;
-    }
-}
-
-if (!function_exists('olz_file')) {
-    function olz_file($db_table, $id, $index, $text, $icon = "mini") {
-        global $code_href, $data_href, $data_path, $tables_file_dirs;
-        if (!isset($tables_file_dirs[$db_table])) {
-            return "Ungültige db_table (in olz_file)";
-        }
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-        $db_filepath = $tables_file_dirs[$db_table];
-        $file_dir = $data_path.$db_filepath."/".$id;
-        if (is_dir($file_dir)) {
-            if ($is_migrated) {
-                $filename = substr($index, 1);
-                return "<a href='".$data_href.$db_filepath."/".$id."/".$filename."?modified=".filemtime($file_dir."/".$filename)."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$filename."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
-            }
-            $files = scandir($file_dir);
-            for ($i = 0; $i < count($files); $i++) {
-                if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
-                    if (intval($matches[1]) == $index) {
-                        return "<a href='".$data_href.$db_filepath."/".$id."/".$matches[0]."?modified=".filemtime($file_dir."/".$files[$i])."'".($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=16); background-repeat:no-repeat;'" : "").">".$text."</a>";
-                    }
-                }
-            }
-        } else {
-            return "<span style='color:#ff0000; font-style:italic;'>!is_dir ".$db_filepath."/".$id."</span>";
-        }
-        return "<span style='color:#ff0000; font-style:italic;'>Datei nicht vorhanden (in olz_file)</span>";
     }
 }
 

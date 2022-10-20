@@ -5,6 +5,7 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\ImageUtils;
 
 global $_DATE;
 
@@ -15,7 +16,7 @@ $db = DbUtils::fromEnv()->getDb();
 
 // KONSTANTEN
 $tmp_jahr = $_DATE->olzDate("jjjj", "");
-$db_imgpath = $tables_img_dirs[$db_table];
+$db_imgpath = ImageUtils::fromEnv()::TABLES_IMG_DIRS[$db_table];
 
 // -------------------------------------------------------------
 // ZUGRIFF

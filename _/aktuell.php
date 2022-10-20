@@ -25,9 +25,6 @@ $http_utils->validateGetParams([
 
 $id = $_GET['id'] ?? null;
 
-require_once __DIR__.'/file_tools.php';
-require_once __DIR__.'/image_tools.php';
-
 $db_table = 'aktuell';
 
 if ($id === null) {

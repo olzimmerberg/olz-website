@@ -13,6 +13,7 @@ use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\DbUtils;
+use Olz\Utils\FileUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -25,6 +26,7 @@ class OlzTermineList {
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
         $db = DbUtils::fromEnv()->getDb();
+        $file_utils = FileUtils::fromEnv();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLogger($logger);
@@ -297,7 +299,7 @@ class OlzTermineList {
                 if (mb_strlen($tmptext) < 1) {
                     $tmptext = "Datei ".$matches[1][$i];
                 }
-                $tmp_html = olz_file($db_table, $id, intval($matches[1][$i]), $tmptext);
+                $tmp_html = $file_utils->olzFile($db_table, $id, intval($matches[1][$i]), $tmptext);
                 $link = str_replace($matches[0][$i], $tmp_html, $link);
             }
             // Karte zeigen

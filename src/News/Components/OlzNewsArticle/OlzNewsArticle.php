@@ -3,6 +3,7 @@
 namespace Olz\News\Components\OlzNewsArticle;
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\ImageUtils;
 
 class OlzNewsArticle {
     public static function render($args = []) {
@@ -11,6 +12,7 @@ class OlzNewsArticle {
         require_once __DIR__.'/../../../../_/image_tools.php';
 
         $db = DbUtils::fromEnv()->getDb();
+        $image_utils = ImageUtils::fromEnv();
         $db_table = 'aktuell';
         $id = $args['id'];
         $arg_row = $args['row'] ?? null;
@@ -79,7 +81,7 @@ class OlzNewsArticle {
 
             // Bildercode einfügen
             if ($is_preview) {
-                $text = replace_image_tags(
+                $text = $image_utils->replaceImageTags(
                     $text,
                     $id,
                     $image_ids,
@@ -87,7 +89,7 @@ class OlzNewsArticle {
                     " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
                 );
             }
-            $textlang = replace_image_tags(
+            $textlang = $image_utils->replaceImageTags(
                 $textlang,
                 $id,
                 $image_ids,

@@ -4,6 +4,7 @@
 // Funktionen für Bild-Upload, z.B. Bilder in Aktuell-Einträgen.
 // =============================================================================
 
+use Olz\Utils\ImageUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -11,13 +12,7 @@ require_once __DIR__."/config/paths.php";
 
 global $tables_img_dirs;
 
-$tables_img_dirs = [
-    "galerie" => "img/galerie/",
-    "aktuell" => "img/aktuell/",
-    "bild_der_woche" => "img/bild_der_woche/",
-    "blog" => "img/blog/",
-    "news" => "img/news/",
-];
+$tables_img_dirs = ImageUtils::TABLES_IMG_DIRS;
 
 if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     if (!isset($_GET["request"])) {
@@ -360,75 +355,6 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             }
         }
         echo json_encode([1, $newindex + $i, $log]);
-    }
-}
-
-if (!function_exists('replace_image_tags')) {
-    function replace_image_tags($text, $id, $image_ids, $lightview = "image", $attrs = "") {
-        $is_migrated = (bool) $image_ids;
-        preg_match_all("/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $size = intval($matches[3][$i]);
-            if ($size < 1) {
-                $size = 110;
-            }
-            $index = intval($matches[1][$i]);
-            if ($is_migrated) {
-                $new_html = olz_image(
-                    'news',
-                    $id,
-                    $image_ids[$index - 1],
-                    $size,
-                    $lightview,
-                    $attrs
-                );
-            } else {
-                $new_html = olz_image(
-                    'aktuell',
-                    $id,
-                    $index,
-                    $size,
-                    $lightview,
-                    $attrs
-                );
-            }
-            $text = str_replace($matches[0][$i], $new_html, $text);
-        }
-        return $text;
-    }
-}
-
-if (!function_exists('olz_image')) {
-    function olz_image($db_table, $id, $index, $dim, $lightview = "image", $attrs = "") {
-        global $data_href, $data_path, $tables_img_dirs;
-        if (!isset($tables_img_dirs[$db_table])) {
-            return "Ungültige db_table: {$db_table} (in olz_image)";
-        }
-        $db_imgpath = $tables_img_dirs[$db_table];
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-        if ($is_migrated) {
-            $imgfile = $db_imgpath."/".$id."/img/".$index;
-        } else {
-            $imgfile = $db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";
-        }
-        if (!is_file($data_path.$imgfile)) {
-            return "Bild nicht vorhanden (in olz_image)";
-        }
-        $info = getimagesize($data_path.$imgfile);
-        $swid = $info[0];
-        $shei = $info[1];
-        if ($shei < $swid) {
-            $wid = $dim;
-            $hei = intval($wid * $shei / $swid);
-        } else {
-            $hei = $dim;
-            $wid = intval($hei * $swid / $shei);
-        }
-        $span_before = $lightview == "image" ? "<span class='lightgallery'>" : "";
-        $span_after = $lightview == "image" ? "</span>" : "";
-        $a_before = $lightview ? "<a href='".$data_href.$imgfile."' aria-label='Bild vergrössern' data-src='".$data_href.$imgfile."' onclick='event.stopPropagation()'>" : "";
-        $a_after = $lightview ? "</a>" : "";
-        return $span_before.$a_before."<img src='image_tools.php?request=thumb&db_table=".$db_table."&id=".$id."&index=".$index."&dim=".$dim."' alt='' width='".$wid."' height='".$hei."'".$attrs.">".$a_after.$span_after;
     }
 }
 

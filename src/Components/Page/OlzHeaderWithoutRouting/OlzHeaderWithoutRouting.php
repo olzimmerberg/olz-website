@@ -10,14 +10,14 @@ use Olz\Utils\EnvUtils;
 
 class OlzHeaderWithoutRouting {
     public static function render($args = []) {
-        global $_CONFIG, $_DATE, $_SERVER;
+        global $_DATE, $_SERVER;
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/server.php';
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
         $data_path = $env_utils->getDataPath();
         $css_path = "{$data_path}jsbuild/olz/main.min.css";
         $js_path = "{$data_path}jsbuild/olz/main.min.js";
@@ -57,7 +57,7 @@ class OlzHeaderWithoutRouting {
         ".($no_robots ? "<meta name='robots' content='noindex, nofollow'>" : "")."
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>{$html_title}</title>
-        <link rel='shortcut icon' href='{$_CONFIG->getCodeHref()}favicon.ico' />
+        <link rel='shortcut icon' href='{$code_href}favicon.ico' />
         {$olz_organization_data}
         {$additional_headers}
         <link rel='stylesheet' href='{$css_href}' />

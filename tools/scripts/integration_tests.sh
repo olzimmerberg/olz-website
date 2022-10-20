@@ -29,7 +29,7 @@ else
     echo "Dev server symfony configuration preserved."
 fi
 
-./vendor/bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
+php ./bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
 
 echo ""
 echo "Open the HTML test coverage in a web browser:"

@@ -2,7 +2,7 @@
 
 set -e
 
-./vendor/bin/phpunit -c ./phpunit.xml $@ ./tests/UnitTests
+php ./bin/phpunit -c ./phpunit.xml $@ ./tests/UnitTests
 
 echo ""
 echo "Open the HTML test coverage in a web browser:"

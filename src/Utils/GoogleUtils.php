@@ -12,7 +12,6 @@ class GoogleUtils {
 
     public static function fromEnv() {
         require_once __DIR__.'/../../_/config/paths.php';
-        require_once __DIR__.'/../../_/config/server.php';
 
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();

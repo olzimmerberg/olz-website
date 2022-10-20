@@ -6,6 +6,7 @@ namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EmailUtils;
+use Olz\Utils\EnvUtils;
 
 /**
  * @internal
@@ -14,9 +15,7 @@ use Olz\Utils\EmailUtils;
  */
 final class EmailUtilsIntegrationTest extends IntegrationTestCase {
     public function testEmailUtilsFromEnv(): void {
-        global $_CONFIG;
-        require_once __DIR__.'/../../../_/config/server.php';
-
+        $env_utils = EnvUtils::fromEnv();
         $email_utils = EmailUtils::fromEnv();
 
         $mailer = $email_utils->createEmail();
@@ -26,9 +25,9 @@ final class EmailUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame('text/plain', $mailer->ContentType);
         $this->assertSame('base64', $mailer->Encoding);
         $this->assertSame('', $mailer->ErrorInfo);
-        $this->assertSame($_CONFIG->getSmtpFrom(), $mailer->From);
+        $this->assertSame($env_utils->getSmtpFrom(), $mailer->From);
         $this->assertSame('OL Zimmerberg', $mailer->FromName);
-        $this->assertSame($_CONFIG->getSmtpFrom(), $mailer->Sender);
+        $this->assertSame($env_utils->getSmtpFrom(), $mailer->Sender);
         $this->assertSame('', $mailer->Subject);
         $this->assertSame('', $mailer->Body);
         $this->assertSame('', $mailer->AltBody);
@@ -41,15 +40,15 @@ final class EmailUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame('', $mailer->Hostname);
         $this->assertSame('', $mailer->MessageID);
         $this->assertSame('', $mailer->MessageDate);
-        $this->assertSame($_CONFIG->getSmtpHost(), $mailer->Host);
-        $this->assertSame(intval($_CONFIG->getSmtpPort()), $mailer->Port);
+        $this->assertSame($env_utils->getSmtpHost(), $mailer->Host);
+        $this->assertSame(intval($env_utils->getSmtpPort()), $mailer->Port);
         $this->assertSame('', $mailer->Helo);
         $this->assertSame('ssl', $mailer->SMTPSecure);
         $this->assertSame(true, $mailer->SMTPAutoTLS);
         $this->assertSame(true, $mailer->SMTPAuth);
         $this->assertSame([], $mailer->SMTPOptions);
-        $this->assertSame($_CONFIG->getSmtpUsername(), $mailer->Username);
-        $this->assertSame($_CONFIG->getSmtpPassword(), $mailer->Password);
+        $this->assertSame($env_utils->getSmtpUsername(), $mailer->Username);
+        $this->assertSame($env_utils->getSmtpPassword(), $mailer->Password);
         $this->assertSame('', $mailer->AuthType);
         $this->assertSame(300, $mailer->Timeout);
         $this->assertSame('', $mailer->dsn);

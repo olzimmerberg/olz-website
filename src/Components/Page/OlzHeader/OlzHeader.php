@@ -7,10 +7,6 @@ use Olz\Utils\HttpUtils;
 
 class OlzHeader {
     public static function render($args = []) {
-        global $_CONFIG, $_SERVER;
-
-        require_once __DIR__.'/../../../../_/config/server.php';
-
         $is_insecure_nonlocal = !($_SERVER['HTTPS'] ?? false) && preg_match('/olzimmerberg\.ch/', $_SERVER['HTTP_HOST']);
         $host_has_www = preg_match('/www\./', $_SERVER['HTTP_HOST']);
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);

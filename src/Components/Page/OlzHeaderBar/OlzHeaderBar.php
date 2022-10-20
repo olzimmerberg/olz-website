@@ -9,17 +9,20 @@ namespace Olz\Components\Page\OlzHeaderBar;
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 
 class OlzHeaderBar {
     public static function render($args = []) {
-        global $_CONFIG, $zugriff, $button_name;
+        global $zugriff, $button_name;
         $out = '';
 
-        require_once __DIR__.'/../../../../_/config/server.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $file_utils = FileUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        $data_href = $env_utils->getDataHref();
 
         $out .= "<div id='header-bar' class='header-bar menu-closed'>";
 
@@ -42,8 +45,8 @@ class OlzHeaderBar {
         $out .= "</div>"; // below-header
 
         $out .= "<div id='menu-switch' onclick='toggleMenu()' />";
-        $out .= "<img src='{$_CONFIG->getCodeHref()}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-        $out .= "<img src='{$_CONFIG->getCodeHref()}icns/menu_close.svg' alt='' class='menu-close noborder' />";
+        $out .= "<img src='{$code_href}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
+        $out .= "<img src='{$code_href}icns/menu_close.svg' alt='' class='menu-close noborder' />";
         $out .= "</div>";
 
         $out .= "<div class='header-content-container'>";
@@ -52,9 +55,9 @@ class OlzHeaderBar {
 
         // TODO: Remove switch as soon as Safari properly supports SVGs.
         if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'] ?? '')) {
-            $out .= "<img srcset='{$_CONFIG->getCodeHref()}icns/olz_logo@2x.png 2x, {$_CONFIG->getCodeHref()}icns/olz_logo.png 1x' src='{$_CONFIG->getCodeHref()}icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
+            $out .= "<img srcset='{$code_href}icns/olz_logo@2x.png 2x, {$code_href}icns/olz_logo.png 1x' src='{$code_href}icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
         } else {
-            $out .= "<img src='{$_CONFIG->getCodeHref()}icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+            $out .= "<img src='{$code_href}icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
         }
         $out .= "<div style='flex-grow:1;'></div>";
 
@@ -115,10 +118,10 @@ class OlzHeaderBar {
         // $out .= OlzHeaderJomCounter::render();
 
         // Nat. OL Weekend Davos Klosters
-        $out .= "<div class='header-box'><a href='{$_CONFIG->getCodeHref()}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$_CONFIG->getDataHref()}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
+        $out .= "<div class='header-box'><a href='{$code_href}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$data_href}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
 
         // OLZ Trophy 2017
-        $out .= "<div class='header-box'><a href='trophy.php' id='trophy-link'><img src='{$_CONFIG->getDataHref()}img/trophy.png' alt='trophy' /></a></div>";
+        $out .= "<div class='header-box'><a href='trophy.php' id='trophy-link'><img src='{$data_href}img/trophy.png' alt='trophy' /></a></div>";
 
         $out .= "</div>"; // header-content
         $out .= "</div>"; // header-content-scroller

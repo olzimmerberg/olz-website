@@ -6,18 +6,19 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 use Olz\Utils\DbUtils;
-
-global $_CONFIG;
+use Olz\Utils\EnvUtils;
 
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
-require_once __DIR__.'/config/server.php';
+
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
 
 $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-$canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}fuer_einsteiger.php";
+$canonical_uri = "https://{$host}{$code_href}fuer_einsteiger.php";
 
 echo OlzHeader::render([
     'title' => "Für Einsteiger",

@@ -28,9 +28,6 @@ $image_utils = ImageUtils::fromEnv();
 
 <?php
 
-require_once __DIR__.'/image_tools.php';
-require_once __DIR__.'/file_tools.php';
-
 $banner_text = OlzEditableText::render(['olz_text_id' => 22]);
 if (trim(strip_tags($banner_text)) !== '') {
     echo "<div id='important-banner' class='banner'>";

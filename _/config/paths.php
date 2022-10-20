@@ -4,14 +4,16 @@
 // Konfiguration für die Benützung des Dateisystems
 // =============================================================================
 
-global $_CONFIG, $data_path, $data_href, $code_path, $code_href, $base_href;
+use Olz\Utils\EnvUtils;
 
-require_once __DIR__.'/server.php';
+global $data_path, $data_href, $code_path, $code_href, $base_href;
 
-$data_path = $_CONFIG->getDataPath();
-$data_href = $_CONFIG->getDataHref();
+$env_utils = EnvUtils::fromEnv();
 
-$code_path = $_CONFIG->getCodePath();
-$code_href = $_CONFIG->getCodeHref();
+$data_path = $env_utils->getDataPath();
+$data_href = $env_utils->getDataHref();
 
-$base_href = $_CONFIG->getBaseHref();
+$code_path = $env_utils->getCodePath();
+$code_href = $env_utils->getCodeHref();
+
+$base_href = $env_utils->getBaseHref();

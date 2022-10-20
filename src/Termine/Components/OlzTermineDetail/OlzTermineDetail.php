@@ -13,18 +13,20 @@ use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail {
     public static function render($args = []) {
-        global $db_table, $id, $_CONFIG;
+        global $db_table, $id;
 
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
-        require_once __DIR__.'/../../../../_/config/server.php';
 
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
         $db = DbUtils::fromEnv()->getDb();
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
@@ -51,7 +53,7 @@ class OlzTermineDetail {
         $num_news_entries = $news_entries->count();
         $no_robots = $num_news_entries !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_uri = "https://{$host}{$_CONFIG->getCodeHref()}termine.php?id={$id}";
+        $canonical_uri = "https://{$host}{$code_href}termine.php?id={$id}";
 
         $out = '';
 

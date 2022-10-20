@@ -2,19 +2,23 @@
 
 namespace Olz\Components\Users\OlzUserInfoCard;
 
+use Olz\Utils\EnvUtils;
+
 class OlzUserInfoCard {
     public static function render($args = []) {
-        global $_CONFIG;
-
         $user = $args['user'];
 
-        require_once __DIR__.'/../../../../_/config/server.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        $data_href = $env_utils->getDataHref();
+        $data_path = $env_utils->getDataPath();
+
         $image_base_path = "img/users/{$user->getId()}";
-        $img_html = "<img src='{$_CONFIG->getCodeHref()}icns/user.jpg' alt='' class='olz-user-info-card-image'>";
-        if (is_file("{$_CONFIG->getDataPath()}{$image_base_path}.jpg")) {
-            $img_html = "<img src='{$_CONFIG->getDataHref()}{$image_base_path}.jpg' alt='' class='olz-user-info-card-image'>";
+        $img_html = "<img src='{$code_href}icns/user.jpg' alt='' class='olz-user-info-card-image'>";
+        if (is_file("{$data_path}{$image_base_path}.jpg")) {
+            $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt='' class='olz-user-info-card-image'>";
         }
 
         $out = "<table><tr><td class='olz-user-info-card-image-td'>";

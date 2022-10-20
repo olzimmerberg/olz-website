@@ -60,7 +60,10 @@
     "friendsofphp/php-cs-fixer": "^3.4",
     "paragonie/sodium_compat": "^1.17",
     "php-webdriver/webdriver": "^1.8",
-    "phpunit/phpunit": "^9"
+    "phpunit/phpunit": "^9",
+    "symfony/browser-kit": "6.1.*",
+    "symfony/css-selector": "6.1.*",
+    "symfony/phpunit-bridge": "^6.1"
   },
   "require": {
     "php": ">=8.1",

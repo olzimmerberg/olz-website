@@ -5,8 +5,6 @@
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', 1);
 
-global $_CONFIG;
-
 $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
         'mysql_host' => 'localhost',
@@ -63,9 +61,7 @@ $configure_env_utils = function ($env_utils) {
         'app_statistics_password' => 'qwer',
     ]);
 };
-if (isset($_CONFIG)) {
-    $configure_env_utils($_CONFIG);
-}
+
 return [
     'configure_env_utils' => $configure_env_utils,
 ];

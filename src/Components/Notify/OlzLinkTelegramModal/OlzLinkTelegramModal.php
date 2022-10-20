@@ -2,15 +2,14 @@
 
 namespace Olz\Components\Notify\OlzLinkTelegramModal;
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\UserAgentUtils;
 
 class OlzLinkTelegramModal {
     public static function render($args = []) {
-        global $_CONFIG;
-
-        require_once __DIR__.'/../../../../_/config/server.php';
-
         $user_agent_utils = UserAgentUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
 
         $install_instructions = [
             "<li>Installiere die Telegram-App auf deinem Smartphone</li>",
@@ -41,7 +40,7 @@ class OlzLinkTelegramModal {
                     <div class='modal-body'>
                         <center>
                             <div class='telegram-circle'>
-                                <img src='{$_CONFIG->getCodeHref()}icns/login_telegram.svg' alt=''>
+                                <img src='{$code_href}icns/login_telegram.svg' alt=''>
                             </div>
                         </center>
                         <ol class='todo-list'>

@@ -6,13 +6,17 @@
 
 namespace Olz\Components\Page\OlzMenu;
 
+use Olz\Utils\EnvUtils;
+
 class OlzMenu {
     public static function render($args = []) {
-        global $_CONFIG;
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/server.php';
+
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        $data_path = $env_utils->getDataPath();
 
         $menu = [
             ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
@@ -32,7 +36,7 @@ class OlzMenu {
 
         $out .= "<div id='menu' class='menu'>";
         // LIVE-RESULTATE
-        $live_json_path = "{$_CONFIG->getDataPath()}results/_live.json";
+        $live_json_path = "{$data_path}results/_live.json";
         if (is_file($live_json_path)) {
             $content = file_get_contents($live_json_path);
             if ($content) {
@@ -40,11 +44,11 @@ class OlzMenu {
                 $last_updated_at = strtotime($live['last_updated_at']);
                 $now = strtotime(olz_current_date('Y-m-d H:i:s'));
                 if ($live && $last_updated_at > $now - 3600) {
-                    $out .= "<a href='{$_CONFIG->getCodeHref()}apps/resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
+                    $out .= "<a href='{$code_href}apps/resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
                 }
             }
         }
-        $out .= self::getMenu($menu, "mainmenu", $_CONFIG);
+        $out .= self::getMenu($menu, "mainmenu", $code_href);
 
         $out .= "<form name='Suche' method='get' action='suche.php'>
         <input type='text' name='anfrage' id='site-search' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
@@ -54,16 +58,16 @@ class OlzMenu {
         </div>
         <div class='platform-links'>
         <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' class='platform-link'>
-            <img src='{$_CONFIG->getCodeHref()}icns/github_16.svg' alt='g' class='noborder' />
+            <img src='{$code_href}icns/github_16.svg' alt='g' class='noborder' />
         </a>
         <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' class='platform-link'>
-            <img src='{$_CONFIG->getCodeHref()}icns/youtube_16.svg' alt='Y' class='noborder' />
+            <img src='{$code_href}icns/youtube_16.svg' alt='Y' class='noborder' />
         </a>
         <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' class='platform-link'>
-            <img src='{$_CONFIG->getCodeHref()}icns/facebook_16.svg' alt='f' class='noborder' />
+            <img src='{$code_href}icns/facebook_16.svg' alt='f' class='noborder' />
         </a>
         <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' class='platform-link'>
-            <img src='{$_CONFIG->getCodeHref()}icns/strava_16.svg' alt='s' class='noborder' />
+            <img src='{$code_href}icns/strava_16.svg' alt='s' class='noborder' />
         </a>
         </div>
         </div>";
@@ -71,7 +75,7 @@ class OlzMenu {
         return $out;
     }
 
-    protected static function getMenu($menu, $identifier, $_CONFIG): string {
+    protected static function getMenu($menu, $identifier, $code_href): string {
         $out = '';
         for ($i = 0; $i < count($menu); $i++) {
             $menupunkt = $menu[$i];
@@ -102,7 +106,7 @@ class OlzMenu {
                 $border_tmp = " border-top:1px solid #".$linecolor.";";
             }
             if ($menupunkt[0] != "" && $menupunkt[1] != "") {
-                $out .= "<a href='".$_CONFIG->getCodeHref().$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
+                $out .= "<a href='".$code_href.$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
             } else {
                 // $out .= "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
                 $out .= "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";

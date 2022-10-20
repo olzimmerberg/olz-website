@@ -3,10 +3,14 @@
 namespace Olz\Components\Auth\OlzProfileForm;
 
 use Olz\Utils\AuthUtils;
+use Olz\Utils\EnvUtils;
 
 class OlzProfileForm {
     public static function render($args = []) {
-        global $_CONFIG;
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        $data_href = $env_utils->getDataHref();
+        $data_path = $env_utils->getDataPath();
 
         $fallback_defaults = [
             'region' => 'ZH',
@@ -43,14 +47,14 @@ class OlzProfileForm {
 
         $auth_utils = AuthUtils::fromEnv();
         $user = $auth_utils->getAuthenticatedUser();
-        $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials=".urlencode('?');
+        $image_path = "{$code_href}icns/user.php?initials=".urlencode('?');
         if ($user) {
             $user_image_path = "img/users/{$user->getId()}.jpg";
-            if (is_file("{$_CONFIG->getDataPath()}{$user_image_path}")) {
-                $image_path = "{$_CONFIG->getDataHref()}{$user_image_path}";
+            if (is_file("{$data_path}{$user_image_path}")) {
+                $image_path = "{$data_href}{$user_image_path}";
             } else {
                 $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
-                $image_path = "{$_CONFIG->getCodeHref()}icns/user.php?initials={$initials}";
+                $image_path = "{$code_href}icns/user.php?initials={$initials}";
             }
         }
 

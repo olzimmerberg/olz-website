@@ -13,7 +13,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class OlzAnmelden {
     public static function render() {
         require_once __DIR__.'/../../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../../_/config/server.php';
 
         session_start_if_cookie_set();
 

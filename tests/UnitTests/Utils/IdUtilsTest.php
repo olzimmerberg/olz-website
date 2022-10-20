@@ -74,27 +74,6 @@ final class IdUtilsTest extends UnitTestCase {
         $this->assertSame('BZciFnEYIjk', $id_utils->toExternalId('123'));
     }
 
-    // public function testGetNullPrefixedCRC(): void {
-    //     $id_utils = new IdUtilsIdUtilsForTest();
-    //     $id_utils->setEnvUtils(new FakeEnvUtils());
-    //     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    //     $chars_len = strlen($chars);
-    //     for ($len=1; $len<5; $len++) {
-    //         for ($s=0; $s<pow($chars_len, $len); $s++) {
-    //             $str = '';
-    //             for ($i=0; $i<$len; $i++) {
-    //                 $chr = ($s / pow($chars_len, $i)) % $chars_len;
-    //                 $str .= $chars[$chr];
-    //             }
-    //             $serialization = bin2hex($id_utils->testOnlySerializeId(123, $str));
-    //             if (substr($serialization, 0, 4) === '0000') {
-    //                 $this->assertSame('', $str);
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
-
     public function testSerializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new FakeEnvUtils());

@@ -5,6 +5,7 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\ImageUtils;
 
 global $_DATE;
 
@@ -12,6 +13,7 @@ require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/date.php';
 
 $db = DbUtils::fromEnv()->getDb();
+$image_utils = ImageUtils::fromEnv();
 
 // echo "<h2></h2><div style='overflow-x:auto;'><table class='galerie'><tr class='thumbs blog'>";
 // $kader = array(array("lilly","Lilly Gross"),array("julia","Julia Gross"),array("tanja","Tanja Frey"),array("sara","Sara Würmli"),array("paula","Paula Gross"));
@@ -134,9 +136,9 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         }
 
         // Bildcode einfügen
-        $tmp_html = olz_image($db_table, $id_tmp, 1, 240, "gallery[blog".$id_tmp."]", " style='float:left; margin:3px 5px 3px 0px;'");
+        $tmp_html = $image_utils->olzImage($db_table, $id_tmp, 1, 240, "gallery[blog".$id_tmp."]", " style='float:left; margin:3px 5px 3px 0px;'");
         $text = str_replace("<BILD1>", $tmp_html, $text);
-        $tmp_html = olz_image($db_table, $id_tmp, 2, 240, "gallery[blog".$id_tmp."]", " style='float:left; margin:3px 5px 3px 0px;'");
+        $tmp_html = $image_utils->olzImage($db_table, $id_tmp, 2, 240, "gallery[blog".$id_tmp."]", " style='float:left; margin:3px 5px 3px 0px;'");
         $text = str_replace("<BILD2>", $tmp_html, $text);
 
         // Dateicode einfügen

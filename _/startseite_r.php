@@ -5,10 +5,12 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\ImageUtils;
 
 require_once __DIR__.'/tickers.php';
 
 $db = DbUtils::fromEnv()->getDb();
+$image_utils = ImageUtils::fromEnv();
 
 // echo "<form name='Formular2' method='post' action='index.php' enctype='multipart/form-data'>
 // <h2>GESUCHT 'BILD DER WOCHE'</h2>
@@ -96,11 +98,11 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $edit_admin = "";
     }
 
-    $img2 = olz_image($db_table, $id_tmp, 2, 256);
-    if ($img2 == "Bild nicht vorhanden (in olz_image)") {
-        echo olz_image($db_table, $id_tmp, 1, 256)."<p style='text-align:center;font-weight:bold;clear:left;'>".$edit_admin.$text."</p>";
+    $img2 = $image_utils->olzImage($db_table, $id_tmp, 2, 256);
+    if ($img2 == "Bild nicht vorhanden (in olzImage)") {
+        echo $image_utils->olzImage($db_table, $id_tmp, 1, 256)."<p style='text-align:center;font-weight:bold;clear:left;'>".$edit_admin.$text."</p>";
     } else {
-        echo "<span style='display:inline;' onmouseover='document.getElementById(&quot;bdw1&quot;).style.display = &quot;none&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;inline&quot;;' onclick='document.getElementById(&quot;bdw1&quot;).style.display = &quot;none&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;inline&quot;; return false;' id='bdw1'>".olz_image($db_table, $id_tmp, 1, 256)."</span><span style='display:none;' onmouseout='document.getElementById(&quot;bdw1&quot;).style.display = &quot;inline&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;none&quot;;' onclick='document.getElementById(&quot;bdw1&quot;).style.display = &quot;inline&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;none&quot;; return false;' id='bdw2'>".$img2."</span><p style='text-align:center;font-weight:bold;clear:left;'>".$edit_admin.$text."</p>";
+        echo "<span style='display:inline;' onmouseover='document.getElementById(&quot;bdw1&quot;).style.display = &quot;none&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;inline&quot;;' onclick='document.getElementById(&quot;bdw1&quot;).style.display = &quot;none&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;inline&quot;; return false;' id='bdw1'>".$image_utils->olzImage($db_table, $id_tmp, 1, 256)."</span><span style='display:none;' onmouseout='document.getElementById(&quot;bdw1&quot;).style.display = &quot;inline&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;none&quot;;' onclick='document.getElementById(&quot;bdw1&quot;).style.display = &quot;inline&quot;; document.getElementById(&quot;bdw2&quot;).style.display = &quot;none&quot;; return false;' id='bdw2'>".$img2."</span><p style='text-align:center;font-weight:bold;clear:left;'>".$edit_admin.$text."</p>";
     }
     echo "</div>";
 }

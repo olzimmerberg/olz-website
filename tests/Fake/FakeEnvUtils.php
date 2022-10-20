@@ -41,6 +41,10 @@ class FakeEnvUtils {
         return __DIR__.'/../UnitTests/tmp/';
     }
 
+    public function getDataHref() {
+        return '/data-href/';
+    }
+
     public function getImapHost() {
         return '127.0.0.1';
     }

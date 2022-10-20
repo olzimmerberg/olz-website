@@ -3,10 +3,13 @@
 namespace Olz\News\Components\OlzNewsListItem;
 
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
+use Olz\Utils\ImageUtils;
 
 class OlzNewsListItem {
     public static function render($args = []) {
         global $code_href;
+
+        $image_utils = ImageUtils::fromEnv();
 
         $news_entry = $args['news_entry'];
         $out = "";
@@ -21,7 +24,7 @@ class OlzNewsListItem {
         $is_migrated = (bool) $image_ids;
 
         // Bildercode einfügen
-        $text = replace_image_tags(
+        $text = $image_utils->replaceImageTags(
             $text,
             $news_entry->getId(),
             $image_ids,

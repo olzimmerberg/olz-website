@@ -5,6 +5,7 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\ImageUtils;
 
 global $_DATE;
 
@@ -12,6 +13,7 @@ require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/config/date.php';
 
 $db = DbUtils::fromEnv()->getDb();
+$image_utils = ImageUtils::fromEnv();
 
 $monate = ["", "januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"];
 $breite = 4;
@@ -113,7 +115,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
                 $pfad_img = $pfad_galerie.$id."/img/".$foto_000.".jpg";
                 if (is_file($pfad_img)) {
                     $html_tmp .= "<td id='galerietd".($y * $breite + $x + 1)."'>";
-                    $html_tmp .= olz_image("galerie", $id, $y * $breite + $x + 1, 110, "gallery[myset]");
+                    $html_tmp .= $image_utils->olzImage("galerie", $id, $y * $breite + $x + 1, 110, "gallery[myset]");
                     $html_tmp .= "</td>";
                 } else {
                     $html_tmp .= "<td>&nbsp;</td>";

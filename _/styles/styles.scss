@@ -425,7 +425,8 @@ input.button,
 }
 
 .linkint,
-.olz-editable-text a[href^='/'] {
+.olz-editable-text a[href^='/'],
+.olz-editable-text a[href^='https://olzimmerberg.ch'] {
     background-image: url('../../public/icns/link_internal_16.svg');
     background-position: left center;
     padding: 0 6px 0 16px;
@@ -461,8 +462,9 @@ input.button,
 }
 
 .linkpdf,
-.olz-editable-text a[href$='.pdf'] {
-    background-image: url('../../public/icns/link_pdf_16.svg');
+.olz-editable-text a[href$='.pdf'],
+.olz-editable-text a[href*='.pdf?'] {
+    background-image: url('../../public/icns/link_pdf_16.svg') !important;
     background-position: left center;
     padding: 0 6px 0 19px;
 }
@@ -498,19 +500,19 @@ input.button,
 
 .responsive-flex {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     .responsive-flex-2 {
-        width: 50%;
+        width: 100%;
     }
 }
 
-@media screen and (max-width: 832px) {
+@media screen and (min-width: 832px) {
     .responsive-flex {
-        flex-direction: column;
-
+        flex-direction: row;
+    
         .responsive-flex-2 {
-            width: 100%;
+            width: 50%;
         }
     }
 }

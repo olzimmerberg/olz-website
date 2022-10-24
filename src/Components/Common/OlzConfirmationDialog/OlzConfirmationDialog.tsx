@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 
 interface OlzConfirmationDialogProps {
     title: string;
-    onConfirm: () => any;
-    onCancel?: () => any;
+    onConfirm: () => unknown;
+    onCancel?: () => unknown;
     description?: string;
     cancelLabel?: string;
     confirmLabel?: string;

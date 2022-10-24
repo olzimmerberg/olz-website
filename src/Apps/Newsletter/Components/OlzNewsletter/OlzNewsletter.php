@@ -30,7 +30,7 @@ class OlzNewsletter {
         $username = ($_SESSION['user'] ?? null);
         $user = $user_repo->findOneBy(['username' => $username]);
 
-        $out .= "<div id='content_double'>";
+        $out .= "<div class='content-full'>";
         if ($user) {
             $out .= "<div class='responsive-flex'>";
             $out .= "<div class='responsive-flex-2'>";

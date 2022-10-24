@@ -142,6 +142,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(null, $news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
+        $this->assertSame(['uploaded_image.jpg', 'inexistent.jpg'], $news_entry->getImageIds());
 
         $this->assertSame([
             [$news_entry, 1, 1, 1],
@@ -152,11 +153,11 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             [
                 ['uploaded_image.jpg', 'inexistent.jpg'],
-                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/img/",
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/news/{$id}/img/",
             ],
             [
                 ['uploaded_file.pdf', 'inexistent.txt'],
-                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], $upload_utils->move_uploads_calls);
     }

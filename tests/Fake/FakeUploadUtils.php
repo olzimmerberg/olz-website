@@ -15,6 +15,10 @@ class FakeUploadUtils {
         return $upload_ids;
     }
 
+    public function getValidUploadId($upload_id) {
+        return $upload_id;
+    }
+
     public function moveUploads($upload_ids, $new_base_path) {
         $this->move_uploads_calls[] = [$upload_ids, $new_base_path];
     }

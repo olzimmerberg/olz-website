@@ -65,7 +65,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
         }
     }
 
-    echo "<div id='content_double'>
+    echo "<div class='content-full'>
     <form name='Formularl' method='post' action='webftp.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
     <div>";
     include __DIR__.'/library/phpWebFileManager/start.php';
@@ -120,7 +120,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
 
     echo "</div>";
 } else {
-    echo "<div id='content_double'>
+    echo "<div class='content-full'>
     <div id='profile-message' class='alert alert-danger' role='alert'>Da musst du schon eingeloggt sein!</div>
     </div>";
 }

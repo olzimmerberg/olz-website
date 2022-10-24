@@ -41,11 +41,11 @@ class OlzNewsList {
 
         $zugriff = ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ /', $_SESSION['auth'] ?? ''))) ? '1' : '0';
 
-        $out .= "<div id='content_rechts'>";
+        $out .= "<div class='content-right'>";
         $out .= "<h2>Filter</h2>";
         $out .= OlzNewsFilter::render([]);
         $out .= "</div>";
-        $out .= "<div id='content_mitte'>";
+        $out .= "<div class='content-middle'>";
         $out .= "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
         // -------------------------------------------------------------

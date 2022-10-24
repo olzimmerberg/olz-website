@@ -21,7 +21,7 @@ echo OlzHeader::render([
     'description' => "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.",
 ]);
 
-echo "<div id='content_double'>
+echo "<div class='content-full'>
 <form name='Formularl' method='post' action='material.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/material_d.php';

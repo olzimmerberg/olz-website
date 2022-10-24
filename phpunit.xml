@@ -37,6 +37,8 @@
             <directory suffix=".php">./src/News/Endpoints</directory>
             <directory suffix=".php">./src/News/Utils</directory>
             <directory suffix=".php">./src/Parsers</directory>
+            <directory suffix=".php">./src/Startseite/Components</directory>
+            <directory suffix=".php">./src/Startseite/Endpoints</directory>
             <directory suffix=".php">./src/Tasks</directory>
             <directory suffix=".php">./src/Termine/Utils</directory>
             <directory suffix=".php">./src/Utils</directory>

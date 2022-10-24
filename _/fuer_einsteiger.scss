@@ -12,14 +12,14 @@
     }
 
     .left {
-        float: left;
-        margin-right: 20px;
+        float: none;
+        margin: 0 auto;
         padding-bottom: 20px;
     }
 
     .right {
-        float: right;
-        margin-left: 20px;
+        float: none;
+        margin: 0 auto;
         padding-bottom: 20px;
     }
 
@@ -29,7 +29,7 @@
     }
 
     .text {
-        height: 400px;
+        height: auto;
         padding: 0 20px;
 
         table {
@@ -88,19 +88,19 @@
         font-size: 14px;;
     }
 
-    @media screen and (max-width: 832px) {
+    @media screen and (min-width: 832px) {
         .left {
-            float: none;
-            margin: 0 auto;
+            float: left;
+            margin: 0 20px 0 0;
         }
         
         .right {
-            float: none;
-            margin: 0 auto;
+            float: right;
+            margin: 0 0 0 20px;
         }
 
         .text {
-            height: auto;
+            height: 400px;
         }
     }
 }

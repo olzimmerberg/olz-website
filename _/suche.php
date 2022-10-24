@@ -27,14 +27,14 @@ echo OlzHeader::render([
 $search_key = $_GET['anfrage'];
 
 echo "
-<div id='content_rechts'>
+<div class='content-right'>
 <form name='Formularr' method='post' action='suche.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/startseite_r.php';
 echo "</div>
 </form>
 </div>
-<div id='content_mitte'>
+<div class='content-middle'>
 <form name='Formularl' method='post' action='suche.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 include __DIR__.'/suche_l.php';
 echo "</form>

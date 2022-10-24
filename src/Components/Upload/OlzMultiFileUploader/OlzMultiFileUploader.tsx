@@ -13,7 +13,7 @@ const uploader = Uploader.getInstance();
 
 interface OlzMultiFileUploaderProps {
     initialUploadIds?: string[];
-    onUploadIdsChange?: (uploadIds: string[]) => any;
+    onUploadIdsChange?: (uploadIds: string[]) => unknown;
 }
 
 export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {

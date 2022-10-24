@@ -15,7 +15,7 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
-echo "<div id='content_double'>
+echo "<div class='content-full'>
 <div>";
 
 $code = $_GET['code'];

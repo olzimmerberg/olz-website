@@ -35,7 +35,7 @@ class OlzOev {
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
         ]);
 
-        echo "<div id='content_double'>";
+        echo "<div class='content-full'>";
 
         $auth_utils = AuthUtils::fromEnv();
         $has_access = $auth_utils->hasPermission('any');

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20220912114134
+-- MIGRATION: DoctrineMigrations\Version20221024123804
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,23 +23,6 @@ CREATE TABLE `auth_requests` (
   PRIMARY KEY (`id`),
   KEY `ip_address_timestamp_index` (`ip_address`,`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bild_der_woche` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date DEFAULT NULL,
-  `bild1` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild2` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 0,
-  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bild1_breite` int(11) DEFAULT NULL,
-  `bild2_breite` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `datum_index` (`datum`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -699,6 +682,34 @@ CREATE TABLE `roles` (
   `permissions` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `weekly_picture` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `datum` date DEFAULT NULL,
+  `image_id` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternative_image_id` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_1EABE3862B18554A` (`owner_user_id`),
+  KEY `IDX_1EABE3865A75A473` (`owner_role_id`),
+  KEY `IDX_1EABE3867D182D95` (`created_by_user_id`),
+  KEY `IDX_1EABE3861A04EF5A` (`last_modified_by_user_id`),
+  KEY `datum_index` (`datum`),
+  CONSTRAINT `FK_1EABE3861A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1EABE3862B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1EABE3865A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_1EABE3867D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

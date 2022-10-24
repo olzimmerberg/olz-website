@@ -35,7 +35,7 @@ class HttpUtils {
         ]);
 
         $out .= <<<ZZZZZZZZZZ
-        <div id='content_double'>
+        <div class='content-full'>
             <h2>Automatische Weiterleitung...</h2>
             <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesenLink anklicken:</p>
             <p><b><a href='{$redirect_url}' class='linkint'>{$redirect_url}</a></b></p>

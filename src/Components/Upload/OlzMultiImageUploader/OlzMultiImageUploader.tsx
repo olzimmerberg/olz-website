@@ -7,13 +7,16 @@ import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';
 
+import '../../../../_/styles/dropzone.scss';
+import './OlzMultiImageUploader.scss';
+
 const MAX_IMAGE_SIZE = 800;
 
 const uploader = Uploader.getInstance();
 
 interface OlzMultiImageUploaderProps {
     initialUploadIds?: string[];
-    onUploadIdsChange?: (uploadIds: string[]) => any;
+    onUploadIdsChange?: (uploadIds: string[]) => unknown;
 }
 
 export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {

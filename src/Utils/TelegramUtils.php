@@ -287,7 +287,7 @@ class TelegramUtils {
         $environment->addExtension(new StrikethroughExtension());
         $environment->addExtension(new AutolinkExtension());
         $converter = new MarkdownConverter($environment);
-        $rendered = $converter->convertToHtml($markdown);
+        $rendered = $converter->convert($markdown);
         return strval($rendered);
     }
 }

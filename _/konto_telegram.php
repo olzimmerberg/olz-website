@@ -25,7 +25,7 @@ $user_repo = $entityManager->getRepository(User::class);
 $username = ($_SESSION['user'] ?? null);
 $user = $user_repo->findOneBy(['username' => $username]);
 
-echo "<div id='content_double'>
+echo "<div class='content-full'>
 <div>";
 
 if ($user) {

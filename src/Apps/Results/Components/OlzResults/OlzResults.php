@@ -17,7 +17,7 @@ class OlzResults {
         ]);
 
         if (isset($_GET['file'])) {
-            $out .= "<div id='content_double' style='position:relative'>";
+            $out .= "<div class='content-full' style='position:relative'>";
             $out .= <<<'ZZZZZZZZZZ'
             <div id='title-box'><div id='backbutton' onclick='olz.popHash()'>&lt;</div><h1 id='title'></h1></div>
             <div id='classes-box'></div>
@@ -26,7 +26,7 @@ class OlzResults {
             ZZZZZZZZZZ;
             $out .= "</div>";
         } else {
-            $out .= "<div id='content_double'>";
+            $out .= "<div class='content-full'>";
             $out .= "<ul>";
             $env_utils = EnvUtils::fromEnv();
             $data_path = $env_utils->getDataPath();

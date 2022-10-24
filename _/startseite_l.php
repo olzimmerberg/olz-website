@@ -4,7 +4,6 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
@@ -18,22 +17,6 @@ require_once __DIR__.'/config/date.php';
 
 $db = DbUtils::fromEnv()->getDb();
 $image_utils = ImageUtils::fromEnv();
-
-?>
-
-<!--EINSTEIGER-->
-<div class='banner'>
-    Neu hier? <a href='fuer_einsteiger.php?von=startseite' class='linkint'>Hier gehts zur Seite für Einsteiger</a> <a href='/pdf/2022_schnuppertrainings.pdf' target='_blank' class='linkpdf'>Schnuppertrainings 2022</a>
-</div>
-
-<?php
-
-$banner_text = OlzEditableText::render(['olz_text_id' => 22]);
-if (trim(strip_tags($banner_text)) !== '') {
-    echo "<div id='important-banner' class='banner'>";
-    echo $banner_text;
-    echo "</div>";
-}
 
 // Konstanten
 $listenlaenge = 20;
@@ -53,6 +36,8 @@ UNION ALL
 (SELECT id,datum,'00:00:00' AS zeit,titel,'' AS text,'galerie' AS typ,'' AS f1,'' AS f2,typ AS f3,'','','','','' FROM galerie WHERE (on_off='1'))
 ORDER BY datum DESC, zeit DESC LIMIT {$listenlaenge}";
 }
+
+echo "<h4 class='tablebar'>News</h4>";
 
 $result = $db->query($sql);
 while ($row = $result->fetch_assoc()) {
@@ -200,4 +185,3 @@ while ($row = $result->fetch_assoc()) {
         <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
         ".$text."</div>";*/
 }
-?>

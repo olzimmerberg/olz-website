@@ -13,7 +13,7 @@ echo OlzHeader::render([
     'description' => "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.",
 ]);
 
-echo "<div id='content_double'>
+echo "<div class='content-full'>
 <form name='Formularl' method='post' action='trophy.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/trophy_d.php';

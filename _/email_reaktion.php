@@ -21,7 +21,7 @@ $token = $_GET['token'] ?? '';
 $js_token = htmlentities(json_encode($token));
 $reaction_data = $email_utils->decryptEmailReactionToken($token);
 
-echo "<div id='content_double'>";
+echo "<div class='content-full'>";
 
 if ($reaction_data) {
     if ($reaction_data['action'] == 'unsubscribe') {

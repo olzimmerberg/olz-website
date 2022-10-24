@@ -11,9 +11,9 @@ class ImageUtils {
     public const TABLES_IMG_DIRS = [
         'galerie' => 'img/galerie/',
         'aktuell' => 'img/aktuell/',
-        'bild_der_woche' => 'img/bild_der_woche/',
         'blog' => 'img/blog/',
         'news' => 'img/news/',
+        'weekly_picture' => 'img/weekly_picture/',
     ];
 
     public function replaceImageTags(

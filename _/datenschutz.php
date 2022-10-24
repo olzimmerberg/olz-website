@@ -21,7 +21,7 @@ $entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $website_role = $role_repo->findOneBy(['username' => 'website']);
 
-echo "<div id='content_rechts'>
+echo "<div class='content-right'>
 <h2>Datenschutz-Verantwortliche</h2>
 <ul>";
 $website_assignees = $website_role->getUsers();
@@ -32,7 +32,7 @@ foreach ($website_assignees as $website_assignee) {
 }
 echo "</ul>
 </div>
-<div id='content_mitte'>
+<div class='content-middle'>
     <h3>Grundsatz</h3>
     <p>Wir sammeln <b>keine</b> personenbezogenen Daten von <b>nicht eigeloggten</b> Nutzern.</p>
     <p>Von <b>eigeloggten</b> Nutzern sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb <b>notwendig</b> sind.</p>

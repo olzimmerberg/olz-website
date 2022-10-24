@@ -21,7 +21,7 @@ class AppsController extends AbstractController {
     ): Response {
         $out = '';
         $out .= OlzHeader::render([]);
-        $out .= "<div id='content_double'>";
+        $out .= "<div class='content-full'>";
         $out .= "<h1>Apps</h1>";
         $out .= OlzAppsList::render();
         $out .= "</div>";

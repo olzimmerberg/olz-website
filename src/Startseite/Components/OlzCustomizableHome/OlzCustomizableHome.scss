@@ -1,0 +1,55 @@
+.olz-customizable-home {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 -5px -10px;
+}
+
+.tile-container {
+    padding: 0 0 5px 10px;
+    width: 100%;
+}
+
+.tile h2 {
+    text-align: center;
+}
+
+.tile .olz-editable-text p,
+.tile ul li {
+    margin: 2px 0 4px;
+}
+
+.tile .center {
+    text-align: center;
+}
+
+.tile img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 150px;
+    border: 0;
+    border-radius: 3px;
+}
+
+.tile ul.links {
+    text-align: left;
+    margin: 0;
+}
+
+@media screen and (min-width: 360px) {
+    .tile-container {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 780px) {
+    .tile-container {
+        width: 33.33%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .tile-container {
+        width: 25%;
+    }
+}

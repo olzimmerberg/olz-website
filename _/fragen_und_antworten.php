@@ -13,10 +13,10 @@ echo OlzHeader::render([
     'description' => "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.",
 ]);
 
-echo "<div id='content_rechts'>";
+echo "<div class='content-right'>";
 include __DIR__.'/fragen_und_antworten_r.php';
 echo "</div>
-<div id='content_mitte'>";
+<div class='content-middle'>";
 include __DIR__.'/fragen_und_antworten_l.php';
 echo "</div>";
 

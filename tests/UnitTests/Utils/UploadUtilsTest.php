@@ -67,6 +67,10 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->assertSame(true, $this->uploadUtils->isUploadId($upload_id));
     }
 
+    public function testIsUploadIdNull(): void {
+        $this->assertSame(false, $this->uploadUtils->isUploadId(null));
+    }
+
     public function testIsUploadIdEmpty(): void {
         $this->assertSame(false, $this->uploadUtils->isUploadId(''));
     }

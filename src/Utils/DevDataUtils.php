@@ -333,10 +333,10 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/blog/1");
         $this->mkdir("{$data_path}img/blog/1/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/001.jpg", 800, 600);
-        $this->mkdir("{$data_path}img/bild_der_woche");
-        $this->mkdir("{$data_path}img/bild_der_woche/2");
-        $this->mkdir("{$data_path}img/bild_der_woche/2/img");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/bild_der_woche/2/img/001.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/weekly_picture");
+        $this->mkdir("{$data_path}img/weekly_picture/2");
+        $this->mkdir("{$data_path}img/weekly_picture/2/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/weekly_picture/2/img/001.jpg", 800, 600);
         $this->mkdir("{$data_path}img/fuer_einsteiger");
         $this->mkdir("{$data_path}img/fuer_einsteiger/img");
         $this->mkdir("{$data_path}img/fuer_einsteiger/thumb");

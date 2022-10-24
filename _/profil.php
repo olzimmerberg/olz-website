@@ -24,7 +24,7 @@ $user_repo = $entityManager->getRepository(User::class);
 $username = ($_SESSION['user'] ?? null);
 $user = $user_repo->findOneBy(['username' => $username]);
 
-echo "<div id='content_double' class='profile'>";
+echo "<div class='content-full profile'>";
 if ($user) {
     $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);
     $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);

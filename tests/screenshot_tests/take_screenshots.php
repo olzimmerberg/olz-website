@@ -18,7 +18,7 @@ require_once __DIR__.'/utils/window.php';
 require_once __DIR__.'/modules/aktuell.php';
 require_once __DIR__.'/modules/app_files.php';
 require_once __DIR__.'/modules/apps.php';
-require_once __DIR__.'/modules/bild_der_woche.php';
+require_once __DIR__.'/modules/weekly_picture.php';
 require_once __DIR__.'/modules/datenschutz.php';
 require_once __DIR__.'/modules/downloads.php';
 require_once __DIR__.'/modules/email_reaktion.php';
@@ -79,7 +79,7 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
-        test_bild_der_woche($driver, $base_url);
+        test_weekly_picture($driver, $base_url);
         test_aktuell($driver, $base_url);
         test_leistungssport($driver, $base_url);
         test_termine($driver, $base_url);
@@ -161,10 +161,10 @@ try {
     // $driver->findElement(WebDriverBy::id('menu_a_pageftp'))->click();
     // $driver->wait()->until(
     //     WebDriverExpectedCondition::elementToBeClickable(
-    //         WebDriverBy::id('content_double')
+    //         WebDriverBy::id('content-full')
     //     )
     // );
-    // $ftp_elem = $driver->findElement(WebDriverBy::id('content_double'));
+    // $ftp_elem = $driver->findElement(WebDriverBy::id('content-full'));
     // echo "Login text: {$ftp_elem->getText()}";
 
     //

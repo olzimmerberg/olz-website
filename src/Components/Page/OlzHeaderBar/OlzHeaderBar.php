@@ -118,7 +118,7 @@ class OlzHeaderBar {
         // $out .= OlzHeaderJomCounter::render();
 
         // Nat. OL Weekend Davos Klosters
-        $out .= "<div class='header-box'><a href='{$code_href}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$data_href}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
+        // $out .= "<div class='header-box'><a href='{$code_href}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$data_href}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
 
         // OLZ Trophy 2017
         $out .= "<div class='header-box'><a href='trophy.php' id='trophy-link'><img src='{$data_href}img/trophy.png' alt='trophy' /></a></div>";

@@ -16,7 +16,6 @@ class Olz404NotFound {
             'title' => "Fehler",
             'skip_auth_menu' => true,
             'skip_counter' => true,
-            'skip_top_boxes' => true,
         ]);
         $out .= "<div class='content-full'>";
         $out .= <<<ZZZZZZZZZZ

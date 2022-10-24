@@ -4,7 +4,7 @@ export function resizeHeaderBar(): void {
         return;
     }
     const isMinified = headerBarElem.className.indexOf('minified') !== -1;
-    const shouldBeMinified = window.pageYOffset > 100;
+    const shouldBeMinified = window.pageYOffset > 30;
     if (shouldBeMinified && !isMinified) {
         headerBarElem.className = `${headerBarElem.className} minified`;
     }

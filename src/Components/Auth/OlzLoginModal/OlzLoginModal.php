@@ -23,7 +23,7 @@ class OlzLoginModal {
         <div class='modal fade' id='login-modal' tabindex='-1' aria-labelledby='login-modal-label' aria-hidden='true'>
             <div class='modal-dialog'>
                 <div class='modal-content'>
-                    <form onsubmit='olzLoginModalLogin();return false;'>
+                    <form onsubmit='olz.olzLoginModalLogin();return false;'>
                         <div class='modal-header'>
                             <h5 class='modal-title' id='login-modal-label'>Login</h5>
                             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
@@ -90,7 +90,7 @@ class OlzLoginModal {
                                 type='button'
                                 class='btn btn-secondary'
                                 data-bs-dismiss='modal'
-                                onclick='olzLoginModalCancel()'
+                                onclick='olz.olzLoginModalCancel()'
                             >
                                 Abbrechen
                             </button>

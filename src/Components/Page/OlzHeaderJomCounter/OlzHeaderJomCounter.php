@@ -135,14 +135,14 @@ class OlzHeaderJomCounter {
         $out .= "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h2>";
         $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu 2019'>".round($percent_kids, 2)."%</div>";
         $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von Jugndlichen 2020 / 2019'>";
-        $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2020&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2020}</a> / ";
-        $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-kids-2019&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2019}</a>";
+        $out .= "<a href='javascript:' onclick='olz.headerToggle(&quot;ranking-kids-2020&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2020}</a> / ";
+        $out .= "<a href='javascript:' onclick='olz.headerToggle(&quot;ranking-kids-2019&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_2019}</a>";
         $out .= "</div>";
         $out .= "<h2 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h2>";
         $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_j_und_s.";' title='Wie viele J&S-Leiter im Vergleich zu 2019'>".round($percent_j_und_s, 2)."%</div>";
         $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von OLZ-J&S-Leitern 2020 / 2019'>";
-        $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2020&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2020}</a> / ";
-        $out .= "<a href='javascript:' onclick='headerToggle(&quot;ranking-junds-2019&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2019}</a>";
+        $out .= "<a href='javascript:' onclick='olz.headerToggle(&quot;ranking-junds-2020&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2020}</a> / ";
+        $out .= "<a href='javascript:' onclick='olz.headerToggle(&quot;ranking-junds-2019&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_2019}</a>";
         $out .= "</div>";
         $out .= "</div></div></div>";
         $out .= $htmlout_kids_2019;

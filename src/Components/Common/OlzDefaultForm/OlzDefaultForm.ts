@@ -1,4 +1,6 @@
 import * as bootstrap from 'bootstrap';
+import $ from 'jquery';
+
 import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../../src/Api/client';
 import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
 

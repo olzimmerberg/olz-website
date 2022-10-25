@@ -13,11 +13,11 @@ export function toggleMap(id: string, xkoord: number, ykoord: number): boolean {
         div.style.display = '';
         const wid = spalte1.offsetWidth - 20;
         div.innerHTML = getMapHtml(xkoord, ykoord, wid);
-        button.innerHTML = `<a href='' onclick="toggleMap('${id}',${xkoord},${ykoord});return false;" class='linkmap'>Karte ausblenden</a>`;
+        button.innerHTML = `<a href='' onclick="olz.toggleMap('${id}',${xkoord},${ykoord});return false;" class='linkmap'>Karte ausblenden</a>`;
     } else {
         div.style.display = 'none';
         div.innerHTML = '';
-        button.innerHTML = `<a href='' onclick="toggleMap('${id}',${xkoord},${ykoord});return false;" class='linkmap'>Karte zeigen</a>`;
+        button.innerHTML = `<a href='' onclick="olz.toggleMap('${id}',${xkoord},${ykoord});return false;" class='linkmap'>Karte zeigen</a>`;
     }
     return false;
 }

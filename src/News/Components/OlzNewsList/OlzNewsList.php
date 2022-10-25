@@ -90,7 +90,7 @@ class OlzNewsList {
                 <button
                     id='create-news-button'
                     class='btn btn-primary'
-                    onclick='return initOlzEditNewsModal()'
+                    onclick='return olz.initOlzEditNewsModal()'
                 >
                     <img src='icns/new_white_16.svg' class='noborder' />
                     Neuer Eintrag

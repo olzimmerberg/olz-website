@@ -22,7 +22,7 @@ class OlzChangePasswordModal {
                         <form
                             id='change-password-form'
                             class='default-form'
-                            onsubmit='return olzChangePasswordModalUpdate({$esc_id}, this);'
+                            onsubmit='return olz.olzChangePasswordModalUpdate({$esc_id}, this);'
                         >
                             <div class='modal-header'>
                                 <h5 class='modal-title' id='change-password-modal-label'>Passwort ändern</h5>

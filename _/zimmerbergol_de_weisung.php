@@ -25,14 +25,14 @@
     </tr>
     <tr>
         <td><b>Auskunft</b></td>
-        <td><script type="text/javascript">document.write(MailTo("sprintol", "olzimmerberg.ch", "Laufleitung", "2. Nat. OL 2019"));
+        <td><script type="text/javascript">document.write(olz.MailTo("sprintol", "olzimmerberg.ch", "Laufleitung", "2. Nat. OL 2019"));
             </script>/ +41 78 709 06 78 / Thomas Attinger
         </td>
     </tr>
     <tr>
         <td><b>Presse</b></td>
         <td>Martin Gross, Kirchstrasse 7, 8805 Richterswil
-<script type="text/javascript">document.write(MailTo("martin.gross", "olzimmerberg.ch", "Kontakt", "2. Nat. OL 2019"));</script>; +41 79 827 59 53
+<script type="text/javascript">document.write(olz.MailTo("martin.gross", "olzimmerberg.ch", "Kontakt", "2. Nat. OL 2019"));</script>; +41 79 827 59 53
         </td>
     </tr>
     <tr><td colspan='2' class='trenner'></td></tr>
@@ -93,11 +93,11 @@
     </tr>
     <tr>
         <td><b>Nachmeldungen</td>
-        <td>Solange Startplätze vorhanden sind, spätestens bis 9. Mai 2019. Schriftlich via <script type="text/javascript">document.write(MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2. Nat. OL 2019 - Nachmeldung"));</script> einzureichen. Gebühr: CHF 10.--, bezahlbar im Wettkampfzentrum.</td>
+        <td>Solange Startplätze vorhanden sind, spätestens bis 9. Mai 2019. Schriftlich via <script type="text/javascript">document.write(olz.MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2. Nat. OL 2019 - Nachmeldung"));</script> einzureichen. Gebühr: CHF 10.--, bezahlbar im Wettkampfzentrum.</td>
     </tr>
     <tr>
         <td><b>Mutationen</b></td>
-        <td>Spätestens bis 11. Mai 2019. Nachmeldungen und Mutationen sind schriftlich via Compass ZOS <script type="text/javascript">document.write(MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2. Nat. OL 2019 - Mutation"));
+        <td>Spätestens bis 11. Mai 2019. Nachmeldungen und Mutationen sind schriftlich via Compass ZOS <script type="text/javascript">document.write(olz.MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2. Nat. OL 2019 - Mutation"));
             </script> einzureichen. Gebühr: CHF 10.--, bezahlbar im Wettkampfzentrum.
         </td>
     </tr>

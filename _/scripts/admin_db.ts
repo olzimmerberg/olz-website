@@ -85,7 +85,7 @@ export function Linkhilfe(): void {
             break;
         }
         case '4' :
-            thisForm.terminelink.value = `${thisForm.terminelink.value}<script type="text/javascript">MailTo("vorAt", "nachAt", "Bezeichnung", "Betreff");</script>\n`;
+            thisForm.terminelink.value = `${thisForm.terminelink.value}<script type="text/javascript">olz.MailTo("vorAt", "nachAt", "Bezeichnung", "Betreff");</script>\n`;
             break;
         case '5' :
             thisForm.terminelink.value = `${thisForm.terminelink.value}<a href="${thisForm.help_set_link.value}" class="linkint"></a>\n`;

@@ -68,7 +68,7 @@ while ($row = $result->fetch_assoc()) {
         $text = mb_substr($text, 0, mb_strrpos($text, " "));
         $text = $text." (...)";
         if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
         }
 
         $bild = $image_utils->olzImage("blog", $id, 1, 110, 'image', " style='float:left; margin:0px 5px 0px 0px;'");
@@ -96,7 +96,7 @@ while ($row = $result->fetch_assoc()) {
         $icon = "icns/entry_type_forum_20.svg";
         $titel = "Forum: ".$titel;
         if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
 
         echo OlzPostingListItem::render([
@@ -112,7 +112,7 @@ while ($row = $result->fetch_assoc()) {
         $link = "galerie.php?id=".$id;
         $icon = "icns/entry_type_gallery_20.svg";
         if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
         }
         $text = "";
         if ($pfad && $typ == "foto") {
@@ -155,7 +155,7 @@ while ($row = $result->fetch_assoc()) {
         $image_ids = $row['f1'];
         $titel = "Aktuell: ".$titel;
         if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='javascript:location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
+            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
         }
         if ($aktuell_typ != 'aktuell') {
             $text = $row['textlang'];
@@ -176,12 +176,12 @@ while ($row = $result->fetch_assoc()) {
     // if ($thistype!='galerie') $text = "<a href='".$link."' style='display:block;color:#000000;' class='paragraf'>".$text."</a>";
 
     /*
-    echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
+    echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='location.href=\"$link\";return false;'>
     <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'><img src='icns/".$icon."' class='noborder' alt=''></span><span style='vertical-align:bottom;color:#000;padding-right:15px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
     ".$text."</div>";
     */
     /* TEST ICONS
-        echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;background-image:url(icns/_$icon);background-position:3% 6%;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='javascript:location.href=\"$link\";return false;'>
+        echo"<div style='clear:left; overflow:hidden; cursor:pointer; border-radius:3px; padding:5px;background-image:url(icns/_$icon);background-position:3% 6%;' onmouseover='this.style.backgroundColor=\"#D4E7CE\";' onmouseout='this.style.backgroundColor=\"\";' onclick='location.href=\"$link\";return false;'>
         <a href='".$link."' class='titel' style='display:block;'><span style='float:left;width:24px;'></span><span style='vertical-align:bottom;color:#000;padding-right:15px;padding-left:75px;'>".$edit_admin.$titel."</span><span style='float:right;padding-left:2px;text-align:right;color:#000;'>".$_DATE->olzDate("tt.mm.jj",$datum)."</span></a>
         ".$text."</div>";*/
 }

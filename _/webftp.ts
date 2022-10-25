@@ -1,5 +1,7 @@
 // TODO: Remove this
 
+import $ from 'jquery';
+
 import {callOlzApi} from './../src/Api/client';
 
 export function generateWebdavAccessToken(): boolean {

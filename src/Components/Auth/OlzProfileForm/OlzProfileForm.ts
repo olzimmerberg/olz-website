@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import {initOlzUpdateUserAvatarModal, OlzUpdateUserAvatarModalChangeEvent} from '../OlzUpdateUserAvatarModal/OlzUpdateUserAvatarModal';
 
 export function olzProfileFormUpdateAvatar(form: HTMLFormElement): boolean {

@@ -3,7 +3,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {StatsWriterPlugin} = require('webpack-stats-plugin');
@@ -50,11 +49,6 @@ const defaultConfig = {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            '$': 'jquery',
-            'jQuery': 'jquery',
-            'window.jQuery': 'jquery',
-        }),
         new MiniCssExtractPlugin({
             filename: '[name].min.css',
         }),

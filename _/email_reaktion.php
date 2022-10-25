@@ -40,7 +40,7 @@ if ($reaction_data) {
     {$question}
     <p>
         <a class='btn btn-secondary' href='{$code_href}' role='button'>Abbrechen</a>
-        <button class='btn btn-danger' type='submit' onclick='olzExecuteEmailReaction({$js_token})'>Ausführen</button>
+        <button class='btn btn-danger' type='submit' onclick='olz.olzExecuteEmailReaction({$js_token})'>Ausführen</button>
     </p>
     <div id='email-reaction-success-message' class='alert alert-success' role='alert'></div>
     <div id='email-reaction-error-message' class='alert alert-danger' role='alert'></div>

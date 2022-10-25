@@ -47,7 +47,7 @@ class OlzEditableText {
                 <div class='rendered-html'>
                     <button
                         type='button'
-                        onclick='olzEditableTextEdit(this)'
+                        onclick='olz.olzEditableTextEdit(this)'
                         class='btn btn-link olz-edit-button'
                     >
                         <img src='{$code_href}icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
@@ -57,7 +57,7 @@ class OlzEditableText {
                 <div class='edit-markdown'>
                     <form
                         class='default-form'
-                        onsubmit='return olzEditableTextSubmit({$esc_endpoint}, {$esc_args},{$esc_text_arg}, this)'
+                        onsubmit='return olz.olzEditableTextSubmit({$esc_endpoint}, {$esc_args},{$esc_text_arg}, this)'
                     >
                         <textarea name='text'>{$raw_markdown}</textarea>
                         <div class='error-message alert alert-danger' role='alert'></div>
@@ -65,7 +65,7 @@ class OlzEditableText {
                             <button
                                 type='button'
                                 class='btn btn-secondary'
-                                onclick='olzEditableTextCancel(this)'
+                                onclick='olz.olzEditableTextCancel(this)'
                             >
                                 Abbrechen
                             </button>

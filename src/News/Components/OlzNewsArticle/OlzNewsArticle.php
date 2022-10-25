@@ -62,7 +62,7 @@ class OlzNewsArticle {
                     <button
                         id='edit-news-button'
                         class='btn btn-primary'
-                        onclick='return editNewsArticle({$json_id})'
+                        onclick='return olz.editNewsArticle({$json_id})'
                     >
                         <img src='icns/edit_16.svg' class='noborder' />
                         Bearbeiten
@@ -70,7 +70,7 @@ class OlzNewsArticle {
                     <button
                         id='delete-news-button'
                         class='btn btn-danger'
-                        onclick='return deleteNewsArticle({$json_id})'
+                        onclick='return olz.deleteNewsArticle({$json_id})'
                     >
                         <img src='icns/delete_white_16.svg' class='noborder' />
                         Löschen

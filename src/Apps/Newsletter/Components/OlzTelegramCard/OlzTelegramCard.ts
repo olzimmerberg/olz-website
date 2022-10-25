@@ -1,6 +1,8 @@
-import './OlzTelegramCard.scss';
+import $ from 'jquery';
 
 import {callOlzApi} from '../../../../../src/Api/client';
+
+import './OlzTelegramCard.scss';
 
 export function olzTelegramNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
     const monthlyPreview = form['monthly-preview'].checked ?? false;

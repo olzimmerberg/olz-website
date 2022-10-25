@@ -118,7 +118,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $img_height = $img_info_gross[1];
             $img_href = "{$data_href}img/karten/{$thumb}";
             $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
-        // $map = "<img src='icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"hidetrail();\">";}
+        // $map = "<img src='icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
         } else {
             $map = '';
         }
@@ -141,7 +141,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         if ($center_x > 0) {
             echo <<<ZZZZZZZZZZ
             <tr>
-                <td>{$edit_admin}<a href='#{$name}' onclick='goto({$center_x},{$center_y},{$zoom},\\"".{$name}."\\");return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
+                <td>{$edit_admin}<a href='#{$name}' onclick='goto({$center_x},{$center_y},{$zoom},&quot;{$name}&quot;);return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
                 <td>{$massstab}</td>
                 <td>{$jahr}</td>
             </tr>

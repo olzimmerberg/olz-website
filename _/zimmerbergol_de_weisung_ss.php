@@ -7,7 +7,7 @@
     </tr>
     <tr>
         <td><b>Laufleitung / Auskunft</b></td>
-        <td><script type="text/javascript">document.write(MailTo("jan.hug", "olzimmerberg.ch", "Jan Hug", "Sprint-Staffel"));
+        <td><script type="text/javascript">document.write(olz.MailTo("jan.hug", "olzimmerberg.ch", "Jan Hug", "Sprint-Staffel"));
             </script>
         </td>
     </tr>
@@ -57,7 +57,7 @@
     </tr>
     <tr>
         <td><b>Mutationen</b></td>
-        <td>Das Auswechseln von Teammitgliedern ist bis am 9. Mai 2019, 22:00 Uhr kostenlos möglich. Die Änderungen der Staffelzusammensetzung sind per Mail an <script type="text/javascript">document.write(MailTo("andre_schnyder", "hotmail.com", "André Schnyder", "Sprintstaffel - Mutation"));</script> möglich.<br>In Ausnahmefällen (z.B. Verletzung am Morgen am Wettkampf) ist eine Mutation bis 2 Std. vor dem Start an der Information möglich. Gebühr CHF 10.00</td>
+        <td>Das Auswechseln von Teammitgliedern ist bis am 9. Mai 2019, 22:00 Uhr kostenlos möglich. Die Änderungen der Staffelzusammensetzung sind per Mail an <script type="text/javascript">document.write(olz.MailTo("andre_schnyder", "hotmail.com", "André Schnyder", "Sprintstaffel - Mutation"));</script> möglich.<br>In Ausnahmefällen (z.B. Verletzung am Morgen am Wettkampf) ist eine Mutation bis 2 Std. vor dem Start an der Information möglich. Gebühr CHF 10.00</td>
     </tr>
     <tr>
         <td><b>Startnummern</b></td>
@@ -110,7 +110,7 @@ Die Läufer/innen der 2. bis 4. Strecke löschen und prüfen ihre SI-Card selbst
     </tr>
     <tr>
         <td><b>Start-Ziel Übersicht</b></td>
-        <td><a href='img/zol_2019/zol19_ss.png' target='_blank'><img src='img/zol_2019/zol19_ss.png' style='width:90%;margin:5px;' onmouseover="showImage('img/zol_2019/zol19_ss.png','','','','','','','','','','','','');" onmouseout="hidetrail();"></a>
+        <td><a href='img/zol_2019/zol19_ss.png' target='_blank'><img src='img/zol_2019/zol19_ss.png' style='width:90%;margin:5px;' onmouseover="olz.showImage('img/zol_2019/zol19_ss.png','','','','','','','','','','','','');" onmouseout="olz.hidetrail();"></a>
     </tr>
     <tr>
         <td><b>Demonstration</b></td>

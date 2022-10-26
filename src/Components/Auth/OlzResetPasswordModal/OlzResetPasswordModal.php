@@ -11,7 +11,7 @@ class OlzResetPasswordModal {
                     <form
                         id='reset-password-form'
                         class='default-form'
-                        onsubmit='return olzResetPasswordModalReset(this);'
+                        onsubmit='return olz.olzResetPasswordModalReset(this);'
                     >
                         <div class='modal-header'>
                             <h5 class='modal-title' id='reset-password-modal-label'>Passwort zurücksetzen</h5>

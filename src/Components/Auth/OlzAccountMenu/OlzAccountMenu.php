@@ -35,7 +35,7 @@ class OlzAccountMenu {
                 id='logout-menu-item'
                 class='dropdown-item'
                 href='#'
-                onclick='olzAccountMenuLogout()'
+                onclick='olz.olzAccountMenuLogout()'
             >
                 Logout
             </a>
@@ -46,7 +46,7 @@ class OlzAccountMenu {
                 id='login-menu-item'
                 class='dropdown-item'
                 href='#login-dialog'
-                onclick='olzLoginModalShow()'
+                onclick='olz.olzLoginModalShow()'
                 role='button'
             >
                 Login

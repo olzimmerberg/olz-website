@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import {callOlzApi} from './../src/Api/client';
 
 export function olzExecuteEmailReaction(token: string): boolean {

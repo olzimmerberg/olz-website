@@ -99,7 +99,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
             <button
                 type='button'
                 class='btn btn-danger'
-                onclick='return revokeWebdavAccessToken()'
+                onclick='return olz.revokeWebdavAccessToken()'
             >
                 WebDAV-Zugang deaktivieren
             </button>
@@ -110,7 +110,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
             <button
                 type='button'
                 class='btn btn-secondary'
-                onclick='return generateWebdavAccessToken()'
+                onclick='return olz.generateWebdavAccessToken()'
             >
                 WebDAV-Zugang erstellen
             </button>

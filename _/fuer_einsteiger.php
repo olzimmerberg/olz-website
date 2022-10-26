@@ -210,7 +210,7 @@ echo <<<ZZZZZZZZZZ
     <p class='slogan'>Du möchtest mal OL-Luft schnuppern?</p>
     <p class='description'>Am besten kommst du in eines unserer <b>Trainings</b> (zur Vorbereitung haben wir ein <a href='https://youtu.be/PjsDAQM1kxA' rel='noopener noreferrer' target='_blank' class='linkext'>Youtube Video</a> erstellt).</p>
     <p class='description'>Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Kinder und Jugendliche.</p>
-    <p class='description'>Weitere Anlässe findest du bei den <a href='termine.php' onmouseover='highlight_menu(event)' onmouseout='unhighlight_menu(event)' class='linkint'>Terminen</a>.</p>
+    <p class='description'>Weitere Anlässe findest du bei den <a href='termine.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Terminen</a>.</p>
 </div>
 
 <div class='clear-both'></div>

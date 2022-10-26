@@ -118,7 +118,7 @@ function termine_ticker($settings) {
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p{$class_heute}><a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='mousein(\"terminticker".$id_tmp."\")' onmouseout='mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}><a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>";
 }

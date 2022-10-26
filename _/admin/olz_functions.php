@@ -20,7 +20,7 @@ function olz_mask_email($string, $name, $subject) {
     foreach (array_unique($matches[0]) as $email) {
         $p1 = substr($email, 0, strpos($email, "@"));
         $p2 = substr($email, strpos($email, "@") + 1, strlen($email));
-        $string = str_replace($email, "<script type='text/javascript'>MailTo('".$p1."', '".$p2."', '{$name}', '{$subject}');</script>", $string);
+        $string = str_replace($email, "<script type='text/javascript'>olz.MailTo('".$p1."', '".$p2."', '{$name}', '{$subject}');</script>", $string);
     }
     return $string;
 }

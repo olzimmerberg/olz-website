@@ -265,7 +265,7 @@ if (!function_exists('olz_files_edit')) {
         $htmlout = "";
         $ident = "olzfileedit".md5($db_table."-".$id);
         $htmlout .= "<div id='".$ident."'></div>";
-        $htmlout .= "<script type='text/javascript'>olz_files_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
+        $htmlout .= "<script type='text/javascript'>olz.olz_files_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
         return $htmlout;
     }
 }

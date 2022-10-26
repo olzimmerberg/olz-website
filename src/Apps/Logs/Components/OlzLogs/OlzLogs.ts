@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import {callOlzApi} from '../../../../Api/client';
 
 import './OlzLogs.scss';

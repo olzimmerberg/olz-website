@@ -29,7 +29,7 @@ echo "<h4 class='tablebar'>Elite</h4>
 <br />
 <h4 class='tablebar'>Trainer Team Gold</h4>
 <div><b>Hauptleitung</b></div>
-<script>MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold')</script>
+<script>olz.MailTo('tiziana.rigamonti', 'olzimmerberg.ch', 'Tiziana Rigamonti', 'Team Gold')</script>
 <div><b>Trainerteam</b></div>
 <div>Florian Attinger</div>
 <div>Michael Felder</div>

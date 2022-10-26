@@ -24,7 +24,7 @@ echo <<<'ZZZZZZZZZZ'
 <form
     id='sign-up-with-password-form'
     class='default-form'
-    onsubmit='return olzKontoSignUpWithPassword(this)'
+    onsubmit='return olz.olzKontoSignUpWithPassword(this)'
 >
     <div class='success-message alert alert-success' role='alert'></div>
 ZZZZZZZZZZ;

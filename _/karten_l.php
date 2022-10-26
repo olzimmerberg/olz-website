@@ -79,7 +79,7 @@ echo OlzEditableText::render(['olz_text_id' => 12]);
 ?>
 <!--<div class="nobox">
     Silvia Baumann<br>Seegartenstrasse 26<br>8810 Horgen<br>Tel. 044 726 06 94<br>
-    <script type="text/javascript">MailTo("kartenverkauf", "olzimmerberg.ch", "Karten bestellen", "Bestellung%20OL-Karten");
+    <script type="text/javascript">olz.MailTo("kartenverkauf", "olzimmerberg.ch", "Karten bestellen", "Bestellung%20OL-Karten");
     </script>
 </div>
 

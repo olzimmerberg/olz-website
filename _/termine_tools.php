@@ -347,7 +347,7 @@ if ($zugriff == "1") {
 
             // HTML-Ausgabe
             if (($xkoord > 0) and ($datum_end > $heute)) {
-                $maplink = "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"map('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
+                $maplink = "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"olz.map('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
             } else {
                 $maplink = "";
             }

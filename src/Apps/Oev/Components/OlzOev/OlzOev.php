@@ -42,7 +42,7 @@ class OlzOev {
         if ($has_access) {
             echo <<<'ZZZZZZZZZZ'
             <div id='oev-root'></div>
-            <script>initOlzTransportConnectionSearch();</script>
+            <script>olz.initOlzTransportConnectionSearch();</script>
             ZZZZZZZZZZ;
         } else {
             echo <<<'ZZZZZZZZZZ'

@@ -24,11 +24,11 @@ $granted_scope = $_GET['scope'];
 $js_code = json_encode($code);
 
 echo <<<ZZZZZZZZZZ
-<script>olzKontoLoginWithStrava({$js_code})</script>
+<script>olz.olzKontoLoginWithStrava({$js_code})</script>
 <div id='sign-up-with-strava-login-status' class='alert alert-secondary'>Login mit Strava wird gestartet...</div>
 <form
     id='sign-up-with-strava-form'
-    onsubmit='return olzKontoSignUpWithStrava(this)'
+    onsubmit='return olz.olzKontoSignUpWithStrava(this)'
     class='default-form hidden'
 >
     <div class='success-message alert alert-success' role='alert'></div>

@@ -1,4 +1,6 @@
 import * as bootstrap from 'bootstrap';
+import $ from 'jquery';
+
 import {callOlzApi} from '../../../../src/Api/client';
 
 $(() => {

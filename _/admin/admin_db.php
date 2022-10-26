@@ -167,9 +167,9 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["id", "ID", "hidden", "''", "", "", "", ""],
         ["datum", "Datum (Beginn)", "datum", "olz_current_date('Y-m-d')", "Format: yyyy-mm-tt (z.B. '2006-01-31')", "", "", ""],
         ["zeit", "Zeit (Beginn)", "zeit", "'00:00:00'", "Format: hh:mm:ss (z.B. '18:30:00')", "", "", ""],
-        ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
+        ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='olz.End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
         ["zeit_end", "Zeit (Ende)", "zeit", "'00:00:00'", "Format: hh:mm:ss (z.B. '18:30:00')", "", "", ""],
-        ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
+        ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='olz.Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
         ["titel", "Titel", "text", "''", "", "<select name='set_titel' style='width:33%;margin-left:10px;' size='1'
 onchange='Titel_angleichen()' class='dropdown'>
 <option value=''>&nbsp;</option>
@@ -185,7 +185,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 
         ["link", "Link", "textarea", "''", "",
             "<p>
-<input value='+' style='width:18px;' type='button' onclick='Linkhilfe()' class='dropdown'>
+<input value='+' style='width:18px;' type='button' onclick='olz.Linkhilfe()' class='dropdown'>
 <select name='set_link' style='width: 33%;' size='1' class='dropdown'>
 <option value=''>&nbsp;</option>
 <option value='1'>Ausschreibung</option>
@@ -199,7 +199,7 @@ onchange='Titel_angleichen()' class='dropdown'>
 </select>
 <input name='help_set_link' value='' style='width: 56%;' type='text'>", "", " rows='4'", ],
         ["teilnehmer", "TeilnehmerInnen", "number", "", "", "", "", ""],
-        ["xkoord", "X-Koordinate", "number", "", "", "<input type='button' name='' onclick='koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"	263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:150px;", ""],
+        ["xkoord", "X-Koordinate", "number", "", "", "<input type='button' name='' onclick='olz.koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"	263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:150px;", ""],
         ["ykoord", "Y-Koordinate", "number", "", "", "", "width:150px;", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],
         ["newsletter", "Newsletter für Änderung", "boolean", "1", "", "", "", ""],

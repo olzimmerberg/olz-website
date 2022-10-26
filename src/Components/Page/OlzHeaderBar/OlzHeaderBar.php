@@ -38,7 +38,7 @@ class OlzHeaderBar {
         $out .= "</div>"; // menu-container
         $out .= "</div>"; // below-header
 
-        $out .= "<div id='menu-switch' onclick='toggleMenu()' />";
+        $out .= "<div id='menu-switch' onclick='olz.toggleMenu()' />";
         $out .= "<img src='{$code_href}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
         $out .= "<img src='{$code_href}icns/menu_close.svg' alt='' class='menu-close noborder' />";
         $out .= "</div>";

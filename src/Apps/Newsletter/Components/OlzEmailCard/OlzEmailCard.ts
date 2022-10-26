@@ -1,6 +1,8 @@
-import './OlzEmailCard.scss';
+import $ from 'jquery';
 
 import {callOlzApi} from '../../../../../src/Api/client';
+
+import './OlzEmailCard.scss';
 
 export function olzEmailNotificationsUpdate(form: Record<string, {value?: string, checked?: boolean}>): boolean {
     const monthlyPreview = form['monthly-preview'].checked ?? false;

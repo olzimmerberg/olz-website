@@ -66,7 +66,7 @@ if ($user) {
         <button
             id='delete-user-button'
             class='btn btn-danger'
-            onclick='return olzProfileDeleteUser({$esc_id})'
+            onclick='return olz.olzProfileDeleteUser({$esc_id})'
         >
             <img src='icns/delete_white_16.svg' class='noborder' />
             Konto löschen
@@ -78,7 +78,7 @@ if ($user) {
     <form
         id='profile-form'
         class='default-form'
-        onsubmit='return olzProfileUpdateUser({$esc_id}, this)'
+        onsubmit='return olz.olzProfileUpdateUser({$esc_id}, this)'
     >
         <div class='success-message alert alert-success' role='alert'></div>
         <input

@@ -1,4 +1,6 @@
 import * as bootstrap from 'bootstrap';
+import $ from 'jquery';
+
 import {OlzApiResponses} from '../../../Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
 import {loadScript} from '../../../Utils/generalUtils';

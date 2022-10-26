@@ -43,7 +43,7 @@ if ($user) {
     }
 } else {
     echo "<div>Bitte einloggen, um Telegram-Chat zu verlinken...</div>";
-    echo "<div><a href='#login-dialog' onclick='olzLoginModalShow()' role='button'><b>Login</b></a></div>";
+    echo "<div><a href='#login-dialog' onclick='olz.olzLoginModalShow()' role='button'><b>Login</b></a></div>";
 }
 
 echo "</div>

@@ -66,7 +66,7 @@ class OlzProfileForm {
                 <button
                     type='button'
                     class='btn btn-secondary'
-                    onclick='return olzProfileFormUpdateAvatar(this.form);'
+                    onclick='return olz.olzProfileFormUpdateAvatar(this.form);'
                     id='update-user-avatar-button'
                 >
                     Bild anpassen
@@ -74,7 +74,7 @@ class OlzProfileForm {
                 <button
                     type='button'
                     class='btn btn-secondary'
-                    onclick='return olzProfileFormRemoveAvatar(this.form);'
+                    onclick='return olz.olzProfileFormRemoveAvatar(this.form);'
                     id='remove-user-avatar-button'
                 >
                     Bild löschen
@@ -119,7 +119,7 @@ class OlzProfileForm {
                     value='{$esc_username}'
                     class='form-control'
                     id='profile-username-input'
-                    onfocus='return olzProfileFormOnUsernameFocus(this.form);'
+                    onfocus='return olz.olzProfileFormOnUsernameFocus(this.form);'
                 />
             </div>
             <div class='col change-password-cell'>

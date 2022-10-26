@@ -35,7 +35,7 @@ class Olz500ServerInternalError {
         <p>Alle Karten müssen nachgedruckt werden!</p>
         <p>Bitte lass den Bahnleger unverzüglich wissen, dass hier ein Problem vorliegt:
         <script type='text/javascript'>
-            MailTo("website", "olzimmerberg.ch", "Bahnleger", "Fehler%20500%20OLZ");
+            olz.MailTo("website", "olzimmerberg.ch", "Bahnleger", "Fehler%20500%20OLZ");
         </script></p>
         <p>In der Zwischenzeit kannst du dir <a href='{$code_href}startseite.php' class='linkint'>am Start ein wenig die Beine vertreten</a>, oder es später nochmals versuchen.</p>
         ZZZZZZZZZZ;

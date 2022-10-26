@@ -24,7 +24,7 @@
     </tr>
     <tr>
         <td><b>Informations</b></td>
-        <td><script type="text/javascript">document.write(MailTo("sprintol", "olzimmerberg.ch", "Laufleitung", "2. Nat. OL 2019"));
+        <td><script type="text/javascript">document.write(olz.MailTo("sprintol", "olzimmerberg.ch", "Laufleitung", "2. Nat. OL 2019"));
             </script>/ +41 78 709 06 78
         </td>
     </tr>
@@ -90,11 +90,11 @@ Classique: avec versement sur CCP 30-558909-4, Schweiz. OL Verband, 4600 Olten. 
     </tr>
     <tr>
         <td><b>Inscriptions tardives</b></td>
-        <td>Selon disponibilité, jusqu'au 9 mai 2019. Veuillez faire les inscriptions tardives sur <script type="text/javascript">document.write(MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2ème CO nationale - Inscription tardive"));</script><br>Frais: CHF 10.-, à payer au centre de course.</td>
+        <td>Selon disponibilité, jusqu'au 9 mai 2019. Veuillez faire les inscriptions tardives sur <script type="text/javascript">document.write(olz.MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2ème CO nationale - Inscription tardive"));</script><br>Frais: CHF 10.-, à payer au centre de course.</td>
     </tr>
     <tr>
         <td><b>Mutations</b></td>
-        <td>Jusqu'au 11 mai 2019. Veuillez faire les mutations sur <script type="text/javascript">document.write(MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2ème CO nationale - Mutation"));</script><br>Frais: CHF 10.-, à payer au centre de course.
+        <td>Jusqu'au 11 mai 2019. Veuillez faire les mutations sur <script type="text/javascript">document.write(olz.MailTo("andre_schnyder", "hotmail.com", "Compass ZOS", "2ème CO nationale - Mutation"));</script><br>Frais: CHF 10.-, à payer au centre de course.
         </td>
     </tr>
     <tr>
@@ -126,7 +126,7 @@ Catégories ouvertes: CHF 14.--/19.--/28.-- selon l'âge
     <tr>
         <td><b>Presse</b></td>
         <td>Martin Gross, Kirchstrasse 7, 8805 Richterswil
-<script type="text/javascript">document.write(MailTo("martin.gross", "olzimmerberg.ch", "Kontakt", "2. Nat. OL 2019"));</script>; +41 79 827 59 53
+<script type="text/javascript">document.write(olz.MailTo("martin.gross", "olzimmerberg.ch", "Kontakt", "2. Nat. OL 2019"));</script>; +41 79 827 59 53
         </td>
     </tr>
     <tr>
@@ -217,7 +217,7 @@ Catégories ouvertes: CHF 14.--/19.--/28.-- selon l'âge
     <tr><td style='width:20%;'><b>Organisation</b></td><td style='width:80%;'>OL Zimmerberg</td></tr>
     <tr>
         <td><b>Chef de course/ informations</b></td>
-        <td><script type="text/javascript">document.write(MailTo("jan.hug", "olzimmerberg.ch", "Jan Hug", "Relais Sprint pour tous"));
+        <td><script type="text/javascript">document.write(olz.MailTo("jan.hug", "olzimmerberg.ch", "Jan Hug", "Relais Sprint pour tous"));
             </script></td>
     </tr>
     <tr>

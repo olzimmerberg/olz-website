@@ -11,6 +11,7 @@
         "_/config/vendor/**": true,
         "_/library/**": true,
         "tools/remote_config/vendor/**": true,
+        "tests/**/data/**/*.txt": true,
         "**/jsbuild/**": true,
     },
 }

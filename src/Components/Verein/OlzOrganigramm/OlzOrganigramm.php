@@ -73,10 +73,10 @@ class OlzOrganigramm {
         $org .= "</table></div>";
 
         return "<div id='organigramm'><h2>Häufig gesucht</h2>
-        <div><b><a href='javascript:highlight_organigramm(&quot;link-role-5&quot;)' class='linkint'>Präsident</a></b></div>
-        <div><b><a href='javascript:highlight_organigramm(&quot;link-role-6&quot;)' class='linkint'>Mitgliederverwaltung</a></b></div>
-        <div><b><a href='javascript:highlight_organigramm(&quot;link-role-18&quot;)' class='linkint'>Kartenverkauf</a></b></div>
-        <div><b><a href='javascript:highlight_organigramm(&quot;link-role-19&quot;)' class='linkint'>Kleiderverkauf</a></b></div>
+        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-5&quot;)' class='linkint'>Präsident</a></b></div>
+        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-6&quot;)' class='linkint'>Mitgliederverwaltung</a></b></div>
+        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-18&quot;)' class='linkint'>Kartenverkauf</a></b></div>
+        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-19&quot;)' class='linkint'>Kleiderverkauf</a></b></div>
         <div>
             <br />
             <div><b>PC-Konto</b></div>

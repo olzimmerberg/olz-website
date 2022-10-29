@@ -24,7 +24,7 @@ class OlzCustomizableHome {
             OlzForBeginnersTile::class,
             OlzWeeklyPictureTile::class,
             OlzTermineListsTile::class,
-            // OlzTermineDeadlinesTile::class,
+            OlzTermineDeadlinesTile::class,
             OlzTermineUpdatesTile::class,
             OlzNewsListsTile::class,
             OlzCustomTile::class,

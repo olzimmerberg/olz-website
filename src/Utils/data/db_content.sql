@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20221024123804
+-- MIGRATION: DoctrineMigrations\Version20221029112426
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -65,7 +65,8 @@ VALUES
     ('DoctrineMigrations\\Version20220820142330', '2022-08-20 14:32:06', '130'),
     ('DoctrineMigrations\\Version20220910163629', '2022-09-10 16:37:39', '121'),
     ('DoctrineMigrations\\Version20220912114134', '2022-09-12 11:44:11', '83'),
-    ('DoctrineMigrations\\Version20221024123804', '2022-10-24 14:52:16', '552');
+    ('DoctrineMigrations\\Version20221024123804', '2022-10-24 14:52:16', '552'),
+    ('DoctrineMigrations\\Version20221029112426', '2022-10-29 11:25:10', '93');
 
 -- Table downloads
 
@@ -257,18 +258,18 @@ VALUES
 
 -- Table termine
 INSERT INTO termine
-    (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`, `newsletter`)
+    (`id`, `datum`, `datum_end`, `datum_off`, `zeit`, `zeit_end`, `teilnehmer`, `titel`, `go2ol`, `text`, `link`, `solv_event_link`, `typ`, `on_off`, `xkoord`, `ykoord`, `solv_uid`, `ical_uid`, `modified`, `created`, `newsletter`, `deadline`)
 VALUES
-    ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', 'Berchtoldstag 🥈', '', '', '', '', '', '1', '0', '0', '0', '', '2020-01-01 17:17:43', '2019-02-22 01:17:09', '1'),
-    ('2', '2020-06-06', NULL, NULL, '10:15:00', '12:30:00', '0', 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä!', '<DATEI1 text=\"Infos\">', 'http://127.0.0.1:30270/', '', '1', '685000', '236100', '0', '', '2019-12-31 20:17:09', '2019-12-31 07:17:09', '1'),
-    ('3', '2020-08-18', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 1', '', '', '', '', 'training', '1', '684376', '236945', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('4', '2020-08-25', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 2', '', '', '', '', 'training', '1', '683498', '236660', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('5', '2020-08-26', '2020-08-26', NULL, '00:00:00', '00:00:00', '0', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz', '<a href=\"?page=20\" class=\"linkint\">OLZ Trophy</a>\r\n<a href=\"https://forms.gle/ixS1ZD22PmbdeYcy6\" class=\"linkext\">Anmeldung</a>\r\n<a href=\"https://olzimmerberg.ch/files/aktuell//504/010.pdf?modified=1597421504\" target=\"_blank\" class=\"linkpdf\">Ausschreibung</a>', NULL, 'ol', '1', '0', '0', '0', NULL, '2020-08-24 22:40:32', '2019-11-20 09:04:26', '0'),
-    ('6', '2020-09-01', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 3', '', '', '', '', 'training', '1', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 4', '', '', '', '', 'training', '1', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('8', '2020-08-11', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 0', '', '', '', '', 'training', '1', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training -1', '', '', '', '', 'training', '1', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0'),
-    ('10', '2020-08-22', NULL, NULL, '00:00:00', '00:00:00', '0', 'Grossanlass', 'gal', 'Mit allem drum und dran!', NULL, NULL, 'ol', '1', NULL, NULL, '12345', NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', '0');
+    ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', '0', 'Berchtoldstag 🥈', '', '', '', '', '', '1', '0', '0', '0', '', '2020-01-01 17:17:43', '2019-02-22 01:17:09', '1', NULL),
+    ('2', '2020-06-06', NULL, NULL, '10:15:00', '12:30:00', '0', 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä!', '<DATEI1 text=\"Infos\">', 'http://127.0.0.1:30270/', '', '1', '685000', '236100', '0', '', '2019-12-31 20:17:09', '2019-12-31 07:17:09', '1', NULL),
+    ('3', '2020-08-18', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 1', '', '', '', '', 'training', '1', '684376', '236945', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0', '2020-08-17 00:00:00'),
+    ('4', '2020-08-25', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 2', '', '', '', '', 'training', '1', '683498', '236660', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0', '2020-08-24 00:00:00'),
+    ('5', '2020-08-26', '2020-08-26', NULL, '00:00:00', '00:00:00', '0', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz', '<a href=\"?page=20\" class=\"linkint\">OLZ Trophy</a>\r\n<a href=\"https://forms.gle/ixS1ZD22PmbdeYcy6\" class=\"linkext\">Anmeldung</a>\r\n<a href=\"https://olzimmerberg.ch/files/aktuell//504/010.pdf?modified=1597421504\" target=\"_blank\" class=\"linkpdf\">Ausschreibung</a>', NULL, 'ol', '1', '0', '0', '0', NULL, '2020-08-24 22:40:32', '2019-11-20 09:04:26', '0', NULL),
+    ('6', '2020-09-01', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 3', '', '', '', '', 'training', '1', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09', '0', '2020-08-31 00:00:00'),
+    ('7', '2020-09-08', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 4', '', '', '', '', 'training', '1', '0', '0', '0', '', '2020-02-22 01:17:43', '2020-02-22 01:17:09', '0', '2020-09-06 23:59:59'),
+    ('8', '2020-08-11', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training 0', '', '', '', '', 'training', '1', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0', NULL),
+    ('9', '2020-08-04', NULL, NULL, '00:00:00', '00:00:00', '0', 'Training -1', '', '', '', '', 'training', '1', '0', '0', '0', '', '2220-02-22 01:17:43', '2020-02-22 01:17:09', '0', NULL),
+    ('10', '2020-08-22', NULL, NULL, '00:00:00', '00:00:00', '0', 'Grossanlass', 'gal', 'Mit allem drum und dran!', NULL, NULL, 'ol', '1', NULL, NULL, '12345', NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', '0', NULL);
 
 -- Table throttlings
 

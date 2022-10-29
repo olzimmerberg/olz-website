@@ -38,6 +38,10 @@ class Termin {
      */
     private $zeit_end;
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deadline;
+    /**
      * @ORM\Column(type="integer", options={"default": 0})
      */
     private $teilnehmer;
@@ -127,11 +131,27 @@ class Termin {
         $this->datum_end = $new_datum_end;
     }
 
+    public function getDeadline() {
+        return $this->deadline;
+    }
+
+    public function setDeadline($new_deadline) {
+        $this->deadline = $new_deadline;
+    }
+
     public function getTitle() {
         return $this->titel;
     }
 
     public function setTitle($new_titel) {
         $this->titel = $new_titel;
+    }
+
+    public function getOnOff() {
+        return $this->on_off;
+    }
+
+    public function setOnOff($new_on_off) {
+        $this->on_off = $new_on_off;
     }
 }

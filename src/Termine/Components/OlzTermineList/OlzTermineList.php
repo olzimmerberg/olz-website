@@ -221,9 +221,9 @@ class OlzTermineList {
         ) UNION ALL (
             SELECT
                 se.deadline as datum,
-                se.deadline as datum_end,
+                NULL as datum_end,
                 '00:00:00' as zeit,
-                '00:00:00' as zeit_end,
+                NULL as zeit_end,
                 CONCAT('Meldeschluss für ', t.titel) as titel,
                 '' as text,
                 '' as link,
@@ -238,6 +238,26 @@ class OlzTermineList {
                 t.solv_uid as solv_uid
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
             WHERE se.deadline IS NOT NULL AND {$sql_where}
+        ) UNION ALL (
+            SELECT
+                DATE(t.deadline) as datum,
+                NULL as datum_end,
+                TIME(t.deadline) as zeit,
+                NULL as zeit_end,
+                CONCAT('Meldeschluss für ', t.titel) as titel,
+                '' as text,
+                '' as link,
+                '' as solv_event_link,
+                CONCAT('DEADLINE', t.id) as id,
+                'meldeschluss' as typ,
+                t.on_off as on_off,
+                NULL as newsletter,
+                NULL as xkoord,
+                NULL as ykoord,
+                t.go2ol as go2ol,
+                t.solv_uid as solv_uid
+            FROM termine t
+            WHERE t.deadline IS NOT NULL AND {$sql_where}
         )
         ORDER BY datum ASC
         ZZZZZZZZZZ;

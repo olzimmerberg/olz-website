@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20221024123804
+-- MIGRATION: DoctrineMigrations\Version20221029112426
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -516,35 +516,6 @@ CREATE TABLE `anmelden_registrations` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `termine` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date DEFAULT NULL,
-  `datum_end` date DEFAULT NULL,
-  `datum_off` date DEFAULT NULL,
-  `zeit` time DEFAULT '00:00:00',
-  `zeit_end` time DEFAULT '00:00:00',
-  `teilnehmer` int(11) NOT NULL DEFAULT 0,
-  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `go2ol` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `solv_event_link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `typ` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 0,
-  `xkoord` int(11) DEFAULT NULL,
-  `ykoord` int(11) DEFAULT NULL,
-  `solv_uid` int(11) DEFAULT NULL,
-  `ical_uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modified` datetime NOT NULL DEFAULT current_timestamp(),
-  `created` datetime NOT NULL DEFAULT current_timestamp(),
-  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `doctrine_migration_versions` (
   `version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
@@ -710,6 +681,36 @@ CREATE TABLE `weekly_picture` (
   CONSTRAINT `FK_1EABE3865A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1EABE3867D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termine` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `datum` date DEFAULT NULL,
+  `datum_end` date DEFAULT NULL,
+  `datum_off` date DEFAULT NULL,
+  `zeit` time DEFAULT '00:00:00',
+  `zeit_end` time DEFAULT '00:00:00',
+  `teilnehmer` int(11) NOT NULL DEFAULT 0,
+  `titel` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `go2ol` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `solv_event_link` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `typ` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 0,
+  `xkoord` int(11) DEFAULT NULL,
+  `ykoord` int(11) DEFAULT NULL,
+  `solv_uid` int(11) DEFAULT NULL,
+  `ical_uid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `modified` datetime NOT NULL DEFAULT current_timestamp(),
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
+  `deadline` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `datum_on_off_index` (`datum`,`on_off`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

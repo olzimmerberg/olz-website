@@ -35,12 +35,15 @@ class FakeDeadlineWarningGetterSolvEventRepository {
 }
 
 class FakeDeadlineWarningGetterTerminRepository {
+    public $has_no_deadlines = false;
+
     public function findOneBy($where) {
         if ($where == ['solv_uid' => 1111, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(1);
             $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
             $termin->setTitle('Test Termin');
+            $termin->setOnOff(1);
             return $termin;
         }
         if ($where == ['solv_uid' => 2222, 'on_off' => 1]) {
@@ -49,9 +52,23 @@ class FakeDeadlineWarningGetterTerminRepository {
             $range_termin->setStartsOn(new \DateTime('2020-04-20'));
             $range_termin->setEndsOn(new \DateTime('2020-04-30'));
             $range_termin->setTitle('End of Month');
+            $range_termin->setOnOff(1);
             return $range_termin;
         }
         return null;
+    }
+
+    public function matching($criteria) {
+        if ($this->has_no_deadlines) {
+            return [];
+        }
+        $termin = new Termin();
+        $termin->setId(270);
+        $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+        $termin->setDeadline(new \DateTime('2020-04-06'));
+        $termin->setTitle('OLZ Termin');
+        $termin->setOnOff(1);
+        return [$termin];
     }
 }
 
@@ -80,6 +97,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $solv_event_repo->has_no_deadlines = true;
+        $termin_repo->has_no_deadlines = true;
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -124,6 +142,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         
         - 16.03.: Meldeschluss für '[Test Termin](http://fake-base-url/_/termine.php?id=1)'
         - 16.03.: Meldeschluss für '[End of Month](http://fake-base-url/_/termine.php?id=2)'
+        - 06.04.: Meldeschluss für '[OLZ Termin](http://fake-base-url/_/termine.php?id=270)'
 
         ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);

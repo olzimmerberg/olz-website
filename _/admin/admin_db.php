@@ -170,6 +170,7 @@ if ($db_table == "aktuell") {// DB AKTUELL
         ["datum_end", "Datum (Ende)", "datum", "", "Bei mehrtägigen Anlässen (sonst leer lassen).", "<input type='button' name='' onclick='olz.End_angleichen()' value='1. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "", ""],
         ["zeit_end", "Zeit (Ende)", "zeit", "'00:00:00'", "Format: hh:mm:ss (z.B. '18:30:00')", "", "", ""],
         ["datum_off", "Datum (Ausschalten)", "datum", "", "Termin wird ab diesem Datum permanent ausgeblendet.", "<input type='button' name='' onclick='olz.Off_angleichen()' value='2. Datum übernehmen' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:50%", ""],
+        ["deadline", "Meldeschluss", "datumzeit", "", "Format: yyyy-mm-dd hh:mm:ss (z.B. '2006-01-24 23:59:59')", "", "width:50%", ""],
         ["titel", "Titel", "text", "''", "", "<select name='set_titel' style='width:33%;margin-left:10px;' size='1'
 onchange='Titel_angleichen()' class='dropdown'>
 <option value=''>&nbsp;</option>

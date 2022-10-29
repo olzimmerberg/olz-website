@@ -29,22 +29,25 @@ class DeadlineWarningGetter {
         }
         $given_days = \DateInterval::createFromDateString("+{$days_arg} days");
         $in_given_days = (new \DateTime($this->dateUtils->getIsoToday()))->add($given_days);
+        $deadline_day = new \DateTime($in_given_days->format('Y-m-d'));
 
         $termin_repo = $this->entityManager->getRepository(Termin::class);
         $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
+
+        $base_href = $this->envUtils->getBaseHref();
+        $code_href = $this->envUtils->getCodeHref();
+
+        $deadlines_text = '';
+
+        // SOLV-Meldeschlüsse
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('deadline', new \DateTime($in_given_days->format('Y-m-d'))))
+            ->where(Criteria::expr()->eq('deadline', $deadline_day))
             ->orderBy(['date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
         $deadlines = $solv_event_repo->matching($criteria);
-
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
-
         $termine_url = "{$base_href}{$code_href}termine.php";
-        $deadlines_text = '';
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
             $termin = $termin_repo->findOneBy([
@@ -55,6 +58,31 @@ class DeadlineWarningGetter {
                 continue;
             }
             $deadline_date = $deadline->getDeadline();
+            $date = $deadline_date->format('d.m.');
+            $id = $termin->getId();
+            $title = $termin->getTitle();
+            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
+        }
+
+        // OLZ-Meldeschlüsse
+        $criteria = Criteria::create()
+            ->where(
+                Criteria::expr()->andX(
+                    Criteria::expr()->eq('deadline', $deadline_day),
+                    Criteria::expr()->eq('on_off', 1),
+                )
+            )
+            ->orderBy(['datum' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
+        $deadlines = $termin_repo->matching($criteria);
+        $termine_url = "{$base_href}{$code_href}termine.php";
+        foreach ($deadlines as $termin) {
+            if (!$termin) {
+                continue;
+            }
+            $deadline_date = $termin->getDeadline();
             $date = $deadline_date->format('d.m.');
             $id = $termin->getId();
             $title = $termin->getTitle();

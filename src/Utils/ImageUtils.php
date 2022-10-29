@@ -39,7 +39,7 @@ class ImageUtils {
                 $new_html = $this->olzImage(
                     'news',
                     $id,
-                    $image_ids[$index - 1],
+                    $image_ids[$index - 1] ?? null,
                     $size,
                     $lightview,
                     $attrs

@@ -2,6 +2,7 @@
 
 namespace Olz\Controller;
 
+use Olz\Utils\EnvUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,7 +16,10 @@ class IndexController extends AbstractController {
         LoggerInterface $logger,
     ): RedirectResponse {
         $query_string = $request->getQueryString();
-        $url = $query_string ? "/startseite.php?{$query_string}" : '/startseite.php';
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        $home_url = "{$code_href}startseite.php";
+        $url = $query_string ? "{$home_url}?{$query_string}" : $home_url;
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'index']);
     }
 }

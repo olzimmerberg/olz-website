@@ -335,8 +335,13 @@ class EnvUtils {
             $env_utils->setDataPath($document_root.'/');
             $env_utils->setDataHref('/');
 
-            $env_utils->setCodePath(realpath(__DIR__.'/../../').'/');
-            $env_utils->setCodeHref('/');
+            $code_href = '/';
+            if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
+                $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
+            }
+            $code_path = realpath(__DIR__.'/../../').'/';
+            $env_utils->setCodePath($code_path);
+            $env_utils->setCodeHref($code_href);
 
             $protocol = $has_https ? 'https://' : 'http://';
             $env_utils->setBaseHref("{$protocol}{$http_host}");

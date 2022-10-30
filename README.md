@@ -91,5 +91,5 @@ Der Fortschritt dieser automatischen Veröffentlichungen kann [auf GitHub](https
 
 Falls die automatische Veröffentlichung *nicht* funktionieren sollte, z.B. weil GitHub Actions nicht funktionieren, kann auch manuell veröffentlicht werden:
 
-- `PASSWORD=$PASSWORD php ./Deploy.php --environment=prod --username=deploy.olzimmerberg.ch`
+- `PASSWORD=$PASSWORD php ./Deploy.php --target=hosttech --environment=prod --username=deploy.olzimmerberg.ch`
 - `$PASSWORD` = FTP Passwort für `deploy.olzimmerberg.ch`

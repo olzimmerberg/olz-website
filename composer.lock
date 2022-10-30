@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a73e291f15c73be88ceaf398b0e936cb",
+    "content-hash": "8131b0208a0c27eed11a5057750f0037",
     "packages": [
         {
             "name": "allestuetsmerweh/php-deploy",
-            "version": "2.0.3",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/allestuetsmerweh/php-deploy.git",
-                "reference": "6ba22515a25a17456eede9c4982da4aa7621dcf7"
+                "reference": "e67d130b0f4b7560333f54be2eeac0d1d52adab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/allestuetsmerweh/php-deploy/zipball/6ba22515a25a17456eede9c4982da4aa7621dcf7",
-                "reference": "6ba22515a25a17456eede9c4982da4aa7621dcf7",
+                "url": "https://api.github.com/repos/allestuetsmerweh/php-deploy/zipball/e67d130b0f4b7560333f54be2eeac0d1d52adab3",
+                "reference": "e67d130b0f4b7560333f54be2eeac0d1d52adab3",
                 "shasum": ""
             },
             "require": {
@@ -62,9 +62,9 @@
             ],
             "support": {
                 "issues": "https://github.com/allestuetsmerweh/php-deploy/issues",
-                "source": "https://github.com/allestuetsmerweh/php-deploy/tree/2.0.3"
+                "source": "https://github.com/allestuetsmerweh/php-deploy/tree/2.1.0"
             },
-            "time": "2022-10-30T16:24:01+00:00"
+            "time": "2022-10-30T22:16:50+00:00"
         },
         {
             "name": "allestuetsmerweh/php-typescript-api",
@@ -1990,16 +1990,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.5",
+            "version": "2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "84d74485fdb7074f4f9dd6f02ab957b1de513257"
+                "reference": "857afc47ce113454bd629037213378ba3219dd40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/84d74485fdb7074f4f9dd6f02ab957b1de513257",
-                "reference": "84d74485fdb7074f4f9dd6f02ab957b1de513257",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/857afc47ce113454bd629037213378ba3219dd40",
+                "reference": "857afc47ce113454bd629037213378ba3219dd40",
                 "shasum": ""
             },
             "require": {
@@ -2019,7 +2019,7 @@
                 "erusev/parsedown": "^1.0",
                 "ext-json": "*",
                 "github/gfm": "0.29.0",
-                "michelf/php-markdown": "^1.4",
+                "michelf/php-markdown": "^1.4 || ^2.0",
                 "nyholm/psr7": "^1.5",
                 "phpstan/phpstan": "^1.8.2",
                 "phpunit/phpunit": "^9.5.21",
@@ -2092,7 +2092,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-29T10:59:45+00:00"
+            "time": "2022-10-30T16:45:38+00:00"
         },
         {
             "name": "league/config",
@@ -2266,6 +2266,70 @@
                 }
             ],
             "time": "2022-10-25T07:01:47+00:00"
+        },
+        {
+            "name": "league/flysystem-ftp",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-ftp.git",
+                "reference": "770e6efcaa6fcf487642206fffa018bbd109e7e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-ftp/zipball/770e6efcaa6fcf487642206fffa018bbd109e7e7",
+                "reference": "770e6efcaa6fcf487642206fffa018bbd109e7e7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ftp": "*",
+                "league/flysystem": "^3.0.0",
+                "league/mime-type-detection": "^1.0.0",
+                "php": "^8.0.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\Ftp\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "FTP filesystem adapter for Flysystem.",
+            "keywords": [
+                "Flysystem",
+                "file",
+                "files",
+                "filesystem",
+                "ftp",
+                "ftpd"
+            ],
+            "support": {
+                "source": "https://github.com/thephpleague/flysystem-ftp/tree/3.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://ecologi.com/frankdejonge",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/frankdejonge",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-09-16T20:20:16+00:00"
         },
         {
             "name": "league/flysystem-sftp-v3",

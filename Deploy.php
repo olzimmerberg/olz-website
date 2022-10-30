@@ -1,5 +1,7 @@
 <?php
 
+use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Ftp\FtpConnectionOptions;
 use League\Flysystem\PhpseclibV3\SftpAdapter;
 use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
@@ -33,47 +35,106 @@ class Deploy extends AbstractDefaultDeploy {
     }
 
     protected function getFlysystemFilesystem() {
-        $provider = new SftpConnectionProvider(
-            'lx7.hoststar.hosting', // host (required)
-            $this->username, // username (required)
-            $this->password, // password (optional, default: null) set to null if privateKey is used
-            null, // private key (optional, default: null) can be used instead of password, set to null if password is set
-            null, // passphrase (optional, default: null), set to null if privateKey is not used or has no passphrase
-            5544, // port (optional, default: 22)
-            false, // use agent (optional, default: false)
-            10, // timeout (optional, default: 10)
-            4, // max tries (optional, default: 4)
-        );
-        $visibility = PortableVisibilityConverter::fromArray([
-            'file' => [
-                'public' => 0755,
-                'private' => 0755,
-            ],
-            'dir' => [
-                'public' => 0755,
-                'private' => 0755,
-            ],
-        ]);
-        $adapter = new SftpAdapter($provider, '/', $visibility);
-        return new League\Flysystem\Filesystem($adapter);
+        if ($this->target === 'hoststar') {
+            $provider = new SftpConnectionProvider(
+                'lx7.hoststar.hosting', // host (required)
+                $this->username, // username (required)
+                $this->password, // password (optional, default: null) set to null if privateKey is used
+                null, // private key (optional, default: null) can be used instead of password, set to null if password is set
+                null, // passphrase (optional, default: null), set to null if privateKey is not used or has no passphrase
+                5544, // port (optional, default: 22)
+                false, // use agent (optional, default: false)
+                10, // timeout (optional, default: 10)
+                4, // max tries (optional, default: 4)
+            );
+            $visibility = PortableVisibilityConverter::fromArray([
+                'file' => [
+                    'public' => 0755,
+                    'private' => 0755,
+                ],
+                'dir' => [
+                    'public' => 0755,
+                    'private' => 0755,
+                ],
+            ]);
+            $adapter = new SftpAdapter($provider, '/', $visibility);
+            return new League\Flysystem\Filesystem($adapter);
+        }
+        if ($this->target === 'hosttech') {
+            $options = FtpConnectionOptions::fromArray([
+                'host' => '219.hosttech.eu', // required
+                'root' => '/', // required
+                'username' => $this->username, // required
+                'password' => $this->password, // required
+                'port' => 21,
+                'ssl' => true,
+                'timeout' => 90,
+                'utf8' => false,
+                'passive' => true,
+                'transferMode' => FTP_BINARY,
+                'systemType' => null, // 'windows' or 'unix'
+                'ignorePassiveAddress' => null, // true or false
+                'timestampsOnUnixListingsEnabled' => false, // true or false
+                'recurseManually' => true, // true
+            ]);
+            $adapter = new FtpAdapter($options);
+            return new League\Flysystem\Filesystem($adapter);
+        }
+        throw new \Exception("Target must be `hoststar` or `hosttech`");
     }
 
     public function getRemotePublicPath() {
-        return 'public_html';
+        if ($this->target === 'hoststar') {
+            return 'public_html';
+        }
+        if ($this->target === 'hosttech') {
+            if ($this->environment === 'test') {
+                return "test.ol-z.ch";
+            }
+            if ($this->environment === 'prod') {
+                return "httpdocs";
+            }
+            throw new \Exception("Environment must be `test` or `prod`");
+        }
+        throw new \Exception("Target must be `hoststar` or `hosttech`");
     }
 
     public function getRemotePublicUrl() {
-        if ($this->environment === 'test') {
-            return "https://test.olzimmerberg.ch";
+        if ($this->target === 'hoststar') {
+            if ($this->environment === 'test') {
+                return "https://test.olzimmerberg.ch";
+            }
+            if ($this->environment === 'prod') {
+                return "https://olzimmerberg.ch";
+            }
+            throw new \Exception("Environment must be `test` or `prod`");
         }
-        if ($this->environment === 'prod') {
-            return "https://olzimmerberg.ch";
+        if ($this->target === 'hosttech') {
+            if ($this->environment === 'test') {
+                return "https://test.ol-z.ch";
+            }
+            if ($this->environment === 'prod') {
+                return "https://ol-z.ch";
+            }
+            throw new \Exception("Environment must be `test` or `prod`");
         }
-        throw new \Exception("Environment must be `test` or `prod`");
+        throw new \Exception("Target must be `hoststar` or `hosttech`");
     }
 
     public function getRemotePrivatePath() {
-        return 'software_data';
+        if ($this->target === 'hoststar') {
+            return 'software_data';
+        }
+        if ($this->target === 'hosttech') {
+            if ($this->environment === 'test') {
+                return "private/test";
+            }
+            if ($this->environment === 'prod') {
+                return "private/prod";
+            }
+            throw new \Exception("Environment must be `test` or `prod`");
+        }
+        throw new \Exception("Target must be `hoststar` or `hosttech`");
     }
 
     public function install($public_path) {
@@ -114,7 +175,9 @@ class Deploy extends AbstractDefaultDeploy {
             "deploy_path = {$deploy_path_from_public_index}.'/{$this->getRemotePrivatePath()}/deploy/live';",
             $index_contents,
         );
-        unlink($index_path);
+        if ($fs->exists($index_path)) {
+            $fs->remove($index_path);
+        }
         file_put_contents($index_path, $updated_index_contents);
         if ($fs->exists("{$install_path}/jsbuild")) {
             $fs->rename("{$install_path}/jsbuild", "{$install_path}/old_jsbuild");

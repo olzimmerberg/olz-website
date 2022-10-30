@@ -79,33 +79,52 @@ class Deploy extends AbstractDefaultDeploy {
     public function install($public_path) {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 
-        $this->logger->info("Prepare for installation...");
+        $this->logger->info("Prepare for installation (env={$this->environment})...");
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
-        if ($fs->exists("{$public_path}/_old")) {
-            $fs->remove("{$public_path}/_old");
+
+        $install_path = $public_path;
+        $deploy_path_from_public_index = 'dirname(__DIR__)';
+        if ($this->environment === 'test') {
+            $entries = scandir($public_path);
+            foreach ($entries as $entry) {
+                $path = "{$public_path}/{$entry}";
+                if ($entry[0] !== '.' && is_dir($path) && $fs->exists("{$path}/_TOKEN_DIR_WILL_BE_REMOVED.txt")) {
+                    $fs->remove($path);
+                }
+            }
+            $test_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
+            $this->logger->info("Test token: {$test_token}");
+            $install_path = "{$public_path}/{$test_token}";
+            $deploy_path_from_public_index = 'dirname(dirname(__DIR__))';
         }
 
         $this->logger->info("Install...");
-        $fs->copy(__DIR__.'/public/.htaccess', "{$public_path}/.htaccess", true);
-        $fs->mirror(__DIR__.'/public/icns', "{$public_path}/icns");
-        $fs->mirror(__DIR__.'/public/bundles', "{$public_path}/bundles");
-        $index_path = "{$public_path}/index.php";
+        if (!$fs->exists($install_path)) {
+            $fs->mkdir($install_path);
+        }
+        $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
+        $fs->mirror(__DIR__.'/public/icns', "{$install_path}/icns");
+        $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
+        $index_path = "{$install_path}/index.php";
         $index_contents = file_get_contents(__DIR__.'/public/index.php');
         $updated_index_contents = str_replace(
             "deploy_path = dirname(__DIR__);",
-            "deploy_path = dirname(__DIR__).'/{$this->getRemotePrivatePath()}/deploy/live';",
+            "deploy_path = {$deploy_path_from_public_index}.'/{$this->getRemotePrivatePath()}/deploy/live';",
             $index_contents,
         );
         unlink($index_path);
         file_put_contents($index_path, $updated_index_contents);
-        if ($fs->exists("{$public_path}/jsbuild")) {
-            $fs->rename("{$public_path}/jsbuild", "{$public_path}/old_jsbuild");
+        if ($fs->exists("{$install_path}/jsbuild")) {
+            $fs->rename("{$install_path}/jsbuild", "{$install_path}/old_jsbuild");
         }
-        $fs->rename(__DIR__.'/public/jsbuild', "{$public_path}/jsbuild");
-        if ($fs->exists("{$public_path}/old_jsbuild")) {
-            $fs->remove("{$public_path}/old_jsbuild");
+        $fs->rename(__DIR__.'/public/jsbuild', "{$install_path}/jsbuild");
+        if ($fs->exists("{$install_path}/old_jsbuild")) {
+            $fs->remove("{$install_path}/old_jsbuild");
+        }
+        if ($this->environment === 'test') {
+            file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
         }
         $this->logger->info("Install done.");
     }

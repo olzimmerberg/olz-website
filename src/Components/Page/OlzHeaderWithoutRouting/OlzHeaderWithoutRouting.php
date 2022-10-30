@@ -23,8 +23,8 @@ class OlzHeaderWithoutRouting {
         $js_path = "{$data_path}jsbuild/olz/main.min.js";
         $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
         $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-        $css_href = "/jsbuild/olz/main.min.css?modified={$css_modified}";
-        $js_href = "/jsbuild/olz/main.min.js?modified={$js_modified}";
+        $css_href = "{$code_href}jsbuild/olz/main.min.css?modified={$css_modified}";
+        $js_href = "{$code_href}jsbuild/olz/main.min.js?modified={$js_modified}";
 
         if (!isset($refresh)) {
             $refresh = '';

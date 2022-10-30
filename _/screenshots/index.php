@@ -77,7 +77,7 @@ function loadNext(index) {
     }
     const loadLocal = new Promise((resolve) => {
         const localElem = document.getElementById('local-'+screenshotPaths[index]);
-        localElem.src = '/screenshots/generated/' + screenshotPaths[index];
+        localElem.src = '{$code_href}screenshots/generated/' + screenshotPaths[index];
         localElem.onload = resolve;
         localElem.onerror = resolve;
     });

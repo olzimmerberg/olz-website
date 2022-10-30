@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 $deploy_path = dirname(__DIR__);
 
+$_SERVER['OLZ_SYMFONY_HREF'] = substr(__DIR__.'/', strlen($_SERVER['DOCUMENT_ROOT']));
+
 require_once $deploy_path.'/vendor/autoload.php';
 
 (new Dotenv())->bootEnv($deploy_path.'/.env');

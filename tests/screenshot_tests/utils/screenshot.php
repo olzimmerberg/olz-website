@@ -25,7 +25,7 @@ function take_pageshot($driver, $name) {
             window_scroll_to($driver, $scroll_x, $scroll_y);
             $path = "{$screenshots_path}{$x}-{$y}-{$screenshot_filename}";
             hide_flaky_elements($driver);
-            $driver->executeScript("typeof resizeHeaderBar !== 'undefined' && resizeHeaderBar();");
+            $driver->executeScript("typeof olz !== 'undefined' && typeof olz.resizeHeaderBar !== 'undefined' && olz.resizeHeaderBar();");
             $driver->takeScreenshot($path);
             $scroll_x_diff = $scroll_x - get_window_scroll_x($driver);
             $scroll_y_diff = $scroll_y - get_window_scroll_y($driver);

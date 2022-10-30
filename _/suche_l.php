@@ -26,6 +26,7 @@ $sql3 = '';
 $search = '';
 for ($n = 0; $n < 3; $n++) {
     $search_key = $search_words[$n] ?? '';
+    $search_key = $db->escape_string($search_key);
     if ($n > 0) {
         $or = " AND ";
     }

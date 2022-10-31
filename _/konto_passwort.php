@@ -5,6 +5,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 
 require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/config/paths.php';
 
 session_start();
 
@@ -32,7 +33,8 @@ echo OlzProfileForm::render([
     'show_avatar' => false,
     'show_required_password' => true,
 ]);
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
+    <p><input type='checkbox' name='consent-given' onchange='olz.olzSignUpConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. Ich nehme zur Kenntnis, dass bei jedem Login notgedrungen ein Cookie in meinem Browser gesetzt wird. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
     <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
     <button id='sign-up-with-password-submit-button' type='submit' class='btn btn-primary'>Konto erstellen</button>
     <div class='error-message alert alert-danger' role='alert'></div>

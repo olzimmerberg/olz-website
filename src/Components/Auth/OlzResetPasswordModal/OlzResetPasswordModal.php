@@ -2,9 +2,13 @@
 
 namespace Olz\Components\Auth\OlzResetPasswordModal;
 
+use Olz\Utils\EnvUtils;
+
 class OlzResetPasswordModal {
     public static function render($args = []) {
-        return <<<'ZZZZZZZZZZ'
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+        return <<<ZZZZZZZZZZ
         <div class='modal fade' id='reset-password-modal' tabindex='-1' aria-labelledby='reset-password-modal-label' aria-hidden='true'>
             <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -32,12 +36,13 @@ class OlzResetPasswordModal {
                                     type='text'
                                     class='form-control'
                                     id='reset-password-username-input'
-                                    name='username_or_email'
+                                    name='username-or-email'
                                     autofocus
                                 />
                             </div>
-                            <input type='submit' class='hidden' />
+                            <p><input type='checkbox' name='consent-given' onchange='olz.olzResetPasswordConsent(this.checked)'> Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
                             <div class='error-message alert alert-danger' role='alert'></div>
+                            <div class='success-message alert alert-success' role='alert'></div>
                         </div>
                         <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>

@@ -35,7 +35,7 @@ echo "</ul>
 <div class='content-middle'>
     <h3>Grundsatz</h3>
     <p>Wir sammeln <b>keine</b> personenbezogenen Daten von <b>nicht eigeloggten</b> Nutzern.</p>
-    <p>Von <b>eigeloggten</b> Nutzern sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb <b>notwendig</b> sind.</p>
+    <p>Von <b>eigeloggten</b> Nutzern sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb oder die Funktionalität dieser Website <b>notwendig</b> sind.</p>
     <h3>Zweck</h3>
     <p>Von <b>eigeloggten</b> Nutzern bearbeiten wir folgende Personendaten:</p>
     <ul class='bullet-list'>
@@ -52,6 +52,7 @@ echo "</ul>
         <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Kontaktdaten (Mitgliederliste) zur <b>Ermöglichung der klubinternen Kommunikation</b> anderen Klubmitgliedern zur Verfügung stellen</li>
         <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Postadresse der Redaktion des HOLZ und gegebenenfalls der Druckerei zur Verfügung stellen, damit sie dir das <b>Klubheftli HOLZ zustellen</b> kann.</li>
         <li>Wenn du dich für einen <b>Anlass anmeldest</b>, werden wir die benötigten Daten dem Veranstalter übermitteln</li>
+        <li>Wenn du ein neues Konto erstellst und wenn du dein Passwort zurücksetzen musst, verwenden wir Google reCaptcha v3 (<a href='https://policies.google.com/privacy?hl=de-CH' target='_blank'>Datenschutzerklärung</a>, <a href='https://policies.google.com/terms?hl=de-CH' target='_blank'>Nutzungsbedingungen</a>), um Spam zu vermeiden.</li>
     </ul>
     <p>Unser Hoster, <a href='https://www.hoststar.ch/de'>Hoststar</a> speichert alle Daten in der Schweiz, Deutschland oder Österreich.</p>
     <h3>Cookies</h3>

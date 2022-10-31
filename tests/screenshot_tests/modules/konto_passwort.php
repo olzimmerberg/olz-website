@@ -34,10 +34,15 @@ function test_konto_passwort($driver, $base_url) {
     );
     $birthdate_input->clear();
     sendKeys($birthdate_input, '13.1.2006');
+    $consent_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[name="consent-given"]')
+    );
+    click($consent_input);
     $submit_button = $driver->findElement(
         WebDriverBy::cssSelector('#sign-up-with-password-submit-button')
     );
     click($submit_button);
+    sleep(1);
     take_pageshot($driver, 'konto_passwort_submitted');
 
     $driver->get("{$base_url}{$webftp_url}");

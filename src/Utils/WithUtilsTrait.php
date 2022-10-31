@@ -175,6 +175,18 @@ trait WithUtilsTrait {
         $this->utilsCache['log'] = $log;
     }
 
+    public function recaptchaUtils() {
+        return $this->getOrCreate('recaptchaUtils');
+    }
+
+    public function createRecaptchaUtils() {
+        return RecaptchaUtils::fromEnv();
+    }
+
+    public function setRecaptchaUtils($recaptchaUtils) {
+        $this->utilsCache['recaptchaUtils'] = $recaptchaUtils;
+    }
+
     public function server() {
         return $this->getOrCreate('server');
     }

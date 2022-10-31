@@ -18,13 +18,16 @@ class OlzHeaderWithoutRouting {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
+        $data_href = $env_utils->getDataHref();
         $data_path = $env_utils->getDataPath();
         $css_path = "{$data_path}jsbuild/olz/main.min.css";
         $js_path = "{$data_path}jsbuild/olz/main.min.js";
         $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
         $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
-        $css_href = "{$code_href}jsbuild/olz/main.min.css?modified={$css_modified}";
-        $js_href = "{$code_href}jsbuild/olz/main.min.js?modified={$js_modified}";
+        $css_href = "/jsbuild/olz/main.min.css?modified={$css_modified}";
+        $js_href = "/jsbuild/olz/main.min.js?modified={$js_modified}";
+        $code_href_json = json_encode($code_href);
+        $data_href_json = json_encode($data_href);
 
         if (!isset($refresh)) {
             $refresh = '';
@@ -61,6 +64,10 @@ class OlzHeaderWithoutRouting {
         {$olz_organization_data}
         {$additional_headers}
         <link rel='stylesheet' href='{$css_href}' />
+        <script type='text/javascript'>
+            window.olzCodeHref = {$code_href_json};
+            window.olzDataHref = {$data_href_json};
+        </script>
         <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
         </head>";
         $out .= "<body class='olz-override-root'>\n";

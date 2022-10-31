@@ -179,15 +179,15 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove($index_path);
         }
         file_put_contents($index_path, $updated_index_contents);
-        if ($fs->exists("{$install_path}/jsbuild")) {
-            $fs->rename("{$install_path}/jsbuild", "{$install_path}/old_jsbuild");
-        }
-        $fs->rename(__DIR__.'/public/jsbuild', "{$install_path}/jsbuild");
-        if ($fs->exists("{$install_path}/old_jsbuild")) {
-            $fs->remove("{$install_path}/old_jsbuild");
-        }
         if ($this->environment === 'test') {
             file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
+        }
+        if ($fs->exists("{$public_path}/jsbuild")) {
+            $fs->rename("{$public_path}/jsbuild", "{$public_path}/old_jsbuild");
+        }
+        $fs->rename(__DIR__.'/public/jsbuild', "{$public_path}/jsbuild");
+        if ($fs->exists("{$public_path}/old_jsbuild")) {
+            $fs->remove("{$public_path}/old_jsbuild");
         }
         $this->logger->info("Install done.");
     }

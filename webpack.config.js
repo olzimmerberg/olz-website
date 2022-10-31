@@ -26,6 +26,7 @@ const defaultConfig = {
             {
                 test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.(sa|sc|c)ss$/,

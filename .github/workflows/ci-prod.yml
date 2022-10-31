@@ -158,11 +158,18 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    - name: Deploy over FTPS
+    - name: Deploy to hosttech
+      env:
+        USERNAME: ${{ secrets.PROD_HOSTTECH_FTP_USERNAME }}
+        PASSWORD: ${{ secrets.PROD_HOSTTECH_FTP_PASSWORD }}
+      run: php ./Deploy.php --target=hosttech --environment=prod --username="$USERNAME"
+    - name: Install JavaScript dependencies
+      run: npm install
+    - name: Deploy to hoststar
       env:
         USERNAME: ${{ secrets.PROD_FTP_USERNAME }}
         PASSWORD: ${{ secrets.PROD_FTP_PASSWORD }}
-      run: php ./Deploy.php --environment=prod --username="$USERNAME"
+      run: php ./Deploy.php --target=hoststar --environment=prod --username="$USERNAME"
 
   upload-screenshots:
     name: Upload screenshots to olzimmerberg.ch
@@ -189,4 +196,4 @@ jobs:
       env:
         USERNAME: ${{ secrets.PROD_FTP_USERNAME }}
         PASSWORD: ${{ secrets.PROD_FTP_PASSWORD }}
-      run: php ./ci/screenshot-upload.php --environment=prod --username="$USERNAME"
+      run: php ./ci/screenshot-upload.php --target=hoststar --environment=prod --username="$USERNAME"

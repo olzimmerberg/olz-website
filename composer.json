@@ -81,6 +81,7 @@
     "ifsnop/mysqldump-php": "^2.9",
     "league/commonmark": "^2.1",
     "league/flysystem": "^3.2",
+    "league/flysystem-ftp": "^3.0",
     "league/flysystem-sftp-v3": "^3.2",
     "monolog/monolog": "^3.2",
     "php-imap/php-imap": "^5.0",

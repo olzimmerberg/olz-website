@@ -1,9 +1,8 @@
-import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
 import {OlzApiResponses} from '../../../Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
-import {loadScript} from '../../../Utils/generalUtils';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getFormField, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
+import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 
 $(() => {
     $('#reset-password-modal').on('shown.bs.modal', () => {
@@ -11,12 +10,11 @@ $(() => {
     });
 });
 
-declare const grecaptcha: {
-    ready: (onReady: () => void) => void,
-    execute: (siteKey: string, config: {action: string}) => Promise<string>,
-}|undefined;
-
-const siteKey = '6LetfAodAAAAALyY2vt84FQ-EI5Sj6HkTbGKWR3U';
+export function olzResetPasswordConsent(value: boolean): void {
+    if (value) {
+        loadRecaptcha();
+    }
+}
 
 export function olzResetPasswordModalReset(form: HTMLFormElement): boolean {
     olzResetPasswordModalActuallyReset(form);
@@ -24,17 +22,27 @@ export function olzResetPasswordModalReset(form: HTMLFormElement): boolean {
 }
 
 async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promise<void> {
-    const scriptUrl = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
-    await loadScript(scriptUrl);
-    const token = await getRecaptchaToken();
+    let token: string|null = null;
+    if (getFormField(form, 'consent-given').value === 'yes') {
+        token = await loadRecaptchaToken();
+    }
 
     const getDataForRequestFn: GetDataForRequestFunction<'resetPassword'> = (f) => {
+        let consentGiven = getFormField(f, 'consent-given');
+        consentGiven = getAsserted(
+            () => consentGiven.value === 'yes',
+            'Bitte akzeptiere den Datenschutzhinweis!',
+            consentGiven,
+        );
         const fieldResults: OlzRequestFieldResult<'resetPassword'> = {
-            usernameOrEmail: getFormField(f, 'username_or_email'),
+            usernameOrEmail: getRequired(getStringOrNull(getFormField(f, 'username-or-email'))),
             recaptchaToken: validFieldResult('', token),
         };
-        if (!isFieldResultOrDictThereofValid(fieldResults)) {
-            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(consentGiven)) {
+            return invalidFormData([
+                ...getFieldResultOrDictThereofErrors(fieldResults),
+                ...getFieldResultOrDictThereofErrors(consentGiven),
+            ]);
         }
         return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
@@ -47,21 +55,13 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
     );
 }
 
-function getRecaptchaToken(): Promise<string> {
-    return new Promise((resolve, reject) => {
-        grecaptcha.ready(() => {
-            grecaptcha.execute(siteKey, {action: 'submit'})
-                .then(resolve, reject);
-        });
-    });
-}
-
 function handleResponse(response: OlzApiResponses['resetPassword']): string|void {
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('reset-password-modal'),
-    ).hide();
-    return 'E-Mail versendet.';
+    window.setTimeout(() => {
+        // This removes Google's injected reCaptcha script again
+        window.location.href = 'startseite.php';
+    }, 3000);
+    return 'E-Mail versendet. Bitte warten...';
 }

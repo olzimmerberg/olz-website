@@ -1,7 +1,24 @@
 import {OlzApiResponses} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
+
+export function olzSignUpConsent(value: boolean): void {
+    if (value) {
+        loadRecaptcha();
+    }
+}
 
 export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
+    olzKontoActuallySignUpWithPassword(form);
+    return false;
+}
+
+async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promise<void> {
+    let token: string|null = null;
+    if (getFormField(form, 'consent-given').value === 'yes') {
+        token = await loadRecaptchaToken();
+    }
+
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithPassword'> = (f) => {
         const password = getRequired(getPassword(getFormField(f, 'password')));
         let passwordRepeat = getFormField(f, 'password-repeat');
@@ -10,6 +27,12 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             () => hasValidRepetition,
             'Das Passwort und die Wiederholung müssen übereinstimmen!',
             passwordRepeat,
+        );
+        let consentGiven = getFormField(f, 'consent-given');
+        consentGiven = getAsserted(
+            () => consentGiven.value === 'yes',
+            'Bitte akzeptiere den Datenschutzhinweis!',
+            consentGiven,
         );
         const fieldResults: OlzRequestFieldResult<'signUpWithPassword'> = {
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
@@ -27,11 +50,13 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
             countryCode: getCountryCode(getFormField(f, 'country-code')),
             siCardNumber: getInteger(getFormField(f, 'si-card-number')),
             solvNumber: getFormField(f, 'solv-number'),
+            recaptchaToken: validFieldResult('', token),
         };
-        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat)) {
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat) || !isFieldResultOrDictThereofValid(consentGiven)) {
             return invalidFormData([
                 ...getFieldResultOrDictThereofErrors(fieldResults),
                 ...getFieldResultOrDictThereofErrors(passwordRepeat),
+                ...getFieldResultOrDictThereofErrors(consentGiven),
             ]);
         }
         return validFormData<'signUpWithPassword'>(getFieldResultOrDictThereofValue(fieldResults));
@@ -43,7 +68,6 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
         form,
         handleResponse,
     );
-    return false;
 }
 
 function handleResponse(response: OlzApiResponses['signUpWithPassword']): string|void {
@@ -51,7 +75,7 @@ function handleResponse(response: OlzApiResponses['signUpWithPassword']): string
         throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
     }
     window.setTimeout(() => {
-        // TODO: This could probably be done more smoothly!
+        // This removes Google's injected reCaptcha script again
         window.location.href = 'startseite.php';
     }, 3000);
     return 'Benutzerkonto erfolgreich erstellt. Bitte warten...';

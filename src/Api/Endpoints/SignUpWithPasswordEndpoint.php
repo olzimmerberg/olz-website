@@ -17,6 +17,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
+                'DENIED',
             ]]),
         ]]);
     }
@@ -38,10 +39,16 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
             'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
             'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
+            'recaptchaToken' => new FieldTypes\StringField([]),
         ]]);
     }
 
     protected function handle($input) {
+        $token = $input['recaptchaToken'];
+        if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
+            return ['status' => 'DENIED'];
+        }
+
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];

@@ -4,20 +4,9 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\User;
-use Olz\Fetchers\GoogleFetcher;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class ResetPasswordEndpoint extends OlzEndpoint {
-    public function runtimeSetup() {
-        parent::runtimeSetup();
-        $google_fetcher = new GoogleFetcher();
-        $this->setGoogleFetcher($google_fetcher);
-    }
-
-    public function setGoogleFetcher($new_google_fetcher) {
-        $this->googleFetcher = $new_google_fetcher;
-    }
-
     public static function getIdent() {
         return 'ResetPasswordEndpoint';
     }
@@ -41,8 +30,6 @@ class ResetPasswordEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $username_or_email = trim($input['usernameOrEmail']);
-        $token = $input['recaptchaToken'];
-
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $username_or_email]);
         if (!$user) {
@@ -53,18 +40,8 @@ class ResetPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'DENIED'];
         }
 
-        $verification = $this->googleFetcher->fetchRecaptchaVerification([
-            'secret' => $this->envUtils()->getRecaptchaSecretKey(),
-            'response' => $token,
-            'remoteip' => $this->server()['REMOTE_ADDR'],
-        ]);
-        $success = $verification['success'] ?? null;
-        if ($success === null) {
-            $this->log()->notice("reCaptcha verification error.");
-            return ['status' => 'ERROR'];
-        }
-        if (!$success) {
-            $this->log()->notice("reCaptcha denied.");
+        $token = $input['recaptchaToken'];
+        if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
             return ['status' => 'DENIED'];
         }
 

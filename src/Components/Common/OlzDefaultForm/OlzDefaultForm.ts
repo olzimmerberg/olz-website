@@ -485,25 +485,35 @@ export function getFormField(
     form: HTMLFormElement,
     fieldId: string,
 ): FieldResult<string|null> {
-    const field = form.elements.namedItem(fieldId);
-    if (!field || !('value' in field)) {
-        return {
-            fieldId,
-            isValid: false,
-            value: null,
-            errors: [
-                new ValidationError('', {
-                    [fieldId]: [
-                        `Error retrieving form field value for: ${fieldId}`,
-                    ],
-                }),
-            ],
-        };
+    const field = form.elements.namedItem(fieldId) as HTMLInputElement;
+    if (field) {
+        if (field.type === 'checkbox' && 'checked' in field) {
+            return {
+                fieldId,
+                isValid: true,
+                value: field.checked ? 'yes' : 'no',
+                errors: [],
+            };
+        }
+        if ('value' in field) {
+            return {
+                fieldId,
+                isValid: true,
+                value: field.value,
+                errors: [],
+            };
+        }
     }
     return {
         fieldId,
-        isValid: true,
-        value: field.value,
-        errors: [],
+        isValid: false,
+        value: null,
+        errors: [
+            new ValidationError('', {
+                [fieldId]: [
+                    `Error retrieving form field value for: ${fieldId}`,
+                ],
+            }),
+        ],
     };
 }

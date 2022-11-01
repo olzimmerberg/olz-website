@@ -10,6 +10,7 @@ use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeUserRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -58,6 +59,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         'countryCode' => 'CC',
         'siCardNumber' => 1234567,
         'solvNumber' => 'JACK7NORRIS',
+        'recaptchaToken' => 'fake-recaptcha-token',
     ];
 
     public function testSignUpWithPasswordEndpointIdent(): void {
@@ -88,6 +90,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'countryCode' => null,
                 'siCardNumber' => null,
                 'solvNumber' => null,
+                'recaptchaToken' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
@@ -97,8 +100,32 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => [['.' => ['Feld darf nicht leer sein.']]],
                 'password' => [['.' => ['Feld darf nicht leer sein.']]],
                 'email' => [['.' => ['Feld darf nicht leer sein.']]],
+                'recaptchaToken' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
         }
+    }
+
+    public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
+        $entity_manager = new FakeEntityManager();
+        $logger = new Logger('SignUpWithPasswordEndpointTest');
+        $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLog($logger);
+
+        $result = $endpoint->call(array_merge(self::VALID_INPUT, ['recaptchaToken' => 'invalid-token']));
+
+        $this->assertSame([
+            'status' => 'DENIED',
+        ], $result);
+        $this->assertSame([], $session->session_storage);
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
@@ -110,6 +137,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -134,6 +162,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -160,6 +189,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -203,6 +233,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -246,6 +277,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -291,6 +323,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -339,6 +372,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);

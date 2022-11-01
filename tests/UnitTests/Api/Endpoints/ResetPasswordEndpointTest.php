@@ -9,42 +9,12 @@ use Olz\Tests\Fake\FakeEmailUtils;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeUserRepository;
 use Olz\Tests\Fake\FakeUsers;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
 use PhpTypeScriptApi\HttpError;
-
-class FakeResetPasswordEndpointGoogleFetcher {
-    public function fetchRecaptchaVerification($siteverify_request_data) {
-        $successful_request = [
-            'secret' => 'some-secret-key',
-            'response' => 'fake-recaptcha-token',
-            'remoteip' => '1.2.3.4',
-        ];
-        if ($siteverify_request_data == $successful_request) {
-            return ['success' => true];
-        }
-        $unsuccessful_request = [
-            'secret' => 'some-secret-key',
-            'response' => 'invalid-recaptcha-token',
-            'remoteip' => '1.2.3.4',
-        ];
-        if ($siteverify_request_data == $unsuccessful_request) {
-            return ['success' => false];
-        }
-        $null_request = [
-            'secret' => 'some-secret-key',
-            'response' => 'null-recaptcha-token',
-            'remoteip' => '1.2.3.4',
-        ];
-        if ($siteverify_request_data == $null_request) {
-            return null;
-        }
-        $request_json = json_encode($siteverify_request_data);
-        throw new \Exception("Unexpected Request: {$request_json}");
-    }
-}
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
     public function __construct() {
@@ -119,9 +89,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
-        $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
-        $endpoint->setGoogleFetcher($google_fetcher);
         $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -165,9 +134,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
-        $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
-        $endpoint->setGoogleFetcher($google_fetcher);
         $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $vorstand_user = FakeUsers::vorstandUser();
         $vorstand_user->setFirstName('provoke_error');
 
@@ -194,9 +162,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
-        $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
-        $endpoint->setGoogleFetcher($google_fetcher);
         $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
@@ -220,9 +187,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $env_utils = new FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
-        $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
-        $endpoint->setGoogleFetcher($google_fetcher);
         $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -232,33 +198,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'DENIED'], $result);
         $this->assertSame([
             "INFO Valid user request",
-            "NOTICE reCaptcha denied.",
-            "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testResetPasswordEndpointNullRecaptchaToken(): void {
-        $logger = FakeLogger::create();
-        $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
-        $env_utils = new FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
-        $google_fetcher = new FakeResetPasswordEndpointGoogleFetcher();
-        $endpoint->setGoogleFetcher($google_fetcher);
-        $endpoint->setLog($logger);
-
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'admin',
-            'recaptchaToken' => 'null-recaptcha-token',
-        ]);
-
-        $this->assertSame(['status' => 'ERROR'], $result);
-        $this->assertSame([
-            "INFO Valid user request",
-            "NOTICE reCaptcha verification error.",
             "INFO Valid user response",
         ], $logger->handler->getPrettyRecords());
     }

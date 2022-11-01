@@ -205,6 +205,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'countryCode': string|null,
             'siCardNumber': number|null,
             'solvNumber': string|null,
+            'recaptchaToken': string,
         },
     loginWithStrava: {
             'code': string,
@@ -372,7 +373,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'OTHER_USER'|'INVALID_OLD',
         },
     signUpWithPassword: {
-            'status': 'OK',
+            'status': 'OK'|'DENIED',
         },
     loginWithStrava: {
             'status': 'NOT_REGISTERED'|'INVALID_CODE'|'AUTHENTICATED',

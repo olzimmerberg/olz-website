@@ -2,9 +2,6 @@
 
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionOptions;
-use League\Flysystem\PhpseclibV3\SftpAdapter;
-use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
-use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use PhpDeploy\AbstractDefaultDeploy;
@@ -35,31 +32,6 @@ class Deploy extends AbstractDefaultDeploy {
     }
 
     protected function getFlysystemFilesystem() {
-        if ($this->target === 'hoststar') {
-            $provider = new SftpConnectionProvider(
-                'lx7.hoststar.hosting', // host (required)
-                $this->username, // username (required)
-                $this->password, // password (optional, default: null) set to null if privateKey is used
-                null, // private key (optional, default: null) can be used instead of password, set to null if password is set
-                null, // passphrase (optional, default: null), set to null if privateKey is not used or has no passphrase
-                5544, // port (optional, default: 22)
-                false, // use agent (optional, default: false)
-                10, // timeout (optional, default: 10)
-                4, // max tries (optional, default: 4)
-            );
-            $visibility = PortableVisibilityConverter::fromArray([
-                'file' => [
-                    'public' => 0755,
-                    'private' => 0755,
-                ],
-                'dir' => [
-                    'public' => 0755,
-                    'private' => 0755,
-                ],
-            ]);
-            $adapter = new SftpAdapter($provider, '/', $visibility);
-            return new League\Flysystem\Filesystem($adapter);
-        }
         if ($this->target === 'hosttech') {
             $options = FtpConnectionOptions::fromArray([
                 'host' => '219.hosttech.eu', // required
@@ -80,13 +52,10 @@ class Deploy extends AbstractDefaultDeploy {
             $adapter = new FtpAdapter($options);
             return new League\Flysystem\Filesystem($adapter);
         }
-        throw new \Exception("Target must be `hoststar` or `hosttech`");
+        throw new \Exception("Target must be `hosttech`");
     }
 
     public function getRemotePublicPath() {
-        if ($this->target === 'hoststar') {
-            return 'public_html';
-        }
         if ($this->target === 'hosttech') {
             if ($this->environment === 'test') {
                 return "httpdocstest";
@@ -96,19 +65,10 @@ class Deploy extends AbstractDefaultDeploy {
             }
             throw new \Exception("Environment must be `test` or `prod`");
         }
-        throw new \Exception("Target must be `hoststar` or `hosttech`");
+        throw new \Exception("Target must be `hosttech`");
     }
 
     public function getRemotePublicUrl() {
-        if ($this->target === 'hoststar') {
-            if ($this->environment === 'test') {
-                return "https://test.olzimmerberg.ch";
-            }
-            if ($this->environment === 'prod') {
-                return "https://olzimmerberg.ch";
-            }
-            throw new \Exception("Environment must be `test` or `prod`");
-        }
         if ($this->target === 'hosttech') {
             if ($this->environment === 'test') {
                 return "https://test.olzimmerberg.ch";
@@ -118,13 +78,10 @@ class Deploy extends AbstractDefaultDeploy {
             }
             throw new \Exception("Environment must be `test` or `prod`");
         }
-        throw new \Exception("Target must be `hoststar` or `hosttech`");
+        throw new \Exception("Target must be `hosttech`");
     }
 
     public function getRemotePrivatePath() {
-        if ($this->target === 'hoststar') {
-            return 'software_data';
-        }
         if ($this->target === 'hosttech') {
             if ($this->environment === 'test') {
                 return "private/test";
@@ -134,7 +91,7 @@ class Deploy extends AbstractDefaultDeploy {
             }
             throw new \Exception("Environment must be `test` or `prod`");
         }
-        throw new \Exception("Target must be `hoststar` or `hosttech`");
+        throw new \Exception("Target must be `hosttech`");
     }
 
     public function install($public_path) {

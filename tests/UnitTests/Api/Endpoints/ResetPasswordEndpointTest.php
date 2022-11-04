@@ -106,7 +106,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         
         http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0
         
-        Dein neues Passwort lautet dann:
+        Dein neues Passwort lautet dann nachher:
         `fake-new-password`
 
         ZZZZZZZZZZ;

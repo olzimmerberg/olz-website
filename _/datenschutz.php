@@ -54,7 +54,7 @@ echo "</ul>
         <li>Wenn du dich für einen <b>Anlass anmeldest</b>, werden wir die benötigten Daten dem Veranstalter übermitteln</li>
         <li>Wenn du ein neues Konto erstellst und wenn du dein Passwort zurücksetzen musst, verwenden wir Google reCaptcha v3 (<a href='https://policies.google.com/privacy?hl=de-CH' target='_blank'>Datenschutzerklärung</a>, <a href='https://policies.google.com/terms?hl=de-CH' target='_blank'>Nutzungsbedingungen</a>), um Spam zu vermeiden.</li>
     </ul>
-    <p>Unser Hoster, <a href='https://www.hoststar.ch/de'>Hoststar</a> speichert alle Daten in der Schweiz, Deutschland oder Österreich.</p>
+    <p>Unser Hoster, <a href='https://www.hosttech.ch/webhosting/'>Hosttech</a> ist Mitglied bei swiss hosting, speichert also alle Daten in der Schweiz.</p>
     <h3>Cookies</h3>
     <p>Wenn du dich einloggst, muss aus technischen Gründen in deinem Browser ein Cookie gespeichert werden.</p>
     <p>Das Cookie enthält keine personenbezogenen Daten.</p>

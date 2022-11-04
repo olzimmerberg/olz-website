@@ -15,7 +15,9 @@ class ScreenshotUpload extends Deploy {
 $upload = new ScreenshotUpload();
 $remote_fs = $upload->getPublicFlysystemFilesystem();
 
-$remote_screenshots_path = 'software_data/deploy/live/_/screenshots/generated';
+$opts = getopt('', ['target:', 'environment:', 'username:']);
+$environment = $opts['environment'];
+$remote_screenshots_path = "private/{$environment}/deploy/live/_/screenshots/generated";
 try {
     $remote_fs->createDirectory(dirname($remote_screenshots_path));
 } catch (\Throwable $th) {

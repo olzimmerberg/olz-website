@@ -89,7 +89,7 @@ class Deploy extends AbstractDefaultDeploy {
         }
         if ($this->target === 'hosttech') {
             if ($this->environment === 'test') {
-                return "test.ol-z.ch";
+                return "httpdocstest";
             }
             if ($this->environment === 'prod') {
                 return "httpdocs";
@@ -111,10 +111,10 @@ class Deploy extends AbstractDefaultDeploy {
         }
         if ($this->target === 'hosttech') {
             if ($this->environment === 'test') {
-                return "https://test.ol-z.ch";
+                return "https://test.olzimmerberg.ch";
             }
             if ($this->environment === 'prod') {
-                return "https://ol-z.ch";
+                return "https://olzimmerberg.ch";
             }
             throw new \Exception("Environment must be `test` or `prod`");
         }

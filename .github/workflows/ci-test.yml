@@ -180,15 +180,6 @@ jobs:
         PASSWORD: ${{ secrets.TEST_HOSTTECH_FTP_PASSWORD }}
       run: php ./Deploy.php --target=hosttech --environment=test --username="$USERNAME"
     - name: Reset hosttech database
-      run: wget -q -O - "https://test.ol-z.ch/tools.php/full-reset"
-    - name: Install JavaScript dependencies
-      run: npm install
-    - name: Deploy to hoststar
-      env:
-        USERNAME: ${{ secrets.TEST_FTP_USERNAME }}
-        PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
-      run: php ./Deploy.php --target=hoststar --environment=test --username="$USERNAME"
-    - name: Reset hoststar database
       run: wget -q -O - "https://test.olzimmerberg.ch/tools.php/full-reset"
 
   upload-screenshots:
@@ -214,6 +205,6 @@ jobs:
       run: composer install --no-dev --prefer-dist
     - name: Upload over FTPS
       env:
-        USERNAME: ${{ secrets.TEST_FTP_USERNAME }}
-        PASSWORD: ${{ secrets.TEST_FTP_PASSWORD }}
-      run: php ./ci/screenshot-upload.php --target=hoststar --environment=test --username="$USERNAME"
+        USERNAME: ${{ secrets.TEST_HOSTTECH_FTP_USERNAME }}
+        PASSWORD: ${{ secrets.TEST_HOSTTECH_FTP_PASSWORD }}
+      run: php ./ci/screenshot-upload.php --target=hosttech --environment=test --username="$USERNAME"

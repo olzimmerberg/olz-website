@@ -18,10 +18,10 @@ $config = Setup::createAnnotationMetadataConfiguration(
 $password = getenv('DOCTRINE_CONNECTION_PASSWORD');
 $conn = [
     'driver' => 'pdo_mysql',
-    'dbname' => 'ch279178_olz_prod',
-    'user' => 'ch279178_olz_prod',
+    'dbname' => 'olz_prod',
+    'user' => 'olz',
     'password' => $password,
-    'host' => 'lx7.hoststar.hosting',
+    'host' => '219.hosttech.eu',
     'charset' => 'utf8mb4',
 ];
 

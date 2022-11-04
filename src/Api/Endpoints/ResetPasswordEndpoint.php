@@ -64,7 +64,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
 
         {$reset_password_url}
 
-        Dein neues Passwort lautet dann:
+        Dein neues Passwort lautet dann nachher:
         `{$new_password}`
 
         ZZZZZZZZZZ;

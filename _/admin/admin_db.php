@@ -342,7 +342,7 @@ if (($do ?? null) == "neu") {
     if (!isset($_SESSION['edit']['modus'])) {
         $sql = "INSERT {$db_table} SET ".implode(",", $sql_tmp);
         if (($_SESSION['auth'] ?? null) == 'all') {
-            echo "### <a href='javascript:alert(".htmlentities(json_encode($sql), ENT_QUOTES).")'>HOSTSTAR DEBUG</a> ###<br>";
+            echo "### <a href='javascript:alert(".htmlentities(json_encode($sql), ENT_QUOTES).")'>HOSTTECH DEBUG</a> ###<br>";
         }
         $result = $db->query($sql);
         $id = $db->insert_id;
@@ -545,7 +545,7 @@ if (($do ?? null) == 'submit') {
 
     $sql = "UPDATE {$db_table} SET ".implode(",", $sql_tmp)." WHERE (id = '".$_SESSION[$db_table."id"]."')";
     if (($_SESSION['auth'] ?? null) == 'all') {
-        echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTSTAR DEBUG</a> ###<br>";
+        echo "### <a href='javascript:alert(&quot;".htmlentities($sql)."&quot;)'>HOSTTECH DEBUG</a> ###<br>";
     }
     $result = $db->query($sql);
 

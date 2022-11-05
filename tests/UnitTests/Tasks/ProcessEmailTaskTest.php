@@ -247,6 +247,46 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
     }
 
+    public function testProcessEmailTaskToOldUser(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query['user_email'] = true;
+        $env_utils = new FakeEnvUtils();
+        $email_utils = new FakeEmailUtils();
+        $email_utils->mailbox->mail_dict = [
+            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
+                ['someone-old@olzimmerberg.ch' => true],
+                'from@from-domain.com',
+                'From Name',
+                'Test subject',
+                'Test text'
+            ),
+        ];
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = FakeLogger::create();
+
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
+        $job->run();
+
+        $user_repo = $entity_manager->repositories[User::class];
+        $this->assertSame([
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+        ], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([
+            'INFO Setup task ProcessEmail...',
+            'INFO Running task ProcessEmail...',
+            'INFO Email forwarded from someone-old@olzimmerberg.ch to someone-old@gmail.com',
+            'INFO Finished task ProcessEmail.',
+            'INFO Teardown task ProcessEmail...',
+        ], $logger->handler->getPrettyRecords());
+    }
+
     public function testProcessEmailTaskNoRoleEmailPermission(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
@@ -314,6 +354,48 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Running task ProcessEmail...',
             'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
+            'INFO Finished task ProcessEmail.',
+            'INFO Teardown task ProcessEmail...',
+        ], $logger->handler->getPrettyRecords());
+    }
+
+    public function testProcessEmailTaskToOldRole(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_role_permission_by_query['role_email'] = true;
+        $env_utils = new FakeEnvUtils();
+        $email_utils = new FakeEmailUtils();
+        $email_utils->mailbox->mail_dict = [
+            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
+                ['somerole-old@olzimmerberg.ch' => true],
+                'from@from-domain.com',
+                'From Name',
+                'Test subject',
+                'Test text'
+            ),
+        ];
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = FakeLogger::create();
+
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
+        $job->run();
+
+        $role_repo = $entity_manager->repositories[Role::class];
+        $expected_emails = array_map(function ($user) {
+            return [$user, 'Test subject', 'Test text'];
+        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
+        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
+        $this->assertSame([
+            'INFO Setup task ProcessEmail...',
+            'INFO Running task ProcessEmail...',
+            'INFO Email forwarded from somerole-old@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
+            'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());

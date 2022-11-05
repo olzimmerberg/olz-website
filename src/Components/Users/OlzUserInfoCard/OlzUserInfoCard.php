@@ -2,6 +2,7 @@
 
 namespace Olz\Components\Users\OlzUserInfoCard;
 
+use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
 class OlzUserInfoCard {
@@ -10,6 +11,7 @@ class OlzUserInfoCard {
 
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
+        $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
         $data_href = $env_utils->getDataHref();
@@ -27,7 +29,13 @@ class OlzUserInfoCard {
         $out .= "<b>{$user->getFullName()}</b>";
         // $out .= ($row["adresse"] ? "<br>".$row["adresse"] : "");
         // $out .= ($row["tel"] ? "<br>Tel. ".$row["tel"] : "");
-        $out .= ($user->getEmail() ? "<br>".olz_mask_email($user->getEmail(), "Email", "") : "");
+        $has_official_email = $auth_utils->hasPermission('user_email', $user);
+        if ($has_official_email) {
+            $email = $user->getUsername().'@olzimmerberg.ch';
+            $out .= "<br>".olz_mask_email($email, "Email", "");
+        } else {
+            $out .= ($user->getEmail() ? "<br>".olz_mask_email($user->getEmail(), "Email", "") : "");
+        }
         $out .= "</td></tr></table>";
         return $out;
     }

@@ -40,10 +40,16 @@ class AuthUtils {
         if (!$user) {
             $user = $user_repo->findOneBy(['email' => $username_or_email]);
         }
+        if (!$user) {
+            $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
+        }
         $res = preg_match('/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
             $username_or_email, $matches);
         if (!$user && $res) {
             $user = $user_repo->findOneBy(['username' => $matches[1]]);
+        }
+        if (!$user && $res) {
+            $user = $user_repo->findOneBy(['old_username' => $matches[1]]);
         }
 
         // If the password is wrong, authentication fails.

@@ -11,6 +11,12 @@ class UserRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
+    public function findFuzzilyByOldUsername($old_username) {
+        $dql = "SELECT u FROM Olz:User u WHERE u.old_username LIKE ?1";
+        $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
+        return $query->getOneOrNullResult();
+    }
+
     public function getUsersWithLogin() {
         $dql = <<<'ZZZZZZZZZZ'
         SELECT u

@@ -61,6 +61,9 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         if (!$this->authUtils()->isPasswordAllowed($input['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
+        if (preg_match('/@olzimmerberg\.ch$/i', $email)) {
+            throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
+        }
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
         $user_repo = $this->entityManager()->getRepository(User::class);

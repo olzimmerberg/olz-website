@@ -57,13 +57,18 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
 
+        $new_email = $input['email'];
+        if (preg_match('/@olzimmerberg\.ch$/i', $new_email)) {
+            throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
+        }
+
         $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setUsername($new_username);
-        $user->setEmail($input['email']);
+        $user->setEmail($new_email);
         $user->setPhone($input['phone']);
         $user->setGender($input['gender']);
         $user->setBirthdate($new_birthdate);

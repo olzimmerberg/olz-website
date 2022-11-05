@@ -64,4 +64,17 @@ class FakeRoleRepository {
         }
         return null;
     }
+
+    public function findFuzzilyByOldUsername($old_username) {
+        if ($old_username === 'somerole-old') {
+            $fake_process_email_task_role = FakeRoles::defaultRole(true);
+            $fake_process_email_task_role->setId(2);
+            $fake_process_email_task_role->setUsername('somerole-old');
+            $fake_process_email_task_role->addUser(FakeUsers::adminUser());
+            $fake_process_email_task_role->addUser(FakeUsers::vorstandUser());
+            $this->fakeProcessEmailTaskRole = $fake_process_email_task_role;
+            return $fake_process_email_task_role;
+        }
+        return null;
+    }
 }

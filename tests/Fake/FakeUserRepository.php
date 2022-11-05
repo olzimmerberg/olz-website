@@ -21,7 +21,7 @@ class FakeUserRepository {
             $this->default_user = FakeUsers::defaultUser();
             return $this->default_user;
         }
-        if ($where === ['username' => 'admin'] || $where === ['id' => 2]) {
+        if ($where === ['username' => 'admin'] || $where === ['id' => 2] || $where === ['old_username' => 'admin-old']) {
             $this->admin_user = FakeUsers::adminUser();
             return $this->admin_user;
         }
@@ -62,6 +62,20 @@ class FakeUserRepository {
             $user = FakeUsers::defaultUser(true);
             $user->setUsername('no-permission');
             return $user;
+        }
+        return null;
+    }
+
+    public function findFuzzilyByOldUsername($old_username) {
+        if ($old_username === 'someone-old') {
+            $fake_process_email_task_user = FakeUsers::defaultUser(true);
+            $fake_process_email_task_user->setId(2);
+            $fake_process_email_task_user->setUsername('someone-old');
+            $fake_process_email_task_user->setFirstName('Old');
+            $fake_process_email_task_user->setLastName('User');
+            $fake_process_email_task_user->setEmail('someone-old@gmail.com');
+            $this->fakeProcessEmailTaskUser = $fake_process_email_task_user;
+            return $fake_process_email_task_user;
         }
         return null;
     }

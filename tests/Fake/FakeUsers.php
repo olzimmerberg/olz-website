@@ -17,6 +17,7 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setFirstName('Admin');
                 $admin_user->setLastName('Istrator');
                 $admin_user->setUsername('admin');
+                $admin_user->setOldUsername('admin-old');
                 $admin_user->setEmail('admin-user@test.olzimmerberg.ch');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
                 $admin_user->setPermissions('all');

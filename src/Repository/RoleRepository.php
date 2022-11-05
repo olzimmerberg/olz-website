@@ -11,6 +11,12 @@ class RoleRepository extends EntityRepository {
         return $query->getOneOrNullResult();
     }
 
+    public function findFuzzilyByOldUsername($old_username) {
+        $dql = "SELECT r FROM Olz:Role r WHERE r.old_username LIKE ?1";
+        $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
+        return $query->getOneOrNullResult();
+    }
+
     public function getRolesWithParent($roleId, $limit = 100) {
         if ($roleId === null) {
             $dql = "

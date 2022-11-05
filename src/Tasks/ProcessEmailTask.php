@@ -44,7 +44,13 @@ class ProcessEmailTask extends BackgroundTask {
                 }
                 $username = $matches[1];
                 $user = $user_repo->findFuzzilyByUsername($username);
+                if (!$user) {
+                    $user = $user_repo->findFuzzilyByOldUsername($username);
+                }
                 $role = $role_repo->findFuzzilyByUsername($username);
+                if (!$role) {
+                    $role = $role_repo->findFuzzilyByOldUsername($username);
+                }
                 if ($user != null) {
                     $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
                     if (!$has_user_email_permission) {

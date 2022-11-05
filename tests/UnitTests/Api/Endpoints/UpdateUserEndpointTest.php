@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\UpdateUserEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -44,7 +44,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         'firstName' => 'First',
         'lastName' => 'Last',
         'username' => 'test',
-        'email' => 'test@olzimmerberg.ch',
+        'email' => 'bot@test.olzimmerberg.ch',
         'phone' => '+41441234567',
         'gender' => 'F',
         'birthdate' => '1992-08-05 12:00:00',
@@ -66,7 +66,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointWrongUsername(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
-        $logger = new Logger('UpdateUserEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -81,6 +81,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(self::VALID_INPUT);
 
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([
             'auth' => 'ftp',
@@ -92,7 +96,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointInvalidNewUsername(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
-        $logger = new Logger('UpdateUserEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -113,7 +117,51 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
+                "INFO Valid user request",
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
+            $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                'auth' => 'ftp',
+                'root' => 'karten',
+                'user' => 'admin',
+            ], $session->session_storage);
+        }
+    }
+
+    public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $logger = FakeLogger::create();
+        $endpoint = new UpdateUserEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call(array_merge(
+                self::VALID_INPUT,
+                ['email' => 'bot@olzimmerberg.ch']
+            ));
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
+            $this->assertSame([
+                'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -129,7 +177,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = new Logger('UpdateUserEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -146,13 +194,17 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(self::VALID_INPUT);
 
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('test', $admin_user->getUsername());
-        $this->assertSame('test@olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame('bot@test.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
@@ -185,7 +237,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = new Logger('UpdateUserEndpointTest');
+        $logger = FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -205,13 +257,17 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             ['avatarId' => '-']
         ));
 
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('test', $admin_user->getUsername());
-        $this->assertSame('test@olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame('bot@test.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));

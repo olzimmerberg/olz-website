@@ -37,6 +37,7 @@
     "integration_tests": "./tools/scripts/integration_tests.sh",
     "migrations": "./tools/scripts/migrations.sh",
     "remote_migrations": "./tools/scripts/remote_migrations.sh",
+    "system_tests": "./tools/scripts/system_tests.sh",
     "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
     "to_external_id": "php ./tools/scripts/to_external_id.php",

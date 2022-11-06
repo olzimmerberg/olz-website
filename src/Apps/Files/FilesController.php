@@ -14,7 +14,7 @@ class FilesController extends AbstractController {
     #[Route('/apps/files/')]
     public function index(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ): Response {
         $html_out = OlzFiles::render();
         return new Response($html_out);
@@ -23,7 +23,7 @@ class FilesController extends AbstractController {
     #[Route('/apps/files/webdav')]
     public function webdavIndex(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ): Response {
         return $this->webdav($request, $logger);
     }
@@ -31,16 +31,18 @@ class FilesController extends AbstractController {
     #[Route('/apps/files/webdav/{path}', requirements: ['path' => '.*'])]
     public function webdavPath(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        string $path,
     ): Response {
-        return $this->webdav($request, $logger);
+        return $this->webdav($request, $logger, $path);
     }
 
     protected function webdav(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        string $path = null,
     ): Response {
-        $html_out = OlzWebDav::render();
+        $html_out = OlzWebDav::render(['path' => $path]);
         $response = new Response($html_out);
         foreach (headers_list() as $header) {
             $colon_position = strpos($header, ':');

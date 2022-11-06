@@ -84,7 +84,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
         $env_utils = EnvUtils::fromEnv();
         $token = $access_token->getToken();
         $code_url = "{$env_utils->getBaseHref()}{$env_utils->getCodeHref()}";
-        $webdav_url = "/apps/files/webdav/access_token__{$token}/";
+        $webdav_url = "{$code_url}apps/files/webdav/token__{$token}/";
         $enc_webdav_url = htmlentities($webdav_url);
         echo "<p>
             WebDAV-Zugang:

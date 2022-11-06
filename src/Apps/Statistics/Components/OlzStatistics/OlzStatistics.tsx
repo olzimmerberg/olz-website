@@ -4,9 +4,7 @@ import {olzApi} from '../../../../Api/client';
 import './OlzStatistics.scss';
 
 function getOlzStatisticsUrl(username: string, password: string): string {
-    const encUsername = encodeURIComponent(username);
-    const encPassword = encodeURIComponent(password);
-    return `https://${encUsername}:${encPassword}@olzimmerberg.ch/vstats/`;
+    return 'https://olzimmerberg.ch/plesk-stat/webstat-ssl/';
 }
 
 export const OlzStatistics = () => {

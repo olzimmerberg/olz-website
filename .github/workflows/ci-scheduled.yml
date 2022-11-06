@@ -1,7 +1,7 @@
 on:
   schedule:
-    # daily at 13:49
-    - cron:  '49 13 * * *'
+    # daily at X:49
+    - cron:  '49 * * * *'
 name: CI:scheduled
 jobs:
 
@@ -49,4 +49,6 @@ jobs:
     - name: Install dependencies
       run: composer install --dev --prefer-dist
     - name: PHP System Tests
+      env:
+        MOZ_HEADLESS: 1
       run: composer system_tests

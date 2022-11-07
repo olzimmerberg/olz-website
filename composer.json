@@ -41,6 +41,7 @@
     "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
     "to_external_id": "php ./tools/scripts/to_external_id.php",
+    "get_id_algos": "php ./tools/scripts/get_id_algos.php",
     "unit_tests": "./tools/scripts/unit_tests.sh",
     "auto-scripts": {
       "cache:clear": "symfony-cmd",

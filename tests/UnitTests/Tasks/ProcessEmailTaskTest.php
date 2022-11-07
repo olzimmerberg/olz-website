@@ -25,6 +25,14 @@ class FakeProcessEmailTaskMail {
         $this->subject = $subject;
         $this->textPlain = $textPlain;
     }
+
+    public function hasAttachments() {
+        return false;
+    }
+
+    public function getAttachments() {
+        return [];
+    }
 }
 
 /**
@@ -51,7 +59,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -59,6 +66,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskWithConnectionError(): void {
@@ -79,7 +87,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -87,6 +94,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskWithOtherError(): void {
@@ -107,7 +115,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -115,6 +122,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
@@ -137,14 +145,14 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail to non-olzimmerberg.ch address: someone@other-domain.com',
+            'INFO E-Mail fake-mail-id-1 to non-olzimmerberg.ch address: someone@other-domain.com',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskNoSuchUser(): void {
@@ -167,14 +175,14 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail to inexistent user/role username: no-such-username',
+            'INFO E-Mail fake-mail-id-1 to inexistent user/role username: no-such-username',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskNoUserEmailPermission(): void {
@@ -197,14 +205,14 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail to user with no user_email permission: no-permission',
+            'INFO E-Mail fake-mail-id-1 to user with no user_email permission: no-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskToUser(): void {
@@ -234,10 +242,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertSame([
-            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
-        ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -245,6 +249,10 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $user_repo = $entity_manager->repositories[User::class];
+        $this->assertSame([
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+        ], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskToOldUser(): void {
@@ -274,10 +282,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertSame([
-            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
-        ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -285,6 +289,10 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $user_repo = $entity_manager->repositories[User::class];
+        $this->assertSame([
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+        ], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskNoRoleEmailPermission(): void {
@@ -307,14 +315,14 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail to role with no role_email permission: no-role-permission',
+            'INFO E-Mail fake-mail-id-1 to role with no role_email permission: no-role-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskToRole(): void {
@@ -344,11 +352,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $role_repo = $entity_manager->repositories[Role::class];
-        $expected_emails = array_map(function ($user) {
-            return [$user, 'Test subject', 'Test text'];
-        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
-        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -357,6 +360,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $role_repo = $entity_manager->repositories[Role::class];
+        $expected_emails = array_map(function ($user) {
+            return [$user, 'Test subject', 'Test text'];
+        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
+        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskToOldRole(): void {
@@ -386,11 +394,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $job->setLog($logger);
         $job->run();
 
-        $role_repo = $entity_manager->repositories[Role::class];
-        $expected_emails = array_map(function ($user) {
-            return [$user, 'Test subject', 'Test text'];
-        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
-        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
@@ -399,6 +402,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
+        $role_repo = $entity_manager->repositories[Role::class];
+        $expected_emails = array_map(function ($user) {
+            return [$user, 'Test subject', 'Test text'];
+        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
+        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
     }
 
     public function testProcessEmailTaskSendingError(): void {
@@ -435,7 +443,6 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
-
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
     }
 }

@@ -10,6 +10,7 @@ run_tools(
         'full-reset' => [],
         'dump' => [],
         'get-database-backup' => [],
+        'get-id-algos' => [],
         'migrate' => [],
         'backup-monitoring' => [],
         'logs-monitoring' => [],

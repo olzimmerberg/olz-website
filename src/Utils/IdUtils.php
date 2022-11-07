@@ -8,8 +8,8 @@ class IdUtils {
         'envUtils',
     ];
 
-    protected const BASE64_IV = '9V0IXtcQo5o=';
-    protected const ALGO = 'bf-cbc';
+    protected $base64Iv = '9V0IXtcQo5o=';
+    protected $algo = 'des-ede-cbc'; // Find one using `composer get_id_algos`
 
     public function toExternalId($internal_id, $type = '') {
         $serialized_id = $this->serializeId($internal_id, $type);
@@ -34,10 +34,12 @@ class IdUtils {
 
     protected function encryptId($serialized_id) {
         $plaintext = $serialized_id;
-        $algo = self::ALGO;
         $key = $this->envUtils()->getIdEncryptionKey();
-        $iv = base64_decode(self::BASE64_IV);
-        $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
+        $iv = base64_decode($this->base64Iv);
+        $ciphertext = @openssl_encrypt($plaintext, $this->algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
+        if ($ciphertext === false) {
+            throw new \Exception(openssl_error_string());
+        }
         return $this->trimmedBase64Encode($ciphertext);
     }
 
@@ -48,10 +50,9 @@ class IdUtils {
 
     protected function decryptId($encrypted_id) {
         $ciphertext = base64_decode($encrypted_id);
-        $algo = self::ALGO;
         $key = $this->envUtils()->getIdEncryptionKey();
-        $iv = base64_decode(self::BASE64_IV);
-        return openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv);
+        $iv = base64_decode($this->base64Iv);
+        return openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
     }
 
     protected function deserializeId($serialized_id, $type) {

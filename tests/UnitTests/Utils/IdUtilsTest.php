@@ -49,10 +49,10 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
-        $this->assertSame('BZciFnEYIjk', $id_utils->toExternalId(123));
-        $this->assertSame('ktdWZ4i54iI', $id_utils->toExternalId(123, 'Test'));
-        $this->assertSame('FZ9PI6CQffk', $id_utils->toExternalId($max_id));
-        $this->assertSame('hm1XiqEYYmI', $id_utils->toExternalId($max_id, 'Test'));
+        $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId(123));
+        $this->assertSame('KvwHIC1COIo', $id_utils->toExternalId(123, 'Test'));
+        $this->assertSame('YI/noV3FCIs', $id_utils->toExternalId($max_id));
+        $this->assertSame('9eNNm3rHqQQ', $id_utils->toExternalId($max_id, 'Test'));
     }
 
     public function testToExternalIdNonInteger(): void {
@@ -71,7 +71,7 @@ final class IdUtilsTest extends UnitTestCase {
             $this->assertSame('Internal ID must be int', $exc->getMessage());
         }
         // This works, too, though!
-        $this->assertSame('BZciFnEYIjk', $id_utils->toExternalId('123'));
+        $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId('123'));
     }
 
     public function testSerializeId(): void {
@@ -141,18 +141,23 @@ final class IdUtilsTest extends UnitTestCase {
     public function testEncryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new FakeEnvUtils());
-        $this->assertSame('g8US8+kiV4w', $id_utils->testOnlyEncryptId(''));
-        $this->assertSame('aEDMWECsRcA', $id_utils->testOnlyEncryptId('test'));
+        $this->assertSame('w0/JgCePlCI', $id_utils->testOnlyEncryptId(''));
+        $this->assertSame('KNYgqjTkR5o', $id_utils->testOnlyEncryptId('test'));
+
+        // Those should not show any similarity!
+        $this->assertSame('q8JuUMqRC60', $id_utils->testOnlyEncryptId(hex2bin('0123456789abcd')));
+        $this->assertSame('0oqhJ3PIdS8', $id_utils->testOnlyEncryptId(hex2bin('0123456789abce')));
+        $this->assertSame('L6sX3DLEtcY', $id_utils->testOnlyEncryptId(hex2bin('8123456789abcd')));
     }
 
     public function testToInternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
-        $this->assertSame(123, $id_utils->toInternalId('BZciFnEYIjk'));
-        $this->assertSame(123, $id_utils->toInternalId('ktdWZ4i54iI', 'Test'));
-        $this->assertSame($max_id, $id_utils->toInternalId('FZ9PI6CQffk'));
-        $this->assertSame($max_id, $id_utils->toInternalId('hm1XiqEYYmI', 'Test'));
+        $this->assertSame(123, $id_utils->toInternalId('9AUh0IsXMgc'));
+        $this->assertSame(123, $id_utils->toInternalId('KvwHIC1COIo', 'Test'));
+        $this->assertSame($max_id, $id_utils->toInternalId('YI/noV3FCIs'));
+        $this->assertSame($max_id, $id_utils->toInternalId('9eNNm3rHqQQ', 'Test'));
     }
 
     public function testToInternalIdTypeMismatch(): void {
@@ -181,8 +186,8 @@ final class IdUtilsTest extends UnitTestCase {
     public function testDecryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new FakeEnvUtils());
-        $this->assertSame('', $id_utils->testOnlyDecryptId('g8US8+kiV4w'));
-        $this->assertSame('test', $id_utils->testOnlyDecryptId('aEDMWECsRcA'));
+        $this->assertSame('', $id_utils->testOnlyDecryptId('w0/JgCePlCI'));
+        $this->assertSame('test', $id_utils->testOnlyDecryptId('KNYgqjTkR5o'));
     }
 
     public function testDeserializeId(): void {

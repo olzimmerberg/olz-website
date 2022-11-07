@@ -50,6 +50,11 @@ function run_tools($command_config, $server) {
             $dev_data_utils->getDbBackup($key);
         });
     }
+    if ($command === 'get-id-algos') {
+        return run_command($command, function () {
+            echo json_encode(openssl_get_cipher_methods())."\n";
+        });
+    }
     if ($command === 'migrate') {
         return run_command($command, function () {
             $dev_data_utils = DevDataUtils::fromEnv();

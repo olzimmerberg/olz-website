@@ -43,9 +43,18 @@ class FakeMailbox {
     public $exception = false;
     public $mail_dict = [];
     public $deleted_mail_dict = [];
+    public $moved_mail = [];
     public $expunged_mail_dict = [];
+    public $current_mailbox;
 
     public function setAttachmentsIgnore($should_ignore_attachments) {
+    }
+
+    public function createMailbox($name) {
+    }
+
+    public function switchMailbox($name) {
+        $this->current_mailbox = $name;
     }
 
     public function searchMailbox($query) {
@@ -59,13 +68,29 @@ class FakeMailbox {
             throw new \Exception("Failed at something else.");
         }
         if ($query === 'ALL') {
-            return array_keys($this->mail_dict);
+            if ($this->current_mailbox === 'INBOX.Processed') {
+                return [];
+            }
+            if ($this->current_mailbox === 'INBOX') {
+                return array_keys($this->mail_dict);
+            }
+            throw new \Exception("No such mailbox: {$this->current_mailbox}");
         }
         throw new \Exception("Expected 'ALL' query to searchMailbox");
     }
 
+    public function getMailsInfo($mail_ids) {
+        return array_map(function ($mail_id) {
+            return new FakeMailInfo($mail_id);
+        }, $mail_ids);
+    }
+
     public function getMail($mail_id, $should_mark_read) {
         return $this->mail_dict[$mail_id];
+    }
+
+    public function moveMail($mail_id, $mailbox) {
+        $this->moved_mail[] = "{$mail_id} => {$mailbox}";
     }
 
     public function deleteMail($mail_id) {
@@ -74,6 +99,13 @@ class FakeMailbox {
 
     public function expungeDeletedMails() {
         $this->expunged_mail_dict = $this->deleted_mail_dict;
+    }
+}
+
+class FakeMailInfo {
+    public function __construct($mail_id) {
+        $this->uid = $mail_id;
+        $this->message_id = $mail_id;
     }
 }
 

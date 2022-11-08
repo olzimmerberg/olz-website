@@ -16,8 +16,35 @@ class ProcessEmailTask extends BackgroundTask {
 
     protected function runSpecificTask() {
         $mailbox = $this->emailUtils()->getImapMailbox();
+        try {
+            $mailbox->createMailbox('Processed');
+        } catch (\Exception $exc) {
+            // ignore
+        }
         $mailbox->setAttachmentsIgnore(false);
 
+        // TODO: Test coverage!
+        $mailbox->switchMailbox('INBOX.Processed');
+        try {
+            $mail_ids = $mailbox->searchMailbox('ALL');
+        } catch (\UnexpectedValueException $uve) {
+            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
+            return;
+        } catch (ConnectionException $exc) {
+            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
+            return;
+        } catch (\Exception $exc) {
+            $this->log()->critical("Exception in searchMailbox.", [$exc]);
+            return;
+        }
+        $mails_headers = $mailbox->getMailsInfo($mail_ids);
+        $is_message_id_processed = [];
+        foreach ($mails_headers as $mail_headers) {
+            $message_id = $mail_headers->message_id;
+            $is_message_id_processed[$message_id] = true;
+        }
+
+        $mailbox->switchMailbox('INBOX');
         try {
             $mail_ids = $mailbox->searchMailbox('ALL');
         } catch (\UnexpectedValueException $uve) {
@@ -34,14 +61,23 @@ class ProcessEmailTask extends BackgroundTask {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
 
-        foreach ($mail_ids as $mail_id) {
-            $mail = $mailbox->getMail($mail_id, /* do not mark as seen */ false);
+        $mails_headers = $mailbox->getMailsInfo($mail_ids);
+        $processed_mails_headers = [];
+        foreach ($mails_headers as $mail_headers) {
+            $mail_uid = $mail_headers->uid;
+            $message_id = $mail_headers->message_id;
+            if ($is_message_id_processed[$message_id] ?? false) {
+                $this->log()->info("E-Mail {$mail_uid} already processed.");
+                continue;
+            }
+            $mail = $mailbox->getMail($mail_uid, /* do not mark as seen */ false);
 
             $to_addresses = array_keys($mail->to);
             foreach ($to_addresses as $to_address) {
                 $is_match = preg_match('/^([\S]+)@(test\.)?olzimmerberg\.ch$/', $to_address, $matches);
                 if (!$is_match) {
-                    $this->log()->info("E-Mail {$mail_id} to non-olzimmerberg.ch address: {$to_address}");
+                    $processed_mails_headers[] = $mail_headers;
+                    $this->log()->info("E-Mail {$mail_uid} to non-olzimmerberg.ch address: {$to_address}");
                     continue;
                 }
                 $username = $matches[1];
@@ -56,36 +92,51 @@ class ProcessEmailTask extends BackgroundTask {
                 if ($user != null) {
                     $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
                     if (!$has_user_email_permission) {
-                        $this->log()->info("E-Mail {$mail_id} to user with no user_email permission: {$username}");
+                        $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                        $processed_mails_headers[] = $mail_headers;
                         continue;
                     }
-                    $this->forwardEmailToUser($mail, $user, $to_address);
+                    $was_successful = $this->forwardEmailToUser($mail, $user, $to_address);
+                    if ($was_successful) {
+                        $processed_mails_headers[] = $mail_headers;
+                    }
                 }
                 if ($role != null) {
                     $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
                     if (!$has_role_email_permission) {
-                        $this->log()->info("E-Mail {$mail_id} to role with no role_email permission: {$username}");
+                        $this->log()->info("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
+                        $processed_mails_headers[] = $mail_headers;
                         continue;
                     }
                     $role_users = $role->getUsers();
+                    $was_successful = true;
                     foreach ($role_users as $role_user) {
-                        $this->forwardEmailToUser($mail, $role_user, $to_address);
+                        if (!$this->forwardEmailToUser($mail, $role_user, $to_address)) {
+                            $was_successful = false;
+                        }
+                    }
+                    if ($was_successful) {
+                        $processed_mails_headers[] = $mail_headers;
                     }
                 }
                 if ($user == null && $role == null) {
-                    $this->log()->info("E-Mail {$mail_id} to inexistent user/role username: {$username}");
+                    $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
+                    $processed_mails_headers[] = $mail_headers;
                     continue;
                 }
             }
+            $is_message_id_processed[$message_id] = true;
         }
 
-        foreach ($mail_ids as $mail_id) {
-            $mailbox->deleteMail($mail_id);
+        foreach ($processed_mails_headers as $mail_headers) {
+            $mail_uid = $mail_headers->uid;
+            $mailbox->moveMail("{$mail_uid}", 'INBOX.Processed');
+            // $mailbox->deleteMail($mail_uid);
         }
         $mailbox->expungeDeletedMails();
     }
 
-    protected function forwardEmailToUser($mail, $user, $to_address) {
+    protected function forwardEmailToUser($mail, $user, $to_address): bool {
         $forward_address = $user->getEmail();
         $subject = $mail->subject;
         $text = $mail->textPlain;
@@ -139,9 +190,11 @@ class ProcessEmailTask extends BackgroundTask {
                     unlink($upload_path);
                 }
             }
+            return true;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->log()->critical("Error forwarding email from {$to_address} to {$forward_address}: {$message}");
+            return false;
         }
     }
 }

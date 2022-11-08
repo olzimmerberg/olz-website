@@ -3,6 +3,7 @@
 set -e
 
 BROWSER='firefox'
+NO_BUILD=0
 SET_INDEX=''
 
 while [ ! -z "$1" ]; do
@@ -12,6 +13,9 @@ while [ ! -z "$1" ]; do
             ;;
         --chrome)
             BROWSER='chrome'
+            ;;
+        --no-build)
+            NO_BUILD=1
             ;;
         --help|-h)
             echo "Usage: $(basename $0) [--firefox|--chrome] [set_index]" 2>&1
@@ -57,8 +61,10 @@ else
 fi
 
 # Build JavaScript code
-export NODE_OPTIONS="--max-old-space-size=4096"
-npm run webpack-build
+if [ "$NO_BUILD" = "0" ]; then
+    export NODE_OPTIONS="--max-old-space-size=4096"
+    npm run webpack-build
+fi
 
 # Run dev server
 mkdir -p ./public/logs

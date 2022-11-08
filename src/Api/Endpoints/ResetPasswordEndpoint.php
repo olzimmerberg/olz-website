@@ -81,6 +81,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->log()->critical("Error sending password reset email to user ({$user_id}): {$message}");
+            return ['status' => 'ERROR'];
         }
 
         return ['status' => 'OK'];

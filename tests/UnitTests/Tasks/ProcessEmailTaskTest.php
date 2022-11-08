@@ -18,7 +18,17 @@ use Olz\Utils\FixedDateUtils;
 require_once __DIR__.'/../../Fake/fake_notification_subscription.php';
 
 class FakeProcessEmailTaskMail {
-    public function __construct($to = [], $fromAddress = '', $fromName = '', $subject = '', $textPlain = '') {
+    public function __construct(
+        $id,
+        $xOriginalTo = null,
+        $to = [],
+        $fromAddress = '',
+        $fromName = '',
+        $subject = '',
+        $textPlain = '',
+    ) {
+        $this->id = $id;
+        $this->xOriginalTo = $xOriginalTo;
         $this->to = $to;
         $this->fromAddress = $fromAddress;
         $this->fromName = $fromName;
@@ -63,7 +73,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
             'CRITICAL UnexpectedValueException in searchMailbox.',
-            'INFO Finished task ProcessEmail.',
+            'ERROR Error running task ProcessEmail: Phew, that was unexpected.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -91,7 +101,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
             'CRITICAL Could not search IMAP mailbox.',
-            'INFO Finished task ProcessEmail.',
+            'ERROR Error running task ProcessEmail: ["Host not found or something"].',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -119,7 +129,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
             'CRITICAL Exception in searchMailbox.',
-            'INFO Finished task ProcessEmail.',
+            'ERROR Error running task ProcessEmail: Failed at something else.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
@@ -131,7 +141,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(['someone@other-domain.com' => true]),
+            '12' => new FakeProcessEmailTaskMail(12, 'someone@other-domain.com'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
@@ -148,7 +158,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail fake-mail-id-1 to non-olzimmerberg.ch address: someone@other-domain.com',
+            'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
@@ -161,7 +171,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-such-username@olzimmerberg.ch' => true]),
+            '12' => new FakeProcessEmailTaskMail(12, 'no-such-username@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
@@ -178,7 +188,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail fake-mail-id-1 to inexistent user/role username: no-such-username',
+            'INFO E-Mail 12 to inexistent user/role username: no-such-username',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
@@ -191,7 +201,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-permission@olzimmerberg.ch' => true]),
+            '12' => new FakeProcessEmailTaskMail(12, 'no-permission@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
@@ -208,7 +218,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail fake-mail-id-1 to user with no user_email permission: no-permission',
+            'INFO E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
@@ -222,8 +232,9 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
-                ['someone@olzimmerberg.ch' => true],
+            '12' => new FakeProcessEmailTaskMail(12,
+                'someone@olzimmerberg.ch',
+                [],
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
@@ -262,8 +273,9 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
-                ['someone-old@olzimmerberg.ch' => true],
+            '12' => new FakeProcessEmailTaskMail(12,
+                'someone-old@olzimmerberg.ch',
+                [],
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
@@ -301,7 +313,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(['no-role-permission@olzimmerberg.ch' => true]),
+            '12' => new FakeProcessEmailTaskMail(12, 'no-role-permission@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = FakeLogger::create();
@@ -318,7 +330,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail fake-mail-id-1 to role with no role_email permission: no-role-permission',
+            'INFO E-Mail 12 to role with no role_email permission: no-role-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
@@ -332,8 +344,9 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
-                ['somerole@olzimmerberg.ch' => true],
+            '12' => new FakeProcessEmailTaskMail(12,
+                'somerole@olzimmerberg.ch',
+                [],
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
@@ -374,8 +387,9 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
-                ['somerole-old@olzimmerberg.ch' => true],
+            '12' => new FakeProcessEmailTaskMail(12,
+                'somerole-old@olzimmerberg.ch',
+                [],
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
@@ -416,8 +430,9 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $env_utils = new FakeEnvUtils();
         $email_utils = new FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
-            'fake-mail-id-1' => new FakeProcessEmailTaskMail(
-                ['someone@olzimmerberg.ch' => true],
+            '12' => new FakeProcessEmailTaskMail(12,
+                'someone@olzimmerberg.ch',
+                [],
                 'from@from-domain.com',
                 'From Name',
                 'provoke_error',
@@ -444,5 +459,54 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
+    }
+
+    public function testProcessEmailTaskToMultiple(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query['user_email'] = true;
+        $auth_utils->has_role_permission_by_query['role_email'] = true;
+        $env_utils = new FakeEnvUtils();
+        $email_utils = new FakeEmailUtils();
+        $email_utils->mailbox->mail_dict = [
+            '12' => new FakeProcessEmailTaskMail(12,
+                null,
+                ['someone@olzimmerberg.ch' => true, 'somerole@olzimmerberg.ch' => true],
+                'from@from-domain.com',
+                'From Name',
+                'Test subject',
+                'Test text'
+            ),
+        ];
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $logger = FakeLogger::create();
+
+        $job = new ProcessEmailTask();
+        $job->setAuthUtils($auth_utils);
+        $job->setDateUtils($date_utils);
+        $job->setEmailUtils($email_utils);
+        $job->setEntityManager($entity_manager);
+        $job->setEnvUtils($env_utils);
+        $job->setLog($logger);
+        $job->run();
+
+        $this->assertSame([
+            'INFO Setup task ProcessEmail...',
+            'INFO Running task ProcessEmail...',
+            'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
+            'INFO Finished task ProcessEmail.',
+            'INFO Teardown task ProcessEmail...',
+        ], $logger->handler->getPrettyRecords());
+        $user_repo = $entity_manager->repositories[User::class];
+        $role_repo = $entity_manager->repositories[Role::class];
+        $expected_role_emails = array_map(function ($user) {
+            return [$user, 'Test subject', 'Test text'];
+        }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
+        $this->assertSame([
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+            ...$expected_role_emails,
+        ], $email_utils->olzMailer->emails_sent);
     }
 }

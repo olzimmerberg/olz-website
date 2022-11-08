@@ -9,134 +9,171 @@ use PhpImap\Exceptions\ConnectionException;
 
 class ProcessEmailTask extends BackgroundTask {
     public const MAX_LOOP = 100;
+    public $deleteAfterSeconds = 30 * 24 * 60 * 60;
 
     protected static function getIdent() {
         return "ProcessEmail";
     }
 
     protected function runSpecificTask() {
-        $mailbox = $this->emailUtils()->getImapMailbox();
+        $this->mailbox = $this->emailUtils()->getImapMailbox();
         try {
-            $mailbox->createMailbox('Processed');
+            $this->mailbox->createMailbox('Processed');
         } catch (\Exception $exc) {
             // ignore
         }
-        $mailbox->setAttachmentsIgnore(false);
+        $this->mailbox->setAttachmentsIgnore(false);
 
         // TODO: Test coverage!
-        $mailbox->switchMailbox('INBOX.Processed');
-        try {
-            $mail_ids = $mailbox->searchMailbox('ALL');
-        } catch (\UnexpectedValueException $uve) {
-            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
-            return;
-        } catch (ConnectionException $exc) {
-            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
-            return;
-        } catch (\Exception $exc) {
-            $this->log()->critical("Exception in searchMailbox.", [$exc]);
-            return;
-        }
-        $mails_headers = count($mail_ids) > 0 ? $mailbox->getMailsInfo($mail_ids) : [];
-        $is_message_id_processed = [];
-        foreach ($mails_headers as $mail_headers) {
+        $processed_mails_headers = $this->getProcessedMailsHeaders();
+        $this->deleteOldProcessedMails($processed_mails_headers);
+        $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails_headers);
+
+        $inbox_mails_headers = $this->getInboxMailsHeaders();
+        $newly_processed_mails_headers = [];
+        foreach ($inbox_mails_headers as $mail_headers) {
             $message_id = $mail_headers->message_id;
+            $is_processed = ($is_message_id_processed[$message_id] ?? false);
+            $is_newly_processed = $this->processMail($mail_headers, $is_processed);
+            if ($is_newly_processed) {
+                $newly_processed_mails_headers[] = $mail_headers;
+            }
             $is_message_id_processed[$message_id] = true;
         }
 
-        $mailbox->switchMailbox('INBOX');
+        foreach ($newly_processed_mails_headers as $mail_headers) {
+            $mail_uid = $mail_headers->uid;
+            $this->mailbox->moveMail("{$mail_uid}", 'INBOX.Processed');
+        }
+    }
+
+    protected function getProcessedMailsHeaders() {
+        $this->mailbox->switchMailbox('INBOX.Processed');
         try {
-            $mail_ids = $mailbox->searchMailbox('ALL');
+            $mail_ids = $this->mailbox->searchMailbox('ALL');
         } catch (\UnexpectedValueException $uve) {
             $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
-            return;
+            throw $uve;
         } catch (ConnectionException $exc) {
             $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
-            return;
+            throw $exc;
         } catch (\Exception $exc) {
             $this->log()->critical("Exception in searchMailbox.", [$exc]);
-            return;
+            throw $exc;
         }
+        return count($mail_ids) > 0 ? $this->mailbox->getMailsInfo($mail_ids) : [];
+    }
+
+    protected function getInboxMailsHeaders() {
+        $this->mailbox->switchMailbox('INBOX');
+        try {
+            $mail_ids = $this->mailbox->searchMailbox('ALL');
+        } catch (\UnexpectedValueException $uve) {
+            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
+            throw $uve;
+        } catch (ConnectionException $exc) {
+            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
+            throw $exc;
+        } catch (\Exception $exc) {
+            $this->log()->critical("Exception in searchMailbox.", [$exc]);
+            throw $exc;
+        }
+        return count($mail_ids) > 0 ? $this->mailbox->getMailsInfo($mail_ids) : [];
+    }
+
+    protected function deleteOldProcessedMails($processed_mails_headers) {
+        $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
+        foreach ($processed_mails_headers as $mail_headers) {
+            $message_timestamp = strtotime($mail_headers->date);
+            $should_delete = $message_timestamp < $now_timestamp - $this->deleteAfterSeconds;
+            if ($should_delete) {
+                $mail_uid = $mail_headers->uid;
+                $this->mailbox->deleteMail($mail_uid);
+            }
+        }
+        $this->mailbox->expungeDeletedMails();
+    }
+
+    protected function getIsMessageIdProcessed($processed_mails_headers) {
+        $is_message_id_processed = [];
+        foreach ($processed_mails_headers as $mail_headers) {
+            $message_id = $mail_headers->message_id;
+            $is_message_id_processed[$message_id] = true;
+        }
+        return $is_message_id_processed;
+    }
+
+    protected function processMail($mail_headers, $is_processed): bool {
+        $mail_uid = $mail_headers->uid;
+        $mail = $this->mailbox->getMail($mail_uid, /* do not mark as seen */ false);
+
+        $original_to = $mail->xOriginalTo;
+        if ($original_to) {
+            return $this->processMailToAddress($mail, $original_to);
+        }
+        if ($is_processed) {
+            $this->log()->info("E-Mail {$mail_uid} already processed.");
+            return true;
+        }
+        $to_addresses = array_keys($mail->to);
+        $all_successful = true;
+        foreach ($to_addresses as $to_address) {
+            if (!$this->processMailToAddress($mail, $to_address)) {
+                $all_successful = false;
+            }
+        }
+        return $all_successful;
+    }
+
+    protected function processMailToAddress($mail, $address): bool {
+        $mail_uid = $mail->id;
+
+        $is_match = preg_match('/^([\S]+)@(test\.)?olzimmerberg\.ch$/', $address, $matches);
+        if (!$is_match) {
+            $this->log()->info("E-Mail {$mail_uid} to non-olzimmerberg.ch address: {$address}");
+            return true;
+        }
+        $username = $matches[1];
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
 
-        $mails_headers = count($mail_ids) > 0 ? $mailbox->getMailsInfo($mail_ids) : [];
-        $processed_mails_headers = [];
-        foreach ($mails_headers as $mail_headers) {
-            $mail_uid = $mail_headers->uid;
-            $message_id = $mail_headers->message_id;
-            if ($is_message_id_processed[$message_id] ?? false) {
-                $this->log()->info("E-Mail {$mail_uid} already processed.");
-                continue;
+        $user = $user_repo->findFuzzilyByUsername($username);
+        if (!$user) {
+            $user = $user_repo->findFuzzilyByOldUsername($username);
+        }
+        if ($user != null) {
+            $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
+            if (!$has_user_email_permission) {
+                $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                return true;
             }
-            $mail = $mailbox->getMail($mail_uid, /* do not mark as seen */ false);
-
-            $to_addresses = array_keys($mail->to);
-            foreach ($to_addresses as $to_address) {
-                $is_match = preg_match('/^([\S]+)@(test\.)?olzimmerberg\.ch$/', $to_address, $matches);
-                if (!$is_match) {
-                    $processed_mails_headers[] = $mail_headers;
-                    $this->log()->info("E-Mail {$mail_uid} to non-olzimmerberg.ch address: {$to_address}");
-                    continue;
-                }
-                $username = $matches[1];
-                $user = $user_repo->findFuzzilyByUsername($username);
-                if (!$user) {
-                    $user = $user_repo->findFuzzilyByOldUsername($username);
-                }
-                $role = $role_repo->findFuzzilyByUsername($username);
-                if (!$role) {
-                    $role = $role_repo->findFuzzilyByOldUsername($username);
-                }
-                if ($user != null) {
-                    $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
-                    if (!$has_user_email_permission) {
-                        $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
-                        $processed_mails_headers[] = $mail_headers;
-                        continue;
-                    }
-                    $was_successful = $this->forwardEmailToUser($mail, $user, $to_address);
-                    if ($was_successful) {
-                        $processed_mails_headers[] = $mail_headers;
-                    }
-                }
-                if ($role != null) {
-                    $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
-                    if (!$has_role_email_permission) {
-                        $this->log()->info("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
-                        $processed_mails_headers[] = $mail_headers;
-                        continue;
-                    }
-                    $role_users = $role->getUsers();
-                    $was_successful = true;
-                    foreach ($role_users as $role_user) {
-                        if (!$this->forwardEmailToUser($mail, $role_user, $to_address)) {
-                            $was_successful = false;
-                        }
-                    }
-                    if ($was_successful) {
-                        $processed_mails_headers[] = $mail_headers;
-                    }
-                }
-                if ($user == null && $role == null) {
-                    $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
-                    $processed_mails_headers[] = $mail_headers;
-                    continue;
+            return $this->forwardEmailToUser($mail, $user, $address);
+        }
+        $role = $role_repo->findFuzzilyByUsername($username);
+        if (!$role) {
+            $role = $role_repo->findFuzzilyByOldUsername($username);
+        }
+        if ($role != null) {
+            $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
+            if (!$has_role_email_permission) {
+                $this->log()->info("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
+                return true;
+            }
+            $role_users = $role->getUsers();
+            $all_successful = true;
+            foreach ($role_users as $role_user) {
+                if (!$this->forwardEmailToUser($mail, $role_user, $address)) {
+                    $all_successful = false;
                 }
             }
-            $is_message_id_processed[$message_id] = true;
+            return $all_successful;
         }
-
-        foreach ($processed_mails_headers as $mail_headers) {
-            $mail_uid = $mail_headers->uid;
-            $mailbox->moveMail("{$mail_uid}", 'INBOX.Processed');
-            // $mailbox->deleteMail($mail_uid);
-        }
-        $mailbox->expungeDeletedMails();
+        $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
+        return true;
     }
 
-    protected function forwardEmailToUser($mail, $user, $to_address): bool {
+    protected function forwardEmailToUser($mail, $user, $address): bool {
         $forward_address = $user->getEmail();
         $subject = $mail->subject;
         $text = $mail->textPlain;
@@ -183,7 +220,7 @@ class ProcessEmailTask extends BackgroundTask {
             }
 
             $email->send();
-            $this->log()->info("Email forwarded from {$to_address} to {$forward_address}");
+            $this->log()->info("Email forwarded from {$address} to {$forward_address}");
 
             foreach ($upload_paths as $upload_path) {
                 if (is_file($upload_path)) {
@@ -193,7 +230,7 @@ class ProcessEmailTask extends BackgroundTask {
             return true;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
-            $this->log()->critical("Error forwarding email from {$to_address} to {$forward_address}: {$message}");
+            $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}");
             return false;
         }
     }

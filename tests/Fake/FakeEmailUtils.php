@@ -59,13 +59,13 @@ class FakeMailbox {
 
     public function searchMailbox($query) {
         if ($this->unexpected_value_exception) {
-            throw new \UnexpectedValueException("Phew, that was unexpected.");
+            throw new \UnexpectedValueException("Phew, that was unexpected");
         }
         if ($this->connection_exception) {
-            throw new ConnectionException(["Host not found or something."]);
+            throw new ConnectionException(["Host not found or something"]);
         }
         if ($this->exception) {
-            throw new \Exception("Failed at something else.");
+            throw new \Exception("Failed at something else");
         }
         if ($query === 'ALL') {
             if ($this->current_mailbox === 'INBOX.Processed') {

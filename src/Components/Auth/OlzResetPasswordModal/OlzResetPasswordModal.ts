@@ -56,7 +56,9 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
 }
 
 function handleResponse(response: OlzApiResponses['resetPassword']): string|void {
-    if (response.status !== 'OK') {
+    if (response.status === 'ERROR') {
+        throw new Error('E-Mail konnte nicht versendet werden. Bitte später erneut versuchen.');
+    } else if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
     window.setTimeout(() => {

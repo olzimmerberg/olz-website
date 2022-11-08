@@ -111,19 +111,19 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
-        test_app_files($driver, $base_url);
-        test_fuer_einsteiger($driver, $base_url);
-        test_fragen_und_antworten($driver, $base_url);
-        test_datenschutz($driver, $base_url);
-        test_webdav($driver, $base_url);
-        test_login_logout($driver, $base_url);
-        test_profil($driver, $base_url);
-        test_webftp($driver, $base_url);
-        test_live_results($driver, $base_url);
-        test_resultate($driver, $base_url);
         test_konto_passwort($driver, $base_url);
-        test_service($driver, $base_url);
-        test_newsletter($driver, $base_url);
+        // test_app_files($driver, $base_url);
+        // test_fuer_einsteiger($driver, $base_url);
+        // test_fragen_und_antworten($driver, $base_url);
+        // test_datenschutz($driver, $base_url);
+        // test_webdav($driver, $base_url);
+        // test_login_logout($driver, $base_url);
+        // test_profil($driver, $base_url);
+        // test_webftp($driver, $base_url);
+        // test_live_results($driver, $base_url);
+        // test_resultate($driver, $base_url);
+        // test_service($driver, $base_url);
+        // test_newsletter($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

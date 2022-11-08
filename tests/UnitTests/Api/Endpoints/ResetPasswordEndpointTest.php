@@ -144,7 +144,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             'recaptchaToken' => 'fake-recaptcha-token',
         ]);
 
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",

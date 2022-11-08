@@ -37,7 +37,7 @@ class ProcessEmailTask extends BackgroundTask {
             $this->log()->critical("Exception in searchMailbox.", [$exc]);
             return;
         }
-        $mails_headers = $mailbox->getMailsInfo($mail_ids);
+        $mails_headers = count($mail_ids) > 0 ? $mailbox->getMailsInfo($mail_ids) : [];
         $is_message_id_processed = [];
         foreach ($mails_headers as $mail_headers) {
             $message_id = $mail_headers->message_id;
@@ -61,7 +61,7 @@ class ProcessEmailTask extends BackgroundTask {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
 
-        $mails_headers = $mailbox->getMailsInfo($mail_ids);
+        $mails_headers = count($mail_ids) > 0 ? $mailbox->getMailsInfo($mail_ids) : [];
         $processed_mails_headers = [];
         foreach ($mails_headers as $mail_headers) {
             $mail_uid = $mail_headers->uid;

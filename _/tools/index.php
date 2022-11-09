@@ -1,6 +1,7 @@
 <?php
 
 use Olz\Utils\DevDataUtils;
+use Olz\Utils\EmailUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
@@ -69,6 +70,17 @@ function run_tools($command_config, $server) {
     if ($command === 'logs-monitoring') {
         return run_command($command, function () {
             logs_monitoring();
+        });
+    }
+    if ($command === 'sendmail') {
+        return run_command($command, function () {
+            $email_utils = EmailUtils::fromEnv();
+            $mail = $email_utils->createEmail();
+            $mail->addAddress('simon+tools@hatt.style', 'Simon Hatt');
+            $mail->Subject = "Test";
+            $date = date('Y-m-d H:i:s');
+            $mail->Body = "It is {$date}";
+            $mail->send();
         });
     }
     // No command to execute => show index

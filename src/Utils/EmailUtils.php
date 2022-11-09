@@ -47,7 +47,7 @@ class EmailUtils {
             $mail->SMTPAuth = true;
             $mail->Username = $this->envUtils()->getSmtpUsername();
             $mail->Password = $this->envUtils()->getSmtpPassword();
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = intval($this->envUtils()->getSmtpPort());
         } else {
             $mail->isSendmail();

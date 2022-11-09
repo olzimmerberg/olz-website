@@ -14,6 +14,7 @@ run_tools(
         'migrate' => [],
         'backup-monitoring' => [],
         'logs-monitoring' => [],
+        'sendmail' => [],
     ],
     $_SERVER,
 );

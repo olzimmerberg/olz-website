@@ -10,17 +10,19 @@ use Olz\Utils\EnvUtils;
 class OlzAppsList {
     public static function render($args = []) {
         $auth_utils = AuthUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
         $user = $auth_utils->getAuthenticatedUser();
         $available_apps = OlzApps::getAppsForUser($user);
         $out = '';
         $out .= "<div class='apps-list'>";
-        $out .= implode('', array_map(function ($app) {
+        $out .= implode('', array_map(function ($app) use ($code_href) {
             $icon = $app->getIcon();
             $display_name = $app->getDisplayName();
             $href = $app->getHref();
             $basename = $app->getBasename();
             return <<<ZZZZZZZZZZ
-            <a href='{$href}'>
+            <a href='{$code_href}{$href}'>
                 <div class='app-container'>
                     <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
                     <div>{$display_name}</div>
@@ -31,8 +33,6 @@ class OlzAppsList {
         $out .= "</div>";
 
         if (!$auth_utils->hasPermission('any')) {
-            $env_utils = EnvUtils::fromEnv();
-            $code_href = $env_utils->getCodeHref();
             $hypothetical_logged_in_user = new User();
             $hypothetical_logged_in_user->setId(null);
             $hypothetical_logged_in_user->setPermissions('');

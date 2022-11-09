@@ -55,6 +55,8 @@ class EnvUtils {
     private $smtp_port;
     private $smtp_username;
     private $smtp_password;
+    private $smtp_secure = '';
+    private $smtp_debug = 0;
     private $smtp_from;
 
     private $app_google_search_username;
@@ -129,6 +131,8 @@ class EnvUtils {
         $this->smtp_port = $config_dict['smtp_port'] ?? $this->smtp_port;
         $this->smtp_username = $config_dict['smtp_username'] ?? $this->smtp_username;
         $this->smtp_password = $config_dict['smtp_password'] ?? $this->smtp_password;
+        $this->smtp_secure = $config_dict['smtp_secure'] ?? $this->smtp_secure;
+        $this->smtp_debug = $config_dict['smtp_debug'] ?? $this->smtp_debug;
         $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
 
         $this->app_google_search_username = $config_dict['app_google_search_username'] ?? $this->app_google_search_username;
@@ -287,6 +291,14 @@ class EnvUtils {
 
     public function getSmtpPassword() {
         return $this->smtp_password;
+    }
+
+    public function getSmtpSecure() {
+        return $this->smtp_secure;
+    }
+
+    public function getSmtpDebug() {
+        return $this->smtp_debug;
     }
 
     public function getSmtpFrom() {

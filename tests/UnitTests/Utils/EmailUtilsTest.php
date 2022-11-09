@@ -162,7 +162,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('localhost', $mailer->Host);
         $this->assertSame(25, $mailer->Port);
         $this->assertSame('', $mailer->Helo);
-        $this->assertSame('ssl', $mailer->SMTPSecure);
+        $this->assertSame('tls', $mailer->SMTPSecure);
         $this->assertSame(true, $mailer->SMTPAutoTLS);
         $this->assertSame(true, $mailer->SMTPAuth);
         $this->assertSame([], $mailer->SMTPOptions);
@@ -171,7 +171,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('', $mailer->AuthType);
         $this->assertSame(300, $mailer->Timeout);
         $this->assertSame('', $mailer->dsn);
-        $this->assertSame(0, $mailer->SMTPDebug);
+        $this->assertSame(3, $mailer->SMTPDebug);
         $this->assertSame('echo', $mailer->Debugoutput);
         $this->assertSame(false, $mailer->SMTPKeepAlive);
         $this->assertSame(false, $mailer->SingleTo);

@@ -12,7 +12,18 @@ $(() => {
 
 export function olzResetPasswordConsent(value: boolean): void {
     if (value) {
-        loadRecaptcha();
+        const submitButton = document.getElementById('reset-password-submit-button');
+        submitButton.classList.remove('btn-primary');
+        submitButton.classList.add('btn-secondary');
+        const originalInnerHtml = submitButton.innerHTML;
+        submitButton.innerHTML = 'Bitte warten...';
+        loadRecaptcha().then(() => {
+            window.setTimeout(() => {
+                submitButton.classList.remove('btn-secondary');
+                submitButton.classList.add('btn-primary');
+                submitButton.innerHTML = originalInnerHtml;
+            }, 1100);
+        });
     }
 }
 

@@ -4,7 +4,18 @@ import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
 export function olzSignUpConsent(value: boolean): void {
     if (value) {
-        loadRecaptcha();
+        const submitButton = document.getElementById('sign-up-with-password-submit-button');
+        submitButton.classList.remove('btn-primary');
+        submitButton.classList.add('btn-secondary');
+        const originalInnerHtml = submitButton.innerHTML;
+        submitButton.innerHTML = 'Bitte warten...';
+        loadRecaptcha().then(() => {
+            window.setTimeout(() => {
+                submitButton.classList.remove('btn-secondary');
+                submitButton.classList.add('btn-primary');
+                submitButton.innerHTML = originalInnerHtml;
+            }, 1100);
+        });
     }
 }
 

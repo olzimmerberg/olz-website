@@ -41,6 +41,8 @@ $configure_env_utils = function ($env_utils) {
         'smtp_port' => '465',
         'smtp_username' => 'fake-user@olzimmerberg.ch',
         'smtp_password' => '1234',
+        'smtp_secure' => 'ssl',
+        'smtp_debug' => 0,
         'smtp_from' => 'fake-user@olzimmerberg.ch',
     ]);
 };

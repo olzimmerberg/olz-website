@@ -67,6 +67,8 @@ final class EnvUtilsTest extends UnitTestCase {
             'smtp_port' => '465',
             'smtp_username' => 'fake-user@olzimmerberg.ch',
             'smtp_password' => '1234',
+            'smtp_secure' => 'ssl',
+            'smtp_debug' => 0,
             'smtp_from' => 'fake-user@olzimmerberg.ch',
 
             'app_google_search_username' => 'fake-user@gmail.com',

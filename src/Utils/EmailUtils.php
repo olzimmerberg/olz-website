@@ -7,8 +7,6 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use PhpImap\Mailbox;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 
 require_once __DIR__.'/OlzMailer.php';
 
@@ -40,14 +38,13 @@ class EmailUtils {
         $mail = new OlzMailer($this, $this->envUtils(), true);
 
         if ($this->envUtils()->getSmtpHost() !== null) {
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;
-            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->SMTPDebug = $this->envUtils()->getSmtpDebug();
             $mail->isSMTP();
             $mail->Host = $this->envUtils()->getSmtpHost();
-            $mail->SMTPAuth = true;
+            $mail->SMTPAuth = ($this->envUtils()->getSmtpUsername() !== null);
             $mail->Username = $this->envUtils()->getSmtpUsername();
             $mail->Password = $this->envUtils()->getSmtpPassword();
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = $this->envUtils()->getSmtpSecure();
             $mail->Port = intval($this->envUtils()->getSmtpPort());
         } else {
             $mail->isSendmail();

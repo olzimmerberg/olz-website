@@ -81,6 +81,14 @@ class FakeEnvUtils {
         return '1234';
     }
 
+    public function getSmtpSecure() {
+        return 'tls';
+    }
+
+    public function getSmtpDebug() {
+        return 3;
+    }
+
     public function getSmtpFrom() {
         return 'fake@olzimmerberg.ch';
     }

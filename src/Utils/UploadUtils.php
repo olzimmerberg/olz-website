@@ -10,7 +10,7 @@ class UploadUtils {
         'log',
     ];
 
-    private $suffixPattern = '[a-z0-9]+';
+    private $suffixPattern = '[a-zA-Z0-9]+';
 
     /**
      * Kompatibilitäts-Layer, falls der Hoster eine bescheuerte Content Security

@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Oev\Components\OlzOev;
 
+use Olz\Apps\Oev\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
@@ -30,30 +31,35 @@ class OlzOev {
 
         $id = $_GET['id'] ?? null;
 
-        echo OlzHeader::render([
+        $out = '';
+
+        $out .= OlzHeader::render([
             'title' => "ÖV-Tool",
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
         ]);
 
-        echo "<div class='content-full'>";
+        $out .= "<div class='content-full'>";
 
         $auth_utils = AuthUtils::fromEnv();
         $has_access = $auth_utils->hasPermission('any');
         if ($has_access) {
-            echo <<<'ZZZZZZZZZZ'
+            $out .= <<<'ZZZZZZZZZZ'
             <div id='oev-root'></div>
-            <script>olz.initOlzTransportConnectionSearch();</script>
             ZZZZZZZZZZ;
         } else {
-            echo <<<'ZZZZZZZZZZ'
+            $out .= <<<'ZZZZZZZZZZ'
             <div id='oev-message' class='alert alert-danger' role='alert'>
                 Da musst du schon eingeloggt sein!
             </div>
             ZZZZZZZZZZ;
         }
 
-        echo "</div>";
+        $out .= "</div>";
 
-        echo OlzFooter::render();
+        $metadata = new Metadata();
+        $out .= $metadata->getJsCssImports();
+
+        $out .= OlzFooter::render();
+        return $out;
     }
 }

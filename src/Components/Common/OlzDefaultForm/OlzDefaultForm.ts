@@ -96,14 +96,20 @@ type DictOfFieldResults<T> = T extends Record<string, any> ? {
     [key in keyof T]: FieldResultOrDictThereof<T[key]>
 } : never;
 
+function keys<T>(object: {[key in keyof T]: unknown}): Array<keyof T> {
+    return Object.keys(object)as unknown as Array<keyof T>;
+}
+
 export function isFieldResultOrDictThereofValid<T>(
     fieldResultOrDictThereof: FieldResultOrDictThereof<T>,
 ): boolean {
     if (isFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.isValid;
     }
-    return Object.keys(fieldResultOrDictThereof).every((key) =>
-        isFieldResultOrDictThereofValid(fieldResultOrDictThereof[key]));
+    return keys(fieldResultOrDictThereof).every((key) => {
+        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+        return isFieldResultOrDictThereofValid(field);
+    });
 }
 
 export function getFieldResultOrDictThereofErrors<T>(
@@ -112,8 +118,10 @@ export function getFieldResultOrDictThereofErrors<T>(
     if (isFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.errors;
     }
-    return [].concat(...Object.keys(fieldResultOrDictThereof).map((key) =>
-        getFieldResultOrDictThereofErrors(fieldResultOrDictThereof[key])));
+    return [].concat(...keys(fieldResultOrDictThereof).map((key) => {
+        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+        return getFieldResultOrDictThereofErrors(field);
+    }));
 }
 
 export function getFieldResultOrDictThereofValue<T>(
@@ -122,9 +130,10 @@ export function getFieldResultOrDictThereofValue<T>(
     if (isFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.value;
     }
-    const value: {[key: string]: unknown} = {};
-    for (const key of Object.keys(fieldResultOrDictThereof)) {
-        value[key] = getFieldResultOrDictThereofValue(fieldResultOrDictThereof[key]);
+    const value: {[key in keyof T]?: unknown} = {};
+    for (const key of keys(fieldResultOrDictThereof)) {
+        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+        value[key] = getFieldResultOrDictThereofValue(field);
     }
     return value as unknown as T;
 }

@@ -6,3 +6,7 @@ ReactDOM.render(
     <OlzMonitoring />,
     document.getElementById('react-root'),
 );    
+
+export function loaded(): void {
+    console.log('olzMonitoring loaded');
+}

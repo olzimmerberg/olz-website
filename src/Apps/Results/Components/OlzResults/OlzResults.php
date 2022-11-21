@@ -19,7 +19,7 @@ class OlzResults {
         if (isset($_GET['file'])) {
             $out .= "<div class='content-full' style='position:relative'>";
             $out .= <<<'ZZZZZZZZZZ'
-            <div id='title-box'><div id='backbutton' onclick='olz.popHash()'>&lt;</div><h1 id='title'></h1></div>
+            <div id='title-box'><div id='backbutton' onclick='olzResults.popHash()'>&lt;</div><h1 id='title'></h1></div>
             <div id='classes-box'></div>
             <div id='content-box'></div>
             <div class='inactive' id='grafik-box'><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='width:100%; height:100%;' id='grafik-svg'></svg></div>

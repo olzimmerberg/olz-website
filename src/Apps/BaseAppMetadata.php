@@ -62,7 +62,7 @@ abstract class BaseAppMetadata {
 
         $out = '';
         $out .= "<link rel='stylesheet' href='{$css_href}' />";
-        $out .= "<script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>";
+        $out .= "<script type='text/javascript' src='{$js_href}' onload='olz{$basename}.loaded()'></script>";
         return $out;
     }
 }

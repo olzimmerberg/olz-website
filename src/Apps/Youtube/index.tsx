@@ -6,3 +6,7 @@ ReactDOM.render(
     <OlzYoutube />,
     document.getElementById('react-root'),
 );    
+
+export function loaded(): void {
+    console.log('olzYoutube loaded');
+}

@@ -46,7 +46,7 @@ class OlzTelegramCard {
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
-                    <form id='telegram-notifications-form' onsubmit='return olz.olzTelegramNotificationsUpdate(this)'>
+                    <form id='telegram-notifications-form' onsubmit='return olzNewsletter.olzTelegramNotificationsUpdate(this)'>
                         <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                         {$form}
                         <p class="card-text text-end">

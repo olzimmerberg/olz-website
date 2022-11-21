@@ -97,7 +97,7 @@ const appConfigs = apps
                 path: path.resolve(__dirname, `public/jsbuild/app-${app}`),
                 publicPath: `/jsbuild/app-${app}/`,
                 filename: '[name].min.js',
-                library: 'olz',
+                library: `olz${app}`,
                 libraryTarget: 'window',
             },
         };

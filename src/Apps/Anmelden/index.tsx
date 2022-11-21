@@ -6,3 +6,7 @@ ReactDOM.render(
     <OlzRegistrationView />,
     document.getElementById('react-root'),
 );
+
+export function loaded(): void {
+    console.log('olzAnmelden loaded');
+}

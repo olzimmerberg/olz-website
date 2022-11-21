@@ -43,10 +43,10 @@ class OlzLogs {
         if ($user && $user->getPermissions() == 'all') {
             $out .= <<<'ZZZZZZZZZZ'
             <div class='logs-header'>
-                <button type='button' class='form-control btn btn-outline-primary' onclick='olz.olzLogsGetNextLog()'>
+                <button type='button' class='form-control btn btn-outline-primary' onclick='olzLogs.olzLogsGetNextLog()'>
                     Ältere laden
                 </button>
-                <select id='log-level-filter-select' class='form-control form-select' onchange='olz.olzLogsLevelFilterChange()'>
+                <select id='log-level-filter-select' class='form-control form-select' onchange='olzLogs.olzLogsLevelFilterChange()'>
                     <option value='levels-all' selected>Alle Log-Levels</option>
                     <option value='levels-info-higher'>"Info" & höher</option>
                     <option value='levels-notice-higher'>"Notice" & höher</option>

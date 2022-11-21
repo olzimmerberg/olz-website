@@ -127,6 +127,10 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    roundRect(x: number, y: number, w: number, h: number, radii: number|number[]): void {
+        throw new Error('Method not implemented.');
+    }
+
     lineCap: CanvasLineCap;
     lineDashOffset: number;
     lineJoin: CanvasLineJoin;
@@ -178,6 +182,7 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
 
     direction: CanvasDirection;
     font: string;
+    fontKerning: CanvasFontKerning;
     textAlign: CanvasTextAlign;
     textBaseline: CanvasTextBaseline;
     getTransform(): DOMMatrix {

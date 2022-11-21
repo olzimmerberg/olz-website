@@ -40,7 +40,7 @@ class OlzEmailCard {
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
-                    <form id='email-notifications-form' onsubmit='return olz.olzEmailNotificationsUpdate(this)'>
+                    <form id='email-notifications-form' onsubmit='return olzNewsletter.olzEmailNotificationsUpdate(this)'>
                         <p class='card-title'><b>Du hast folgende Benachrichtigungen aktiviert:</b></p>
                         {$form}
                         <p class="card-text text-end">

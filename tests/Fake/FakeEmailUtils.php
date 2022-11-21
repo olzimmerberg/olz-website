@@ -111,11 +111,22 @@ class FakeMailInfo {
 
 class FakeOlzMailer {
     public $emails_sent = [];
-    public $email_to_send;
+    public $user;
+    public $Subject;
+    public $Body;
+    public $AltBody;
+    public $from;
     public $reply_to;
 
     public function configure($user, $title, $text) {
-        $this->email_to_send = [$user, $title, $text];
+        $this->user = $user;
+        $this->Subject = $title;
+        $this->Body = $text;
+        $this->AltBody = $text;
+    }
+
+    public function setFrom($address, $name) {
+        $this->from = [$address, $name];
     }
 
     public function addReplyTo($address, $name) {
@@ -124,12 +135,12 @@ class FakeOlzMailer {
 
     public function send() {
         $title_provokes_error = str_contains(
-            $this->email_to_send[1], 'provoke_error');
+            $this->Subject, 'provoke_error');
         $text_provokes_error = str_contains(
-            $this->email_to_send[2], 'provoke_error');
+            $this->Body, 'provoke_error');
         if ($title_provokes_error || $text_provokes_error) {
             throw new \Exception("Provoked Mailer Error");
         }
-        $this->emails_sent[] = $this->email_to_send;
+        $this->emails_sent[] = [$this->user, $this->Subject, $this->Body, $this->AltBody];
     }
 }

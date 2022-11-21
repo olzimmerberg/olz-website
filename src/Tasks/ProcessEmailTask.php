@@ -180,17 +180,22 @@ class ProcessEmailTask extends BackgroundTask {
     protected function forwardEmailToUser($mail, $user, $address): bool {
         $forward_address = $user->getEmail();
         $subject = $mail->subject;
+        $html = $mail->textHtml;
         $text = $mail->textPlain;
         try {
             $this->emailUtils()->setLogger($this->log());
             $email = $this->emailUtils()->createEmail();
-            $email->configure($user, $subject, $text, [
+            $email->configure($user, $subject, /* text= */ '', [
                 'no_header' => true,
                 'no_unsubscribe' => true,
             ]);
             // This is probably dangerous (Might get us on spamming lists?):
             // $email->setFrom($mail->fromAddress, $mail->fromName);
+            $email->setFrom($this->envUtils()->getSmtpFrom(), 'OLZ E-Mail Weiterleitung');
             $email->addReplyTo($mail->fromAddress, $mail->fromName);
+
+            $email->Body = $html;
+            $email->AltBody = $text;
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {

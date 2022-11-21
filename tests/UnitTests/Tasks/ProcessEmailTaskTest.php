@@ -25,6 +25,7 @@ class FakeProcessEmailTaskMail {
         $fromAddress = '',
         $fromName = '',
         $subject = '',
+        $textHtml = '',
         $textPlain = '',
     ) {
         $this->id = $id;
@@ -33,6 +34,7 @@ class FakeProcessEmailTaskMail {
         $this->fromAddress = $fromAddress;
         $this->fromName = $fromName;
         $this->subject = $subject;
+        $this->textHtml = $textHtml;
         $this->textPlain = $textPlain;
     }
 
@@ -238,7 +240,8 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
-                'Test text'
+                'Test html',
+                'Test text',
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -262,7 +265,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $user_repo = $entity_manager->repositories[User::class];
         $this->assertSame([
-            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test html', 'Test text'],
         ], $email_utils->olzMailer->emails_sent);
     }
 
@@ -279,6 +282,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
+                'Test html',
                 'Test text'
             ),
         ];
@@ -303,7 +307,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $user_repo = $entity_manager->repositories[User::class];
         $this->assertSame([
-            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test html', 'Test text'],
         ], $email_utils->olzMailer->emails_sent);
     }
 
@@ -350,6 +354,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
+                'Test html',
                 'Test text'
             ),
         ];
@@ -375,7 +380,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $role_repo = $entity_manager->repositories[Role::class];
         $expected_emails = array_map(function ($user) {
-            return [$user, 'Test subject', 'Test text'];
+            return [$user, 'Test subject', 'Test html', 'Test text'];
         }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
         $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
     }
@@ -393,6 +398,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
+                'Test html',
                 'Test text'
             ),
         ];
@@ -418,7 +424,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $role_repo = $entity_manager->repositories[Role::class];
         $expected_emails = array_map(function ($user) {
-            return [$user, 'Test subject', 'Test text'];
+            return [$user, 'Test subject', 'Test html', 'Test text'];
         }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
         $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
     }
@@ -436,6 +442,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'provoke_error',
+                'Provoke error',
                 'Provoke error',
             ),
         ];
@@ -475,6 +482,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
                 'from@from-domain.com',
                 'From Name',
                 'Test subject',
+                'Test html',
                 'Test text'
             ),
         ];
@@ -502,10 +510,10 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $user_repo = $entity_manager->repositories[User::class];
         $role_repo = $entity_manager->repositories[Role::class];
         $expected_role_emails = array_map(function ($user) {
-            return [$user, 'Test subject', 'Test text'];
+            return [$user, 'Test subject', 'Test html', 'Test text'];
         }, $role_repo->fakeProcessEmailTaskRole->getUsers()->toArray());
         $this->assertSame([
-            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test text'],
+            [$user_repo->fakeProcessEmailTaskUser, 'Test subject', 'Test html', 'Test text'],
             ...$expected_role_emails,
         ], $email_utils->olzMailer->emails_sent);
     }

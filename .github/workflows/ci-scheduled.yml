@@ -1,7 +1,7 @@
 on:
   schedule:
-    # daily at X:49
-    - cron:  '49 * * * *'
+    # every sixth hour at X:49
+    - cron:  '49 */6 * * *'
 name: CI:scheduled
 jobs:
 

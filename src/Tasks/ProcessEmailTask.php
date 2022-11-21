@@ -32,13 +32,15 @@ class ProcessEmailTask extends BackgroundTask {
         $inbox_mails_headers = $this->getInboxMailsHeaders();
         $newly_processed_mails_headers = [];
         foreach ($inbox_mails_headers as $mail_headers) {
-            $message_id = $mail_headers->message_id;
+            $message_id = $mail_headers->message_id ?? null;
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
             $is_newly_processed = $this->processMail($mail_headers, $is_processed);
             if ($is_newly_processed) {
                 $newly_processed_mails_headers[] = $mail_headers;
             }
-            $is_message_id_processed[$message_id] = true;
+            if ($message_id !== null) {
+                $is_message_id_processed[$message_id] = true;
+            }
         }
 
         foreach ($newly_processed_mails_headers as $mail_headers) {
@@ -97,8 +99,10 @@ class ProcessEmailTask extends BackgroundTask {
     protected function getIsMessageIdProcessed($processed_mails_headers) {
         $is_message_id_processed = [];
         foreach ($processed_mails_headers as $mail_headers) {
-            $message_id = $mail_headers->message_id;
-            $is_message_id_processed[$message_id] = true;
+            $message_id = $mail_headers->message_id ?? null;
+            if ($message_id !== null) {
+                $is_message_id_processed[$message_id] = true;
+            }
         }
         return $is_message_id_processed;
     }

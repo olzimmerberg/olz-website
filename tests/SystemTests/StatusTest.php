@@ -58,7 +58,7 @@ final class StatusTest extends SystemTestCase {
         $browser->get($some_view_href);
         $body = $this->findBrowserElement('body');
         $res = preg_match('/Last check:\s*([0-9]+)\s+(seconds|minutes)\s+ago/im', $body->getText(), $matches);
-        $this->assertSame(1, $res);
+        $this->assertSame(1, $res, $body->getText());
         $number = intval($matches[1]);
         $unit = $matches[2];
         if ($unit === 'minutes') {

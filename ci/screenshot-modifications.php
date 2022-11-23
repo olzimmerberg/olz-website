@@ -125,8 +125,9 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
     echo "{$path_for_print} {$change_for_print} {$status_for_print}\n";
 }
 echo "\n";
-echo "To see the changes:\n";
-echo "https://test.olzimmerberg.ch/screenshots/\n";
+echo "To see the changes, see URL under\n";
+echo "'Deploy to test.olzimmerberg.ch' > 'Deploy'\n";
+echo "and append '/screenshots'\n";
 if (!$all_approved) {
     echo "\n";
     echo "Not all approvals received.\n";

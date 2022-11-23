@@ -174,12 +174,12 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    - name: Deploy to hosttech
+    - name: Deploy
       env:
         USERNAME: ${{ secrets.TEST_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.TEST_HOSTTECH_FTP_PASSWORD }}
       run: php ./Deploy.php --target=hosttech --environment=test --username="$USERNAME"
-    - name: Reset hosttech database
+    - name: Reset database
       run: wget -q -O - "https://test.olzimmerberg.ch/tools.php/full-reset"
 
   upload-screenshots:

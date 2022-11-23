@@ -112,8 +112,12 @@ class Deploy extends AbstractDefaultDeploy {
                     $fs->remove($path);
                 }
             }
+            $public_url = $this->getRemotePublicUrl();
             $test_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
-            $this->logger->info("Test token: {$test_token}");
+            $this->logger->info("--------------------------------------------");
+            $this->logger->info("   {$public_url}/{$test_token}/   ");
+            $this->logger->info("   {$public_url}/{$test_token}/screenshots/   ");
+            $this->logger->info("--------------------------------------------");
             $install_path = "{$public_path}/{$test_token}";
             $deploy_path_from_public_index = 'dirname(dirname(__DIR__))';
         }

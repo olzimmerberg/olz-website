@@ -158,7 +158,7 @@ jobs:
           ${{ runner.os }}-node-
     - name: Install JavaScript dependencies
       run: npm install
-    - name: Deploy to hosttech
+    - name: Deploy
       env:
         USERNAME: ${{ secrets.PROD_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.PROD_HOSTTECH_FTP_PASSWORD }}

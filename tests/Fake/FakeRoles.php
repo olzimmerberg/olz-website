@@ -15,6 +15,7 @@ class FakeRoles extends FakeFactory {
                 $admin_role = new Role();
                 $admin_role->setId(2);
                 $admin_role->setUsername('admin_role');
+                $admin_role->setName('Administrator');
                 $admin_role->setPermissions('all');
                 return $admin_role;
             }
@@ -29,6 +30,7 @@ class FakeRoles extends FakeFactory {
                 $vorstand_role = new Role();
                 $vorstand_role->setId(3);
                 $vorstand_role->setUsername('vorstand_role');
+                $vorstand_role->setName('Vorstand');
                 $vorstand_role->setPermissions('aktuell ftp');
                 return $vorstand_role;
             }
@@ -43,6 +45,8 @@ class FakeRoles extends FakeFactory {
                 $default_role = new Role();
                 $default_role->setId(1);
                 $default_role->setUsername('role');
+                $default_role->setName('Default');
+                $default_role->setPermissions('');
                 return $default_role;
             }
         );

@@ -97,6 +97,10 @@ class Role {
         return $this->name;
     }
 
+    public function setName($new_name) {
+        $this->name = $new_name;
+    }
+
     public function getDescription() {
         return $this->description;
     }

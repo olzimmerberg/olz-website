@@ -187,6 +187,14 @@ class AuthUtils {
         return $user_repo->findOneBy(['username' => $auth_username]);
     }
 
+    public function getAuthenticatedRoles() {
+        $user = $this->getAuthenticatedUser();
+        if (!$user) {
+            return null;
+        }
+        return [...$user->getRoles()];
+    }
+
     public function isUsernameAllowed($username) {
         return preg_match('/^[a-zA-Z0-9-_\\.]+$/', $username) ? true : false;
     }

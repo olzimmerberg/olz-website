@@ -4,8 +4,6 @@ namespace Olz\Api;
 
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/OlzEndpoint.php';
-
 abstract class OlzEntityEndpoint extends OlzEndpoint {
     use \Psr\Log\LoggerAwareTrait;
 

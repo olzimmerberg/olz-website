@@ -643,7 +643,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getSessionUser());
+        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
     }
 
     public function testGetTokenUser(): void {
@@ -688,6 +688,30 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setSession($session);
         $this->assertSame(FakeUsers::adminUser(), $auth_utils->getSessionUser());
+    }
+
+    public function testGetAuthenticatedRoles(): void {
+        $entity_manager = new FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'admin',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setGetParams([]);
+        $auth_utils->setSession($session);
+        $this->assertSame([], $auth_utils->getAuthenticatedRoles());
+    }
+
+    public function testGetAuthenticatedRolesUnauthenticated(): void {
+        $entity_manager = new FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setGetParams([]);
+        $auth_utils->setSession($session);
+        $this->assertSame(null, $auth_utils->getAuthenticatedRoles());
     }
 
     public function testIsUsernameAllowed(): void {

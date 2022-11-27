@@ -5,8 +5,6 @@ namespace Olz\Api;
 use Olz\Entity\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/OlzEntityEndpoint.php';
-
 abstract class OlzUpdateEntityEndpoint extends OlzEntityEndpoint {
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [

@@ -47,6 +47,13 @@ class FakeAuthUtils {
         return FakeUsers::adminUser();
     }
 
+    public function getAuthenticatedRoles() {
+        return [
+            FakeRoles::adminRole(),
+            FakeRoles::defaultRole(),
+        ];
+    }
+
     public function isUsernameAllowed($username) {
         return $username !== 'invalid@';
     }

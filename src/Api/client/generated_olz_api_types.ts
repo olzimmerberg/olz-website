@@ -109,6 +109,8 @@ export type OlzApiEndpoint =
     'login'|
     'resetPassword'|
     'logout'|
+    'getAuthenticatedUser'|
+    'getAuthenticatedRoles'|
     'updateUser'|
     'updatePassword'|
     'signUpWithPassword'|
@@ -166,6 +168,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'recaptchaToken': string,
         },
     logout: Record<string, never>|null,
+    getAuthenticatedUser: Record<string, never>|null,
+    getAuthenticatedRoles: Record<string, never>|null,
     updateUser: {
             'id': number,
             'firstName': string,
@@ -365,6 +369,21 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     logout: {
             'status': 'NO_SESSION'|'SESSION_CLOSED',
+        },
+    getAuthenticatedUser: {
+            'user': {
+            'id': number,
+            'firstName': string,
+            'lastName': string,
+            'username': string,
+        }|null,
+        },
+    getAuthenticatedRoles: {
+            'roles': Array<{
+            'id': number,
+            'name': string,
+            'username': string,
+        }>|null,
         },
     updateUser: {
             'status': 'OK'|'ERROR',

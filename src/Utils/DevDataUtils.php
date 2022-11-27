@@ -161,22 +161,38 @@ class DevDataUtils {
         if (!$key || strlen($key) < 10) {
             throw new \Exception("No valid key");
         }
-        $sql = '';
-        $sql .= $this->getDbStructureSql();
-        $sql .= "\n\n----------\n\n\n";
-        $sql .= $this->getDbContentSql();
 
-        $plaintext = $sql;
+        $tmp_dir = __DIR__.'/data/tmp/';
+        if (!is_dir($tmp_dir)) {
+            mkdir($tmp_dir);
+        }
+
+        $plain_path = "{$tmp_dir}backup.plain.sql";
+        $plain_fp = fopen($plain_path, 'w+');
+        $sql = '';
+        fwrite($plain_fp, $this->getDbStructureSql());
+        fwrite($plain_fp, "\n\n----------\n\n\n");
+        fwrite($plain_fp, $this->getDbContentSql());
+        fclose($plain_fp);
+
+        $cipher_path = "{$tmp_dir}backup.cipher.sql";
+        $cipher_fp = fopen($cipher_path, 'w+');
         $algo = 'aes-256-gcm';
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
-        $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
+        fwrite($cipher_fp, openssl_encrypt(file_get_contents($plain_path), $algo, $key, OPENSSL_RAW_DATA, $iv, $tag));
+        fclose($cipher_fp);
+
+        unlink($plain_path);
+
         echo json_encode([
             'algo' => $algo,
             'iv' => base64_encode($iv),
             'tag' => base64_encode($tag),
-            'ciphertext' => base64_encode($ciphertext),
+            'ciphertext' => base64_encode(file_get_contents($cipher_path)),
         ]);
         echo "\n";
+
+        unlink($cipher_path);
     }
 
     public function dumpDb() {

@@ -12,12 +12,16 @@ class GetAuthenticatedUserEndpoint extends OlzEndpoint {
 
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [
-            'user' => new FieldTypes\ObjectField(['field_structure' => [
-                'id' => new FieldTypes\IntegerField([]),
-                'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
-                'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
-                'username' => new FieldTypes\StringField(['allow_empty' => false]),
-            ], 'allow_null' => true]),
+            'user' => new FieldTypes\ObjectField([
+                'export_as' => 'OlzAuthenticatedUser',
+                'field_structure' => [
+                    'id' => new FieldTypes\IntegerField([]),
+                    'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
+                    'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
+                    'username' => new FieldTypes\StringField(['allow_empty' => false]),
+                ],
+                'allow_null' => true,
+            ]),
         ]]);
     }
 

@@ -1,14 +1,19 @@
+const STYLE_ELEMENT_ID = 'olz-features-css';
+
 export function olzInitFeatures(featuresConfig: string): void {
     const features = featuresConfig?.split(/\s*,\s*/) ?? [];
+    let cssOut = '';
     for (const feature of features) {
-        const elems = document.getElementsByClassName(feature);
-        for (let i = 0; i < elems.length; i++) {
-            const elem = elems[i];
-            if (elem.classList.contains('feature')) {
-                elem.classList.add('enabled');
-            }
-        }
+        cssOut += `.feature.${feature} { display: block !important; }\n\n`;
     }
+    let styleElem = document.getElementById(STYLE_ELEMENT_ID);
+    if (!styleElem) {
+        styleElem = document.createElement('style');
+        styleElem.setAttribute('type', 'text/css');
+        styleElem.setAttribute('id', STYLE_ELEMENT_ID);
+    }
+    styleElem.innerHTML = cssOut;
+    document.head.appendChild(styleElem);
 }
 
 window.addEventListener('load', () => {

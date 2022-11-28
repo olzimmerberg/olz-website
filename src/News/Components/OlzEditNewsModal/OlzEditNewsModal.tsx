@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzNewsData} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAuthenticatedUserRoleChooser/OlzAuthenticatedUserRoleChooser';
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
@@ -66,6 +67,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
     const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
     const [content, setContent] = React.useState<string>(props.data?.content ?? '');
     const [author, setAuthor] = React.useState<string>(props.data?.author ?? '');
+    const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
+    const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
     const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
     const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
     const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
@@ -212,6 +215,14 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor='news-author-input'>Autor</label>
+                                <div className='feature news-author'>
+                                    <OlzAuthenticatedUserRoleChooser
+                                        userId={authorUserId}
+                                        roleId={authorRoleId}
+                                        onUserIdChange={e => setAuthorUserId(e.detail)}  
+                                        onRoleIdChange={e => setAuthorRoleId(e.detail)}  
+                                    />
+                                </div>
                                 <input
                                     type='text'
                                     name='author'

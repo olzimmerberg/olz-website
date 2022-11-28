@@ -182,6 +182,9 @@ class ProcessEmailTask extends BackgroundTask {
         $subject = $mail->subject;
         $html = $mail->textHtml;
         $text = $mail->textPlain;
+        if (!$html) {
+            $html = $text;
+        }
         try {
             $this->emailUtils()->setLogger($this->log());
             $email = $this->emailUtils()->createEmail();
@@ -194,8 +197,8 @@ class ProcessEmailTask extends BackgroundTask {
             $email->setFrom($this->envUtils()->getSmtpFrom(), 'OLZ E-Mail Weiterleitung');
             $email->addReplyTo($mail->fromAddress, $mail->fromName);
 
-            $email->Body = $html;
-            $email->AltBody = $text;
+            $email->Body = $html ? $html : '(leer)';
+            $email->AltBody = $text ? $text : '(leer)';
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {

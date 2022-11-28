@@ -1,5 +1,18 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
+export type OlzAuthenticatedUser = {
+    'id': number,
+    'firstName': string,
+    'lastName': string,
+    'username': string,
+}|null;
+
+export type OlzAuthenticatedRole = {
+    'id': number,
+    'name': string,
+    'username': string,
+};
+
 export type OlzMetaData = {
     'ownerUserId': number|null,
     'ownerRoleId': number|null,
@@ -371,19 +384,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'NO_SESSION'|'SESSION_CLOSED',
         },
     getAuthenticatedUser: {
-            'user': {
-            'id': number,
-            'firstName': string,
-            'lastName': string,
-            'username': string,
-        }|null,
+            'user': OlzAuthenticatedUser,
         },
     getAuthenticatedRoles: {
-            'roles': Array<{
-            'id': number,
-            'name': string,
-            'username': string,
-        }>|null,
+            'roles': Array<OlzAuthenticatedRole>|null,
         },
     updateUser: {
             'status': 'OK'|'ERROR',

@@ -13,11 +13,14 @@ class GetAuthenticatedRolesEndpoint extends OlzEndpoint {
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [
             'roles' => new FieldTypes\ArrayField([
-                'item_field' => new FieldTypes\ObjectField(['field_structure' => [
-                    'id' => new FieldTypes\IntegerField([]),
-                    'name' => new FieldTypes\StringField(['allow_empty' => false]),
-                    'username' => new FieldTypes\StringField(['allow_empty' => false]),
-                ]]),
+                'item_field' => new FieldTypes\ObjectField([
+                    'export_as' => 'OlzAuthenticatedRole',
+                    'field_structure' => [
+                        'id' => new FieldTypes\IntegerField([]),
+                        'name' => new FieldTypes\StringField(['allow_empty' => false]),
+                        'username' => new FieldTypes\StringField(['allow_empty' => false]),
+                    ],
+                ]),
                 'allow_null' => true,
             ]),
         ]]);

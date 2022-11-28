@@ -54,6 +54,16 @@ class FakeAuthUtils {
         ];
     }
 
+    public function isRoleIdAuthenticated($role_id) {
+        if ($role_id === FakeRoles::adminRole()->getId()) {
+            return true;
+        }
+        if ($role_id === FakeRoles::defaultRole()->getId()) {
+            return true;
+        }
+        return false;
+    }
+
     public function isUsernameAllowed($username) {
         return $username !== 'invalid@';
     }

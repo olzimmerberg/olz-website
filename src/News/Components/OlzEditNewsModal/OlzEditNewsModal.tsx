@@ -87,8 +87,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     },
                     data: {
                         author: getStringOrNull(getFormField(f, 'author')),
-                        authorUserId: validFieldResult('', null),
-                        authorRoleId: validFieldResult('', null),
+                        authorUserId: validFieldResult('', authorUserId),
+                        authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
                         teaser: getStringOrEmpty(getFormField(f, 'teaser')),
                         content: getStringOrEmpty(getFormField(f, 'content')),
@@ -130,8 +130,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     },
                     data: {
                         author: getStringOrNull(getFormField(f, 'author')),
-                        authorUserId: validFieldResult('', null),
-                        authorRoleId: validFieldResult('', null),
+                        authorUserId: validFieldResult('', authorUserId),
+                        authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
                         teaser: getStringOrEmpty(getFormField(f, 'teaser')),
                         content: getStringOrEmpty(getFormField(f, 'content')),
@@ -169,7 +169,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
         }
         
         return false;
-    }, [fileIds, imageIds]);
+    }, [authorUserId, authorRoleId, fileIds, imageIds]);
 
     return (
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>

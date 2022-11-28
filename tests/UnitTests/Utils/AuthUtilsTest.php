@@ -700,7 +700,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame([], $auth_utils->getAuthenticatedRoles());
+        $this->assertSame(['admin_role'], array_map(function ($role) {
+            return $role->getUsername();
+        }, $auth_utils->getAuthenticatedRoles()));
     }
 
     public function testGetAuthenticatedRolesUnauthenticated(): void {
@@ -712,6 +714,34 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(null, $auth_utils->getAuthenticatedRoles());
+    }
+
+    public function testIsRoleIdAuthenticated(): void {
+        $entity_manager = new FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'admin',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setGetParams([]);
+        $auth_utils->setSession($session);
+        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
+        $this->assertSame(true, $auth_utils->isRoleIdAuthenticated(2));
+        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(3));
+    }
+
+    public function testIsRoleIdAuthenticatedUnauthenticated(): void {
+        $entity_manager = new FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setGetParams([]);
+        $auth_utils->setSession($session);
+        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
+        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(2));
+        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(3));
     }
 
     public function testIsUsernameAllowed(): void {

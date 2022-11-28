@@ -228,15 +228,15 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $session->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
-            'user' => 'admin',
+            'user' => 'user',
         ];
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call(['id' => 2]);
+        $result = $endpoint->call(['id' => 1]);
 
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $default_user = $entity_manager->getRepository(User::class)->default_user;
         $this->assertSame(8, count($entity_manager->removed));
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);
@@ -245,14 +245,14 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertTrue($entity_manager->removed[4] instanceof GoogleLink);
         $this->assertTrue($entity_manager->removed[5] instanceof FacebookLink);
         $this->assertTrue($entity_manager->removed[6] instanceof AccessToken);
-        $this->assertSame($admin_user, $entity_manager->removed[7]);
+        $this->assertSame($default_user, $entity_manager->removed[7]);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
-            'fake-data-path/img/users/2.jpg',
+            'fake-data-path/img/users/1.jpg',
         ], $endpoint->is_file_calls);
         $this->assertSame([
-            'fake-data-path/img/users/2.jpg',
+            'fake-data-path/img/users/1.jpg',
         ], $endpoint->unlink_calls);
         $this->assertSame([], $endpoint->rename_calls);
     }

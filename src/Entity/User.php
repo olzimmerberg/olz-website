@@ -463,6 +463,10 @@ class User {
         return $this->roles;
     }
 
+    public function addRole($role) {
+        $this->roles[] = $role;
+    }
+
     public function __toString() {
         $username = $this->getUsername() ?? '-';
         $id = $this->getId() ?? '-';

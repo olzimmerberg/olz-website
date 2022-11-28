@@ -36,6 +36,10 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         $author_role_id = $input_data['authorRoleId'] ?? null;
         $author_role = null;
         if ($author_role_id) {
+            $is_authenticated_role = $this->authUtils()->isRoleIdAuthenticated($author_role_id);
+            if (!$is_authenticated_role) {
+                throw new HttpError(403, "Kein Zugriff auf Autor-Rolle!");
+            }
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 

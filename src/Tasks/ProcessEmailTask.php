@@ -183,7 +183,7 @@ class ProcessEmailTask extends BackgroundTask {
         $html = $mail->textHtml;
         $text = $mail->textPlain;
         if (!$html) {
-            $html = $text;
+            $html = nl2br($text);
         }
         try {
             $this->emailUtils()->setLogger($this->log());

@@ -195,6 +195,16 @@ class AuthUtils {
         return [...$user->getRoles()];
     }
 
+    public function isRoleIdAuthenticated($role_id) {
+        $authenticated_roles = $this->getAuthenticatedRoles() ?? [];
+        foreach ($authenticated_roles as $authenticated_role) {
+            if ($authenticated_role->getId() === $role_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function isUsernameAllowed($username) {
         return preg_match('/^[a-zA-Z0-9-_\\.]+$/', $username) ? true : false;
     }

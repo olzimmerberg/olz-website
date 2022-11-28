@@ -8,6 +8,7 @@ interface OlzAuthenticatedUserRoleChooserProps {
     roleId: number|null;
     onUserIdChange: (e: CustomEvent<number|null>) => void;
     onRoleIdChange: (e: CustomEvent<number|null>) => void;
+    nullLabel?: string;
 }
 
 export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleChooserProps) => {
@@ -22,6 +23,20 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             setAuthenticatedRoles(roles);
         });
     }, []);
+
+    let buttonLabel = props.nullLabel ?? 'Bitte wählen';
+    if (props.roleId) {
+        const role = authenticatedRoles.find(role => role.id === props.roleId);
+        if (role) {
+            buttonLabel = role.name;
+        }
+    }
+    if (props.userId) {
+        const user = authenticatedUser.id === props.userId ? authenticatedUser : null;
+        if (user) {
+            buttonLabel = `${user.firstName} ${user.lastName}`;
+        }
+    }
 
     const userChoices = authenticatedUser ? (
         <button
@@ -65,7 +80,7 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
     return (
         <div>
             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown button
+                {buttonLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <h6 className="dropdown-header">Benutzer</h6>

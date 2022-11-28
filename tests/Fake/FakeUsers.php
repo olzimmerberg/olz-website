@@ -32,6 +32,8 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setCountryCode('CH');
                 $admin_user->setSiCardNumber('127001');
                 $admin_user->setSolvNumber('000ADM');
+                $admin_role = FakeRoles::adminRole();
+                $admin_user->addRole($admin_role);
                 return $admin_user;
             }
         );

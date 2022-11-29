@@ -5,6 +5,8 @@ namespace Olz\News\Components\OlzNewsList;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Role;
+use Olz\Entity\User;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
@@ -17,6 +19,7 @@ class OlzNewsList {
         global $db_table, $_SESSION;
 
         $db = DbUtils::fromEnv()->getDb();
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
         $db_table = 'aktuell';
 
         $http_utils = HttpUtils::fromEnv();
@@ -118,6 +121,9 @@ class OlzNewsList {
             id,
             datum,
             zeit,
+            author_user_id,
+            author_role_id,
+            autor,
             titel,
             text,
             image_ids
@@ -130,10 +136,21 @@ class OlzNewsList {
         ZZZZZZZZZZ;
         $res = $db->query($sql);
 
+        $user_repo = $entityManager->getRepository(User::class);
+        $role_repo = $entityManager->getRepository(Role::class);
+
         while ($row = $res->fetch_assoc()) {
             // TODO: Directly use doctrine to run the DB query.
+            $author_user = $row['author_user_id'] ?
+                $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
+            $author_role = $row['author_role_id'] ?
+                $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
+
             $news_entry = new NewsEntry();
             $news_entry->setDate($row['datum']);
+            $news_entry->setAuthorUser($author_user);
+            $news_entry->setAuthorRole($author_role);
+            $news_entry->setAuthor($row['autor']);
             $news_entry->setTitle($row['titel']);
             $news_entry->setTeaser($row['text']);
             $news_entry->setId($row['id']);

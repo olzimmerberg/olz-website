@@ -101,8 +101,8 @@ class OlzNewsArticle {
             $text = $file_utils->replaceFileTags($text, 'aktuell', $id);
             $textlang = $file_utils->replaceFileTags($textlang, 'aktuell', $id);
 
-            $out .= "<h2>".$edit_admin.$titel." (".$datum."/".$autor.")</h2>";
-            $out .= "<div class='lightgallery'><p><b>".$text."</b><p>".$textlang."</p></div>\n";
+            $out .= "<h2>{$edit_admin}{$titel}</h2>";
+            $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
         }
         return $out;
     }

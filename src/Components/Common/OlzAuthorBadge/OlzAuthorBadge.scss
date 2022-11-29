@@ -1,0 +1,13 @@
+.olz-author-badge {
+    color: rgb(100,100,100);
+    border: 1px solid rgb(150,150,150);
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0 5px;
+
+    &.level-role {
+        color: rgb(0,150,0);
+        border: 1px solid rgb(0,150,0);
+    }
+}

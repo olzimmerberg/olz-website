@@ -2,6 +2,7 @@
 
 namespace Olz\News\Components\OlzNewsListItem;
 
+use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Utils\ImageUtils;
 
@@ -16,6 +17,9 @@ class OlzNewsListItem {
 
         $icon = "{$code_href}icns/entry_type_aktuell_20.svg";
         $datum = $news_entry->getDate();
+        $author_user = $news_entry->getAuthorUser();
+        $author_role = $news_entry->getAuthorRole();
+        $author_name = $news_entry->getAuthor();
         $title = $news_entry->getTitle();
         $text = $news_entry->getTeaser();
         $link = "aktuell.php?id=".$news_entry->getId();
@@ -42,6 +46,11 @@ class OlzNewsListItem {
         $out .= OlzPostingListItem::render([
             'icon' => $icon,
             'date' => $datum,
+            'author' => OlzAuthorBadge::render([
+                'user' => $author_user,
+                'role' => $author_role,
+                'name' => $author_name,
+            ]),
             'title' => $title,
             'text' => $text,
             'link' => $link,

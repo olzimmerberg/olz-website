@@ -7,9 +7,12 @@
 namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Role;
+use Olz\Entity\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
@@ -37,6 +40,8 @@ class OlzNewsDetail {
 
         $news_utils = NewsFilterUtils::fromEnv();
         $news_repo = $entityManager->getRepository(NewsEntry::class);
+        $role_repo = $entityManager->getRepository(Role::class);
+        $user_repo = $entityManager->getRepository(User::class);
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
@@ -78,7 +83,17 @@ class OlzNewsDetail {
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
         $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
-        $pretty_author = $row['autor'];
+        $author_user = $row['author_user_id'] ?
+            $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
+        $author_role = $row['author_role_id'] ?
+            $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
+        $author_name = $row['autor'];
+        $pretty_author = OlzAuthorBadge::render([
+            'user' => $author_user,
+            'role' => $author_role,
+            'name' => $author_name,
+        ]);
+
         $out .= <<<ZZZZZZZZZZ
         <div class='content-right optional'>
             <div style='padding:4px 3px 10px 3px;'>

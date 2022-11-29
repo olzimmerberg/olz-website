@@ -1,3 +1,4 @@
+import './OlzAuthorBadge/OlzAuthorBadge.scss';
 import './OlzDefaultForm/OlzDefaultForm.scss';
 import './OlzEditableText/OlzEditableText.scss';
 import './OlzLocationMap/OlzLocationMap.scss';

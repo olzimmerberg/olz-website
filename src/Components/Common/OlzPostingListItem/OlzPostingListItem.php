@@ -7,11 +7,13 @@ class OlzPostingListItem {
         global $_DATE;
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";
+        $author = $args['author'] ?? null;
         $title = $args['title'] ?? "";
         $text = $args['text'] ?? "";
         $link = $args['link'] ?? "";
 
         $pretty_date = $_DATE->olzDate("tt.mm.jj", $date);
+        $pretty_author = $author ? "<span class='author'>{$author}</span> " : "";
 
         return <<<ZZZZZZZZZZ
         <div class='olz-posting-list-item'>
@@ -24,7 +26,7 @@ class OlzPostingListItem {
                     <img src='{$icon}' class='icon' alt='' />
                     {$title}
                 </div>
-                <div class='text'>{$text}</div>
+                <div class='text'>{$pretty_author}{$text}</div>
             </div>
         </div>
         ZZZZZZZZZZ;

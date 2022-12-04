@@ -24,7 +24,7 @@ function backup_monitoring() {
     $errors = '';
     foreach ($workflow_runs as $workflow_run) {
         try {
-            check_workflow_run();
+            check_workflow_run($workflow_run);
             $has_successful = true;
         } catch (\Throwable $th) {
             $errors .= "  ".var_export($th, true)."\n";

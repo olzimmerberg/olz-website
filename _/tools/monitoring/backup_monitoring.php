@@ -4,7 +4,7 @@ function backup_monitoring() {
     $ch = curl_init();
     $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
 
-    curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs?page=1&per_page=1&status=completed");
+    curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs?page=1&per_page=3&status=completed");
     curl_setopt($ch, CURLOPT_USERAGENT, $user_agent_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $completed_runs_raw = curl_exec($ch);
@@ -17,10 +17,27 @@ function backup_monitoring() {
     if (!$workflow_runs) {
         throw new \Exception("No workflow_runs");
     }
-    if (count($workflow_runs) !== 1) {
-        throw new \Exception("Expected exactly 1 workflow run");
+    if (count($workflow_runs) !== 3) {
+        throw new \Exception("Expected exactly 3 workflow runs");
     }
-    $workflow_run = $workflow_runs[0];
+    $has_successful = false;
+    $errors = '';
+    foreach ($workflow_runs as $workflow_run) {
+        try {
+            check_workflow_run();
+            $has_successful = true;
+        } catch (\Throwable $th) {
+            $errors .= "  ".var_export($th, true)."\n";
+        }
+    }
+    if ($has_successful) {
+        echo "OK:";
+    } else {
+        throw new \Exception("All 3 backup runs have problems:\n {$errors}");
+    }
+}
+
+function check_workflow_run($workflow_run) {
     if ($workflow_run['name'] !== 'CI:scheduled') {
         throw new \Exception("Expected workflow_run name to be CI:scheduled");
     }
@@ -68,6 +85,4 @@ function backup_monitoring() {
     if ($artifact['expired'] !== false) {
         throw new \Exception("Expected artifact expired to be false");
     }
-
-    echo "OK:";
 }

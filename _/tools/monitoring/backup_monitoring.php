@@ -60,6 +60,9 @@ function check_workflow_run($workflow_run) {
         throw new \Exception("Expected workflow_run artifacts_url");
     }
 
+    $ch = curl_init();
+    $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
+
     curl_setopt($ch, CURLOPT_URL, $workflow_run['artifacts_url']);
     curl_setopt($ch, CURLOPT_USERAGENT, $user_agent_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

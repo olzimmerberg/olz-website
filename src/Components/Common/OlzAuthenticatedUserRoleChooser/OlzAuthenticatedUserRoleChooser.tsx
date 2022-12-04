@@ -3,6 +3,8 @@ import React from 'react';
 import {olzApi} from '../../../Api/client';
 import {OlzAuthenticatedRole, OlzAuthenticatedUser} from '../../../Api/client/generated_olz_api_types';
 
+import './OlzAuthenticatedUserRoleChooser.scss';
+
 interface OlzAuthenticatedUserRoleChooserProps {
     userId: number|null;
     roleId: number|null;
@@ -24,23 +26,27 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
         });
     }, []);
 
+    let selectionClass = 'none-selected';
     let buttonLabel = props.nullLabel ?? 'Bitte wählen';
-    if (props.roleId) {
-        const role = authenticatedRoles.find(role => role.id === props.roleId);
-        if (role) {
-            buttonLabel = role.name;
-        }
-    }
     if (props.userId) {
         const user = authenticatedUser.id === props.userId ? authenticatedUser : null;
         if (user) {
+            selectionClass = 'user-selected';
             buttonLabel = `${user.firstName} ${user.lastName}`;
+        }
+    }
+    if (props.roleId) {
+        const role = authenticatedRoles.find(role => role.id === props.roleId);
+        if (role) {
+            selectionClass = 'role-selected';
+            buttonLabel = role.name;
         }
     }
 
     const userChoices = authenticatedUser ? (
         <button
-            className="dropdown-item"
+            className="dropdown-item user-choice"
+            id="user-index-0"
             type="button"
             onClick={() => {
                 props.onUserIdChange(new CustomEvent('userIdChange', {
@@ -51,15 +57,18 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
                 }));
             }}
         >
-            {authenticatedUser.firstName} {authenticatedUser.lastName}
+            <span className='badge'>
+                {authenticatedUser.firstName} {authenticatedUser.lastName}
+            </span>
         </button>
     ) : (
         <button className="dropdown-item" type="button" disabled>Lädt...</button>
     );
 
-    const rolesChoices = authenticatedRoles ? authenticatedRoles.map(role => (
+    const rolesChoices = authenticatedRoles ? authenticatedRoles.map((role, index) => (
         <button
-            className="dropdown-item"
+            className="dropdown-item role-choice"
+            id={`role-index-${index}`}
             type="button"
             onClick={() => {
                 props.onUserIdChange(new CustomEvent('userIdChange', {
@@ -71,15 +80,17 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             }}
             key={`role-${role.id}`}
         >
-            {role.name}
+            <span className='badge'>
+                {role.name}
+            </span>
         </button>
     )) : (
         <button className="dropdown-item" type="button" disabled>Lädt...</button>
     );
 
     return (
-        <div>
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div className={selectionClass}>
+            <button className="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {buttonLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

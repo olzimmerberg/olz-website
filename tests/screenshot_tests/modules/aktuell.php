@@ -133,10 +133,14 @@ function test_create_aktuell_new($driver, $base_url) {
         WebDriverBy::cssSelector('#news-content-input')
     );
     sendKeys($content_input, "<BILD1>Detailierte Schilderung des Geschehnisses.\n<DATEI1 text='Artikel als PDF'>");
-    $author_input = $driver->findElement(
-        WebDriverBy::cssSelector('#news-author-input')
+    $author_dropdown = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #dropdownMenuButton')
     );
-    sendKeys($author_input, 't.e., s.t.');
+    click($author_dropdown);
+    $author_choice = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #role-index-1')
+    );
+    click($author_choice);
 
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')

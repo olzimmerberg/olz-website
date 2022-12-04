@@ -66,7 +66,6 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
     const [title, setTitle] = React.useState<string>(props.data?.title ?? '');
     const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
     const [content, setContent] = React.useState<string>(props.data?.content ?? '');
-    const [author, setAuthor] = React.useState<string>(props.data?.author ?? '');
     const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
     const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
     const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
@@ -86,7 +85,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        author: getStringOrNull(getFormField(f, 'author')),
+                        author: validFieldResult('', null),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
@@ -107,9 +106,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
 
             const handleUpdateResponse = (response: OlzApiResponses['updateNews']): string|void => {
                 window.setTimeout(() => {
-                    bootstrap.Modal.getInstance(
-                        document.getElementById('edit-news-modal')
-                    ).hide();
+                    // TODO: This could probably be done more smoothly!
+                    window.location.reload();
                 }, 3000);
                 return 'News-Eintrag erfolgreich geändert. Bitte warten...';
             }
@@ -129,7 +127,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        author: getStringOrNull(getFormField(f, 'author')),
+                        author: validFieldResult('', null),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
@@ -215,7 +213,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor='news-author-input'>Autor</label>
-                                <div className='feature news-author'>
+                                <div id='news-author-input'>
                                     <OlzAuthenticatedUserRoleChooser
                                         userId={authorUserId}
                                         roleId={authorRoleId}
@@ -223,14 +221,6 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                         onRoleIdChange={e => setAuthorRoleId(e.detail)}  
                                     />
                                 </div>
-                                <input
-                                    type='text'
-                                    name='author'
-                                    value={author}
-                                    onChange={e => setAuthor(e.target.value)}
-                                    className='form-control'
-                                    id='news-author-input'
-                                />
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor='news-external-url-input'>Externer Link</label>

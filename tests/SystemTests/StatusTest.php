@@ -57,17 +57,29 @@ final class StatusTest extends SystemTestCase {
         $this->assertMatchesRegularExpression("/^{$escaped_status_url}/", $some_view_href);
         $browser->get($some_view_href);
         $body = $this->findBrowserElement('body');
-        $res = preg_match('/Last check:\s*([0-9]+)\s+(seconds|minutes)\s+ago/im', $body->getText(), $matches);
-        $this->assertSame(1, $res, $body->getText());
-        $number = intval($matches[1]);
-        $unit = $matches[2];
-        if ($unit === 'minutes') {
-            $this->assertLessThanOrEqual(15, $number);
-        } elseif ($unit === 'seconds') {
-            $this->assertLessThanOrEqual(15 * 60, $number);
-        } else {
-            throw new \Exception("Invalid unit: {$unit}");
+        $last_check = $this->parseLastCheck($body->getText());
+        $this->assertNotNull($last_check, $body->getText());
+        $this->assertLessThanOrEqual(15 * 60, $last_check);
+    }
+
+    protected function parseLastCheck($text) {
+        $res = preg_match('/Last check:\s*(([0-9]+) (seconds|minutes) ago|about a minute ago)/im', $text, $matches);
+        if (!$res) {
+            return null;
         }
+        if ($matches[1] === 'about a minute ago') {
+            return 60;
+        }
+        $number = intval($matches[2]);
+        $unit = $matches[3];
+        if ($unit === 'minutes') {
+            return $number * 60;
+        }
+        if ($unit === 'seconds') {
+            return $number;
+        }
+        throw new \Exception("Invalid unit: {$unit}");
+        return null;
     }
 
     public function testHttpGetsRedirected(): void {

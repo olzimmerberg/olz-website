@@ -65,7 +65,14 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
         <button className="dropdown-item" type="button" disabled>Lädt...</button>
     );
 
-    const rolesChoices = authenticatedRoles ? authenticatedRoles.map((role, index) => (
+    const rolesChoices = authenticatedRoles === null ? (
+        <button className="dropdown-item" type="button" disabled>Lädt...</button>
+    )
+    : authenticatedRoles.length === 0 ? (
+        <button className="dropdown-item" type="button" disabled>
+            (Keine Rollen im Verein)
+        </button>
+    ) : authenticatedRoles.map((role, index) => (
         <button
             className="dropdown-item role-choice"
             id={`role-index-${index}`}
@@ -84,9 +91,7 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
                 {role.name}
             </span>
         </button>
-    )) : (
-        <button className="dropdown-item" type="button" disabled>Lädt...</button>
-    );
+    ));
 
     return (
         <div className={selectionClass}>

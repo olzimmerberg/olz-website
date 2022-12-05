@@ -1,4 +1,15 @@
+.statistics-header {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    .form-control {
+        margin: 0 10px;
+        width: auto;
+    }
+}
+
 .statistics-iframe {
     width: 100%;
-    height: calc(100vh - 130px);
+    height: calc(100vh - 200px);
 }

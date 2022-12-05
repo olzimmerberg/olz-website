@@ -36,7 +36,7 @@ class GetAuthenticatedRolesEndpoint extends OlzEndpoint {
     protected function handle($input) {
         $auth_utils = $this->authUtils();
         $roles = $auth_utils->getAuthenticatedRoles();
-        if (!$roles) {
+        if ($roles === null) {
             return ['roles' => null];
         }
         return [

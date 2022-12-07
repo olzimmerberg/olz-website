@@ -10,13 +10,15 @@ class OlzAuthorBadge {
 
         $level = null;
         $label = '?';
-        if ($user) {
-            $level = 'user';
-            $label = "{$user->getFirstName()} {$user->getLastName()}";
-        }
-        if ($role) {
+        if ($user && $role) {
+            $level = 'role';
+            $label = "{$user->getFirstName()} {$user->getLastName()}, {$role->getName()}";
+        } elseif ($role) {
             $level = 'role';
             $label = "{$role->getName()}";
+        } elseif ($user) {
+            $level = 'user';
+            $label = "{$user->getFirstName()} {$user->getLastName()}";
         }
         if ($name) {
             $level = 'name';

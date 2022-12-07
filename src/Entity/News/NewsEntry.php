@@ -140,12 +140,12 @@ class NewsEntry extends OlzEntity {
         $this->zeit = $new_zeit;
     }
 
-    public function getTitle() {
-        return $this->titel;
+    public function getFormat() {
+        return $this->typ;
     }
 
-    public function setTitle($new_titel) {
-        $this->titel = $new_titel;
+    public function setFormat($new_format) {
+        $this->typ = $new_format;
     }
 
     public function getAuthor() {
@@ -172,6 +172,14 @@ class NewsEntry extends OlzEntity {
         $this->author_role = $new_author_role;
     }
 
+    public function getTitle() {
+        return $this->titel;
+    }
+
+    public function setTitle($new_titel) {
+        $this->titel = $new_titel;
+    }
+
     public function getTeaser() {
         return $this->text;
     }
@@ -190,7 +198,7 @@ class NewsEntry extends OlzEntity {
 
     public function getImageIds() {
         if ($this->image_ids == null) {
-            return [];
+            return null;
         }
         return json_decode($this->image_ids, true);
     }
@@ -229,16 +237,6 @@ class NewsEntry extends OlzEntity {
 
     public function setCounter($new_counter) {
         $this->counter = $new_counter;
-    }
-
-    /** @deprecated */
-    public function getType() {
-        return $this->typ;
-    }
-
-    /** @deprecated */
-    public function setType($new_type) {
-        $this->typ = $new_type;
     }
 
     /** @deprecated */

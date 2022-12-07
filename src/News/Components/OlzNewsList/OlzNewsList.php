@@ -51,6 +51,9 @@ class OlzNewsList {
         $out .= "<div class='content-middle'>";
         $out .= "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
+        $news_list_title = $news_utils->getTitleFromFilter($current_filter);
+        $out .= "<h1>{$news_list_title}</h1>";
+
         // -------------------------------------------------------------
         // DATENSATZ EDITIEREN
         if ($zugriff) {
@@ -121,6 +124,7 @@ class OlzNewsList {
             id,
             datum,
             zeit,
+            typ,
             author_user_id,
             author_role_id,
             autor,
@@ -148,13 +152,14 @@ class OlzNewsList {
 
             $news_entry = new NewsEntry();
             $news_entry->setDate($row['datum']);
+            $news_entry->setFormat($row['typ']);
             $news_entry->setAuthorUser($author_user);
             $news_entry->setAuthorRole($author_role);
             $news_entry->setAuthor($row['autor']);
             $news_entry->setTitle($row['titel']);
             $news_entry->setTeaser($row['text']);
             $news_entry->setId($row['id']);
-            $news_entry->setImageIds(json_decode($row['image_ids'] ?? '[]', true));
+            $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
             $out .= OlzNewsListItem::render(['news_entry' => $news_entry]);
         }

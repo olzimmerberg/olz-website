@@ -1,3 +1,22 @@
 #edit-news-button {
     margin-right: 8px;
 }
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gallery-image {
+    display: flex;
+    margin: 10px;
+    height: 110px;
+    width: 110px;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-container {
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+}

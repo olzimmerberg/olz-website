@@ -75,6 +75,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
                 'onOff' => $news_entry->getOnOff() ? true : false,
             ],
             'data' => [
+                'format' => $news_entry->getFormat(),
                 'author' => $news_entry->getAuthor(),
                 'authorUserId' => $author_user ? $author_user->getId() : null,
                 'authorRoleId' => $author_role ? $author_role->getId() : null,

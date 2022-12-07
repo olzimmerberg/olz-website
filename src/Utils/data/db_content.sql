@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20221029112426
+-- MIGRATION: DoctrineMigrations\Version20221207235912
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -17,11 +17,13 @@ VALUES
 INSERT INTO aktuell
     (`id`, `termin`, `datum`, `titel`, `text`, `textlang`, `link`, `autor`, `typ`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `tags`, `created_at`, `last_modified_at`, `image_ids`, `newsletter`)
 VALUES
-    ('1', '0', '2006-01-13', 'Ausschreibungen 📍', '', '<div><a href=\"\" class=\"linkint\">Interner Link</a></div><div><a href=\"\" class=\"linkext\">Externer Link</a></div><div><a href=\"\" class=\"linkpdf\">PDF-Link</a></div><div><a href=\"\" class=\"linkmail\">E-Mail-Link</a></div><div><a href=\"\" class=\"linkmap\">Karten-Link</a></div>', '', 'prä', 'box0', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL, '1'),
-    ('2', '0', '2006-01-13', 'Weekends', '', '<div><a href=\"\" class=\"linkimg\">Bild-Link</a></div><h3>Lager</h3><div><a href=\"\" class=\"linkmovie\">Film-Link</a></div>', '', 'prä', 'box1', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL, '1'),
     ('3', '0', '2020-01-01', 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein frohes neues Jahr! 🎆 <DATEI1 text=\"Neujahrsansprache als PDF\">', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. Ein Bisschen. Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die <DATEI1 text=\"Neujahrsansprache als PDF\">', '', 'prä', 'aktuell', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', NULL, '1'),
     ('4', '0', '2020-03-16', 'Neues System für News-Einträge online!', '<BILD1>Heute ging ein neues System für News-Einträge online. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"Motivationsschreiben\">.', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle OL-Zimmerberg-Mitglieder von Interesse. Deshalb vereinheitlichen wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"diesem Schreiben\"> zusammengefasst.\n\n<BILD1>', NULL, '', 'aktuell', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '25', '1', NULL, NULL, NULL, '  ', '2020-03-16 14:51:00', '2020-03-16 14:51:00', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', '1'),
-    ('5', '0', '2020-08-15', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint gut anzukommen. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', NULL, '', 'aktuell', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, '1', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[]', '1');
+    ('5', '0', '2020-08-15', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint gut anzukommen. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', NULL, '', 'aktuell', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, '1', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[]', '1'),
+    ('6', '0', '2020-01-02', 'Berchtoldstagsgalerie 2020', '', '', NULL, '', 'galerie', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '3', NULL, '3', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', '1'),
+    ('7', '0', '2020-08-15', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', NULL, '', 'video', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '26', '1', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', '1'),
+    ('1202', '0', '2020-01-01', 'Neujahrsgalerie 📷 2020', '', '', NULL, '', 'galerie', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, '1'),
+    ('1203', '0', '2020-08-13', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', NULL, '', 'video', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-13 14:51:00', '2020-08-13 14:51:00', NULL, '1');
 
 -- Table anmelden_bookings
 
@@ -67,7 +69,8 @@ VALUES
     ('DoctrineMigrations\\Version20220910163629', '2022-09-10 16:37:39', '121'),
     ('DoctrineMigrations\\Version20220912114134', '2022-09-12 11:44:11', '83'),
     ('DoctrineMigrations\\Version20221024123804', '2022-10-24 14:52:16', '552'),
-    ('DoctrineMigrations\\Version20221029112426', '2022-10-29 11:25:10', '93');
+    ('DoctrineMigrations\\Version20221029112426', '2022-10-29 11:25:10', '93'),
+    ('DoctrineMigrations\\Version20221207235912', '2022-12-13 10:32:12', '10');
 
 -- Table downloads
 

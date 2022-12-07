@@ -18,6 +18,7 @@ class FakeGetNewsEndpointNewsRepository {
         if ($where === ['id' => 12]) {
             $entry = new NewsEntry();
             $entry->setId(12);
+            $entry->setFormat('aktuell');
             $entry->setTitle("Fake title");
             $entry->setTeaser("");
             $entry->setContent("");
@@ -26,6 +27,7 @@ class FakeGetNewsEndpointNewsRepository {
         if ($where === ['id' => 123]) {
             $entry = new NewsEntry();
             $entry->setId(123);
+            $entry->setFormat('aktuell');
             $entry->setTitle("Fake title");
             $entry->setTeaser("Fake teaser");
             $entry->setContent("Fake content");
@@ -101,6 +103,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
+                'format' => 'aktuell',
                 'author' => null,
                 'authorUserId' => null,
                 'authorRoleId' => null,
@@ -110,7 +113,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
                 'externalUrl' => null,
                 'tags' => [],
                 'terminId' => null,
-                'imageIds' => [],
+                'imageIds' => null,
                 'fileIds' => [],
             ],
         ], $result);
@@ -158,6 +161,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
+                'format' => 'aktuell',
                 'author' => null,
                 'authorUserId' => null,
                 'authorRoleId' => null,

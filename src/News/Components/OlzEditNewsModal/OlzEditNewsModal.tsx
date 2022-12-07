@@ -2,7 +2,7 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
-import {OlzNewsData} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAuthenticatedUserRoleChooser/OlzAuthenticatedUserRoleChooser';
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
@@ -63,11 +63,12 @@ interface OlzEditNewsModalProps {
 }
 
 export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
+    const [format, setFormat] = React.useState<OlzNewsFormat>(props.data?.format ?? 'aktuell');
+    const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
+    const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
     const [title, setTitle] = React.useState<string>(props.data?.title ?? '');
     const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
     const [content, setContent] = React.useState<string>(props.data?.content ?? '');
-    const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
-    const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
     const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
     const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
     const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
@@ -85,13 +86,14 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        author: validFieldResult('', null),
+                        format: validFieldResult('format', format),
+                        author: validFieldResult('author', null),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
-                        teaser: getStringOrEmpty(getFormField(f, 'teaser')),
-                        content: getStringOrEmpty(getFormField(f, 'content')),
-                        externalUrl: getStringOrNull(getFormField(f, 'external-url')),
+                        teaser: format === 'aktuell' ? getStringOrEmpty(getFormField(f, 'teaser')) : validFieldResult('teaser', ''),
+                        content: format !== 'galerie' ? getStringOrEmpty(getFormField(f, 'content')) : validFieldResult('content', ''),
+                        externalUrl: format === 'aktuell' ? getStringOrNull(getFormField(f, 'external-url')) : validFieldResult('external-url', null),
                         tags: validFieldResult('', []),
                         terminId: validFieldResult('', null),
                         imageIds: validFieldResult('', imageIds),
@@ -127,13 +129,14 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        author: validFieldResult('', null),
+                        format: validFieldResult('format', format),
+                        author: validFieldResult('author', null),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         title: getStringOrEmpty(getFormField(f, 'title')),
-                        teaser: getStringOrEmpty(getFormField(f, 'teaser')),
-                        content: getStringOrEmpty(getFormField(f, 'content')),
-                        externalUrl: getStringOrNull(getFormField(f, 'external-url')),
+                        teaser: format === 'aktuell' ? getStringOrEmpty(getFormField(f, 'teaser')) : validFieldResult('teaser', ''),
+                        content: format !== 'galerie' ? getStringOrEmpty(getFormField(f, 'content')) : validFieldResult('content', ''),
+                        externalUrl: format === 'aktuell' ? getStringOrNull(getFormField(f, 'external-url')) : validFieldResult('external-url', null),
                         tags: validFieldResult('', []),
                         terminId: validFieldResult('', null),
                         imageIds: validFieldResult('', imageIds),
@@ -178,6 +181,43 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                         </div>
                         <div className='modal-body'>
+                            <div className='row'>
+                                <div className='col mb-3'>
+                                    <label htmlFor='news-author-input'>Autor</label>
+                                    <div id='news-author-input'>
+                                        <OlzAuthenticatedUserRoleChooser
+                                            userId={authorUserId}
+                                            roleId={authorRoleId}
+                                            onUserIdChange={e => setAuthorUserId(e.detail)}  
+                                            onRoleIdChange={e => setAuthorRoleId(e.detail)}  
+                                        />
+                                    </div>
+                                </div>
+                                <div className='col mb-3'>
+                                    <label htmlFor='news-format-input'>Format</label>
+                                    <select
+                                        name='format'
+                                        className='form-control form-select'
+                                        id='news-format-input'
+                                        onChange={(e) => {
+                                            const select = e.target;
+                                            const newFormatString = select.options[select.selectedIndex].value;
+                                            let newFormat: OlzNewsFormat = 'aktuell';
+                                            if (newFormatString === 'galerie') {
+                                                newFormat = newFormatString;
+                                            }
+                                            setFormat(newFormat);
+                                        }}
+                                    >
+                                        <option value='aktuell' selected={format === 'aktuell'}>
+                                            Aktuell
+                                        </option>
+                                        <option value='galerie' selected={format === 'galerie'}>
+                                            Galerie
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                             <div className='mb-3'>
                                 <label htmlFor='news-title-input'>Titel</label>
                                 <input
@@ -189,49 +229,44 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-title-input'
                                 />
                             </div>
-                            <div className='mb-3'>
-                                <label htmlFor='news-teaser-input'>Teaser</label>
-                                <textarea
-                                    name='teaser'
-                                    value={teaser}
-                                    onChange={e => setTeaser(e.target.value)}
-                                    className='form-control'
-                                    id='news-teaser-input'
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <label htmlFor='news-content-input'>Inhalt</label>
-                                <textarea
-                                    name='content'
-                                    value={content}
-                                    onChange={e => setContent(e.target.value)}
-                                    className='form-control'
-                                    id='news-content-input'
-                                />
-                                {FORMATTING_NOTES_FOR_USERS}
-                            </div>
-                            <div className='mb-3'>
-                                <label htmlFor='news-author-input'>Autor</label>
-                                <div id='news-author-input'>
-                                    <OlzAuthenticatedUserRoleChooser
-                                        userId={authorUserId}
-                                        roleId={authorRoleId}
-                                        onUserIdChange={e => setAuthorUserId(e.detail)}  
-                                        onRoleIdChange={e => setAuthorRoleId(e.detail)}  
+                            {format === 'aktuell' ? (
+                                <div className='mb-3'>
+                                    <label htmlFor='news-teaser-input'>Teaser</label>
+                                    <textarea
+                                        name='teaser'
+                                        value={teaser}
+                                        onChange={e => setTeaser(e.target.value)}
+                                        className='form-control'
+                                        id='news-teaser-input'
                                     />
                                 </div>
-                            </div>
-                            <div className='mb-3'>
-                                <label htmlFor='news-external-url-input'>Externer Link</label>
-                                <input
-                                    type='text'
-                                    name='external-url'
-                                    value={externalUrl}
-                                    onChange={e => setExternalUrl(e.target.value)}
-                                    className='form-control'
-                                    id='news-external-url-input'
-                                />
-                            </div>
+                            ) : null}
+                            {format !== 'galerie' ? (
+                                <div className='mb-3'>
+                                    <label htmlFor='news-content-input'>Inhalt</label>
+                                    <textarea
+                                        name='content'
+                                        value={content}
+                                        onChange={e => setContent(e.target.value)}
+                                        className='form-control'
+                                        id='news-content-input'
+                                    />
+                                    {FORMATTING_NOTES_FOR_USERS}
+                                </div>
+                            ) : null}
+                            {format === 'aktuell' ? (
+                                <div className='mb-3'>
+                                    <label htmlFor='news-external-url-input'>Externer Link</label>
+                                    <input
+                                        type='text'
+                                        name='external-url'
+                                        value={externalUrl}
+                                        onChange={e => setExternalUrl(e.target.value)}
+                                        className='form-control'
+                                        id='news-external-url-input'
+                                    />
+                                </div>
+                            ) : null}
                             <div id='news-images-upload'>
                                 <b>Bilder</b>
                                 <OlzMultiImageUploader
@@ -239,13 +274,15 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     onUploadIdsChange={setImageIds}
                                 />
                             </div>
-                            <div id='news-files-upload'>
-                                <b>Dateien</b>
-                                <OlzMultiFileUploader
-                                    initialUploadIds={fileIds}
-                                    onUploadIdsChange={setFileIds}
-                                />
-                            </div>
+                            {format !== 'galerie' ? (
+                                <div id='news-files-upload'>
+                                    <b>Dateien</b>
+                                    <OlzMultiFileUploader
+                                        initialUploadIds={fileIds}
+                                        onUploadIdsChange={setFileIds}
+                                    />
+                                </div>
+                            ) : null}
                             <div className='success-message alert alert-success' role='alert'></div>
                             <div className='error-message alert alert-danger' role='alert'></div>
                         </div>

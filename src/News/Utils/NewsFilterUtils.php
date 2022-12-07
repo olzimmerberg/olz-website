@@ -13,10 +13,11 @@ class NewsFilterUtils {
 
     public const ARCHIVE_YEARS_THRESHOLD = 4;
 
-    public const ALL_TYPE_OPTIONS = [
-        ['ident' => 'alle', 'name' => "Alle News"],
+    public const ALL_FORMAT_OPTIONS = [
+        ['ident' => 'alle', 'name' => "Alle"],
         ['ident' => 'aktuell', 'name' => "Aktuell"],
-        // ['ident' => 'galerie', 'name' => "Galerien"],
+        ['ident' => 'galerie', 'name' => "Galerien"],
+        ['ident' => 'video', 'name' => "Videos"],
         // ['ident' => 'kaderblog', 'name' => "Kaderblog"],
         // ['ident' => 'forum', 'name' => "Forum"],
     ];
@@ -29,19 +30,19 @@ class NewsFilterUtils {
     public function getDefaultFilter() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         return [
-            'typ' => 'aktuell',
+            'format' => 'alle',
             'datum' => strval($current_year),
             'archiv' => 'ohne',
         ];
     }
 
     public function isValidFilter($filter) {
-        $has_correct_type = (
-            isset($filter['typ'])
+        $has_correct_format = (
+            isset($filter['format'])
             && array_filter(
-                NewsFilterUtils::ALL_TYPE_OPTIONS,
-                function ($type_option) use ($filter) {
-                    return $type_option['ident'] === $filter['typ'];
+                NewsFilterUtils::ALL_FORMAT_OPTIONS,
+                function ($format_option) use ($filter) {
+                    return $format_option['ident'] === $filter['format'];
                 }
             )
         );
@@ -63,16 +64,16 @@ class NewsFilterUtils {
                 }
             )
         );
-        return $has_correct_type && $has_correct_date_range && $has_correct_archive;
+        return $has_correct_format && $has_correct_date_range && $has_correct_archive;
     }
 
     public function getAllValidFiltersForSitemap() {
         $all_valid_filters = [];
-        foreach (NewsFilterUtils::ALL_TYPE_OPTIONS as $type_option) {
+        foreach (NewsFilterUtils::ALL_FORMAT_OPTIONS as $format_option) {
             $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
             foreach ($date_range_options as $date_range_option) {
                 $all_valid_filters[] = [
-                    'typ' => $type_option['ident'],
+                    'format' => $format_option['ident'],
                     'datum' => $date_range_option['ident'],
                     'archiv' => 'ohne',
                 ];
@@ -81,17 +82,17 @@ class NewsFilterUtils {
         return $all_valid_filters;
     }
 
-    public function getUiTypeFilterOptions($filter) {
-        return array_map(function ($type_option) use ($filter) {
+    public function getUiFormatFilterOptions($filter) {
+        return array_map(function ($format_option) use ($filter) {
             $new_filter = $filter;
-            $new_filter['typ'] = $type_option['ident'];
+            $new_filter['format'] = $format_option['ident'];
             return [
-                'selected' => $type_option['ident'] === $filter['typ'],
+                'selected' => $format_option['ident'] === $filter['format'],
                 'new_filter' => $new_filter,
-                'name' => $type_option['name'],
-                'ident' => $type_option['ident'],
+                'name' => $format_option['name'],
+                'ident' => $format_option['ident'],
             ];
-        }, NewsFilterUtils::ALL_TYPE_OPTIONS);
+        }, NewsFilterUtils::ALL_FORMAT_OPTIONS);
     }
 
     public function getUiDateRangeFilterOptions($filter) {
@@ -137,8 +138,8 @@ class NewsFilterUtils {
             return "'1'='0'";
         }
         $date_range_filter = $this->getSqlDateRangeFilter($filter);
-        $type_filter = $this->getSqlTypeFilter($filter);
-        return "({$date_range_filter}) AND ({$type_filter})";
+        $format_filter = $this->getSqlFormatFilter($filter);
+        return "({$date_range_filter}) AND ({$format_filter})";
     }
 
     private function getSqlDateRangeFilter($filter) {
@@ -153,12 +154,18 @@ class NewsFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getSqlTypeFilter($filter) {
-        if ($filter['typ'] === 'alle') {
+    private function getSqlFormatFilter($filter) {
+        if ($filter['format'] === 'alle') {
             return "'1' = '1'";
         }
-        if ($filter['typ'] === 'aktuell') {
+        if ($filter['format'] === 'aktuell') {
             return "n.typ LIKE '%aktuell%'";
+        }
+        if ($filter['format'] === 'galerie') {
+            return "n.typ LIKE '%galerie%'";
+        }
+        if ($filter['format'] === 'video') {
+            return "n.typ LIKE '%video%'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -168,25 +175,31 @@ class NewsFilterUtils {
 
     public function getTitleFromFilter($filter) {
         if (!$this->isValidFilter($filter)) {
-            return "News";
+            return "Aktuell";
         }
-        $type_title = $this->getTypeFilterTitle($filter);
+        $format_title = $this->getFormatFilterTitle($filter);
         $archive_title_suffix = $this->getArchiveFilterTitleSuffix($filter);
         if (intval($filter['datum']) > 2000) {
             $year = $filter['datum'];
-            return "{$type_title} {$year}{$archive_title_suffix}";
+            return "{$format_title} {$year}{$archive_title_suffix}";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
-        return "News{$archive_title_suffix}";
+        return "Aktuell{$archive_title_suffix}";
         // @codeCoverageIgnoreEnd
     }
 
-    private function getTypeFilterTitle($filter) {
-        if ($filter['typ'] === 'aktuell') {
-            return "Aktuell";
+    private function getFormatFilterTitle($filter) {
+        if ($filter['format'] === 'aktuell') {
+            return "Aktuelles von";
         }
-        return "News";
+        if ($filter['format'] === 'galerie') {
+            return "Galerien von";
+        }
+        if ($filter['format'] === 'video') {
+            return "Videos von";
+        }
+        return "Alles von";
     }
 
     private function getArchiveFilterTitleSuffix($filter) {

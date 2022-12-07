@@ -13,6 +13,10 @@ trait NewsEndpointTrait {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzNewsDataOrNull' : 'OlzNewsData',
             'field_structure' => [
+                'format' => new FieldTypes\EnumField([
+                    'export_as' => 'OlzNewsFormat',
+                    'allowed_values' => ['aktuell', 'galerie'],
+                ]),
                 'author' => new FieldTypes\StringField(['allow_null' => true]),
                 'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
@@ -26,6 +30,7 @@ trait NewsEndpointTrait {
                 'terminId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'imageIds' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
+                    'allow_null' => true,
                 ]),
                 'fileIds' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),

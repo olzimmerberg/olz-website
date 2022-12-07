@@ -15,6 +15,7 @@ function test_aktuell($driver, $base_url) {
     test_aktuell_readonly($driver, $base_url);
     test_create_aktuell_old($driver, $base_url);
     test_create_aktuell_new($driver, $base_url);
+    test_create_galerie_new($driver, $base_url);
 
     reset_dev_data();
     tock('aktuell', 'aktuell');
@@ -112,7 +113,6 @@ function test_create_aktuell_new($driver, $base_url) {
     global $aktuell_url, $aktuell_id_3_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->executeScript('window.localStorage.setItem("FEATURES", "news")');
     $driver->get("{$base_url}{$aktuell_url}");
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$aktuell_url}");
@@ -121,6 +121,18 @@ function test_create_aktuell_new($driver, $base_url) {
         WebDriverBy::cssSelector('#create-news-button')
     );
     click($create_news_button);
+    $author_dropdown = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #dropdownMenuButton')
+    );
+    click($author_dropdown);
+    $author_choice = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #role-index-1')
+    );
+    click($author_choice);
+    $format_select = new WebDriverSelect($driver->findElement(
+        WebDriverBy::cssSelector('#news-format-input')
+    ));
+    $format_select->selectByVisibleText('Aktuell');
     $title_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-title-input')
     );
@@ -133,14 +145,6 @@ function test_create_aktuell_new($driver, $base_url) {
         WebDriverBy::cssSelector('#news-content-input')
     );
     sendKeys($content_input, "<BILD1>Detailierte Schilderung des Geschehnisses.\n<DATEI1 text='Artikel als PDF'>");
-    $author_dropdown = $driver->findElement(
-        WebDriverBy::cssSelector('#news-author-input #dropdownMenuButton')
-    );
-    click($author_dropdown);
-    $author_choice = $driver->findElement(
-        WebDriverBy::cssSelector('#news-author-input #role-index-1')
-    );
-    click($author_choice);
 
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')
@@ -186,6 +190,95 @@ function test_create_aktuell_new($driver, $base_url) {
     click($save_button);
     sleep(4);
     take_pageshot($driver, 'news_new_finished');
+
+    $driver->get("{$base_url}{$aktuell_id_3_url}");
+
+    // $edit_button = $driver->findElement(
+    //     WebDriverBy::cssSelector('.content-middle .linkedit')
+    // );
+    // click($edit_button);
+    // $text_input = $driver->findElement(
+    //     WebDriverBy::cssSelector('#aktuelltextlang')
+    // );
+    // sendKeys($text_input, "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
+    // take_pageshot($driver, 'news_update_edit');
+
+    // $preview_button = $driver->findElement(
+    //     WebDriverBy::cssSelector('#buttonaktuell-vorschau')
+    // );
+    // click($preview_button);
+    // take_pageshot($driver, 'news_update_preview');
+
+    // $save_button = $driver->findElement(
+    //     WebDriverBy::cssSelector('#buttonaktuell-speichern')
+    // );
+    // click($save_button);
+    // take_pageshot($driver, 'news_update_finished');
+
+    logout($driver, $base_url);
+}
+
+function test_create_galerie_new($driver, $base_url) {
+    global $aktuell_url, $aktuell_id_3_url;
+
+    login($driver, $base_url, 'admin', 'adm1n');
+    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$aktuell_url}");
+
+    $create_news_button = $driver->findElement(
+        WebDriverBy::cssSelector('#create-news-button')
+    );
+    click($create_news_button);
+    $author_dropdown = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #dropdownMenuButton')
+    );
+    click($author_dropdown);
+    $author_choice = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #role-index-1')
+    );
+    click($author_choice);
+    $format_select = new WebDriverSelect($driver->findElement(
+        WebDriverBy::cssSelector('#news-format-input')
+    ));
+    $format_select->selectByVisibleText('Galerie');
+    $title_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-title-input')
+    );
+    sendKeys($title_input, 'Das Fotoshooting');
+
+    $image_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-images-upload input[type=file]')
+    );
+    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    sendKeys($image_upload_input, $image_path);
+    $driver->wait()->until(function () use ($driver) {
+        $image_uploaded = $driver->findElements(
+            WebDriverBy::cssSelector('#news-images-upload .olz-upload-image.uploaded')
+        );
+        return count($image_uploaded) == 1;
+    });
+
+    // $driver->wait()->until(function () use ($driver) {
+    //     $delete_buttons = $driver->findElements(
+    //         WebDriverBy::cssSelector('img[title="löschen"]')
+    //     );
+    //     return count($delete_buttons) == 2;
+    // });
+    take_pageshot($driver, 'news_new_galerie_edit');
+
+    // $preview_button = $driver->findElement(
+    //     WebDriverBy::cssSelector('#buttonaktuell-vorschau')
+    // );
+    // click($preview_button);
+    // take_pageshot($driver, 'news_new_preview');
+
+    $save_button = $driver->findElement(
+        WebDriverBy::cssSelector('#submit-button')
+    );
+    click($save_button);
+    sleep(4);
+    take_pageshot($driver, 'news_new_galerie_finished');
 
     $driver->get("{$base_url}{$aktuell_id_3_url}");
 

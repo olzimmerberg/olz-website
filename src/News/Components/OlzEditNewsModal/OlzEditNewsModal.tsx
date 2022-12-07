@@ -151,9 +151,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
                 }
                 window.setTimeout(() => {
-                    bootstrap.Modal.getInstance(
-                        document.getElementById('edit-news-modal'),
-                    ).hide();
+                    // TODO: This could probably be done more smoothly!
+                    window.location.reload();
                 }, 3000);
                 return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
             }

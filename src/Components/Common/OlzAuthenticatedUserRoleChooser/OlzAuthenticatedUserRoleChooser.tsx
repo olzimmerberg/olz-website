@@ -28,19 +28,17 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
 
     let selectionClass = 'none-selected';
     let buttonLabel = props.nullLabel ?? 'Bitte wählen';
-    if (props.userId) {
-        const user = authenticatedUser.id === props.userId ? authenticatedUser : null;
-        if (user) {
-            selectionClass = 'user-selected';
-            buttonLabel = `${user.firstName} ${user.lastName}`;
-        }
-    }
-    if (props.roleId) {
-        const role = authenticatedRoles.find(role => role.id === props.roleId);
-        if (role) {
-            selectionClass = 'role-selected';
-            buttonLabel = role.name;
-        }
+    const user = props.userId && authenticatedUser.id === props.userId ? authenticatedUser : null;
+    const role = props.roleId ? authenticatedRoles.find(role => role.id === props.roleId) : null;
+    if (user && role) {
+        selectionClass = 'role-selected';
+        buttonLabel = `${user.firstName} ${user.lastName}, ${role.name}`;
+    } else if (role) {
+        selectionClass = 'role-selected';
+        buttonLabel = role.name;
+    } else if (user) {
+        selectionClass = 'user-selected';
+        buttonLabel = `${user.firstName} ${user.lastName}`;
     }
 
     const userChoices = authenticatedUser ? (
@@ -79,7 +77,7 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             type="button"
             onClick={() => {
                 props.onUserIdChange(new CustomEvent('userIdChange', {
-                    detail: null,
+                    detail: authenticatedUser?.id ?? null,
                 }));
                 props.onRoleIdChange(new CustomEvent('roleIdChange', {
                     detail: role.id,
@@ -88,7 +86,12 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             key={`role-${role.id}`}
         >
             <span className='badge'>
-                {role.name}
+                {(
+                    authenticatedUser
+                    ? `${authenticatedUser.firstName} ${authenticatedUser.lastName}, ${role.name}`
+                    : `${role.name}`
+                )}
+                
             </span>
         </button>
     ));

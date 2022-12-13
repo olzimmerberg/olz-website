@@ -14,7 +14,7 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('news');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
         }
@@ -23,11 +23,16 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
-        if ($news_entry) {
-            $this->entityManager()->remove($news_entry);
-            $this->entityManager()->flush();
-            return ['status' => 'OK'];
+        if (!$news_entry) {
+            return ['status' => 'ERROR'];
         }
-        return ['status' => 'ERROR'];
+
+        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null)) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
+
+        $this->entityManager()->remove($news_entry);
+        $this->entityManager()->flush();
+        return ['status' => 'OK'];
     }
 }

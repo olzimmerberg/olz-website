@@ -8,6 +8,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\EditNewsEndpoint;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeEntityUtils;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -35,6 +36,9 @@ class FakeEditNewsEndpointNewsRepository {
             $entry->setImageIds(['pictureA.jpg', 'pictureB.jpg']);
             return $entry;
         }
+        if ($where === ['id' => 9999]) {
+            return null;
+        }
         $where_json = json_encode($where);
         throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
     }
@@ -52,7 +56,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => false];
+        $auth_utils->has_permission_by_query = ['any' => false];
         $logger = FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -72,17 +76,75 @@ final class EditNewsEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testEditNewsEndpointMaximal(): void {
+    public function testEditNewsEndpointNoSuchEntity(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $logger = FakeLogger::create();
+        $endpoint = new EditNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 9999,
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 404",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(404, $err->getCode());
+        }
+    }
+
+    public function testEditNewsEndpointNoEntityAccess(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_manager = new FakeEntityManager();
+        $news_repo = new FakeEditNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = false;
+        $logger = FakeLogger::create();
+        $endpoint = new EditNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 123,
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(403, $err->getCode());
+        }
+    }
+
+    public function testEditNewsEndpointMaximal(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_manager = new FakeEntityManager();
+        $news_repo = new FakeEditNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
         $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 

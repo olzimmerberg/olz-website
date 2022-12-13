@@ -83,4 +83,58 @@ final class EntityUtilsTest extends UnitTestCase {
         );
         $this->assertSame(FakeUsers::adminUser(), $entity->getLastModifiedByUser());
     }
+
+    public function testCanUpdateOlzEntityAllPermissions(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => true];
+        $entity_utils = new EntityUtils();
+        $entity_utils->setAuthUtils($auth_utils);
+        $entity = new OlzEntity();
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity, []);
+
+        $this->assertSame(true, $result);
+    }
+
+    public function testCanUpdateOlzEntityIsOwner(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
+        $entity_utils = new EntityUtils();
+        $entity_utils->setAuthUtils($auth_utils);
+        $entity = new OlzEntity();
+        $entity->setOwnerUser(FakeUsers::adminUser());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity, []);
+
+        $this->assertSame(true, $result);
+    }
+
+    public function testCanUpdateOlzEntityIsCreatedBy(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
+        $entity_utils = new EntityUtils();
+        $entity_utils->setAuthUtils($auth_utils);
+        $entity = new OlzEntity();
+        $entity->setCreatedByUser(FakeUsers::adminUser());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity, []);
+
+        $this->assertSame(true, $result);
+    }
+
+    public function testCanUpdateOlzEntityNoEntityAccess(): void {
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
+        $entity_utils = new EntityUtils();
+        $entity_utils->setAuthUtils($auth_utils);
+        $entity = new OlzEntity();
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity, []);
+
+        $this->assertSame(false, $result);
+    }
 }

@@ -9,6 +9,7 @@ use Olz\Entity\OlzEntity;
 class FakeEntityUtils {
     public $create_olz_entity_calls = [];
     public $update_olz_entity_calls = [];
+    public $can_update_olz_entity;
 
     public function createOlzEntity(OlzEntity $entity, $input) {
         $this->create_olz_entity_calls[] = [
@@ -26,5 +27,12 @@ class FakeEntityUtils {
             $input['ownerUserId'] ?? null,
             $input['ownerRoleId'] ?? null,
         ];
+    }
+
+    public function canUpdateOlzEntity(OlzEntity $entity, $input) {
+        if ($this->can_update_olz_entity === null) {
+            throw new \Exception("FakeEntityUtils::canUpdateOlzEntity not mocked");
+        }
+        return $this->can_update_olz_entity;
     }
 }

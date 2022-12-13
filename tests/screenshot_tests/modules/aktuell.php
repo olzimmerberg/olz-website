@@ -14,100 +14,11 @@ function test_aktuell($driver, $base_url) {
     tick('aktuell');
 
     test_aktuell_readonly($driver, $base_url);
-    test_create_aktuell_old($driver, $base_url);
     test_create_aktuell_new($driver, $base_url);
     test_create_galerie_new($driver, $base_url);
 
     reset_dev_data();
     tock('aktuell', 'aktuell');
-}
-
-function test_create_aktuell_old($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_3_url;
-
-    login($driver, $base_url, 'vorstand', 'v0r57and');
-    $driver->get("{$base_url}{$aktuell_url}");
-    $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
-
-    $does_not_work_link = $driver->findElement(
-        WebDriverBy::cssSelector('#does-not-work-link')
-    );
-    click($does_not_work_link);
-    $new_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonaktuell-neuer-eintrag')
-    );
-    click($new_button);
-    $title_input = $driver->findElement(
-        WebDriverBy::cssSelector('#aktuelltitel')
-    );
-    sendKeys($title_input, 'Das Geschehnis');
-    $teaser_input = $driver->findElement(
-        WebDriverBy::cssSelector('#aktuelltext')
-    );
-    sendKeys($teaser_input, 'Kleiner Teaser für den Artikel.');
-    $text_input = $driver->findElement(
-        WebDriverBy::cssSelector('#aktuelltextlang')
-    );
-    sendKeys($text_input, "<BILD1>Detailierte Schilderung des Geschehnisses.\n<DATEI1 text='Artikel als PDF'>");
-    $author_input = $driver->findElement(
-        WebDriverBy::cssSelector('#aktuellautor')
-    );
-    sendKeys($author_input, 't.e., s.t.');
-    $upload_inputs = $driver->findElements(
-        WebDriverBy::cssSelector('input[type=file]')
-    );
-    $image_upload_input = $upload_inputs[0];
-    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
-    sendKeys($image_upload_input, $image_path);
-    $file_upload_input = $upload_inputs[1];
-    $document_path = realpath(__DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf');
-    sendKeys($file_upload_input, $document_path);
-    $driver->wait()->until(function () use ($driver) {
-        $delete_buttons = $driver->findElements(
-            WebDriverBy::cssSelector('img[title="löschen"]')
-        );
-        return count($delete_buttons) == 2;
-    });
-    take_pageshot($driver, 'aktuell_new_edit');
-
-    $preview_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonaktuell-vorschau')
-    );
-    click($preview_button);
-    take_pageshot($driver, 'aktuell_new_preview');
-
-    $save_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonaktuell-speichern')
-    );
-    click($save_button);
-    take_pageshot($driver, 'aktuell_new_finished');
-
-    $driver->get("{$base_url}{$aktuell_id_3_url}");
-
-    $edit_button = $driver->findElement(
-        WebDriverBy::cssSelector('.content-middle .linkedit')
-    );
-    click($edit_button);
-    $text_input = $driver->findElement(
-        WebDriverBy::cssSelector('#aktuelltextlang')
-    );
-    sendKeys($text_input, "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
-    take_pageshot($driver, 'aktuell_update_edit');
-
-    $preview_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonaktuell-vorschau')
-    );
-    click($preview_button);
-    take_pageshot($driver, 'aktuell_update_preview');
-
-    $save_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonaktuell-speichern')
-    );
-    click($save_button);
-    take_pageshot($driver, 'aktuell_update_finished');
-
-    logout($driver, $base_url);
 }
 
 function test_create_aktuell_new($driver, $base_url) {

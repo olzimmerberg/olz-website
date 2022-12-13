@@ -26,6 +26,20 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
         });
     }, []);
 
+    React.useEffect(() => {
+        if (authenticatedUser === null || authenticatedRoles === null) {
+            return;
+        }
+        if (authenticatedRoles.length === 0) {
+            props.onUserIdChange(new CustomEvent('userIdChange', {
+                detail: authenticatedUser.id,
+            }));
+            props.onRoleIdChange(new CustomEvent('roleIdChange', {
+                detail: null,
+            }));
+        }
+    }, [authenticatedUser, authenticatedRoles]);
+
     let selectionClass = 'none-selected';
     let buttonLabel = props.nullLabel ?? 'Bitte wählen';
     const user = props.userId && authenticatedUser?.id === props.userId ? authenticatedUser : null;

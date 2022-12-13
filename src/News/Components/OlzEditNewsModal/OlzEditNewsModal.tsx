@@ -199,6 +199,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                         name='format'
                                         className='form-control form-select'
                                         id='news-format-input'
+                                        defaultValue={format}
                                         onChange={(e) => {
                                             const select = e.target;
                                             const newFormatString = select.options[select.selectedIndex].value;
@@ -209,12 +210,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                             setFormat(newFormat);
                                         }}
                                     >
-                                        <option value='aktuell' selected={format === 'aktuell'}>
-                                            Aktuell
-                                        </option>
-                                        <option value='galerie' selected={format === 'galerie'}>
-                                            Galerie
-                                        </option>
+                                        <option value='aktuell'>Aktuell</option>
+                                        <option value='galerie'>Galerie</option>
                                     </select>
                                 </div>
                             </div>

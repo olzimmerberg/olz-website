@@ -520,9 +520,9 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
-        $this->assertSame("Aktuell", $news_utils->getTitleFromFilter([]));
+        $this->assertSame("News", $news_utils->getTitleFromFilter([]));
         $this->assertSame(
-            "Alles von 2020",
+            "News",
             $news_utils->getTitleFromFilter([
                 'format' => 'alle',
                 'datum' => '2020',
@@ -530,7 +530,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Aktuelles von 2020",
+            "Aktuell",
             $news_utils->getTitleFromFilter([
                 'format' => 'aktuell',
                 'datum' => '2020',
@@ -538,7 +538,55 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Alles von 2011 (Archiv)",
+            "Galerien",
+            $news_utils->getTitleFromFilter([
+                'format' => 'galerie',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Videos",
+            $news_utils->getTitleFromFilter([
+                'format' => 'video',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "News von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'alle',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Aktuelles von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'aktuell',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Galerien von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'galerie',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Videos von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'video',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "News von 2011 (Archiv)",
             $news_utils->getTitleFromFilter([
                 'format' => 'alle',
                 'datum' => '2011',
@@ -554,11 +602,19 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Aktuell", // 2011 excl. archive is INVALID!
+            "News", // 2011 excl. archive is INVALID!
             $news_utils->getTitleFromFilter([
                 'format' => 'alle',
                 'datum' => '2011',
                 'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "News", // 2000 incl. archive is INVALID!
+            $news_utils->getTitleFromFilter([
+                'format' => 'alle',
+                'datum' => '2000',
+                'archiv' => 'mit',
             ])
         );
     }

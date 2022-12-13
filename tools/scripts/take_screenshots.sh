@@ -18,7 +18,7 @@ while [ ! -z "$1" ]; do
             NO_BUILD=1
             ;;
         --help|-h)
-            echo "Usage: $(basename $0) [--firefox|--chrome] [set_index]" 2>&1
+            echo "Usage: $(basename $0) [--firefox|--chrome] [--no-build] [set_index]" 2>&1
             exit 1
             ;;
         *)

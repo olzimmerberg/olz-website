@@ -175,10 +175,15 @@ class NewsFilterUtils {
 
     public function getTitleFromFilter($filter) {
         if (!$this->isValidFilter($filter)) {
-            return "Aktuell";
+            return "News";
         }
-        $format_title = $this->getFormatFilterTitle($filter);
         $archive_title_suffix = $this->getArchiveFilterTitleSuffix($filter);
+        $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        if ($filter['datum'] === $this_year) {
+            $format_title = $this->getPresentFormatFilterTitle($filter);
+            return "{$format_title}{$archive_title_suffix}";
+        }
+        $format_title = $this->getPastFormatFilterTitle($filter);
         if (intval($filter['datum']) > 2000) {
             $year = $filter['datum'];
             return "{$format_title} {$year}{$archive_title_suffix}";
@@ -189,7 +194,20 @@ class NewsFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getFormatFilterTitle($filter) {
+    private function getPresentFormatFilterTitle($filter) {
+        if ($filter['format'] === 'aktuell') {
+            return "Aktuell";
+        }
+        if ($filter['format'] === 'galerie') {
+            return "Galerien";
+        }
+        if ($filter['format'] === 'video') {
+            return "Videos";
+        }
+        return "News";
+    }
+
+    private function getPastFormatFilterTitle($filter) {
         if ($filter['format'] === 'aktuell') {
             return "Aktuelles von";
         }
@@ -199,7 +217,7 @@ class NewsFilterUtils {
         if ($filter['format'] === 'video') {
             return "Videos von";
         }
-        return "Alles von";
+        return "News von";
     }
 
     private function getArchiveFilterTitleSuffix($filter) {

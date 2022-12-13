@@ -3,6 +3,7 @@
 namespace Olz\News\Components\OlzNewsArticle;
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
@@ -12,9 +13,13 @@ class OlzNewsArticle {
 
         $db = DbUtils::fromEnv()->getDb();
         $image_utils = ImageUtils::fromEnv();
+        $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
+        $data_path = $env_utils->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
+        // TODO: Remove once migrated
+        $galerie_id = $id - 1200;
         $arg_row = $args['row'] ?? null;
         $can_edit = $args['can_edit'] ?? false;
         $is_preview = $args['is_preview'] ?? false;
@@ -42,6 +47,7 @@ class OlzNewsArticle {
                 continue;
             }
             $id_tmp = $row['id'];
+            $format = $row['typ'];
             $titel = $row['titel'];
             $text = olz_amp($row['text']);
             $textlang = olz_br($row['textlang']);
@@ -102,7 +108,51 @@ class OlzNewsArticle {
             $textlang = $file_utils->replaceFileTags($textlang, 'aktuell', $id);
 
             $out .= "<h2>{$edit_admin}{$titel}</h2>";
-            $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
+
+            if ($format === 'galerie') {
+                $out .= "<div class='lightgallery gallery-container'>";
+                if ($is_migrated) {
+                    $size = count($image_ids);
+                } else {
+                    $img_path = "{$data_path}img/galerie/{$galerie_id}/img/";
+                    for ($size = 1; is_file($img_path.str_pad($size, 3, '0', STR_PAD_LEFT).".jpg"); $size++) {
+                    }
+                    $size--;
+                }
+                for ($index = 0; $index < $size; $index++) {
+                    $out .= "<div class='gallery-image'>";
+                    if ($is_migrated) {
+                        $out .= $image_utils->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
+                    } else {
+                        $out .= $image_utils->olzImage("galerie", $galerie_id, $index + 1, 110, 'gallery[myset]');
+                    }
+                    $out .= "</div>";
+                }
+                $out .= "</div>\n";
+            } elseif ($format === 'video') {
+                $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $textlang, $matches0);
+                $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $textlang, $matches1);
+                $youtube_match = null;
+                if ($res0) {
+                    $youtube_match = $matches0[2];
+                }
+                if ($res1) {
+                    $youtube_match = $matches1[2];
+                }
+
+                $content_to_show = $youtube_match ? "<a href='{$textlang}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $textlang;
+                $out .= "<div class='video-container'>";
+                $out .= "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
+                if ($youtube_match != null) {
+                    $out .= "<iframe width='560' height='315' src='https://www.youtube.com/embed/{$youtube_match}' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                } else {
+                    $out .= "Fehlerhafter YouTube-Link!";
+                }
+                $out .= "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
+                $out .= "</div>";
+            } else {
+                $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
+            }
         }
         return $out;
     }

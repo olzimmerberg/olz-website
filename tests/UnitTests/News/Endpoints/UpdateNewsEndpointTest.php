@@ -63,6 +63,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                     'onOff' => true,
                 ],
                 'data' => [
+                    'format' => 'aktuell',
                     'author' => 't.u.',
                     'authorUserId' => 2,
                     'authorRoleId' => 2,
@@ -121,6 +122,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
+                'format' => 'aktuell',
                 'author' => 't.u.',
                 'authorUserId' => 2,
                 'authorRoleId' => 2,

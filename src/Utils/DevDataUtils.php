@@ -420,12 +420,18 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/galerie/2/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/001.jpg", 800, 600);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/002.jpg", 800, 600);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/003.jpg", 600, 800);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/004.jpg", 800, 600);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/2/img/005.jpg", 800, 300);
         $this->mkdir("{$data_path}img/galerie/3");
         $this->mkdir("{$data_path}img/galerie/3/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/3/img/001.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/galerie/6");
+        $this->mkdir("{$data_path}img/galerie/6/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/6/img/001.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/6/img/002.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/6/img/003.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/galerie/6/img/004.jpg", 800, 600);
         $this->mkdir("{$data_path}img/karten");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
@@ -433,6 +439,13 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/4");
         $this->mkdir("{$data_path}img/news/4/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/4/img/xkbGJQgO5LFXpTSz2dCnvJzu.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/news/6");
+        $this->mkdir("{$data_path}img/news/6/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6/img/eGbiJQgOyLF5p6S92kC3vTzE.jpg", 600, 800);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6/img/Frw83uTOyLF5p6S92kC7zpEW.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/news/7");
+        $this->mkdir("{$data_path}img/news/7/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/7/img/aRJIflbxtkF5p6S92k470912.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/users");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
@@ -497,7 +510,11 @@ class DevDataUtils {
             mkdir($tmp_dir);
         }
         $flat_destination_relative_path = str_replace('/', '___', $destination_relative_path);
-        $tmp_path = "{$tmp_dir}{$flat_destination_relative_path}";
+        $extension_pos = strrpos($flat_destination_relative_path, '.');
+        $ident = substr($flat_destination_relative_path, 0, $extension_pos);
+        $extension = substr($flat_destination_relative_path, $extension_pos);
+        $tmp_basename = "{$ident}___{$width}x{$height}{$extension}";
+        $tmp_path = "{$tmp_dir}{$tmp_basename}";
         if (!is_file($tmp_path)) {
             $info = getimagesize($source_path);
             $source_width = $info[0];

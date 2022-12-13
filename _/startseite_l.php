@@ -27,7 +27,7 @@ if ($aktuell_typ != 'aktuell') {
     $sql = "SELECT * from aktuell WHERE typ='{$aktuell_typ}' ORDER BY datum DESC";
 } else {
     $sql = "
-(SELECT id,datum,zeit,titel,text,'aktuell' AS typ,image_ids AS f1,'' AS f2,'' AS f3,'' AS f4,'' AS f5,'' AS f6,textlang AS f7,'' AS linkext FROM aktuell WHERE (on_off='1' AND typ NOT LIKE 'box%'))
+(SELECT id,datum,zeit,titel,text,'aktuell' AS typ,image_ids AS f1,typ AS f2,'' AS f3,'' AS f4,'' AS f5,'' AS f6,textlang AS f7,'' AS linkext FROM aktuell WHERE (on_off='1' AND typ NOT LIKE 'box%'))
 UNION ALL
 (SELECT id,datum,zeit,titel,text,'blog' AS typ,autor AS f1,'' AS f2,'' AS f3,'','','','',linkext FROM blog WHERE (on_off='1') AND (titel!='') AND (text!=''))
 UNION ALL
@@ -153,6 +153,7 @@ while ($row = $result->fetch_assoc()) {
     } else { // Tabelle 'aktuell'
         $textlang = $row['f7'];
         $image_ids = $row['f1'];
+        $format = $row['f2'];
         $titel = "Aktuell: ".$titel;
         if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
@@ -165,11 +166,12 @@ while ($row = $result->fetch_assoc()) {
         }
 
         $news_entry = new NewsEntry();
+        $news_entry->setFormat($format);
         $news_entry->setDate($datum);
         $news_entry->setTitle($edit_admin.$titel);
         $news_entry->setTeaser($text);
         $news_entry->setId($id);
-        $news_entry->setImageIds(json_decode($image_ids ?? '[]', true));
+        $news_entry->setImageIds($image_ids ? json_decode($image_ids, true) : null);
 
         echo OlzNewsListItem::render(['news_entry' => $news_entry]);
     }

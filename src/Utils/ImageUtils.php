@@ -23,11 +23,11 @@ class ImageUtils {
         $lightview = 'image',
         $attrs = '',
     ): string {
-        $is_migrated = (bool) $image_ids;
+        $is_migrated = is_array($image_ids);
         $res = preg_match_all(
-            '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text, $matches);
+            '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text ?? '', $matches);
         if (!$res) {
-            return $text;
+            return $text ?? '';
         }
         for ($i = 0; $i < count($matches[0]); $i++) {
             $size = intval($matches[3][$i]);
@@ -81,7 +81,7 @@ class ImageUtils {
             $imgfile = "{$db_imgpath}/{$id}/img/{$padded_index}.jpg";
         }
         if (!is_file("{$data_path}{$imgfile}")) {
-            return "Bild nicht vorhanden (in olzImage)";
+            return "Bild nicht vorhanden (in olzImage): {$imgfile}";
         }
         $info = getimagesize("{$data_path}{$imgfile}");
         $swid = $info[0];

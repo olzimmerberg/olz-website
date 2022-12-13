@@ -50,6 +50,7 @@ final class NewsEndpointTraitTest extends UnitTestCase {
             'content',
             'externalUrl',
             'fileIds',
+            'format',
             'imageIds',
             'tags',
             'teaser',

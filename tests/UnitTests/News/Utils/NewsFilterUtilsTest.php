@@ -20,7 +20,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
         $this->assertSame([
-            'typ' => 'aktuell',
+            'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ], $news_utils->getDefaultFilter());
@@ -33,22 +33,22 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $this->assertSame(false, $news_utils->isValidFilter([]));
         $this->assertSame(false, $news_utils->isValidFilter(['foo' => 'bar']));
         $this->assertSame(true, $news_utils->isValidFilter([
-            'typ' => 'aktuell',
+            'format' => 'aktuell',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
         $this->assertSame(false, $news_utils->isValidFilter([
-            'typ' => 'aktuell',
+            'format' => 'aktuell',
             'datum' => '2011',
             'archiv' => 'ohne',
         ]));
         $this->assertSame(true, $news_utils->isValidFilter([
-            'typ' => 'aktuell',
+            'format' => 'aktuell',
             'datum' => '2011',
             'archiv' => 'mit',
         ]));
         $this->assertSame(false, $news_utils->isValidFilter([
-            'typ' => 'some',
+            'format' => 'some',
             'datum' => 'silly',
             'archiv' => 'rubbish',
         ]));
@@ -67,59 +67,109 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $news_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2019',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2018',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2017',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2016',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2019',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2018',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2017',
                 'archiv' => 'ohne',
             ],
             [
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'galerie',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'galerie',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'galerie',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'galerie',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'galerie',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'video',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'video',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'video',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'video',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'video',
                 'datum' => '2016',
                 'archiv' => 'ohne',
             ],
         ], $news_utils->getAllValidFiltersForSitemap());
     }
 
-    public function testGetUiTypeFilterOptions(): void {
+    public function testGetUiFormatFilterOptions(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
@@ -127,25 +177,45 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2020',
                     'archiv' => 'ohne',
                 ],
-                'name' => "Alle News",
+                'name' => "Alle",
                 'ident' => 'alle',
             ],
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2020',
                     'archiv' => 'ohne',
                 ],
                 'name' => "Aktuell",
                 'ident' => 'aktuell',
             ],
-        ], $news_utils->getUiTypeFilterOptions([
-            'typ' => 'alle',
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'galerie',
+                    'datum' => '2020',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Galerien",
+                'ident' => 'galerie',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'video',
+                    'datum' => '2020',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Videos",
+                'ident' => 'video',
+            ],
+        ], $news_utils->getUiFormatFilterOptions([
+            'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
@@ -153,25 +223,45 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2020',
                     'archiv' => 'mit',
                 ],
-                'name' => "Alle News",
+                'name' => "Alle",
                 'ident' => 'alle',
             ],
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2020',
                     'archiv' => 'mit',
                 ],
                 'name' => "Aktuell",
                 'ident' => 'aktuell',
             ],
-        ], $news_utils->getUiTypeFilterOptions([
-            'typ' => 'aktuell',
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'galerie',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Galerien",
+                'ident' => 'galerie',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'video',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Videos",
+                'ident' => 'video',
+            ],
+        ], $news_utils->getUiFormatFilterOptions([
+            'format' => 'aktuell',
             'datum' => '2020',
             'archiv' => 'mit',
         ]));
@@ -185,7 +275,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2020',
                     'archiv' => 'ohne',
                 ],
@@ -195,7 +285,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2019',
                     'archiv' => 'ohne',
                 ],
@@ -205,7 +295,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2018',
                     'archiv' => 'ohne',
                 ],
@@ -215,7 +305,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2017',
                     'archiv' => 'ohne',
                 ],
@@ -225,7 +315,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2016',
                     'archiv' => 'ohne',
                 ],
@@ -233,7 +323,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'ident' => '2016',
             ],
         ], $news_utils->getUiDateRangeFilterOptions([
-            'typ' => 'alle',
+            'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
@@ -247,7 +337,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2011',
                     'archiv' => 'mit',
                 ],
@@ -257,7 +347,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2010',
                     'archiv' => 'mit',
                 ],
@@ -267,7 +357,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2009',
                     'archiv' => 'mit',
                 ],
@@ -277,7 +367,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2008',
                     'archiv' => 'mit',
                 ],
@@ -287,7 +377,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2007',
                     'archiv' => 'mit',
                 ],
@@ -297,7 +387,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2006',
                     'archiv' => 'mit',
                 ],
@@ -305,7 +395,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'ident' => '2006',
             ],
         ], $news_utils->getUiDateRangeFilterOptions([
-            'typ' => 'aktuell',
+            'format' => 'aktuell',
             'datum' => '2009',
             'archiv' => 'mit',
         ]));
@@ -317,7 +407,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2020',
                     'archiv' => 'ohne',
                 ],
@@ -327,7 +417,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'alle',
+                    'format' => 'alle',
                     'datum' => '2020',
                     'archiv' => 'mit',
                 ],
@@ -335,7 +425,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'ident' => 'mit',
             ],
         ], $news_utils->getUiArchiveFilterOptions([
-            'typ' => 'alle',
+            'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
@@ -343,7 +433,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2018',
                     'archiv' => 'ohne',
                 ],
@@ -353,7 +443,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => true,
                 'new_filter' => [
-                    'typ' => 'aktuell',
+                    'format' => 'aktuell',
                     'datum' => '2018',
                     'archiv' => 'mit',
                 ],
@@ -361,7 +451,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'ident' => 'mit',
             ],
         ], $news_utils->getUiArchiveFilterOptions([
-            'typ' => 'aktuell',
+            'format' => 'aktuell',
             'datum' => '2018',
             'archiv' => 'mit',
         ]));
@@ -411,7 +501,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $this->assertSame(
             "(YEAR(n.datum) = '2020') AND ('1' = '1')",
             $news_utils->getSqlFromFilter([
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ])
@@ -419,7 +509,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $this->assertSame(
             "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%aktuell%')",
             $news_utils->getSqlFromFilter([
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ])
@@ -430,43 +520,43 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
-        $this->assertSame("News", $news_utils->getTitleFromFilter([]));
+        $this->assertSame("Aktuell", $news_utils->getTitleFromFilter([]));
         $this->assertSame(
-            "News 2020",
+            "Alles von 2020",
             $news_utils->getTitleFromFilter([
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "Aktuell 2020",
+            "Aktuelles von 2020",
             $news_utils->getTitleFromFilter([
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "News 2011 (Archiv)",
+            "Alles von 2011 (Archiv)",
             $news_utils->getTitleFromFilter([
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2011',
                 'archiv' => 'mit',
             ])
         );
         $this->assertSame(
-            "Aktuell 2018",
+            "Aktuelles von 2018",
             $news_utils->getTitleFromFilter([
-                'typ' => 'aktuell',
+                'format' => 'aktuell',
                 'datum' => '2018',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "News", // 2011 excl. archive is INVALID!
+            "Aktuell", // 2011 excl. archive is INVALID!
             $news_utils->getTitleFromFilter([
-                'typ' => 'alle',
+                'format' => 'alle',
                 'datum' => '2011',
                 'archiv' => 'ohne',
             ])

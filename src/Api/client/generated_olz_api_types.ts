@@ -20,6 +20,7 @@ export type OlzMetaData = {
 };
 
 export type OlzNewsData = {
+    'format': OlzNewsFormat,
     'author': string|null,
     'authorUserId': number|null,
     'authorRoleId': number|null,
@@ -29,9 +30,11 @@ export type OlzNewsData = {
     'externalUrl': string|null,
     'tags': Array<string>,
     'terminId': number|null,
-    'imageIds': Array<string>,
+    'imageIds': Array<string>|null,
     'fileIds': Array<string>,
 };
+
+export type OlzNewsFormat = 'aktuell'|'galerie';
 
 export type OlzMetaDataOrNull = {
     'ownerUserId': number|null,
@@ -40,6 +43,7 @@ export type OlzMetaDataOrNull = {
 }|null;
 
 export type OlzNewsDataOrNull = {
+    'format': OlzNewsFormat,
     'author': string|null,
     'authorUserId': number|null,
     'authorRoleId': number|null,
@@ -49,7 +53,7 @@ export type OlzNewsDataOrNull = {
     'externalUrl': string|null,
     'tags': Array<string>,
     'terminId': number|null,
-    'imageIds': Array<string>,
+    'imageIds': Array<string>|null,
     'fileIds': Array<string>,
 }|null;
 

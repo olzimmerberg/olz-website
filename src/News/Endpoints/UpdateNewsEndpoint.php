@@ -68,7 +68,7 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         // TODO: Do not ignore
         $news_entry->setTermin(0);
         $news_entry->setCounter(0);
-        $news_entry->setType('aktuell');
+        $news_entry->setFormat($input_data['format']);
         $news_entry->setNewsletter(1);
 
         $this->entityManager()->persist($news_entry);

@@ -47,7 +47,9 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Aktuell**
         
+        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/aktuell.php?id=1202)
         - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/aktuell.php?id=3)
+        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/aktuell.php?id=6)
         
         
         **Kaderblog**

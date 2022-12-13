@@ -16,16 +16,25 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('news');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
+        // TODO: Permissions probably should not depend on format in the future.
+        $input_data = $input['data'];
+        $format = $input_data['format'];
+        if ($format === 'galerie') {
+            $has_any_access = $this->authUtils()->hasPermission('any');
+            if (!$has_any_access) {
+                throw new HttpError(403, "Kein Zugriff!");
+            }
+        } else {
+            $has_news_access = $this->authUtils()->hasPermission('news');
+            if (!$has_news_access) {
+                throw new HttpError(403, "Kein Zugriff!");
+            }
         }
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getSessionUser();
         $data_path = $this->envUtils()->getDataPath();
-        $input_data = $input['data'];
 
         $author_user_id = $input_data['authorUserId'] ?? null;
         $author_user = $current_user;
@@ -65,7 +74,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         // TODO: Do not ignore
         $news_entry->setTermin(0);
         $news_entry->setCounter(0);
-        $news_entry->setType('aktuell');
+        $news_entry->setFormat($format);
         $news_entry->setNewsletter(1);
 
         $this->entityManager()->persist($news_entry);

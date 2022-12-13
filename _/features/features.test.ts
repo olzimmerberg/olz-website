@@ -3,6 +3,9 @@ import {olzInitFeatures} from './features';
 describe('olzInitFeatures', () => {
     function getCssDisplayById(id: string) {
         const elem = document.getElementById(id);
+        if (!elem) {
+            return undefined;
+        }
         const cssObj = window.getComputedStyle(elem, null);
         return cssObj.getPropertyValue('display');
     }

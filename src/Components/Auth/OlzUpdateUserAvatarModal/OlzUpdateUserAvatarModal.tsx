@@ -47,6 +47,12 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
         event.preventDefault();
         try {
             setUploadProgress(0.1);
+            if (!imageSrc) {
+                throw new Error("Image source is not available");
+            }
+            if (!croppedAreaPixels) {
+                throw new Error("Cropped area is unknown");
+            }
             const img = await loadImageFromBase64(imageSrc);
             const croppedCanvas = getCroppedCanvas(img, croppedAreaPixels, rotation);
             const resizedCanvas = getCanvasOfSize(croppedCanvas, TARGET_WIDTH, TARGET_HEIGHT);
@@ -62,9 +68,10 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
             const changeEvent: OlzUpdateUserAvatarModalChangeEvent = 
                 new CustomEvent('change', {detail: {uploadId, dataUrl: resizedBase64}});
             props.onChange(changeEvent);
-            bootstrap.Modal.getInstance(
-                document.getElementById('update-user-avatar-modal'),
-            ).hide();
+            const modal = document.getElementById('update-user-avatar-modal');
+            if (modal) {
+                bootstrap.Modal.getInstance(modal)?.hide();
+            }
         } catch (e) {
             console.error(e)
         }
@@ -181,13 +188,17 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
 export function initOlzUpdateUserAvatarModal(
     onChange: (e: OlzUpdateUserAvatarModalChangeEvent) => void
 ): void {
-    ReactDOM.unmountComponentAtNode(document.getElementById('update-user-avatar-react-root'));
+    const reactRoot = document.getElementById('update-user-avatar-react-root');
+    if (!reactRoot) {
+        throw new Error("React root is not present");
+    }
+    ReactDOM.unmountComponentAtNode(reactRoot);
     ReactDOM.render(
         <OlzUpdateUserAvatarModal onChange={onChange} />,
-        document.getElementById('update-user-avatar-react-root'),
+        reactRoot,
     );
-    new bootstrap.Modal(
-        document.getElementById('update-user-avatar-modal'),
-        {backdrop: 'static'},
-    ).show();
+    const modal = document.getElementById('update-user-avatar-modal');
+    if (modal) {
+        new bootstrap.Modal(modal,{backdrop: 'static'}).show();
+    }
 }

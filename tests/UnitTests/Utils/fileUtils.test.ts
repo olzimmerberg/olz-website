@@ -26,7 +26,9 @@ describe('readBase64', () => {
         const fileReader = {readAsDataURL: () => {}} as unknown as FileReader;
         const fakeErrorEvent = {target: {error: new Error('test')}} as ProgressEvent<FileReader>;
         const promise = readBase64(SIMPLE_FILE, {fileReader});
-        fileReader.onerror(fakeErrorEvent);
+        if (fileReader.onerror) {
+            fileReader.onerror(fakeErrorEvent);
+        }
         try {
             await promise;
             fail('Error expected');
@@ -39,7 +41,9 @@ describe('readBase64', () => {
         const fileReader = {readAsDataURL: () => {}} as unknown as FileReader;
         const fakeLoadEvent = {target: {result: null}} as ProgressEvent<FileReader>;
         const promise = readBase64(SIMPLE_FILE, {fileReader});
-        fileReader.onload(fakeLoadEvent);
+        if (fileReader.onload) {
+            fileReader.onload(fakeLoadEvent);
+        }
         try {
             await promise;
             fail('Error expected');

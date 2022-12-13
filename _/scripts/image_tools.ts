@@ -69,8 +69,11 @@ export function olz_images_edit_redraw(
         }, 100);
     }, true);
 
-    const cnt = olz_images_edit[ident].count;
+    const cnt = olz_images_edit[ident].count || 0;
     const elem = document.getElementById(ident);
+    if (!elem) {
+        throw new Error('Elem must exist');
+    }
     let htmlout = '';
     let i: number;
     for (i = 0; i < cnt; i++) {
@@ -87,6 +90,9 @@ export function olz_images_edit_redraw(
     const drawcanvas = (uqident: string, img: HTMLImageElement, part: number) => {
         const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
         const ctx = cnv.getContext('2d');
+        if (!ctx) {
+            throw new Error('2D context not available');
+        }
         ctx.clearRect(0, 0, 110, 110);
         if (img) { ctx.drawImage(img, 0, 0, 110, 110); }
         ctx.fillStyle = 'rgba(0,0,0,0.2)';
@@ -108,6 +114,9 @@ export function olz_images_edit_redraw(
         drawcanvas(uq[i][0], uq[i][1], 0);
     }
     const dropzone = document.getElementById(`${ident}-dropzone`);
+    if (!dropzone) {
+        throw new Error('Dropzone must exist');
+    }
     const drophover = () => {
         dropzone.style.backgroundColor = 'rgb(220,220,220)';
         dropzone.style.borderColor = 'rgb(150,150,150)';
@@ -163,10 +172,16 @@ export function olz_images_edit_redraw(
                     bigcanvas.width = dstImg.width * 2;
                     bigcanvas.height = dstImg.height * 2;
                     const bigctx = bigcanvas.getContext('2d');
+                    if (!bigctx) {
+                        throw new Error('2D context not available');
+                    }
                     bigctx.drawImage(img, 0, 0, dstImg.width * 2, dstImg.height * 2);
                     max2img = bigcanvas;
                 }
                 const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    throw new Error('2D context not available');
+                }
                 ctx.drawImage(max2img, 0, 0, dstImg.width, dstImg.height);
             };
             max2scale(img, canvas);
@@ -202,7 +217,8 @@ export function olz_images_edit_redraw(
                         }
                         olz_images_edit[ident].uploadqueue = uq__;
                         if (resp[0] === 1) {
-                            olz_images_edit[ident].count += 1;
+                            const value = olz_images_edit[ident].count ?? 0;
+                            olz_images_edit[ident].count = value + 1;
                         }
                         if (uq__.length === 0) {
                             olz_images_edit_redraw(ident, dbtable, id, 0);
@@ -221,6 +237,9 @@ export function olz_images_edit_redraw(
         let ind = indArg;
         if (!ind) {
             const dropzone_ = document.getElementById(`${ident}-dropzone`);
+            if (!dropzone_) {
+                throw new Error('dropzone_ must exist');
+            }
             dropzone_.innerHTML = '<b>Bitte warten</b>, <br>Bilder werden gelesen und verkleinert...';
             dropzone_.ondrop = () => {};
             const fileselect = document.getElementById(`${ident}-fileselect`) as HTMLInputElement;
@@ -312,11 +331,22 @@ export function olz_images_edit_redraw(
     };
     for (i = 0; i < cnt + 1; i++) {
         const droptableelem = document.getElementById(`${ident}-droptable-${i + 1}`);
+        if (!droptableelem) {
+            throw new Error('droptableelem must exist');
+        }
         droptableelem.onmouseover = (_e) => {
-            if (olz_images_edit[ident].dragelem) { document.getElementById(`${ident}-borderdiv-${i + 1}`).style.backgroundColor = 'black'; }
+            if (olz_images_edit[ident].dragelem) {
+                const borderdivelem = document.getElementById(`${ident}-borderdiv-${i + 1}`);
+                if (borderdivelem) {
+                    borderdivelem.style.backgroundColor = 'black';
+                }
+            }
         };
         droptableelem.onmouseout = (_e) => {
-            document.getElementById(`${ident}-borderdiv-${i + 1}`).style.backgroundColor = '';
+            const borderdivelem = document.getElementById(`${ident}-borderdiv-${i + 1}`);
+            if (borderdivelem) {
+                borderdivelem.style.backgroundColor = '';
+            }
         };
         droptableelem.onmouseup = (_e) => {
             const from = olz_images_edit[ident].dragindex;
@@ -398,8 +428,14 @@ export function olz_images_edit_redraw(
             }
         };
         const rotelem = document.getElementById(`${ident}-rotate-${i + 1}`);
+        if (!rotelem) {
+            throw new Error('rotelem must exist');
+        }
         const fn1 = ((i_: number) => {
             const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
+            if (!elem_) {
+                throw new Error('elem_ must exist');
+            }
             if (elem_.style.transform === undefined && elem_.style.webkitTransform === undefined) {
                 // eslint-disable-next-line no-alert
                 alert('Diese Funktion wird von Ihrem Browser leider nicht unterstützt. Installieren Sie einen modernen Browser!');
@@ -412,14 +448,27 @@ export function olz_images_edit_redraw(
         }).bind(null, i);
         rotelem.onclick = fn1;
         const delelem = document.getElementById(`${ident}-delete-${i + 1}`);
+        if (!delelem) {
+            throw new Error('delelem must exist');
+        }
         const fn2 = ((i_: number) => {
-            document.getElementById(`${ident}-img-${i_ + 1}`).style.visibility = 'hidden';
+            const fn2imgelem = document.getElementById(`${ident}-img-${i_ + 1}`);
+            if (fn2imgelem) {
+                fn2imgelem.style.visibility = 'hidden';
+            }
             actiondone(i_);
         }).bind(null, i);
         delelem.onclick = fn2;
         const subelem = document.getElementById(`${ident}-submit-${i + 1}`);
+        if (!subelem) {
+            throw new Error('subelem must exist');
+        }
         const fn3 = ((i_: number, dbtable_: string, id_: number) => {
-            const delflag = (document.getElementById(`${ident}-img-${i_ + 1}`).style.visibility === 'hidden' ? 1 : 0);
+            const fn3imgelem = document.getElementById(`${ident}-img-${i_ + 1}`);
+            if (!fn3imgelem) {
+                throw new Error('fn3imgelem must exist');
+            }
+            const delflag = (fn3imgelem.style.visibility === 'hidden' ? 1 : 0);
             const xmlhttp = new XMLHttpRequest();
             xmlhttp.open('POST', `image_tools.php?request=change&db_table=${dbtable_}`, false);
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -433,7 +482,8 @@ export function olz_images_edit_redraw(
             if (resp[0] === 1) {
                 olz_images_edit[ident].rotations[i_ + 1] = 0;
                 if (resp[1] === 1) {
-                    olz_images_edit[ident].count -= 1;
+                    const value = olz_images_edit[ident].count ?? 0;
+                    olz_images_edit[ident].count = value - 1;
                     olz_images_edit_redraw(ident, dbtable_, id_, 0);
                 } else {
                     const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`) as HTMLImageElement;
@@ -455,8 +505,14 @@ export function olz_images_edit_redraw(
         }).bind(null, i, dbtable, id);
         subelem.onclick = fn3;
         const reselem = document.getElementById(`${ident}-reset-${i + 1}`);
+        if (!reselem) {
+            throw new Error('reselem must exist');
+        }
         const fn = ((i_: number) => {
             const elem_ = document.getElementById(`${ident}-img-${i_ + 1}`);
+            if (!elem_) {
+                throw new Error('elem_ must exist');
+            }
             elem_.style.visibility = 'visible';
             elem_.style.transform = 'rotate(0deg)';
             elem_.style.webkitTransform = 'rotate(0deg)';

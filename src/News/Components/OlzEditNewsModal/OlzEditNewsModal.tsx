@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAuthenticatedUserRoleChooser/OlzAuthenticatedUserRoleChooser';
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
@@ -79,7 +79,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
         if (props.id) {
             const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
                 const fieldResults: OlzRequestFieldResult<'updateNews'> = {
-                    id: validFieldResult('', props.id),
+                    id: getRequired(validFieldResult('', props.id)),
                     meta: {
                         ownerUserId: validFieldResult('', null),
                         ownerRoleId: validFieldResult('', null),
@@ -299,9 +299,9 @@ export function initOlzEditNewsModal(id?: number, data?: OlzNewsData) {
         <OlzEditNewsModal id={id} data={data} />,
         document.getElementById('edit-news-react-root'),
     );
-    new bootstrap.Modal(
-        document.getElementById('edit-news-modal'),
-        {backdrop: 'static'},
-    ).show();
+    const modal = document.getElementById('edit-news-modal');
+    if (modal) {
+    new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+    }
     return false;
 }

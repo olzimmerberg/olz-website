@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzWeeklyPictureData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getFormField, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzImageUploader} from '../../../Components/Upload/OlzImageUploader/OlzImageUploader';
 
 import './OlzEditWeeklyPictureModal.scss';
@@ -76,7 +76,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                     },
                     data: {
                         text: getStringOrEmpty(getFormField(f, 'text')),
-                        imageId: validFieldResult('', imageId),
+                        imageId: getRequired(validFieldResult('', imageId)),
                         alternativeImageId: validFieldResult('', alternativeImageId),
                     },
                 };
@@ -91,9 +91,10 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                     throw new Error(`Fehler beim Erstellen des weekly-picture-Eintrags: ${response.status}`);
                 }
                 window.setTimeout(() => {
-                    bootstrap.Modal.getInstance(
-                        document.getElementById('edit-weekly-picture-modal'),
-                    ).hide();
+                    const modalElem = document.getElementById('edit-weekly-picture-modal');
+                    if (modalElem) {
+                        bootstrap.Modal.getInstance(modalElem)?.hide();
+                    }
                 }, 3000);
                 return 'weekly-picture-Eintrag erfolgreich erstellt. Bitte warten...';
             }
@@ -163,9 +164,9 @@ export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictu
         <OlzEditWeeklyPictureModal id={id} data={data} />,
         document.getElementById('edit-weekly-picture-react-root'),
     );
-    new bootstrap.Modal(
-        document.getElementById('edit-weekly-picture-modal'),
-        {backdrop: 'static'},
-    ).show();
+    const modal = document.getElementById('edit-weekly-picture-modal');
+    if (modal) {
+        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+    }
     return false;
 }

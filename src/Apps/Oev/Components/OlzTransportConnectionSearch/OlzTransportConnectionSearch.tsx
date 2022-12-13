@@ -41,16 +41,16 @@ export const OlzTransportConnectionSearch = () => {
     const [connectionSuggestions, setConnectionSuggestions] =
         React.useState<OlzTransportSuggestion[]|null>(null);
 
-    const destinationInput = React.useRef<HTMLInputElement>();
-    const arrivalInput = React.useRef<HTMLInputElement>();
+    const destinationInput = React.useRef<HTMLInputElement>(null);
+    const arrivalInput = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         if (!destinationInput.current || !arrivalInput.current) {
             return;
         }
-        destinationInput.current.value = params.get('nach');
-        arrivalInput.current.value = params.get('ankunft');
+        destinationInput.current.value = params.get('nach') || '';
+        arrivalInput.current.value = params.get('ankunft') || '';
     }, [destinationInput, arrivalInput]);
 
     const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {

@@ -18,6 +18,9 @@ window.addEventListener('load', () => {
 function reconsiderShowingNextPage(): void {
     const pageIndex = lastShownPageIndex;
     const page = document.getElementById(`news-list-page-${pageIndex}`);
+    if (!page) {
+        return;
+    }
     const pageRect = page.getBoundingClientRect();
     const spaceRemaining = pageRect.bottom - window.innerHeight;
     if (spaceRemaining > 500) {

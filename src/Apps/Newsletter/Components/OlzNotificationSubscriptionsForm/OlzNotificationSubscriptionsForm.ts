@@ -57,19 +57,23 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
         )
     );
     const dailySummaryWarnMessage = elem.form.querySelector('#olz-notification-subscriptions-form-daily-summary-warn-message');
-    if (dailySummaryButNoContent) {
-        $(dailySummaryWarnMessage).text('Tageszusammenfassung, aber kein Inhalt angewählt!');
-    } else if (contentButNoDailySummary) {
-        $(dailySummaryWarnMessage).text('Tageszusammenfassung nicht angewählt!');
-    } else {
-        $(dailySummaryWarnMessage).text('');
+    if (dailySummaryWarnMessage) {
+        if (dailySummaryButNoContent) {
+            $(dailySummaryWarnMessage).text('Tageszusammenfassung, aber kein Inhalt angewählt!');
+        } else if (contentButNoDailySummary) {
+            $(dailySummaryWarnMessage).text('Tageszusammenfassung nicht angewählt!');
+        } else {
+            $(dailySummaryWarnMessage).text('');
+        }
     }
     const weeklySummaryWarnMessage = elem.form.querySelector('#olz-notification-subscriptions-form-weekly-summary-warn-message');
-    if (weeklySummaryButNoContent) {
-        $(weeklySummaryWarnMessage).text('Wochenzusammenfassung, aber kein Inhalt angewählt!');
-    } else if (contentButNoWeeklySummary) {
-        $(weeklySummaryWarnMessage).text('Wochenzusammenfassung nicht angewählt!');
-    } else {
-        $(weeklySummaryWarnMessage).text('');
+    if (weeklySummaryWarnMessage) {
+        if (weeklySummaryButNoContent) {
+            $(weeklySummaryWarnMessage).text('Wochenzusammenfassung, aber kein Inhalt angewählt!');
+        } else if (contentButNoWeeklySummary) {
+            $(weeklySummaryWarnMessage).text('Wochenzusammenfassung nicht angewählt!');
+        } else {
+            $(weeklySummaryWarnMessage).text('');
+        }
     }
 }

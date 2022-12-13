@@ -9,6 +9,10 @@ export function getErrorOrThrow(err: unknown): Error {
     return err;
 }
 
+export function isDefined<T>(value: T|undefined|null): value is T {
+    return value !== null && value !== undefined;
+}
+
 /* istanbul ignore next */
 export function loadScript(src: string): Promise<void> {
     return new Promise((resolve, reject) => {

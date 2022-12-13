@@ -65,7 +65,7 @@ enum UploadRequestType {
 }
 
 export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
-    private static instance: Uploader = null;
+    private static instance: Uploader|null = null;
 
     protected olzApi = new OlzApi();
 
@@ -88,7 +88,10 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     public add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
         return this.olzApi.call('startUpload', {suffix})
             .then((response) => {
-                const uploadId: FileUploadId = response.id;
+                const uploadId: FileUploadId|null = response.id;
+                if (!uploadId) {
+                    throw new Error('olzApi.startUpload did not return an id');
+                }
                 const numParts = Math.ceil(base64Content.length / MAX_PART_LENGTH);
                 const parts: FileUploadPart[] = range(numParts).map(() => ({
                     status: FileUploadPartStatus.READY,
@@ -122,7 +125,11 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     }
 
     protected processRequest(request: UploadRequest): Promise<any> {
-        const requestUpload = this.uploadQueue.find((upload) => upload.uploadId === request.id);
+        const requestUpload = this.uploadQueue.find((upload) =>
+            upload.uploadId === request.id);
+        if (!requestUpload) {
+            throw new Error('upload queue not found');
+        }
         switch (request.type) {
             case UploadRequestType.UPDATE: {
                 const part = requestUpload.parts[request.part];

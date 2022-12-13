@@ -104,9 +104,14 @@ export function setHash(newComponent: string, ind: number): void {
 type IndexSelectionMap = {[index: number]: boolean};
 const selectedIndexesByClass: {[classIndex: number]: IndexSelectionMap} = {};
 function showChart(classInd: number) {
-    if (classInd < 0) { return; }
+    if (classInd < 0) {
+        return;
+    }
     if (!(classInd in selectedIndexesByClass)) {
         selectedIndexesByClass[classInd] = {};
+    }
+    if (!xmlDoc) {
+        return;
     }
     const classResults = xmlDoc.querySelectorAll('ResultList > ClassResult');
     const ranking = classResults[classInd].querySelectorAll('PersonResult');
@@ -123,8 +128,12 @@ function showChart(classInd: number) {
         for (let j = 0; j < splitTimes.length; j++) {
             const controlCode = splitTimes[j].querySelector('ControlCode');
             const splitStatus = splitTimes[j].getAttribute('status');
-            if ((splitStatus === null || splitStatus === 'OK') && controlCode !== null) {
-                correctControls.push({'controlCode': controlCode.textContent, 'globalFirstThree': [], 'localFirstThree': []});
+            if ((splitStatus === null || splitStatus === 'OK') && controlCode?.textContent) {
+                correctControls.push({
+                    'controlCode': controlCode.textContent,
+                    'globalFirstThree': [],
+                    'localFirstThree': [],
+                });
             }
             cont = false;
         }
@@ -139,7 +148,9 @@ function showChart(classInd: number) {
         const sampleCodes: string[] = [];
         for (let j = 0; j < splitTimes.length; j++) {
             const controlCode = splitTimes[j].querySelector('ControlCode');
-            sampleCodes.push(controlCode.textContent);
+            if (controlCode?.textContent) {
+                sampleCodes.push(controlCode.textContent);
+            }
         }
         sampleCodes.push('F');
         const correctCodes: string[] = correctControls.map((e) => e.controlCode);
@@ -148,14 +159,17 @@ function showChart(classInd: number) {
             if (isNaN(e)) { return NaN; }
             if (sampleCodes[e] === 'F') {
                 const resultTime = ranking[i].querySelector('Result > Time');
-                if (resultTime) {
+                if (resultTime?.textContent) {
                     return parseFloat(resultTime.textContent);
                 }
                 return NaN;
             }
             const splitStatus = splitTimes[e].getAttribute('status');
             if (splitStatus === null || splitStatus === 'OK') {
-                return parseFloat(splitTimes[e].querySelector('Time').textContent);
+                const time = splitTimes[e].querySelector('Time');
+                if (time?.textContent) {
+                    return parseFloat(time.textContent);
+                }
             }
             return NaN;
 
@@ -192,7 +206,10 @@ function showChart(classInd: number) {
         }
     }
 
-    const svg: SVGSVGElement = document.querySelector('#grafik-svg');
+    const svg: SVGSVGElement|null = document.querySelector('#grafik-svg');
+    if (!svg) {
+        return;
+    }
     const wid: number = svg.width.animVal.value - 100;
     const hei: number = svg.height.animVal.value;
 
@@ -268,7 +285,9 @@ function showChart(classInd: number) {
     svg.innerHTML = svgout;
 }
 function showRanking(classInd: number) {
-    if (classInd < 0) { return; }
+    if (classInd < 0 || !xmlDoc) {
+        return;
+    }
     if (!(classInd in selectedIndexesByClass)) { selectedIndexesByClass[classInd] = {}; }
     const classResults = xmlDoc.querySelectorAll('ResultList > ClassResult');
     const ranking = classResults[classInd].querySelectorAll('PersonResult');
@@ -278,7 +297,7 @@ function showRanking(classInd: number) {
     const length = classResults[classInd].querySelector('Course > Length');
     const climb = classResults[classInd].querySelector('Course > Climb');
     const numberOfControls = classResults[classInd].querySelector('Course > NumberOfControls');
-    htmlout += `<h2 class='mobileonly'>${shortName ? shortName.textContent : name.textContent}</h2>`;
+    htmlout += `<h2 class='mobileonly'>${shortName?.textContent || name?.textContent || ''}</h2>`;
     htmlout += '<div>(';
     htmlout += (length ? (Number(length.textContent) / 1000).toFixed(1) : '?');
     htmlout += ' km, ';
@@ -295,10 +314,13 @@ function showRanking(classInd: number) {
         const addressZipCode = ranking[i].querySelector('Person > Address > ZipCode');
         const clubName = ranking[i].querySelector('Organisation > ShortName');
         const runTime = ranking[i].querySelector('Result > Time');
-        htmlout += `<tr><td style='text-align:right;'><input type='checkbox' class='chart-chk' id='chk-${i}' /></td><td style='text-align:right;'>${position ? `${position.textContent}.` : ''}</td><td>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</td><td style='text-align:right;'>${birthDate ? birthDate.textContent.substring(0, 4) : ''}</td><td>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</td><td>${clubName ? clubName.textContent : ''}</td><td style='text-align:right;'>${runTime ? formatTime(Number(runTime.textContent)) : '--:--'}</td></tr>`;
+        htmlout += `<tr><td style='text-align:right;'><input type='checkbox' class='chart-chk' id='chk-${i}' /></td><td style='text-align:right;'>${position ? `${position.textContent}.` : ''}</td><td>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</td><td style='text-align:right;'>${birthDate?.textContent?.substring(0, 4) || ''}</td><td>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</td><td>${clubName ? clubName.textContent : ''}</td><td style='text-align:right;'>${runTime ? formatTime(Number(runTime.textContent)) : '--:--'}</td></tr>`;
     }
     htmlout += '</table>';
-    document.getElementById('content-box').innerHTML = htmlout;
+    const contentBox = document.getElementById('content-box');
+    if (contentBox) {
+        contentBox.innerHTML = htmlout;
+    }
     for (const i in selectedIndexesByClass[classInd]) {
         if (Object.prototype.hasOwnProperty.call(selectedIndexesByClass[classInd], i)) {
             const checkbox = document.getElementById(`chk-${i}`) as HTMLInputElement;
@@ -320,6 +342,9 @@ function showRanking(classInd: number) {
     showChart(classInd);
 }
 function showClasses(res: number) {
+    if (!xmlDoc) {
+        return;
+    }
     const classes = xmlDoc.querySelectorAll('ResultList > ClassResult > Class');
     console.log('Classes:', classes);
     console.log(res);
@@ -327,9 +352,12 @@ function showClasses(res: number) {
     for (let i = 0; i < classes.length; i++) {
         const shortName = classes[i].querySelector('ShortName');
         const name = classes[i].querySelector('Name');
-        htmlout += `<a class='classlink${i === res ? ' selected' : ''}' href='javascript:olzResults.setHash(&quot;class${i}&quot;, 1)'>${shortName ? shortName.textContent : name.textContent}</a>`;
+        htmlout += `<a class='classlink${i === res ? ' selected' : ''}' href='javascript:olzResults.setHash(&quot;class${i}&quot;, 1)'>${shortName?.textContent || name?.textContent || ''}</a>`;
     }
-    document.getElementById('classes-box').innerHTML = htmlout;
+    const classesBoxElem = document.getElementById('classes-box');
+    if (classesBoxElem) {
+        classesBoxElem.innerHTML = htmlout;
+    }
 }
 function updateContent() {
     const path = hashPath();
@@ -343,9 +371,14 @@ function updateContent() {
     showClasses(classInd);
     showRanking(classInd);
     showChart(classInd);
-    document.getElementById('classes-box').className = (classInd === -1 ? 'active' : 'inactive');
-    document.getElementById('content-box').className = (classInd >= 0 && !grafik ? 'active' : 'inactive');
-    document.getElementById('grafik-box').className = (grafik ? 'active' : 'inactive');
+    const classesBoxElem = document.getElementById('classes-box');
+    const contentBoxElem = document.getElementById('content-box');
+    const grafikBoxElem = document.getElementById('grafik-box');
+    if (classesBoxElem && contentBoxElem && grafikBoxElem) {
+        classesBoxElem.className = (classInd === -1 ? 'active' : 'inactive');
+        contentBoxElem.className = (classInd >= 0 && !grafik ? 'active' : 'inactive');
+        grafikBoxElem.className = (grafik ? 'active' : 'inactive');
+    }
 }
 
 interface LastUpdateInfo {
@@ -355,6 +388,9 @@ interface LastUpdateInfo {
 
 const lastUpdate: LastUpdateInfo = {};
 export function checkUpdate(): void {
+    if (!filePath) {
+        return;
+    }
     const xhr = new XMLHttpRequest();
     xhr.open('HEAD', filePath, true);
     xhr.onreadystatechange = () => {
@@ -364,12 +400,15 @@ export function checkUpdate(): void {
         if (etag !== lastUpdate.etag || lastModified !== lastUpdate.lastModified) {
             loadUpdate();
         }
-        lastUpdate.etag = etag;
-        lastUpdate.lastModified = lastModified;
+        lastUpdate.etag = etag ?? undefined;
+        lastUpdate.lastModified = lastModified ?? undefined;
     };
     xhr.send();
 }
 export function loadUpdate(): void {
+    if (!filePath) {
+        return;
+    }
     const xhr = new XMLHttpRequest();
     xhr.open('GET', filePath, true);
     xhr.onreadystatechange = () => {
@@ -377,12 +416,14 @@ export function loadUpdate(): void {
         const parser = new DOMParser();
         const etag = xhr.getResponseHeader('ETag');
         const lastModified = xhr.getResponseHeader('Last-modified');
-        lastUpdate.etag = etag;
-        lastUpdate.lastModified = lastModified;
+        lastUpdate.etag = etag ?? undefined;
+        lastUpdate.lastModified = lastModified ?? undefined;
         xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
-        console.log('XML', xmlDoc);
-        const eventName = xmlDoc.querySelector('ResultList > Event > Name').textContent;
-        document.getElementById('title').innerHTML = eventName;
+        const eventName = xmlDoc.querySelector('ResultList > Event > Name')?.textContent;
+        const titleElem = document.getElementById('title');
+        if (titleElem) {
+            titleElem.innerHTML = eventName ?? '';
+        }
         updateContent();
     };
     xhr.send();

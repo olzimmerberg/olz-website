@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../../src/Utils/fileUtils';
+import {isDefined} from '../../../../src/Utils/generalUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
 import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
@@ -35,7 +36,7 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
                 }
                 uploadingFile.uploadProgress = stateOfUploadingFile.progress;
                 return uploadingFile;
-            }).filter(uploadingFile => uploadingFile !== undefined);
+            }).filter(isDefined);
             setUploadingFiles(newUploadingFiles);
         }, 1000);
         return () => clearInterval(clock)
@@ -54,7 +55,9 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
                 const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
                 const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
-                props.onUploadIdsChange(uploadIds);
+                if (props.onUploadIdsChange) {
+                    props.onUploadIdsChange(uploadIds);
+                }
             }
         };
         uploader.addEventListener('uploadFinished', callback);

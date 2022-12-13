@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../../src/Utils/fileUtils';
+import {isDefined} from '../../../../src/Utils/generalUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
@@ -38,7 +39,7 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
                 }
                 uploadingFile.uploadProgress = stateOfUploadingFile.progress;
                 return uploadingFile;
-            }).filter(uploadingFile => uploadingFile !== undefined);
+            }).filter(isDefined);
             setUploadingFiles(newUploadingFiles);
         }, 1000);
         return () => clearInterval(clock)
@@ -57,7 +58,9 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
                 const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
                 const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
-                props.onUploadIdsChange(uploadIds);
+                if (props.onUploadIdsChange) {
+                    props.onUploadIdsChange(uploadIds);
+                }
             }
         };
         uploader.addEventListener('uploadFinished', callback);
@@ -98,7 +101,9 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
             uploadedFile => uploadedFile.uploadId !== uploadId);
         setUploadedFiles(newUploadedFiles);
         const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
-        props.onUploadIdsChange(uploadIds);
+        if (props.onUploadIdsChange) {
+            props.onUploadIdsChange(uploadIds);
+        }
     }, [uploadedFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({

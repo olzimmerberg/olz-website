@@ -42,6 +42,11 @@ class OlzHeaderWithoutRouting {
             $description_arg = htmlspecialchars(str_replace("\n", " ", $args['description']));
             $html_description = "<meta name='Description' content='{$description_arg}'>";
         }
+        $html_canonical = "";
+        if (isset($args['canonical_url'])) {
+            $canonical_url = htmlspecialchars($args['canonical_url']);
+            $html_canonical = "<link rel='canonical' href='{$canonical_url}'/>";
+        }
 
         $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
         $olz_organization_data = OlzOrganizationData::render([]);
@@ -61,6 +66,7 @@ class OlzHeaderWithoutRouting {
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>{$html_title}</title>
         <link rel='shortcut icon' href='{$code_href}favicon.ico' />
+        {$html_canonical}
         {$olz_organization_data}
         {$additional_headers}
         <link rel='stylesheet' href='{$css_href}' />

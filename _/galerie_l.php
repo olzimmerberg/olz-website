@@ -75,7 +75,7 @@ if ($db_edit == '0' && ($zugriff || !$res)) {
     if ($row['on_off'] != '1' and $_POST[$button_name] != 'Aktivieren' && $zugriff) {
         array_push($btns, ["Aktivieren", "1"]);
     }
-    echo "<div class='alert alert-info' role='alert'>Vorübergehend ist es nicht möglich, neue Galerien zu erstellen.</div>";
+    echo "<div class='alert alert-info' role='alert'><b>Die Galerien ziehen um, sie sind jetzt unter \"Aktuell > Format: Galerien\" zu finden.</b><br>Vorübergehend ist es nicht möglich, neue Galerien zu erstellen.</div>";
     // echo "<div class='buttonbar'><span id='userneuegalerie'></span></div>\n<!-- Dies ist nötig, damit Bots nicht dauernd neue Galerien erstellen --><script type='text/javascript'>document.getElementById(\"userneuegalerie\").innerHTML = ".json_encode(olz_buttons("button".$db_table, $btns, "")).";</script>";
 }
 

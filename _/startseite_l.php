@@ -32,8 +32,6 @@ UNION ALL
 (SELECT id,datum,zeit,titel,text,'blog' AS typ,autor AS f1,'' AS f2,'' AS f3,'','','','',linkext FROM blog WHERE (on_off='1') AND (titel!='') AND (text!=''))
 UNION ALL
 (SELECT id,datum,zeit,'' AS titel,eintrag AS text,'forum' AS typ,name AS f1,name2 AS f2,'' AS f3,'','','','','' FROM forum WHERE (on_off='1' and eintrag!=''))
-UNION ALL
-(SELECT id,datum,'00:00:00' AS zeit,titel,'' AS text,'galerie' AS typ,'' AS f1,'' AS f2,typ AS f3,'','','','','' FROM galerie WHERE (on_off='1'))
 ORDER BY datum DESC, zeit DESC LIMIT {$listenlaenge}";
 }
 

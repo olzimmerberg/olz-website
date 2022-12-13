@@ -7,6 +7,7 @@
 namespace Olz\Startseite\Components\OlzNewsListsTile;
 
 use Olz\Entity\User;
+use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Utils\EnvUtils;
 
@@ -21,11 +22,26 @@ class OlzNewsListsTile extends AbstractOlzTile {
 
         $out = "<h2>News</h2>";
         $out .= "<ul class='links'>";
-        $out .= "<li><a href='{$code_href}aktuell.php' class='linkint'>Aktuell</a></li>";
+        $aktuell_url = self::getNewsUrl('aktuell');
+        $out .= "<li><a href='{$aktuell_url}' class='linkint'>Aktuell</a></li>";
         $out .= "<li><a href='{$code_href}blog.php' class='linkint'>Kaderblog</a></li>";
         $out .= "<li><a href='{$code_href}forum.php' class='linkint'>Forum</a></li>";
-        $out .= "<li><a href='{$code_href}galerie.php' class='linkint'>Galerie</a></li>";
+        $galerie_url = self::getNewsUrl('galerie');
+        $out .= "<li><a href='{$galerie_url}' class='linkint'>Galerie</a></li>";
         $out .= "</ul>";
         return $out;
+    }
+
+    private static function getNewsUrl($format = null) {
+        $env_utils = EnvUtils::fromEnv();
+        $code_href = $env_utils->getCodeHref();
+
+        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $filter = $news_filter_utils->getDefaultFilter();
+        if ($format) {
+            $filter['format'] = $format;
+        }
+        $enc_json_filter = urlencode(json_encode($filter));
+        return "{$code_href}aktuell.php?filter={$enc_json_filter}";
     }
 }

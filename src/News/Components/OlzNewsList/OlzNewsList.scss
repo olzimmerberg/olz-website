@@ -1,3 +1,13 @@
 #create-news-button {
     float: right;
 }
+
+.page {
+    &.hidden {
+        display: none;
+    }
+
+    &.shown {
+        display: block;
+    }
+}

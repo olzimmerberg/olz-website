@@ -48,7 +48,6 @@ class OlzNewsList {
         $out .= OlzNewsFilter::render([]);
         $out .= "</div>";
         $out .= "<div class='content-middle'>";
-        $out .= "<form method='post' action='aktuell.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
 
         if ($auth_utils->hasPermission('any')) {
             $out .= <<<'ZZZZZZZZZZ'
@@ -90,30 +89,52 @@ class OlzNewsList {
         $user_repo = $entityManager->getRepository(User::class);
         $role_repo = $entityManager->getRepository(Role::class);
 
-        $limit = min(100, $res->num_rows);
-        for ($index = 0; $index < $limit; $index++) {
-            $row = $res->fetch_assoc();
-            // TODO: Directly use doctrine to run the DB query.
-            $author_user = $row['author_user_id'] ?
-            $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
-            $author_role = $row['author_role_id'] ?
-            $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
+        $row = true;
+        $invisible_page_contents = [];
+        for ($page = 0; $row; $page++) {
+            $page_content = '';
+            for ($index = 0; $index < 25 && $row; $index++) {
+                $row = $res->fetch_assoc();
+                if (!$row) {
+                    break;
+                }
+                // TODO: Directly use doctrine to run the DB query.
+                $author_user = $row['author_user_id'] ?
+                $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
+                $author_role = $row['author_role_id'] ?
+                $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
 
-            $news_entry = new NewsEntry();
-            $news_entry->setDate($row['datum']);
-            $news_entry->setFormat($row['typ']);
-            $news_entry->setAuthorUser($author_user);
-            $news_entry->setAuthorRole($author_role);
-            $news_entry->setAuthor($row['autor']);
-            $news_entry->setTitle($row['titel']);
-            $news_entry->setTeaser($row['text']);
-            $news_entry->setId($row['id']);
-            $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
+                $news_entry = new NewsEntry();
+                $news_entry->setDate($row['datum']);
+                $news_entry->setFormat($row['typ']);
+                $news_entry->setAuthorUser($author_user);
+                $news_entry->setAuthorRole($author_role);
+                $news_entry->setAuthor($row['autor']);
+                $news_entry->setTitle($row['titel']);
+                $news_entry->setTeaser($row['text']);
+                $news_entry->setId($row['id']);
+                $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
-            $out .= OlzNewsListItem::render(['news_entry' => $news_entry]);
+                $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);
+            }
+            if ($page === 0) {
+                $out .= "<div id='news-list-page-{$page}' class='page'>{$page_content}</div>";
+            } else {
+                $out .= "<div id='news-list-page-{$page}' class='page'>&nbsp;</div>";
+                $invisible_page_contents[] = $page_content;
+            }
+        }
+        if (count($invisible_page_contents) > 0) {
+            $json = json_encode($invisible_page_contents);
+            $out .= <<<ZZZZZZZZZZ
+            <script>
+            window.addEventListener('load', () => {
+                olz.olzNewsListSetInvisiblePageContents({$json});
+            });
+            </script>
+            ZZZZZZZZZZ;
         }
 
-        $out .= "</form>";
         $out .= "</div>";
 
         $out .= OlzFooter::render();

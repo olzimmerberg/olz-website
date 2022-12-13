@@ -42,6 +42,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
 
         $owner_user = $news_entry->getOwnerUser();
         $owner_role = $news_entry->getOwnerRole();
+        $author = $news_entry->getAuthor();
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
         $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
@@ -57,6 +58,9 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
 
         $file_ids = [];
         $news_entry_files_path = "{$data_path}files/news/{$entity_id}/";
+        if (!is_dir("{$news_entry_files_path}")) {
+            mkdir("{$news_entry_files_path}", 0777, true);
+        }
         $files_path_entries = scandir($news_entry_files_path);
         foreach ($files_path_entries as $file_id) {
             if (substr($file_id, 0, 1) != '.') {
@@ -76,7 +80,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
             ],
             'data' => [
                 'format' => $news_entry->getFormat(),
-                'author' => $news_entry->getAuthor(),
+                'author' => $author ? $author : null,
                 'authorUserId' => $author_user ? $author_user->getId() : null,
                 'authorRoleId' => $author_role ? $author_role->getId() : null,
                 'title' => $news_entry->getTitle(),

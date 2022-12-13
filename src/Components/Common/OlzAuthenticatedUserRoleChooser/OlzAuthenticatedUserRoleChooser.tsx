@@ -28,8 +28,8 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
 
     let selectionClass = 'none-selected';
     let buttonLabel = props.nullLabel ?? 'Bitte wählen';
-    const user = props.userId && authenticatedUser.id === props.userId ? authenticatedUser : null;
-    const role = props.roleId ? authenticatedRoles.find(role => role.id === props.roleId) : null;
+    const user = props.userId && authenticatedUser?.id === props.userId ? authenticatedUser : null;
+    const role = props.roleId ? authenticatedRoles?.find(role => role.id === props.roleId) : null;
     if (user && role) {
         selectionClass = 'role-selected';
         buttonLabel = `${user.firstName} ${user.lastName}, ${role.name}`;

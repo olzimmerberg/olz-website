@@ -76,9 +76,9 @@ export async function olzConfirm(
             />,
             document.getElementById('confirmation-dialog-react-root'),
         );
-        new bootstrap.Modal(
-            document.getElementById('confirmation-dialog-modal'),
-            {backdrop: 'static'},
-        ).show();
+        const modal = document.getElementById('confirmation-dialog-modal');
+        if (modal) {
+            new bootstrap.Modal(modal,{backdrop: 'static'}).show();
+        }
     });
 }

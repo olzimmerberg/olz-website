@@ -11,7 +11,8 @@ export class FakeOlzApi extends OlzApi {
         endpoint: T,
         request: OlzApiRequests[T],
     ): Promise<OlzApiResponses[T]> {
-        const mockFunction: MockFunctionForEndpoint<T> = this.mockedEndpoints[endpoint];
+        const mockFunction: MockFunctionForEndpoint<T>|undefined =
+            this.mockedEndpoints[endpoint];
         if (mockFunction === undefined) {
             throw new Error(`Endpoint ${endpoint} has not been mocked`);
         }

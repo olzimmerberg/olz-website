@@ -16,15 +16,44 @@ export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
 
 // Reusable: Field result
 
-export interface FieldResult<T> {
-    isValid: boolean;
+export interface ValidFieldResult<T> {
+    isValid: true;
     fieldId: string;
     value: T;
     errors: ValidationError[];
 }
 
+export interface InvalidFieldResult {
+    isValid: false;
+    fieldId: string;
+    value: unknown;
+    errors: ValidationError[];
+}
+
+export type FieldResult<T> = ValidFieldResult<T>|InvalidFieldResult;
+
 function isAny(thing: unknown): thing is any {
     return true;
+}
+
+export function isValidFieldResult<T>(
+    thing: unknown,
+    isT: (val: unknown) => val is T = isAny,
+): thing is ValidFieldResult<T> {
+    if (!isFieldResult(thing, isT)) {
+        return false;
+    }
+    return thing.isValid;
+}
+
+export function isInvalidFieldResult<T>(
+    thing: unknown,
+    isT: (val: unknown) => val is T = isAny,
+): thing is InvalidFieldResult {
+    if (!isFieldResult(thing, isT)) {
+        return false;
+    }
+    return !thing.isValid;
 }
 
 export function isFieldResult<T>(
@@ -68,7 +97,7 @@ export function invalidFieldResult<T>(
 function recordErrorMessages<T>(
     input: FieldResult<T>,
     errorMessages: string[],
-): FieldResult<T> {
+): InvalidFieldResult {
     const errors = errorMessages.map((errorMessage) => new ValidationError('', {
         [input.fieldId]: [errorMessage],
     }));
@@ -78,7 +107,7 @@ function recordErrorMessages<T>(
 function recordErrors<T>(
     input: FieldResult<T>,
     errors: ValidationError[],
-): FieldResult<T> {
+): InvalidFieldResult {
     return {
         fieldId: input.fieldId,
         isValid: false,
@@ -90,11 +119,11 @@ function recordErrors<T>(
     };
 }
 
-export type FieldResultOrDictThereof<T> = FieldResult<T>|DictOfFieldResults<T>;
+export type FieldResultOrDictThereof<T> = T extends Record<string, unknown> ? DictOfFieldResults<T> : FieldResult<T>;
 
-type DictOfFieldResults<T> = T extends Record<string, any> ? {
+export type DictOfFieldResults<T> = {
     [key in keyof T]: FieldResultOrDictThereof<T[key]>
-} : never;
+};
 
 function keys<T>(object: {[key in keyof T]: unknown}): Array<keyof T> {
     return Object.keys(object)as unknown as Array<keyof T>;
@@ -106,8 +135,9 @@ export function isFieldResultOrDictThereofValid<T>(
     if (isFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.isValid;
     }
-    return keys(fieldResultOrDictThereof).every((key) => {
-        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+    const dictOfFieldResult = fieldResultOrDictThereof as DictOfFieldResults<T>;
+    return keys(dictOfFieldResult).every((key) => {
+        const field = dictOfFieldResult[key] as FieldResultOrDictThereof<unknown>;
         return isFieldResultOrDictThereofValid(field);
     });
 }
@@ -118,8 +148,10 @@ export function getFieldResultOrDictThereofErrors<T>(
     if (isFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.errors;
     }
-    return [].concat(...keys(fieldResultOrDictThereof).map((key) => {
-        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+    const dictOfFieldResult = fieldResultOrDictThereof as DictOfFieldResults<T>;
+    const errors: ValidationError[] = [];
+    return errors.concat(...keys(dictOfFieldResult).map((key) => {
+        const field = dictOfFieldResult[key] as FieldResultOrDictThereof<unknown>;
         return getFieldResultOrDictThereofErrors(field);
     }));
 }
@@ -127,12 +159,16 @@ export function getFieldResultOrDictThereofErrors<T>(
 export function getFieldResultOrDictThereofValue<T>(
     fieldResultOrDictThereof: FieldResultOrDictThereof<T>,
 ): T {
-    if (isFieldResult(fieldResultOrDictThereof)) {
+    if (isValidFieldResult(fieldResultOrDictThereof)) {
         return fieldResultOrDictThereof.value;
     }
+    if (isInvalidFieldResult(fieldResultOrDictThereof)) {
+        throw new Error('getFieldResultOrDictThereofValue can only be called on valid.');
+    }
+    const dictOfFieldResult = fieldResultOrDictThereof as DictOfFieldResults<T>;
     const value: {[key in keyof T]?: unknown} = {};
-    for (const key of keys(fieldResultOrDictThereof)) {
-        const field: FieldResultOrDictThereof<unknown> = fieldResultOrDictThereof[key];
+    for (const key of keys(dictOfFieldResult)) {
+        const field = dictOfFieldResult[key] as FieldResultOrDictThereof<unknown>;
         value[key] = getFieldResultOrDictThereofValue(field);
     }
     return value as unknown as T;
@@ -287,7 +323,9 @@ export function showErrorOnField(
     formInput.classList.add('is-invalid');
     formInput.setAttribute('title', errorMessage);
     formInput.setAttribute('data-bs-toggle', 'tooltip');
-    new bootstrap.Tooltip(formInput, {container: formInput.parentElement}).show();
+    if (formInput.parentElement) {
+        new bootstrap.Tooltip(formInput, {container: formInput.parentElement}).show();
+    }
 }
 
 export function clearErrorOnField(formInput: Element): void {
@@ -301,11 +339,11 @@ export function camelCaseToDashCase(camelCaseString: string): string {
     return camelCaseString.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
-export function getAsserted(
+export function getAsserted<T>(
     assertFn: () => boolean,
     errorMessage: string,
-    input: FieldResult<string|null|undefined>,
-): FieldResult<string|null> {
+    input: FieldResult<T>,
+): FieldResult<T> {
     if (!assertFn()) {
         return recordErrorMessages(input, [errorMessage]);
     }
@@ -315,6 +353,9 @@ export function getAsserted(
 export function getCountryCode(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value) {
         return {...input, value: null};
     }
@@ -335,6 +376,9 @@ export function getCountryCode(
 export function getEmail(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value) {
         return {...input, value: null};
     }
@@ -369,6 +413,9 @@ export function getGender(
 export function getIsoDateFromSwissFormat(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value || input.value === '') {
         return {...input, value: null};
     }
@@ -391,6 +438,9 @@ export function getIsoDateFromSwissFormat(
 export function getInteger(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<number|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value) {
         return {...input, value: null};
     }
@@ -408,6 +458,9 @@ export function getInteger(
 export function getIsoDateTimeFromSwissFormat(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value || input.value === '') {
         return {...input, value: null};
     }
@@ -436,18 +489,25 @@ export function getIsoDateTimeFromSwissFormat(
 export function getPassword(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
-    if (!input.value) {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
+    const value = input.value;
+    if (!value) {
         return {...input, value: null};
     }
-    if (input.value.length < 8) {
+    if (value.length < 8) {
         return recordErrorMessages(input, ['Das Passwort muss mindestens 8 Zeichen lang sein.']);
     }
-    return input;
+    return {...input, value};
 }
 
 export function getPhone(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
     if (!input.value) {
         return {...input, value: null};
     }
@@ -464,10 +524,14 @@ export function getPhone(
 export function getRequired<T>(
     input: FieldResult<T|null|undefined>,
 ): FieldResult<T> {
-    if (input.value === null || input.value === undefined) {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
+    const value = input.value;
+    if (value === null || value === undefined) {
         return recordErrorMessages(input, ['Feld darf nicht leer sein.']);
     }
-    return input;
+    return {...input, value};
 }
 
 export function getStringOrEmpty<T>(

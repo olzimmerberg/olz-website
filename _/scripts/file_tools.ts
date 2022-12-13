@@ -37,8 +37,11 @@ export function olz_files_edit_redraw(
         e.preventDefault();
     }, true);
 
-    const cnt = olz_files_edit[ident].count;
+    const cnt = olz_files_edit[ident].count || 0;
     const elem = document.getElementById(ident);
+    if (!elem) {
+        throw new Error('Elem must exist');
+    }
     let htmlout = '';
     for (let i = 0; i < cnt; i++) {
         htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='file_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
@@ -50,6 +53,9 @@ export function olz_files_edit_redraw(
     htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><div style='width:94px; height:94px; background-color:rgb(240,240,240); border:3px dashed rgb(180,180,180); border-radius:10px; padding:5px;' id='${ident}-dropzone'>Zus&auml;tzliche Dateien per Drag&Drop hierhin ziehen</div></td></tr><tr><td style='height:24px; border:0px;'><input type='file' multiple='multiple' style='width:110px; border:0px;' id='${ident}-fileselect'></td></tr></table>`;
     elem.innerHTML = htmlout;
     const dropzone = document.getElementById(`${ident}-dropzone`);
+    if (!dropzone) {
+        throw new Error('Dropzone must exist');
+    }
     dropzone.ondragover = (_e) => {
         dropzone.style.backgroundColor = 'rgb(220,220,220)';
         dropzone.style.borderColor = 'rgb(150,150,150)';
@@ -63,6 +69,9 @@ export function olz_files_edit_redraw(
         const drawcanvas = (uqident: string, img: HTMLImageElement|undefined, part: number) => {
             const cnv = document.getElementById(`${ident}-uqcanvas-${uqident}`) as HTMLCanvasElement;
             const ctx = cnv.getContext('2d');
+            if (!ctx) {
+                throw new Error('2D context not available');
+            }
             ctx.clearRect(0, 0, 110, 110);
             if (img) {
                 ctx.drawImage(img, 0, 0, 110, 110);
@@ -104,7 +113,10 @@ export function olz_files_edit_redraw(
                             const pos = uq__.indexOf(uqident);
                             if (-1 < pos) { uq__.splice(pos, 1); }
                             olz_files_edit[ident].uploadqueue = uq__;
-                            if (resp[0] === 1) { olz_files_edit[ident].count += 1; }
+                            if (resp[0] === 1) {
+                                const value = olz_files_edit[ident].count ?? 0;
+                                olz_files_edit[ident].count = value + 1;
+                            }
                             olz_files_edit_redraw(ident, dbtable, id, 0);
                         } else {
                             if (resp[1] !== 'continue') {
@@ -154,6 +166,9 @@ export function olz_files_edit_redraw(
     };
     for (let i = 0; i < cnt; i++) {
         const imgelem = document.getElementById(`${ident}-img-${i + 1}`);
+        if (!imgelem) {
+            throw new Error('Imgelem must exist');
+        }
         const fn0 = () => {
             const wid = imgelem.offsetWidth;
             const hei = imgelem.offsetHeight;
@@ -186,17 +201,30 @@ export function olz_files_edit_redraw(
             }
         };
         const delelem = document.getElementById(`${ident}-delete-${i + 1}`);
+        if (!delelem) {
+            throw new Error('delelem must exist');
+        }
         const fn1 = () => {
-            document.getElementById(`${ident}-img-${i + 1}`).style.visibility = 'hidden';
+            const fn1imgelem = document.getElementById(`${ident}-img-${i + 1}`);
+            if (fn1imgelem) {
+                fn1imgelem.style.visibility = 'hidden';
+            }
             actiondone(i);
         };
         delelem.onclick = fn1;
         const subelem = document.getElementById(`${ident}-submit-${i + 1}`);
+        if (!subelem) {
+            throw new Error('subelem must exist');
+        }
         const fn2 = () => {
+            const fn2imgelem = document.getElementById(`${ident}-img-${i + 1}`);
+            if (!fn2imgelem) {
+                throw new Error('fn2imgelem must exist');
+            }
             const xmlhttp = new XMLHttpRequest();
             xmlhttp.open('POST', `file_tools.php?request=change&db_table=${dbtable}`, false);
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xmlhttp.send(`id=${id}&index=${i + 1}&delete=${document.getElementById(`${ident}-img-${i + 1}`).style.visibility === 'hidden' ? 1 : 0}`);
+            xmlhttp.send(`id=${id}&index=${i + 1}&delete=${fn2imgelem.style.visibility === 'hidden' ? 1 : 0}`);
             let resp = [0];
             try {
                 resp = JSON.parse(xmlhttp.responseText);
@@ -204,7 +232,10 @@ export function olz_files_edit_redraw(
                 // ignore
             }
             if (resp[0] === 1) {
-                if (resp[1] === 1) { olz_files_edit[ident].count -= 1; }
+                if (resp[1] === 1) {
+                    const value = olz_files_edit[ident].count ?? 0;
+                    olz_files_edit[ident].count = value - 1;
+                }
                 olz_files_edit_redraw(ident, dbtable, id, 0);
                 for (let j = i + 1; (resp[1] === 1 ? j < 1000 : j === i + 1); j++) {
                     const elem_ = document.getElementById(`${ident}-img-${j}`) as HTMLImageElement;
@@ -220,9 +251,14 @@ export function olz_files_edit_redraw(
         };
         subelem.onclick = fn2;
         const reselem = document.getElementById(`${ident}-reset-${i + 1}`);
+        if (!reselem) {
+            throw new Error('reselem must exist');
+        }
         const fn = () => {
             const elem_ = document.getElementById(`${ident}-img-${i + 1}`);
-            elem_.style.visibility = 'visible';
+            if (elem_) {
+                elem_.style.visibility = 'visible';
+            }
             confirmdone(i);
         };
         reselem.onclick = fn;

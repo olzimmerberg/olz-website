@@ -20,13 +20,13 @@ interface OlzImageUploaderProps {
 }
 
 export const OlzImageUploader = (props: OlzImageUploaderProps) => {
-    const initialUploadedFile: UploadedFile = props.initialUploadId && {uploadState: 'UPLOADED', uploadId: props.initialUploadId} || null;
+    const initialUploadedFile: UploadedFile|null = props.initialUploadId && {uploadState: 'UPLOADED', uploadId: props.initialUploadId} || null;
     const [file, setFile] = React.useState<UploadedFile|UploadingFile|null>(initialUploadedFile);
 
     React.useEffect(() => {
         const clock = setInterval(() => {
             const state = uploader.getState();
-            if (!file.uploadId) {
+            if (!file?.uploadId) {
                 return;
             }
             const stateOfUploadingFile = state.uploadsById[file.uploadId];
@@ -44,12 +44,17 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
 
     React.useEffect(() => {
         const callback = (event: CustomEvent<string>) => {
+            if (!file?.uploadId) {
+                throw new Error('Upload ID must be defined');
+            }
             const uploadedFile: UploadedFile = {
                 uploadState: 'UPLOADED',
                 uploadId: file.uploadId,
             };
             setFile(uploadedFile);
-            props.onUploadIdChange(file.uploadId);
+            if (props.onUploadIdChange) {
+                props.onUploadIdChange(file.uploadId);
+            }
         };
         uploader.addEventListener('uploadFinished', callback);
         return () => uploader.removeEventListener('uploadFinished', callback);

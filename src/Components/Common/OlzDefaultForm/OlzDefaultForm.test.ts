@@ -200,8 +200,8 @@ describe('FieldResultOrDictThereof', () => {
         });
 
         it('returns value for InvalidFieldResult', () => {
-            expect(getFieldResultOrDictThereofValue(invalidFieldResult1))
-                .toEqual(null);
+            expect(() => getFieldResultOrDictThereofValue(invalidFieldResult1))
+                .toThrow();
         });
 
         it('returns value for dict of ValidFieldResult', () => {
@@ -210,8 +210,8 @@ describe('FieldResultOrDictThereof', () => {
         });
 
         it('returns value for dict of InvalidFieldResult', () => {
-            expect(getFieldResultOrDictThereofValue(dictOfInvalidFieldResult1))
-                .toEqual({valid: 3, invalid: null});
+            expect(() => getFieldResultOrDictThereofValue(dictOfInvalidFieldResult1))
+                .toThrow();
         });
     });
 });

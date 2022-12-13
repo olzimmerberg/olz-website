@@ -13,6 +13,9 @@ $(() => {
 export function olzResetPasswordConsent(value: boolean): void {
     if (value) {
         const submitButton = document.getElementById('reset-password-submit-button');
+        if (!submitButton) {
+            throw new Error('Submit button must exist');
+        }
         submitButton.classList.remove('btn-primary');
         submitButton.classList.add('btn-secondary');
         const originalInnerHtml = submitButton.innerHTML;
@@ -47,7 +50,7 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
         );
         const fieldResults: OlzRequestFieldResult<'resetPassword'> = {
             usernameOrEmail: getRequired(getStringOrNull(getFormField(f, 'username-or-email'))),
-            recaptchaToken: validFieldResult('', token),
+            recaptchaToken: getRequired(validFieldResult('', token)),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(consentGiven)) {
             return invalidFormData([

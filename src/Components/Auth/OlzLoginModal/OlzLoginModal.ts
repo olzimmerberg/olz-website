@@ -5,6 +5,9 @@ import {callOlzApi} from '../../../../src/Api/client';
 
 $(() => {
     const loginModalElem = document.getElementById('login-modal');
+    if (!loginModalElem) {
+        return;
+    }
     loginModalElem.addEventListener('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
         window.location.href = '#login-dialog';
@@ -44,24 +47,28 @@ export function olzLoginModalLogin(): void {
 }
 
 export function olzLoginModalShow(): void {
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('login-modal'),
-    ).show();
+    const modal = document.getElementById('login-modal');
+    if (modal) {
+        bootstrap.Modal.getOrCreateInstance(modal).show();
+    }
     window.location.href = '#login-dialog';
 }
 
 export function olzLoginModalCancel(): void {
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('login-modal'),
-    ).hide();
+    const modal = document.getElementById('login-modal');
+    if (modal) {
+        bootstrap.Modal.getOrCreateInstance(modal).hide();
+    }
     window.location.href = '#';
 }
 
 export function olzLoginModalPasswordReset(): void {
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('login-modal'),
-    ).hide();
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('password-reset-modal'),
-    ).show();
+    const modal = document.getElementById('login-modal');
+    if (modal) {
+        bootstrap.Modal.getOrCreateInstance(modal).hide();
+    }
+    const resetModal = document.getElementById('password-reset-modal');
+    if (resetModal) {
+        bootstrap.Modal.getOrCreateInstance(resetModal).show();
+    }
 }

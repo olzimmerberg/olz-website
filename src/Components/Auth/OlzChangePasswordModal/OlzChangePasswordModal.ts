@@ -22,7 +22,7 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
         );
         const fieldResults: OlzRequestFieldResult<'updatePassword'> = {
             id: validFieldResult('', userId),
-            oldPassword: getFormField(f, 'old'),
+            oldPassword: getRequired(getFormField(f, 'old')),
             newPassword: getRequired(getPassword(newPassword)),
         };
         if (
@@ -50,8 +50,9 @@ function handleResponse(response: OlzApiResponses['updatePassword']): string|voi
     if (response.status !== 'OK') {
         throw new Error(`Antwort: ${response.status}`);
     }
-    bootstrap.Modal.getOrCreateInstance(
-        document.getElementById('change-password-modal'),
-    ).hide();
+    const modal = document.getElementById('change-password-modal');
+    if (modal) {
+        bootstrap.Modal.getOrCreateInstance(modal).hide();
+    }
     return 'Passwort erfolgreich aktualisiert.';
 }

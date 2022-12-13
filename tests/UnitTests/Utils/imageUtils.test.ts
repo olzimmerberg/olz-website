@@ -20,7 +20,9 @@ describe('loadImageFromBase64', () => {
             'data:image/gif;base64,R0lGODlhAQABAAAAACw=',
             {image: fakeImage},
         );
-        fakeImage.onload(fakeLoadEvent);
+        if (fakeImage.onload) {
+            fakeImage.onload(fakeLoadEvent);
+        }
         const result = await promise;
         expect(result).toEqual(fakeImage);
     });
@@ -32,7 +34,9 @@ describe('loadImageFromBase64', () => {
             'data:image/gif;base64,R0lGODlhAQABAAAAACw=',
             {image: fakeImage},
         );
-        fakeImage.onerror(fakeErrorEvent);
+        if (fakeImage.onerror) {
+            fakeImage.onerror(fakeErrorEvent);
+        }
         try {
             await promise;
             fail('Error expected');

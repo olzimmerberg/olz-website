@@ -23,6 +23,10 @@ export async function loadRecaptcha(): Promise<void> {
 /* istanbul ignore next */
 function getRecaptchaToken(): Promise<string> {
     return new Promise((resolve, reject) => {
+        if (!grecaptcha) {
+            reject(new Error('grecaptcha is undefined'));
+            return;
+        }
         grecaptcha.ready(() => {
             grecaptcha.execute(siteKey, {action: 'submit'})
                 .then(resolve, reject);

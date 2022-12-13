@@ -5,6 +5,9 @@ import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 export function olzSignUpConsent(value: boolean): void {
     if (value) {
         const submitButton = document.getElementById('sign-up-with-password-submit-button');
+        if (!submitButton) {
+            throw new Error('Submit button must exist');
+        }
         submitButton.classList.remove('btn-primary');
         submitButton.classList.add('btn-secondary');
         const originalInnerHtml = submitButton.innerHTML;
@@ -61,7 +64,7 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             countryCode: getCountryCode(getFormField(f, 'country-code')),
             siCardNumber: getInteger(getFormField(f, 'si-card-number')),
             solvNumber: getFormField(f, 'solv-number'),
-            recaptchaToken: validFieldResult('', token),
+            recaptchaToken: getRequired(validFieldResult('', token)),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat) || !isFieldResultOrDictThereofValid(consentGiven)) {
             return invalidFormData([

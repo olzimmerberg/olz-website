@@ -29,7 +29,7 @@ export function colorFade(
     const er = endrgb[0];
     const eg = endrgb[1];
     const eb = endrgb[2];
-    if (!state.r) {
+    if (!state.r || !state.g || !state.b) {
         const startrgb = colorConv(start);
         const r = startrgb[0];
         const g = startrgb[1];
@@ -60,10 +60,10 @@ function animateColor(
     const state = elementsState[id] || {};
     const target = document.getElementById(id);
     let color;
-    if (state.step <= steps) {
-        let r = state.r;
-        let g = state.g;
-        let b = state.b;
+    if ((state.step ?? 0) <= steps) {
+        let r = state.r ?? 0;
+        let g = state.g ?? 0;
+        let b = state.b ?? 0;
         if (r >= er) {
             r = r - rint;
         } else {
@@ -80,26 +80,30 @@ function animateColor(
             b = b + bint;
         }
         color = `rgb(${r},${g},${b})`;
-        if (element === 'background') {
-            target.style.backgroundColor = color;
-        } else if (element === 'border') {
-            target.style.borderColor = color;
-        } else {
-            target.style.color = color;
+        if (target) {
+            if (element === 'background') {
+                target.style.backgroundColor = color;
+            } else if (element === 'border') {
+                target.style.borderColor = color;
+            } else {
+                target.style.color = color;
+            }
         }
         state.r = r;
         state.g = g;
         state.b = b;
-        state.step = state.step + 1;
+        state.step = (state.step ?? 0) + 1;
     } else {
         clearInterval(state.timer);
         color = `rgb(${er},${eg},${eb})`;
-        if (element === 'background') {
-            target.style.backgroundColor = color;
-        } else if (element === 'border') {
-            target.style.borderColor = color;
-        } else {
-            target.style.color = color;
+        if (target) {
+            if (element === 'background') {
+                target.style.backgroundColor = color;
+            } else if (element === 'border') {
+                target.style.borderColor = color;
+            } else {
+                target.style.color = color;
+            }
         }
     }
     elementsState[id] = state;

@@ -86,7 +86,7 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
     // const maxStationNameLength = instructions.reduce((prev, value) => 
     //     Math.max(prev, value.stationName.length), 0);
     const numConnections = instructions.reduce((prev, value) => 
-        Math.max(prev, value.connection + 1), 0);
+        Math.max(prev, (value.connection ?? 0) + 1), 0);
     const heightPerInstruction = 20;
     const height = instructions.length * heightPerInstruction;
     const startIndexByConnection: {[connection: number]: number} = {};
@@ -95,6 +95,9 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
         <svg width={500} height={height}>
             <rect x={0} y={0} width={500} height={height} fill={BACKGROUND_COLOR} />
             {instructions.flatMap((instruction, index) => {
+                if (!instruction.connection) {
+                    throw new Error('Instruction must have connection');
+                }
                 const output: React.ReactElement[] = [];
                 if (instruction.role === 'departure') {
                     const endIndex = endIndexByConnection[instruction.connection];
@@ -154,6 +157,9 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
                 return output;
             })}
             {instructions.map((instruction, index) => {
+                if (!instruction.connection) {
+                    throw new Error('Instruction must have connection');
+                }
                 const isImportant = IS_OLZ_STATION[instruction.stationId] || instruction.role !== 'halt';
                 if (isImportant) {
                     return (<>
@@ -270,8 +276,8 @@ export function getPaintInstructions(suggestion: OlzTransportSuggestion) {
                 return section;
             }).filter(section => section !== null);
             return sectionsToDraw.flatMap(
-                section => getPaintInstructionsFromSection(
-                    sideConnectionIndex + 1, section));
+                section => section ? getPaintInstructionsFromSection(
+                    sideConnectionIndex + 1, section) : []);
         });
     const instructions = [
         ...skippedOriginInstructions,

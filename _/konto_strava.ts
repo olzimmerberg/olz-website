@@ -63,10 +63,10 @@ export function olzKontoLoginWithStrava(code: string): boolean {
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithStrava'> = (f) => {
         const fieldResults: OlzRequestFieldResult<'signUpWithStrava'> = {
-            stravaUser: getFormField(f, 'strava-user'),
-            accessToken: getFormField(f, 'access-token'),
-            refreshToken: getFormField(f, 'refresh-token'),
-            expiresAt: getFormField(f, 'expires-at'),
+            stravaUser: getRequired(getFormField(f, 'strava-user')),
+            accessToken: getRequired(getFormField(f, 'access-token')),
+            refreshToken: getRequired(getFormField(f, 'refresh-token')),
+            expiresAt: getRequired(getFormField(f, 'expires-at')),
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
             lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
             username: getRequired(getStringOrNull(getFormField(f, 'username'))),
@@ -74,11 +74,11 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
             phone: getPhone(getFormField(f, 'phone')),
             gender: getGender(getFormField(f, 'gender')),
             birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
-            street: getFormField(f, 'street'),
-            postalCode: getFormField(f, 'postal-code'),
-            city: getFormField(f, 'city'),
-            region: getFormField(f, 'region'),
-            countryCode: getCountryCode(getFormField(f, 'country-code')),
+            street: getRequired(getFormField(f, 'street')),
+            postalCode: getRequired(getFormField(f, 'postal-code')),
+            city: getRequired(getFormField(f, 'city')),
+            region: getRequired(getFormField(f, 'region')),
+            countryCode: getRequired(getCountryCode(getFormField(f, 'country-code'))),
             siCardNumber: getInteger(getFormField(f, 'si-card-number')),
             solvNumber: getFormField(f, 'solv-number'),
         };

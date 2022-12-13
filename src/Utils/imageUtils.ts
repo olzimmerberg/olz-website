@@ -55,6 +55,10 @@ export function getCroppedCanvas(
     const canvas = getCanvasOfSize(original, safeArea, safeArea);
     const ctx = canvas.getContext('2d');
 
+    if (!ctx) {
+        throw new Error('2D context is not available');
+    }
+
     // translate canvas context to a central location on image to allow rotating
     // around the center.
     ctx.translate(safeArea / 2, safeArea / 2);
@@ -121,6 +125,9 @@ export function getCanvasOfSize(
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext('2d');
+    if (!context) {
+        throw new Error('2D context is not available');
+    }
     context.drawImage(drawable, 0, 0, width, height);
     return canvas;
 }

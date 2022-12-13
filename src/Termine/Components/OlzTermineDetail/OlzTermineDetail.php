@@ -53,7 +53,7 @@ class OlzTermineDetail {
         $num_news_entries = $news_entries->count();
         $no_robots = $num_news_entries !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_uri = "https://{$host}{$code_href}termine.php?id={$id}";
+        $canonical_url = "https://{$host}{$code_href}termine.php?id={$id}";
 
         $out = '';
 
@@ -76,9 +76,7 @@ class OlzTermineDetail {
             'title' => "{$title} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $no_robots,
-            'additional_headers' => [
-                "<link rel='canonical' href='{$canonical_uri}'/>",
-            ],
+            'canonical_url' => $canonical_url,
         ]);
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?

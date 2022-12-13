@@ -18,14 +18,12 @@ $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 
 $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-$canonical_uri = "https://{$host}{$code_href}fuer_einsteiger.php";
+$canonical_url = "https://{$host}{$code_href}fuer_einsteiger.php";
 
 echo OlzHeader::render([
     'title' => "Für Einsteiger",
     'description' => "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.",
-    'additional_headers' => [
-        "<link rel='canonical' href='{$canonical_uri}'/>",
-    ],
+    'canonical_url' => $canonical_url,
 ]);
 
 echo "<style>

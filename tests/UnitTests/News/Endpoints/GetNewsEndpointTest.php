@@ -53,7 +53,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => false];
+        $auth_utils->has_permission_by_query = ['any' => false];
         $logger = FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -75,7 +75,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointMinimal(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -121,7 +121,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointMaximal(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;

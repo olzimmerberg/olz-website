@@ -514,6 +514,22 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'archiv' => 'ohne',
             ])
         );
+        $this->assertSame(
+            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%galerie%')",
+            $news_utils->getSqlFromFilter([
+                'format' => 'galerie',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%video%')",
+            $news_utils->getSqlFromFilter([
+                'format' => 'video',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
     }
 
     public function testGetTitleFromFilter(): void {

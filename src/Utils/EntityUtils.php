@@ -67,4 +67,28 @@ class EntityUtils {
         $entity->setLastModifiedAt($now_datetime);
         $entity->setLastModifiedByUser($current_user);
     }
+
+    public function canUpdateOlzEntity(OlzEntity $entity, $meta_arg) {
+        $meta = $meta_arg ?? [];
+        $auth_utils = $this->authUtils();
+        $current_user = $auth_utils->getSessionUser();
+
+        if ($auth_utils->hasPermission('all')) {
+            return true;
+        }
+
+        $owner_user = $entity->getOwnerUser();
+        if ($owner_user && $current_user->getId() === $owner_user->getId()) {
+            return true;
+        }
+
+        $created_by_user = $entity->getCreatedByUser();
+        if ($created_by_user && $current_user->getId() === $created_by_user->getId()) {
+            return true;
+        }
+
+        // TODO: Check roles
+
+        return false;
+    }
 }

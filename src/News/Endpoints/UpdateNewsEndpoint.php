@@ -16,8 +16,19 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('news');
+        $has_access = $this->authUtils()->hasPermission('any');
         if (!$has_access) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
+
+        $entity_id = $input['id'];
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
+
+        if (!$news_entry) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, $input['meta'])) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
@@ -48,10 +59,6 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
 
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
-
-        $entity_id = $input['id'];
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
 
         $this->entityUtils()->updateOlzEntity($news_entry, $input['meta'] ?? []);
         $news_entry->setAuthor($input_data['author']);

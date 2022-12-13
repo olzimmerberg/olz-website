@@ -46,11 +46,111 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
 
     public function testUpdateNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => false];
+        $auth_utils->has_permission_by_query = ['any' => false];
         $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEnvUtils($env_utils);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 123,
+                'meta' => [
+                    'ownerUserId' => 1,
+                    'ownerRoleId' => 1,
+                    'onOff' => true,
+                ],
+                'data' => [
+                    'format' => 'aktuell',
+                    'author' => 't.u.',
+                    'authorUserId' => 2,
+                    'authorRoleId' => 2,
+                    'title' => 'Test Titel',
+                    'teaser' => 'Das muss man gelesen haben!',
+                    'content' => 'Sehr viel Inhalt.',
+                    'externalUrl' => null,
+                    'tags' => ['test', 'unit'],
+                    'terminId' => null,
+                    'imageIds' => [],
+                    'fileIds' => [],
+                ],
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(403, $err->getCode());
+        }
+    }
+
+    public function testUpdateNewsEndpointNoSuchEntity(): void {
+        $entity_manager = new FakeEntityManager();
+        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
+        $env_utils = new FakeEnvUtils();
+        $logger = FakeLogger::create();
+        $endpoint = new UpdateNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
+        $endpoint->setEnvUtils($env_utils);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 9999,
+                'meta' => [
+                    'ownerUserId' => 1,
+                    'ownerRoleId' => 1,
+                    'onOff' => true,
+                ],
+                'data' => [
+                    'format' => 'aktuell',
+                    'author' => 't.u.',
+                    'authorUserId' => 2,
+                    'authorRoleId' => 2,
+                    'title' => 'Test Titel',
+                    'teaser' => 'Das muss man gelesen haben!',
+                    'content' => 'Sehr viel Inhalt.',
+                    'externalUrl' => null,
+                    'tags' => ['test', 'unit'],
+                    'terminId' => null,
+                    'imageIds' => [],
+                    'fileIds' => [],
+                ],
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 404",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(404, $err->getCode());
+        }
+    }
+
+    public function testUpdateNewsEndpointNoEntityAccess(): void {
+        $entity_manager = new FakeEntityManager();
+        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = false;
+        $env_utils = new FakeEnvUtils();
+        $logger = FakeLogger::create();
+        $endpoint = new UpdateNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -92,8 +192,9 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
         $env_utils = new FakeEnvUtils();
         $upload_utils = new FakeUploadUtils();
         $logger = FakeLogger::create();

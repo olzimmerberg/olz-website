@@ -30,7 +30,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
     public function testCreateNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => false];
+        $auth_utils->has_permission_by_query = ['any' => false];
         $env_utils = new FakeEnvUtils();
         $logger = FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
@@ -73,7 +73,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new FakeEntityManager();
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new FakeEntityUtils();
         $env_utils = new FakeEnvUtils();
         $upload_utils = new FakeUploadUtils();

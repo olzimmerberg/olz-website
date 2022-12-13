@@ -16,25 +16,18 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        // TODO: Permissions probably should not depend on format in the future.
-        $input_data = $input['data'];
-        $format = $input_data['format'];
-        if ($format === 'galerie') {
-            $has_any_access = $this->authUtils()->hasPermission('any');
-            if (!$has_any_access) {
-                throw new HttpError(403, "Kein Zugriff!");
-            }
-        } else {
-            $has_news_access = $this->authUtils()->hasPermission('news');
-            if (!$has_news_access) {
-                throw new HttpError(403, "Kein Zugriff!");
-            }
+        $has_access = $this->authUtils()->hasPermission('any');
+        if (!$has_access) {
+            throw new HttpError(403, "Kein Zugriff!");
         }
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getSessionUser();
         $data_path = $this->envUtils()->getDataPath();
+
+        $input_data = $input['data'];
+        $format = $input_data['format'];
 
         $author_user_id = $input_data['authorUserId'] ?? null;
         $author_user = $current_user;
@@ -52,11 +45,11 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
-        $now = new \DateTime($this->dateUtils()->getIsoNow());
-
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
 
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $news_entry = new NewsEntry();
         $this->entityUtils()->createOlzEntity($news_entry, $input['meta']);

@@ -152,7 +152,6 @@ while ($row = $result->fetch_assoc()) {
         $textlang = $row['f7'];
         $image_ids = $row['f1'];
         $format = $row['f2'];
-        $titel = "Aktuell: ".$titel;
         if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
             $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
         }

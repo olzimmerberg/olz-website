@@ -41,10 +41,39 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
 
     public function testDeleteNewsEndpointNoAccess(): void {
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => false];
+        $auth_utils->has_permission_by_query = ['any' => false];
         $logger = FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setLog($logger);
+
+        try {
+            $endpoint->call([
+                'id' => 123,
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(403, $err->getCode());
+        }
+    }
+
+    public function testDeleteNewsEndpointNoEntityAccess(): void {
+        $entity_manager = new FakeEntityManager();
+        $news_repo = new FakeDeleteNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $auth_utils = new FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = false;
+        $logger = FakeLogger::create();
+        $endpoint = new DeleteNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -66,8 +95,9 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
         $logger = FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -99,8 +129,9 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $auth_utils = new FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['news' => true];
+        $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
         $logger = FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);

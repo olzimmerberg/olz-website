@@ -5,12 +5,15 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     canvas: HTMLCanvasElement;
     getContextAttributes(): CanvasRenderingContext2DSettings {
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     globalAlpha: number;
+    // @ts-ignore
     globalCompositeOperation: GlobalCompositeOperation;
 
     public drawnImages: Array<{image: any, sx: any, sy: any, sw?: any, sh?: any, dx?: any, dy?: any, dw?: any, dh?: any}> = [];
@@ -55,7 +58,9 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     fillStyle: string | CanvasGradient | CanvasPattern;
+    // @ts-ignore
     strokeStyle: string | CanvasGradient | CanvasPattern;
     createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient {
         throw new Error('Method not implemented.');
@@ -69,6 +74,7 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     filter: string;
     createImageData(sw: number, sh: number, settings?: ImageDataSettings): ImageData;
     createImageData(imagedata: ImageData): ImageData;
@@ -89,7 +95,9 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         this.puttedImageData.push({imagedata, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight});
     }
 
+    // @ts-ignore
     imageSmoothingEnabled: boolean;
+    // @ts-ignore
     imageSmoothingQuality: ImageSmoothingQuality;
     arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void {
         throw new Error('Method not implemented.');
@@ -131,10 +139,15 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     lineCap: CanvasLineCap;
+    // @ts-ignore
     lineDashOffset: number;
+    // @ts-ignore
     lineJoin: CanvasLineJoin;
+    // @ts-ignore
     lineWidth: number;
+    // @ts-ignore
     miterLimit: number;
     getLineDash(): number[] {
         throw new Error('Method not implemented.');
@@ -156,9 +169,13 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     shadowBlur: number;
+    // @ts-ignore
     shadowColor: string;
+    // @ts-ignore
     shadowOffsetX: number;
+    // @ts-ignore
     shadowOffsetY: number;
     restore(): void {
         throw new Error('Method not implemented.');
@@ -180,10 +197,15 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
+    // @ts-ignore
     direction: CanvasDirection;
+    // @ts-ignore
     font: string;
+    // @ts-ignore
     fontKerning: CanvasFontKerning;
+    // @ts-ignore
     textAlign: CanvasTextAlign;
+    // @ts-ignore
     textBaseline: CanvasTextBaseline;
     getTransform(): DOMMatrix {
         throw new Error('Method not implemented.');

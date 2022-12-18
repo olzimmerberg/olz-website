@@ -2,7 +2,7 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzApiResponses} from '../../../../src/Api/client';
-import {OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAuthenticatedUserRoleChooser/OlzAuthenticatedUserRoleChooser';
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
@@ -59,6 +59,7 @@ const FORMATTING_NOTES_FOR_USERS = (<>
 
 interface OlzEditNewsModalProps {
     id?: number;
+    meta?: OlzMetaData;
     data?: OlzNewsData;
 }
 
@@ -186,6 +187,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     <label htmlFor='news-author-input'>Autor</label>
                                     <div id='news-author-input'>
                                         <OlzAuthenticatedUserRoleChooser
+                                            nullLabel='(unverändert)'
                                             userId={authorUserId}
                                             roleId={authorRoleId}
                                             onUserIdChange={e => setAuthorUserId(e.detail)}  
@@ -294,9 +296,10 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
     );
 };
 
-export function initOlzEditNewsModal(id?: number, data?: OlzNewsData) {
+export function initOlzEditNewsModal(
+    id?: number, meta?: OlzMetaData, data?: OlzNewsData) {
     ReactDOM.render(
-        <OlzEditNewsModal id={id} data={data} />,
+        <OlzEditNewsModal id={id} meta={meta} data={data} />,
         document.getElementById('edit-news-react-root'),
     );
     const modal = document.getElementById('edit-news-modal');

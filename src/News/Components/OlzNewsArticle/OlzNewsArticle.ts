@@ -6,7 +6,7 @@ export function editNewsArticle(newsId: number): boolean {
     callOlzApi('editNews', {id: newsId})
         .then((response) => {
             console.log(response);
-            initOlzEditNewsModal(response.id, response.data);
+            initOlzEditNewsModal(response.id, response.meta, response.data);
         });
     return false;
 }

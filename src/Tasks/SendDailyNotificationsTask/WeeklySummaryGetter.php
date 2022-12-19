@@ -166,8 +166,11 @@ class WeeklySummaryGetter {
             $termine = $termin_repo->matching($termine_criteria);
             foreach ($termine as $termin) {
                 $id = $termin->getId();
-                $pretty_date = $this->getPrettyDateAndMaybeTime(
-                    $termin->getStartsOn());
+                $starts_on = $termin->getStartsOn();
+                $ends_on = $termin->getEndsOn();
+                $pretty_date = ($ends_on && $ends_on > $starts_on)
+                    ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
+                    : $starts_on->format('d.m.');
                 $title = $termin->getTitle();
                 if (strlen(trim($title)) > 0) {
                     $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}?id={$id})\n";

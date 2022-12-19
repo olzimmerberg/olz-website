@@ -11,6 +11,7 @@ use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\Fake\FakeUserRepository;
+use Olz\Tests\Fake\FakeUsers;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
@@ -48,6 +49,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpoint(): void {
         $auth_utils = new FakeAuthUtils();
+        $auth_utils->authenticated_user = FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
@@ -84,6 +86,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpointManagedUser(): void {
         $auth_utils = new FakeAuthUtils();
+        $auth_utils->authenticated_user = FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();

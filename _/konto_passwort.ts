@@ -2,7 +2,7 @@ import {OlzApiResponses} from '../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
-export function olzSignUpConsent(value: boolean): void {
+export function olzSignUpRecaptchaConsent(value: boolean): void {
     if (value) {
         const submitButton = document.getElementById('sign-up-with-password-submit-button');
         if (!submitButton) {
@@ -29,7 +29,7 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
 
 async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promise<void> {
     let token: string|null = null;
-    if (getFormField(form, 'consent-given').value === 'yes') {
+    if (getFormField(form, 'recaptcha-consent-given').value === 'yes') {
         token = await loadRecaptchaToken();
     }
 
@@ -42,11 +42,17 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             'Das Passwort und die Wiederholung müssen übereinstimmen!',
             passwordRepeat,
         );
-        let consentGiven = getFormField(f, 'consent-given');
-        consentGiven = getAsserted(
-            () => consentGiven.value === 'yes',
+        let recaptchaConsentGiven = getFormField(f, 'recaptcha-consent-given');
+        recaptchaConsentGiven = getAsserted(
+            () => recaptchaConsentGiven.value === 'yes',
+            'Bitte akzeptiere die Nutzung von Google reCaptcha!',
+            recaptchaConsentGiven,
+        );
+        let cookieConsentGiven = getFormField(f, 'cookie-consent-given');
+        cookieConsentGiven = getAsserted(
+            () => cookieConsentGiven.value === 'yes',
             'Bitte akzeptiere den Datenschutzhinweis!',
-            consentGiven,
+            cookieConsentGiven,
         );
         const fieldResults: OlzRequestFieldResult<'signUpWithPassword'> = {
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
@@ -64,13 +70,14 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             countryCode: getCountryCode(getFormField(f, 'country-code')),
             siCardNumber: getInteger(getFormField(f, 'si-card-number')),
             solvNumber: getFormField(f, 'solv-number'),
-            recaptchaToken: getRequired(validFieldResult('', token)),
+            recaptchaToken: getRequired(validFieldResult('recaptcha-consent-given', token)),
         };
-        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat) || !isFieldResultOrDictThereofValid(consentGiven)) {
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(passwordRepeat) || !isFieldResultOrDictThereofValid(recaptchaConsentGiven) || !isFieldResultOrDictThereofValid(cookieConsentGiven)) {
             return invalidFormData([
                 ...getFieldResultOrDictThereofErrors(fieldResults),
                 ...getFieldResultOrDictThereofErrors(passwordRepeat),
-                ...getFieldResultOrDictThereofErrors(consentGiven),
+                ...getFieldResultOrDictThereofErrors(recaptchaConsentGiven),
+                ...getFieldResultOrDictThereofErrors(cookieConsentGiven),
             ]);
         }
         return validFormData<'signUpWithPassword'>(getFieldResultOrDictThereofValue(fieldResults));

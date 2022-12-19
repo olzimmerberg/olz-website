@@ -226,12 +226,15 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         request = getDataForRequest(getDataForRequestFn, form);
     } catch (unk: unknown) {
         const err = getErrorOrThrow(unk);
-        const errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
+        let errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
+        if (err instanceof ValidationError) {
+            const additionalErrors = showValidationErrors<T>(err, form);
+            if (additionalErrors.length > 0) {
+                errorMessage += `\n${additionalErrors.join('\n')}`;
+            }
+        }
         $(form).find('.success-message').text('');
         $(form).find('.error-message').text(errorMessage);
-        if (err instanceof ValidationError) {
-            showValidationErrors<T>(err, form);
-        }
         return Promise.reject(new Error('Die Anfrage konnte nicht gesendet werden.'));
     }
 
@@ -254,12 +257,15 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
             return response;
         })
         .catch((err: unknown) => {
-            const errorMessage = err instanceof Error ? `Fehlerhafte Anfrage: ${err.message}` : 'Fehlerhafte Anfrage.';
+            let errorMessage = err instanceof Error ? `Fehlerhafte Anfrage: ${err.message}` : 'Fehlerhafte Anfrage.';
+            if (err instanceof ValidationError) {
+                const additionalErrors = showValidationErrors<T>(err, form);
+                if (additionalErrors.length > 0) {
+                    errorMessage += `\n${additionalErrors.join('\n')}`;
+                }
+            }
             $(form).find('.success-message').text('');
             $(form).find('.error-message').text(errorMessage);
-            if (err instanceof ValidationError) {
-                showValidationErrors<T>(err, form);
-            }
             return Promise.reject(err);
         });
 }
@@ -297,16 +303,20 @@ export function getDataForRequest<T extends OlzApiEndpoint>(
 export function showValidationErrors<T extends OlzApiEndpoint>(
     error: ValidationError,
     form: HTMLFormElement,
-): void {
+): string[] {
     const validationErrorDict = error?.getErrorsByField() || {};
     const fieldIds = Object.keys(validationErrorDict) as Array<keyof OlzApiRequests[T]>;
+    const errorsNotShown: string[] = [];
     fieldIds.map((fieldId) => {
-        const formInput = form[camelCaseToDashCase(String(fieldId))];
+        const formInput: Element = form[camelCaseToDashCase(String(fieldId))];
         const errorMessage = error?.getErrorsForField(String(fieldId)).join('\n');
-        if (errorMessage) {
+        if (formInput && errorMessage) {
             showErrorOnField(formInput, errorMessage);
+        } else {
+            errorsNotShown.push(`${String(fieldId)}: ${errorMessage}`);
         }
     });
+    return errorsNotShown;
 }
 
 export function clearValidationErrors(form: HTMLFormElement): void {

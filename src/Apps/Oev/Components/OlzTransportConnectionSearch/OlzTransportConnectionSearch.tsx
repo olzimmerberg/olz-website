@@ -77,6 +77,10 @@ export const OlzTransportConnectionSearch = () => {
             className='default-form'
             onSubmit={handleSubmit}
         >
+            <p>
+                <span className='required-field-asterisk'>* </span> 
+                Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.
+            </p>
             <div className='success-message alert alert-success' role='alert'></div>
             <div>
                 <label htmlFor='oev-destination-input'>
@@ -104,10 +108,6 @@ export const OlzTransportConnectionSearch = () => {
                     ref={arrivalInput}
                 />
             </div>
-            <p>
-                <span className='required-field-asterisk'>* </span> 
-                Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.
-            </p>
             <button type='submit' className='btn btn-primary'>Verbindung suchen</button>
             <div className='error-message alert alert-danger' role='alert'></div>
         </form>

@@ -24,6 +24,7 @@ $reaction_data = $email_utils->decryptEmailReactionToken($token);
 echo "<div class='content-full'>";
 
 if ($reaction_data) {
+    $question = null;
     if ($reaction_data['action'] == 'unsubscribe') {
         if ($reaction_data['notification_type'] ?? null != null) {
             $question = "<p>Willst du wirklich <b>alle E-Mail dieser Art abbestellen?</b></p>";
@@ -36,15 +37,22 @@ if ($reaction_data) {
     if ($reaction_data['action'] == 'reset_password') {
         $question = "<p>Willst du wirklich <b>dein Passwort zurücksetzen?</b></p>";
     }
-    echo <<<ZZZZZZZZZZ
-    {$question}
-    <p>
-        <a class='btn btn-secondary' href='{$code_href}' role='button'>Abbrechen</a>
-        <button class='btn btn-danger' type='submit' onclick='olz.olzExecuteEmailReaction({$js_token})'>Ausführen</button>
-    </p>
-    <div id='email-reaction-success-message' class='alert alert-success' role='alert'></div>
-    <div id='email-reaction-error-message' class='alert alert-danger' role='alert'></div>
-    ZZZZZZZZZZ;
+    if ($reaction_data['action'] == 'verify_email') {
+        $question = "<p>Willst du <b>deine E-Mail-Adresse bestätigen?</b></p>";
+    }
+    if ($question) {
+        echo <<<ZZZZZZZZZZ
+        {$question}
+        <p>
+            <a class='btn btn-secondary' href='{$code_href}' role='button'>Abbrechen</a>
+            <button class='btn btn-danger' type='submit' onclick='olz.olzExecuteEmailReaction({$js_token})'>Ausführen</button>
+        </p>
+        <div id='email-reaction-success-message' class='alert alert-success' role='alert'></div>
+        <div id='email-reaction-error-message' class='alert alert-danger' role='alert'></div>
+        ZZZZZZZZZZ;
+    } else {
+        echo "<div id='profile-message' class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
+    }
 } else {
     echo "<div id='profile-message' class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
 }

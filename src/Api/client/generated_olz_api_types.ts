@@ -129,6 +129,7 @@ export type OlzApiEndpoint =
     'getAuthenticatedUser'|
     'getAuthenticatedRoles'|
     'updateUser'|
+    'verifyUserEmail'|
     'updatePassword'|
     'signUpWithPassword'|
     'loginWithStrava'|
@@ -204,6 +205,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'siCardNumber': number|null,
             'solvNumber': string|null,
             'avatarId': string|null,
+        },
+    verifyUserEmail: {
+            'recaptchaToken': string,
         },
     updatePassword: {
             'id': number,
@@ -395,6 +399,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     updateUser: {
             'status': 'OK'|'ERROR',
+        },
+    verifyUserEmail: {
+            'status': 'OK'|'DENIED',
         },
     updatePassword: {
             'status': 'OK'|'OTHER_USER'|'INVALID_OLD',

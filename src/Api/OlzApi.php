@@ -47,6 +47,9 @@ class OlzApi extends Api {
         $olz_api->registerEndpoint('updateUser', function () {
             return new Endpoints\UpdateUserEndpoint();
         });
+        $olz_api->registerEndpoint('verifyUserEmail', function () {
+            return new Endpoints\VerifyUserEmailEndpoint();
+        });
         $olz_api->registerEndpoint('updatePassword', function () {
             return new Endpoints\UpdateUserPasswordEndpoint();
         });

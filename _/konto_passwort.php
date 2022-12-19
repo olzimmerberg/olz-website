@@ -22,6 +22,7 @@ echo "<div class='content-full'>
 echo <<<'ZZZZZZZZZZ'
 <h1>OLZ-Konto erstellen</h1>
 <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
+<p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
 <form
     id='sign-up-with-password-form'
     class='default-form'
@@ -34,8 +35,8 @@ echo OlzProfileForm::render([
     'show_required_password' => true,
 ]);
 echo <<<ZZZZZZZZZZ
-    <p><input type='checkbox' name='consent-given' onchange='olz.olzSignUpConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. Ich nehme zur Kenntnis, dass bei jedem Login notgedrungen ein Cookie in meinem Browser gesetzt wird. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
-    <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
+    <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzSignUpRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
+    <p><input type='checkbox' name='cookie-consent-given'> <span class='required-field-asterisk'>*</span> Ich nehme zur Kenntnis, dass bei jedem Login notgedrungen ein Cookie in meinem Browser gesetzt wird. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
     <button id='sign-up-with-password-submit-button' type='submit' class='btn btn-primary'>Konto erstellen</button>
     <div class='error-message alert alert-danger' role='alert'></div>
 </form>

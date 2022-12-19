@@ -96,6 +96,29 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                 $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
                 $this->entityManager()->flush();
                 return ['status' => 'OK'];
+            case 'verify_email':
+                $user_id = intval($reaction_data['user'] ?? '0');
+                $user_repo = $this->entityManager()->getRepository(User::class);
+                $user = $user_repo->findOneBy(['id' => $user_id]);
+                if (!$user) {
+                    $this->log()->error("Invalid user {$user_id} to verify email.", [$reaction_data]);
+                    return ['status' => 'INVALID_TOKEN'];
+                }
+                $verify_email = $reaction_data['email'] ?? '';
+                $user_email = $user->getEmail();
+                if ($verify_email !== $user_email) {
+                    $this->log()->error("Trying to verify email ({$verify_email}) for user {$user_id} (email: {$user_email}).", [$reaction_data]);
+                    return ['status' => 'INVALID_TOKEN'];
+                }
+                $verify_token = $reaction_data['token'];
+                $user_token = $user->getEmailVerificationToken();
+                if ($verify_token !== $user_token) {
+                    $this->log()->error("Invalid email verification token {$verify_token} for user {$user_id} (token: {$user_token}).", [$reaction_data]);
+                    return ['status' => 'INVALID_TOKEN'];
+                }
+                $user->setEmailIsVerified(true);
+                $this->entityManager()->flush();
+                return ['status' => 'OK'];
             default:
                 $this->log()->error("Unknown email reaction action: {$action}.", [$reaction_data]);
                 return ['status' => 'INVALID_TOKEN'];

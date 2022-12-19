@@ -10,7 +10,7 @@ $(() => {
     });
 });
 
-export function olzResetPasswordConsent(value: boolean): void {
+export function olzResetPasswordRecaptchaConsent(value: boolean): void {
     if (value) {
         const submitButton = document.getElementById('reset-password-submit-button');
         if (!submitButton) {
@@ -37,25 +37,25 @@ export function olzResetPasswordModalReset(form: HTMLFormElement): boolean {
 
 async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promise<void> {
     let token: string|null = null;
-    if (getFormField(form, 'consent-given').value === 'yes') {
+    if (getFormField(form, 'recaptcha-consent-given').value === 'yes') {
         token = await loadRecaptchaToken();
     }
 
     const getDataForRequestFn: GetDataForRequestFunction<'resetPassword'> = (f) => {
-        let consentGiven = getFormField(f, 'consent-given');
-        consentGiven = getAsserted(
-            () => consentGiven.value === 'yes',
+        let recaptchaConsentGiven = getFormField(f, 'recaptcha-consent-given');
+        recaptchaConsentGiven = getAsserted(
+            () => recaptchaConsentGiven.value === 'yes',
             'Bitte akzeptiere den Datenschutzhinweis!',
-            consentGiven,
+            recaptchaConsentGiven,
         );
         const fieldResults: OlzRequestFieldResult<'resetPassword'> = {
             usernameOrEmail: getRequired(getStringOrNull(getFormField(f, 'username-or-email'))),
             recaptchaToken: getRequired(validFieldResult('', token)),
         };
-        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(consentGiven)) {
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(recaptchaConsentGiven)) {
             return invalidFormData([
                 ...getFieldResultOrDictThereofErrors(fieldResults),
-                ...getFieldResultOrDictThereofErrors(consentGiven),
+                ...getFieldResultOrDictThereofErrors(recaptchaConsentGiven),
             ]);
         }
         return validFormData(getFieldResultOrDictThereofValue(fieldResults));

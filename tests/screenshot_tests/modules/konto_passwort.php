@@ -34,10 +34,14 @@ function test_konto_passwort($driver, $base_url) {
     );
     $birthdate_input->clear();
     sendKeys($birthdate_input, '13.1.2006');
-    $consent_input = $driver->findElement(
-        WebDriverBy::cssSelector('input[name="consent-given"]')
+    $recaptcha_consent_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[name="recaptcha-consent-given"]')
     );
-    click($consent_input);
+    click($recaptcha_consent_input);
+    $cookie_consent_input = $driver->findElement(
+        WebDriverBy::cssSelector('input[name="cookie-consent-given"]')
+    );
+    click($cookie_consent_input);
     $submit_button = $driver->findElement(
         WebDriverBy::cssSelector('#sign-up-with-password-submit-button')
     );
@@ -109,4 +113,11 @@ function test_konto_passwort_readonly($driver, $base_url) {
     );
     click($submit_button);
     take_pageshot($driver, 'konto_passwort_errors');
+
+    $hide_tooltips_script = <<<'ZZZZZZZZZZ'
+    [...document.querySelectorAll('.tooltip')].map(elem => {
+        elem.style.display = 'none';
+    });
+    ZZZZZZZZZZ;
+    $driver->executeScript($hide_tooltips_script);
 }

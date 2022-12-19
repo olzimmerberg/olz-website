@@ -10,9 +10,15 @@ use PhpImap\Exceptions\ConnectionException;
 class FakeEmailUtils {
     use \Psr\Log\LoggerAwareTrait;
 
+    public $email_verification_emails_sent = [];
+
     public function __construct() {
         $this->mailbox = new FakeMailbox();
         $this->olzMailer = new FakeOlzMailer();
+    }
+
+    public function sendEmailVerificationEmail($user) {
+        $this->email_verification_emails_sent[] = ['user' => $user];
     }
 
     public function getImapMailbox() {
@@ -106,41 +112,5 @@ class FakeMailInfo {
     public function __construct($mail_id) {
         $this->uid = $mail_id;
         $this->message_id = $mail_id;
-    }
-}
-
-class FakeOlzMailer {
-    public $emails_sent = [];
-    public $user;
-    public $Subject;
-    public $Body;
-    public $AltBody;
-    public $from;
-    public $reply_to;
-
-    public function configure($user, $title, $text) {
-        $this->user = $user;
-        $this->Subject = $title;
-        $this->Body = $text;
-        $this->AltBody = $text;
-    }
-
-    public function setFrom($address, $name) {
-        $this->from = [$address, $name];
-    }
-
-    public function addReplyTo($address, $name) {
-        $this->reply_to = [$address, $name];
-    }
-
-    public function send() {
-        $title_provokes_error = str_contains(
-            $this->Subject, 'provoke_error');
-        $text_provokes_error = str_contains(
-            $this->Body, 'provoke_error');
-        if ($title_provokes_error || $text_provokes_error) {
-            throw new \Exception("Provoked Mailer Error");
-        }
-        $this->emails_sent[] = [$this->user, $this->Subject, $this->Body, $this->AltBody];
     }
 }

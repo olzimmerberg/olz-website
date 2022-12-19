@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Monolog\Logger;
 use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake\FakeOlzMailer;
+use Olz\Tests\Fake\FakeUsers;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
@@ -17,16 +19,109 @@ class FakeEnvUtilsForSendmail extends FakeEnvUtils {
     }
 }
 
+class DeterministicEmailUtils extends EmailUtils {
+    public $fake_olz_mailer;
+
+    public function createEmail() {
+        return $this->fake_olz_mailer;
+    }
+
+    protected function getRandomEmailVerificationToken() {
+        return 'veryrandom';
+    }
+
+    protected function getRandomIvForAlgo($algo) {
+        $iv = '';
+        for ($i = 0; $i < openssl_cipher_iv_length($algo); $i++) {
+            $iv .= 'A';
+        }
+        return $iv;
+    }
+}
+
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class EmailUtilsForTest extends EmailUtils {
+    public function testOnlyGetRandomEmailVerificationToken() {
+        return $this->getRandomEmailVerificationToken();
+    }
+
+    public function testOnlyGetRandomIvForAlgo($algo) {
+        return $this->getRandomIvForAlgo($algo);
+    }
+}
+
 /**
  * @internal
  *
  * @covers \Olz\Utils\EmailUtils
  */
 final class EmailUtilsTest extends UnitTestCase {
+    public function testSendEmailVerificationEmail(): void {
+        $user = FakeUsers::defaultUser();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
+        $logger = FakeLogger::create();
+        $olz_mailer = new FakeOlzMailer();
+        $email_utils = new DeterministicEmailUtils();
+        $email_utils->fake_olz_mailer = $olz_mailer;
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
+        $email_utils->setLog($logger);
+
+        $email_utils->sendEmailVerificationEmail($user);
+
+        $this->assertSame([
+            "INFO Email verification email sent to user (1).",
+        ], $logger->handler->getPrettyRecords());
+        $expected_email = <<<'ZZZZZZZZZZ'
+        **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
+
+        Hallo Default,
+
+        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJZeXZQZUExMzhzb2hQZkE4d1Y4anBnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY1Flb0hMXzdaQTI3VWZLOGJic00wMU5ZYlF0NXA3Z2xOZkRZbjY2NVBKSENseFJLblkwUSJ9) oder auf folgenden Link:
+
+        http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJZeXZQZUExMzhzb2hQZkE4d1Y4anBnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY1Flb0hMXzdaQTI3VWZLOGJic00wMU5ZYlF0NXA3Z2xOZkRZbjY2NVBKSENseFJLblkwUSJ9
+
+        ZZZZZZZZZZ;
+        $this->assertSame([[$user, '[OLZ] E-Mail bestätigen', $expected_email, $expected_email]], $olz_mailer->emails_sent);
+    }
+
+    public function testSendEmailVerificationEmailFailsSending(): void {
+        $user = FakeUsers::defaultUser();
+        $env_utils = new FakeEnvUtils();
+        $general_utils = new GeneralUtils();
+        $logger = FakeLogger::create();
+        $olz_mailer = new FakeOlzMailer();
+        $olz_mailer->provoke_error = true;
+        $email_utils = new DeterministicEmailUtils();
+        $email_utils->fake_olz_mailer = $olz_mailer;
+        $email_utils->setEnvUtils($env_utils);
+        $email_utils->setGeneralUtils($general_utils);
+        $email_utils->setLog($logger);
+
+        try {
+            $email_utils->sendEmailVerificationEmail($user);
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "CRITICAL Error sending email verification email to user (1): Provoked Mailer Error",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame(
+                'Error sending email verification email to user (1): Provoked Mailer Error',
+                $exc->getMessage()
+            );
+            $this->assertSame([], $olz_mailer->emails_sent);
+        }
+    }
+
     public function testGetImapMailbox(): void {
         $env_utils = new FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -42,7 +137,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testEmailReactionToken(): void {
         $env_utils = new FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -60,7 +155,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testDecryptInvalidEmailReactionToken(): void {
         $env_utils = new FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -72,7 +167,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testCreateSendmailEmail(): void {
         $env_utils = new FakeEnvUtilsForSendmail();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -132,7 +227,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testCreateSmtpEmail(): void {
         $env_utils = new FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -192,7 +287,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testRenderMarkdown(): void {
         $env_utils = new FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = new Logger('EmailUtilsTest');
+        $logger = FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -265,5 +360,21 @@ final class EmailUtilsTest extends UnitTestCase {
         // Heading ID
         $html = $email_utils->renderMarkdown("- [x] finish\n- [ ] this\n- [ ] list\n");
         $this->assertSame("<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> finish</li>\n<li><input disabled=\"\" type=\"checkbox\"> this</li>\n<li><input disabled=\"\" type=\"checkbox\"> list</li>\n</ul>\n", $html);
+    }
+
+    public function testGetRandomEmailVerificationToken(): void {
+        $email_utils = new EmailUtilsForTest();
+        $this->assertMatchesRegularExpression(
+            '/^[a-zA-Z0-9_-]{8}$/',
+            $email_utils->testOnlyGetRandomEmailVerificationToken()
+        );
+    }
+
+    public function testGetRandomIvForAlgo(): void {
+        $email_utils = new EmailUtilsForTest();
+        $this->assertMatchesRegularExpression(
+            '/^[a-zA-Z0-9+\/]{16}$/',
+            base64_encode($email_utils->testOnlyGetRandomIvForAlgo('aes-256-gcm'))
+        );
     }
 }

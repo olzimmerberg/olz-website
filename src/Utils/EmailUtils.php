@@ -18,6 +18,50 @@ class EmailUtils {
         'log',
     ];
 
+    public function sendEmailVerificationEmail($user) {
+        $user_id = $user->getId();
+        $email_verification_token = $this->getRandomEmailVerificationToken();
+        $user->setEmailVerificationToken($email_verification_token);
+        $verify_email_token = urlencode($this->encryptEmailReactionToken([
+            'action' => 'verify_email',
+            'user' => $user_id,
+            'email' => $user->getEmail(),
+            'token' => $email_verification_token,
+        ]));
+        $base_url = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $verify_email_url = "{$base_url}{$code_href}email_reaktion.php?token={$verify_email_token}";
+        $text = <<<ZZZZZZZZZZ
+        **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
+
+        Hallo {$user->getFirstName()},
+
+        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier]({$verify_email_url}) oder auf folgenden Link:
+
+        {$verify_email_url}
+
+        ZZZZZZZZZZ;
+        $config = [
+            'no_unsubscribe' => true,
+        ];
+
+        try {
+            $email = $this->createEmail();
+            $email->configure($user, "[OLZ] E-Mail bestätigen", $text, $config);
+            $email->send();
+            $this->log()->info("Email verification email sent to user ({$user_id}).");
+        } catch (\Exception $exc) {
+            $message = $exc->getMessage();
+            $full_message = "Error sending email verification email to user ({$user_id}): {$message}";
+            $this->log()->critical($full_message);
+            throw new \Exception($full_message);
+        }
+    }
+
+    protected function getRandomEmailVerificationToken() {
+        return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(6));
+    }
+
     public function getImapMailbox() {
         $imap_host = $this->envUtils()->getImapHost();
         $imap_port = $this->envUtils()->getImapPort();
@@ -64,7 +108,7 @@ class EmailUtils {
         $plaintext = json_encode($data);
         $algo = 'aes-256-gcm';
         $key = $this->envUtils()->getEmailReactionKey();
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
+        $iv = $this->getRandomIvForAlgo($algo);
         $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         return $this->generalUtils()->base64EncodeUrl(json_encode([
             'algo' => $algo,
@@ -72,6 +116,10 @@ class EmailUtils {
             'tag' => $this->generalUtils()->base64EncodeUrl($tag),
             'ciphertext' => $this->generalUtils()->base64EncodeUrl($ciphertext),
         ]));
+    }
+
+    protected function getRandomIvForAlgo($algo) {
+        return openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
     }
 
     public function decryptEmailReactionToken($token) {

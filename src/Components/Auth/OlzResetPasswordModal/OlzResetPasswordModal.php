@@ -40,7 +40,7 @@ class OlzResetPasswordModal {
                                     autofocus
                                 />
                             </div>
-                            <p><input type='checkbox' name='consent-given' onchange='olz.olzResetPasswordConsent(this.checked)'> Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
+                            <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzResetPasswordRecaptchaConsent(this.checked)'> Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
                             <div class='error-message alert alert-danger' role='alert'></div>
                             <div class='success-message alert alert-success' role='alert'></div>
                         </div>

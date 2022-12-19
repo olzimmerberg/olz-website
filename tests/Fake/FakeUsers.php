@@ -19,6 +19,8 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setUsername('admin');
                 $admin_user->setOldUsername('admin-old');
                 $admin_user->setEmail('admin-user@test.olzimmerberg.ch');
+                $admin_user->setEmailIsVerified(true);
+                $admin_user->setEmailVerificationToken('admintoken');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
                 $admin_user->setPermissions('all');
                 $admin_user->setRoot('karten');
@@ -69,6 +71,8 @@ class FakeUsers extends FakeFactory {
                 $default_user->setLastName('User');
                 $default_user->setUsername('user');
                 $default_user->setEmail('default-user@olzimmerberg.ch');
+                $default_user->setEmailIsVerified(false);
+                $default_user->setEmailVerificationToken('defaulttoken');
                 $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));
                 $default_user->setParentUserId(2);
                 return $default_user;

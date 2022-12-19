@@ -30,7 +30,7 @@ const jestConfig = {
         './src/Api/': percentCoverage(13),
         './src/Components/': percentCoverage(9),
         './src/Components/Auth': percentCoverage(0),
-        './src/Components/Common': percentCoverage(38),
+        './src/Components/Common': percentCoverage(37),
         './src/Components/Notify': percentCoverage(0),
         './src/Components/Page': percentCoverage(0),
         './src/Components/Users': percentCoverage(0),

@@ -88,6 +88,7 @@ class FakeDailySummaryGetterTerminRepository {
         $termin2 = new Termin();
         $termin2->setId(2);
         $termin2->setStartsOn(new \DateTime('2020-03-22'));
+        $termin2->setEndsOn(new \DateTime('2020-03-23'));
         $termin2->setTitle('2. Nationaler OL (Langdistanz)');
         return [$termin1, $termin2];
     }
@@ -163,7 +164,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         **Aktualisierte Termine**
         
         - 20.03.: [4. Lauf Zürcher Nacht-OL Serie](http://fake-base-url/_/termine.php?id=1)
-        - 22.03.: [2. Nationaler OL (Langdistanz)](http://fake-base-url/_/termine.php?id=2)
+        - 22.03. - 23.03.: [2. Nationaler OL (Langdistanz)](http://fake-base-url/_/termine.php?id=2)
 
 
         ZZZZZZZZZZ;

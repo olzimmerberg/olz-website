@@ -1,5 +1,9 @@
 #create-news-button {
     float: right;
+
+    &.only-with-login {
+        opacity: 0.6;
+    }
 }
 
 .page {

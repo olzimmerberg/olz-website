@@ -15,7 +15,7 @@ trait NewsEndpointTrait {
             'field_structure' => [
                 'format' => new FieldTypes\EnumField([
                     'export_as' => 'OlzNewsFormat',
-                    'allowed_values' => ['aktuell', 'galerie'],
+                    'allowed_values' => ['aktuell', 'galerie', 'video'],
                 ]),
                 'author' => new FieldTypes\StringField(['allow_null' => true]),
                 'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),

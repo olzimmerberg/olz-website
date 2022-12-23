@@ -49,18 +49,25 @@ class OlzNewsList {
         $out .= "</div>";
         $out .= "<div class='content-middle'>";
 
-        if ($auth_utils->hasPermission('any')) {
-            $out .= <<<'ZZZZZZZZZZ'
-            <button
-                id='create-news-button'
-                class='btn btn-primary'
-                onclick='return olz.initOlzEditNewsModal()'
-            >
-                <img src='icns/new_white_16.svg' class='noborder' />
-                Neuer Eintrag
-            </button>
-            ZZZZZZZZZZ;
-        }
+        $can_create_news = $auth_utils->hasPermission('any');
+        $class = $can_create_news ? '' : ' only-with-login';
+        $onclick = $can_create_news
+            ? 'return olz.initOlzEditNewsModal()'
+            : 'return olz.olzLoginModalShow()';
+        $out .= <<<ZZZZZZZZZZ
+        <button
+            id='create-news-button'
+            class='btn btn-secondary{$class}'
+            onclick='{$onclick}'
+            data-toggle='tooltip'
+            data-placement='top'
+            title='Du musst dich zuerst einloggen'
+        >
+            <img src='icns/new_white_16.svg' class='noborder' />
+            Neuer Eintrag
+        </button>
+        ZZZZZZZZZZ;
+
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out .= "<h1>{$news_list_title}</h1>";
 

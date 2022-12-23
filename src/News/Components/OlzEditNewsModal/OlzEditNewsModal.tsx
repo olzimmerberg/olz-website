@@ -8,6 +8,51 @@ import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAut
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 
+interface OlzEditNewsModalConfig {
+    hasTeaser: boolean;
+    hasContent: boolean;
+    contentLabel: string;
+    hasFormattingNotes: boolean;
+    hasExternalLink: boolean;
+    hasFiles: boolean;
+}
+
+const DEFAULT_CONFIG: OlzEditNewsModalConfig = {
+    hasTeaser: true,
+    hasContent: true,
+    contentLabel: 'Inhalt',
+    hasFormattingNotes: true,
+    hasExternalLink: true,
+    hasFiles: true,
+};
+
+const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
+    aktuell: {
+        hasTeaser: true,
+        hasContent: true,
+        contentLabel: 'Inhalt',
+        hasFormattingNotes: true,
+        hasExternalLink: true,
+        hasFiles: true,
+    },
+    galerie: {
+        hasTeaser: false,
+        hasContent: false,
+        contentLabel: 'Inhalt',
+        hasFormattingNotes: false,
+        hasExternalLink: false,
+        hasFiles: false,
+    },
+    video: {
+        hasTeaser: false,
+        hasContent: true,
+        contentLabel: 'YouTube URL',
+        hasFormattingNotes: false,
+        hasExternalLink: false,
+        hasFiles: false,
+    },
+};
+
 const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>Hinweise:</b></div>
     <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen, 
@@ -172,6 +217,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
         return false;
     }, [authorUserId, authorRoleId, fileIds, imageIds]);
 
+    const config = CONFIG_BY_FORMAT[format] ?? DEFAULT_CONFIG;
+
     return (
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
@@ -187,7 +234,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     <label htmlFor='news-author-input'>Autor</label>
                                     <div id='news-author-input'>
                                         <OlzAuthenticatedUserRoleChooser
-                                            nullLabel='(unverändert)'
+                                            nullLabel={authorUserId ? '(unverändert)' : 'Bitte wählen...'}
                                             userId={authorUserId}
                                             roleId={authorRoleId}
                                             onUserIdChange={e => setAuthorUserId(e.detail)}  
@@ -214,6 +261,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     >
                                         <option value='aktuell'>Aktuell</option>
                                         <option value='galerie'>Galerie</option>
+                                        <option value='video'>Video</option>
                                     </select>
                                 </div>
                             </div>
@@ -228,7 +276,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     id='news-title-input'
                                 />
                             </div>
-                            {format === 'aktuell' ? (
+                            {config.hasTeaser ? (
                                 <div className='mb-3'>
                                     <label htmlFor='news-teaser-input'>Teaser</label>
                                     <textarea
@@ -240,9 +288,9 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     />
                                 </div>
                             ) : null}
-                            {format !== 'galerie' ? (
+                            {config.hasContent ? (
                                 <div className='mb-3'>
-                                    <label htmlFor='news-content-input'>Inhalt</label>
+                                    <label htmlFor='news-content-input'>{config.contentLabel}</label>
                                     <textarea
                                         name='content'
                                         value={content}
@@ -250,10 +298,10 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                         className='form-control'
                                         id='news-content-input'
                                     />
-                                    {FORMATTING_NOTES_FOR_USERS}
+                                    {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
                                 </div>
                             ) : null}
-                            {format === 'aktuell' ? (
+                            {config.hasExternalLink ? (
                                 <div className='mb-3'>
                                     <label htmlFor='news-external-url-input'>Externer Link</label>
                                     <input
@@ -273,7 +321,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     onUploadIdsChange={setImageIds}
                                 />
                             </div>
-                            {format !== 'galerie' ? (
+                            {config.hasFiles ? (
                                 <div id='news-files-upload'>
                                     <b>Dateien</b>
                                     <OlzMultiFileUploader

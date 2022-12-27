@@ -8,12 +8,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\News\Endpoints\UpdateNewsEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUploadUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
@@ -45,10 +40,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
@@ -88,15 +83,15 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointNoSuchEntity(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -138,15 +133,15 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointNoEntityAccess(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = false;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -188,16 +183,16 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new FakeEnvUtils();
-        $upload_utils = new FakeUploadUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $upload_utils = new Fake\FakeUploadUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));

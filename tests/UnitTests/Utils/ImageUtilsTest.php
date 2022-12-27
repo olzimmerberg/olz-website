@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\ImageUtils;
 
@@ -16,7 +16,7 @@ use Olz\Utils\ImageUtils;
 final class ImageUtilsTest extends UnitTestCase {
     public function testOlzImageNotMigrated(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $image_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
@@ -28,7 +28,7 @@ final class ImageUtilsTest extends UnitTestCase {
 
     public function testOlzImageMigrated(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $image_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
@@ -40,7 +40,7 @@ final class ImageUtilsTest extends UnitTestCase {
 
     public function testReplaceImageTagsNotMigrated(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $image_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
@@ -52,7 +52,7 @@ final class ImageUtilsTest extends UnitTestCase {
 
     public function testReplaceImageTagsMigrated(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $image_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';

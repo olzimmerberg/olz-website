@@ -8,10 +8,7 @@ use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeIdUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
@@ -54,7 +51,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['any'] = false;
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();
@@ -72,22 +69,22 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateMySkillLevelsEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['any'] = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeUpdateMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $logger = new Logger('UpdateMySkillLevelsEndpointTest');
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new FakeIdUtils());
+        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -104,7 +101,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame([
-            [FakeEntityManager::AUTO_INCREMENT_ID, 2, 2, 0],
+            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 2, 0],
         ], array_map(
             function ($skill_level) {
                 return [

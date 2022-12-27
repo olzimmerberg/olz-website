@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\GetAuthenticatedRolesEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeGetAuthenticatedRolesEndpointAuthUtils {
@@ -27,8 +26,8 @@ final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedRolesEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
-        $logger = FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedRolesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -57,7 +56,7 @@ final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedRolesEndpointUnauthenticated(): void {
         $auth_utils = new FakeGetAuthenticatedRolesEndpointAuthUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedRolesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);

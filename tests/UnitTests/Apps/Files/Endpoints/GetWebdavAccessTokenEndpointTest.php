@@ -6,10 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 
 use Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
@@ -38,9 +35,9 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
     }
 
     public function testGetWebdavAccessTokenEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['webdav' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -51,13 +48,13 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
     }
 
     public function testGetWebdavAccessTokenEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['webdav' => true];
         $general_utils = GeneralUtils::fromEnv();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
@@ -75,8 +72,8 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $access_token = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());
-        $this->assertSame(FakeUsers::adminUser(), $access_token->getUser());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $access_token->getUser());
         $this->assertSame('WebDAV', $access_token->getPurpose());
         $this->assertSame('AAAAAAAAAAAAAAAAAAAAAAAA', $access_token->getToken());
         $this->assertSame('2020-03-13 19:30:00', $access_token->getCreatedAt()->format('Y-m-d H:i:s'));

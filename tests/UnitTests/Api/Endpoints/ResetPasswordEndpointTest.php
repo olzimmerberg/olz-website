@@ -5,13 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\ResetPasswordEndpoint;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
-use Olz\Tests\Fake\FakeUserRepository;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
 use PhpTypeScriptApi\HttpError;
@@ -38,7 +32,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointWithoutInput(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setLog($logger);
         try {
@@ -56,7 +50,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointWithNullInput(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setLog($logger);
         try {
@@ -77,20 +71,20 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpoint(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $email_utils = new FakeEmailUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -112,7 +106,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ZZZZZZZZZZ;
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
-            [FakeUsers::adminUser(), '[OLZ] Passwort zurücksetzen', $expected_text, $expected_text],
+            [Fake\FakeUsers::adminUser(), '[OLZ] Passwort zurücksetzen', $expected_text, $expected_text],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",
@@ -122,21 +116,21 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $email_utils = new FakeEmailUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $endpoint->setEmailUtils($email_utils);
-        $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
-        $vorstand_user = FakeUsers::vorstandUser();
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $vorstand_user = Fake\FakeUsers::vorstandUser();
         $vorstand_user->setFirstName('provoke_error');
 
         $result = $endpoint->call([
@@ -154,16 +148,16 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointInvalidUser(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
@@ -179,16 +173,16 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new FakeEntityManager();
-        $user_repo = new FakeUserRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',

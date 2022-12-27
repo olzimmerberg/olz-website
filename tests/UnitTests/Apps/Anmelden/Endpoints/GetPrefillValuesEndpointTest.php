@@ -6,16 +6,11 @@ namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUserRepository;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
-class FakeGetPrefillValuesEndpointUserRepository extends FakeUserRepository {
+class FakeGetPrefillValuesEndpointUserRepository extends Fake\FakeUserRepository {
 }
 
 /**
@@ -30,9 +25,9 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -48,14 +43,14 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
-        $auth_utils->authenticated_user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -85,14 +80,14 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointManagedUser(): void {
-        $auth_utils = new FakeAuthUtils();
-        $auth_utils->authenticated_user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -122,13 +117,13 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointOtherUser(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);

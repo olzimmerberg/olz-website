@@ -6,8 +6,7 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Monolog\Logger;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\OlzMailer;
 
@@ -31,8 +30,8 @@ class OlzMailerForTest extends OlzMailer {
  */
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
-        $email_utils = new FakeEmailUtils();
-        $server_config = new FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);
@@ -78,8 +77,8 @@ final class OlzMailerTest extends UnitTestCase {
     }
 
     public function testSend(): void {
-        $email_utils = new FakeEmailUtils();
-        $server_config = new FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OlzMailerTest');
         $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);

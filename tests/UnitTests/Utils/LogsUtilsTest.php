@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Monolog\Logger;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\LogsUtils;
 
@@ -17,7 +16,7 @@ use Olz\Utils\LogsUtils;
  */
 final class LogsUtilsTest extends UnitTestCase {
     public function testLogsUtilsGetLogger(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
         $this->assertSame(false, is_dir($logs_path));
@@ -75,8 +74,8 @@ final class LogsUtilsTest extends UnitTestCase {
     }
 
     public function testLogsUtilsActivateDeactivateLoggerInconsistency(): void {
-        $logger1 = FakeLogger::create('logger1');
-        $logger2 = FakeLogger::create('logger2');
+        $logger1 = Fake\FakeLogger::create('logger1');
+        $logger2 = Fake\FakeLogger::create('logger2');
 
         LogsUtils::activateLogger($logger1);
         LogsUtils::activateLogger($logger2);

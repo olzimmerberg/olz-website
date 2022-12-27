@@ -7,18 +7,13 @@ namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 use Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeIdUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
 class FakeCreateBookingEndpointRegistrationRepository {
     public function findOneBy($where) {
-        if ($where === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
+        if ($where === ['id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID]) {
             $registration = new Registration();
             $registration->setId(264);
             return $registration;
@@ -53,21 +48,21 @@ final class CreateBookingEndpointTest extends UnitTestCase {
     }
 
     public function testCreateBookingEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $registration_repo = new FakeCreateBookingEndpointRegistrationRepository();
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
-        $logger = FakeLogger::create();
+        $entity_utils = new Fake\FakeEntityUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateBookingEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new FakeIdUtils());
+        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -77,7 +72,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
                 'ownerRoleId' => null,
             ],
             'data' => [
-                'registrationId' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+                'registrationId' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
                 'values' => [
                     '0-vorname' => 'Simon',
                     '1-nachname' => 'Hatt',
@@ -87,16 +82,16 @@ final class CreateBookingEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => 'Booking:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Booking:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $booking = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $booking->getId());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $booking->getId());
         $this->assertSame(264, $booking->getRegistration()->getId());
         $this->assertSame('{"0-vorname":"Simon","1-nachname":"Hatt"}', $booking->getFormData());
-        $this->assertSame(FakeUsers::adminUser(), $booking->getUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $booking->getUser());
 
         $this->assertSame([
             [$booking, 1, null, null],

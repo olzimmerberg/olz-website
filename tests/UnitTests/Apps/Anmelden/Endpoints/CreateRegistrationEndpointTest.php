@@ -5,12 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeIdUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
@@ -27,10 +22,10 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testCreateRegistrationEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
@@ -58,17 +53,17 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testCreateRegistrationEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
-        $logger = FakeLogger::create();
+        $entity_utils = new Fake\FakeEntityUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new FakeIdUtils());
+        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -103,21 +98,21 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(3, count($entity_manager->persisted));
         $this->assertSame(3, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $registration = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $registration->getId());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $registration->getId());
         $this->assertSame('Training', $registration->getTitle());
         $this->assertSame('Training vom 17.3.2020 im Landforst.', $registration->getDescription());
         $registration_info_1 = $entity_manager->persisted[1];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $registration_info_1->getId());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $registration_info_1->getId());
         $this->assertSame('Vorname', $registration_info_1->getTitle());
         $this->assertSame('', $registration_info_1->getDescription());
         $registration_info_2 = $entity_manager->persisted[2];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $registration_info_2->getId());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $registration_info_2->getId());
         $this->assertSame('Nachname', $registration_info_2->getTitle());
         $this->assertSame('', $registration_info_2->getDescription());
 

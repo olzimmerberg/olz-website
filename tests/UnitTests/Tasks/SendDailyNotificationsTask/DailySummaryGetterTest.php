@@ -11,9 +11,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -101,7 +99,7 @@ class FakeDailySummaryGetterTerminRepository {
  */
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDailySummaryGetterNewsRepository();
         $blog_repo = new FakeDailySummaryGetterBlogRepository();
         $galerie_repo = new FakeDailySummaryGetterGalerieRepository();
@@ -113,8 +111,8 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $entity_manager->repositories[Forum::class] = $forum_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -173,10 +171,10 @@ final class DailySummaryGetterTest extends UnitTestCase {
     }
 
     public function testDailySummaryGetterWithNoContent(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 

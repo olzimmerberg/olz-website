@@ -8,9 +8,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -79,9 +77,9 @@ class FakeDeadlineWarningGetterTerminRepository {
  */
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
@@ -93,7 +91,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetterWhenThereIsNoDeadline(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $solv_event_repo->has_no_deadlines = true;
@@ -101,8 +99,8 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -117,14 +115,14 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetter(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 

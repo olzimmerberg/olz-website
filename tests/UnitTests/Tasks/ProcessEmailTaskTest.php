@@ -7,11 +7,7 @@ namespace Olz\Tests\UnitTests\Tasks;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Tasks\ProcessEmailTask;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -54,13 +50,13 @@ class FakeProcessEmailTaskMail {
  */
 final class ProcessEmailTaskTest extends UnitTestCase {
     public function testProcessEmailTaskWithUnexpectedValueError(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->unexpected_value_exception = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -82,13 +78,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskWithConnectionError(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->connection_exception = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -110,13 +106,13 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskWithOtherError(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->exception = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -138,15 +134,15 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskWithMailToWrongDomain(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12, 'someone@other-domain.com'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -168,15 +164,15 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskNoSuchUser(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12, 'no-such-username@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -198,15 +194,15 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskNoUserEmailPermission(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12, 'no-permission@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -228,11 +224,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskToUser(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['user_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 'someone@olzimmerberg.ch',
@@ -245,7 +241,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -270,11 +266,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskToOldUser(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['user_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 'someone-old@olzimmerberg.ch',
@@ -287,7 +283,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -312,15 +308,15 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskNoRoleEmailPermission(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12, 'no-role-permission@olzimmerberg.ch'),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -342,11 +338,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskToRole(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 'somerole@olzimmerberg.ch',
@@ -359,7 +355,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -386,11 +382,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskToOldRole(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 'somerole-old@olzimmerberg.ch',
@@ -403,7 +399,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -430,11 +426,11 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskSendingError(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['user_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 'someone@olzimmerberg.ch',
@@ -447,7 +443,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);
@@ -469,12 +465,12 @@ final class ProcessEmailTaskTest extends UnitTestCase {
     }
 
     public function testProcessEmailTaskToMultiple(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['user_email'] = true;
         $auth_utils->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->mailbox->mail_dict = [
             '12' => new FakeProcessEmailTaskMail(12,
                 null,
@@ -487,7 +483,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
             ),
         ];
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new ProcessEmailTask();
         $job->setAuthUtils($auth_utils);

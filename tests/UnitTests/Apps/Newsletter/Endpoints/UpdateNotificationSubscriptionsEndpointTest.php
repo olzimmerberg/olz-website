@@ -8,7 +8,7 @@ use Monolog\Logger;
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -38,7 +38,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
@@ -130,7 +130,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');

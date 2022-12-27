@@ -9,39 +9,33 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask;
 use Olz\Tasks\SendDailyNotificationsTask\Notification;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeTelegramUtils;
-use Olz\Tests\Fake\FakeUserRepository;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
 require_once __DIR__.'/../../Fake/fake_notification_subscription.php';
 
-$user1 = FakeUsers::defaultUser(true);
+$user1 = Fake\FakeUsers::defaultUser(true);
 $user1->setId(1);
 $user1->setFirstName('First');
 $user1->setLastName('User');
 
-$user2 = FakeUsers::defaultUser(true);
+$user2 = Fake\FakeUsers::defaultUser(true);
 $user2->setId(2);
 $user2->setFirstName('Second');
 $user2->setLastName('User');
 
-$user3 = FakeUsers::defaultUser(true);
+$user3 = Fake\FakeUsers::defaultUser(true);
 $user3->setId(3);
 $user3->setFirstName('Third');
 $user3->setLastName('User');
 
-$user_provoke_error = FakeUsers::defaultUser(true);
+$user_provoke_error = Fake\FakeUsers::defaultUser(true);
 $user_provoke_error->setId(3);
 $user_provoke_error->setFirstName('Provoke');
 $user_provoke_error->setLastName('Error');
 
-$user_no_telegram_link = FakeUsers::defaultUser(true);
+$user_no_telegram_link = Fake\FakeUsers::defaultUser(true);
 $user_no_telegram_link->setId(4);
 $user_no_telegram_link->setFirstName('No Telegram');
 $user_no_telegram_link->setLastName('Link');
@@ -232,7 +226,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
         }
 
         if ($where === [
-            'user' => FakeUsers::defaultUser(),
+            'user' => Fake\FakeUsers::defaultUser(),
             'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
         ]) {
             return [
@@ -266,7 +260,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
         }
 
         if ($where === [
-            'user' => FakeUsers::defaultUser(),
+            'user' => Fake\FakeUsers::defaultUser(),
             'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
         ]) {
             return [
@@ -514,18 +508,18 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
  */
 final class SendDailyNotificationsTaskTest extends UnitTestCase {
     public function testSendDailyNotificationsTask(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
-        $user_repo = new FakeUserRepository();
+        $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new FakeEnvUtils();
-        $email_utils = new FakeEmailUtils();
-        $telegram_utils = new FakeTelegramUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $telegram_utils = new Fake\FakeTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
         $email_configuration_reminder_getter = new FakeSendDailyNotificationsEmailConfigurationReminderGetter();

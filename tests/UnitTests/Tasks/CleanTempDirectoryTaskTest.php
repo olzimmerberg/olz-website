@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Tasks;
 
 use Olz\Tasks\CleanTempDirectoryTask;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -52,9 +51,9 @@ class FakeCleanTempDirectoryTask extends CleanTempDirectoryTask {
  */
 final class CleanTempDirectoryTaskTest extends UnitTestCase {
     public function testCleanTempDirectoryTaskErrorOpening(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
@@ -80,9 +79,9 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
     }
 
     public function testCleanTempDirectoryTaskRemovesEverything(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
@@ -113,9 +112,9 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
     }
 
     public function testCleanTempDirectoryTaskRemoveNotYet(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);

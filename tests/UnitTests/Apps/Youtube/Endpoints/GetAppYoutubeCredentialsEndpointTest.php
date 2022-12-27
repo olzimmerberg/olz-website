@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Youtube\Endpoints;
 
 use Olz\Apps\Youtube\Endpoints\GetAppYoutubeCredentialsEndpoint;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
@@ -23,9 +22,9 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppYoutubeCredentialsEndpoint(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
@@ -50,9 +49,9 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppYoutubeCredentialsEndpointNotAuthorized(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -76,7 +75,7 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppYoutubeCredentialsEndpointNotAuthenticated(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);

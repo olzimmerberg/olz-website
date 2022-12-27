@@ -7,21 +7,17 @@ namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 use Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeIdUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
 class FakeGetRegistrationEndpointRegistrationRepository {
     public function findOneBy($where) {
-        if ($where === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
+        if ($where === ['id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID]) {
             $registration = new Registration();
             $registration->setTitle('Test title');
             $registration->setDescription('');
-            $registration->setOwnerUser(FakeUsers::adminUser());
+            $registration->setOwnerUser(Fake\FakeUsers::adminUser());
             $registration->setOwnerRole(null);
             $registration->setOnOff(true);
             return $registration;
@@ -59,27 +55,27 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testGetRegistrationEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $registration_repo = new FakeGetRegistrationEndpointRegistrationRepository();
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeGetRegistrationEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetRegistrationEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setIdUtils(new FakeIdUtils());
+        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
-            'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ]);
 
         $this->assertSame([
-            'id' => 'Registration:'.FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
             'meta' => [
                 'ownerUserId' => 2,
                 'ownerRoleId' => null,

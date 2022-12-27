@@ -7,10 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\LoginEndpoint;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -28,7 +25,7 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithoutInput(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setLog($logger);
         try {
@@ -46,7 +43,7 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithNullInput(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setLog($logger);
         try {
@@ -67,12 +64,12 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithCorrectCredentials(): void {
-        $auth_utils = new FakeAuthUtils();
-        $user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $user = Fake\FakeUsers::adminUser();
         $auth_utils->authenticate_user = $user;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -104,9 +101,9 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->authenticate_with_error = new InvalidCredentialsException('test');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
@@ -126,9 +123,9 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointCanNotAuthenticate(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->authenticate_with_error = new AuthBlockedException('test');
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Tasks;
 
 use Olz\Tasks\SyncSolvTask;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -62,8 +61,8 @@ final class SyncSolvTaskTest extends UnitTestCase {
         $entity_manager = null;
         $solv_fetcher = null;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $solv_events_syncer = new FakeSolvEventsSyncer();
         $solv_results_syncer = new FakeSolvResultsSyncer();
         $solv_people_assigner = new FakeSolvPeopleAssigner();

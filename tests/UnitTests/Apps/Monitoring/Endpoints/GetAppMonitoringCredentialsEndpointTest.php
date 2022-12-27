@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Monitoring\Endpoints;
 
 use Olz\Apps\Monitoring\Endpoints\GetAppMonitoringCredentialsEndpoint;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
@@ -23,9 +22,9 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppMonitoringCredentialsEndpoint(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
@@ -50,9 +49,9 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppMonitoringCredentialsEndpointNotAuthorized(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -76,7 +75,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppMonitoringCredentialsEndpointNotAuthenticated(): void {
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);

@@ -7,11 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Monolog\Logger;
 use Olz\Api\Endpoints\OnDailyEndpoint;
 use Olz\Entity\Throttling;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeTask;
-use Olz\Tests\Fake\FakeTelegramUtils;
-use Olz\Tests\Fake\FakeThrottlingRepository;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
@@ -38,12 +34,12 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointThrottled(): void {
-        $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeThrottlingRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeEnvUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -61,12 +57,12 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointNoThrottlingRecord(): void {
-        $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeThrottlingRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeEnvUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -84,12 +80,12 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointUnlimitedCron(): void {
-        $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeThrottlingRepository();
+        $entity_manager = new Fake\FakeEntityManager();
+        $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeEnvUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -108,13 +104,13 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointWrongToken(): void {
-        $sync_solv_task = new FakeTask();
-        $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeThrottlingRepository();
+        $sync_solv_task = new Fake\FakeTask();
+        $entity_manager = new Fake\FakeEntityManager();
+        $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeEnvUtils();
+        $server_config = new Fake\FakeEnvUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
@@ -134,15 +130,15 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpoint(): void {
-        $clean_temp_directory_task = new FakeTask();
-        $sync_solv_task = new FakeTask();
-        $entity_manager = new FakeEntityManager();
-        $throttling_repo = new FakeThrottlingRepository();
+        $clean_temp_directory_task = new Fake\FakeTask();
+        $sync_solv_task = new Fake\FakeTask();
+        $entity_manager = new Fake\FakeEntityManager();
+        $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $server_config = new FakeEnvUtils();
-        $telegram_utils = new FakeTelegramUtils();
+        $server_config = new Fake\FakeEnvUtils();
+        $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = new Logger('OnDailyEndpointTest');
         $endpoint = new OnDailyEndpoint();
         $endpoint->setCleanTempDirectoryTask($clean_temp_directory_task);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api;
 
 use Olz\Api\OlzGetEntityEndpoint;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -46,7 +46,7 @@ final class OlzGetEntityEndpointTest extends UnitTestCase {
     public function testOlzGetEntityEndpointInternalId(): void {
         $endpoint = new OlzGetEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
-        $endpoint->setLog(FakeLogger::create());
+        $endpoint->setLog(Fake\FakeLogger::create());
         $result = $endpoint->call([
             'id' => 5,
         ]);
@@ -64,7 +64,7 @@ final class OlzGetEntityEndpointTest extends UnitTestCase {
     public function testOlzGetEntityEndpointExternalId(): void {
         $endpoint = new OlzGetEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
-        $endpoint->setLog(FakeLogger::create());
+        $endpoint->setLog(Fake\FakeLogger::create());
         $result = $endpoint->call([
             'id' => 'external-id',
         ]);

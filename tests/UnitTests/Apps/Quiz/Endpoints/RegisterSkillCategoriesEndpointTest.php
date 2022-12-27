@@ -7,9 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint;
 use Olz\Entity\Quiz\SkillCategory;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeIdUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeRegisterSkillCategoriesEndpointSkillCategoryRepository {
@@ -35,15 +33,15 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
     }
 
     public function testRegisterSkillCategoriesEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $skill_category_repo = new FakeRegisterSkillCategoriesEndpointSkillCategoryRepository();
         $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $logger = new Logger('RegisterSkillCategoriesEndpointTest');
         $endpoint = new RegisterSkillCategoriesEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new FakeIdUtils());
+        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -66,15 +64,15 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
         $this->assertSame([
             'idByName' => [
                 'Child Category 1' => 'SkillCategory:11',
-                'Child Category 2' => 'SkillCategory:'.FakeEntityManager::AUTO_INCREMENT_ID,
-                'Parent Category' => 'SkillCategory:'.FakeEntityManager::AUTO_INCREMENT_ID,
+                'Child Category 2' => 'SkillCategory:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+                'Parent Category' => 'SkillCategory:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
             ],
         ], $result);
 
         $this->assertSame([
             [11, 'Child Category 1', 'Parent Category'],
-            [FakeEntityManager::AUTO_INCREMENT_ID, 'Child Category 2', 'Parent Category'],
-            [FakeEntityManager::AUTO_INCREMENT_ID, 'Parent Category', null],
+            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 'Child Category 2', 'Parent Category'],
+            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 'Parent Category', null],
         ], array_map(
             function ($skill_category) {
                 $parent_category = $skill_category->getParentCategory();

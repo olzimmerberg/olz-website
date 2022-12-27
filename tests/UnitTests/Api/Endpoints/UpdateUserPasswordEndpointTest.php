@@ -7,8 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Monolog\Logger;
 use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -26,9 +25,9 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -56,9 +55,9 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -89,9 +88,9 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -122,9 +121,9 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('UpdateUserPasswordEndpointTest');
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);

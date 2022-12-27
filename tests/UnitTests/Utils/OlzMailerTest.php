@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -32,7 +31,7 @@ final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
         $email_utils = new Fake\FakeEmailUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OlzMailerTest');
+        $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);
 
@@ -42,6 +41,8 @@ final class OlzMailerTest extends UnitTestCase {
         $user->setLastName('User');
         $mailer->configure($user, 'Tèśt', "äsdf\n1234", ['notification_type' => 'monthly_preview']);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             ['fake-user@olzimmerberg.ch', 'Fake User'],
         ], $mailer->getToAddresses());
@@ -79,7 +80,7 @@ final class OlzMailerTest extends UnitTestCase {
     public function testSend(): void {
         $email_utils = new Fake\FakeEmailUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OlzMailerTest');
+        $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest($email_utils, $server_config, true);
         $mailer->setLogger($logger);
 
@@ -87,6 +88,10 @@ final class OlzMailerTest extends UnitTestCase {
             $mailer->send();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
+            $this->assertSame([
+                'WARNING You must provide at least one recipient email address.',
+                'CRITICAL You must provide at least one recipient email address.',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame('You must provide at least one recipient email address.', $exc->getMessage());
             $this->assertSame(true, $mailer->waited_some_time);
         }

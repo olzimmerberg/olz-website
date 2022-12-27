@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\LoginWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\StravaLink;
@@ -85,7 +84,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = new Logger('LoginWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
@@ -94,6 +93,9 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             $result = $endpoint->call(['code' => null]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
+            $this->assertSame([
+                'WARNING Bad user request',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame([
                 'code' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
@@ -123,7 +125,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = new Logger('LoginWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
@@ -134,6 +136,10 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'tokenType' => null,
             'expiresAt' => null,
@@ -188,7 +194,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = new Logger('LoginWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
@@ -199,6 +205,10 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'status' => 'NOT_REGISTERED',
             'tokenType' => 'fake_token_type',
@@ -235,7 +245,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = new Logger('LoginWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
@@ -246,6 +256,10 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['code' => 'invalid-code']);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'tokenType' => null,
             'expiresAt' => null,

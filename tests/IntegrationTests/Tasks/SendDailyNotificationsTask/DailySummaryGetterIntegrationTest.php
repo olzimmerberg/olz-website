@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,8 +21,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-01 12:51:00');
-        $logger = new Logger('DailySummaryGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -61,6 +60,8 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -68,8 +69,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay2(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-02 12:51:00');
-        $logger = new Logger('DailySummaryGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -108,6 +108,8 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -115,8 +117,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay3(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-03 12:51:00');
-        $logger = new Logger('DailySummaryGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -145,6 +146,8 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

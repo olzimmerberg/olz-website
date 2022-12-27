@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
@@ -73,6 +72,8 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(null, $notification);
     }
 
@@ -80,7 +81,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
@@ -88,6 +88,8 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(null, $notification);
     }
 
@@ -95,7 +97,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
@@ -103,6 +104,8 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(null, $notification);
     }
 
@@ -115,7 +118,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
 
@@ -144,6 +146,8 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Monatsvorschau April', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -157,7 +161,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
 
@@ -168,6 +171,8 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(null, $notification);
     }
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,8 +21,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
-        $logger = new Logger('DeadlineWarningGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -42,6 +41,8 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine.php?id=3)'
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Meldeschlusswarnung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

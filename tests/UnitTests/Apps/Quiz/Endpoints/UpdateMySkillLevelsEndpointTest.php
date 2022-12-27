@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
-use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
@@ -53,7 +52,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
         $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['any'] = false;
-        $logger = new Logger('UpdateMySkillLevelsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -64,6 +63,10 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -78,7 +81,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $entity_utils = new Fake\FakeEntityUtils();
-        $logger = new Logger('UpdateMySkillLevelsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -98,6 +101,10 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
             ],
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame([

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Logs\Endpoints;
 
-use Monolog\Logger;
 use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -47,7 +46,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     }
 
     public function testGetLogsEndpoint(): void {
-        $logger = new Logger('GetLogsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpointForTest();
         $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
@@ -63,12 +62,17 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['index' => 1]);
 
         $this->assertSame([
+            'INFO Valid user request',
+            'INFO Logs access by admin.',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame([
             'content' => 'test log entry in merged-2022-03-13.log',
         ], $result);
     }
 
     public function testGetLogsEndpointNotAuthorized(): void {
-        $logger = new Logger('GetLogsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpointForTest();
         $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
@@ -85,12 +89,16 @@ final class GetLogsEndpointTest extends UnitTestCase {
             $result = $endpoint->call(['index' => 0]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
         }
     }
 
     public function testGetLogsEndpointNotAuthenticated(): void {
-        $logger = new Logger('GetLogsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpointForTest();
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -100,6 +108,10 @@ final class GetLogsEndpointTest extends UnitTestCase {
             $result = $endpoint->call(['index' => 0]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
         }
     }

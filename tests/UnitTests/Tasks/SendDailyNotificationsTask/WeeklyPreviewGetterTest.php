@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
@@ -85,7 +84,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
 
@@ -114,6 +112,8 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Vorschau auf die Woche vom 23. März', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -127,7 +127,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
 
@@ -138,6 +137,8 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job->setLogger($logger);
         $notification = $job->getWeeklyPreviewNotification([]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(null, $notification);
     }
 }

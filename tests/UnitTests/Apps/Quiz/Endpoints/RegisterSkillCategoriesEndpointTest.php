@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
-use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint;
 use Olz\Entity\Quiz\SkillCategory;
 use Olz\Tests\Fake;
@@ -37,7 +36,7 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
         $skill_category_repo = new FakeRegisterSkillCategoriesEndpointSkillCategoryRepository();
         $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
         $entity_utils = new Fake\FakeEntityUtils();
-        $logger = new Logger('RegisterSkillCategoriesEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new RegisterSkillCategoriesEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
@@ -61,6 +60,10 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
             ],
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'idByName' => [
                 'Child Category 1' => 'SkillCategory:11',

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,8 +21,7 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklyPreviewGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-13 16:00:00'); // a Thursday
-        $logger = new Logger('WeeklyPreviewGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -51,6 +50,8 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Vorschau auf die Woche vom 17. August', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

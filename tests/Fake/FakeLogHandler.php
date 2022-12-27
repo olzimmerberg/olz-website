@@ -57,4 +57,8 @@ class FakeLogHandler implements HandlerInterface {
             $this->records
         );
     }
+
+    public function resetRecords(): void {
+        $this->records = [];
+    }
 }

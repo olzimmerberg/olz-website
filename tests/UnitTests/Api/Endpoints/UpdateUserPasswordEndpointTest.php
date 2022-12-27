@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
@@ -26,7 +25,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = new Logger('UpdateUserPasswordEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -49,6 +48,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
+                'INFO Valid user request',
+                'WARNING Bad user request',
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame([
                 'newPassword' => ['Das neue Passwort muss mindestens 8 Zeichen lang sein.'],
             ], $httperr->getPrevious()->getValidationErrors());
         }
@@ -56,7 +59,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = new Logger('UpdateUserPasswordEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -76,6 +79,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'newPassword' => '12345678',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OTHER_USER'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -89,7 +96,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = new Logger('UpdateUserPasswordEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -109,6 +116,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'newPassword' => '12345678',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -122,7 +133,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = new Logger('UpdateUserPasswordEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new UpdateUserPasswordEndpoint();
@@ -144,6 +155,10 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'newPassword' => '12345678',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());

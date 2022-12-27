@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\OnContinuouslyEndpoint;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake;
@@ -34,7 +33,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyEndpointWrongToken(): void {
-        $logger = new Logger('OnContinuouslyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
@@ -46,13 +45,17 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
         }
     }
 
     public function testOnContinuouslyEndpointTooSoonToSendDailyEmails(): void {
         $process_email_task = new Fake\FakeTask();
-        $logger = new Logger('OnContinuouslyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setProcessEmailTask($process_email_task);
@@ -69,6 +72,10 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             'authenticityCode' => 'some-token',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame(true, $process_email_task->hasBeenRun);
@@ -77,7 +84,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpointFirstDailyNotifications(): void {
         $send_daily_notifications_task = new Fake\FakeTask();
         $process_email_task = new Fake\FakeTask();
-        $logger = new Logger('OnContinuouslyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
@@ -95,6 +102,10 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             'authenticityCode' => 'some-token',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame(
             [['daily_notifications', '2020-03-13 19:30:00']],
@@ -107,7 +118,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpoint(): void {
         $send_daily_notifications_task = new Fake\FakeTask();
         $process_email_task = new Fake\FakeTask();
-        $logger = new Logger('OnContinuouslyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
@@ -124,6 +135,10 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             'authenticityCode' => 'some-token',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame(
             [['daily_notifications', '2020-03-13 19:30:00']],

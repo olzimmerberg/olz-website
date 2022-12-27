@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\LinkTelegramEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -24,7 +23,7 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
     public function testLinkTelegramEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $logger = new Logger('LinkTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new LinkTelegramEndpoint();
         $session = new MemorySession();
         $session->session_storage = [
@@ -39,6 +38,10 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'botName' => 'bot-name',
             'pin' => 'correct-pin',

@@ -117,6 +117,8 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                     return ['status' => 'INVALID_TOKEN'];
                 }
                 $user->setEmailIsVerified(true);
+                $user->setEmailVerificationToken(null);
+                $user->addPermission('verified_email');
                 $this->entityManager()->flush();
                 return ['status' => 'OK'];
             default:

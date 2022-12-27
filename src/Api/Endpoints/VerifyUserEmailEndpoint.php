@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
+use Olz\Exceptions\RecaptchaDeniedException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
@@ -16,6 +17,7 @@ class VerifyUserEmailEndpoint extends OlzEndpoint {
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
                 'DENIED',
+                'ERROR',
             ]]),
         ]]);
     }
@@ -34,12 +36,14 @@ class VerifyUserEmailEndpoint extends OlzEndpoint {
         }
 
         $token = $input['recaptchaToken'];
-        if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
-            return ['status' => 'DENIED'];
-        }
-
         $this->emailUtils()->setLogger($this->log());
-        $this->emailUtils()->sendEmailVerificationEmail($user);
+        try {
+            $this->emailUtils()->sendEmailVerificationEmail($user, $token);
+        } catch (RecaptchaDeniedException $exc) {
+            return ['status' => 'DENIED'];
+        } catch (\Throwable $th) {
+            return ['status' => 'ERROR'];
+        }
         $this->entityManager()->flush();
 
         return [

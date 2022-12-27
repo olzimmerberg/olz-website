@@ -30,21 +30,11 @@
         disableCodeCoverageIgnore="false"
     >
         <include>
-            <directory suffix=".php">./src/Api</directory>
-            <directory suffix=".php">./src/Apps</directory>
-            <directory suffix=".php">./src/Fetchers</directory>
-            <!-- <directory suffix=".php">./src/model</directory> -->
-            <directory suffix=".php">./src/News/Endpoints</directory>
-            <directory suffix=".php">./src/News/Utils</directory>
-            <directory suffix=".php">./src/Parsers</directory>
-            <directory suffix=".php">./src/Startseite/Components</directory>
-            <directory suffix=".php">./src/Startseite/Endpoints</directory>
-            <directory suffix=".php">./src/Tasks</directory>
-            <directory suffix=".php">./src/Termine/Utils</directory>
-            <directory suffix=".php">./src/Utils</directory>
+            <directory suffix=".php">./src</directory>
         </include>
         <exclude>
-            <file>./src/api/index.php</file>
+            <file>./src/Kernel.php</file>
+            <file>./src/LegacyBridge.php</file>
         </exclude>
         <report>
             <!-- <clover outputFile="php-coverage/clover.xml"/> -->

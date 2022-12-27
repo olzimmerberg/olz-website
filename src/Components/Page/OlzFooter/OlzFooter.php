@@ -6,6 +6,7 @@ use Olz\Components\Auth\OlzChangePasswordModal\OlzChangePasswordModal;
 use Olz\Components\Auth\OlzLoginModal\OlzLoginModal;
 use Olz\Components\Auth\OlzResetPasswordModal\OlzResetPasswordModal;
 use Olz\Components\Auth\OlzSignUpModal\OlzSignUpModal;
+use Olz\Components\Auth\OlzVerifyUserEmailModal\OlzVerifyUserEmailModal;
 use Olz\Components\Notify\OlzLinkTelegramModal\OlzLinkTelegramModal;
 
 class OlzFooter {
@@ -25,11 +26,12 @@ class OlzFooter {
 
         // "Legacy" component modals
         if (!($args['skip_modals'] ?? false)) {
+            $out .= OlzChangePasswordModal::render();
+            $out .= OlzLinkTelegramModal::render();
             $out .= OlzLoginModal::render();
             $out .= OlzResetPasswordModal::render();
             $out .= OlzSignUpModal::render();
-            $out .= OlzChangePasswordModal::render();
-            $out .= OlzLinkTelegramModal::render();
+            $out .= OlzVerifyUserEmailModal::render();
         }
 
         // React modals

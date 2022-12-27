@@ -11,6 +11,7 @@ class FakeEmailUtils {
     use \Psr\Log\LoggerAwareTrait;
 
     public $email_verification_emails_sent = [];
+    public $send_email_verification_email_error;
 
     public function __construct() {
         $this->mailbox = new FakeMailbox();
@@ -18,6 +19,12 @@ class FakeEmailUtils {
     }
 
     public function sendEmailVerificationEmail($user) {
+        if ($this->send_email_verification_email_error !== null) {
+            if ($this->logger) {
+                $this->logger->error('Error sending fake verification email');
+            }
+            throw $this->send_email_verification_email_error;
+        }
         $this->email_verification_emails_sent[] = ['user' => $user];
     }
 

@@ -1,6 +1,7 @@
-import {OlzApiResponses, callOlzApi} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {callOlzApi} from '../src/Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {olzConfirm} from '../src/Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
+import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
 export function olzProfileDeleteUser(userId: number): boolean {
     olzConfirm(
@@ -14,8 +15,76 @@ export function olzProfileDeleteUser(userId: number): boolean {
     return false;
 }
 
+export function olzProfileInit(): void {
+    const existingEmailInput = document.getElementById('profile-existing-email-input') as
+        HTMLInputElement|undefined;
+    const emailInput = document.getElementById('profile-email-input') as
+        HTMLInputElement|undefined;
+    if (emailInput && existingEmailInput) {
+        emailInput.addEventListener('keyup', () => {
+            const elem = document.getElementById('recaptcha-consent-container');
+            if (!elem) {
+                return;
+            }
+            const isEmailChanged = emailInput.value !== existingEmailInput.value;
+            elem.style.display = isEmailChanged ? 'block' : 'none';
+        });
+    }
+}
+
+export function olzProfileRecaptchaConsent(value: boolean): void {
+    if (value) {
+        const submitButton = document.getElementById('update-user-submit-button');
+        if (!submitButton) {
+            throw new Error('Submit button must exist');
+        }
+        submitButton.classList.remove('btn-primary');
+        submitButton.classList.add('btn-secondary');
+        const originalInnerHtml = submitButton.innerHTML;
+        submitButton.innerHTML = 'Bitte warten...';
+        loadRecaptcha().then(() => {
+            window.setTimeout(() => {
+                submitButton.classList.remove('btn-secondary');
+                submitButton.classList.add('btn-primary');
+                submitButton.innerHTML = originalInnerHtml;
+            }, 1100);
+        });
+    }
+}
+
 export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boolean {
+    olzProfileActuallyUpdateUser(userId, form);
+    return false;
+}
+
+const handleResponse: HandleResponseFunction<'updateUser'> = (response) => {
+    if (response.status !== 'OK') {
+        throw new Error(`Antwort: ${response.status}`);
+    }
+    return 'Benutzerdaten erfolgreich aktualisiert.';
+};
+
+export async function olzProfileActuallyUpdateUser(userId: number, form: HTMLFormElement): Promise<boolean> {
+    const existingEmail = getFormField(form, 'existing-email');
+    const newEmail = getFormField(form, 'email');
+    let token: string|null = null;
+    if (newEmail.value !== existingEmail.value) {
+        if (getFormField(form, 'recaptcha-consent-given').value === 'yes') {
+            token = await loadRecaptchaToken();
+        }
+    }
+
     const getDataForRequestFunction: GetDataForRequestFunction<'updateUser'> = (f) => {
+        let recaptchaConsentGiven: FieldResult<string|null> =
+            validFieldResult('recaptcha-consent-given', null);
+        if (newEmail.value !== existingEmail.value) {
+            recaptchaConsentGiven = getFormField(f, 'recaptcha-consent-given');
+            recaptchaConsentGiven = getAsserted(
+                () => recaptchaConsentGiven.value === 'yes',
+                'Bitte akzeptiere die Nutzung von Google reCaptcha!',
+                recaptchaConsentGiven,
+            );
+        }
         const fieldResults: OlzRequestFieldResult<'updateUser'> = {
             id: validFieldResult('', userId),
             firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
@@ -33,9 +102,13 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
             siCardNumber: getInteger(getFormField(f, 'si-card-number')),
             solvNumber: getFormField(f, 'solv-number'),
             avatarId: getStringOrNull(getFormField(f, 'avatar-id')),
+            recaptchaToken: validFieldResult('recaptcha-consent-given', token),
         };
-        if (!isFieldResultOrDictThereofValid(fieldResults)) {
-            return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
+        if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(recaptchaConsentGiven)) {
+            return invalidFormData([
+                ...getFieldResultOrDictThereofErrors(fieldResults),
+                ...getFieldResultOrDictThereofErrors(recaptchaConsentGiven),
+            ]);
         }
         return validFormData(getFieldResultOrDictThereofValue(fieldResults));
     };
@@ -47,11 +120,4 @@ export function olzProfileUpdateUser(userId: number, form: HTMLFormElement): boo
         handleResponse,
     );
     return false;
-}
-
-function handleResponse(response: OlzApiResponses['updateUser']): string|void {
-    if (response.status !== 'OK') {
-        throw new Error(`Antwort: ${response.status}`);
-    }
-    return 'Benutzerdaten erfolgreich aktualisiert.';
 }

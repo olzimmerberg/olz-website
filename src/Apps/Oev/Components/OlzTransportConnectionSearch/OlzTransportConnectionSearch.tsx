@@ -1,9 +1,16 @@
 import React from 'react';
 import {OlzApiResponses} from '../../../../Api/client';
 import {OlzTransportSuggestion} from '../../../../Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
 
+const handleResponse: HandleResponseFunction<'searchTransportConnection'> = (response) => {
+    if (response.status !== 'OK') {
+        throw new Error(`Antwort: ${response.status}`);
+    }
+    return 'Anfrage war erfolgreich!';
+}
+    
 export function olzOevSearchConnection(
     form: HTMLFormElement
 ): Promise<OlzApiResponses['searchTransportConnection']> {
@@ -28,13 +35,6 @@ export function olzOevSearchConnection(
         form,
         handleResponse,
     );
-}
-
-function handleResponse(response: OlzApiResponses['searchTransportConnection']): string|void {
-    if (response.status !== 'OK') {
-        throw new Error(`Antwort: ${response.status}`);
-    }
-    return 'Anfrage war erfolgreich!';
 }
 
 export const OlzTransportConnectionSearch = () => {

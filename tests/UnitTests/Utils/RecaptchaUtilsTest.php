@@ -43,6 +43,17 @@ class FakeRecaptchaUtilsGoogleFetcher {
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class RecaptchaUtilsForTest extends RecaptchaUtils {
+    public static function testOnlyResetCache() {
+        parent::$cache = [];
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Utils\RecaptchaUtils
  */
 final class RecaptchaUtilsTest extends UnitTestCase {
@@ -54,8 +65,11 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setLog($logger);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(true, $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token'));
+
+        $result = $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');
+
         $this->assertSame([], $logger->handler->getPrettyRecords());
+        $this->assertSame(true, $result);
     }
 
     public function testValidateRecaptchaTokenInvalid(): void {
@@ -66,10 +80,13 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setLog($logger);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(false, $recaptcha_utils->validateRecaptchaToken('invalid-recaptcha-token'));
+
+        $result = $recaptcha_utils->validateRecaptchaToken('invalid-recaptcha-token');
+
         $this->assertSame([
             "NOTICE reCaptcha denied.",
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame(false, $result);
     }
 
     public function testValidateRecaptchaTokenNull(): void {
@@ -80,9 +97,31 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setLog($logger);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(false, $recaptcha_utils->validateRecaptchaToken('null-recaptcha-token'));
+
+        $result = $recaptcha_utils->validateRecaptchaToken('null-recaptcha-token');
+
         $this->assertSame([
             "ERROR reCaptcha verification error.",
         ], $logger->handler->getPrettyRecords());
+        $this->assertSame(false, $result);
+    }
+
+    public function testValidateRecaptchaTokenCached(): void {
+        RecaptchaUtilsForTest::testOnlyResetCache();
+        $recaptcha_utils = new RecaptchaUtilsForTest();
+        $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
+        $logger = FakeLogger::create();
+        $recaptcha_utils->setEnvUtils(new FakeEnvUtils());
+        $recaptcha_utils->setGoogleFetcher($google_fetcher);
+        $recaptcha_utils->setLog($logger);
+        $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');
+
+        $result = $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');
+
+        $this->assertSame([
+            "INFO Using cached recaptcha response...",
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame(true, $result);
     }
 }

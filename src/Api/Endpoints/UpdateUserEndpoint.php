@@ -16,6 +16,8 @@ class UpdateUserEndpoint extends OlzEndpoint {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
+                'OK_NO_EMAIL_VERIFICATION',
+                'DENIED',
                 'ERROR',
             ]]),
         ]]);
@@ -39,6 +41,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
             'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
             'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'avatarId' => new FieldTypes\StringField(['allow_null' => true]),
+            'recaptchaToken' => new FieldTypes\StringField(['allow_null' => true]),
         ]]);
     }
 
@@ -62,9 +65,23 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
 
+        $is_email_updated = $new_email !== $user->getEmail();
+        $token = $input['recaptchaToken'];
+        if ($is_email_updated && !$token) {
+            throw new ValidationError(['recaptchaToken' => ["Bei einer E-Mail-Änderung muss ein ReCaptcha Token angegeben werden."]]);
+        }
+        if ($token && !$this->recaptchaUtils()->validateRecaptchaToken($token)) {
+            return ['status' => 'DENIED'];
+        }
+
         $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        if ($is_email_updated) {
+            $user->setEmailIsVerified(false);
+            $user->setEmailVerificationToken(null);
+            $user->removePermission('verified_email');
+        }
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
         $user->setUsername($new_username);
@@ -94,6 +111,21 @@ class UpdateUserEndpoint extends OlzEndpoint {
         }
 
         $this->session()->set('user', $input['username']);
+
+        if ($is_email_updated) {
+            $this->emailUtils()->setLogger($this->log());
+            try {
+                $this->emailUtils()->sendEmailVerificationEmail($user, $token);
+            } catch (RecaptchaDeniedException $exc) {
+                // @codeCoverageIgnoreStart
+                // Reason: Should not be reached.
+                throw new \Exception('This should never happen! Token was verified before!');
+                // @codeCoverageIgnoreEnd
+            } catch (\Throwable $th) {
+                return ['status' => 'OK_NO_EMAIL_VERIFICATION'];
+            }
+            $this->entityManager()->flush();
+        }
 
         return [
             'status' => 'OK',

@@ -8,6 +8,7 @@ use Olz\Api\Endpoints\SignUpWithPasswordEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
 use Olz\Tests\Fake\FakeAuthUtils;
+use Olz\Tests\Fake\FakeEmailUtils;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeLogger;
 use Olz\Tests\Fake\FakeRecaptchaUtils;
@@ -235,6 +236,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -284,6 +286,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -333,6 +336,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -385,6 +389,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -439,6 +444,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -469,5 +475,53 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 $httperr->getStructuredAnswer(),
             );
         }
+    }
+
+    public function testSignUpWithPasswordEndpointErrorSending(): void {
+        $entity_manager = new FakeEntityManager();
+        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
+        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
+        $logger = FakeLogger::create();
+        $auth_utils = new FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $email_utils = new FakeEmailUtils();
+        $email_utils->send_email_verification_email_error = new \Exception('test');
+        $endpoint = new SignUpWithPasswordEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils($email_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $session = new MemorySession();
+        $endpoint->setSession($session);
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+        $endpoint->setLog($logger);
+
+        $result = $endpoint->call(self::VALID_INPUT);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "ERROR Error sending fake verification email",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame([
+            'status' => 'OK_NO_EMAIL_VERIFICATION',
+        ], $result);
+        $this->assertSame([
+            'auth' => '',
+            'root' => null,
+            'user' => 'fakeUsername',
+            'user_id' => FakeEntityManager::AUTO_INCREMENT_ID,
+        ], $session->session_storage);
+        $this->assertSame([
+            [
+                'ip_address' => '1.2.3.4',
+                'action' => 'AUTHENTICATED_PASSWORD',
+                'timestamp' => null,
+                'username' => 'fakeUsername',
+            ],
+        ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
+        // TODO: Check created user!
     }
 }

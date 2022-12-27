@@ -6,6 +6,7 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
+use Olz\Exceptions\RecaptchaDeniedException;
 use PhpImap\Mailbox;
 
 require_once __DIR__.'/OlzMailer.php';
@@ -16,9 +17,15 @@ class EmailUtils {
         'envUtils',
         'generalUtils',
         'log',
+        'recaptchaUtils',
     ];
 
-    public function sendEmailVerificationEmail($user) {
+    public function sendEmailVerificationEmail($user, $token) {
+        if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
+            $this->log()->warning("reCaptcha token was invalid");
+            throw new RecaptchaDeniedException("ReCaptcha Token ist ungültig");
+        }
+
         $user_id = $user->getId();
         $email_verification_token = $this->getRandomEmailVerificationToken();
         $user->setEmailVerificationToken($email_verification_token);

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
-import {callOlzApi, OlzApiResponses} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {callOlzApi} from '../src/Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -60,6 +60,17 @@ export function olzKontoLoginWithStrava(code: string): boolean {
     return false;
 }
 
+const handleResponse: HandleResponseFunction<'signUpWithStrava'> = (response) => {
+    if (response.status !== 'OK') {
+        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
+    }
+    window.setTimeout(() => {
+        // TODO: This could probably be done more smoothly!
+        window.location.href = 'startseite.php';
+    }, 3000);
+    return 'Benutzerkonto erfolgreich erstellt.';
+};
+
 export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithStrava'> = (f) => {
         const fieldResults: OlzRequestFieldResult<'signUpWithStrava'> = {
@@ -95,15 +106,4 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
         handleResponse,
     );
     return false;
-}
-
-function handleResponse(response: OlzApiResponses['signUpWithPassword']): string|void {
-    if (response.status !== 'OK') {
-        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
-    }
-    window.setTimeout(() => {
-        // TODO: This could probably be done more smoothly!
-        window.location.href = 'startseite.php';
-    }, 3000);
-    return 'Benutzerkonto erfolgreich erstellt.';
 }

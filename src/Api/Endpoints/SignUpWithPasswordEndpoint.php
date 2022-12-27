@@ -17,6 +17,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
+                'OK_NO_EMAIL_VERIFICATION',
                 'DENIED',
             ]]),
         ]]);
@@ -130,6 +131,19 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $this->session()->set('user', $user->getUsername());
         $this->session()->set('user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
+
+        $this->emailUtils()->setLogger($this->log());
+        try {
+            $this->emailUtils()->sendEmailVerificationEmail($user, $token);
+        } catch (RecaptchaDeniedException $exc) {
+            // @codeCoverageIgnoreStart
+            // Reason: Should not be reached.
+            throw new \Exception('This should never happen! Token was verified before!');
+            // @codeCoverageIgnoreEnd
+        } catch (\Throwable $th) {
+            return ['status' => 'OK_NO_EMAIL_VERIFICATION'];
+        }
+        $this->entityManager()->flush();
 
         return ['status' => 'OK'];
     }

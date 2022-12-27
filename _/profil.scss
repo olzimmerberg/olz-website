@@ -1,10 +1,18 @@
 .profile {
+    #verify-user-email-link {
+        white-space: nowrap;
+    }
+
     #delete-user-button {
         float: right;
     }
 
     .after-data-protection-section {
         clear: both;
+    }
+
+    #recaptcha-consent-container {
+        display: none;
     }
 
     .login-button {

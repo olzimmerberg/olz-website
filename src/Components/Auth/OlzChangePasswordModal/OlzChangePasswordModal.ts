@@ -1,14 +1,24 @@
 import $ from 'jquery';
 import * as bootstrap from 'bootstrap';
 
-import {OlzApiResponses} from '../../../Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
 
 $(() => {
     $('#change-password-modal').on('shown.bs.modal', () => {
         $('#change-password-old-input').trigger('focus');
     });
 });
+
+const handleResponse: HandleResponseFunction<'updatePassword'> = (response) => {
+    if (response.status !== 'OK') {
+        throw new Error(`Antwort: ${response.status}`);
+    }
+    const modal = document.getElementById('change-password-modal');
+    if (modal) {
+        bootstrap.Modal.getOrCreateInstance(modal).hide();
+    }
+    return 'Passwort erfolgreich aktualisiert.';
+};
 
 export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormElement): boolean {
     const getDataForRequestFn: GetDataForRequestFunction<'updatePassword'> = (f) => {
@@ -44,15 +54,4 @@ export function olzChangePasswordModalUpdate(userId: number, form: HTMLFormEleme
         handleResponse,
     );
     return false;
-}
-
-function handleResponse(response: OlzApiResponses['updatePassword']): string|void {
-    if (response.status !== 'OK') {
-        throw new Error(`Antwort: ${response.status}`);
-    }
-    const modal = document.getElementById('change-password-modal');
-    if (modal) {
-        bootstrap.Modal.getOrCreateInstance(modal).hide();
-    }
-    return 'Passwort erfolgreich aktualisiert.';
 }

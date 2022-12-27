@@ -12,6 +12,8 @@ class RecaptchaUtils {
         'server',
     ];
 
+    protected static $cache = [];
+
     public static function fromEnv() {
         $google_fetcher = new GoogleFetcher();
         $instance = new self();
@@ -24,6 +26,11 @@ class RecaptchaUtils {
     }
 
     public function validateRecaptchaToken(string $token): bool {
+        $cached = self::$cache[$token] ?? null;
+        if ($cached !== null) {
+            $this->log()->info("Using cached recaptcha response...");
+            return $cached;
+        }
         $verification = $this->googleFetcher->fetchRecaptchaVerification([
             'secret' => $this->envUtils()->getRecaptchaSecretKey(),
             'response' => $token,
@@ -36,8 +43,10 @@ class RecaptchaUtils {
         }
         if (!$success) {
             $this->log()->notice("reCaptcha denied.");
+            self::$cache[$token] = false;
             return false;
         }
+        self::$cache[$token] = true;
         return true;
     }
 }

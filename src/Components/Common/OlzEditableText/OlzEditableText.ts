@@ -20,6 +20,14 @@ export function olzEditableTextCancel(buttonElement: HTMLButtonElement): void {
     currentElement.classList.remove('is-editing');
 }
 
+const handleResponse = () => {
+    window.setTimeout(() => {
+        // TODO: This could probably be done more smoothly!
+        window.location.reload();
+    }, 300);
+    return 'Änderung erfolgreich.';
+};
+
 export function olzEditableTextSubmit<T extends OlzApiEndpoint>(
     endpoint: T,
     args: {[fieldId: string]: string|number|boolean},
@@ -47,12 +55,4 @@ export function olzEditableTextSubmit<T extends OlzApiEndpoint>(
         handleResponse,
     );
     return false;
-}
-
-function handleResponse(): string|void {
-    window.setTimeout(() => {
-        // TODO: This could probably be done more smoothly!
-        window.location.reload();
-    }, 300);
-    return 'Änderung erfolgreich.';
 }

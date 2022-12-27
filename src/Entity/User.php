@@ -323,6 +323,39 @@ class User {
         $this->permissions = $new_permissions;
     }
 
+    public function getPermissionMap() {
+        $permission_list = preg_split('/[ ]+/', $this->permissions ?? '');
+        $permission_map = [];
+        foreach ($permission_list as $permission) {
+            if (strlen($permission) > 0) {
+                $permission_map[$permission] = true;
+            }
+        }
+        return $permission_map;
+    }
+
+    public function setPermissionMap($new_permission_map) {
+        $permission_list = [];
+        foreach ($new_permission_map as $key => $value) {
+            if ($value) {
+                $permission_list[] = $key;
+            }
+        }
+        $this->permissions = ' '.implode(' ', $permission_list).' ';
+    }
+
+    public function addPermission($add_permission) {
+        $permission_map = $this->getPermissionMap();
+        $permission_map[$add_permission] = true;
+        $this->setPermissionMap($permission_map);
+    }
+
+    public function removePermission($remove_permission) {
+        $permission_map = $this->getPermissionMap();
+        $permission_map[$remove_permission] = false;
+        $this->setPermissionMap($permission_map);
+    }
+
     public function getRoot() {
         return $this->root;
     }

@@ -205,6 +205,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'siCardNumber': number|null,
             'solvNumber': string|null,
             'avatarId': string|null,
+            'recaptchaToken': string|null,
         },
     verifyUserEmail: {
             'recaptchaToken': string,
@@ -398,16 +399,16 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'roles': Array<OlzAuthenticatedRole>|null,
         },
     updateUser: {
-            'status': 'OK'|'ERROR',
+            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
         },
     verifyUserEmail: {
-            'status': 'OK'|'DENIED',
+            'status': 'OK'|'DENIED'|'ERROR',
         },
     updatePassword: {
             'status': 'OK'|'OTHER_USER'|'INVALID_OLD',
         },
     signUpWithPassword: {
-            'status': 'OK'|'DENIED',
+            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED',
         },
     loginWithStrava: {
             'status': 'NOT_REGISTERED'|'INVALID_CODE'|'AUTHENTICATED',

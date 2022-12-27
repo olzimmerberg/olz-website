@@ -1,5 +1,4 @@
-import {OlzApiResponses} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
 export function olzSignUpRecaptchaConsent(value: boolean): void {
@@ -26,6 +25,20 @@ export function olzKontoSignUpWithPassword(form: HTMLFormElement): boolean {
     olzKontoActuallySignUpWithPassword(form);
     return false;
 }
+
+const handleResponse: HandleResponseFunction<'signUpWithPassword'> = (response) => {
+    if (response.status !== 'OK' && response.status !== 'OK_NO_EMAIL_VERIFICATION') {
+        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
+    }
+    window.setTimeout(() => {
+        // This removes Google's injected reCaptcha script again
+        window.location.href = 'profil.php';
+    }, 3000);
+    if (response.status === 'OK_NO_EMAIL_VERIFICATION') {
+        return 'Benutzerkonto erfolgreich erstellt. E-Mail bitte manuell bestätigen! Bitte warten...';
+    }
+    return 'Benutzerkonto erfolgreich erstellt. Bitte warten...';
+};
 
 async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promise<void> {
     let token: string|null = null;
@@ -89,15 +102,4 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
         form,
         handleResponse,
     );
-}
-
-function handleResponse(response: OlzApiResponses['signUpWithPassword']): string|void {
-    if (response.status !== 'OK') {
-        throw new Error(`Fehler beim Erstellen des Benutzerkontos: ${response.status}`);
-    }
-    window.setTimeout(() => {
-        // This removes Google's injected reCaptcha script again
-        window.location.href = 'startseite.php';
-    }, 3000);
-    return 'Benutzerkonto erfolgreich erstellt. Bitte warten...';
 }

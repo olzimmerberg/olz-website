@@ -5,7 +5,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -19,13 +19,48 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
+$auth_utils = AuthUtils::fromEnv();
 $entityManager = DbUtils::fromEnv()->getEntityManager();
-$user_repo = $entityManager->getRepository(User::class);
-$username = ($_SESSION['user'] ?? null);
-$user = $user_repo->findOneBy(['username' => $username]);
+$user = $auth_utils->getSessionUser();
 
 echo "<div class='content-full profile'>";
 if ($user) {
+    $email_verification_banner = '';
+    if (
+        !$user->isEmailVerified()
+        && !$auth_utils->hasPermission('verified_email', $user)
+    ) {
+        if ($user->getEmailVerificationToken()) {
+            $email_verification_banner = <<<'ZZZZZZZZZZ'
+            <div class='alert alert-danger' role='alert'>
+                Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte prüfe deine Inbox (und dein Spam-Postfach) auf unsere Bestätigungs-E-Mail (Betreff: "[OLZ] E-Mail bestätigen").
+                <a
+                    href='#'
+                    data-bs-toggle='modal'
+                    data-bs-target='#verify-user-email-modal'
+                    id='verify-user-email-link'
+                >
+                    Erneut senden
+                </a>
+            </div>
+            ZZZZZZZZZZ;
+        } else {
+            $email_verification_banner = <<<'ZZZZZZZZZZ'
+            <div class='alert alert-danger' role='alert'>
+                Deine E-Mail-Adresse ist noch nicht bestätigt.
+                <a
+                    href='#'
+                    data-bs-toggle='modal'
+                    data-bs-target='#verify-user-email-modal'
+                    id='verify-user-email-link'
+                >
+                    Jetzt bestätigen
+                </a>
+            </div>
+            ZZZZZZZZZZ;
+        }
+    }
+
     $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);
     $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);
     $has_telegram_link = $telegram_link && $telegram_link->getTelegramChatId() !== null;
@@ -37,7 +72,9 @@ if ($user) {
     $strava_button_class = $has_strava_link ? ' active' : '';
 
     $user_id = $user->getId();
+    $user_email = $user->getEmail();
     $esc_id = htmlentities(json_encode($user_id));
+    $esc_email = htmlentities($user_email);
     echo <<<ZZZZZZZZZZ
     <div class='feature external-login mb-3'>
         <a
@@ -62,6 +99,7 @@ if ($user) {
         </a>
     </div>
 
+    {$email_verification_banner}
     <div class='data-protection-section'>
         <button
             id='delete-user-button'
@@ -87,6 +125,12 @@ if ($user) {
             name='id'
             value='{$esc_id}'
         />
+        <input
+            type='hidden'
+            id='profile-existing-email-input'
+            name='existing-email'
+            value='{$esc_email}'
+        />
     ZZZZZZZZZZ;
     echo OlzProfileForm::render([
         'show_avatar' => true,
@@ -107,9 +151,15 @@ if ($user) {
         'solv_number' => $user->getSolvNumber(),
     ]);
     echo <<<'ZZZZZZZZZZ'
-        <button type='submit' class='btn btn-primary'>Speichern</button>
+        <p id='recaptcha-consent-container'><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzProfileRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Ändern der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
+        <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
         <div class='error-message alert alert-danger' role='alert'></div>
     </form>
+    <script>
+    window.addEventListener('load', () => {
+        olz.olzProfileInit();
+    });
+    </script>
     ZZZZZZZZZZ;
 } else {
     echo "<div id='profile-message' class='alert alert-danger' role='alert'>Da musst du schon eingeloggt sein!</div>";

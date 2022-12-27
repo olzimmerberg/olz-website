@@ -1,5 +1,6 @@
 /deploy
 /deploy.zip
+/docs/coverage
 /public/*
 !/public/.htaccess
 !/public/icns

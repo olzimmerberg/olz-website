@@ -9,7 +9,6 @@
   "scripts": {
     "eslint": "eslint ./ --fix",
     "jest": "jest",
-    "jest-ci": "jest --runInBand",
     "lint": "npm run eslint && npm run stylelint",
     "stylelint": "stylelint ./**/*.*css --fix",
     "test": "npm run jest",

@@ -2,7 +2,9 @@ on:
   push:
     branches-ignore:
       - main
+
 name: CI:test
+
 jobs:
 
   take-screenshots:
@@ -133,7 +135,7 @@ jobs:
     - name: Compile TypeScript
       run: npm run tsc
     - name: Jest Unit Tests
-      run: npm run jest-ci
+      run: composer jest_tests -- --runInBand
     - name: PHP Unit Tests
       run: composer unit_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests

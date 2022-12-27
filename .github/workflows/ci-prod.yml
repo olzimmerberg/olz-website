@@ -2,7 +2,18 @@ on:
   push:
     branches:
       - main
+
 name: CI:prod
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
 
   take-screenshots:
@@ -69,6 +80,9 @@ jobs:
         php-version: ['8.1'] # 8.1 is active on hosting
     name: Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     services:
       mariadb:
         image: mariadb:latest
@@ -117,7 +131,7 @@ jobs:
     - name: Compile TypeScript
       run: npm run tsc
     - name: Jest Unit Tests
-      run: npm run jest-ci
+      run: composer jest_tests -- --runInBand
     - name: PHP Unit Tests
       run: composer unit_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: PHP Integration Tests
@@ -126,6 +140,15 @@ jobs:
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: Check database migrations
       run: composer check_migrations
+    - name: Setup GitHub Pages
+      uses: actions/configure-pages@v2
+    - name: Upload GitHub Pages
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: './docs'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
 
   deploy-prod:
     name: Deploy to olzimmerberg.ch

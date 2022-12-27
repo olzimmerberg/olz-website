@@ -39,6 +39,10 @@
 
 [Mit git](https://git-scm.com/book/en/v2)
 
+### Test coverage auf main
+
+siehe https://olzimmerberg.github.io/olz-website/
+
 ## Aufbau / Entwicklung
 
 ### Apps

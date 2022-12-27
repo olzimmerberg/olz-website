@@ -30,8 +30,11 @@ else
 fi
 
 php ./bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
+rm -Rf "$(pwd)/docs/coverage/php/IntegrationTests"
+mkdir -p "$(pwd)/docs/coverage/php/IntegrationTests"
+mv "$(pwd)/php-coverage/html-coverage" "$(pwd)/docs/coverage/php/IntegrationTests/html"
 
 echo ""
 echo "Open the HTML test coverage in a web browser:"
-echo "    file://$(pwd)/php-coverage/html-coverage/index.html"
+echo "    file://$(pwd)/docs/coverage/php/IntegrationTests/html/index.html"
 echo ""

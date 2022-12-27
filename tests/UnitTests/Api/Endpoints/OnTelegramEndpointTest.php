@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\OnTelegramEndpoint;
 use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake;
@@ -82,7 +81,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
@@ -95,6 +94,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
             $this->assertSame([], $telegram_utils->telegramApiCalls);
         }
@@ -103,7 +106,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
@@ -114,6 +117,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', 'test', '/start validpin'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -127,7 +134,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -139,6 +146,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', 'test', '/start invalidpinformat'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -149,7 +160,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
@@ -160,6 +171,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', 'test', '/start aaaaaaaa'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -170,7 +185,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointStartAnonymousChat(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
@@ -182,6 +197,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', 'test', '/start'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -197,7 +216,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointNoChatId(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEnvUtils($server_config);
@@ -209,6 +228,11 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', [], '/start'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'NOTICE Telegram message without chat_id',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([], $telegram_utils->telegramApiCalls);
     }
@@ -219,7 +243,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
-        $logger = new Logger('OnTelegramEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -231,6 +255,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'telegramEvent' => getFakeTelegramMessage('test', 'test', '/ich'),
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],

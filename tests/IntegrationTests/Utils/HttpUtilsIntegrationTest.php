@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Utils;
 
-use Monolog\Logger;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -84,7 +84,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testValidateGetParamsWithBadParam(): void {
-        $logger = new Logger('HttpUtilsIntegrationTest');
+        $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
         $http_utils->setLogger($logger);
 
@@ -92,6 +92,8 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
             'input' => new FieldTypes\Field(['allow_null' => false]),
         ], ['input' => null]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);
@@ -100,13 +102,15 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testValidateGetParamsWithUnknownParam(): void {
-        $logger = new Logger('HttpUtilsIntegrationTest');
+        $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
         $http_utils->setLogger($logger);
 
         $validated_get_params = $http_utils->validateGetParams(
             [], ['inexistent' => null]);
 
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);

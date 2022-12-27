@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
-use Monolog\Logger;
 use Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
@@ -82,7 +81,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointNotAnyPermission(): void {
         $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query['any'] = false;
-        $logger = new Logger('GetMySkillLevelsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -93,6 +92,10 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -105,7 +108,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
-        $logger = new Logger('GetMySkillLevelsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -116,6 +119,10 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
             'skillFilter' => null,
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'Skill:1' => ['value' => 0.5],
             'Skill:2' => ['value' => 0.25],
@@ -134,7 +141,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
-        $logger = new Logger('GetMySkillLevelsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -147,6 +154,10 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
             ],
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'Skill:4' => ['value' => 0.75],
             'Skill:5' => ['value' => 0],

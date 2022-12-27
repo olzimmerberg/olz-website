@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,8 +21,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
-        $logger = new Logger('MonthlyPreviewGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -55,6 +54,8 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Monatsvorschau August', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

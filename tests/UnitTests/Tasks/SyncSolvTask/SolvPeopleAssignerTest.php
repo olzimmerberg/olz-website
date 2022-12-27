@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
 
-use Monolog\Logger;
 use Olz\Entity\SolvResult;
 use Olz\Tasks\SyncSolvTask\SolvPeopleAssigner;
 use Olz\Tests\Fake;
@@ -127,12 +126,14 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
             'Test', '07', 'Thalwil',
             'Test', '07', '',
         ));
+
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testGetClosestMatchesOfPersonInfo(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = new Logger('SolvPeopleAssignerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);
@@ -185,12 +186,14 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
                 ['name' => 'Best', 'birth_year' => '08', 'domicile' => 'Uster'],
             ]
         ));
+
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testGetUnambiguousPerson(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = new Logger('SolvPeopleAssignerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);
@@ -211,12 +214,14 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
             ['person' => 4],
         ]));
         $this->assertSame(null, $job->getUnambiguousPerson([]));
+
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
     }
 
     public function testGetMatchingPerson(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = new Logger('SolvPeopleAssignerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);
@@ -231,6 +236,20 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
                 ['person' => 4, 'name' => 'Test', 'birth_year' => '07', 'domicile' => 'Oster'],
             ]
         ));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 0): [
+                {
+                    "person": 2,
+                    "name": "Test",
+                    "birth_year": "07",
+                    "domicile": "Uster"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => Matching person found: 2.',
+        ], $logger->handler->getPrettyRecords());
+        $logger->handler->resetRecords();
 
         // There are multiple matches for the same person.
         $this->assertSame(3, $job->getMatchingPerson(
@@ -240,6 +259,26 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
                 ['person' => 3, 'name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
             ]
         ));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 1): [
+                {
+                    "person": 3,
+                    "name": "Best",
+                    "birth_year": "07",
+                    "domicile": "Uster"
+                },
+                {
+                    "person": 3,
+                    "name": "Test",
+                    "birth_year": "08",
+                    "domicile": "Uster"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => Matching person found: 3.',
+        ], $logger->handler->getPrettyRecords());
+        $logger->handler->resetRecords();
 
         // There are matches, but they are for different persons.
         $this->assertSame(null, $job->getMatchingPerson(
@@ -249,6 +288,26 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
                 ['person' => 2, 'name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
             ]
         ));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 1): [
+                {
+                    "person": 1,
+                    "name": "Best",
+                    "birth_year": "07",
+                    "domicile": "Uster"
+                },
+                {
+                    "person": 2,
+                    "name": "Test",
+                    "birth_year": "08",
+                    "domicile": "Uster"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => No matching person found (closest matches contain different persons).',
+        ], $logger->handler->getPrettyRecords());
+        $logger->handler->resetRecords();
 
         // The matches are too bad.
         $this->assertSame(null, $job->getMatchingPerson(
@@ -258,16 +317,74 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
                 ['person' => 1, 'name' => 'Text', 'birth_year' => '07', 'domicile' => 'Muster'],
             ]
         ));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 3): [
+                {
+                    "person": 1,
+                    "name": "Best",
+                    "birth_year": "08",
+                    "domicile": "Oster"
+                },
+                {
+                    "person": 1,
+                    "name": "Text",
+                    "birth_year": "07",
+                    "domicile": "Muster"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => No matching person found (difference too high).',
+            'NOTICE Unclear case. Maybe update logic?',
+        ], $logger->handler->getPrettyRecords());
+        $logger->handler->resetRecords();
     }
 
     public function testSolvPeopleAssigner(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = new Logger('SolvPeopleAssignerTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);
         $job->assignSolvPeople();
+
+        $this->assertSame([
+            'INFO Person not exactly matched:',
+            'INFO {}',
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 1): [
+                {
+                    "person": 1,
+                    "name": "Test Runner",
+                    "birth_year": "08",
+                    "domicile": "Z\u00fcrich ZH"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => Matching person found: 1.',
+            'INFO Person not exactly matched:',
+            'INFO {}',
+            <<<'ZZZZZZZZZZ'
+            INFO Closest matches (difference 4): [
+                {
+                    "person": 1,
+                    "name": "Test Runner",
+                    "birth_year": "08",
+                    "domicile": "Z\u00fcrich ZH"
+                },
+                {
+                    "person": 2,
+                    "name": "Best Runer",
+                    "birth_year": "92",
+                    "domicile": "Z\u00fcrich ZH"
+                }
+            ]
+            ZZZZZZZZZZ,
+            'INFO  => No matching person found (difference too high).',
+            'NOTICE Unclear case. Maybe update logic?',
+            'INFO Created new person (id 270):',
+            'INFO {}',
+        ], $logger->handler->getPrettyRecords());
 
         $solv_result_repo = $entity_manager->getRepository(SolvResult::class);
         $test_runner_result = $solv_result_repo->testRunnerResult;

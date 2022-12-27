@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\OnDailyEndpoint;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake;
@@ -40,7 +39,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnDailyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -52,6 +51,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $result = $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'ERROR Throttled user request',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(429, $err->getCode());
         }
     }
@@ -63,7 +65,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnDailyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -75,6 +77,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $result = $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'WARNING Bad user request',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
         }
     }
@@ -86,7 +91,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnDailyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -99,6 +104,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $result = $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'WARNING Bad user request',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
         }
     }
@@ -111,7 +119,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
-        $logger = new Logger('OnDailyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setSyncSolvTask($sync_solv_task);
         $endpoint->setEntityManager($entity_manager);
@@ -125,6 +133,10 @@ final class OnDailyEndpointTest extends UnitTestCase {
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'WARNING HTTP error 403',
+            ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -139,7 +151,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $logger = new Logger('OnDailyEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setCleanTempDirectoryTask($clean_temp_directory_task);
         $endpoint->setSyncSolvTask($sync_solv_task);
@@ -153,6 +165,10 @@ final class OnDailyEndpointTest extends UnitTestCase {
             'authenticityCode' => 'some-token',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
         $this->assertSame(true, $clean_temp_directory_task->hasBeenRun);

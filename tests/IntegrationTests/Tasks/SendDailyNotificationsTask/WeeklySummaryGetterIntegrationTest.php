@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\WeeklySummaryGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,8 +21,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklySummaryGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-06 16:00:00'); // a Monday
-        $logger = new Logger('WeeklySummaryGetterIntegrationTest');
-        // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -77,6 +76,8 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Wochenzusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
-use Monolog\Logger;
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
@@ -42,7 +41,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('UpdateNotificationSubscriptionsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -73,6 +72,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'weeklySummaryTermine' => true,
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [
@@ -134,7 +137,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $logger = new Logger('UpdateNotificationSubscriptionsEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
@@ -165,6 +168,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'weeklySummaryTermine' => false,
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
 
-use Monolog\Logger;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
@@ -21,7 +21,7 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
         $date_utils = new FixedDateUtils("2020-07-{$the_day_str} 16:00:00");
-        $logger = new Logger('TelegramConfigurationReminderGetterIntegrationTest');
+        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -48,6 +48,8 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
 
 
         ZZZZZZZZZZ;
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame('Keine Push-Nachrichten abonniert', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

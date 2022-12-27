@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Monolog\Logger;
 use Olz\Api\Endpoints\SignUpWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Tests\Fake;
@@ -45,7 +44,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
 
     public function testSignUpWithStravaEndpointWithoutInput(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = new Logger('SignUpWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
@@ -73,6 +72,9 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
+                'WARNING Bad user request',
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame([
                 'stravaUser' => [['.' => ['Feld darf nicht leer sein.']]],
                 'accessToken' => [['.' => ['Feld darf nicht leer sein.']]],
                 'refreshToken' => [['.' => ['Feld darf nicht leer sein.']]],
@@ -94,7 +96,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = new Logger('SignUpWithStravaEndpointTest');
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -123,6 +125,10 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'solvNumber' => 'JACK7NORRIS',
         ]);
 
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'status' => 'OK',
         ], $result);

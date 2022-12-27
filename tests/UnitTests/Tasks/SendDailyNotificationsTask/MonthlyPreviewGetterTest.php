@@ -9,9 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -65,9 +63,9 @@ class FakeMonthlyPreviewGetterTerminRepository {
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
@@ -79,9 +77,9 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
         $job = new MonthlyPreviewGetter();
@@ -94,9 +92,9 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
 
         $job = new MonthlyPreviewGetter();
@@ -109,14 +107,14 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetter(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
@@ -151,14 +149,14 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyMonthlyPreviewGetter(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');

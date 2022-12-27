@@ -14,9 +14,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -105,8 +103,8 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointWrongUsername(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $logger = new Logger('DeleteUserEndpointTest');
         $endpoint = new DeleteUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -131,7 +129,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointCannotDelete(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = true;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -141,9 +139,9 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = new Logger('DeleteUserEndpointTest');
         $endpoint = new DeleteUserEndpointForTest();
@@ -204,7 +202,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointCanDelete(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = false;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -214,9 +212,9 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = new Logger('DeleteUserEndpointTest');
         $endpoint = new DeleteUserEndpointForTest();

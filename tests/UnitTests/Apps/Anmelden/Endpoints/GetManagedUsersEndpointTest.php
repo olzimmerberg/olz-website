@@ -6,21 +6,16 @@ namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUserRepository;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
-class FakeGetManagedUsersEndpointUserRepository extends FakeUserRepository {
+class FakeGetManagedUsersEndpointUserRepository extends Fake\FakeUserRepository {
     public function findBy($query) {
         if ($query == ['parent_user' => 2]) {
             return [
-                FakeUsers::vorstandUser(),
-                FakeUsers::defaultUser(),
+                Fake\FakeUsers::vorstandUser(),
+                Fake\FakeUsers::defaultUser(),
             ];
         }
         $json_query = json_encode($query);
@@ -40,9 +35,9 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
     }
 
     public function testGetManagedUsersEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -56,14 +51,14 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
     }
 
     public function testGetManagedUsersEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
-        $auth_utils->authenticated_user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetManagedUsersEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);

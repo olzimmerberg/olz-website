@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\IdUtils;
 
@@ -47,7 +47,7 @@ class IdUtilsIdUtilsForTest extends IdUtils {
 final class IdUtilsTest extends UnitTestCase {
     public function testToExternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId(123));
         $this->assertSame('KvwHIC1COIo', $id_utils->toExternalId(123, 'Test'));
@@ -57,7 +57,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testToExternalIdNonInteger(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
             $id_utils->toExternalId(1.25);
             $this->fail('Error expected');
@@ -76,7 +76,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame('0c5e000000007b', bin2hex(
             $id_utils->testOnlySerializeId(123, 'h')));
@@ -98,7 +98,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeIdNonInteger(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
             $id_utils->testOnlySerializeId(1.25, '');
             $this->fail('Error expected');
@@ -117,7 +117,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeIdNegative(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
             $id_utils->testOnlySerializeId(-1, '');
             $this->fail('Error expected');
@@ -128,7 +128,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeIdTooLarge(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         try {
             $id_utils->testOnlySerializeId($max_id + 1, '');
@@ -140,7 +140,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testEncryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $this->assertSame('w0/JgCePlCI', $id_utils->testOnlyEncryptId(''));
         $this->assertSame('KNYgqjTkR5o', $id_utils->testOnlyEncryptId('test'));
 
@@ -152,7 +152,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testToInternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->toInternalId('9AUh0IsXMgc'));
         $this->assertSame(123, $id_utils->toInternalId('KvwHIC1COIo', 'Test'));
@@ -162,7 +162,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testToInternalIdTypeMismatch(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
             $id_utils->toInternalId($id_utils->toExternalId(123, 'Test'));
             $this->fail('Error expected');
@@ -185,14 +185,14 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testDecryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $this->assertSame('', $id_utils->testOnlyDecryptId('w0/JgCePlCI'));
         $this->assertSame('test', $id_utils->testOnlyDecryptId('KNYgqjTkR5o'));
     }
 
     public function testDeserializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             hex2bin('0c5e000000007b'), 'h'));
@@ -214,14 +214,14 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testToExternalIdToInternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $this->assertSame(1, $id_utils->toInternalId($id_utils->toExternalId(1)));
         $this->assertSame(1, $id_utils->toInternalId($id_utils->toExternalId(1, 'a'), 'a'));
     }
 
     public function testSerializeIdDeserializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             $id_utils->testOnlySerializeId(123, 'h'), 'h'));
@@ -243,14 +243,14 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testCrc16(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $this->assertSame('1fc6', dechex($id_utils->testOnlyCrc16('test')));
         $this->assertSame('ffff', dechex($id_utils->testOnlyCrc16('')));
     }
 
     public function testTrimmedBase64Encode(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $id_utils->setEnvUtils(new FakeEnvUtils());
+        $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $this->assertSame('dGVzdA', $id_utils->testOnlyTrimmedBase64Encode('test'));
         $this->assertSame('', $id_utils->testOnlyTrimmedBase64Encode(''));
     }

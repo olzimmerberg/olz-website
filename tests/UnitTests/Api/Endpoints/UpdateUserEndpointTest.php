@@ -6,12 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\UpdateUserEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -67,9 +62,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWrongUsername(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -97,9 +92,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -136,9 +131,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -175,16 +170,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -195,7 +190,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         ];
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             ...self::VALID_INPUT,
@@ -240,12 +235,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointSameEmail(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -303,12 +298,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointEmailUpdateWithoutRecaptcha(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
@@ -344,16 +339,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointRemoveAvatar(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -364,7 +359,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         ];
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             ...self::VALID_INPUT,

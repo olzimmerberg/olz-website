@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FileUtils;
 
@@ -16,7 +16,7 @@ use Olz\Utils\FileUtils;
 final class FileUtilsTest extends UnitTestCase {
     public function testOlzFileNotMigrated(): void {
         $file_utils = new FileUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $file_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
@@ -29,7 +29,7 @@ final class FileUtilsTest extends UnitTestCase {
 
     public function testOlzFileMigrated(): void {
         $file_utils = new FileUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $file_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
@@ -42,7 +42,7 @@ final class FileUtilsTest extends UnitTestCase {
 
     public function testReplaceFileTagsNotMigrated(): void {
         $file_utils = new FileUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $file_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
@@ -55,7 +55,7 @@ final class FileUtilsTest extends UnitTestCase {
 
     public function testReplaceFileTagsMigrated(): void {
         $file_utils = new FileUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $file_utils->setEnvUtils($env_utils);
         $data_path = $env_utils->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';

@@ -6,12 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\VerifyUserEmailEndpoint;
 use Olz\Exceptions\RecaptchaDeniedException;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
@@ -27,18 +22,18 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
-        $user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $user = Fake\FakeUsers::adminUser();
         $auth_utils->authenticated_user = $user;
-        $email_utils = new FakeEmailUtils();
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $email_utils = new Fake\FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'recaptchaToken' => 'fake-recaptcha-token',
@@ -53,10 +48,10 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointWithoutInput(): void {
-        $auth_utils = new FakeAuthUtils();
-        $email_utils = new FakeEmailUtils();
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);
@@ -75,10 +70,10 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointWithNullInput(): void {
-        $auth_utils = new FakeAuthUtils();
-        $email_utils = new FakeEmailUtils();
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);
@@ -99,10 +94,10 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointUnauthenticated(): void {
-        $auth_utils = new FakeAuthUtils();
-        $email_utils = new FakeEmailUtils();
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $email_utils = new Fake\FakeEmailUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);
@@ -124,13 +119,13 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointInvalidRecaptchaToken(): void {
-        $auth_utils = new FakeAuthUtils();
-        $user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $user = Fake\FakeUsers::adminUser();
         $auth_utils->authenticated_user = $user;
-        $email_utils = new FakeEmailUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->send_email_verification_email_error = new RecaptchaDeniedException('test');
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);
@@ -151,13 +146,13 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointErrorSending(): void {
-        $auth_utils = new FakeAuthUtils();
-        $user = FakeUsers::adminUser();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $user = Fake\FakeUsers::adminUser();
         $auth_utils->authenticated_user = $user;
-        $email_utils = new FakeEmailUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->send_email_verification_email_error = new \Exception('test');
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEmailUtils($email_utils);

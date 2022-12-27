@@ -7,14 +7,13 @@ namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
 use Monolog\Logger;
 use Olz\Entity\SolvResult;
 use Olz\Tasks\SyncSolvTask\SolvPeopleAssigner;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 require_once __DIR__.'/../../../Fake/fake_solv_event.php';
 require_once __DIR__.'/../../../Fake/fake_solv_result.php';
 
-class FakeSolvPeopleAssignerEntityManager extends FakeEntityManager {
+class FakeSolvPeopleAssignerEntityManager extends Fake\FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             SolvResult::class => new FakeSolvPeopleAssignerSolvResultRepository(),
@@ -91,7 +90,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {
         $entity_manager = new FakeSolvPeopleAssignerEntityManager();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new SolvPeopleAssigner($entity_manager);
         $job->setLogger($logger);
@@ -281,6 +280,6 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
         $this->assertSame('Test Winner', $flushed[0]->getName());
         $this->assertSame(null, $flushed[0]->getSameAs());
         $different_result = $solv_result_repo->differentResult;
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $different_result->getPerson());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $different_result->getPerson());
     }
 }

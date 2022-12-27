@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Endpoints;
 
 use Monolog\Logger;
 use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
@@ -49,7 +49,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpoint(): void {
         $logger = new Logger('GetLogsEndpointTest');
         $endpoint = new GetLogsEndpointForTest();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
@@ -70,7 +70,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointNotAuthorized(): void {
         $logger = new Logger('GetLogsEndpointTest');
         $endpoint = new GetLogsEndpointForTest();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

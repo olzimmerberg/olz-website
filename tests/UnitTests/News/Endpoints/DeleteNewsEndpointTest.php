@@ -6,10 +6,7 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\DeleteNewsEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
@@ -40,9 +37,9 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -62,14 +59,14 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpointNoEntityAccess(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = false;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -91,14 +88,14 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -125,14 +122,14 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpointInexistent(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
+        $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);

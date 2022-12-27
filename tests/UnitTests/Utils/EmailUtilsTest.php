@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Exceptions\RecaptchaDeniedException;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeOlzMailer;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
 use PhpImap\Mailbox;
 
-class FakeEnvUtilsForSendmail extends FakeEnvUtils {
+class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
     public function getSmtpHost() {
         return null;
     }
@@ -63,17 +59,17 @@ class EmailUtilsForTest extends EmailUtils {
  */
 final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
-        $user = FakeUsers::defaultUser();
-        $env_utils = new FakeEnvUtils();
+        $user = Fake\FakeUsers::defaultUser();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
-        $olz_mailer = new FakeOlzMailer();
+        $logger = Fake\FakeLogger::create();
+        $olz_mailer = new Fake\FakeOlzMailer();
         $email_utils = new DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $email_utils->sendEmailVerificationEmail($user, 'valid-recaptcha');
 
@@ -94,18 +90,18 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
-        $user = FakeUsers::defaultUser();
-        $env_utils = new FakeEnvUtils();
+        $user = Fake\FakeUsers::defaultUser();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
-        $olz_mailer = new FakeOlzMailer();
+        $logger = Fake\FakeLogger::create();
+        $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
         $email_utils = new DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
             $email_utils->sendEmailVerificationEmail($user, 'invalid-recaptcha');
@@ -125,18 +121,18 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testSendEmailVerificationEmailFailsSending(): void {
-        $user = FakeUsers::defaultUser();
-        $env_utils = new FakeEnvUtils();
+        $user = Fake\FakeUsers::defaultUser();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
-        $olz_mailer = new FakeOlzMailer();
+        $logger = Fake\FakeLogger::create();
+        $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
         $email_utils = new DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
             $email_utils->sendEmailVerificationEmail($user, 'valid-recaptcha');
@@ -154,9 +150,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testGetImapMailbox(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -170,9 +166,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -188,9 +184,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -202,7 +198,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testCreateSendmailEmail(): void {
         $env_utils = new FakeEnvUtilsForSendmail();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -260,9 +256,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateSmtpEmail(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
@@ -320,9 +316,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);

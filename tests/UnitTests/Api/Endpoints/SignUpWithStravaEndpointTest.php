@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Monolog\Logger;
 use Olz\Api\Endpoints\SignUpWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
-use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
@@ -44,7 +44,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithoutInput(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('SignUpWithStravaEndpointTest');
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -91,7 +91,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithValidData(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = new Logger('SignUpWithStravaEndpointTest');
@@ -130,7 +130,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'auth' => '',
             'root' => null,
             'user' => 'fakeUsername',
-            'user_id' => FakeEntityManager::AUTO_INCREMENT_ID,
+            'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [

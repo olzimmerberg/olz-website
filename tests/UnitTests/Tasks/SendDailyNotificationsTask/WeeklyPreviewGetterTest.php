@@ -9,9 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -65,9 +63,9 @@ class FakeWeeklyPreviewGetterTerminRepository {
  */
 final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
 
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
@@ -79,14 +77,14 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testWeeklyPreviewGetter(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');
@@ -121,14 +119,14 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyWeeklyPreviewGetter(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         // $logger->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Logger::INFO));
         $user = new User();
         $user->setFirstName('First');

@@ -7,8 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Monolog\Logger;
 use Olz\Api\Endpoints\UpdateOlzTextEndpoint;
 use Olz\Entity\OlzText;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeUpdateOlzTextEndpointOlzTextRepository {
@@ -38,9 +37,9 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_1' => false];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $logger = new Logger('UpdateOlzTextEndpointTest');
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -56,9 +55,9 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpointNoEntry(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_3' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');
@@ -80,9 +79,9 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['olz_text_1' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = new Logger('UpdateOlzTextEndpointTest');

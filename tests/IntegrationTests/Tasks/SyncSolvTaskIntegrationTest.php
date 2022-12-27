@@ -9,14 +9,13 @@ use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tasks\SyncSolvTask;
-use Olz\Tests\Fake\FakeFetcher;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-class FakeSyncSolvTaskIntegrationTestSolvFetcher extends FakeFetcher {
+class FakeSyncSolvTaskIntegrationTestSolvFetcher extends Fake\FakeFetcher {
     public function fetchEventsCsvForYear($year) {
         return $this->getMockedResponse(
             "solv_events_{$year}", __DIR__,
@@ -59,7 +58,7 @@ final class SyncSolvTaskIntegrationTest extends IntegrationTestCase {
             $job = new SyncSolvTask();
             $env_utils = EnvUtils::fromEnv();
             $date_utils = AbstractDateUtils::fromEnv();
-            $logger = FakeLogger::create();
+            $logger = Fake\FakeLogger::create();
             $job->setSolvFetcher(new FakeSyncSolvTaskIntegrationTestSolvFetcher());
             $job->setLog($logger);
 

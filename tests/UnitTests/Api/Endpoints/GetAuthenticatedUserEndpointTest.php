@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\GetAuthenticatedUserEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeGetAuthenticatedUserEndpointAuthUtils {
@@ -28,9 +26,9 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedUserEndpoint(): void {
-        $auth_utils = new FakeAuthUtils();
-        $auth_utils->authenticated_user = FakeUsers::adminUser();
-        $logger = FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -53,7 +51,7 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserEndpointUnauthenticated(): void {
         $auth_utils = new FakeGetAuthenticatedUserEndpointAuthUtils();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);

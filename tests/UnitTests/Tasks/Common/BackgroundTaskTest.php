@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Tasks\Common;
 
 use Olz\Tasks\Common\BackgroundTask;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -24,7 +23,7 @@ class FakeBackgroundTask extends BackgroundTask {
     }
 
     protected static function getIdent() {
-        return "FakeTask";
+        return "Fake\\FakeTask";
     }
 
     protected function runSpecificTask() {
@@ -36,7 +35,7 @@ class FakeTaskWithoutSetupTeardown extends BackgroundTask {
     public $task_run = false;
 
     protected static function getIdent() {
-        return "FakeTaskWithoutSetupTeardown";
+        return "Fake\\FakeTaskWithoutSetupTeardown";
     }
 
     protected function runSpecificTask() {
@@ -65,8 +64,8 @@ class FakeFailingTask extends BackgroundTask {
 final class BackgroundTaskTest extends UnitTestCase {
     public function testBackgroundTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
 
         $job = new FakeBackgroundTask($date_utils, $env_utils);
         $job->setLog($logger);
@@ -79,8 +78,8 @@ final class BackgroundTaskTest extends UnitTestCase {
 
     public function testTaskWithoutSetupTeardown(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
 
         $job = new FakeTaskWithoutSetupTeardown($date_utils, $env_utils);
         $job->setLog($logger);
@@ -91,8 +90,8 @@ final class BackgroundTaskTest extends UnitTestCase {
 
     public function testFailingTask(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
 
         $job = new FakeFailingTask($date_utils, $env_utils);
         $job->setLog($logger);

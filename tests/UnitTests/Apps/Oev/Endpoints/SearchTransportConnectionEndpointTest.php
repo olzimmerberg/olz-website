@@ -8,12 +8,10 @@ use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeFetcher;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeFetcher {
+class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeFetcher {
     public function fetchConnection($request_data) {
         $from = str_replace(' ', '_', $request_data['from']);
         $to = str_replace(' ', '_', $request_data['to']);
@@ -130,10 +128,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample1(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
@@ -283,10 +281,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample2(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
@@ -338,10 +336,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample3(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
@@ -402,10 +400,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointFailingRequest(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
@@ -431,9 +429,9 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);

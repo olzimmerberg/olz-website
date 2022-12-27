@@ -7,12 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\SignUpWithPasswordEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEmailUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
-use Olz\Tests\Fake\FakeUserRepository;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
@@ -69,8 +64,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutInput(): void {
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
@@ -111,15 +106,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -134,15 +129,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -165,15 +160,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -196,15 +191,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithOlzimmerbergEmail(): void {
-        $entity_manager = new FakeEntityManager();
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -227,18 +222,18 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForNewUser(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -258,7 +253,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth' => '',
             'root' => null,
             'user' => 'fakeUsername',
-            'user_id' => FakeEntityManager::AUTO_INCREMENT_ID,
+            'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [
@@ -272,23 +267,23 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
+        $user_repo = new Fake\FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $user_repo->userToBeFound = $existing_user;
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -321,24 +316,24 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
+        $user_repo = new Fake\FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
         $user_repo->userToBeFound = $existing_user;
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -370,10 +365,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
+        $user_repo = new Fake\FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $user_repo->userToBeFoundForQuery = function ($where) use ($existing_user) {
@@ -383,15 +378,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             return null;
         };
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -424,10 +419,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $user_repo = new FakeUserRepository();
+        $user_repo = new Fake\FakeUserRepository();
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
@@ -438,15 +433,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             return null;
         };
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
-        $endpoint->setEmailUtils(new FakeEmailUtils());
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -478,20 +473,20 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointErrorSending(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
-        $auth_utils = new FakeAuthUtils();
+        $logger = Fake\FakeLogger::create();
+        $auth_utils = new Fake\FakeAuthUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $email_utils = new FakeEmailUtils();
+        $email_utils = new Fake\FakeEmailUtils();
         $email_utils->send_email_verification_email_error = new \Exception('test');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEmailUtils($email_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -512,7 +507,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth' => '',
             'root' => null,
             'user' => 'fakeUsername',
-            'user_id' => FakeEntityManager::AUTO_INCREMENT_ID,
+            'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [

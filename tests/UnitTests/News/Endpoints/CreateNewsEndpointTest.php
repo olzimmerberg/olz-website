@@ -7,12 +7,7 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\News\Endpoints\CreateNewsEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEntityUtils;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUploadUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
@@ -29,10 +24,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
@@ -71,13 +66,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
-        $auth_utils = new FakeAuthUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_utils = new FakeEntityUtils();
-        $env_utils = new FakeEnvUtils();
-        $upload_utils = new FakeUploadUtils();
-        $logger = FakeLogger::create();
+        $entity_utils = new Fake\FakeEntityUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $upload_utils = new Fake\FakeUploadUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
@@ -126,13 +121,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
-            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthor());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
@@ -150,7 +145,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             [$news_entry, 1, 1, 1],
         ], $entity_utils->create_olz_entity_calls);
 
-        $id = FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [

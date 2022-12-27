@@ -6,9 +6,7 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeLogger;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\FixedDateUtils;
@@ -20,7 +18,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token = new AccessToken();
             $token->setId(1);
             $token->setToken('valid-token-1');
-            $token->setUser(FakeUsers::adminUser());
+            $token->setUser(Fake\FakeUsers::adminUser());
             $token->setExpiresAt(new \DateTime('2022-01-24 00:00:00'));
             return $token;
         }
@@ -28,7 +26,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token = new AccessToken();
             $token->setId(2);
             $token->setToken('expired-token-1');
-            $token->setUser(FakeUsers::adminUser());
+            $token->setUser(Fake\FakeUsers::adminUser());
             $token->setExpiresAt(new \DateTime('2020-01-11 20:00:00'));
             return $token;
         }
@@ -66,10 +64,10 @@ class FakeAuthUtilsAuthRequestRepository {
  */
 final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectCredentials(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -83,8 +81,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('admin', 'adm1n');
 
-        $this->assertNotSame(null, FakeUsers::adminUser());
-        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -104,10 +102,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithCorrectOldCredentials(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -121,8 +119,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('admin-old', 'adm1n');
 
-        $this->assertNotSame(null, FakeUsers::adminUser());
-        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -142,10 +140,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithCorrectEmailCredentials(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -159,8 +157,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('vorstand@test.olzimmerberg.ch', 'v0r57and');
 
-        $this->assertNotSame(null, FakeUsers::vorstandUser());
-        $this->assertSame(FakeUsers::vorstandUser(), $result);
+        $this->assertNotSame(null, Fake\FakeUsers::vorstandUser());
+        $this->assertSame(Fake\FakeUsers::vorstandUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -180,10 +178,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithCorrectUsernameEmailCredentials(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -197,8 +195,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('admin@olzimmerberg.ch', 'adm1n');
 
-        $this->assertNotSame(null, FakeUsers::adminUser());
-        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -218,10 +216,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithCorrectOldUsernameEmailCredentials(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -235,8 +233,8 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->authenticate('admin-old@olzimmerberg.ch', 'adm1n');
 
-        $this->assertNotSame(null, FakeUsers::adminUser());
-        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -256,10 +254,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithWrongUsername(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -298,10 +296,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithWrongPassword(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -340,11 +338,11 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateCanNotAuthenticate(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_authenticate = false;
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -384,12 +382,12 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testValidateValidAccessToken(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -404,7 +402,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->validateAccessToken('valid-token-1');
 
-        $this->assertSame(FakeUsers::adminUser(), $result);
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -422,12 +420,12 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateInvalidAccessToken(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -467,12 +465,12 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testValidateExpiredAccessToken(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -512,13 +510,13 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateAccessTokenCanNotValidate(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_validate_access_token = false;
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -557,7 +555,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionNoUser(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -572,7 +570,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithNoPermission(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'no',
@@ -587,7 +585,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithSpecificPermission(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'specific',
@@ -602,7 +600,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithAllPermissions(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -618,23 +616,23 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserFromToken(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
     }
 
     public function testGetAuthenticatedUserFromSession(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -643,33 +641,33 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getAuthenticatedUser());
     }
 
     public function testGetTokenUser(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getTokenUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getTokenUser());
     }
 
     public function testGetTokenUserForInvalidToken(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'invalid-token']);
@@ -679,7 +677,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetSessionUser(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -687,11 +685,11 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setSession($session);
-        $this->assertSame(FakeUsers::adminUser(), $auth_utils->getSessionUser());
+        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getSessionUser());
     }
 
     public function testGetAuthenticatedRoles(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -706,7 +704,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedRolesUnauthenticated(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [];
         $auth_utils = new AuthUtils();
@@ -717,7 +715,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testIsRoleIdAuthenticated(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'admin',
@@ -732,7 +730,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testIsRoleIdAuthenticatedUnauthenticated(): void {
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $session = new MemorySession();
         $session->session_storage = [];
         $auth_utils = new AuthUtils();

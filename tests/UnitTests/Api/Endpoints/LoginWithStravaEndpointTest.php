@@ -9,9 +9,7 @@ use Olz\Api\Endpoints\LoginWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\StravaLink;
 use Olz\Entity\User;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeUserRepository;
-use Olz\Tests\Fake\FakeUsers;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
@@ -19,12 +17,12 @@ use PhpTypeScriptApi\HttpError;
 
 require_once __DIR__.'/../../../Fake/fake_strava_link.php';
 
-class FakeLoginWithStravaEndpointEntityManager extends FakeEntityManager {
+class FakeLoginWithStravaEndpointEntityManager extends Fake\FakeEntityManager {
     public function __construct() {
         $this->repositories = [
             AuthRequest::class => new FakeLoginWithStravaEndpointAuthRequestRepository(),
             StravaLink::class => new FakeLoginWithStravaEndpointStravaLinkRepository(),
-            User::class => new FakeUserRepository(),
+            User::class => new Fake\FakeUserRepository(),
         ];
     }
 }
@@ -51,7 +49,7 @@ class FakeLoginWithStravaEndpointStravaLinkRepository {
     public function findOneBy($where) {
         if ($where === ['strava_user' => 'fake_existing_id']) {
             $strava_link = get_fake_strava_link();
-            $strava_link->setUser(FakeUsers::defaultUser());
+            $strava_link->setUser(Fake\FakeUsers::defaultUser());
             return $strava_link;
         }
         return null;

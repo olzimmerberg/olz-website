@@ -6,10 +6,7 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\GetNewsEndpoint;
-use Olz\Tests\Fake\FakeAuthUtils;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeLogger;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 
@@ -52,9 +49,9 @@ final class GetNewsEndpointTest extends UnitTestCase {
     }
 
     public function testGetNewsEndpointNoAccess(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => false];
-        $logger = FakeLogger::create();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
@@ -74,13 +71,13 @@ final class GetNewsEndpointTest extends UnitTestCase {
     }
 
     public function testGetNewsEndpointMinimal(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
@@ -120,13 +117,13 @@ final class GetNewsEndpointTest extends UnitTestCase {
     }
 
     public function testGetNewsEndpointMaximal(): void {
-        $auth_utils = new FakeAuthUtils();
+        $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];
-        $entity_manager = new FakeEntityManager();
+        $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $env_utils = new FakeEnvUtils();
-        $logger = FakeLogger::create();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);

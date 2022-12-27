@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\DbUtils;
 
@@ -15,7 +15,7 @@ use Olz\Utils\DbUtils;
  */
 final class DbUtilsTest extends UnitTestCase {
     public function testDbUtilsGetDb(): void {
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $db_utils = new DbUtils();
         $db_utils->setEnvUtils($env_utils);
 

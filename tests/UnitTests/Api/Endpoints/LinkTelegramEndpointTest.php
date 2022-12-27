@@ -6,8 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Monolog\Logger;
 use Olz\Api\Endpoints\LinkTelegramEndpoint;
-use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeTelegramUtils;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
@@ -23,8 +22,8 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testLinkTelegramEndpoint(): void {
-        $entity_manager = new FakeEntityManager();
-        $telegram_utils = new FakeTelegramUtils();
+        $entity_manager = new Fake\FakeEntityManager();
+        $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = new Logger('LinkTelegramEndpointTest');
         $endpoint = new LinkTelegramEndpoint();
         $session = new MemorySession();

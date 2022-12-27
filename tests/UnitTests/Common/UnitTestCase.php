@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Common;
 
-use Olz\Tests\Fake\FakeEnvUtils;
-use Olz\Tests\Fake\FakeFactory;
+use Olz\Tests\Fake;
 use Olz\Utils\GeneralUtils;
 use PhpTypeScriptApi\Translator;
 use PHPUnit\Framework\TestCase;
@@ -30,12 +29,12 @@ class UnitTestCase extends TestCase {
         date_default_timezone_set('UTC');
 
         $general_utils = new GeneralUtils();
-        $env_utils = new FakeEnvUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $data_path = $env_utils->getDataPath();
         $general_utils->removeRecursive($data_path);
         mkdir($data_path);
 
-        FakeFactory::reset();
+        Fake\FakeFactory::reset();
     }
 
     protected function tearDown(): void {

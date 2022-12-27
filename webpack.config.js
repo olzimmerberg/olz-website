@@ -18,6 +18,7 @@ const defaultConfig = {
                         loader: 'ts-loader',
                         options: {
                             experimentalWatchApi: true,
+                            transpileOnly: true,
                         },
                     },
                 ],

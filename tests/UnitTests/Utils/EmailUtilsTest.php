@@ -17,32 +17,7 @@ class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
     }
 }
 
-class DeterministicEmailUtils extends EmailUtils {
-    public $fake_olz_mailer;
-
-    public function createEmail() {
-        return $this->fake_olz_mailer;
-    }
-
-    protected function getRandomEmailVerificationToken() {
-        return 'veryrandom';
-    }
-
-    protected function getRandomIvForAlgo($algo) {
-        $iv = '';
-        for ($i = 0; $i < openssl_cipher_iv_length($algo); $i++) {
-            $iv .= 'A';
-        }
-        return $iv;
-    }
-}
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class EmailUtilsForTest extends EmailUtils {
+class TestOnlyEmailUtils extends EmailUtils {
     public function testOnlyGetRandomEmailVerificationToken() {
         return $this->getRandomEmailVerificationToken();
     }
@@ -60,14 +35,10 @@ class EmailUtilsForTest extends EmailUtils {
 final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $env_utils = new Fake\FakeEnvUtils();
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
-        $email_utils = new DeterministicEmailUtils();
+        $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setEnvUtils($env_utils);
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -91,15 +62,11 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $env_utils = new Fake\FakeEnvUtils();
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
-        $email_utils = new DeterministicEmailUtils();
+        $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setEnvUtils($env_utils);
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -122,15 +89,11 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailFailsSending(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $env_utils = new Fake\FakeEnvUtils();
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
-        $email_utils = new DeterministicEmailUtils();
+        $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setEnvUtils($env_utils);
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -394,18 +357,10 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testGetRandomEmailVerificationToken(): void {
-        $email_utils = new EmailUtilsForTest();
+        $email_utils = new TestOnlyEmailUtils();
         $this->assertMatchesRegularExpression(
             '/^[a-zA-Z0-9_-]{8}$/',
             $email_utils->testOnlyGetRandomEmailVerificationToken()
-        );
-    }
-
-    public function testGetRandomIvForAlgo(): void {
-        $email_utils = new EmailUtilsForTest();
-        $this->assertMatchesRegularExpression(
-            '/^[a-zA-Z0-9+\/]{16}$/',
-            base64_encode($email_utils->testOnlyGetRandomIvForAlgo('aes-256-gcm'))
         );
     }
 }

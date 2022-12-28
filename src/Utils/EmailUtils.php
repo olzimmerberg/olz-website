@@ -112,35 +112,13 @@ class EmailUtils {
     }
 
     public function encryptEmailReactionToken($data) {
-        $plaintext = json_encode($data);
-        $algo = 'aes-256-gcm';
         $key = $this->envUtils()->getEmailReactionKey();
-        $iv = $this->getRandomIvForAlgo($algo);
-        $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
-        return $this->generalUtils()->base64EncodeUrl(json_encode([
-            'algo' => $algo,
-            'iv' => $this->generalUtils()->base64EncodeUrl($iv),
-            'tag' => $this->generalUtils()->base64EncodeUrl($tag),
-            'ciphertext' => $this->generalUtils()->base64EncodeUrl($ciphertext),
-        ]));
-    }
-
-    protected function getRandomIvForAlgo($algo) {
-        return openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
+        return $this->generalUtils()->encrypt($key, $data);
     }
 
     public function decryptEmailReactionToken($token) {
-        $decrypt_data = json_decode($this->generalUtils()->base64DecodeUrl($token), true);
-        if (!$decrypt_data) {
-            return null;
-        }
-        $ciphertext = $this->generalUtils()->base64DecodeUrl($decrypt_data['ciphertext']);
-        $algo = $decrypt_data['algo'] ?? 'aes-256-gcm';
         $key = $this->envUtils()->getEmailReactionKey();
-        $iv = $this->generalUtils()->base64DecodeUrl($decrypt_data['iv']);
-        $tag = $this->generalUtils()->base64DecodeUrl($decrypt_data['tag']);
-        $plaintext = openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
-        return json_decode($plaintext, true);
+        return $this->generalUtils()->decrypt($key, $token);
     }
 
     public function renderMarkdown($markdown) {

@@ -6,6 +6,12 @@
     }
 }
 
+.no-entries {
+    font-weight: bold;
+    text-align: center;
+    margin: 30px 0;
+}
+
 .page {
     &.hidden {
         display: none;

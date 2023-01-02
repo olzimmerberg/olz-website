@@ -40,7 +40,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             $db_table = 'weekly_picture';
             $image_utils = ImageUtils::fromEnv();
             if (!$alternative_image_id) {
-                $out .= "<div class='lightgallery'>".$image_utils->olzImage($db_table, $id, $image_id, 256, 'image')."</div>";
+                $out .= $image_utils->olzImage($db_table, $id, $image_id, 256, 'image');
             } else {
                 $out .= "<div class='lightgallery'><span onmouseover='olz.olzWeeklyPictureTileSwap()' id='olz-weekly-image'>".$image_utils->olzImage($db_table, $id, $image_id, 256, 'gallery[weekly_picture]')."</span><span onmouseout='olz.olzWeeklyPictureTileUnswap()' id='olz-weekly-alternative-image'>".$image_utils->olzImage($db_table, $id, $alternative_image_id, 256, 'gallery[weekly_picture]')."</span></div>";
             }

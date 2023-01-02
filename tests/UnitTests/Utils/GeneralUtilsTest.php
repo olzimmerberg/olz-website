@@ -56,6 +56,76 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(null, $general_utils->decrypt($key, ''));
     }
 
+    public function testBinarySearchOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [1, 2, 4];
+        $this->assertSame(2, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 3 <=> $list[$index];
+            }, 0, 3,
+        ));
+    }
+
+    public function testBinarySearchAfterAllOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [1, 2, 4];
+        $this->assertSame(3, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 5 <=> $list[$index];
+            }, 0, 3,
+        ));
+    }
+
+    public function testBinarySearchBeforeAllOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 3, 5];
+        $this->assertSame(0, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 1 <=> $list[$index];
+            }, 0, 3,
+        ));
+    }
+
+    public function testBinarySearchEven(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 4];
+        $this->assertSame(1, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 3 <=> $list[$index];
+            }, 0, 2,
+        ));
+    }
+
+    public function testBinarySearchAfterAllEven(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 4];
+        $this->assertSame(2, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 5 <=> $list[$index];
+            }, 0, 2,
+        ));
+    }
+
+    public function testBinarySearchBeforeAllEven(): void {
+        $general_utils = new GeneralUtils();
+        $list = [3, 5];
+        $this->assertSame(0, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 2 <=> $list[$index];
+            }, 0, 2,
+        ));
+    }
+
+    public function testBinarySearchEmptyList(): void {
+        $general_utils = new GeneralUtils();
+        $list = [];
+        $this->assertSame(0, $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 3 <=> $list[$index];
+            }, 0, 0,
+        ));
+    }
+
     public function testGetPrettyTrace(): void {
         $trace = debug_backtrace();
         $general_utils = new GeneralUtils();

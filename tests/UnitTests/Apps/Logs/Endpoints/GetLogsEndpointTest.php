@@ -10,29 +10,29 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class GetLogsEndpointForTest extends GetLogsEndpoint {
-    public $scandir_calls = [];
-    public $read_file_calls = [];
+// /**
+//  * @internal
+//  *
+//  * @coversNothing
+//  */
+// class GetLogsEndpointForTest extends GetLogsEndpoint {
+//     public $scandir_calls = [];
+//     public $read_file_calls = [];
 
-    protected function scandir($path, $sorting) {
-        $this->scandir_calls[] = [$path, $sorting];
-        return [
-            'merged-2022-03-12.log',
-            'merged-2022-03-13.log',
-        ];
-    }
+//     protected function scandir($path, $sorting) {
+//         $this->scandir_calls[] = [$path, $sorting];
+//         return [
+//             'merged-2022-03-12.log',
+//             'merged-2022-03-13.log',
+//         ];
+//     }
 
-    protected function readFile($path) {
-        $this->read_file_calls[] = [$path];
-        $basename = basename($path);
-        return "test log entry in {$basename}";
-    }
-}
+//     protected function readFile($path) {
+//         $this->read_file_calls[] = [$path];
+//         $basename = basename($path);
+//         return "test log entry in {$basename}";
+//     }
+// }
 
 /**
  * @internal
@@ -45,9 +45,9 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $this->assertSame('GetLogsEndpoint', $endpoint->getIdent());
     }
 
-    public function testGetLogsEndpoint(): void {
+    public function testGetLogsEndpointTargetDate(): void {
         $logger = Fake\FakeLogger::create();
-        $endpoint = new GetLogsEndpointForTest();
+        $endpoint = new GetLogsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
@@ -59,21 +59,62 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call(['index' => 1]);
+        mkdir(__DIR__.'/../../../tmp/logs/');
+        file_put_contents(
+            __DIR__.'/../../../tmp/logs/merged-2020-03-12.log',
+            "[2020-03-12 12:00:00] tick 2020-03-12\n",
+        );
+        file_put_contents(
+            __DIR__.'/../../../tmp/logs/merged-2020-03-13.log',
+            implode('', [
+                "[2020-03-13 12:00:00] tick 2020-03-13\n",
+                "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
+                "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
+                "[2020-03-13 19:30:00] OlzEndpoint.INFO test log entry III\n",
+            ]),
+        );
+        file_put_contents(
+            __DIR__.'/../../../tmp/logs/merged-2020-03-14.log',
+            "[2020-03-14 12:00:00] tick 2020-03-14\n",
+        );
+
+        $result = $endpoint->call([
+            'query' => [
+                'targetDate' => '2020-03-13 18:30:00',
+                'firstDate' => null,
+                'lastDate' => null,
+                'minLogLevel' => null,
+                'textSearch' => null,
+                'pageToken' => null,
+            ],
+        ]);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Logs access by admin.',
+            'INFO BinarySearch: 1 38 2020-03-13 18:30:00 <=> 2020-03-13 14:00:00 -> 1',
+            'INFO BinarySearch: 2 97 2020-03-13 18:30:00 <=> 2020-03-13 18:00:00 -> 1',
+            'INFO file_path_before data-path/logs/merged-2020-03-12.log',
+            'INFO file_path_after data-path/logs/merged-2020-03-14.log',
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            'content' => 'test log entry in merged-2022-03-13.log',
+            'content' => [
+                "[2020-03-12 12:00:00] tick 2020-03-12\n",
+                "[2020-03-13 12:00:00] tick 2020-03-13\n",
+                "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
+                "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
+                '---',
+                "[2020-03-13 19:30:00] OlzEndpoint.INFO test log entry III\n",
+                "[2020-03-14 12:00:00] tick 2020-03-14\n",
+            ],
+            'pagination' => ['previous' => null, 'next' => null],
         ], $result);
     }
 
     public function testGetLogsEndpointNotAuthorized(): void {
         $logger = Fake\FakeLogger::create();
-        $endpoint = new GetLogsEndpointForTest();
+        $endpoint = new GetLogsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
@@ -86,7 +127,16 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $endpoint->setLog($logger);
 
         try {
-            $result = $endpoint->call(['index' => 0]);
+            $result = $endpoint->call([
+                'query' => [
+                    'targetDate' => null,
+                    'firstDate' => null,
+                    'lastDate' => null,
+                    'minLogLevel' => null,
+                    'textSearch' => null,
+                    'pageToken' => null,
+                ],
+            ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -99,13 +149,22 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
     public function testGetLogsEndpointNotAuthenticated(): void {
         $logger = Fake\FakeLogger::create();
-        $endpoint = new GetLogsEndpointForTest();
+        $endpoint = new GetLogsEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         try {
-            $result = $endpoint->call(['index' => 0]);
+            $result = $endpoint->call([
+                'query' => [
+                    'targetDate' => null,
+                    'firstDate' => null,
+                    'lastDate' => null,
+                    'minLogLevel' => null,
+                    'textSearch' => null,
+                    'pageToken' => null,
+                ],
+            ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([

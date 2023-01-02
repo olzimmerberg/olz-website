@@ -3,6 +3,7 @@
 namespace Olz\Apps\Logs\Endpoints;
 
 use Olz\Api\OlzEndpoint;
+use Olz\Apps\Logs\Utils\OlzLogsChannel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
@@ -13,15 +14,32 @@ class GetLogsEndpoint extends OlzEndpoint {
 
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [
-            'content' => new FieldTypes\StringField(['allow_null' => true]),
+            'content' => new FieldTypes\ArrayField([
+                'item_field' => new FieldTypes\StringField(['allow_empty' => true]),
+            ]),
+            'pagination' => new FieldTypes\ObjectField(['field_structure' => [
+                'previous' => new FieldTypes\StringField(['allow_null' => true]),
+                'next' => new FieldTypes\StringField(['allow_null' => true]),
+            ]]),
         ]]);
     }
 
     public function getRequestField() {
         return new FieldTypes\ObjectField(['field_structure' => [
-            'index' => new FieldTypes\IntegerField([
-                'default_value' => 0,
-                'min_value' => 0,
+            'query' => new FieldTypes\ObjectField([
+                'export_as' => 'OlzLogsQuery',
+                'field_structure' => [
+                    'targetDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
+                    'firstDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
+                    'lastDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
+                    'minLogLevel' => new FieldTypes\EnumField([
+                        'export_as' => 'OlzLogLevel',
+                        'allow_null' => true,
+                        'allowed_values' => ['debug', 'info', 'notice', 'warning', 'error'],
+                    ]),
+                    'textSearch' => new FieldTypes\StringField(['allow_null' => true]),
+                    'pageToken' => new FieldTypes\StringField(['allow_null' => true]),
+                ],
             ]),
         ]]);
     }
@@ -34,31 +52,18 @@ class GetLogsEndpoint extends OlzEndpoint {
         $username = $this->session()->get('user');
         $this->log()->info("Logs access by {$username}.");
 
-        $data_path = $this->envUtils()->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $channel = new OlzLogsChannel();
+        $channel->setEnvUtils($this->envUtils());
+        $channel->setLog($this->log());
+        $result = $channel->readLogs($input['query']);
 
-        $merged_log_index = 0;
-        $filenames = $this->scandir($logs_path, SCANDIR_SORT_DESCENDING);
-        foreach ($filenames as $filename) {
-            if (preg_match('/^merged-.*\.log$/', $filename)) {
-                if ($merged_log_index == $input['index']) {
-                    return [
-                        'content' => $this->readFile("{$logs_path}{$filename}"),
-                    ];
-                }
-                $merged_log_index++;
-            }
-        }
         return [
-            'content' => null,
+            'content' => $result->lines,
+            'pagination' => [
+                // TODO: Encrypt!
+                'previous' => $result->previous,
+                'next' => $result->next,
+            ],
         ];
-    }
-
-    protected function scandir($path, $sorting) {
-        return scandir($path, $sorting);
-    }
-
-    protected function readFile($path) {
-        return file_get_contents($path);
     }
 }

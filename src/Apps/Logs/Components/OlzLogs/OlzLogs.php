@@ -6,6 +6,7 @@ use Olz\Apps\Logs\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
+use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 
 class OlzLogs {
@@ -23,6 +24,7 @@ class OlzLogs {
             'norobots' => true,
         ]);
 
+        $date_utils = AbstractDateUtils::fromEnv();
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $username = ($_SESSION['user'] ?? null);
@@ -39,25 +41,13 @@ class OlzLogs {
         </style>
         ZZZZZZZZZZ;
 
-        $out .= "<div class='content-full'>";
+        $out .= "<div class='content-full olz-logs'>";
         if ($user && $user->getPermissions() == 'all') {
-            $out .= <<<'ZZZZZZZZZZ'
-            <div class='logs-header'>
-                <button type='button' class='form-control btn btn-outline-primary' onclick='olzLogs.olzLogsGetNextLog()'>
-                    Ältere laden
-                </button>
-                <select id='log-level-filter-select' class='form-control form-select' onchange='olzLogs.olzLogsLevelFilterChange()'>
-                    <option value='levels-all' selected>Alle Log-Levels</option>
-                    <option value='levels-info-higher'>"Info" & höher</option>
-                    <option value='levels-notice-higher'>"Notice" & höher</option>
-                    <option value='levels-warning-higher'>"Warning" & höher</option>
-                    <option value='levels-error-higher'>"Error" & höher</option>
-                </select>
-            </div>
-            <div id='logs'></div>
-            ZZZZZZZZZZ;
+            $iso_now = $date_utils->getIsoNow();
+            $esc_now = htmlentities($iso_now);
+            $out .= "<script>window.olzLogsNow = '{$esc_now}';</script><div id='react-root'></div>";
         } else {
-            $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
+            $out .= "<div class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
         }
         $out .= "</div>";
 

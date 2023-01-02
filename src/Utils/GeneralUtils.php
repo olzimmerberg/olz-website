@@ -48,6 +48,26 @@ class GeneralUtils {
         return json_decode($plaintext, true);
     }
 
+    // Algorithms
+
+    public function binarySearch($compare_fn, int $start, int $end): int {
+        $search_start = $start;
+        $search_end = $end;
+        while ($search_start < $search_end) {
+            $probe_index = (int) floor(($search_start + $search_end) / 2);
+            $result = $compare_fn($probe_index);
+            if ($result < 0) {
+                $search_end = $probe_index;
+            } elseif ($result > 0) {
+                $search_start = $probe_index + 1;
+            } else {
+                // TODO: Or do we want the first occurrence of multiple?
+                return $probe_index;
+            }
+        }
+        return $search_start;
+    }
+
     // Debugging
 
     public function getPrettyTrace($trace) {

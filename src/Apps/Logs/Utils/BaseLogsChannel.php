@@ -1,0 +1,276 @@
+<?php
+
+namespace Olz\Apps\Logs\Utils;
+
+use Olz\Utils\WithUtilsTrait;
+
+class LineLocation {
+    public function __construct(
+        public string $filePath,
+        public int $lineNumber, // -1 = last line
+    ) {
+    }
+}
+
+class ReadResult {
+    public function __construct(
+        public array $lines,
+        public LineLocation|null $previous,
+        public LineLocation|null $next,
+    ) {
+    }
+}
+
+abstract class BaseLogsChannel {
+    use WithUtilsTrait;
+
+    abstract public static function getId(): string;
+
+    abstract public static function getName(): string;
+
+    // Page size; number of lines of log entires.
+    public static $pageSize = 2000;
+
+    // Assumes there are files, though...
+    abstract protected function getFilePathBefore(string $path): string;
+
+    abstract protected function getFilePathAfter(string $path): string;
+
+    public function readLogs(array $query): ReadResult {
+        $page_token = $query['pageToken'] ?? null;
+        if ($page_token) {
+            return $this->continueReading($query);
+        }
+        $date_time = $query['targetDate'] ?? null;
+        if ($date_time) {
+            return $this->readAroundDateTime(new \DateTime($date_time), $query);
+        }
+        throw new \Exception('not implemented');
+    }
+
+    protected function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
+        $line_location = $this->getLineLocationForDateTime($date_time);
+        $limit = floor(self::$pageSize / 2) + 1;
+        $lines_before = $this->readMatchingLinesBefore($line_location, $query, $limit);
+        $limit = self::$pageSize - count($lines_before->lines) + 1;
+        $lines_after = $this->readMatchingLinesAfter($line_location, $query, $limit);
+        return new ReadResult([
+            ...array_slice($lines_before->lines, 0, count($lines_before->lines) - 1),
+            '---',
+            ...$lines_after->lines,
+        ], $lines_before->previous, $lines_after->next);
+    }
+
+    protected function getLineLocationForDateTime(
+        \DateTime $date_time,
+    ): LineLocation {
+        $file_path = $this->getFilePathForDateTime($date_time);
+        $file_index = $this->getOrCreateIndex($file_path);
+        $number_of_lines = count($file_index['lines']);
+        $fp = fopen($file_path, 'r');
+
+        $line_number = $this->generalUtils()->binarySearch(
+            function ($line_number) use ($fp, $file_index, $date_time) {
+                $index = $file_index['lines'][$line_number];
+                fseek($fp, $index);
+                $line = fgets($fp);
+                $date_time_at_index = $this->parseDateTimeOfLine($line);
+
+                $isoa = $date_time ? $date_time->format('Y-m-d H:i:s') : null;
+                $isob = $date_time_at_index ? $date_time_at_index->format('Y-m-d H:i:s') : null;
+                $cmp = $date_time <=> $date_time_at_index;
+                $this->log()->info("BinarySearch: {$line_number} {$index} {$isoa} <=> {$isob} -> {$cmp}");
+
+                return $cmp;
+            },
+            0,
+            $number_of_lines - 1,
+        );
+
+        fclose($fp);
+        return new LineLocation($file_path, $line_number);
+    }
+
+    protected function getOrCreateIndex(string $file_path) {
+        $index_path = "{$file_path}.index.json";
+        if (is_file($index_path)) {
+            $index = json_decode(file_get_contents($index_path), true);
+            if (filemtime($file_path) === $index['modified']) {
+                // cache hit
+                return $index;
+            }
+            unlink($index_path);
+        }
+        // cache miss
+        $index = $this->indexFile($file_path);
+        try {
+            file_put_contents($index_path, json_encode($index));
+        } catch (\Throwable $th) {
+            // ignore; best effort!
+        }
+        return $index;
+    }
+
+    protected function indexFile(string $file_path) {
+        $index = [];
+        $index['modified'] = filemtime($file_path);
+        $index['lines'] = [0];
+        $file_size = filesize($file_path);
+        $fp = fopen($file_path, 'r');
+        while (!feof($fp)) {
+            $line = fgets($fp);
+            $line_index = ftell($fp);
+            if ($line_index !== $file_size) {
+                $index['lines'][] = $line_index;
+            }
+        }
+        fclose($fp);
+        return $index;
+    }
+
+    protected function readMatchingLinesBefore(
+        LineLocation $line_location,
+        array $query,
+        int $limit,
+    ): ReadResult {
+        $file_index = $this->getOrCreateIndex($line_location->filePath);
+        $fp = fopen($line_location->filePath, 'r');
+
+        $continuation_location = clone $line_location;
+        if ($continuation_location->lineNumber === -1) {
+            $continuation_location->lineNumber = count($file_index['lines']) - 1;
+        }
+        $matching_lines = [];
+        while (count($matching_lines) < $limit) {
+            $index = $file_index['lines'][$continuation_location->lineNumber];
+            fseek($fp, $index);
+            $line = fgets($fp) ?? '';
+            if ($line === false) {
+                $line = '';
+            }
+            if ($this->isLineMatching($line, $query)) {
+                array_unshift($matching_lines, $line);
+            }
+            $continuation_location->lineNumber--;
+            if ($continuation_location->lineNumber < 0) {
+                try {
+                    $file_path_before = $this->getFilePathBefore($line_location->filePath);
+                    $this->log()->info("file_path_before {$file_path_before}");
+                    $prev_file_location = new LineLocation($file_path_before, -1);
+                    $new_limit = $limit - count($matching_lines);
+                    $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_limit);
+                    $matching_lines = [
+                        ...$result->lines,
+                        ...$matching_lines,
+                    ];
+                    $continuation_location = $result->previous;
+                } catch (\Throwable $th) {
+                    // Then, that's all we can do
+                    $continuation_location = null;
+                }
+                break;
+            }
+        }
+
+        fclose($fp);
+        return new ReadResult($matching_lines, $continuation_location, $line_location);
+    }
+
+    protected function readMatchingLinesAfter(
+        LineLocation $line_location,
+        array $query,
+        int $limit,
+    ): ReadResult {
+        $file_index = $this->getOrCreateIndex($line_location->filePath);
+        $fp = fopen($line_location->filePath, 'r');
+        $number_of_lines = count($file_index['lines']);
+
+        $continuation_location = clone $line_location;
+        if ($continuation_location->lineNumber === -1) {
+            $continuation_location->lineNumber = count($file_index['lines']) - 1;
+        }
+        $matching_lines = [];
+        while (count($matching_lines) < $limit) {
+            $index = $file_index['lines'][$continuation_location->lineNumber];
+            fseek($fp, $index);
+            $line = fgets($fp) ?? '';
+            if ($line === false) {
+                $line = '';
+            }
+            if ($this->isLineMatching($line, $query)) {
+                array_push($matching_lines, $line);
+            }
+            $continuation_location->lineNumber++;
+            if ($continuation_location->lineNumber >= $number_of_lines) {
+                try {
+                    $file_path_after = $this->getFilePathAfter($line_location->filePath);
+                    $this->log()->info("file_path_after {$file_path_after}");
+                    $next_file_location = new LineLocation($file_path_after, 0);
+                    $new_limit = $limit - count($matching_lines);
+                    $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_limit);
+                    $matching_lines = [
+                        ...$matching_lines,
+                        ...$result->lines,
+                    ];
+                    $continuation_location = $result->next;
+                } catch (\Throwable $th) {
+                    // Then, that's all we can do
+                    $continuation_location = null;
+                }
+                break;
+            }
+        }
+
+        fclose($fp);
+        return new ReadResult($matching_lines, $line_location, $continuation_location);
+    }
+
+    protected function isLineMatching(string $line, array $query): bool {
+        $min_log_level = $query['minLogLevel'] ?? null;
+        if (!$this->isLineMatchingMinLogLevel($line, $min_log_level)) {
+            return false;
+        }
+        $text_search = $query['textSearch'] ?? null;
+        if (!$this->isLineMatchingTextSearch($line, $text_search)) {
+            return false;
+        }
+        return true;
+    }
+
+    protected function isLineMatchingMinLogLevel(string $line, string|null $min_log_level): bool {
+        if (!$min_log_level) {
+            return true;
+        }
+        $log_levels = ['debug', 'info', 'notice', 'warning', 'error'];
+        $level_pos = array_search($min_log_level, $log_levels);
+        if ($level_pos === false) {
+            return true;
+        }
+        $matching_log_levels = array_slice($log_levels, $level_pos);
+        $log_levels_regex = implode('|', array_map(function ($log_level) {
+            return '\.'.strtoupper($log_level);
+        }, $matching_log_levels));
+        return (bool) preg_match("/{$log_levels_regex}/", $line);
+    }
+
+    protected function isLineMatchingTextSearch(string $line, string|null $text_search): bool {
+        if (!$text_search) {
+            return true;
+        }
+        $esc_text_search = preg_quote($text_search, '/');
+        return (bool) preg_match("/{$esc_text_search}/", $line);
+    }
+
+    // Override this function, if you have a different date format.
+    protected function parseDateTimeOfLine(string $line): \DateTime|null {
+        $res = preg_match('/(\d{4}\-\d{2}\-\d{2})(T|\s+)(\d{2}\:\d{2}\:\d{2})/', $line, $matches);
+        if (!$res) {
+            return null;
+        }
+        try {
+            return new \DateTime("{$matches[1]} {$matches[3]}");
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+}

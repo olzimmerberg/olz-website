@@ -45,7 +45,7 @@ final class AllDependenciesDeclaredTest extends UnitTestCase {
             $declared_dependencies = $class_name::UTILS;
             $all_utils = AllDependenciesDeclaredClassWithUtilsTrait::$ALL_UTILS;
             foreach ($all_utils as $util_name) {
-                $util_name_esc = preg_quote($util_name);
+                $util_name_esc = preg_quote($util_name, '/');
                 $is_used = strpos($util_path_contents, "\$this->{$util_name_esc}()") !== false;
                 $is_declared = array_search($util_name, $declared_dependencies) !== false;
                 if ($is_used) {

@@ -125,6 +125,9 @@ class OlzNewsList {
                 $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);
             }
             if ($page === 0) {
+                if ($page_content === '') {
+                    $page_content = "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
+                }
                 $out .= "<div id='news-list-page-{$page}' class='page'>{$page_content}</div>";
             } else {
                 $out .= "<div id='news-list-page-{$page}' class='page'>&nbsp;</div>";

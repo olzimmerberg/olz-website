@@ -47,16 +47,14 @@ if (isset($_GET['id'])) {
     }
     $aktuell_id = $id + 1200;
     $new_url = "{$code_href}aktuell.php?id={$aktuell_id}";
-// TODO: Redirect once people are aware of the new location
-// header("Location: {$new_url}");
+    header("Location: {$new_url}");
 } else {
     $news_filter_utils = NewsFilterUtils::fromEnv();
     $filter = $news_filter_utils->getDefaultFilter();
     $filter['format'] = 'galerie';
     $enc_json_filter = urlencode(json_encode($filter));
     $new_url = "{$code_href}aktuell.php?filter={$enc_json_filter}";
-    // TODO: Redirect once people are aware of the new location
-    // header("Location: {$new_url}");
+    header("Location: {$new_url}");
 }
 
 echo OlzHeader::render([

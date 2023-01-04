@@ -33,7 +33,6 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
-            'galerie' => true,
             'forum' => true,
             'termine' => true,
         ]);
@@ -55,13 +54,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id1)
         
-        
-        **Galerien**
-        
-        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/galerie.php?id=1)
-        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/galerie.php?id=2)
-        
-        
+
         **Forum**
         
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)

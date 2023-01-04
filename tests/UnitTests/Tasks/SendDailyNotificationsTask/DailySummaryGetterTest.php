@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
 
 use Olz\Entity\Blog;
 use Olz\Entity\Forum;
-use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
@@ -44,20 +43,6 @@ class FakeDailySummaryGetterBlogRepository {
         $blog2->setTime(new \DateTime('16:00:00'));
         $blog2->setTitle('MV nicht abgesagt!');
         return [$blog1, $blog2];
-    }
-}
-
-class FakeDailySummaryGetterGalerieRepository {
-    public function matching($criteria) {
-        $galerie1 = new Galerie();
-        $galerie1->setId(1);
-        $galerie1->setDate(new \DateTime('2020-03-12'));
-        $galerie1->setTitle('Bericht vom Lauftraining');
-        $galerie2 = new Galerie();
-        $galerie2->setId(2);
-        $galerie2->setDate(new \DateTime('2020-03-13'));
-        $galerie2->setTitle('MV nicht abgesagt!');
-        return [$galerie1, $galerie2];
     }
 }
 
@@ -102,12 +87,10 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeDailySummaryGetterNewsRepository();
         $blog_repo = new FakeDailySummaryGetterBlogRepository();
-        $galerie_repo = new FakeDailySummaryGetterGalerieRepository();
         $forum_repo = new FakeDailySummaryGetterForumRepository();
         $termin_repo = new FakeDailySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Blog::class] = $blog_repo;
-        $entity_manager->repositories[Galerie::class] = $galerie_repo;
         $entity_manager->repositories[Forum::class] = $forum_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
@@ -124,7 +107,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
             'blog' => true,
-            'galerie' => true,
             'forum' => true,
             'termine' => true,
         ]);
@@ -145,12 +127,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
         
         - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/blog.php#id1)
         - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/blog.php#id2)
-        
-        
-        **Galerien**
-        
-        - 12.03.: [Bericht vom Lauftraining](http://fake-base-url/_/galerie.php?id=1)
-        - 13.03.: [MV nicht abgesagt!](http://fake-base-url/_/galerie.php?id=2)
         
         
         **Forum**

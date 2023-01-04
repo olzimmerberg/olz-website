@@ -62,13 +62,11 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'dailySummaryAktuell' => true,
             'dailySummaryBlog' => true,
             'dailySummaryForum' => true,
-            'dailySummaryGalerie' => true,
             'dailySummaryTermine' => true,
             'weeklySummary' => true,
             'weeklySummaryAktuell' => true,
             'weeklySummaryBlog' => true,
             'weeklySummaryForum' => true,
-            'weeklySummaryGalerie' => true,
             'weeklySummaryTermine' => true,
         ]);
 
@@ -84,7 +82,6 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
                     'aktuell' => true,
                     'blog' => true,
                     'forum' => true,
-                    'galerie' => true,
                     'termine' => true,
                 ]),
             ],
@@ -106,7 +103,6 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
                     'aktuell' => true,
                     'blog' => true,
                     'forum' => true,
-                    'galerie' => true,
                     'termine' => true,
                 ]),
             ],
@@ -158,13 +154,11 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             'dailySummaryAktuell' => false,
             'dailySummaryBlog' => false,
             'dailySummaryForum' => false,
-            'dailySummaryGalerie' => false,
             'dailySummaryTermine' => false,
             'weeklySummary' => false,
             'weeklySummaryAktuell' => false,
             'weeklySummaryBlog' => false,
             'weeklySummaryForum' => false,
-            'weeklySummaryGalerie' => false,
             'weeklySummaryTermine' => false,
         ]);
 

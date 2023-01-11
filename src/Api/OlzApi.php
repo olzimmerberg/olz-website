@@ -111,6 +111,24 @@ class OlzApi extends Api {
             return new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint();
         });
 
+        // Termine
+
+        $olz_api->registerEndpoint('createTermin', function () {
+            return new \Olz\Termine\Endpoints\CreateTerminEndpoint();
+        });
+        $olz_api->registerEndpoint('getTermin', function () {
+            return new \Olz\Termine\Endpoints\GetTerminEndpoint();
+        });
+        $olz_api->registerEndpoint('editTermin', function () {
+            return new \Olz\Termine\Endpoints\EditTerminEndpoint();
+        });
+        $olz_api->registerEndpoint('updateTermin', function () {
+            return new \Olz\Termine\Endpoints\UpdateTerminEndpoint();
+        });
+        $olz_api->registerEndpoint('deleteTermin', function () {
+            return new \Olz\Termine\Endpoints\DeleteTerminEndpoint();
+        });
+
         OlzApps::registerAllEndpoints($olz_api);
 
         return $olz_api;

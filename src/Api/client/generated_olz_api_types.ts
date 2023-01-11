@@ -63,6 +63,44 @@ export type OlzWeeklyPictureData = {
     'alternativeImageId': string|null,
 };
 
+export type OlzTerminData = {
+    'startDate': string,
+    'startTime': string|null,
+    'endDate': string|null,
+    'endTime': string|null,
+    'title': string,
+    'text': string,
+    'link': string,
+    'deadline': string|null,
+    'newsletter': boolean,
+    'solvId': string|null,
+    'go2olId': string|null,
+    'types': Array<string>,
+    'onOff': boolean,
+    'coordinateX': number|null,
+    'coordinateY': number|null,
+    'fileIds': Array<string>,
+};
+
+export type OlzTerminDataOrNull = {
+    'startDate': string,
+    'startTime': string|null,
+    'endDate': string|null,
+    'endTime': string|null,
+    'title': string,
+    'text': string,
+    'link': string,
+    'deadline': string|null,
+    'newsletter': boolean,
+    'solvId': string|null,
+    'go2olId': string|null,
+    'types': Array<string>,
+    'onOff': boolean,
+    'coordinateX': number|null,
+    'coordinateY': number|null,
+    'fileIds': Array<string>,
+}|null;
+
 export type OlzBookingData = {
     'registrationId': string,
     'values': {[key: string]: any},
@@ -148,6 +186,11 @@ export type OlzApiEndpoint =
     'updateNews'|
     'deleteNews'|
     'createWeeklyPicture'|
+    'createTermin'|
+    'getTermin'|
+    'editTermin'|
+    'updateTermin'|
+    'deleteTermin'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -156,6 +199,7 @@ export type OlzApiEndpoint =
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
     'getAppGoogleSearchCredentials'|
+    'importTermine'|
     'getLogs'|
     'getAppMonitoringCredentials'|
     'updateNotificationSubscriptions'|
@@ -305,6 +349,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'meta': OlzMetaData,
             'data': OlzWeeklyPictureData,
         },
+    createTermin: {
+            'meta': OlzMetaData,
+            'data': OlzTerminData,
+        },
+    getTermin: {
+            'id': number,
+        },
+    editTermin: {
+            'id': number,
+        },
+    updateTermin: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzTerminDataOrNull,
+        },
+    deleteTermin: {
+            'id': number,
+        },
     createBooking: {
             'meta': OlzMetaData,
             'data': OlzBookingData,
@@ -323,6 +385,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
     getAppGoogleSearchCredentials: Record<string, never>,
+    importTermine: Record<string, never>,
     getLogs: {
             'index': number,
         },
@@ -475,6 +538,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'ERROR',
             'id': number,
         },
+    createTermin: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    getTermin: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminData,
+        },
+    editTermin: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminData,
+        },
+    updateTermin: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteTermin: {
+            'status': 'OK'|'ERROR',
+        },
     createBooking: {
             'status': 'OK'|'ERROR',
             'id': string,
@@ -523,6 +607,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'username': string,
             'password': string,
         },
+    importTermine: Record<string, never>,
     getLogs: {
             'content': string|null,
         },

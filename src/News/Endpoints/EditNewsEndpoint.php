@@ -57,7 +57,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
 
         $image_ids = $news_entry->getImageIds();
         $news_entry_img_path = "{$data_path}img/news/{$entity_id}/";
-        foreach ($image_ids as $image_id) {
+        foreach ($image_ids ?? [] as $image_id) {
             $image_path = "{$news_entry_img_path}img/{$image_id}";
             $temp_path = "{$data_path}temp/{$image_id}";
             copy($image_path, $temp_path);

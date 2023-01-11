@@ -17,6 +17,7 @@ final class OlzAppsTest extends UnitTestCase {
         'Anmelden',
         'Files',
         'GoogleSearch',
+        'Import',
         'Logs',
         'Monitoring',
         'Newsletter',

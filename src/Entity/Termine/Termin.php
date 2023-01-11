@@ -123,12 +123,32 @@ class Termin {
         $this->datum = $new_datum;
     }
 
+    // @deprecated Move to datetime
+    public function getStartTime() {
+        return $this->zeit;
+    }
+
+    // @deprecated Move to datetime
+    public function setStartTime($new_zeit) {
+        $this->zeit = $new_zeit;
+    }
+
     public function getEndsOn() {
         return $this->datum_end;
     }
 
     public function setEndsOn($new_datum_end) {
         $this->datum_end = $new_datum_end;
+    }
+
+    // @deprecated Move to datetime
+    public function getEndTime() {
+        return $this->zeit_end;
+    }
+
+    // @deprecated Move to datetime
+    public function setEndTime($new_zeit_end) {
+        $this->zeit_end = $new_zeit_end;
     }
 
     public function getDeadline() {
@@ -147,11 +167,77 @@ class Termin {
         $this->titel = $new_titel;
     }
 
+    public function getText() {
+        return $this->text;
+    }
+
+    public function setText($new_text) {
+        $this->text = $new_text;
+    }
+
+    public function getLink() {
+        return $this->link;
+    }
+
+    public function setLink($new_link) {
+        $this->link = $new_link;
+    }
+
+    public function getTypes() {
+        return $this->typ;
+    }
+
+    public function setTypes($new_types) {
+        $this->typ = $new_types;
+    }
+
+    public function getSolvId() {
+        return $this->solv_uid;
+    }
+
+    public function setSolvId($new_solv_uid) {
+        $this->solv_uid = $new_solv_uid;
+    }
+
+    // @deprecated Use SolvId to get the go2ol (or other platform) ID
+    public function getGo2olId() {
+        return $this->go2ol;
+    }
+
+    // @deprecated Use SolvId to get the go2ol (or other platform) ID
+    public function setGo2olId($new_go2ol) {
+        $this->go2ol = $new_go2ol;
+    }
+
+    public function getCoordinateX() {
+        return $this->xkoord;
+    }
+
+    public function setCoordinateX($new_xkoord) {
+        $this->xkoord = $new_xkoord;
+    }
+
+    public function getCoordinateY() {
+        return $this->ykoord;
+    }
+
+    public function setCoordinateY($new_ykoord) {
+        $this->ykoord = $new_ykoord;
+    }
+
     public function getOnOff() {
         return $this->on_off;
     }
 
     public function setOnOff($new_on_off) {
         $this->on_off = $new_on_off;
+    }
+
+    public function getNewsletter() {
+        return $this->newsletter;
+    }
+
+    public function setNewsletter($new_newsletter) {
+        $this->newsletter = $new_newsletter;
     }
 }

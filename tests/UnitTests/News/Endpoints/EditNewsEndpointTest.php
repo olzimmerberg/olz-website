@@ -127,6 +127,55 @@ final class EditNewsEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testEditNewsEndpointMinimal(): void {
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['any' => true];
+        $entity_manager = new Fake\FakeEntityManager();
+        $news_repo = new FakeEditNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        $entity_utils = new Fake\FakeEntityUtils();
+        $entity_utils->can_update_olz_entity = true;
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
+        $endpoint = new EditNewsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEntityUtils($entity_utils);
+        $endpoint->setEnvUtils($env_utils);
+        $endpoint->setLog($logger);
+
+        $result = $endpoint->call([
+            'id' => 12,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame([
+            'id' => 12,
+            'meta' => [
+                'ownerUserId' => null,
+                'ownerRoleId' => null,
+                'onOff' => false,
+            ],
+            'data' => [
+                'format' => 'aktuell',
+                'author' => null,
+                'authorUserId' => null,
+                'authorRoleId' => null,
+                'title' => 'Fake title',
+                'teaser' => '',
+                'content' => '',
+                'externalUrl' => null,
+                'tags' => [],
+                'terminId' => null,
+                'imageIds' => null,
+                'fileIds' => [],
+            ],
+        ], $result);
+    }
+
     public function testEditNewsEndpointMaximal(): void {
         $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->has_permission_by_query = ['any' => true];

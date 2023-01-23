@@ -22,8 +22,8 @@ if ((($_SESSION['auth'] ?? null) == 'all') or in_array($db_table, preg_split('/ 
 
 // -------------------------------------------------------------
 // USERVARIABLEN PRÜFEN
-if (isset($code)) {
-    $uid = $code;
+if (isset($_GET['code'])) {
+    $uid = $_GET['code'];
 }
 if (isset($id) and is_ganzzahl($id)) {
     $_SESSION[$db_table."id_"] = $id;

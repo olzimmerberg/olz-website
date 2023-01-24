@@ -12,14 +12,14 @@ interface OlzConfirmationDialogProps {
     confirmButtonStyle?: string;
 }
 
-export const OlzConfirmationDialog = (props: OlzConfirmationDialogProps) => {
+export const OlzConfirmationDialog = (props: OlzConfirmationDialogProps): React.ReactElement => {
     const confirmButtonClassName = `btn ${props.confirmButtonStyle ?? 'btn-primary'}`;
     const confirmDialogBody = props.description ? (
-    <div className='modal-body'>
-        <div>
-            {props.description ?? ''}
+        <div className='modal-body'>
+            <div>
+                {props.description ?? ''}
+            </div>
         </div>
-    </div>
     ) : undefined;
     return (
         <div className='modal fade' id='confirmation-dialog-modal' tabIndex={-1} aria-labelledby='confirmation-dialog-modal-label' aria-hidden='true'>
@@ -78,7 +78,7 @@ export async function olzConfirm(
         );
         const modal = document.getElementById('confirmation-dialog-modal');
         if (modal) {
-            new bootstrap.Modal(modal,{backdrop: 'static'}).show();
+            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
         }
     });
 }

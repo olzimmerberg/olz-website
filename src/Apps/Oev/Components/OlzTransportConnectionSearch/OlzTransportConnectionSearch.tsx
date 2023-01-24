@@ -1,7 +1,7 @@
 import React from 'react';
 import {OlzApiResponses} from '../../../../Api/client';
 import {OlzTransportSuggestion} from '../../../../Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull,isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
 
 const handleResponse: HandleResponseFunction<'searchTransportConnection'> = (response) => {
@@ -9,10 +9,10 @@ const handleResponse: HandleResponseFunction<'searchTransportConnection'> = (res
         throw new Error(`Antwort: ${response.status}`);
     }
     return 'Anfrage war erfolgreich!';
-}
-    
+};
+
 export function olzOevSearchConnection(
-    form: HTMLFormElement
+    form: HTMLFormElement,
 ): Promise<OlzApiResponses['searchTransportConnection']> {
     const getDataForRequestFn: GetDataForRequestFunction<'searchTransportConnection'> = (f) => {
         const fieldResults: OlzRequestFieldResult<'searchTransportConnection'> = {
@@ -22,7 +22,7 @@ export function olzOevSearchConnection(
         const nach = getFormField(f, 'destination').value;
         const ankunft = getFormField(f, 'arrival').value;
         const queryParams = `?nach=${nach}&ankunft=${ankunft}`;
-        window.history.pushState({} , '', queryParams);
+        window.history.pushState({}, '', queryParams);
         if (!isFieldResultOrDictThereofValid(fieldResults)) {
             return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
         }
@@ -37,7 +37,7 @@ export function olzOevSearchConnection(
     );
 }
 
-export const OlzTransportConnectionSearch = () => {
+export const OlzTransportConnectionSearch = (): React.ReactElement => {
     const [connectionSuggestions, setConnectionSuggestions] =
         React.useState<OlzTransportSuggestion[]|null>(null);
 
@@ -62,11 +62,11 @@ export const OlzTransportConnectionSearch = () => {
         return false;
     }, []);
 
-    const connectionSuggestionViews = connectionSuggestions === null 
+    const connectionSuggestionViews = connectionSuggestions === null
         ? ''
-        : (connectionSuggestions.length === 0 
-            ? (<div className='alert alert-warning'>Keine Verbindungen gefunden</div>) 
-            : connectionSuggestions.map(suggestion => (
+        : (connectionSuggestions.length === 0
+            ? (<div className='alert alert-warning'>Keine Verbindungen gefunden</div>)
+            : connectionSuggestions.map((suggestion) => (
                 <OlzTransportConnectionView suggestion={suggestion} />
             ))
         );
@@ -78,7 +78,7 @@ export const OlzTransportConnectionSearch = () => {
             onSubmit={handleSubmit}
         >
             <p>
-                <span className='required-field-asterisk'>* </span> 
+                <span className='required-field-asterisk'>* </span>
                 Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.
             </p>
             <div className='success-message alert alert-success' role='alert'></div>
@@ -97,7 +97,7 @@ export const OlzTransportConnectionSearch = () => {
             </div>
             <div>
                 <label htmlFor='oev-arrival-input'>
-                    Ankunft (TT.MM.JJJJ SS:MM) 
+                    Ankunft (TT.MM.JJJJ SS:MM)
                     <span className='required-field-asterisk'> *</span>
                 </label>
                 <input
@@ -113,4 +113,4 @@ export const OlzTransportConnectionSearch = () => {
         </form>
         {connectionSuggestionViews}
     </>);
-}
+};

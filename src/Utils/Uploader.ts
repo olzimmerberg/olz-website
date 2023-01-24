@@ -16,21 +16,13 @@ interface FileUpload {
     status: FileUploadStatus;
 }
 
-enum FileUploadStatus {
-    UPLOADING = 'UPLOADING',
-    FINISHING = 'FINISHING',
-    DONE = 'DONE',
-}
+type FileUploadStatus = 'UPLOADING'|'FINISHING'|'DONE';
 
 interface FileUploadPart {
     status: FileUploadPartStatus;
 }
 
-enum FileUploadPartStatus {
-    READY = 'READY',
-    UPLOADING = 'UPLOADING',
-    DONE = 'DONE',
-}
+type FileUploadPartStatus = 'READY'|'UPLOADING'| 'DONE';
 
 interface UploaderState {
     numberOfRunningRequests: number;
@@ -47,21 +39,16 @@ interface UploadState {
 type UploadRequest = UpdateUploadRequest|FinishUploadRequest;
 
 interface UpdateUploadRequest {
-    type: UploadRequestType.UPDATE;
+    type: 'UPDATE';
     id: FileUploadId;
     part: number;
     content: string;
 }
 
 interface FinishUploadRequest {
-    type: UploadRequestType.FINISH;
+    type: 'FINISH';
     id: FileUploadId;
     numberOfParts: number;
-}
-
-enum UploadRequestType {
-    UPDATE = 'UPDATE',
-    FINISH = 'FINISH',
 }
 
 export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
@@ -94,13 +81,13 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 }
                 const numParts = Math.ceil(base64Content.length / MAX_PART_LENGTH);
                 const parts: FileUploadPart[] = range(numParts).map(() => ({
-                    status: FileUploadPartStatus.READY,
+                    status: 'READY',
                 }));
                 this.uploadQueue.push({
                     uploadId,
                     base64Content,
                     parts,
-                    status: FileUploadStatus.UPLOADING,
+                    status: 'UPLOADING',
                 });
                 this.process();
                 return uploadId;
@@ -109,7 +96,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 
     protected process(): void {
         this.uploadQueue = this.uploadQueue.filter(
-            (upload) => upload.status !== FileUploadStatus.DONE,
+            (upload) => upload.status !== 'DONE',
         );
         if (this.uploadQueue.length < 1) {
             return;
@@ -131,36 +118,36 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
             throw new Error('upload queue not found');
         }
         switch (request.type) {
-            case UploadRequestType.UPDATE: {
+            case 'UPDATE': {
                 const part = requestUpload.parts[request.part];
-                part.status = FileUploadPartStatus.UPLOADING;
+                part.status = 'UPLOADING';
                 return this.olzApi.call('updateUpload', {
                     id: request.id,
                     part: request.part,
                     content: request.content,
                 })
                     .then(() => {
-                        part.status = FileUploadPartStatus.DONE;
+                        part.status = 'DONE';
                         this.process();
                     })
                     .catch(() => {
-                        part.status = FileUploadPartStatus.READY;
+                        part.status = 'READY';
                         this.process();
                     });
             }
-            case UploadRequestType.FINISH: {
-                requestUpload.status = FileUploadStatus.FINISHING;
+            case 'FINISH': {
+                requestUpload.status = 'FINISHING';
                 return this.olzApi.call('finishUpload', {
                     id: request.id,
                     numberOfParts: request.numberOfParts,
                 })
                     .then(() => {
                         this.dispatchEvent('uploadFinished', request.id);
-                        requestUpload.status = FileUploadStatus.DONE;
+                        requestUpload.status = 'DONE';
                         this.process();
                     })
                     .catch(() => {
-                        requestUpload.status = FileUploadStatus.UPLOADING;
+                        requestUpload.status = 'UPLOADING';
                         this.process();
                     });
             }
@@ -177,7 +164,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
         const nextRequests: UploadRequest[] = [];
         for (let uploadIndex = 0; uploadIndex < this.uploadQueue.length; uploadIndex++) {
             const uploadAtIndex = this.uploadQueue[uploadIndex];
-            if (uploadAtIndex.status === FileUploadStatus.FINISHING) {
+            if (uploadAtIndex.status === 'FINISHING') {
                 numberOfRunningRequests++;
             }
             let numDoneParts = 0;
@@ -185,25 +172,25 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
             for (let partIndex = 0; partIndex < numParts; partIndex++) {
                 const partAtIndex = uploadAtIndex.parts[partIndex];
                 switch (partAtIndex.status) {
-                    case FileUploadPartStatus.READY: {
+                    case 'READY': {
                         const partContent = uploadAtIndex.base64Content.substr(
                             partIndex * MAX_PART_LENGTH, MAX_PART_LENGTH,
                         );
                         const obfuscatedContent = obfuscateForUpload(partContent);
                         nextRequests.push({
-                            type: UploadRequestType.UPDATE,
+                            type: 'UPDATE',
                             id: uploadAtIndex.uploadId,
                             part: partIndex,
                             content: obfuscatedContent,
                         });
                         break;
                     }
-                    case FileUploadPartStatus.UPLOADING: {
+                    case 'UPLOADING': {
                         numberOfRunningRequests++;
                         numDoneParts += 0.5;
                         break;
                     }
-                    case FileUploadPartStatus.DONE: {
+                    case 'DONE': {
                         numDoneParts += 1;
                         break;
                     }
@@ -212,9 +199,9 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                         return assertUnreachable(partAtIndex.status);
                 }
             }
-            if (uploadAtIndex.status === FileUploadStatus.UPLOADING && numDoneParts === numParts) {
+            if (uploadAtIndex.status === 'UPLOADING' && numDoneParts === numParts) {
                 nextRequests.push({
-                    type: UploadRequestType.FINISH,
+                    type: 'FINISH',
                     id: uploadAtIndex.uploadId,
                     numberOfParts: numParts,
                 });
@@ -242,8 +229,5 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 }
 
 export type TestOnlyFileUpload = FileUpload;
-export const TestOnlyFileUploadPartStatus = FileUploadPartStatus;
 export type TestOnlyUploadRequest = UploadRequest;
-export const TestOnlyUploadRequestType = UploadRequestType;
 export type TestOnlyUpdateUploadRequest = UpdateUploadRequest;
-export const TestOnlyFileUploadStatus = FileUploadStatus;

@@ -108,6 +108,7 @@ const javaScriptRules = {
 };
 
 const typeScriptRules = {
+    ...javaScriptRules,
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -124,11 +125,12 @@ const typeScriptRules = {
         'argsIgnorePattern': '^_',
         'varsIgnorePattern': '^_',
     }],
-    'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/no-use-before-define': ['error', {'classes': false, 'functions': false}],
-    'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': ['error'],
+    'no-shadow': 'off',
+    'no-unused-vars': 'off',
+    'no-useless-constructor': 'off',
 };
 
 module.exports = {
@@ -147,7 +149,7 @@ module.exports = {
     rules: javaScriptRules,
     overrides: [
         {
-            files: ['**/*.ts'],
+            files: ['**/*.ts', '**/*.tsx'],
             env: {
                 browser: true,
                 es6: true,

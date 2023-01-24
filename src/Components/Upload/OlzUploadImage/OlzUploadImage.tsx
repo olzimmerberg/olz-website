@@ -9,7 +9,7 @@ interface OlzUploadImageProps {
     onDelete?: (uploadId: string) => unknown;
 }
 
-export const OlzUploadImage = (props: OlzUploadImageProps) => {
+export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement => {
     const uploadFile = props.uploadFile;
     if (uploadFile?.uploadState === 'UPLOADING') {
         const uploadingFile: UploadingFile = uploadFile;
@@ -56,5 +56,5 @@ export const OlzUploadImage = (props: OlzUploadImageProps) => {
         );
     }
     throw new Error('Tertium non datur.');
-    
+
 };

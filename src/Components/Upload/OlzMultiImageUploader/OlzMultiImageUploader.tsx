@@ -20,16 +20,17 @@ interface OlzMultiImageUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => unknown;
 }
 
-export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
+export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps): React.ReactElement => {
     const initialUploadedFiles: UploadedFile[] = props.initialUploadIds?.map(
-        uploadId => ({uploadState: 'UPLOADED', uploadId})) || [];
+        (uploadId) => ({uploadState: 'UPLOADED', uploadId}),
+    ) || [];
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
     const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(initialUploadedFiles);
 
     React.useEffect(() => {
         const clock = setInterval(() => {
             const state = uploader.getState();
-            const newUploadingFiles = uploadingFiles.map(uploadingFile => {
+            const newUploadingFiles = uploadingFiles.map((uploadingFile) => {
                 if (!uploadingFile.uploadId) {
                     return uploadingFile;
                 }
@@ -42,22 +43,23 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
             }).filter(isDefined);
             setUploadingFiles(newUploadingFiles);
         }, 1000);
-        return () => clearInterval(clock)
+        return () => clearInterval(clock);
     }, [uploadingFiles]);
 
     React.useEffect(() => {
         const callback = (event: CustomEvent<string>) => {
             const uploadId = event.detail;
             const newUploadingFiles = uploadingFiles.filter(
-                uploadingFile => uploadingFile.uploadId !== uploadId);
-            const wasUploading = 
+                (uploadingFile) => uploadingFile.uploadId !== uploadId,
+            );
+            const wasUploading =
                 newUploadingFiles.length !== uploadingFiles.length;
             if (wasUploading) {
                 setUploadingFiles(newUploadingFiles);
                 const newUploadedFile: UploadedFile = {uploadState: 'UPLOADED', uploadId};
                 const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
-                const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
+                const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
                 if (props.onUploadIdsChange) {
                     props.onUploadIdsChange(uploadIds);
                 }
@@ -73,34 +75,38 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
         for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
             const file = acceptedFiles[fileListIndex];
             newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
+            // eslint-disable-next-line no-await-in-loop
             const base64Content = await readBase64(file);
             if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
                 console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
-                continue;
+                continue; // eslint-disable-line no-continue
             }
             try {
+                // eslint-disable-next-line no-await-in-loop
                 const img = await loadImageFromBase64(base64Content);
                 const canvas = getResizedCanvas(img, MAX_IMAGE_SIZE);
                 const resizedBase64 = getBase64FromCanvas(canvas);
                 if (!resizedBase64) {
-                    continue;
+                    continue; // eslint-disable-line no-continue
                 }
-                const uploadId = await uploader.add(resizedBase64, `.jpg`);
+                // eslint-disable-next-line no-await-in-loop
+                const uploadId = await uploader.add(resizedBase64, '.jpg');
                 const evenNewerUploadingFiles = [...newUploadingFiles];
                 evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
                 setUploadingFiles(evenNewerUploadingFiles);
             } catch (err: unknown) {
                 console.error(`${file.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
-                continue;
+                continue; // eslint-disable-line no-continue
             }
         }
     };
 
     const onDelete = React.useCallback((uploadId: string) => {
         const newUploadedFiles = uploadedFiles.filter(
-            uploadedFile => uploadedFile.uploadId !== uploadId);
+            (uploadedFile) => uploadedFile.uploadId !== uploadId,
+        );
         setUploadedFiles(newUploadedFiles);
-        const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
+        const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
         if (props.onUploadIdsChange) {
             props.onUploadIdsChange(uploadIds);
         }
@@ -109,14 +115,14 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: 'image/jpeg, image/png',
         onDrop,
-    })
+    });
 
     const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (
         <div className='olz-multi-image-uploader'>
             <div className='state'>
-                {uploadFiles.map(uploadFile => <OlzUploadImage
+                {uploadFiles.map((uploadFile) => <OlzUploadImage
                     key={serializeUploadFile(uploadFile)}
                     uploadFile={uploadFile}
                     onDelete={onDelete}
@@ -133,8 +139,8 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps) => {
                 />
                 {
                     isDragActive ?
-                    <div>Bilder hierhin ziehen...</div> :
-                    <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
+                        <div>Bilder hierhin ziehen...</div> :
+                        <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
                 }
             </div>
         </div>

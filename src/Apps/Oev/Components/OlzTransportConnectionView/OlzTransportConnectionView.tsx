@@ -19,7 +19,7 @@ interface OlzTransportConnectionViewProps {
 
 export const OlzTransportConnectionView = (
     props: OlzTransportConnectionViewProps,
-) => {
+): React.ReactElement => {
     const suggestion = props.suggestion;
     return (<div>
         <br/>
@@ -31,40 +31,14 @@ export const OlzTransportConnectionView = (
         <br/>
         <b>Main connection</b>
         <table>
-        {suggestion.mainConnection.sections.map(section => (<>
-            <tr className='departure'>
-                <td>{section.departure.stationName} ({section.departure.stationId})</td>
-                <td>{section.departure.time}</td>
-            </tr>
-            {section.passList
-                .filter(passStation => IS_OLZ_STATION[passStation.stationId])
-                .map(passStation => (
-                    <tr className='halt'>
-                        <td>{passStation.stationName} ({passStation.stationId})</td>
-                        <td>{passStation.time}</td>
-                    </tr>
-                ))
-            }
-            <tr className='arrival'>
-                <td>{section.arrival.stationName} ({section.arrival.stationId})</td>
-                <td>{section.arrival.time}</td>
-            </tr>
-        </>))}
-        </table>
-        <br/>
-        <b>Side connections</b>
-        <table>
-        {suggestion.sideConnections.map(sideConnection => (<>
-            <br/>
-            <div>Joining Station: {sideConnection.joiningStationId}</div>
-            {sideConnection.connection.sections.map(section => (<>
+            {suggestion.mainConnection.sections.map((section) => (<>
                 <tr className='departure'>
                     <td>{section.departure.stationName} ({section.departure.stationId})</td>
                     <td>{section.departure.time}</td>
                 </tr>
                 {section.passList
-                    .filter(passStation => IS_OLZ_STATION[passStation.stationId])
-                    .map(passStation => (
+                    .filter((passStation) => IS_OLZ_STATION[passStation.stationId])
+                    .map((passStation) => (
                         <tr className='halt'>
                             <td>{passStation.stationName} ({passStation.stationId})</td>
                             <td>{passStation.time}</td>
@@ -76,16 +50,42 @@ export const OlzTransportConnectionView = (
                     <td>{section.arrival.time}</td>
                 </tr>
             </>))}
-        </>))}
+        </table>
+        <br/>
+        <b>Side connections</b>
+        <table>
+            {suggestion.sideConnections.map((sideConnection) => (<>
+                <br/>
+                <div>Joining Station: {sideConnection.joiningStationId}</div>
+                {sideConnection.connection.sections.map((section) => (<>
+                    <tr className='departure'>
+                        <td>{section.departure.stationName} ({section.departure.stationId})</td>
+                        <td>{section.departure.time}</td>
+                    </tr>
+                    {section.passList
+                        .filter((passStation) => IS_OLZ_STATION[passStation.stationId])
+                        .map((passStation) => (
+                            <tr className='halt'>
+                                <td>{passStation.stationName} ({passStation.stationId})</td>
+                                <td>{passStation.time}</td>
+                            </tr>
+                        ))
+                    }
+                    <tr className='arrival'>
+                        <td>{section.arrival.stationName} ({section.arrival.stationId})</td>
+                        <td>{section.arrival.time}</td>
+                    </tr>
+                </>))}
+            </>))}
         </table>
         <br/>
     </div>);
-}
+};
 
-export function getSvgFromInstructions(instructions: PaintInstruction[]) {
-    // const maxStationNameLength = instructions.reduce((prev, value) => 
+export function getSvgFromInstructions(instructions: PaintInstruction[]): React.ReactElement {
+    // const maxStationNameLength = instructions.reduce((prev, value) =>
     //     Math.max(prev, value.stationName.length), 0);
-    const numConnections = instructions.reduce((prev, value) => 
+    const numConnections = instructions.reduce((prev, value) =>
         Math.max(prev, (value.connection ?? 0) + 1), 0);
     const heightPerInstruction = 20;
     const height = instructions.length * heightPerInstruction;
@@ -112,7 +112,7 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
                                 stroke={CHANGE_COLOR}
                                 stroke-width={10}
                                 stroke-linecap='round'
-                            />
+                            />,
                         );
                     }
                 }
@@ -128,10 +128,10 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
                             stroke={TRANSIT_COLOR}
                             stroke-width={10}
                             stroke-linecap='round'
-                        />
+                        />,
                     );
                 }
-                output.push(...instruction.joinConnections?.flatMap(joinConnection => {
+                output.push(...instruction.joinConnections.flatMap((joinConnection) => {
                     const endIndex = endIndexByConnection[joinConnection];
                     return [
                         <line
@@ -151,8 +151,8 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]) {
                             stroke={CHANGE_COLOR}
                             stroke-width={10}
                             stroke-linecap='round'
-                        />
-                    ]
+                        />,
+                    ];
                 }));
                 return output;
             })}
@@ -221,7 +221,7 @@ interface PaintInstruction {
     joinConnections: number[];
 }
 
-export function getPaintInstructions(suggestion: OlzTransportSuggestion) {
+export function getPaintInstructions(suggestion: OlzTransportSuggestion): PaintInstruction[] {
     const joinConnectionsByStationId: {[stationId: string]: number[]} = {};
     suggestion.sideConnections.map((sideConnection, sideConnectionIndex) => {
         const stationId = sideConnection.joiningStationId;
@@ -231,27 +231,28 @@ export function getPaintInstructions(suggestion: OlzTransportSuggestion) {
             sideConnectionIndex + 1,
         ];
     });
-    const skippedOriginInstructions: PaintInstruction[] = 
-        suggestion.originInfo.filter(originInfo => originInfo.isSkipped).map(
-            originInfo => getPaintInstruction(undefined, originInfo.halt, 'skip'));
-    const mainConnectionInstructions: PaintInstruction[] = 
+    const skippedOriginInstructions: PaintInstruction[] =
+        suggestion.originInfo.filter((originInfo) => originInfo.isSkipped).map(
+            (originInfo) => getPaintInstruction(undefined, originInfo.halt, 'skip'),
+        );
+    const mainConnectionInstructions: PaintInstruction[] =
         suggestion.mainConnection.sections
-            .flatMap(section => getPaintInstructionsFromSection(0, section))
+            .flatMap((section) => getPaintInstructionsFromSection(0, section))
             .reverse()
-            .map(instruction => {
+            .map((instruction) => {
                 const joinConnections = joinConnectionsByStationId[instruction.stationId] ?? [];
                 joinConnectionsByStationId[instruction.stationId] = [];
                 return {
                     ...instruction,
                     joinConnections,
-                }
+                };
             })
             .reverse();
-    const sideConnectionInstructions: PaintInstruction[] = 
+    const sideConnectionInstructions: PaintInstruction[] =
         suggestion.sideConnections.flatMap((sideConnection, sideConnectionIndex) => {
             const joiningStationId = sideConnection.joiningStationId;
             let hasJoined = false;
-            const sectionsToDraw = sideConnection.connection.sections.map(section => {
+            const sectionsToDraw = sideConnection.connection.sections.map((section) => {
                 if (hasJoined) {
                     return null;
                 }
@@ -264,28 +265,31 @@ export function getPaintInstructions(suggestion: OlzTransportSuggestion) {
                     return section;
                 }
                 const joiningIndex = section.passList.findIndex(
-                    halt => halt.stationId === joiningStationId);
+                    (halt) => halt.stationId === joiningStationId,
+                );
                 if (joiningIndex > -1) {
                     hasJoined = true;
                     return {
-                        ...section, 
+                        ...section,
                         passList: section.passList.slice(0, joiningIndex),
                         arrival: section.passList[joiningIndex],
-                    }
+                    };
                 }
                 return section;
-            }).filter(section => section !== null);
+            }).filter((section) => section !== null);
             return sectionsToDraw.flatMap(
-                section => section ? getPaintInstructionsFromSection(
-                    sideConnectionIndex + 1, section) : []);
+                (section) => (section ? getPaintInstructionsFromSection(
+                    sideConnectionIndex + 1, section,
+                ) : []),
+            );
         });
     const instructions = [
         ...skippedOriginInstructions,
         ...mainConnectionInstructions,
         ...sideConnectionInstructions,
     ];
-    instructions.sort((instructionA, instructionB) => 
-        instructionA.time > instructionB.time ? 1 : -1);
+    instructions.sort((instructionA, instructionB) =>
+        (instructionA.time > instructionB.time ? 1 : -1));
     console.log(instructions);
     return instructions;
 }
@@ -300,7 +304,8 @@ function getPaintInstructionsFromSection(
     return [
         getPaintInstruction(connection, section.departure, 'departure'),
         ...section.passList.map(
-            halt => getPaintInstruction(connection, halt, 'halt')),
+            (halt) => getPaintInstruction(connection, halt, 'halt'),
+        ),
         getPaintInstruction(connection, section.arrival, 'arrival'),
     ];
 }

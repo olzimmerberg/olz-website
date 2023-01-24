@@ -55,9 +55,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
 
 const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>Hinweise:</b></div>
-    <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen, 
+    <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen,
     Bsp.: 'http://www.olzimmerberg.ch' wird zu  <a href='http://www.olzimmerberg.ch' className='linkext' target='blank'><b>www.olzimmerberg.ch</b></a></div>
-    <div><b>2. Text mit Fettschrift hervorheben:</b> Fetten Text mit '&lt;b&gt;' beginnen und mit '&lt;/b&gt;' beenden, 
+    <div><b>2. Text mit Fettschrift hervorheben:</b> Fetten Text mit '&lt;b&gt;' beginnen und mit '&lt;/b&gt;' beenden,
     Bsp: '&lt;b&gt;dies ist fetter Text&lt;/b&gt;' wird zu '<b>dies ist fetter Text</b>'</div>
     <div><b>3. Bilder:</b></div>
     <table><tbody>
@@ -108,7 +108,7 @@ interface OlzEditNewsModalProps {
     data?: OlzNewsData;
 }
 
-export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
+export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactElement => {
     const [format, setFormat] = React.useState<OlzNewsFormat>(props.data?.format ?? 'aktuell');
     const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
     const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
@@ -121,7 +121,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
         event.preventDefault();
-        
+
         if (props.id) {
             const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
                 const fieldResults: OlzRequestFieldResult<'updateNews'> = {
@@ -152,13 +152,13 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                 return validFormData(getFieldResultOrDictThereofValue(fieldResults));
             };
 
-            const handleUpdateResponse = (response: OlzApiResponses['updateNews']): string|void => {
+            const handleUpdateResponse = (_response: OlzApiResponses['updateNews']): string|void => {
                 window.setTimeout(() => {
                     // TODO: This could probably be done more smoothly!
                     window.location.reload();
                 }, 3000);
                 return 'News-Eintrag erfolgreich geändert. Bitte warten...';
-            }
+            };
 
             olzDefaultFormSubmit(
                 'updateNews',
@@ -204,7 +204,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                     window.location.reload();
                 }, 3000);
                 return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
-            }
+            };
 
             olzDefaultFormSubmit(
                 'createNews',
@@ -213,7 +213,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                 handleCreateResponse,
             );
         }
-        
+
         return false;
     }, [authorUserId, authorRoleId, fileIds, imageIds]);
 
@@ -237,8 +237,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                             nullLabel={authorUserId ? '(unverändert)' : 'Bitte wählen...'}
                                             userId={authorUserId}
                                             roleId={authorRoleId}
-                                            onUserIdChange={e => setAuthorUserId(e.detail)}  
-                                            onRoleIdChange={e => setAuthorRoleId(e.detail)}  
+                                            onUserIdChange={(e) => setAuthorUserId(e.detail)}
+                                            onRoleIdChange={(e) => setAuthorRoleId(e.detail)}
                                         />
                                     </div>
                                 </div>
@@ -271,7 +271,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     type='text'
                                     name='title'
                                     value={title}
-                                    onChange={e => setTitle(e.target.value)}
+                                    onChange={(e) => setTitle(e.target.value)}
                                     className='form-control'
                                     id='news-title-input'
                                 />
@@ -282,7 +282,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     <textarea
                                         name='teaser'
                                         value={teaser}
-                                        onChange={e => setTeaser(e.target.value)}
+                                        onChange={(e) => setTeaser(e.target.value)}
                                         className='form-control'
                                         id='news-teaser-input'
                                     />
@@ -294,7 +294,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                     <textarea
                                         name='content'
                                         value={content}
-                                        onChange={e => setContent(e.target.value)}
+                                        onChange={(e) => setContent(e.target.value)}
                                         className='form-control'
                                         id='news-content-input'
                                     />
@@ -308,7 +308,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
                                         type='text'
                                         name='external-url'
                                         value={externalUrl}
-                                        onChange={e => setExternalUrl(e.target.value)}
+                                        onChange={(e) => setExternalUrl(e.target.value)}
                                         className='form-control'
                                         id='news-external-url-input'
                                     />
@@ -345,14 +345,15 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps) => {
 };
 
 export function initOlzEditNewsModal(
-    id?: number, meta?: OlzMetaData, data?: OlzNewsData) {
+    id?: number, meta?: OlzMetaData, data?: OlzNewsData,
+): boolean {
     ReactDOM.render(
         <OlzEditNewsModal id={id} meta={meta} data={data} />,
         document.getElementById('edit-news-react-root'),
     );
     const modal = document.getElementById('edit-news-modal');
     if (modal) {
-    new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
     }
     return false;
 }

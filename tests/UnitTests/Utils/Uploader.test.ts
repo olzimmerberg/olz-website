@@ -2,7 +2,7 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import {OlzApi, OlzApiResponses} from '../../../src/Api/client/index';
-import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyFileUploadPartStatus, TestOnlyUploadRequest, TestOnlyUploadRequestType, TestOnlyFileUploadStatus, TestOnlyFileUpload, Uploader} from '../../../src/Utils/Uploader';
+import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyUploadRequest, TestOnlyFileUpload, Uploader} from '../../../src/Utils/Uploader';
 import {FakeOlzApi} from '../../Fake/FakeOlzApi';
 
 class UploaderForUnitTest extends Uploader {
@@ -33,64 +33,59 @@ class UploaderForUnitTest extends Uploader {
     }
 }
 
-const NEW_UPLOAD = {
+const NEW_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'default-id',
-    filename: 'default.txt',
     base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
-        {status: TestOnlyFileUploadPartStatus.READY},
-        {status: TestOnlyFileUploadPartStatus.READY},
-        {status: TestOnlyFileUploadPartStatus.READY},
+        {status: 'READY'},
+        {status: 'READY'},
+        {status: 'READY'},
     ],
-    status: TestOnlyFileUploadStatus.UPLOADING,
+    status: 'UPLOADING',
 };
 
-const DEFAULT_UPLOAD = {
+const DEFAULT_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'default-id',
-    filename: 'default.txt',
     base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.UPLOADING},
-        {status: TestOnlyFileUploadPartStatus.READY},
+        {status: 'DONE'},
+        {status: 'UPLOADING'},
+        {status: 'READY'},
     ],
-    status: TestOnlyFileUploadStatus.UPLOADING,
+    status: 'UPLOADING',
 };
 
-const UPLOADED_UPLOAD = {
+const UPLOADED_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'uploaded-id',
-    filename: 'uploaded.txt',
     base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
+        {status: 'DONE'},
+        {status: 'DONE'},
+        {status: 'DONE'},
     ],
-    status: TestOnlyFileUploadStatus.UPLOADING,
+    status: 'UPLOADING',
 };
 
-const FINISHING_UPLOAD = {
+const FINISHING_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'finishing-id',
-    filename: 'finishing.txt',
     base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
+        {status: 'DONE'},
+        {status: 'DONE'},
+        {status: 'DONE'},
     ],
-    status: TestOnlyFileUploadStatus.FINISHING,
+    status: 'FINISHING',
 };
 
-const FINISHED_UPLOAD = {
+const FINISHED_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'finished-id',
-    filename: 'finished.txt',
     base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
     parts: [
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
-        {status: TestOnlyFileUploadPartStatus.DONE},
+        {status: 'DONE'},
+        {status: 'DONE'},
+        {status: 'DONE'},
     ],
-    status: TestOnlyFileUploadStatus.DONE,
+    status: 'DONE',
 };
 
 describe('Uploader', () => {
@@ -130,11 +125,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.READY},
-                    {status: TestOnlyFileUploadPartStatus.READY},
-                    {status: TestOnlyFileUploadPartStatus.READY},
+                    {status: 'READY'},
+                    {status: 'READY'},
+                    {status: 'READY'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(1);
             expect(promiseIsResolvedWith).toEqual(null);
@@ -145,11 +140,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(1);
 
@@ -159,11 +154,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
@@ -173,11 +168,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.FINISHING,
+                status: 'FINISHING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
@@ -187,11 +182,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.DONE,
+                status: 'DONE',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(5);
 
@@ -228,11 +223,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.READY},
-                    {status: TestOnlyFileUploadPartStatus.READY},
-                    {status: TestOnlyFileUploadPartStatus.READY},
+                    {status: 'READY'},
+                    {status: 'READY'},
+                    {status: 'READY'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(1);
 
@@ -242,11 +237,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(1);
 
@@ -256,11 +251,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
@@ -270,11 +265,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.FINISHING,
+                status: 'FINISHING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
@@ -284,11 +279,11 @@ describe('Uploader', () => {
                 uploadId: 'new-id',
                 base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'DONE'},
                 ],
-                status: TestOnlyFileUploadStatus.DONE,
+                status: 'DONE',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(5);
 
@@ -320,19 +315,19 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [
                     {
-                        type: TestOnlyUploadRequestType.UPDATE,
+                        type: 'UPDATE',
                         id: 'default-id',
                         part: 0,
                         content: (state.nextRequests[0] as TestOnlyUpdateUploadRequest).content,
                     },
                     {
-                        type: TestOnlyUploadRequestType.UPDATE,
+                        type: 'UPDATE',
                         id: 'default-id',
                         part: 1,
                         content: (state.nextRequests[1] as TestOnlyUpdateUploadRequest).content,
                     },
                     {
-                        type: TestOnlyUploadRequestType.UPDATE,
+                        type: 'UPDATE',
                         id: 'default-id',
                         part: 2,
                         content: (state.nextRequests[2] as TestOnlyUpdateUploadRequest).content,
@@ -358,7 +353,7 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [
                     {
-                        type: TestOnlyUploadRequestType.UPDATE,
+                        type: 'UPDATE',
                         id: 'default-id',
                         part: 2,
                         content: (state.nextRequests[0] as TestOnlyUpdateUploadRequest).content,
@@ -384,7 +379,7 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [
                     {
-                        type: TestOnlyUploadRequestType.FINISH,
+                        type: 'FINISH',
                         id: 'uploaded-id',
                         numberOfParts: 3,
                     },
@@ -451,7 +446,7 @@ describe('Uploader', () => {
             expect(state).toEqual({
                 nextRequests: [
                     {
-                        type: TestOnlyUploadRequestType.FINISH,
+                        type: 'FINISH',
                         id: 'default-id',
                         numberOfParts: 0,
                     },
@@ -481,7 +476,7 @@ describe('Uploader', () => {
 
             // Start request
             const promise = uploader.testOnlyProcessRequest({
-                type: TestOnlyUploadRequestType.UPDATE,
+                type: 'UPDATE',
                 id: DEFAULT_UPLOAD.uploadId,
                 part: 2,
                 content: 'a'.repeat(32),
@@ -490,9 +485,9 @@ describe('Uploader', () => {
             expect(uploadQueue[0]).toEqual({
                 ...DEFAULT_UPLOAD,
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
                 ],
             });
 
@@ -502,9 +497,9 @@ describe('Uploader', () => {
             expect(uploadQueue[0]).toEqual({
                 ...DEFAULT_UPLOAD,
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.DONE},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                    {status: 'DONE'},
                 ],
             });
         });
@@ -523,7 +518,7 @@ describe('Uploader', () => {
 
             // Start request
             const promise = uploader.testOnlyProcessRequest({
-                type: TestOnlyUploadRequestType.UPDATE,
+                type: 'UPDATE',
                 id: DEFAULT_UPLOAD.uploadId,
                 part: 2,
                 content: 'a'.repeat(32),
@@ -532,9 +527,9 @@ describe('Uploader', () => {
             expect(uploadQueue[0]).toEqual({
                 ...DEFAULT_UPLOAD,
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                    {status: 'UPLOADING'},
                 ],
             });
 
@@ -544,9 +539,9 @@ describe('Uploader', () => {
             expect(uploadQueue[0]).toEqual({
                 ...DEFAULT_UPLOAD,
                 parts: [
-                    {status: TestOnlyFileUploadPartStatus.DONE},
-                    {status: TestOnlyFileUploadPartStatus.UPLOADING},
-                    {status: TestOnlyFileUploadPartStatus.READY},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                    {status: 'READY'},
                 ],
             });
         });
@@ -564,14 +559,14 @@ describe('Uploader', () => {
 
             // Start request
             const promise = uploader.testOnlyProcessRequest({
-                type: TestOnlyUploadRequestType.FINISH,
+                type: 'FINISH',
                 id: UPLOADED_UPLOAD.uploadId,
                 numberOfParts: UPLOADED_UPLOAD.parts.length,
             });
 
             expect(uploadQueue[0]).toEqual({
                 ...UPLOADED_UPLOAD,
-                status: TestOnlyFileUploadStatus.FINISHING,
+                status: 'FINISHING',
             });
 
             // Wait for request response
@@ -579,7 +574,7 @@ describe('Uploader', () => {
 
             expect(uploadQueue[0]).toEqual({
                 ...UPLOADED_UPLOAD,
-                status: TestOnlyFileUploadStatus.DONE,
+                status: 'DONE',
             });
         });
 
@@ -598,14 +593,14 @@ describe('Uploader', () => {
 
             // Start request
             const promise = uploader.testOnlyProcessRequest({
-                type: TestOnlyUploadRequestType.FINISH,
+                type: 'FINISH',
                 id: UPLOADED_UPLOAD.uploadId,
                 numberOfParts: UPLOADED_UPLOAD.parts.length,
             });
 
             expect(uploadQueue[0]).toEqual({
                 ...UPLOADED_UPLOAD,
-                status: TestOnlyFileUploadStatus.FINISHING,
+                status: 'FINISHING',
             });
 
             // Wait for request response
@@ -613,7 +608,7 @@ describe('Uploader', () => {
 
             expect(uploadQueue[0]).toEqual({
                 ...UPLOADED_UPLOAD,
-                status: TestOnlyFileUploadStatus.UPLOADING,
+                status: 'UPLOADING',
             });
         });
     });

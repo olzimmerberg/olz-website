@@ -6,7 +6,7 @@ import './OlzMonitoring.scss';
 
 const OLZ_MONITORING_URL = 'https://status.olzimmerberg.ch/';
 
-export const OlzMonitoring = () => {
+export const OlzMonitoring = (): React.ReactElement => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
 

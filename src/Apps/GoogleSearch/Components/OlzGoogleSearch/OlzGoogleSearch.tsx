@@ -10,7 +10,7 @@ const OLZ_GOOGLE_LOGIN_URL = `https://accounts.google.com/signin/v2/identifier?h
 const OLZ_BING_SEARCH_URL = 'https://www.bing.com/webmasters/home?siteUrl=https://olzimmerberg.ch/';
 const OLZ_LOGIN_URL = 'https://accounts.google.com/signin/v2/identifier?hl=de';
 
-export const OlzGoogleSearch = () => {
+export const OlzGoogleSearch = (): React.ReactElement => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
 

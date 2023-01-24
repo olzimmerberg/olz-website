@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi} from '../../../../Api/client';
 
-export const OlzRegistrationView = () => {
+export const OlzRegistrationView = (): React.ReactElement => {
     const createRegistration = () => {
         olzApi.call('createRegistration', {
             meta: {

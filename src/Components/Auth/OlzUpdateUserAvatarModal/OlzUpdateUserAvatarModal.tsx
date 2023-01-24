@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {useDropzone} from 'react-dropzone';
 import Cropper from 'react-easy-crop';
-import {Point, Area} from "react-easy-crop/types";
+import {Point, Area} from 'react-easy-crop/types';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {getBase64FromCanvas, getCanvasOfSize, getCroppedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
@@ -26,7 +26,7 @@ interface OlzUpdateUserAvatarModalProps {
     onChange: (e: OlzUpdateUserAvatarModalChangeEvent) => void;
 }
 
-export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) => {
+export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps): React.ReactElement => {
     const [imageSrc, setImageSrc] = React.useState<string|null>(null);
     const [crop, setCrop] = React.useState<Point>({x: 0, y: 0});
     const [rotation, setRotation] = React.useState<number>(0);
@@ -35,37 +35,37 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
     const [uploadProgress, setUploadProgress] = React.useState<number|null>(null);
 
     const onCropComplete = React.useCallback((
-        croppedArea: Area, 
-        croppedAreaPixels: Area
+        _croppedArea: Area,
+        croppedAreaPixels_: Area,
     ) => {
-        setCroppedAreaPixels(croppedAreaPixels)
+        setCroppedAreaPixels(croppedAreaPixels_);
     }, []);
-  
+
     const onSubmit = React.useCallback(async (
-        event: React.FormEvent<HTMLFormElement>
+        event: React.FormEvent<HTMLFormElement>,
     ): Promise<boolean> => {
         event.preventDefault();
         try {
             setUploadProgress(0.1);
             if (!imageSrc) {
-                throw new Error("Image source is not available");
+                throw new Error('Image source is not available');
             }
             if (!croppedAreaPixels) {
-                throw new Error("Cropped area is unknown");
+                throw new Error('Cropped area is unknown');
             }
             const img = await loadImageFromBase64(imageSrc);
             const croppedCanvas = getCroppedCanvas(img, croppedAreaPixels, rotation);
             const resizedCanvas = getCanvasOfSize(croppedCanvas, TARGET_WIDTH, TARGET_HEIGHT);
             const resizedBase64 = getBase64FromCanvas(resizedCanvas);
             if (!resizedBase64) {
-                throw new Error("An error occurred croping the image");
+                throw new Error('An error occurred croping the image');
             }
             setUploadProgress(0.3);
-            const uploadId = await uploader.upload(resizedBase64, `.jpg`);
+            const uploadId = await uploader.upload(resizedBase64, '.jpg');
             setUploadProgress(1);
             console.log('base64', resizedBase64);
             console.log('uploadId', uploadId);
-            const changeEvent: OlzUpdateUserAvatarModalChangeEvent = 
+            const changeEvent: OlzUpdateUserAvatarModalChangeEvent =
                 new CustomEvent('change', {detail: {uploadId, dataUrl: resizedBase64}});
             props.onChange(changeEvent);
             const modal = document.getElementById('update-user-avatar-modal');
@@ -73,7 +73,7 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
                 bootstrap.Modal.getInstance(modal)?.hide();
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
         return false;
     }, [imageSrc, croppedAreaPixels, rotation]);
@@ -81,10 +81,11 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
     const onDrop = async (acceptedFiles: File[]) => {
         for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
             const file = acceptedFiles[fileListIndex];
+            // eslint-disable-next-line no-await-in-loop
             const base64Content = await readBase64(file);
             if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
                 console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
-                continue;
+                continue; // eslint-disable-line no-continue
             }
             setImageSrc(base64Content);
         }
@@ -93,7 +94,7 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: 'image/jpeg, image/png',
         onDrop,
-    })
+    });
 
     const modalBody = uploadProgress === null ? (imageSrc ? (<>
         <div className="cropper-container">
@@ -115,14 +116,14 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
             <button
                 type='button'
                 className='btn btn-secondary'
-                onClick={() => setZoom(zoom => Math.max(zoom * 0.9, MIN_ZOOM))}
+                onClick={() => setZoom((zoom_) => Math.max(zoom_ * 0.9, MIN_ZOOM))}
             >
                 --
             </button>
             <button
                 type='button'
                 className='btn btn-secondary'
-                onClick={() => setZoom(zoom => Math.max(zoom * 0.99, MIN_ZOOM))}
+                onClick={() => setZoom((zoom_) => Math.max(zoom_ * 0.99, MIN_ZOOM))}
             >
                 -
             </button>
@@ -130,14 +131,14 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
             <button
                 type='button'
                 className='btn btn-secondary'
-                onClick={() => setZoom(zoom => Math.min(zoom * 1.01, MAX_ZOOM))}
+                onClick={() => setZoom((zoom_) => Math.min(zoom_ * 1.01, MAX_ZOOM))}
             >
                 +
             </button>
             <button
                 type='button'
                 className='btn btn-secondary'
-                onClick={() => setZoom(zoom => Math.min(zoom * 1.1, MAX_ZOOM))}
+                onClick={() => setZoom((zoom_) => Math.min(zoom_ * 1.1, MAX_ZOOM))}
             >
                 ++
             </button>
@@ -154,8 +155,8 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
             />
             {
                 isDragActive ?
-                <div>Bild hierhin ziehen...</div> :
-                <div>Bild hierhin ziehen, oder Klicken, um ein Bild auszuwählen</div>
+                    <div>Bild hierhin ziehen...</div> :
+                    <div>Bild hierhin ziehen, oder Klicken, um ein Bild auszuwählen</div>
             }
         </div>
     )) : (
@@ -186,11 +187,11 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps) =
 };
 
 export function initOlzUpdateUserAvatarModal(
-    onChange: (e: OlzUpdateUserAvatarModalChangeEvent) => void
+    onChange: (e: OlzUpdateUserAvatarModalChangeEvent) => void,
 ): void {
     const reactRoot = document.getElementById('update-user-avatar-react-root');
     if (!reactRoot) {
-        throw new Error("React root is not present");
+        throw new Error('React root is not present');
     }
     ReactDOM.unmountComponentAtNode(reactRoot);
     ReactDOM.render(
@@ -199,6 +200,6 @@ export function initOlzUpdateUserAvatarModal(
     );
     const modal = document.getElementById('update-user-avatar-modal');
     if (modal) {
-        new bootstrap.Modal(modal,{backdrop: 'static'}).show();
+        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
     }
 }

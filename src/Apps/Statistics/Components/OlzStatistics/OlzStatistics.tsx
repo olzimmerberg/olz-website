@@ -22,11 +22,11 @@ for (let i = 0; i < 5; i++) {
     year--;
 }
 
-function getOlzStatisticsUrl(username: string, password: string): string {
+function getOlzStatisticsUrl(_username: string, _password: string): string {
     return 'https://olzimmerberg.ch/plesk-stat/webstat-ssl/';
 }
 
-export const OlzStatistics = () => {
+export const OlzStatistics = (): React.ReactElement => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const [monthIdent, setMonthIdent] = React.useState<string>('current');
@@ -52,7 +52,7 @@ export const OlzStatistics = () => {
 
     const statisticsUrl = getOlzStatisticsUrl(username, password);
 
-    const options = monthIdents.map(value => (
+    const options = monthIdents.map((value) => (
         <option value={value} selected={value === monthIdent}>{value}</option>
     ));
 

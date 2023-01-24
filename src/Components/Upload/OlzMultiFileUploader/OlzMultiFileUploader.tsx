@@ -17,16 +17,17 @@ interface OlzMultiFileUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => unknown;
 }
 
-export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
+export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.ReactElement => {
     const initialUploadedFiles: UploadedFile[] = props.initialUploadIds?.map(
-        uploadId => ({uploadState: 'UPLOADED', uploadId})) || [];
+        (uploadId) => ({uploadState: 'UPLOADED', uploadId}),
+    ) || [];
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
     const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(initialUploadedFiles);
 
     React.useEffect(() => {
         const clock = setInterval(() => {
             const state = uploader.getState();
-            const newUploadingFiles = uploadingFiles.map(uploadingFile => {
+            const newUploadingFiles = uploadingFiles.map((uploadingFile) => {
                 if (!uploadingFile.uploadId) {
                     return uploadingFile;
                 }
@@ -39,22 +40,23 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
             }).filter(isDefined);
             setUploadingFiles(newUploadingFiles);
         }, 1000);
-        return () => clearInterval(clock)
+        return () => clearInterval(clock);
     }, [uploadingFiles]);
 
     React.useEffect(() => {
         const callback = (event: CustomEvent<string>) => {
             const uploadId = event.detail;
             const newUploadingFiles = uploadingFiles.filter(
-                uploadingFile => uploadingFile.uploadId !== uploadId);
-            const wasUploading = 
+                (uploadingFile) => uploadingFile.uploadId !== uploadId,
+            );
+            const wasUploading =
                 newUploadingFiles.length !== uploadingFiles.length;
             if (wasUploading) {
                 setUploadingFiles(newUploadingFiles);
                 const newUploadedFile: UploadedFile = {uploadState: 'UPLOADED', uploadId};
                 const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
-                const uploadIds = newUploadedFiles.map(uploadedFile => uploadedFile.uploadId);
+                const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
                 if (props.onUploadIdsChange) {
                     props.onUploadIdsChange(uploadIds);
                 }
@@ -70,8 +72,10 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
         for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
             const file = acceptedFiles[fileListIndex];
             newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
+            // eslint-disable-next-line no-await-in-loop
             const base64Content = await readBase64(file);
             const suffix = file.name.split('.').slice(-1)[0];
+            // eslint-disable-next-line no-await-in-loop
             const uploadId = await uploader.add(base64Content, `.${suffix}`);
             const evenNewerUploadingFiles = [...newUploadingFiles];
             evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
@@ -81,17 +85,18 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
 
     const onDelete = React.useCallback((uploadId: string) => {
         setUploadedFiles(uploadedFiles.filter(
-            uploadedFile => uploadedFile.uploadId !== uploadId));
+            (uploadedFile) => uploadedFile.uploadId !== uploadId,
+        ));
     }, [uploadedFiles]);
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (
         <div className='olz-multi-file-uploader'>
             <div className='state'>
-                {uploadFiles.map(uploadFile => <OlzUploadFile
+                {uploadFiles.map((uploadFile) => <OlzUploadFile
                     key={serializeUploadFile(uploadFile)}
                     uploadFile={uploadFile}
                     onDelete={onDelete}
@@ -108,8 +113,8 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps) => {
                 />
                 {
                     isDragActive ?
-                    <div>Dateien hierhin ziehen...</div> :
-                    <div>Dateien hierhin ziehen, oder Klicken, um Dateien auszuwählen</div>
+                        <div>Dateien hierhin ziehen...</div> :
+                        <div>Dateien hierhin ziehen, oder Klicken, um Dateien auszuwählen</div>
                 }
             </div>
         </div>

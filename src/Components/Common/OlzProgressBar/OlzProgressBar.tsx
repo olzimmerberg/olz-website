@@ -6,7 +6,7 @@ interface OlzProgressBarProps {
     progress?: number; // number between 0 and 1
 }
 
-export const OlzProgressBar = (props: OlzProgressBarProps) => {
+export const OlzProgressBar = (props: OlzProgressBarProps): React.ReactElement => {
     const sanitizedProgress = Math.max(0, Math.min(1, props.progress || 0));
     const width = `${(sanitizedProgress * 100).toLocaleString('en-US')}%`;
     return (

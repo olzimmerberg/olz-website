@@ -4,7 +4,7 @@ import {OlzTransportConnectionSearch} from '../OlzTransportConnectionSearch/OlzT
 
 import './OlzOev.scss';
 
-export function initOlzTransportConnectionSearch() {
+export function initOlzTransportConnectionSearch(): boolean {
     ReactDOM.render(
         <OlzTransportConnectionSearch />,
         document.getElementById('oev-root'),

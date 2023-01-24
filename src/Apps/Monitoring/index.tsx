@@ -5,7 +5,7 @@ import {OlzMonitoring} from './Components/index';
 ReactDOM.render(
     <OlzMonitoring />,
     document.getElementById('react-root'),
-);    
+);
 
 export function loaded(): void {
     console.log('olzMonitoring loaded');

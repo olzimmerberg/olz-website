@@ -7,7 +7,7 @@ import './OlzYoutube.scss';
 const OLZ_YOUTUBE_CHANNEL_URL = 'https://studio.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ/analytics';
 const OLZ_GOOGLE_LOGIN_URL = `https://accounts.google.com/signin/v2/identifier?hl=de&passive=true&continue=${encodeURIComponent(OLZ_YOUTUBE_CHANNEL_URL)}&flowName=GlifWebSignIn&flowEntry=ServiceLogin`;
 
-export const OlzYoutube = () => {
+export const OlzYoutube = (): React.ReactElement => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
 

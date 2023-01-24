@@ -13,14 +13,14 @@ interface OlzEditWeeklyPictureModalProps {
     data?: OlzWeeklyPictureData;
 }
 
-export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps) => {
+export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps): React.ReactElement => {
     const [text, setText] = React.useState<string>(props.data?.text ?? '');
     const [imageId, setImageId] = React.useState<string|null>(props.data?.imageId ?? null);
     const [alternativeImageId, setAlternativeImageId] = React.useState<string|null>(props.data?.alternativeImageId ?? null);
 
     const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
         event.preventDefault();
-        
+
         if (props.id) {
             console.error('Not implemented');
             // const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
@@ -97,7 +97,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                     }
                 }, 3000);
                 return 'weekly-picture-Eintrag erfolgreich erstellt. Bitte warten...';
-            }
+            };
 
             olzDefaultFormSubmit(
                 'createWeeklyPicture',
@@ -106,7 +106,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                 handleCreateResponse,
             );
         }
-        
+
         return false;
     }, [imageId, alternativeImageId]);
 
@@ -126,7 +126,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                                     type='text'
                                     name='text'
                                     value={text}
-                                    onChange={e => setText(e.target.value)}
+                                    onChange={(e) => setText(e.target.value)}
                                     className='form-control'
                                     id='weekly-picture-text-input'
                                 />
@@ -159,7 +159,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
     );
 };
 
-export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictureData) {
+export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictureData): boolean {
     ReactDOM.render(
         <OlzEditWeeklyPictureModal id={id} data={data} />,
         document.getElementById('edit-weekly-picture-react-root'),

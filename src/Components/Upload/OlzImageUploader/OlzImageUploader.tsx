@@ -19,7 +19,7 @@ interface OlzImageUploaderProps {
     onUploadIdChange?: (uploadId: string|null) => unknown;
 }
 
-export const OlzImageUploader = (props: OlzImageUploaderProps) => {
+export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactElement => {
     const initialUploadedFile: UploadedFile|null = props.initialUploadId && {uploadState: 'UPLOADED', uploadId: props.initialUploadId} || null;
     const [file, setFile] = React.useState<UploadedFile|UploadingFile|null>(initialUploadedFile);
 
@@ -36,14 +36,14 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
             if (file.uploadState === 'UPLOADING') {
                 file.uploadProgress = stateOfUploadingFile.progress;
                 setFile(file);
-                return;
+
             }
         }, 1000);
-        return () => clearInterval(clock)
+        return () => clearInterval(clock);
     }, [file]);
 
     React.useEffect(() => {
-        const callback = (event: CustomEvent<string>) => {
+        const callback = (_event: CustomEvent<string>) => {
             if (!file?.uploadId) {
                 throw new Error('Upload ID must be defined');
             }
@@ -61,11 +61,15 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
     }, [file]);
 
     const onDrop = async (acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        setFile({uploadState: 'UPLOADING', file, uploadProgress: 0});
-        const base64Content = await readBase64(file);
+        const acceptedFile = acceptedFiles[0];
+        setFile({
+            uploadState: 'UPLOADING',
+            file: acceptedFile,
+            uploadProgress: 0,
+        });
+        const base64Content = await readBase64(acceptedFile);
         if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
-            console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+            console.error(`${acceptedFile.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
             setFile(null);
             return;
         }
@@ -77,12 +81,17 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
                 setFile(null);
                 return;
             }
-            const uploadId = await uploader.add(resizedBase64, `.jpg`);
-            setFile({uploadState: 'UPLOADING', file, uploadProgress: 0, uploadId: uploadId});
+            const uploadId = await uploader.add(resizedBase64, '.jpg');
+            setFile({
+                uploadState: 'UPLOADING',
+                file: acceptedFile,
+                uploadProgress: 0,
+                uploadId: uploadId,
+            });
         } catch (err: unknown) {
-            console.error(`${file.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+            console.error(`${acceptedFile.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
             setFile(null);
-            return;
+
         }
     };
 
@@ -94,12 +103,12 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
         accept: 'image/jpeg, image/png',
         maxFiles: 1,
         onDrop,
-    })
+    });
 
     return (
         <div className='olz-image-uploader'>
             <div className='state'>
-                {file ?  <OlzUploadImage
+                {file ? <OlzUploadImage
                     key={serializeUploadFile(file)}
                     uploadFile={file}
                     onDelete={onDelete}
@@ -116,8 +125,8 @@ export const OlzImageUploader = (props: OlzImageUploaderProps) => {
                 />
                 {
                     isDragActive ?
-                    <div>Bilder hierhin ziehen...</div> :
-                    <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
+                        <div>Bilder hierhin ziehen...</div> :
+                        <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
                 }
             </div>
         </div>

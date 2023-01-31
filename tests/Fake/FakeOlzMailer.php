@@ -37,6 +37,13 @@ class FakeOlzMailer {
         if ($this->provoke_error || $title_provokes_error || $text_provokes_error) {
             throw new \Exception("Provoked Mailer Error");
         }
-        $this->emails_sent[] = [$this->user, $this->Subject, $this->Body, $this->AltBody];
+        $this->emails_sent[] = [
+            'user' => $this->user,
+            'from' => $this->from,
+            'replyTo' => $this->reply_to,
+            'subject' => $this->Subject,
+            'body' => $this->Body,
+            'altBody' => $this->AltBody,
+        ];
     }
 }

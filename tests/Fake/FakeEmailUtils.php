@@ -33,7 +33,9 @@ class FakeEmailUtils {
     }
 
     public function createEmail() {
-        return $this->olzMailer;
+        $mailer = $this->olzMailer;
+        $mailer->setFrom('fake@test.olzimmerberg.ch', 'OL Zimmerberg');
+        return $mailer;
     }
 
     public function encryptEmailReactionToken($data) {

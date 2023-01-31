@@ -57,7 +57,16 @@ final class EmailUtilsTest extends UnitTestCase {
         http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJZeXZQZUExMzhzb2hQZkE4d1Y4anBnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY1Flb0hMXzdaQTI3VWZLOGJic00wMU5ZYlF0NXA3Z2xOZkRZbjY2NVBKSENseFJLblkwUSJ9
 
         ZZZZZZZZZZ;
-        $this->assertSame([[$user, '[OLZ] E-Mail bestätigen', $expected_email, $expected_email]], $olz_mailer->emails_sent);
+        $this->assertSame([
+            [
+                'user' => $user,
+                'from' => null,
+                'replyTo' => null,
+                'subject' => '[OLZ] E-Mail bestätigen',
+                'body' => $expected_email,
+                'altBody' => $expected_email,
+            ],
+        ], $olz_mailer->emails_sent);
     }
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {

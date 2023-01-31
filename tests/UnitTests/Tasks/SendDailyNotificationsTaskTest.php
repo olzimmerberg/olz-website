@@ -668,11 +668,46 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         ));
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame([
-            [$user1, '[OLZ] MP title', 'MP text First', 'MP text First'],
-            [$user1, '[OLZ] DW title {"days":3}', 'DW text First', 'DW text First'],
-            [$user1, '[OLZ] DS title', 'DS text First', 'DS text First'],
-            [$user2, '[OLZ] WS title', 'WS text Second', 'WS text Second'],
-            [$user1, '[OLZ] ECR title {"cancelled":false}', 'ECR text First', 'ECR text First'],
+            [
+                'user' => $user1,
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] MP title',
+                'body' => 'MP text First',
+                'altBody' => 'MP text First',
+            ],
+            [
+                'user' => $user1,
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] DW title {"days":3}',
+                'body' => 'DW text First',
+                'altBody' => 'DW text First',
+            ],
+            [
+                'user' => $user1,
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] DS title',
+                'body' => 'DS text First',
+                'altBody' => 'DS text First',
+            ],
+            [
+                'user' => $user2,
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] WS title',
+                'body' => 'WS text Second',
+                'altBody' => 'WS text Second',
+            ],
+            [
+                'user' => $user1,
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] ECR title {"cancelled":false}',
+                'body' => 'ECR text First',
+                'altBody' => 'ECR text First',
+            ],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             ['sendMessage', [

@@ -179,6 +179,9 @@ class ProcessEmailTask extends BackgroundTask {
 
     protected function forwardEmailToUser($mail, $user, $address): bool {
         $forward_address = $user->getEmail();
+        $from_name = $mail->fromName;
+        $from_address = $mail->fromAddress;
+        $from_address_suffix = $from_address ? " <{$from_address}>" : '';
         $subject = $mail->subject;
         $html = $mail->textHtml;
         $text = $mail->textPlain;
@@ -194,7 +197,7 @@ class ProcessEmailTask extends BackgroundTask {
             ]);
             // This is probably dangerous (Might get us on spamming lists?):
             // $email->setFrom($mail->fromAddress, $mail->fromName);
-            $email->setFrom($this->envUtils()->getSmtpFrom(), 'OLZ E-Mail Weiterleitung');
+            $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_name} (via OLZ){$from_address_suffix}");
             $email->addReplyTo($mail->fromAddress, $mail->fromName);
 
             $email->Body = $html ? $html : '(leer)';

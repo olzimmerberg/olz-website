@@ -106,7 +106,14 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ZZZZZZZZZZ;
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
-            [Fake\FakeUsers::adminUser(), '[OLZ] Passwort zurücksetzen', $expected_text, $expected_text],
+            [
+                'user' => Fake\FakeUsers::adminUser(),
+                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'replyTo' => null,
+                'subject' => '[OLZ] Passwort zurücksetzen',
+                'body' => $expected_text,
+                'altBody' => $expected_text,
+            ],
         ], $email_utils->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",

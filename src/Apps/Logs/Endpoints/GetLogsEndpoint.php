@@ -61,8 +61,8 @@ class GetLogsEndpoint extends OlzEndpoint {
             'content' => $result->lines,
             'pagination' => [
                 // TODO: Encrypt!
-                'previous' => $result->previous,
-                'next' => $result->next,
+                'previous' => $result->previous ? json_encode($result->previous) : null,
+                'next' => $result->next ? json_encode($result->next) : null,
             ],
         ];
     }

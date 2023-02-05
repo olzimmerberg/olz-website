@@ -60,9 +60,14 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../../tmp/logs/');
+        $fake_content = [];
+        for ($i = 0; $i < 3600; $i++) {
+            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 60);
+            $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
+        }
         file_put_contents(
             __DIR__.'/../../../tmp/logs/merged-2020-03-12.log',
-            "[2020-03-12 12:00:00] tick 2020-03-12\n",
+            implode('', $fake_content),
         );
         file_put_contents(
             __DIR__.'/../../../tmp/logs/merged-2020-03-13.log',
@@ -99,17 +104,21 @@ final class GetLogsEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            'content' => [
-                "[2020-03-12 12:00:00] tick 2020-03-12\n",
-                "[2020-03-13 12:00:00] tick 2020-03-13\n",
-                "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
-                "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
-                '---',
-                "[2020-03-13 19:30:00] OlzEndpoint.INFO test log entry III\n",
-                "[2020-03-14 12:00:00] tick 2020-03-14\n",
-            ],
-            'pagination' => ['previous' => null, 'next' => null],
-        ], $result);
+            ...array_slice($fake_content, 3600 - 997, 997),
+            "[2020-03-13 12:00:00] tick 2020-03-13\n",
+            "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
+            "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
+            '---',
+            "[2020-03-13 19:30:00] OlzEndpoint.INFO test log entry III\n",
+            "[2020-03-14 12:00:00] tick 2020-03-14\n",
+        ], $result['content']);
+        $previous = json_decode($result['pagination']['previous'], true);
+        $this->assertMatchesRegularExpression(
+            '/\/tmp\/logs\/merged-2020-03-12.log$/',
+            $previous['filePath'],
+        );
+        $this->assertSame(2602, $previous['lineNumber']);
+        $this->assertSame(null, $result['pagination']['next']);
     }
 
     public function testGetLogsEndpointNotAuthorized(): void {

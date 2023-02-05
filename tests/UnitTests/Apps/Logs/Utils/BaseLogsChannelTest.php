@@ -93,9 +93,14 @@ final class BaseLogsChannelTest extends UnitTestCase {
         $channel->setLog($logger);
 
         mkdir(__DIR__.'/../../../tmp/logs/');
+        $fake_content = [];
+        for ($i = 0; $i < 3600; $i++) {
+            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 60);
+            $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
+        }
         file_put_contents(
             __DIR__.'/../../../tmp/logs/2020-03-12.log',
-            "[2020-03-12 12:00:00] tick 2020-03-12\n",
+            implode('', $fake_content),
         );
         file_put_contents(
             __DIR__.'/../../../tmp/logs/2020-03-13.log',
@@ -127,7 +132,7 @@ final class BaseLogsChannelTest extends UnitTestCase {
             'INFO file_path_after data-path/logs/2020-03-14.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            "[2020-03-12 12:00:00] tick 2020-03-12\n",
+            ...array_slice($fake_content, 3600 - 997, 997),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",
             "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
             "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
@@ -135,7 +140,11 @@ final class BaseLogsChannelTest extends UnitTestCase {
             "[2020-03-13 19:30:00] OlzEndpoint.INFO test log entry III\n",
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         ], $result->lines);
-        $this->assertSame(null, $result->previous);
+        $this->assertMatchesRegularExpression(
+            '/\/tmp\/logs\/2020-03-12.log$/',
+            $result->previous->filePath,
+        );
+        $this->assertSame(2602, $result->previous->lineNumber);
         $this->assertSame(null, $result->next);
     }
 }

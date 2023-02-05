@@ -7,9 +7,11 @@ use Olz\Repository\AccessTokenRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AccessTokenRepository::class)
+ *
  * @ORM\Table(
  *     name="access_tokens",
  *     indexes={
+ *
  *         @ORM\Index(name="token_index", columns={"token"}),
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *     },
@@ -18,6 +20,7 @@ use Olz\Repository\AccessTokenRepository;
 class AccessToken {
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;

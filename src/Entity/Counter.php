@@ -7,6 +7,7 @@ use Olz\Repository\CounterRepository;
 
 /**
  * @ORM\Entity(repositoryClass=CounterRepository::class)
+ *
  * @ORM\Table(
  *     name="counter",
  *     indexes={@ORM\Index(name="date_range_page_index", columns={"date_range", "page"})},

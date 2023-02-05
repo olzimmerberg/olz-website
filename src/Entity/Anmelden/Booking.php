@@ -8,6 +8,7 @@ use Olz\Repository\BookingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ *
  * @ORM\Table(
  *     name="anmelden_bookings",
  * )
@@ -19,11 +20,13 @@ class Booking extends OlzEntity {
     private $id;
     /**
      * @ORM\ManyToOne(targetEntity="Registration")
+     *
      * @ORM\JoinColumn(name="registration_id", referencedColumnName="id", nullable=false)
      */
     private $registration;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;

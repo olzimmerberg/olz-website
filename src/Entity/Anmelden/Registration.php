@@ -8,9 +8,11 @@ use Olz\Repository\RegistrationRepository;
 
 /**
  * @ORM\Entity(repositoryClass=RegistrationRepository::class)
+ *
  * @ORM\Table(
  *     name="anmelden_registrations",
  *     indexes={
+ *
  *         @ORM\Index(name="opens_at_index", columns={"opens_at"}),
  *         @ORM\Index(name="closes_at_index", columns={"closes_at"})
  *     },

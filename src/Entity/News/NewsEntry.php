@@ -8,6 +8,7 @@ use Olz\Repository\News\NewsRepository;
 
 /**
  * @ORM\Entity(repositoryClass=NewsRepository::class)
+ *
  * @ORM\Table(
  *     name="aktuell",
  *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
@@ -61,11 +62,13 @@ class NewsEntry extends OlzEntity {
     private $autor;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="author_user_id", referencedColumnName="id", nullable=true)
      */
     private $author_user;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\Role")
+     *
      * @ORM\JoinColumn(name="author_role_id", referencedColumnName="id", nullable=true)
      */
     private $author_role;

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="forum",
  *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},

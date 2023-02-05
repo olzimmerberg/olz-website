@@ -8,9 +8,11 @@ use Olz\Repository\SkillRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SkillRepository::class)
+ *
  * @ORM\Table(
  *     name="quiz_skill",
  *     indexes={
+ *
  *         @ORM\Index(name="name_index", columns={"name"}),
  *     },
  * )
@@ -26,9 +28,11 @@ class Skill extends OlzEntity {
     private $name;
     /**
      * @ORM\ManyToMany(targetEntity="SkillCategory", inversedBy="skills")
+     *
      * @ORM\JoinTable(
      *     name="quiz_skills_categories",
      *     joinColumns={
+     *
      *         @ORM\JoinColumn(name="skill_id", referencedColumnName="id")
      *     },
      *     inverseJoinColumns={

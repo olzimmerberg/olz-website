@@ -8,6 +8,7 @@ use Olz\Repository\RegistrationInfoRepository;
 
 /**
  * @ORM\Entity(repositoryClass=RegistrationInfoRepository::class)
+ *
  * @ORM\Table(
  *     name="anmelden_registration_infos",
  *     indexes={@ORM\Index(name="ident_index", columns={"ident"})},
@@ -20,6 +21,7 @@ class RegistrationInfo extends OlzEntity {
     private $id;
     /**
      * @ORM\ManyToOne(targetEntity="Registration")
+     *
      * @ORM\JoinColumn(name="registration_id", referencedColumnName="id", nullable=false)
      */
     private $registration;

@@ -8,6 +8,7 @@ use Olz\Repository\Startseite\WeeklyPictureRepository;
 
 /**
  * @ORM\Entity(repositoryClass=WeeklyPictureRepository::class)
+ *
  * @ORM\Table(
  *     name="weekly_picture",
  *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},

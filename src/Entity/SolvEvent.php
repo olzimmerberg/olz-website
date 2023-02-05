@@ -9,6 +9,7 @@ require_once __DIR__.'/common.php';
 
 /**
  * @ORM\Entity(repositoryClass=SolvEventRepository::class)
+ *
  * @ORM\Table(
  *     name="solv_events",
  * )

@@ -7,9 +7,11 @@ use Olz\Repository\UserRepository;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  * @ORM\Table(
  *     name="users",
  *     indexes={
+ *
  *         @ORM\Index(name="username_index", columns={"username"}),
  *     },
  * )
@@ -155,6 +157,7 @@ class User {
     public $notes;
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     *
      * @ORM\JoinTable(name="users_roles")
      */
     private $roles;

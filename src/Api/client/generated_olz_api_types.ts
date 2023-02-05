@@ -103,7 +103,7 @@ export type OlzTerminDataOrNull = {
 
 export type OlzBookingData = {
     'registrationId': string,
-    'values': {[key: string]: any},
+    'values': {[key: string]: unknown},
 };
 
 export type OlzRegistrationData = {
@@ -212,7 +212,7 @@ export type OlzApiEndpoint =
     'getAppStatisticsCredentials'|
     'getAppYoutubeCredentials';
 
-type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: any};
+type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: unknown};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
     onDaily: {

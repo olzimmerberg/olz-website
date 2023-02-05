@@ -7,6 +7,7 @@ use Olz\Repository\Termine\TerminRepository;
 
 /**
  * @ORM\Entity(repositoryClass=TerminRepository::class)
+ *
  * @ORM\Table(
  *     name="termine",
  *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},

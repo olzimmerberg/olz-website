@@ -124,6 +124,17 @@ export type OlzRegistrationInfo = {
 }>|null,
 };
 
+export type OlzLogsQuery = {
+    'targetDate': string|null,
+    'firstDate': string|null,
+    'lastDate': string|null,
+    'minLogLevel': OlzLogLevel,
+    'textSearch': string|null,
+    'pageToken': string|null,
+};
+
+export type OlzLogLevel = 'debug'|'info'|'notice'|'warning'|'error'|null;
+
 export type OlzTransportSuggestion = {
     'mainConnection': OlzTransportConnection,
     'sideConnections': Array<{
@@ -387,7 +398,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getAppGoogleSearchCredentials: Record<string, never>,
     importTermine: Record<string, never>,
     getLogs: {
-            'index': number,
+            'query': OlzLogsQuery,
         },
     getAppMonitoringCredentials: Record<string, never>,
     updateNotificationSubscriptions: {
@@ -609,7 +620,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     importTermine: Record<string, never>,
     getLogs: {
-            'content': string|null,
+            'content': Array<string>,
+            'pagination': {
+            'previous': string|null,
+            'next': string|null,
+        },
         },
     getAppMonitoringCredentials: {
             'username': string,

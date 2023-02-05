@@ -483,6 +483,12 @@ class DevDataUtils {
         // Build temp/
         $this->mkdir("{$data_path}temp");
 
+        // Build logs/
+        $this->mkdir("{$data_path}logs");
+        $this->mklog("{$data_path}logs/merged-2020-08-13.log", "2020-08-13");
+        $this->mklog("{$data_path}logs/merged-2020-08-14.log", "2020-08-14");
+        $this->mklog("{$data_path}logs/merged-2020-08-15.log", "2020-08-15");
+
         $this->touchEnqueued(1584118800);
     }
 
@@ -536,6 +542,18 @@ class DevDataUtils {
             imagedestroy($destination);
         }
         $this->copy($tmp_path, $destination_path);
+    }
+
+    protected function mklog($file_path, $iso_date) {
+        $fp = fopen($file_path, 'w+');
+        for ($i = 0; $i < 1440; $i++) {
+            $time = str_pad(floor($i / 60), 2, '0', STR_PAD_LEFT).':'.str_pad(floor($i % 60), 2, '0', STR_PAD_LEFT).':'.str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT).'.'.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $level_var = random_int(0, 99);
+            $level = $level_var < 1 ? 'ERROR' : ($level_var < 10 ? 'WARNING' : 'INFO');
+            $line = "[{$iso_date}T{$time}+01:00] Task:ProcessEmail.{$level}: Something happened... [] []\n";
+            fwrite($fp, $line);
+        }
+        fclose($fp);
     }
 
     protected function enqueueForTouch($path) {

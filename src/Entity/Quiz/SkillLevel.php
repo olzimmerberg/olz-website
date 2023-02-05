@@ -8,9 +8,11 @@ use Olz\Repository\SkillLevelRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SkillLevelRepository::class)
+ *
  * @ORM\Table(
  *     name="quiz_skill_levels",
  *     indexes={
+ *
  *         @ORM\Index(name="user_skill_index", columns={"user_id", "skill_id"}),
  *     },
  * )
@@ -22,11 +24,13 @@ class SkillLevel extends OlzEntity {
     private $id;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
     /**
      * @ORM\ManyToOne(targetEntity="Skill")
+     *
      * @ORM\JoinColumn(name="skill_id", referencedColumnName="id", nullable=true)
      */
     private $skill;

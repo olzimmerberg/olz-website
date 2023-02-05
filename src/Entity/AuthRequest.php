@@ -7,6 +7,7 @@ use Olz\Repository\AuthRequestRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AuthRequestRepository::class)
+ *
  * @ORM\Table(
  *     name="auth_requests",
  *     indexes={@ORM\Index(name="ip_address_timestamp_index", columns={"ip_address", "timestamp"})},

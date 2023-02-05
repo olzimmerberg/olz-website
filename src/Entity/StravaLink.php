@@ -7,9 +7,11 @@ use Olz\Repository\StravaLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=StravaLinkRepository::class)
+ *
  * @ORM\Table(
  *     name="strava_links",
  *     indexes={
+ *
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *     },
  * )
@@ -29,6 +31,7 @@ class StravaLink {
     private $refresh_token;
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

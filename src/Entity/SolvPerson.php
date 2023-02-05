@@ -7,6 +7,7 @@ use Olz\Repository\SolvPersonRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SolvPersonRepository::class)
+ *
  * @ORM\Table(
  *     name="solv_people",
  * )

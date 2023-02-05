@@ -15,11 +15,13 @@ class OlzEntity {
     protected $on_off;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="owner_user_id", referencedColumnName="id", nullable=true)
      */
     protected $owner_user;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\Role")
+     *
      * @ORM\JoinColumn(name="owner_role_id", referencedColumnName="id", nullable=true)
      */
     protected $owner_role;
@@ -29,6 +31,7 @@ class OlzEntity {
     protected $created_at;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="created_by_user_id", referencedColumnName="id", nullable=true)
      */
     protected $created_by_user;
@@ -38,6 +41,7 @@ class OlzEntity {
     protected $last_modified_at;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
+     *
      * @ORM\JoinColumn(name="last_modified_by_user_id", referencedColumnName="id", nullable=true)
      */
     protected $last_modified_by_user;

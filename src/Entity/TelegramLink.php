@@ -7,9 +7,11 @@ use Olz\Repository\TelegramLinkRepository;
 
 /**
  * @ORM\Entity(repositoryClass=TelegramLinkRepository::class)
+ *
  * @ORM\Table(
  *     name="telegram_links",
  *     indexes={
+ *
  *         @ORM\Index(name="pin_index", columns={"pin"}),
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *         @ORM\Index(name="telegram_user_id_index", columns={"telegram_user_id"}),
@@ -28,6 +30,7 @@ class TelegramLink {
     private $pin_expires_at;
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

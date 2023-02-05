@@ -8,9 +8,11 @@ use Olz\Repository\SkillCategoryRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SkillCategoryRepository::class)
+ *
  * @ORM\Table(
  *     name="quiz_categories",
  *     indexes={
+ *
  *         @ORM\Index(name="name_index", columns={"name"}),
  *         @ORM\Index(name="parent_category_index", columns={"parent_category_id"}),
  *     },
@@ -23,6 +25,7 @@ class SkillCategory extends OlzEntity {
     private $id;
     /**
      * @ORM\ManyToOne(targetEntity="SkillCategory")
+     *
      * @ORM\JoinColumn(name="parent_category_id", referencedColumnName="id", nullable=true)
      */
     private $parent_category;

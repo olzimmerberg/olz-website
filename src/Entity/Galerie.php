@@ -7,6 +7,7 @@ use Olz\Repository\GalerieRepository;
 
 /**
  * @ORM\Entity(repositoryClass=GalerieRepository::class)
+ *
  * @ORM\Table(
  *     name="galerie",
  *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},

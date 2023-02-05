@@ -7,9 +7,11 @@ use Olz\Repository\NotificationSubscriptionRepository;
 
 /**
  * @ORM\Entity(repositoryClass=NotificationSubscriptionRepository::class)
+ *
  * @ORM\Table(
  *     name="notification_subscriptions",
  *     indexes={
+ *
  *         @ORM\Index(name="user_id_index", columns={"user_id"}),
  *         @ORM\Index(name="notification_type_index", columns={"notification_type"}),
  *     },
@@ -50,6 +52,7 @@ class NotificationSubscription {
     private $delivery_type;
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

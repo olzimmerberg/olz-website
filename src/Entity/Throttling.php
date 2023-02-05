@@ -7,9 +7,11 @@ use Olz\Repository\ThrottlingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ThrottlingRepository::class)
+ *
  * @ORM\Table(
  *     name="throttlings",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(name="event_name_index", columns={"event_name"}),
  *     },
  * )

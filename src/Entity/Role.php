@@ -7,6 +7,7 @@ use Olz\Repository\RoleRepository;
 
 /**
  * @ORM\Entity(repositoryClass=RoleRepository::class)
+ *
  * @ORM\Table(
  *     name="roles",
  * )

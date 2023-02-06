@@ -125,6 +125,7 @@ export type OlzRegistrationInfo = {
 };
 
 export type OlzLogsQuery = {
+    'channel': string,
     'targetDate': string|null,
     'firstDate': string|null,
     'lastDate': string|null,
@@ -133,7 +134,7 @@ export type OlzLogsQuery = {
     'pageToken': string|null,
 };
 
-export type OlzLogLevel = 'debug'|'info'|'notice'|'warning'|'error'|null;
+export type OlzLogLevel = 'debug'|'info'|'notice'|'warning'|'error'|'critical'|'alert'|'emergency'|null;
 
 export type OlzTransportSuggestion = {
     'mainConnection': OlzTransportConnection,

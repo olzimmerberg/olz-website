@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
 
 /**
@@ -26,12 +27,8 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
         $data_path = $env_utils->getDataPath();
         $logs_path = "{$data_path}logs/";
         if (is_dir($logs_path)) {
-            foreach (scandir($logs_path) as $entry) {
-                if ($entry != '.' && $entry != '..') {
-                    unlink("{$logs_path}{$entry}");
-                }
-            }
-            rmdir($logs_path);
+            $general_utils = GeneralUtils::fromEnv();
+            $general_utils->removeRecursive($logs_path);
         }
         $this->assertSame(false, is_dir($logs_path));
 

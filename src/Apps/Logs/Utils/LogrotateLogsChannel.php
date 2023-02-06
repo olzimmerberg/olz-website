@@ -2,15 +2,32 @@
 
 namespace Olz\Apps\Logs\Utils;
 
-abstract class DailyFileLogsChannel extends BaseLogsChannel {
-    abstract protected function getLogFileForDateTime(\DateTime $date_time): PlainLogFile;
+abstract class LogrotateLogsChannel extends BaseLogsChannel {
+    abstract protected function getLogFileForIndex(int $index): LogFileInterface;
 
-    abstract protected function getDateTimeForFilePath(string $file_path): \DateTime;
+    abstract protected function getIndexForFilePath(string $file_path): int;
 
     protected function getLineLocationForDateTime(
         \DateTime $date_time,
     ): LineLocation {
-        $log_file = $this->getLogFileForDateTime($date_time);
+        $iso_date_time = $date_time->format('Y-m-d H:i:s');
+        $index = -1;
+        $continue = true;
+        while ($continue) {
+            try {
+                $log_file = $this->getLogFileForIndex($index);
+                $file_index = $this->getOrCreateIndex($log_file);
+                if ($iso_date_time >= $file_index['start_date']) {
+                    $continue = false;
+                } else {
+                    $index++;
+                }
+            } catch (\Exception $exc) {
+                throw $exc;
+                $continue = false;
+            }
+        }
+        $log_file = $this->getLogFileForIndex($index);
         $file_index = $this->getOrCreateIndex($log_file);
         $number_of_lines = count($file_index['lines']);
         $fp = $log_file->open('r');
@@ -33,11 +50,9 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
 
     protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface {
         $path = $log_file->getPath();
-        $date_time = $this->getDateTimeForFilePath($path);
-        $minus_one_day = \DateInterval::createFromDateString("-1 days");
-        $iso_noon = $date_time->format('Y-m-d').' 12:00:00';
-        $day_before = (new \DateTime($iso_noon))->add($minus_one_day);
-        $new_log_file = $this->getLogFileForDateTime($day_before);
+        $index = $this->getIndexForFilePath($path);
+        $index_before = $index + 1;
+        $new_log_file = $this->getLogFileForIndex($index_before);
         if (!$new_log_file->exists()) {
             throw new \Exception("No such file: {$new_log_file->getPath()}");
         }
@@ -46,11 +61,9 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
 
     protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface {
         $path = $log_file->getPath();
-        $date_time = $this->getDateTimeForFilePath($path);
-        $plus_one_day = \DateInterval::createFromDateString("+1 days");
-        $iso_noon = $date_time->format('Y-m-d').' 12:00:00';
-        $day_after = (new \DateTime($iso_noon))->add($plus_one_day);
-        $new_log_file = $this->getLogFileForDateTime($day_after);
+        $index = $this->getIndexForFilePath($path);
+        $index_after = $index - 1;
+        $new_log_file = $this->getLogFileForIndex($index_after);
         if (!$new_log_file->exists()) {
             throw new \Exception("No such file: {$new_log_file->getPath()}");
         }

@@ -488,7 +488,11 @@ class DevDataUtils {
         $this->mklog("{$data_path}logs/merged-2020-08-13.log", "2020-08-13");
         $this->mklog("{$data_path}logs/merged-2020-08-14.log", "2020-08-14");
         $this->mklog("{$data_path}logs/merged-2020-08-15.log", "2020-08-15");
-
+        $this->mkdir("{$data_path}logs/server");
+        $this->mklog("{$data_path}logs/server/access_ssl_log", "2020-08-15");
+        $this->mklog("{$data_path}logs/server/access_ssl_log.processed", "2020-08-14");
+        $this->mklog("{$data_path}logs/server/access_ssl_log.processed.1", "2020-08-13");
+        $this->mklog("{$data_path}logs/server/access_ssl_log.processed.2", "2020-08-12");
         $this->touchEnqueued(1584118800);
     }
 

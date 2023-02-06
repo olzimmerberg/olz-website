@@ -3,6 +3,7 @@
 namespace Olz\Apps\Logs\Components\OlzLogs;
 
 use Olz\Apps\Logs\Metadata;
+use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\User;
@@ -44,8 +45,19 @@ class OlzLogs {
         $out .= "<div class='content-full olz-logs'>";
         if ($user && $user->getPermissions() == 'all') {
             $iso_now = $date_utils->getIsoNow();
-            $esc_now = htmlentities($iso_now);
-            $out .= "<script>window.olzLogsNow = '{$esc_now}';</script><div id='react-root'></div>";
+            $esc_now = json_encode($iso_now);
+            $channels_data = [];
+            foreach (LogsDefinitions::getLogsChannels() as $channel) {
+                $channels_data[$channel::getId()] = $channel::getName();
+            }
+            $esc_channels = json_encode($channels_data);
+            $out .= <<<ZZZZZZZZZZ
+                <script>
+                    window.olzLogsNow = {$esc_now};
+                    window.olzLogsChannels = {$esc_channels};
+                </script>
+                <div id='react-root'></div>
+            ZZZZZZZZZZ;
         } else {
             $out .= "<div class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
         }

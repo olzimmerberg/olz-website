@@ -3,9 +3,10 @@
 namespace Olz\Apps\Logs\Utils;
 
 class LogsDefinitions {
-    public function getLogsChannels() {
+    public static function getLogsChannels() {
         return [
-            OlzLogsChannel::class,
+            new OlzLogsChannel(),
+            new AccessSslLogsChannel(),
         ];
     }
 }

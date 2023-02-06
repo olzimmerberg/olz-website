@@ -6,7 +6,7 @@ use Olz\Utils\WithUtilsTrait;
 
 class LineLocation {
     public function __construct(
-        public string $filePath,
+        public LogFileInterface $logFile,
         public int $lineNumber, // -1 = last line
     ) {
     }
@@ -24,6 +24,17 @@ class ReadResult {
 abstract class BaseLogsChannel {
     use WithUtilsTrait;
 
+    public const LOG_LEVELS = [
+        'debug',
+        'info',
+        'notice',
+        'warning',
+        'error',
+        'critical',
+        'alert',
+        'emergency',
+    ];
+
     abstract public static function getId(): string;
 
     abstract public static function getName(): string;
@@ -32,9 +43,9 @@ abstract class BaseLogsChannel {
     public static $pageSize = 2000;
 
     // Assumes there are files, though...
-    abstract protected function getFilePathBefore(string $path): string;
+    abstract protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface;
 
-    abstract protected function getFilePathAfter(string $path): string;
+    abstract protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface;
 
     public function readLogs(array $query): ReadResult {
         $page_token = $query['pageToken'] ?? null;
@@ -61,48 +72,19 @@ abstract class BaseLogsChannel {
         ], $lines_before->previous, $lines_after->next);
     }
 
-    protected function getLineLocationForDateTime(
-        \DateTime $date_time,
-    ): LineLocation {
-        $file_path = $this->getFilePathForDateTime($date_time);
-        $file_index = $this->getOrCreateIndex($file_path);
-        $number_of_lines = count($file_index['lines']);
-        $fp = fopen($file_path, 'r');
-
-        $line_number = $this->generalUtils()->binarySearch(
-            function ($line_number) use ($fp, $file_index, $date_time) {
-                $index = $file_index['lines'][$line_number];
-                fseek($fp, $index);
-                $line = fgets($fp);
-                $date_time_at_index = $this->parseDateTimeOfLine($line);
-
-                $isoa = $date_time ? $date_time->format('Y-m-d H:i:s') : null;
-                $isob = $date_time_at_index ? $date_time_at_index->format('Y-m-d H:i:s') : null;
-                $cmp = $date_time <=> $date_time_at_index;
-                $this->log()->info("BinarySearch: {$line_number} {$index} {$isoa} <=> {$isob} -> {$cmp}");
-
-                return $cmp;
-            },
-            0,
-            $number_of_lines - 1,
-        );
-
-        fclose($fp);
-        return new LineLocation($file_path, $line_number);
-    }
-
-    protected function getOrCreateIndex(string $file_path) {
+    protected function getOrCreateIndex(LogFileInterface $log_file) {
+        $file_path = $log_file->getPath();
         $index_path = "{$file_path}.index.json";
         if (is_file($index_path)) {
             $index = json_decode(file_get_contents($index_path), true);
-            if (filemtime($file_path) === $index['modified']) {
+            if ($log_file->modified() === $index['modified']) {
                 // cache hit
                 return $index;
             }
             unlink($index_path);
         }
         // cache miss
-        $index = $this->indexFile($file_path);
+        $index = $this->indexFile($log_file);
         try {
             file_put_contents($index_path, json_encode($index));
         } catch (\Throwable $th) {
@@ -111,20 +93,31 @@ abstract class BaseLogsChannel {
         return $index;
     }
 
-    protected function indexFile(string $file_path) {
+    protected function indexFile(LogFileInterface $log_file) {
+        $file_path = $log_file->getPath();
         $index = [];
-        $index['modified'] = filemtime($file_path);
+        $index['modified'] = $log_file->modified();
+        $index['start_date'] = null;
         $index['lines'] = [0];
-        $file_size = filesize($file_path);
-        $fp = fopen($file_path, 'r');
-        while (!feof($fp)) {
-            $line = fgets($fp);
-            $line_index = ftell($fp);
+        $fp = $log_file->open('r');
+        $log_file->seek($fp, 0, SEEK_END);
+        $file_size = $log_file->tell($fp);
+        $log_file->seek($fp, 0, SEEK_SET);
+        while (!$log_file->eof($fp)) {
+            $line = $log_file->gets($fp);
+            if ($index['start_date'] === null) {
+                $date_time = $this->parseDateTimeOfLine($line);
+                if ($date_time) {
+                    $index['start_date'] = $date_time->format('Y-m-d H:i:s');
+                }
+            }
+            $line_index = $log_file->tell($fp);
             if ($line_index !== $file_size) {
                 $index['lines'][] = $line_index;
             }
         }
         fclose($fp);
+        $index['lines'][] = $file_size;
         return $index;
     }
 
@@ -133,18 +126,20 @@ abstract class BaseLogsChannel {
         array $query,
         int $limit,
     ): ReadResult {
-        $file_index = $this->getOrCreateIndex($line_location->filePath);
-        $fp = fopen($line_location->filePath, 'r');
+        $log_file = $line_location->logFile;
+        $file_index = $this->getOrCreateIndex($log_file);
+        $fp = $log_file->open('r');
 
         $continuation_location = clone $line_location;
         if ($continuation_location->lineNumber === -1) {
-            $continuation_location->lineNumber = count($file_index['lines']) - 1;
+            // last line is empty
+            $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
         $matching_lines = [];
         while (count($matching_lines) < $limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
-            fseek($fp, $index);
-            $line = fgets($fp) ?? '';
+            $log_file->seek($fp, $index);
+            $line = $log_file->gets($fp) ?? '';
             if ($line === false) {
                 $line = '';
             }
@@ -154,9 +149,9 @@ abstract class BaseLogsChannel {
             $continuation_location->lineNumber--;
             if ($continuation_location->lineNumber < 0) {
                 try {
-                    $file_path_before = $this->getFilePathBefore($line_location->filePath);
-                    $this->log()->info("file_path_before {$file_path_before}");
-                    $prev_file_location = new LineLocation($file_path_before, -1);
+                    $log_file_before = $this->getLogFileBefore($log_file);
+                    $this->log()->info("log_file_before {$log_file_before->getPath()}");
+                    $prev_file_location = new LineLocation($log_file_before, -1);
                     $new_limit = $limit - count($matching_lines);
                     $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_limit);
                     $matching_lines = [
@@ -172,7 +167,7 @@ abstract class BaseLogsChannel {
             }
         }
 
-        fclose($fp);
+        $log_file->close($fp);
         return new ReadResult($matching_lines, $continuation_location, $line_location);
     }
 
@@ -181,19 +176,22 @@ abstract class BaseLogsChannel {
         array $query,
         int $limit,
     ): ReadResult {
-        $file_index = $this->getOrCreateIndex($line_location->filePath);
-        $fp = fopen($line_location->filePath, 'r');
-        $number_of_lines = count($file_index['lines']);
+        $log_file = $line_location->logFile;
+        $file_index = $this->getOrCreateIndex($log_file);
+        $fp = $log_file->open('r');
+        // last line is empty
+        $number_of_lines = count($file_index['lines']) - 1;
 
         $continuation_location = clone $line_location;
         if ($continuation_location->lineNumber === -1) {
-            $continuation_location->lineNumber = count($file_index['lines']) - 1;
+            // last line is empty
+            $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
         $matching_lines = [];
         while (count($matching_lines) < $limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
-            fseek($fp, $index);
-            $line = fgets($fp) ?? '';
+            $log_file->seek($fp, $index);
+            $line = $log_file->gets($fp) ?? '';
             if ($line === false) {
                 $line = '';
             }
@@ -203,9 +201,9 @@ abstract class BaseLogsChannel {
             $continuation_location->lineNumber++;
             if ($continuation_location->lineNumber >= $number_of_lines) {
                 try {
-                    $file_path_after = $this->getFilePathAfter($line_location->filePath);
-                    $this->log()->info("file_path_after {$file_path_after}");
-                    $next_file_location = new LineLocation($file_path_after, 0);
+                    $log_file_after = $this->getLogFileAfter($log_file);
+                    $this->log()->info("log_file_after {$log_file_after->getPath()}");
+                    $next_file_location = new LineLocation($log_file_after, 0);
                     $new_limit = $limit - count($matching_lines);
                     $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_limit);
                     $matching_lines = [
@@ -221,7 +219,7 @@ abstract class BaseLogsChannel {
             }
         }
 
-        fclose($fp);
+        $log_file->close($fp);
         return new ReadResult($matching_lines, $line_location, $continuation_location);
     }
 
@@ -241,7 +239,7 @@ abstract class BaseLogsChannel {
         if (!$min_log_level) {
             return true;
         }
-        $log_levels = ['debug', 'info', 'notice', 'warning', 'error'];
+        $log_levels = self::LOG_LEVELS;
         $level_pos = array_search($min_log_level, $log_levels);
         if ($level_pos === false) {
             return true;

@@ -3,7 +3,9 @@
 namespace Olz\Apps\Logs\Endpoints;
 
 use Olz\Api\OlzEndpoint;
-use Olz\Apps\Logs\Utils\OlzLogsChannel;
+use Olz\Apps\Logs\Utils\BaseLogsChannel;
+use Olz\Apps\Logs\Utils\LineLocation;
+use Olz\Apps\Logs\Utils\LogsDefinitions;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
@@ -29,13 +31,14 @@ class GetLogsEndpoint extends OlzEndpoint {
             'query' => new FieldTypes\ObjectField([
                 'export_as' => 'OlzLogsQuery',
                 'field_structure' => [
+                    'channel' => new FieldTypes\StringField(['allow_null' => false]),
                     'targetDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
                     'firstDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
                     'lastDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
                     'minLogLevel' => new FieldTypes\EnumField([
                         'export_as' => 'OlzLogLevel',
                         'allow_null' => true,
-                        'allowed_values' => ['debug', 'info', 'notice', 'warning', 'error'],
+                        'allowed_values' => BaseLogsChannel::LOG_LEVELS,
                     ]),
                     'textSearch' => new FieldTypes\StringField(['allow_null' => true]),
                     'pageToken' => new FieldTypes\StringField(['allow_null' => true]),
@@ -52,7 +55,12 @@ class GetLogsEndpoint extends OlzEndpoint {
         $username = $this->session()->get('user');
         $this->log()->info("Logs access by {$username}.");
 
-        $channel = new OlzLogsChannel();
+        $channel = null;
+        foreach (LogsDefinitions::getLogsChannels() as $current_channel) {
+            if ($current_channel::getId() === $input['query']['channel']) {
+                $channel = new $current_channel();
+            }
+        }
         $channel->setEnvUtils($this->envUtils());
         $channel->setLog($this->log());
         $result = $channel->readLogs($input['query']);
@@ -61,9 +69,21 @@ class GetLogsEndpoint extends OlzEndpoint {
             'content' => $result->lines,
             'pagination' => [
                 // TODO: Encrypt!
-                'previous' => $result->previous ? json_encode($result->previous) : null,
-                'next' => $result->next ? json_encode($result->next) : null,
+                'previous' => $this->serializeLineLocation($result->previous),
+                'next' => $this->serializeLineLocation($result->next),
             ],
         ];
+    }
+
+    protected function serializeLineLocation(
+        LineLocation|null $line_location,
+    ): string|null {
+        if (!$line_location) {
+            return null;
+        }
+        return json_encode([
+            'logFile' => $line_location->logFile->getPath(),
+            'lineNumber' => $line_location->lineNumber,
+        ]);
     }
 }

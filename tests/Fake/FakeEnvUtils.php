@@ -45,6 +45,10 @@ class FakeEnvUtils {
         return '/data-href/';
     }
 
+    public function getSyslogPath() {
+        return __DIR__.'/../UnitTests/tmp/syslog/';
+    }
+
     public function getImapHost() {
         return '127.0.0.1';
     }

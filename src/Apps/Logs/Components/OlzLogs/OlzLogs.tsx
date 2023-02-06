@@ -7,7 +7,7 @@ import {OlzInfiniteScroll, OlzInfiniteScrollProps} from '../OlzInfiniteScroll/Ol
 
 import './OlzLogs.scss';
 
-const getQuery = (dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery => {
+const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery => {
     let targetDate: string|null = null;
     let firstDate: string|null = null;
     let lastDate: string|null = null;
@@ -29,12 +29,16 @@ const getQuery = (dateArg: string, logLevelArg: string, textSearchArg: string): 
         'levels-notice-higher': 'notice',
         'levels-warning-higher': 'warning',
         'levels-error-higher': 'error',
+        'levels-critical-higher': 'critical',
+        'levels-alert-higher': 'alert',
+        'levels-emergency-higher': 'emergency',
     };
     const minLogLevel: OlzLogLevel = logLevelMap[logLevelArg] ?? null;
 
     const textSearch = textSearchArg || null;
 
     return {
+        channel: channelArg,
         pageToken: null,
         targetDate,
         firstDate,
@@ -44,23 +48,26 @@ const getQuery = (dateArg: string, logLevelArg: string, textSearchArg: string): 
     };
 };
 
-const getTokenQuery = (pageToken: string|null): OlzLogsQuery|null => (pageToken ? {
+const getTokenQuery = (
+    initialQuery: OlzLogsQuery,
+    pageToken: string|null,
+): OlzLogsQuery|null => (pageToken ? {
+    ...initialQuery,
     pageToken,
-    targetDate: null,
-    firstDate: null,
-    lastDate: null,
-    minLogLevel: null,
-    textSearch: null,
 } : null);
 
 export const OlzLogs = (): React.ReactElement => {
     const now = (window as unknown as {olzLogsNow: string}).olzLogsNow;
+    const channels = (window as unknown as {
+        olzLogsChannels: {[id: string]: string}
+    }).olzLogsChannels;
 
+    const [channel, setChannel] = React.useState<string>(Object.keys(channels)[0]);
     const [date, setDate] = React.useState<string>(now);
     const [logLevel, setLogLevel] = React.useState<string>('levels-all');
     const [textSearch, setTextSearch] = React.useState<string>('');
 
-    const initialQuery = getQuery(date, logLevel, textSearch);
+    const initialQuery = getQuery(channel, date, logLevel, textSearch);
 
     const fetch: OlzInfiniteScrollProps<string, OlzLogsQuery>['fetch'] =
         async (query: OlzLogsQuery) => {
@@ -70,8 +77,8 @@ export const OlzLogs = (): React.ReactElement => {
             );
             return {
                 items: response.content,
-                prevQuery: getTokenQuery(response.pagination.previous),
-                nextQuery: getTokenQuery(response.pagination.next),
+                prevQuery: getTokenQuery(initialQuery, response.pagination.previous),
+                nextQuery: getTokenQuery(initialQuery, response.pagination.next),
             };
         };
 
@@ -113,6 +120,20 @@ export const OlzLogs = (): React.ReactElement => {
 
     return (<>
         <div className='logs-header'>
+            <select
+                id='log-channel-select'
+                className='form-control form-select form-select-sm'
+                value={channel}
+                onChange={(e) => {
+                    const select = e.target;
+                    const newLogChannel = select.options[select.selectedIndex].value;
+                    setChannel(newLogChannel);
+                }}
+            >
+                {Object.keys(channels).map((id) => (
+                    <option value={id}>{channels[id]}</option>
+                ))}
+            </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>
                     <img src='/icns/calendar.svg' className='noborder icon' />
@@ -143,6 +164,9 @@ export const OlzLogs = (): React.ReactElement => {
                 <option value='levels-notice-higher'>"Notice" & höher</option>
                 <option value='levels-warning-higher'>"Warning" & höher</option>
                 <option value='levels-error-higher'>"Error" & höher</option>
+                <option value='levels-critical-higher'>"Critical" & höher</option>
+                <option value='levels-alert-higher'>"Alert" & höher</option>
+                <option value='levels-emergency-higher'>"Emergency" & höher</option>
             </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>

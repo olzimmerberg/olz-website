@@ -15,7 +15,7 @@ class OlzLogsChannel extends DailyFileLogsChannel {
         return "OLZ Logs";
     }
 
-    protected function getFilePathForDateTime(\DateTime $datetime): string {
+    protected function getLogFileForDateTime(\DateTime $datetime): PlainLogFile {
         $data_path = $this->envUtils()->getDataPath();
         $logs_path = "{$data_path}logs/";
         $formatted = $datetime->format('Y-m-d');
@@ -23,7 +23,7 @@ class OlzLogsChannel extends DailyFileLogsChannel {
         if (!is_file($file_path)) {
             throw new \Exception("No such file: {$file_path}");
         }
-        return $file_path;
+        return new PlainLogFile($file_path);
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {

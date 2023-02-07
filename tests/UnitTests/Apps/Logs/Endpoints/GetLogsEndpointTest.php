@@ -61,8 +61,8 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../../tmp/logs/');
         $fake_content = [];
-        for ($i = 0; $i < 1440; $i++) {
-            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 60);
+        for ($i = 0; $i < 144; $i++) {
+            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
         file_put_contents(
@@ -103,7 +103,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            ...array_slice($fake_content, 1440 - 997, 997),
+            ...array_slice($fake_content, 144 - 97, 97),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",
             "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
             "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
@@ -116,7 +116,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             '/\/tmp\/logs\/merged-2020-03-12.log$/',
             $previous['logFile'],
         );
-        $this->assertSame(442, $previous['lineNumber']);
+        $this->assertSame(144 - 97 - 1, $previous['lineNumber']);
         $this->assertSame(null, $result['pagination']['next']);
     }
 

@@ -40,7 +40,7 @@ abstract class BaseLogsChannel {
     abstract public static function getName(): string;
 
     // Page size; number of lines of log entires.
-    public static $pageSize = 2000;
+    public static $pageSize = 200;
 
     // Assumes there are files, though...
     abstract protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface;
@@ -106,7 +106,8 @@ abstract class BaseLogsChannel {
         while (!$log_file->eof($fp)) {
             $line = $log_file->gets($fp);
             if ($index['start_date'] === null) {
-                $date_time = $this->parseDateTimeOfLine($line);
+                $truncated_line = substr($line, 0, $this->getDateMaxPosition());
+                $date_time = $this->parseDateTimeOfLine($truncated_line);
                 if ($date_time) {
                     $index['start_date'] = $date_time->format('Y-m-d H:i:s');
                 }
@@ -270,5 +271,10 @@ abstract class BaseLogsChannel {
         } catch (\Throwable $th) {
             return null;
         }
+    }
+
+    // Override this function, if you have a different date placement within the log line.
+    protected function getDateMaxPosition(): int {
+        return 22;
     }
 }

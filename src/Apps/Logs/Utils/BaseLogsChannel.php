@@ -35,6 +35,8 @@ abstract class BaseLogsChannel {
         'emergency',
     ];
 
+    public const INDEX_FILE_VERSION = '1.1';
+
     abstract public static function getId(): string;
 
     abstract public static function getName(): string;
@@ -74,11 +76,13 @@ abstract class BaseLogsChannel {
 
     protected function getOrCreateIndex(LogFileInterface $log_file) {
         $file_path = $log_file->getPath();
-        $index_path = "{$file_path}.index.json";
+        $index_path = "{$file_path}.index.json.gz";
         if (is_file($index_path)) {
-            $index = json_decode(file_get_contents($index_path), true);
-            if ($log_file->modified() === $index['modified']) {
-                // cache hit
+            $index = $this->readIndexFile($index_path);
+            $version_matches = self::INDEX_FILE_VERSION === ($index['version'] ?? '1.0');
+            $modified_matches = $log_file->modified() === $index['modified'];
+            $is_cache_hit = $version_matches && $modified_matches;
+            if ($is_cache_hit) {
                 return $index;
             }
             unlink($index_path);
@@ -86,7 +90,7 @@ abstract class BaseLogsChannel {
         // cache miss
         $index = $this->indexFile($log_file);
         try {
-            file_put_contents($index_path, json_encode($index));
+            $this->writeIndexFile($index_path, $index);
         } catch (\Throwable $th) {
             // ignore; best effort!
         }
@@ -96,6 +100,7 @@ abstract class BaseLogsChannel {
     protected function indexFile(LogFileInterface $log_file) {
         $file_path = $log_file->getPath();
         $index = [];
+        $index['version'] = self::INDEX_FILE_VERSION;
         $index['modified'] = $log_file->modified();
         $index['start_date'] = null;
         $index['lines'] = [0];
@@ -120,6 +125,14 @@ abstract class BaseLogsChannel {
         fclose($fp);
         $index['lines'][] = $file_size;
         return $index;
+    }
+
+    protected function readIndexFile(string $index_path): array {
+        return json_decode(gzdecode(file_get_contents($index_path)), true);
+    }
+
+    protected function writeIndexFile(string $index_path, array $content): void {
+        file_put_contents($index_path, gzencode(json_encode($content)));
     }
 
     protected function readMatchingLinesBefore(

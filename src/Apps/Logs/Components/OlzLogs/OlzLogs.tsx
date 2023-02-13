@@ -83,24 +83,19 @@ export const OlzLogs = (): React.ReactElement => {
         };
 
     const renderItem = (line: string) => {
-        let newLine = line;
-        newLine = line.replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
         const shouldGreyOut = line.includes('access forbidden by rule');
         if (shouldGreyOut) {
             return (
                 <div className='log-line greyed-out'>
-                    {newLine}
+                    {line}
                 </div>
             );
         }
 
-        const formattingRegex = /^(.*)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
-        const match = formattingRegex.exec(newLine);
+        const formattingRegex = /^(.*\s+)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
+        const match = formattingRegex.exec(line);
         if (!match) {
-            return (<div className='log-line level-unknown'>{newLine}</div>);
+            return (<div className='log-line level-unknown'>{line}</div>);
         }
         const lineLogLevel = match[3].toLowerCase();
         return (

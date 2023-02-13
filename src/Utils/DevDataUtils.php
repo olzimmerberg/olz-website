@@ -549,12 +549,26 @@ class DevDataUtils {
     }
 
     protected function mklog($file_path, $iso_date) {
+        $log_levels = [
+            'DEBUG',
+            'INFO',
+            'NOTICE',
+            'WARNING',
+            'ERROR',
+            'CRITICAL',
+            'ALERT',
+            'EMERGENCY',
+        ];
         $fp = fopen($file_path, 'w+');
+        $long_line = 'Wow,';
+        for ($i = 0; $i < 100; $i++) {
+            $long_line .= ' so much content';
+        }
         for ($i = 0; $i < 1440; $i++) {
             $time = str_pad(floor($i / 60), 2, '0', STR_PAD_LEFT).':'.str_pad(floor($i % 60), 2, '0', STR_PAD_LEFT).':'.str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT).'.'.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-            $level_var = random_int(0, 99);
-            $level = $level_var < 1 ? 'ERROR' : ($level_var < 10 ? 'WARNING' : 'INFO');
-            $line = "[{$iso_date}T{$time}+01:00] Task:ProcessEmail.{$level}: Something happened... [] []\n";
+            $level = $log_levels[$i % count($log_levels)];
+            $fill_up = ($i % 2) === 0 ? $long_line : '';
+            $line = "[{$iso_date}T{$time}+01:00] Task:ProcessEmail.{$level}: Something happened... {$fill_up} [] []\n";
             fwrite($fp, $line);
         }
         fclose($fp);

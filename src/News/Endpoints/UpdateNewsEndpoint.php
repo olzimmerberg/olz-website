@@ -62,9 +62,10 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 
         $this->entityUtils()->updateOlzEntity($news_entry, $input['meta'] ?? []);
-        $news_entry->setAuthor($input_data['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
+        $news_entry->setAuthorName($input_data['authorName']);
+        $news_entry->setAuthorEmail($input_data['authorEmail']);
         $news_entry->setDate($now);
         $news_entry->setTime($now);
         $news_entry->setTitle($input_data['title']);

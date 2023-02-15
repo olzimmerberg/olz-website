@@ -49,24 +49,57 @@ class OlzNewsList {
         $out .= "</div>";
         $out .= "<div class='content-middle'>";
 
-        $can_create_news = $auth_utils->hasPermission('any');
-        $class = $can_create_news ? '' : ' only-with-login';
-        $onclick = $can_create_news
-            ? 'return olz.initOlzEditNewsModal()'
-            : 'return olz.olzLoginModalShow()';
+        $is_logged_in = $auth_utils->hasPermission('any');
+        $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
+        $properties = $is_logged_in
+            ? <<<'ZZZZZZZZZZ'
+            onclick='return olz.initOlzEditNewsModal(&quot;account&quot;)'
+            ZZZZZZZZZZ
+            : <<<'ZZZZZZZZZZ'
+            type='button'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+            ZZZZZZZZZZ;
+        if (!$is_logged_in) {
+            $out .= "<div class='dropdown create-news-container'>";
+        }
         $out .= <<<ZZZZZZZZZZ
         <button
             id='create-news-button'
             class='btn btn-secondary{$class}'
-            onclick='{$onclick}'
-            data-toggle='tooltip'
-            data-placement='top'
-            title='Du musst dich zuerst einloggen'
+            {$properties}
         >
             <img src='icns/new_white_16.svg' class='noborder' />
             Neuer Eintrag
         </button>
         ZZZZZZZZZZ;
+        if (!$is_logged_in) {
+            $out .= <<<'ZZZZZZZZZZ'
+            <div
+                class='dropdown-menu dropdown-menu-end'
+                aria-labelledby='create-news-button'
+            >
+                <li><button
+                    class='dropdown-item'
+                    onclick='return olz.olzLoginModalShow()'
+                >
+                    Login
+                </button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><div class='dropdown-item disabled should-login'>
+                    <b>Achtung</b>: Bild-Upload und nachträgliches Bearbeiten des Eintrags nur mit Login möglich!
+                </div></li>
+                <li><button
+                    id='create-anonymous-button'
+                    class='dropdown-item'
+                    onclick='return olz.initOlzEditNewsModal(&quot;anonymous&quot;)'
+                >
+                    Forumseintrag ohne Login
+                </button></li>
+            </div>
+            ZZZZZZZZZZ;
+            $out .= "</div>";
+        }
 
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out .= "<h1>{$news_list_title}</h1>";
@@ -81,8 +114,10 @@ class OlzNewsList {
             author_user_id,
             author_role_id,
             autor,
+            autor_email,
             titel,
             text,
+            textlang,
             image_ids
         FROM aktuell n
         WHERE
@@ -116,9 +151,11 @@ class OlzNewsList {
                 $news_entry->setFormat($row['typ']);
                 $news_entry->setAuthorUser($author_user);
                 $news_entry->setAuthorRole($author_role);
-                $news_entry->setAuthor($row['autor']);
+                $news_entry->setAuthorName($row['autor']);
+                $news_entry->setAuthorEmail($row['autor_email']);
                 $news_entry->setTitle($row['titel']);
                 $news_entry->setTeaser($row['text']);
+                $news_entry->setContent($row['textlang']);
                 $news_entry->setId($row['id']);
                 $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 

@@ -59,9 +59,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 ],
                 'data' => [
                     'format' => 'aktuell',
-                    'author' => 't.u.',
                     'authorUserId' => 2,
                     'authorRoleId' => 2,
+                    'authorName' => 't.u.',
+                    'authorEmail' => 'tu@test.olzimmerberg.ch',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -109,9 +110,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 ],
                 'data' => [
                     'format' => 'aktuell',
-                    'author' => 't.u.',
                     'authorUserId' => 2,
                     'authorRoleId' => 2,
+                    'authorName' => 't.u.',
+                    'authorEmail' => 'tu@test.olzimmerberg.ch',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -159,9 +161,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 ],
                 'data' => [
                     'format' => 'aktuell',
-                    'author' => 't.u.',
                     'authorUserId' => 2,
                     'authorRoleId' => 2,
+                    'authorName' => 't.u.',
+                    'authorEmail' => 'tu@test.olzimmerberg.ch',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -219,9 +222,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             ],
             'data' => [
                 'format' => 'aktuell',
-                'author' => 't.u.',
                 'authorUserId' => 2,
                 'authorRoleId' => 2,
+                'authorName' => 't.u.',
+                'authorEmail' => 'tu@test.olzimmerberg.ch',
                 'title' => 'Test Titel',
                 'teaser' => 'Das muss man gelesen haben!',
                 'content' => 'Sehr viel Inhalt.',
@@ -249,7 +253,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(123, $news_entry->getId());
-        $this->assertSame('t.u.', $news_entry->getAuthor());
+        $this->assertSame('t.u.', $news_entry->getAuthorName());
+        $this->assertSame('tu@test.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
         $this->assertSame('2020-03-13', $news_entry->getDate()->format('Y-m-d'));

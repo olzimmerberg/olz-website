@@ -1,8 +1,15 @@
-#create-news-button {
+.create-news-container {
     float: right;
 
-    &.only-with-login {
-        opacity: 0.6;
+    &.dropdown {
+        background: none;
+        border: 0;
+    }
+
+    .should-login {
+        font-size: 90%;
+        width: 400px;
+        white-space: normal;
     }
 }
 

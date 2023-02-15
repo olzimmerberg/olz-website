@@ -88,10 +88,12 @@ class OlzNewsDetail {
         $author_role = $row['author_role_id'] ?
             $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
         $author_name = $row['autor'];
+        $author_email = $row['autor_email'];
         $pretty_author = OlzAuthorBadge::render([
             'user' => $author_user,
             'role' => $author_role,
             'name' => $author_name,
+            'email' => $author_email,
         ]);
 
         $out .= <<<ZZZZZZZZZZ

@@ -6,6 +6,7 @@ use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\User;
+use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
@@ -15,19 +16,41 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateNewsEndpoint';
     }
 
+    protected function getCustomRequestField() {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [
+                'recaptchaToken' => new FieldTypes\StringField(['allow_null' => true]),
+            ],
+        ]);
+    }
+
+    protected function getStatusField() {
+        return new FieldTypes\EnumField(['allowed_values' => [
+            'OK',
+            'DENIED',
+            'ERROR',
+        ]]);
+    }
+
     protected function handle($input) {
+        $input_data = $input['data'];
+        $format = $input_data['format'];
+
         $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
+        if ($format !== 'anonymous' && !$has_access) {
             throw new HttpError(403, "Kein Zugriff!");
+        }
+
+        $token = $input['custom']['recaptchaToken'] ?? null;
+        $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
+        if ($format === 'anonymous' && !$is_valid_token) {
+            return ['status' => 'DENIED', 'id' => null];
         }
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getSessionUser();
         $data_path = $this->envUtils()->getDataPath();
-
-        $input_data = $input['data'];
-        $format = $input_data['format'];
 
         $author_user_id = $input_data['authorUserId'] ?? null;
         $author_user = $current_user;
@@ -54,9 +77,10 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
 
         $news_entry = new NewsEntry();
         $this->entityUtils()->createOlzEntity($news_entry, $input['meta']);
-        $news_entry->setAuthor($input_data['author']);
         $news_entry->setAuthorUser($author_user);
         $news_entry->setAuthorRole($author_role);
+        $news_entry->setAuthorName($input_data['authorName']);
+        $news_entry->setAuthorEmail($input_data['authorEmail']);
         $news_entry->setDate($now);
         $news_entry->setTime($now);
         $news_entry->setTitle($input_data['title']);
@@ -68,7 +92,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         // TODO: Do not ignore
         $news_entry->setTermin(0);
         $news_entry->setCounter(0);
-        $news_entry->setFormat($format);
+        $news_entry->setFormat($this->getFormat($format));
         $news_entry->setNewsletter(1);
 
         $this->entityManager()->persist($news_entry);
@@ -96,5 +120,12 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             'status' => 'OK',
             'id' => $news_entry_id,
         ];
+    }
+
+    protected function getFormat($format) {
+        if ($format === 'anonymous') {
+            return 'forum';
+        }
+        return $format;
     }
 }

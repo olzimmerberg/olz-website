@@ -10,6 +10,7 @@ use Olz\Utils\ImageUtils;
 class OlzNewsListItem {
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
+        'forum' => 'entry_type_forum_20.svg',
         'galerie' => 'entry_type_gallery_20.svg',
         'movie' => 'entry_type_movie_20.svg',
         'video' => 'entry_type_movie_20.svg',
@@ -34,9 +35,11 @@ class OlzNewsListItem {
         $icon = "{$code_href}icns/{$icon_basename}";
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
-        $author_name = $news_entry->getAuthor();
+        $author_name = $news_entry->getAuthorName();
+        $author_email = $news_entry->getAuthorEmail();
         $title = $news_entry->getTitle();
         $text = $news_entry->getTeaser();
+        $content = $news_entry->getContent();
         $link = "aktuell.php?id=".$id;
 
         $image_ids = $news_entry->getImageIds();
@@ -58,17 +61,43 @@ class OlzNewsListItem {
             $text = str_replace($matches[0][$i], $new_text, $text);
         }
 
+        $author_badge = OlzAuthorBadge::render([
+            'user' => $author_user,
+            'role' => $author_role,
+            'name' => $author_name,
+            'email' => $author_email,
+        ]);
+
         if ($format === 'aktuell') {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => OlzAuthorBadge::render([
-                    'user' => $author_user,
-                    'role' => $author_role,
-                    'name' => $author_name,
-                ]),
+                'author' => $author_badge,
                 'title' => $title,
                 'text' => $text,
+                'link' => $link,
+            ]);
+        } elseif ($format === 'forum') {
+            $thumb = '';
+            if ($is_migrated) {
+                $size = count($image_ids);
+                if ($size > 0) {
+                    $thumb = $image_utils->olzImage(
+                        'news',
+                        $id,
+                        $image_ids[0] ?? null,
+                        110,
+                        'image',
+                        " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
+                    );
+                }
+            }
+            $out .= OlzPostingListItem::render([
+                'icon' => $icon,
+                'date' => $datum,
+                'author' => $author_badge,
+                'title' => $title,
+                'text' => $thumb.self::truncateText($content),
                 'link' => $link,
             ]);
         } elseif ($format === 'galerie') {
@@ -97,11 +126,7 @@ class OlzNewsListItem {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => OlzAuthorBadge::render([
-                    'user' => $author_user,
-                    'role' => $author_role,
-                    'name' => $author_name,
-                ]),
+                'author' => $author_badge,
                 'title' => $title,
                 'text' => "<table><tr class='thumbs'>{$thumbs}</tr></table>",
                 'link' => $link,
@@ -122,11 +147,7 @@ class OlzNewsListItem {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => OlzAuthorBadge::render([
-                    'user' => $author_user,
-                    'role' => $author_role,
-                    'name' => $author_name,
-                ]),
+                'author' => $author_badge,
                 'title' => $title,
                 'text' => $content,
                 'link' => $link,
@@ -135,15 +156,33 @@ class OlzNewsListItem {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => OlzAuthorBadge::render([
-                    'user' => $author_user,
-                    'role' => $author_role,
-                    'name' => $author_name,
-                ]),
+                'author' => $author_badge,
                 'title' => $title,
                 'link' => $link,
             ]);
         }
         return $out;
+    }
+
+    protected static function truncateText($text) {
+        $max_length = 300;
+
+        $text = preg_replace("/\\s*\\n\\s*/", "\n", $text);
+        $text_length = mb_strlen($text);
+        $num_br = preg_match_all("/\\n/", $text, $tmp);
+        if ($num_br < 3) {
+            $text = str_replace("\n", "<br>", $text);
+        } else {
+            $text = str_replace("\n", " &nbsp; ", $text);
+        }
+
+        if ($text_length <= $max_length) {
+            return $text;
+        }
+        $text = mb_substr($text, 0, $max_length - 6);
+        $last_space = mb_strrpos($text, " ");
+        $last_break = mb_strrpos($text, "<br>");
+        $last_whitespace = ($last_break > $last_space) ? $last_break : $last_space;
+        return mb_substr($text, 0, $last_whitespace).' [...]';
     }
 }

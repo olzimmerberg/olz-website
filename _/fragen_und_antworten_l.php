@@ -121,6 +121,13 @@ Auf der <b><a href='aktuell.php' onmouseover='olz.highlight_menu(event)' onmouse
 Porträts unseres Vorstandes sind auf der <b><a href='verein.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Vereins-Seite</a></b> zu finden.
 </div>
 <br>
+<h3 id='forumsregeln'>Welche Regeln gelten für das Forum?</h3>
+<div>
+ZZZZZZZZZZ;
+echo OlzEditableText::render(['olz_text_id' => 4]);
+echo <<<'ZZZZZZZZZZ'
+</div>
+<br>
 <h3 id='weshalb-telegram-push'>Weshalb verwendet ihr Telegram für den Nachrichten-Push?</h3>
 <div>
 Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.

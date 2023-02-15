@@ -85,6 +85,8 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
+echo "<div class='alert alert-info' role='alert'><b>Das Forum zieht um, es ist jetzt unter \"Aktuell > Format: Forum\" zu finden.</b><br>Neue Beiträge bitte dort erstellen.</div>";
+
 // -------------------------------------------------------------
 // MENÜ
 if ($db_edit == "0") {

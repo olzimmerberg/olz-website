@@ -7,6 +7,8 @@ import {OlzInfiniteScroll, OlzInfiniteScrollProps} from '../OlzInfiniteScroll/Ol
 
 import './OlzLogs.scss';
 
+const MAX_LINE_LENGTH = 5000;
+
 const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery => {
     let targetDate: string|null = null;
     let firstDate: string|null = null;
@@ -83,19 +85,23 @@ export const OlzLogs = (): React.ReactElement => {
         };
 
     const renderItem = (line: string) => {
+        const mustCrop = line.length > MAX_LINE_LENGTH;
+        const croppedLine = mustCrop
+            ? `${line.substring(0, MAX_LINE_LENGTH - 1)}\u{2026}`
+            : line;
         const shouldGreyOut = line.includes('access forbidden by rule');
         if (shouldGreyOut) {
             return (
                 <div className='log-line greyed-out'>
-                    {line}
+                    {croppedLine}
                 </div>
             );
         }
 
         const formattingRegex = /^(.*\s+)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
-        const match = formattingRegex.exec(line);
+        const match = formattingRegex.exec(croppedLine);
         if (!match) {
-            return (<div className='log-line level-unknown'>{line}</div>);
+            return (<div className='log-line level-unknown'>{croppedLine}</div>);
         }
         const lineLogLevel = match[3].toLowerCase();
         return (

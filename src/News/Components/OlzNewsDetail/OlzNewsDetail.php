@@ -137,12 +137,6 @@ class OlzNewsDetail {
         }
 
         // -------------------------------------------------------------
-        // MENÜ
-        if ($zugriff and ($db_edit == '0')) {
-            $out .= "<div class='buttonbar'>\n".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")."</div>";
-        }
-
-        // -------------------------------------------------------------
         // AKTUELL - VORSCHAU
         if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $out .= OlzNewsArticle::render([

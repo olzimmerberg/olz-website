@@ -53,6 +53,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
     },
 };
 
+const isValidFromat = (value: unknown): value is OlzNewsFormat =>
+    CONFIG_BY_FORMAT[value as OlzNewsFormat] !== undefined;
+
 const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>Hinweise:</b></div>
     <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen,
@@ -253,7 +256,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                             const select = e.target;
                                             const newFormatString = select.options[select.selectedIndex].value;
                                             let newFormat: OlzNewsFormat = 'aktuell';
-                                            if (newFormatString === 'galerie') {
+                                            if (isValidFromat(newFormatString)) {
                                                 newFormat = newFormatString;
                                             }
                                             setFormat(newFormat);

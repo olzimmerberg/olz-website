@@ -5,6 +5,9 @@ namespace Olz\Tasks;
 use Olz\Tasks\Common\BackgroundTask;
 
 class CleanTempDirectoryTask extends BackgroundTask {
+    protected $temp_realpath;
+    protected $clean_older_than;
+
     protected static function getIdent() {
         return "CleanTempDirectory";
     }

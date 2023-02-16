@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
 class UnitTestCase extends TestCase {
     private $previous_document_root;
 
+    protected $previous_server;
+
     protected function setUp(): void {
         global $_SERVER;
         $this->previous_server = $_SERVER;

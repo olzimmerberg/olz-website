@@ -13,6 +13,9 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 require_once __DIR__.'/../../../Fake/fake_solv_person.php';
 
 class FakeSolvPeopleMergerSolvPersonRepository {
+    public $targetPerson = [];
+    public $samePerson = [];
+
     public function __construct() {
         $target_person = get_fake_solv_person();
         $target_person->setId(1);
@@ -33,6 +36,8 @@ class FakeSolvPeopleMergerSolvPersonRepository {
 }
 
 class FakeSolvPeopleMergerSolvResultRepository {
+    public $merged = [];
+
     public function solvPersonHasResults($person_id) {
         switch ($person_id) {
             case 1:

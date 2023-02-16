@@ -11,6 +11,12 @@ use Olz\Tasks\SyncSolvTask\SolvResultsSyncer;
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 class SyncSolvTask extends BackgroundTask {
+    protected $solvFetcher;
+    protected $solvEventsSyncer;
+    protected $solvResultsSyncer;
+    protected $solvPeopleAssigner;
+    protected $solvPeopleMerger;
+
     public function setSolvFetcher($solvFetcher) {
         $this->solvFetcher = $solvFetcher;
     }

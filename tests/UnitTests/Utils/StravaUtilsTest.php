@@ -56,6 +56,8 @@ class FakeStravaUtilsStravaFetcher {
 final class StravaUtilsTest extends UnitTestCase {
     private $stravaUtils;
 
+    protected $fake_strava_fetcher;
+
     public function __construct() {
         global $sample_strava_fetcher_response;
         parent::__construct();

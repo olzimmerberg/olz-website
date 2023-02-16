@@ -9,6 +9,9 @@ class TelegramConfigurationReminderGetter {
 
     public const DAY_OF_MONTH = 22;
 
+    protected $dateUtils;
+    protected $envUtils;
+
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
     }

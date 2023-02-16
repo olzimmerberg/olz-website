@@ -15,23 +15,15 @@ require_once __DIR__.'/../../Fake/fake_notification_subscription.php';
 
 class FakeProcessEmailTaskMail {
     public function __construct(
-        $id,
-        $xOriginalTo = null,
-        $to = [],
-        $fromAddress = '',
-        $fromName = '',
-        $subject = '',
-        $textHtml = '',
-        $textPlain = '',
+        public $id,
+        public $xOriginalTo = null,
+        public $to = [],
+        public $fromAddress = '',
+        public $fromName = '',
+        public $subject = '',
+        public $textHtml = '',
+        public $textPlain = '',
     ) {
-        $this->id = $id;
-        $this->xOriginalTo = $xOriginalTo;
-        $this->to = $to;
-        $this->fromAddress = $fromAddress;
-        $this->fromName = $fromName;
-        $this->subject = $subject;
-        $this->textHtml = $textHtml;
-        $this->textPlain = $textPlain;
     }
 
     public function hasAttachments() {

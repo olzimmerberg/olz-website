@@ -8,6 +8,8 @@ use Olz\Entity\SolvResult;
 class SolvPeopleMerger {
     use \Psr\Log\LoggerAwareTrait;
 
+    protected $entityManager;
+
     public function __construct($entityManager) {
         $this->entityManager = $entityManager;
     }

@@ -7,6 +7,8 @@ use Olz\Entity\SolvResult;
 require_once __DIR__.'/TimeParser.php';
 
 class SolvResultParser {
+    protected $timeParser;
+
     public function __construct() {
         $this->timeParser = new TimeParser();
     }

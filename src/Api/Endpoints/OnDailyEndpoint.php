@@ -11,6 +11,9 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class OnDailyEndpoint extends OlzEndpoint {
+    protected $cleanTempDirectoryTask;
+    protected $syncSolvTask;
+
     public function runtimeSetup() {
         parent::runtimeSetup();
         $clean_temp_directory_task = new CleanTempDirectoryTask();

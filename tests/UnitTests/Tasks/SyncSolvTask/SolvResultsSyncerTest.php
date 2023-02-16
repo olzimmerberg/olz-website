@@ -12,6 +12,10 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 require_once __DIR__.'/../../../Fake/fake_solv_event.php';
 
 class FakeSolvResultsSyncerSolvEventRepository {
+    public $eventWithResults;
+    public $eventWithoutResults;
+    public $updatedRankIdBySolvUid = [];
+
     public function __construct() {
         $event_with_results = get_fake_solv_event();
         $event_with_results->setSolvUid(20202);

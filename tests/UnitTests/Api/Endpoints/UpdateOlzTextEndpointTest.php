@@ -10,6 +10,8 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeUpdateOlzTextEndpointOlzTextRepository {
+    public $olz_text;
+
     public function __construct() {
         $olz_text = new OlzText();
         $olz_text->setId(1);

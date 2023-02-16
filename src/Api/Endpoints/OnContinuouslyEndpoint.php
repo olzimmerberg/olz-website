@@ -10,6 +10,9 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
+    protected $sendDailyNotificationsTask;
+    protected $processEmailTask;
+
     public function runtimeSetup() {
         parent::runtimeSetup();
         $process_email_task = new ProcessEmailTask();

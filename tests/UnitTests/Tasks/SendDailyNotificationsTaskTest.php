@@ -338,6 +338,11 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
 class FakeSendDailyNotificationsTaskDailySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
 
+    public $entityManager;
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
+
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
     }
@@ -361,6 +366,11 @@ class FakeSendDailyNotificationsTaskDailySummaryGetter {
 
 class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
     use \Psr\Log\LoggerAwareTrait;
+
+    public $entityManager;
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
 
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
@@ -387,6 +397,10 @@ class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
 class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
     use \Psr\Log\LoggerAwareTrait;
 
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
+
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
     }
@@ -407,6 +421,11 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
 
 class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
     use \Psr\Log\LoggerAwareTrait;
+
+    public $entityManager;
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
 
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
@@ -432,6 +451,10 @@ class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
 class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
     use \Psr\Log\LoggerAwareTrait;
 
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
+
     public function setDateUtils($dateUtils) {
         $this->dateUtils = $dateUtils;
     }
@@ -452,6 +475,11 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
 
 class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
     use \Psr\Log\LoggerAwareTrait;
+
+    public $entityManager;
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
 
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
@@ -476,6 +504,11 @@ class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
 
 class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
+
+    public $entityManager;
+    public $dateUtils;
+    public $envUtils;
+    public $calledWithArgs;
 
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;

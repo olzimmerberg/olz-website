@@ -56,6 +56,8 @@ class FakeLoginWithStravaEndpointStravaLinkRepository {
 }
 
 class FakeLoginWithStravaEndpointStravaFetcher {
+    protected $response;
+
     public function __construct($response) {
         $this->response = $response;
     }

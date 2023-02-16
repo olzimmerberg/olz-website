@@ -5,103 +5,87 @@ namespace Olz\Tasks;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Tasks\Common\BackgroundTask;
-use PhpImap\Exceptions\ConnectionException;
+use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 
 class ProcessEmailTask extends BackgroundTask {
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;
 
-    protected $mailbox;
+    protected $client;
 
     protected static function getIdent() {
         return "ProcessEmail";
     }
 
     protected function runSpecificTask() {
-        $this->mailbox = $this->emailUtils()->getImapMailbox();
+        $this->client = $this->emailUtils()->getImapClient();
+        $this->client->connect();
         try {
-            $this->mailbox->createMailbox('Processed');
-        } catch (\Exception $exc) {
-            // ignore
+            $this->client->createFolder('INBOX.Processed');
+        } catch (ImapServerErrorException $exc) {
+            // ignore when folder already exists
         }
-        $this->mailbox->setAttachmentsIgnore(false);
 
         // TODO: Test coverage!
-        $processed_mails_headers = $this->getProcessedMailsHeaders();
-        $this->deleteOldProcessedMails($processed_mails_headers);
-        $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails_headers);
+        $processed_mails = $this->getProcessedMails();
+        $this->deleteOldProcessedMails($processed_mails);
+        $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails);
 
-        $inbox_mails_headers = $this->getInboxMailsHeaders();
-        $newly_processed_mails_headers = [];
-        foreach ($inbox_mails_headers as $mail_headers) {
-            $message_id = $mail_headers->message_id ?? null;
+        $inbox_mails = $this->getInboxMails();
+        $newly_processed_mails = [];
+        foreach ($inbox_mails as $mail) {
+            $message_id = $mail->message_id ?? null;
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
-            $is_newly_processed = $this->processMail($mail_headers, $is_processed);
+            $is_newly_processed = $this->processMail($mail, $is_processed);
             if ($is_newly_processed) {
-                $newly_processed_mails_headers[] = $mail_headers;
+                $newly_processed_mails[] = $mail;
             }
             if ($message_id !== null) {
                 $is_message_id_processed[$message_id] = true;
             }
         }
 
-        foreach ($newly_processed_mails_headers as $mail_headers) {
-            $mail_uid = $mail_headers->uid;
-            $this->mailbox->moveMail("{$mail_uid}", 'INBOX.Processed');
+        foreach ($newly_processed_mails as $mail) {
+            $mail->move($folder_path = 'INBOX.Processed');
         }
     }
 
-    protected function getProcessedMailsHeaders() {
-        $this->mailbox->switchMailbox('INBOX.Processed');
+    protected function getProcessedMails() {
+        return $this->getMails('INBOX.Processed');
+    }
+
+    protected function getInboxMails() {
+        return $this->getMails('INBOX');
+    }
+
+    protected function getMails($folder_path) {
         try {
-            $mail_ids = $this->mailbox->searchMailbox('ALL');
-        } catch (\UnexpectedValueException $uve) {
-            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
-            throw $uve;
-        } catch (ConnectionException $exc) {
-            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
-            throw $exc;
+            $folder = $this->client->getFolderByPath($folder_path);
+            $query = $folder->messages();
+            $query->leaveUnread();
+            $query->setFetchBody(false);
+            return $query->all()->get();
         } catch (\Exception $exc) {
-            $this->log()->critical("Exception in searchMailbox.", [$exc]);
+            $this->log()->critical("Exception in getInboxMails.", [$exc]);
             throw $exc;
         }
-        return count($mail_ids) > 0 ? $this->mailbox->getMailsInfo($mail_ids) : [];
     }
 
-    protected function getInboxMailsHeaders() {
-        $this->mailbox->switchMailbox('INBOX');
-        try {
-            $mail_ids = $this->mailbox->searchMailbox('ALL');
-        } catch (\UnexpectedValueException $uve) {
-            $this->log()->critical("UnexpectedValueException in searchMailbox.", [$uve]);
-            throw $uve;
-        } catch (ConnectionException $exc) {
-            $this->log()->critical("Could not search IMAP mailbox.", [$exc]);
-            throw $exc;
-        } catch (\Exception $exc) {
-            $this->log()->critical("Exception in searchMailbox.", [$exc]);
-            throw $exc;
-        }
-        return count($mail_ids) > 0 ? $this->mailbox->getMailsInfo($mail_ids) : [];
-    }
-
-    protected function deleteOldProcessedMails($processed_mails_headers) {
+    protected function deleteOldProcessedMails($processed_mails) {
         $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
-        foreach ($processed_mails_headers as $mail_headers) {
-            $message_timestamp = strtotime($mail_headers->date);
+        foreach ($processed_mails as $mail) {
+            $message_timestamp = $mail->date->first()->timestamp;
             $should_delete = $message_timestamp < $now_timestamp - $this->deleteAfterSeconds;
             if ($should_delete) {
-                $mail_uid = $mail_headers->uid;
-                $this->mailbox->deleteMail($mail_uid);
+                $mail->delete($expunge = true);
             }
         }
-        $this->mailbox->expungeDeletedMails();
     }
 
-    protected function getIsMessageIdProcessed($processed_mails_headers) {
+    protected function getIsMessageIdProcessed($processed_mails) {
         $is_message_id_processed = [];
-        foreach ($processed_mails_headers as $mail_headers) {
-            $message_id = $mail_headers->message_id ?? null;
+        foreach ($processed_mails as $mail) {
+            $message_id = $mail->message_id ?? null;
             if ($message_id !== null) {
                 $is_message_id_processed[$message_id] = true;
             }
@@ -109,11 +93,10 @@ class ProcessEmailTask extends BackgroundTask {
         return $is_message_id_processed;
     }
 
-    protected function processMail($mail_headers, $is_processed): bool {
-        $mail_uid = $mail_headers->uid;
-        $mail = $this->mailbox->getMail($mail_uid, /* do not mark as seen */ false);
+    protected function processMail($mail, $is_processed): bool {
+        $mail_uid = $mail->uid;
 
-        $original_to = $mail->xOriginalTo;
+        $original_to = $mail->x_original_to;
         if ($original_to) {
             return $this->processMailToAddress($mail, $original_to);
         }
@@ -121,7 +104,9 @@ class ProcessEmailTask extends BackgroundTask {
             $this->log()->info("E-Mail {$mail_uid} already processed.");
             return true;
         }
-        $to_addresses = array_keys($mail->to);
+        $to_addresses = array_map(function ($address) {
+            return $address->mail;
+        }, $mail->to->toArray());
         $all_successful = true;
         foreach ($to_addresses as $to_address) {
             if (!$this->processMailToAddress($mail, $to_address)) {
@@ -132,7 +117,7 @@ class ProcessEmailTask extends BackgroundTask {
     }
 
     protected function processMailToAddress($mail, $address): bool {
-        $mail_uid = $mail->id;
+        $mail_uid = $mail->uid;
 
         $is_match = preg_match('/^([\S]+)@(test\.)?olzimmerberg\.ch$/', $address, $matches);
         if (!$is_match) {
@@ -181,12 +166,14 @@ class ProcessEmailTask extends BackgroundTask {
 
     protected function forwardEmailToUser($mail, $user, $address): bool {
         $forward_address = $user->getEmail();
-        $from_name = $mail->fromName;
-        $from_address = $mail->fromAddress;
+        $from = $mail->from->first();
+        $from_name = $from->personal;
+        $from_address = $from->mail;
         $from_address_suffix = $from_address ? " <{$from_address}>" : '';
-        $subject = $mail->subject;
-        $html = $mail->textHtml;
-        $text = $mail->textPlain;
+        $subject = $mail->subject->first();
+        $mail->parseBody();
+        $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
+        $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
         if (!$html) {
             $html = nl2br($text);
         }
@@ -198,9 +185,9 @@ class ProcessEmailTask extends BackgroundTask {
                 'no_unsubscribe' => true,
             ]);
             // This is probably dangerous (Might get us on spamming lists?):
-            // $email->setFrom($mail->fromAddress, $mail->fromName);
+            // $email->setFrom($from_address, $from_name);
             $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_name} (via OLZ){$from_address_suffix}");
-            $email->addReplyTo($mail->fromAddress, $mail->fromName);
+            $email->addReplyTo($from_address, $from_name);
 
             $email->Body = $html ? $html : '(leer)';
             $email->AltBody = $text ? $text : '(leer)';
@@ -226,8 +213,7 @@ class ProcessEmailTask extends BackgroundTask {
                         }
                     }
                     $this->log()->info("Saving attachment {$attachment->name} to {$upload_id}...");
-                    $attachment->setFilePath($upload_path);
-                    if ($attachment->saveToDisk()) {
+                    if ($attachment->save($temp_path, $upload_id)) {
                         $email->addAttachment($upload_path, $attachment->name);
                     } else {
                         $this->log()->error("Could not save attachment {$attachment->name} to {$upload_id}.");

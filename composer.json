@@ -86,7 +86,6 @@
     "league/flysystem": "^3.2",
     "league/flysystem-ftp": "^3.0",
     "monolog/monolog": "^3.2",
-    "php-imap/php-imap": "^5.0",
     "phpmailer/phpmailer": "^6.2",
     "psr/log": "^3.0",
     "sabre/dav": "^4.3",
@@ -103,7 +102,8 @@
     "symfony/proxy-manager-bridge": "6.2.*",
     "symfony/requirements-checker": "^2.0",
     "symfony/runtime": "6.2.*",
-    "symfony/yaml": "6.2.*"
+    "symfony/yaml": "6.2.*",
+    "webklex/php-imap": "^5"
   },
   "autoload": {
     "psr-4": {

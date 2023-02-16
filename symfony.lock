@@ -158,9 +158,6 @@
     "php-cs-fixer/diff": {
         "version": "v2.0.2"
     },
-    "php-imap/php-imap": {
-        "version": "5.0.0"
-    },
     "php-webdriver/webdriver": {
         "version": "1.12.1"
     },

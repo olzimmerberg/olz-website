@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Utils\GeneralUtils;
-use PhpImap\Exceptions\ConnectionException;
 
 class FakeEmailUtils {
     use \Psr\Log\LoggerAwareTrait;
@@ -13,11 +12,11 @@ class FakeEmailUtils {
     public $email_verification_emails_sent = [];
     public $send_email_verification_email_error;
 
-    public $mailbox;
+    public $client;
     public $olzMailer;
 
     public function __construct() {
-        $this->mailbox = new FakeMailbox();
+        $this->client = new FakeImapClient();
         $this->olzMailer = new FakeOlzMailer();
     }
 
@@ -31,8 +30,8 @@ class FakeEmailUtils {
         $this->email_verification_emails_sent[] = ['user' => $user];
     }
 
-    public function getImapMailbox() {
-        return $this->mailbox;
+    public function getImapClient() {
+        return $this->client;
     }
 
     public function createEmail() {
@@ -55,77 +54,52 @@ class FakeEmailUtils {
     }
 }
 
-class FakeMailbox {
-    public $unexpected_value_exception = false;
-    public $connection_exception = false;
+class FakeImapClient {
     public $exception = false;
-    public $mail_dict = [];
-    public $deleted_mail_dict = [];
-    public $moved_mail = [];
-    public $expunged_mail_dict = [];
-    public $current_mailbox;
+    public $folders = [];
+    public $is_connected = false;
 
-    public function setAttachmentsIgnore($should_ignore_attachments) {
+    public function createFolder($name) {
     }
 
-    public function createMailbox($name) {
-    }
-
-    public function switchMailbox($name) {
-        $this->current_mailbox = $name;
-    }
-
-    public function searchMailbox($query) {
-        if ($this->unexpected_value_exception) {
-            throw new \UnexpectedValueException("Phew, that was unexpected");
-        }
-        if ($this->connection_exception) {
-            throw new ConnectionException(["Host not found or something"]);
-        }
+    public function connect() {
         if ($this->exception) {
-            throw new \Exception("Failed at something else");
+            throw new \Exception("Failed at something");
         }
-        if ($query === 'ALL') {
-            if ($this->current_mailbox === 'INBOX.Processed') {
-                return [];
-            }
-            if ($this->current_mailbox === 'INBOX') {
-                return array_keys($this->mail_dict);
-            }
-            throw new \Exception("No such mailbox: {$this->current_mailbox}");
-        }
-        throw new \Exception("Expected 'ALL' query to searchMailbox");
+        $this->is_connected = true;
     }
 
-    public function getMailsInfo($mail_ids) {
-        return array_map(function ($mail_id) {
-            return new FakeMailInfo($mail_id);
-        }, $mail_ids);
-    }
-
-    public function getMail($mail_id, $should_mark_read) {
-        return $this->mail_dict[$mail_id];
-    }
-
-    public function moveMail($mail_id, $mailbox) {
-        $this->moved_mail[] = "{$mail_id} => {$mailbox}";
-    }
-
-    public function deleteMail($mail_id) {
-        $this->deleted_mail_dict[$mail_id] = true;
-    }
-
-    public function expungeDeletedMails() {
-        $this->expunged_mail_dict = $this->deleted_mail_dict;
+    public function getFolderByPath($path) {
+        return new FakeImapFolder($this->folders[$path] ?? []);
     }
 }
 
-class FakeMailInfo {
-    public $uid;
-    public $message_id;
+class FakeImapFolder {
+    public $should_leave_unread = false;
+    public $should_fetch_body = true;
 
-    public function __construct($mail_id) {
-        $this->uid = $mail_id;
-        $this->message_id = $mail_id;
+    public function __construct(
+        public $mails = [],
+    ) {
+    }
+
+    public function messages() {
+        return $this;
+    }
+
+    public function leaveUnread() {
+        $this->should_leave_unread = true;
+    }
+
+    public function setFetchBody($value) {
+        $this->should_fetch_body = $value;
+    }
+
+    public function all() {
+        return $this;
+    }
+
+    public function get() {
+        return $this->mails;
     }
 }

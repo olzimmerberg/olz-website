@@ -9,7 +9,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
-use PhpImap\Mailbox;
+use Webklex\PHPIMAP\Client;
 
 class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
     public function getSmtpHost() {
@@ -121,7 +121,7 @@ final class EmailUtilsTest extends UnitTestCase {
         }
     }
 
-    public function testGetImapMailbox(): void {
+    public function testgetImapClient(): void {
         $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
@@ -130,11 +130,13 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
-        $mailbox = $email_utils->getImapMailbox();
+        $client = $email_utils->getImapClient();
 
-        $this->assertSame(true, $mailbox instanceof Mailbox);
-        $this->assertSame('{127.0.0.1:143/notls}INBOX', $mailbox->getImapPath());
-        $this->assertSame('imap@olzimmerberg.ch', $mailbox->getLogin());
+        $this->assertSame(true, $client instanceof Client);
+        $this->assertSame('127.0.0.1', $client->host);
+        $this->assertSame(143, $client->port);
+        $this->assertSame('imap@olzimmerberg.ch', $client->username);
+        $this->assertSame('123456', $client->password);
     }
 
     public function testEmailReactionToken(): void {

@@ -7,7 +7,7 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use Olz\Exceptions\RecaptchaDeniedException;
-use PhpImap\Mailbox;
+use Webklex\PHPIMAP\ClientManager;
 
 require_once __DIR__.'/OlzMailer.php';
 
@@ -69,20 +69,28 @@ class EmailUtils {
         return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(6));
     }
 
-    public function getImapMailbox() {
+    public function getImapClient() {
         $imap_host = $this->envUtils()->getImapHost();
         $imap_port = $this->envUtils()->getImapPort();
         $imap_flags = $this->envUtils()->getImapFlags();
         $imap_username = $this->envUtils()->getImapUsername();
         $imap_password = $this->envUtils()->getImapPassword();
 
-        $mailbox_name = "{{$imap_host}:{$imap_port}{$imap_flags}}";
-        // Documentation at https://github.com/barbushin/php-imap
-        return new Mailbox(
-            "{$mailbox_name}INBOX",
-            $imap_username,
-            $imap_password
-        );
+        $cm = new ClientManager();
+        return $cm->make([
+            'host' => $imap_host,
+            'port' => $imap_port,
+            // TODO: Load encryption, validate_cert and protocol from config.
+            'encryption' => 'ssl',
+            'validate_cert' => false,
+            'username' => $imap_username,
+            'password' => $imap_password,
+            'protocol' => 'imap',
+        ]);
+
+        // Documentation at:
+        //    https://www.php-imap.com/api/client
+        //    https://github.com/Webklex/php-imap
     }
 
     public function createEmail() {

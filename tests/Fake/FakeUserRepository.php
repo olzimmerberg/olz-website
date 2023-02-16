@@ -9,6 +9,13 @@ class FakeUserRepository {
     public $userToBeFoundForQuery;
     public $fakeProcessEmailTaskUser;
 
+    public $default_user;
+    public $admin_user;
+    public $vorstand_user;
+    public $noaccess_user;
+    public $specific_user;
+    public $no_access_user;
+
     public function findOneBy($where) {
         if ($this->userToBeFound !== null) {
             return $this->userToBeFound;

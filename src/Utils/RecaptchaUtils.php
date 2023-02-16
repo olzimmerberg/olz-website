@@ -14,6 +14,8 @@ class RecaptchaUtils {
 
     protected static $cache = [];
 
+    protected $googleFetcher;
+
     public static function fromEnv() {
         $google_fetcher = new GoogleFetcher();
         $instance = new self();

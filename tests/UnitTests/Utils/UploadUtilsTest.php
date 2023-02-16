@@ -14,6 +14,8 @@ use Olz\Utils\UploadUtils;
  * @covers \Olz\Utils\UploadUtils
  */
 final class UploadUtilsTest extends UnitTestCase {
+    protected $uploadUtils;
+
     protected function setUp(): void {
         parent::setUp();
         $upload_utils = new UploadUtils();

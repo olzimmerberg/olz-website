@@ -17,6 +17,8 @@ class IntegrationTestCase extends KernelTestCase {
     private static $is_first_call = true;
     private static $is_db_locked = false;
 
+    protected $previous_server;
+
     protected function setUp(): void {
         global $_SERVER, $entityManager;
         $this->previous_server = $_SERVER;

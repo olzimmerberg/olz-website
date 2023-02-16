@@ -14,6 +14,10 @@ class DailySummaryGetter {
 
     public const CUT_OFF_TIME = '16:00:00';
 
+    protected $entityManager;
+    protected $dateUtils;
+    protected $envUtils;
+
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
     }

@@ -15,6 +15,8 @@ class TelegramUtils {
     use WithUtilsTrait;
     use \Psr\Log\LoggerAwareTrait;
 
+    protected $telegramFetcher;
+
     public const UTILS = [
         'dateUtils',
         'entityManager',

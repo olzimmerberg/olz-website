@@ -17,6 +17,14 @@ use Olz\Tasks\SendDailyNotificationsTask\WeeklySummaryGetter;
 require_once __DIR__.'/../../_/config/init.php';
 
 class SendDailyNotificationsTask extends BackgroundTask {
+    protected $dailySummaryGetter;
+    protected $deadlineWarningGetter;
+    protected $emailConfigurationReminderGetter;
+    protected $monthlyPreviewGetter;
+    protected $telegramConfigurationReminderGetter;
+    protected $weeklyPreviewGetter;
+    protected $weeklySummaryGetter;
+
     public function __construct() {
         $this->setDailySummaryGetter(new DailySummaryGetter());
         $this->setDeadlineWarningGetter(new DeadlineWarningGetter());

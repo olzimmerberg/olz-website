@@ -3,6 +3,10 @@
 namespace Olz\Tasks\SendDailyNotificationsTask;
 
 class Notification {
+    public $title;
+    public $text;
+    public $config;
+
     public function __construct($title, $text, $config = []) {
         $this->title = $title;
         $this->text = $text;

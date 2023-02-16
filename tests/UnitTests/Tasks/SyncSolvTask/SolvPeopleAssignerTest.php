@@ -21,6 +21,10 @@ class FakeSolvPeopleAssignerEntityManager extends Fake\FakeEntityManager {
 }
 
 class FakeSolvPeopleAssignerSolvResultRepository {
+    public $testRunnerResult;
+    public $typoResult;
+    public $differentResult;
+
     public function __construct() {
         $test_runner_result = get_fake_solv_result();
         $test_runner_result->setId(1);

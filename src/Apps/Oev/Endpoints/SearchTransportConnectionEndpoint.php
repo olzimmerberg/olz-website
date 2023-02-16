@@ -12,6 +12,9 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class SearchTransportConnectionEndpoint extends OlzEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
+    protected $originStations;
+    protected $transportApiFetcher;
+
     public function __construct() {
         $filename = __DIR__.'/../../../../_/shared/olz_transit_stations.json';
         $content = file_get_contents($filename);

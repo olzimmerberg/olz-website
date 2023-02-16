@@ -13,6 +13,9 @@ class FakeEmailUtils {
     public $email_verification_emails_sent = [];
     public $send_email_verification_email_error;
 
+    public $mailbox;
+    public $olzMailer;
+
     public function __construct() {
         $this->mailbox = new FakeMailbox();
         $this->olzMailer = new FakeOlzMailer();
@@ -118,6 +121,9 @@ class FakeMailbox {
 }
 
 class FakeMailInfo {
+    public $uid;
+    public $message_id;
+
     public function __construct($mail_id) {
         $this->uid = $mail_id;
         $this->message_id = $mail_id;

@@ -9,6 +9,10 @@ class FakeRoleRepository {
     public $roleToBeFoundForQuery;
     public $fakeProcessEmailTaskRole;
 
+    public $default_role;
+    public $admin_role;
+    public $vorstand_role;
+
     public function findOneBy($where) {
         if ($this->roleToBeFound !== null) {
             return $this->roleToBeFound;

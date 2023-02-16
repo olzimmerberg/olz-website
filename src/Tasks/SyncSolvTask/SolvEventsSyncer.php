@@ -8,6 +8,10 @@ use Olz\Parsers\SolvEventParser;
 class SolvEventsSyncer {
     use \Psr\Log\LoggerAwareTrait;
 
+    protected $entityManager;
+    protected $solvFetcher;
+    protected $solvEventParser;
+
     public function __construct($entityManager, $solvFetcher) {
         $this->entityManager = $entityManager;
         $this->solvFetcher = $solvFetcher;

@@ -10,6 +10,10 @@ use Olz\Entity\Termine\Termin;
 class DeadlineWarningGetter {
     use \Psr\Log\LoggerAwareTrait;
 
+    protected $entityManager;
+    protected $dateUtils;
+    protected $envUtils;
+
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
     }

@@ -11,6 +11,8 @@ class ProcessEmailTask extends BackgroundTask {
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;
 
+    protected $mailbox;
+
     protected static function getIdent() {
         return "ProcessEmail";
     }

@@ -39,6 +39,7 @@ class FakeProcessEmailTaskMail {
         public $subject = '',
         protected $textHtml = null,
         protected $textPlain = null,
+        public $message_id = null,
     ) {
     }
 

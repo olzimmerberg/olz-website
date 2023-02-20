@@ -15,7 +15,7 @@ function solvdataforyear($year) {
         $year = olz_current_date("Y");
     }
     $url = "https://o-l.ch/cgi-bin/fixtures?&year=".$year."&kind=&csv=1";
-    $file = utf8_encode(load_url($url));
+    $file = iconv('ISO-8859-1', 'UTF-8', load_url($url));
     $solv_termine = preg_split("/[\n\r]+/i", $file);
     for ($i = 0; $i < count($solv_termine); $i++) {
         $tmp = explode(";", $solv_termine[$i]);
@@ -56,7 +56,7 @@ function go2oldata() {
     $db = DbUtils::fromEnv()->getDb();
 
     $url = "http://www.go2ol.ch/index.asp";
-    $file = utf8_encode(load_url($url));
+    $file = iconv('ISO-8859-1', 'UTF-8', load_url($url));
     $go2ol_termine = [];
     $res = preg_match_all("/<td.*><a.*href=\"(?P<link>[^\"]+)\".*>(?P<name>.+)<\\/a>.*<\\/td>\\s*<td.*>\\s*<img.*src=\"(?P<post>[^\"]+)\".*>\\s*<label>\\s*<input name=\"solv_uid\" type=\"hidden\" id=\"solv_uid\" value=\"(?P<solv_uid>.+)\".*>\\s*<\\/label>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<verein>.+)<\\/div>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<datum>.+)<\\/div>\\s*<\\/td>\\s*<td.*><div.*>(?P<meldeschluss_ohne>.+)<\\/div>\\s*<\\/td>\\s*<td.*>\\s*<div.*>(?P<meldeschluss_mit>.+)<\\/div>\\s*<\\/td>/i", $file, $matches);
     // print_r($matches);

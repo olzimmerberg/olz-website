@@ -69,7 +69,9 @@ class ProcessEmailTask extends BackgroundTask {
         } catch (ResponseException $exc) {
             if (!preg_match('/Empty response/i', $exc->getMessage())) {
                 $this->log()->critical("ResponseException in getInboxMails.", [$exc]);
+                throw $exc;
             }
+            return [];
         } catch (\Exception $exc) {
             $this->log()->critical("Exception in getInboxMails.", [$exc]);
             throw $exc;

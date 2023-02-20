@@ -1,9 +1,13 @@
 .olz-popup .popup {
-    background-color: #d4e7ce;
-    border: 1px solid #007521;
     display: none;
-    padding: 5px 10px 5px 5px;
+}
+
+body > .popup {
+    display: block;
     position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999999;
 }
 
 .olz-popup .trigger {

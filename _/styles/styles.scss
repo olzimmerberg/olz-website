@@ -307,16 +307,33 @@ input.button {
     vertical-align: bottom;
 }
 
+.bg-bright a,
 a {
     color: #007521;
     text-decoration: none;
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.bg-green {
+    color: #fff000;
+}
+
+.bg-green a {
+    color: #fff000;
+    text-decoration: none;
+
+    &:hover {
+        color: #fffccc;
+    }
 }
 
 a.text {
     color: #000;
 }
 
-a:hover,
 .accordion-title {
     color: #000;
 }
@@ -432,6 +449,16 @@ input.button,
     padding: 0 6px 0 16px;
 }
 
+.bg-green {
+    .linkint,
+    .olz-editable-text a[href^='/'],
+    .olz-editable-text a[href^='https://olzimmerberg.ch'] {
+        background-image: url('../../public/icns/link_internal_yellow_16.svg');
+        background-position: left center;
+        padding: 0 6px 0 16px;
+    }
+}
+
 .linkmap {
     background-image: url('../../public/icns/link_map_16.svg');
 }
@@ -441,6 +468,15 @@ input.button,
     background-image: url('../../public/icns/link_mail_16.svg');
     background-position: left center;
     padding: 0 6px 0 16px;
+}
+
+.bg-green {
+    .linkmail,
+    .olz-editable-text a[href^='mailto:'] {
+        background-image: url('../../public/icns/link_mail_yellow_16.svg');
+        background-position: left center;
+        padding: 0 6px 0 16px;
+    }
 }
 
 .linkmovie {

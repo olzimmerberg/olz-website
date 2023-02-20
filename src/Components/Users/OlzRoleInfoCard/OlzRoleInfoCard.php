@@ -1,13 +1,14 @@
 <?php
 
-namespace Olz\Components\Users\OlzUserInfoCard;
+namespace Olz\Components\Users\OlzRoleInfoCard;
 
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzUserInfoCard {
+class OlzRoleInfoCard {
     public static function render($args = []) {
-        $user = $args['user'];
+        $role = $args['role'];
+        $user = $args['user'] ?? null;
 
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
@@ -17,16 +18,20 @@ class OlzUserInfoCard {
         $data_href = $env_utils->getDataHref();
         $data_path = $env_utils->getDataPath();
 
-        $image_base_path = "img/users/{$user->getId()}";
-        $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
-        $img_html = "<img src='{$code_href}icns/user.php?initials={$initials}' alt='' class='image'>";
-        if (is_file("{$data_path}{$image_base_path}.jpg")) {
-            $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt='' class='image'>";
+        $img_html = "<img src='/icns/role.svg' alt='' class='logo'>";
+        if ($user) {
+            $image_base_path = "img/users/{$user->getId()}";
+            $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
+            $img_html = "<img src='{$code_href}icns/user.php?initials={$initials}' alt='' class='image'>";
+            if (is_file("{$data_path}{$image_base_path}.jpg")) {
+                $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt='' class='image'>";
+            }
         }
 
-        $out = "<div class='olz-user-info-card'>";
+        $out = "<div class='olz-role-info-card bg-green'>";
+        $out .= "<div class='role-name-container'><a href='{$code_href}verein.php?ressort={$role->getUsername()}' class='linkint'>{$role->getName()}</a></div>";
         $out .= "<div class='image-container'>{$img_html}</div>";
-        $out .= "<div class='name-container'>{$user->getFullName()}</div>";
+        $out .= "<div class='user-name-container'>{$user->getFullName()}</div>";
         // $out .= ($row["adresse"] ? "<br>".$row["adresse"] : "");
         // $out .= ($row["tel"] ? "<br>Tel. ".$row["tel"] : "");
         $has_official_email = $auth_utils->hasPermission('user_email', $user);

@@ -13,6 +13,9 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {
+    protected $solv_fetcher;
+    protected $year_to_fetch;
+
     public function __construct() {
         parent::__construct();
         $this->solv_fetcher = new SolvFetcher();

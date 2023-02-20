@@ -13,6 +13,8 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\FacebookFetcher
  */
 final class FacebookFetcherTest extends IntegrationTestCase {
+    protected $facebook_fetcher;
+
     public function __construct() {
         parent::__construct();
         $this->facebook_fetcher = new FacebookFetcher();

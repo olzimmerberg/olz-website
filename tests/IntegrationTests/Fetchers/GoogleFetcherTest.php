@@ -13,6 +13,8 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\GoogleFetcher
  */
 final class GoogleFetcherTest extends IntegrationTestCase {
+    protected $google_fetcher;
+
     public function __construct() {
         parent::__construct();
         $this->google_fetcher = new GoogleFetcher();

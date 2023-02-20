@@ -6,8 +6,18 @@
     font-weight: normal;
     padding: 0 5px;
 
+    &.has-popup:hover {
+        color: rgb(50,50,50);
+        border: 1px solid rgb(75,75,75);
+    }
+
     &.level-role {
         color: rgb(0,150,0);
         border: 1px solid rgb(0,150,0);
+
+        &.has-popup:hover {
+            color: rgb(0,75,0);
+            border: 1px solid rgb(0,75,0);    
+        }
     }
 }

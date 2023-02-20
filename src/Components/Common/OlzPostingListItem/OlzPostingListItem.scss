@@ -26,7 +26,8 @@
         position: relative;
         z-index: 1;
 
-        a {
+        a,
+        .olz-author-badge {
             pointer-events: all;
         }
     }

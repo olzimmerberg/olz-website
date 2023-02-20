@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    width="125px"
+    height="115px"
+    viewBox="0 0 125 115"
+>
+    <defs>
+        <clipPath id="cut-off-bottom">
+            <path
+                d="M 120.059,827.031 2000,1000 V 3000 H 0 V 0 l 17.6797,713.301 102.3793,113.73"
+                style="fill:#cccccc;fill-opacity:0.5;fill-rule:evenodd;stroke:none"
+            />
+        </clipPath>
+        <filter id="shadow" x="-100" y="-100" width="515" height="367">
+            <feOffset result="offOut" in="SourceAlpha" dx="20" dy="-20" />
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="20" />
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+        </filter>
+    </defs>
+    <g transform="translate(5,5) matrix(0.1,0,0,-0.1,0,117.9475)" filter="url(#shadow)">
+        <path
+            d="m 98.9492,722.32 c -60.2969,80 -86.6797,186.782 -65.418,315.61 48.7383,295.14 322.4888,486.94 617.3278,486.94 106.719,0 202.364,-25.14 278.672,-71.18"
+            style="fill:none;stroke:#fff000;stroke-width:52.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+            clip-path="url(#cut-off-bottom)"
+            transform="translate(1.5275809,-388.57142)"
+        />
+        <path
+            d="m 1077.0876,574.06958 c -75.951,-260.731 -320.54001,-414.45 -586.34101,-414.45"
+            style="fill:none;stroke:#fff000;stroke-width:31.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+        />
+        <path
+            d="m 389.63659,644.37858 c -17.679,-107.091 44.84,-180.591 151.731,-180.591 106.859,0 193.68,73.5 211.351,180.591 16.45,99.63 -39.3,183.06 -151.332,183.06 -112.007,0 -195.308,-83.43 -211.75,-183.06"
+            style="fill:#fff000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+        />
+    </g>
+</svg>

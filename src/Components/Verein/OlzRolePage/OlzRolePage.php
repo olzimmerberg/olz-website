@@ -63,9 +63,11 @@ class OlzRolePage {
         if ($num_assignees === 0) {
             $out .= "<p><i>Keine Ressort-Verantwortlichen</i></p>";
         } else {
+            $out .= "<div class='olz-user-info-card-list'>";
             foreach ($assignees as $assignee) {
                 $out .= OlzUserInfoCard::render(['user' => $assignee]);
             }
+            $out .= "</div>";
         }
 
         $child_roles = $role_repo->findBy(['parent_role' => $role_id], ['index_within_parent' => 'ASC']);

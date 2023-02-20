@@ -2,6 +2,8 @@
 
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\News\Utils\NewsFilterUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -21,10 +23,21 @@ $http_utils->validateGetParams([
     'buttonforum' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
+$news_filter_utils = NewsFilterUtils::fromEnv();
+$filter = $news_filter_utils->getDefaultFilter();
+$filter['format'] = 'forum';
+$enc_json_filter = urlencode(json_encode($filter));
+$new_url = "{$code_href}aktuell.php?filter={$enc_json_filter}";
+// TODO: Redirect once people are aware of the new location
+// header("Location: {$new_url}");
+
 echo OlzHeader::render([
     'title' => "Forum",
     'description' => "Ein Forum für Nutzer-Beiträge über alles rund um den OL und/oder die OL Zimmerberg.",
     'norobots' => true,
+    'canonical_url' => $new_url,
 ]);
 
 $db_table = 'forum';

@@ -30,8 +30,6 @@ if ($aktuell_typ != 'aktuell') {
 (SELECT id,datum,zeit,titel,text,'aktuell' AS typ,image_ids AS f1,typ AS f2,'' AS f3,'' AS f4,'' AS f5,'' AS f6,textlang AS f7,'' AS linkext FROM aktuell WHERE (on_off='1' AND typ NOT LIKE 'box%'))
 UNION ALL
 (SELECT id,datum,zeit,titel,text,'blog' AS typ,autor AS f1,'' AS f2,'' AS f3,'','','','',linkext FROM blog WHERE (on_off='1') AND (titel!='') AND (text!=''))
-UNION ALL
-(SELECT id,datum,zeit,'' AS titel,eintrag AS text,'forum' AS typ,name AS f1,name2 AS f2,'' AS f3,'','','','','' FROM forum WHERE (on_off='1' and eintrag!=''))
 ORDER BY datum DESC, zeit DESC LIMIT {$listenlaenge}";
 }
 
@@ -78,68 +76,6 @@ while ($row = $result->fetch_assoc()) {
              $tmptext = $matches[4][$i];
              $text = str_replace($matches[0][$i], $tmptext, $text);
          }*/
-
-        echo OlzPostingListItem::render([
-            'icon' => $icon,
-            'date' => $datum,
-            'title' => $edit_admin.$titel,
-            'text' => $text,
-            'link' => $link,
-        ]);
-    } elseif ($thistype == "forum") { // Tabelle 'forum'
-        $titel = $row['f1'];
-        $name = ($row['f2'] > "") ? "(".$row['f2'].") " : "";
-        $text = make_expandable($name.$text);
-        $link = "forum.php#id".$id;
-        $icon = "icns/entry_type_forum_20.svg";
-        $titel = "Forum: ".$titel;
-        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"forum.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
-        }
-
-        echo OlzPostingListItem::render([
-            'icon' => $icon,
-            'date' => $datum,
-            'title' => $edit_admin.$titel,
-            'text' => $text,
-            'link' => $link,
-        ]);
-    } elseif ($thistype == "galerie") { // Tabelle 'galerie'
-        $pfad = $row['id'];
-        $typ = $row['f3'];
-        $link = "galerie.php?id=".$id;
-        $icon = "icns/entry_type_gallery_20.svg";
-        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"galerie.php?id={$id}&amp;buttonforum=start\";return false;' class='noborder' alt=''>";
-        }
-        $text = "";
-        if ($pfad && $typ == "foto") {
-            $rand = [];
-            $pfad_galerie = $data_path."img/galerie/";
-            for ($i = 1; is_file($pfad_galerie.$id."/img/".str_pad($i, 3, '0', STR_PAD_LEFT).".jpg"); $i++) {
-            }
-            $groesse = ($i - 1);
-            for ($i = 0; $i < (($groesse > 4) ? 4 : $groesse); $i++) {
-                $randtmp = str_pad(rand(1, $groesse), 3, "0", STR_PAD_LEFT);
-                while (array_search($randtmp, $rand) !== false) {
-                    $randtmp = rand(1, $groesse);
-                }
-                array_push($rand, $randtmp);
-                $text .= "<td class='test-flaky'>".$image_utils->olzImage("galerie", $id, $randtmp, 110, 'image')."</td>";
-            }
-        }
-        if ($typ == 'foto') {
-            $text = "<table><tr class='thumbs'>".$text."</tr></table>";
-            $titel = "Galerie: ".$titel;
-        } elseif ($typ == 'movie') {
-            $text = "<div href='".$link."' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
-            <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            <span style='display:block;text-align:center;'><img src='".$data_href."img/galerie/".$id."/img/001.jpg' style='width:110px;' class='noborder' alt=''></span>\n
-            <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            </div>";
-            $titel = "Film: ".$titel;
-            $icon = "icns/entry_type_movie_20.svg";
-        }
 
         echo OlzPostingListItem::render([
             'icon' => $icon,

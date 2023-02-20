@@ -117,6 +117,31 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'archiv' => 'ohne',
             ],
             [
+                'format' => 'forum',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'forum',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'forum',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'forum',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'forum',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
                 'format' => 'galerie',
                 'datum' => '2020',
                 'archiv' => 'ohne',
@@ -197,6 +222,16 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
+                    'format' => 'forum',
+                    'datum' => '2020',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Forum",
+                'ident' => 'forum',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
                     'format' => 'galerie',
                     'datum' => '2020',
                     'archiv' => 'ohne',
@@ -239,6 +274,16 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 ],
                 'name' => "Aktuell",
                 'ident' => 'aktuell',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'forum',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Forum",
+                'ident' => 'forum',
             ],
             [
                 'selected' => false,
@@ -515,6 +560,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%forum%')",
+            $news_utils->getSqlFromFilter([
+                'format' => 'forum',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%galerie%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'galerie',
@@ -554,6 +607,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "Forum",
+            $news_utils->getTitleFromFilter([
+                'format' => 'forum',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "Galerien",
             $news_utils->getTitleFromFilter([
                 'format' => 'galerie',
@@ -581,6 +642,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             "Aktuelles von 2019",
             $news_utils->getTitleFromFilter([
                 'format' => 'aktuell',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Forumseinträge von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'forum',
                 'datum' => '2019',
                 'archiv' => 'ohne',
             ])

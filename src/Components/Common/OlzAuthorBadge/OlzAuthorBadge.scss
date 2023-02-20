@@ -11,7 +11,8 @@
         border: 1px solid rgb(75,75,75);
     }
 
-    &.level-role {
+    &.level-role,
+    &.level-user {
         color: rgb(0,150,0);
         border: 1px solid rgb(0,150,0);
 

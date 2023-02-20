@@ -26,9 +26,10 @@ class GetNewsEndpoint extends OlzGetEntityEndpoint {
 
         $owner_user = $news_entry->getOwnerUser();
         $owner_role = $news_entry->getOwnerRole();
-        $author = $news_entry->getAuthor();
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
+        $author_name = $news_entry->getAuthorName();
+        $author_email = $news_entry->getAuthorEmail();
         $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
         $termin_id = $news_entry->getTermin();
 
@@ -51,9 +52,10 @@ class GetNewsEndpoint extends OlzGetEntityEndpoint {
             ],
             'data' => [
                 'format' => $news_entry->getFormat(),
-                'author' => $author ? $author : null,
                 'authorUserId' => $author_user ? $author_user->getId() : null,
                 'authorRoleId' => $author_role ? $author_role->getId() : null,
+                'authorName' => $author_name ? $author_name : null,
+                'authorEmail' => $author_email ? $author_email : null,
                 'title' => $news_entry->getTitle(),
                 'teaser' => $news_entry->getTeaser(),
                 'content' => $news_entry->getContent(),

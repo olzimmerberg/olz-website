@@ -5,6 +5,7 @@ namespace Olz\Components\Common\OlzAuthorBadge;
 use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzRoleInfoCard\OlzRoleInfoCard;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
+use Olz\Entity\User;
 
 class OlzAuthorBadge {
     public static function render($args = []) {
@@ -32,6 +33,13 @@ class OlzAuthorBadge {
         if ($name) {
             $level = 'name';
             $label = $name;
+            if ($email) {
+                $user = new User();
+                $user->setFirstName($name);
+                $user->setLastName(' ');
+                $user->setEmail($email);
+                $popup = OlzUserInfoCard::render(['user' => $user]);
+            }
         }
 
         if (!$level) {

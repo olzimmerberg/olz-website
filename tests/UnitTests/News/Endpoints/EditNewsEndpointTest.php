@@ -161,9 +161,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
             ],
             'data' => [
                 'format' => 'aktuell',
-                'author' => null,
                 'authorUserId' => null,
                 'authorRoleId' => null,
+                'authorName' => null,
+                'authorEmail' => null,
                 'title' => 'Fake title',
                 'teaser' => '',
                 'content' => '',
@@ -223,9 +224,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
             ],
             'data' => [
                 'format' => 'aktuell',
-                'author' => null,
                 'authorUserId' => null,
                 'authorRoleId' => null,
+                'authorName' => null,
+                'authorEmail' => null,
                 'title' => 'Fake title',
                 'teaser' => 'Fake teaser',
                 'content' => 'Fake content',

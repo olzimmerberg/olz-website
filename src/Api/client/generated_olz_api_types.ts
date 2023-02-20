@@ -21,9 +21,10 @@ export type OlzMetaData = {
 
 export type OlzNewsData = {
     'format': OlzNewsFormat,
-    'author': string|null,
     'authorUserId': number|null,
     'authorRoleId': number|null,
+    'authorName': string|null,
+    'authorEmail': string|null,
     'title': string,
     'teaser': string,
     'content': string,
@@ -34,7 +35,7 @@ export type OlzNewsData = {
     'fileIds': Array<string>,
 };
 
-export type OlzNewsFormat = 'aktuell'|'galerie'|'video';
+export type OlzNewsFormat = 'aktuell'|'forum'|'galerie'|'video'|'anonymous';
 
 export type OlzMetaDataOrNull = {
     'ownerUserId': number|null,
@@ -44,9 +45,10 @@ export type OlzMetaDataOrNull = {
 
 export type OlzNewsDataOrNull = {
     'format': OlzNewsFormat,
-    'author': string|null,
     'authorUserId': number|null,
     'authorRoleId': number|null,
+    'authorName': string|null,
+    'authorEmail': string|null,
     'title': string,
     'teaser': string,
     'content': string,
@@ -340,6 +342,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'numberOfParts': number,
         },
     createNews: {
+            'custom': {
+            'recaptchaToken': string|null,
+        },
             'meta': OlzMetaData,
             'data': OlzNewsData,
         },
@@ -526,8 +531,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'ERROR',
         },
     createNews: {
-            'status': 'OK'|'ERROR',
-            'id': number,
+            'status': 'OK'|'DENIED'|'ERROR',
+            'id': number|null,
         },
     getNews: {
             'id': number,
@@ -548,11 +553,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     createWeeklyPicture: {
             'status': 'OK'|'ERROR',
-            'id': number,
+            'id': number|null,
         },
     createTermin: {
             'status': 'OK'|'ERROR',
-            'id': number,
+            'id': number|null,
         },
     getTermin: {
             'id': number,
@@ -573,11 +578,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     createBooking: {
             'status': 'OK'|'ERROR',
-            'id': string,
+            'id': string|null,
         },
     createRegistration: {
             'status': 'OK'|'ERROR',
-            'id': string,
+            'id': string|null,
         },
     getManagedUsers: {
             'status': 'OK'|'ERROR',

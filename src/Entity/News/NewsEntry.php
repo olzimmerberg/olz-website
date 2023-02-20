@@ -55,11 +55,16 @@ class NewsEntry extends OlzEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private $link;
-    // TODO: Rename to `author`
+    // TODO: Rename to `author_name`
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $autor;
+    // TODO: Rename to `author_email`
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $autor_email;
     /**
      * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
      *
@@ -151,12 +156,20 @@ class NewsEntry extends OlzEntity {
         $this->typ = $new_format;
     }
 
-    public function getAuthor() {
+    public function getAuthorName() {
         return $this->autor;
     }
 
-    public function setAuthor($new_autor) {
-        $this->autor = $new_autor;
+    public function setAuthorName($new_autor_name) {
+        $this->autor = $new_autor_name;
+    }
+
+    public function getAuthorEmail() {
+        return $this->autor_email;
+    }
+
+    public function setAuthorEmail($new_autor_email) {
+        $this->autor_email = $new_autor_email;
     }
 
     public function getAuthorUser() {

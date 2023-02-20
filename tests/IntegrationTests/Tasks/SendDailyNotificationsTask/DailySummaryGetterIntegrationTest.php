@@ -90,6 +90,11 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
         
         
+        **Aktuell**
+        
+        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/aktuell.php?id=2901)
+
+        
         **Forum**
         
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)

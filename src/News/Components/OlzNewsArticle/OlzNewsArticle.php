@@ -109,7 +109,23 @@ class OlzNewsArticle {
 
             $out .= "<h2>{$edit_admin}{$titel}</h2>";
 
-            if ($format === 'galerie') {
+            if ($format === 'forum') {
+                $gallery = '';
+                if ($is_migrated) {
+                    $num_images = count($image_ids);
+                    if ($num_images > 0) {
+                        $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
+                        foreach ($image_ids as $image_id) {
+                            $gallery .= "<div class='gallery-image'>";
+                            $gallery .= $image_utils->olzImage(
+                                'news', $id, $image_id, 110, 'gallery[myset]');
+                            $gallery .= "</div>";
+                        }
+                        $gallery .= "</div>";
+                    }
+                }
+                $out .= "<p><b>{$text}</b><p>{$textlang}</p>{$gallery}\n";
+            } elseif ($format === 'galerie') {
                 $out .= "<div class='lightgallery gallery-container'>";
                 if ($is_migrated) {
                     $size = count($image_ids);

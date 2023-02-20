@@ -44,7 +44,8 @@ final class NewsEndpointTraitTest extends UnitTestCase {
         $keys = array_keys($field_structure);
         sort($keys);
         $this->assertSame([
-            'author',
+            'authorEmail',
+            'authorName',
             'authorRoleId',
             'authorUserId',
             'content',

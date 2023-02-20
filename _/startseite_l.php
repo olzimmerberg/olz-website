@@ -167,6 +167,7 @@ while ($row = $result->fetch_assoc()) {
         $news_entry->setDate($datum);
         $news_entry->setTitle($edit_admin.$titel);
         $news_entry->setTeaser($text);
+        $news_entry->setContent($textlang);
         $news_entry->setId($id);
         $news_entry->setImageIds($image_ids ? json_decode($image_ids, true) : null);
 

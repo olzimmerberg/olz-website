@@ -15,11 +15,12 @@ trait NewsEndpointTrait {
             'field_structure' => [
                 'format' => new FieldTypes\EnumField([
                     'export_as' => 'OlzNewsFormat',
-                    'allowed_values' => ['aktuell', 'galerie', 'video'],
+                    'allowed_values' => ['aktuell', 'forum', 'galerie', 'video', 'anonymous'],
                 ]),
-                'author' => new FieldTypes\StringField(['allow_null' => true]),
                 'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
+                'authorName' => new FieldTypes\StringField(['allow_null' => true]),
+                'authorEmail' => new FieldTypes\StringField(['allow_null' => true]),
                 'title' => new FieldTypes\StringField([]),
                 'teaser' => new FieldTypes\StringField(['allow_empty' => true]),
                 'content' => new FieldTypes\StringField(['allow_empty' => true]),

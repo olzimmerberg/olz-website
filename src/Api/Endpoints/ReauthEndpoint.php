@@ -7,9 +7,9 @@ use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LoginEndpoint extends OlzEndpoint {
+class ReauthEndpoint extends OlzEndpoint {
     public static function getIdent() {
-        return 'LoginEndpoint';
+        return 'ReauthEndpoint';
     }
 
     public function getResponseField() {
@@ -26,18 +26,17 @@ class LoginEndpoint extends OlzEndpoint {
     public function getRequestField() {
         return new FieldTypes\ObjectField(['field_structure' => [
             'usernameOrEmail' => new FieldTypes\StringField([]),
-            'password' => new FieldTypes\StringField([]),
-            'rememberMe' => new FieldTypes\BooleanField([]),
+            'reauthToken' => new FieldTypes\StringField([]),
         ]]);
     }
 
     protected function handle($input) {
         $username_or_email = trim($input['usernameOrEmail']);
-        $password = $input['password'];
-        $remember_me = $input['rememberMe'];
+        $reauth_token = $input['reauthToken'];
 
         try {
-            $user = $this->authUtils()->authenticate($username_or_email, $password);
+            $user = $this->authUtils()->validateReauthAccessToken(
+                $reauth_token, $username_or_email);
         } catch (AuthBlockedException $exc) {
             return [
                 'status' => 'BLOCKED',
@@ -59,17 +58,9 @@ class LoginEndpoint extends OlzEndpoint {
         $this->session()->set('root', $root);
         $this->session()->set('user', $user->getUsername());
         $this->session()->set('user_id', $user->getId());
-
-        if ($remember_me) {
-            return [
-                'status' => 'AUTHENTICATED',
-                'reauthToken' => $this->authUtils()->replaceReauthAccessToken(),
-            ];
-        }
-
         return [
             'status' => 'AUTHENTICATED',
-            'reauthToken' => null,
+            'reauthToken' => $this->authUtils()->replaceReauthAccessToken(),
         ];
     }
 }

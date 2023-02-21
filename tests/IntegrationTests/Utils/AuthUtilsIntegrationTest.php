@@ -18,4 +18,22 @@ final class AuthUtilsIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame(false, !$auth_utils);
     }
+
+    public function testGenerateRandomToken(): void {
+        $auth_utils = AuthUtils::fromEnv();
+
+        $this->assertMatchesRegularExpression(
+            '/^[a-zA-Z0-9\/\+]{24}$/',
+            $auth_utils->generateRandomToken()
+        );
+    }
+
+    public function testGenerateRandomTokenAithArg(): void {
+        $auth_utils = AuthUtils::fromEnv();
+
+        $this->assertMatchesRegularExpression(
+            '/^[a-zA-Z0-9\/\+]{8}$/',
+            $auth_utils->generateRandomToken(6)
+        );
+    }
 }

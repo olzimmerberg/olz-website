@@ -18,6 +18,17 @@ class FakeAuthUtils {
         return $this->authenticate_user;
     }
 
+    public function validateReauthAccessToken($reauth_token) {
+        if ($this->authenticate_with_error) {
+            throw $this->authenticate_with_error;
+        }
+        return $this->authenticate_user;
+    }
+
+    public function replaceReauthAccessToken() {
+        return 'replaced-reauth-token';
+    }
+
     public function hasPermission($query, $user = null) {
         $has_permission = $this->has_permission_by_query[$query] ?? null;
         if ($user !== null && $user->getUsername() === 'no-permission') {

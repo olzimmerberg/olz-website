@@ -1,7 +1,9 @@
-import {callOlzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../../src/Api/client';
 
 export function olzAccountMenuLogout(): void {
-    callOlzApi(
+    localStorage.removeItem('OLZ_AUTO_LOGIN');
+    localStorage.removeItem('OLZ_REAUTH_TOKEN');
+    olzApi.call(
         'logout',
         {},
     )

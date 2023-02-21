@@ -35,7 +35,22 @@ class AuthUtils {
             throw new AuthBlockedException($message);
         }
 
-        $user = $this->resolveUsernameOrEmail($username_or_email);
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $user = $user_repo->findOneBy(['username' => $username_or_email]);
+        if (!$user) {
+            $user = $user_repo->findOneBy(['email' => $username_or_email]);
+        }
+        if (!$user) {
+            $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
+        }
+        $res = preg_match('/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
+            $username_or_email, $matches);
+        if (!$user && $res) {
+            $user = $user_repo->findOneBy(['username' => $matches[1]]);
+        }
+        if (!$user && $res) {
+            $user = $user_repo->findOneBy(['old_username' => $matches[1]]);
+        }
 
         // If the password is wrong, authentication fails.
         if (!$user || !$password || !password_verify($password, $user->getPasswordHash())) {
@@ -94,68 +109,6 @@ class AuthUtils {
 
         $this->log()->info("Token validation successful: {$access_token->getId()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
-        return $user;
-    }
-
-    public function validateReauthAccessToken($reauth_token, $username_or_email) {
-        $ip_address = $this->server()['REMOTE_ADDR'];
-        $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
-
-        $user = $this->validateAccessToken($reauth_token);
-        $resolved_user = $this->resolveUsernameOrEmail($username_or_email);
-        if (!$user || !$resolved_user || $resolved_user->getId() != $user->getId()) {
-            $message = "Invalid access token validation from IP: {$ip_address}.";
-            $this->log()->notice($message);
-            $auth_request_repo->addAuthRequest($ip_address, 'INVALID_TOKEN', '');
-            throw new InvalidCredentialsException($message);
-        }
-        return $user;
-    }
-
-    public function replaceReauthAccessToken() {
-        $session_user = $this->getSessionUser();
-        $now = new \DateTime($this->dateUtils()->getIsoNow());
-        $token = $this->generateRandomToken(24);
-
-        $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
-        $existing_tokens = $access_token_repo->findBy([
-            'user' => $session_user,
-            'purpose' => 'reauth',
-        ]);
-        foreach ($existing_tokens as $existing_token) {
-            $this->entityManager()->remove($existing_token);
-        }
-
-        $access_token = new AccessToken();
-        $access_token->setUser($session_user);
-        $access_token->setPurpose('reauth');
-        $access_token->setToken($token);
-        $access_token->setCreatedAt($now);
-        $access_token->setExpiresAt(null);
-
-        $this->entityManager()->persist($access_token);
-        $this->entityManager()->flush();
-
-        return $token;
-    }
-
-    public function resolveUsernameOrEmail($username_or_email) {
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $username_or_email]);
-        if (!$user) {
-            $user = $user_repo->findOneBy(['email' => $username_or_email]);
-        }
-        if (!$user) {
-            $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
-        }
-        $res = preg_match('/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
-            $username_or_email, $matches);
-        if (!$user && $res) {
-            $user = $user_repo->findOneBy(['username' => $matches[1]]);
-        }
-        if (!$user && $res) {
-            $user = $user_repo->findOneBy(['old_username' => $matches[1]]);
-        }
         return $user;
     }
 
@@ -258,9 +211,5 @@ class AuthUtils {
 
     public function isPasswordAllowed($password) {
         return strlen($password) >= 8;
-    }
-
-    public function generateRandomToken($length = 18) {
-        return base64_encode(openssl_random_pseudo_bytes($length));
     }
 }

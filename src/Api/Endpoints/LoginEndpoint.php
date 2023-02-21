@@ -19,7 +19,6 @@ class LoginEndpoint extends OlzEndpoint {
                 'BLOCKED',
                 'AUTHENTICATED',
             ]]),
-            'reauthToken' => new FieldTypes\StringField(['allow_null' => true]),
         ]]);
     }
 
@@ -27,26 +26,22 @@ class LoginEndpoint extends OlzEndpoint {
         return new FieldTypes\ObjectField(['field_structure' => [
             'usernameOrEmail' => new FieldTypes\StringField([]),
             'password' => new FieldTypes\StringField([]),
-            'rememberMe' => new FieldTypes\BooleanField([]),
         ]]);
     }
 
     protected function handle($input) {
         $username_or_email = trim($input['usernameOrEmail']);
         $password = $input['password'];
-        $remember_me = $input['rememberMe'];
 
         try {
             $user = $this->authUtils()->authenticate($username_or_email, $password);
         } catch (AuthBlockedException $exc) {
             return [
                 'status' => 'BLOCKED',
-                'reauthToken' => null,
             ];
         } catch (InvalidCredentialsException $exc) {
             return [
                 'status' => 'INVALID_CREDENTIALS',
-                'reauthToken' => null,
             ];
         }
 
@@ -59,17 +54,8 @@ class LoginEndpoint extends OlzEndpoint {
         $this->session()->set('root', $root);
         $this->session()->set('user', $user->getUsername());
         $this->session()->set('user_id', $user->getId());
-
-        if ($remember_me) {
-            return [
-                'status' => 'AUTHENTICATED',
-                'reauthToken' => $this->authUtils()->replaceReauthAccessToken(),
-            ];
-        }
-
         return [
             'status' => 'AUTHENTICATED',
-            'reauthToken' => null,
         ];
     }
 }

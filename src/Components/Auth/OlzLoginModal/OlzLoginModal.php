@@ -52,10 +52,6 @@ class OlzLoginModal {
                                 <label for='login-password-input'>Passwort</label>
                                 <input type='password' class='form-control' id='login-password-input' />
                             </div>
-                            <div class='mb-3 remember-me-row'>
-                                <input type='checkbox' id='login-remember-me-input' />
-                                <label for='login-remember-me-input'>Eingeloggt bleiben</label>
-                            </div>
                             <div class='mb-3'>
                                 <a
                                     id='reset-password-link'

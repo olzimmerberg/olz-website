@@ -1,42 +1,13 @@
 import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
-import {olzApi} from '../../../../src/Api/client';
-import {user} from '../../../Utils/constants';
+import {callOlzApi} from '../../../../src/Api/client';
 
 $(() => {
     const loginModalElem = document.getElementById('login-modal');
     if (!loginModalElem) {
         return;
     }
-
-    const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
-    const reauthToken = localStorage.getItem('OLZ_REAUTH_TOKEN');
-    if (!user?.username && usernameOrEmail && reauthToken) {
-        olzApi.call(
-            'reauth',
-            {usernameOrEmail, reauthToken},
-        )
-            .then((response) => {
-                if (response.status === 'AUTHENTICATED') {
-                    window.location.reload();
-                } else {
-                    bootstrap.Modal.getOrCreateInstance(loginModalElem).show();
-                }
-            })
-            .catch(() => {
-                bootstrap.Modal.getOrCreateInstance(loginModalElem).show();
-            });
-    }
-    const rememberMeElem = document.getElementById('login-remember-me-input');
-    if (rememberMeElem) {
-        (rememberMeElem as HTMLInputElement).checked = !!usernameOrEmail;
-    }
-    const usernameElem = document.getElementById('login-username-input');
-    if (usernameOrEmail && usernameElem) {
-        (usernameElem as HTMLInputElement).value = usernameOrEmail;
-    }
-
     loginModalElem.addEventListener('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
         window.location.href = '#login-dialog';
@@ -56,22 +27,13 @@ $(() => {
 export function olzLoginModalLogin(): void {
     const usernameOrEmail = String($('#login-username-input').val());
     const password = String($('#login-password-input').val());
-    const rememberMeElem = document.getElementById('login-remember-me-input');
-    const rememberMe = (rememberMeElem as HTMLInputElement)?.checked ?? false;
 
-    olzApi.call(
+    callOlzApi(
         'login',
-        {usernameOrEmail, password, rememberMe},
+        {usernameOrEmail, password},
     )
         .then((response) => {
             if (response.status === 'AUTHENTICATED') {
-                if (response.reauthToken) {
-                    localStorage.setItem('OLZ_AUTO_LOGIN', usernameOrEmail);
-                    localStorage.setItem('OLZ_REAUTH_TOKEN', response.reauthToken);
-                } else {
-                    localStorage.removeItem('OLZ_AUTO_LOGIN');
-                    localStorage.removeItem('OLZ_REAUTH_TOKEN');
-                }
                 window.location.href = '#';
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();

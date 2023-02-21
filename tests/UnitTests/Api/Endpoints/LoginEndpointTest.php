@@ -35,7 +35,6 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'password' => ["Fehlender Schlüssel: password."],
-                'rememberMe' => ["Fehlender Schlüssel: rememberMe."],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -51,14 +50,12 @@ final class LoginEndpointTest extends UnitTestCase {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
                 'password' => null,
-                'rememberMe' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
                 'password' => [['.' => ['Feld darf nicht leer sein.']]],
-                'rememberMe' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -81,57 +78,10 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'admin',
-            'password' => 'adm1n',
-            'rememberMe' => false,
-        ]);
+        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 
         $this->assertSame([
             'status' => 'AUTHENTICATED',
-            'reauthToken' => null,
-        ], $result);
-        $this->assertSame([
-            'auth' => 'all',
-            'root' => 'karten',
-            'user' => 'admin',
-            'user_id' => 2,
-        ], $session->session_storage);
-        $this->assertSame([
-            "INFO Valid user request",
-            "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
-        $this->assertSame(
-            '2020-03-13 19:30:00',
-            $user->getLastLoginAt()->format('Y-m-d H:i:s')
-        );
-        $this->assertSame(true, $entity_manager->flushed);
-    }
-
-    public function testLoginEndpointWithRememberMe(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $user = Fake\FakeUsers::adminUser();
-        $auth_utils->authenticate_user = $user;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
-        $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
-        $endpoint = new LoginEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils($date_utils);
-        $endpoint->setEntityManager($entity_manager);
-        $session = new MemorySession();
-        $endpoint->setSession($session);
-        $endpoint->setLog($logger);
-
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'admin',
-            'password' => 'adm1n',
-            'rememberMe' => true,
-        ]);
-
-        $this->assertSame([
-            'status' => 'AUTHENTICATED',
-            'reauthToken' => 'replaced-reauth-token',
         ], $result);
         $this->assertSame([
             'auth' => 'all',
@@ -160,15 +110,10 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'wrooong',
-            'password' => 'wrooong',
-            'rememberMe' => false,
-        ]);
+        $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'wrooong']);
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
-            'reauthToken' => null,
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
@@ -187,15 +132,10 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call([
-            'usernameOrEmail' => 'admin',
-            'password' => 'adm1n',
-            'rememberMe' => false,
-        ]);
+        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
 
         $this->assertSame([
             'status' => 'BLOCKED',
-            'reauthToken' => null,
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([

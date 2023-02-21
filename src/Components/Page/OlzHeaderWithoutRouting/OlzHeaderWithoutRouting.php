@@ -28,12 +28,6 @@ class OlzHeaderWithoutRouting {
         $js_href = "/jsbuild/olz/main.min.js?modified={$js_modified}";
         $code_href_json = json_encode($code_href);
         $data_href_json = json_encode($data_href);
-        $user_json = json_encode([
-            'permissions' => $_SESSION['auth'] ?? null,
-            'root' => $_SESSION['root'] ?? null,
-            'username' => $_SESSION['user'] ?? null,
-            'id' => $_SESSION['user_id'] ?? null,
-        ]);
 
         if (!isset($refresh)) {
             $refresh = '';
@@ -79,7 +73,6 @@ class OlzHeaderWithoutRouting {
         <script type='text/javascript'>
             window.olzCodeHref = {$code_href_json};
             window.olzDataHref = {$data_href_json};
-            window.olzUser = {$user_json};
         </script>
         <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
         </head>";

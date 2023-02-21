@@ -238,6 +238,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     login: {
             'usernameOrEmail': string,
             'password': string,
+            'rememberMe': boolean,
         },
     resetPassword: {
             'usernameOrEmail': string,

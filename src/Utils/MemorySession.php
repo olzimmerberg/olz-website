@@ -10,6 +10,10 @@ class MemorySession extends AbstractSession {
     public $session_storage = [];
     public $cleared = false;
 
+    public function resetConfigure($config) {
+        $this->clear();
+    }
+
     public function has($key) {
         return isset($this->session_storage[$key]);
     }

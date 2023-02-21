@@ -32,6 +32,17 @@ class StandardSession extends AbstractSession {
         }
     }
 
+    public function resetConfigure($config) {
+        $this->clear();
+
+        $timeout = $config['timeout'] ?? 3600;
+        ini_set('session.gc_maxlifetime', $timeout);
+        session_set_cookie_params($timeout);
+
+        session_start();
+        session_regenerate_id(true);
+    }
+
     public function has($key) {
         return isset($_SESSION[$key]);
     }
@@ -51,6 +62,7 @@ class StandardSession extends AbstractSession {
     // @codeCoverageIgnoreStart
     // Reason: Cannot start/destroy session in tests.
     public function clear() {
+        session_unset();
         session_destroy();
     }
 

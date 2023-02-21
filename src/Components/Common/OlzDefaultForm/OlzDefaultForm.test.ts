@@ -268,13 +268,19 @@ describe('getDataForRequest', () => {
                 data: {
                     usernameOrEmail: f.foo.value,
                     password: f.bar.value,
+                    rememberMe: f.gurr.value,
                 },
             }),
             {
                 foo: {value: 'foo'},
                 bar: {value: 'bar'},
+                gurr: {value: false},
             } as unknown as HTMLFormElement,
-        )).toEqual({usernameOrEmail: 'foo', password: 'bar'});
+        )).toEqual({
+            usernameOrEmail: 'foo',
+            password: 'bar',
+            rememberMe: false,
+        });
     });
 
     it('throws validation error when there are validation errors', () => {

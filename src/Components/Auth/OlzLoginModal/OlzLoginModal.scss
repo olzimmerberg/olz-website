@@ -5,6 +5,15 @@
         }
     }
 
+    .remember-me-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #login-remember-me-input {
+        margin-right: 10px;
+    }
+
     .hidden {
         display: none;
     }

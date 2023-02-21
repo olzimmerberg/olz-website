@@ -35,22 +35,7 @@ class AuthUtils {
             throw new AuthBlockedException($message);
         }
 
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $username_or_email]);
-        if (!$user) {
-            $user = $user_repo->findOneBy(['email' => $username_or_email]);
-        }
-        if (!$user) {
-            $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
-        }
-        $res = preg_match('/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
-            $username_or_email, $matches);
-        if (!$user && $res) {
-            $user = $user_repo->findOneBy(['username' => $matches[1]]);
-        }
-        if (!$user && $res) {
-            $user = $user_repo->findOneBy(['old_username' => $matches[1]]);
-        }
+        $user = $this->resolveUsernameOrEmail($username_or_email);
 
         // If the password is wrong, authentication fails.
         if (!$user || !$password || !password_verify($password, $user->getPasswordHash())) {
@@ -109,6 +94,26 @@ class AuthUtils {
 
         $this->log()->info("Token validation successful: {$access_token->getId()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
+        return $user;
+    }
+
+    public function resolveUsernameOrEmail($username_or_email) {
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $user = $user_repo->findOneBy(['username' => $username_or_email]);
+        if (!$user) {
+            $user = $user_repo->findOneBy(['email' => $username_or_email]);
+        }
+        if (!$user) {
+            $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
+        }
+        $res = preg_match('/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
+            $username_or_email, $matches);
+        if (!$user && $res) {
+            $user = $user_repo->findOneBy(['username' => $matches[1]]);
+        }
+        if (!$user && $res) {
+            $user = $user_repo->findOneBy(['old_username' => $matches[1]]);
+        }
         return $user;
     }
 

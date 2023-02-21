@@ -35,6 +35,7 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'password' => ["Fehlender Schlüssel: password."],
+                'rememberMe' => ["Fehlender Schlüssel: rememberMe."],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -50,12 +51,14 @@ final class LoginEndpointTest extends UnitTestCase {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
                 'password' => null,
+                'rememberMe' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
                 'password' => [['.' => ['Feld darf nicht leer sein.']]],
+                'rememberMe' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -78,7 +81,11 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
+        $result = $endpoint->call([
+            'usernameOrEmail' => 'admin',
+            'password' => 'adm1n',
+            'rememberMe' => true,
+        ]);
 
         $this->assertSame([
             'status' => 'AUTHENTICATED',
@@ -110,7 +117,11 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call(['usernameOrEmail' => 'wrooong', 'password' => 'wrooong']);
+        $result = $endpoint->call([
+            'usernameOrEmail' => 'wrooong',
+            'password' => 'wrooong',
+            'rememberMe' => false,
+        ]);
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
@@ -132,7 +143,11 @@ final class LoginEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
-        $result = $endpoint->call(['usernameOrEmail' => 'admin', 'password' => 'adm1n']);
+        $result = $endpoint->call([
+            'usernameOrEmail' => 'admin',
+            'password' => 'adm1n',
+            'rememberMe' => false,
+        ]);
 
         $this->assertSame([
             'status' => 'BLOCKED',

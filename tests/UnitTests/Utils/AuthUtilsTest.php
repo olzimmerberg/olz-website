@@ -79,44 +79,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
-        $result = $auth_utils->authenticate('admin', 'adm1n');
-
-        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
-        $this->assertSame([
-            'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'admin',
-            ],
-        ], $auth_request_repo->auth_requests);
-        $this->assertSame([
-            "INFO User login successful: admin",
-            "INFO   Auth: all",
-            "INFO   Root: karten",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testAuthenticateWithCorrectOldCredentials(): void {
-        $entity_manager = new Fake\FakeEntityManager();
-        $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'inexistent',
-        ];
-
-        $auth_utils = new AuthUtils();
-        $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
-        $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
-
+        // Also test that it's resolving admin-old to admin
         $result = $auth_utils->authenticate('admin-old', 'adm1n');
 
         $this->assertNotSame(null, Fake\FakeUsers::adminUser());
@@ -134,120 +97,6 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "INFO User login successful: admin-old",
-            "INFO   Auth: all",
-            "INFO   Root: karten",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testAuthenticateWithCorrectEmailCredentials(): void {
-        $entity_manager = new Fake\FakeEntityManager();
-        $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'inexistent',
-        ];
-
-        $auth_utils = new AuthUtils();
-        $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
-        $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
-
-        $result = $auth_utils->authenticate('vorstand@test.olzimmerberg.ch', 'v0r57and');
-
-        $this->assertNotSame(null, Fake\FakeUsers::vorstandUser());
-        $this->assertSame(Fake\FakeUsers::vorstandUser(), $result);
-        $this->assertSame([
-            'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'vorstand@test.olzimmerberg.ch',
-            ],
-        ], $auth_request_repo->auth_requests);
-        $this->assertSame([
-            "INFO User login successful: vorstand@test.olzimmerberg.ch",
-            "INFO   Auth: aktuell ftp",
-            "INFO   Root: vorstand",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testAuthenticateWithCorrectUsernameEmailCredentials(): void {
-        $entity_manager = new Fake\FakeEntityManager();
-        $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'inexistent',
-        ];
-
-        $auth_utils = new AuthUtils();
-        $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
-        $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
-
-        $result = $auth_utils->authenticate('admin@olzimmerberg.ch', 'adm1n');
-
-        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
-        $this->assertSame([
-            'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'admin@olzimmerberg.ch',
-            ],
-        ], $auth_request_repo->auth_requests);
-        $this->assertSame([
-            "INFO User login successful: admin@olzimmerberg.ch",
-            "INFO   Auth: all",
-            "INFO   Root: karten",
-        ], $logger->handler->getPrettyRecords());
-    }
-
-    public function testAuthenticateWithCorrectOldUsernameEmailCredentials(): void {
-        $entity_manager = new Fake\FakeEntityManager();
-        $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'inexistent',
-        ];
-
-        $auth_utils = new AuthUtils();
-        $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
-        $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
-
-        $result = $auth_utils->authenticate('admin-old@olzimmerberg.ch', 'adm1n');
-
-        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
-        $this->assertSame([
-            'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
-        $this->assertSame([
-            [
-                'ip_address' => '1.2.3.4',
-                'action' => 'AUTHENTICATED',
-                'timestamp' => null,
-                'username' => 'admin-old@olzimmerberg.ch',
-            ],
-        ], $auth_request_repo->auth_requests);
-        $this->assertSame([
-            "INFO User login successful: admin-old@olzimmerberg.ch",
             "INFO   Auth: all",
             "INFO   Root: karten",
         ], $logger->handler->getPrettyRecords());
@@ -552,6 +401,56 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame([
             "NOTICE Access token validation from blocked IP: 1.2.3.4.",
         ], $logger->handler->getPrettyRecords());
+    }
+
+    public function testResolveUsername(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+
+        $result = $auth_utils->resolveUsernameOrEmail('admin');
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+    }
+
+    public function testResolveOldUsername(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+
+        $result = $auth_utils->resolveUsernameOrEmail('admin-old');
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+    }
+
+    public function testResolveEmail(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+
+        $result = $auth_utils->resolveUsernameOrEmail('vorstand@test.olzimmerberg.ch');
+        $this->assertSame(Fake\FakeUsers::vorstandUser(), $result);
+    }
+
+    public function testResolveUsernameEmail(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+
+        $result = $auth_utils->resolveUsernameOrEmail('admin@olzimmerberg.ch');
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+    }
+
+    public function testResolveOldUsernameEmail(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+
+        $result = $auth_utils->resolveUsernameOrEmail('admin-old@olzimmerberg.ch');
+        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
     }
 
     public function testHasPermissionNoUser(): void {

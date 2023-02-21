@@ -1,19 +1,35 @@
 import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
-import {callOlzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../../src/Api/client';
+import {user} from '../../../Utils/constants';
 
 $(() => {
     const loginModalElem = document.getElementById('login-modal');
     if (!loginModalElem) {
         return;
     }
+
+    const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
+    const rememberMeElem = document.getElementById('login-remember-me-input');
+    if (rememberMeElem) {
+        (rememberMeElem as HTMLInputElement).checked = !!usernameOrEmail;
+    }
+    const usernameElem = document.getElementById('login-username-input');
+    if (usernameOrEmail && usernameElem) {
+        (usernameElem as HTMLInputElement).value = usernameOrEmail;
+    }
+    if (!user?.username && usernameOrEmail) {
+        bootstrap.Modal.getOrCreateInstance(loginModalElem).show();
+    }
+
     loginModalElem.addEventListener('shown.bs.modal', () => {
         $('#login-username-input').trigger('focus');
         window.location.href = '#login-dialog';
     });
     loginModalElem.addEventListener('hidden.bs.modal', () => {
         window.location.href = '#';
+        localStorage.removeItem('OLZ_AUTO_LOGIN');
     });
     const openLoginDialogIfHash = () => {
         if (window.location.hash === '#login-dialog') {
@@ -27,13 +43,20 @@ $(() => {
 export function olzLoginModalLogin(): void {
     const usernameOrEmail = String($('#login-username-input').val());
     const password = String($('#login-password-input').val());
+    const rememberMeElem = document.getElementById('login-remember-me-input');
+    const rememberMe = (rememberMeElem as HTMLInputElement)?.checked ?? false;
 
-    callOlzApi(
+    olzApi.call(
         'login',
-        {usernameOrEmail, password},
+        {usernameOrEmail, password, rememberMe},
     )
         .then((response) => {
             if (response.status === 'AUTHENTICATED') {
+                if (rememberMe) {
+                    localStorage.setItem('OLZ_AUTO_LOGIN', usernameOrEmail);
+                } else {
+                    localStorage.removeItem('OLZ_AUTO_LOGIN');
+                }
                 window.location.href = '#';
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();

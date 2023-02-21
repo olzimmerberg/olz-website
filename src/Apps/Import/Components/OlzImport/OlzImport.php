@@ -12,9 +12,6 @@ use Olz\Utils\DbUtils;
 class OlzImport {
     public static function render() {
         require_once __DIR__.'/../../../../../_/config/init.php';
-
-        session_start();
-
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
         $out = '';

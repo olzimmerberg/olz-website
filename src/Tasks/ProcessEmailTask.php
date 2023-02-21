@@ -223,8 +223,13 @@ class ProcessEmailTask extends BackgroundTask {
                     $upload_path = '';
                     $continue = true;
                     for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
-                        $ext = strrchr($attachment->name, '.');
-                        $upload_id = $this->uploadUtils()->getRandomUploadId($ext);
+                        try {
+                            $ext = strrchr($attachment->name, '.');
+                            $upload_id = $this->uploadUtils()->getRandomUploadId($ext);
+                        } catch (\Throwable $th) {
+                            $upload_id = $this->uploadUtils()->getRandomUploadId('.data');
+                        }
+
                         $upload_path = "{$temp_path}{$upload_id}";
                         if (!is_file($upload_path)) {
                             $continue = false;

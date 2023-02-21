@@ -1,6 +1,14 @@
 interface TypedWindow {
-    olzCodeHref: string;
+    olzCodeHref: unknown;
     olzDataHref: unknown;
+    olzUser: unknown;
+}
+
+interface UserConstant {
+    permissions?: string;
+    root?: string;
+    username?: string;
+    id?: number;
 }
 
 /* @ts-expect-error: Ignore type unsafety. */
@@ -13,3 +21,7 @@ export const codeHref: string = typeof typedWindow.olzCodeHref === 'string'
 /* istanbul ignore next */
 export const dataHref: string = typeof typedWindow.olzDataHref === 'string'
     ? typedWindow.olzDataHref : '/';
+
+/* istanbul ignore next */
+export const user: UserConstant = typeof typedWindow.olzUser === 'object'
+    ? typedWindow.olzUser as UserConstant : {};

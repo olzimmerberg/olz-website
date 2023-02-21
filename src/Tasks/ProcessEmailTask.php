@@ -111,12 +111,23 @@ class ProcessEmailTask extends BackgroundTask {
             $this->log()->info("E-Mail {$mail_uid} already processed.");
             return true;
         }
+        $all_successful = true;
         $to_addresses = array_map(function ($address) {
             return $address->mail;
         }, $mail->to->toArray());
-        $all_successful = true;
-        foreach ($to_addresses as $to_address) {
-            if (!$this->processMailToAddress($mail, $to_address)) {
+        $cc_addresses = array_map(function ($address) {
+            return $address->mail;
+        }, $mail->cc->toArray());
+        $bcc_addresses = array_map(function ($address) {
+            return $address->mail;
+        }, $mail->bcc->toArray());
+        $all_addresses = [
+            ...$to_addresses,
+            ...$cc_addresses,
+            ...$bcc_addresses,
+        ];
+        foreach ($all_addresses as $address) {
+            if (!$this->processMailToAddress($mail, $address)) {
                 $all_successful = false;
             }
         }

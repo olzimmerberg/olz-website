@@ -23,10 +23,8 @@ require_once __DIR__.'/modules/datenschutz.php';
 require_once __DIR__.'/modules/downloads.php';
 require_once __DIR__.'/modules/email_reaktion.php';
 require_once __DIR__.'/modules/error.php';
-require_once __DIR__.'/modules/forum.php';
 require_once __DIR__.'/modules/fragen_und_antworten.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
-require_once __DIR__.'/modules/galerie.php';
 require_once __DIR__.'/modules/karten.php';
 require_once __DIR__.'/modules/konto_passwort.php';
 require_once __DIR__.'/modules/leistungssport.php';
@@ -83,7 +81,6 @@ $blocks = [
         test_aktuell($driver, $base_url);
         test_leistungssport($driver, $base_url);
         test_termine($driver, $base_url);
-        test_galerie($driver, $base_url);
 
         echo get_pretty_timing_report();
     },
@@ -92,7 +89,6 @@ $blocks = [
 
         // no specific order
         test_startseite($driver, $base_url);
-        test_forum($driver, $base_url);
         test_karten($driver, $base_url);
         test_material($driver, $base_url);
         test_links($driver, $base_url);

@@ -1,4 +1,4 @@
-import {callOlzApi} from '../src/Api/client';
+import {olzApi} from '../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {olzConfirm} from '../src/Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
@@ -8,7 +8,7 @@ export function olzProfileDeleteUser(userId: number): boolean {
         'OLZ-Konto wirklich unwiderruflich löschen?',
         {confirmButtonStyle: 'btn-danger', confirmLabel: 'Löschen'},
     ).then(() => {
-        callOlzApi('deleteUser', {id: userId}).then(() => {
+        olzApi.call('deleteUser', {id: userId}).then(() => {
             window.location.href = 'startseite.php';
         });
     });

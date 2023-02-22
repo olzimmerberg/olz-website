@@ -204,7 +204,7 @@ export const OlzLogs = (): React.ReactElement => {
 // }
 
 // export function olzLogsGetNextLog(): boolean {
-//     callOlzApi(
+//     olzApi.call(
 //         'getLogs',
 //         {index: logIndex},
 //     )

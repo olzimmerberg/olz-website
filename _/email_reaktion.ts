@@ -1,9 +1,9 @@
 import $ from 'jquery';
 
-import {callOlzApi} from './../src/Api/client';
+import {olzApi} from './../src/Api/client';
 
 export function olzExecuteEmailReaction(token: string): boolean {
-    callOlzApi(
+    olzApi.call(
         'executeEmailReaction',
         {token},
     )

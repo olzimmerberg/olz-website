@@ -10,10 +10,12 @@ use Olz\Utils\EnvUtils;
 
 class OlzHeaderWithoutRouting {
     public static function render($args = []) {
-        global $_DATE, $_SERVER;
+        global $_DATE, $_SERVER, $_SESSION;
         $out = '';
 
+        require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/date.php';
+        session_start_if_cookie_set();
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $env_utils = EnvUtils::fromEnv();

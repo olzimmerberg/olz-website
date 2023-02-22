@@ -19,7 +19,7 @@ if (($_GET['ftp_mode'] ?? null) == 'get_file') {
 
 require_once __DIR__.'/config/init.php';
 
-session_start();
+session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
 

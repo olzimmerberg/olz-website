@@ -1,7 +1,7 @@
-import {callOlzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../../src/Api/client';
 
 export function olzAccountMenuLogout(): void {
-    callOlzApi(
+    olzApi.call(
         'logout',
         {},
     )

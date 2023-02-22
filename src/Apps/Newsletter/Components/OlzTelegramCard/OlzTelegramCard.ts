@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import {callOlzApi} from '../../../../../src/Api/client';
+import {olzApi} from '../../../../../src/Api/client';
 
 import './OlzTelegramCard.scss';
 
@@ -21,7 +21,7 @@ export function olzTelegramNotificationsUpdate(form: Record<string, {value?: str
     const weeklySummaryForum = form['weekly-summary-forum'].checked ?? false;
     const weeklySummaryTermine = form['weekly-summary-termine'].checked ?? false;
 
-    callOlzApi(
+    olzApi.call(
         'updateNotificationSubscriptions',
         {deliveryType: 'telegram', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryTermine, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryTermine},
     )

@@ -2,10 +2,10 @@
 
 import $ from 'jquery';
 
-import {callOlzApi} from './../src/Api/client';
+import {olzApi} from './../src/Api/client';
 
 export function generateWebdavAccessToken(): boolean {
-    callOlzApi(
+    olzApi.call(
         'getWebdavAccessToken',
         {},
     )
@@ -23,7 +23,7 @@ export function generateWebdavAccessToken(): boolean {
 }
 
 export function revokeWebdavAccessToken(): boolean {
-    callOlzApi(
+    olzApi.call(
         'revokeWebdavAccessToken',
         {},
     )

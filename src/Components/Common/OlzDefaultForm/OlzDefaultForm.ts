@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
-import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, callOlzApi, ValidationError, OlzApi} from '../../../../src/Api/client';
+import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, olzApi, ValidationError} from '../../../../src/Api/client';
 import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -238,7 +238,7 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         return Promise.reject(new Error('Die Anfrage konnte nicht gesendet werden.'));
     }
 
-    return callOlzApi(endpoint, request)
+    return olzApi.call(endpoint, request)
         .then((response: OlzApiResponses[T]) => {
             try {
                 const customSuccessMessage = handleResponse(response);
@@ -294,7 +294,6 @@ export function getDataForRequest<T extends OlzApiEndpoint>(
         throw new Error('Unexpected Error in getDataForRequest');
     }
     if (validationErrors.length > 0) {
-        const olzApi = new OlzApi();
         throw olzApi.mergeValidationErrors(validationErrors);
     }
     return data as OlzApiRequests[T]; // should now be complete.

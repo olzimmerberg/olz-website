@@ -1,13 +1,13 @@
 import $ from 'jquery';
 
-import {callOlzApi} from '../src/Api/client';
+import {olzApi} from '../src/Api/client';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
     $('#sign-up-with-strava-login-status').text('Login mit Strava...');
 
-    callOlzApi(
+    olzApi.call(
         'loginWithStrava',
         {code},
     )

@@ -1,9 +1,9 @@
-import {callOlzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../../src/Api/client';
 import {initOlzEditNewsModal} from '../OlzEditNewsModal/OlzEditNewsModal';
 import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
 export function editNewsArticle(newsId: number): boolean {
-    callOlzApi('editNews', {id: newsId})
+    olzApi.call('editNews', {id: newsId})
         .then((response) => {
             console.log(response);
             initOlzEditNewsModal('account', response.id, response.meta, response.data);
@@ -13,7 +13,7 @@ export function editNewsArticle(newsId: number): boolean {
 
 export function deleteNewsArticle(newsId: number): boolean {
     olzConfirm('Wirklich löschen?').then(() => {
-        callOlzApi('deleteNews', {id: newsId});
+        olzApi.call('deleteNews', {id: newsId});
     });
     return false;
 }

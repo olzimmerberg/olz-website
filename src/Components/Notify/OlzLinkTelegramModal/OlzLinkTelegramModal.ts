@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import {callOlzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../../src/Api/client';
 
 $(() => {
     $('#link-telegram-modal').on('shown.bs.modal', () => {
@@ -12,7 +12,7 @@ export function olzLinkTelegramModalGetChatLink(): void {
     $('.chat-link-wait').show();
     $('.chat-link-ready').hide();
 
-    callOlzApi(
+    olzApi.call(
         'linkTelegram',
         {},
     )

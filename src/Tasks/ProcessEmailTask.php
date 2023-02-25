@@ -144,21 +144,7 @@ class ProcessEmailTask extends BackgroundTask {
         }
         $username = $matches[1];
 
-        $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
-
-        $user = $user_repo->findFuzzilyByUsername($username);
-        if (!$user) {
-            $user = $user_repo->findFuzzilyByOldUsername($username);
-        }
-        if ($user != null) {
-            $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
-            if (!$has_user_email_permission) {
-                $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
-                return true;
-            }
-            return $this->forwardEmailToUser($mail, $user, $address);
-        }
         $role = $role_repo->findFuzzilyByUsername($username);
         if (!$role) {
             $role = $role_repo->findFuzzilyByOldUsername($username);
@@ -177,6 +163,20 @@ class ProcessEmailTask extends BackgroundTask {
                 }
             }
             return $all_successful;
+        }
+
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $user = $user_repo->findFuzzilyByUsername($username);
+        if (!$user) {
+            $user = $user_repo->findFuzzilyByOldUsername($username);
+        }
+        if ($user != null) {
+            $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
+            if (!$has_user_email_permission) {
+                $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                return true;
+            }
+            return $this->forwardEmailToUser($mail, $user, $address);
         }
         $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
         return true;

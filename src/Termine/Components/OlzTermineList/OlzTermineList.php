@@ -29,7 +29,7 @@ class OlzTermineList {
         $file_utils = FileUtils::fromEnv();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $validated_get_params = $http_utils->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),

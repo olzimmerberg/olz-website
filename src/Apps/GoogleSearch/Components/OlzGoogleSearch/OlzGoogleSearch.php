@@ -16,7 +16,7 @@ class OlzGoogleSearch {
 
         $logger = LogsUtils::fromEnv()->getLogger('GoogleSearch');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([], $_GET);
 
         $out = '';

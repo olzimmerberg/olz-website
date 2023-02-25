@@ -14,7 +14,7 @@ require_once __DIR__.'/admin/olz_functions.php';
 
 $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
-$http_utils->setLogger($logger);
+$http_utils->setLog($logger);
 // TODO: Remove `just_log` once we are sure we know all the GET variables.
 $http_utils->validateGetParams([
     'typ' => new FieldTypes\StringField(['allow_null' => true]),

@@ -21,7 +21,7 @@ class OlzAnmelden {
         $db = DbUtils::fromEnv()->getDb();
         $logger = LogsUtils::fromEnv()->getLogger('anmelden');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),
         ], $_GET);

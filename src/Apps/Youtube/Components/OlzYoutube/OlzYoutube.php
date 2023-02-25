@@ -16,7 +16,7 @@ class OlzYoutube {
 
         $logger = LogsUtils::fromEnv()->getLogger('Youtube');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([], $_GET);
 
         $out = '';

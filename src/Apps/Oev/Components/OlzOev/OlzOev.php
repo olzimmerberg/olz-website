@@ -23,7 +23,7 @@ class OlzOev {
         $db = DbUtils::fromEnv()->getDb();
         $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([
             'nach' => new FieldTypes\StringField(['allow_null' => true]),
             'ankunft' => new FieldTypes\StringField(['allow_null' => true]),

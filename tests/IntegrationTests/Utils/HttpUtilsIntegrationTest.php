@@ -86,13 +86,14 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testValidateGetParamsWithBadParam(): void {
         $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
 
         $validated_get_params = $http_utils->validateGetParams([
             'input' => new FieldTypes\Field(['allow_null' => false]),
         ], ['input' => null]);
 
         $this->assertSame([
+            "NOTICE Bad GET param 'input'",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);
@@ -104,12 +105,13 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testValidateGetParamsWithUnknownParam(): void {
         $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
 
         $validated_get_params = $http_utils->validateGetParams(
             [], ['inexistent' => null]);
 
         $this->assertSame([
+            "NOTICE Unknown GET param 'inexistent'",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);

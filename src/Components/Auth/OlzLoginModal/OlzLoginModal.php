@@ -46,11 +46,11 @@ class OlzLoginModal {
                             </div>
                             <div class='mb-3'>
                                 <label for='login-username-input'>Benutzername oder E-Mail</label>
-                                <input type='text' class='form-control test-flaky' id='login-username-input' autofocus />
+                                <input type='text' class='form-control test-flaky' id='login-username-input' autofocus autofill='username' />
                             </div>
                             <div class='mb-3'>
                                 <label for='login-password-input'>Passwort</label>
-                                <input type='password' class='form-control' id='login-password-input' />
+                                <input type='password' class='form-control' id='login-password-input' autofill='current-password' />
                             </div>
                             <div class='mb-3 remember-me-row'>
                                 <input type='checkbox' id='login-remember-me-input' />

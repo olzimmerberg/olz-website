@@ -21,6 +21,13 @@ $(() => {
     }
     if (!user?.username && usernameOrEmail) {
         bootstrap.Modal.getOrCreateInstance(loginModalElem).show();
+        setTimeout(() => {
+            const passwordElem = document.getElementById('login-password-input');
+            const passwordValue = (passwordElem as HTMLInputElement).value;
+            if (passwordValue) {
+                olzLoginModalLogin();
+            }
+        }, 1);
     }
 
     loginModalElem.addEventListener('shown.bs.modal', () => {

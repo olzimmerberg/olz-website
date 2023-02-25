@@ -16,7 +16,7 @@ require_once __DIR__.'/admin/olz_functions.php';
 
 $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
-$http_utils->setLogger($logger);
+$http_utils->setLog($logger);
 $http_utils->validateGetParams([
     'id' => new FieldTypes\IntegerField(['allow_null' => true]),
 ], $_GET);

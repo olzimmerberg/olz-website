@@ -16,7 +16,7 @@ class OlzMonitoring {
 
         $logger = LogsUtils::fromEnv()->getLogger('monitoring');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([], $_GET);
 
         $out = '';

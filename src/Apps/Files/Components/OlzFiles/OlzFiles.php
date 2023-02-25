@@ -19,7 +19,7 @@ class OlzFiles {
         $env_utils = EnvUtils::fromEnv();
         $logger = LogsUtils::fromEnv()->getLogger('files');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLogger($logger);
+        $http_utils->setLog($logger);
         $http_utils->validateGetParams([], $_GET);
 
         $auth_utils = AuthUtils::fromEnv();

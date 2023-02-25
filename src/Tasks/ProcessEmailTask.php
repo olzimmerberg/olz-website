@@ -187,7 +187,7 @@ class ProcessEmailTask extends BackgroundTask {
         $from = $mail->from->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        $from_address_suffix = $from_address ? " <{$from_address}>" : '';
+        $from_label = $from_name ? "{$from_name} <{$from_address}>" : "{$from_address}";
         $subject = $mail->subject->first();
         $mail->parseBody();
         $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
@@ -204,7 +204,7 @@ class ProcessEmailTask extends BackgroundTask {
             ]);
             // This is probably dangerous (Might get us on spamming lists?):
             // $email->setFrom($from_address, $from_name);
-            $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_name} (via OLZ){$from_address_suffix}");
+            $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_label} (via OLZ)");
             $email->addReplyTo($from_address, $from_name);
 
             $email->Body = $html ? $html : '(leer)';

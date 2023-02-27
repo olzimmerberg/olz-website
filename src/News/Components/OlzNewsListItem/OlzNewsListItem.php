@@ -68,14 +68,6 @@ class OlzNewsListItem {
             $content = str_replace($matches[0][$i], $new_content, $content);
         }
 
-        // Markdown
-        $teaser = $html_utils->renderMarkdown($teaser, [
-            'html_input' => 'allow', // TODO: Do NOT allow!
-        ]);
-        $content = $html_utils->renderMarkdown($content, [
-            'html_input' => 'allow', // TODO: Do NOT allow!
-        ]);
-
         $author_badge = OlzAuthorBadge::render([
             'user' => $author_user,
             'role' => $author_role,
@@ -89,7 +81,9 @@ class OlzNewsListItem {
                 'date' => $datum,
                 'author' => $author_badge,
                 'title' => $title,
-                'text' => $teaser,
+                'text' => $html_utils->renderMarkdown($teaser, [
+                    'html_input' => 'allow', // TODO: Do NOT allow!
+                ]),
                 'link' => $link,
             ]);
         } elseif ($format === 'forum') {
@@ -112,7 +106,12 @@ class OlzNewsListItem {
                 'date' => $datum,
                 'author' => $author_badge,
                 'title' => $title,
-                'text' => $thumb.self::truncateText($content),
+                'text' => $thumb.$html_utils->renderMarkdown(
+                    self::truncateText($content),
+                    [
+                        'html_input' => 'allow', // TODO: Do NOT allow!
+                    ],
+                ),
                 'link' => $link,
             ]);
         } elseif ($format === 'galerie') {

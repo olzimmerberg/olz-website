@@ -6,6 +6,7 @@ use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
+use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzNewsArticle {
@@ -17,6 +18,7 @@ class OlzNewsArticle {
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
+        $html_utils = HtmlUtils::fromEnv();
         $data_path = $env_utils->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
@@ -100,6 +102,11 @@ class OlzNewsArticle {
                     "gallery[myset]",
                     " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
                 );
+            } else {
+                preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text, $matches);
+                for ($i = 0; $i < count($matches[0]); $i++) {
+                    $text = str_replace($matches[0][$i], '', $text);
+                }
             }
             $textlang = $image_utils->replaceImageTags(
                 $textlang,
@@ -112,6 +119,14 @@ class OlzNewsArticle {
             // Dateicode einfügen
             $text = $file_utils->replaceFileTags($text, 'aktuell', $id);
             $textlang = $file_utils->replaceFileTags($textlang, 'aktuell', $id);
+
+            // Markdown
+            $text = $html_utils->renderMarkdown($text, [
+                'html_input' => 'allow', // TODO: Do NOT allow!
+            ]);
+            $textlang = $html_utils->renderMarkdown($textlang, [
+                'html_input' => 'allow', // TODO: Do NOT allow!
+            ]);
 
             $out .= "<h2>{$edit_admin}{$titel}</h2>";
 

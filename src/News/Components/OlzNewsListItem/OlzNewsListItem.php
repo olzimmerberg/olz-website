@@ -5,6 +5,7 @@ namespace Olz\News\Components\OlzNewsListItem;
 use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzNewsListItem {
@@ -18,6 +19,7 @@ class OlzNewsListItem {
 
     public static function render($args = []) {
         $env_utils = EnvUtils::fromEnv();
+        $html_utils = HtmlUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
 
         $code_href = $env_utils->getCodeHref();
@@ -38,7 +40,7 @@ class OlzNewsListItem {
         $author_name = $news_entry->getAuthorName();
         $author_email = $news_entry->getAuthorEmail();
         $title = $news_entry->getTitle();
-        $text = $news_entry->getTeaser();
+        $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
         $link = "aktuell.php?id=".$id;
 
@@ -46,8 +48,8 @@ class OlzNewsListItem {
         $is_migrated = is_array($image_ids);
 
         // Bildercode einfügen
-        $text = $image_utils->replaceImageTags(
-            $text,
+        $teaser = $image_utils->replaceImageTags(
+            $teaser,
             $id,
             $image_ids,
             'image',
@@ -55,11 +57,24 @@ class OlzNewsListItem {
         );
 
         // Dateicode einfügen
-        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
+        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $teaser, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
-            $new_text = $matches[4][$i];
-            $text = str_replace($matches[0][$i], $new_text, $text);
+            $new_teaser = $matches[4][$i];
+            $teaser = str_replace($matches[0][$i], $new_teaser, $teaser);
         }
+        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $content, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $new_content = $matches[4][$i];
+            $content = str_replace($matches[0][$i], $new_content, $content);
+        }
+
+        // Markdown
+        $teaser = $html_utils->renderMarkdown($teaser, [
+            'html_input' => 'allow', // TODO: Do NOT allow!
+        ]);
+        $content = $html_utils->renderMarkdown($content, [
+            'html_input' => 'allow', // TODO: Do NOT allow!
+        ]);
 
         $author_badge = OlzAuthorBadge::render([
             'user' => $author_user,
@@ -74,7 +89,7 @@ class OlzNewsListItem {
                 'date' => $datum,
                 'author' => $author_badge,
                 'title' => $title,
-                'text' => $text,
+                'text' => $teaser,
                 'link' => $link,
             ]);
         } elseif ($format === 'forum') {

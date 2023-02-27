@@ -105,7 +105,7 @@ const isValidFromat = (value: unknown): value is OlzNewsFormat =>
 
 const FORMATS_BY_MODE: {[mode in OlzEditNewsModalMode]: OlzNewsFormat[]} = {
     anonymous: ['anonymous'],
-    account: ['aktuell', 'forum', 'galerie', 'video'],
+    account: ['forum', 'aktuell', 'galerie', 'video'],
 };
 
 const FORMATTING_NOTES_FOR_USERS = (<>

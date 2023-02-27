@@ -2,6 +2,7 @@
 
 namespace Olz\News\Components\OlzNewsArticle;
 
+use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
@@ -13,6 +14,7 @@ class OlzNewsArticle {
 
         $db = DbUtils::fromEnv()->getDb();
         $image_utils = ImageUtils::fromEnv();
+        $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
         $data_path = $env_utils->getDataPath();
@@ -24,6 +26,7 @@ class OlzNewsArticle {
         $can_edit = $args['can_edit'] ?? false;
         $is_preview = $args['is_preview'] ?? false;
         $out = "";
+        $user = $auth_utils->getAuthenticatedUser();
 
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
@@ -60,6 +63,9 @@ class OlzNewsArticle {
 
             $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
+            if ($user && intval($row['owner_user_id']) === intval($user->getId())) {
+                $can_edit = true;
+            }
             $edit_admin = '';
             if ($can_edit && !$is_preview) {
                 $json_id = json_encode(intval($id_tmp));

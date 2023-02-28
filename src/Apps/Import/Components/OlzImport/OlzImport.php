@@ -17,6 +17,7 @@ class OlzImport {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Import",
             'norobots' => true,
         ]);

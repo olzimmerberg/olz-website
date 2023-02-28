@@ -29,6 +29,7 @@ class OlzAnmelden {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => 'Anmelden',
             'description' => "Hier kann man sich für OLZ-Anlässe anmelden.",
         ]);

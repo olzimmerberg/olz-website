@@ -8,6 +8,10 @@
     width: 180px;
 }
 
+.back-icon {
+    margin: -2px 8px 0 0;
+}
+
 .menu-link {
     display: block;
 
@@ -15,10 +19,14 @@
         text-decoration: none;
     }
 
-    > div,
-    > h1 {
+    .menutag {
         font-weight: bold;
         margin: 0;
+        transition: background-color 500ms linear;
+
+        &:hover {
+            transition: background-color 100ms linear;
+        }
     }
 
     &.font-size-large {

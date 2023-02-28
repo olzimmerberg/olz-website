@@ -18,6 +18,7 @@ class OlzNewsletter {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Newsletter",
             'norobots' => true,
         ]);

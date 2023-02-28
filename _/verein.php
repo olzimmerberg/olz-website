@@ -38,6 +38,7 @@ if (isset($_GET['ressort'])) {
     $no_robots = ($role->getGuide() === '');
 
     echo OlzHeader::render([
+        'back_link' => "{$code_href}verein.php",
         'title' => "{$role->getName()} - Verein",
         'description' => "Ressort {$role->getName()} der OL Zimmerberg.",
         'norobots' => $no_robots,

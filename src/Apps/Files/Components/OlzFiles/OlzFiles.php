@@ -16,6 +16,8 @@ class OlzFiles {
 
         session_start_if_cookie_set();
 
+        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
+
         $env_utils = EnvUtils::fromEnv();
         $logger = LogsUtils::fromEnv()->getLogger('files');
         $http_utils = HttpUtils::fromEnv();
@@ -35,6 +37,7 @@ class OlzFiles {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Dateien",
             'norobots' => true,
         ]);

@@ -14,6 +14,8 @@ class OlzMonitoring {
 
         session_start_if_cookie_set();
 
+        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
+
         $logger = LogsUtils::fromEnv()->getLogger('monitoring');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($logger);
@@ -22,6 +24,7 @@ class OlzMonitoring {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Monitoring",
             'norobots' => true,
         ]);

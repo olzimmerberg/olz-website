@@ -14,6 +14,8 @@ class OlzQuiz {
 
         session_start_if_cookie_set();
 
+        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
+
         $logger = LogsUtils::fromEnv()->getLogger('Quiz');
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($logger);
@@ -22,6 +24,7 @@ class OlzQuiz {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Quiz",
             'norobots' => true,
         ]);

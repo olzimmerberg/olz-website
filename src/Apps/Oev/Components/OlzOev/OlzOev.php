@@ -34,6 +34,7 @@ class OlzOev {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "ÖV-Tool",
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
         ]);

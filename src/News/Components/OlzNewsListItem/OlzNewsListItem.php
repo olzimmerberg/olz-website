@@ -25,6 +25,7 @@ class OlzNewsListItem {
         $code_href = $env_utils->getCodeHref();
         $data_path = $env_utils->getDataPath();
 
+        $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
         $news_entry = $args['news_entry'];
         $out = "";
 
@@ -42,7 +43,7 @@ class OlzNewsListItem {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "aktuell.php?id=".$id;
+        $link = "aktuell.php?filter={$enc_current_filter}&id=".$id;
 
         $image_ids = $news_entry->getImageIds();
         $is_migrated = is_array($image_ids);

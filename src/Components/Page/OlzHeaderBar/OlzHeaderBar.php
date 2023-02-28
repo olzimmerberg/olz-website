@@ -17,6 +17,7 @@ class OlzHeaderBar {
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
         $data_href = $env_utils->getDataHref();
+        $back_link = $args['back_link'] ?? null;
 
         $out .= "<div id='header-bar' class='header-bar menu-closed'>";
 
@@ -33,15 +34,23 @@ class OlzHeaderBar {
         $out .= "<div class='below-header'>";
         $out .= "<div id='menu-container' class='menu-container'>";
 
-        $out .= OlzMenu::render();
+        $out .= OlzMenu::render([
+            'back_link' => $back_link,
+        ]);
 
         $out .= "</div>"; // menu-container
         $out .= "</div>"; // below-header
 
-        $out .= "<div id='menu-switch' onclick='olz.toggleMenu()' />";
-        $out .= "<img src='{$code_href}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-        $out .= "<img src='{$code_href}icns/menu_close.svg' alt='' class='menu-close noborder' />";
-        $out .= "</div>";
+        if ($back_link !== null) {
+            $out .= "<a href='{$back_link}' id='menu-switch' />";
+            $out .= "<img src='{$code_href}icns/menu_back.svg' alt='' class='menu-back noborder' />";
+            $out .= "</a>";
+        } else {
+            $out .= "<div id='menu-switch' onclick='olz.toggleMenu()' />";
+            $out .= "<img src='{$code_href}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
+            $out .= "<img src='{$code_href}icns/menu_close.svg' alt='' class='menu-close noborder' />";
+            $out .= "</div>";
+        }
 
         $out .= "<div class='header-content-container'>";
         $out .= "<div class='header-content-scroller'>";

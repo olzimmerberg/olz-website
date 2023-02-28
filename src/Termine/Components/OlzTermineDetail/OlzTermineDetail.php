@@ -72,7 +72,9 @@ class OlzTermineDetail {
         $row = $result->fetch_assoc();
 
         $title = $row['titel'] ?? '';
+        $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}termine.php?filter={$back_filter}",
             'title' => "{$title} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $no_robots,

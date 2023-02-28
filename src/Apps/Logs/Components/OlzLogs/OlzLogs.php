@@ -18,6 +18,7 @@ class OlzLogs {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Logs",
             'norobots' => true,
         ]);

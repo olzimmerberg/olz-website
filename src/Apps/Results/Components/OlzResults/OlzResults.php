@@ -9,9 +9,12 @@ use Olz\Utils\EnvUtils;
 
 class OlzResults {
     public static function render() {
+        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
+
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}apps/",
             'title' => "Resultate",
             'norobots' => true,
         ]);

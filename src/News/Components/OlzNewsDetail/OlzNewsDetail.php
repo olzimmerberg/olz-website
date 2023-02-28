@@ -17,18 +17,23 @@ use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail {
     public static function render($args = []) {
-        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION;
+        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION, $_SERVER;
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
+        $env_utils = EnvUtils::fromEnv();
         $db = DbUtils::fromEnv()->getDb();
         $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $code_href = $env_utils->getCodeHref();
         $db_table = 'aktuell';
         $id = $_GET['id'] ?? null;
+        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+        $canonical_url = "https://{$host}{$code_href}aktuell.php?id={$id}";
 
         $http_utils = HttpUtils::fromEnv();
         $article_metadata = "";
@@ -72,10 +77,13 @@ class OlzNewsDetail {
         $row = $result->fetch_assoc();
 
         $title = $row['titel'] ?? '';
+        $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}aktuell.php?filter={$back_filter}",
             'title' => "{$title} - Aktuell",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $no_robots,
+            'canonical_url' => $canonical_url,
             'additional_headers' => [
                 $article_metadata,
             ],

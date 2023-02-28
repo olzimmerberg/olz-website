@@ -16,6 +16,7 @@ class OlzMenu {
 
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
+        $data_href = $env_utils->getDataHref();
         $data_path = $env_utils->getDataPath();
 
         $menu = [
@@ -35,6 +36,13 @@ class OlzMenu {
         ];
 
         $out .= "<div id='menu' class='menu'>";
+
+        // BACK-BUTTON
+        $back_link = $args['back_link'] ?? null;
+        if ($back_link !== null) {
+            $out .= "<a href='{$back_link}' class='menu-link font-size-large' id='back-link'><div class='menutag' style='color:#000000;background-color:#00c500;border-bottom:1px solid #5feb1f;' onmouseover='document.getElementById(\"menuback\").style.backgroundColor = &quot;#3fe200&quot;;' onmouseout='document.getElementById(\"menuback\").style.backgroundColor = &quot;#00c500&quot;;' id='menuback'><img src='{$data_href}icns/back_16.svg' alt='&lt;' class='noborder back-icon'>Zurück</div></a>";
+        }
+
         // LIVE-RESULTATE
         $live_json_path = "{$data_path}results/_live.json";
         if (is_file($live_json_path)) {
@@ -44,7 +52,7 @@ class OlzMenu {
                 $last_updated_at = strtotime($live['last_updated_at']);
                 $now = strtotime(olz_current_date('Y-m-d H:i:s'));
                 if ($live && $last_updated_at > $now - 3600) {
-                    $out .= "<a href='{$code_href}apps/resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='olz.colorFade(\"menulive\",\"background\",\"cc0000\",\"ee0000\",\"2\",\"10\");' onmouseout='olz.colorFade(\"menulive\",\"background\",\"ee0000\",\"cc0000\",\"10\",\"75\");' id='menulive'>Live-Resultate</div></a>";
+                    $out .= "<a href='{$code_href}apps/resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div class='menutag' style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='document.getElementById(\"menulive\").style.backgroundColor = &quot;#ee0000&quot;;' onmouseout='document.getElementById(\"menulive\").style.backgroundColor = &quot;#cc0000&quot;;' id='menulive'>Live-Resultate</div></a>";
                 }
             }
         }
@@ -80,12 +88,11 @@ class OlzMenu {
         for ($i = 0; $i < count($menu); $i++) {
             $menupunkt = $menu[$i];
             $fontsize = $menupunkt[2];
-            $green = round((($i + 0.5) / count($menu)) * 75 + 125, 0);
+            $green = (($i + 0.5) / count($menu)) * 75 + 125;
             $bgcolor = self::color(0, $green, 0);
             $redsel = 255 / 4;
             $greensel = $green + (255 - $green) / 2;
             $bgcolorhover = self::color($redsel, $greensel, 0);
-            // $bgcolorhover = self::color(255,255,0); // gelb
             $redlin = 255 * 3 / 8;
             $greenlin = $green + (255 - $green) * 2 / 3;
             $bluelin = 255 * 1 / 8;
@@ -106,7 +113,7 @@ class OlzMenu {
                 $border_tmp = " border-top:1px solid #".$linecolor.";";
             }
             if ($menupunkt[0] != "" && $menupunkt[1] != "") {
-                $out .= "<a href='".$code_href.$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='olz.colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolor."\",\"".$bgcolorhover."\",\"2\",\"10\");' onmouseout='olz.colorFade(\"menu".$identifier.$i."\",\"background\",\"".$bgcolorhover."\",\"".$bgcolor."\",\"10\",\"75\");' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
+                $out .= "<a href='".$code_href.$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." class='menutag' style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='document.getElementById(\"menu".$identifier.$i."\").style.backgroundColor = &quot;#{$bgcolorhover}&quot;;' onmouseout='document.getElementById(\"menu".$identifier.$i."\").style.backgroundColor = &quot;#{$bgcolor}&quot;;' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
             } else {
                 // $out .= "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";
                 $out .= "<div style='background-color:#".$bgcolorhover.";height:3px;border-bottom:1px solid #".$linecolor.";'></div>";

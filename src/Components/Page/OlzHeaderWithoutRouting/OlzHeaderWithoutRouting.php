@@ -89,6 +89,7 @@ class OlzHeaderWithoutRouting {
         $out .= "<a name='top'></a>";
 
         $out .= OlzHeaderBar::render([
+            'back_link' => $args['back_link'] ?? null,
             'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
         ]);
 

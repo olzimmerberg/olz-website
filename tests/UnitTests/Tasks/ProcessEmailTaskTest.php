@@ -199,7 +199,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail 12 to user with no user_email permission: no-permission',
+            'WARNING E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());
@@ -335,7 +335,7 @@ final class ProcessEmailTaskTest extends UnitTestCase {
         $this->assertSame([
             'INFO Setup task ProcessEmail...',
             'INFO Running task ProcessEmail...',
-            'INFO E-Mail 12 to role with no role_email permission: no-role-permission',
+            'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
             'INFO Finished task ProcessEmail.',
             'INFO Teardown task ProcessEmail...',
         ], $logger->handler->getPrettyRecords());

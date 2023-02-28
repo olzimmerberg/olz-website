@@ -152,7 +152,7 @@ class ProcessEmailTask extends BackgroundTask {
         if ($role != null) {
             $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
             if (!$has_role_email_permission) {
-                $this->log()->info("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
+                $this->log()->warning("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
                 return true;
             }
             $role_users = $role->getUsers();
@@ -173,7 +173,7 @@ class ProcessEmailTask extends BackgroundTask {
         if ($user != null) {
             $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
             if (!$has_user_email_permission) {
-                $this->log()->info("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                $this->log()->warning("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
                 return true;
             }
             return $this->forwardEmailToUser($mail, $user, $address);

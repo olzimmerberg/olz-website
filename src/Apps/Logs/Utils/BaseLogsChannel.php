@@ -63,10 +63,12 @@ abstract class BaseLogsChannel {
 
     protected function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
         $line_location = $this->getLineLocationForDateTime($date_time);
-        $limit = floor(self::$pageSize / 2) + 1;
-        $lines_before = $this->readMatchingLinesBefore($line_location, $query, $limit);
-        $limit = self::$pageSize - count($lines_before->lines) + 1;
-        $lines_after = $this->readMatchingLinesAfter($line_location, $query, $limit);
+        $line_limit = floor(self::$pageSize / 2) + 1;
+        $time_limit = time() + 5;
+        $lines_before = $this->readMatchingLinesBefore($line_location, $query, $line_limit, $time_limit);
+        $line_limit = self::$pageSize - count($lines_before->lines) + 1;
+        $time_limit = time() + 5;
+        $lines_after = $this->readMatchingLinesAfter($line_location, $query, $line_limit, $time_limit);
         return new ReadResult([
             ...array_slice($lines_before->lines, 0, count($lines_before->lines) - 1),
             '---',
@@ -138,7 +140,8 @@ abstract class BaseLogsChannel {
     protected function readMatchingLinesBefore(
         LineLocation $line_location,
         array $query,
-        int $limit,
+        int $line_limit,
+        float $time_limit,
     ): ReadResult {
         $log_file = $line_location->logFile;
         $file_index = $this->getOrCreateIndex($log_file);
@@ -150,7 +153,7 @@ abstract class BaseLogsChannel {
             $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
         $matching_lines = [];
-        while (count($matching_lines) < $limit) {
+        while (count($matching_lines) < $line_limit && time() <= $time_limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
             $line = $log_file->gets($fp) ?? '';
@@ -166,8 +169,8 @@ abstract class BaseLogsChannel {
                     $log_file_before = $this->getLogFileBefore($log_file);
                     $this->log()->info("log_file_before {$log_file_before->getPath()}");
                     $prev_file_location = new LineLocation($log_file_before, -1);
-                    $new_limit = $limit - count($matching_lines);
-                    $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_limit);
+                    $new_line_limit = $line_limit - count($matching_lines);
+                    $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_line_limit, $time_limit);
                     $matching_lines = [
                         ...$result->lines,
                         ...$matching_lines,
@@ -188,7 +191,8 @@ abstract class BaseLogsChannel {
     protected function readMatchingLinesAfter(
         LineLocation $line_location,
         array $query,
-        int $limit,
+        int $line_limit,
+        float $time_limit,
     ): ReadResult {
         $log_file = $line_location->logFile;
         $file_index = $this->getOrCreateIndex($log_file);
@@ -202,7 +206,7 @@ abstract class BaseLogsChannel {
             $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
         $matching_lines = [];
-        while (count($matching_lines) < $limit) {
+        while (count($matching_lines) < $line_limit && time() <= $time_limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
             $line = $log_file->gets($fp) ?? '';
@@ -218,8 +222,8 @@ abstract class BaseLogsChannel {
                     $log_file_after = $this->getLogFileAfter($log_file);
                     $this->log()->info("log_file_after {$log_file_after->getPath()}");
                     $next_file_location = new LineLocation($log_file_after, 0);
-                    $new_limit = $limit - count($matching_lines);
-                    $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_limit);
+                    $new_line_limit = $line_limit - count($matching_lines);
+                    $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_line_limit, $time_limit);
                     $matching_lines = [
                         ...$matching_lines,
                         ...$result->lines,

@@ -43,4 +43,19 @@ class PlainLogFile implements LogFileInterface {
     public function close($fp) {
         return fclose($fp);
     }
+
+    public function serialize(): string {
+        return json_encode([
+            'class' => self::class,
+            'path' => $this->path,
+        ]);
+    }
+
+    public static function deserialize(string $serialized): LogFileInterface|null {
+        $deserialized = json_decode($serialized, true);
+        if ($deserialized['class'] !== self::class) {
+            return null;
+        }
+        return new self($deserialized['path']);
+    }
 }

@@ -82,7 +82,8 @@ final class BaseLogsChannelTest extends UnitTestCase {
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         );
 
-        $result = $channel->readLogs([
+        $date_time = new \DateTime('2020-03-13 18:30:00');
+        $result = $channel->readAroundDateTime($date_time, [
             'targetDate' => '2020-03-13 18:30:00',
             'firstDate' => null,
             'lastDate' => null,
@@ -92,8 +93,8 @@ final class BaseLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'INFO log_file_before data-realpath//logs/fake-before.log',
-            'INFO log_file_after data-realpath//logs/fake-after.log',
+            'DEBUG log_file_before data-realpath//logs/fake-before.log',
+            'DEBUG log_file_after data-realpath//logs/fake-after.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             "[2020-03-12 12:00:00] tick 2020-03-12\n",

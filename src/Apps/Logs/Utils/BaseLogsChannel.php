@@ -49,19 +49,25 @@ abstract class BaseLogsChannel {
 
     abstract protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface;
 
-    public function readLogs(array $query): ReadResult {
-        $page_token = $query['pageToken'] ?? null;
-        if ($page_token) {
-            return $this->continueReading($query);
+    public function continueReading(
+        LineLocation $line_location,
+        string $mode,
+        array $query,
+    ): ReadResult {
+        if ($mode === 'previous') {
+            $line_limit = self::$pageSize;
+            $time_limit = time() + 10;
+            return $this->readMatchingLinesBefore($line_location, $query, $line_limit, $time_limit);
         }
-        $date_time = $query['targetDate'] ?? null;
-        if ($date_time) {
-            return $this->readAroundDateTime(new \DateTime($date_time), $query);
+        if ($mode === 'next') {
+            $line_limit = self::$pageSize;
+            $time_limit = time() + 10;
+            return $this->readMatchingLinesAfter($line_location, $query, $line_limit, $time_limit);
         }
-        throw new \Exception('not implemented');
+        throw new Exception("Mode must be 'previous' or 'next', was '{$mode}'.");
     }
 
-    protected function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
+    public function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
         $line_location = $this->getLineLocationForDateTime($date_time);
         $line_limit = floor(self::$pageSize / 2) + 1;
         $time_limit = time() + 5;
@@ -167,7 +173,7 @@ abstract class BaseLogsChannel {
             if ($continuation_location->lineNumber < 0) {
                 try {
                     $log_file_before = $this->getLogFileBefore($log_file);
-                    $this->log()->info("log_file_before {$log_file_before->getPath()}");
+                    $this->log()->debug("log_file_before {$log_file_before->getPath()}");
                     $prev_file_location = new LineLocation($log_file_before, -1);
                     $new_line_limit = $line_limit - count($matching_lines);
                     $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_line_limit, $time_limit);
@@ -220,7 +226,7 @@ abstract class BaseLogsChannel {
             if ($continuation_location->lineNumber >= $number_of_lines) {
                 try {
                     $log_file_after = $this->getLogFileAfter($log_file);
-                    $this->log()->info("log_file_after {$log_file_after->getPath()}");
+                    $this->log()->debug("log_file_after {$log_file_after->getPath()}");
                     $next_file_location = new LineLocation($log_file_after, 0);
                     $new_line_limit = $line_limit - count($matching_lines);
                     $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_line_limit, $time_limit);

@@ -113,7 +113,8 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
             gzencode(implode('', $fake_content)),
         );
 
-        $result = $channel->readLogs([
+        $date_time = new \DateTime('2020-03-13 18:30:00');
+        $result = $channel->readAroundDateTime($date_time, [
             'targetDate' => '2020-03-13 18:30:00',
             'firstDate' => null,
             'lastDate' => null,
@@ -124,9 +125,9 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
         // sleep(100);
 
         $this->assertSame([
-            'INFO log_file_before data-path/syslog/syslog.processed.2',
-            'INFO log_file_after data-path/syslog/syslog.processed',
-            'INFO log_file_after data-path/syslog/syslog',
+            'DEBUG log_file_before data-path/syslog/syslog.processed.2',
+            'DEBUG log_file_after data-path/syslog/syslog.processed',
+            'DEBUG log_file_after data-path/syslog/syslog',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             ...array_slice($fake_content, 144 - 97, 97),

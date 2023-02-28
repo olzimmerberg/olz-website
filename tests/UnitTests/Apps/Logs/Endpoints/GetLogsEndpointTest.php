@@ -98,8 +98,8 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Logs access by admin.',
-            'INFO log_file_before data-path/logs/merged-2020-03-12.log',
-            'INFO log_file_after data-path/logs/merged-2020-03-14.log',
+            'DEBUG log_file_before data-path/logs/merged-2020-03-12.log',
+            'DEBUG log_file_after data-path/logs/merged-2020-03-14.log',
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
@@ -113,7 +113,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         ], $result['content']);
         $previous = json_decode($result['pagination']['previous'], true);
         $this->assertMatchesRegularExpression(
-            '/\/tmp\/logs\/merged-2020-03-12.log$/',
+            '/\\\\\/tmp\\\\\/logs\\\\\/merged-2020-03-12\.log/',
             $previous['logFile'],
         );
         $this->assertSame(144 - 97 - 1, $previous['lineNumber']);

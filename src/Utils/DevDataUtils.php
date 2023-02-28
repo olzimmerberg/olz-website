@@ -255,7 +255,9 @@ class DevDataUtils {
             $sql_content .= "\n";
             $sql_content .= "-- Table {$table_name}\n";
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
-            if ($res_contents->num_rows > 0) {
+            if ($table_name === 'counter') {
+                $sql_content .= "-- (counter omitted)\n";
+            } elseif ($res_contents->num_rows > 0) {
                 $sql_content .= "INSERT INTO {$table_name}\n";
                 $content_fields = $res_contents->fetch_fields();
                 $field_names = [];

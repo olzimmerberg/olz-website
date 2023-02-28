@@ -20,4 +20,8 @@ interface LogFileInterface {
     public function gets($fp);
 
     public function close($fp);
+
+    public function serialize(): string;
+
+    public static function deserialize(string $serialized): LogFileInterface|null;
 }

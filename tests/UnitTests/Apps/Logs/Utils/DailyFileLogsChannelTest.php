@@ -93,7 +93,8 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         );
 
-        $result = $channel->readLogs([
+        $date_time = new \DateTime('2020-03-13 18:30:00');
+        $result = $channel->readAroundDateTime($date_time, [
             'targetDate' => '2020-03-13 18:30:00',
             'firstDate' => null,
             'lastDate' => null,
@@ -103,8 +104,8 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'INFO log_file_before data-path/logs/2020-03-12.log',
-            'INFO log_file_after data-path/logs/2020-03-14.log',
+            'DEBUG log_file_before data-path/logs/2020-03-12.log',
+            'DEBUG log_file_after data-path/logs/2020-03-14.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             ...array_slice($fake_content, 144 - 97, 97),

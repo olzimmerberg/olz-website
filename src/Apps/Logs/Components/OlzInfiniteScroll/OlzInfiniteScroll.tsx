@@ -15,8 +15,8 @@ export const OlzInfiniteScroll = <Item, Query>(
 ): React.ReactElement => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [items, setItems] = React.useState<Item[]>([]);
-    const [_prevQuery, setPrevQuery] = React.useState<Query|null>(null);
-    const [_nextQuery, setNextQuery] = React.useState<Query|null>(null);
+    const [prevQuery, setPrevQuery] = React.useState<Query|null>(null);
+    const [nextQuery, setNextQuery] = React.useState<Query|null>(null);
 
     React.useEffect(() => {
         setIsLoading(true);
@@ -38,9 +38,55 @@ export const OlzInfiniteScroll = <Item, Query>(
         };
     }, [props.initialQuery]);
 
+    const loadPrevious = React.useCallback(() => {
+        if (!prevQuery) {
+            return;
+        }
+        setIsLoading(true);
+        props.fetch(prevQuery)
+            .then((result) => {
+                // TODO: Drop the result if it's already outdated!
+                setItems([...result.items, ...items]);
+                setPrevQuery(result.prevQuery);
+                setIsLoading(false);
+            });
+    }, [items, prevQuery]);
+
+    const loadNext = React.useCallback(() => {
+        if (!nextQuery) {
+            return;
+        }
+        setIsLoading(true);
+        props.fetch(nextQuery)
+            .then((result) => {
+                // TODO: Drop the result if it's already outdated!
+                setItems([...items, ...result.items]);
+                setNextQuery(result.nextQuery);
+                setIsLoading(false);
+            });
+    }, [items, nextQuery]);
+
     return (
         <div style={{opacity: isLoading ? 0.5 : 1}}>
+            {prevQuery ? (
+                <button
+                    type='button'
+                    className='btn btn-outline-primary'
+                    onClick={loadPrevious}
+                >
+                    mehr...
+                </button>
+            ) : null}
             {items.map((item) => props.renderItem(item))}
+            {nextQuery ? (
+                <button
+                    type='button'
+                    className='btn btn-outline-primary'
+                    onClick={loadNext}
+                >
+                    mehr...
+                </button>
+            ) : null}
         </div>
     );
 };

@@ -15,6 +15,7 @@ class OlzRolePage {
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
+        $html_utils = HtmlUtils::fromEnv();
 
         $role = $args['role'];
         $role_id = $role->getId();
@@ -51,7 +52,6 @@ class OlzRolePage {
         if (strlen(trim($page)) > 0) {
             $out .= $page;
         } else {
-            $html_utils = HtmlUtils::fromEnv();
             $out .= "<h1>{$role->getName()}</h1>";
             $description_html = $html_utils->renderMarkdown($role->getDescription());
             $out .= $description_html;

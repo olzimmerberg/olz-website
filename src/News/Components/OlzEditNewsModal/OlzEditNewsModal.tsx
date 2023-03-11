@@ -166,9 +166,9 @@ interface OlzEditNewsModalProps {
 
 export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactElement => {
     const availableFormats = FORMATS_BY_MODE[props.mode];
-    const defaultFormat = availableFormats[0];
+    const defaultFormat = availableFormats.length === 1 ? availableFormats[0] : undefined;
 
-    const [format, setFormat] = React.useState<OlzNewsFormat>(props.data?.format ?? defaultFormat);
+    const [format, setFormat] = React.useState<OlzNewsFormat|undefined>(props.data?.format ?? defaultFormat);
     const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
     const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
     const [authorName, setAuthorName] = React.useState<string|null>(props.data?.authorName ?? null);
@@ -194,7 +194,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         });
     }, [recaptchaConsentGiven]);
 
-    const config = CONFIG_BY_FORMAT[format] ?? DEFAULT_CONFIG;
+    const config = format ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
 
     const onSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
         event.preventDefault();
@@ -215,7 +215,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        format: validFieldResult('format', format),
+                        format: getRequired(validFieldResult('format', format)),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         authorName: validFieldResult('author-name', authorName),
@@ -259,7 +259,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                         onOff: validFieldResult('', true),
                     },
                     data: {
-                        format: validFieldResult('format', format),
+                        format: getRequired(validFieldResult('format', format)),
                         authorUserId: validFieldResult('', authorUserId),
                         authorRoleId: validFieldResult('', authorRoleId),
                         authorName: validFieldResult('author-name', authorName),
@@ -374,17 +374,20 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                                 name='format'
                                                 className='form-control form-select'
                                                 id='news-format-input'
-                                                defaultValue={format}
+                                                defaultValue={format ?? 'UNDEFINED'}
                                                 onChange={(e) => {
                                                     const select = e.target;
                                                     const newFormatString = select.options[select.selectedIndex].value;
-                                                    let newFormat: OlzNewsFormat = defaultFormat;
+                                                    let newFormat: OlzNewsFormat|undefined = undefined;
                                                     if (isValidFromat(newFormatString)) {
                                                         newFormat = newFormatString;
                                                     }
                                                     setFormat(newFormat);
                                                 }}
                                             >
+                                                <option disabled value='UNDEFINED'>
+                                                    Bitte wählen...
+                                                </option>
                                                 {availableFormats.map((formatOption) => (
                                                     <option value={formatOption}>
                                                         {CONFIG_BY_FORMAT[formatOption].name}

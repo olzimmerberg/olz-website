@@ -22,6 +22,7 @@ final class OlzAppsTest extends UnitTestCase {
         'Monitoring',
         'Newsletter',
         'Oev',
+        'Panini2024',
         'Quiz',
         'Results',
         'Statistics',

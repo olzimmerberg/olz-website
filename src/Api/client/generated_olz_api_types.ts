@@ -171,6 +171,17 @@ export type OlzOriginInfo = {
     'rating': number,
 };
 
+export type OlzPanini2024PictureData = {
+    'id': number,
+    'line1': string,
+    'line2': string|null,
+    'association': string|null,
+    'imgSrc': string,
+    'imgStyle': string,
+    'isLandscape': boolean,
+    'hasTop': boolean,
+};
+
 // eslint-disable-next-line no-shadow
 export type OlzApiEndpoint =
     'onDaily'|
@@ -218,6 +229,7 @@ export type OlzApiEndpoint =
     'getAppMonitoringCredentials'|
     'updateNotificationSubscriptions'|
     'searchTransportConnection'|
+    'listPanini2024Pictures'|
     'getMySkillLevels'|
     'updateMySkillLevels'|
     'registerSkillCategories'|
@@ -428,6 +440,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     searchTransportConnection: {
             'destination': string,
             'arrival': string,
+        },
+    listPanini2024Pictures: {
+            'filter': {
+            'idIs': number,
+        }|{
+            'page': number,
+        }|null,
         },
     getMySkillLevels: {
             'skillFilter': {
@@ -644,6 +663,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'ERROR',
             'suggestions': Array<OlzTransportSuggestion>|null,
         },
+    listPanini2024Pictures: Array<{
+            'data': OlzPanini2024PictureData,
+        }>,
     getMySkillLevels: {[key: string]: {
             'value': number,
         }},

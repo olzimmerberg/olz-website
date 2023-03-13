@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230216214916
+-- MIGRATION: DoctrineMigrations\Version20230313175531
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -45,6 +45,7 @@ VALUES
     ('1', '0', '2020-01-01', 'Gold Junge', 'Saisonstart 2020!', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1');
 
 -- Table counter
+-- (counter omitted)
 
 -- Table doctrine_migration_versions
 INSERT INTO doctrine_migration_versions
@@ -76,7 +77,8 @@ VALUES
     ('DoctrineMigrations\\Version20221024123804', '2022-10-24 14:52:16', '552'),
     ('DoctrineMigrations\\Version20221029112426', '2022-10-29 11:25:10', '93'),
     ('DoctrineMigrations\\Version20221207235912', '2022-12-13 10:32:12', '10'),
-    ('DoctrineMigrations\\Version20230216214916', '2023-02-16 21:52:12', '85');
+    ('DoctrineMigrations\\Version20230216214916', '2023-02-16 21:52:12', '85'),
+    ('DoctrineMigrations\\Version20230313175531', '2023-03-13 17:57:39', '463');
 
 -- Table downloads
 
@@ -129,6 +131,8 @@ VALUES
     ('1', '<div><p><b>OL-Training (im Sommerhalbjahr)</b><br>\n<i>für Kartentechnik und Orientierung im Wald (ab 6 Jahren)</i><br>\njeden Dienstag gemäss Terminkalender<br>\n<a href=\"/pdf/Trainingsplan_2020.pdf\" target=\"_blank\">Trainingsplan 2020</a></p>\n<p><b>Hallentraining (im Winterhalbjahr)</b><br>\n<i>für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)</i><br>\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)<br>\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)<br>\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)</p>\n<!--<p><b>Lauftraining</b><br>\n<i>für Ausdauer und Kondition (Jugendliche & Erwachsene)</i><br>\njeden Donnerstag, 18.45 Uhr, 60 Min. (In den Schulferien nur nach Absprache.)</p>-->\n<p><b>Longjoggs (im Winterhalbjahr)</b><br>\n<i>für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)</i><br>\nan Sonntagen gemäss Terminkalender</p></div>', '1'),
     ('22', '⚠️ Wichtige Information! ⚠️', '1'),
     ('23', '⚠️ Abgesagt! ⚠️', '1');
+
+-- Table panini24
 
 -- Table quiz_categories
 INSERT INTO quiz_categories

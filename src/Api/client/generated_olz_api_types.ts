@@ -230,6 +230,7 @@ export type OlzApiEndpoint =
     'updateNotificationSubscriptions'|
     'searchTransportConnection'|
     'listPanini2024Pictures'|
+    'updateMyPanini2024'|
     'getMySkillLevels'|
     'updateMySkillLevels'|
     'registerSkillCategories'|
@@ -447,6 +448,21 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         }|{
             'page': number,
         }|null,
+        },
+    updateMyPanini2024: {
+            'data': {
+            'id': number|null,
+            'line1': string,
+            'line2': string,
+            'residence': string,
+            'uploadId': string,
+            'onOff': boolean,
+            'info1': string,
+            'info2': string,
+            'info3': string,
+            'info4': string,
+            'info5': string,
+        },
         },
     getMySkillLevels: {
             'skillFilter': {
@@ -666,6 +682,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     listPanini2024Pictures: Array<{
             'data': OlzPanini2024PictureData,
         }>,
+    updateMyPanini2024: {
+            'status': 'OK'|'ERROR',
+        },
     getMySkillLevels: {[key: string]: {
             'value': number,
         }},

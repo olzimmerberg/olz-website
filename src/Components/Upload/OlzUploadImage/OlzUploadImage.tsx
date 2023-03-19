@@ -1,4 +1,5 @@
 import React from 'react';
+import {codeHref} from '../../../Utils/constants';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 
@@ -34,7 +35,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
                     props.onDelete(uploadedFile.uploadId);
                 }
             }}>
-                <img src='icns/delete_16.svg' alt='Lö' />
+                <img src={`${codeHref}icns/delete_16.svg`} alt='Lö' />
             </button>
         ) : undefined;
         return (

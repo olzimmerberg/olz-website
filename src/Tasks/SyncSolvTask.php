@@ -53,10 +53,30 @@ class SyncSolvTask extends BackgroundTask {
         $events_syncer = $this->solvEventsSyncer ?? new SolvEventsSyncer(
             $this->entityManager(), $this->solvFetcher);
         $events_syncer->setLogger($this->log());
-        $events_syncer->syncSolvEventsForYear($current_year);
-        $events_syncer->syncSolvEventsForYear($current_year - 1);
-        $events_syncer->syncSolvEventsForYear($current_year + 1);
-        $events_syncer->syncSolvEventsForYear($current_year - 2);
+        try {
+            $events_syncer->syncSolvEventsForYear($current_year);
+        } catch (\Throwable $th) {
+            $this->log()->warning("syncSolvEventsForYear(0) failed.");
+        }
+        sleep(3);
+        try {
+            $events_syncer->syncSolvEventsForYear($current_year - 1);
+        } catch (\Throwable $th) {
+            $this->log()->warning("syncSolvEventsForYear(-1) failed.");
+        }
+        sleep(3);
+        try {
+            $events_syncer->syncSolvEventsForYear($current_year + 1);
+        } catch (\Throwable $th) {
+            $this->log()->warning("syncSolvEventsForYear(+1) failed.");
+        }
+        sleep(3);
+        try {
+            $events_syncer->syncSolvEventsForYear($current_year - 2);
+        } catch (\Throwable $th) {
+            $this->log()->warning("syncSolvEventsForYear(-2) failed.");
+        }
+        sleep(3);
     }
 
     private function syncSolvResults() {
@@ -64,7 +84,11 @@ class SyncSolvTask extends BackgroundTask {
         $results_syncer = $this->solvResultsSyncer ?? new SolvResultsSyncer(
             $this->entityManager(), $this->solvFetcher);
         $results_syncer->setLogger($this->log());
-        $results_syncer->syncSolvResultsForYear($current_year);
+        try {
+            $results_syncer->syncSolvResultsForYear($current_year);
+        } catch (\Throwable $th) {
+            $this->log()->warning("syncSolvResultsForYear failed.");
+        }
     }
 
     private function assignSolvPeople() {

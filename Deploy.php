@@ -98,9 +98,12 @@ class Deploy extends AbstractDefaultDeploy {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 
         $this->logger->info("Prepare for installation (env={$this->environment})...");
+        ini_set('memory_limit', '500M');
+        gc_collect_cycles();
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
+        gc_collect_cycles();
 
         $install_path = $public_path;
         $deploy_path_from_public_index = 'dirname(__DIR__)';

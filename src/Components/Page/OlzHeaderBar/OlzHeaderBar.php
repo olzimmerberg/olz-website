@@ -64,8 +64,6 @@ class OlzHeaderBar {
         }
         $out .= "<div style='flex-grow:1;'></div>";
 
-        // $out .= OlzHeaderJomCounter::render();
-
         // Nat. OL Weekend Davos Klosters
         // $out .= "<div class='header-box'><a href='{$code_href}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$data_href}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
 

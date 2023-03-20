@@ -77,9 +77,9 @@ class OlzJomCounterTile {
         GROUP BY sp1.id
         ORDER BY cnt DESC"; // cnt DESC, se.date ASC
 
-        $htmlout_before = "<div style='position:absolute; top:-200px; width:300px; height:200px; z-index:1000; display:none; border:1px solid #000; background:#fefefe;' id='%%PLACEHOLDER_FOR_ID%%'><div style='margin-top:8px; border:0px; overflow-y:scroll;'><div style='padding:5px;'><table>";
+        $htmlout_before = "<div style='position:absolute; top:-200px; width:300px; height:200px; z-index:1000; display:none; border:1px solid #000; background:#fefefe; overflow-y:scroll;' id='%%PLACEHOLDER_FOR_ID%%'><div style='padding:5px;'><table>";
         $htmlout_before .= "<tr><th>Name</th><th style='text-align:right;'>Starts</th></tr>";
-        $htmlout_after = "</table></div></div></div>";
+        $htmlout_after = "</table></div></div>";
 
         $sql_kids_previous = str_replace(
             '%%PLACEHOLDER_FOR_SOLV_UIDS%%',

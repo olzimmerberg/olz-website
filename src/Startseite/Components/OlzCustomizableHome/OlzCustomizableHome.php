@@ -8,6 +8,7 @@ namespace Olz\Startseite\Components\OlzCustomizableHome;
 
 use Olz\Startseite\Components\OlzCustomTile\OlzCustomTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
+use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;
 use Olz\Startseite\Components\OlzNewsListsTile\OlzNewsListsTile;
 use Olz\Startseite\Components\OlzTermineDeadlinesTile\OlzTermineDeadlinesTile;
 use Olz\Startseite\Components\OlzTermineListsTile\OlzTermineListsTile;
@@ -28,6 +29,7 @@ class OlzCustomizableHome {
             OlzTermineUpdatesTile::class,
             OlzNewsListsTile::class,
             OlzCustomTile::class,
+            OlzJomCounterTile::class,
         ];
 
         $out = '';

@@ -46,6 +46,10 @@ class Panini2024Picture extends OlzEntity {
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $has_top;
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    private $infos;
 
     public function getId() {
         return $this->id;
@@ -109,5 +113,13 @@ class Panini2024Picture extends OlzEntity {
 
     public function setHasTop($new_has_top) {
         $this->has_top = $new_has_top;
+    }
+
+    public function getInfos() {
+        return json_decode($this->infos ?? '[]', true);
+    }
+
+    public function setInfos($new_infos) {
+        $this->infos = json_encode($new_infos);
     }
 }

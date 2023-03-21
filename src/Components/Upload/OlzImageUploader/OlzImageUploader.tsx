@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
+import {codeHref} from '../../../../src/Utils/constants';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
@@ -15,6 +16,7 @@ const MAX_IMAGE_SIZE = 800;
 const uploader = Uploader.getInstance();
 
 interface OlzImageUploaderProps {
+    maxImageSize?: number;
     initialUploadId?: string|null;
     onUploadIdChange?: (uploadId: string|null) => unknown;
 }
@@ -75,7 +77,7 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
         }
         try {
             const img = await loadImageFromBase64(base64Content);
-            const canvas = getResizedCanvas(img, MAX_IMAGE_SIZE);
+            const canvas = getResizedCanvas(img, props.maxImageSize ?? MAX_IMAGE_SIZE);
             const resizedBase64 = getBase64FromCanvas(canvas);
             if (!resizedBase64) {
                 setFile(null);
@@ -117,7 +119,7 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img
-                    src="icns/link_image_16.svg"
+                    src={`${codeHref}icns/link_image_16.svg`}
                     alt=""
                     className="noborder"
                     width="32"

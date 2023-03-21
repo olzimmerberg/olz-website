@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230313175531
+-- MIGRATION: DoctrineMigrations\Version20230319212301
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -391,6 +391,7 @@ CREATE TABLE `panini24` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `infos` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1254A2E52B18554A` (`owner_user_id`),
   KEY `IDX_1254A2E55A75A473` (`owner_role_id`),

@@ -47,6 +47,9 @@ class SolvFetcher {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         curl_setopt($ch, CURLOPT_REFERER, 'https://www.o-l.ch/cgi-bin/fixtures');
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         $result = curl_exec($ch);
         $errno = curl_errno($ch);
         $error = curl_error($ch);

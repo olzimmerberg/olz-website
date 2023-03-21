@@ -56,7 +56,7 @@ class SolvResultsSyncer {
                         $this->entityManager->persist($result);
                         $this->entityManager->flush();
                     } catch (\Exception $e) {
-                        $this->logger->warning("Result could not be inserted: {$result->getName()}");
+                        $this->logger->warning("Result could not be inserted: {$result->getName()} - {$e->getMessage()}");
                     }
                 }
                 $solv_event_repo->setResultForSolvEvent($solv_uid, $event_result['result_list_id']);

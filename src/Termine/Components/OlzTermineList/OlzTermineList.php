@@ -59,7 +59,7 @@ class OlzTermineList {
         $enc_current_filter = urlencode(json_encode($current_filter));
 
         $out .= "
-        <div class='content-right'>
+        <div class='content-right optional'>
         <div>";
         $out .= OlzTermineSidebar::render();
         $out .= "</div>

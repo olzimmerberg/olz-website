@@ -71,15 +71,15 @@ final class BaseLogsChannelTest extends UnitTestCase {
         mkdir(__DIR__.'/../../../tmp/logs/');
         file_put_contents(
             __DIR__.'/../../../tmp/logs/fake-before.log',
-            "[2020-03-12 12:00:00] tick 2020-03-12\n",
+            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1\n", // valid UTF-8
         );
         file_put_contents(
             __DIR__.'/../../../tmp/logs/fake.log',
-            "[2020-03-13 12:00:00] tick 2020-03-13\n",
+            "[2020-03-13 12:00:00] tick 2020-03-13 \xc3\x28\n", // invalid UTF-8
         );
         file_put_contents(
             __DIR__.'/../../../tmp/logs/fake-after.log',
-            "[2020-03-14 12:00:00] tick 2020-03-14\n",
+            "[2020-03-14 12:00:00] tick 2020-03-14 \xf0\x28\x8c\x28\n", // invalid UTF-8
         );
 
         $date_time = new \DateTime('2020-03-13 18:30:00');
@@ -97,11 +97,11 @@ final class BaseLogsChannelTest extends UnitTestCase {
             'DEBUG log_file_after data-realpath//logs/fake-after.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            "[2020-03-12 12:00:00] tick 2020-03-12\n",
-            "[2020-03-13 12:00:00] tick 2020-03-13\n",
+            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1\n",
+            "[2020-03-13 12:00:00] tick 2020-03-13 (\n",
             "---",
             "", // TODO: avoid this
-            "[2020-03-14 12:00:00] tick 2020-03-14\n",
+            "[2020-03-14 12:00:00] tick 2020-03-14 ((\n",
         ], $result->lines);
         $this->assertSame(null, $result->previous);
         $this->assertSame(null, $result->next);

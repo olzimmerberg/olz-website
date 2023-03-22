@@ -162,7 +162,7 @@ abstract class BaseLogsChannel {
         while (count($matching_lines) < $line_limit && time() <= $time_limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
-            $line = $log_file->gets($fp) ?? '';
+            $line = $this->escapeSpecialChars($log_file->gets($fp));
             if ($line === false) {
                 $line = '';
             }
@@ -215,7 +215,7 @@ abstract class BaseLogsChannel {
         while (count($matching_lines) < $line_limit && time() <= $time_limit) {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
-            $line = $log_file->gets($fp) ?? '';
+            $line = $this->escapeSpecialChars($log_file->gets($fp));
             if ($line === false) {
                 $line = '';
             }
@@ -281,6 +281,11 @@ abstract class BaseLogsChannel {
         }
         $esc_text_search = preg_quote($text_search, '/');
         return (bool) preg_match("/{$esc_text_search}/", $line);
+    }
+
+    protected function escapeSpecialChars(?string $line): string {
+        $line = iconv('UTF-8', "UTF-8//IGNORE", $line);
+        return htmlspecialchars($line) ?? '';
     }
 
     // Override this function, if you have a different date format.

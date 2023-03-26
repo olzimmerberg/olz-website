@@ -285,7 +285,7 @@ abstract class BaseLogsChannel {
 
     protected function escapeSpecialChars(?string $line): string {
         $line = iconv('UTF-8', "UTF-8//IGNORE", $line);
-        return htmlspecialchars($line) ?? '';
+        return html_entity_decode(htmlspecialchars($line)) ?? '';
     }
 
     // Override this function, if you have a different date format.

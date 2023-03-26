@@ -71,7 +71,7 @@ final class BaseLogsChannelTest extends UnitTestCase {
         mkdir(__DIR__.'/../../../tmp/logs/');
         file_put_contents(
             __DIR__.'/../../../tmp/logs/fake-before.log',
-            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1\n", // valid UTF-8
+            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1 ~*%&*)(öä\n", // valid UTF-8
         );
         file_put_contents(
             __DIR__.'/../../../tmp/logs/fake.log',
@@ -97,7 +97,7 @@ final class BaseLogsChannelTest extends UnitTestCase {
             'DEBUG log_file_after data-realpath//logs/fake-after.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1\n",
+            "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1 ~*%&*)(öä\n",
             "[2020-03-13 12:00:00] tick 2020-03-13 (\n",
             "---",
             "", // TODO: avoid this

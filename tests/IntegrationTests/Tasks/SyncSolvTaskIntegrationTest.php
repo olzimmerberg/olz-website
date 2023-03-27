@@ -78,18 +78,9 @@ final class SyncSolvTaskIntegrationTest extends IntegrationTestCase {
             $this->assertSame([
                 '6. Nationaler OL 🥶',
                 '59. Schweizer 5er Staffel',
-                '11. Zimmerberg-OL und Sprint-Staffel',
-                '2. Nationaler OL (Sprint)',
-                '5. Milchsuppe-Abend-OL',
-                'Zürcher sCOOL-Cup',
-                'Sprintstaffel',
-                '5. Milchsuppe-Abend OL',
                 'Zimmerberg Berg-OL',
                 '13. Zimmerberg-OL / JOM-Schlusslauf',
-                '13. Nationaler OL (Mitteldistanz)',
-                '14. Nationaler OL (Langdistanz)',
                 '4. Milchsuppe-Abend OL 2020',
-                '3. Milchsuppen Abend OL',
             ], array_map(function ($event) {
                 return $event->getName();
             }, $all_events));

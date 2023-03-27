@@ -10,6 +10,17 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class SolvFetcherForTest extends SolvFetcher {
+    protected function sleep($seconds) {
+        // Do not sleep. This is just a test, no need to throttle.
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {
@@ -18,7 +29,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
 
     public function __construct() {
         parent::__construct();
-        $this->solv_fetcher = new SolvFetcher();
+        $this->solv_fetcher = new SolvFetcherForTest();
         $this->year_to_fetch = date('m') < 4 ? date('Y') - 1 : date('Y');
     }
 

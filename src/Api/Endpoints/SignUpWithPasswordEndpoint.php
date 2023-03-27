@@ -28,8 +28,8 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
             'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
             'username' => new FieldTypes\StringField(['allow_empty' => false]),
-            'password' => new FieldTypes\StringField(['allow_empty' => false]),
-            'email' => new FieldTypes\StringField(['allow_empty' => false]),
+            'password' => new FieldTypes\StringField(['allow_null' => true]),
+            'email' => new FieldTypes\StringField(['allow_null' => true]),
             'phone' => new FieldTypes\StringField(['allow_null' => true]),
             'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
             'birthdate' => new FieldTypes\DateTimeField(['allow_null' => true]),
@@ -50,19 +50,28 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'DENIED'];
         }
 
+        $parent_user = $this->authUtils()->getAuthenticatedUser();
+        $parent_user_id = $parent_user ? $parent_user->getId() : null;
+
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $first_name = $input['firstName'];
         $last_name = $input['lastName'];
         $username = $input['username'];
         $email = $input['email'];
         $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
+        if (!$parent_user && !$email) {
+            throw new ValidationError(['email' => ["Feld darf nicht leer sein."]]);
+        }
+        if (!$parent_user && !$input['password']) {
+            throw new ValidationError(['password' => ["Feld darf nicht leer sein."]]);
+        }
         if (!$this->authUtils()->isUsernameAllowed($username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        if (!$this->authUtils()->isPasswordAllowed($input['password'])) {
+        if (!$parent_user && !$this->authUtils()->isPasswordAllowed($input['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
-        if (preg_match('/@olzimmerberg\.ch$/i', $email)) {
+        if ($email && preg_match('/@olzimmerberg\.ch$/i', $email)) {
             throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
         $ip_address = $this->server()['REMOTE_ADDR'];
@@ -87,6 +96,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             $user = new User();
         }
 
+        $password_hash = $input['password'] ? password_hash($input['password'], PASSWORD_DEFAULT) : null;
         $birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
         $user->setUsername($username);
@@ -94,7 +104,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
         $user->setPhone($input['phone']);
-        $user->setPasswordHash(password_hash($input['password'], PASSWORD_DEFAULT));
+        $user->setPasswordHash($password_hash);
         $user->setFirstName($first_name);
         $user->setLastName($last_name);
         $user->setGender($input['gender']);
@@ -106,6 +116,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $user->setCountryCode($input['countryCode']);
         $user->setSiCardNumber($input['siCardNumber']);
         $user->setSolvNumber($input['solvNumber']);
+        $user->setParentUserId($parent_user_id);
         $user->setPermissions('');
         $user->setRoot(null);
         $user->setMemberType(null);
@@ -125,25 +136,27 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $this->entityManager()->persist($user);
         $this->entityManager()->flush();
 
-        $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session()->set('auth', $user->getPermissions());
-        $this->session()->set('root', $root);
-        $this->session()->set('user', $user->getUsername());
-        $this->session()->set('user_id', $user->getId());
-        $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
+        if (!$parent_user) {
+            $root = $user->getRoot() !== '' ? $user->getRoot() : './';
+            $this->session()->set('auth', $user->getPermissions());
+            $this->session()->set('root', $root);
+            $this->session()->set('user', $user->getUsername());
+            $this->session()->set('user_id', $user->getId());
+            $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
 
-        $this->emailUtils()->setLogger($this->log());
-        try {
-            $this->emailUtils()->sendEmailVerificationEmail($user, $token);
-        } catch (RecaptchaDeniedException $exc) {
-            // @codeCoverageIgnoreStart
-            // Reason: Should not be reached.
-            throw new \Exception('This should never happen! Token was verified before!');
-            // @codeCoverageIgnoreEnd
-        } catch (\Throwable $th) {
-            return ['status' => 'OK_NO_EMAIL_VERIFICATION'];
+            $this->emailUtils()->setLogger($this->log());
+            try {
+                $this->emailUtils()->sendEmailVerificationEmail($user, $token);
+            } catch (RecaptchaDeniedException $exc) {
+                // @codeCoverageIgnoreStart
+                // Reason: Should not be reached.
+                throw new \Exception('This should never happen! Token was verified before!');
+                // @codeCoverageIgnoreEnd
+            } catch (\Throwable $th) {
+                return ['status' => 'OK_NO_EMAIL_VERIFICATION'];
+            }
+            $this->entityManager()->flush();
         }
-        $this->entityManager()->flush();
 
         return ['status' => 'OK'];
     }

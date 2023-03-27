@@ -150,11 +150,21 @@ if ($user) {
         'si_card_number' => $user->getSiCardNumber(),
         'solv_number' => $user->getSolvNumber(),
     ]);
-    echo <<<'ZZZZZZZZZZ'
+    echo <<<ZZZZZZZZZZ
         <p id='recaptcha-consent-container'><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzProfileRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Ändern der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
         <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
         <div class='error-message alert alert-danger' role='alert'></div>
     </form>
+    <div class='feature family'>
+        <hr />
+        <a
+            class='btn btn-secondary'
+            href='{$code_href}konto_passwort.php'
+            role='button'
+        >
+            Familienmitglied hinzufügen
+        </a>
+    </div>
     <script>
     window.addEventListener('load', () => {
         olz.olzProfileInit();

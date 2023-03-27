@@ -47,14 +47,16 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
     }
 
     const getDataForRequestFn: GetDataForRequestFunction<'signUpWithPassword'> = (f) => {
-        const password = getRequired(getPassword(getFormField(f, 'password')));
+        const password = getPassword(getFormField(f, 'password'));
         let passwordRepeat = getFormField(f, 'password-repeat');
         const hasValidRepetition = password.value === passwordRepeat.value;
-        passwordRepeat = getAsserted(
-            () => hasValidRepetition,
-            'Das Passwort und die Wiederholung müssen übereinstimmen!',
-            passwordRepeat,
-        );
+        if (password.value) {
+            passwordRepeat = getAsserted(
+                () => hasValidRepetition,
+                'Das Passwort und die Wiederholung müssen übereinstimmen!',
+                passwordRepeat,
+            );
+        }
         let recaptchaConsentGiven = getFormField(f, 'recaptcha-consent-given');
         recaptchaConsentGiven = getAsserted(
             () => recaptchaConsentGiven.value === 'yes',
@@ -72,7 +74,7 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
             username: getRequired(getStringOrNull(getFormField(f, 'username'))),
             password: password,
-            email: getRequired(getEmail(getFormField(f, 'email'))),
+            email: getEmail(getFormField(f, 'email')),
             phone: getPhone(getFormField(f, 'phone')),
             gender: getGender(getFormField(f, 'gender')),
             birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),

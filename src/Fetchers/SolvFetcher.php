@@ -7,6 +7,8 @@ class SolvFetcher {
     private $user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
 
     public function fetchEventsCsvForYear($year) {
+        $this->sleep(3);
+
         $path = "/cgi-bin/fixtures";
         $query = "?=&year={$year}&kind=-1&csv=1";
         $url = "{$this->base_url}{$path}{$query}";
@@ -19,6 +21,8 @@ class SolvFetcher {
     }
 
     public function fetchYearlyResultsJson($year) {
+        $this->sleep(3);
+
         $path = "/cgi-bin/fixtures";
         $query = "?mode=results&year={$year}&json=1";
         $url = "{$this->base_url}{$path}{$query}";
@@ -31,6 +35,8 @@ class SolvFetcher {
     }
 
     public function fetchEventResultsHtml($rank_id) {
+        $this->sleep(3);
+
         $path = "/cgi-bin/results";
         $query = "?rl_id={$rank_id}&club=OL+Zimmerberg&zwizt=1";
         $url = "{$this->base_url}{$path}{$query}";
@@ -59,5 +65,9 @@ class SolvFetcher {
             throw new Exception("Error fetching {$url}: {$error} ({$errno})");
         }
         return $result;
+    }
+
+    protected function sleep($seconds) {
+        sleep($seconds);
     }
 }

@@ -36,8 +36,6 @@ class SolvResultsSyncer {
             $known_result_index[$solv_uid] = ($rank_link !== null) ? 1 : 0;
         }
 
-        sleep(3);
-
         $this->importSolvResultsForYear($result_id_by_uid, $known_result_index);
     }
 
@@ -60,8 +58,6 @@ class SolvResultsSyncer {
                     }
                 }
                 $solv_event_repo->setResultForSolvEvent($solv_uid, $event_result['result_list_id']);
-
-                sleep(3);
             }
         }
     }

@@ -58,25 +58,21 @@ class SyncSolvTask extends BackgroundTask {
         } catch (\Throwable $th) {
             $this->log()->warning("syncSolvEventsForYear(0) failed.");
         }
-        sleep(3);
         try {
             $events_syncer->syncSolvEventsForYear($current_year - 1);
         } catch (\Throwable $th) {
             $this->log()->warning("syncSolvEventsForYear(-1) failed.");
         }
-        sleep(3);
         try {
             $events_syncer->syncSolvEventsForYear($current_year + 1);
         } catch (\Throwable $th) {
             $this->log()->warning("syncSolvEventsForYear(+1) failed.");
         }
-        sleep(3);
         try {
             $events_syncer->syncSolvEventsForYear($current_year - 2);
         } catch (\Throwable $th) {
             $this->log()->warning("syncSolvEventsForYear(-2) failed.");
         }
-        sleep(3);
     }
 
     private function syncSolvResults() {

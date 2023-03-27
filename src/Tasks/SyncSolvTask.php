@@ -50,6 +50,7 @@ class SyncSolvTask extends BackgroundTask {
 
     private function syncSolvEvents() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $current_day = intval($this->dateUtils()->getCurrentDateInFormat('d'));
         $events_syncer = $this->solvEventsSyncer ?? new SolvEventsSyncer(
             $this->entityManager(), $this->solvFetcher);
         $events_syncer->setLogger($this->log());
@@ -57,6 +58,9 @@ class SyncSolvTask extends BackgroundTask {
             $events_syncer->syncSolvEventsForYear($current_year);
         } catch (\Throwable $th) {
             $this->log()->warning("syncSolvEventsForYear(0) failed.");
+        }
+        if ($current_day !== 1) { // Only do this once a month.
+            return;
         }
         try {
             $events_syncer->syncSolvEventsForYear($current_year - 1);

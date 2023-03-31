@@ -13,7 +13,7 @@ class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
         $data_path = $env_utils->getDataPath();
 
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }

@@ -7,7 +7,7 @@ use Olz\Utils\AuthUtils;
 class OlzChangePasswordModal {
     public static function render($args = []) {
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         if ($user) {
             $esc_id = htmlentities(json_encode($user->getId()));

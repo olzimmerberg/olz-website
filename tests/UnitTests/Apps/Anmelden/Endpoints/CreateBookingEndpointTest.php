@@ -54,6 +54,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $auth_utils->has_permission_by_query = ['any' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
@@ -91,7 +92,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $booking->getId());
         $this->assertSame(264, $booking->getRegistration()->getId());
         $this->assertSame('{"0-vorname":"Simon","1-nachname":"Hatt"}', $booking->getFormData());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $booking->getUser());
+        $this->assertSame(Fake\FakeUsers::defaultUser(), $booking->getUser());
 
         $this->assertSame([
             [$booking, 1, null, null],

@@ -19,7 +19,7 @@ use Olz\Utils\AuthUtils;
 class OlzCustomizableHome {
     public static function render($args = []) {
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         $tile_classes = [
             OlzForBeginnersTile::class,

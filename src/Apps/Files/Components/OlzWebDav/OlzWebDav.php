@@ -27,7 +27,7 @@ class OlzWebDav {
         // The user can be logged in by PHP session or access token.
         $auth_utils = AuthUtils::fromEnv();
         $auth_utils->setGetParams(['access_token' => $access_token]);
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }

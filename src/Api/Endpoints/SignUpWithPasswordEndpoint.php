@@ -50,7 +50,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'DENIED'];
         }
 
-        $parent_user = $this->authUtils()->getAuthenticatedUser();
+        $parent_user = $this->authUtils()->getCurrentUser();
         $parent_user_id = $parent_user ? $parent_user->getId() : null;
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());

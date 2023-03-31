@@ -124,7 +124,7 @@ class AuthUtils {
 
     protected function getPermissionMap($user = null) {
         if (!$user) {
-            $user = $this->getAuthenticatedUser();
+            $user = $this->getCurrentUser();
         }
         if (!$user) {
             return ['any' => false];
@@ -166,12 +166,16 @@ class AuthUtils {
         return $permission_map;
     }
 
-    public function getAuthenticatedUser() {
+    public function getCurrentUser() {
         $user = $this->getTokenUser();
         if ($user) {
             return $user;
         }
         return $this->getSessionUser();
+    }
+
+    public function getCurrentAuthUser() {
+        return $this->getSessionAuthUser();
     }
 
     public function getTokenUser() {
@@ -187,13 +191,19 @@ class AuthUtils {
     }
 
     public function getSessionUser() {
-        $auth_username = $this->session()->get('user');
+        $username = $this->session()->get('user');
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        return $user_repo->findOneBy(['username' => $username]);
+    }
+
+    public function getSessionAuthUser() {
+        $auth_username = $this->session()->get('auth_user');
         $user_repo = $this->entityManager()->getRepository(User::class);
         return $user_repo->findOneBy(['username' => $auth_username]);
     }
 
     public function getAuthenticatedRoles() {
-        $user = $this->getAuthenticatedUser();
+        $user = $this->getCurrentUser();
         if (!$user) {
             return null;
         }

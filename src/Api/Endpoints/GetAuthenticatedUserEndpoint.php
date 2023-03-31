@@ -34,7 +34,7 @@ class GetAuthenticatedUserEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $auth_utils = $this->authUtils();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         if (!$user) {
             return ['user' => null];
         }

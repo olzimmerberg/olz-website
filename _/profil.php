@@ -21,7 +21,7 @@ echo OlzHeader::render([
 
 $auth_utils = AuthUtils::fromEnv();
 $entityManager = DbUtils::fromEnv()->getEntityManager();
-$user = $auth_utils->getSessionUser();
+$user = $auth_utils->getCurrentUser();
 
 echo "<div class='content-full profile'>";
 if ($user) {

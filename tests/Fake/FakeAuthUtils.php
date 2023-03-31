@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 class FakeAuthUtils {
-    public $authenticated_user;
+    public $current_user;
     public $authenticate_user;
     public $authenticate_with_error;
     public $has_permission_by_query = [];
@@ -40,8 +40,8 @@ class FakeAuthUtils {
         return $has_permission;
     }
 
-    public function getAuthenticatedUser() {
-        return $this->authenticated_user;
+    public function getCurrentUser() {
+        return $this->current_user;
     }
 
     public function getSessionUser() {

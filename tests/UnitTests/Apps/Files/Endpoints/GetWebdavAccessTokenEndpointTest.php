@@ -52,6 +52,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $auth_utils->has_permission_by_query = ['webdav' => true];
         $general_utils = GeneralUtils::fromEnv();
         $logger = Fake\FakeLogger::create();
@@ -73,7 +74,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $access_token = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $access_token->getUser());
+        $this->assertSame(Fake\FakeUsers::defaultUser(), $access_token->getUser());
         $this->assertSame('WebDAV', $access_token->getPurpose());
         $this->assertSame('AAAAAAAAAAAAAAAAAAAAAAAA', $access_token->getToken());
         $this->assertSame('2020-03-13 19:30:00', $access_token->getCreatedAt()->format('Y-m-d H:i:s'));

@@ -15,7 +15,7 @@ class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $input_data = $input['data'];
 
         $external_registration_id = $input_data['registrationId'];

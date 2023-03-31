@@ -25,7 +25,7 @@ class OlzFiles {
         $http_utils->validateGetParams([], $_GET);
 
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }

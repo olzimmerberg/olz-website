@@ -28,7 +28,7 @@ class OlzNewsArticle {
         $can_edit = $args['can_edit'] ?? false;
         $is_preview = $args['is_preview'] ?? false;
         $out = "";
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);

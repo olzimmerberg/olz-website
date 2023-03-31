@@ -42,7 +42,7 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $skill_repo = $this->entityManager()->getRepository(Skill::class);
         $skill_level_repo = $this->entityManager()->getRepository(SkillLevel::class);
 

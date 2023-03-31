@@ -18,7 +18,7 @@ echo OlzHeader::render([
 ]);
 
 $auth_utils = AuthUtils::fromEnv();
-$user = $auth_utils->getSessionUser();
+$user = $auth_utils->getCurrentUser();
 
 $title = $user ? "Neues Familienmitglied" : "OLZ-Konto erstellen";
 $defaults = $user ? [

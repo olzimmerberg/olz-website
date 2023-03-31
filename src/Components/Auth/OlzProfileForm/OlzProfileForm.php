@@ -39,9 +39,11 @@ class OlzProfileForm {
         $esc_solv_number = htmlentities($defaults['solv_number'] ?? '');
 
         $show_avatar = $defaults['show_avatar'] ?? false;
+        $show_required_email = $defaults['show_required_email'] ?? true;
         $show_change_password = $defaults['show_change_password'] ?? false;
         $show_required_password = $defaults['show_required_password'] ?? false;
         $avatar_class = $show_avatar ? '' : ' hidden';
+        $required_email_class = $show_required_email ? '' : ' hidden';
         $change_password_class = $show_change_password ? '' : ' hidden';
         $required_password_class = $show_required_password ? '' : ' hidden';
 
@@ -119,6 +121,7 @@ class OlzProfileForm {
                     value='{$esc_username}'
                     class='form-control'
                     id='profile-username-input'
+                    autocomplete='off'
                     onfocus='return olz.olzProfileFormOnUsernameFocus(this.form);'
                 />
             </div>
@@ -142,6 +145,7 @@ class OlzProfileForm {
                     name='password'
                     class='form-control'
                     id='profile-password-input'
+                    autocomplete='off'
                 />
             </div>
             <div class='col mb-3'>
@@ -151,12 +155,13 @@ class OlzProfileForm {
                     name='password-repeat'
                     class='form-control'
                     id='profile-password-repeat-input'
+                    autocomplete='off'
                 />
             </div>
         </div>
         <div class='row'>
             <div class='col mb-3'>
-                <label for='profile-email-input'>E-Mail <span class='required-field-asterisk'>*</span></label>
+                <label for='profile-email-input'>E-Mail <span class='required-field-asterisk{$required_email_class}'>*</span></label>
                 <input
                     type='text'
                     name='email'

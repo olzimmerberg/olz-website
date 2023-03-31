@@ -22,6 +22,7 @@ class UnitTestCase extends TestCase {
 
     protected static $slowestTestDuration = 0;
     protected static $slowestTestName;
+    protected static $shutdownFunctionRegistered = false;
 
     protected function setUp(): void {
         global $_SERVER;
@@ -56,8 +57,13 @@ class UnitTestCase extends TestCase {
     }
 
     public static function tearDownAfterClass(): void {
-        $duration = number_format(self::$slowestTestDuration, 2);
-        $name = self::$slowestTestName;
-        echo "Slowest test ({$duration}s): {$name}\n";
+        if (!self::$shutdownFunctionRegistered) {
+            register_shutdown_function(function () {
+                $duration = number_format(self::$slowestTestDuration, 2);
+                $name = self::$slowestTestName;
+                echo "Slowest test ({$duration}s): {$name}\n";
+            });
+            self::$shutdownFunctionRegistered = true;
+        }
     }
 }

@@ -3,6 +3,7 @@
 use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\AuthUtils;
 
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/config/paths.php';
@@ -16,11 +17,24 @@ echo OlzHeader::render([
     'norobots' => true,
 ]);
 
+$auth_utils = AuthUtils::fromEnv();
+$user = $auth_utils->getSessionUser();
+
+$title = $user ? "Neues Familienmitglied" : "OLZ-Konto erstellen";
+$defaults = $user ? [
+    'phone' => $user->getPhone() ?? '',
+    'street' => $user->getStreet() ?? '',
+    'postal_code' => $user->getPostalCode() ?? '',
+    'city' => $user->getCity() ?? '',
+    'region' => $user->getRegion() ?? '',
+    'country_code' => $user->getCountryCode() ?? '',
+] : [];
+
 echo "<div class='content-full'>
 <div>";
 
-echo <<<'ZZZZZZZZZZ'
-<h1>OLZ-Konto erstellen</h1>
+echo <<<ZZZZZZZZZZ
+<h1>{$title}</h1>
 <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
 <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
 <form
@@ -32,7 +46,9 @@ echo <<<'ZZZZZZZZZZ'
 ZZZZZZZZZZ;
 echo OlzProfileForm::render([
     'show_avatar' => false,
-    'show_required_password' => true,
+    'show_required_email' => $user ? false : true,
+    'show_required_password' => $user ? false : true,
+    ...$defaults,
 ]);
 echo <<<ZZZZZZZZZZ
     <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzSignUpRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>

@@ -35,6 +35,9 @@ class OlzApi extends Api {
         $olz_api->registerEndpoint('resetPassword', function () {
             return new Endpoints\ResetPasswordEndpoint();
         });
+        $olz_api->registerEndpoint('switchUser', function () {
+            return new Endpoints\SwitchUserEndpoint();
+        });
         $olz_api->registerEndpoint('logout', function () {
             return new Endpoints\LogoutEndpoint();
         });

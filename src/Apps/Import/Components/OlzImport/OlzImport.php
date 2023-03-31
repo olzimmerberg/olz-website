@@ -5,9 +5,7 @@ namespace Olz\Apps\Import\Components\OlzImport;
 use Olz\Apps\Import\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\User;
 use Olz\Utils\AuthUtils;
-use Olz\Utils\DbUtils;
 
 class OlzImport {
     public static function render() {
@@ -23,10 +21,7 @@ class OlzImport {
         ]);
 
         $auth_utils = AuthUtils::fromEnv();
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $user_repo = $entityManager->getRepository(User::class);
-        $username = ($_SESSION['user'] ?? null);
-        $user = $user_repo->findOneBy(['username' => $username]);
+        $user = $auth_utils->getAuthenticatedUser();
 
         $out .= "<div class='content-full'>";
         if ($auth_utils->hasPermission('termine')) {

@@ -2,15 +2,12 @@
 
 namespace Olz\Components\Auth\OlzChangePasswordModal;
 
-use Olz\Entity\User;
-use Olz\Utils\DbUtils;
+use Olz\Utils\AuthUtils;
 
 class OlzChangePasswordModal {
     public static function render($args = []) {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $user_repo = $entityManager->getRepository(User::class);
-        $username = ($_SESSION['user'] ?? null);
-        $user = $user_repo->findOneBy(['username' => $username]);
+        $auth_utils = AuthUtils::fromEnv();
+        $user = $auth_utils->getAuthenticatedUser();
 
         if ($user) {
             $esc_id = htmlentities(json_encode($user->getId()));

@@ -95,6 +95,8 @@ final class LoginEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'admin',
             'user_id' => 2,
+            'auth_user' => 'admin',
+            'auth_user_id' => 2,
         ], $session->session_storage);
         $this->assertSame([
             "INFO Valid user request",

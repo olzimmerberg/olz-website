@@ -60,6 +60,66 @@ class FakeUsers extends FakeFactory {
         );
     }
 
+    public static function parentUser($fresh = false) {
+        return self::getFake(
+            'parent_user',
+            $fresh,
+            function () {
+                $parent_user = new User();
+                $parent_user->setId(4);
+                $parent_user->setFirstName('Eltern');
+                $parent_user->setLastName('Teil');
+                $parent_user->setUsername('parent');
+                $parent_user->setEmail('parent-user@test.olzimmerberg.ch');
+                $parent_user->setParentUserId(null);
+                $parent_user->setPasswordHash(password_hash('par3n7', PASSWORD_DEFAULT));
+                $parent_user->setPermissions('parent');
+                $parent_user->setRoot('parent');
+                return $parent_user;
+            }
+        );
+    }
+
+    public static function child1User($fresh = false) {
+        return self::getFake(
+            'child1_user',
+            $fresh,
+            function () {
+                $child1_user = new User();
+                $child1_user->setId(5);
+                $child1_user->setFirstName('Kind');
+                $child1_user->setLastName('Eins');
+                $child1_user->setUsername('child1');
+                $child1_user->setEmail('child1-user@test.olzimmerberg.ch');
+                $child1_user->setParentUserId(4);
+                $child1_user->setPasswordHash(null);
+                $child1_user->setPermissions('child1');
+                $child1_user->setRoot('child1');
+                return $child1_user;
+            }
+        );
+    }
+
+    public static function child2User($fresh = false) {
+        return self::getFake(
+            'child2_user',
+            $fresh,
+            function () {
+                $child2_user = new User();
+                $child2_user->setId(6);
+                $child2_user->setFirstName('Kind');
+                $child2_user->setLastName('Zwei');
+                $child2_user->setUsername('child2');
+                $child2_user->setEmail('child2-user@test.olzimmerberg.ch');
+                $child2_user->setParentUserId(4);
+                $child2_user->setPasswordHash('');
+                $child2_user->setPermissions('child2');
+                $child2_user->setRoot('child2');
+                return $child2_user;
+            }
+        );
+    }
+
     public static function defaultUser($fresh = false) {
         return self::getFake(
             'default_user',

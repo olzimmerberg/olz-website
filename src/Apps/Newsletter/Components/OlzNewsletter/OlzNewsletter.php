@@ -7,8 +7,7 @@ use Olz\Apps\Newsletter\Components\OlzTelegramCard\OlzTelegramCard;
 use Olz\Apps\Newsletter\Metadata;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\User;
-use Olz\Utils\DbUtils;
+use Olz\Utils\AuthUtils;
 
 class OlzNewsletter {
     public static function render() {
@@ -23,10 +22,8 @@ class OlzNewsletter {
             'norobots' => true,
         ]);
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $user_repo = $entityManager->getRepository(User::class);
-        $username = ($_SESSION['user'] ?? null);
-        $user = $user_repo->findOneBy(['username' => $username]);
+        $auth_utils = AuthUtils::fromEnv();
+        $user = $auth_utils->getAuthenticatedUser();
 
         $out .= "<div class='content-full'>";
         if ($user) {

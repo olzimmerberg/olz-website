@@ -188,6 +188,7 @@ export type OlzApiEndpoint =
     'onContinuously'|
     'login'|
     'resetPassword'|
+    'switchUser'|
     'logout'|
     'getAuthenticatedUser'|
     'getAuthenticatedRoles'|
@@ -256,6 +257,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     resetPassword: {
             'usernameOrEmail': string,
             'recaptchaToken': string,
+        },
+    switchUser: {
+            'userId': number,
         },
     logout: Record<string, never>|null,
     getAuthenticatedUser: Record<string, never>|null,
@@ -502,6 +506,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     resetPassword: {
             'status': 'DENIED'|'ERROR'|'OK',
+        },
+    switchUser: {
+            'status': 'OK',
         },
     logout: {
             'status': 'NO_SESSION'|'SESSION_CLOSED',

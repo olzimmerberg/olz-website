@@ -12,6 +12,9 @@ class FakeUserRepository {
     public $default_user;
     public $admin_user;
     public $vorstand_user;
+    public $parent_user;
+    public $child1_user;
+    public $child2_user;
     public $noaccess_user;
     public $specific_user;
     public $no_access_user;
@@ -35,6 +38,18 @@ class FakeUserRepository {
         if ($where === ['email' => 'vorstand@test.olzimmerberg.ch'] || $where === ['id' => 3]) {
             $this->vorstand_user = FakeUsers::vorstandUser();
             return $this->vorstand_user;
+        }
+        if ($where === ['username' => 'parent'] || $where === ['id' => 4]) {
+            $this->parent_user = FakeUsers::parentUser();
+            return $this->parent_user;
+        }
+        if ($where === ['username' => 'child1'] || $where === ['id' => 5]) {
+            $this->child1_user = FakeUsers::child1User();
+            return $this->child1_user;
+        }
+        if ($where === ['username' => 'child2'] || $where === ['id' => 6]) {
+            $this->child2_user = FakeUsers::child2User();
+            return $this->child2_user;
         }
         if ($where === ['username' => 'noaccess']) {
             $this->noaccess_user = FakeUsers::defaultUser(true);

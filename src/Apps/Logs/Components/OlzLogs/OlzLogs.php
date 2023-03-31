@@ -6,9 +6,8 @@ use Olz\Apps\Logs\Metadata;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\User;
 use Olz\Utils\AbstractDateUtils;
-use Olz\Utils\DbUtils;
+use Olz\Utils\AuthUtils;
 
 class OlzLogs {
     public static function render() {
@@ -24,10 +23,8 @@ class OlzLogs {
         ]);
 
         $date_utils = AbstractDateUtils::fromEnv();
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $user_repo = $entityManager->getRepository(User::class);
-        $username = ($_SESSION['user'] ?? null);
-        $user = $user_repo->findOneBy(['username' => $username]);
+        $auth_utils = AuthUtils::fromEnv();
+        $user = $auth_utils->getAuthenticatedUser();
 
         $out .= <<<'ZZZZZZZZZZ'
         <style>

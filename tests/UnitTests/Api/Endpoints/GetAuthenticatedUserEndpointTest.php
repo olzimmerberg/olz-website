@@ -9,7 +9,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class FakeGetAuthenticatedUserEndpointAuthUtils {
-    public function getAuthenticatedUser() {
+    public function getCurrentUser() {
         return null;
     }
 }
@@ -27,7 +27,7 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserEndpoint(): void {
         $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
         $endpoint->setAuthUtils($auth_utils);
@@ -41,10 +41,10 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
             'user' => [
-                'id' => 2,
-                'firstName' => 'Admin',
-                'lastName' => 'Istrator',
-                'username' => 'admin',
+                'id' => 1,
+                'firstName' => 'Default',
+                'lastName' => 'User',
+                'username' => 'user',
             ],
         ], $result);
     }

@@ -356,7 +356,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);

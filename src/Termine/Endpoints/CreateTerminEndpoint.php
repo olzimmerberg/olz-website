@@ -23,7 +23,7 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $data_path = $this->envUtils()->getDataPath();
 
         $input_data = $input['data'];

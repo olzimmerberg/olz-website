@@ -11,7 +11,7 @@ class OlzAccountMenu {
 
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         $image_path = "{$env_utils->getCodeHref()}icns/user.php?initials=".urlencode('?');
         if ($user) {
             $user_image_path = "img/users/{$user->getId()}.jpg";

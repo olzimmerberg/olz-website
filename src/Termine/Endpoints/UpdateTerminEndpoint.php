@@ -31,7 +31,7 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         //     throw new HttpError(403, "Kein Zugriff!");
         // }
 
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $data_path = $this->envUtils()->getDataPath();
         $input_data = $input['data'];
 

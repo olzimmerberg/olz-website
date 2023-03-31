@@ -24,7 +24,7 @@ class OlzLogs {
 
         $date_utils = AbstractDateUtils::fromEnv();
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         $out .= <<<'ZZZZZZZZZZ'
         <style>

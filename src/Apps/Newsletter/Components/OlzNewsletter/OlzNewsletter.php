@@ -23,7 +23,7 @@ class OlzNewsletter {
         ]);
 
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         $out .= "<div class='content-full'>";
         if ($user) {

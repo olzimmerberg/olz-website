@@ -16,7 +16,7 @@ class OlzTelegramCard {
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         if ($user) {
             $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);

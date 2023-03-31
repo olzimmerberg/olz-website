@@ -73,6 +73,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
 
     public function testUpdateMySkillLevelsEndpoint(): void {
         $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $auth_utils->has_permission_by_query['any'] = true;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
@@ -108,7 +109,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame([
-            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 2, 0],
+            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 1, 0],
         ], array_map(
             function ($skill_level) {
                 return [

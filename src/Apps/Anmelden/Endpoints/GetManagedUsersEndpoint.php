@@ -40,7 +40,7 @@ class GetManagedUsersEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $has_access = $this->authUtils()->hasPermission('any');
-        $auth_user = $this->authUtils()->getAuthenticatedUser();
+        $auth_user = $this->authUtils()->getCurrentUser();
         if (!$has_access || !$auth_user) {
             throw new HttpError(403, "Kein Zugriff!");
         }

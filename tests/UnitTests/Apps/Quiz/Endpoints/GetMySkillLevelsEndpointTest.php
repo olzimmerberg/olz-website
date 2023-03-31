@@ -102,6 +102,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
 
     public function testGetMySkillLevelsEndpointAll(): void {
         $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $auth_utils->has_permission_by_query['any'] = true;
         $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
@@ -135,6 +136,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
 
     public function testGetMySkillLevelsEndpointCategoryIdIn(): void {
         $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
         $auth_utils->has_permission_by_query['any'] = true;
         $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();

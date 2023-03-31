@@ -77,7 +77,7 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
 
     $auth_utils = AuthUtils::fromEnv();
     $entityManager = DbUtils::fromEnv()->getEntityManager();
-    $user = $auth_utils->getSessionUser();
+    $user = $auth_utils->getCurrentUser();
     $access_token_repo = $entityManager->getRepository(AccessToken::class);
     $access_token = $access_token_repo->findOneBy(['user' => $user, 'purpose' => 'WebDAV']);
     if ($access_token) {

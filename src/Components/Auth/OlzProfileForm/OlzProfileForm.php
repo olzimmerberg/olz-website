@@ -48,7 +48,7 @@ class OlzProfileForm {
         $required_password_class = $show_required_password ? '' : ' hidden';
 
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         $image_path = "{$code_href}icns/user.php?initials=".urlencode('?');
         if ($user) {
             $user_image_path = "img/users/{$user->getId()}.jpg";

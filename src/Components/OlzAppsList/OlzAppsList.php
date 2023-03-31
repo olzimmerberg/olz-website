@@ -12,7 +12,7 @@ class OlzAppsList {
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         $available_apps = OlzApps::getAppsForUser($user);
         $out = '';
         $out .= "<div class='apps-list'>";

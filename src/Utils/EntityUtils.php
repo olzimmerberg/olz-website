@@ -17,7 +17,7 @@ class EntityUtils {
     public function createOlzEntity(OlzEntity $entity, $input) {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $on_off = ($input['onOff'] ?? false) ? 1 : 0;
@@ -46,7 +46,7 @@ class EntityUtils {
     public function updateOlzEntity(OlzEntity $entity, $input) {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $on_off = ($input['onOff'] ?? null) ? 1 : 0;
@@ -71,7 +71,7 @@ class EntityUtils {
     public function canUpdateOlzEntity(OlzEntity $entity, $meta_arg) {
         $meta = $meta_arg ?? [];
         $auth_utils = $this->authUtils();
-        $current_user = $auth_utils->getSessionUser();
+        $current_user = $auth_utils->getCurrentUser();
 
         if ($auth_utils->hasPermission('all')) {
             return true;

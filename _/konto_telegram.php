@@ -20,7 +20,7 @@ $telegram_utils = TelegramUtils::fromEnv();
 $pin = $_GET['pin'];
 
 $auth_utils = AuthUtils::fromEnv();
-$user = $auth_utils->getAuthenticatedUser();
+$user = $auth_utils->getCurrentUser();
 
 echo "<div class='content-full'>
 <div>";

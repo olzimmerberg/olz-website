@@ -33,7 +33,7 @@ class RevokeWebdavAccessTokenEndpoint extends OlzEndpoint {
             return ['status' => 'ERROR'];
         }
 
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
 
         $access_token_repo = $this->entityManager()->getRepository(AccessToken::class);
         $access_token = $access_token_repo->findOneBy([

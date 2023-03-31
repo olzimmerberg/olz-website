@@ -52,7 +52,7 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
 
     public function testGetManagedUsersEndpoint(): void {
         $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->authenticated_user = Fake\FakeUsers::adminUser();
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
         $auth_utils->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetManagedUsersEndpointUserRepository();

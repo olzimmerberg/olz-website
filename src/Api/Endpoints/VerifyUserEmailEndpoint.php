@@ -30,7 +30,7 @@ class VerifyUserEmailEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $auth_utils = $this->authUtils();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
         if (!$user) {
             throw new HttpError(401, "Nicht eingeloggt!");
         }

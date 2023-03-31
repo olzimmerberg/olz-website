@@ -22,7 +22,7 @@ class OlzPanini2024 {
 
         $logger = LogsUtils::fromEnv()->getLogger('Panini2024');
         $auth_utils = AuthUtils::fromEnv();
-        $current_user = $auth_utils->getSessionUser();
+        $current_user = $auth_utils->getCurrentUser();
         $entity_manager = DbUtils::fromEnv()->getEntityManager();
         $env_utils = EnvUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();

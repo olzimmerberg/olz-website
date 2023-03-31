@@ -17,7 +17,7 @@ class OlzEmailCard {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getAuthenticatedUser();
+        $user = $auth_utils->getCurrentUser();
 
         if ($user) {
             $user_email = $user->getEmail();

@@ -48,7 +48,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $current_user = $this->authUtils()->getSessionUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $panini_repo = $this->entityManager()->getRepository(Panini2024Picture::class);
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $data_path = $this->envUtils()->getDataPath();

@@ -20,12 +20,8 @@ class OlzRoleInfoCard {
 
         $img_html = "<img src='/icns/role.svg' alt='' class='logo'>";
         if ($user) {
-            $image_base_path = "img/users/{$user->getId()}";
-            $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
-            $img_html = "<img src='{$code_href}icns/user.php?initials={$initials}' alt='' class='image'>";
-            if (is_file("{$data_path}{$image_base_path}.jpg")) {
-                $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt='' class='image'>";
-            }
+            $image_path = $auth_utils->getUserAvatar($user);
+            $img_html = "<img src='{$image_path}' alt='' class='image'>";
         }
 
         $out = "<div class='olz-role-info-card bg-green'>";

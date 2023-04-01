@@ -49,16 +49,7 @@ class OlzProfileForm {
 
         $auth_utils = AuthUtils::fromEnv();
         $user = $auth_utils->getCurrentUser();
-        $image_path = "{$code_href}icns/user.php?initials=".urlencode('?');
-        if ($user) {
-            $user_image_path = "img/users/{$user->getId()}.jpg";
-            if (is_file("{$data_path}{$user_image_path}")) {
-                $image_path = "{$data_href}{$user_image_path}";
-            } else {
-                $initials = strtoupper($user->getFirstName()[0].$user->getLastName()[0]);
-                $image_path = "{$code_href}icns/user.php?initials={$initials}";
-            }
-        }
+        $image_path = $auth_utils->getUserAvatar($user);
 
         return <<<ZZZZZZZZZZ
     <div class='olz-profile-form'>

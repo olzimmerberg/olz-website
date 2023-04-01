@@ -95,6 +95,8 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         $this->session()->set('root', $root);
         $this->session()->set('user', $user->getUsername());
         $this->session()->set('user_id', $user->getId());
+        $this->session()->set('auth_user', $user->getUsername());
+        $this->session()->set('auth_user_id', $user->getId());
         $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_STRAVA', $user->getUsername());
 
         return ['status' => 'OK'];

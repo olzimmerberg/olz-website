@@ -64,16 +64,16 @@ export const OlzPanini2024 = (): React.ReactElement => {
             const fieldResults: OlzRequestFieldResult<'updateMyPanini2024'> = {
                 data: {
                     id: validFieldResult('id', existingPicture?.id ?? null),
-                    onOff: validFieldResult('on-off', onOff),
-                    uploadId: getRequired(validFieldResult('upload-id', uploadId)),
-                    line1: validFieldResult('line1', line1),
-                    line2: validFieldResult('line2', line2),
-                    residence: getRequired(validFieldResult('residence', calculatedResidence)),
-                    info1: validFieldResult('info1', info1),
-                    info2: validFieldResult('info2', info2),
-                    info3: validFieldResult('info3', info3),
-                    info4: validFieldResult('info4', info4),
-                    info5: validFieldResult('info5', info5),
+                    onOff: validFieldResult('data--on-off', onOff),
+                    uploadId: getRequired(validFieldResult('data--upload-id', uploadId)),
+                    line1: validFieldResult('data--line1', line1),
+                    line2: validFieldResult('data--line2', line2),
+                    residence: getRequired(validFieldResult('data--residence', calculatedResidence)),
+                    info1: validFieldResult('data--info1', info1),
+                    info2: validFieldResult('data--info2', info2),
+                    info3: validFieldResult('data--info3', info3),
+                    info4: validFieldResult('data--info4', info4),
+                    info5: validFieldResult('data--info5', info5),
                 },
             };
             if (!isFieldResultOrDictThereofValid(fieldResults)) {
@@ -131,7 +131,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     <label htmlFor='panini-line1-input'>Vorname</label>
                     <input
                         type='text'
-                        name='line1'
+                        name='data--line1'
                         value={line1}
                         onChange={(e) => setLine1(e.target.value)}
                         className='form-control'
@@ -142,7 +142,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     <label htmlFor='panini-line2-input'>Name</label>
                     <input
                         type='text'
-                        name='line2'
+                        name='data--line2'
                         value={line2}
                         onChange={(e) => setLine2(e.target.value)}
                         className='form-control'
@@ -154,7 +154,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 <div className='col mb-3'>
                     <label htmlFor='panini-residence-select'>Wohnort</label>
                     <select
-                        name='residence'
+                        name='data--residence'
                         className='form-control form-select'
                         id='panini-residence-select'
                         defaultValue={residenceOption ?? 'UNDEFINED'}
@@ -168,7 +168,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         Bitte wählen...
                         </option>
                         {RESIDENCES.map((formatOption) => (
-                            <option value={formatOption}>
+                            <option value={formatOption} key={formatOption}>
                                 {formatOption}
                             </option>
                         ))}
@@ -182,7 +182,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         <label htmlFor='panini-residence-input'>Wohnort</label>
                         <input
                             type='text'
-                            name='residence'
+                            name='data--residence'
                             value={residence}
                             onChange={(e) => setResidence(e.target.value)}
                             className='form-control'
@@ -196,7 +196,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     <label htmlFor='panini-info1-input'>Lieblings OL Karte</label>
                     <input
                         type='text'
-                        name='info1'
+                        name='data--info1'
                         value={info1}
                         onChange={(e) => setInfo1(e.target.value)}
                         className='form-control'
@@ -211,7 +211,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     </label>
                     <input
                         type='text'
-                        name='info2'
+                        name='data--info2'
                         value={info2}
                         onChange={(e) => setInfo2(e.target.value)}
                         className='form-control'
@@ -226,7 +226,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     </label>
                     <input
                         type='text'
-                        name='info3'
+                        name='data--info3'
                         value={info3}
                         onChange={(e) => setInfo3(e.target.value)}
                         className='form-control'
@@ -241,7 +241,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     </label>
                     <input
                         type='text'
-                        name='info4'
+                        name='data--info4'
                         value={info4}
                         onChange={(e) => setInfo4(e.target.value)}
                         className='form-control'
@@ -256,7 +256,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                     </label>
                     <input
                         type='text'
-                        name='info5'
+                        name='data--info5'
                         value={info5}
                         onChange={(e) => setInfo5(e.target.value)}
                         className='form-control'

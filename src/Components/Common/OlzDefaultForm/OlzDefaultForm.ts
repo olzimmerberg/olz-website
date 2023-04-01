@@ -1,4 +1,3 @@
-import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
 
 import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, olzApi, ValidationError} from '../../../../src/Api/client';
@@ -303,12 +302,13 @@ export function showValidationErrors<T extends OlzApiEndpoint>(
     error: ValidationError,
     form: HTMLFormElement,
 ): string[] {
-    const validationErrorDict = error?.getErrorsByField() || {};
+    const validationErrorDict = error?.getErrorsByFlatField() || {};
     const fieldIds = Object.keys(validationErrorDict) as Array<keyof OlzApiRequests[T]>;
     const errorsNotShown: string[] = [];
     fieldIds.map((fieldId) => {
-        const formInput: Element = form[camelCaseToDashCase(String(fieldId))];
-        const errorMessage = error?.getErrorsForField(String(fieldId)).join('\n');
+        const formFieldName = camelCaseToDashCase(String(fieldId)).replace('.', '--');
+        const formInput: Element = form[formFieldName];
+        const errorMessage = validationErrorDict[String(fieldId)].join('\n');
         if (formInput && errorMessage) {
             showErrorOnField(formInput, errorMessage);
         } else {
@@ -333,7 +333,7 @@ export function showErrorOnField(
     formInput.setAttribute('title', errorMessage);
     formInput.setAttribute('data-bs-toggle', 'tooltip');
     if (formInput.parentElement) {
-        new bootstrap.Tooltip(formInput, {container: formInput.parentElement}).show();
+        new window.bootstrap.Tooltip(formInput, {container: formInput.parentElement}).show();
     }
 }
 
@@ -341,7 +341,7 @@ export function clearErrorOnField(formInput: Element): void {
     formInput.classList.remove('is-invalid');
     formInput.removeAttribute('data-bs-toggle');
     formInput.removeAttribute('title');
-    new bootstrap.Tooltip(formInput).dispose();
+    new window.bootstrap.Tooltip(formInput).dispose();
 }
 
 export function camelCaseToDashCase(camelCaseString: string): string {

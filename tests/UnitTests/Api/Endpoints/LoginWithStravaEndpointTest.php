@@ -162,6 +162,8 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'user',
             'user_id' => 1,
+            'auth_user' => 'user',
+            'auth_user_id' => 1,
         ], $session->session_storage);
         $this->assertSame([
             [

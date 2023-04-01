@@ -31,6 +31,8 @@ class LogoutEndpoint extends OlzEndpoint {
         $this->session()->delete('root');
         $this->session()->delete('user');
         $this->session()->delete('user_id');
+        $this->session()->delete('auth_user');
+        $this->session()->delete('auth_user_id');
         $this->session()->clear();
         return [
             'status' => 'SESSION_CLOSED',

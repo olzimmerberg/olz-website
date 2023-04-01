@@ -137,6 +137,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'fakeUsername',
             'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'auth_user' => 'fakeUsername',
+            'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [

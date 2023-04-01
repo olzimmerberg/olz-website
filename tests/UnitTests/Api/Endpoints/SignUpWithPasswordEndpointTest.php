@@ -338,6 +338,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'fakeUsername',
             'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'auth_user' => 'fakeUsername',
+            'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [
@@ -425,6 +427,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'fakeUsername',
             'user_id' => 123,
+            'auth_user' => 'fakeUsername',
+            'auth_user_id' => 123,
         ], $session->session_storage);
         $this->assertSame([
             [
@@ -528,6 +532,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'fakeUsername',
             'user_id' => 123,
+            'auth_user' => 'fakeUsername',
+            'auth_user_id' => 123,
         ], $session->session_storage);
         $this->assertSame([
             [
@@ -629,6 +635,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'root' => null,
             'user' => 'fakeUsername',
             'user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'auth_user' => 'fakeUsername',
+            'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
         $this->assertSame([
             [

@@ -719,4 +719,42 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame(false, $auth_utils->isPasswordAllowed('1234567'));
         $this->assertSame(true, $auth_utils->isPasswordAllowed('12345678'));
     }
+
+    public function testGetUserAvatarNoUser(): void {
+        $env_utils = new Fake\FakeEnvUtils();
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEnvUtils($env_utils);
+        $this->assertSame(
+            '/_/icns/user.php?initials=%3F',
+            $auth_utils->getUserAvatar(null)
+        );
+    }
+
+    public function testGetUserAvatarHasAvatar(): void {
+        $env_utils = new Fake\FakeEnvUtils();
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEnvUtils($env_utils);
+        $user = Fake\FakeUsers::adminUser();
+
+        $data_path = $env_utils->getDataPath();
+        $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
+        mkdir(dirname($user_image_path), 0777, true);
+        file_put_contents($user_image_path, '');
+
+        $this->assertSame(
+            "/data-href/img/users/{$user->getId()}.jpg",
+            $auth_utils->getUserAvatar($user)
+        );
+    }
+
+    public function testGetUserAvatarNoAvatar(): void {
+        $env_utils = new Fake\FakeEnvUtils();
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEnvUtils($env_utils);
+        $user = Fake\FakeUsers::adminUser();
+        $this->assertSame(
+            '/_/icns/user.php?initials=AI',
+            $auth_utils->getUserAvatar($user)
+        );
+    }
 }

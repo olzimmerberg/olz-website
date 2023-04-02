@@ -151,6 +151,16 @@ Die Website-Entwickler danken für euer Verständnis.
 </ul>
 </div>
 <br>
+<h3 id='neues-familienmitglied-erstellen'>Wie kann ich ein OLZ-Konto für ein Familienmitglied erstellen?</h3>
+<div>
+<ul class='bullet-list'>
+<li>Stelle sicher, dass du eingeloggt bist</li>
+<li>Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)</li>
+<li>Wähle "Neues Familienmitglied erstellen"</li>
+<li>Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)</li>
+</ul>
+</div>
+<br>
 <h3>Wen kann ich fragen, wenn ich weitere Fragen habe?</h3>
 <div style='padding-left:50px;'>
 ZZZZZZZZZZ;

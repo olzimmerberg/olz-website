@@ -9,7 +9,7 @@ class SolvFetcher {
     public function fetchEventsCsvForYear($year) {
         $this->sleep(3);
 
-        $path = "/cgi-bin/fixtures";
+        $path = "cgi-bin/fixtures";
         $query = "?=&year={$year}&kind=-1&csv=1";
         $url = "{$this->base_url}{$path}{$query}";
 
@@ -23,7 +23,7 @@ class SolvFetcher {
     public function fetchYearlyResultsJson($year) {
         $this->sleep(3);
 
-        $path = "/cgi-bin/fixtures";
+        $path = "cgi-bin/fixtures";
         $query = "?mode=results&year={$year}&json=1";
         $url = "{$this->base_url}{$path}{$query}";
 
@@ -37,7 +37,7 @@ class SolvFetcher {
     public function fetchEventResultsHtml($rank_id) {
         $this->sleep(3);
 
-        $path = "/cgi-bin/results";
+        $path = "cgi-bin/results";
         $query = "?rl_id={$rank_id}&club=OL+Zimmerberg&zwizt=1";
         $url = "{$this->base_url}{$path}{$query}";
 
@@ -62,7 +62,7 @@ class SolvFetcher {
         curl_close($ch);
         if ($errno) {
             $url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-            throw new Exception("Error fetching {$url}: {$error} ({$errno})");
+            throw new \Exception("Error fetching {$url}: {$error} ({$errno})");
         }
         return $result;
     }

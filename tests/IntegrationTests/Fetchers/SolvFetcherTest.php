@@ -10,17 +10,6 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 /**
  * @internal
  *
- * @coversNothing
- */
-class SolvFetcherForTest extends SolvFetcher {
-    protected function sleep($seconds) {
-        // Do not sleep. This is just a test, no need to throttle.
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {
@@ -29,7 +18,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
 
     public function __construct() {
         parent::__construct();
-        $this->solv_fetcher = new SolvFetcherForTest();
+        $this->solv_fetcher = new SolvFetcher();
         $this->year_to_fetch = date('m') < 4 ? date('Y') - 1 : date('Y');
     }
 
@@ -68,7 +57,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
     private function getLatestRankId() {
         $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
         $data = json_decode($content, true);
-        $result_lists = $data['ResultLists'];
-        return $result_lists[count($result_lists) - 1]['ResultListID'];
+        $result_lists = $data['ResultLists'] ?? null;
+        return $result_lists[count($result_lists) - 1]['ResultListID'] ?? null;
     }
 }

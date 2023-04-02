@@ -22,7 +22,6 @@ $user = $auth_utils->getCurrentUser();
 
 $title = $user ? "Neues Familienmitglied" : "OLZ-Konto erstellen";
 $defaults = $user ? [
-    'phone' => $user->getPhone() ?? '',
     'street' => $user->getStreet() ?? '',
     'postal_code' => $user->getPostalCode() ?? '',
     'city' => $user->getCity() ?? '',
@@ -40,14 +39,16 @@ echo <<<ZZZZZZZZZZ
 <form
     id='sign-up-with-password-form'
     class='default-form'
+    autocomplete='off'
     onsubmit='return olz.olzKontoSignUpWithPassword(this)'
 >
     <div class='success-message alert alert-success' role='alert'></div>
 ZZZZZZZZZZ;
 echo OlzProfileForm::render([
     'show_avatar' => false,
-    'show_required_email' => $user ? false : true,
-    'show_required_password' => $user ? false : true,
+    'required_email' => $user ? false : true,
+    'show_password' => true,
+    'required_password' => $user ? false : true,
     ...$defaults,
 ]);
 echo <<<ZZZZZZZZZZ

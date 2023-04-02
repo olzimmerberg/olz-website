@@ -39,13 +39,15 @@ class OlzProfileForm {
         $esc_solv_number = htmlentities($defaults['solv_number'] ?? '');
 
         $show_avatar = $defaults['show_avatar'] ?? false;
-        $show_required_email = $defaults['show_required_email'] ?? true;
+        $required_email = $defaults['required_email'] ?? true;
         $show_change_password = $defaults['show_change_password'] ?? false;
-        $show_required_password = $defaults['show_required_password'] ?? false;
+        $show_password = $defaults['show_password'] ?? false;
+        $required_password = $defaults['required_password'] ?? false;
         $avatar_class = $show_avatar ? '' : ' hidden';
-        $required_email_class = $show_required_email ? '' : ' hidden';
+        $required_email_class = $required_email ? '' : ' hidden';
         $change_password_class = $show_change_password ? '' : ' hidden';
-        $required_password_class = $show_required_password ? '' : ' hidden';
+        $show_password_class = $show_password ? '' : ' hidden';
+        $required_password_class = $required_password ? '' : ' hidden';
 
         $auth_utils = AuthUtils::fromEnv();
         $user = $auth_utils->getCurrentUser();
@@ -128,9 +130,9 @@ class OlzProfileForm {
                 </button>
             </div>
         </div>
-        <div class='row{$required_password_class}'>
+        <div class='row{$show_password_class}'>
             <div class='col mb-3'>
-                <label for='profile-password-input'>Passwort <span class='required-field-asterisk'>*</span></label>
+                <label for='profile-password-input'>Passwort <span class='required-field-asterisk{$required_password_class}'>*</span></label>
                 <input
                     type='password'
                     name='password'
@@ -140,7 +142,7 @@ class OlzProfileForm {
                 />
             </div>
             <div class='col mb-3'>
-                <label for='profile-password-input'>Passwort wiederholen <span class='required-field-asterisk'>*</span></label>
+                <label for='profile-password-input'>Passwort wiederholen <span class='required-field-asterisk{$required_password_class}'>*</span></label>
                 <input
                     type='password'
                     name='password-repeat'

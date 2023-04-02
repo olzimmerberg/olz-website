@@ -46,11 +46,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         **Aktuell**
         
         - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/aktuell.php?id=3)
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/aktuell.php?id=6403)
         
         
         **Kaderblog**
         
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id1)
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id3)
         
 
         **Aktualisierte Termine**

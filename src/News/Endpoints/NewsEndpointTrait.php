@@ -15,7 +15,7 @@ trait NewsEndpointTrait {
             'field_structure' => [
                 'format' => new FieldTypes\EnumField([
                     'export_as' => 'OlzNewsFormat',
-                    'allowed_values' => ['aktuell', 'forum', 'galerie', 'video', 'anonymous'],
+                    'allowed_values' => ['aktuell', 'kaderblog', 'forum', 'galerie', 'video', 'anonymous'],
                 ]),
                 'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),

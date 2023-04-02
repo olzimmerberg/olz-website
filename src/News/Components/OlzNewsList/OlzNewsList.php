@@ -50,10 +50,12 @@ class OlzNewsList {
         $out .= "<div class='content-middle'>";
 
         $is_logged_in = $auth_utils->hasPermission('any');
+        $has_blog = $auth_utils->hasPermission('kaderblog');
+        $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
         $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
         $properties = $is_logged_in
-            ? <<<'ZZZZZZZZZZ'
-            onclick='return olz.initOlzEditNewsModal(&quot;account&quot;)'
+            ? <<<ZZZZZZZZZZ
+            onclick='return olz.initOlzEditNewsModal({$json_mode})'
             ZZZZZZZZZZ
             : <<<'ZZZZZZZZZZ'
             type='button'

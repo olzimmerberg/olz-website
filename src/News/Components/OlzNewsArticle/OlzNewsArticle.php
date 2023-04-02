@@ -71,12 +71,14 @@ class OlzNewsArticle {
             $edit_admin = '';
             if ($can_edit && !$is_preview) {
                 $json_id = json_encode(intval($id_tmp));
+                $has_blog = $auth_utils->hasPermission('kaderblog', $user);
+                $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
                 $edit_admin = $is_migrated ? <<<ZZZZZZZZZZ
                 <div>
                     <button
                         id='edit-news-button'
                         class='btn btn-primary'
-                        onclick='return olz.editNewsArticle({$json_id})'
+                        onclick='return olz.editNewsArticle({$json_id}, {$json_mode})'
                     >
                         <img src='icns/edit_16.svg' class='noborder' />
                         Bearbeiten
@@ -130,7 +132,25 @@ class OlzNewsArticle {
 
             $out .= "<h2>{$edit_admin}{$titel}</h2>";
 
-            if ($format === 'forum') {
+            if ($format === 'aktuell') {
+                $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
+            } elseif ($format === 'kaderblog') {
+                $gallery = '';
+                if ($is_migrated) {
+                    $num_images = count($image_ids);
+                    if ($num_images > 0) {
+                        $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
+                        foreach ($image_ids as $image_id) {
+                            $gallery .= "<div class='gallery-image'>";
+                            $gallery .= $image_utils->olzImage(
+                                'news', $id, $image_id, 110, 'gallery[myset]');
+                            $gallery .= "</div>";
+                        }
+                        $gallery .= "</div>";
+                    }
+                }
+                $out .= "<p>{$textlang}</p>{$gallery}\n";
+            } elseif ($format === 'forum') {
                 $gallery = '';
                 if ($is_migrated) {
                     $num_images = count($image_ids);

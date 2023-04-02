@@ -257,6 +257,8 @@ class DevDataUtils {
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
             if ($table_name === 'counter') {
                 $sql_content .= "-- (counter omitted)\n";
+            } elseif ($table_name === 'auth_requests') {
+                $sql_content .= "-- (auth_requests omitted)\n";
             } elseif ($res_contents->num_rows > 0) {
                 $sql_content .= "INSERT INTO {$table_name}\n";
                 $content_fields = $res_contents->fetch_fields();
@@ -331,10 +333,15 @@ class DevDataUtils {
         $this->mkdir("{$data_path}files/blog");
         $this->mkdir("{$data_path}files/blog/1");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
+        $this->mkdir("{$data_path}files/blog/3");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/3/001.pdf");
         $this->mkdir("{$data_path}files/downloads");
         $this->mkdir("{$data_path}files/news");
         $this->mkdir("{$data_path}files/news/4");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/4/xMpu3ExjfBKa8Cp35bcmsDgq.pdf");
+        $this->mkdir("{$data_path}files/news/10");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/10/gAQa_kYXqXTP1_DKKU1s1pGr.csv");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/10/8kCalo9sQtu2mrgrmMjoGLUW.pdf");
         $this->mkdir("{$data_path}files/termine");
         $this->mkdir("{$data_path}files/termine/2");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
@@ -351,6 +358,10 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/blog/1");
         $this->mkdir("{$data_path}img/blog/1/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/001.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/1/img/002.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/blog/3");
+        $this->mkdir("{$data_path}img/blog/3/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/blog/3/img/001.jpg", 800, 600);
         $this->mkdir("{$data_path}img/weekly_picture");
         $this->mkdir("{$data_path}img/weekly_picture/2");
         $this->mkdir("{$data_path}img/weekly_picture/2/img");
@@ -452,6 +463,10 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/8/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/8/img/9GjbtlsSu96AWZ-oH0rHjxup.jpg", 800, 600);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/8/img/zUXE3aKfbK3edmqS35FhaF8g.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/news/10");
+        $this->mkdir("{$data_path}img/news/10/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/10/img/DvDB8QkHcGuxQ4lAFwyvHnVd.jpg", 800, 600);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/10/img/OOVJIqrWlitR_iTZuIIhztKC.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/users");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);

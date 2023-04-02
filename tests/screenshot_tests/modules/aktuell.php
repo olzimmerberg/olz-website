@@ -10,12 +10,14 @@ $aktuell_url = '/aktuell.php';
 $aktuell_id_3_url = "{$aktuell_url}?id=3";
 $aktuell_id_5_url = "{$aktuell_url}?id=5";
 $aktuell_id_8_url = "{$aktuell_url}?id=8";
+$aktuell_id_10_url = "{$aktuell_url}?id=10";
 
 function test_aktuell($driver, $base_url) {
     tick('aktuell');
 
     test_aktuell_readonly($driver, $base_url);
     test_create_aktuell_new($driver, $base_url);
+    test_create_kaderblog_new($driver, $base_url);
     test_create_anonymous_new($driver, $base_url);
     test_create_forum_new($driver, $base_url);
     test_create_galerie_new($driver, $base_url);
@@ -114,6 +116,96 @@ function test_create_aktuell_new($driver, $base_url) {
     click($save_button);
     sleep(4);
     take_pageshot($driver, 'news_update_aktuell_finished');
+
+    logout($driver, $base_url);
+}
+
+function test_create_kaderblog_new($driver, $base_url) {
+    global $aktuell_url, $aktuell_id_10_url;
+
+    login($driver, $base_url, 'kaderlaeufer', 'kad3rla3uf3r');
+    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->navigate()->refresh();
+    $driver->get("{$base_url}{$aktuell_url}");
+
+    $create_news_button = $driver->findElement(
+        WebDriverBy::cssSelector('#create-news-button')
+    );
+    click($create_news_button);
+    sleep(1);
+    $author_dropdown = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #dropdownMenuButton')
+    );
+    click($author_dropdown);
+    $author_choice = $driver->findElement(
+        WebDriverBy::cssSelector('#news-author-input #role-index-0')
+    );
+    click($author_choice);
+    $format_select = new WebDriverSelect($driver->findElement(
+        WebDriverBy::cssSelector('#news-format-input')
+    ));
+    $format_select->selectByVisibleText('Kaderblog');
+    $title_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-title-input')
+    );
+    sendKeys($title_input, 'Das Training');
+    $content_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-content-input')
+    );
+    sendKeys($content_input, "<BILD1>Detailierte Schilderung des Trainings.\n<DATEI1 text='Artikel als PDF'>");
+
+    $image_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-images-upload input[type=file]')
+    );
+    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    sendKeys($image_upload_input, $image_path);
+    $driver->wait()->until(function () use ($driver) {
+        $image_uploaded = $driver->findElements(
+            WebDriverBy::cssSelector('#news-images-upload .olz-upload-image.uploaded')
+        );
+        return count($image_uploaded) == 1;
+    });
+
+    $file_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-files-upload input[type=file]')
+    );
+    $document_path = realpath(__DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf');
+    sendKeys($file_upload_input, $document_path);
+    $driver->wait()->until(function () use ($driver) {
+        $file_uploaded = $driver->findElements(
+            WebDriverBy::cssSelector('#news-files-upload .olz-upload-file.uploaded')
+        );
+        return count($file_uploaded) == 1;
+    });
+
+    take_pageshot($driver, 'news_new_kaderblog_edit');
+
+    $save_button = $driver->findElement(
+        WebDriverBy::cssSelector('#submit-button')
+    );
+    click($save_button);
+    sleep(4);
+    take_pageshot($driver, 'news_new_kaderblog_finished');
+
+    $driver->get("{$base_url}{$aktuell_id_10_url}");
+
+    $edit_news_button = $driver->findElement(
+        WebDriverBy::cssSelector('#edit-news-button')
+    );
+    click($edit_news_button);
+    sleep(1);
+    $content_input = $driver->findElement(
+        WebDriverBy::cssSelector('#news-content-input')
+    );
+    sendKeys($content_input, "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
+    take_pageshot($driver, 'news_update_kaderblog_edit');
+
+    $save_button = $driver->findElement(
+        WebDriverBy::cssSelector('#submit-button')
+    );
+    click($save_button);
+    sleep(4);
+    take_pageshot($driver, 'news_update_kaderblog_finished');
 
     logout($driver, $base_url);
 }

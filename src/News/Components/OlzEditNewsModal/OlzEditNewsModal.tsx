@@ -9,7 +9,7 @@ import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploa
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 
-type OlzEditNewsModalMode = 'anonymous'|'account';
+export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog';
 
 interface OlzEditNewsModalConfig {
     name: string;
@@ -44,6 +44,18 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         hasTeaser: true,
         hasContent: true,
         contentLabel: 'Inhalt',
+        hasFormattingNotes: true,
+        hasExternalLink: true,
+        hasImages: true,
+        hasFiles: true,
+        hasCaptcha: false,
+    },
+    kaderblog: {
+        name: 'Kaderblog',
+        hasFreeFormAuthor: false,
+        hasTeaser: false,
+        hasContent: true,
+        contentLabel: 'Blogeintrag',
         hasFormattingNotes: true,
         hasExternalLink: true,
         hasImages: true,
@@ -106,6 +118,7 @@ const isValidFromat = (value: unknown): value is OlzNewsFormat =>
 const FORMATS_BY_MODE: {[mode in OlzEditNewsModalMode]: OlzNewsFormat[]} = {
     anonymous: ['anonymous'],
     account: ['forum', 'aktuell', 'galerie', 'video'],
+    account_with_blog: ['forum', 'kaderblog', 'aktuell', 'galerie', 'video'],
 };
 
 const FORMATTING_NOTES_FOR_USERS = (<>
@@ -389,7 +402,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                                     Bitte wählen...
                                                 </option>
                                                 {availableFormats.map((formatOption) => (
-                                                    <option value={formatOption}>
+                                                    <option value={formatOption} key={formatOption}>
                                                         {CONFIG_BY_FORMAT[formatOption].name}
                                                     </option>
                                                 ))}

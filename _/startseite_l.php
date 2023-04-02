@@ -50,7 +50,7 @@ while ($row = $result->fetch_assoc()) {
         $autor = $row['f1'];
         $linkext = $row['linkext'];
         $link = ($linkext > "") ? $linkext : "blog.php?id=".$id."#id".$id;
-        $icon = "icns/entry_type_blog_20.svg";
+        $icon = "icns/entry_type_kaderblog_20.svg";
         $titel = "Kaderblog ".ucwords($autor).": ".$titel;
 
         // Dateicode aus Text entfernen

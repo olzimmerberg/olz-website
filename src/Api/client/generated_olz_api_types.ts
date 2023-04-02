@@ -35,7 +35,7 @@ export type OlzNewsData = {
     'fileIds': Array<string>,
 };
 
-export type OlzNewsFormat = 'aktuell'|'forum'|'galerie'|'video'|'anonymous';
+export type OlzNewsFormat = 'aktuell'|'kaderblog'|'forum'|'galerie'|'video'|'anonymous';
 
 export type OlzMetaDataOrNull = {
     'ownerUserId': number|null,

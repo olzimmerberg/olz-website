@@ -513,6 +513,96 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame(true, $auth_utils->hasPermission('any'));
     }
 
+    public function testHasPermissionWithRolePermissions(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'vorstand',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(true, $auth_utils->hasPermission('vorstand_user'));
+        $this->assertSame(true, $auth_utils->hasPermission('vorstand_role'));
+        $this->assertSame(false, $auth_utils->hasPermission('all'));
+        $this->assertSame(true, $auth_utils->hasPermission('any'));
+    }
+
+    public function testHasUserPermissionNoUser(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'inexistent',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(false, $auth_utils->hasUserPermission('test'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('other'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('all'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('any'));
+    }
+
+    public function testHasUserPermissionWithNoPermission(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'no',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(false, $auth_utils->hasUserPermission('test'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('other'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('all'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('any'));
+    }
+
+    public function testHasUserPermissionWithSpecificPermission(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'specific',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(true, $auth_utils->hasUserPermission('test'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('other'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('all'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('any'));
+    }
+
+    public function testHasUserPermissionWithAllPermissions(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'admin',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(true, $auth_utils->hasUserPermission('test'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('other'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('all'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('any'));
+    }
+
+    public function testHasUserPermissionWithRolePermissions(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $session = new MemorySession();
+        $session->session_storage = [
+            'user' => 'vorstand',
+        ];
+        $auth_utils = new AuthUtils();
+        $auth_utils->setEntityManager($entity_manager);
+        $auth_utils->setSession($session);
+        $this->assertSame(true, $auth_utils->hasUserPermission('vorstand_user'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('vorstand_role'));
+        $this->assertSame(false, $auth_utils->hasUserPermission('all'));
+        $this->assertSame(true, $auth_utils->hasUserPermission('any'));
+    }
+
     public function testHasRolePermissionNoRole(): void {
         $auth_utils = new AuthUtils();
         $this->assertSame(false, $auth_utils->hasRolePermission('test', null));

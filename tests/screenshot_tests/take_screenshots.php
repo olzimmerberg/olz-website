@@ -79,7 +79,6 @@ $blocks = [
         // no specific order
         test_weekly_picture($driver, $base_url);
         test_aktuell($driver, $base_url);
-        test_leistungssport($driver, $base_url);
         test_termine($driver, $base_url);
 
         echo get_pretty_timing_report();
@@ -120,6 +119,7 @@ $blocks = [
         test_resultate($driver, $base_url);
         test_service($driver, $base_url);
         test_newsletter($driver, $base_url);
+        test_leistungssport($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

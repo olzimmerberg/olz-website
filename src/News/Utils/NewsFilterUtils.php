@@ -16,10 +16,10 @@ class NewsFilterUtils {
     public const ALL_FORMAT_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle"],
         ['ident' => 'aktuell', 'name' => "Aktuell"],
+        ['ident' => 'kaderblog', 'name' => "Kaderblog"],
         ['ident' => 'forum', 'name' => "Forum"],
         ['ident' => 'galerie', 'name' => "Galerien"],
         ['ident' => 'video', 'name' => "Videos"],
-        // ['ident' => 'kaderblog', 'name' => "Kaderblog"],
     ];
 
     public const ALL_ARCHIVE_OPTIONS = [
@@ -161,6 +161,9 @@ class NewsFilterUtils {
         if ($filter['format'] === 'aktuell') {
             return "n.typ LIKE '%aktuell%'";
         }
+        if ($filter['format'] === 'kaderblog') {
+            return "n.typ LIKE '%kaderblog%'";
+        }
         if ($filter['format'] === 'forum') {
             return "n.typ LIKE '%forum%'";
         }
@@ -201,6 +204,9 @@ class NewsFilterUtils {
         if ($filter['format'] === 'aktuell') {
             return "Aktuell";
         }
+        if ($filter['format'] === 'kaderblog') {
+            return "Kaderblog";
+        }
         if ($filter['format'] === 'forum') {
             return "Forum";
         }
@@ -216,6 +222,9 @@ class NewsFilterUtils {
     private function getPastFormatFilterTitle($filter) {
         if ($filter['format'] === 'aktuell') {
             return "Aktuelles von";
+        }
+        if ($filter['format'] === 'kaderblog') {
+            return "Kaderblog von";
         }
         if ($filter['format'] === 'forum') {
             return "Forumseinträge von";

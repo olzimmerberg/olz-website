@@ -13,6 +13,7 @@ class OlzNewsListItem {
         'aktuell' => 'entry_type_aktuell_20.svg',
         'forum' => 'entry_type_forum_20.svg',
         'galerie' => 'entry_type_gallery_20.svg',
+        'kaderblog' => 'entry_type_kaderblog_20.svg',
         'movie' => 'entry_type_movie_20.svg',
         'video' => 'entry_type_movie_20.svg',
     ];
@@ -48,7 +49,7 @@ class OlzNewsListItem {
         $image_ids = $news_entry->getImageIds();
         $is_migrated = is_array($image_ids);
 
-        // Bildercode einfügen
+        // Show images in teaser
         $teaser = $image_utils->replaceImageTags(
             $teaser,
             $id,
@@ -57,12 +58,20 @@ class OlzNewsListItem {
             " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
         );
 
-        // Dateicode einfügen
+        // Strip images and legacy files from content
+        preg_match_all("/<(bild|dl)([0-9]+)>/i", $content, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $content = str_replace($matches[0][$i], '', $content);
+        }
+
+        // Show files in teaser
         preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $teaser, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
             $new_teaser = $matches[4][$i];
             $teaser = str_replace($matches[0][$i], $new_teaser, $teaser);
         }
+
+        // Show files in content
         preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $content, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
             $new_content = $matches[4][$i];
@@ -85,6 +94,34 @@ class OlzNewsListItem {
                 'text' => $html_utils->renderMarkdown($teaser, [
                     'html_input' => 'allow', // TODO: Do NOT allow!
                 ]),
+                'link' => $link,
+            ]);
+        } elseif ($format === 'kaderblog') {
+            $thumb = '';
+            if ($is_migrated) {
+                $size = count($image_ids);
+                if ($size > 0) {
+                    $thumb = $image_utils->olzImage(
+                        'news',
+                        $id,
+                        $image_ids[0] ?? null,
+                        110,
+                        'image',
+                        " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
+                    );
+                }
+            }
+            $out .= OlzPostingListItem::render([
+                'icon' => $icon,
+                'date' => $datum,
+                'author' => $author_badge,
+                'title' => $title,
+                'text' => $thumb.$html_utils->renderMarkdown(
+                    self::truncateText($content),
+                    [
+                        'html_input' => 'allow', // TODO: Do NOT allow!
+                    ],
+                ),
                 'link' => $link,
             ]);
         } elseif ($format === 'forum') {

@@ -53,8 +53,10 @@ class FakeUsers extends FakeFactory {
                 $vorstand_user->setUsername('vorstand');
                 $vorstand_user->setEmail('vorstand-user@test.olzimmerberg.ch');
                 $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
-                $vorstand_user->setPermissions('aktuell ftp');
+                $vorstand_user->setPermissions('aktuell ftp vorstand_user');
                 $vorstand_user->setRoot('vorstand');
+                $vorstand_role = FakeRoles::vorstandRole();
+                $vorstand_user->addRole($vorstand_role);
                 return $vorstand_user;
             }
         );

@@ -83,9 +83,11 @@ class FileUtils {
                     $icon
                 );
             } else {
+                // TODO: Delete this monster-logic!
+                $is_blog = $id >= 6400 && $id < 6700;
                 $new_html = $this->olzFile(
-                    $db_table == 'news' ? 'aktuell' : $db_table,
-                    $id,
+                    $is_blog ? 'blog' : ($db_table == 'news' ? 'aktuell' : $db_table),
+                    $is_blog ? $id - 6400 : $id,
                     intval($index),
                     $tmptext,
                     $icon

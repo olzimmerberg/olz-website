@@ -158,6 +158,7 @@ Die Website-Entwickler danken für euer Verständnis.
 <li>Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)</li>
 <li>Wähle "Neues Familienmitglied erstellen"</li>
 <li>Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)</li>
+<li>Nun hast du im OLZ-Konto-Menu rechts oben die Möglichkeit, zwischen deinem Hauptkonto und dem Kind-Konto hin- und herzuwechseln</li>
 </ul>
 </div>
 <br>

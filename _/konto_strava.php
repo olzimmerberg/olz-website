@@ -28,8 +28,9 @@ echo <<<ZZZZZZZZZZ
 <div id='sign-up-with-strava-login-status' class='alert alert-secondary'>Login mit Strava wird gestartet...</div>
 <form
     id='sign-up-with-strava-form'
-    onsubmit='return olz.olzKontoSignUpWithStrava(this)'
     class='default-form hidden'
+    autocomplete='off'
+    onsubmit='return olz.olzKontoSignUpWithStrava(this)'
 >
     <div class='success-message alert alert-success' role='alert'></div>
     <input

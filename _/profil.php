@@ -117,6 +117,7 @@ if ($user) {
     <form
         id='profile-form'
         class='default-form'
+        autocomplete='off'
         onsubmit='return olz.olzProfileUpdateUser({$esc_id}, this)'
     >
         <div class='success-message alert alert-success' role='alert'></div>
@@ -155,16 +156,14 @@ if ($user) {
         <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
         <div class='error-message alert alert-danger' role='alert'></div>
     </form>
-    <div class='feature family'>
-        <hr />
-        <a
-            class='btn btn-secondary'
-            href='{$code_href}konto_passwort.php'
-            role='button'
-        >
-            Familienmitglied hinzufügen
-        </a>
-    </div>
+    <hr />
+    <a
+        class='btn btn-secondary'
+        href='{$code_href}konto_passwort.php'
+        role='button'
+    >
+        Familienmitglied hinzufügen
+    </a>
     <script>
     window.addEventListener('load', () => {
         olz.olzProfileInit();

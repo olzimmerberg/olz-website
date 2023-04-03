@@ -18,7 +18,7 @@ class AllDependenciesDeclaredClassWithUtilsTrait {
  * @coversNothing
  */
 final class AllDependenciesDeclaredTest extends UnitTestCase {
-    public function testAllCommonUtilsCovered(): void {
+    public function testAllDependenciesDeclared(): void {
         $src_path = __DIR__.'/../../../src/';
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);

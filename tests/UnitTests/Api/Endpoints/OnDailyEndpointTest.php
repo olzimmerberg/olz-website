@@ -150,6 +150,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $server_config = new Fake\FakeEnvUtils();
+        $symfony_utils = new Fake\FakeSymfonyUtils();
         $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
@@ -158,6 +159,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
         $endpoint->setEnvUtils($server_config);
+        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setLog($logger);
 
@@ -173,6 +175,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame(true, $clean_temp_directory_task->hasBeenRun);
         $this->assertSame(true, $sync_solv_task->hasBeenRun);
+        $this->assertSame(['olz:onDaily'], $symfony_utils->commandsCalled);
         $this->assertSame(true, $telegram_utils->configurationSent);
     }
 }

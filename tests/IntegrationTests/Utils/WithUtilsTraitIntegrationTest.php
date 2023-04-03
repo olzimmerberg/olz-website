@@ -16,6 +16,7 @@ use Olz\Utils\GeneralUtils;
 use Olz\Utils\IdUtils;
 use Olz\Utils\StandardSession;
 use Olz\Utils\StravaUtils;
+use Olz\Utils\SymfonyUtils;
 use Olz\Utils\TelegramUtils;
 use Olz\Utils\UploadUtils;
 use Olz\Utils\WithUtilsTrait;
@@ -85,6 +86,9 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'stravaUtils' => function ($value) {
                 return $value instanceof StravaUtils;
+            },
+            'symfonyUtils' => function ($value) {
+                return $value instanceof SymfonyUtils;
             },
             'telegramUtils' => function ($value) {
                 return $value instanceof TelegramUtils;

@@ -30,6 +30,7 @@ class UnitTestCase extends TestCase {
         $_SERVER = [];
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-CH,de';
+        $_SERVER['PHP_SELF'] = 'fake-php-self';
         $translator = Translator::getInstance();
         $translator->setAcceptLangs($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 

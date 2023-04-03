@@ -13,11 +13,17 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @coversNothing
  */
 class IntegrationTestCase extends KernelTestCase {
-    private $previous_document_root;
     private static $is_first_call = true;
     private static $is_db_locked = false;
 
+    private $previous_document_root;
+
+    protected static $slowestTestDuration = 0;
+    protected static $slowestTestName;
+    protected static $shutdownFunctionRegistered = false;
+
     protected $previous_server;
+    protected $setUpAt;
 
     protected function setUp(): void {
         global $_SERVER, $entityManager;
@@ -26,6 +32,7 @@ class IntegrationTestCase extends KernelTestCase {
             'DOCUMENT_ROOT' => realpath(__DIR__.'/../document-root/'),
             'HTTP_HOST' => 'integration-test.host',
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (cloud; RiscV) Selenium (like Gecko)',
+            'PHP_SELF' => 'fake-php-self',
         ];
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
@@ -35,10 +42,29 @@ class IntegrationTestCase extends KernelTestCase {
 
         $kernel = self::bootKernel();
         $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+
+        $this->setUpAt = microtime(true);
     }
 
     protected function tearDown(): void {
         $_SERVER = $this->previous_server;
+
+        $duration = microtime(true) - $this->setUpAt;
+        if ($duration > self::$slowestTestDuration) {
+            self::$slowestTestDuration = $duration;
+            self::$slowestTestName = $this->getName();
+        }
+    }
+
+    public static function tearDownAfterClass(): void {
+        if (!self::$shutdownFunctionRegistered) {
+            register_shutdown_function(function () {
+                $duration = number_format(self::$slowestTestDuration, 2);
+                $name = self::$slowestTestName;
+                echo "Slowest test ({$duration}s): {$name}\n";
+            });
+            self::$shutdownFunctionRegistered = true;
+        }
     }
 
     protected function withLockedDb($fn): void {

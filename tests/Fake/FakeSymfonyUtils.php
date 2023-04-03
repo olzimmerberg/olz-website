@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Olz\Tests\Fake;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class FakeSymfonyUtils {
+    public $commandsCalled = [];
+
+    public function callCommand(
+        string $command_name,
+        InputInterface $input,
+        OutputInterface $output,
+    ): void {
+        $this->commandsCalled[] = $command_name;
+    }
+}

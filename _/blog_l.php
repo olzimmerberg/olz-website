@@ -75,6 +75,8 @@ if (($_SESSION['edit']['table'] ?? null) == $db_table) {
     $db_edit = "0";
 }
 
+echo "<div class='alert alert-info' role='alert'><b>Der Kaderblog zieht um, er ist jetzt unter \"Aktuell > Format: Kaderblog\" zu finden.</b><br>Im Moment bitte keine neuen Beiträge erstellen.</div>";
+
 // -------------------------------------------------------------
 // MENÜ
 if ($zugriff and $db_edit == "0") {

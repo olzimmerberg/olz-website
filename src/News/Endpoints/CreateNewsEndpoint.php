@@ -41,6 +41,11 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
+        $has_blog = $this->authUtils()->hasPermission('kaderblog');
+        if ($format === 'kaderblog' && !$has_blog) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
+
         $token = $input['custom']['recaptchaToken'] ?? null;
         $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
         if ($format === 'anonymous' && !$is_valid_token) {

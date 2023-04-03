@@ -117,6 +117,31 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 'archiv' => 'ohne',
             ],
             [
+                'format' => 'kaderblog',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'kaderblog',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'kaderblog',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'kaderblog',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'format' => 'kaderblog',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
+            [
                 'format' => 'forum',
                 'datum' => '2020',
                 'archiv' => 'ohne',
@@ -222,6 +247,16 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             [
                 'selected' => false,
                 'new_filter' => [
+                    'format' => 'kaderblog',
+                    'datum' => '2020',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Kaderblog",
+                'ident' => 'kaderblog',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
                     'format' => 'forum',
                     'datum' => '2020',
                     'archiv' => 'ohne',
@@ -274,6 +309,16 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                 ],
                 'name' => "Aktuell",
                 'ident' => 'aktuell',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'format' => 'kaderblog',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Kaderblog",
+                'ident' => 'kaderblog',
             ],
             [
                 'selected' => false,
@@ -560,6 +605,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%kaderblog%')",
+            $news_utils->getSqlFromFilter([
+                'format' => 'kaderblog',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%forum%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'forum',
@@ -607,6 +660,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "Kaderblog",
+            $news_utils->getTitleFromFilter([
+                'format' => 'kaderblog',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "Forum",
             $news_utils->getTitleFromFilter([
                 'format' => 'forum',
@@ -642,6 +703,14 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             "Aktuelles von 2019",
             $news_utils->getTitleFromFilter([
                 'format' => 'aktuell',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Kaderblog von 2019",
+            $news_utils->getTitleFromFilter([
+                'format' => 'kaderblog',
                 'datum' => '2019',
                 'archiv' => 'ohne',
             ])

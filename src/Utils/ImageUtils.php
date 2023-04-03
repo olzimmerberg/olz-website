@@ -45,9 +45,11 @@ class ImageUtils {
                     $attrs
                 );
             } else {
+                // TODO: Delete this monster-logic!
+                $is_blog = $id >= 6400 && $id < 6700;
                 $new_html = $this->olzImage(
-                    'aktuell',
-                    $id,
+                    $is_blog ? 'blog' : 'aktuell',
+                    $is_blog ? $id - 6400 : $id,
                     $index,
                     $size,
                     $lightview,

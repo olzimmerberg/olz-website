@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230319212301
+-- MIGRATION: DoctrineMigrations\Version20230402173341
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -24,11 +24,15 @@ VALUES
     ('7', '0', '2020-08-15', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', NULL, '', 'video', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '26', '1', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', '1', NULL),
     ('8', '0', '2020-01-15', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', NULL, NULL, 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '1', '5', '1', NULL, '1', '1', '  ', '2020-01-15 16:51:00', '2020-01-15 16:51:00', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', '1', NULL),
     ('9', '0', '2020-01-06', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', NULL, 'Anonymous', 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-01-06 16:51:00', '2020-01-06 16:51:00', '[]', '1', 'anonymous@gmail.com'),
+    ('10', '0', '2020-08-15', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '<BILD1>Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- <DATEI=gAQa_kYXqXTP1_DKKU1s1pGr.csv text=\"Beweisstück A\">\n- <DATEI=8kCalo9sQtu2mrgrmMjoGLUW.pdf text=\"Beweisstück B\">\n\n<BILD2>', NULL, NULL, 'kaderblog', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '9', '50', '9', NULL, '9', '9', '  ', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', '1', NULL),
     ('1202', '0', '2020-01-01', 'Neujahrsgalerie 📷 2020', '', '', NULL, '', 'galerie', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, '1', NULL),
     ('1203', '0', '2020-08-13', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', NULL, '', 'video', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-13 14:51:00', '2020-08-13 14:51:00', NULL, '1', NULL),
     ('2901', '0', '2020-01-01', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', NULL, 'Bruno 😃 Beispielmitglied', 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '21:45:37', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-01 21:45:37', '2020-01-01 21:45:37', NULL, '0', 'beispiel@olzimmerberg.ch'),
     ('2902', '0', '2020-01-03', 'Verspätete Neujahrsgrüsse', '', 'Has vergesse, aber au vo *mier* no Guets Nois!', NULL, 'Erwin Exempel', 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '18:42:01', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-03 18:42:01', '2020-01-03 18:42:01', NULL, '0', 'beispiel@olzimmerberg.ch'),
-    ('2903', '0', '2020-01-06', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', NULL, 'Drei Könige', 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '06:07:08', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-06 06:07:08', '2020-01-06 06:07:08', NULL, '0', 'beispiel@olzimmerberg.ch');
+    ('2903', '0', '2020-01-06', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', NULL, 'Drei Könige', 'forum', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '06:07:08', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-06 06:07:08', '2020-01-06 06:07:08', NULL, '0', 'beispiel@olzimmerberg.ch'),
+    ('6401', '0', '2019-01-01', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n<BILD1>\n<BILD2>\n<DL1>\n<DL2>', NULL, 'Gold Junge', 'kaderblog', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2019-01-01 15:15:15', '2019-01-01 15:15:15', NULL, '0', NULL),
+    ('6402', '0', '2019-08-15', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', 'https://www.external-blog.com/entry/1234', 'Eliteläuferin', 'kaderblog', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2019-08-15 15:15:15', '2019-08-15 15:15:15', NULL, '0', NULL),
+    ('6403', '0', '2020-01-01', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, 'Gold Junge', 'kaderblog', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-01 15:15:15', '2020-01-01 15:15:15', NULL, '0', NULL);
 
 -- Table anmelden_bookings
 
@@ -37,12 +41,15 @@ VALUES
 -- Table anmelden_registrations
 
 -- Table auth_requests
+-- (auth_requests omitted)
 
 -- Table blog
 INSERT INTO blog
     (`id`, `counter`, `datum`, `autor`, `titel`, `text`, `bild1`, `bild2`, `on_off`, `zeit`, `dummy`, `file1`, `file1_name`, `file2`, `file2_name`, `bild1_breite`, `bild2_breite`, `linkext`, `newsletter`)
 VALUES
-    ('1', '0', '2020-01-01', 'Gold Junge', 'Saisonstart 2020!', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1');
+    ('1', '0', '2019-01-01', 'Gold Junge', 'Saisonstart 2019!', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n<BILD1>\n<BILD2>\n<DL1>\n<DL2>', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1'),
+    ('2', '0', '2019-08-15', 'Eliteläuferin', 'Neuer Eintrag auf meinem externen Blog', 'Kleiner Teaser', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'https://www.external-blog.com/entry/1234', '1'),
+    ('3', '0', '2020-01-01', 'Gold Junge', 'Saisonstart 2020!', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1');
 
 -- Table counter
 -- (counter omitted)
@@ -79,7 +86,8 @@ VALUES
     ('DoctrineMigrations\\Version20221207235912', '2022-12-13 10:32:12', '10'),
     ('DoctrineMigrations\\Version20230216214916', '2023-02-16 21:52:12', '85'),
     ('DoctrineMigrations\\Version20230313175531', '2023-03-13 17:57:39', '463'),
-    ('DoctrineMigrations\\Version20230319212301', '2023-03-19 21:24:33', '49');
+    ('DoctrineMigrations\\Version20230319212301', '2023-03-19 21:24:33', '49'),
+    ('DoctrineMigrations\\Version20230402173341', '2023-04-02 20:32:38', '17');
 
 -- Table downloads
 
@@ -233,7 +241,8 @@ VALUES
     ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', '', ''),
     ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', '', ''),
     ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', '', ''),
-    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '');
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', ''),
+    ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog');
 
 -- Table solv_events
 INSERT INTO solv_events
@@ -299,7 +308,8 @@ VALUES
     ('5', 'benutzer', NULL, '$2y$10$DluJUi60YHZh6LksqClkmeTX.Giyt3kLHZG3HddV6Zm1UoYXzyXqC', 'nutzer@test.olzimmerberg.ch', 'Be', 'Nutzer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
     ('6', 'parent', NULL, '$2y$10$iU9SqVRurO.4N1ak1j.p/OP0qT6rEst7.mLd/hM7EzyfI5rBX7nva', 'parent@test.olzimmerberg.ch', 'Eltern', 'Teil', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
     ('7', 'child1', NULL, NULL, 'child1@test.olzimmerberg.ch', 'Kind', 'Eins', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-    ('8', 'child2', NULL, '', 'child2@test.olzimmerberg.ch', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
+    ('8', 'child2', NULL, '', 'child2@test.olzimmerberg.ch', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
+    ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@test.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 -- Table users_roles
 INSERT INTO users_roles
@@ -313,7 +323,8 @@ VALUES
     ('2', '17'),
     ('3', '16'),
     ('3', '25'),
-    ('4', '25');
+    ('4', '25'),
+    ('9', '50');
 
 -- Table weekly_picture
 INSERT INTO weekly_picture

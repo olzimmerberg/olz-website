@@ -72,7 +72,11 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true, 'all' => false];
+        $auth_utils->has_permission_by_query = [
+            'any' => true,
+            'all' => false,
+            'kaderblog' => false,
+        ];
         $entity_utils = new Fake\FakeEntityUtils();
         $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();

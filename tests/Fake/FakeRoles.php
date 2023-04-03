@@ -31,7 +31,7 @@ class FakeRoles extends FakeFactory {
                 $vorstand_role->setId(3);
                 $vorstand_role->setUsername('vorstand_role');
                 $vorstand_role->setName('Vorstand');
-                $vorstand_role->setPermissions('aktuell ftp');
+                $vorstand_role->setPermissions('aktuell ftp vorstand_role');
                 return $vorstand_role;
             }
         );

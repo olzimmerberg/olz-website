@@ -119,11 +119,22 @@ class AuthUtils {
     }
 
     public function hasPermission($query, $user = null) {
-        $permission_map = $this->getPermissionMap($user);
+        $user_permission_map = $this->getUserPermissionMap($user);
+        $roles = $this->getAuthenticatedRoles($user) ?? [];
+        $permission_map = [...$user_permission_map];
+        foreach ($roles as $role) {
+            $role_permission_map = $this->getRolePermissionMap($role);
+            $permission_map = [...$role_permission_map, ...$permission_map];
+        }
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    protected function getPermissionMap($user = null) {
+    public function hasUserPermission($query, $user = null) {
+        $permission_map = $this->getUserPermissionMap($user);
+        return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
+    }
+
+    protected function getUserPermissionMap($user = null) {
         if (!$user) {
             $user = $this->getCurrentUser();
         }

@@ -23,6 +23,7 @@ trait WithUtilsTrait {
         'server',
         'session',
         'stravaUtils',
+        'symfonyUtils',
         'telegramUtils',
         'uploadUtils',
     ];
@@ -222,6 +223,18 @@ trait WithUtilsTrait {
 
     public function setStravaUtils($stravaUtils) {
         $this->utilsCache['stravaUtils'] = $stravaUtils;
+    }
+
+    public function symfonyUtils() {
+        return $this->getOrCreate('symfonyUtils');
+    }
+
+    public function createSymfonyUtils() {
+        return SymfonyUtils::fromEnv();
+    }
+
+    public function setSymfonyUtils($symfonyUtils) {
+        $this->utilsCache['symfonyUtils'] = $symfonyUtils;
     }
 
     public function telegramUtils() {

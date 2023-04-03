@@ -9,6 +9,8 @@ use Olz\Tasks\CleanTempDirectoryTask;
 use Olz\Tasks\SyncSolvTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class OnDailyEndpoint extends OlzEndpoint {
     protected $cleanTempDirectoryTask;
@@ -87,6 +89,10 @@ class OnDailyEndpoint extends OlzEndpoint {
         $this->cleanTempDirectoryTask->run();
         $this->syncSolvTask->run();
         $this->telegramUtils()->sendConfiguration();
+
+        $command_input = new ArrayInput([]);
+        $command_output = new BufferedOutput();
+        $this->symfonyUtils()->callCommand('olz:onDaily', $command_input, $command_output);
 
         return [];
     }

@@ -351,11 +351,13 @@ class EnvUtils {
             $env_utils = new self();
 
             $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
+            $local_root = isset($_SERVER['argv']) ? realpath(__DIR__.'/../../public') : null;
+            $data_path = ($document_root ? "{$document_root}/" : "{$local_root}/") ?? '/';
             $has_https = isset($_SERVER['HTTPS']) && (bool) $_SERVER['HTTPS'];
             $http_host = $_SERVER['HTTP_HOST'] ?? 'fake-host';
 
             // TODO: Also use the configuration file?
-            $env_utils->setDataPath($document_root.'/');
+            $env_utils->setDataPath($data_path);
             $env_utils->setDataHref('/');
 
             $code_href = '/';

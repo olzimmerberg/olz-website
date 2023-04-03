@@ -260,10 +260,13 @@ class TelegramUtils {
             $description = $response['description'] ?? null;
             if (
                 $error_code == 403
-                && $description == 'Forbidden: bot was blocked by the user'
+                && (
+                    $description == 'Forbidden: bot was blocked by the user'
+                    || $description == 'Forbidden: user is deactivated'
+                )
                 && isset($args['chat_id'])
             ) {
-                $this->log()->notice("We're blocked. Remove telegram link!");
+                $this->log()->notice("Permanently forbidden. Remove telegram link!");
                 $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy([
                     'telegram_chat_id' => $args['chat_id'],

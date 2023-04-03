@@ -586,7 +586,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}', $exc->getMessage());
             $this->assertSame([
-                "NOTICE We're blocked. Remove telegram link!",
+                "NOTICE Permanently forbidden. Remove telegram link!",
                 "NOTICE Telegram API response was not OK: {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: bot was blocked by the user\"}",
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(

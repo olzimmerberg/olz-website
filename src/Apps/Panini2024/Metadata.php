@@ -21,6 +21,6 @@ class Metadata extends BaseAppMetadata {
 
     public function isAccessibleToUser(?User $user): bool {
         $auth_utils = AuthUtils::fromEnv();
-        return $auth_utils->hasPermission('panini2024', $user);
+        return $auth_utils->hasPermission('any', $user);
     }
 }

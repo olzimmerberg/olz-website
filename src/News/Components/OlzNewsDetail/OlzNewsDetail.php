@@ -151,7 +151,6 @@ class OlzNewsDetail {
         if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $out .= OlzNewsArticle::render([
                 'id' => $id,
-                'can_edit' => $zugriff,
                 'is_preview' => (($do ?? null) == 'vorschau'),
             ]);
         }

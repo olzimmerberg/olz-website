@@ -25,7 +25,6 @@ class OlzNewsArticle {
         // TODO: Remove once migrated
         $galerie_id = $id - 1200;
         $arg_row = $args['row'] ?? null;
-        $can_edit = $args['can_edit'] ?? false;
         $is_preview = $args['is_preview'] ?? false;
         $out = "";
         $user = $auth_utils->getCurrentUser();
@@ -65,9 +64,7 @@ class OlzNewsArticle {
 
             $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
-            if ($user && intval($row['owner_user_id']) === intval($user->getId())) {
-                $can_edit = true;
-            }
+            $can_edit = $user && intval($row['owner_user_id']) === intval($user->getId());
             $edit_admin = '';
             if ($can_edit && !$is_preview) {
                 $json_id = json_encode(intval($id_tmp));

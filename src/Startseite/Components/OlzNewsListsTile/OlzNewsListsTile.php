@@ -24,7 +24,8 @@ class OlzNewsListsTile extends AbstractOlzTile {
         $out .= "<ul class='links'>";
         $aktuell_url = self::getNewsUrl('aktuell');
         $out .= "<li><a href='{$aktuell_url}' class='linkint'>Aktuell</a></li>";
-        $out .= "<li><a href='{$code_href}blog.php' class='linkint'>Kaderblog</a></li>";
+        $kaderblog_url = self::getNewsUrl('kaderblog');
+        $out .= "<li><a href='{$kaderblog_url}' class='linkint'>Kaderblog</a></li>";
         $forum_url = self::getNewsUrl('forum');
         $out .= "<li><a href='{$forum_url}' class='linkint'>Forum</a></li>";
         $galerie_url = self::getNewsUrl('galerie');

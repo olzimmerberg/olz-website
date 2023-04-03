@@ -4,7 +4,6 @@
 // Zeigt die wichtigsten Informationen möglichst übersichtlich an.
 // =============================================================================
 
-use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\Utils\DbUtils;
@@ -27,9 +26,9 @@ if ($aktuell_typ != 'aktuell') {
     $sql = "SELECT * from aktuell WHERE typ='{$aktuell_typ}' ORDER BY datum DESC";
 } else {
     $sql = "
-(SELECT id,datum,zeit,titel,text,'aktuell' AS typ,image_ids AS f1,typ AS f2,'' AS f3,'' AS f4,'' AS f5,'' AS f6,textlang AS f7,'' AS linkext FROM aktuell WHERE (on_off='1' AND typ NOT LIKE 'box%'))
-UNION ALL
-(SELECT id,datum,zeit,titel,text,'blog' AS typ,autor AS f1,'' AS f2,'' AS f3,'','','','',linkext FROM blog WHERE (on_off='1') AND (titel!='') AND (text!=''))
+SELECT id,datum,zeit,titel,text,'aktuell' AS typ,image_ids AS f1,typ AS f2,'' AS f3,'' AS f4,'' AS f5,'' AS f6,textlang AS f7,'' AS linkext
+FROM aktuell
+WHERE (on_off='1' AND typ NOT LIKE 'box%')
 ORDER BY datum DESC, zeit DESC LIMIT {$listenlaenge}";
 }
 
@@ -46,69 +45,29 @@ while ($row = $result->fetch_assoc()) {
     $titel = $row['titel'];
     $text = $row['text'];
 
-    if ($thistype == "blog") { // Tabelle 'blog'
-        $autor = $row['f1'];
-        $linkext = $row['linkext'];
-        $link = ($linkext > "") ? $linkext : "blog.php?id=".$id."#id".$id;
-        $icon = "icns/entry_type_kaderblog_20.svg";
-        $titel = "Kaderblog ".ucwords($autor).": ".$titel;
-
-        // Dateicode aus Text entfernen
-        preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $tmptext = $matches[4][$i];
-            $text = str_replace($matches[0][$i], "", $text);
-        }
-
-        $text = mb_substr($text, 0, $textlaenge_def);
-        $text = mb_substr($text, 0, mb_strrpos($text, " "));
-        $text = $text." (...)";
-        if ((($_SESSION['auth'] ?? null) == 'all') or (in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? '')) and (ucwords($_SESSION['user']) == ucwords($autor)))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"blog.php?id={$id}&amp;buttonblog=start\";return false;' class='noborder' alt=''>";
-        }
-
-        $bild = $image_utils->olzImage("blog", $id, 1, 110, 'image', " style='float:left; margin:0px 5px 0px 0px;'");
-        $text = str_replace("<BILD1>", $bild, $text);
-
-        // Dateicode einfügen
-        /* preg_match_all("/<datei([0-9]+)(\s+text=(\"|\')([^\"\']+)(\"|\'))?([^>]*)>/i", $text, $matches);
-         for ($i=0; $i<count($matches[0]); $i++) {
-             $tmptext = $matches[4][$i];
-             $text = str_replace($matches[0][$i], $tmptext, $text);
-         }*/
-
-        echo OlzPostingListItem::render([
-            'icon' => $icon,
-            'date' => $datum,
-            'title' => $edit_admin.$titel,
-            'text' => $text,
-            'link' => $link,
-        ]);
-    } else { // Tabelle 'aktuell'
-        $textlang = $row['f7'];
-        $image_ids = $row['f1'];
-        $format = $row['f2'];
-        if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
-            $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
-        }
-        if ($aktuell_typ != 'aktuell') {
-            $text = $row['textlang'];
-        }
-        if (strip_tags($textlang) > '') {
-            $text .= " [...]";
-        }
-
-        $news_entry = new NewsEntry();
-        $news_entry->setFormat($format);
-        $news_entry->setDate($datum);
-        $news_entry->setTitle($edit_admin.$titel);
-        $news_entry->setTeaser($text);
-        $news_entry->setContent($textlang);
-        $news_entry->setId($id);
-        $news_entry->setImageIds($image_ids ? json_decode($image_ids, true) : null);
-
-        echo OlzNewsListItem::render(['news_entry' => $news_entry]);
+    $textlang = $row['f7'];
+    $image_ids = $row['f1'];
+    $format = $row['f2'];
+    if ((($_SESSION['auth'] ?? null) == 'all') or in_array($thistype, preg_split('/ /', $_SESSION['auth'] ?? ''))) {
+        $edit_admin = "<img src='icns/edit_16.svg' onclick='location.href=\"aktuell.php?id={$id}&amp;buttonaktuell=start\";return false;' class='noborder' alt=''>";
     }
+    if ($aktuell_typ != 'aktuell') {
+        $text = $row['textlang'];
+    }
+    if (strip_tags($textlang) > '') {
+        $text .= " [...]";
+    }
+
+    $news_entry = new NewsEntry();
+    $news_entry->setFormat($format);
+    $news_entry->setDate($datum);
+    $news_entry->setTitle($edit_admin.$titel);
+    $news_entry->setTeaser($text);
+    $news_entry->setContent($textlang);
+    $news_entry->setId($id);
+    $news_entry->setImageIds($image_ids ? json_decode($image_ids, true) : null);
+
+    echo OlzNewsListItem::render(['news_entry' => $news_entry]);
     // if ($thistype!='galerie') $text = "<a href='".$link."' style='display:block;color:#000000;' class='paragraf'>".$text."</a>";
 
     /*

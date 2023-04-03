@@ -27,7 +27,6 @@ require_once __DIR__.'/modules/fragen_und_antworten.php';
 require_once __DIR__.'/modules/fuer_einsteiger.php';
 require_once __DIR__.'/modules/karten.php';
 require_once __DIR__.'/modules/konto_passwort.php';
-require_once __DIR__.'/modules/leistungssport.php';
 require_once __DIR__.'/modules/links.php';
 require_once __DIR__.'/modules/live_results.php';
 require_once __DIR__.'/modules/login_logout.php';
@@ -119,7 +118,6 @@ $blocks = [
         test_resultate($driver, $base_url);
         test_service($driver, $base_url);
         test_newsletter($driver, $base_url);
-        test_leistungssport($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

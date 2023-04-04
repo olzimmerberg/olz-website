@@ -18,9 +18,6 @@ class SymfonyUtils {
         InputInterface $input,
         OutputInterface $output,
     ): void {
-        $command = $this->getApplication()->find($command_name);
-        $return_code = $command->run($input, $output);
-
         $application = $this->getApplication();
         $application->setAutoExit(false);
         $command = $application->find($command_name);

@@ -34,13 +34,13 @@ if (trim(strip_tags($banner_text)) !== '') {
 
 echo OlzCustomizableHome::render();
 
+echo "<div style='height:100px;'>&nbsp;</div>";
+
 echo "
 <div class='content-right'>
-<form name='Formularr' method='post' action='startseite.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
 <div>";
 include __DIR__.'/startseite_r.php';
 echo "</div>
-</form>
 </div>
 <div class='content-middle'>";
 include __DIR__.'/startseite_l.php';

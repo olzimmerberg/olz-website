@@ -56,6 +56,9 @@ final class OnDailyCommandTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
-        $this->assertSame(['olz:test'], $command->commandsCalled);
+        $this->assertSame([
+            'olz:test',
+            'olz:cleanTempDirectory',
+        ], $command->commandsCalled);
     }
 }

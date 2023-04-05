@@ -5,7 +5,6 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Throttling;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tasks\CleanTempDirectoryTask;
 use Olz\Tasks\SyncSolvTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -13,20 +12,13 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class OnDailyEndpoint extends OlzEndpoint {
-    protected $cleanTempDirectoryTask;
     protected $syncSolvTask;
 
     public function runtimeSetup() {
         parent::runtimeSetup();
-        $clean_temp_directory_task = new CleanTempDirectoryTask();
         $sync_solv_task = new SyncSolvTask();
         $sync_solv_task->setSolvFetcher($this->getDefaultSolvFetcher());
-        $this->setCleanTempDirectoryTask($clean_temp_directory_task);
         $this->setSyncSolvTask($sync_solv_task);
-    }
-
-    public function setCleanTempDirectoryTask($cleanTempDirectoryTask) {
-        $this->cleanTempDirectoryTask = $cleanTempDirectoryTask;
     }
 
     public function setSyncSolvTask($syncSolvTask) {
@@ -86,7 +78,6 @@ class OnDailyEndpoint extends OlzEndpoint {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_daily', $this->dateUtils()->getIsoNow());
 
-        $this->cleanTempDirectoryTask->run();
         $this->syncSolvTask->run();
         $this->telegramUtils()->sendConfiguration();
 

@@ -1,18 +1,19 @@
 <?php
 
-namespace Olz\Tasks;
+namespace Olz\Command;
 
-use Olz\Tasks\Common\BackgroundTask;
+use Olz\Command\Common\OlzCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class CleanTempDirectoryTask extends BackgroundTask {
+#[AsCommand(name: 'olz:cleanTempDirectory')]
+class CleanTempDirectoryCommand extends OlzCommand {
     protected $temp_realpath;
     protected $clean_older_than;
 
-    protected static function getIdent() {
-        return "CleanTempDirectory";
-    }
-
-    protected function runSpecificTask() {
+    protected function handle(InputInterface $input, OutputInterface $output): int {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp";
         $this->temp_realpath = realpath($temp_path);
@@ -21,6 +22,8 @@ class CleanTempDirectoryTask extends BackgroundTask {
         $this->clean_older_than = $now - $cleaning_delay;
 
         $this->recursiveCleanDirectory($temp_path);
+
+        return Command::SUCCESS;
     }
 
     private function recursiveCleanDirectory($directory) {

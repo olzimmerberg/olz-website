@@ -17,6 +17,11 @@ class OnContinuouslyCommand extends OlzCommand {
             new ArrayInput([]),
             $output,
         );
+        $this->callCommand(
+            'olz:processEmail',
+            new ArrayInput([]),
+            $output,
+        );
 
         return Command::SUCCESS;
     }

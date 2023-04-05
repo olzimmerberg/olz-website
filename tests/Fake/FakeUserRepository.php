@@ -7,7 +7,7 @@ namespace Olz\Tests\Fake;
 class FakeUserRepository {
     public $userToBeFound;
     public $userToBeFoundForQuery;
-    public $fakeProcessEmailTaskUser;
+    public $fakeProcessEmailCommandUser;
 
     public $default_user;
     public $admin_user;
@@ -75,14 +75,14 @@ class FakeUserRepository {
 
     public function findFuzzilyByUsername($username) {
         if ($username === 'someone') {
-            $fake_process_email_task_user = FakeUsers::defaultUser(true);
-            $fake_process_email_task_user->setId(1);
-            $fake_process_email_task_user->setUsername('someone');
-            $fake_process_email_task_user->setFirstName('First');
-            $fake_process_email_task_user->setLastName('User');
-            $fake_process_email_task_user->setEmail('someone@gmail.com');
-            $this->fakeProcessEmailTaskUser = $fake_process_email_task_user;
-            return $fake_process_email_task_user;
+            $fake_process_email_command_user = FakeUsers::defaultUser(true);
+            $fake_process_email_command_user->setId(1);
+            $fake_process_email_command_user->setUsername('someone');
+            $fake_process_email_command_user->setFirstName('First');
+            $fake_process_email_command_user->setLastName('User');
+            $fake_process_email_command_user->setEmail('someone@gmail.com');
+            $this->fakeProcessEmailCommandUser = $fake_process_email_command_user;
+            return $fake_process_email_command_user;
         }
         if ($username === 'no-permission') {
             $user = FakeUsers::defaultUser(true);
@@ -94,14 +94,14 @@ class FakeUserRepository {
 
     public function findFuzzilyByOldUsername($old_username) {
         if ($old_username === 'someone-old') {
-            $fake_process_email_task_user = FakeUsers::defaultUser(true);
-            $fake_process_email_task_user->setId(2);
-            $fake_process_email_task_user->setUsername('someone-old');
-            $fake_process_email_task_user->setFirstName('Old');
-            $fake_process_email_task_user->setLastName('User');
-            $fake_process_email_task_user->setEmail('someone-old@gmail.com');
-            $this->fakeProcessEmailTaskUser = $fake_process_email_task_user;
-            return $fake_process_email_task_user;
+            $fake_process_email_command_user = FakeUsers::defaultUser(true);
+            $fake_process_email_command_user->setId(2);
+            $fake_process_email_command_user->setUsername('someone-old');
+            $fake_process_email_command_user->setFirstName('Old');
+            $fake_process_email_command_user->setLastName('User');
+            $fake_process_email_command_user->setEmail('someone-old@gmail.com');
+            $this->fakeProcessEmailCommandUser = $fake_process_email_command_user;
+            return $fake_process_email_command_user;
         }
         return null;
     }

@@ -1,24 +1,25 @@
 <?php
 
-namespace Olz\Tasks;
+namespace Olz\Command;
 
+use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Role;
 use Olz\Entity\User;
-use Olz\Tasks\Common\BackgroundTask;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
 
-class ProcessEmailTask extends BackgroundTask {
+#[AsCommand(name: 'olz:processEmail')]
+class ProcessEmailCommand extends OlzCommand {
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;
 
     protected $client;
 
-    protected static function getIdent() {
-        return "ProcessEmail";
-    }
-
-    protected function runSpecificTask() {
+    protected function handle(InputInterface $input, OutputInterface $output): int {
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
         try {
@@ -49,6 +50,8 @@ class ProcessEmailTask extends BackgroundTask {
         foreach ($newly_processed_mails as $mail) {
             $mail->move($folder_path = 'INBOX.Processed');
         }
+
+        return Command::SUCCESS;
     }
 
     protected function getProcessedMails() {

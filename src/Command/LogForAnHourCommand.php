@@ -1,15 +1,16 @@
 <?php
 
-namespace Olz\Tasks;
+namespace Olz\Command;
 
-use Olz\Tasks\Common\BackgroundTask;
+use Olz\Command\Common\OlzCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class LogForAnHourTask extends BackgroundTask {
-    protected static function getIdent() {
-        return "LogForAnHour";
-    }
-
-    protected function runSpecificTask() {
+#[AsCommand(name: 'olz:logForAnHour')]
+class LogForAnHourCommand extends OlzCommand {
+    protected function handle(InputInterface $input, OutputInterface $output): int {
         $success = set_time_limit(4000);
         if ($success) {
             $this->log()->info("Successfully set time limit");
@@ -22,5 +23,7 @@ class LogForAnHourTask extends BackgroundTask {
             sleep(10);
         }
         $this->log()->info("Successfully wasted an hour!");
+
+        return Command::SUCCESS;
     }
 }

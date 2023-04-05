@@ -8,6 +8,8 @@ use Olz\Tasks\ProcessEmailTask;
 use Olz\Tasks\SendDailyNotificationsTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
     protected $sendDailyNotificationsTask;
@@ -72,6 +74,10 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
         }
 
         $this->processEmailTask->run();
+
+        $command_input = new ArrayInput([]);
+        $command_output = new BufferedOutput();
+        $this->symfonyUtils()->callCommand('olz:onContinuously', $command_input, $command_output);
 
         return [];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Tasks\SendDailyNotificationsTask;
+namespace Olz\Command\SendDailyNotificationsCommand;
 
 class Notification {
     public $title;

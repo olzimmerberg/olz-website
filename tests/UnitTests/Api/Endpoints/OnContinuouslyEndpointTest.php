@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\OnContinuouslyEndpoint;
-use Olz\Entity\Throttling;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -56,83 +55,13 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testOnContinuouslyEndpointTooSoonToSendDailyEmails(): void {
-        $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
-        $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLog($logger);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
-        $endpoint->setSymfonyUtils($symfony_utils);
-        $entity_manager = new Fake\FakeEntityManager();
-        $throttling_repo = new Fake\FakeThrottlingRepository();
-        $throttling_repo->expected_event_name = 'daily_notifications';
-        $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $endpoint->setEntityManager($entity_manager);
-
-        $result = $endpoint->call([
-            'authenticityCode' => 'some-token',
-        ]);
-
-        $this->assertSame([
-            'INFO Valid user request',
-            'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
-        $this->assertSame([], $result);
-        $this->assertSame([], $throttling_repo->recorded_occurrences);
-        $this->assertSame(['olz:onContinuously'], $symfony_utils->commandsCalled);
-    }
-
-    public function testOnContinuouslyEndpointFirstDailyNotifications(): void {
-        $send_daily_notifications_task = new Fake\FakeTask();
-        $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
-        $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLog($logger);
-        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
-        $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
-        $endpoint->setSymfonyUtils($symfony_utils);
-        $entity_manager = new Fake\FakeEntityManager();
-        $throttling_repo = new Fake\FakeThrottlingRepository();
-        $throttling_repo->expected_event_name = 'daily_notifications';
-        $throttling_repo->last_daily_notifications = null;
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $endpoint->setEntityManager($entity_manager);
-
-        $result = $endpoint->call([
-            'authenticityCode' => 'some-token',
-        ]);
-
-        $this->assertSame([
-            'INFO Valid user request',
-            'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
-        $this->assertSame([], $result);
-        $this->assertSame(
-            [['daily_notifications', '2020-03-13 19:30:00']],
-            $throttling_repo->recorded_occurrences
-        );
-        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
-        $this->assertSame(['olz:onContinuously'], $symfony_utils->commandsCalled);
-    }
-
     public function testOnContinuouslyEndpoint(): void {
-        $send_daily_notifications_task = new Fake\FakeTask();
         $logger = Fake\FakeLogger::create();
         $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
-        $endpoint->setSendDailyNotificationsTask($send_daily_notifications_task);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
         $endpoint->setSymfonyUtils($symfony_utils);
-        $entity_manager = new Fake\FakeEntityManager();
-        $throttling_repo = new Fake\FakeThrottlingRepository();
-        $throttling_repo->expected_event_name = 'daily_notifications';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -143,11 +72,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
-        $this->assertSame(
-            [['daily_notifications', '2020-03-13 19:30:00']],
-            $throttling_repo->recorded_occurrences
-        );
-        $this->assertSame(true, $send_daily_notifications_task->hasBeenRun);
         $this->assertSame(['olz:onContinuously'], $symfony_utils->commandsCalled);
     }
 }

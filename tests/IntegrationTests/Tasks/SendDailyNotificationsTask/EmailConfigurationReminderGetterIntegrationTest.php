@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
@@ -14,7 +14,7 @@ use Olz\Utils\FixedDateUtils;
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
     public function testEmailConfigurationReminderGetter(): void {

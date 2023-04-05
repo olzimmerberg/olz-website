@@ -1,22 +1,27 @@
 <?php
 
-namespace Olz\Tasks;
+namespace Olz\Command;
 
+use Olz\Command\Common\OlzCommand;
+use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
+use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
+use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
+use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
+use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
+use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
+use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
-use Olz\Tasks\Common\BackgroundTask;
-use Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter;
-use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
-use Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter;
-use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
-use Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter;
-use Olz\Tasks\SendDailyNotificationsTask\WeeklyPreviewGetter;
-use Olz\Tasks\SendDailyNotificationsTask\WeeklySummaryGetter;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__.'/../../_/config/init.php';
 
-class SendDailyNotificationsTask extends BackgroundTask {
+#[AsCommand(name: 'olz:sendDailyNotifications')]
+class SendDailyNotificationsCommand extends OlzCommand {
     protected $dailySummaryGetter;
     protected $deadlineWarningGetter;
     protected $emailConfigurationReminderGetter;
@@ -26,6 +31,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
     protected $weeklySummaryGetter;
 
     public function __construct() {
+        parent::__construct();
         $this->setDailySummaryGetter(new DailySummaryGetter());
         $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
         $this->setEmailConfigurationReminderGetter(
@@ -65,11 +71,7 @@ class SendDailyNotificationsTask extends BackgroundTask {
         $this->weeklySummaryGetter = $weeklySummaryGetter;
     }
 
-    protected static function getIdent() {
-        return "SendDailyNotifications";
-    }
-
-    protected function runSpecificTask() {
+    protected function handle(InputInterface $input, OutputInterface $output): int {
         $this->log()->info("Autogenerating notifications...");
         $this->autoupdateNotificationSubscriptions();
 
@@ -103,6 +105,8 @@ class SendDailyNotificationsTask extends BackgroundTask {
                     break;
             }
         }
+
+        return Command::SUCCESS;
     }
 
     protected function autoupdateNotificationSubscriptions() {

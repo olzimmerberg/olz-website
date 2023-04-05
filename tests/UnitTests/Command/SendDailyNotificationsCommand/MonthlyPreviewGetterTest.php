@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -58,7 +58,7 @@ class FakeMonthlyPreviewGetterTerminRepository {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {

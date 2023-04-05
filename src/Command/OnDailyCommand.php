@@ -12,6 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'olz:onDaily')]
 class OnDailyCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
+        set_time_limit(4000);
+        ignore_user_abort(true);
+
         $this->callCommand(
             'olz:test',
             new ArrayInput([]),

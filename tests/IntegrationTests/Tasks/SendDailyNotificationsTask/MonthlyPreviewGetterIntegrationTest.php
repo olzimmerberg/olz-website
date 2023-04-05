@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
@@ -15,7 +15,7 @@ use Olz\Utils\FixedDateUtils;
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\MonthlyPreviewGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter
  */
 final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {

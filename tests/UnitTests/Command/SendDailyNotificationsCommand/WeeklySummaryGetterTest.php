@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\Blog;
 use Olz\Entity\Forum;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
-class FakeDailySummaryGetterNewsRepository {
+class FakeWeeklySummaryGetterNewsRepository {
     public function matching($criteria) {
         $aktuell1 = new NewsEntry();
         $aktuell1->setId(1);
@@ -30,7 +30,7 @@ class FakeDailySummaryGetterNewsRepository {
     }
 }
 
-class FakeDailySummaryGetterBlogRepository {
+class FakeWeeklySummaryGetterBlogRepository {
     public function matching($criteria) {
         $blog1 = new Blog();
         $blog1->setId(1);
@@ -46,7 +46,7 @@ class FakeDailySummaryGetterBlogRepository {
     }
 }
 
-class FakeDailySummaryGetterForumRepository {
+class FakeWeeklySummaryGetterForumRepository {
     public function matching($criteria) {
         $forum1 = new Forum();
         $forum1->setId(1);
@@ -62,7 +62,7 @@ class FakeDailySummaryGetterForumRepository {
     }
 }
 
-class FakeDailySummaryGetterTerminRepository {
+class FakeWeeklySummaryGetterTerminRepository {
     public function matching($criteria) {
         $termin1 = new Termin();
         $termin1->setId(1);
@@ -80,31 +80,52 @@ class FakeDailySummaryGetterTerminRepository {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\DailySummaryGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter
  */
-final class DailySummaryGetterTest extends UnitTestCase {
-    public function testDailySummaryGetterWithAllContent(): void {
+final class WeeklySummaryGetterTest extends UnitTestCase {
+    public function testWeeklySummaryGetterWrongWeekday(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $news_repo = new FakeDailySummaryGetterNewsRepository();
-        $blog_repo = new FakeDailySummaryGetterBlogRepository();
-        $forum_repo = new FakeDailySummaryGetterForumRepository();
-        $termin_repo = new FakeDailySummaryGetterTerminRepository();
+        $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
+        $logger = Fake\FakeLogger::create();
+        $user = new User();
+        $user->setFirstName('First');
+
+        $job = new WeeklySummaryGetter();
+        $job->setEntityManager($entity_manager);
+        $job->setDateUtils($date_utils);
+        $job->setLogger($logger);
+        $notification = $job->getWeeklySummaryNotification([
+            'aktuell' => true,
+            'blog' => true,
+            'forum' => true,
+            'termine' => true,
+        ]);
+
+        $this->assertSame(null, $notification);
+    }
+
+    public function testWeeklySummaryGetterWithAllContent(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $news_repo = new FakeWeeklySummaryGetterNewsRepository();
+        $blog_repo = new FakeWeeklySummaryGetterBlogRepository();
+        $forum_repo = new FakeWeeklySummaryGetterForumRepository();
+        $termin_repo = new FakeWeeklySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Blog::class] = $blog_repo;
         $entity_manager->repositories[Forum::class] = $forum_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
+        $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
-        $job = new DailySummaryGetter();
+        $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
-        $notification = $job->getDailySummaryNotification([
+        $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -114,7 +135,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
         Hallo First,
         
-        Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
+        Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
         
         
         **Aktuell**
@@ -142,24 +163,24 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
 
         ZZZZZZZZZZ;
-        $this->assertSame('Tageszusammenfassung', $notification->title);
+        $this->assertSame('Wochenzusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 
-    public function testDailySummaryGetterWithNoContent(): void {
+    public function testWeeklySummaryGetterWithNoContent(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
+        $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
-        $job = new DailySummaryGetter();
+        $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
-        $notification = $job->getDailySummaryNotification([]);
+        $notification = $job->getWeeklySummaryNotification([]);
 
         $this->assertSame(null, $notification);
     }

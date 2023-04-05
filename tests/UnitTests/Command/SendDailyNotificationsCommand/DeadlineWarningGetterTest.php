@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -73,7 +73,7 @@ class FakeDeadlineWarningGetterTerminRepository {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter
  */
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {

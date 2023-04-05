@@ -22,15 +22,12 @@ class OlzMenu {
         $menu = [
             ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
             ["", "", ''],
-            ["Aktuell", "aktuell.php", 'large'],
-            ["Leistungssport", "blog.php", 'large'],
+            ["News", "aktuell.php", 'large'],
             ["Termine", "termine.php", 'large'],
             ["", "", ''],
-            ["Galerie", "galerie.php", 'large'],
-            ["Forum", "forum.php", 'large'],
             ["Karten", "karten.php", 'large'],
-            ["", "", ''],
             ["Material & Kleider", "material.php", 'large'],
+            ["", "", ''],
             ["Service", "service.php", 'large'],
             ["Verein", "verein.php", 'large'],
         ];

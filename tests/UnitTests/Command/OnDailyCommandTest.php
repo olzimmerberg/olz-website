@@ -36,11 +36,6 @@ class OnDailyCommandForTest extends OnDailyCommand {
  * @covers \Olz\Command\OnDailyCommand
  */
 final class OnDailyCommandTest extends UnitTestCase {
-    public function testDummy(): void {
-        $command = new OnDailyCommand();
-        $this->assertSame(true, (bool) $command);
-    }
-
     public function testOnDailyCommandSuccess(): void {
         $logger = Fake\FakeLogger::create();
         $command = new OnDailyCommandForTest();
@@ -59,6 +54,7 @@ final class OnDailyCommandTest extends UnitTestCase {
         $this->assertSame([
             'olz:test',
             'olz:cleanTempDirectory',
+            'olz:syncSolv',
         ], $command->commandsCalled);
     }
 }

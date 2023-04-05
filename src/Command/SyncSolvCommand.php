@@ -1,16 +1,21 @@
 <?php
 
-namespace Olz\Tasks;
+namespace Olz\Command;
 
-use Olz\Tasks\Common\BackgroundTask;
-use Olz\Tasks\SyncSolvTask\SolvEventsSyncer;
-use Olz\Tasks\SyncSolvTask\SolvPeopleAssigner;
-use Olz\Tasks\SyncSolvTask\SolvPeopleMerger;
-use Olz\Tasks\SyncSolvTask\SolvResultsSyncer;
+use Olz\Command\Common\OlzCommand;
+use Olz\Command\SyncSolvCommand\SolvEventsSyncer;
+use Olz\Command\SyncSolvCommand\SolvPeopleAssigner;
+use Olz\Command\SyncSolvCommand\SolvPeopleMerger;
+use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
-class SyncSolvTask extends BackgroundTask {
+#[AsCommand(name: 'olz:syncSolv')]
+class SyncSolvCommand extends OlzCommand {
     protected $solvFetcher;
     protected $solvEventsSyncer;
     protected $solvResultsSyncer;
@@ -37,15 +42,12 @@ class SyncSolvTask extends BackgroundTask {
         $this->solvPeopleMerger = $solvPeopleMerger;
     }
 
-    protected static function getIdent() {
-        return "SyncSolv";
-    }
-
-    protected function runSpecificTask() {
+    protected function handle(InputInterface $input, OutputInterface $output): int {
         $this->syncSolvEvents();
         $this->syncSolvResults();
         $this->assignSolvPeople();
         $this->mergeSolvPeople();
+        return Command::SUCCESS;
     }
 
     private function syncSolvEvents() {

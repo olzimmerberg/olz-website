@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Tasks\SyncSolvTask;
+namespace Olz\Command\SyncSolvCommand;
 
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;

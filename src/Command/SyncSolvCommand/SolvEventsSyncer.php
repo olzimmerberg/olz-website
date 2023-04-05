@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Tasks\SyncSolvTask;
+namespace Olz\Command\SyncSolvCommand;
 
 use Olz\Entity\SolvEvent;
 use Olz\Parsers\SolvEventParser;

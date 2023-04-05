@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @coversNothing
  */
-class OlzCommandForTest extends OlzCommand {
+class OlzCommandForIntegrationTest extends OlzCommand {
     public $returnCode;
     public $failWithError;
 
@@ -48,7 +48,7 @@ class OlzCommandForTest extends OlzCommand {
 final class OlzCommandIntegrationTest extends IntegrationTestCase {
     public function testOlzCommandCallCommand(): void {
         $logger = Fake\FakeLogger::create();
-        $command = new OlzCommandForTest();
+        $command = new OlzCommandForIntegrationTest();
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();

@@ -2,20 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\IntegrationTests\Tasks;
+namespace Olz\Tests\IntegrationTests\Command;
 
+use Olz\Command\SyncSolvCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tasks\SyncSolvTask;
 use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSyncSolvTaskIntegrationTestSolvFetcher extends Fake\FakeFetcher {
+class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeFetcher {
     public function fetchEventsCsvForYear($year) {
         return $this->getMockedResponse(
             "solv_events_{$year}", __DIR__,
@@ -50,21 +53,23 @@ class FakeSyncSolvTaskIntegrationTestSolvFetcher extends Fake\FakeFetcher {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SyncSolvTask
+ * @covers \Olz\Command\SyncSolvCommand
  */
-final class SyncSolvTaskIntegrationTest extends IntegrationTestCase {
+final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
     public function testRun(): void {
         $this->withLockedDb(function () {
-            $job = new SyncSolvTask();
+            $job = new SyncSolvCommand();
             $env_utils = EnvUtils::fromEnv();
             $date_utils = AbstractDateUtils::fromEnv();
             $logger = Fake\FakeLogger::create();
-            $job->setSolvFetcher(new FakeSyncSolvTaskIntegrationTestSolvFetcher());
+            $job->setSolvFetcher(new FakeSyncSolvCommandIntegrationTestSolvFetcher());
             $job->setLog($logger);
+            $input = new ArrayInput([]);
+            $output = new BufferedOutput();
 
-            $result = $job->run();
+            $result = $job->run($input, $output);
 
-            $this->assertSame(null, $result);
+            $this->assertSame(Command::SUCCESS, $result);
 
             $db_utils = DbUtils::fromEnv();
             $entity_manager = $db_utils->getEntityManager();

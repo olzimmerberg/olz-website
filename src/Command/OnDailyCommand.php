@@ -17,6 +17,11 @@ class OnDailyCommand extends OlzCommand {
             new ArrayInput([]),
             $output,
         );
+        $this->callCommand(
+            'olz:cleanTempDirectory',
+            new ArrayInput([]),
+            $output,
+        );
 
         return Command::SUCCESS;
     }

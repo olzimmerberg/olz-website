@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks;
+namespace Olz\Tests\UnitTests\Command;
 
-use Olz\Tasks\CleanTempDirectoryTask;
+use Olz\Command\CleanTempDirectoryCommand;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeCleanTempDirectoryTask extends CleanTempDirectoryTask {
+class FakeCleanTempDirectoryCommand extends CleanTempDirectoryCommand {
     public $opendir_override_result;
 
     public $filemtime_response;
@@ -47,10 +49,10 @@ class FakeCleanTempDirectoryTask extends CleanTempDirectoryTask {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\CleanTempDirectoryTask
+ * @covers \Olz\Command\CleanTempDirectoryCommand
  */
-final class CleanTempDirectoryTaskTest extends UnitTestCase {
-    public function testCleanTempDirectoryTaskErrorOpening(): void {
+final class CleanTempDirectoryCommandTest extends UnitTestCase {
+    public function testCleanTempDirectoryCommandErrorOpening(): void {
         $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
@@ -58,27 +60,27 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
         $temp_realpath = realpath($temp_path);
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job = new FakeCleanTempDirectoryTask();
+        $job = new FakeCleanTempDirectoryCommand();
         $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->opendir_override_result = false;
         $job->setLog($logger);
-        $job->run();
+        $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Setup task CleanTempDirectory...',
-            'INFO Running task CleanTempDirectory...',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
             'WARNING Failed to open directory data-path/temp',
-            'INFO Finished task CleanTempDirectory.',
-            'INFO Teardown task CleanTempDirectory...',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
         $this->assertEqualsCanonicalizing([], $job->unlink_calls);
     }
 
-    public function testCleanTempDirectoryTaskRemovesEverything(): void {
+    public function testCleanTempDirectoryCommandRemovesEverything(): void {
         $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
@@ -89,12 +91,14 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         file_put_contents("{$temp_path}/dir/file.txt", "test");
         file_put_contents("{$temp_path}/file.txt", "test");
         $temp_realpath = realpath($temp_path);
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job = new FakeCleanTempDirectoryTask();
+        $job = new FakeCleanTempDirectoryCommand();
         $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLog($logger);
-        $job->run();
+        $job->run($input, $output);
 
         $this->assertEqualsCanonicalizing([
             "{$temp_realpath}/dir",
@@ -104,14 +108,12 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
             "{$temp_realpath}/file.txt",
         ], $job->unlink_calls);
         $this->assertSame([
-            'INFO Setup task CleanTempDirectory...',
-            'INFO Running task CleanTempDirectory...',
-            'INFO Finished task CleanTempDirectory.',
-            'INFO Teardown task CleanTempDirectory...',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
     }
 
-    public function testCleanTempDirectoryTaskRemoveNotYet(): void {
+    public function testCleanTempDirectoryCommandRemoveNotYet(): void {
         $env_utils = new Fake\FakeEnvUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
@@ -122,21 +124,21 @@ final class CleanTempDirectoryTaskTest extends UnitTestCase {
         file_put_contents("{$temp_path}/dir/file.txt", "test");
         file_put_contents("{$temp_path}/file.txt", "test");
         $temp_realpath = realpath($temp_path);
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job = new FakeCleanTempDirectoryTask();
+        $job = new FakeCleanTempDirectoryCommand();
         $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->filemtime_response = strtotime('2020-03-13 19:30:00');
         $job->setLog($logger);
-        $job->run();
+        $job->run($input, $output);
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
         $this->assertEqualsCanonicalizing([], $job->unlink_calls);
         $this->assertSame([
-            'INFO Setup task CleanTempDirectory...',
-            'INFO Running task CleanTempDirectory...',
-            'INFO Finished task CleanTempDirectory.',
-            'INFO Teardown task CleanTempDirectory...',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
     }
 }

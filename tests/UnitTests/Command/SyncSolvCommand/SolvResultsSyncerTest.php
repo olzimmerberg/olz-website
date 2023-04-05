@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
+namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
 
+use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
 use Olz\Entity\SolvEvent;
-use Olz\Tasks\SyncSolvTask\SolvResultsSyncer;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
@@ -165,7 +165,7 @@ class FakeSolvResultsSyncerSolvFetcher {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SyncSolvTask\SolvResultsSyncer
+ * @covers \Olz\Command\SyncSolvCommand\SolvResultsSyncer
  */
 final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {

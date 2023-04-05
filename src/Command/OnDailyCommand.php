@@ -22,6 +22,11 @@ class OnDailyCommand extends OlzCommand {
             new ArrayInput([]),
             $output,
         );
+        $this->callCommand(
+            'olz:syncSolv',
+            new ArrayInput([]),
+            $output,
+        );
 
         return Command::SUCCESS;
     }

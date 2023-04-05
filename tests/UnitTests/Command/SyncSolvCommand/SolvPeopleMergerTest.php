@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
+namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
 
+use Olz\Command\SyncSolvCommand\SolvPeopleMerger;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
-use Olz\Tasks\SyncSolvTask\SolvPeopleMerger;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
@@ -58,7 +58,7 @@ class FakeSolvPeopleMergerSolvResultRepository {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleMerger
+ * @covers \Olz\Command\SyncSolvCommand\SolvPeopleMerger
  */
 final class SolvPeopleMergerTest extends UnitTestCase {
     public function testSolvPeopleMerger(): void {

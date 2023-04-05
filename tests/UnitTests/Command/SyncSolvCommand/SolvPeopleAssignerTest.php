@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SyncSolvTask;
+namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
 
+use Olz\Command\SyncSolvCommand\SolvPeopleAssigner;
 use Olz\Entity\SolvResult;
-use Olz\Tasks\SyncSolvTask\SolvPeopleAssigner;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
@@ -88,7 +88,7 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SyncSolvTask\SolvPeopleAssigner
+ * @covers \Olz\Command\SyncSolvCommand\SolvPeopleAssigner
  */
 final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {

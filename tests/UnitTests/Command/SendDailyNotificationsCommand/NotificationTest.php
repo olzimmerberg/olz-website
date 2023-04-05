@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\Notification;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\Notification
+ * @covers \Olz\Command\SendDailyNotificationsCommand\Notification
  */
 final class NotificationTest extends UnitTestCase {
     public function testNotification(): void {

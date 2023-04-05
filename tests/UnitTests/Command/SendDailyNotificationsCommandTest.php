@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks;
+namespace Olz\Tests\UnitTests\Command;
 
+use Olz\Command\SendDailyNotificationsCommand;
+use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask;
-use Olz\Tasks\SendDailyNotificationsTask\Notification;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 require_once __DIR__.'/../../Fake/fake_notification_subscription.php';
 
@@ -197,7 +199,7 @@ $all_notification_subscriptions = [
     ),
 ];
 
-class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
+class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
     public function findAll() {
         global $all_notification_subscriptions;
         return $all_notification_subscriptions;
@@ -286,7 +288,7 @@ class FakeSendDailyNotificationsTaskNotificationSubscriptionRepository {
     }
 }
 
-class FakeSendDailyNotificationsTaskTelegramLinkRepository {
+class FakeSendDailyNotificationsCommandTelegramLinkRepository {
     public function findOneBy($where) {
         global $user1, $user2, $user3, $user_provoke_error;
         if ($where == ['user' => $user1]) {
@@ -335,7 +337,7 @@ class FakeSendDailyNotificationsTaskTelegramLinkRepository {
     }
 }
 
-class FakeSendDailyNotificationsTaskDailySummaryGetter {
+class FakeSendDailyNotificationsCommandDailySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public $entityManager;
@@ -364,7 +366,7 @@ class FakeSendDailyNotificationsTaskDailySummaryGetter {
     }
 }
 
-class FakeSendDailyNotificationsTaskDeadlineWarningGetter {
+class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public $entityManager;
@@ -419,7 +421,7 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
     }
 }
 
-class FakeSendDailyNotificationsTaskMonthlyPreviewGetter {
+class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public $entityManager;
@@ -473,7 +475,7 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
     }
 }
 
-class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
+class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public $entityManager;
@@ -502,7 +504,7 @@ class FakeSendDailyNotificationsTaskWeeklyPreviewGetter {
     }
 }
 
-class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
+class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public $entityManager;
@@ -537,14 +539,14 @@ class FakeSendDailyNotificationsTaskWeeklySummaryGetter {
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask
+ * @covers \Olz\Command\SendDailyNotificationsCommand
  */
-final class SendDailyNotificationsTaskTest extends UnitTestCase {
-    public function testSendDailyNotificationsTask(): void {
+final class SendDailyNotificationsCommandTest extends UnitTestCase {
+    public function testSendDailyNotificationsCommand(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $notification_subscription_repo = new FakeSendDailyNotificationsTaskNotificationSubscriptionRepository();
+        $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $telegram_link_repo = new FakeSendDailyNotificationsTaskTelegramLinkRepository();
+        $telegram_link_repo = new FakeSendDailyNotificationsCommandTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
@@ -553,15 +555,17 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $telegram_utils = new Fake\FakeTelegramUtils();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
-        $daily_summary_getter = new FakeSendDailyNotificationsTaskDailySummaryGetter();
-        $deadline_warning_getter = new FakeSendDailyNotificationsTaskDeadlineWarningGetter();
+        $daily_summary_getter = new FakeSendDailyNotificationsCommandDailySummaryGetter();
+        $deadline_warning_getter = new FakeSendDailyNotificationsCommandDeadlineWarningGetter();
         $email_configuration_reminder_getter = new FakeSendDailyNotificationsEmailConfigurationReminderGetter();
-        $monthly_preview_getter = new FakeSendDailyNotificationsTaskMonthlyPreviewGetter();
+        $monthly_preview_getter = new FakeSendDailyNotificationsCommandMonthlyPreviewGetter();
         $telegram_configuration_reminder_getter = new FakeSendDailyNotificationsTelegramConfigurationReminderGetter();
-        $weekly_preview_getter = new FakeSendDailyNotificationsTaskWeeklyPreviewGetter();
-        $weekly_summary_getter = new FakeSendDailyNotificationsTaskWeeklySummaryGetter();
+        $weekly_preview_getter = new FakeSendDailyNotificationsCommandWeeklyPreviewGetter();
+        $weekly_summary_getter = new FakeSendDailyNotificationsCommandWeeklySummaryGetter();
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job = new SendDailyNotificationsTask();
+        $job = new SendDailyNotificationsCommand();
         $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
@@ -575,11 +579,10 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
         $job->setTelegramConfigurationReminderGetter($telegram_configuration_reminder_getter);
         $job->setWeeklyPreviewGetter($weekly_preview_getter);
         $job->setWeeklySummaryGetter($weekly_summary_getter);
-        $job->run();
+        $job->run($input, $output);
 
         $this->assertSame([
-            "INFO Setup task SendDailyNotifications...",
-            "INFO Running task SendDailyNotifications...",
+            "INFO Running command Olz\\Command\\SendDailyNotificationsCommand...",
             "INFO Autogenerating notifications...",
             "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
             "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
@@ -645,8 +648,7 @@ final class SendDailyNotificationsTaskTest extends UnitTestCase {
             "INFO Email sent to user (1): ECR title {\"cancelled\":false}",
             "INFO Getting notification for '{\"cancelled\":true}'...",
             "INFO Nothing to send.",
-            "INFO Finished task SendDailyNotifications.",
-            "INFO Teardown task SendDailyNotifications...",
+            "INFO Successfully ran command Olz\\Command\\SendDailyNotificationsCommand.",
         ], $logger->handler->getPrettyRecords());
 
         global $user1, $user2;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -13,7 +13,7 @@ use Olz\Utils\FixedDateUtils;
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\EmailConfigurationReminderGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     public function testEmailConfigurationReminderGetterOnWrongDay(): void {

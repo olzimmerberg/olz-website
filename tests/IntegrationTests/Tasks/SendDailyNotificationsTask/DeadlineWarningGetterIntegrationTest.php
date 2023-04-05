@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\IntegrationTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
@@ -15,7 +15,7 @@ use Olz\Utils\FixedDateUtils;
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\DeadlineWarningGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter
  */
 final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {

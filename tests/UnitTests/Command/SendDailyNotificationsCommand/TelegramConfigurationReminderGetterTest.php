@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Tasks\SendDailyNotificationsTask;
+namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
+use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
 use Olz\Entity\User;
-use Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
@@ -13,7 +13,7 @@ use Olz\Utils\FixedDateUtils;
 /**
  * @internal
  *
- * @covers \Olz\Tasks\SendDailyNotificationsTask\TelegramConfigurationReminderGetter
+ * @covers \Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter
  */
 final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     public function testTelegramConfigurationReminderGetterOnWrongDay(): void {

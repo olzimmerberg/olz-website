@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Tasks\SendDailyNotificationsTask;
+namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\Blog;

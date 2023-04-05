@@ -4,7 +4,6 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Throttling;
-use Olz\Tasks\ProcessEmailTask;
 use Olz\Tasks\SendDailyNotificationsTask;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -13,22 +12,15 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
     protected $sendDailyNotificationsTask;
-    protected $processEmailTask;
 
     public function runtimeSetup() {
         parent::runtimeSetup();
-        $process_email_task = new ProcessEmailTask();
         $send_daily_notifications_task = new SendDailyNotificationsTask();
-        $this->setProcessEmailTask($process_email_task);
         $this->setSendDailyNotificationsTask($send_daily_notifications_task);
     }
 
     public function setSendDailyNotificationsTask($sendDailyNotificationsTask) {
         $this->sendDailyNotificationsTask = $sendDailyNotificationsTask;
-    }
-
-    public function setProcessEmailTask($processEmailTask) {
-        $this->processEmailTask = $processEmailTask;
     }
 
     public static function getIdent() {
@@ -72,8 +64,6 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
 
             $this->sendDailyNotificationsTask->run();
         }
-
-        $this->processEmailTask->run();
 
         $command_input = new ArrayInput([]);
         $command_output = new BufferedOutput();

@@ -590,7 +590,7 @@ class DevDataUtils {
             $time = str_pad(floor($i / 60), 2, '0', STR_PAD_LEFT).':'.str_pad(floor($i % 60), 2, '0', STR_PAD_LEFT).':'.str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT).'.'.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             $level = $log_levels[$i % $num_log_levels];
             $fill_up = ($i % ($num_log_levels + 1)) === 0 ? $long_line : '';
-            $line = "[{$iso_date}T{$time}+01:00] Task:ProcessEmail.{$level}: Something happened... {$fill_up} [] []\n";
+            $line = "[{$iso_date}T{$time}+01:00] Command:ProcessEmail.{$level}: Something happened... {$fill_up} [] []\n";
             fwrite($fp, $line);
         }
         fclose($fp);

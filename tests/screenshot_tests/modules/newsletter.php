@@ -64,6 +64,10 @@ function test_newsletter($driver, $base_url) {
         WebDriverBy::cssSelector('#telegram-notifications-form input[name="weekly-summary-forum"]')
     );
     click($telegram_weekly_summary_forum_elem);
+    $telegram_weekly_summary_galerie_elem = $driver->findElement(
+        WebDriverBy::cssSelector('#telegram-notifications-form input[name="weekly-summary-galerie"]')
+    );
+    click($telegram_weekly_summary_galerie_elem);
     $telegram_weekly_summary_termine_elem = $driver->findElement(
         WebDriverBy::cssSelector('#telegram-notifications-form input[name="weekly-summary-termine"]')
     );
@@ -109,6 +113,10 @@ function test_newsletter($driver, $base_url) {
         WebDriverBy::cssSelector('#email-notifications-form input[name="weekly-summary-forum"]')
     );
     click($email_weekly_summary_forum_elem);
+    $email_weekly_summary_galerie_elem = $driver->findElement(
+        WebDriverBy::cssSelector('#email-notifications-form input[name="weekly-summary-galerie"]')
+    );
+    click($email_weekly_summary_galerie_elem);
     $email_weekly_summary_termine_elem = $driver->findElement(
         WebDriverBy::cssSelector('#email-notifications-form input[name="weekly-summary-termine"]')
     );

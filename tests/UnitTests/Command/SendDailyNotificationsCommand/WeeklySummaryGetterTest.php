@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\Blog;
 use Olz\Entity\Forum;
+use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
@@ -43,6 +44,20 @@ class FakeWeeklySummaryGetterBlogRepository {
         $blog2->setTime(new \DateTime('16:00:00'));
         $blog2->setTitle('MV nicht abgesagt!');
         return [$blog1, $blog2];
+    }
+}
+
+class FakeWeeklySummaryGetterGalerieRepository {
+    public function matching($criteria) {
+        $galerie1 = new Galerie();
+        $galerie1->setId(1);
+        $galerie1->setDate(new \DateTime('2020-03-12'));
+        $galerie1->setTitle('Bericht vom Lauftraining');
+        $galerie2 = new Galerie();
+        $galerie2->setId(2);
+        $galerie2->setDate(new \DateTime('2020-03-13'));
+        $galerie2->setTitle('MV nicht abgesagt!');
+        return [$galerie1, $galerie2];
     }
 }
 
@@ -97,6 +112,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
+            'galerie' => true,
             'forum' => true,
             'termine' => true,
         ]);
@@ -108,10 +124,12 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeWeeklySummaryGetterNewsRepository();
         $blog_repo = new FakeWeeklySummaryGetterBlogRepository();
+        $galerie_repo = new FakeWeeklySummaryGetterGalerieRepository();
         $forum_repo = new FakeWeeklySummaryGetterForumRepository();
         $termin_repo = new FakeWeeklySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Blog::class] = $blog_repo;
+        $entity_manager->repositories[Galerie::class] = $galerie_repo;
         $entity_manager->repositories[Forum::class] = $forum_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
@@ -128,6 +146,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
+            'galerie' => true,
             'forum' => true,
             'termine' => true,
         ]);
@@ -155,6 +174,12 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/forum.php#id1)
         - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/forum.php#id2)
 
+        
+        **Galerien**
+        
+        - 12.03.: [Bericht vom Lauftraining](http://fake-base-url/_/galerie.php?id=1)
+        - 13.03.: [MV nicht abgesagt!](http://fake-base-url/_/galerie.php?id=2)
+        
         
         **Aktualisierte Termine**
         

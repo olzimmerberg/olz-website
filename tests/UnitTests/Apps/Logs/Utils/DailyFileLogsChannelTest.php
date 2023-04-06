@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Logs\Utils;
 
+use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Apps\Logs\Utils\DailyFileLogsChannel;
 use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\Fake;
@@ -69,9 +70,11 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         $channel->setSession($session);
         $channel->setLog($logger);
 
+        $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
+        $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
         mkdir(__DIR__.'/../../../tmp/logs/');
         $fake_content = [];
-        for ($i = 0; $i < 144; $i++) {
+        for ($i = 0; $i < $num_fake; $i++) {
             $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
@@ -108,7 +111,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             'DEBUG log_file_after data-path/logs/2020-03-14.log',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([
-            ...array_slice($fake_content, 144 - 97, 97),
+            ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",
             "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
             "[2020-03-13 18:00:00] OlzEndpoint.INFO test log entry II\n",
@@ -120,7 +123,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             '/\/tmp\/logs\/2020-03-12.log$/',
             $result->previous->logFile->getPath(),
         );
-        $this->assertSame(144 - 97 - 1, $result->previous->lineNumber);
+        $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous->lineNumber);
         $this->assertSame(null, $result->next);
     }
 }

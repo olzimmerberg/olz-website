@@ -54,7 +54,7 @@ class FakeSolvEventsSyncerSolvFetcher {
             case '2020':
                 return
                     "unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification\n".
-                    "20201;2020-04-01;1;foot;day;0;ZH/SH;*1;Inserted Event;http://test.olzimmerberg.ch;OLC Kapreolo;Dübendorf;Dübendorf;689225;250900;;2;2020-03-13 09:13:27\n".
+                    "20201;2020-04-01;1;foot;day;0;ZH/SH;*1;Inserted Event;http://staging.olzimmerberg.ch;OLC Kapreolo;Dübendorf;Dübendorf;689225;250900;;2;2020-03-13 09:13:27\n".
                     "20202;2020-04-02;1;foot;day;0;ZH/SH;*1;Modified Event (after);;OL Zimmerberg;Sihlwald;Albispass;681240;237075;;2;2020-03-13 13:09:27"
                 ;
             default:

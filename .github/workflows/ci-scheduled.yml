@@ -11,8 +11,8 @@ jobs:
     steps:
     - name: olzimmerberg.ch
       run: wget -O - https://olzimmerberg.ch
-    - name: test.olzimmerberg.ch
-      run: wget -O - https://test.olzimmerberg.ch
+    - name: staging.olzimmerberg.ch
+      run: wget -O - https://staging.olzimmerberg.ch
 
   backup:
     name: Backup

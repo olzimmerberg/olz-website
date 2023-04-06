@@ -65,7 +65,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'firstName' => 'Admin',
             'lastName' => 'Istrator',
             'username' => 'admin',
-            'email' => 'admin-user@test.olzimmerberg.ch',
+            'email' => 'admin-user@staging.olzimmerberg.ch',
             'phone' => '+410123456',
             'gender' => 'M',
             'birthdate' => '2000-01-01 00:00:00',

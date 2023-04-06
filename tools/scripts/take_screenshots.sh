@@ -53,7 +53,7 @@ fi
 
 # Configure symfony
 if [ ! -z DB_PORT ] && [ ! -f .env.local ]; then
-    cp .env .env.local
+    cp .env.local.template .env.local
     sed -i "s/:3306/:$DB_PORT/g" .env.local
     echo "Dev server symfony configured."
 else

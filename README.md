@@ -86,7 +86,7 @@ Die Grösse des webpack-bundles kann wie folgt analysiert werden:
 
 ## Automatische Veröffentlichung
 
-- Wenn ein neuer Branch gepusht wird, werden diese Änderungen automatisch auf [test.olzimmerberg.ch](https://test.olzimmerberg.ch) veröffentlicht.
+- Wenn ein neuer Branch gepusht wird, werden diese Änderungen automatisch auf [staging.olzimmerberg.ch](https://staging.olzimmerberg.ch) veröffentlicht.
 - Wenn ein Pull-Request gemerged wird, werden diese Änderungen automatisch auf [olzimmerberg.ch](https://olzimmerberg.ch) veröffentlicht.
 
 Der Fortschritt dieser automatischen Veröffentlichungen kann [auf GitHub](https://github.com/olzimmerberg/olz-website/actions) verfolgt werden.

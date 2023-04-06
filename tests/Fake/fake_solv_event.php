@@ -13,7 +13,7 @@ function get_fake_solv_event() {
     $solv_event->setRegion('ZH/SH');
     $solv_event->setType('*1');
     $solv_event->setName("Fake Event");
-    $solv_event->setLink('https://test.olzimmerberg.ch/');
+    $solv_event->setLink('https://staging.olzimmerberg.ch/');
     $solv_event->setClub('OL Zimmerberg');
     $solv_event->setMap('Landforst');
     $solv_event->setLocation('Pumpispitz');

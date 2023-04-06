@@ -13,7 +13,7 @@ fi
 
 # Configure symfony
 if [ ! -z DB_PORT ] && [ ! -f .env.test.local ]; then
-    cp .env.test .env.test.local
+    cp .env.test.local.template .env.test.local
     sed -i "s/:3306/:$DB_PORT/g" .env.test.local
     echo "Integration test server symfony configured."
 else
@@ -22,7 +22,7 @@ fi
 
 # Configure dev server symfony
 if [ ! -z DB_PORT ] && [ ! -f .env.local ]; then
-    cp .env .env.local
+    cp .env.local.template .env.local
     sed -i "s/:3306/:$DB_PORT/g" .env.local
     echo "Dev server symfony configured."
 else

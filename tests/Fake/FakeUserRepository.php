@@ -37,7 +37,7 @@ class FakeUserRepository {
         }
         if (
             $where === ['username' => 'vorstand']
-            || $where === ['email' => 'vorstand@test.olzimmerberg.ch']
+            || $where === ['email' => 'vorstand@staging.olzimmerberg.ch']
             || $where === ['id' => 3]
         ) {
             $this->vorstand_user = FakeUsers::vorstandUser();

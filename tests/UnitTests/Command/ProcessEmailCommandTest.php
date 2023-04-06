@@ -380,8 +380,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
-            'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
@@ -434,8 +434,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'INFO Email forwarded from somerole-old@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
-            'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
+            'INFO Email forwarded from somerole-old@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
@@ -535,8 +535,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
-            'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@test.olzimmerberg.ch',
-            'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@test.olzimmerberg.ch',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);

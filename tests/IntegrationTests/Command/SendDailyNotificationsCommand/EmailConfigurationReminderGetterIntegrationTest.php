@@ -24,7 +24,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
-        $user->setEmail('first-user@test.olzimmerberg.ch');
+        $user->setEmail('first-user@staging.olzimmerberg.ch');
 
         $job = new EmailConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -42,7 +42,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
         
         In diesem Fall musst du dich auf der Website [*einloggen*](http://integration-test.host/service.php#login-dialog), und unter ["Service"](http://integration-test.host/service.php) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
-        Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@test.olzimmerberg.ch` registriert.
+        Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@staging.olzimmerberg.ch` registriert.
 
 
         **Du möchtest auch weiterhin keine OLZ-Newsletter-Benachrichtigungen erhalten?**

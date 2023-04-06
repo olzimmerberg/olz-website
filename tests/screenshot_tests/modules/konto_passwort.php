@@ -28,7 +28,7 @@ function test_konto_passwort($driver, $base_url) {
     $email_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-email-input')
     );
-    sendKeys($email_input, '@test.olzimmerberg.ch');
+    sendKeys($email_input, '@staging.olzimmerberg.ch');
     $birthdate_input = $driver->findElement(
         WebDriverBy::cssSelector('#profile-birthdate-input')
     );

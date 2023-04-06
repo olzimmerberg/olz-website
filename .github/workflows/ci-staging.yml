@@ -3,7 +3,7 @@ on:
     branches-ignore:
       - main
 
-name: CI:test
+name: CI:staging
 
 jobs:
 
@@ -146,8 +146,8 @@ jobs:
     - name: Check database migrations
       run: composer check_migrations
 
-  deploy-test:
-    name: Deploy to test.olzimmerberg.ch
+  deploy-staging:
+    name: Deploy to staging.olzimmerberg.ch
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -179,16 +179,16 @@ jobs:
       run: npm install
     - name: Deploy
       env:
-        USERNAME: ${{ secrets.TEST_HOSTTECH_FTP_USERNAME }}
-        PASSWORD: ${{ secrets.TEST_HOSTTECH_FTP_PASSWORD }}
-      run: php ./Deploy.php --target=hosttech --environment=test --username="$USERNAME"
+        USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}
+        PASSWORD: ${{ secrets.STAGING_HOSTTECH_FTP_PASSWORD }}
+      run: php ./Deploy.php --target=hosttech --environment=staging --username="$USERNAME"
     - name: Reset database
-      run: wget -q -O - "https://test.olzimmerberg.ch/tools.php/full-reset"
+      run: wget -q -O - "https://staging.olzimmerberg.ch/tools.php/full-reset"
 
   upload-screenshots:
-    name: Upload screenshots to test.olzimmerberg.ch
+    name: Upload screenshots to staging.olzimmerberg.ch
     runs-on: ubuntu-latest
-    needs: [deploy-test, take-screenshots]
+    needs: [deploy-staging, take-screenshots]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v1
@@ -208,6 +208,6 @@ jobs:
       run: composer install --no-dev --prefer-dist
     - name: Upload over FTPS
       env:
-        USERNAME: ${{ secrets.TEST_HOSTTECH_FTP_USERNAME }}
-        PASSWORD: ${{ secrets.TEST_HOSTTECH_FTP_PASSWORD }}
-      run: php ./ci/screenshot-upload.php --target=hosttech --environment=test --username="$USERNAME"
+        USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}
+        PASSWORD: ${{ secrets.STAGING_HOSTTECH_FTP_PASSWORD }}
+      run: php ./ci/screenshot-upload.php --target=hosttech --environment=staging --username="$USERNAME"

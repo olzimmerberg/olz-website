@@ -57,39 +57,51 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function getRemotePublicPath() {
         if ($this->target === 'hosttech') {
+            // TODO: Remove "test" (renamed to "staging")
             if ($this->environment === 'test') {
                 return "httpdocstest";
+            }
+            if ($this->environment === 'staging') {
+                return "httpdocsstaging";
             }
             if ($this->environment === 'prod') {
                 return "httpdocs";
             }
-            throw new \Exception("Environment must be `test` or `prod`");
+            throw new \Exception("Environment must be `staging` or `prod`");
         }
         throw new \Exception("Target must be `hosttech`");
     }
 
     public function getRemotePublicUrl() {
         if ($this->target === 'hosttech') {
+            // TODO: Remove "test" (renamed to "staging")
             if ($this->environment === 'test') {
                 return "https://test.olzimmerberg.ch";
+            }
+            if ($this->environment === 'staging') {
+                return "https://staging.olzimmerberg.ch";
             }
             if ($this->environment === 'prod') {
                 return "https://olzimmerberg.ch";
             }
-            throw new \Exception("Environment must be `test` or `prod`");
+            throw new \Exception("Environment must be `staging` or `prod`");
         }
         throw new \Exception("Target must be `hosttech`");
     }
 
     public function getRemotePrivatePath() {
         if ($this->target === 'hosttech') {
+            // TODO: Remove "test" (renamed to "staging")
             if ($this->environment === 'test') {
                 return "private/test";
+            }
+            if ($this->environment === 'staging') {
+                return "private/staging";
             }
             if ($this->environment === 'prod') {
                 return "private/prod";
             }
-            throw new \Exception("Environment must be `test` or `prod`");
+            throw new \Exception("Environment must be `staging` or `prod`");
         }
         throw new \Exception("Target must be `hosttech`");
     }
@@ -101,13 +113,15 @@ class Deploy extends AbstractDefaultDeploy {
         ini_set('memory_limit', '500M');
         gc_collect_cycles();
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
+        $fs->mirror(__DIR__.'/../../secrets', __DIR__."/config/secrets/{$this->environment}");
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
         gc_collect_cycles();
 
         $install_path = $public_path;
         $deploy_path_from_public_index = 'dirname(__DIR__)';
-        if ($this->environment === 'test') {
+        // TODO: Remove "test" (renamed to "staging")
+        if ($this->environment === 'test' || $this->environment === 'staging') {
             $entries = scandir($public_path);
             foreach ($entries as $entry) {
                 $path = "{$public_path}/{$entry}";
@@ -116,12 +130,12 @@ class Deploy extends AbstractDefaultDeploy {
                 }
             }
             $public_url = $this->getRemotePublicUrl();
-            $test_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
+            $staging_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
             $this->logger->info("--------------------------------------------");
-            $this->logger->info("   {$public_url}/{$test_token}/   ");
-            $this->logger->info("   {$public_url}/{$test_token}/screenshots/   ");
+            $this->logger->info("   {$public_url}/{$staging_token}/   ");
+            $this->logger->info("   {$public_url}/{$staging_token}/screenshots/   ");
             $this->logger->info("--------------------------------------------");
-            $install_path = "{$public_path}/{$test_token}";
+            $install_path = "{$public_path}/{$staging_token}";
             $deploy_path_from_public_index = 'dirname(dirname(__DIR__))';
         }
 
@@ -143,7 +157,8 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove($index_path);
         }
         file_put_contents($index_path, $updated_index_contents);
-        if ($this->environment === 'test') {
+        // TODO: Remove "test" (renamed to "staging")
+        if ($this->environment === 'test' || $this->environment === 'staging') {
             file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
         }
         if ($fs->exists("{$public_path}/jsbuild")) {

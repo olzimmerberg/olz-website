@@ -36,7 +36,7 @@ class FakeEmailUtils {
 
     public function createEmail() {
         $mailer = $this->olzMailer;
-        $mailer->setFrom('fake@test.olzimmerberg.ch', 'OL Zimmerberg');
+        $mailer->setFrom('fake@staging.olzimmerberg.ch', 'OL Zimmerberg');
         return $mailer;
     }
 

@@ -108,7 +108,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             [
                 'user' => Fake\FakeUsers::adminUser(),
-                'from' => ['fake@test.olzimmerberg.ch', 'OL Zimmerberg'],
+                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
                 'replyTo' => null,
                 'subject' => '[OLZ] Passwort zurücksetzen',
                 'body' => $expected_text,
@@ -141,7 +141,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $vorstand_user->setFirstName('provoke_error');
 
         $result = $endpoint->call([
-            'usernameOrEmail' => 'vorstand@test.olzimmerberg.ch',
+            'usernameOrEmail' => 'vorstand@staging.olzimmerberg.ch',
             'recaptchaToken' => 'fake-recaptcha-token',
         ]);
 

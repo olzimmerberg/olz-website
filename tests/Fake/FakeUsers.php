@@ -18,7 +18,7 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setLastName('Istrator');
                 $admin_user->setUsername('admin');
                 $admin_user->setOldUsername('admin-old');
-                $admin_user->setEmail('admin-user@test.olzimmerberg.ch');
+                $admin_user->setEmail('admin-user@staging.olzimmerberg.ch');
                 $admin_user->setEmailIsVerified(true);
                 $admin_user->setEmailVerificationToken('admintoken');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
@@ -51,7 +51,7 @@ class FakeUsers extends FakeFactory {
                 $vorstand_user->setFirstName('Vorstand');
                 $vorstand_user->setLastName('Mitglied');
                 $vorstand_user->setUsername('vorstand');
-                $vorstand_user->setEmail('vorstand-user@test.olzimmerberg.ch');
+                $vorstand_user->setEmail('vorstand-user@staging.olzimmerberg.ch');
                 $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
                 $vorstand_user->setPermissions('aktuell ftp vorstand_user');
                 $vorstand_user->setRoot('vorstand');
@@ -72,7 +72,7 @@ class FakeUsers extends FakeFactory {
                 $parent_user->setFirstName('Eltern');
                 $parent_user->setLastName('Teil');
                 $parent_user->setUsername('parent');
-                $parent_user->setEmail('parent-user@test.olzimmerberg.ch');
+                $parent_user->setEmail('parent-user@staging.olzimmerberg.ch');
                 $parent_user->setParentUserId(null);
                 $parent_user->setPasswordHash(password_hash('par3n7', PASSWORD_DEFAULT));
                 $parent_user->setPermissions('parent');
@@ -92,7 +92,7 @@ class FakeUsers extends FakeFactory {
                 $child1_user->setFirstName('Kind');
                 $child1_user->setLastName('Eins');
                 $child1_user->setUsername('child1');
-                $child1_user->setEmail('child1-user@test.olzimmerberg.ch');
+                $child1_user->setEmail('child1-user@staging.olzimmerberg.ch');
                 $child1_user->setParentUserId(4);
                 $child1_user->setPasswordHash(null);
                 $child1_user->setPermissions('child1');
@@ -112,7 +112,7 @@ class FakeUsers extends FakeFactory {
                 $child2_user->setFirstName('Kind');
                 $child2_user->setLastName('Zwei');
                 $child2_user->setUsername('child2');
-                $child2_user->setEmail('child2-user@test.olzimmerberg.ch');
+                $child2_user->setEmail('child2-user@staging.olzimmerberg.ch');
                 $child2_user->setParentUserId(4);
                 $child2_user->setPasswordHash('');
                 $child2_user->setPermissions('child2');

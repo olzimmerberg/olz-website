@@ -126,7 +126,7 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
 }
 echo "\n";
 echo "To see the changes, see URL under\n";
-echo "'Deploy to test.olzimmerberg.ch' > 'Deploy'\n";
+echo "'Deploy to staging.olzimmerberg.ch' > 'Deploy'\n";
 echo "and append '/screenshots'\n";
 if (!$all_approved) {
     echo "\n";

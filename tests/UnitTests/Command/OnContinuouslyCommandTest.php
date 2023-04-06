@@ -55,8 +55,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
+            "DEBUG Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
@@ -83,8 +83,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
+            "DEBUG Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
@@ -114,8 +114,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
+            "DEBUG Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());

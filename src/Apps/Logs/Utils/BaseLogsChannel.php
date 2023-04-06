@@ -42,7 +42,7 @@ abstract class BaseLogsChannel {
     abstract public static function getName(): string;
 
     // Page size; number of lines of log entires.
-    public static $pageSize = 200;
+    public static $pageSize = 1000;
 
     // Assumes there are files, though...
     abstract protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface;

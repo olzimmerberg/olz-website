@@ -46,8 +46,8 @@ final class OnDailyCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest.",
+            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest...",
+            "DEBUG Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());

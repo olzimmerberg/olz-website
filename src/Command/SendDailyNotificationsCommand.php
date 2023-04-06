@@ -30,19 +30,6 @@ class SendDailyNotificationsCommand extends OlzCommand {
     protected $weeklyPreviewGetter;
     protected $weeklySummaryGetter;
 
-    public function __construct() {
-        parent::__construct();
-        $this->setDailySummaryGetter(new DailySummaryGetter());
-        $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
-        $this->setEmailConfigurationReminderGetter(
-            new EmailConfigurationReminderGetter());
-        $this->setMonthlyPreviewGetter(new MonthlyPreviewGetter());
-        $this->setTelegramConfigurationReminderGetter(
-            new TelegramConfigurationReminderGetter());
-        $this->setWeeklyPreviewGetter(new WeeklyPreviewGetter());
-        $this->setWeeklySummaryGetter(new WeeklySummaryGetter());
-    }
-
     public function setDailySummaryGetter($dailySummaryGetter) {
         $this->dailySummaryGetter = $dailySummaryGetter;
     }
@@ -69,6 +56,19 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     public function setWeeklySummaryGetter($weeklySummaryGetter) {
         $this->weeklySummaryGetter = $weeklySummaryGetter;
+    }
+
+    public function __construct() {
+        parent::__construct();
+        $this->setDailySummaryGetter(new DailySummaryGetter());
+        $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
+        $this->setEmailConfigurationReminderGetter(
+            new EmailConfigurationReminderGetter());
+        $this->setMonthlyPreviewGetter(new MonthlyPreviewGetter());
+        $this->setTelegramConfigurationReminderGetter(
+            new TelegramConfigurationReminderGetter());
+        $this->setWeeklyPreviewGetter(new WeeklyPreviewGetter());
+        $this->setWeeklySummaryGetter(new WeeklySummaryGetter());
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {

@@ -4,7 +4,6 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Throttling;
-use Olz\Fetchers\SolvFetcher;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -71,9 +70,5 @@ class OnDailyEndpoint extends OlzEndpoint {
         $this->symfonyUtils()->callCommand('olz:onDaily', $command_input, $command_output);
 
         return [];
-    }
-
-    protected function getDefaultSolvFetcher() {
-        return new SolvFetcher();
     }
 }

@@ -7,6 +7,7 @@ use Olz\Command\SyncSolvCommand\SolvEventsSyncer;
 use Olz\Command\SyncSolvCommand\SolvPeopleAssigner;
 use Olz\Command\SyncSolvCommand\SolvPeopleMerger;
 use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
+use Olz\Fetchers\SolvFetcher;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,6 +41,11 @@ class SyncSolvCommand extends OlzCommand {
 
     public function setSolvPeopleMerger($solvPeopleMerger) {
         $this->solvPeopleMerger = $solvPeopleMerger;
+    }
+
+    public function __construct() {
+        parent::__construct();
+        $this->setSolvFetcher(new SolvFetcher());
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {

@@ -57,10 +57,6 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function getRemotePublicPath() {
         if ($this->target === 'hosttech') {
-            // TODO: Remove "test" (renamed to "staging")
-            if ($this->environment === 'test') {
-                return "httpdocstest";
-            }
             if ($this->environment === 'staging') {
                 return "httpdocsstaging";
             }
@@ -74,10 +70,6 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function getRemotePublicUrl() {
         if ($this->target === 'hosttech') {
-            // TODO: Remove "test" (renamed to "staging")
-            if ($this->environment === 'test') {
-                return "https://test.olzimmerberg.ch";
-            }
             if ($this->environment === 'staging') {
                 return "https://staging.olzimmerberg.ch";
             }
@@ -91,10 +83,6 @@ class Deploy extends AbstractDefaultDeploy {
 
     public function getRemotePrivatePath() {
         if ($this->target === 'hosttech') {
-            // TODO: Remove "test" (renamed to "staging")
-            if ($this->environment === 'test') {
-                return "private/test";
-            }
             if ($this->environment === 'staging') {
                 return "private/staging";
             }
@@ -113,6 +101,7 @@ class Deploy extends AbstractDefaultDeploy {
         ini_set('memory_limit', '500M');
         gc_collect_cycles();
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
+        $fs->copy(__DIR__.'/../../config.php', __DIR__.'/src/Utils/data/config.php', true);
         $fs->mirror(__DIR__.'/../../secrets', __DIR__."/config/secrets/{$this->environment}");
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
@@ -120,8 +109,7 @@ class Deploy extends AbstractDefaultDeploy {
 
         $install_path = $public_path;
         $deploy_path_from_public_index = 'dirname(__DIR__)';
-        // TODO: Remove "test" (renamed to "staging")
-        if ($this->environment === 'test' || $this->environment === 'staging') {
+        if ($this->environment === 'staging') {
             $entries = scandir($public_path);
             foreach ($entries as $entry) {
                 $path = "{$public_path}/{$entry}";
@@ -157,8 +145,7 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove($index_path);
         }
         file_put_contents($index_path, $updated_index_contents);
-        // TODO: Remove "test" (renamed to "staging")
-        if ($this->environment === 'test' || $this->environment === 'staging') {
+        if ($this->environment === 'staging') {
             file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
         }
         if ($fs->exists("{$public_path}/jsbuild")) {

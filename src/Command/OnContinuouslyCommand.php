@@ -17,11 +17,6 @@ class OnContinuouslyCommand extends OlzCommand {
         ignore_user_abort(true);
 
         $this->callCommand(
-            'olz:test',
-            new ArrayInput([]),
-            $output,
-        );
-        $this->callCommand(
             'olz:processEmail',
             new ArrayInput([]),
             $output,

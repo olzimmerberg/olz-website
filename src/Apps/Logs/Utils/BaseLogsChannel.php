@@ -64,7 +64,7 @@ abstract class BaseLogsChannel {
             $time_limit = time() + 10;
             return $this->readMatchingLinesAfter($line_location, $query, $line_limit, $time_limit);
         }
-        throw new Exception("Mode must be 'previous' or 'next', was '{$mode}'.");
+        throw new \Exception("Mode must be 'previous' or 'next', was '{$mode}'.");
     }
 
     public function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {

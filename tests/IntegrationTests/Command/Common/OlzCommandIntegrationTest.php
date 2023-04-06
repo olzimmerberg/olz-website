@@ -24,7 +24,7 @@ class OlzCommandForIntegrationTest extends OlzCommand {
     public $failWithError;
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     public function testOnlyCallCommand(

@@ -105,6 +105,7 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->mirror(__DIR__.'/../../secrets', __DIR__."/config/secrets/{$this->environment}");
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
+        file_put_contents(__DIR__.'/src/Utils/data/DATA_PATH', realpath($public_path));
         gc_collect_cycles();
 
         $install_path = $public_path;

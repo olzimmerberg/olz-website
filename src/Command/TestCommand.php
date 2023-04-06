@@ -12,18 +12,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class TestCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $data_path = $this->envUtils()->getDataPath();
-        $output->writeln("DATA PATH: {$data_path}");
-
-        // return this if there was no problem running the command
-        // (it's equivalent to returning int(0))
+        $mysql_host = $this->envUtils()->getMysqlHost();
+        $smtp_from = $this->envUtils()->getSmtpFrom();
+        $app_env = $_ENV['APP_ENV'];
+        $info = <<<ZZZZZZZZZZ
+        Data path: {$data_path}
+        MySQL host: {$mysql_host}
+        SMTP from: {$smtp_from}
+        App env: {$app_env}
+        ZZZZZZZZZZ;
+        $output->writeln($info);
+        $this->log()->info($info);
         return Command::SUCCESS;
-
-        // or return this if some error happened during the execution
-        // (it's equivalent to returning int(1))
-        // return Command::FAILURE;
-
-        // or return this to indicate incorrect command usage; e.g. invalid options
-        // or missing arguments (it's equivalent to returning int(2))
-        // return Command::INVALID
     }
 }

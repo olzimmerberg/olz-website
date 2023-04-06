@@ -57,7 +57,7 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame([], $logger->handler->getPrettyRecords());
         $this->assertMatchesRegularExpression(
-            '/^DATA PATH\: .*\/IntegrationTests\/document-root\//',
+            '/^Data path\: .*\/IntegrationTests\/document-root\//',
             $output->fetch()
         );
     }

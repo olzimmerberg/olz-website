@@ -34,6 +34,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
+            'galerie' => true,
             'termine' => true,
         ]);
 
@@ -52,7 +53,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/aktuell.php?id=6)
         - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/aktuell.php?id=2902)
         - 06.01. 06:07: [Hallo](http://integration-test.host/aktuell.php?id=2903)
-        
+       
         
         **Kaderblog**
         
@@ -64,6 +65,12 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)
         - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/forum.php#id2)
         - 06.01. 06:07: [Hallo](http://integration-test.host/forum.php#id3)
+        
+       
+        **Galerien**
+        
+        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/galerie.php?id=1)
+        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/galerie.php?id=2)
         
         
         **Aktualisierte Termine**

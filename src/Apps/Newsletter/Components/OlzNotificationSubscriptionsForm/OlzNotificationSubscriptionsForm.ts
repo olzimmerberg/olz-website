@@ -10,12 +10,14 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
         elem.form['daily-summary-aktuell'].checked = elem.checked;
         elem.form['daily-summary-blog'].checked = elem.checked;
         elem.form['daily-summary-forum'].checked = elem.checked;
+        elem.form['daily-summary-galerie'].checked = elem.checked;
         elem.form['daily-summary-termine'].checked = elem.checked;
     }
     if (elem.name === 'weekly-summary') {
         elem.form['weekly-summary-aktuell'].checked = elem.checked;
         elem.form['weekly-summary-blog'].checked = elem.checked;
         elem.form['weekly-summary-forum'].checked = elem.checked;
+        elem.form['weekly-summary-galerie'].checked = elem.checked;
         elem.form['weekly-summary-termine'].checked = elem.checked;
     }
     const dailySummaryButNoContent = (
@@ -23,6 +25,7 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
         && !elem.form['daily-summary-aktuell'].checked
         && !elem.form['daily-summary-blog'].checked
         && !elem.form['daily-summary-forum'].checked
+        && !elem.form['daily-summary-galerie'].checked
         && !elem.form['daily-summary-termine'].checked
     );
     const contentButNoDailySummary = (
@@ -31,6 +34,7 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
             elem.form['daily-summary-aktuell'].checked
             || elem.form['daily-summary-blog'].checked
             || elem.form['daily-summary-forum'].checked
+            || elem.form['daily-summary-galerie'].checked
             || elem.form['daily-summary-termine'].checked
         )
     );
@@ -39,6 +43,7 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
         && !elem.form['weekly-summary-aktuell'].checked
         && !elem.form['weekly-summary-blog'].checked
         && !elem.form['weekly-summary-forum'].checked
+        && !elem.form['weekly-summary-galerie'].checked
         && !elem.form['weekly-summary-termine'].checked
     );
     const contentButNoWeeklySummary = (
@@ -47,6 +52,7 @@ export function olzNotificationSubscriptionsFormOnChange(elem: HTMLInputElement)
             elem.form['weekly-summary-aktuell'].checked
             || elem.form['weekly-summary-blog'].checked
             || elem.form['weekly-summary-forum'].checked
+            || elem.form['weekly-summary-galerie'].checked
             || elem.form['weekly-summary-termine'].checked
         )
     );

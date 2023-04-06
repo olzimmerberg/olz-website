@@ -14,16 +14,18 @@ export function olzTelegramNotificationsUpdate(form: Record<string, {value?: str
     const dailySummaryAktuell = form['daily-summary-aktuell'].checked ?? false;
     const dailySummaryBlog = form['daily-summary-blog'].checked ?? false;
     const dailySummaryForum = form['daily-summary-forum'].checked ?? false;
+    const dailySummaryGalerie = form['daily-summary-galerie'].checked ?? false;
     const dailySummaryTermine = form['daily-summary-termine'].checked ?? false;
     const weeklySummary = form['weekly-summary'].checked ?? false;
     const weeklySummaryAktuell = form['weekly-summary-aktuell'].checked ?? false;
     const weeklySummaryBlog = form['weekly-summary-blog'].checked ?? false;
     const weeklySummaryForum = form['weekly-summary-forum'].checked ?? false;
+    const weeklySummaryGalerie = form['weekly-summary-galerie'].checked ?? false;
     const weeklySummaryTermine = form['weekly-summary-termine'].checked ?? false;
 
     olzApi.call(
         'updateNotificationSubscriptions',
-        {deliveryType: 'telegram', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryTermine, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryTermine},
+        {deliveryType: 'telegram', monthlyPreview, weeklyPreview, deadlineWarning, deadlineWarningDays, dailySummary, dailySummaryAktuell, dailySummaryBlog, dailySummaryForum, dailySummaryGalerie, dailySummaryTermine, weeklySummary, weeklySummaryAktuell, weeklySummaryBlog, weeklySummaryForum, weeklySummaryGalerie, weeklySummaryTermine},
     )
         .then((response) => {
             if (response.status === 'OK') {

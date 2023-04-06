@@ -21,10 +21,12 @@ class OlzNotificationSubscriptionsForm {
         $daily_summary_aktuell_checked = '';
         $daily_summary_blog_checked = '';
         $daily_summary_forum_checked = '';
+        $daily_summary_galerie_checked = '';
         $daily_summary_termine_checked = '';
         $weekly_summary_aktuell_checked = '';
         $weekly_summary_blog_checked = '';
         $weekly_summary_forum_checked = '';
+        $weekly_summary_galerie_checked = '';
         $weekly_summary_termine_checked = '';
         foreach ($subscriptions as $subscription) {
             $notification_type = $subscription->getNotificationType();
@@ -40,6 +42,9 @@ class OlzNotificationSubscriptionsForm {
                     }
                     if ($args['forum'] ?? false) {
                         $daily_summary_forum_checked = ' checked';
+                    }
+                    if ($args['galerie'] ?? false) {
+                        $daily_summary_galerie_checked = ' checked';
                     }
                     if ($args['termine'] ?? false) {
                         $daily_summary_termine_checked = ' checked';
@@ -83,6 +88,9 @@ class OlzNotificationSubscriptionsForm {
                     }
                     if ($args['forum'] ?? false) {
                         $weekly_summary_forum_checked = ' checked';
+                    }
+                    if ($args['galerie'] ?? false) {
+                        $weekly_summary_galerie_checked = ' checked';
                     }
                     if ($args['termine'] ?? false) {
                         $weekly_summary_termine_checked = ' checked';
@@ -159,6 +167,16 @@ class OlzNotificationSubscriptionsForm {
                 &nbsp;&nbsp;
                 <input
                     type='checkbox'
+                    name='daily-summary-galerie'
+                    onchange='olzNewsletter.olzNotificationSubscriptionsFormOnChange(this)'
+                    {$daily_summary_galerie_checked}
+                    {$disabled_attribute}
+                />
+                Neue Galerien
+                <br />
+                &nbsp;&nbsp;
+                <input
+                    type='checkbox'
                     name='daily-summary-termine'
                     onchange='olzNewsletter.olzNotificationSubscriptionsFormOnChange(this)'
                     {$daily_summary_termine_checked}
@@ -206,6 +224,16 @@ class OlzNotificationSubscriptionsForm {
                     {$disabled_attribute}
                 />
                 Forumseinträge
+                <br />
+                &nbsp;&nbsp;
+                <input
+                    type='checkbox'
+                    name='weekly-summary-galerie'
+                    onchange='olzNewsletter.olzNotificationSubscriptionsFormOnChange(this)'
+                    {$weekly_summary_galerie_checked}
+                    {$disabled_attribute}
+                />
+                Neue Galerien
                 <br />
                 &nbsp;&nbsp;
                 <input

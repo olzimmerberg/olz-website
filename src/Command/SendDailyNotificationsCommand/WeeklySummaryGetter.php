@@ -5,6 +5,7 @@ namespace Olz\Command\SendDailyNotificationsCommand;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\Blog;
 use Olz\Entity\Forum;
+use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
@@ -142,6 +143,23 @@ class WeeklySummaryGetter {
             }
             if (strlen($forum_text) > 0) {
                 $notification_text .= "\n**Forum**\n\n{$forum_text}\n";
+            }
+        }
+
+        if ($args['galerie'] ?? false) {
+            $galerie_url = "{$base_href}{$code_href}galerie.php";
+            $galerie_text = '';
+            $galerie_repo = $this->entityManager->getRepository(Galerie::class);
+            $galeries = $galerie_repo->matching($date_only_criteria);
+            foreach ($galeries as $galerie) {
+                $id = $galerie->getId();
+                $pretty_date = $this->getPrettyDateAndMaybeTime(
+                    $galerie->getDate());
+                $title = $galerie->getTitle();
+                $galerie_text .= "- {$pretty_date}: [{$title}]({$galerie_url}?id={$id})\n";
+            }
+            if (strlen($galerie_text) > 0) {
+                $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";
             }
         }
 

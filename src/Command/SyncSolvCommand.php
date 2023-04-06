@@ -59,7 +59,7 @@ class SyncSolvCommand extends OlzCommand {
         try {
             $events_syncer->syncSolvEventsForYear($current_year);
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(0) failed.");
+            $this->log()->warning("syncSolvEventsForYear(0) failed.", [$th]);
         }
         if ($current_day !== 1) { // Only do this once a month.
             return;
@@ -67,17 +67,17 @@ class SyncSolvCommand extends OlzCommand {
         try {
             $events_syncer->syncSolvEventsForYear($current_year - 1);
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(-1) failed.");
+            $this->log()->warning("syncSolvEventsForYear(-1) failed.", [$th]);
         }
         try {
             $events_syncer->syncSolvEventsForYear($current_year + 1);
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(+1) failed.");
+            $this->log()->warning("syncSolvEventsForYear(+1) failed.", [$th]);
         }
         try {
             $events_syncer->syncSolvEventsForYear($current_year - 2);
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(-2) failed.");
+            $this->log()->warning("syncSolvEventsForYear(-2) failed.", [$th]);
         }
     }
 

@@ -23,7 +23,7 @@ class SymfonyUtils {
         $command = $application->find($command_name);
         $return_code = $command->run($input, $output);
         if ($return_code !== Command::SUCCESS) {
-            throw new Exception("Command {$command_name} failed with code: {$return_code}");
+            throw new \Exception("Command {$command_name} failed with code: {$return_code}");
         }
     }
 

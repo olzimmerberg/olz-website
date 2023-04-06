@@ -89,10 +89,6 @@ class EnvUtils {
         $this->base_href = $base_href;
     }
 
-    public function setSyslogPath($syslog_path) {
-        $this->syslog_path = $syslog_path;
-    }
-
     public function configure($config_dict) {
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
 
@@ -350,9 +346,7 @@ class EnvUtils {
 
             $env_utils = new self();
 
-            $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
-            $local_root = isset($_SERVER['argv']) ? realpath(__DIR__.'/../../public') : null;
-            $data_path = ($document_root ? "{$document_root}/" : "{$local_root}/") ?? '/';
+            $data_path = self::computeDataPath();
             $has_https = isset($_SERVER['HTTPS']) && (bool) $_SERVER['HTTPS'];
             $http_host = $_SERVER['HTTP_HOST'] ?? 'fake-host';
 
@@ -385,6 +379,25 @@ class EnvUtils {
         return self::$from_env_instance;
     }
 
+    public static function computeDataPath() {
+        $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
+        if ($document_root) {
+            return "{$document_root}/";
+        }
+        $injected_path = __DIR__.'/data/DATA_PATH';
+        if (is_file($injected_path)) {
+            $injected_data_path = file_get_contents($injected_path);
+            if (is_dir($injected_data_path)) {
+                return "{$injected_data_path}/";
+            }
+        }
+        $local_root = isset($_SERVER['argv']) ? realpath(__DIR__.'/../../public') : null;
+        if ($local_root) {
+            return "{$local_root}/";
+        }
+        return '/';
+    }
+
     public static function getConfigPath() {
         global $_SERVER;
 
@@ -395,10 +408,10 @@ class EnvUtils {
         }
         $injected_path = __DIR__.'/data/config.php';
         if (is_file($injected_path)) {
-            return $injected_path;
+            return realpath($injected_path);
         }
         // e.g. for doctrine cli-config.php
-        return __DIR__.'/../../public/config.php';
+        return realpath(__DIR__.'/../../public/config.php');
     }
 
     public static function assertValidFromEnvContext() {

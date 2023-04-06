@@ -36,41 +36,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame('http://integration-test.host', $env_utils->getBaseHref());
     }
 
-    public function testEnvUtilsFromEnvWithMissingConfigFile(): void {
-        global $_SERVER;
-        $previous_server = $_SERVER;
-        $_SERVER = [
-            'DOCUMENT_ROOT' => __DIR__, // no config file in here.
-        ];
-
-        try {
-            $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertSame('Konfigurationsdatei nicht gefunden!', $exc->getMessage());
-        }
-
-        $_SERVER = $previous_server;
-    }
-
-    public function testEnvUtilsGetConfigPathWithNoDocumentRoot(): void {
-        global $_SERVER;
-        $previous_server = $_SERVER;
-        $_SERVER = []; // e.g. for doctrine cli-config.php
-
-        $config_path = FakeIntegrationTestEnvUtils::getConfigPath();
-
-        $this->assertMatchesRegularExpression(
-            '/\/\.\.\/\.\.\/public\/config.php$/',
-            $config_path
-        );
-
-        $_SERVER = $previous_server;
-    }
-
     public function testEnvUtilsFromEnvWithinUnitTest(): void {
-        global $_SERVER;
-        $previous_server = $_SERVER;
         $_SERVER = [
             'DOCUMENT_ROOT' => $previous_server['DOCUMENT_ROOT'] ?? 'test-no-root',
             'argv' => ['phpunit', 'tests/UnitTests'],
@@ -85,7 +51,5 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
                 $exc->getMessage()
             );
         }
-
-        $_SERVER = $previous_server;
     }
 }

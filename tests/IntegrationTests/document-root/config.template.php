@@ -7,6 +7,8 @@ ini_set('display_errors', 1);
 
 $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
+        'syslog_path' => __DIR__.'/logs/',
+
         'mysql_host' => 'localhost',
         'mysql_port' => '3306',
         'mysql_username' => 'db-username',

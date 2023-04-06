@@ -25,6 +25,8 @@ final class EnvUtilsTest extends UnitTestCase {
         $env_utils->setBaseHref("http://localhost/");
 
         $env_utils->configure([
+            'syslog_path' => 'fake-syslog-path',
+
             'mysql_host' => 'localhost',
             'mysql_port' => '3306',
             'mysql_username' => 'db-username',
@@ -86,6 +88,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('//_/', $env_utils->getCodePath());
         $this->assertSame('/_/', $env_utils->getCodeHref());
         $this->assertSame('http://localhost/', $env_utils->getBaseHref());
+        $this->assertSame('fake-syslog-path', $env_utils->getSyslogPath());
         $this->assertSame('localhost', $env_utils->getMysqlHost());
         $this->assertSame('3306', $env_utils->getMysqlPort());
         $this->assertSame('localhost:3306', $env_utils->getMysqlServer());
@@ -118,6 +121,8 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('465', $env_utils->getSmtpPort());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpUsername());
         $this->assertSame('1234', $env_utils->getSmtpPassword());
+        $this->assertSame('ssl', $env_utils->getSmtpSecure());
+        $this->assertSame(0, $env_utils->getSmtpDebug());
         $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpFrom());
         $this->assertSame('fake-user@gmail.com', $env_utils->getAppGoogleSearchUsername());
         $this->assertSame('zxcv', $env_utils->getAppGoogleSearchPassword());
@@ -125,5 +130,65 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('asdf', $env_utils->getAppMonitoringPassword());
         $this->assertSame('fake-user', $env_utils->getAppStatisticsUsername());
         $this->assertSame('qwer', $env_utils->getAppStatisticsPassword());
+    }
+
+    public function testComputeDataPathFromDocumentRoot(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = 'fake-document-root';
+        $this->assertSame('fake-document-root/', EnvUtils::computeDataPath());
+    }
+
+    public function testComputeDataPathFromInjectedPath(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        file_put_contents(__DIR__.'/../../../src/Utils/data/DATA_PATH', __DIR__);
+        $this->assertSame(__DIR__.'/', EnvUtils::computeDataPath());
+        unlink(__DIR__.'/../../../src/Utils/data/DATA_PATH');
+    }
+
+    public function testComputeDataPathFromLocalRoot(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        $_SERVER['argv'] = 'isset';
+        $this->assertSame(
+            realpath(__DIR__.'/../../../public').'/',
+            EnvUtils::computeDataPath(),
+        );
+    }
+
+    public function testComputeDataPath(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        $this->assertSame('/', EnvUtils::computeDataPath());
+    }
+
+    public function testGetConfigPathFromDocumentRoot(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = __DIR__.'/../tmp';
+        file_put_contents(__DIR__.'/../tmp/config.php', '');
+        $this->assertSame(
+            __DIR__.'/../tmp/config.php',
+            EnvUtils::getConfigPath(),
+        );
+    }
+
+    public function testGetConfigPathFromInjectedPath(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        file_put_contents(__DIR__.'/../../../src/Utils/data/config.php', '');
+        $this->assertSame(
+            realpath(__DIR__.'/../../../src/Utils/data/config.php'),
+            EnvUtils::getConfigPath(),
+        );
+        unlink(__DIR__.'/../../../src/Utils/data/config.php');
+    }
+
+    public function testGetConfigPathFallback(): void {
+        global $_SERVER;
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        $this->assertSame(
+            realpath(__DIR__.'/../../../public/config.php'),
+            EnvUtils::getConfigPath(),
+        );
     }
 }

@@ -389,8 +389,13 @@ class EnvUtils {
         global $_SERVER;
 
         $document_root = $_SERVER['DOCUMENT_ROOT'] ?? null;
-        if ($document_root) {
-            return $document_root.'/config.php';
+        $document_root_path = "{$document_root}/config.php";
+        if ($document_root && is_file($document_root_path)) {
+            return $document_root_path;
+        }
+        $injected_path = __DIR__.'/data/config.php';
+        if (is_file($injected_path)) {
+            return $injected_path;
         }
         // e.g. for doctrine cli-config.php
         return __DIR__.'/../../public/config.php';

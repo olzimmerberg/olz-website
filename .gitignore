@@ -38,10 +38,7 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/*
-!/config/secrets/prod/README.md
-/config/secrets/staging/*
-!/config/secrets/staging/README.md
+/config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/

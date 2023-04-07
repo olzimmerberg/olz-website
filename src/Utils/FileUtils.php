@@ -12,8 +12,12 @@ class FileUtils {
         'aktuell' => 'files/aktuell/',
         'blog' => 'files/blog/',
         'downloads' => 'files/downloads/',
-        'termine' => 'files/termine/',
+        'forum' => null,
+        'galerie' => null,
+        'kaderblog' => 'files/blog/',
         'news' => 'files/news/',
+        'termine' => 'files/termine/',
+        'video' => null,
     ];
 
     public const MIME_EXTENSIONS = [

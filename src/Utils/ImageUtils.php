@@ -9,10 +9,13 @@ class ImageUtils {
     ];
 
     public const TABLES_IMG_DIRS = [
-        'galerie' => 'img/galerie/',
         'aktuell' => 'img/aktuell/',
         'blog' => 'img/blog/',
+        'forum' => null,
+        'galerie' => 'img/galerie/',
+        'kaderblog' => 'img/blog/',
         'news' => 'img/news/',
+        'video' => 'img/galerie/',
         'weekly_picture' => 'img/weekly_picture/',
     ];
 

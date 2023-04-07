@@ -47,12 +47,11 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         **Aktuell**
         
         - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/aktuell.php?id=3)
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/aktuell.php?id=6403)
         
         
         **Kaderblog**
         
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id3)
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/aktuell.php?id=6403)
         
 
         **Aktualisierte Termine**
@@ -93,20 +92,10 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
         
         
-        **Aktuell**
+        **Forum**
         
         - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/aktuell.php?id=2901)
 
-        
-        **Forum**
-        
-        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)
-
-
-        **Galerien**
-        
-        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/galerie.php?id=1)
-        
         
         **Aktualisierte Termine**
 
@@ -140,21 +129,8 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             'termine' => true,
         ]);
 
-        $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
-        
-        
-        **Galerien**
-        
-        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/galerie.php?id=2)
-        
-
-        ZZZZZZZZZZ;
         $this->assertSame([
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame('Tageszusammenfassung', $notification->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertSame(null, $notification);
     }
 }

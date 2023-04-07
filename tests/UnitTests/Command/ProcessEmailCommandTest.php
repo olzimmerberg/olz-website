@@ -107,7 +107,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(false, $email_utils->client->is_connected);
@@ -136,9 +136,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
 
         $this->assertSame(true, $email_utils->client->is_connected);
@@ -169,9 +169,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -201,9 +201,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING E-Mail 12 to user with no user_email permission: no-permission',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -243,9 +243,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -295,9 +295,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone-old@olzimmerberg.ch to someone-old@gmail.com',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -337,9 +337,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -379,10 +379,10 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -433,10 +433,10 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from somerole-old@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -487,9 +487,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'CRITICAL Error forwarding email from someone@olzimmerberg.ch to someone@gmail.com: Provoked Mailer Error',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame(null, $mail->moved_to);
@@ -533,11 +533,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'DEBUG Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(true, $email_utils->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);

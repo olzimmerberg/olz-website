@@ -49,9 +49,9 @@ final class OlzCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
+            "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
-            "DEBUG Successfully ran command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest.",
+            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("Test handle\n", $output->fetch());
@@ -68,7 +68,7 @@ final class OlzCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
+            "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "ERROR Failed running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest.",
         ], $logger->handler->getPrettyRecords());
@@ -87,7 +87,7 @@ final class OlzCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
+            "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "ERROR Command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest finished with unknown status 90684597.",
         ], $logger->handler->getPrettyRecords());
@@ -106,7 +106,7 @@ final class OlzCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "DEBUG Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
+            "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "ERROR Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: test error.",
         ], $logger->handler->getPrettyRecords());

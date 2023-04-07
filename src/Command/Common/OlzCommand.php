@@ -16,10 +16,10 @@ abstract class OlzCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output): int {
         LogsUtils::activateLogger($this->log());
         try {
-            $this->log()->debug("Running command {$this->getIdent()}...");
+            $this->log()->info("Running command {$this->getIdent()}...");
             $status = $this->handle($input, $output);
             if ($status === Command::SUCCESS) {
-                $this->log()->debug("Successfully ran command {$this->getIdent()}.");
+                $this->log()->info("Successfully ran command {$this->getIdent()}.");
             } elseif ($status === Command::FAILURE) {
                 $this->log()->error("Failed running command {$this->getIdent()}.");
             } else {

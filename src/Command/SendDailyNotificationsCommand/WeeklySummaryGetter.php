@@ -3,9 +3,6 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Entity\Blog;
-use Olz\Entity\Forum;
-use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
@@ -14,6 +11,9 @@ class WeeklySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public const CUT_OFF_TIME = '16:00:00';
+
+    protected \DateTime $today;
+    protected \DateTime $lastWeek;
 
     protected $entityManager;
     protected $dateUtils;
@@ -38,45 +38,12 @@ class WeeklySummaryGetter {
             return null;
         }
 
-        $today = new \DateTime($this->dateUtils->getIsoToday());
+        $this->today = new \DateTime($this->dateUtils->getIsoToday());
         $minus_one_week = \DateInterval::createFromDateString("-7 days");
-        $last_week = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
-        $today_at_cut_off = new \DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
-        $last_week_at_cut_off = new \DateTime($last_week->format('Y-m-d').' '.self::CUT_OFF_TIME);
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->orX(
-                    Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $today),
-                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
-                    ),
-                    Criteria::expr()->andX(
-                        Criteria::expr()->lt('datum', $today),
-                        Criteria::expr()->gt('datum', $last_week),
-                    ),
-                    Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $last_week),
-                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
-                    ),
-                ),
-                Criteria::expr()->eq('on_off', 1),
-            ))
-            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
-            ->setFirstResult(0)
-            ->setMaxResults(1000)
-        ;
-        $date_only_criteria = Criteria::create()
-            ->where(
-                Criteria::expr()->andX(
-                    Criteria::expr()->lt('datum', $today),
-                    Criteria::expr()->gte('datum', $last_week),
-                    Criteria::expr()->eq('on_off', 1),
-                )
-            )
-            ->orderBy(['datum' => Criteria::ASC])
-            ->setFirstResult(0)
-            ->setMaxResults(1000)
-        ;
+        $this->lastWeek = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
+
+        $today_at_cut_off = new \DateTime($this->today->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $last_week_at_cut_off = new \DateTime($this->lastWeek->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $termine_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->lte('modified', $today_at_cut_off),
@@ -94,16 +61,17 @@ class WeeklySummaryGetter {
         $code_href = $this->envUtils->getCodeHref();
 
         if ($args['aktuell'] ?? false) {
-            $aktuell_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $aktuell_text = '';
-            $aktuell_repo = $this->entityManager->getRepository(NewsEntry::class);
-            $aktuells = $aktuell_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $aktuell_criteria = $this->getNewsCriteria(['aktuell']);
+            $aktuells = $news_repo->matching($aktuell_criteria);
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $aktuell->getDate(), $aktuell->getTime());
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$aktuell_url}?id={$id})\n";
+                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
                 $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
@@ -111,16 +79,17 @@ class WeeklySummaryGetter {
         }
 
         if ($args['blog'] ?? false) {
-            $blog_url = "{$base_href}{$code_href}blog.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $blog_text = '';
-            $blog_repo = $this->entityManager->getRepository(Blog::class);
-            $blogs = $blog_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $blog_criteria = $this->getNewsCriteria(['kaderblog']);
+            $blogs = $news_repo->matching($blog_criteria);
             foreach ($blogs as $blog) {
                 $id = $blog->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $blog->getDate(), $blog->getTime());
                 $title = $blog->getTitle();
-                $blog_text .= "- {$pretty_datetime}: [{$title}]({$blog_url}#id{$id})\n";
+                $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($blog_text) > 0) {
                 $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
@@ -128,17 +97,18 @@ class WeeklySummaryGetter {
         }
 
         if ($args['forum'] ?? false) {
-            $forum_url = "{$base_href}{$code_href}forum.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $forum_text = '';
-            $forum_repo = $this->entityManager->getRepository(Forum::class);
-            $forums = $forum_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $forum_criteria = $this->getNewsCriteria(['forum']);
+            $forums = $news_repo->matching($forum_criteria);
             foreach ($forums as $forum) {
                 $id = $forum->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $forum->getDate(), $forum->getTime());
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
-                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$forum_url}#id{$id})\n";
+                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
                 }
             }
             if (strlen($forum_text) > 0) {
@@ -147,16 +117,17 @@ class WeeklySummaryGetter {
         }
 
         if ($args['galerie'] ?? false) {
-            $galerie_url = "{$base_href}{$code_href}galerie.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $galerie_text = '';
-            $galerie_repo = $this->entityManager->getRepository(Galerie::class);
-            $galeries = $galerie_repo->matching($date_only_criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $galerie_criteria = $this->getNewsCriteria(['galerie', 'video']);
+            $galeries = $news_repo->matching($galerie_criteria);
             foreach ($galeries as $galerie) {
                 $id = $galerie->getId();
-                $pretty_date = $this->getPrettyDateAndMaybeTime(
-                    $galerie->getDate());
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $galerie->getDate(), $galerie->getTime());
                 $title = $galerie->getTitle();
-                $galerie_text .= "- {$pretty_date}: [{$title}]({$galerie_url}?id={$id})\n";
+                $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($galerie_text) > 0) {
                 $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";
@@ -207,5 +178,32 @@ class WeeklySummaryGetter {
         }
         $pretty_time = $time->format('H:i');
         return "{$pretty_date} {$pretty_time}";
+    }
+
+    protected function getNewsCriteria(array $formats) {
+        return Criteria::create()
+            ->where(Criteria::expr()->andX(
+                // TODO: typ -> format
+                Criteria::expr()->in('typ', $formats),
+                Criteria::expr()->orX(
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $this->today),
+                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                    ),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->lt('datum', $this->today),
+                        Criteria::expr()->gt('datum', $this->lastWeek),
+                    ),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $this->lastWeek),
+                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                    ),
+                ),
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
     }
 }

@@ -582,7 +582,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            "DEBUG Running command Olz\\Command\\SendDailyNotificationsCommand...",
+            "INFO Running command Olz\\Command\\SendDailyNotificationsCommand...",
             "INFO Autogenerating notifications...",
             "INFO Removing email configuration reminder subscription for 'user (ID:1)'...",
             "INFO Generating email configuration reminder subscription for 'vorstand (ID:3)'...",
@@ -648,7 +648,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Email sent to user (1): ECR title {\"cancelled\":false}",
             "INFO Getting notification for '{\"cancelled\":true}'...",
             "INFO Nothing to send.",
-            "DEBUG Successfully ran command Olz\\Command\\SendDailyNotificationsCommand.",
+            "INFO Successfully ran command Olz\\Command\\SendDailyNotificationsCommand.",
         ], $logger->handler->getPrettyRecords());
 
         global $user1, $user2;

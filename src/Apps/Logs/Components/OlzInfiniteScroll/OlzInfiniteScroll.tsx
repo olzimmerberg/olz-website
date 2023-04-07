@@ -31,6 +31,9 @@ export const OlzInfiniteScroll = <Item, Query>(
                     setPrevQuery(result.prevQuery);
                     setNextQuery(result.nextQuery);
                     setIsLoading(false);
+                    setTimeout(() => {
+                        document.getElementById('initial-scroll')?.scrollIntoView();
+                    }, 1);
                 });
         }, 300);
         return () => {

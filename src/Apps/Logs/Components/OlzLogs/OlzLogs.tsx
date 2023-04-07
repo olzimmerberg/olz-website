@@ -85,6 +85,15 @@ export const OlzLogs = (): React.ReactElement => {
         };
 
     const renderItem = (line: string) => {
+        if (line === '---') {
+            return (
+                <div className='log-line' id='initial-position'>
+                    <div id='initial-scroll'></div>
+                    {line}
+                </div>
+            );
+        }
+
         const mustCrop = line.length > MAX_LINE_LENGTH;
         const croppedLine = mustCrop
             ? `${line.substring(0, MAX_LINE_LENGTH - 1)}\u{2026}`

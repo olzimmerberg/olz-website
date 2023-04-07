@@ -71,9 +71,9 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
             'WARNING Failed to open directory data-path/temp',
-            'DEBUG Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
@@ -108,8 +108,8 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
             "{$temp_realpath}/file.txt",
         ], $job->unlink_calls);
         $this->assertSame([
-            'DEBUG Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
-            'DEBUG Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
     }
 
@@ -137,8 +137,8 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
         $this->assertEqualsCanonicalizing([], $job->unlink_calls);
         $this->assertSame([
-            'DEBUG Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
-            'DEBUG Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
         ], $logger->handler->getPrettyRecords());
     }
 }

@@ -3,9 +3,6 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Entity\Blog;
-use Olz\Entity\Forum;
-use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
@@ -14,6 +11,9 @@ class DailySummaryGetter {
     use \Psr\Log\LoggerAwareTrait;
 
     public const CUT_OFF_TIME = '16:00:00';
+
+    protected \DateTime $today;
+    protected \DateTime $yesterday;
 
     protected $entityManager;
     protected $dateUtils;
@@ -32,40 +32,12 @@ class DailySummaryGetter {
     }
 
     public function getDailySummaryNotification($args) {
-        $today = new \DateTime($this->dateUtils->getIsoToday());
+        $this->today = new \DateTime($this->dateUtils->getIsoToday());
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
-        $yesterday = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_day);
-        $today_at_cut_off = new \DateTime($today->format('Y-m-d').' '.self::CUT_OFF_TIME);
-        $yesterday_at_cut_off = new \DateTime($yesterday->format('Y-m-d').' '.self::CUT_OFF_TIME);
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->orX(
-                    Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $today),
-                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
-                    ),
-                    Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $yesterday),
-                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
-                    ),
-                ),
-                Criteria::expr()->eq('on_off', 1),
-            ))
-            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
-            ->setFirstResult(0)
-            ->setMaxResults(1000)
-        ;
-        $date_only_criteria = Criteria::create()
-            ->where(
-                Criteria::expr()->andX(
-                    Criteria::expr()->eq('datum', $yesterday),
-                    Criteria::expr()->eq('on_off', 1),
-                ),
-            )
-            ->orderBy(['datum' => Criteria::ASC])
-            ->setFirstResult(0)
-            ->setMaxResults(1000)
-        ;
+        $this->yesterday = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_day);
+
+        $today_at_cut_off = new \DateTime($this->today->format('Y-m-d').' '.self::CUT_OFF_TIME);
+        $yesterday_at_cut_off = new \DateTime($this->yesterday->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $termine_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->lte('modified', $today_at_cut_off),
@@ -83,18 +55,17 @@ class DailySummaryGetter {
         $code_href = $this->envUtils->getCodeHref();
 
         if ($args['aktuell'] ?? false) {
-            $aktuell_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $aktuell_text = '';
-            $aktuell_repo = $this->entityManager->getRepository(NewsEntry::class);
-            $aktuells = $aktuell_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $aktuell_criteria = $this->getNewsCriteria(['aktuell']);
+            $aktuells = $news_repo->matching($aktuell_criteria);
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();
-                $date = $aktuell->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $aktuell->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $aktuell->getDate(), $aktuell->getTime());
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$aktuell_url}?id={$id})\n";
+                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
                 $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
@@ -102,18 +73,17 @@ class DailySummaryGetter {
         }
 
         if ($args['blog'] ?? false) {
-            $blog_url = "{$base_href}{$code_href}blog.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $blog_text = '';
-            $blog_repo = $this->entityManager->getRepository(Blog::class);
-            $blogs = $blog_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $blog_criteria = $this->getNewsCriteria(['kaderblog']);
+            $blogs = $news_repo->matching($blog_criteria);
             foreach ($blogs as $blog) {
                 $id = $blog->getId();
-                $date = $blog->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $blog->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $blog->getDate(), $blog->getTime());
                 $title = $blog->getTitle();
-                $blog_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$blog_url}#id{$id})\n";
+                $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($blog_text) > 0) {
                 $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
@@ -121,19 +91,18 @@ class DailySummaryGetter {
         }
 
         if ($args['forum'] ?? false) {
-            $forum_url = "{$base_href}{$code_href}forum.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $forum_text = '';
-            $forum_repo = $this->entityManager->getRepository(Forum::class);
-            $forums = $forum_repo->matching($criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $forum_criteria = $this->getNewsCriteria(['forum']);
+            $forums = $news_repo->matching($forum_criteria);
             foreach ($forums as $forum) {
                 $id = $forum->getId();
-                $date = $forum->getDate();
-                $pretty_date = $date->format('d.m.');
-                $time = $forum->getTime();
-                $pretty_time = $time->format('H:i');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $forum->getDate(), $forum->getTime());
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
-                    $forum_text .= "- {$pretty_date} {$pretty_time}: [{$title}]({$forum_url}#id{$id})\n";
+                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
                 }
             }
             if (strlen($forum_text) > 0) {
@@ -142,16 +111,17 @@ class DailySummaryGetter {
         }
 
         if ($args['galerie'] ?? false) {
-            $galerie_url = "{$base_href}{$code_href}galerie.php";
+            $news_url = "{$base_href}{$code_href}aktuell.php";
             $galerie_text = '';
-            $galerie_repo = $this->entityManager->getRepository(Galerie::class);
-            $galeries = $galerie_repo->matching($date_only_criteria);
+            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $galerie_criteria = $this->getNewsCriteria(['galerie', 'video']);
+            $galeries = $news_repo->matching($galerie_criteria);
             foreach ($galeries as $galerie) {
                 $id = $galerie->getId();
-                $date = $galerie->getDate();
-                $pretty_date = $date->format('d.m.');
+                $pretty_datetime = $this->getPrettyDateAndMaybeTime(
+                    $galerie->getDate(), $galerie->getTime());
                 $title = $galerie->getTitle();
-                $galerie_text .= "- {$pretty_date}: [{$title}]({$galerie_url}?id={$id})\n";
+                $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
             }
             if (strlen($galerie_text) > 0) {
                 $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";
@@ -190,5 +160,40 @@ class DailySummaryGetter {
         return new Notification($title, $text, [
             'notification_type' => NotificationSubscription::TYPE_DAILY_SUMMARY,
         ]);
+    }
+
+    protected function getPrettyDateAndMaybeTime($date, $time = null) {
+        if (!$date) {
+            return "??";
+        }
+        $pretty_date = $date->format('d.m.');
+        if (!$time) {
+            return $pretty_date;
+        }
+        $pretty_time = $time->format('H:i');
+        return "{$pretty_date} {$pretty_time}";
+    }
+
+    protected function getNewsCriteria(array $formats) {
+        return Criteria::create()
+            ->where(Criteria::expr()->andX(
+                // TODO: typ -> format
+                Criteria::expr()->in('typ', $formats),
+                Criteria::expr()->orX(
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $this->today),
+                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                    ),
+                    Criteria::expr()->andX(
+                        Criteria::expr()->eq('datum', $this->yesterday),
+                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                    ),
+                ),
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
     }
 }

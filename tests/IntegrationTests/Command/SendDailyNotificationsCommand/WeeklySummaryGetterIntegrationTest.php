@@ -46,31 +46,25 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Aktuell**
         
-        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/aktuell.php?id=1202)
         - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/aktuell.php?id=3)
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/aktuell.php?id=6403)
-        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/aktuell.php?id=2901)
-        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/aktuell.php?id=6)
-        - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/aktuell.php?id=2902)
-        - 06.01. 06:07: [Hallo](http://integration-test.host/aktuell.php?id=2903)
        
         
         **Kaderblog**
         
-        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/blog.php#id3)
+        - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/aktuell.php?id=6403)
         
 
         **Forum**
         
-        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/forum.php#id1)
-        - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/forum.php#id2)
-        - 06.01. 06:07: [Hallo](http://integration-test.host/forum.php#id3)
+        - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/aktuell.php?id=2901)
+        - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/aktuell.php?id=2902)
+        - 06.01. 06:07: [Hallo](http://integration-test.host/aktuell.php?id=2903)
         
        
         **Galerien**
         
-        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/galerie.php?id=1)
-        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/galerie.php?id=2)
+        - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/aktuell.php?id=1202)
+        - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/aktuell.php?id=6)
         
         
         **Aktualisierte Termine**

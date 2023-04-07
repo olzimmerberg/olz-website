@@ -85,8 +85,8 @@ final class SyncSolvCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\SyncSolvCommand...',
-            'DEBUG Successfully ran command Olz\Command\SyncSolvCommand.',
+            'INFO Running command Olz\Command\SyncSolvCommand...',
+            'INFO Successfully ran command Olz\Command\SyncSolvCommand.',
         ], $logger->handler->getPrettyRecords());
 
         $this->assertSame([2020], $solv_events_syncer->years_synced);
@@ -121,8 +121,8 @@ final class SyncSolvCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            'DEBUG Running command Olz\Command\SyncSolvCommand...',
-            'DEBUG Successfully ran command Olz\Command\SyncSolvCommand.',
+            'INFO Running command Olz\Command\SyncSolvCommand...',
+            'INFO Successfully ran command Olz\Command\SyncSolvCommand.',
         ], $logger->handler->getPrettyRecords());
 
         $this->assertSame([2020, 2019, 2021, 2018], $solv_events_syncer->years_synced);

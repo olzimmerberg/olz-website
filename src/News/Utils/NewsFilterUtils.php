@@ -159,18 +159,23 @@ class NewsFilterUtils {
             return "'1' = '1'";
         }
         if ($filter['format'] === 'aktuell') {
+            // TODO: typ -> format
             return "n.typ LIKE '%aktuell%'";
         }
         if ($filter['format'] === 'kaderblog') {
+            // TODO: typ -> format
             return "n.typ LIKE '%kaderblog%'";
         }
         if ($filter['format'] === 'forum') {
+            // TODO: typ -> format
             return "n.typ LIKE '%forum%'";
         }
         if ($filter['format'] === 'galerie') {
+            // TODO: typ -> format
             return "n.typ LIKE '%galerie%'";
         }
         if ($filter['format'] === 'video') {
+            // TODO: typ -> format
             return "n.typ LIKE '%video%'";
         }
         // @codeCoverageIgnoreStart

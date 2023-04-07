@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
-use Olz\Entity\Blog;
-use Olz\Entity\Forum;
-use Olz\Entity\Galerie;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
@@ -28,52 +25,6 @@ class FakeWeeklySummaryGetterNewsRepository {
         $aktuell2->setTime(new \DateTime('16:00:00'));
         $aktuell2->setTitle('MV nicht abgesagt!');
         return [$aktuell1, $aktuell2];
-    }
-}
-
-class FakeWeeklySummaryGetterBlogRepository {
-    public function matching($criteria) {
-        $blog1 = new Blog();
-        $blog1->setId(1);
-        $blog1->setDate(new \DateTime('2020-03-12'));
-        $blog1->setTime(new \DateTime('22:00:00'));
-        $blog1->setTitle('Bericht vom Lauftraining');
-        $blog2 = new Blog();
-        $blog2->setId(2);
-        $blog2->setDate(new \DateTime('2020-03-13'));
-        $blog2->setTime(new \DateTime('16:00:00'));
-        $blog2->setTitle('MV nicht abgesagt!');
-        return [$blog1, $blog2];
-    }
-}
-
-class FakeWeeklySummaryGetterGalerieRepository {
-    public function matching($criteria) {
-        $galerie1 = new Galerie();
-        $galerie1->setId(1);
-        $galerie1->setDate(new \DateTime('2020-03-12'));
-        $galerie1->setTitle('Bericht vom Lauftraining');
-        $galerie2 = new Galerie();
-        $galerie2->setId(2);
-        $galerie2->setDate(new \DateTime('2020-03-13'));
-        $galerie2->setTitle('MV nicht abgesagt!');
-        return [$galerie1, $galerie2];
-    }
-}
-
-class FakeWeeklySummaryGetterForumRepository {
-    public function matching($criteria) {
-        $forum1 = new Forum();
-        $forum1->setId(1);
-        $forum1->setDate(new \DateTime('2020-03-12'));
-        $forum1->setTime(new \DateTime('22:00:00'));
-        $forum1->setTitle('Bericht vom Lauftraining');
-        $forum2 = new Forum();
-        $forum2->setId(2);
-        $forum2->setDate(new \DateTime('2020-03-13'));
-        $forum2->setTime(new \DateTime('16:00:00'));
-        $forum2->setTitle('MV nicht abgesagt!');
-        return [$forum1, $forum2];
     }
 }
 
@@ -123,14 +74,8 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWithAllContent(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeWeeklySummaryGetterNewsRepository();
-        $blog_repo = new FakeWeeklySummaryGetterBlogRepository();
-        $galerie_repo = new FakeWeeklySummaryGetterGalerieRepository();
-        $forum_repo = new FakeWeeklySummaryGetterForumRepository();
         $termin_repo = new FakeWeeklySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_manager->repositories[Blog::class] = $blog_repo;
-        $entity_manager->repositories[Galerie::class] = $galerie_repo;
-        $entity_manager->repositories[Forum::class] = $forum_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
         $env_utils = new Fake\FakeEnvUtils();
@@ -165,20 +110,20 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         
         **Kaderblog**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/blog.php#id1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/blog.php#id2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
         
         
         **Forum**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/forum.php#id1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/forum.php#id2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
 
         
         **Galerien**
         
-        - 12.03.: [Bericht vom Lauftraining](http://fake-base-url/_/galerie.php?id=1)
-        - 13.03.: [MV nicht abgesagt!](http://fake-base-url/_/galerie.php?id=2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
         
         
         **Aktualisierte Termine**

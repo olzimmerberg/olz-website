@@ -77,6 +77,7 @@ class NewsEntry extends OlzEntity {
      * @ORM\JoinColumn(name="author_role_id", referencedColumnName="id", nullable=true)
      */
     private $author_role;
+    // TODO: typ -> format
     /**
      * @ORM\Column(type="text", nullable=false)
      */

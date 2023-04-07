@@ -6,34 +6,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\Startseite\WeeklyPictureRepository;
 
-/**
- * @ORM\Entity(repositoryClass=WeeklyPictureRepository::class)
- *
- * @ORM\Table(
- *     name="weekly_picture",
- *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
- * )
- */
+#[ORM\Table(name: 'weekly_picture')]
+#[ORM\Index(name: 'datum_index', columns: ['datum'])]
+#[ORM\Entity(repositoryClass: WeeklyPictureRepository::class)]
 class WeeklyPicture extends OlzEntity {
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+    #[ORM\Column(type: 'date', nullable: true)]
     private $datum;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $image_id;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $alternative_image_id;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $text;
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)

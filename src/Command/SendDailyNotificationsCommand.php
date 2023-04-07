@@ -193,8 +193,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
             function ($notification_type) {
                 return
                     $notification_type !== NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
-                    && $notification_type !== NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
-                ;
+                    && $notification_type !== NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER;
             }
         );
     }

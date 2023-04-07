@@ -6,41 +6,27 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\SkillLevelRepository;
 
-/**
- * @ORM\Entity(repositoryClass=SkillLevelRepository::class)
- *
- * @ORM\Table(
- *     name="quiz_skill_levels",
- *     indexes={
- *
- *         @ORM\Index(name="user_skill_index", columns={"user_id", "skill_id"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'quiz_skill_levels')]
+#[ORM\Index(name: 'user_skill_index', columns: ['user_id', 'skill_id'])]
+#[ORM\Entity(repositoryClass: SkillLevelRepository::class)]
 class SkillLevel extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
-    /**
-     * @ORM\ManyToOne(targetEntity="Skill")
-     *
-     * @ORM\JoinColumn(name="skill_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'Skill')]
+    #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id', nullable: true)]
     private $skill;
-    /**
-     * @ORM\Column(type="float", nullable=false)
-     */
+
+    #[ORM\Column(type: 'float', nullable: false)]
     private $value;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private $recorded_at;
 
     public function getId() {

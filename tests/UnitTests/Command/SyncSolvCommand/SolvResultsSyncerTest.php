@@ -154,8 +154,7 @@ class FakeSolvResultsSyncerSolvFetcher {
                     "        13.45 (9)\n".
                     "    Zi   0.25 (2)\n".
                     "         0.01\n".
-                    "</pre>"
-                ;
+                    "</pre>";
             default:
                 return "";
         }

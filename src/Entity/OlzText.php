@@ -4,25 +4,17 @@ namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- *
- * @ORM\Table(
- *     name="olz_text",
- * )
- */
+#[ORM\Table(name: 'olz_text')]
+#[ORM\Entity]
 class OlzText {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $id;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $text;
-    /**
-     * @ORM\Column(type="integer", options={"default": 1})
-     */
+
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
     private $on_off;
     // PRIMARY KEY (`id`)
 

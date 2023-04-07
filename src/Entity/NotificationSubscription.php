@@ -5,18 +5,10 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\NotificationSubscriptionRepository;
 
-/**
- * @ORM\Entity(repositoryClass=NotificationSubscriptionRepository::class)
- *
- * @ORM\Table(
- *     name="notification_subscriptions",
- *     indexes={
- *
- *         @ORM\Index(name="user_id_index", columns={"user_id"}),
- *         @ORM\Index(name="notification_type_index", columns={"notification_type"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'notification_subscriptions')]
+#[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
+#[ORM\Index(name: 'notification_type_index', columns: ['notification_type'])]
+#[ORM\Entity(repositoryClass: NotificationSubscriptionRepository::class)]
 class NotificationSubscription {
     public const DELIVERY_EMAIL = 'email';
     public const DELIVERY_TELEGRAM = 'telegram';
@@ -46,31 +38,25 @@ class NotificationSubscription {
         self::TYPE_WEEKLY_SUMMARY,
     ];
 
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+    #[ORM\Column(type: 'string', nullable: false)]
     private $delivery_type;
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $notification_type;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $notification_type_args;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private $created_at;
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
 
     public function __toString() {

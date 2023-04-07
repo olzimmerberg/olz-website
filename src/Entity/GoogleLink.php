@@ -5,43 +5,29 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\GoogleLinkRepository;
 
-/**
- * @ORM\Entity(repositoryClass=GoogleLinkRepository::class)
- *
- * @ORM\Table(
- *     name="google_links",
- *     indexes={
- *
- *         @ORM\Index(name="user_id_index", columns={"user_id"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'google_links')]
+#[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
+#[ORM\Entity(repositoryClass: GoogleLinkRepository::class)]
 class GoogleLink {
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+    #[ORM\Column(type: 'text', nullable: false)]
     private $access_token;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private $expires_at;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $refresh_token;
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $google_user;
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
 
     public function getId() {

@@ -5,37 +5,27 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\SolvPersonRepository;
 
-/**
- * @ORM\Entity(repositoryClass=SolvPersonRepository::class)
- *
- * @ORM\Table(
- *     name="solv_people",
- * )
- */
+#[ORM\Table(name: 'solv_people')]
+#[ORM\Entity(repositoryClass: SolvPersonRepository::class)]
 class SolvPerson {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $same_as;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $name;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $birth_year;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $domicile;
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $member;
 
     private $valid_field_names = [

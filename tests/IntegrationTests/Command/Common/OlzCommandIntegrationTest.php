@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Command\Common;
+namespace Olz\Tests\IntegrationTests\Command\Common;
 
 use Olz\Command\Common\OlzCommand;
 use Olz\Kernel;

@@ -6,49 +6,36 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\Panini2024\Panini2024PictureRepository;
 
-/**
- * @ORM\Entity(repositoryClass=Panini2024PictureRepository::class)
- *
- * @ORM\Table(
- *     name="panini24",
- * )
- */
+#[ORM\Table(name: 'panini24')]
+#[ORM\Entity(repositoryClass: Panini2024PictureRepository::class)]
 class Panini2024Picture extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $line1;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $line2;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $association;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $img_src;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $img_style;
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
     private $is_landscape;
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
     private $has_top;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $infos;
 
     public function getId() {

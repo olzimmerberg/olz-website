@@ -4,58 +4,43 @@ namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- *
- * @ORM\Table(
- *     name="forum",
- *     indexes={@ORM\Index(name="datum_on_off_index", columns={"datum", "on_off"})},
- * )
- */
+#[ORM\Table(name: 'forum')]
+#[ORM\Index(name: 'datum_on_off_index', columns: ['datum', 'on_off'])]
+#[ORM\Entity]
 class Forum {
-    /**
-     * @ORM\Column(type="string", nullable=false, options={"default": ""})
-     */
+    #[ORM\Column(type: 'string', nullable: false, options: ['default' => ''])]
     private $name;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $email;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $eintrag;
-    /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default": 1})
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 1])]
     private $newsletter;
-    /**
-     * @ORM\Column(type="string", nullable=false, options={"default": ""})
-     */
+
+    #[ORM\Column(type: 'string', nullable: false, options: ['default' => ''])]
     private $uid;
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     private $datum;
-    /**
-     * @ORM\Column(type="time", nullable=true)
-     */
+
+    #[ORM\Column(type: 'time', nullable: true)]
     private $zeit;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $on_off;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $allow_html;
-    /**
-     * @ORM\Column(type="string", nullable=false, options={"default": ""})
-     */
+
+    #[ORM\Column(type: 'string', nullable: false, options: ['default' => ''])]
     private $name2;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`),

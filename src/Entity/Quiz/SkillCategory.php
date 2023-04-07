@@ -6,36 +6,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\SkillCategoryRepository;
 
-/**
- * @ORM\Entity(repositoryClass=SkillCategoryRepository::class)
- *
- * @ORM\Table(
- *     name="quiz_categories",
- *     indexes={
- *
- *         @ORM\Index(name="name_index", columns={"name"}),
- *         @ORM\Index(name="parent_category_index", columns={"parent_category_id"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'quiz_categories')]
+#[ORM\Index(name: 'name_index', columns: ['name'])]
+#[ORM\Index(name: 'parent_category_index', columns: ['parent_category_id'])]
+#[ORM\Entity(repositoryClass: SkillCategoryRepository::class)]
 class SkillCategory extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\ManyToOne(targetEntity="SkillCategory")
-     *
-     * @ORM\JoinColumn(name="parent_category_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'SkillCategory')]
+    #[ORM\JoinColumn(name: 'parent_category_id', referencedColumnName: 'id', nullable: true)]
     private $parent_category;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $name;
-    /**
-     * @ORM\ManyToMany(targetEntity="Skill", mappedBy="categories")
-     */
+
+    #[ORM\ManyToMany(targetEntity: 'Skill', mappedBy: 'categories')]
     private $skills;
 
     public function __construct() {

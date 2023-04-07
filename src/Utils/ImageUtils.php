@@ -6,6 +6,7 @@ class ImageUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'envUtils',
+        'log',
     ];
 
     public const TABLES_IMG_DIRS = [
@@ -26,7 +27,6 @@ class ImageUtils {
         $lightview = 'image',
         $attrs = '',
     ): string {
-        $is_migrated = is_array($image_ids);
         $res = preg_match_all(
             '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text ?? '', $matches);
         if (!$res) {
@@ -38,27 +38,14 @@ class ImageUtils {
                 $size = 110;
             }
             $index = intval($matches[1][$i]);
-            if ($is_migrated) {
-                $new_html = $this->olzImage(
-                    'news',
-                    $id,
-                    $image_ids[$index - 1] ?? null,
-                    $size,
-                    $lightview,
-                    $attrs
-                );
-            } else {
-                // TODO: Delete this monster-logic!
-                $is_blog = $id >= 6400 && $id < 6700;
-                $new_html = $this->olzImage(
-                    $is_blog ? 'blog' : 'aktuell',
-                    $is_blog ? $id - 6400 : $id,
-                    $index,
-                    $size,
-                    $lightview,
-                    $attrs
-                );
-            }
+            $new_html = $this->olzImage(
+                'news',
+                $id,
+                $image_ids[$index - 1] ?? null,
+                $size,
+                $lightview,
+                $attrs
+            );
             $text = str_replace($matches[0][$i], $new_html, $text);
         }
         return $text;
@@ -75,18 +62,16 @@ class ImageUtils {
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         if (!isset($this::TABLES_IMG_DIRS[$db_table])) {
-            return "Ungültige db_table: {$db_table} (in olzImage)";
+            $message = "Ungültige db_table: {$db_table} (in olzImage)";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
         $db_imgpath = $this::TABLES_IMG_DIRS[$db_table];
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-        if ($is_migrated) {
-            $imgfile = "{$db_imgpath}/{$id}/img/{$index}";
-        } else {
-            $padded_index = str_pad(intval($index), 3, "0", STR_PAD_LEFT);
-            $imgfile = "{$db_imgpath}/{$id}/img/{$padded_index}.jpg";
-        }
+        $imgfile = "{$db_imgpath}/{$id}/img/{$index}";
         if (!is_file("{$data_path}{$imgfile}")) {
-            return "Bild nicht vorhanden (in olzImage): {$imgfile}";
+            $message = "Bild nicht vorhanden (in olzImage): {$imgfile}";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
         $info = getimagesize("{$data_path}{$imgfile}");
         $swid = $info[0];

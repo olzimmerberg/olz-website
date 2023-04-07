@@ -30,12 +30,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         $db_imgpath = $tables_img_dirs[$db_table];
         $id = intval($_GET['id']);
         $index = $_GET['index'];
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-        if ($is_migrated) {
-            $imgfile = $data_path.$db_imgpath."/".$id."/img/".$index;
-        } else {
-            $imgfile = $data_path.$db_imgpath."/".$id."/img/".str_pad(intval($index), 3, "0", STR_PAD_LEFT).".jpg";
-        }
+        $imgfile = $data_path.$db_imgpath."/".$id."/img/".$index;
         if (is_file($imgfile)) {
             $ndim = intval($_GET["dim"]) - 1;
             $dim = false;
@@ -62,11 +57,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             if ($wid > 256 || $hei > 256) {
                 $thumbfile = $imgfile;
             } else {
-                if ($is_migrated) {
-                    $thumbfile = $data_path.$db_imgpath."/".$id."/thumb/".$index."_".$wid."x".$hei.".jpg";
-                } else {
-                    $thumbfile = $data_path.$db_imgpath."/".$id."/thumb/".str_pad(intval($index), 3, "0", STR_PAD_LEFT)."_".$wid."x".$hei.".jpg";
-                }
+                $thumbfile = $data_path.$db_imgpath."/".$id."/thumb/".$index."_".$wid."x".$hei.".jpg";
             }
             if (!is_file($thumbfile)) {
                 if (!is_dir(dirname($thumbfile))) {

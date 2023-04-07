@@ -6,121 +6,84 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\News\NewsRepository;
 
-/**
- * @ORM\Entity(repositoryClass=NewsRepository::class)
- *
- * @ORM\Table(
- *     name="aktuell",
- *     indexes={@ORM\Index(name="datum_index", columns={"datum"})},
- * )
- */
+#[ORM\Table(name: 'aktuell')]
+#[ORM\Index(name: 'datum_index', columns: ['datum'])]
+#[ORM\Entity(repositoryClass: NewsRepository::class)]
 class NewsEntry extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $termin;
-    /**
-     * @ORM\Column(type="date", nullable=false)
-     */
+
+    #[ORM\Column(type: 'date', nullable: false)]
     private $datum;
-    /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default": 1})
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 1])]
     private $newsletter;
     // TODO: Rename to `title`
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $titel;
     // TODO: Rename to `teaser`
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $text;
     // TODO: Rename to `content`
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $textlang;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $image_ids;
     // TODO: Rename to `external_url`
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $link;
     // TODO: Rename to `author_name`
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $autor;
     // TODO: Rename to `author_email`
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $autor_email;
-    /**
-     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
-     *
-     * @ORM\JoinColumn(name="author_user_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\JoinColumn(name: 'author_user_id', referencedColumnName: 'id', nullable: true)]
     private $author_user;
-    /**
-     * @ORM\ManyToOne(targetEntity="\Olz\Entity\Role")
-     *
-     * @ORM\JoinColumn(name="author_role_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\Role')]
+    #[ORM\JoinColumn(name: 'author_role_id', referencedColumnName: 'id', nullable: true)]
     private $author_role;
     // TODO: typ -> format
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+    #[ORM\Column(type: 'text', nullable: false)]
     private $typ;
-    /**
-     * @ORM\Column(type="text", nullable=false, options={"default": ""})
-     */
+
+    #[ORM\Column(type: 'text', nullable: false, options: ['default' => ''])]
     private $tags;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $bild1;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $bild1_breite;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $bild1_text;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $bild2;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $bild2_breite;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $bild3;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $bild3_breite;
-    /**
-     * @ORM\Column(type="time", nullable=true)
-     */
+
+    #[ORM\Column(type: 'time', nullable: true)]
     private $zeit;
-    /**
-     * @ORM\Column(type="integer", nullable=false, options={"default": 0})
-     */
+
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
     private $counter;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)

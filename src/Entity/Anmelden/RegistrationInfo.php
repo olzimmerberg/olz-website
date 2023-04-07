@@ -6,52 +6,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\RegistrationInfoRepository;
 
-/**
- * @ORM\Entity(repositoryClass=RegistrationInfoRepository::class)
- *
- * @ORM\Table(
- *     name="anmelden_registration_infos",
- *     indexes={@ORM\Index(name="ident_index", columns={"ident"})},
- * )
- */
+#[ORM\Table(name: 'anmelden_registration_infos')]
+#[ORM\Index(name: 'ident_index', columns: ['ident'])]
+#[ORM\Entity(repositoryClass: RegistrationInfoRepository::class)]
 class RegistrationInfo extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\ManyToOne(targetEntity="Registration")
-     *
-     * @ORM\JoinColumn(name="registration_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'Registration')]
+    #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
     private $registration;
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $index_within_registration;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $ident;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $title;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $description;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $type;
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
     private $is_optional;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $options;
 
     public function getId() {

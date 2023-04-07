@@ -74,7 +74,7 @@
     "ext-iconv": "*",
     "allestuetsmerweh/php-deploy": "^2.0",
     "allestuetsmerweh/php-typescript-api": "^2.0",
-    "artgris/filemanager-bundle": "^2.4",
+    "artgris/filemanager-bundle": "^2.5",
     "doctrine/annotations": "^2.0",
     "doctrine/cache": "^2.2",
     "doctrine/doctrine-bundle": "^2.6",

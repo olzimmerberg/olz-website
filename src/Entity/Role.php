@@ -5,65 +5,48 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\RoleRepository;
 
-/**
- * @ORM\Entity(repositoryClass=RoleRepository::class)
- *
- * @ORM\Table(
- *     name="roles",
- * )
- */
+#[ORM\Table(name: 'roles')]
+#[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     public $id;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $username;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $old_username;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $name;
-    /**
-     * @ORM\Column(type="text", nullable=false, options={"comment": "public"})
-     */
+
+    #[ORM\Column(type: 'text', nullable: false, options: ['comment' => 'public'])]
     public $description;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $permissions;
-    /**
-     * @ORM\Column(type="text", nullable=false, options={"comment": "restricted access"})
-     */
+
+    #[ORM\Column(type: 'text', nullable: false, options: ['comment' => 'restricted access'])]
     public $guide;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $page;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     public $parent_role;
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"comment": "negative value: hide role"})
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true, options: ['comment' => 'negative value: hide role'])]
     public $index_within_parent;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     public $featured_index;
-    /**
-     * @ORM\Column(type="boolean", options={"default": 0})
-     */
+
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     public $can_have_child_roles;
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
-     */
+
+    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
     private $users;
 
     public function __construct() {

@@ -6,38 +6,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\RegistrationRepository;
 
-/**
- * @ORM\Entity(repositoryClass=RegistrationRepository::class)
- *
- * @ORM\Table(
- *     name="anmelden_registrations",
- *     indexes={
- *
- *         @ORM\Index(name="opens_at_index", columns={"opens_at"}),
- *         @ORM\Index(name="closes_at_index", columns={"closes_at"})
- *     },
- * )
- */
+#[ORM\Table(name: 'anmelden_registrations')]
+#[ORM\Index(name: 'opens_at_index', columns: ['opens_at'])]
+#[ORM\Index(name: 'closes_at_index', columns: ['closes_at'])]
+#[ORM\Entity(repositoryClass: RegistrationRepository::class)]
 class Registration extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $title;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $description;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $opens_at;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $closes_at;
 
     public function getId() {

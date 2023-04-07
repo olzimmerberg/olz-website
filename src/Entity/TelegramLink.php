@@ -5,58 +5,41 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\TelegramLinkRepository;
 
-/**
- * @ORM\Entity(repositoryClass=TelegramLinkRepository::class)
- *
- * @ORM\Table(
- *     name="telegram_links",
- *     indexes={
- *
- *         @ORM\Index(name="pin_index", columns={"pin"}),
- *         @ORM\Index(name="user_id_index", columns={"user_id"}),
- *         @ORM\Index(name="telegram_user_id_index", columns={"telegram_user_id"}),
- *         @ORM\Index(name="telegram_chat_id_index", columns={"telegram_chat_id"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'telegram_links')]
+#[ORM\Index(name: 'pin_index', columns: ['pin'])]
+#[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
+#[ORM\Index(name: 'telegram_user_id_index', columns: ['telegram_user_id'])]
+#[ORM\Index(name: 'telegram_chat_id_index', columns: ['telegram_chat_id'])]
+#[ORM\Entity(repositoryClass: TelegramLinkRepository::class)]
 class TelegramLink {
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $pin;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $pin_expires_at;
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $telegram_chat_id;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $telegram_user_id;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $telegram_chat_state;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private $created_at;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $linked_at;
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
 
     public function getId() {

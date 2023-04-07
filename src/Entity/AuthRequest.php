@@ -5,34 +5,25 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\AuthRequestRepository;
 
-/**
- * @ORM\Entity(repositoryClass=AuthRequestRepository::class)
- *
- * @ORM\Table(
- *     name="auth_requests",
- *     indexes={@ORM\Index(name="ip_address_timestamp_index", columns={"ip_address", "timestamp"})},
- * )
- */
+#[ORM\Table(name: 'auth_requests')]
+#[ORM\Index(name: 'ip_address_timestamp_index', columns: ['ip_address', 'timestamp'])]
+#[ORM\Entity(repositoryClass: AuthRequestRepository::class)]
 class AuthRequest {
-    /**
-     * @ORM\Column(type="string", length=40, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 40, nullable: false)]
     public $ip_address;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     public $timestamp;
-    /**
-     * @ORM\Column(type="string", length=31, nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', length: 31, nullable: false)]
     public $action;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $username;
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
 
     public function getId() {

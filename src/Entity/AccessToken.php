@@ -5,44 +5,30 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\AccessTokenRepository;
 
-/**
- * @ORM\Entity(repositoryClass=AccessTokenRepository::class)
- *
- * @ORM\Table(
- *     name="access_tokens",
- *     indexes={
- *
- *         @ORM\Index(name="token_index", columns={"token"}),
- *         @ORM\Index(name="user_id_index", columns={"user_id"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'access_tokens')]
+#[ORM\Index(name: 'token_index', columns: ['token'])]
+#[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
+#[ORM\Entity(repositoryClass: AccessTokenRepository::class)]
 class AccessToken {
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $purpose;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $token;
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private $created_at;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $expires_at;
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
 
     public function getId() {

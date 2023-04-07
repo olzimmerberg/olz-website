@@ -5,34 +5,25 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\CounterRepository;
 
-/**
- * @ORM\Entity(repositoryClass=CounterRepository::class)
- *
- * @ORM\Table(
- *     name="counter",
- *     indexes={@ORM\Index(name="date_range_page_index", columns={"date_range", "page"})},
- * )
- */
+#[ORM\Table(name: 'counter')]
+#[ORM\Index(name: 'date_range_page_index', columns: ['date_range', 'page'])]
+#[ORM\Entity(repositoryClass: CounterRepository::class)]
 class Counter {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $page;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $date_range;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $args;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $counter;
     // PRIMARY KEY (`id`)
 

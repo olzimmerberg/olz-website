@@ -31,8 +31,7 @@ final class AllDependenciesDeclaredTest extends UnitTestCase {
             function ($filename) {
                 return
                     preg_match('/\.php$/', $filename)
-                    && basename($filename) !== 'WithUtilsTrait.php'
-                ;
+                    && basename($filename) !== 'WithUtilsTrait.php';
             },
         );
         $this->assertGreaterThan(0, count($util_paths));

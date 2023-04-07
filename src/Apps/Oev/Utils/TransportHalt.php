@@ -78,7 +78,6 @@ class TransportHalt {
     public function equals($other_halt) {
         return
             $this->getStationId() === $other_halt->getStationId()
-            && $this->getTimeSeconds() === $other_halt->getTimeSeconds()
-        ;
+            && $this->getTimeSeconds() === $other_halt->getTimeSeconds();
     }
 }

@@ -6,40 +6,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\SkillRepository;
 
-/**
- * @ORM\Entity(repositoryClass=SkillRepository::class)
- *
- * @ORM\Table(
- *     name="quiz_skill",
- *     indexes={
- *
- *         @ORM\Index(name="name_index", columns={"name"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'quiz_skill')]
+#[ORM\Index(name: 'name_index', columns: ['name'])]
+#[ORM\Entity(repositoryClass: SkillRepository::class)]
 class Skill extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     private $name;
-    /**
-     * @ORM\ManyToMany(targetEntity="SkillCategory", inversedBy="skills")
-     *
-     * @ORM\JoinTable(
-     *     name="quiz_skills_categories",
-     *     joinColumns={
-     *
-     *         @ORM\JoinColumn(name="skill_id", referencedColumnName="id")
-     *     },
-     *     inverseJoinColumns={
-     *         @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     *     }
-     * )
-     */
+
+    #[ORM\JoinTable(name: 'quiz_skills_categories')]
+    #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: 'SkillCategory', inversedBy: 'skills')]
     private $categories;
 
     public function __construct() {

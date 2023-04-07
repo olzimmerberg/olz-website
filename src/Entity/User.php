@@ -5,173 +5,119 @@ namespace Olz\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\UserRepository;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
- * @ORM\Table(
- *     name="users",
- *     indexes={
- *
- *         @ORM\Index(name="username_index", columns={"username"}),
- *     },
- * )
- */
+#[ORM\Table(name: 'users')]
+#[ORM\Index(name: 'username_index', columns: ['username'])]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User {
-    /**
-     * @ORM\Id @ORM\Column(type="integer", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\GeneratedValue]
     public $id;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(type: 'integer', nullable: true)]
     public $parent_user;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(type: 'string', nullable: false)]
     public $username;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', nullable: true)]
     public $old_username;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $password;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $email;
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
     public $email_is_verified;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $email_verification_token;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $first_name;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $last_name;
-    /**
-     * @ORM\Column(type="string", length=2, nullable=true, options={
-     *     "comment": "M(ale), F(emale), or O(ther)"
-     * })
-     */
+
+    #[ORM\Column(type: 'string', length: 2, nullable: true, options: ['comment' => 'M(ale), F(emale), or O(ther)'])]
     public $gender;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $street;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $postal_code;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $city;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $region;
-    /**
-     * @ORM\Column(type="string", length=3, nullable=true, options={
-     *     "comment": "two-letter code (ISO-3166-alpha-2)"
-     * })
-     */
+
+    #[ORM\Column(type: 'string', length: 3, nullable: true, options: ['comment' => 'two-letter code (ISO-3166-alpha-2)'])]
     public $country_code;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     public $birthdate;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $phone;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     public $permissions;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $root;
-    /**
-     * @ORM\Column(type="string", length=3, nullable=true, options={
-     *     "comment": "Aktiv, Ehrenmitglied, Verein, Sponsor"
-     * })
-     */
+
+    #[ORM\Column(type: 'string', length: 3, nullable: true, options: ['comment' => 'Aktiv, Ehrenmitglied, Verein, Sponsor'])]
     public $member_type;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     public $member_last_paid;
-    /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default": 0})
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     public $wants_postal_mail;
-    /**
-     * @ORM\Column(type="text", nullable=true, options={
-     *     "comment": "if not {m: Herr, f: Frau, o: }"
-     * })
-     */
+
+    #[ORM\Column(type: 'text', nullable: true, options: ['comment' => 'if not {m: Herr, f: Frau, o: }'])]
     public $postal_title;
-    /**
-     * @ORM\Column(type="text", nullable=true, options={
-     *     "comment": "if not 'First Last'"
-     * })
-     */
+
+    #[ORM\Column(type: 'text', nullable: true, options: ['comment' => "if not 'First Last'"])]
     public $postal_name;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     public $joined_on;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $joined_reason;
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
+    #[ORM\Column(type: 'date', nullable: true)]
     public $left_on;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $left_reason;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $solv_number;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+
+    #[ORM\Column(type: 'text', nullable: true)]
     public $si_card_number;
-    /**
-     * @ORM\Column(type="text", nullable=false, options={"default": ""})
-     */
+
+    #[ORM\Column(type: 'text', nullable: false, options: ['default' => ''])]
     public $notes;
-    /**
-     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
-     *
-     * @ORM\JoinTable(name="users_roles")
-     */
+
+    #[ORM\JoinTable(name: 'users_roles')]
+    #[ORM\ManyToMany(targetEntity: 'Role', inversedBy: 'users')]
     private $roles;
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
+
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     protected $created_at;
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
+
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     protected $last_modified_at;
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $last_login_at;
 
     public function __construct() {

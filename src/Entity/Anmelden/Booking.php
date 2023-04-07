@@ -6,33 +6,23 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\BookingRepository;
 
-/**
- * @ORM\Entity(repositoryClass=BookingRepository::class)
- *
- * @ORM\Table(
- *     name="anmelden_bookings",
- * )
- */
+#[ORM\Table(name: 'anmelden_bookings')]
+#[ORM\Entity(repositoryClass: BookingRepository::class)]
 class Booking extends OlzEntity {
-    /**
-     * @ORM\Id @ORM\Column(type="bigint", nullable=false) @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'bigint', nullable: false)]
+    #[ORM\GeneratedValue]
     private $id;
-    /**
-     * @ORM\ManyToOne(targetEntity="Registration")
-     *
-     * @ORM\JoinColumn(name="registration_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: 'Registration')]
+    #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
     private $registration;
-    /**
-     * @ORM\ManyToOne(targetEntity="\Olz\Entity\User")
-     *
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
+
+    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+
+    #[ORM\Column(type: 'text', nullable: false)]
     private $form_data;
 
     public function getId() {

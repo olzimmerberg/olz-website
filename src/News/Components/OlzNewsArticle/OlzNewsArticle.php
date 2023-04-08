@@ -8,6 +8,7 @@ use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
+use Olz\Utils\LogsUtils;
 
 class OlzNewsArticle {
     public static function render($args = []) {
@@ -19,6 +20,9 @@ class OlzNewsArticle {
         $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
         $html_utils = HtmlUtils::fromEnv();
+        $logs_utils = LogsUtils::fromEnv();
+        $logger = $logs_utils->getLogger(get_called_class());
+
         $data_path = $env_utils->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
@@ -168,8 +172,9 @@ class OlzNewsArticle {
                 }
                 $out .= "</div>\n";
             } elseif ($format === 'video') {
-                $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $textlang, $matches0);
-                $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $textlang, $matches1);
+                $youtube_url = $row['textlang'];
+                $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $youtube_url, $matches0);
+                $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $youtube_url, $matches1);
                 $youtube_match = null;
                 if ($res0) {
                     $youtube_match = $matches0[2];
@@ -184,6 +189,7 @@ class OlzNewsArticle {
                 if ($youtube_match != null) {
                     $out .= "<iframe width='560' height='315' src='https://www.youtube.com/embed/{$youtube_match}' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
                 } else {
+                    $logger->error("Invalid YouTube link (ID:{$id}): {$youtube_url}");
                     $out .= "Fehlerhafter YouTube-Link!";
                 }
                 $out .= "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";

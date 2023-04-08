@@ -43,9 +43,9 @@ fi
 BROWSER_DRIVER_PID=$!
 
 # Configure env
-if [ ! -z DB_PORT ] && [ ! -f ./tests/IntegrationTests/document-root/config.php ]; then
-    cp ./public/config.template.php ./public/config.php
-    sed -i "s/3306/$DB_PORT/g" ./public/config.php
+if [ ! -z DB_PORT ] && [ ! -f ./config/olz.dev.php ]; then
+    cp ./config/olz.dev.template.php ./config/olz.dev.php
+    sed -i "s/3306/$DB_PORT/g" ./config/olz.dev.php
     echo "Dev server env configured."
 else
     echo "Dev server env configuration preserved."
@@ -69,14 +69,14 @@ fi
 # Run dev server
 mkdir -p ./public/logs
 # php -S "127.0.0.1:30270" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
-symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
+APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
 sleep 1
 
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-php tests/screenshot_tests/take_screenshots.php "$BROWSER" "$SET_INDEX"
+APP_ENV=dev php tests/screenshot_tests/take_screenshots.php "$BROWSER" "$SET_INDEX"
 EXIT_CODE=$?
 
 # Clean up

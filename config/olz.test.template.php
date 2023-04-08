@@ -1,13 +1,14 @@
 <?php
 
-/* Copy this file to ./config.php and fill in info for local MySQL server. */
+/* Copy this file to ./olz.test.php and fill in info for local MySQL server. */
 
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', 1);
 
 $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
-        'syslog_path' => __DIR__.'/logs/',
+        'syslog_path' => __DIR__.'/../public/logs/',
+        'base_href' => 'http://integration-test.host',
 
         'mysql_host' => 'localhost',
         'mysql_port' => '3306',

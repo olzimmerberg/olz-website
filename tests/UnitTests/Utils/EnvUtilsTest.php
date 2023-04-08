@@ -22,10 +22,9 @@ final class EnvUtilsTest extends UnitTestCase {
         $env_utils->setCodePath('//_/');
         $env_utils->setCodeHref('/_/');
 
-        $env_utils->setBaseHref("http://localhost/");
-
         $env_utils->configure([
             'syslog_path' => 'fake-syslog-path',
+            'base_href' => 'http://localhost/',
 
             'mysql_host' => 'localhost',
             'mysql_port' => '3306',
@@ -156,39 +155,49 @@ final class EnvUtilsTest extends UnitTestCase {
         );
     }
 
-    public function testComputeDataPath(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = '';
-        $this->assertSame('/', EnvUtils::computeDataPath());
-    }
-
-    public function testGetConfigPathFromDocumentRoot(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = __DIR__.'/../tmp';
-        file_put_contents(__DIR__.'/../tmp/config.php', '');
+    public function testGetConfigPathFromInjectedEnvPath(): void {
+        $config_dir = __DIR__.'/../../../config/';
+        if (is_file("{$config_dir}olz.test.php")) {
+            rename("{$config_dir}olz.test.php", "{$config_dir}_olz.test.php");
+        }
+        file_put_contents("{$config_dir}olz.test.php", '');
         $this->assertSame(
-            __DIR__.'/../tmp/config.php',
+            realpath("{$config_dir}olz.test.php"),
             EnvUtils::getConfigPath(),
         );
+        unlink("{$config_dir}olz.test.php");
+        if (is_file("{$config_dir}_olz.test.php")) {
+            rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
+        }
     }
 
     public function testGetConfigPathFromInjectedPath(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = '';
-        file_put_contents(__DIR__.'/../../../src/Utils/data/config.php', '');
+        $config_dir = __DIR__.'/../../../config/';
+        if (is_file("{$config_dir}olz.test.php")) {
+            rename("{$config_dir}olz.test.php", "{$config_dir}_olz.test.php");
+        }
+        file_put_contents("{$config_dir}olz.php", '');
         $this->assertSame(
-            realpath(__DIR__.'/../../../src/Utils/data/config.php'),
+            realpath("{$config_dir}olz.php"),
             EnvUtils::getConfigPath(),
         );
-        unlink(__DIR__.'/../../../src/Utils/data/config.php');
+        unlink("{$config_dir}olz.php");
+        if (is_file("{$config_dir}_olz.test.php")) {
+            rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
+        }
     }
 
     public function testGetConfigPathFallback(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = '';
+        $config_dir = __DIR__.'/../../../config/';
+        if (is_file("{$config_dir}olz.test.php")) {
+            rename("{$config_dir}olz.test.php", "{$config_dir}_olz.test.php");
+        }
         $this->assertSame(
-            realpath(__DIR__.'/../../../public/config.php'),
+            null,
             EnvUtils::getConfigPath(),
         );
+        if (is_file("{$config_dir}_olz.test.php")) {
+            rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
+        }
     }
 }

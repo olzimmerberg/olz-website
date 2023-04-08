@@ -13,9 +13,9 @@
 - Installiere `composer`
 - Installiere `MySQL`
 - Erstelle eine MySQL Datenbank
-- Kopiere `public/config.template.php` nach `public/config.php`
-- Gib die Zugangsdaten zur lokalen Datenbank in `public/config.php` ein
-- Achte darauf, dass `public/config.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
+- Kopiere `config/olz.dev.template.php` nach `config/olz.dev.php`
+- Gib die Zugangsdaten zur lokalen Datenbank in `config/olz.dev.php` ein
+- Achte darauf, dass `config/olz.dev.php` keinen Zeilenumbruch ausserhalb des `<?php ... ?>` Tags enthält
 
 ### Development-Server starten
 

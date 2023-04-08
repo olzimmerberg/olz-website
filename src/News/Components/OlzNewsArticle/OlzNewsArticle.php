@@ -60,7 +60,6 @@ class OlzNewsArticle {
             $datum = $row['datum'];
 
             $image_ids = json_decode($row['image_ids'] ?? 'null', true);
-            $is_migrated = is_array($image_ids);
 
             $datum = $_DATE->olzDate("tt.mm.jj", $datum);
 
@@ -70,7 +69,7 @@ class OlzNewsArticle {
                 $json_id = json_encode(intval($id_tmp));
                 $has_blog = $auth_utils->hasPermission('kaderblog', $user);
                 $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
-                $edit_admin = $is_migrated ? <<<ZZZZZZZZZZ
+                $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
                         id='edit-news-button'
@@ -89,7 +88,7 @@ class OlzNewsArticle {
                         Löschen
                     </button>
                 </div>
-                ZZZZZZZZZZ : "<a href='aktuell.php?id={$id_tmp}&amp;button{$db_table}=start' class='linkedit'>&nbsp;</a>";
+                ZZZZZZZZZZ;
             }
 
             // Bildercode einfügen
@@ -133,53 +132,38 @@ class OlzNewsArticle {
                 $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
             } elseif ($format === 'kaderblog') {
                 $gallery = '';
-                if ($is_migrated) {
-                    $num_images = count($image_ids);
-                    if ($num_images > 0) {
-                        $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
-                        foreach ($image_ids as $image_id) {
-                            $gallery .= "<div class='gallery-image'>";
-                            $gallery .= $image_utils->olzImage(
-                                'news', $id, $image_id, 110, 'gallery[myset]');
-                            $gallery .= "</div>";
-                        }
+                $num_images = count($image_ids);
+                if ($num_images > 0) {
+                    $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
+                    foreach ($image_ids as $image_id) {
+                        $gallery .= "<div class='gallery-image'>";
+                        $gallery .= $image_utils->olzImage(
+                            'news', $id, $image_id, 110, 'gallery[myset]');
                         $gallery .= "</div>";
                     }
+                    $gallery .= "</div>";
                 }
                 $out .= "<p>{$textlang}</p>{$gallery}\n";
             } elseif ($format === 'forum') {
                 $gallery = '';
-                if ($is_migrated) {
-                    $num_images = count($image_ids);
-                    if ($num_images > 0) {
-                        $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
-                        foreach ($image_ids as $image_id) {
-                            $gallery .= "<div class='gallery-image'>";
-                            $gallery .= $image_utils->olzImage(
-                                'news', $id, $image_id, 110, 'gallery[myset]');
-                            $gallery .= "</div>";
-                        }
+                $num_images = count($image_ids);
+                if ($num_images > 0) {
+                    $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
+                    foreach ($image_ids as $image_id) {
+                        $gallery .= "<div class='gallery-image'>";
+                        $gallery .= $image_utils->olzImage(
+                            'news', $id, $image_id, 110, 'gallery[myset]');
                         $gallery .= "</div>";
                     }
+                    $gallery .= "</div>";
                 }
                 $out .= "<p><b>{$text}</b><p>{$textlang}</p>{$gallery}\n";
             } elseif ($format === 'galerie') {
                 $out .= "<div class='lightgallery gallery-container'>";
-                if ($is_migrated) {
-                    $size = count($image_ids);
-                } else {
-                    $img_path = "{$data_path}img/galerie/{$galerie_id}/img/";
-                    for ($size = 1; is_file($img_path.str_pad($size, 3, '0', STR_PAD_LEFT).".jpg"); $size++) {
-                    }
-                    $size--;
-                }
+                $size = count($image_ids);
                 for ($index = 0; $index < $size; $index++) {
                     $out .= "<div class='gallery-image'>";
-                    if ($is_migrated) {
-                        $out .= $image_utils->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
-                    } else {
-                        $out .= $image_utils->olzImage("galerie", $galerie_id, $index + 1, 110, 'gallery[myset]');
-                    }
+                    $out .= $image_utils->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
                     $out .= "</div>";
                 }
                 $out .= "</div>\n";

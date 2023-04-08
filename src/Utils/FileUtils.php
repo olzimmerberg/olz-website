@@ -6,6 +6,7 @@ class FileUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'envUtils',
+        'log',
     ];
 
     public const TABLES_FILE_DIRS = [
@@ -72,31 +73,18 @@ class FileUtils {
         preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
             $index = $matches[1][$i];
-            $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
             $tmptext = $matches[4][$i];
             if (mb_strlen($tmptext) < 1) {
                 $tmptext = "Datei {$index}";
             }
 
-            if ($is_migrated) {
-                $new_html = $this->olzFile(
-                    $db_table == 'aktuell' ? 'news' : $db_table,
-                    $id,
-                    substr($index, 1),
-                    $tmptext,
-                    $icon
-                );
-            } else {
-                // TODO: Delete this monster-logic!
-                $is_blog = $id >= 6400 && $id < 6700;
-                $new_html = $this->olzFile(
-                    $is_blog ? 'blog' : ($db_table == 'news' ? 'aktuell' : $db_table),
-                    $is_blog ? $id - 6400 : $id,
-                    intval($index),
-                    $tmptext,
-                    $icon
-                );
-            }
+            $new_html = $this->olzFile(
+                $db_table == 'aktuell' ? 'news' : $db_table,
+                $id,
+                substr($index, 1),
+                $tmptext,
+                $icon
+            );
             $text = str_replace($matches[0][$i], $new_html, $text);
         }
         return $text;
@@ -107,30 +95,25 @@ class FileUtils {
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         if (!isset($this::TABLES_FILE_DIRS[$db_table])) {
-            return "Ungültige db_table (in olzFile)";
+            $message = "Ungültige db_table: {$db_table} (in olzFile)";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
-        $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
         $db_filepath = $this::TABLES_FILE_DIRS[$db_table];
         $file_dir = "{$data_path}{$db_filepath}/{$id}";
-        if (is_dir($file_dir)) {
-            if ($is_migrated) {
-                $filemtime = filemtime("{$file_dir}/{$index}");
-                $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
-                return "<a href='{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}'{$style}>{$text}</a>";
-            }
-            $files = scandir($file_dir);
-            for ($i = 0; $i < count($files); $i++) {
-                if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
-                    if (intval($matches[1]) == $index) {
-                        $filemtime = filemtime("{$file_dir}/{$files[$i]}");
-                        $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
-                        return "<a href='{$data_href}{$db_filepath}/{$id}/{$matches[0]}?modified={$filemtime}'{$style}>{$text}</a>";
-                    }
-                }
-            }
-        } else {
-            return "<span style='color:#ff0000; font-style:italic;'>!is_dir {$db_filepath}/{$id}</span>";
+        if (!is_dir($file_dir)) {
+            $message = "!is_dir {$db_filepath}/{$id}";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
-        return "<span style='color:#ff0000; font-style:italic;'>Datei nicht vorhanden (in olzFile)</span>";
+        $file_path = "{$file_dir}/{$index}";
+        if (!is_file($file_path)) {
+            $message = "!is_file {$db_filepath}/{$id}/{$index}";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
+        }
+        $filemtime = filemtime($file_path);
+        $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
+        return "<a href='{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}'{$style}>{$text}</a>";
     }
 }

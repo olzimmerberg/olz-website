@@ -47,7 +47,6 @@ class OlzNewsListItem {
         $link = "aktuell.php?filter={$enc_current_filter}&id=".$id;
 
         $image_ids = $news_entry->getImageIds();
-        $is_migrated = is_array($image_ids);
 
         // Show images in teaser
         $teaser = $image_utils->replaceImageTags(
@@ -98,18 +97,16 @@ class OlzNewsListItem {
             ]);
         } elseif ($format === 'kaderblog') {
             $thumb = '';
-            if ($is_migrated) {
-                $size = count($image_ids);
-                if ($size > 0) {
-                    $thumb = $image_utils->olzImage(
-                        'news',
-                        $id,
-                        $image_ids[0] ?? null,
-                        110,
-                        'image',
-                        " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
-                    );
-                }
+            $size = count($image_ids);
+            if ($size > 0) {
+                $thumb = $image_utils->olzImage(
+                    'news',
+                    $id,
+                    $image_ids[0] ?? null,
+                    110,
+                    'image',
+                    " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
+                );
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
@@ -126,18 +123,16 @@ class OlzNewsListItem {
             ]);
         } elseif ($format === 'forum') {
             $thumb = '';
-            if ($is_migrated) {
-                $size = count($image_ids);
-                if ($size > 0) {
-                    $thumb = $image_utils->olzImage(
-                        'news',
-                        $id,
-                        $image_ids[0] ?? null,
-                        110,
-                        'image',
-                        " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
-                    );
-                }
+            $size = count($image_ids);
+            if ($size > 0) {
+                $thumb = $image_utils->olzImage(
+                    'news',
+                    $id,
+                    $image_ids[0] ?? null,
+                    110,
+                    'image',
+                    " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
+                );
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
@@ -155,25 +150,14 @@ class OlzNewsListItem {
         } elseif ($format === 'galerie') {
             $thumbs = '';
             $used_thumb_indexes = [];
-            if ($is_migrated) {
-                $size = count($image_ids);
-            } else {
-                $img_path = "{$data_path}img/galerie/{$galerie_id}/img/";
-                for ($size = 1; is_file($img_path.str_pad($size, 3, '0', STR_PAD_LEFT).".jpg"); $size++) {
-                }
-                $size--;
-            }
+            $size = count($image_ids);
             for ($i = 0; $i < (($size > 4) ? 4 : $size); $i++) {
                 $random_index = rand(1, $size);
                 while (array_search($random_index, $used_thumb_indexes) !== false) {
                     $random_index = rand(1, $size);
                 }
                 array_push($used_thumb_indexes, $random_index);
-                if ($is_migrated) {
-                    $thumbs .= "<td class='test-flaky'>".$image_utils->olzImage("news", $id, $image_ids[$random_index - 1], 110, 'image')."</td>";
-                } else {
-                    $thumbs .= "<td class='test-flaky'>".$image_utils->olzImage("galerie", $galerie_id, $random_index, 110, 'image')."</td>";
-                }
+                $thumbs .= "<td class='test-flaky'>".$image_utils->olzImage("news", $id, $image_ids[$random_index - 1], 110, 'image')."</td>";
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
@@ -184,11 +168,7 @@ class OlzNewsListItem {
                 'link' => $link,
             ]);
         } elseif ($format === 'video') {
-            if ($is_migrated) {
-                $thumbnail = $image_utils->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
-            } else {
-                $thumbnail = $image_utils->olzImage("galerie", $galerie_id, 1, 110, 'image');
-            }
+            $thumbnail = $image_utils->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
             $content = <<<ZZZZZZZZZZ
             <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
             <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n

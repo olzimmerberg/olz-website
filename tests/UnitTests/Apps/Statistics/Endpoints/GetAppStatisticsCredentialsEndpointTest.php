@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Apps\Statistics\Endpoints;
 use Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -25,14 +24,11 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'all',
-            'root' => '',
-            'user' => 'admin',
-        ];
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => true];
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
@@ -51,15 +47,11 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppStatisticsCredentialsEndpointNotAuthorized(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
         $env_utils = new Fake\FakeEnvUtils();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ];
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         try {
@@ -77,8 +69,9 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppStatisticsCredentialsEndpointNotAuthenticated(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {

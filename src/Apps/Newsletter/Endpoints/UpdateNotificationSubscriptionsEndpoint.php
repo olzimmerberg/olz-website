@@ -49,7 +49,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $auth_username = $this->session()->get('user');
+        $user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $delivery_type = $input['deliveryType'];
@@ -70,8 +70,6 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         $weekly_summary_galerie = $input['weeklySummaryGalerie'];
         $weekly_summary_termine = $input['weeklySummaryTermine'];
 
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $auth_username]);
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
 
         $existing_subscriptions = $notification_subscription_repo->findBy([

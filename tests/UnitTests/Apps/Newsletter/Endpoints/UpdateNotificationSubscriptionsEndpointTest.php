@@ -10,7 +10,6 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
-use Olz\Utils\MemorySession;
 
 class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
     public function findBy($where) {
@@ -37,19 +36,17 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'admin',
-        ];
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -133,19 +130,17 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setDateUtils($date_utils);
-        $session = new MemorySession();
-        $session->session_storage = [
-            'user' => 'admin',
-        ];
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

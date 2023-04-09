@@ -8,7 +8,6 @@ use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
 // /**
@@ -47,17 +46,14 @@ final class GetLogsEndpointTest extends UnitTestCase {
     }
 
     public function testGetLogsEndpointTargetDate(): void {
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => true];
+        $auth_utils->current_user = Fake\FakeUsers::adminUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'all',
-            'root' => '',
-            'user' => 'admin',
-        ];
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
@@ -124,46 +120,13 @@ final class GetLogsEndpointTest extends UnitTestCase {
     }
 
     public function testGetLogsEndpointNotAuthorized(): void {
+        $auth_utils = new Fake\FakeAuthUtils();
+        $auth_utils->has_permission_by_query = ['all' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $session = new MemorySession();
-        $session->session_storage = [
-            'auth' => 'ftp',
-            'root' => 'karten',
-            'user' => 'admin',
-        ];
+        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
-        $endpoint->setSession($session);
-        $endpoint->setLog($logger);
-
-        try {
-            $result = $endpoint->call([
-                'query' => [
-                    'channel' => 'olz-logs',
-                    'targetDate' => null,
-                    'firstDate' => null,
-                    'lastDate' => null,
-                    'minLogLevel' => null,
-                    'textSearch' => null,
-                    'pageToken' => null,
-                ],
-            ]);
-            $this->fail('Exception expected.');
-        } catch (HttpError $httperr) {
-            $this->assertSame([
-                'INFO Valid user request',
-                'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
-            $this->assertSame('Kein Zugriff!', $httperr->getMessage());
-        }
-    }
-
-    public function testGetLogsEndpointNotAuthenticated(): void {
-        $logger = Fake\FakeLogger::create();
-        $endpoint = new GetLogsEndpoint();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setLog($logger);
 
         try {

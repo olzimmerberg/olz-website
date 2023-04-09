@@ -23,12 +23,12 @@ class GetAppYoutubeCredentialsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        if ($this->session()->get('auth') != 'all') {
+        if (!$this->authUtils()->hasPermission('all')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $username = $this->session()->get('user');
-        $this->log()->info("Youtube credentials access by {$username}.");
+        $user = $this->authUtils()->getCurrentUser();
+        $this->log()->info("Youtube credentials access by {$user->getUsername()}.");
 
         return [
             'username' => $this->envUtils()->getAppGoogleSearchUsername(),

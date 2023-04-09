@@ -20,7 +20,7 @@ class ImportTermineEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        if ($this->session()->get('auth') != 'termine') {
+        if (!$this->authUtils()->hasPermission('termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

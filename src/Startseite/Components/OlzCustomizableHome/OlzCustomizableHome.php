@@ -6,6 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzCustomizableHome;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Startseite\Components\OlzCustomTile\OlzCustomTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
 use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;
@@ -16,8 +17,8 @@ use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
 use Olz\Utils\AuthUtils;
 
-class OlzCustomizableHome {
-    public static function render($args = []) {
+class OlzCustomizableHome extends OlzComponent {
+    public function getHtml($args = []): string {
         $auth_utils = AuthUtils::fromEnv();
         $user = $auth_utils->getCurrentUser();
 

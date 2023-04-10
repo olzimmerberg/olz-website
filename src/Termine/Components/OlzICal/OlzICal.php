@@ -8,10 +8,11 @@
 
 namespace Olz\Termine\Components\OlzICal;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\DbUtils;
 
-class OlzICal {
-    public static function render($args = []) {
+class OlzICal extends OlzComponent {
+    public function getHtml($args = []): string {
         global $base_href, $code_href, $_DATE;
 
         require_once __DIR__.'/../../../../_/config/init.php';

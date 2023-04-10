@@ -2,11 +2,12 @@
 
 namespace Olz\Components\Users\OlzUserInfoCard;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzUserInfoCard {
-    public static function render($args = []) {
+class OlzUserInfoCard extends OlzComponent {
+    public function getHtml($args = []): string {
         $user = $args['user'];
 
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';

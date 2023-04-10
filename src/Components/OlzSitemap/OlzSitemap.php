@@ -2,6 +2,7 @@
 
 namespace Olz\Components\OlzSitemap;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Role;
 use Olz\Entity\Termine\Termin;
@@ -9,8 +10,8 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\DbUtils;
 
-class OlzSitemap {
-    public static function render() {
+class OlzSitemap extends OlzComponent {
+    public function getHtml($args = []): string {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
 
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";

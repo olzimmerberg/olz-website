@@ -2,10 +2,11 @@
 
 namespace Olz\Components\Page\OlzHeaderStats;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\DbUtils;
 
-class OlzHeaderStats {
-    public static function render($args = []) {
+class OlzHeaderStats extends OlzComponent {
+    public function getHtml($args = []): string {
         // OLZ Statistik Trainings/Wettkämpfe 2014
         // ---------------------------------------
 

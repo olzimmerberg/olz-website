@@ -2,10 +2,11 @@
 
 namespace Olz\Components\Auth\OlzResetPasswordModal;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\EnvUtils;
 
-class OlzResetPasswordModal {
-    public static function render($args = []) {
+class OlzResetPasswordModal extends OlzComponent {
+    public function getHtml($args = []): string {
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
         return <<<ZZZZZZZZZZ

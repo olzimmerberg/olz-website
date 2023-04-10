@@ -2,13 +2,14 @@
 
 namespace Olz\Components\Auth\OlzAccountMenu;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzAccountMenu {
-    public static function render($args = []) {
+class OlzAccountMenu extends OlzComponent {
+    public function getHtml($args = []): string {
         $out = '';
 
         $auth_utils = AuthUtils::fromEnv();

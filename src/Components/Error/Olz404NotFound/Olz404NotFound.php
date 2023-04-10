@@ -2,12 +2,13 @@
 
 namespace Olz\Components\Error\Olz404NotFound;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Utils\EnvUtils;
 
-class Olz404NotFound {
-    public static function render($args = []) {
+class Olz404NotFound extends OlzComponent {
+    public function getHtml($args = []): string {
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
 

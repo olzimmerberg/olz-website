@@ -8,6 +8,7 @@ namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -20,8 +21,8 @@ use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 
-class OlzNewsDetail {
-    public static function render($args = []) {
+class OlzNewsDetail extends OlzComponent {
+    public function getHtml($args = []): string {
         global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION, $_SERVER;
 
         require_once __DIR__.'/../../../../_/config/date.php';

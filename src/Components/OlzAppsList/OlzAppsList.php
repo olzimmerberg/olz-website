@@ -3,12 +3,13 @@
 namespace Olz\Components\OlzAppsList;
 
 use Olz\Apps\OlzApps;
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzAppsList {
-    public static function render($args = []) {
+class OlzAppsList extends OlzComponent {
+    public function getHtml($args = []): string {
         $auth_utils = AuthUtils::fromEnv();
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();

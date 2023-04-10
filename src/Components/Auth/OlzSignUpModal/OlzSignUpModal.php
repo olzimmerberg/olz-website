@@ -2,13 +2,14 @@
 
 namespace Olz\Components\Auth\OlzSignUpModal;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FacebookUtils;
 use Olz\Utils\GoogleUtils;
 use Olz\Utils\StravaUtils;
 
-class OlzSignUpModal {
-    public static function render($args = []) {
+class OlzSignUpModal extends OlzComponent {
+    public function getHtml($args = []): string {
         $strava_utils = StravaUtils::fromEnv();
         $google_utils = GoogleUtils::fromEnv();
         $facebook_utils = FacebookUtils::fromEnv();

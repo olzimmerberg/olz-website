@@ -2,13 +2,14 @@
 
 namespace Olz\Components\Common\OlzAuthorBadge;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzRoleInfoCard\OlzRoleInfoCard;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\User;
 
-class OlzAuthorBadge {
-    public static function render($args = []) {
+class OlzAuthorBadge extends OlzComponent {
+    public function getHtml($args = []): string {
         $user = $args['user'] ?? null;
         $role = $args['role'] ?? null;
         $name = $args['name'] ?? null;

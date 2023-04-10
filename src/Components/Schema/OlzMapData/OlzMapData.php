@@ -6,8 +6,10 @@
 
 namespace Olz\Components\Schema\OlzMapData;
 
-class OlzMapData {
-    public static function render($args = []) {
+use Olz\Components\Common\OlzComponent;
+
+class OlzMapData extends OlzComponent {
+    public function getHtml($args = []): string {
         $name = $args['name'] ?? '';
         $year = $args['year'] ?? '';
         $scale = $args['scale'] ?? '';

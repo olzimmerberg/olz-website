@@ -2,10 +2,11 @@
 
 namespace Olz\Termine\Components\OlzTermineFilter;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Termine\Utils\TermineFilterUtils;
 
-class OlzTermineFilter {
-    public static function render($args = []) {
+class OlzTermineFilter extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_GET;
 
         $termine_utils = TermineFilterUtils::fromEnv();

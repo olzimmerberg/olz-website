@@ -2,14 +2,15 @@
 
 namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzHeaderWithoutRouting {
-    public static function render($args = []) {
+class OlzHeaderWithoutRouting extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_DATE, $_SERVER, $_SESSION;
         $out = '';
 

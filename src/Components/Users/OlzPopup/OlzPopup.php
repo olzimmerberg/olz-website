@@ -2,8 +2,10 @@
 
 namespace Olz\Components\Users\OlzPopup;
 
-class OlzPopup {
-    public static function render($args = []) {
+use Olz\Components\Common\OlzComponent;
+
+class OlzPopup extends OlzComponent {
+    public function getHtml($args = []): string {
         $trigger = $args['trigger'];
         $popup = $args['popup'];
         $trigger_type = $args['trigger_type'] ?? 'click';

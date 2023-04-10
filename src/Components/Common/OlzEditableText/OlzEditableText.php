@@ -2,13 +2,14 @@
 
 namespace Olz\Components\Common\OlzEditableText;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\OlzText;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\HtmlUtils;
 
-class OlzEditableText {
-    public static function render($args = []) {
+class OlzEditableText extends OlzComponent {
+    public function getHtml($args = []): string {
         global $code_href;
         require_once __DIR__.'/../../../../_/config/paths.php';
 

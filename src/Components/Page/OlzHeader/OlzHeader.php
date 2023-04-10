@@ -2,11 +2,12 @@
 
 namespace Olz\Components\Page\OlzHeader;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Utils\HttpUtils;
 
-class OlzHeader {
-    public static function render($args = []) {
+class OlzHeader extends OlzComponent {
+    public function getHtml($args = []): string {
         $is_insecure_nonlocal = !($_SERVER['HTTPS'] ?? false) && preg_match('/olzimmerberg\.ch/', $_SERVER['HTTP_HOST']);
         $host_has_www = preg_match('/www\./', $_SERVER['HTTP_HOST']);
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);

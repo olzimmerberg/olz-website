@@ -3,12 +3,13 @@
 namespace Olz\Apps\Files\Components\OlzWebDav;
 
 use Olz\Apps\Files\Service\CallbackAuthBackend;
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\HttpUtils;
 use Sabre\DAV;
 
-class OlzWebDav {
-    public static function render($args = []) {
+class OlzWebDav extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/paths.php';
 
         error_reporting(0);

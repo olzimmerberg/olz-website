@@ -3,12 +3,13 @@
 namespace Olz\Apps\Import\Components\OlzImport;
 
 use Olz\Apps\Import\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
 
-class OlzImport {
-    public static function render() {
+class OlzImport extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 

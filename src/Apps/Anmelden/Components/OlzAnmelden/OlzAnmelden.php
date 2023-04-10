@@ -6,7 +6,6 @@ use Olz\Apps\Anmelden\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -18,7 +17,7 @@ class OlzAnmelden extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([

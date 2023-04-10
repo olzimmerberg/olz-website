@@ -9,7 +9,6 @@
 namespace Olz\Termine\Components\OlzICal;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\DbUtils;
 
 class OlzICal extends OlzComponent {
     public function getHtml($args = []): string {
@@ -20,7 +19,7 @@ class OlzICal extends OlzComponent {
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $jahr = olz_current_date('Y');
 
         // Termine abfragen

@@ -8,7 +8,6 @@ namespace Olz\Startseite\Components\OlzTermineUpdatesTile;
 
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\DbUtils;
 
 class OlzTermineUpdatesTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
@@ -16,7 +15,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
     }
 
     public function getHtml($args = []): string {
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = "<h2>Aktualisierte Termine</h2>";

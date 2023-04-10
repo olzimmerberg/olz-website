@@ -5,14 +5,13 @@ namespace Olz\Components\Verein\OlzRolePage;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HtmlUtils;
 
 class OlzRolePage extends OlzComponent {
     public function getHtml($args = []): string {
         $is_member = $this->authUtils()->hasPermission('member');
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $html_utils = HtmlUtils::fromEnv();
 

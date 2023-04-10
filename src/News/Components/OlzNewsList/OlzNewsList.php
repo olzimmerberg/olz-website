@@ -11,15 +11,14 @@ use Olz\Entity\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsList extends OlzComponent {
     public function getHtml($args = []): string {
         global $db_table, $_SESSION;
 
-        $db = DbUtils::fromEnv()->getDb();
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $db = $this->dbUtils()->getDb();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $db_table = 'aktuell';
 
         $http_utils = HttpUtils::fromEnv();

@@ -6,7 +6,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Role;
 use Olz\Entity\User;
-use Olz\Utils\DbUtils;
 
 class OlzOrganigramm extends OlzComponent {
     public function getHtml($args = []): string {
@@ -14,7 +13,7 @@ class OlzOrganigramm extends OlzComponent {
 
         $has_all_permissions = $this->authUtils()->hasPermission('all');
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $user_repo = $entityManager->getRepository(User::class);
 

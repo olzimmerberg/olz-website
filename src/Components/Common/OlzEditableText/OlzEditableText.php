@@ -4,7 +4,6 @@ namespace Olz\Components\Common\OlzEditableText;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\OlzText;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HtmlUtils;
 
 class OlzEditableText extends OlzComponent {
@@ -14,7 +13,7 @@ class OlzEditableText extends OlzComponent {
 
         $olz_text_id = intval($args['olz_text_id'] ?? 0);
         if ($olz_text_id > 0) {
-            $entityManager = DbUtils::fromEnv()->getEntityManager();
+            $entityManager = $this->dbUtils()->getEntityManager();
             $olz_text_repo = $entityManager->getRepository(OlzText::class);
             $olz_text = $olz_text_repo->findOneBy(['id' => $olz_text_id]);
 

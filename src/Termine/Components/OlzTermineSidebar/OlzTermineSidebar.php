@@ -8,7 +8,6 @@ namespace Olz\Termine\Components\OlzTermineSidebar;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
-use Olz\Utils\DbUtils;
 
 class OlzTermineSidebar extends OlzComponent {
     public function getHtml($args = []): string {
@@ -16,7 +15,7 @@ class OlzTermineSidebar extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $out = "<h2>Trainings</h2>";
 

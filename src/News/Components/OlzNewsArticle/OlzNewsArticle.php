@@ -3,7 +3,6 @@
 namespace Olz\News\Components\OlzNewsArticle;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
@@ -12,7 +11,7 @@ class OlzNewsArticle extends OlzComponent {
     public function getHtml($args = []): string {
         global $_DATE;
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $image_utils = ImageUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
         $html_utils = HtmlUtils::fromEnv();

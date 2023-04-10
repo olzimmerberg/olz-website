@@ -7,7 +7,6 @@ use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AbstractDateUtils;
 
 class OlzLogs extends OlzComponent {
     public function getHtml($args = []): string {
@@ -22,7 +21,6 @@ class OlzLogs extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $date_utils = AbstractDateUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
 
         $out .= <<<'ZZZZZZZZZZ'
@@ -38,7 +36,7 @@ class OlzLogs extends OlzComponent {
 
         $out .= "<div class='content-full olz-logs'>";
         if ($user && $user->getPermissions() == 'all') {
-            $iso_now = $date_utils->getIsoNow();
+            $iso_now = $this->dateUtils()->getIsoNow();
             $esc_now = json_encode($iso_now);
             $channels_data = [];
             foreach (LogsDefinitions::getLogsChannels() as $channel) {

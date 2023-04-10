@@ -9,8 +9,6 @@ namespace Olz\Startseite\Components\OlzTermineListsTile;
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\AbstractDateUtils;
-use Olz\Utils\DbUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
     private static $termine_utils;
@@ -23,9 +21,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         self::$termine_utils = TermineFilterUtils::fromEnv();
-        $date_utils = AbstractDateUtils::fromEnv();
-        self::$db = DbUtils::fromEnv()->getDb();
-        self::$this_year = intval($date_utils->getCurrentDateInFormat('Y'));
+        self::$db = $this->dbUtils()->getDb();
+        self::$this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 
         $out = "<h2>Termine</h2>";
 

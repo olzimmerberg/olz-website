@@ -5,7 +5,6 @@ namespace Olz\Termine\Components\OlzTerminDetail;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
-use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 
 class OlzTerminDetail extends OlzComponent {
@@ -14,7 +13,7 @@ class OlzTerminDetail extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $file_utils = FileUtils::fromEnv();
         $db_table = 'termine';
         $button_name = 'button'.$db_table;

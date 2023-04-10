@@ -9,6 +9,8 @@ import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploa
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 
+import './OlzEditNewsModal.scss';
+
 export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog';
 
 interface OlzEditNewsModalConfig {

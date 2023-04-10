@@ -36,7 +36,14 @@
     margin: 0;
 }
 
-.newsletter-link {
+.tile .link-icon {
+    display: inline-block;
+    border: 0;
+    height: 16px;
+    margin: -2px 0 -1px;
+}
+
+.tile .newsletter-link {
     display: inline-block;
     height: 16px;
 
@@ -46,7 +53,7 @@
     }
 }
 
-@media screen and (min-width: 360px) {
+@media screen and (min-width: 400px) {
     .tile-container {
         width: 50%;
     }

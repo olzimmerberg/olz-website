@@ -232,6 +232,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Alle",
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -242,6 +243,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Aktuell",
+                'icon' => 'entry_type_aktuell_20.svg',
                 'ident' => 'aktuell',
             ],
             [
@@ -252,6 +254,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Kaderblog",
+                'icon' => 'entry_type_kaderblog_20.svg',
                 'ident' => 'kaderblog',
             ],
             [
@@ -262,6 +265,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Forum",
+                'icon' => 'entry_type_forum_20.svg',
                 'ident' => 'forum',
             ],
             [
@@ -272,6 +276,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Galerien",
+                'icon' => 'entry_type_gallery_20.svg',
                 'ident' => 'galerie',
             ],
             [
@@ -282,6 +287,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Videos",
+                'icon' => 'entry_type_movie_20.svg',
                 'ident' => 'video',
             ],
         ], $news_utils->getUiFormatFilterOptions([
@@ -298,6 +304,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Alle",
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -308,6 +315,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Aktuell",
+                'icon' => 'entry_type_aktuell_20.svg',
                 'ident' => 'aktuell',
             ],
             [
@@ -318,6 +326,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Kaderblog",
+                'icon' => 'entry_type_kaderblog_20.svg',
                 'ident' => 'kaderblog',
             ],
             [
@@ -328,6 +337,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Forum",
+                'icon' => 'entry_type_forum_20.svg',
                 'ident' => 'forum',
             ],
             [
@@ -338,6 +348,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Galerien",
+                'icon' => 'entry_type_gallery_20.svg',
                 'ident' => 'galerie',
             ],
             [
@@ -348,6 +359,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Videos",
+                'icon' => 'entry_type_movie_20.svg',
                 'ident' => 'video',
             ],
         ], $news_utils->getUiFormatFilterOptions([

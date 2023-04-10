@@ -1,3 +1,5 @@
+import './OlzNewsList.scss';
+
 let invisiblePageContents: string[] = [];
 let lastShownPageIndex = 0;
 

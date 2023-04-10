@@ -2,6 +2,8 @@ import {olzApi} from '../../../../src/Api/client';
 import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../OlzEditNewsModal/OlzEditNewsModal';
 import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
+import './OlzNewsArticle.scss';
+
 export function editNewsArticle(
     newsId: number,
     mode: OlzEditNewsModalMode,

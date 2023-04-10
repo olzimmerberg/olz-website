@@ -5,6 +5,7 @@ namespace Olz\Apps\Newsletter\Components\OlzNewsletter;
 use Olz\Apps\Newsletter\Components\OlzEmailCard\OlzEmailCard;
 use Olz\Apps\Newsletter\Components\OlzTelegramCard\OlzTelegramCard;
 use Olz\Apps\Newsletter\Metadata;
+use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -23,6 +24,7 @@ class OlzNewsletter extends OlzComponent {
         ]);
 
         $user = $this->authUtils()->getCurrentUser();
+        $metadata = new Metadata();
 
         $out .= "<div class='content-full'>";
         if ($user) {
@@ -35,13 +37,13 @@ class OlzNewsletter extends OlzComponent {
             $out .= "</div>";
             $out .= "</div>";
         } else {
-            $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
+            $out .= OlzNoAppAccess::render([
+                'app' => $metadata,
+            ]);
         }
         $out .= "</div>";
 
-        $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();
-
         $out .= OlzFooter::render();
 
         return $out;

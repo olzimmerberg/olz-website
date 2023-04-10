@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Components\OlzAppsList;
+namespace Olz\Components\Apps\OlzAppsList;
 
 use Olz\Apps\OlzApps;
 use Olz\Components\Common\OlzComponent;
@@ -32,7 +32,7 @@ class OlzAppsList extends OlzComponent {
         if (!$this->authUtils()->hasPermission('any')) {
             $hypothetical_logged_in_user = new User();
             $hypothetical_logged_in_user->setId(null);
-            $hypothetical_logged_in_user->setPermissions('');
+            $hypothetical_logged_in_user->setPermissions(' verified_email ');
             $logged_in_apps = OlzApps::getAppsForUser($hypothetical_logged_in_user);
             $available_app_paths = [];
             foreach ($available_apps as $available_app) {

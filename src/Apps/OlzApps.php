@@ -5,6 +5,14 @@ namespace Olz\Apps;
 use PhpTypeScriptApi\Api;
 
 class OlzApps {
+    public static function getApp($basename) {
+        $metadata_class_name = "\\Olz\\Apps\\{$basename}\\Metadata";
+        if (class_exists($metadata_class_name)) {
+            return new $metadata_class_name();
+        }
+        return null;
+    }
+
     public static function getAppPaths() {
         $entries = scandir(__DIR__);
         $app_paths = [];
@@ -22,9 +30,9 @@ class OlzApps {
         $apps = [];
         foreach ($app_paths as $app_path) {
             $app_basename = basename($app_path);
-            $metadata_class_name = "\\Olz\\Apps\\{$app_basename}\\Metadata";
-            if (class_exists($metadata_class_name)) {
-                $apps[] = new $metadata_class_name();
+            $app = self::getApp($app_basename);
+            if ($app !== null) {
+                $apps[] = $app;
             }
         }
         return $apps;

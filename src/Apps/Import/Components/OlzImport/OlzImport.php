@@ -3,6 +3,7 @@
 namespace Olz\Apps\Import\Components\OlzImport;
 
 use Olz\Apps\Import\Metadata;
+use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -21,6 +22,7 @@ class OlzImport extends OlzComponent {
         ]);
 
         $user = $this->authUtils()->getCurrentUser();
+        $metadata = new Metadata();
 
         $out .= "<div class='content-full'>";
         if ($this->authUtils()->hasPermission('termine')) {
@@ -28,13 +30,13 @@ class OlzImport extends OlzComponent {
             <div id='pastebox' class='dropzone' contenteditable='true'>Zellen aus Excel kopieren und hier einfügen.</div>
             ZZZZZZZZZZ;
         } else {
-            $out .= "<div class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
+            $out .= OlzNoAppAccess::render([
+                'app' => $metadata,
+            ]);
         }
         $out .= "</div>";
 
-        $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();
-
         $out .= OlzFooter::render();
 
         return $out;

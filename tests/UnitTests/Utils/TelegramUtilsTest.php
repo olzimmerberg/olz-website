@@ -497,7 +497,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             ], 'fake-bot-token'],
         ], $telegram_fetcher->sentCommands);
         $this->assertSame([
-            "NOTICE Telegram API response was not OK: {\"ok\":false}",
+            "ERROR Telegram API response was not OK: {\"ok\":false}",
             "ERROR Telegram API: Could not 'setMyCommands'",
         ], $logger->handler->getPrettyRecords());
     }
@@ -562,7 +562,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false}', $exc->getMessage());
             $this->assertSame([
-                "NOTICE Telegram API response was not OK: {\"ok\":false}",
+                "ERROR Telegram API response was not OK: {\"ok\":false}",
             ], $logger->handler->getPrettyRecords());
         }
     }
@@ -584,17 +584,20 @@ final class TelegramUtilsTest extends UnitTestCase {
             $result = $telegram_utils->callTelegramApi('fakeCommand', ['chat_id' => 13]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}', $exc->getMessage());
-            $this->assertSame([
-                "NOTICE Permanently forbidden. Remove telegram link!",
-                "NOTICE Telegram API response was not OK: {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: bot was blocked by the user\"}",
-            ], $logger->handler->getPrettyRecords());
             $this->assertSame(
-                $entity_manager->removed,
-                $entity_manager->flushed_removed
+                '{"ok":false,"error_code":403,"description":"Forbidden: bot was blocked by the user"}',
+                $exc->getMessage()
             );
-            $this->assertSame(1, count($entity_manager->removed));
+            $this->assertSame([
+                "NOTICE Telegram API response was not OK: {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: bot was blocked by the user\"}",
+                "NOTICE Permanently forbidden. Remove telegram link!",
+            ], $logger->handler->getPrettyRecords());
         }
+        $this->assertSame(
+            $entity_manager->removed,
+            $entity_manager->flushed_removed
+        );
+        $this->assertSame(1, count($entity_manager->removed));
     }
 
     public function testCallTelegramApiWithError(): void {

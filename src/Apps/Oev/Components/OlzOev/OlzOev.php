@@ -3,6 +3,7 @@
 namespace Olz\Apps\Oev\Components\OlzOev;
 
 use Olz\Apps\Oev\Metadata;
+use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -25,7 +26,7 @@ class OlzOev extends OlzComponent {
             'nach' => new FieldTypes\StringField(['allow_null' => true]),
             'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
         ], $_GET);
-
+        $metadata = new Metadata();
         $id = $_GET['id'] ?? null;
 
         $out = '';
@@ -44,19 +45,16 @@ class OlzOev extends OlzComponent {
             <div id='oev-root'></div>
             ZZZZZZZZZZ;
         } else {
-            $out .= <<<'ZZZZZZZZZZ'
-            <div id='oev-message' class='alert alert-danger' role='alert'>
-                Da musst du schon eingeloggt sein!
-            </div>
-            ZZZZZZZZZZ;
+            $out .= OlzNoAppAccess::render([
+                'app' => $metadata,
+            ]);
         }
 
         $out .= "</div>";
 
-        $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();
-
         $out .= OlzFooter::render();
+
         return $out;
     }
 }

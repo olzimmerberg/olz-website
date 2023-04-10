@@ -258,6 +258,7 @@ class TelegramUtils {
         if (isset($response['ok']) && !$response['ok']) {
             $error_code = $response['error_code'] ?? null;
             $description = $response['description'] ?? null;
+            $response_json = json_encode($response);
             if (
                 $error_code == 403
                 && (
@@ -266,6 +267,7 @@ class TelegramUtils {
                 )
                 && isset($args['chat_id'])
             ) {
+                $this->log()->notice("Telegram API response was not OK: {$response_json}");
                 $this->log()->notice("Permanently forbidden. Remove telegram link!");
                 $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy([
@@ -273,9 +275,9 @@ class TelegramUtils {
                 ]);
                 $this->entityManager()->remove($telegram_link);
                 $this->entityManager()->flush();
+                throw new \Exception($response_json);
             }
-            $response_json = json_encode($response);
-            $this->log()->notice("Telegram API response was not OK: {$response_json}");
+            $this->log()->error("Telegram API response was not OK: {$response_json}");
             throw new \Exception($response_json);
         }
         $this->log()->info("Telegram API call successful", [$command, $args, $response]);

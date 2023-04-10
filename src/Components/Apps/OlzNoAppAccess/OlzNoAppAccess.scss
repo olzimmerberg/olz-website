@@ -1,0 +1,33 @@
+.olz-no-app-access {
+    text-align: center;
+
+    .app-container {
+        font-size: 16px;
+
+        .app-icon {
+            border: 0;
+            max-width: 120px;
+        }
+
+        &.hypothetical {
+            opacity: 0.5;
+            pointer-events: none;
+            user-select: none;
+            filter: blur(1px);
+        }
+
+        &:hover {
+            .app-icon {
+                filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+            }
+        }
+    }
+
+    .auth-buttons {
+        margin: 20px 50px;
+
+        .btn {
+            margin: 0 10px;
+        }
+    }
+}

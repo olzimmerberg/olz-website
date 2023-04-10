@@ -4,7 +4,6 @@ namespace Olz\Components\Auth\OlzAccountMenu;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
-use Olz\Utils\DbUtils;
 
 class OlzAccountMenu extends OlzComponent {
     public function getHtml($args = []): string {
@@ -21,7 +20,7 @@ class OlzAccountMenu extends OlzComponent {
         if ($user) {
             $out .= "<a class='dropdown-item' href='{$this->envUtils()->getCodeHref()}profil.php'>Profil</a>";
 
-            $entityManager = DbUtils::fromEnv()->getEntityManager();
+            $entityManager = $this->dbUtils()->getEntityManager();
             $user_repo = $entityManager->getRepository(User::class);
             $child_users = $auth_user->getId() ?
                 $user_repo->findBy(['parent_user' => $auth_user->getId()]) : [];

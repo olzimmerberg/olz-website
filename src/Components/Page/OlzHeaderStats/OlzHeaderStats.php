@@ -3,14 +3,13 @@
 namespace Olz\Components\Page\OlzHeaderStats;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\DbUtils;
 
 class OlzHeaderStats extends OlzComponent {
     public function getHtml($args = []): string {
         // OLZ Statistik Trainings/Wettkämpfe 2014
         // ---------------------------------------
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $sql = "SELECT SUM(teilnehmer),count(*) FROM termine WHERE datum>'2013-12-31' AND teilnehmer>0 AND (typ LIKE '%training%')";
         $result = $db->query($sql);

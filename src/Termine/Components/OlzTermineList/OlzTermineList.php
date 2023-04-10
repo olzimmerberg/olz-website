@@ -13,7 +13,6 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -25,7 +24,7 @@ class OlzTermineList extends OlzComponent {
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
         $file_utils = FileUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());

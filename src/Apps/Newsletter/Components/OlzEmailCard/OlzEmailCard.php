@@ -6,7 +6,6 @@ use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificat
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
-use Olz\Utils\DbUtils;
 
 class OlzEmailCard extends OlzComponent {
     public function getHtml($args = []): string {
@@ -14,7 +13,7 @@ class OlzEmailCard extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/config/paths.php';
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $user = $this->authUtils()->getCurrentUser();
 

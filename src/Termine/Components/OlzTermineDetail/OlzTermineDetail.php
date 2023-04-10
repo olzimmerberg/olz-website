@@ -13,7 +13,6 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -25,8 +24,8 @@ class OlzTermineDetail extends OlzComponent {
         require_once __DIR__.'/../../../../_/config/paths.php';
 
         $code_href = $this->envUtils()->getCodeHref();
-        $db = DbUtils::fromEnv()->getDb();
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $db = $this->dbUtils()->getDb();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $validated_get_params = $http_utils->validateGetParams([

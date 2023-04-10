@@ -7,7 +7,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzPanini2024 extends OlzComponent {
@@ -19,7 +18,7 @@ class OlzPanini2024 extends OlzComponent {
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
         $current_user = $this->authUtils()->getCurrentUser();
-        $entity_manager = DbUtils::fromEnv()->getEntityManager();
+        $entity_manager = $this->dbUtils()->getEntityManager();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);

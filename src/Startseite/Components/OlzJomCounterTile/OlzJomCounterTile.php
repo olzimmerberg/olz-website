@@ -4,7 +4,6 @@ namespace Olz\Startseite\Components\OlzJomCounterTile;
 
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\DbUtils;
 
 class OlzJomCounterTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
@@ -35,7 +34,7 @@ class OlzJomCounterTile extends AbstractOlzTile {
         // Simon Hatt - 20
         // Tiziana Rigamonti - 650
 
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $out = "<h2>JOM-Counter</h2>";
 

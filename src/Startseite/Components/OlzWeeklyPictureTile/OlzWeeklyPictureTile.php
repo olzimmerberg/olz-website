@@ -9,7 +9,6 @@ namespace Olz\Startseite\Components\OlzWeeklyPictureTile;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\DbUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzWeeklyPictureTile extends AbstractOlzTile {
@@ -22,7 +21,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         $out .= "<h2>Bild der Woche</h2>";
         $out .= "<div class='center'>";
 
-        $entity_manager = DbUtils::fromEnv()->getEntityManager();
+        $entity_manager = $this->dbUtils()->getEntityManager();
 
         $weekly_picture_repo = $entity_manager->getRepository(WeeklyPicture::class);
         $latest_weekly_picture = $weekly_picture_repo->getLatest();

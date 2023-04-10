@@ -17,7 +17,6 @@ use Olz\Entity\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail extends OlzComponent {
@@ -26,8 +25,8 @@ class OlzNewsDetail extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
-        $db = DbUtils::fromEnv()->getDb();
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $db = $this->dbUtils()->getDb();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $db_table = 'aktuell';
         $id = $_GET['id'] ?? null;

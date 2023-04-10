@@ -6,7 +6,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
-use Olz\Utils\DbUtils;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml($args = []): string {
@@ -17,7 +16,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         require_once __DIR__.'/../../../../_/config/date.php';
         session_start_if_cookie_set();
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();

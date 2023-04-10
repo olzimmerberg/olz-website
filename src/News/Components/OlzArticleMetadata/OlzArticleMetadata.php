@@ -3,12 +3,11 @@
 namespace Olz\News\Components\OlzArticleMetadata;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\DbUtils;
 
 class OlzArticleMetadata extends OlzComponent {
     public function getHtml($args = []): string {
         global $data_path, $data_href, $base_href, $code_href;
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $id = intval($args['id']);
         $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";

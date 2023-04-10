@@ -8,11 +8,10 @@ use Olz\Entity\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\DbUtils;
 
 class OlzSitemap extends OlzComponent {
     public function getHtml($args = []): string {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
 
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $out .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";

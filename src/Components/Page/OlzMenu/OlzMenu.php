@@ -6,10 +6,11 @@
 
 namespace Olz\Components\Page\OlzMenu;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\EnvUtils;
 
-class OlzMenu {
-    public static function render($args = []) {
+class OlzMenu extends OlzComponent {
+    public function getHtml($args = []): string {
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/date.php';

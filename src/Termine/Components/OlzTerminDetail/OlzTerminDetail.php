@@ -2,13 +2,14 @@
 
 namespace Olz\Termine\Components\OlzTerminDetail;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 
-class OlzTerminDetail {
-    public static function render($args = []) {
+class OlzTerminDetail extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_DATE, $heute;
 
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';

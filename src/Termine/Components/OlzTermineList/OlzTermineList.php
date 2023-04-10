@@ -6,6 +6,7 @@
 
 namespace Olz\Termine\Components\OlzTermineList;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
@@ -18,8 +19,8 @@ use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class OlzTermineList {
-    public static function render($args = []) {
+class OlzTermineList extends OlzComponent {
+    public function getHtml($args = []): string {
         global $db_table, $monate, $_DATE, $heute;
 
         require_once __DIR__.'/../../../../_/config/date.php';

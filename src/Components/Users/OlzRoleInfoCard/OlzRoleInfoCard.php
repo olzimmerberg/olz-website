@@ -2,11 +2,12 @@
 
 namespace Olz\Components\Users\OlzRoleInfoCard;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzRoleInfoCard {
-    public static function render($args = []) {
+class OlzRoleInfoCard extends OlzComponent {
+    public function getHtml($args = []): string {
         $role = $args['role'];
         $user = $args['user'] ?? null;
 

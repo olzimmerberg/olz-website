@@ -3,6 +3,7 @@
 namespace Olz\Apps\Panini2024\Components\OlzPanini2024;
 
 use Olz\Apps\Panini2024\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
@@ -12,8 +13,8 @@ use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
-class OlzPanini2024 {
-    public static function render($args = []) {
+class OlzPanini2024 extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
 
         session_start_if_cookie_set();

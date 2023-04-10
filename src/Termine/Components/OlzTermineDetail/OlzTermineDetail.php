@@ -7,6 +7,7 @@
 namespace Olz\Termine\Components\OlzTermineDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
@@ -18,8 +19,8 @@ use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class OlzTermineDetail {
-    public static function render($args = []) {
+class OlzTermineDetail extends OlzComponent {
+    public function getHtml($args = []): string {
         global $db_table, $id;
 
         require_once __DIR__.'/../../../../_/config/date.php';

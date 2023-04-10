@@ -3,13 +3,14 @@
 namespace Olz\Apps\GoogleSearch\Components\OlzGoogleSearch;
 
 use Olz\Apps\GoogleSearch\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
-class OlzGoogleSearch {
-    public static function render($args = []) {
+class OlzGoogleSearch extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
 
         session_start_if_cookie_set();

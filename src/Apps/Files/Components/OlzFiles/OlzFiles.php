@@ -3,6 +3,7 @@
 namespace Olz\Apps\Files\Components\OlzFiles;
 
 use Olz\Apps\Files\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
@@ -10,8 +11,8 @@ use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
-class OlzFiles {
-    public static function render($args = []) {
+class OlzFiles extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
 
         session_start_if_cookie_set();

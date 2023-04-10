@@ -2,6 +2,7 @@
 
 namespace Olz\News\Components\OlzNewsList;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -14,8 +15,8 @@ use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
-class OlzNewsList {
-    public static function render($args = []) {
+class OlzNewsList extends OlzComponent {
+    public function getHtml($args = []): string {
         global $db_table, $_SESSION;
 
         $db = DbUtils::fromEnv()->getDb();

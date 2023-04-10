@@ -5,12 +5,13 @@ namespace Olz\Apps\Newsletter\Components\OlzNewsletter;
 use Olz\Apps\Newsletter\Components\OlzEmailCard\OlzEmailCard;
 use Olz\Apps\Newsletter\Components\OlzTelegramCard\OlzTelegramCard;
 use Olz\Apps\Newsletter\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
 
-class OlzNewsletter {
-    public static function render() {
+class OlzNewsletter extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 

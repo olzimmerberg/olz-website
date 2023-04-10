@@ -2,8 +2,10 @@
 
 namespace Olz\Components\Common\OlzPostingListItem;
 
-class OlzPostingListItem {
-    public static function render($args = []) {
+use Olz\Components\Common\OlzComponent;
+
+class OlzPostingListItem extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_DATE;
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";

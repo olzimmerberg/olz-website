@@ -4,13 +4,14 @@ namespace Olz\Apps\Logs\Components\OlzLogs;
 
 use Olz\Apps\Logs\Metadata;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\AuthUtils;
 
-class OlzLogs {
-    public static function render() {
+class OlzLogs extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 

@@ -3,13 +3,14 @@
 namespace Olz\Apps\Monitoring\Components\OlzMonitoring;
 
 use Olz\Apps\Monitoring\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
-class OlzMonitoring {
-    public static function render($args = []) {
+class OlzMonitoring extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
 
         session_start_if_cookie_set();

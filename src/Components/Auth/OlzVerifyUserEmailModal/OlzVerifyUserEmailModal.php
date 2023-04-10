@@ -2,10 +2,11 @@
 
 namespace Olz\Components\Auth\OlzVerifyUserEmailModal;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\EnvUtils;
 
-class OlzVerifyUserEmailModal {
-    public static function render($args = []) {
+class OlzVerifyUserEmailModal extends OlzComponent {
+    public function getHtml($args = []): string {
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
         return <<<ZZZZZZZZZZ

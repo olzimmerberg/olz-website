@@ -7,11 +7,12 @@
 namespace Olz\Components\Page\OlzHeaderBar;
 
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 use Olz\Utils\EnvUtils;
 
-class OlzHeaderBar {
-    public static function render($args = []) {
+class OlzHeaderBar extends OlzComponent {
+    public function getHtml($args = []): string {
         $out = '';
 
         $env_utils = EnvUtils::fromEnv();

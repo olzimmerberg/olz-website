@@ -3,13 +3,14 @@
 namespace Olz\Apps\Newsletter\Components\OlzTelegramCard;
 
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
-class OlzTelegramCard {
-    public static function render($args = []) {
+class OlzTelegramCard extends OlzComponent {
+    public function getHtml($args = []): string {
         global $code_href;
 
         require_once __DIR__.'/../../../../../_/config/paths.php';

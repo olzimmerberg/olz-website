@@ -7,10 +7,11 @@ use Olz\Components\Auth\OlzLoginModal\OlzLoginModal;
 use Olz\Components\Auth\OlzResetPasswordModal\OlzResetPasswordModal;
 use Olz\Components\Auth\OlzSignUpModal\OlzSignUpModal;
 use Olz\Components\Auth\OlzVerifyUserEmailModal\OlzVerifyUserEmailModal;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Notify\OlzLinkTelegramModal\OlzLinkTelegramModal;
 
-class OlzFooter {
-    public static function render($args = []) {
+class OlzFooter extends OlzComponent {
+    public function getHtml($args = []): string {
         $out = '';
 
         $out .= "<div style='clear:both;'>&nbsp;</div>";

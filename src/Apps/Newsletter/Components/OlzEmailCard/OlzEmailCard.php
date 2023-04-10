@@ -3,13 +3,14 @@
 namespace Olz\Apps\Newsletter\Components\OlzEmailCard;
 
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
-class OlzEmailCard {
-    public static function render($args = []) {
+class OlzEmailCard extends OlzComponent {
+    public function getHtml($args = []): string {
         global $code_href;
 
         require_once __DIR__.'/../../../../../_/config/paths.php';

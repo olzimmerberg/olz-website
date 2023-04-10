@@ -2,12 +2,13 @@
 
 namespace Olz\Components\Error\OlzOtherError;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Utils\EnvUtils;
 
-class OlzOtherError {
-    public static function render($args = []) {
+class OlzOtherError extends OlzComponent {
+    public function getHtml($args = []): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();

@@ -2,12 +2,13 @@
 
 namespace Olz\Components\Users\OlzUserInfoWithPopup;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Utils\EnvUtils;
 
-class OlzUserInfoWithPopup {
-    public static function render($args = []) {
+class OlzUserInfoWithPopup extends OlzComponent {
+    public function getHtml($args = []): string {
         $user = $args['user'];
         $mode = $args['mode'] ?? 'name';
 

@@ -2,8 +2,10 @@
 
 namespace Olz\Components\Common\OlzLocationMap;
 
-class OlzLocationMap {
-    public static function render($args = []) {
+use Olz\Components\Common\OlzComponent;
+
+class OlzLocationMap extends OlzComponent {
+    public function getHtml($args = []): string {
         $xkoord = $args['xkoord'];
         $ykoord = $args['ykoord'];
         $zoom = $args['zoom'] ?? 13;

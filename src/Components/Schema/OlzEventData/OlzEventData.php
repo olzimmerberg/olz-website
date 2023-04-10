@@ -6,8 +6,10 @@
 
 namespace Olz\Components\Schema\OlzEventData;
 
-class OlzEventData {
-    public static function render($args = []) {
+use Olz\Components\Common\OlzComponent;
+
+class OlzEventData extends OlzComponent {
+    public function getHtml($args = []): string {
         $name = $args['name'] ?? '';
         $start_date = $args['start_date'] ?? null;
         $end_date = $args['end_date'] ?? null;

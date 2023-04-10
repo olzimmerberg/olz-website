@@ -6,11 +6,12 @@
 
 namespace Olz\Termine\Components\OlzTermineSidebar;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Utils\DbUtils;
 
-class OlzTermineSidebar {
-    public static function render($args = []) {
+class OlzTermineSidebar extends OlzComponent {
+    public function getHtml($args = []): string {
         global $heute, $_DATE;
 
         require_once __DIR__.'/../../../../_/config/date.php';

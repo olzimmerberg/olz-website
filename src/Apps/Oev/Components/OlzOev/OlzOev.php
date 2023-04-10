@@ -3,6 +3,7 @@
 namespace Olz\Apps\Oev\Components\OlzOev;
 
 use Olz\Apps\Oev\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
@@ -11,8 +12,8 @@ use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class OlzOev {
-    public static function render() {
+class OlzOev extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/config/init.php';
         require_once __DIR__.'/../../../../../_/config/paths.php';
 

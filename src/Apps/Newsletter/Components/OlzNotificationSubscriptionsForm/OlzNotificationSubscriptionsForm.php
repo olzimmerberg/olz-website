@@ -2,10 +2,11 @@
 
 namespace Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 
-class OlzNotificationSubscriptionsForm {
-    public static function render($args = []) {
+class OlzNotificationSubscriptionsForm extends OlzComponent {
+    public function getHtml($args = []): string {
         $subscriptions = $args['subscriptions'];
         $out = '';
 

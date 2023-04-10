@@ -3,12 +3,13 @@
 namespace Olz\Apps\Results\Components\OlzResults;
 
 use Olz\Apps\Results\Metadata;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EnvUtils;
 
-class OlzResults {
-    public static function render() {
+class OlzResults extends OlzComponent {
+    public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
         $out = '';

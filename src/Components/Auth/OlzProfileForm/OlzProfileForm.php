@@ -2,11 +2,12 @@
 
 namespace Olz\Components\Auth\OlzProfileForm;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
 
-class OlzProfileForm {
-    public static function render($args = []) {
+class OlzProfileForm extends OlzComponent {
+    public function getHtml($args = []): string {
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
         $data_href = $env_utils->getDataHref();

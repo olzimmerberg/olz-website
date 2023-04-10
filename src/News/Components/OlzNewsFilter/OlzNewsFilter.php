@@ -2,10 +2,11 @@
 
 namespace Olz\News\Components\OlzNewsFilter;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\News\Utils\NewsFilterUtils;
 
-class OlzNewsFilter {
-    public static function render($args = []) {
+class OlzNewsFilter extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_GET;
 
         $news_utils = NewsFilterUtils::fromEnv();

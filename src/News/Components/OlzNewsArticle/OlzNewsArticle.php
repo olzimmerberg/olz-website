@@ -2,16 +2,16 @@
 
 namespace Olz\News\Components\OlzNewsArticle;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
-use Olz\Utils\LogsUtils;
 
-class OlzNewsArticle {
-    public static function render($args = []) {
+class OlzNewsArticle extends OlzComponent {
+    public function getHtml($args = []): string {
         global $_DATE;
 
         $db = DbUtils::fromEnv()->getDb();
@@ -20,8 +20,6 @@ class OlzNewsArticle {
         $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
         $html_utils = HtmlUtils::fromEnv();
-        $logs_utils = LogsUtils::fromEnv();
-        $logger = $logs_utils->getLogger(get_called_class());
 
         $data_path = $env_utils->getDataPath();
         $db_table = 'aktuell';
@@ -189,7 +187,7 @@ class OlzNewsArticle {
                 if ($youtube_match != null) {
                     $out .= "<iframe width='560' height='315' src='https://www.youtube.com/embed/{$youtube_match}' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
                 } else {
-                    $logger->error("Invalid YouTube link (ID:{$id}): {$youtube_url}");
+                    $this->log()->error("Invalid YouTube link (ID:{$id}): {$youtube_url}");
                     $out .= "Fehlerhafter YouTube-Link!";
                 }
                 $out .= "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";

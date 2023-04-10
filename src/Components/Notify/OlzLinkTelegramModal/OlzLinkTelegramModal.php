@@ -3,14 +3,12 @@
 namespace Olz\Components\Notify\OlzLinkTelegramModal;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\UserAgentUtils;
 
 class OlzLinkTelegramModal extends OlzComponent {
     public function getHtml($args = []): string {
         $user_agent_utils = UserAgentUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $install_instructions = [
             "<li>Installiere die Telegram-App auf deinem Smartphone</li>",

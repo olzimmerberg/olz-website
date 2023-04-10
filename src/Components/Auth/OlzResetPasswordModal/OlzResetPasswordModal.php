@@ -3,12 +3,10 @@
 namespace Olz\Components\Auth\OlzResetPasswordModal;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\EnvUtils;
 
 class OlzResetPasswordModal extends OlzComponent {
     public function getHtml($args = []): string {
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
         return <<<ZZZZZZZZZZ
         <div class='modal fade' id='reset-password-modal' tabindex='-1' aria-labelledby='reset-password-modal-label' aria-hidden='true'>
             <div class='modal-dialog'>

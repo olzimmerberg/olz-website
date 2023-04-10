@@ -11,20 +11,17 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
-    private static $env_utils;
     private static $termine_utils;
     private static $db;
     private static $this_year;
 
-    public static function getRelevance(?User $user): float {
+    public function getRelevance(?User $user): float {
         return 0.8;
     }
 
-    public static function render(): string {
-        self::$env_utils = EnvUtils::fromEnv();
+    public function getHtml($args = []): string {
         self::$termine_utils = TermineFilterUtils::fromEnv();
         $date_utils = AbstractDateUtils::fromEnv();
         self::$db = DbUtils::fromEnv()->getDb();
@@ -42,8 +39,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return $out;
     }
 
-    protected static function renderAllUpcomingList() {
-        $code_href = self::$env_utils->getCodeHref();
+    protected function renderAllUpcomingList() {
+        $code_href = $this->envUtils()->getCodeHref();
         $filter = self::$termine_utils->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
@@ -51,8 +48,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Nächste Termine</a></li>";
     }
 
-    protected static function renderProgramList() {
-        $code_href = self::$env_utils->getCodeHref();
+    protected function renderProgramList() {
+        $code_href = $this->envUtils()->getCodeHref();
         $filter = self::$termine_utils->getDefaultFilter();
         $filter['typ'] = 'programm';
         $filter['datum'] = 'bevorstehend';
@@ -67,8 +64,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Jahresprogramm {$year}</a></li>";
     }
 
-    protected static function renderWeekendsList() {
-        $code_href = self::$env_utils->getCodeHref();
+    protected function renderWeekendsList() {
+        $code_href = $this->envUtils()->getCodeHref();
         $filter = self::$termine_utils->getDefaultFilter();
         $filter['typ'] = 'weekend';
         $filter['datum'] = 'bevorstehend';
@@ -83,8 +80,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Weekends {$year}</a></li>";
     }
 
-    protected static function renderUpcomingTrainingsList() {
-        $code_href = self::$env_utils->getCodeHref();
+    protected function renderUpcomingTrainingsList() {
+        $code_href = $this->envUtils()->getCodeHref();
         $filter = self::$termine_utils->getDefaultFilter();
         $filter['typ'] = 'training';
         $filter['datum'] = 'bevorstehend';
@@ -92,7 +89,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Nächste Trainings</a></li>";
     }
 
-    protected static function getNumberOfEntries($filter) {
+    protected function getNumberOfEntries($filter) {
         $filter_sql = self::$termine_utils->getSqlFromFilter($filter);
         $res = self::$db->query("SELECT t.id FROM termine t WHERE {$filter_sql}");
         return $res->num_rows;

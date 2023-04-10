@@ -3,12 +3,10 @@
 namespace Olz\Components\Auth\OlzChangePasswordModal;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AuthUtils;
 
 class OlzChangePasswordModal extends OlzComponent {
     public function getHtml($args = []): string {
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         if ($user) {
             $esc_id = htmlentities(json_encode($user->getId()));

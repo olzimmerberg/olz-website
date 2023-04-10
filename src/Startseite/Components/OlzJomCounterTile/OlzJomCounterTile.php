@@ -3,14 +3,15 @@
 namespace Olz\Startseite\Components\OlzJomCounterTile;
 
 use Olz\Entity\User;
+use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Utils\DbUtils;
 
-class OlzJomCounterTile {
-    public static function getRelevance(?User $user): float {
+class OlzJomCounterTile extends AbstractOlzTile {
+    public function getRelevance(?User $user): float {
         return 0.5;
     }
 
-    public static function render(): string {
+    public function getHtml($args = []): string {
         // OLZ JOM-Counter 2020
         // --------------------
         // Chris Seitz - 15

@@ -9,27 +9,25 @@ namespace Olz\Startseite\Components\OlzWeeklyPictureTile;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzWeeklyPictureTile extends AbstractOlzTile {
-    public static function getRelevance(?User $user): float {
+    public function getRelevance(?User $user): float {
         return 0.9;
     }
 
-    public static function render(): string {
+    public function getHtml($args = []): string {
         $out = "";
         $out .= "<h2>Bild der Woche</h2>";
         $out .= "<div class='center'>";
 
-        $auth_utils = AuthUtils::fromEnv();
         $entity_manager = DbUtils::fromEnv()->getEntityManager();
 
         $weekly_picture_repo = $entity_manager->getRepository(WeeklyPicture::class);
         $latest_weekly_picture = $weekly_picture_repo->getLatest();
 
-        $has_access = $auth_utils->hasPermission('weekly_picture');
+        $has_access = $this->authUtils()->hasPermission('weekly_picture');
 
         if ($latest_weekly_picture) {
             $text = $latest_weekly_picture->getText();

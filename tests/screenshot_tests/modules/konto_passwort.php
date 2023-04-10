@@ -38,7 +38,7 @@ function test_konto_passwort($driver, $base_url) {
         WebDriverBy::cssSelector('input[name="recaptcha-consent-given"]')
     );
     click($recaptcha_consent_input);
-    sleep(random_int(2, 6));
+    sleep(random_int(2, 3));
     usleep(random_int(0, 999999));
     $cookie_consent_input = $driver->findElement(
         WebDriverBy::cssSelector('input[name="cookie-consent-given"]')

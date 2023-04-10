@@ -8,16 +8,14 @@ namespace Olz\Startseite\Components\OlzForBeginnersTile;
 
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\EnvUtils;
 
 class OlzForBeginnersTile extends AbstractOlzTile {
-    public static function getRelevance(?User $user): float {
+    public function getRelevance(?User $user): float {
         return $user ? 0.0 : 1.0;
     }
 
-    public static function render(): string {
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+    public function getHtml($args = []): string {
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = "<h2>Neu hier?</h2>";
         $out .= "<div>Willkommen bei <b>OL Zimmerberg</b>. Wir sind der <b>Orientierungslauf (OL) Sportverein</b> für die Region rund um den Zimmerberg am linken Zürichseeufer und im Sihltal.</div>";

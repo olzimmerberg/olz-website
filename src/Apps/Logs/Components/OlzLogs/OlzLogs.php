@@ -8,7 +8,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AbstractDateUtils;
-use Olz\Utils\AuthUtils;
 
 class OlzLogs extends OlzComponent {
     public function getHtml($args = []): string {
@@ -24,8 +23,7 @@ class OlzLogs extends OlzComponent {
         ]);
 
         $date_utils = AbstractDateUtils::fromEnv();
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $out .= <<<'ZZZZZZZZZZ'
         <style>

@@ -5,17 +5,15 @@ namespace Olz\Components\Users\OlzUserInfoWithPopup;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
-use Olz\Utils\EnvUtils;
 
 class OlzUserInfoWithPopup extends OlzComponent {
     public function getHtml($args = []): string {
         $user = $args['user'];
         $mode = $args['mode'] ?? 'name';
 
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
 
         if ($mode == 'name') {
             $trigger = "<div class='olz-user-info-with-popup'>{$user->getFullName()}</div>";

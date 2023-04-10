@@ -7,11 +7,8 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 
 class OlzPanini2024 extends OlzComponent {
     public function getHtml($args = []): string {
@@ -21,15 +18,12 @@ class OlzPanini2024 extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
-        $logger = LogsUtils::fromEnv()->getLogger('Panini2024');
-        $auth_utils = AuthUtils::fromEnv();
-        $current_user = $auth_utils->getCurrentUser();
+        $current_user = $this->authUtils()->getCurrentUser();
         $entity_manager = DbUtils::fromEnv()->getEntityManager();
-        $env_utils = EnvUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
-        $data_path = $env_utils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
 
         $out = '';
 

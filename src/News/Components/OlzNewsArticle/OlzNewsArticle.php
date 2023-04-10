@@ -3,9 +3,7 @@
 namespace Olz\News\Components\OlzNewsArticle;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
@@ -16,12 +14,10 @@ class OlzNewsArticle extends OlzComponent {
 
         $db = DbUtils::fromEnv()->getDb();
         $image_utils = ImageUtils::fromEnv();
-        $auth_utils = AuthUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
         $html_utils = HtmlUtils::fromEnv();
 
-        $data_path = $env_utils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
         // TODO: Remove once migrated
@@ -29,7 +25,7 @@ class OlzNewsArticle extends OlzComponent {
         $arg_row = $args['row'] ?? null;
         $is_preview = $args['is_preview'] ?? false;
         $out = "";
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
@@ -69,7 +65,7 @@ class OlzNewsArticle extends OlzComponent {
             $edit_admin = '';
             if ($can_edit && !$is_preview) {
                 $json_id = json_encode(intval($id_tmp));
-                $has_blog = $auth_utils->hasPermission('kaderblog', $user);
+                $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
                 $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
                 $edit_admin = <<<ZZZZZZZZZZ
                 <div>

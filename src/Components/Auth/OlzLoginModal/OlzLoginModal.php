@@ -3,7 +3,6 @@
 namespace Olz\Components\Auth\OlzLoginModal;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\FacebookUtils;
 use Olz\Utils\GoogleUtils;
 use Olz\Utils\StravaUtils;
@@ -17,8 +16,7 @@ class OlzLoginModal extends OlzComponent {
         $google_url = $google_utils->getAuthUrl();
         $facebook_url = $facebook_utils->getAuthUrl();
 
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         return <<<ZZZZZZZZZZ
         <div class='modal fade' id='login-modal' tabindex='-1' aria-labelledby='login-modal-label' aria-hidden='true'>

@@ -6,10 +6,8 @@ use Olz\Apps\Oev\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzOev extends OlzComponent {
@@ -22,9 +20,8 @@ class OlzOev extends OlzComponent {
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
         $db = DbUtils::fromEnv()->getDb();
-        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $http_utils->validateGetParams([
             'nach' => new FieldTypes\StringField(['allow_null' => true]),
             'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
@@ -42,8 +39,7 @@ class OlzOev extends OlzComponent {
 
         $out .= "<div class='content-full'>";
 
-        $auth_utils = AuthUtils::fromEnv();
-        $has_access = $auth_utils->hasPermission('any');
+        $has_access = $this->authUtils()->hasPermission('any');
         if ($has_access) {
             $out .= <<<'ZZZZZZZZZZ'
             <div id='oev-root'></div>

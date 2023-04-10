@@ -4,26 +4,22 @@ namespace Olz\Components\Auth\OlzAccountMenu;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzAccountMenu extends OlzComponent {
     public function getHtml($args = []): string {
         $out = '';
 
-        $auth_utils = AuthUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $auth_user = $auth_utils->getCurrentAuthUser();
-        $user = $auth_utils->getCurrentUser();
-        $image_path = $auth_utils->getUserAvatar($user);
+        $auth_user = $this->authUtils()->getCurrentAuthUser();
+        $user = $this->authUtils()->getCurrentUser();
+        $image_path = $this->authUtils()->getUserAvatar($user);
 
         $out .= "<a href='#' role='button' id='account-menu-link' data-bs-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
         $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {
-            $out .= "<a class='dropdown-item' href='{$env_utils->getCodeHref()}profil.php'>Profil</a>";
+            $out .= "<a class='dropdown-item' href='{$this->envUtils()->getCodeHref()}profil.php'>Profil</a>";
 
             $entityManager = DbUtils::fromEnv()->getEntityManager();
             $user_repo = $entityManager->getRepository(User::class);
@@ -63,7 +59,7 @@ class OlzAccountMenu extends OlzComponent {
                 $out .= "<div class='dropdown-divider'></div>";
             }
 
-            $out .= "<a class='dropdown-item' href='{$env_utils->getCodeHref()}apps/'>Apps</a>";
+            $out .= "<a class='dropdown-item' href='{$this->envUtils()->getCodeHref()}apps/'>Apps</a>";
             $out .= <<<'ZZZZZZZZZZ'
             <a
                 id='logout-menu-item'
@@ -88,7 +84,7 @@ class OlzAccountMenu extends OlzComponent {
             <a
                 id='sign-up-menu-item'
                 class='dropdown-item'
-                href='{$env_utils->getCodeHref()}konto_passwort.php'
+                href='{$this->envUtils()->getCodeHref()}konto_passwort.php'
                 role='button'
             >
                 Konto erstellen

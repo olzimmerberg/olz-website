@@ -7,7 +7,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 
 class OlzStatistics extends OlzComponent {
     public function getHtml($args = []): string {
@@ -17,9 +16,8 @@ class OlzStatistics extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
-        $logger = LogsUtils::fromEnv()->getLogger('statistics');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
 
         $out = '';

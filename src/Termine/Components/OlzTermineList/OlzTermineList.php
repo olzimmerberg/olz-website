@@ -16,7 +16,6 @@ use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
@@ -28,9 +27,8 @@ class OlzTermineList extends OlzComponent {
 
         $db = DbUtils::fromEnv()->getDb();
         $file_utils = FileUtils::fromEnv();
-        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $validated_get_params = $http_utils->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),

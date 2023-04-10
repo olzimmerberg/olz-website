@@ -5,12 +5,10 @@ namespace Olz\Components\Error\Olz400BadRequest;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
-use Olz\Utils\EnvUtils;
 
 class Olz400BadRequest extends OlzComponent {
     public function getHtml($args = []): string {
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([

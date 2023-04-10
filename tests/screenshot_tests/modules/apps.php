@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Olz\Apps\OlzApps;
+
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
@@ -50,4 +52,16 @@ function test_apps_readonly($driver, $base_url) {
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$apps_url}");
     take_pageshot($driver, 'apps_anonym');
+
+    login($driver, $base_url, 'admin', 'adm1n');
+    $apps = OlzApps::getApps();
+    foreach ($apps as $app) {
+        $app_href = "/{$app->getHref()}";
+        $app_basename = $app->getBasename();
+        $driver->get("{$base_url}{$app_href}");
+        $driver->navigate()->refresh();
+        $driver->get("{$base_url}{$app_href}");
+        take_pageshot($driver, "app_{$app_basename}");
+    }
+    logout($driver, $base_url);
 }

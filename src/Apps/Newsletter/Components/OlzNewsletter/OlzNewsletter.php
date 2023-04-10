@@ -8,7 +8,6 @@ use Olz\Apps\Newsletter\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
 
 class OlzNewsletter extends OlzComponent {
     public function getHtml($args = []): string {
@@ -23,8 +22,7 @@ class OlzNewsletter extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $out .= "<div class='content-full'>";
         if ($user) {

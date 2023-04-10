@@ -6,7 +6,6 @@ use Olz\Apps\Import\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
 
 class OlzImport extends OlzComponent {
     public function getHtml($args = []): string {
@@ -21,11 +20,10 @@ class OlzImport extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $out .= "<div class='content-full'>";
-        if ($auth_utils->hasPermission('termine')) {
+        if ($this->authUtils()->hasPermission('termine')) {
             $out .= <<<'ZZZZZZZZZZ'
             <div id='pastebox' class='dropzone' contenteditable='true'>Zellen aus Excel kopieren und hier einfügen.</div>
             ZZZZZZZZZZ;

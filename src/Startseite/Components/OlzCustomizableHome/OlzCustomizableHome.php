@@ -15,12 +15,10 @@ use Olz\Startseite\Components\OlzTermineDeadlinesTile\OlzTermineDeadlinesTile;
 use Olz\Startseite\Components\OlzTermineListsTile\OlzTermineListsTile;
 use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
-use Olz\Utils\AuthUtils;
 
 class OlzCustomizableHome extends OlzComponent {
     public function getHtml($args = []): string {
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $tile_classes = [
             OlzForBeginnersTile::class,
@@ -40,13 +38,14 @@ class OlzCustomizableHome extends OlzComponent {
 
         $tiles = [];
         foreach ($tile_classes as $tile_class) {
-            $relevance = $tile_class::getRelevance($user);
+            $tile = new $tile_class();
+            $relevance = $tile->getRelevance($user);
             if ($relevance === 0.0) {
                 continue;
             }
             $tiles[] = [
                 'id' => self::getIdFromClass($tile_class),
-                'html' => $tile_class::render(),
+                'html' => $tile->getHtml(),
                 'relevance' => $relevance,
             ];
         }

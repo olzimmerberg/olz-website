@@ -6,7 +6,6 @@ use Olz\Apps\Results\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EnvUtils;
 
 class OlzResults extends OlzComponent {
     public function getHtml($args = []): string {
@@ -32,8 +31,7 @@ class OlzResults extends OlzComponent {
         } else {
             $out .= "<div class='content-full'>";
             $out .= "<ul>";
-            $env_utils = EnvUtils::fromEnv();
-            $data_path = $env_utils->getDataPath();
+            $data_path = $this->envUtils()->getDataPath();
             $contents = scandir("{$data_path}results");
             foreach ($contents as $entry) {
                 if (preg_match('/\.xml$/', $entry) && !preg_match('/\.bak\./', $entry)) {

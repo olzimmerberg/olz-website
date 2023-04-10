@@ -6,15 +6,13 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Role;
 use Olz\Entity\User;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
 class OlzOrganigramm extends OlzComponent {
     public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../_/config/paths.php';
 
-        $auth_utils = AuthUtils::fromEnv();
-        $has_all_permissions = $auth_utils->hasPermission('all');
+        $has_all_permissions = $this->authUtils()->hasPermission('all');
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);

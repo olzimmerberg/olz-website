@@ -3,15 +3,12 @@
 namespace Olz\Components\Auth\OlzProfileForm;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzProfileForm extends OlzComponent {
     public function getHtml($args = []): string {
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
 
         $fallback_defaults = [
             'region' => 'ZH',
@@ -50,9 +47,8 @@ class OlzProfileForm extends OlzComponent {
         $show_password_class = $show_password ? '' : ' hidden';
         $required_password_class = $required_password ? '' : ' hidden';
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
-        $image_path = $auth_utils->getUserAvatar($user);
+        $user = $this->authUtils()->getCurrentUser();
+        $image_path = $this->authUtils()->getUserAvatar($user);
 
         return <<<ZZZZZZZZZZ
     <div class='olz-profile-form'>

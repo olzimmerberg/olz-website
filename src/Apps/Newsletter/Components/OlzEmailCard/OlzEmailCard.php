@@ -6,7 +6,6 @@ use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificat
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
 class OlzEmailCard extends OlzComponent {
@@ -17,8 +16,7 @@ class OlzEmailCard extends OlzComponent {
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         if ($user) {
             $user_email = $user->getEmail();

@@ -5,15 +5,11 @@ namespace Olz\Components\OlzAppsList;
 use Olz\Apps\OlzApps;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzAppsList extends OlzComponent {
     public function getHtml($args = []): string {
-        $auth_utils = AuthUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $user = $auth_utils->getCurrentUser();
+        $code_href = $this->envUtils()->getCodeHref();
+        $user = $this->authUtils()->getCurrentUser();
         $available_apps = OlzApps::getAppsForUser($user);
         $out = '';
         $out .= "<div class='apps-list'>";
@@ -33,7 +29,7 @@ class OlzAppsList extends OlzComponent {
         }, $available_apps));
         $out .= "</div>";
 
-        if (!$auth_utils->hasPermission('any')) {
+        if (!$this->authUtils()->hasPermission('any')) {
             $hypothetical_logged_in_user = new User();
             $hypothetical_logged_in_user->setId(null);
             $hypothetical_logged_in_user->setPermissions('');

@@ -7,7 +7,6 @@
 namespace Olz\Components\Page\OlzMenu;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\EnvUtils;
 
 class OlzMenu extends OlzComponent {
     public function getHtml($args = []): string {
@@ -15,10 +14,9 @@ class OlzMenu extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
 
         $menu = [
             ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')

@@ -3,8 +3,6 @@
 namespace Olz\Components\Users\OlzRoleInfoCard;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzRoleInfoCard extends OlzComponent {
     public function getHtml($args = []): string {
@@ -13,15 +11,13 @@ class OlzRoleInfoCard extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
-        $auth_utils = AuthUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
 
         $img_html = "<img src='/icns/role.svg' alt='' class='logo'>";
         if ($user) {
-            $image_path = $auth_utils->getUserAvatar($user);
+            $image_path = $this->authUtils()->getUserAvatar($user);
             $img_html = "<img src='{$image_path}' alt='' class='image'>";
         }
 
@@ -31,7 +27,7 @@ class OlzRoleInfoCard extends OlzComponent {
         $out .= "<div class='user-name-container'>{$user->getFullName()}</div>";
         // $out .= ($row["adresse"] ? "<br>".$row["adresse"] : "");
         // $out .= ($row["tel"] ? "<br>Tel. ".$row["tel"] : "");
-        $has_official_email = $auth_utils->hasPermission('user_email', $user);
+        $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
         $email_html = '';
         if ($has_official_email) {
             $email = $user->getUsername().'@olzimmerberg.ch';

@@ -3,12 +3,12 @@
 namespace Olz\News\Components\OlzNewsListItem;
 
 use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
+use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
 
-class OlzNewsListItem {
+class OlzNewsListItem extends OlzComponent {
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
         'forum' => 'entry_type_forum_20.svg',
@@ -18,13 +18,12 @@ class OlzNewsListItem {
         'video' => 'entry_type_movie_20.svg',
     ];
 
-    public static function render($args = []) {
-        $env_utils = EnvUtils::fromEnv();
+    public function getHtml($args = []): string {
         $html_utils = HtmlUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
 
-        $code_href = $env_utils->getCodeHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_path = $this->envUtils()->getDataPath();
 
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
         $news_entry = $args['news_entry'];

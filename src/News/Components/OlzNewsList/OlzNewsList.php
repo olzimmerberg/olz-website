@@ -11,7 +11,6 @@ use Olz\Entity\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\HttpUtils;
 
@@ -23,7 +22,6 @@ class OlzNewsList extends OlzComponent {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $db_table = 'aktuell';
 
-        $auth_utils = AuthUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $news_utils = NewsFilterUtils::fromEnv();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
@@ -50,8 +48,8 @@ class OlzNewsList extends OlzComponent {
         $out .= "</div>";
         $out .= "<div class='content-middle'>";
 
-        $is_logged_in = $auth_utils->hasPermission('any');
-        $has_blog = $auth_utils->hasPermission('kaderblog');
+        $is_logged_in = $this->authUtils()->hasPermission('any');
+        $has_blog = $this->authUtils()->hasPermission('kaderblog');
         $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
         $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
         $properties = $is_logged_in

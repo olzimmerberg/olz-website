@@ -6,7 +6,6 @@ use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificat
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 
 class OlzTelegramCard extends OlzComponent {
@@ -16,8 +15,7 @@ class OlzTelegramCard extends OlzComponent {
         require_once __DIR__.'/../../../../../_/config/paths.php';
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         if ($user) {
             $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);

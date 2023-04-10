@@ -18,7 +18,6 @@ use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 
 class OlzNewsDetail extends OlzComponent {
@@ -27,10 +26,9 @@ class OlzNewsDetail extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
-        $env_utils = EnvUtils::fromEnv();
         $db = DbUtils::fromEnv()->getDb();
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $db_table = 'aktuell';
         $id = $_GET['id'] ?? null;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
@@ -39,7 +37,7 @@ class OlzNewsDetail extends OlzComponent {
         $http_utils = HttpUtils::fromEnv();
         $article_metadata = "";
         try {
-            $article_metadata = OlzArticleMetadata::render($id);
+            $article_metadata = OlzArticleMetadata::render(['id' => $id]);
         } catch (\Exception $exc) {
             $http_utils->dieWithHttpError(404);
         }

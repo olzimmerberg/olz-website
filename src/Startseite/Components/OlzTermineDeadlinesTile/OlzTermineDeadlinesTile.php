@@ -10,18 +10,16 @@ use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzTermineDeadlinesTile extends AbstractOlzTile {
-    public static function getRelevance(?User $user): float {
+    public function getRelevance(?User $user): float {
         return 0.7;
     }
 
-    public static function render(): string {
+    public function getHtml($args = []): string {
         $db = DbUtils::fromEnv()->getDb();
         $date_utils = AbstractDateUtils::fromEnv();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
 

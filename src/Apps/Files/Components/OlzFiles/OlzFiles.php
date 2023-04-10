@@ -6,10 +6,7 @@ use Olz\Apps\Files\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 
 class OlzFiles extends OlzComponent {
     public function getHtml($args = []): string {
@@ -19,14 +16,11 @@ class OlzFiles extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
-        $env_utils = EnvUtils::fromEnv();
-        $logger = LogsUtils::fromEnv()->getLogger('files');
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }
@@ -43,7 +37,7 @@ class OlzFiles extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $base_href = $env_utils->getBaseHref();
+        $base_href = $this->envUtils()->getBaseHref();
         $iframe_url = "{$base_href}/apps/files/artgris/?conf=default&tree=0";
 
         // TODO: Remove link to old view

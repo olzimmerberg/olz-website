@@ -9,15 +9,13 @@ namespace Olz\Components\Page\OlzHeaderBar;
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzMenu\OlzMenu;
-use Olz\Utils\EnvUtils;
 
 class OlzHeaderBar extends OlzComponent {
     public function getHtml($args = []): string {
         $out = '';
 
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
         $back_link = $args['back_link'] ?? null;
 
         $out .= "<div id='header-bar' class='header-bar menu-closed'>";

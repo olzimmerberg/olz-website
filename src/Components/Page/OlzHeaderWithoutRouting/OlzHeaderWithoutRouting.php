@@ -7,7 +7,6 @@ use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml($args = []): string {
@@ -19,10 +18,9 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         session_start_if_cookie_set();
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
-        $data_href = $env_utils->getDataHref();
-        $data_path = $env_utils->getDataPath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
         $css_path = "{$data_path}jsbuild/olz/main.min.css";
         $js_path = "{$data_path}jsbuild/olz/main.min.js";
         $css_modified = is_file($css_path) ? filemtime($css_path) : 0;

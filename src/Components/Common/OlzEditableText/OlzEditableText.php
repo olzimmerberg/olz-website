@@ -4,7 +4,6 @@ namespace Olz\Components\Common\OlzEditableText;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\OlzText;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\HtmlUtils;
 
@@ -28,8 +27,7 @@ class OlzEditableText extends OlzComponent {
             $args['text_arg'] = 'text';
         }
 
-        $auth_utils = AuthUtils::fromEnv();
-        $has_access = $auth_utils->hasPermission($args['permission'] ?? 'any');
+        $has_access = $this->authUtils()->hasPermission($args['permission'] ?? 'any');
 
         $get_text_fn = $args['get_text'];
         $raw_markdown = $get_text_fn();

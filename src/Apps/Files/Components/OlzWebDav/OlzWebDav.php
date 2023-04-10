@@ -4,7 +4,6 @@ namespace Olz\Apps\Files\Components\OlzWebDav;
 
 use Olz\Apps\Files\Service\CallbackAuthBackend;
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\HttpUtils;
 use Sabre\DAV;
 
@@ -26,9 +25,8 @@ class OlzWebDav extends OlzComponent {
         // end of hack
 
         // The user can be logged in by PHP session or access token.
-        $auth_utils = AuthUtils::fromEnv();
-        $auth_utils->setGetParams(['access_token' => $access_token]);
-        $user = $auth_utils->getCurrentUser();
+        $this->authUtils()->setGetParams(['access_token' => $access_token]);
+        $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
             HttpUtils::fromEnv()->dieWithHttpError(401);
         }
@@ -42,8 +40,8 @@ class OlzWebDav extends OlzComponent {
         $server->setBaseUri("/apps/files/webdav/{$stripped_path_info}");
 
         $auth_backend = new CallbackAuthBackend(
-            function () use ($auth_utils, $user) {
-                $has_permission = $auth_utils->hasPermission('webdav', $user);
+            function () use ($user) {
+                $has_permission = $this->authUtils()->hasPermission('webdav', $user);
                 if ($has_permission) {
                     return [true, $user->getUsername()];
                 }

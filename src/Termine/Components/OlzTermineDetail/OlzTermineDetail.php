@@ -14,9 +14,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail extends OlzComponent {
@@ -26,13 +24,11 @@ class OlzTermineDetail extends OlzComponent {
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
 
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $db = DbUtils::fromEnv()->getDb();
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
         $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
+        $http_utils->setLog($this->log());
         $validated_get_params = $http_utils->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),

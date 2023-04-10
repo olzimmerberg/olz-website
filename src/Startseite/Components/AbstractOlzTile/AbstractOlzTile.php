@@ -6,10 +6,11 @@
 
 namespace Olz\Startseite\Components\AbstractOlzTile;
 
+use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 
-abstract class AbstractOlzTile {
-    abstract public static function getRelevance(?User $user): float;
+abstract class AbstractOlzTile extends OlzComponent {
+    abstract public function getRelevance(?User $user): float;
 
-    abstract public static function render(): string;
+    abstract public function getHtml($args = []): string;
 }

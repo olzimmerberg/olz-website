@@ -1,10 +1,11 @@
+/config/olz.dev.php
+/config/olz.test.php
 /deploy
 /deploy.zip
 /docs/coverage
 /public/*
 !/public/.htaccess
 !/public/icns
-!/public/config.template.php
 !/public/index.php
 !/public/tools.php
 /screenshots
@@ -26,7 +27,7 @@
 .php_cs.cache
 .phpunit.result.cache
 /tests/IntegrationTests/document-root/*
-!/tests/IntegrationTests/document-root/config.template.php
+!/tests/IntegrationTests/document-root/README.md
 /tests/UnitTests/tmp/*
 
 # JavaScript tooling

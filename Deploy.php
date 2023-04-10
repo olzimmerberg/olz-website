@@ -101,7 +101,8 @@ class Deploy extends AbstractDefaultDeploy {
         ini_set('memory_limit', '500M');
         gc_collect_cycles();
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
-        $fs->copy(__DIR__.'/../../config.php', __DIR__.'/src/Utils/data/config.php', true);
+        $fs->copy(__DIR__.'/../../config.php', __DIR__.'/config/olz.php', true);
+        $fs->copy(__DIR__.'/../../config.php', __DIR__."/config/olz.{$this->environment}.php", true);
         $fs->mirror(__DIR__.'/vendor', __DIR__.'/_/config/vendor');
         $fs->mkdir(__DIR__.'/_/screenshots/generated');
         file_put_contents(__DIR__.'/src/Utils/data/DATA_PATH', realpath($public_path));

@@ -11,8 +11,9 @@ class EnvUtils {
     private $data_href;
     private $code_path;
     private $code_href;
-    private $base_href;
+
     private $syslog_path;
+    private $base_href;
 
     private $mysql_host;
     private $mysql_port;
@@ -85,12 +86,9 @@ class EnvUtils {
         $this->code_href = $code_href;
     }
 
-    public function setBaseHref($base_href) {
-        $this->base_href = $base_href;
-    }
-
     public function configure($config_dict) {
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
+        $this->base_href = $config_dict['base_href'] ?? $this->base_href;
 
         $this->mysql_host = $config_dict['mysql_host'] ?? $this->mysql_host;
         $this->mysql_port = $config_dict['mysql_port'] ?? $this->mysql_port;
@@ -347,8 +345,6 @@ class EnvUtils {
             $env_utils = new self();
 
             $data_path = self::computeDataPath();
-            $has_https = isset($_SERVER['HTTPS']) && (bool) $_SERVER['HTTPS'];
-            $http_host = $_SERVER['HTTP_HOST'] ?? 'fake-host';
 
             // TODO: Also use the configuration file?
             $env_utils->setDataPath($data_path);
@@ -362,11 +358,8 @@ class EnvUtils {
             $env_utils->setCodePath($code_path);
             $env_utils->setCodeHref($code_href);
 
-            $protocol = $has_https ? 'https://' : 'http://';
-            $env_utils->setBaseHref("{$protocol}{$http_host}");
-
             $config_path = self::getConfigPath();
-            if (!is_file($config_path)) {
+            if (!$config_path || !is_file($config_path)) {
                 throw new \Exception("Konfigurationsdatei nicht gefunden!");
             }
 
@@ -391,27 +384,25 @@ class EnvUtils {
                 return "{$injected_data_path}/";
             }
         }
-        $local_root = isset($_SERVER['argv']) ? realpath(__DIR__.'/../../public') : null;
-        if ($local_root) {
-            return "{$local_root}/";
-        }
-        return '/';
+        $local_root = realpath(__DIR__.'/../../public');
+        return "{$local_root}/";
     }
 
     public static function getConfigPath() {
         global $_SERVER;
 
-        $document_root = $_SERVER['DOCUMENT_ROOT'] ?? null;
-        $document_root_path = "{$document_root}/config.php";
-        if ($document_root && is_file($document_root_path)) {
-            return $document_root_path;
+        $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?? null;
+        if ($env) {
+            $injected_env_path = __DIR__."/../../config/olz.{$env}.php";
+            if (is_file($injected_env_path)) {
+                return realpath($injected_env_path);
+            }
         }
-        $injected_path = __DIR__.'/data/config.php';
+        $injected_path = __DIR__.'/../../config/olz.php';
         if (is_file($injected_path)) {
             return realpath($injected_path);
         }
-        // e.g. for doctrine cli-config.php
-        return realpath(__DIR__.'/../../public/config.php');
+        return null;
     }
 
     public static function assertValidFromEnvContext() {

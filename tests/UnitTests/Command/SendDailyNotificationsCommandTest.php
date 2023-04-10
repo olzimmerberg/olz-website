@@ -626,7 +626,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Sending notification WS title over invalid-delivery to user (2)...",
             "CRITICAL Unknown delivery type 'invalid-delivery'",
             "INFO Sending notification WS title over telegram to user (3)...",
-            "ERROR Error sending telegram to user (3): [Exception] provoked telegram error",
+            "NOTICE Error sending telegram to user (3): [Exception] provoked telegram error",
             "INFO Sending notification WS title over telegram to user (4)...",
             "NOTICE User (4) has no telegram link, but a subscription (22)",
             "INFO Getting notification for '{\"no_notification\":true}'...",

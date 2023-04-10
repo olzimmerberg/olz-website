@@ -4,7 +4,7 @@
 // Diverse weitere Funktionen.
 // =============================================================================
 
-use Olz\Components\OlzAppsList\OlzAppsList;
+use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Utils\DbUtils;
 use Olz\Utils\FileUtils;
 

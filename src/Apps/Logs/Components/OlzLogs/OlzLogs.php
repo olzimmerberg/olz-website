@@ -4,6 +4,7 @@ namespace Olz\Apps\Logs\Components\OlzLogs;
 
 use Olz\Apps\Logs\Metadata;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
+use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -22,6 +23,7 @@ class OlzLogs extends OlzComponent {
         ]);
 
         $user = $this->authUtils()->getCurrentUser();
+        $metadata = new Metadata();
 
         $out .= <<<'ZZZZZZZZZZ'
         <style>
@@ -51,13 +53,13 @@ class OlzLogs extends OlzComponent {
                 <div id='react-root'></div>
             ZZZZZZZZZZ;
         } else {
-            $out .= "<div class='alert alert-danger' role='alert'>Kein Zugriff!</div>";
+            $out .= OlzNoAppAccess::render([
+                'app' => $metadata,
+            ]);
         }
         $out .= "</div>";
 
-        $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();
-
         $out .= OlzFooter::render();
 
         return $out;

@@ -8,20 +8,20 @@
         user-select: none;
         filter: blur(1px);
     }
-}
 
-.app-container {
-    width: 160px;
-    text-align: center;
+    .app-container {
+        width: 160px;
+        text-align: center;
 
-    .app-icon {
-        border: 0;
-        max-width: 80px;
-    }
-
-    &:hover {
         .app-icon {
-            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+            border: 0;
+            max-width: 80px;
+        }
+
+        &:hover {
+            .app-icon {
+                filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+            }
         }
     }
 }

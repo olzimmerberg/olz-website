@@ -482,7 +482,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
                 } catch (\Throwable $th) {
                     $th_class = get_class($th);
                     $message = $th->getMessage();
-                    $this->log()->error("Error sending telegram to user ({$user_id}): [{$th_class}] {$message}", []);
+                    $this->log()->notice("Error sending telegram to user ({$user_id}): [{$th_class}] {$message}", []);
                 }
                 break;
             default:

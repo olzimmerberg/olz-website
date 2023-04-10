@@ -3,6 +3,7 @@
 namespace Olz\Apps\Panini2024\Components\OlzPanini2024;
 
 use Olz\Apps\Panini2024\Metadata;
+use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -23,6 +24,7 @@ class OlzPanini2024 extends OlzComponent {
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
         $data_path = $this->envUtils()->getDataPath();
+        $metadata = new Metadata();
 
         $out = '';
 
@@ -32,12 +34,12 @@ class OlzPanini2024 extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $esc_first_name = json_encode('');
-        $esc_last_name = json_encode('');
-        $esc_panini_2024_picture = json_encode(null);
+        $out .= "<div class='content-full'>";
+
         if ($current_user) {
             $esc_first_name = json_encode($current_user->getFirstName());
             $esc_last_name = json_encode($current_user->getLastName());
+            $esc_panini_2024_picture = json_encode(null);
             $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
             $picture = $panini_repo->findOneBy(['owner_user' => $current_user]);
             if ($picture) {
@@ -54,22 +56,25 @@ class OlzPanini2024 extends OlzComponent {
                 $temp_path = "{$data_path}temp/{$picture->getImgSrc()}";
                 copy($portrait_path, $temp_path);
             }
+            $out .= <<<ZZZZZZZZZZ
+            <script>
+                window.olzPanini2024FirstName = {$esc_first_name};
+                window.olzPanini2024LastName = {$esc_last_name};
+                window.olzPanini2024Picture = {$esc_panini_2024_picture};
+            </script>
+            <div id='react-root' class='content-full'>
+                Lädt...
+            </div>
+            ZZZZZZZZZZ;
+        } else {
+            $out .= OlzNoAppAccess::render([
+                'app' => $metadata,
+            ]);
         }
 
-        $out .= <<<ZZZZZZZZZZ
-        <script>
-            window.olzPanini2024FirstName = {$esc_first_name};
-            window.olzPanini2024LastName = {$esc_last_name};
-            window.olzPanini2024Picture = {$esc_panini_2024_picture};
-        </script>
-        <div id='react-root' class='content-full'>
-            Lädt...
-        </div>
-        ZZZZZZZZZZ;
+        $out .= "</div>";
 
-        $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();
-
         $out .= OlzFooter::render();
 
         return $out;

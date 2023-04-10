@@ -2,7 +2,7 @@
 
 namespace Olz\Controller;
 
-use Olz\Components\OlzAppsList\OlzAppsList;
+use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;

@@ -11,7 +11,7 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineDeadlinesTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
-        return 0.7;
+        return 0.75;
     }
 
     public function getHtml($args = []): string {

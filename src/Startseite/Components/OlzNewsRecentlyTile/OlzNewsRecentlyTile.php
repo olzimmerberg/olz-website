@@ -35,7 +35,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
-        $out = "<h2>Kürzlich veröffentlicht {$newsletter_link}</h2>";
+        $out = "<h2>Letzte News {$newsletter_link}</h2>";
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'

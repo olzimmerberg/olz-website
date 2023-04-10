@@ -15,11 +15,11 @@ class NewsFilterUtils {
 
     public const ALL_FORMAT_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle"],
-        ['ident' => 'aktuell', 'name' => "Aktuell"],
-        ['ident' => 'kaderblog', 'name' => "Kaderblog"],
-        ['ident' => 'forum', 'name' => "Forum"],
-        ['ident' => 'galerie', 'name' => "Galerien"],
-        ['ident' => 'video', 'name' => "Videos"],
+        ['ident' => 'aktuell', 'name' => "Aktuell", 'icon' => 'entry_type_aktuell_20.svg'],
+        ['ident' => 'kaderblog', 'name' => "Kaderblog", 'icon' => 'entry_type_kaderblog_20.svg'],
+        ['ident' => 'forum', 'name' => "Forum", 'icon' => 'entry_type_forum_20.svg'],
+        ['ident' => 'galerie', 'name' => "Galerien", 'icon' => 'entry_type_gallery_20.svg'],
+        ['ident' => 'video', 'name' => "Videos", 'icon' => 'entry_type_movie_20.svg'],
     ];
 
     public const ALL_ARCHIVE_OPTIONS = [
@@ -90,6 +90,7 @@ class NewsFilterUtils {
                 'selected' => $format_option['ident'] === $filter['format'],
                 'new_filter' => $new_filter,
                 'name' => $format_option['name'],
+                'icon' => $format_option['icon'] ?? null,
                 'ident' => $format_option['ident'],
             ];
         }, NewsFilterUtils::ALL_FORMAT_OPTIONS);

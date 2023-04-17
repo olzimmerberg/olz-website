@@ -22,6 +22,8 @@ abstract class OlzCommand extends Command {
                 $this->log()->info("Successfully ran command {$this->getIdent()}.");
             } elseif ($status === Command::FAILURE) {
                 $this->log()->error("Failed running command {$this->getIdent()}.");
+            } elseif ($status === Command::INVALID) {
+                $this->log()->error("Command {$this->getIdent()} called with invalid arguments.");
             } else {
                 $this->log()->error("Command {$this->getIdent()} finished with unknown status {$status}.");
             }

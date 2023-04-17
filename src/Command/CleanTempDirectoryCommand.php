@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'olz:cleanTempDirectory')]
+#[AsCommand(name: 'olz:clean-temp-directory')]
 class CleanTempDirectoryCommand extends OlzCommand {
     protected $temp_realpath;
     protected $clean_older_than;

@@ -18,6 +18,10 @@ class FakeEnvUtils {
         return 'some-token';
     }
 
+    public function getDatabaseBackupKey() {
+        return 'some-secret-key';
+    }
+
     public function getRecaptchaSecretKey() {
         return 'some-secret-key';
     }

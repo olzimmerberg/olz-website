@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__.'/../../_/config/init.php';
 
-#[AsCommand(name: 'olz:sendDailyNotifications')]
+#[AsCommand(name: 'olz:send-daily-notifications')]
 class SendDailyNotificationsCommand extends OlzCommand {
     protected $dailySummaryGetter;
     protected $deadlineWarningGetter;

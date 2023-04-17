@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
 
-#[AsCommand(name: 'olz:processEmail')]
+#[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;

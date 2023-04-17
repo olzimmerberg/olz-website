@@ -72,6 +72,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([], $result);
-        $this->assertSame(['olz:onContinuously'], $symfony_utils->commandsCalled);
+        $this->assertSame(['olz:on-continuously'], $symfony_utils->commandsCalled);
     }
 }

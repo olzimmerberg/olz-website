@@ -62,7 +62,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame("", $output->fetch());
         $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame([
-            'olz:processEmail',
+            'olz:process-email',
         ], $command->commandsCalled);
     }
 
@@ -93,8 +93,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             $throttling_repo->recorded_occurrences
         );
         $this->assertSame([
-            'olz:processEmail',
-            'olz:sendDailyNotifications',
+            'olz:process-email',
+            'olz:send-daily-notifications',
         ], $command->commandsCalled);
     }
 
@@ -124,8 +124,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             $throttling_repo->recorded_occurrences
         );
         $this->assertSame([
-            'olz:processEmail',
-            'olz:sendDailyNotifications',
+            'olz:process-email',
+            'olz:send-daily-notifications',
         ], $command->commandsCalled);
     }
 }

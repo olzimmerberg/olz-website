@@ -15,6 +15,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class OlzAppsTest extends UnitTestCase {
     public const BASENAMES = [
         'Anmelden',
+        'Commands',
         'Files',
         'GoogleSearch',
         'Import',

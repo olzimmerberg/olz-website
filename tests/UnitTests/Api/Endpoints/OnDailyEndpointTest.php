@@ -179,7 +179,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         ], $logger->handler->getPrettyRecords());
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
-        $this->assertSame(['olz:on-daily'], $symfony_utils->commandsCalled);
+        $this->assertSame([
+            ['olz:on-daily', ''],
+        ], $symfony_utils->commandsCalled);
         $this->assertSame(true, $telegram_utils->configurationSent);
     }
 }

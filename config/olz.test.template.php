@@ -9,6 +9,7 @@ $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
         'syslog_path' => __DIR__.'/../public/logs/',
         'base_href' => 'http://integration-test.host',
+        'app_env' => 'test',
 
         'mysql_host' => 'localhost',
         'mysql_port' => '3306',

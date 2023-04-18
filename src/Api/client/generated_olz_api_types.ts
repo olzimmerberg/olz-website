@@ -222,6 +222,7 @@ export type OlzApiEndpoint =
     'getManagedUsers'|
     'getPrefillValues'|
     'getRegistration'|
+    'executeCommand'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
     'getAppGoogleSearchCredentials'|
@@ -416,6 +417,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     getRegistration: {
             'id': string,
+        },
+    executeCommand: {
+            'command': string,
+            'argv': string|null,
         },
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
@@ -657,6 +662,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': string,
             'meta': OlzMetaData,
             'data': OlzRegistrationData,
+        },
+    executeCommand: {
+            'output': string,
         },
     getWebdavAccessToken: {
             'status': 'OK'|'ERROR',

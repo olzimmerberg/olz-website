@@ -14,6 +14,7 @@ class EnvUtils {
 
     private $syslog_path;
     private $base_href;
+    private $app_env;
 
     private $mysql_host;
     private $mysql_port;
@@ -89,6 +90,7 @@ class EnvUtils {
     public function configure($config_dict) {
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
         $this->base_href = $config_dict['base_href'] ?? $this->base_href;
+        $this->app_env = $config_dict['app_env'] ?? $this->app_env;
 
         $this->mysql_host = $config_dict['mysql_host'] ?? $this->mysql_host;
         $this->mysql_port = $config_dict['mysql_port'] ?? $this->mysql_port;
@@ -162,12 +164,16 @@ class EnvUtils {
         return $this->code_href;
     }
 
+    public function getSyslogPath() {
+        return $this->syslog_path;
+    }
+
     public function getBaseHref() {
         return $this->base_href;
     }
 
-    public function getSyslogPath() {
-        return $this->syslog_path;
+    public function getAppEnv() {
+        return $this->app_env;
     }
 
     public function getMysqlHost() {

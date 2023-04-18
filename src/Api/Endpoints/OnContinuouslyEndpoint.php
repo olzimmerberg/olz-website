@@ -46,7 +46,7 @@ class OnContinuouslyEndpoint extends OlzEndpoint {
 
         $command_input = new ArrayInput([]);
         $command_output = new BufferedOutput();
-        $this->symfonyUtils()->callCommand('olz:onContinuously', $command_input, $command_output);
+        $this->symfonyUtils()->callCommand('olz:on-continuously', $command_input, $command_output);
 
         return [];
     }

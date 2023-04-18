@@ -11,6 +11,7 @@ trait WithUtilsTrait {
         'authUtils',
         'dateUtils',
         'dbUtils',
+        'devDataUtils',
         'emailUtils',
         'entityManager',
         'entityUtils',
@@ -62,6 +63,18 @@ trait WithUtilsTrait {
 
     public function setDbUtils($dbUtils) {
         $this->utilsCache['dbUtils'] = $dbUtils;
+    }
+
+    public function devDataUtils() {
+        return $this->getOrCreate('devDataUtils');
+    }
+
+    public function createDevDataUtils() {
+        return DevDataUtils::fromEnv();
+    }
+
+    public function setDevDataUtils($devDataUtils) {
+        $this->utilsCache['devDataUtils'] = $devDataUtils;
     }
 
     public function emailUtils() {

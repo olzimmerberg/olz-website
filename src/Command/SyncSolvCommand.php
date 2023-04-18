@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
-#[AsCommand(name: 'olz:syncSolv')]
+#[AsCommand(name: 'olz:sync-solv')]
 class SyncSolvCommand extends OlzCommand {
     protected $solvFetcher;
     protected $solvEventsSyncer;

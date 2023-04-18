@@ -10,14 +10,14 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'olz:onContinuously')]
+#[AsCommand(name: 'olz:on-continuously')]
 class OnContinuouslyCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
         set_time_limit(4000);
         ignore_user_abort(true);
 
         $this->callCommand(
-            'olz:processEmail',
+            'olz:process-email',
             new ArrayInput([]),
             $output,
         );
@@ -27,7 +27,7 @@ class OnContinuouslyCommand extends OlzCommand {
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils()->getIsoNow());
 
             $this->callCommand(
-                'olz:sendDailyNotifications',
+                'olz:send-daily-notifications',
                 new ArrayInput([]),
                 $output,
             );

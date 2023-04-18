@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'olz:logForAnHour')]
+#[AsCommand(name: 'olz:log-for-an-hour')]
 class LogForAnHourCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $success = set_time_limit(4000);

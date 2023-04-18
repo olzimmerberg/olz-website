@@ -67,7 +67,7 @@ class OnDailyEndpoint extends OlzEndpoint {
 
         $command_input = new ArrayInput([]);
         $command_output = new BufferedOutput();
-        $this->symfonyUtils()->callCommand('olz:onDaily', $command_input, $command_output);
+        $this->symfonyUtils()->callCommand('olz:on-daily', $command_input, $command_output);
 
         return [];
     }

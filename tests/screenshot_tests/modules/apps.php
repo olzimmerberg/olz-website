@@ -61,6 +61,7 @@ function test_apps_readonly($driver, $base_url) {
         $driver->get("{$base_url}{$app_href}");
         $driver->navigate()->refresh();
         $driver->get("{$base_url}{$app_href}");
+        sleep(1);
         take_pageshot($driver, "app_{$app_basename}");
     }
     logout($driver, $base_url);

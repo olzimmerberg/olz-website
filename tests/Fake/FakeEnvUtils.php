@@ -7,6 +7,7 @@ namespace Olz\Tests\Fake;
 use Monolog\Logger;
 
 class FakeEnvUtils {
+    public $app_env = 'test';
     public $has_unlimited_cron = false;
     public $fake_data_path;
 
@@ -32,6 +33,10 @@ class FakeEnvUtils {
 
     public function getBaseHref() {
         return 'http://fake-base-url';
+    }
+
+    public function getAppEnv() {
+        return $this->app_env;
     }
 
     public function getCodeHref() {

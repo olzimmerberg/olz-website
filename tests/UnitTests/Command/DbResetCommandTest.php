@@ -17,11 +17,40 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @covers \Olz\Command\DbResetCommand
  */
 final class DbResetCommandTest extends UnitTestCase {
-    public function testDbResetCommandModeContent(): void {
+    public function testDbResetCommandOnProd(): void {
         $dev_data_utils = new Fake\FakeDevDataUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils->app_env = 'prod';
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
         $command->setDevDataUtils($dev_data_utils);
+        $command->setEnvUtils($env_utils);
+        $command->setLog($logger);
+        $input = new ArrayInput(['mode' => 'content']);
+        $output = new BufferedOutput();
+
+        $return_code = $command->run($input, $output);
+
+        $this->assertSame([
+            "INFO Running command Olz\\Command\\DbResetCommand...",
+            "NOTICE Tried to reset prod database!",
+            "ERROR Command Olz\\Command\\DbResetCommand called with invalid arguments.",
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame(Command::INVALID, $return_code);
+        $this->assertSame(
+            "Do NOT reset the prod database!\n",
+            $output->fetch(),
+        );
+        $this->assertSame([], $dev_data_utils->commands_called);
+    }
+
+    public function testDbResetCommandModeContent(): void {
+        $dev_data_utils = new Fake\FakeDevDataUtils();
+        $env_utils = new Fake\FakeEnvUtils();
+        $logger = Fake\FakeLogger::create();
+        $command = new DbResetCommand();
+        $command->setDevDataUtils($dev_data_utils);
+        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'content']);
         $output = new BufferedOutput();
@@ -44,9 +73,11 @@ final class DbResetCommandTest extends UnitTestCase {
 
     public function testDbResetCommandModeStructure(): void {
         $dev_data_utils = new Fake\FakeDevDataUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
         $command->setDevDataUtils($dev_data_utils);
+        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'structure']);
         $output = new BufferedOutput();
@@ -69,9 +100,11 @@ final class DbResetCommandTest extends UnitTestCase {
 
     public function testDbResetCommandModeFull(): void {
         $dev_data_utils = new Fake\FakeDevDataUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
         $command->setDevDataUtils($dev_data_utils);
+        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'full']);
         $output = new BufferedOutput();
@@ -94,9 +127,11 @@ final class DbResetCommandTest extends UnitTestCase {
 
     public function testDbResetCommandInvalidMode(): void {
         $dev_data_utils = new Fake\FakeDevDataUtils();
+        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
         $command->setDevDataUtils($dev_data_utils);
+        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'invalid']);
         $output = new BufferedOutput();

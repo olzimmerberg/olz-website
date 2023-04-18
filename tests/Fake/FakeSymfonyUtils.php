@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FakeSymfonyUtils {
+    public $output;
     public $commandsCalled = [];
 
     public function callCommand(
@@ -15,6 +16,9 @@ class FakeSymfonyUtils {
         InputInterface $input,
         OutputInterface $output,
     ): void {
-        $this->commandsCalled[] = $command_name;
+        if ($this->output) {
+            $output->writeln($this->output);
+        }
+        $this->commandsCalled[] = [$command_name, "{$input}"];
     }
 }

@@ -32,7 +32,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
                 onclick='return olz.initOlzEditWeeklyPictureModal()'
             >
                 <img
-                    src='{$data_href}icns/new_16.svg'
+                    src='{$data_href}icns/new_white_16.svg'
                     alt='+'
                     class='header-link-icon'
                     title='Neues Bild der Woche'
@@ -41,7 +41,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
         }
 
-        $out .= "<h2>Bild der Woche {$mgmt_html}</h2>";
+        $out .= "<h2 class='weekly-picture-h2'>Bild der Woche {$mgmt_html}</h2>";
         $out .= "<div class='center'>";
 
         $entity_manager = $this->dbUtils()->getEntityManager();
@@ -58,11 +58,11 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             $db_table = 'weekly_picture';
             $image_utils = ImageUtils::fromEnv();
             if (!$alternative_image_id) {
-                $out .= $image_utils->olzImage($db_table, $id, $image_id, 256, 'image');
+                $out .= $image_utils->olzImage($db_table, $id, $image_id, 512, 'image');
             } else {
-                $out .= "<div class='lightgallery'><span onmouseover='olz.olzWeeklyPictureTileSwap()' id='olz-weekly-image'>".$image_utils->olzImage($db_table, $id, $image_id, 256, 'gallery[weekly_picture]')."</span><span onmouseout='olz.olzWeeklyPictureTileUnswap()' id='olz-weekly-alternative-image'>".$image_utils->olzImage($db_table, $id, $alternative_image_id, 256, 'gallery[weekly_picture]')."</span></div>";
+                $out .= "<div class='lightgallery'><span onmouseover='olz.olzWeeklyPictureTileSwap()' id='olz-weekly-image'>".$image_utils->olzImage($db_table, $id, $image_id, 512, 'gallery[weekly_picture]')."</span><span onmouseout='olz.olzWeeklyPictureTileUnswap()' id='olz-weekly-alternative-image'>".$image_utils->olzImage($db_table, $id, $alternative_image_id, 512, 'gallery[weekly_picture]')."</span></div>";
             }
-            $out .= "<p class='weekly-picture-tile-text'>".$text."</p>";
+            $out .= "<div class='weekly-picture-tile-text'>".$text."</div>";
         }
 
         $out .= "</div>";

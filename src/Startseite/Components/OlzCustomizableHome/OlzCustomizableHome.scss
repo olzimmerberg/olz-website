@@ -7,6 +7,10 @@
 .tile-container {
     padding: 0 0 5px 10px;
     width: 100%;
+
+    .tile {
+        position: relative;
+    }
 }
 
 .tile h2 {
@@ -20,15 +24,6 @@
 
 .tile .center {
     text-align: center;
-}
-
-.tile img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 150px;
-    border: 0;
-    border-radius: 3px;
 }
 
 .tile ul.links {
@@ -54,6 +49,7 @@
     height: 16px;
 
     .newsletter-link-icon {
+        border: 0;
         height: 24px;
         margin: -6px 0 -2px;
     }

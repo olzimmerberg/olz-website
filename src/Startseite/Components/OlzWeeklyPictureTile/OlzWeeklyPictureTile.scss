@@ -1,5 +1,24 @@
-.weekly-picture-tile-buttons {
-    margin-bottom: 10px;
+.weekly-picture-h2 {
+    background-color: rgba(0,0,0,0.5);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 0;
+    padding-top: 13px;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.tile-id-olz-weekly-picture-tile img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border: 0;
+    border-radius: 3px;
 }
 
 #olz-weekly-image {
@@ -11,7 +30,29 @@
 }
 
 .weekly-picture-tile-text {
+    background-color: rgba(0,0,0,0.5);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     text-align: center;
-    font-weight: bold;
-    clear: left;
+    margin: 0;
+    padding: 1px 0;
+    text-shadow: 1px 1px 3px #000;
+}
+
+@media screen and (min-width: 560px) {
+    .tile-id-olz-weekly-picture-tile img {
+        max-height: 250px;
+    }
+}
+
+@media screen and (min-width: 840px) {
+    .tile-id-olz-weekly-picture-tile img {
+        max-height: 220px;
+    }
 }

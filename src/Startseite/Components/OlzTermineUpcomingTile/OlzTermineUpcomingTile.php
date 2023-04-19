@@ -27,7 +27,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             FROM termine t
             WHERE t.on_off = '1' AND t.datum >= '{$today}'
             ORDER BY t.datum ASC
-            LIMIT 5
+            LIMIT 7
         ZZZZZZZZZZ);
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];

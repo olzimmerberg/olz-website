@@ -34,6 +34,12 @@
 .tile ul.links {
     text-align: left;
     margin: 0;
+
+    li {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 .tile .link-icon {
@@ -53,20 +59,24 @@
     }
 }
 
-@media screen and (min-width: 400px) {
+.tile .header-link {
+    display: inline-block;
+    height: 16px;
+
+    .header-link-icon {
+        height: 16px;
+        margin: -6px 0 -2px;
+    }
+}
+
+@media screen and (min-width: 560px) {
     .tile-container {
         width: 50%;
     }
 }
 
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 840px) {
     .tile-container {
         width: 33.33%;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .tile-container {
-        width: 25%;
     }
 }

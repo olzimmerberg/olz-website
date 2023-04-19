@@ -5,7 +5,7 @@
 }
 
 .tile-container {
-    padding: 0 0 5px 10px;
+    padding: 5px 0 10px 10px;
     width: 100%;
 
     .tile {
@@ -14,6 +14,7 @@
 }
 
 .tile h2 {
+    margin-top: 5px;
     text-align: center;
 }
 

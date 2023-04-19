@@ -60,14 +60,14 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             WHERE t.deadline IS NOT NULL AND t.deadline >= '{$now}'
         )
         ORDER BY deadline ASC
-        LIMIT 5
+        LIMIT 7
         ZZZZZZZZZZ);
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
             $deadline = date('d.m.', strtotime($row['deadline']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
-            $out .= "<li><a href='{$code_href}termine.php?id={$id}' class='linkint'><b>{$deadline}</b>: Meldeschluss für {$title} vom {$date}</a></li>";
+            $out .= "<li><a href='{$code_href}termine.php?id={$id}' class='linkint'><b>{$deadline}</b>: Für {$title} vom {$date}</a></li>";
         }
         $out .= "</ul>";
         return $out;

@@ -18,15 +18,36 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         $out = "";
-        $out .= "<h2>Bild der Woche</h2>";
+
+        $has_access = $this->authUtils()->hasPermission('weekly_picture');
+        $data_href = $this->envUtils()->getDataHref();
+
+        $mgmt_html = '';
+        if ($has_access) {
+            $mgmt_html .= <<<ZZZZZZZZZZ
+            <a
+                href='#'
+                id='create-weekly-picture-button'
+                class='header-link'
+                onclick='return olz.initOlzEditWeeklyPictureModal()'
+            >
+                <img
+                    src='{$data_href}icns/new_16.svg'
+                    alt='+'
+                    class='header-link-icon'
+                    title='Neues Bild der Woche'
+                />
+            </a>
+            ZZZZZZZZZZ;
+        }
+
+        $out .= "<h2>Bild der Woche {$mgmt_html}</h2>";
         $out .= "<div class='center'>";
 
         $entity_manager = $this->dbUtils()->getEntityManager();
 
         $weekly_picture_repo = $entity_manager->getRepository(WeeklyPicture::class);
         $latest_weekly_picture = $weekly_picture_repo->getLatest();
-
-        $has_access = $this->authUtils()->hasPermission('weekly_picture');
 
         if ($latest_weekly_picture) {
             $text = $latest_weekly_picture->getText();
@@ -42,21 +63,6 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
                 $out .= "<div class='lightgallery'><span onmouseover='olz.olzWeeklyPictureTileSwap()' id='olz-weekly-image'>".$image_utils->olzImage($db_table, $id, $image_id, 256, 'gallery[weekly_picture]')."</span><span onmouseout='olz.olzWeeklyPictureTileUnswap()' id='olz-weekly-alternative-image'>".$image_utils->olzImage($db_table, $id, $alternative_image_id, 256, 'gallery[weekly_picture]')."</span></div>";
             }
             $out .= "<p class='weekly-picture-tile-text'>".$text."</p>";
-        }
-
-        if ($has_access) {
-            $out .= <<<'ZZZZZZZZZZ'
-            <div class='weekly-picture-tile-buttons'>
-                <button
-                    id='create-weekly-picture-button'
-                    class='btn btn-primary'
-                    onclick='return olz.initOlzEditWeeklyPictureModal()'
-                >
-                    <img src='icns/new_white_16.svg' class='noborder' />
-                    Neues Bild der Woche
-                </button>
-            </div>
-            ZZZZZZZZZZ;
         }
 
         $out .= "</div>";

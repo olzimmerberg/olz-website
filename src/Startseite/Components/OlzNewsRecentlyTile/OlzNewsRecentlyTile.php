@@ -11,12 +11,22 @@ use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsRecentlyTile extends AbstractOlzTile {
+    protected static $iconBasenameByFormat = [
+        'aktuell' => 'entry_type_aktuell_20.svg',
+        'forum' => 'entry_type_forum_20.svg',
+        'galerie' => 'entry_type_gallery_20.svg',
+        'kaderblog' => 'entry_type_kaderblog_20.svg',
+        'movie' => 'entry_type_movie_20.svg',
+        'video' => 'entry_type_movie_20.svg',
+    ];
+
     public function getRelevance(?User $user): float {
         return 0.7;
     }
 
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
+        $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
 
         $newsletter_link = '';
@@ -38,18 +48,26 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $out = "<h2>Letzte News {$newsletter_link}</h2>";
 
         $out .= "<ul class='links'>";
-        $res = $db->query(<<<'ZZZZZZZZZZ'
-            SELECT a.id, a.datum as date, a.titel as title
-            FROM aktuell a
-            WHERE a.on_off = '1'
-            ORDER BY datum DESC, zeit DESC
-            LIMIT 5
+        $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
+            SELECT n
+            FROM Olz:News\NewsEntry n
+            WHERE n.on_off = '1'
+            ORDER BY n.datum DESC, n.zeit DESC
         ZZZZZZZZZZ);
-        while ($row = $res->fetch_assoc()) {
-            $id = $row['id'];
-            $date = date('d.m.', strtotime($row['date']));
-            $title = $row['title'];
-            $out .= "<li><a href='{$code_href}aktuell.php?id={$id}' class='linkint'><b>{$date}</b>: {$title}</a></li>";
+        $query->setMaxResults(7);
+        foreach ($query->getResult() as $news_entry) {
+            $id = $news_entry->getId();
+            $date = $news_entry->getDate()->format('d.m.');
+            $title = $news_entry->getTitle();
+            $format = $news_entry->getFormat();
+            $icon_basename = self::$iconBasenameByFormat[$format];
+            $icon = "{$code_href}icns/{$icon_basename}";
+            $out .= <<<ZZZZZZZZZZ
+            <li><a href='{$code_href}aktuell.php?id={$id}'>
+                <img src='{$icon}' alt='{$format}' class='link-icon'>
+                {$title}
+            </a></li>
+            ZZZZZZZZZZ;
         }
         $out .= "</ul>";
 

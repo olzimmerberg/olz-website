@@ -42,7 +42,11 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
-        return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Nächste Termine</a></li>";
+        return <<<ZZZZZZZZZZ
+        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+            <b>Nächste Termine</b>
+        </a></li>
+        ZZZZZZZZZZ;
     }
 
     protected function renderProgramList() {
@@ -58,7 +62,11 @@ class OlzTermineListsTile extends AbstractOlzTile {
         }
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
-        return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Jahresprogramm {$year}</a></li>";
+        return <<<ZZZZZZZZZZ
+        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+            <b>Jahresprogramm {$year}</b>
+        </a></li>
+        ZZZZZZZZZZ;
     }
 
     protected function renderWeekendsList() {
@@ -74,7 +82,11 @@ class OlzTermineListsTile extends AbstractOlzTile {
         }
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
-        return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Weekends {$year}</a></li>";
+        return <<<ZZZZZZZZZZ
+        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+            <b>Weekends {$year}</b>
+        </a></li>
+        ZZZZZZZZZZ;
     }
 
     protected function renderUpcomingTrainingsList() {
@@ -83,7 +95,11 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter['typ'] = 'training';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
-        return "<li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>Nächste Trainings</a></li>";
+        return <<<ZZZZZZZZZZ
+        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+            <b>Nächste Trainings</b>
+        </a></li>
+        ZZZZZZZZZZ;
     }
 
     protected function getNumberOfEntries($filter) {

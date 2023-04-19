@@ -15,7 +15,7 @@ use Olz\Startseite\Components\OlzNewsRecentlyTile\OlzNewsRecentlyTile;
 use Olz\Startseite\Components\OlzTermineDeadlinesTile\OlzTermineDeadlinesTile;
 use Olz\Startseite\Components\OlzTermineListsTile\OlzTermineListsTile;
 use Olz\Startseite\Components\OlzTermineUpcomingTile\OlzTermineUpcomingTile;
-use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
+// use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
 
 class OlzCustomizableHome extends OlzComponent {
@@ -28,7 +28,7 @@ class OlzCustomizableHome extends OlzComponent {
             OlzTermineListsTile::class,
             OlzTermineUpcomingTile::class,
             OlzTermineDeadlinesTile::class,
-            OlzTermineUpdatesTile::class,
+            // OlzTermineUpdatesTile::class,
             OlzNewsListsTile::class,
             OlzNewsRecentlyTile::class,
             OlzCustomTile::class,

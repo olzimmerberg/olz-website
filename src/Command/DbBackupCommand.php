@@ -10,6 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:db-backup')]
 class DbBackupCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $key = $this->envUtils()->getDatabaseBackupKey();
         $this->devDataUtils()->getDbBackup($key);

@@ -10,6 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:test')]
 class TestCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $data_path = $this->envUtils()->getDataPath();
         $mysql_host = $this->envUtils()->getMysqlHost();

@@ -18,6 +18,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class DbResetCommandTest extends UnitTestCase {
     public function testDbResetCommandOnProd(): void {
+        $env_backup = $_ENV;
+        $_ENV = [...$_ENV, 'APP_ENV' => 'prod'];
         $dev_data_utils = new Fake\FakeDevDataUtils();
         $env_utils = new Fake\FakeEnvUtils();
         $env_utils->app_env = 'prod';
@@ -32,16 +34,16 @@ final class DbResetCommandTest extends UnitTestCase {
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Command\\DbResetCommand...",
-            "NOTICE Tried to reset prod database!",
-            "ERROR Command Olz\\Command\\DbResetCommand called with invalid arguments.",
+            "NOTICE Command Olz\\Command\\DbResetCommand not allowed in app env prod.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(
-            "Do NOT reset the prod database!\n",
+            "Command Olz\\Command\\DbResetCommand not allowed in app env prod.\n",
             $output->fetch(),
         );
         $this->assertSame([], $dev_data_utils->commands_called);
+
+        $_ENV = $env_backup;
     }
 
     public function testDbResetCommandModeContent(): void {
@@ -140,7 +142,7 @@ final class DbResetCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbResetCommand...",
-            "ERROR Command Olz\\Command\\DbResetCommand called with invalid arguments.",
+            "NOTICE Command Olz\\Command\\DbResetCommand called with invalid arguments.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(

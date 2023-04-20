@@ -9,14 +9,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:get-id-algos')]
-class GetIdAlgosCommand extends OlzCommand {
+class MonitorLogsCommand extends OlzCommand {
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $json_algos = json_encode(openssl_get_cipher_methods());
-        $output->writeln($json_algos);
+        require_once __DIR__.'/../../_/tools/monitoring/logs_monitoring.php';
+        ob_start();
+        logs_monitoring();
+        $contents = ob_get_contents();
+        ob_end_clean();
+        $output->writeln($contents);
         return Command::SUCCESS;
     }
 }

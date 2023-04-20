@@ -10,6 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:db-migrate')]
 class DbMigrateCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $this->devDataUtils()->migrateTo('latest');
         return Command::SUCCESS;

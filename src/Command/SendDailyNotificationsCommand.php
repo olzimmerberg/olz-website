@@ -22,6 +22,10 @@ require_once __DIR__.'/../../_/config/init.php';
 
 #[AsCommand(name: 'olz:send-daily-notifications')]
 class SendDailyNotificationsCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected $dailySummaryGetter;
     protected $deadlineWarningGetter;
     protected $emailConfigurationReminderGetter;

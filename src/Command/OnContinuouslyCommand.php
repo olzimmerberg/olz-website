@@ -12,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:on-continuously')]
 class OnContinuouslyCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected function handle(InputInterface $input, OutputInterface $output): int {
         set_time_limit(4000);
         ignore_user_abort(true);

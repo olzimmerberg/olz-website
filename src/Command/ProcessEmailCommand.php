@@ -14,6 +14,10 @@ use Webklex\PHPIMAP\Exceptions\ResponseException;
 
 #[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;
 

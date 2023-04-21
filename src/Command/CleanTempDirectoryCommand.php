@@ -13,6 +13,10 @@ class CleanTempDirectoryCommand extends OlzCommand {
     protected $temp_realpath;
     protected $clean_older_than;
 
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp";

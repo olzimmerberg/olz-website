@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'olz:get-id-algos')]
+#[AsCommand(name: 'olz:monitor-backup')]
 class MonitorBackupCommand extends OlzCommand {
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];

@@ -10,10 +10,13 @@ $logout_api_url = '/api/logout';
 function login($driver, $base_url, $username, $password) {
     global $login_api_url;
     tick('login');
-    $esc_username = json_encode($username);
+    $esc_request = json_encode([
+        'usernameOrEmail' => $username,
+        'password' => $password,
+        'rememberMe' => false,
+    ]);
     $esc_password = json_encode($password);
-    $get_params = "?usernameOrEmail={$esc_username}".
-        "&password={$esc_password}&rememberMe=false";
+    $get_params = "?request={$esc_request}";
     $driver->get("{$base_url}{$login_api_url}{$get_params}");
     $driver->navigate()->refresh();
     tock('login', 'login');

@@ -6,6 +6,7 @@ use Olz\Api\OlzEndpoint;
 use Olz\Entity\TelegramLink;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\HttpFoundation\Request;
 
 class OnTelegramEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -26,13 +27,11 @@ class OnTelegramEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function parseInput() {
-        global $_GET;
-        $input = [
-            'authenticityCode' => $_GET['authenticityCode'],
-            'telegramEvent' => json_encode(json_decode(file_get_contents('php://input'), true)),
+    public function parseInput(Request $request) {
+        return [
+            'authenticityCode' => $request->query->get('authenticityCode'),
+            'telegramEvent' => json_encode(json_decode($request->getContent(), true)),
         ];
-        return $input;
     }
 
     protected function handle($input) {

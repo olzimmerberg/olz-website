@@ -29,9 +29,7 @@ $search_key = $_GET['anfrage'];
 echo "
 <div class='content-right'>
 <form name='Formularr' method='post' action='suche.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
-<div>";
-include __DIR__.'/startseite_r.php';
-echo "</div>
+<div></div>
 </form>
 </div>
 <div class='content-middle'>

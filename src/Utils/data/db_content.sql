@@ -11,7 +11,8 @@ INSERT INTO access_tokens
     (`id`, `user_id`, `purpose`, `token`, `created_at`, `expires_at`)
 VALUES
     ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL),
-    ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL);
+    ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL),
+    ('3', '42', 'access', 'cccccccccccccccccccccccccccccccc', '2023-04-22 14:00:00', NULL);
 
 -- Table aktuell
 INSERT INTO aktuell
@@ -310,7 +311,8 @@ VALUES
     ('6', 'parent', NULL, '$2y$10$iU9SqVRurO.4N1ak1j.p/OP0qT6rEst7.mLd/hM7EzyfI5rBX7nva', 'parent@staging.olzimmerberg.ch', 'Eltern', 'Teil', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
     ('7', 'child1', NULL, NULL, 'child1@staging.olzimmerberg.ch', 'Kind', 'Eins', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
     ('8', 'child2', NULL, '', 'child2@staging.olzimmerberg.ch', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
-    ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@staging.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
+    ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@staging.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ''),
+    ('42', 'monitoring', NULL, '', 'website@staging.olzimmerberg.ch', 'Monitoring', 'Bot', ' command_olz:monitor-logs command_olz:monitor-backup ', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 -- Table users_roles
 INSERT INTO users_roles

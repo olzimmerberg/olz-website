@@ -9,6 +9,7 @@ use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\HttpFoundation\Request;
 
 class FakeOnTelegramEndpointTelegramLinkRepository {
     public function findOneBy($where) {
@@ -68,13 +69,14 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointParseInput(): void {
-        global $_GET;
-        $_GET = ['authenticityCode' => 'some-token'];
+        $get_params = ['authenticityCode' => 'some-token'];
+        $content_json = json_encode(['json' => 'input']);
+        $request = new Request($get_params, [], [], [], [], [], $content_json);
         $endpoint = new OnTelegramEndpoint();
-        $parsed_input = $endpoint->parseInput();
+        $parsed_input = $endpoint->parseInput($request);
         $this->assertSame([
             'authenticityCode' => 'some-token',
-            'telegramEvent' => 'null',
+            'telegramEvent' => '{"json":"input"}',
         ], $parsed_input);
     }
 

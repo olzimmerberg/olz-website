@@ -8,6 +8,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpFoundation\Request;
 
 class OnDailyEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -27,12 +28,10 @@ class OnDailyEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function parseInput() {
-        global $_GET;
-        $input = [
-            'authenticityCode' => $_GET['authenticityCode'],
+    public function parseInput(Request $request) {
+        return [
+            'authenticityCode' => $request->query->get('authenticityCode'),
         ];
-        return $input;
     }
 
     public function shouldFailThrottling() {

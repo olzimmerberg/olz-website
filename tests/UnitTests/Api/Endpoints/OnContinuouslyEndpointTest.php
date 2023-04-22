@@ -9,6 +9,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @internal
@@ -22,10 +23,10 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyEndpointParseInput(): void {
-        global $_GET;
-        $_GET = ['authenticityCode' => 'some-token'];
+        $get_params = ['authenticityCode' => 'some-token'];
+        $request = new Request($get_params);
         $endpoint = new OnContinuouslyEndpoint();
-        $parsed_input = $endpoint->parseInput();
+        $parsed_input = $endpoint->parseInput($request);
         $this->assertSame([
             'authenticityCode' => 'some-token',
         ], $parsed_input);

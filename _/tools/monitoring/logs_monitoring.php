@@ -141,25 +141,25 @@ function check_many_notices($logs_in_last_hour, $logs_in_last_day) {
 }
 
 function is_emergency_line($line) {
-    return preg_match('/\.EMERGENCY\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.EMERGENCY\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.EMERGENCY\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.EMERGENCY\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }
 
 function is_alert_line($line) {
-    return preg_match('/\.ALERT\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ALERT\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.ALERT\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ALERT\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }
 
 function is_critical_line($line) {
-    return preg_match('/\.CRITICAL\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.CRITICAL\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.CRITICAL\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.CRITICAL\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }
 
 function is_error_line($line) {
-    return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ERROR\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ERROR\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }
 
 function is_warning_line($line) {
-    return preg_match('/\.WARNING\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.WARNING\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.WARNING\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.WARNING\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }
 
 function is_notice_line($line) {
-    return preg_match('/\.NOTICE\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.NOTICE\:/', $line) && !preg_match('/Olz\\Command\\Monitor/', $line);
+    return preg_match('/\.NOTICE\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.NOTICE\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
 }

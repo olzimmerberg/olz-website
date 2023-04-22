@@ -81,7 +81,7 @@ final class OlzCommandTest extends UnitTestCase {
             "ERROR Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::FAILURE, $return_code);
-        $this->assertSame('', $output->fetch());
+        $this->assertSame("Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).\n", $output->fetch());
     }
 
     public function testOlzCommandSuccessCode(): void {
@@ -186,6 +186,6 @@ final class OlzCommandTest extends UnitTestCase {
             "ERROR Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: test error.",
         ], $logger->handler->getPrettyRecords());
         $this->assertSame(Command::FAILURE, $return_code);
-        $this->assertSame("Test handle\n", $output->fetch());
+        $this->assertSame("Test handle\nError running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: test error.\n", $output->fetch());
     }
 }

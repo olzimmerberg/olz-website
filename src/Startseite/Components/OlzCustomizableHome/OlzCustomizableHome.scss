@@ -31,16 +31,14 @@
     text-align: left;
     margin: 0;
 
-    li {
+    li a {
+        display: block;
+        height: 24px;
+        line-height: 24px;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-    }
-
-    a {
-        display: inline-block;
-        height: 24px;
-        line-height: 24px;
     }
 }
 

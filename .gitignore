@@ -7,7 +7,6 @@
 !/public/.htaccess
 !/public/icns
 !/public/index.php
-!/public/tools.php
 /screenshots
 /src/Utils/data/tmp/*
 /_/tools/tmp/*

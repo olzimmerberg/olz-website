@@ -22,8 +22,14 @@ class SymfonyUtils {
         $application->setAutoExit(false);
         $command = $application->find($command_name);
         $return_code = $command->run($input, $output);
+        if ($return_code === Command::FAILURE) {
+            throw new \Exception("Command {$command_name} failed.");
+        }
+        if ($return_code === Command::INVALID) {
+            throw new \Exception("Command {$command_name} called with invalid arguments.");
+        }
         if ($return_code !== Command::SUCCESS) {
-            throw new \Exception("Command {$command_name} failed with code: {$return_code}");
+            throw new \Exception("Command {$command_name} failed with unknown code: {$return_code}.");
         }
     }
 

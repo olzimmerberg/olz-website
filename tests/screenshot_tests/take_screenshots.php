@@ -64,8 +64,6 @@ $driver = RemoteWebDriver::create($host, $capabilities);
 $base_url = 'http://127.0.0.1:30270';
 
 function init_test_block($driver) {
-    full_reset_dev_data();
-
     reset_timing();
 
     set_window_size($driver, 1280, 1024);

@@ -7,9 +7,7 @@ Jedes Mal, wenn die Struktur der Datenbank verändert wird - typischerweise durc
 Ausserdem müssen die Testdaten dann aktualisiert werden:
 
 - `git checkout main`
-- `./run.sh`
-- `http://127.0.0.1:30270/tools.php/reset-structure` aufrufen
+- `php bin/console olz:db-reset structure`
 - `git checkout -`
 - `php bin/console doctrine:migrations:migrate`
-- `./run.sh`
-- `http://127.0.0.1:30270/tools.php/dump` aufrufen
+- `php bin/console olz:db-dump`

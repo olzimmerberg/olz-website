@@ -68,7 +68,7 @@ fi
 
 # Run dev server
 mkdir -p ./public/logs
-# php -S "127.0.0.1:30270" -t ./public/ > ./public/logs/take-screenshots.log 2>&1 &
+APP_ENV=dev php bin/console olz:db-reset full > ./public/logs/take-screenshots.log 2>&1 &
 APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
 sleep 1

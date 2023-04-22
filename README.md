@@ -26,7 +26,7 @@
 ### Development-Daten laden
 
 - Starte den Development-Server (siehe oben)
-- Gehe in einem Browser zur URL [`http://127.0.0.1:30270/tools.php/full-reset`](http://127.0.0.1:30270/tools.php/full-reset)
+- Setze die Datenbank zurück: `php bin/console olz:db-reset full`
 - Betrachte das Resultat auf [`http://127.0.0.1:30270/`](http://127.0.0.1:30270/)
 
 ### Tests laufen lassen

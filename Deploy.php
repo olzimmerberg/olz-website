@@ -108,6 +108,8 @@ class Deploy extends AbstractDefaultDeploy {
         file_put_contents(__DIR__.'/src/Utils/data/DATA_PATH', realpath($public_path));
         gc_collect_cycles();
 
+        $public_url = $this->getRemotePublicUrl();
+        $staging_token = null;
         $install_path = $public_path;
         $deploy_path_from_public_index = 'dirname(__DIR__)';
         if ($this->environment === 'staging') {
@@ -118,7 +120,6 @@ class Deploy extends AbstractDefaultDeploy {
                     $fs->remove($path);
                 }
             }
-            $public_url = $this->getRemotePublicUrl();
             $staging_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
             $this->logger->info("--------------------------------------------");
             $this->logger->info("   {$public_url}/{$staging_token}/   ");
@@ -157,6 +158,12 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove("{$public_path}/old_jsbuild");
         }
         $this->logger->info("Install done.");
+        if ($this->environment === 'staging') {
+            $this->logger->info("Reset database...");
+            $output = file_get_contents("{$public_url}/{$staging_token}/api/executeCommand?access_token=public_dev_data_access_token&request={\"command\":\"olz:db-reset\",\"argv\":\"full\"}");
+            $this->logger->info($output);
+            $this->logger->info("Database reset done.");
+        }
     }
 }
 

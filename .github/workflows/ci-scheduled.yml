@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Create backup
-      run: mkdir backup; wget -O backup/prod.sql.crypt.json https://olzimmerberg.ch/tools.php/get-database-backup
+      env:
+        TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
+      run: mkdir backup; wget -O backup/prod.sql.crypt.json "https://olzimmerberg.ch/api/executeCommand?access_token=$TOKEN&request={%22command%22:%22olz:db-backup%22,%22argv%22:null}"
     - name: Store backup
       uses: actions/upload-artifact@v2
       with:

@@ -29,8 +29,6 @@ class FakeMonthlyPreviewGetterSolvEventRepository {
 
 class FakeMonthlyPreviewGetterTerminRepository {
     public function matching($criteria) {
-        // echo "FakeMonthlyPreviewGetterTerminRepository";
-        // echo var_export($criteria, true)."\n";
         if (preg_match('/2021-03-20/', var_export($criteria, true))) {
             return [];
         }

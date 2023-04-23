@@ -20,7 +20,7 @@ class OlzSitemap extends OlzComponent {
 
         $out .= self::getEntry("{$base_url}fuer_einsteiger.php", 'daily', '1.0');
         $out .= self::getEntry("{$base_url}fragen_und_antworten.php", 'daily', '0.8');
-        $out .= self::getEntry("{$base_url}startseite.php", 'daily', '0.6');
+        $out .= self::getEntry("{$base_url}", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}aktuell.php", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}blog.php", 'daily', '0.4');
         $out .= self::getEntry("{$base_url}termine.php", 'daily', '0.6');

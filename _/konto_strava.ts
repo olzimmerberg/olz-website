@@ -16,7 +16,7 @@ export function olzKontoLoginWithStrava(code: string): boolean {
                 $('#sign-up-with-strava-login-status').attr('class', 'alert alert-success');
                 $('#sign-up-with-strava-login-status').text('Login mit Strava erfolgreich.');
                 // TODO: This could probably be done more smoothly!
-                window.location.href = 'startseite.php';
+                window.location.href = '/';
             } else if (response.status === 'NOT_REGISTERED') {
                 const userIdentifier = response.userIdentifier;
                 if (!userIdentifier) {
@@ -66,7 +66,7 @@ const handleResponse: HandleResponseFunction<'signUpWithStrava'> = (response) =>
     }
     window.setTimeout(() => {
         // TODO: This could probably be done more smoothly!
-        window.location.href = 'startseite.php';
+        window.location.href = '/';
     }, 3000);
     return 'Benutzerkonto erfolgreich erstellt.';
 };

@@ -19,12 +19,8 @@ final class ProdTest extends SystemTestCase {
         $url = "{$this::$prodUrl}";
         $headers = $this->getHeaders($url);
 
-        $this->assertSame(301, $headers['http_code']);
+        $this->assertSame(200, $headers['http_code']);
         $this->assertSame(0, $headers['ssl_verify_result']);
-        $this->assertSame(
-            "{$this::$prodUrl}startseite.php",
-            $headers['redirect_url']
-        );
     }
 
     public function testProdIsWorking(): void {
@@ -41,38 +37,52 @@ final class ProdTest extends SystemTestCase {
         );
     }
 
+    public function testProdLegacyIsWorking(): void {
+        $url = "{$this::$prodUrl}startseite.php";
+        $body = file_get_contents($url);
+
+        $this->assertMatchesRegularExpression(
+            '/<title>OL Zimmerberg<\/title>/i',
+            $body
+        );
+        $this->assertMatchesRegularExpression(
+            '/Startseite/i',
+            $body
+        );
+    }
+
     public function testWwwGetsRedirected(): void {
-        $url = "https://www.{$this::$prodDomain}/startseite.php";
+        $url = "https://www.{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 
         $this->assertSame(308, $headers['http_code']);
         $this->assertSame(0, $headers['ssl_verify_result']);
         $this->assertSame(
-            "https://{$this::$prodDomain}/startseite.php",
+            "https://{$this::$prodDomain}/",
             $headers['redirect_url']
         );
     }
 
     public function testHttpGetsRedirected(): void {
-        $url = "http://{$this::$prodDomain}/startseite.php";
+        $url = "http://{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 
         $this->assertSame(301, $headers['http_code']);
         $this->assertSame(0, $headers['ssl_verify_result']);
         $this->assertSame(
-            "https://{$this::$prodDomain}/startseite.php",
+            "https://{$this::$prodDomain}/",
             $headers['redirect_url']
         );
     }
 
     public function testHttpWwwGetsRedirected(): void {
-        $url = "http://www.{$this::$prodDomain}/startseite.php";
+        $url = "http://www.{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 
         $this->assertSame(301, $headers['http_code']);
         $this->assertSame(0, $headers['ssl_verify_result']);
         $this->assertSame(
-            "https://www.{$this::$prodDomain}/startseite.php",
+            "https://www.{$this::$prodDomain}/",
             $headers['redirect_url']
         );
     }

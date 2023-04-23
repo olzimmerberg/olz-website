@@ -17,7 +17,7 @@ class OlzMenu extends OlzComponent {
         $data_path = $this->envUtils()->getDataPath();
 
         $menu = [
-            ["Startseite", "startseite.php", 'large'], // Menüpunkt ('Name','Link')
+            ["Startseite", "/", 'large'], // Menüpunkt ('Name','Link')
             ["", "", ''],
             ["News", "aktuell.php", 'large'],
             ["Termine", "termine.php", 'large'],

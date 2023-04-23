@@ -93,8 +93,8 @@ class OlzMenu extends OlzComponent {
             $linecolor = self::color($redlin, $greenlin, $bluelin);
             $tag = "div";
             if (
-                ($_SESSION['page'] ?? null) == $menupunkt[1]
-                || basename($_SERVER['SCRIPT_FILENAME'] ?? '') == $menupunkt[1]
+                basename($_SERVER['SCRIPT_FILENAME'] ?? '') == $menupunkt[1]
+                || basename($_SERVER['REQUEST_URI'] ?? '') == $menupunkt[1]
             ) {
                 $color = "color:#".self::color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
                 $bgcolor = $bgcolorhover;
@@ -106,7 +106,7 @@ class OlzMenu extends OlzComponent {
             if ($i == 0) {
                 $border_tmp = " border-top:1px solid #".$linecolor.";";
             }
-            if ($menupunkt[0] != "" && $menupunkt[1] != "") {
+            if ($menupunkt[0] != "") {
                 $out .= "<a href='".$code_href.$menupunkt[1]."' id='menu_a_page_".$menupunkt[1]."' class='menu-link font-size-{$fontsize}'><".$tag." class='menutag' style='".$color."background-color:#".$bgcolor.";border-bottom:1px solid #".$linecolor.";".$border_tmp."' onmouseover='document.getElementById(\"menu".$identifier.$i."\").style.backgroundColor = &quot;#{$bgcolorhover}&quot;;' onmouseout='document.getElementById(\"menu".$identifier.$i."\").style.backgroundColor = &quot;#{$bgcolor}&quot;;' id='menu".$identifier.$i."'>".$menupunkt[0]."</".$tag."></a>";
             } else {
                 // $out .= "<div style='border-top:1px solid #".$bgcolor."; border-bottom:1px solid #".$linecolor.";'><div style='padding:".floor($fontsize/3)."px; margin:0px; border-top:1px solid #".$bgcolorhover."; border-bottom:1px solid #".$bgcolor.";'></div></div>";

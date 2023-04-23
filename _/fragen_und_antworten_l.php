@@ -113,7 +113,7 @@ Ja. Sie schreiben sogar manchmal Beiträge im <b><a href='blog.php' onmouseover=
 <br>
 <h3>Wo kann ich Berichte von vergangenen Anlässen nachlesen?</h3>
 <div>
-Auf der <b><a href='aktuell.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Aktuell-Seite</a></b>.
+Auf der <b><a href='news' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>News-Seite</a></b>.
 </div>
 <br>
 <h3>Wer ist im Vorstand der OL Zimmerberg?</h3>

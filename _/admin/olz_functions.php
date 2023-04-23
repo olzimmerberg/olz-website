@@ -91,13 +91,6 @@ function olz_buttons($name, $buttons, $off) {
 }
 
 // ----------------------------------
-// FUNKTION Ampersand austauschen
-// ----------------------------------
-function olz_amp($text) {
-    return str_replace(["&amp;", "&"], ["&", "&amp;"], $text);
-}
-
-// ----------------------------------
 // Variablen Text editieren
 // ----------------------------------
 function get_olz_text($id_text, $editable = true) {

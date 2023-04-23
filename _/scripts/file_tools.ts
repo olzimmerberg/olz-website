@@ -1,5 +1,6 @@
 /* BILD FUNKTIONEN */
 import {obfuscateForUpload} from '../../src/Utils/uploadUtils';
+import {codeHref} from '../../src/Utils/constants';
 
 interface OlzFileEdit {
     count?: number;
@@ -44,7 +45,7 @@ export function olz_files_edit_redraw(
     }
     let htmlout = '';
     for (let i = 0; i < cnt; i++) {
-        htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='file_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
+        htmlout += `<table style='display:inline-table; width:auto; margin:3px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='file_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='${codeHref}icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='${codeHref}icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='${codeHref}icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
     }
     const uq = olz_files_edit[ident].uploadqueue;
     for (let i = 0; i < uq.length; i++) {

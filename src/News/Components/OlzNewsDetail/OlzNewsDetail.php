@@ -18,20 +18,32 @@ use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzNewsArticle\OlzNewsArticle;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\HttpUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsDetail extends OlzComponent {
     public function getHtml($args = []): string {
-        global $db_table, $id, $_DATE, $_GET, $_POST, $_SESSION, $_SERVER;
+        global $_DATE, $_GET, $_POST, $_SESSION, $_SERVER;
 
+        require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/date.php';
+
+        session_start_if_cookie_set();
+
+        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
+
+        $http_utils = HttpUtils::fromEnv();
+        $http_utils->setLog($this->log());
+        $http_utils->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ], $_GET);
 
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $db_table = 'aktuell';
-        $id = $_GET['id'] ?? null;
+        $id = $args['id'] ?? null;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}aktuell.php?id={$id}";
+        $canonical_url = "https://{$host}{$code_href}news/{$id}";
 
         $http_utils = HttpUtils::fromEnv();
         $article_metadata = "";
@@ -77,7 +89,7 @@ class OlzNewsDetail extends OlzComponent {
         $title = $row['titel'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
-            'back_link' => "{$code_href}aktuell.php?filter={$back_filter}",
+            'back_link' => "{$code_href}news?filter={$back_filter}",
             'title' => "{$title} - Aktuell",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $no_robots,
@@ -110,7 +122,7 @@ class OlzNewsDetail extends OlzComponent {
             </div>
         </div>
         <div class='content-middle'>
-        <form name='Formularl' method='post' action='aktuell.php?id={$id}#id_edit{$id_edit}' enctype='multipart/form-data'>
+        <form name='Formularl' method='post' action='news/{$id}#id_edit{$id_edit}' enctype='multipart/form-data'>
         ZZZZZZZZZZ;
 
         // -------------------------------------------------------------

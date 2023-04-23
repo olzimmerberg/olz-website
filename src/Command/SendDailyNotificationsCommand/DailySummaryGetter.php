@@ -40,7 +40,7 @@ class DailySummaryGetter {
         $code_href = $this->envUtils()->getCodeHref();
 
         if ($args['aktuell'] ?? false) {
-            $news_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}news";
             $aktuell_text = '';
             $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $aktuell_criteria = $this->getNewsCriteria(['aktuell']);
@@ -50,7 +50,7 @@ class DailySummaryGetter {
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $aktuell->getDate(), $aktuell->getTime());
                 $title = $aktuell->getTitle();
-                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
+                $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
                 $notification_text .= "\n**Aktuell**\n\n{$aktuell_text}\n";
@@ -58,7 +58,7 @@ class DailySummaryGetter {
         }
 
         if ($args['blog'] ?? false) {
-            $news_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}news";
             $blog_text = '';
             $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $blog_criteria = $this->getNewsCriteria(['kaderblog']);
@@ -68,7 +68,7 @@ class DailySummaryGetter {
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $blog->getDate(), $blog->getTime());
                 $title = $blog->getTitle();
-                $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
+                $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($blog_text) > 0) {
                 $notification_text .= "\n**Kaderblog**\n\n{$blog_text}\n";
@@ -76,7 +76,7 @@ class DailySummaryGetter {
         }
 
         if ($args['forum'] ?? false) {
-            $news_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}news";
             $forum_text = '';
             $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $forum_criteria = $this->getNewsCriteria(['forum']);
@@ -87,7 +87,7 @@ class DailySummaryGetter {
                     $forum->getDate(), $forum->getTime());
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
-                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
+                    $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
                 }
             }
             if (strlen($forum_text) > 0) {
@@ -96,7 +96,7 @@ class DailySummaryGetter {
         }
 
         if ($args['galerie'] ?? false) {
-            $news_url = "{$base_href}{$code_href}aktuell.php";
+            $news_url = "{$base_href}{$code_href}news";
             $galerie_text = '';
             $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $galerie_criteria = $this->getNewsCriteria(['galerie', 'video']);
@@ -106,7 +106,7 @@ class DailySummaryGetter {
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
                     $galerie->getDate(), $galerie->getTime());
                 $title = $galerie->getTitle();
-                $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}?id={$id})\n";
+                $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($galerie_text) > 0) {
                 $notification_text .= "\n**Galerien**\n\n{$galerie_text}\n";

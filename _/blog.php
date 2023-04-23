@@ -28,7 +28,7 @@ $news_filter_utils = NewsFilterUtils::fromEnv();
 $filter = $news_filter_utils->getDefaultFilter();
 $filter['format'] = 'kaderblog';
 $enc_json_filter = urlencode(json_encode($filter));
-$new_url = "{$code_href}aktuell.php?filter={$enc_json_filter}";
+$new_url = "{$code_href}news?filter={$enc_json_filter}";
 header("Location: {$new_url}");
 
 echo OlzHeader::render([

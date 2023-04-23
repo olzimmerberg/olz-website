@@ -278,7 +278,7 @@ class OlzTermineList extends OlzComponent {
             $zeit_end = $row['zeit_end'];
             $titel = $row['titel'];
             $text = $row['text'];
-            $text = olz_br(olz_mask_email($text, "", ""));
+            $text = \olz_br(olz_mask_email($text, "", ""));
             $link = $row['link'] ?? '';
             $event_link = $row['solv_event_link'] ?? '';
             $id = $row['id'];

@@ -63,7 +63,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
             $icon_basename = self::$iconBasenameByFormat[$format];
             $icon = "{$code_href}icns/{$icon_basename}";
             $out .= <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}aktuell.php?id={$id}'>
+            <li><a href='{$code_href}news/{$id}'>
                 <img src='{$icon}' alt='{$format}' class='link-icon'>
                 {$title}
             </a></li>

@@ -1,5 +1,6 @@
 /* BILD FUNKTIONEN */
 import {obfuscateForUpload} from '../../src/Utils/uploadUtils';
+import {codeHref} from '../../src/Utils/constants';
 
 interface OlzImageEdit {
     count?: number;
@@ -78,7 +79,7 @@ export function olz_images_edit_redraw(
     let i: number;
     for (i = 0; i < cnt; i++) {
         htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0' id='${ident}-droptable-${i + 1}'><tr><td style='padding:5px; border:0px;'><div style='width:1px; height:134px;' id='${ident}-borderdiv-${i + 1}'></div></td></tr></table>`;
-        htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='image_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110&reload=${new Date().getTime()}' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; padding:0px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='icns/rot90_16.svg' alt='' title='90° im Uhrzeigersinn rotieren' style='border:0px;' id='${ident}-rotate-${i + 1}'> <img src='icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
+        htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0'><tr><td style='width:110px; height:110px; padding:0px; border:0px;'><img src='image_tools.php?request=thumb&db_table=${dbtable}&id=${id}&index=${i + 1}&dim=110&reload=${new Date().getTime()}' style='margin:0px; border:0px;' id='${ident}-img-${i + 1}'></td></tr><tr><td style='height:24px; padding:0px; border:0px; text-align:center;'><span id='${ident}-actions-${i + 1}'><img src='${codeHref}icns/rot90_16.svg' alt='' title='90° im Uhrzeigersinn rotieren' style='border:0px;' id='${ident}-rotate-${i + 1}'> <img src='${codeHref}icns/delete_16.svg' alt='' title='löschen' style='border:0px;' id='${ident}-delete-${i + 1}'></span> &nbsp; <span style='visibility:hidden;' id='${ident}-confirm-${i + 1}'><img src='${codeHref}icns/save_16.svg' alt='' title='sichern' style='border:0px;' id='${ident}-submit-${i + 1}'> <img src='${codeHref}icns/cancel_16.svg' alt='' title='abbrechen' style='border:0px;' id='${ident}-reset-${i + 1}'></span></td></tr></table>`;
     }
     htmlout += `<table style='display:inline-table; width:auto; margin:0px;' cellspacing='0' id='${ident}-droptable-${i + 1}'><tr><td style='padding:5px; border:0px;'><div style='width:1px; height:134px;' id='${ident}-borderdiv-${i + 1}'></div></td></tr></table>`;
     const uq = olz_images_edit[ident].uploadqueue;

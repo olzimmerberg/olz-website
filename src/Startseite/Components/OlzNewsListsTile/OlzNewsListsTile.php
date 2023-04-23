@@ -62,6 +62,6 @@ class OlzNewsListsTile extends AbstractOlzTile {
             $filter['format'] = $format;
         }
         $enc_json_filter = urlencode(json_encode($filter));
-        return "{$code_href}aktuell.php?filter={$enc_json_filter}";
+        return "{$code_href}news?filter={$enc_json_filter}";
     }
 }

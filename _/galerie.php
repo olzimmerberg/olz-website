@@ -46,14 +46,14 @@ if (isset($_GET['id'])) {
         $html_title = $row['titel'];
     }
     $aktuell_id = $id + 1200;
-    $new_url = "{$code_href}aktuell.php?id={$aktuell_id}";
+    $new_url = "{$code_href}news/{$aktuell_id}";
     header("Location: {$new_url}");
 } else {
     $news_filter_utils = NewsFilterUtils::fromEnv();
     $filter = $news_filter_utils->getDefaultFilter();
     $filter['format'] = 'galerie';
     $enc_json_filter = urlencode(json_encode($filter));
-    $new_url = "{$code_href}aktuell.php?filter={$enc_json_filter}";
+    $new_url = "{$code_href}news?filter={$enc_json_filter}";
     header("Location: {$new_url}");
 }
 

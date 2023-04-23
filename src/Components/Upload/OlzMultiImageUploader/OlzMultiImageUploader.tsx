@@ -7,6 +7,7 @@ import {Uploader} from '../../../../src/Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';
+import {codeHref} from '../../../../src/Utils/constants';
 
 import '../../../../_/styles/dropzone.scss';
 import './OlzMultiImageUploader.scss';
@@ -131,7 +132,7 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps): React.
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img
-                    src="icns/link_image_16.svg"
+                    src={`${codeHref}icns/link_image_16.svg`}
                     alt=""
                     className="noborder"
                     width="32"

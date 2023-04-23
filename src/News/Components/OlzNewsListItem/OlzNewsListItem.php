@@ -43,7 +43,7 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "aktuell.php?filter={$enc_current_filter}&id=".$id;
+        $link = "news/{$id}?filter={$enc_current_filter}";
 
         $image_ids = $news_entry->getImageIds();
 

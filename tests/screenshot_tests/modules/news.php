@@ -6,16 +6,16 @@ require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$aktuell_url = '/aktuell.php';
-$aktuell_id_3_url = "{$aktuell_url}?id=3";
-$aktuell_id_5_url = "{$aktuell_url}?id=5";
-$aktuell_id_8_url = "{$aktuell_url}?id=8";
-$aktuell_id_10_url = "{$aktuell_url}?id=10";
+$news_url = '/news';
+$news_id_3_url = "{$news_url}/3";
+$news_id_5_url = "{$news_url}/5";
+$news_id_8_url = "{$news_url}/8";
+$news_id_10_url = "{$news_url}/10";
 
-function test_aktuell($driver, $base_url) {
-    tick('aktuell');
+function test_news($driver, $base_url) {
+    tick('news');
 
-    test_aktuell_readonly($driver, $base_url);
+    test_news_readonly($driver, $base_url);
     test_create_aktuell_new($driver, $base_url);
     test_create_kaderblog_new($driver, $base_url);
     test_create_anonymous_new($driver, $base_url);
@@ -23,16 +23,16 @@ function test_aktuell($driver, $base_url) {
     test_create_galerie_new($driver, $base_url);
 
     reset_dev_data();
-    tock('aktuell', 'aktuell');
+    tock('news', 'news');
 }
 
 function test_create_aktuell_new($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_5_url;
+    global $news_url, $news_id_5_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
 
     $create_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#create-news-button')
@@ -97,7 +97,7 @@ function test_create_aktuell_new($driver, $base_url) {
     sleep(4);
     take_pageshot($driver, 'news_new_aktuell_finished');
 
-    $driver->get("{$base_url}{$aktuell_id_5_url}");
+    $driver->get("{$base_url}{$news_id_5_url}");
 
     $edit_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#edit-news-button')
@@ -121,12 +121,12 @@ function test_create_aktuell_new($driver, $base_url) {
 }
 
 function test_create_kaderblog_new($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_10_url;
+    global $news_url, $news_id_10_url;
 
     login($driver, $base_url, 'kaderlaeufer', 'kad3rla3uf3r');
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
 
     $create_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#create-news-button')
@@ -187,7 +187,7 @@ function test_create_kaderblog_new($driver, $base_url) {
     sleep(4);
     take_pageshot($driver, 'news_new_kaderblog_finished');
 
-    $driver->get("{$base_url}{$aktuell_id_10_url}");
+    $driver->get("{$base_url}{$news_id_10_url}");
 
     $edit_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#edit-news-button')
@@ -211,12 +211,12 @@ function test_create_kaderblog_new($driver, $base_url) {
 }
 
 function test_create_anonymous_new($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_5_url;
+    global $news_url, $news_id_5_url;
 
     logout($driver, $base_url);
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
 
     $create_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#create-news-button')
@@ -258,12 +258,12 @@ function test_create_anonymous_new($driver, $base_url) {
 }
 
 function test_create_forum_new($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_8_url;
+    global $news_url, $news_id_8_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
 
     $create_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#create-news-button')
@@ -312,7 +312,7 @@ function test_create_forum_new($driver, $base_url) {
     sleep(4);
     take_pageshot($driver, 'news_new_forum_finished');
 
-    $driver->get("{$base_url}{$aktuell_id_8_url}");
+    $driver->get("{$base_url}{$news_id_8_url}");
 
     $edit_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#edit-news-button')
@@ -336,12 +336,12 @@ function test_create_forum_new($driver, $base_url) {
 }
 
 function test_create_galerie_new($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_5_url;
+    global $news_url, $news_id_5_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$aktuell_url}");
+    $driver->get("{$base_url}{$news_url}");
 
     $create_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#create-news-button')
@@ -386,7 +386,7 @@ function test_create_galerie_new($driver, $base_url) {
     sleep(4);
     take_pageshot($driver, 'news_new_galerie_finished');
 
-    $driver->get("{$base_url}{$aktuell_id_5_url}");
+    $driver->get("{$base_url}{$news_id_5_url}");
 
     $edit_news_button = $driver->findElement(
         WebDriverBy::cssSelector('#edit-news-button')
@@ -409,10 +409,10 @@ function test_create_galerie_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_aktuell_readonly($driver, $base_url) {
-    global $aktuell_url, $aktuell_id_3_url;
-    $driver->get("{$base_url}{$aktuell_url}");
-    take_pageshot($driver, 'aktuell');
-    $driver->get("{$base_url}{$aktuell_id_3_url}");
-    take_pageshot($driver, 'aktuell_id_3');
+function test_news_readonly($driver, $base_url) {
+    global $news_url, $news_id_3_url;
+    $driver->get("{$base_url}{$news_url}");
+    take_pageshot($driver, 'news');
+    $driver->get("{$base_url}{$news_id_3_url}");
+    take_pageshot($driver, 'news_id_3');
 }

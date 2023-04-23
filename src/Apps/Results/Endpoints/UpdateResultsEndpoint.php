@@ -40,7 +40,11 @@ class UpdateResultsEndpoint extends OlzEndpoint {
         $results_data_path = realpath("{$data_path}results");
         $file_path = "{$results_data_path}/{$filename}";
         if (is_file($file_path)) {
-            rename($file_path, $file_path.".bak_".olz_current_date("Y-m-dTH:i:s"));
+            $iso_t_now = $this->dateUtils()->getCurrentDateInFormat("Y-m-dTH:i:s");
+            rename(
+                $file_path,
+                $file_path.".bak_".$iso_t_now,
+            );
         }
         $new_content = base64_decode($input['content']);
         if (!$new_content) {
@@ -48,11 +52,12 @@ class UpdateResultsEndpoint extends OlzEndpoint {
             return ['status' => 'INVALID_BASE64_DATA'];
         }
         file_put_contents($file_path, $new_content);
+        $iso_now = $this->dateUtils()->getCurrentDateInFormat('Y-m-d H:i:s');
         file_put_contents(
             "{$results_data_path}/_live.json",
             json_encode([
                 'file' => $filename,
-                'last_updated_at' => olz_current_date('Y-m-d H:i:s'),
+                'last_updated_at' => $iso_now,
             ]),
         );
         return ['status' => 'OK'];

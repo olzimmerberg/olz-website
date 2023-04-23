@@ -20,7 +20,7 @@ class OlzICal extends OlzComponent {
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $db = $this->dbUtils()->getDb();
-        $jahr = olz_current_date('Y');
+        $jahr = $this->dateUtils()->getCurrentDateInFormat('Y');
 
         // Termine abfragen
         $sql = "SELECT * FROM termine WHERE (datum >= '{$jahr}-01-01') AND on_off=1";

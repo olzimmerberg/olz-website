@@ -94,9 +94,10 @@ class OlzMenu extends OlzComponent {
             $tag = "div";
             $script_filename = basename($_SERVER['SCRIPT_FILENAME'] ?? '');
             $is_symfony_route = $script_filename === 'index.php';
-            $path_info = $_SERVER['PATH_INFO'] ?? '';
+            $request_uri = $_SERVER['REQUEST_URI'] ?? '';
             if ($is_symfony_route
-                ? preg_match("/^\\/{$menupunkt[1]}(\\/|$)/", $path_info) || ($menupunkt[1] === '' && $path_info === '')
+                ? preg_match("/^\\/{$menupunkt[1]}(\\/|\\?|#|$)/", $request_uri)
+                    || ($menupunkt[1] === '' && $request_uri === '')
                 : $script_filename == $menupunkt[1]
             ) {
                 $color = "color:#".self::color(0, (($i + 0.5) / count($menu)) * 25, 0).";";

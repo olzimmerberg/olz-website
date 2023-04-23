@@ -12,6 +12,7 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -338,24 +339,9 @@ class FakeSendDailyNotificationsCommandTelegramLinkRepository {
 }
 
 class FakeSendDailyNotificationsCommandDailySummaryGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $entityManager;
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getDailySummaryNotification($args) {
         $this->calledWithArgs = $args;
@@ -367,24 +353,9 @@ class FakeSendDailyNotificationsCommandDailySummaryGetter {
 }
 
 class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $entityManager;
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getDeadlineWarningNotification($args) {
         $this->calledWithArgs = $args;
@@ -397,19 +368,9 @@ class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
 }
 
 class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getNotification($args) {
         $this->calledWithArgs = $args;
@@ -422,24 +383,9 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
 }
 
 class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $entityManager;
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getMonthlyPreviewNotification($args) {
         $this->calledWithArgs = $args;
@@ -451,19 +397,9 @@ class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
 }
 
 class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getNotification($args) {
         $this->calledWithArgs = $args;
@@ -476,24 +412,9 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
 }
 
 class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $entityManager;
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getWeeklyPreviewNotification($args) {
         $this->calledWithArgs = $args;
@@ -505,24 +426,9 @@ class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
 }
 
 class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public $entityManager;
-    public $dateUtils;
-    public $envUtils;
     public $calledWithArgs;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getWeeklySummaryNotification($args) {
         $this->calledWithArgs = $args;
@@ -770,22 +676,22 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                 'disable_web_page_preview' => true,
             ]],
         ], $telegram_utils->telegramApiCalls);
-        $this->assertSame($entity_manager, $daily_summary_getter->entityManager);
-        $this->assertSame($date_utils, $daily_summary_getter->dateUtils);
-        $this->assertSame($env_utils, $daily_summary_getter->envUtils);
-        $this->assertSame($entity_manager, $deadline_warning_getter->entityManager);
-        $this->assertSame($date_utils, $deadline_warning_getter->dateUtils);
-        $this->assertSame($env_utils, $deadline_warning_getter->envUtils);
-        $this->assertSame($entity_manager, $monthly_preview_getter->entityManager);
-        $this->assertSame($date_utils, $monthly_preview_getter->dateUtils);
-        $this->assertSame($env_utils, $monthly_preview_getter->envUtils);
-        $this->assertSame($date_utils, $telegram_configuration_reminder_getter->dateUtils);
-        $this->assertSame($env_utils, $telegram_configuration_reminder_getter->envUtils);
-        $this->assertSame($entity_manager, $weekly_preview_getter->entityManager);
-        $this->assertSame($date_utils, $weekly_preview_getter->dateUtils);
-        $this->assertSame($env_utils, $weekly_preview_getter->envUtils);
-        $this->assertSame($entity_manager, $weekly_summary_getter->entityManager);
-        $this->assertSame($date_utils, $weekly_summary_getter->dateUtils);
-        $this->assertSame($env_utils, $weekly_summary_getter->envUtils);
+        $this->assertSame($entity_manager, $daily_summary_getter->entityManager());
+        $this->assertSame($date_utils, $daily_summary_getter->dateUtils());
+        $this->assertSame($env_utils, $daily_summary_getter->envUtils());
+        $this->assertSame($entity_manager, $deadline_warning_getter->entityManager());
+        $this->assertSame($date_utils, $deadline_warning_getter->dateUtils());
+        $this->assertSame($env_utils, $deadline_warning_getter->envUtils());
+        $this->assertSame($entity_manager, $monthly_preview_getter->entityManager());
+        $this->assertSame($date_utils, $monthly_preview_getter->dateUtils());
+        $this->assertSame($env_utils, $monthly_preview_getter->envUtils());
+        $this->assertSame($date_utils, $telegram_configuration_reminder_getter->dateUtils());
+        $this->assertSame($env_utils, $telegram_configuration_reminder_getter->envUtils());
+        $this->assertSame($entity_manager, $weekly_preview_getter->entityManager());
+        $this->assertSame($date_utils, $weekly_preview_getter->dateUtils());
+        $this->assertSame($env_utils, $weekly_preview_getter->envUtils());
+        $this->assertSame($entity_manager, $weekly_summary_getter->entityManager());
+        $this->assertSame($date_utils, $weekly_summary_getter->dateUtils());
+        $this->assertSame($env_utils, $weekly_summary_getter->envUtils());
     }
 }

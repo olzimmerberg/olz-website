@@ -44,7 +44,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $listener->onKernelException($exception_event);
 
         $this->assertSame([
-            'NOTICE Handling HttpExceptionInterface fake-internal-error...',
+            'INFO Handling HttpExceptionInterface fake-internal-error...',
         ], $logger->handler->getPrettyRecords());
     }
 

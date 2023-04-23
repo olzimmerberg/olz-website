@@ -32,6 +32,20 @@ class FakeWeeklyPreviewGetterTerminRepository {
         if (preg_match('/2021-03-18/', var_export($criteria, true))) {
             return [];
         }
+        if (preg_match('/deadline/', var_export($criteria, true))) {
+            $termin = new Termin();
+            $termin->setId(1);
+            $termin->setStartsOn(new \DateTime('2020-04-24 19:30:00'));
+            $termin->setDeadline(new \DateTime('2020-04-23 23:59:59'));
+            $termin->setTitle('Test Termin');
+            $range_termin = new Termin();
+            $range_termin->setId(2);
+            $range_termin->setStartsOn(new \DateTime('2020-04-28'));
+            $range_termin->setEndsOn(new \DateTime('2020-04-29'));
+            $range_termin->setDeadline(new \DateTime('2020-04-20 23:59:59'));
+            $range_termin->setTitle('End of Week');
+            return [$termin, $range_termin];
+        }
         $termin = new Termin();
         $termin->setId(1);
         $termin->setStartsOn(new \DateTime('2020-04-24 19:30:00'));
@@ -109,7 +123,9 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         **Meldeschlüsse**
         
         - 25.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
-
+        - 23.04.: Meldeschluss für '[Test Termin](http://fake-base-url/_/termine.php?id=1)'
+        - 20.04.: Meldeschluss für '[End of Week](http://fake-base-url/_/termine.php?id=2)'
+        
 
         ZZZZZZZZZZ;
         $this->assertSame([

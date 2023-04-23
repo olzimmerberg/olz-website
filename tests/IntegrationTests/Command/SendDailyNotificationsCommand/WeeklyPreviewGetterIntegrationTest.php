@@ -47,6 +47,7 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
         **Meldeschlüsse**
 
         - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine.php?id=10)'
+        - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine.php?id=3)'
 
 
         ZZZZZZZZZZ;

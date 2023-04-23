@@ -295,10 +295,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendDailySummaryNotifications($subscriptions_by_args) {
         $daily_summary_getter = $this->dailySummaryGetter;
-        $daily_summary_getter->setEntityManager($this->entityManager());
-        $daily_summary_getter->setDateUtils($this->dateUtils());
-        $daily_summary_getter->setEnvUtils($this->envUtils());
-        $daily_summary_getter->setLogger($this->log());
+        $daily_summary_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -316,10 +313,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendDeadlineWarningNotifications($subscriptions_by_args) {
         $deadline_warning_getter = $this->deadlineWarningGetter;
-        $deadline_warning_getter->setEntityManager($this->entityManager());
-        $deadline_warning_getter->setDateUtils($this->dateUtils());
-        $deadline_warning_getter->setEnvUtils($this->envUtils());
-        $deadline_warning_getter->setLogger($this->log());
+        $deadline_warning_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -337,9 +331,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendEmailConfigurationReminderNotifications($subscriptions_by_args) {
         $configuration_reminder_getter = $this->emailConfigurationReminderGetter;
-        $configuration_reminder_getter->setDateUtils($this->dateUtils());
-        $configuration_reminder_getter->setEnvUtils($this->envUtils());
-        $configuration_reminder_getter->setLogger($this->log());
+        $configuration_reminder_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -357,10 +349,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendMonthlyPreviewNotifications($subscriptions_by_args) {
         $monthly_preview_getter = $this->monthlyPreviewGetter;
-        $monthly_preview_getter->setEntityManager($this->entityManager());
-        $monthly_preview_getter->setDateUtils($this->dateUtils());
-        $monthly_preview_getter->setEnvUtils($this->envUtils());
-        $monthly_preview_getter->setLogger($this->log());
+        $monthly_preview_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -378,9 +367,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendTelegramConfigurationReminderNotifications($subscriptions_by_args) {
         $configuration_reminder_getter = $this->telegramConfigurationReminderGetter;
-        $configuration_reminder_getter->setDateUtils($this->dateUtils());
-        $configuration_reminder_getter->setEnvUtils($this->envUtils());
-        $configuration_reminder_getter->setLogger($this->log());
+        $configuration_reminder_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -398,10 +385,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendWeeklyPreviewNotifications($subscriptions_by_args) {
         $weekly_preview_getter = $this->weeklyPreviewGetter;
-        $weekly_preview_getter->setEntityManager($this->entityManager());
-        $weekly_preview_getter->setDateUtils($this->dateUtils());
-        $weekly_preview_getter->setEnvUtils($this->envUtils());
-        $weekly_preview_getter->setLogger($this->log());
+        $weekly_preview_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
@@ -419,10 +403,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
 
     private function sendWeeklySummaryNotifications($subscriptions_by_args) {
         $weekly_summary_getter = $this->weeklySummaryGetter;
-        $weekly_summary_getter->setEntityManager($this->entityManager());
-        $weekly_summary_getter->setDateUtils($this->dateUtils());
-        $weekly_summary_getter->setEnvUtils($this->envUtils());
-        $weekly_summary_getter->setLogger($this->log());
+        $weekly_summary_getter->setAllUtils($this->getAllUtils());
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");

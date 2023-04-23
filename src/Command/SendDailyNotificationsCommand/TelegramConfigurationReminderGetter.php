@@ -3,35 +3,25 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Olz\Entity\NotificationSubscription;
+use Olz\Utils\WithUtilsTrait;
 
 class TelegramConfigurationReminderGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
     public const DAY_OF_MONTH = 22;
-
-    protected $dateUtils;
-    protected $envUtils;
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
 
     public function getNotification($args) {
         if ($args['cancelled'] ?? false) {
             return null;
         }
-        $day_of_month = intval($this->dateUtils->getCurrentDateInFormat('j'));
-        $total_days_of_month = intval($this->dateUtils->getCurrentDateInFormat('t'));
+        $day_of_month = intval($this->dateUtils()->getCurrentDateInFormat('j'));
+        $total_days_of_month = intval($this->dateUtils()->getCurrentDateInFormat('t'));
         if ($day_of_month !== self::DAY_OF_MONTH) {
             return null;
         }
 
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $service_url = "{$base_href}{$code_href}service.php";
 
         $title = "Keine Push-Nachrichten abonniert";

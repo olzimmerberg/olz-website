@@ -276,6 +276,14 @@ trait WithUtilsTrait {
 
     private $utilsCache = [];
 
+    public function getAllUtils() {
+        return [...$this->utilsCache];
+    }
+
+    public function setAllUtils($all_utils) {
+        $this->utilsCache = $all_utils;
+    }
+
     protected function getOrCreate($util_name) {
         $util = $this->utilsCache[$util_name] ?? null;
         if ($util) {

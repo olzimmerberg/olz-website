@@ -14,20 +14,22 @@ class OlzErrorPage extends OlzComponent {
     public function getHtml($args = []): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         if ($http_status_code === 400) {
-            return Olz400BadRequest::render();
+            return Olz400BadRequest::render([], $this);
         }
         if ($http_status_code === 401) {
-            return Olz401Unauthorized::render();
+            return Olz401Unauthorized::render([], $this);
         }
         if ($http_status_code === 403) {
-            return Olz403Forbidden::render();
+            return Olz403Forbidden::render([], $this);
         }
         if ($http_status_code === 404) {
-            return Olz404NotFound::render();
+            return Olz404NotFound::render([], $this);
         }
         if ($http_status_code === 500) {
-            return Olz500ServerInternalError::render();
+            return Olz500ServerInternalError::render([], $this);
         }
-        return OlzOtherError::render(['http_status_code' => $http_status_code]);
+        return OlzOtherError::render([
+            'http_status_code' => $http_status_code,
+        ], $this);
     }
 }

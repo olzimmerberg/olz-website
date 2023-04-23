@@ -29,6 +29,7 @@ class UnitTestCase extends TestCase {
         $this->previous_server = $_SERVER;
         $_SERVER = [];
 
+        $_SERVER['argv'] = $this->previous_server['argv'];
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-CH,de';
         $_SERVER['PHP_SELF'] = 'fake-php-self';
         $translator = Translator::getInstance();

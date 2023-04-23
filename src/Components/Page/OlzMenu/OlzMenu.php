@@ -12,8 +12,6 @@ class OlzMenu extends OlzComponent {
     public function getHtml($args = []): string {
         $out = '';
 
-        require_once __DIR__.'/../../../../_/config/date.php';
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();

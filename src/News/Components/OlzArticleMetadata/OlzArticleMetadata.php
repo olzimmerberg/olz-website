@@ -16,7 +16,7 @@ class OlzArticleMetadata extends OlzComponent {
             throw new \Exception("No such entry");
         }
         $row = $res->fetch_assoc();
-        $url = "{$base_href}{$code_href}aktuell.php?id={$id}";
+        $url = "{$base_href}{$code_href}news/{$id}";
         $json_url = json_encode($url);
         $html_author = $row['autor'];
         $json_author = json_encode($html_author);

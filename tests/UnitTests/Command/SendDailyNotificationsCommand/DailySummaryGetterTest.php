@@ -82,26 +82,26 @@ final class DailySummaryGetterTest extends UnitTestCase {
         
         **Aktuell**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/news/1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/news/2)
         
         
         **Kaderblog**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/news/1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/news/2)
         
 
         **Forum**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/news/1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/news/2)
 
 
         **Galerien**
         
-        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/aktuell.php?id=1)
-        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/aktuell.php?id=2)
+        - 12.03. 22:00: [Bericht vom Lauftraining](http://fake-base-url/_/news/1)
+        - 13.03. 16:00: [MV nicht abgesagt!](http://fake-base-url/_/news/2)
         
         
         **Aktualisierte Termine**

@@ -23,7 +23,7 @@ final class ImageUtilsTest extends UnitTestCase {
         $image_path = "{$data_path}img/news/123/img/abcd.jpg";
         mkdir(dirname($image_path), 0777, true);
         copy($sample_image_path, $image_path);
-        $this->assertSame("<span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'><img src='image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110' alt='' width='110' height='73'></a></span>", $image_utils->olzImage('news', 123, 'abcd.jpg', 110));
+        $this->assertSame("<span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'><img src='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110' alt='' width='110' height='73'></a></span>", $image_utils->olzImage('news', 123, 'abcd.jpg', 110));
     }
 
     public function testReplaceImageTags(): void {
@@ -35,6 +35,6 @@ final class ImageUtilsTest extends UnitTestCase {
         $image_path = "{$data_path}img/news/123/img/abcd.jpg";
         mkdir(dirname($image_path), 0777, true);
         copy($sample_image_path, $image_path);
-        $this->assertSame("test <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'><img src='image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110' alt='' width='110' height='73'></a></span> text", $image_utils->replaceImageTags('test <BILD1> text', 123, ['abcd.jpg']));
+        $this->assertSame("test <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'><img src='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110' alt='' width='110' height='73'></a></span> text", $image_utils->replaceImageTags('test <BILD1> text', 123, ['abcd.jpg']));
     }
 }

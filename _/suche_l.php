@@ -85,7 +85,7 @@ if ($sql1 > "") {// TERMINE
         $id = $row['id'];
         $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
-        $result_aktuell .= "<tr><td><a href=\"aktuell.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"aktuell.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_aktuell .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     // FORUM

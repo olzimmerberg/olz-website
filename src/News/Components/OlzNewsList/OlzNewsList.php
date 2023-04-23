@@ -12,6 +12,7 @@ use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\HttpUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsList extends OlzComponent {
     public function getHtml($args = []): string {
@@ -22,6 +23,10 @@ class OlzNewsList extends OlzComponent {
         $db_table = 'aktuell';
 
         $http_utils = HttpUtils::fromEnv();
+        $http_utils->setLog($this->log());
+        $http_utils->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ], $_GET);
         $news_utils = NewsFilterUtils::fromEnv();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
 
@@ -35,10 +40,15 @@ class OlzNewsList extends OlzComponent {
 
         $out = '';
 
+        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+        $code_href = $this->envUtils()->getCodeHref();
+        $enc_json_filter = urlencode(json_encode($current_filter));
+        $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}";
         $out .= OlzHeader::render([
             'title' => "Aktuell",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => !$allow_robots,
+            'canonical_url' => $canonical_url,
         ]);
 
         $out .= "<div class='content-right'>";

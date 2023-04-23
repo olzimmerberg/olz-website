@@ -142,7 +142,7 @@ class OlzTerminDetail extends OlzComponent {
             $out .= "<h2>{$edit_admin} {$datum_tmp}: {$titel}</h2>";
 
             // Text
-            $text = olz_br(olz_mask_email($text, "", ""));
+            $text = \olz_br(olz_mask_email($text, "", ""));
             if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
                 $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv['deadline']);
             }

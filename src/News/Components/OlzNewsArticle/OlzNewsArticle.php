@@ -16,6 +16,7 @@ class OlzNewsArticle extends OlzComponent {
         $file_utils = FileUtils::fromEnv();
         $html_utils = HtmlUtils::fromEnv();
 
+        $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
@@ -50,8 +51,8 @@ class OlzNewsArticle extends OlzComponent {
             $id_tmp = $row['id'];
             $format = $row['typ'];
             $titel = $row['titel'];
-            $text = olz_amp($row['text']);
-            $textlang = olz_br($row['textlang']);
+            $text = $row['text'];
+            $textlang = \olz_br($row['textlang']);
             // $textlang = str_replace(array("\n\n","\n"),array("<p>","<br>"),$row['textlang']);
             $autor = ($row['autor'] > '') ? $row['autor'] : "..";
             $datum = $row['datum'];
@@ -75,7 +76,7 @@ class OlzNewsArticle extends OlzComponent {
                         class='btn btn-primary'
                         onclick='return olz.editNewsArticle({$json_id}, {$json_mode})'
                     >
-                        <img src='icns/edit_16.svg' class='noborder' />
+                        <img src='{$code_href}icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                     <button
@@ -83,7 +84,7 @@ class OlzNewsArticle extends OlzComponent {
                         class='btn btn-danger'
                         onclick='return olz.deleteNewsArticle({$json_id})'
                     >
-                        <img src='icns/delete_white_16.svg' class='noborder' />
+                        <img src='{$code_href}icns/delete_white_16.svg' class='noborder' />
                         Löschen
                     </button>
                 </div>

@@ -19,7 +19,7 @@ class OlzMenu extends OlzComponent {
         $menu = [
             ["Startseite", "", 'large'], // Menüpunkt ('Name','Link')
             ["", "", ''],
-            ["News", "aktuell.php", 'large'],
+            ["News", "news", 'large'],
             ["Termine", "termine.php", 'large'],
             ["", "", ''],
             ["Karten", "karten.php", 'large'],
@@ -92,9 +92,12 @@ class OlzMenu extends OlzComponent {
             $bluelin = 255 * 1 / 8;
             $linecolor = self::color($redlin, $greenlin, $bluelin);
             $tag = "div";
-            if (
-                basename($_SERVER['SCRIPT_FILENAME'] ?? '') == $menupunkt[1]
-                || basename($_SERVER['REQUEST_URI'] ?? '') == $menupunkt[1]
+            $script_filename = basename($_SERVER['SCRIPT_FILENAME'] ?? '');
+            $is_symfony_route = $script_filename === 'index.php';
+            $path_info = $_SERVER['PATH_INFO'] ?? '';
+            if ($is_symfony_route
+                ? preg_match("/^\\/{$menupunkt[1]}(\\/|$)/", $path_info) || ($menupunkt[1] === '' && $path_info === '')
+                : $script_filename == $menupunkt[1]
             ) {
                 $color = "color:#".self::color(0, (($i + 0.5) / count($menu)) * 25, 0).";";
                 $bgcolor = $bgcolorhover;

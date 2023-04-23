@@ -15,7 +15,7 @@ require_once __DIR__.'/utils/screenshot.php';
 require_once __DIR__.'/utils/timing.php';
 require_once __DIR__.'/utils/window.php';
 
-require_once __DIR__.'/modules/aktuell.php';
+require_once __DIR__.'/modules/news.php';
 require_once __DIR__.'/modules/app_files.php';
 require_once __DIR__.'/modules/apps.php';
 require_once __DIR__.'/modules/weekly_picture.php';
@@ -74,7 +74,7 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
-        test_aktuell($driver, $base_url);
+        test_news($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

@@ -31,7 +31,7 @@ class Olz403Forbidden extends OlzComponent {
         </div>
         <h1>Fehler 403: Du hast keine Erlaubnis für die gewünschte Seite.</h1>
         <p><b>Au weia, voll mitten im Sperrgebiet ertappt!</b></p>
-        <p>Schnell <a href='{$code_href}startseite.php' class='linkint'>weg hier, zurück zum Start</a>.</p>
+        <p>Schnell <a href='{$code_href}' class='linkint'>weg hier, zurück zum Start</a>.</p>
         <p>Du hast eine Sondererlaubnis? Dann müsstest du dich evtl. ausloggen, und <a href='#login-dialog' class='linkint'>mit einem berechtigten Konto wieder einloggen</a>.</p>
         ZZZZZZZZZZ;
         $out .= "</div>";

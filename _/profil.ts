@@ -9,7 +9,7 @@ export function olzProfileDeleteUser(userId: number): boolean {
         {confirmButtonStyle: 'btn-danger', confirmLabel: 'Löschen'},
     ).then(() => {
         olzApi.call('deleteUser', {id: userId}).then(() => {
-            window.location.href = 'startseite.php';
+            window.location.href = '/';
         });
     });
     return false;

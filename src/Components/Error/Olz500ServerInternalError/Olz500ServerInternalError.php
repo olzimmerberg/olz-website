@@ -36,7 +36,7 @@ class Olz500ServerInternalError extends OlzComponent {
         <script type='text/javascript'>
             olz.MailTo("website", "olzimmerberg.ch", "Bahnleger", "Fehler%20500%20OLZ");
         </script></p>
-        <p>In der Zwischenzeit kannst du dir <a href='{$code_href}startseite.php' class='linkint'>am Start ein wenig die Beine vertreten</a>, oder es später nochmals versuchen.</p>
+        <p>In der Zwischenzeit kannst du dir <a href='{$code_href}' class='linkint'>am Start ein wenig die Beine vertreten</a>, oder es später nochmals versuchen.</p>
         ZZZZZZZZZZ;
         $out .= "</div>";
         $out .= OlzFooter::render([

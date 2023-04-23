@@ -6,7 +6,7 @@ require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$startseite_url = '/startseite.php';
+$startseite_url = '/';
 $username = 'admin';
 $password = 'adm1n';
 

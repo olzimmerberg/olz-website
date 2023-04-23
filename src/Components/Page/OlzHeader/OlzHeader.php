@@ -16,6 +16,6 @@ class OlzHeader extends OlzComponent {
             HttpUtils::fromEnv()->redirect("https://{$host}{$request_uri}", 308);
         }
 
-        return OlzHeaderWithoutRouting::render($args);
+        return OlzHeaderWithoutRouting::render($args, $this);
     }
 }

@@ -24,7 +24,7 @@ class OlzHeaderBar extends OlzComponent {
         $out .= "<div class='account-menu-container'>";
 
         if (!($args['skip_auth_menu'] ?? false)) {
-            $out .= OlzAccountMenu::render();
+            $out .= OlzAccountMenu::render([], $this);
         }
 
         $out .= "</div>";
@@ -35,7 +35,7 @@ class OlzHeaderBar extends OlzComponent {
 
         $out .= OlzMenu::render([
             'back_link' => $back_link,
-        ]);
+        ], $this);
 
         $out .= "</div>"; // menu-container
         $out .= "</div>"; // below-header

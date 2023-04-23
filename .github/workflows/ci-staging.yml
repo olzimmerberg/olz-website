@@ -43,7 +43,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install dependencies
-      run: composer install --dev --prefer-dist
+      run: composer install --dev --prefer-dist --optimize-autoloader
     - name: Get npm cache directory
       id: npm-cache
       run: |
@@ -114,7 +114,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install dependencies
-      run: composer install --dev --prefer-dist
+      run: composer install --dev --prefer-dist --optimize-autoloader
     - name: Get npm cache directory
       id: npm-cache
       run: |
@@ -164,7 +164,7 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Install dependencies
-      run: composer install --no-dev --prefer-dist
+      run: composer install --no-dev --prefer-dist --optimize-autoloader
     - name: Get npm cache directory
       id: npm-cache
       run: |
@@ -203,7 +203,7 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Install dependencies
-      run: composer install --no-dev --prefer-dist
+      run: composer install --no-dev --prefer-dist --optimize-autoloader
     - name: Upload over FTPS
       env:
         USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}

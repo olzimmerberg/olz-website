@@ -32,10 +32,10 @@
     margin: 0;
 
     li a {
-        display: block;
+        display: inline-block;
         height: 24px;
         line-height: 24px;
-        width: 100%;
+        max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

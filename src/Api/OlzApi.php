@@ -140,7 +140,7 @@ class OlzApi extends Api {
 
 // @codeCoverageIgnoreStart
 // Reason: Hard to test.
-if (isset($_SERVER['argv']) && basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
+if (isset($_SERVER['argv']) && basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     OlzApi::generate();
 }
 // @codeCoverageIgnoreEnd

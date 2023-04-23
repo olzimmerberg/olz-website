@@ -15,7 +15,7 @@ class Olz400BadRequest extends OlzComponent {
             'title' => "Fehler",
             'skip_auth_menu' => true,
             'skip_counter' => true,
-        ]);
+        ], $this);
         $out .= "<div class='content-full'>";
         $out .= <<<ZZZZZZZZZZ
         <div class='error-image-container-400'>
@@ -42,7 +42,7 @@ class Olz400BadRequest extends OlzComponent {
         $out .= "</div>";
         $out .= OlzFooter::render([
             'skip_modals' => true,
-        ]);
+        ], $this);
 
         return $out;
     }

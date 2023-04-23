@@ -15,7 +15,7 @@ class Olz403Forbidden extends OlzComponent {
             'title' => "Fehler",
             'skip_auth_menu' => true,
             'skip_counter' => true,
-        ]);
+        ], $this);
         $out .= "<div class='content-full'>";
         $out .= <<<ZZZZZZZZZZ
         <div class='error-image-container-403'>
@@ -37,7 +37,7 @@ class Olz403Forbidden extends OlzComponent {
         $out .= "</div>";
         $out .= OlzFooter::render([
             'skip_modals' => true,
-        ]);
+        ], $this);
 
         return $out;
     }

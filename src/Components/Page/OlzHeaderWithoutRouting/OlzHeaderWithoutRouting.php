@@ -9,11 +9,10 @@ use Olz\Entity\Counter;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml($args = []): string {
-        global $_DATE, $_SERVER, $_SESSION;
+        global $_SESSION;
         $out = '';
 
         require_once __DIR__.'/../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../_/config/date.php';
         session_start_if_cookie_set();
 
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -55,7 +54,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         }
 
         $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
-        $olz_organization_data = OlzOrganizationData::render([]);
+        $olz_organization_data = OlzOrganizationData::render([], $this);
 
         $additional_headers = implode("\n", $args['additional_headers'] ?? []);
 
@@ -89,7 +88,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         $out .= OlzHeaderBar::render([
             'back_link' => $args['back_link'] ?? null,
             'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
-        ]);
+        ], $this);
 
         $out .= "<div class='site-container'>";
         $out .= "<div class='site-background'>";
@@ -97,10 +96,10 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         if (!($args['skip_counter'] ?? false)) {
             $counter_repo = $entityManager->getRepository(Counter::class);
             $counter_repo->record(
-                $_SERVER['REQUEST_URI'] ?? '',
-                $_DATE,
-                $_SERVER['HTTP_REFERER'] ?? '',
-                $_SERVER['HTTP_USER_AGENT'] ?? ''
+                $this->server()['REQUEST_URI'] ?? '',
+                $this->dateUtils(),
+                $this->server()['HTTP_REFERER'] ?? '',
+                $this->server()['HTTP_USER_AGENT'] ?? ''
             );
         }
 

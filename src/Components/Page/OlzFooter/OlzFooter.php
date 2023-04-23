@@ -27,12 +27,12 @@ class OlzFooter extends OlzComponent {
 
         // "Legacy" component modals
         if (!($args['skip_modals'] ?? false)) {
-            $out .= OlzChangePasswordModal::render();
-            $out .= OlzLinkTelegramModal::render();
-            $out .= OlzLoginModal::render();
-            $out .= OlzResetPasswordModal::render();
-            $out .= OlzSignUpModal::render();
-            $out .= OlzVerifyUserEmailModal::render();
+            $out .= OlzChangePasswordModal::render([], $this);
+            $out .= OlzLinkTelegramModal::render([], $this);
+            $out .= OlzLoginModal::render([], $this);
+            $out .= OlzResetPasswordModal::render([], $this);
+            $out .= OlzSignUpModal::render([], $this);
+            $out .= OlzVerifyUserEmailModal::render([], $this);
         }
 
         // React modals

@@ -46,4 +46,23 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $this->assertSame('Meldeschlusswarnung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
+
+    public function testDeadlineWarningGetterNone(): void {
+        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
+        $logger = Fake\FakeLogger::create();
+        $user = new User();
+        $user->setFirstName('First');
+
+        $job = new DeadlineWarningGetter();
+        $job->setEntityManager($entityManager);
+        $job->setDateUtils($date_utils);
+        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setLogger($logger);
+        $notification = $job->getDeadlineWarningNotification(['days' => 3]);
+
+        $this->assertSame([
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame(null, $notification);
+    }
 }

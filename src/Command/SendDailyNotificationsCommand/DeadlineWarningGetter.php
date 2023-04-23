@@ -6,25 +6,10 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
+use Olz\Utils\WithUtilsTrait;
 
 class DeadlineWarningGetter {
-    use \Psr\Log\LoggerAwareTrait;
-
-    protected $entityManager;
-    protected $dateUtils;
-    protected $envUtils;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
+    use WithUtilsTrait;
 
     public function getDeadlineWarningNotification($args) {
         $days_arg = intval($args['days'] ?? '');
@@ -32,26 +17,30 @@ class DeadlineWarningGetter {
             return null;
         }
         $given_days = \DateInterval::createFromDateString("+{$days_arg} days");
-        $in_given_days = (new \DateTime($this->dateUtils->getIsoToday()))->add($given_days);
-        $deadline_day = new \DateTime($in_given_days->format('Y-m-d'));
+        $in_given_days = (new \DateTime($this->dateUtils()->getIsoToday()))->add($given_days);
+        $in_given_days_start = new \DateTime($in_given_days->format('Y-m-d').' 00:00:00');
+        $in_given_days_end = new \DateTime($in_given_days->format('Y-m-d').' 23:59:59');
 
-        $termin_repo = $this->entityManager->getRepository(Termin::class);
-        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
 
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $termine_url = "{$base_href}{$code_href}termine.php";
 
         $deadlines_text = '';
 
         // SOLV-Meldeschlüsse
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('deadline', $deadline_day))
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->gte('deadline', $in_given_days_start),
+                Criteria::expr()->lte('deadline', $in_given_days_end),
+            ))
             ->orderBy(['date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
         $deadlines = $solv_event_repo->matching($criteria);
-        $termine_url = "{$base_href}{$code_href}termine.php";
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
             $termin = $termin_repo->findOneBy([
@@ -72,7 +61,8 @@ class DeadlineWarningGetter {
         $criteria = Criteria::create()
             ->where(
                 Criteria::expr()->andX(
-                    Criteria::expr()->eq('deadline', $deadline_day),
+                    Criteria::expr()->gte('deadline', $in_given_days_start),
+                    Criteria::expr()->lte('deadline', $in_given_days_end),
                     Criteria::expr()->eq('on_off', 1),
                 )
             )
@@ -81,7 +71,6 @@ class DeadlineWarningGetter {
             ->setMaxResults(1000)
         ;
         $deadlines = $termin_repo->matching($criteria);
-        $termine_url = "{$base_href}{$code_href}termine.php";
         foreach ($deadlines as $termin) {
             if (!$termin) {
                 continue;

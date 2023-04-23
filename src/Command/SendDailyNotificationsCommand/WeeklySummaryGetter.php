@@ -6,41 +6,26 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
+use Olz\Utils\WithUtilsTrait;
 
 class WeeklySummaryGetter {
-    use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
     public const CUT_OFF_TIME = '16:00:00';
 
     protected \DateTime $today;
     protected \DateTime $lastWeek;
 
-    protected $entityManager;
-    protected $dateUtils;
-    protected $envUtils;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
-
     public function getWeeklySummaryNotification($args) {
-        $current_weekday = intval($this->dateUtils->getCurrentDateInFormat('N'));
+        $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $monday = 1;
         if ($current_weekday != $monday) {
             return null;
         }
 
-        $this->today = new \DateTime($this->dateUtils->getIsoToday());
+        $this->today = new \DateTime($this->dateUtils()->getIsoToday());
         $minus_one_week = \DateInterval::createFromDateString("-7 days");
-        $this->lastWeek = (new \DateTime($this->dateUtils->getIsoToday()))->add($minus_one_week);
+        $this->lastWeek = (new \DateTime($this->dateUtils()->getIsoToday()))->add($minus_one_week);
 
         $today_at_cut_off = new \DateTime($this->today->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $last_week_at_cut_off = new \DateTime($this->lastWeek->format('Y-m-d').' '.self::CUT_OFF_TIME);
@@ -57,13 +42,13 @@ class WeeklySummaryGetter {
         ;
 
         $notification_text = '';
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         if ($args['aktuell'] ?? false) {
             $news_url = "{$base_href}{$code_href}aktuell.php";
             $aktuell_text = '';
-            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $aktuell_criteria = $this->getNewsCriteria(['aktuell']);
             $aktuells = $news_repo->matching($aktuell_criteria);
             foreach ($aktuells as $aktuell) {
@@ -81,7 +66,7 @@ class WeeklySummaryGetter {
         if ($args['blog'] ?? false) {
             $news_url = "{$base_href}{$code_href}aktuell.php";
             $blog_text = '';
-            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $blog_criteria = $this->getNewsCriteria(['kaderblog']);
             $blogs = $news_repo->matching($blog_criteria);
             foreach ($blogs as $blog) {
@@ -99,7 +84,7 @@ class WeeklySummaryGetter {
         if ($args['forum'] ?? false) {
             $news_url = "{$base_href}{$code_href}aktuell.php";
             $forum_text = '';
-            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $forum_criteria = $this->getNewsCriteria(['forum']);
             $forums = $news_repo->matching($forum_criteria);
             foreach ($forums as $forum) {
@@ -119,7 +104,7 @@ class WeeklySummaryGetter {
         if ($args['galerie'] ?? false) {
             $news_url = "{$base_href}{$code_href}aktuell.php";
             $galerie_text = '';
-            $news_repo = $this->entityManager->getRepository(NewsEntry::class);
+            $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
             $galerie_criteria = $this->getNewsCriteria(['galerie', 'video']);
             $galeries = $news_repo->matching($galerie_criteria);
             foreach ($galeries as $galerie) {
@@ -137,7 +122,7 @@ class WeeklySummaryGetter {
         if ($args['termine'] ?? false) {
             $termine_url = "{$base_href}{$code_href}termine.php";
             $termine_text = '';
-            $termin_repo = $this->entityManager->getRepository(Termin::class);
+            $termin_repo = $this->entityManager()->getRepository(Termin::class);
             $termine = $termin_repo->matching($termine_criteria);
             foreach ($termine as $termin) {
                 $id = $termin->getId();

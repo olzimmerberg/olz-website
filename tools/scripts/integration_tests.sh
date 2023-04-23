@@ -29,7 +29,7 @@ else
     echo "Dev server symfony configuration preserved."
 fi
 
-php ./bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
+APP_ENV=test php ./bin/phpunit -c ./phpunit.xml $@ ./tests/IntegrationTests
 rm -Rf "$(pwd)/docs/coverage/php/IntegrationTests"
 mkdir -p "$(pwd)/docs/coverage/php/IntegrationTests"
 mv "$(pwd)/php-coverage/html-coverage" "$(pwd)/docs/coverage/php/IntegrationTests/html"

@@ -15,7 +15,7 @@ $configure_env_utils = function ($env_utils) {
         'mysql_port' => '3306',
         'mysql_username' => 'db-username',
         'mysql_password' => 'db-password',
-        'mysql_schema' => 'db-schema_test',
+        'mysql_schema' => 'db-schema',
 
         'has_unlimited_cron' => true,
 

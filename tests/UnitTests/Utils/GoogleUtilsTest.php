@@ -253,7 +253,7 @@ final class GoogleUtilsTest extends UnitTestCase {
     public function testGetTokenDataForCode(): void {
         $this->assertSame([
             'token_type' => 'Bearer',
-            'expires_at' => 1584149400,
+            'expires_at' => 1584145800,
             'refresh_token' => 'e5n567567...',
             'access_token' => 'a4b945687g...',
             'user_identifier' => 'fake-id',

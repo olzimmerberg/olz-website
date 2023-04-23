@@ -28,7 +28,7 @@ class KernelExceptionListener {
         $response = new Response();
 
         if ($exception instanceof HttpExceptionInterface) {
-            $this->log()->notice("Handling HttpExceptionInterface {$exception->getMessage()}...", [$exception]);
+            $this->log()->info("Handling HttpExceptionInterface {$exception->getMessage()}...", [$exception]);
             $http_status_code = $exception->getStatusCode();
             $response->setStatusCode($http_status_code);
             $response->headers->replace($exception->getHeaders());

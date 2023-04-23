@@ -29,8 +29,24 @@ class FakeMonthlyPreviewGetterSolvEventRepository {
 
 class FakeMonthlyPreviewGetterTerminRepository {
     public function matching($criteria) {
+        // echo "FakeMonthlyPreviewGetterTerminRepository";
+        // echo var_export($criteria, true)."\n";
         if (preg_match('/2021-03-20/', var_export($criteria, true))) {
             return [];
+        }
+        if (preg_match('/deadline/', var_export($criteria, true))) {
+            $termin = new Termin();
+            $termin->setId(3);
+            $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+            $termin->setDeadline(new \DateTime('2020-04-14 23:59:59'));
+            $termin->setTitle('Test Termin mit OLZ-Meldeschluss');
+            $range_termin = new Termin();
+            $range_termin->setId(4);
+            $range_termin->setStartsOn(new \DateTime('2020-04-20'));
+            $range_termin->setEndsOn(new \DateTime('2020-04-30'));
+            $range_termin->setDeadline(new \DateTime('2020-04-15 23:59:59'));
+            $range_termin->setTitle('End of Month mit OLZ-Meldeschluss');
+            return [$termin, $range_termin];
         }
         $termin = new Termin();
         $termin->setId(1);
@@ -143,7 +159,9 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         **Meldeschlüsse**
 
         - 13.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
-
+        - 14.04.: Meldeschluss für '[Test Termin mit OLZ-Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
+        - 15.04.: Meldeschluss für '[End of Month mit OLZ-Meldeschluss](http://fake-base-url/_/termine.php?id=4)'
+        
 
         ZZZZZZZZZZ;
         $this->assertSame([

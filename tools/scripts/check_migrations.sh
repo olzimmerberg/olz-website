@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EXIT_CODE=0
-bin/console doctrine:migrations:diff
+APP_ENV=test php bin/console doctrine:migrations:diff
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 1 ]; then # Could not create migration, as diff is empty.
     echo "Migrations are complete."

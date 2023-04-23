@@ -6,34 +6,19 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
+use Olz\Utils\WithUtilsTrait;
 
 class MonthlyPreviewGetter {
-    use \Psr\Log\LoggerAwareTrait;
-
-    protected $entityManager;
-    protected $dateUtils;
-    protected $envUtils;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
+    use WithUtilsTrait;
 
     public function getMonthlyPreviewNotification($args) {
-        $current_weekday = intval($this->dateUtils->getCurrentDateInFormat('N'));
+        $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $saturday = 6;
         if ($current_weekday != $saturday) {
             return null;
         }
-        $day_of_month = intval($this->dateUtils->getCurrentDateInFormat('j'));
-        $total_days_of_month = intval($this->dateUtils->getCurrentDateInFormat('t'));
+        $day_of_month = intval($this->dateUtils()->getCurrentDateInFormat('j'));
+        $total_days_of_month = intval($this->dateUtils()->getCurrentDateInFormat('t'));
         if ($day_of_month <= $total_days_of_month - 14) {
             return null; // not yet this month
         }
@@ -43,9 +28,9 @@ class MonthlyPreviewGetter {
 
         $one_month = \DateInterval::createFromDateString('+1 months');
         $two_months = \DateInterval::createFromDateString('+2 months');
-        $today = new \DateTime($this->dateUtils->getIsoToday());
-        $next_month = (new \DateTime($this->dateUtils->getIsoToday()))->add($one_month);
-        $in_two_months = (new \DateTime($this->dateUtils->getIsoToday()))->add($two_months);
+        $today = new \DateTime($this->dateUtils()->getIsoToday());
+        $next_month = (new \DateTime($this->dateUtils()->getIsoToday()))->add($one_month);
+        $in_two_months = (new \DateTime($this->dateUtils()->getIsoToday()))->add($two_months);
         $end_of_timespan = new \DateTime($in_two_months->format('Y-m-01'));
 
         $notification_text = '';
@@ -62,7 +47,7 @@ class MonthlyPreviewGetter {
             return null;
         }
 
-        $month_name = $this->dateUtils->olzDate('MM', $next_month);
+        $month_name = $this->dateUtils()->olzDate('MM', $next_month);
         $title = "Monatsvorschau {$month_name}";
         $text = "Hallo %%userFirstName%%,\n\nIm {$month_name} haben wir Folgendes auf dem Programm:\n\n{$notification_text}";
 
@@ -72,7 +57,7 @@ class MonthlyPreviewGetter {
     }
 
     public function getTermineText($today, $end_of_timespan) {
-        $termin_repo = $this->entityManager->getRepository(Termin::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('datum', $today),
@@ -85,8 +70,8 @@ class MonthlyPreviewGetter {
         ;
         $termine = $termin_repo->matching($criteria);
 
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $termine_url = "{$base_href}{$code_href}termine.php";
         $termine_text = "";
@@ -104,8 +89,16 @@ class MonthlyPreviewGetter {
     }
 
     public function getDeadlinesText($today, $end_of_timespan) {
-        $termin_repo = $this->entityManager->getRepository(Termin::class);
-        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
+
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $termine_url = "{$base_href}{$code_href}termine.php";
+
+        $deadlines_text = '';
+
+        // SOLV-Meldeschlüsse
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('deadline', $today),
@@ -116,12 +109,6 @@ class MonthlyPreviewGetter {
             ->setMaxResults(1000)
         ;
         $deadlines = $solv_event_repo->matching($criteria);
-
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
-
-        $termine_url = "{$base_href}{$code_href}termine.php";
-        $deadlines_text = '';
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
             $termin = $termin_repo->findOneBy([
@@ -137,6 +124,32 @@ class MonthlyPreviewGetter {
             $title = $termin->getTitle();
             $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
         }
+
+        // OLZ-Meldeschlüsse
+        $criteria = Criteria::create()
+            ->where(
+                Criteria::expr()->andX(
+                    Criteria::expr()->gt('deadline', $today),
+                    Criteria::expr()->lt('deadline', $end_of_timespan),
+                    Criteria::expr()->eq('on_off', 1),
+                )
+            )
+            ->orderBy(['datum' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
+        $deadlines = $termin_repo->matching($criteria);
+        foreach ($deadlines as $termin) {
+            if (!$termin) {
+                continue;
+            }
+            $deadline_date = $termin->getDeadline();
+            $date = $deadline_date->format('d.m.');
+            $id = $termin->getId();
+            $title = $termin->getTitle();
+            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
+        }
+
         return $deadlines_text;
     }
 }

@@ -6,28 +6,13 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
+use Olz\Utils\WithUtilsTrait;
 
 class WeeklyPreviewGetter {
-    use \Psr\Log\LoggerAwareTrait;
-
-    protected $entityManager;
-    protected $dateUtils;
-    protected $envUtils;
-
-    public function setEntityManager($entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    public function setDateUtils($dateUtils) {
-        $this->dateUtils = $dateUtils;
-    }
-
-    public function setEnvUtils($envUtils) {
-        $this->envUtils = $envUtils;
-    }
+    use WithUtilsTrait;
 
     public function getWeeklyPreviewNotification() {
-        $current_weekday = intval($this->dateUtils->getCurrentDateInFormat('N'));
+        $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $thursday = 4;
         if ($current_weekday != $thursday) {
             return null;
@@ -35,9 +20,9 @@ class WeeklyPreviewGetter {
 
         $four_days = \DateInterval::createFromDateString('+4 days');
         $eleven_days = \DateInterval::createFromDateString('+11 days');
-        $today = new \DateTime($this->dateUtils->getIsoToday());
-        $next_monday = (new \DateTime($this->dateUtils->getIsoToday()))->add($four_days);
-        $end_of_timespan = (new \DateTime($this->dateUtils->getIsoToday()))->add($eleven_days);
+        $today = new \DateTime($this->dateUtils()->getIsoToday());
+        $next_monday = (new \DateTime($this->dateUtils()->getIsoToday()))->add($four_days);
+        $end_of_timespan = (new \DateTime($this->dateUtils()->getIsoToday()))->add($eleven_days);
 
         $notification_text = '';
         $termine_text = $this->getTermineText($today, $end_of_timespan);
@@ -53,7 +38,7 @@ class WeeklyPreviewGetter {
             return null;
         }
 
-        $next_monday_text = $this->dateUtils->olzDate('t. MM', $next_monday);
+        $next_monday_text = $this->dateUtils()->olzDate('t. MM', $next_monday);
         $title = "Vorschau auf die Woche vom {$next_monday_text}";
         $text = "Hallo %%userFirstName%%,\n\nBis Ende nächster Woche haben wir Folgendes auf dem Programm:\n\n{$notification_text}";
 
@@ -63,7 +48,7 @@ class WeeklyPreviewGetter {
     }
 
     public function getTermineText($today, $end_of_timespan) {
-        $termin_repo = $this->entityManager->getRepository(Termin::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('datum', $today),
@@ -76,8 +61,8 @@ class WeeklyPreviewGetter {
         ;
         $termine = $termin_repo->matching($criteria);
 
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $termine_url = "{$base_href}{$code_href}termine.php";
         $termine_text = "";
@@ -95,8 +80,16 @@ class WeeklyPreviewGetter {
     }
 
     public function getDeadlinesText($today, $end_of_timespan) {
-        $termin_repo = $this->entityManager->getRepository(Termin::class);
-        $solv_event_repo = $this->entityManager->getRepository(SolvEvent::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
+
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $termine_url = "{$base_href}{$code_href}termine.php";
+
+        $deadlines_text = '';
+
+        // SOLV-Meldeschlüsse
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('deadline', $today),
@@ -107,12 +100,6 @@ class WeeklyPreviewGetter {
             ->setMaxResults(1000)
         ;
         $deadlines = $solv_event_repo->matching($criteria);
-
-        $base_href = $this->envUtils->getBaseHref();
-        $code_href = $this->envUtils->getCodeHref();
-
-        $termine_url = "{$base_href}{$code_href}termine.php";
-        $deadlines_text = '';
         foreach ($deadlines as $deadline) {
             $solv_uid = $deadline->getSolvUid();
             $termin = $termin_repo->findOneBy([
@@ -128,6 +115,32 @@ class WeeklyPreviewGetter {
             $title = $termin->getTitle();
             $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
         }
+
+        // OLZ-Meldeschlüsse
+        $criteria = Criteria::create()
+            ->where(
+                Criteria::expr()->andX(
+                    Criteria::expr()->gt('deadline', $today),
+                    Criteria::expr()->lt('deadline', $end_of_timespan),
+                    Criteria::expr()->eq('on_off', 1),
+                )
+            )
+            ->orderBy(['datum' => Criteria::ASC])
+            ->setFirstResult(0)
+            ->setMaxResults(1000)
+        ;
+        $deadlines = $termin_repo->matching($criteria);
+        foreach ($deadlines as $termin) {
+            if (!$termin) {
+                continue;
+            }
+            $deadline_date = $termin->getDeadline();
+            $date = $deadline_date->format('d.m.');
+            $id = $termin->getId();
+            $title = $termin->getTitle();
+            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}?id={$id})'\n";
+        }
+
         return $deadlines_text;
     }
 }

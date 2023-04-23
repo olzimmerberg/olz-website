@@ -44,7 +44,7 @@ class OlzMenu extends OlzComponent {
             if ($content) {
                 $live = json_decode($content, true);
                 $last_updated_at = strtotime($live['last_updated_at']);
-                $now = strtotime(olz_current_date('Y-m-d H:i:s'));
+                $now = strtotime($this->dateUtils()->getIsoNow());
                 if ($live && $last_updated_at > $now - 3600) {
                     $out .= "<a href='{$code_href}apps/resultate/?file=".$live['file']."' ".(preg_match('/test/', $live['file']) ? " style='display:none;'" : "")." class='menu-link font-size-large' id='live-results-link'><div class='menutag' style='color:#550000;background-color:#cc0000;border-top:1px solid #550000;' onmouseover='document.getElementById(\"menulive\").style.backgroundColor = &quot;#ee0000&quot;;' onmouseout='document.getElementById(\"menulive\").style.backgroundColor = &quot;#cc0000&quot;;' id='menulive'>Live-Resultate</div></a>";
                 }

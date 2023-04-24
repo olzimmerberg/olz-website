@@ -1,0 +1,33 @@
+.tile ul.links {
+    .bubble {
+        background-color: #d4e7ce;
+        border: 1px solid #007521;
+        border-radius: 8px;
+        overflow: hidden;
+        min-height: 36px;
+        line-height: 18px;
+        min-width: 55%;
+    
+        &.flex {
+            display: inline-flex;
+        }
+    }
+
+    .left {
+        text-align: left;
+
+        .bubble {
+            margin-right: 30px;
+            padding-right: 8px;
+        }
+    }
+
+    .right {
+        text-align: right;
+
+        .bubble {
+            margin-left: 30px;
+            padding-left: 8px;
+        }
+    }
+}

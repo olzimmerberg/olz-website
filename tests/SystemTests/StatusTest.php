@@ -70,6 +70,12 @@ final class StatusTest extends SystemTestCase {
         if ($matches[1] === 'about a minute ago') {
             return 60;
         }
+        if ($matches[1] === 'about an hour ago') {
+            return 3600;
+        }
+        if ($matches[1] === 'about a ady ago') {
+            return 86400;
+        }
         $number = intval($matches[2]);
         $unit = $matches[3];
         if ($unit === 'minutes') {

@@ -46,9 +46,9 @@ final class StatusTest extends SystemTestCase {
         $browser->get("{$this::$statusUrl}?&mod=server");
         $prod_check = $this->findBrowserElement('a[href="https://olzimmerberg.ch"]');
         $this->assertNotNull($prod_check);
-        $prod_backup = $this->findBrowserElement('a[href="https://olzimmerberg.ch/tools.php/backup-monitoring"]');
+        $prod_backup = $this->findBrowserElement('a[href*="monitor-backup"]');
         $this->assertNotNull($prod_backup);
-        $prod_logs = $this->findBrowserElement('a[href="https://olzimmerberg.ch/tools.php/logs-monitoring"]');
+        $prod_logs = $this->findBrowserElement('a[href*="monitor-logs"]');
         $this->assertNotNull($prod_logs);
         $some_view_link = $this->findBrowserElement('a[href*="action=view&id="]');
         $this->assertNotNull($some_view_link);

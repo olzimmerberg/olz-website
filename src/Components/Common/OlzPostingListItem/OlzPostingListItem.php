@@ -6,7 +6,6 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzPostingListItem extends OlzComponent {
     public function getHtml($args = []): string {
-        global $_DATE;
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";
         $author = $args['author'] ?? null;
@@ -14,7 +13,7 @@ class OlzPostingListItem extends OlzComponent {
         $text = $args['text'] ?? "";
         $link = $args['link'] ?? "";
 
-        $pretty_date = $_DATE->olzDate("tt.mm.jj", $date);
+        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $date);
         $pretty_author = $author ? "<span class='author'>{$author}</span> " : "";
 
         return <<<ZZZZZZZZZZ

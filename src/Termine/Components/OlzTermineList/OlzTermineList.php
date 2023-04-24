@@ -19,12 +19,13 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
     public function getHtml($args = []): string {
-        global $db_table, $monate, $_DATE, $heute;
+        global $db_table, $monate, $heute;
 
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
         $db = $this->dbUtils()->getDb();
+        $date_utils = $this->dateUtils();
         $file_utils = FileUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
@@ -182,7 +183,7 @@ class OlzTermineList extends OlzComponent {
         $filter_where = $termine_utils->getSqlFromFilter($current_filter);
         $sql_where = <<<ZZZZZZZZZZ
         (
-            (t.datum_off>='{$_DATE->getIsoToday()}')
+            (t.datum_off>='{$date_utils->getIsoToday()}')
             OR (t.datum_off='0000-00-00')
             OR t.datum_off IS NULL
         )
@@ -341,7 +342,7 @@ class OlzTermineList extends OlzComponent {
                 $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
             }
             if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
-                $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$_DATE->olzDate("t. MM ", $row_solv['deadline']);
+                $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
             }
             // Ranglisten-Link zeigen
             if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
@@ -383,7 +384,7 @@ class OlzTermineList extends OlzComponent {
 
             // Tagesanlass
             if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
-                $datum_tmp = $_DATE->olzDate("t. MM ", $datum).$_DATE->olzDate(" (W)", $datum);
+                $datum_tmp = $date_utils->olzDate("t. MM ", $datum).$date_utils->olzDate(" (W)", $datum);
                 if ($zeit && $zeit != "00:00:00") {
                     $datum_tmp .= "<br />".date("H:i", strtotime($zeit));
                     if ($zeit_end && $zeit_end != "00:00:00") {
@@ -392,12 +393,12 @@ class OlzTermineList extends OlzComponent {
                 }
             }
             // Mehrtägig innerhalb Monat
-            elseif ($_DATE->olzDate("m", $datum) == $_DATE->olzDate("m", $datum_end)) {
-                $datum_tmp = $_DATE->olzDate("t.-", $datum).$_DATE->olzDate("t. ", $datum_end).$_DATE->olzDate("MM", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
+            elseif ($date_utils->olzDate("m", $datum) == $date_utils->olzDate("m", $datum_end)) {
+                $datum_tmp = $date_utils->olzDate("t.-", $datum).$date_utils->olzDate("t. ", $datum_end).$date_utils->olzDate("MM", $datum).$date_utils->olzDate(" (W-", $datum).$date_utils->olzDate("W)", $datum_end);
             }
             // Mehrtägig monatsübergreifend
             else {
-                $datum_tmp = $_DATE->olzDate("t.m.-", $datum).$_DATE->olzDate("t.m. ", $datum_end).$_DATE->olzDate("jjjj", $datum).$_DATE->olzDate(" (W-", $datum).$_DATE->olzDate("W)", $datum_end);
+                $datum_tmp = $date_utils->olzDate("t.m.-", $datum).$date_utils->olzDate("t.m. ", $datum_end).$date_utils->olzDate("jjjj", $datum).$date_utils->olzDate(" (W-", $datum).$date_utils->olzDate("W)", $datum_end);
             }
             if ($uid ?? $row['id'] == null) {
                 $class = " class='selected'";
@@ -414,8 +415,8 @@ class OlzTermineList extends OlzComponent {
                 $out .= olz_monate($datum);
                 $out .= OlzEventData::render([
                     'name' => $row['titel'],
-                    'start_date' => $_DATE->olzDate('jjjj-mm-tt', $datum),
-                    'end_date' => $datum_end ? $_DATE->olzDate('jjjj-mm-tt', $datum_end) : null,
+                    'start_date' => $date_utils->olzDate('jjjj-mm-tt', $datum),
+                    'end_date' => $datum_end ? $date_utils->olzDate('jjjj-mm-tt', $datum_end) : null,
                     'location' => $has_location ? [
                         'lat' => $lat,
                         'lng' => $lng,

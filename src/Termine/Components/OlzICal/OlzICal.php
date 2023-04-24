@@ -12,7 +12,7 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzICal extends OlzComponent {
     public function getHtml($args = []): string {
-        global $base_href, $code_href, $_DATE;
+        global $base_href, $code_href;
 
         require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/paths.php';
@@ -54,8 +54,8 @@ class OlzICal extends OlzComponent {
             $datum = $row['datum'];
             $datum_end = ($row['datum_end'] > "0000-00-00") ? $row['datum_end'] : $datum;
             $ical .=
-        "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$_DATE->olzDate('jjjjmmtt', $datum).
-        "\r\nDTEND;VALUE=DATE:".$_DATE->olzDate('jjjjmmtt', $datum_end).
+        "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum).
+        "\r\nDTEND;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum_end).
         "\r\nDTSTAMP:".date('Ymd\THis\Z').
         "\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['modified'])).
         "\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created'])).

@@ -9,8 +9,6 @@ use Olz\Utils\ImageUtils;
 
 class OlzNewsArticle extends OlzComponent {
     public function getHtml($args = []): string {
-        global $_DATE;
-
         $db = $this->dbUtils()->getDb();
         $image_utils = ImageUtils::fromEnv();
         $file_utils = FileUtils::fromEnv();
@@ -59,7 +57,7 @@ class OlzNewsArticle extends OlzComponent {
 
             $image_ids = json_decode($row['image_ids'] ?? 'null', true);
 
-            $datum = $_DATE->olzDate("tt.mm.jj", $datum);
+            $datum = $this->dateUtils()->olzDate("tt.mm.jj", $datum);
 
             $is_owner = $user && intval($row['owner_user_id']) === intval($user->getId());
             $has_all_permissions = $this->authUtils()->hasPermission('all');

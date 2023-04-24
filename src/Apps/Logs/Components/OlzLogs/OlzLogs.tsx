@@ -98,7 +98,7 @@ export const OlzLogs = (): React.ReactElement => {
         const croppedLine = mustCrop
             ? `${line.substring(0, MAX_LINE_LENGTH - 1)}\u{2026}`
             : line;
-        const shouldGreyOut = line.includes('access forbidden by rule');
+        const shouldGreyOut = shouldLineBeGreyedOut(line);
         if (shouldGreyOut) {
             return (
                 <div className='log-line greyed-out'>

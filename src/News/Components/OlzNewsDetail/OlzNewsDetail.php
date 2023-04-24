@@ -22,7 +22,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsDetail extends OlzComponent {
     public function getHtml($args = []): string {
-        global $_DATE, $_GET, $_POST, $_SESSION, $_SERVER;
+        global $_GET, $_POST, $_SESSION, $_SERVER;
 
         require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/date.php';
@@ -100,7 +100,7 @@ class OlzNewsDetail extends OlzComponent {
         ]);
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
-        $pretty_date = $_DATE->olzDate("tt.mm.jjjj", $row['datum']);
+        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $row['datum']);
         $author_user = $row['author_user_id'] ?
             $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
         $author_role = $row['author_role_id'] ?

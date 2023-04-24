@@ -11,7 +11,7 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
 class OlzTermineSidebar extends OlzComponent {
     public function getHtml($args = []): string {
-        global $heute, $_DATE;
+        global $heute;
 
         require_once __DIR__.'/../../../../_/config/date.php';
 
@@ -35,7 +35,7 @@ class OlzTermineSidebar extends OlzComponent {
             $text = $row['text'];
             $id_training = $row['id'];
 
-            $datum = $_DATE->olzDate("t. MM", $datum);
+            $datum = $this->dateUtils()->olzDate("t. MM", $datum);
             if ($titel == "") {
                 $titel = substr(str_replace("<br>", " ", $text), 0, $textlaenge);
             }

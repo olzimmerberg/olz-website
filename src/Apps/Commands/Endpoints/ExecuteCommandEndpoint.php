@@ -47,8 +47,9 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
                 'output' => $output ? $output : '(no output)',
             ];
         } catch (\Throwable $th) {
+            $output = $command_output->fetch();
             return [
-                'output' => $th->getMessage(),
+                'output' => $output."\n".$th->getMessage(),
             ];
         }
     }

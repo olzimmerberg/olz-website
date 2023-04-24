@@ -270,7 +270,7 @@ export function processLogs(lines: string[]): string {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;'))
         .map((line) => (
-            line.includes('access forbidden by rule')
+            shouldLineBeGreyedOut(line)
                 ? `<div class='greyed-out'>${line}</div>`
                 : line
         ))
@@ -290,6 +290,13 @@ export function processLogs(lines: string[]): string {
             return `<div class='log-line level-${logLevel}'>${replacedLine}</div>`;
         })
         .join('\n');
+}
+
+export function shouldLineBeGreyedOut(line: string): boolean {
+    const monitorCommandRegex = /\s+Olz\\Command\\Monitor/;
+    const isMonitorCommand = !!monitorCommandRegex.exec(line);
+    const isAccessRuleViolation = line.includes('access forbidden by rule');
+    return isMonitorCommand || isAccessRuleViolation;
 }
 
 // $(() => {

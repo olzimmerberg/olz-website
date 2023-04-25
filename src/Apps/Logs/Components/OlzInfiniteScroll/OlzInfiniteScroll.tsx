@@ -8,6 +8,11 @@ export interface OlzInfiniteScrollProps<Item, Query> {
     }>;
     initialQuery: Query;
     renderItem: (item: Item) => React.ReactElement;
+    /**
+     * Start loading more content, when the end is nearer than `autoloadMargin`
+     * times the window height. Default value is 4.
+     */
+    autoloadMargin?: number;
 }
 
 export const OlzInfiniteScroll = <Item, Query>(
@@ -17,6 +22,13 @@ export const OlzInfiniteScroll = <Item, Query>(
     const [items, setItems] = React.useState<Item[]>([]);
     const [prevQuery, setPrevQuery] = React.useState<Query|null>(null);
     const [nextQuery, setNextQuery] = React.useState<Query|null>(null);
+    const [isPrevLoading, setIsPrevLoading] = React.useState<boolean>(false);
+    const [isNextLoading, setIsNextLoading] = React.useState<boolean>(false);
+    const [containerHeight, setContainerHeight] = React.useState<number>();
+
+    const container = React.useRef<HTMLDivElement>(null);
+    const prevButton = React.useRef<HTMLButtonElement>(null);
+    const nextButton = React.useRef<HTMLButtonElement>(null);
 
     React.useEffect(() => {
         setIsLoading(true);
@@ -30,9 +42,12 @@ export const OlzInfiniteScroll = <Item, Query>(
                     setItems(result.items);
                     setPrevQuery(result.prevQuery);
                     setNextQuery(result.nextQuery);
-                    setIsLoading(false);
                     setTimeout(() => {
-                        document.getElementById('initial-scroll')?.scrollIntoView();
+                        setIsLoading(false);
+                        setContainerHeight(container.current?.offsetHeight);
+                        document.getElementById('initial-scroll')?.scrollIntoView({
+                            behavior: 'instant' as ScrollBehavior,
+                        });
                     }, 1);
                 });
         }, 300);
@@ -45,36 +60,77 @@ export const OlzInfiniteScroll = <Item, Query>(
         if (!prevQuery) {
             return;
         }
-        setIsLoading(true);
+        setIsPrevLoading(true);
         props.fetch(prevQuery)
             .then((result) => {
                 // TODO: Drop the result if it's already outdated!
                 setItems([...result.items, ...items]);
                 setPrevQuery(result.prevQuery);
-                setIsLoading(false);
+                setTimeout(() => {
+                    setIsPrevLoading(false);
+                    const newHeight = container.current?.offsetHeight;
+                    const oldHeight = containerHeight;
+                    setContainerHeight(newHeight);
+                    if (oldHeight && newHeight) {
+                        window.scrollBy({
+                            top: newHeight - oldHeight,
+                            behavior: 'instant' as ScrollBehavior,
+                        });
+                    }
+                }, 1);
             });
-    }, [items, prevQuery]);
+    }, [items, containerHeight, prevQuery]);
 
     const loadNext = React.useCallback(() => {
         if (!nextQuery) {
             return;
         }
-        setIsLoading(true);
+        setIsNextLoading(true);
         props.fetch(nextQuery)
             .then((result) => {
                 // TODO: Drop the result if it's already outdated!
                 setItems([...items, ...result.items]);
                 setNextQuery(result.nextQuery);
-                setIsLoading(false);
+                setTimeout(() => {
+                    setIsNextLoading(false);
+                    const newHeight = container.current?.offsetHeight;
+                    setContainerHeight(newHeight);
+                }, 1);
             });
-    }, [items, nextQuery]);
+    }, [items, containerHeight, nextQuery]);
+
+    React.useEffect(() => {
+        const autoloadMargin = props.autoloadMargin ?? 4;
+        const intervalId = window.setInterval(() => {
+            const prevRect = prevButton.current?.getBoundingClientRect();
+            const isNearPrevButton = prevRect
+                && prevRect.bottom > -autoloadMargin * window.innerHeight;
+            if (isNearPrevButton && !isPrevLoading && !isLoading) {
+                loadPrevious();
+            }
+            const nextRect = nextButton.current?.getBoundingClientRect();
+            const isNearNextButton = nextRect
+                && nextRect.top < (autoloadMargin + 1) * window.innerHeight;
+            if (isNearNextButton && !isNextLoading && !isLoading) {
+                loadNext();
+            }
+        }, 1000);
+        return () => {
+            window.clearInterval(intervalId);
+        };
+    }, [props.autoloadMargin, isLoading, isPrevLoading, isNextLoading, loadPrevious, loadNext]);
 
     return (
-        <div style={{opacity: isLoading ? 0.5 : 1}}>
+        <div
+            ref={container}
+            style={{opacity: isLoading ? 0.5 : 1}}
+        >
             {prevQuery ? (
                 <button
                     type='button'
+                    ref={prevButton}
                     className='btn btn-outline-primary'
+                    disabled={isPrevLoading}
                     onClick={loadPrevious}
                 >
                     mehr...
@@ -84,7 +140,9 @@ export const OlzInfiniteScroll = <Item, Query>(
             {nextQuery ? (
                 <button
                     type='button'
+                    ref={nextButton}
                     className='btn btn-outline-primary'
+                    disabled={isNextLoading}
                     onClick={loadNext}
                 >
                     mehr...

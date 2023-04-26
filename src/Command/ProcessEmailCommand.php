@@ -219,7 +219,7 @@ class ProcessEmailCommand extends OlzCommand {
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {
-                 ini_set('memory_limit', '500M');
+                ini_set('memory_limit', '500M');
                 $attachments = $mail->getAttachments();
                 $data_path = $this->envUtils()->getDataPath();
                 $temp_path = "{$data_path}temp/";

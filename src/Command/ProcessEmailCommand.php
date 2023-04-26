@@ -219,6 +219,7 @@ class ProcessEmailCommand extends OlzCommand {
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {
+                ini_set('memory_limit', '500M');
                 $attachments = $mail->getAttachments();
                 $data_path = $this->envUtils()->getDataPath();
                 $temp_path = "{$data_path}temp/";
@@ -226,6 +227,7 @@ class ProcessEmailCommand extends OlzCommand {
                     mkdir($temp_path, 0777, true);
                 }
                 foreach ($attachments as $attachment_id => $attachment) {
+                    gc_collect_cycles();
                     $upload_id = '';
                     $upload_path = '';
                     $continue = true;
@@ -249,6 +251,7 @@ class ProcessEmailCommand extends OlzCommand {
                         $this->log()->error("Could not save attachment {$attachment->name} to {$upload_id}.");
                     }
                     $upload_paths[] = $upload_path;
+                    gc_collect_cycles();
                 }
             }
 

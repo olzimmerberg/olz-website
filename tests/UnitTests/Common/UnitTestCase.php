@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Common;
 
 use Olz\Tests\Fake;
 use Olz\Utils\GeneralUtils;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\Translator;
 use PHPUnit\Framework\TestCase;
 
@@ -44,6 +45,7 @@ class UnitTestCase extends TestCase {
         mkdir($data_path);
 
         Fake\FakeFactory::reset();
+        WithUtilsCache::reset();
 
         $this->setUpAt = microtime(true);
     }

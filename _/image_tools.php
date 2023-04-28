@@ -8,7 +8,7 @@ use Olz\Utils\ImageUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
-require_once __DIR__."/config/paths.php";
+require_once __DIR__.'/config/paths.php';
 
 global $tables_img_dirs;
 

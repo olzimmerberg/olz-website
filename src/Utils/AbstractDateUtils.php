@@ -16,6 +16,48 @@ abstract class AbstractDateUtils {
         return $this->getCurrentDateInFormat('Y-m-d');
     }
 
+    public function sanitizeDatetimeValue($value) {
+        if ($value == null) {
+            return null;
+        }
+        if ($value instanceof \DateTime) {
+            return $value;
+        }
+        if (is_string($value)) {
+            $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $value);
+            if (!$res) {
+                throw new \Exception("Invalid datetime: {$value}", 1);
+            }
+            $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
+            if (!$datetime) {
+                throw new \Exception("Invalid datetime: {$value}", 1);
+            }
+            return $datetime;
+        }
+        throw new \Exception("Invalid datetime: {$value}", 1);
+    }
+
+    public function sanitizeDateValue($value) {
+        if ($value == null) {
+            return null;
+        }
+        if ($value instanceof \DateTime) {
+            return $value;
+        }
+        if (is_string($value)) {
+            $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2}/', $value);
+            if (!$res) {
+                throw new \Exception("Invalid datetime: {$value}", 1);
+            }
+            $datetime = \DateTime::createFromFormat('Y-m-d', $value);
+            if (!$datetime) {
+                throw new \Exception("Invalid datetime: {$value}", 1);
+            }
+            return $datetime;
+        }
+        throw new \Exception("Invalid datetime: {$value}", 1);
+    }
+
     public function getIsoNow() {
         return $this->getCurrentDateInFormat('Y-m-d H:i:s');
     }

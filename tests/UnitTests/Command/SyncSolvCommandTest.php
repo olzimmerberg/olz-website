@@ -11,8 +11,6 @@ use Olz\Utils\FixedDateUtils;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-require_once __DIR__.'/../../Fake/fake_solv_event.php';
-
 class FakeSolvEventsSyncer {
     use \Psr\Log\LoggerAwareTrait;
 

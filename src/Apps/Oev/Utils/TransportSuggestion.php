@@ -5,9 +5,6 @@ namespace Olz\Apps\Oev\Utils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/TransportHalt.php';
-require_once __DIR__.'/TransportConnection.php';
-
 class TransportSuggestion {
     use WithUtilsTrait;
     public const UTILS = [];

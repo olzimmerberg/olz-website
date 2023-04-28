@@ -10,18 +10,16 @@ use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-require_once __DIR__.'/../../../Fake/fake_solv_person.php';
-
 class FakeSolvPeopleMergerSolvPersonRepository {
     public $targetPerson = [];
     public $samePerson = [];
 
     public function __construct() {
-        $target_person = get_fake_solv_person();
+        $target_person = Fake\FakeSolvPerson::defaultSolvPerson(true);
         $target_person->setId(1);
         $this->targetPerson = $target_person;
 
-        $same_person = get_fake_solv_person();
+        $same_person = Fake\FakeSolvPerson::defaultSolvPerson(true);
         $same_person->setId(2);
         $same_person->setSameAs(1);
         $same_person->setName('Test Runer');

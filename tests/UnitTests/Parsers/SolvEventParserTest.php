@@ -6,6 +6,8 @@ namespace Olz\Tests\UnitTests\Parsers;
 
 use Olz\Parsers\SolvEventParser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -18,6 +20,10 @@ final class SolvEventParserTest extends UnitTestCase {
     private $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
 
     public function testParseFixtures2006(): void {
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
+
         $fixtures_2006 = file_get_contents($this->fixtures_2006_path);
         $parser = new SolvEventParser();
 
@@ -50,6 +56,10 @@ final class SolvEventParserTest extends UnitTestCase {
     }
 
     public function testParseFixtures2018(): void {
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
+
         $fixtures_2018 = file_get_contents($this->fixtures_2018_path);
         $parser = new SolvEventParser();
 

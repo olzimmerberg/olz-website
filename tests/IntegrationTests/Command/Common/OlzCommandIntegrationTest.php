@@ -59,7 +59,14 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
 
         $command->testOnlyCallCommand('olz:test', $input, $output);
 
-        $this->assertSame([], $logger->handler->getPrettyRecords());
+        $this->assertSame(
+            'INFO Running command Olz\Command\TestCommand...',
+            $logger->handler->getPrettyRecords()[0]
+        );
+        $this->assertSame(
+            'INFO Successfully ran command Olz\Command\TestCommand.',
+            $logger->handler->getPrettyRecords()[2]
+        );
         $this->assertMatchesRegularExpression(
             '/^Data path\: .*\/IntegrationTests\/document-root\//',
             $output->fetch()

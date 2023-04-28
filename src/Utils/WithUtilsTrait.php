@@ -38,7 +38,7 @@ trait WithUtilsTrait {
     }
 
     public function setAuthUtils($authUtils) {
-        $this->utilsCache['authUtils'] = $authUtils;
+        WithUtilsCache::set('authUtils', $authUtils);
     }
 
     public function dateUtils() {
@@ -50,7 +50,7 @@ trait WithUtilsTrait {
     }
 
     public function setDateUtils($dateUtils) {
-        $this->utilsCache['dateUtils'] = $dateUtils;
+        WithUtilsCache::set('dateUtils', $dateUtils);
     }
 
     public function dbUtils() {
@@ -62,7 +62,7 @@ trait WithUtilsTrait {
     }
 
     public function setDbUtils($dbUtils) {
-        $this->utilsCache['dbUtils'] = $dbUtils;
+        WithUtilsCache::set('dbUtils', $dbUtils);
     }
 
     public function devDataUtils() {
@@ -74,7 +74,7 @@ trait WithUtilsTrait {
     }
 
     public function setDevDataUtils($devDataUtils) {
-        $this->utilsCache['devDataUtils'] = $devDataUtils;
+        WithUtilsCache::set('devDataUtils', $devDataUtils);
     }
 
     public function emailUtils() {
@@ -86,7 +86,7 @@ trait WithUtilsTrait {
     }
 
     public function setEmailUtils($emailUtils) {
-        $this->utilsCache['emailUtils'] = $emailUtils;
+        WithUtilsCache::set('emailUtils', $emailUtils);
     }
 
     public function entityManager() {
@@ -98,7 +98,7 @@ trait WithUtilsTrait {
     }
 
     public function setEntityManager($entityManager) {
-        $this->utilsCache['entityManager'] = $entityManager;
+        WithUtilsCache::set('entityManager', $entityManager);
     }
 
     public function entityUtils() {
@@ -110,7 +110,7 @@ trait WithUtilsTrait {
     }
 
     public function setEntityUtils($entityUtils) {
-        $this->utilsCache['entityUtils'] = $entityUtils;
+        WithUtilsCache::set('entityUtils', $entityUtils);
     }
 
     public function envUtils() {
@@ -122,7 +122,7 @@ trait WithUtilsTrait {
     }
 
     public function setEnvUtils($envUtils) {
-        $this->utilsCache['envUtils'] = $envUtils;
+        WithUtilsCache::set('envUtils', $envUtils);
     }
 
     public function fieldUtils() {
@@ -134,7 +134,7 @@ trait WithUtilsTrait {
     }
 
     public function setFieldUtils($fieldUtils) {
-        $this->utilsCache['fieldUtils'] = $fieldUtils;
+        WithUtilsCache::set('fieldUtils', $fieldUtils);
     }
 
     public function generalUtils() {
@@ -146,7 +146,7 @@ trait WithUtilsTrait {
     }
 
     public function setGeneralUtils($generalUtils) {
-        $this->utilsCache['generalUtils'] = $generalUtils;
+        WithUtilsCache::set('generalUtils', $generalUtils);
     }
 
     public function getParams() {
@@ -159,7 +159,7 @@ trait WithUtilsTrait {
     }
 
     public function setGetParams($getParams) {
-        $this->utilsCache['getParams'] = $getParams;
+        WithUtilsCache::set('getParams', $getParams);
     }
 
     public function idUtils() {
@@ -171,7 +171,7 @@ trait WithUtilsTrait {
     }
 
     public function setIdUtils($idUtils) {
-        $this->utilsCache['idUtils'] = $idUtils;
+        WithUtilsCache::set('idUtils', $idUtils);
     }
 
     public function log() {
@@ -186,7 +186,7 @@ trait WithUtilsTrait {
 
     public function setLog($log) {
         $this->setLogger($log);
-        $this->utilsCache['log'] = $log;
+        WithUtilsCache::set('log', $log);
     }
 
     public function recaptchaUtils() {
@@ -198,7 +198,7 @@ trait WithUtilsTrait {
     }
 
     public function setRecaptchaUtils($recaptchaUtils) {
-        $this->utilsCache['recaptchaUtils'] = $recaptchaUtils;
+        WithUtilsCache::set('recaptchaUtils', $recaptchaUtils);
     }
 
     public function server() {
@@ -211,7 +211,7 @@ trait WithUtilsTrait {
     }
 
     public function setServer($server) {
-        $this->utilsCache['server'] = $server;
+        WithUtilsCache::set('server', $server);
     }
 
     public function session() {
@@ -223,7 +223,7 @@ trait WithUtilsTrait {
     }
 
     public function setSession($session) {
-        $this->utilsCache['session'] = $session;
+        WithUtilsCache::set('session', $session);
     }
 
     public function stravaUtils() {
@@ -235,7 +235,7 @@ trait WithUtilsTrait {
     }
 
     public function setStravaUtils($stravaUtils) {
-        $this->utilsCache['stravaUtils'] = $stravaUtils;
+        WithUtilsCache::set('stravaUtils', $stravaUtils);
     }
 
     public function symfonyUtils() {
@@ -247,7 +247,7 @@ trait WithUtilsTrait {
     }
 
     public function setSymfonyUtils($symfonyUtils) {
-        $this->utilsCache['symfonyUtils'] = $symfonyUtils;
+        WithUtilsCache::set('symfonyUtils', $symfonyUtils);
     }
 
     public function telegramUtils() {
@@ -259,7 +259,7 @@ trait WithUtilsTrait {
     }
 
     public function setTelegramUtils($telegram_utils) {
-        $this->utilsCache['telegramUtils'] = $telegram_utils;
+        WithUtilsCache::set('telegramUtils', $telegram_utils);
     }
 
     public function uploadUtils() {
@@ -271,28 +271,26 @@ trait WithUtilsTrait {
     }
 
     public function setUploadUtils($uploadUtils) {
-        $this->utilsCache['uploadUtils'] = $uploadUtils;
+        WithUtilsCache::set('uploadUtils', $uploadUtils);
     }
 
-    private $utilsCache = [];
-
     public function getAllUtils() {
-        return [...$this->utilsCache];
+        return WithUtilsCache::getAll();
     }
 
     public function setAllUtils($all_utils) {
-        $this->utilsCache = $all_utils;
+        WithUtilsCache::setAll($all_utils);
     }
 
     protected function getOrCreate($util_name) {
-        $util = $this->utilsCache[$util_name] ?? null;
+        $util = WithUtilsCache::get($util_name);
         if ($util) {
             return $util;
         }
         $cap_util_name = ucfirst($util_name);
         $creator_name = "create{$cap_util_name}";
         $util = $this->{$creator_name}();
-        $this->utilsCache[$util_name] = $util;
+        WithUtilsCache::set($util_name, $util);
         return $util;
     }
 

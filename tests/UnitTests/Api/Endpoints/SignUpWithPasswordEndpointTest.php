@@ -13,8 +13,6 @@ use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../Fake/fake_strava_link.php';
-
 class FakeSignUpWithPasswordEndpointAuthRequestRepository {
     public $auth_requests = [];
     public $can_authenticate = true;

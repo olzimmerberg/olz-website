@@ -9,9 +9,6 @@ use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-require_once __DIR__.'/../../../Fake/fake_solv_event.php';
-require_once __DIR__.'/../../../Fake/fake_solv_result.php';
-
 class FakeSolvPeopleAssignerEntityManager extends Fake\FakeEntityManager {
     public function __construct() {
         $this->repositories = [
@@ -26,16 +23,16 @@ class FakeSolvPeopleAssignerSolvResultRepository {
     public $differentResult;
 
     public function __construct() {
-        $test_runner_result = get_fake_solv_result();
+        $test_runner_result = Fake\FakeSolvResult::defaultSolvResult(true);
         $test_runner_result->setId(1);
         $this->testRunnerResult = $test_runner_result;
 
-        $typo_result = get_fake_solv_result();
+        $typo_result = Fake\FakeSolvResult::defaultSolvResult(true);
         $typo_result->setId(2);
         $typo_result->setName('Test Runer');
         $this->typoResult = $typo_result;
 
-        $different_result = get_fake_solv_result();
+        $different_result = Fake\FakeSolvResult::defaultSolvResult(true);
         $different_result->setId(3);
         $different_result->setName('Test Winner');
         $different_result->setBirthYear('92');

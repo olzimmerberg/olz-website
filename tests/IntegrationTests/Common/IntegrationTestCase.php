@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Common;
 
 use Olz\Utils\DevDataUtils;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -34,6 +35,7 @@ class IntegrationTestCase extends KernelTestCase {
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (cloud; RiscV) Selenium (like Gecko)',
             'PHP_SELF' => 'fake-php-self',
         ];
+        WithUtilsCache::reset();
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
             $dev_data_utils->fullResetDb();

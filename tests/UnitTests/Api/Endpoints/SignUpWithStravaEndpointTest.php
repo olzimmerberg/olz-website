@@ -11,8 +11,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
-require_once __DIR__.'/../../../Fake/fake_strava_link.php';
-
 class FakeSignUpWithStravaEndpointAuthRequestRepository {
     public $auth_requests = [];
     public $can_authenticate = true;

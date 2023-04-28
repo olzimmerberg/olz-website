@@ -7,8 +7,6 @@ namespace Olz\Tests\UnitTests\Apps\Oev\Utils;
 use Olz\Apps\Oev\Utils\TransportSection;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
-require_once __DIR__.'/TransportHaltTest.php';
-
 /**
  * @internal
  *

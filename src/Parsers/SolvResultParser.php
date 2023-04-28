@@ -4,8 +4,6 @@ namespace Olz\Parsers;
 
 use Olz\Entity\SolvResult;
 
-require_once __DIR__.'/TimeParser.php';
-
 class SolvResultParser {
     protected $timeParser;
 

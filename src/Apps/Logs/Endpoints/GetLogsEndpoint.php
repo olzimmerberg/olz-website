@@ -83,7 +83,7 @@ class GetLogsEndpoint extends OlzEndpoint {
                 $query,
             );
         } else {
-            throw new \Exception('not implemented');
+            throw new HttpError(400, "Need to provide targetDate or pageToken");
         }
 
         return [

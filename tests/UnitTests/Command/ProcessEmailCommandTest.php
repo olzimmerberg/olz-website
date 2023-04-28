@@ -15,8 +15,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Webklex\PHPIMAP\Address;
 use Webklex\PHPIMAP\Attribute;
 
-require_once __DIR__.'/../../Fake/fake_notification_subscription.php';
-
 class FakeProcessEmailAddress {
     public function __construct(
         public $mail,

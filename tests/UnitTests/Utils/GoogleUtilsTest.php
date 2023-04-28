@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GoogleUtils;
+use Olz\Utils\WithUtilsCache;
 
 $sample_google_token_response = [
     "token_type" => "Bearer",
@@ -251,9 +252,13 @@ final class GoogleUtilsTest extends UnitTestCase {
     }
 
     public function testGetTokenDataForCode(): void {
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
+
         $this->assertSame([
             'token_type' => 'Bearer',
-            'expires_at' => 1584145800,
+            'expires_at' => 1584149400,
             'refresh_token' => 'e5n567567...',
             'access_token' => 'a4b945687g...',
             'user_identifier' => 'fake-id',

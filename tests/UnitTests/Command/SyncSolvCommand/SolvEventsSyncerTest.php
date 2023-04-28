@@ -8,8 +8,8 @@ use Olz\Command\SyncSolvCommand\SolvEventsSyncer;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-
-require_once __DIR__.'/../../../Fake/fake_solv_event.php';
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeSolvEventsSyncerSolvEventRepository {
     public $modifiedEvent;
@@ -17,14 +17,14 @@ class FakeSolvEventsSyncerSolvEventRepository {
     public $deletedSolvUids = [];
 
     public function __construct() {
-        $modified_event = get_fake_solv_event();
+        $modified_event = Fake\FakeSolvEvent::defaultSolvEvent(true);
         $modified_event->setSolvUid(20202);
         $modified_event->setName('Modified Event (before)');
         $modified_event->setLastModification('2020-01-11 21:48:36');
         $modified_event->setRankLink(1235);
         $this->modifiedEvent = $modified_event;
 
-        $deleted_event = get_fake_solv_event();
+        $deleted_event = Fake\FakeSolvEvent::defaultSolvEvent(true);
         $deleted_event->setSolvUid(20203);
         $deleted_event->setName('Deleted Event');
         $deleted_event->setLastModification('2020-01-11 21:36:48');
@@ -69,6 +69,10 @@ class FakeSolvEventsSyncerSolvFetcher {
  */
 final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
+
         $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeSolvEventsSyncerSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;

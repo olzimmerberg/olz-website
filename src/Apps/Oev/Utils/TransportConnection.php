@@ -5,8 +5,6 @@ namespace Olz\Apps\Oev\Utils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/TransportSection.php';
-
 class TransportConnection {
     use WithUtilsTrait;
     public const UTILS = [];

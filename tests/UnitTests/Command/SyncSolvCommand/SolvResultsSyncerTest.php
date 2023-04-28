@@ -8,8 +8,8 @@ use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-
-require_once __DIR__.'/../../../Fake/fake_solv_event.php';
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeSolvResultsSyncerSolvEventRepository {
     public $eventWithResults;
@@ -17,14 +17,14 @@ class FakeSolvResultsSyncerSolvEventRepository {
     public $updatedRankIdBySolvUid = [];
 
     public function __construct() {
-        $event_with_results = get_fake_solv_event();
+        $event_with_results = Fake\FakeSolvEvent::defaultSolvEvent(true);
         $event_with_results->setSolvUid(20202);
         $event_with_results->setName('Event with results');
         $event_with_results->setLastModification('2020-01-11 21:48:36');
         $event_with_results->setRankLink(1235);
         $this->eventWithResults = $event_with_results;
 
-        $event_without_results = get_fake_solv_event();
+        $event_without_results = Fake\FakeSolvEvent::defaultSolvEvent(true);
         $event_without_results->setSolvUid(20201);
         $event_without_results->setName('Event without results');
         $event_without_results->setLastModification('2020-01-11 21:36:48');
@@ -168,6 +168,10 @@ class FakeSolvResultsSyncerSolvFetcher {
  */
 final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
+
         $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeSolvResultsSyncerSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;

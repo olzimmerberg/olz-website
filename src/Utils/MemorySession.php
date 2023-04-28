@@ -2,8 +2,6 @@
 
 namespace Olz\Utils;
 
-require_once __DIR__.'/AbstractSession.php';
-
 class MemorySession extends AbstractSession {
     public const UTILS = [];
 

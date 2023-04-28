@@ -3,44 +3,36 @@
 namespace Olz\Utils;
 
 require_once __DIR__.'/../../_/config/init.php';
-require_once __DIR__.'/AbstractSession.php';
 
 class StandardSession extends AbstractSession {
+    use WithUtilsTrait;
+
     public const UTILS = [];
 
     public function __construct() {
-        $session_already_exists = session_id() != '' && isset($_SESSION);
-        if ($session_already_exists) {
-            // @codeCoverageIgnoreStart
-            // Reason: Cannot have an existing session in tests.
-            return;
-            // @codeCoverageIgnoreEnd
-        }
-        $session_can_be_created = !headers_sent();
-        $was_successful = false;
-        if ($session_can_be_created) {
-            // @codeCoverageIgnoreStart
-            // Reason: Cannot start session in tests.
-            $was_successful = session_start();
-            // @codeCoverageIgnoreEnd
-        }
-        if (!$was_successful) {
-            global $_SESSION;
-            $_SESSION = [];
-            // TODO: This is commented out such that integration tests can still run...
-            // throw new \Exception("Could not create session.");
-        }
+        session_start_if_cookie_set();
     }
 
     public function resetConfigure($config) {
-        $this->clear();
+        global $_SESSION;
+        $session_already_exists = session_id() != '' && isset($_SESSION);
+        if ($session_already_exists) {
+            $this->clear();
+        }
 
         $timeout = $config['timeout'] ?? 3600;
         ini_set('session.gc_maxlifetime', $timeout);
         session_set_cookie_params($timeout);
 
-        session_start();
-        session_regenerate_id(true);
+        $session_can_be_created = !headers_sent();
+        $was_successful = false;
+        if ($session_can_be_created) {
+            // @codeCoverageIgnoreStart
+            // Reason: Cannot start session in tests.
+            // $was_successful = session_start();
+            $was_successful = session_start() && session_regenerate_id(true);
+            // @codeCoverageIgnoreEnd
+        }
     }
 
     public function has($key) {
@@ -61,9 +53,11 @@ class StandardSession extends AbstractSession {
 
     // @codeCoverageIgnoreStart
     // Reason: Cannot start/destroy session in tests.
+
     public function clear() {
-        session_unset();
-        session_destroy();
+        @session_unset();
+        @session_destroy();
+        @setcookie(session_name(), '', time() - 3600, '/');
     }
 
     // @codeCoverageIgnoreEnd

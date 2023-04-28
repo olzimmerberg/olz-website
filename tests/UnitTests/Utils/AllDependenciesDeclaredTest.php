@@ -36,7 +36,6 @@ final class AllDependenciesDeclaredTest extends UnitTestCase {
         );
         $this->assertGreaterThan(0, count($util_paths));
         foreach ($util_paths as $util_path) {
-            require_once $util_path;
             $util_path_contents = file_get_contents($util_path);
             $res = preg_match('/\/src\/(.+)\.php$/', $util_path, $matches);
             $this->assertSame(1, $res);

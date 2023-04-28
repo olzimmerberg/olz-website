@@ -9,8 +9,6 @@ use League\CommonMark\MarkdownConverter;
 use Olz\Exceptions\RecaptchaDeniedException;
 use Webklex\PHPIMAP\ClientManager;
 
-require_once __DIR__.'/OlzMailer.php';
-
 class EmailUtils {
     use WithUtilsTrait;
     public const UTILS = [

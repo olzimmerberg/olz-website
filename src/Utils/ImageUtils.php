@@ -88,6 +88,20 @@ class ImageUtils {
         $span_after = $lightview == 'image' ? "</span>" : "";
         $a_before = $lightview ? "<a href='{$data_href}{$imgfile}' aria-label='Bild vergrössern' data-src='{$data_href}{$imgfile}' onclick='event.stopPropagation()'>" : "";
         $a_after = $lightview ? "</a>" : "";
-        return "{$span_before}{$a_before}<img src='{$code_href}image_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim={$dim}' alt='' width='{$wid}' height='{$hei}'{$attrs}>{$a_after}{$span_after}";
+
+        $url_without_dim = "{$code_href}image_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}";
+        $dim2x = $dim * 2;
+        return <<<ZZZZZZZZZZ
+        {$span_before}{$a_before}
+        <img
+            src='{$url_without_dim}&dim={$dim}'
+            srcset='{$url_without_dim}&dim={$dim2x} 2x, {$url_without_dim}&dim={$dim} 1x'
+            alt=''
+            width='{$wid}'
+            height='{$hei}'
+            {$attrs}
+        />
+        {$a_after}{$span_after}
+        ZZZZZZZZZZ;
     }
 }

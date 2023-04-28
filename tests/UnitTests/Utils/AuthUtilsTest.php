@@ -97,7 +97,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "INFO User login successful: admin-old",
-            "INFO   Auth: all",
+            "INFO   Auth: all verified_email",
             "INFO   Root: karten",
         ], $logger->handler->getPrettyRecords());
     }

@@ -166,6 +166,9 @@ class DeleteUserEndpoint extends OlzEndpoint {
         ];
     }
 
+    // @codeCoverageIgnoreStart
+    // Reason: Mocked in tests.
+
     protected function isFile($path) {
         return is_file($path);
     }
@@ -177,4 +180,6 @@ class DeleteUserEndpoint extends OlzEndpoint {
     protected function rename($source_path, $destination_path) {
         return rename($source_path, $destination_path);
     }
+
+    // @codeCoverageIgnoreEnd
 }

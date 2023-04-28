@@ -57,7 +57,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     ];
 
     public function testUpdateUserEndpointIdent(): void {
-        $endpoint = new UpdateUserEndpoint();
+        $endpoint = new UpdateUserEndpointForTest();
         $this->assertSame('UpdateUserEndpoint', $endpoint->getIdent());
     }
 
@@ -65,7 +65,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_utils = new Fake\FakeAuthUtils();
         $logger = Fake\FakeLogger::create();
-        $endpoint = new UpdateUserEndpoint();
+        $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -89,13 +89,15 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'wrong_user',
         ], $session->session_storage);
+        $this->assertSame([], $endpoint->unlink_calls);
+        $this->assertSame([], $endpoint->rename_calls);
     }
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_utils = new Fake\FakeAuthUtils();
         $logger = Fake\FakeLogger::create();
-        $endpoint = new UpdateUserEndpoint();
+        $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -127,6 +129,8 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
+            $this->assertSame([], $endpoint->unlink_calls);
+            $this->assertSame([], $endpoint->rename_calls);
         }
     }
 
@@ -134,7 +138,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_utils = new Fake\FakeAuthUtils();
         $logger = Fake\FakeLogger::create();
-        $endpoint = new UpdateUserEndpoint();
+        $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -166,6 +170,8 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
+            $this->assertSame([], $endpoint->unlink_calls);
+            $this->assertSame([], $endpoint->rename_calls);
         }
     }
 
@@ -204,10 +210,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
+        $this->assertSame('test', $admin_user->getUsername());
+        $this->assertSame('admin', $admin_user->getOldUsername());
+        $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame(null, $admin_user->getEmailVerificationToken());
+        $this->assertSame(false, $admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame('test', $admin_user->getUsername());
-        $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
@@ -267,10 +276,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
+        $this->assertSame('test', $admin_user->getUsername());
+        $this->assertSame('admin', $admin_user->getOldUsername());
+        $this->assertSame('admin-user@staging.olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame('admintoken', $admin_user->getEmailVerificationToken());
+        $this->assertSame(true, $admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame('test', $admin_user->getUsername());
-        $this->assertSame('admin-user@staging.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
@@ -335,6 +347,170 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
+            $this->assertSame([], $endpoint->unlink_calls);
+            $this->assertSame([], $endpoint->rename_calls);
+        }
+    }
+
+    public function testUpdateUserEndpointWithInvalidRecaptcha(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $auth_utils = new Fake\FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils->fake_data_path = 'fake-data-path/';
+        $logger = Fake\FakeLogger::create();
+        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEnvUtils($env_utils);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+
+        $result = $endpoint->call([
+            ...self::VALID_INPUT,
+            'recaptchaToken' => 'invalid-token',
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $logger->handler->getPrettyRecords());
+        $this->assertSame(['status' => 'DENIED'], $result);
+        $this->assertSame([
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ], $session->session_storage);
+        $this->assertSame([], $endpoint->unlink_calls);
+        $this->assertSame([], $endpoint->rename_calls);
+    }
+
+    public function testUpdateUserEndpointWithExistingUsername(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+            function ($where) use ($existing_user) {
+                if ($where === ['id' => 2]) {
+                    return Fake\FakeUsers::adminUser();
+                }
+                if ($where === ['username' => 'test']) {
+                    return $existing_user;
+                }
+                return null;
+            };
+        $auth_utils = new Fake\FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils->fake_data_path = 'fake-data-path/';
+        $logger = Fake\FakeLogger::create();
+        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEnvUtils($env_utils);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+
+        try {
+            $endpoint->call([
+                ...self::VALID_INPUT,
+                'recaptchaToken' => 'valid-recaptcha-token',
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
+            $this->assertSame([
+                'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                'auth' => 'ftp',
+                'root' => 'karten',
+                'user' => 'admin',
+            ], $session->session_storage);
+            $this->assertSame([], $endpoint->unlink_calls);
+            $this->assertSame([], $endpoint->rename_calls);
+        }
+    }
+
+    public function testUpdateUserEndpointWithExistingEmail(): void {
+        $entity_manager = new Fake\FakeEntityManager();
+        $existing_user = new User();
+        $existing_user->setId(123);
+        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+            function ($where) use ($existing_user) {
+                if ($where === ['id' => 2]) {
+                    return Fake\FakeUsers::adminUser();
+                }
+                if ($where === ['email' => 'bot@staging.olzimmerberg.ch']) {
+                    return $existing_user;
+                }
+                return null;
+            };
+        $auth_utils = new Fake\FakeAuthUtils();
+        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
+        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils->fake_data_path = 'fake-data-path/';
+        $logger = Fake\FakeLogger::create();
+        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->setAuthUtils($auth_utils);
+        $endpoint->setDateUtils($date_utils);
+        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
+        $endpoint->setEntityManager($entity_manager);
+        $endpoint->setEnvUtils($env_utils);
+        $session = new MemorySession();
+        $session->session_storage = [
+            'auth' => 'ftp',
+            'root' => 'karten',
+            'user' => 'admin',
+        ];
+        $endpoint->setSession($session);
+        $endpoint->setLog($logger);
+        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+
+        try {
+            $endpoint->call([
+                ...self::VALID_INPUT,
+                'recaptchaToken' => 'valid-recaptcha-token',
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING Bad user request",
+            ], $logger->handler->getPrettyRecords());
+            $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
+            $this->assertSame([
+                'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
+            ], $httperr->getPrevious()->getValidationErrors());
+            $this->assertSame([
+                'auth' => 'ftp',
+                'root' => 'karten',
+                'user' => 'admin',
+            ], $session->session_storage);
+            $this->assertSame([], $endpoint->unlink_calls);
+            $this->assertSame([], $endpoint->rename_calls);
         }
     }
 
@@ -374,10 +550,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
+        $this->assertSame('test', $admin_user->getUsername());
+        $this->assertSame('admin', $admin_user->getOldUsername());
+        $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
+        $this->assertSame(null, $admin_user->getEmailVerificationToken());
+        $this->assertSame(false, $admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame('test', $admin_user->getUsername());
-        $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
         $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));

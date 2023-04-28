@@ -91,7 +91,7 @@ final class LoginEndpointTest extends UnitTestCase {
             'status' => 'AUTHENTICATED',
         ], $result);
         $this->assertSame([
-            'auth' => 'all',
+            'auth' => 'all verified_email',
             'root' => 'karten',
             'user' => 'admin',
             'user_id' => 2,

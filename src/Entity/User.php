@@ -293,6 +293,11 @@ class User {
         $this->permissions = ' '.implode(' ', $permission_list).' ';
     }
 
+    public function hasPermission($has_permission) {
+        $permission_map = $this->getPermissionMap();
+        return $permission_map[$has_permission] ?? false;
+    }
+
     public function addPermission($add_permission) {
         $permission_map = $this->getPermissionMap();
         $permission_map[$add_permission] = true;

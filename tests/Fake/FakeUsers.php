@@ -22,7 +22,7 @@ class FakeUsers extends FakeFactory {
                 $admin_user->setEmailIsVerified(true);
                 $admin_user->setEmailVerificationToken('admintoken');
                 $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
-                $admin_user->setPermissions('all');
+                $admin_user->setPermissions('all verified_email');
                 $admin_user->setRoot('karten');
                 $admin_user->setPhone('+410123456');
                 $admin_user->setGender('M');

@@ -55,17 +55,23 @@ class UpdateUserEndpoint extends OlzEndpoint {
             return ['status' => 'ERROR'];
         }
 
+        // Username validation
         $new_username = $input['username'];
+        $is_username_updated = $new_username !== $user->getUsername();
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
+        $same_username_user = $user_repo->findOneBy(['username' => $new_username]);
+        if ($is_username_updated && $same_username_user) {
+            throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen."]]);
+        }
 
+        // Email validation
         $new_email = $input['email'];
+        $is_email_updated = $new_email !== $user->getEmail();
         if (preg_match('/@olzimmerberg\.ch$/i', $new_email)) {
             throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
-
-        $is_email_updated = $new_email !== $user->getEmail();
         $token = $input['recaptchaToken'];
         if ($is_email_updated && !$token) {
             throw new ValidationError(['recaptchaToken' => ["Bei einer E-Mail-Änderung muss ein ReCaptcha Token angegeben werden."]]);
@@ -73,10 +79,18 @@ class UpdateUserEndpoint extends OlzEndpoint {
         if ($token && !$this->recaptchaUtils()->validateRecaptchaToken($token)) {
             return ['status' => 'DENIED'];
         }
+        $same_email_user = $user_repo->findOneBy(['email' => $new_email]);
+        if ($is_email_updated && $same_email_user) {
+            throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse."]]);
+        }
 
         $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        if ($is_username_updated) {
+            $user->setOldUsername($user->getUsername());
+            $user->setUsername($new_username);
+        }
         if ($is_email_updated) {
             $user->setEmailIsVerified(false);
             $user->setEmailVerificationToken(null);
@@ -84,7 +98,6 @@ class UpdateUserEndpoint extends OlzEndpoint {
         }
         $user->setFirstName($input['firstName']);
         $user->setLastName($input['lastName']);
-        $user->setUsername($new_username);
         $user->setEmail($new_email);
         $user->setPhone($input['phone']);
         $user->setGender($input['gender']);
@@ -132,6 +145,9 @@ class UpdateUserEndpoint extends OlzEndpoint {
         ];
     }
 
+    // @codeCoverageIgnoreStart
+    // Reason: Mocked in tests.
+
     protected function unlink($path) {
         unlink($path);
     }
@@ -139,4 +155,6 @@ class UpdateUserEndpoint extends OlzEndpoint {
     protected function rename($source_path, $destination_path) {
         rename($source_path, $destination_path);
     }
+
+    // @codeCoverageIgnoreEnd
 }

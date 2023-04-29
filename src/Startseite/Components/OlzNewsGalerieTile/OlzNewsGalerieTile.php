@@ -14,9 +14,9 @@ use Olz\Utils\ImageUtils;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
     protected static $iconBasenameByFormat = [
-        'galerie' => 'entry_type_gallery_20.svg',
-        'movie' => 'entry_type_movie_20.svg',
-        'video' => 'entry_type_movie_20.svg',
+        'galerie' => 'entry_type_gallery_white_20.svg',
+        'movie' => 'entry_type_movie_white_20.svg',
+        'video' => 'entry_type_movie_white_20.svg',
     ];
 
     public function getRelevance(?User $user): float {
@@ -74,34 +74,28 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $date = $news_entry->getDate()->format('d.m.');
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
-            $image_ids = $news_entry->getImageIds();
+            $image_ids = $news_entry->getImageIds() ?? [];
 
             $icon_basename = self::$iconBasenameByFormat[$format];
             $icon = "{$code_href}icns/{$icon_basename}";
-            $image = '';
-            $is_image_right = ($index % 2) === 0;
-            if (count($image_ids ?? []) > 0) {
-                $class = $is_image_right ? 'right' : 'left';
+            $images = "";
+            for ($i = 0; $i < min(count($image_ids), 7); $i++) {
                 $olz_image = $image_utils->olzImage(
-                    'news', $id, $image_ids[0] ?? null, 55, null, ' class="noborder"');
-                $image = "<div class='link-image-{$class}'>{$olz_image}</div>";
-            }
-            $image_left = '';
-            $image_right = '';
-            if ($is_image_right) {
-                $image_right = $image;
-            } else {
-                $image_left = $image;
+                    'news', $id, $image_ids[$i], 55, null, ' class="noborder"');
+                $images .= "{$olz_image}";
             }
 
             $out .= <<<ZZZZZZZZZZ
-            <li class='flex min-two-lines'>
-                {$image_left}
-                <img src='{$icon}' alt='{$format}' class='link-icon'>
-                <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
-                    {$title}
+            <li class='flex gallery min-two-lines'>
+                <a href='{$code_href}news/{$id}'>
+                    <div class='overlay'>
+                        <img src='{$icon}' alt='{$format}' class='link-icon'>
+                        {$title}
+                    </div>
+                    <div class='images'>
+                        {$images}
+                    </div>
                 </a>
-                {$image_right}
             </li>
             ZZZZZZZZZZ;
 

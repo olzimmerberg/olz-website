@@ -1,0 +1,41 @@
+.tile ul.links {
+    li.gallery {
+        position: relative;
+        background-color: #444;
+        border: 0;
+        border-radius: 3px;
+        margin: 2px 0;
+        overflow: hidden;
+        line-height: 18px;
+        width: 100%;
+
+        a {
+            display: block;
+            width: 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 1px 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .images {
+            width: 100%;
+            min-height: 55px;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+    }
+}

@@ -6,6 +6,7 @@ use Olz\Components\Verein\OlzOrganigramm\OlzOrganigramm;
 use Olz\Components\Verein\OlzRolePage\OlzRolePage;
 use Olz\Entity\Role;
 use Olz\Utils\DbUtils;
+use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -37,10 +38,19 @@ if (isset($_GET['ressort'])) {
     // This is just temporary logic!
     $no_robots = ($role->getGuide() === '');
 
+    $html_utils = HtmlUtils::fromEnv();
+    $role_description = $role->getDescription();
+    $end_of_first_line = strpos($role_description, "\n");
+    $first_line = $end_of_first_line
+        ? substr($role_description, 0, $end_of_first_line)
+        : $role_description;
+    $description_html = $html_utils->renderMarkdown($first_line);
+    $role_short_description = strip_tags($description_html);
+
     echo OlzHeader::render([
         'back_link' => "{$code_href}verein.php",
         'title' => "{$role->getName()} - Verein",
-        'description' => "Ressort {$role->getName()} der OL Zimmerberg.",
+        'description' => "{$role_short_description} - Ressort {$role->getName()} der OL Zimmerberg.",
         'norobots' => $no_robots,
     ]);
 

@@ -23,10 +23,8 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
 
     public function testCreateRegistrationEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateRegistrationEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

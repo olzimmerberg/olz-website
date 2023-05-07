@@ -112,12 +112,10 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -163,12 +161,10 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');

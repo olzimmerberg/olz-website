@@ -86,7 +86,6 @@ class FakeProcessEmailCommandMail {
 final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithError(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $email_utils->client->exception = true;
         $logger = Fake\FakeLogger::create();
@@ -96,7 +95,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -110,7 +108,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandWithMailToWrongDomain(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         $email_utils->client->folders['INBOX'] = [$mail];
@@ -121,7 +118,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -139,7 +135,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoSuchUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-such-username@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
@@ -150,7 +145,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -167,7 +161,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-permission@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
@@ -178,7 +171,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -196,7 +188,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone@olzimmerberg.ch',
@@ -216,7 +207,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -244,7 +234,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToOldUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone-old@olzimmerberg.ch',
@@ -264,7 +253,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -291,7 +279,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-role-permission@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
@@ -302,7 +289,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -320,7 +306,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToRole(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'somerole@olzimmerberg.ch',
@@ -340,7 +325,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -370,7 +354,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToOldRole(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'somerole-old@olzimmerberg.ch',
@@ -390,7 +373,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -420,7 +402,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandSendingError(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone@olzimmerberg.ch',
@@ -440,7 +421,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 
@@ -459,7 +439,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             null,
@@ -482,7 +461,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new ProcessEmailCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
 

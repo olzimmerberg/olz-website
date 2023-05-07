@@ -9,6 +9,7 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -170,13 +171,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -234,12 +233,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointSameEmail(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -296,12 +293,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointEmailUpdateWithoutRecaptcha(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -335,13 +330,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointWithInvalidRecaptcha(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -385,13 +378,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -441,13 +432,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -485,13 +474,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointRemoveAvatar(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

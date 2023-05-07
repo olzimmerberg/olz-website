@@ -26,8 +26,6 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
@@ -47,8 +45,6 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

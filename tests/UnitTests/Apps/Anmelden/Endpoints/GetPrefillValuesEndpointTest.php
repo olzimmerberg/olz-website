@@ -47,11 +47,9 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -82,11 +80,9 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -116,11 +112,9 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

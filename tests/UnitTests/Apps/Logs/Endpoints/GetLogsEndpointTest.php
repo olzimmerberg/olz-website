@@ -51,8 +51,6 @@ final class GetLogsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
@@ -122,8 +120,6 @@ final class GetLogsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

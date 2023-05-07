@@ -454,7 +454,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = Fake\FakeLogger::create();
@@ -471,7 +470,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $job = new SendDailyNotificationsCommand();
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setTelegramUtils($telegram_utils);
         $job->setLog($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
@@ -673,15 +671,9 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             ]],
         ], $telegram_utils->telegramApiCalls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager());
-        $this->assertSame($env_utils, $daily_summary_getter->envUtils());
         $this->assertSame($entity_manager, $deadline_warning_getter->entityManager());
-        $this->assertSame($env_utils, $deadline_warning_getter->envUtils());
         $this->assertSame($entity_manager, $monthly_preview_getter->entityManager());
-        $this->assertSame($env_utils, $monthly_preview_getter->envUtils());
-        $this->assertSame($env_utils, $telegram_configuration_reminder_getter->envUtils());
         $this->assertSame($entity_manager, $weekly_preview_getter->entityManager());
-        $this->assertSame($env_utils, $weekly_preview_getter->envUtils());
         $this->assertSame($entity_manager, $weekly_summary_getter->entityManager());
-        $this->assertSame($env_utils, $weekly_summary_getter->envUtils());
     }
 }

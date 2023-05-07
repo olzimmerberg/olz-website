@@ -51,10 +51,8 @@ final class CreateTerminEndpointTest extends UnitTestCase {
 
     public function testCreateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -73,13 +71,11 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
-        $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 

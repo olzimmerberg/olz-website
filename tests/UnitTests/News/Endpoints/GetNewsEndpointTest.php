@@ -74,11 +74,9 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -119,11 +117,9 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/img/');

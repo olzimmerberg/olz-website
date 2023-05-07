@@ -95,14 +95,12 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo->has_no_deadlines = true;
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
@@ -115,14 +113,12 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 

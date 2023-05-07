@@ -79,8 +79,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
@@ -131,8 +129,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $general_utils = new GeneralUtils();
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
@@ -161,8 +157,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -186,8 +180,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 

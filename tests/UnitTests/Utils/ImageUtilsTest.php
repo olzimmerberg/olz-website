@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\ImageUtils;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -16,9 +16,7 @@ use Olz\Utils\ImageUtils;
 final class ImageUtilsTest extends UnitTestCase {
     public function testOlzImage(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new Fake\FakeEnvUtils();
-        $image_utils->setEnvUtils($env_utils);
-        $data_path = $env_utils->getDataPath();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
         $image_path = "{$data_path}img/news/123/img/abcd.jpg";
         mkdir(dirname($image_path), 0777, true);
@@ -43,9 +41,7 @@ final class ImageUtilsTest extends UnitTestCase {
 
     public function testReplaceImageTags(): void {
         $image_utils = new ImageUtils();
-        $env_utils = new Fake\FakeEnvUtils();
-        $image_utils->setEnvUtils($env_utils);
-        $data_path = $env_utils->getDataPath();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
         $image_path = "{$data_path}img/news/123/img/abcd.jpg";
         mkdir(dirname($image_path), 0777, true);

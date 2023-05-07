@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Command\Common;
 use Olz\Command\Common\OlzCommand;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,11 +45,9 @@ class OlzCommandForTest extends OlzCommand {
  */
 final class OlzCommandTest extends UnitTestCase {
     public function testOlzCommandDisallowedAppEnv(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->allowedAppEnvs = [];
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -66,11 +65,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandInconsistentAppEnv(): void {
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->app_env = 'not_test';
+        WithUtilsCache::get('envUtils')->app_env = 'not_test';
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -85,11 +82,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandSuccessCode(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::SUCCESS;
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -106,11 +101,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandFailureCode(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::FAILURE;
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -127,11 +120,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandInvalidCode(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::INVALID;
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -148,11 +139,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandUnknownCode(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = 90684597;
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -169,11 +158,9 @@ final class OlzCommandTest extends UnitTestCase {
     }
 
     public function testOlzCommandError(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->failWithError = new \Exception('test error');
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();

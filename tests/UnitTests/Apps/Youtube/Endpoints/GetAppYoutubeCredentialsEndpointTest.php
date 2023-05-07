@@ -26,8 +26,6 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
@@ -47,8 +45,6 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

@@ -68,10 +68,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
 
     public function testUpdateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -93,12 +91,10 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -123,13 +119,11 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
-        $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 

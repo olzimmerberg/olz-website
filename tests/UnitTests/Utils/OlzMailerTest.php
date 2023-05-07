@@ -29,10 +29,8 @@ class OlzMailerForTest extends OlzMailer {
  */
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
-        $email_utils = new Fake\FakeEmailUtils();
         $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest(true);
-        $mailer->setEmailUtils($email_utils);
         $mailer->setLog($logger);
 
         $user = new User();
@@ -78,10 +76,8 @@ final class OlzMailerTest extends UnitTestCase {
     }
 
     public function testSend(): void {
-        $email_utils = new Fake\FakeEmailUtils();
         $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest(true);
-        $mailer->setEmailUtils($email_utils);
         $mailer->setLog($logger);
 
         try {

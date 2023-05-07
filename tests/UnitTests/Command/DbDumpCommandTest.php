@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\DbDumpCommand;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -18,10 +19,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class DbDumpCommandTest extends UnitTestCase {
     public function testDbDumpCommandSuccess(): void {
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbDumpCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -36,6 +35,6 @@ final class DbDumpCommandTest extends UnitTestCase {
         $this->assertSame("", $output->fetch());
         $this->assertSame([
             'dumpDb',
-        ], $dev_data_utils->commands_called);
+        ], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 }

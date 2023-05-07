@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeUploadUtils {
+use Olz\Utils\UploadUtils;
+
+class DeterministicUploadUtils extends UploadUtils {
     public $move_uploads_calls = [];
 
     public function getRandomUploadId($suffix) {

@@ -11,6 +11,7 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -454,8 +455,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $email_utils = new Fake\FakeEmailUtils();
-        $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = Fake\FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsCommandDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsCommandDeadlineWarningGetter();
@@ -468,9 +467,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new SendDailyNotificationsCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
-        $job->setTelegramUtils($telegram_utils);
         $job->setLog($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
@@ -643,7 +640,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                 'body' => 'ECR text First',
                 'altBody' => 'ECR text First',
             ],
-        ], $email_utils->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
         $this->assertSame([
             ['sendMessage', [
                 'chat_id' => '11111',
@@ -669,7 +666,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                 'text' => "<b>TCR title {\"cancelled\":false}</b>\n\nTCR text Second",
                 'disable_web_page_preview' => true,
             ]],
-        ], $telegram_utils->telegramApiCalls);
+        ], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager());
         $this->assertSame($entity_manager, $deadline_warning_getter->entityManager());
         $this->assertSame($entity_manager, $monthly_preview_getter->entityManager());

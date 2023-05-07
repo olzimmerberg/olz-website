@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\OnContinuouslyEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -33,11 +34,9 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
     public function testOnContinuouslyEndpointWrongToken(): void {
         $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
-        $endpoint->setSymfonyUtils($symfony_utils);
 
         try {
             $result = $endpoint->call([
@@ -50,17 +49,15 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
                 'WARNING HTTP error 403',
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
-            $this->assertSame([], $symfony_utils->commandsCalled);
+            $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
     public function testOnContinuouslyEndpoint(): void {
         $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
-        $endpoint->setSymfonyUtils($symfony_utils);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -73,6 +70,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame([
             ['olz:on-continuously', ''],
-        ], $symfony_utils->commandsCalled);
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

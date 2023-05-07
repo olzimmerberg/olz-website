@@ -38,11 +38,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
@@ -54,7 +52,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
                 'ERROR Throttled user request',
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(429, $err->getCode());
-            $this->assertSame([], $symfony_utils->commandsCalled);
+            $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
@@ -63,11 +61,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = null;
@@ -79,7 +75,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
                 'WARNING Bad user request',
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
-            $this->assertSame([], $symfony_utils->commandsCalled);
+            $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
@@ -88,11 +84,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
@@ -105,7 +99,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
                 'WARNING Bad user request',
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
-            $this->assertSame([], $symfony_utils->commandsCalled);
+            $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
@@ -114,11 +108,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -132,7 +124,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
                 'WARNING HTTP error 403',
             ], $logger->handler->getPrettyRecords());
             $this->assertSame(403, $err->getCode());
-            $this->assertSame([], $symfony_utils->commandsCalled);
+            $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
@@ -141,13 +133,9 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $symfony_utils = new Fake\FakeSymfonyUtils();
-        $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setSymfonyUtils($symfony_utils);
-        $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -162,7 +150,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([], $result);
         $this->assertSame([
             ['olz:on-daily', ''],
-        ], $symfony_utils->commandsCalled);
-        $this->assertSame(true, $telegram_utils->configurationSent);
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
+        $this->assertSame(true, WithUtilsCache::get('telegramUtils')->configurationSent);
     }
 }

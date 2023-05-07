@@ -100,12 +100,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = false;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -127,12 +125,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -173,12 +169,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');

@@ -55,12 +55,9 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateBookingEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -93,6 +90,6 @@ final class CreateBookingEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [$booking, 1, null, null],
-        ], $entity_utils->create_olz_entity_calls);
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
     }
 }

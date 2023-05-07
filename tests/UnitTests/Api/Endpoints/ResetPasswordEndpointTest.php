@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\ResetPasswordEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\GeneralUtils;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
@@ -73,14 +73,10 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpoint(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $general_utils = new GeneralUtils();
-        $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -112,7 +108,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
                 'body' => $expected_text,
                 'altBody' => $expected_text,
             ],
-        ], $email_utils->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Password reset email sent to user (2).",
@@ -123,14 +119,10 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $general_utils = new GeneralUtils();
-        $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $vorstand_user = Fake\FakeUsers::vorstandUser();
@@ -142,7 +134,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'ERROR'], $result);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
         $this->assertSame([
             "INFO Valid user request",
             "CRITICAL Error sending password reset email to user (3): Provoked Mailer Error",

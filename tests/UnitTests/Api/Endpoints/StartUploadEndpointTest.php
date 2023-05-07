@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\StartUploadEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 
 /**
@@ -38,12 +37,8 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpointAbort(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $general_utils = GeneralUtils::fromEnv();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setGeneralUtils($general_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -61,12 +56,8 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $general_utils = GeneralUtils::fromEnv();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setGeneralUtils($general_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => null]);
@@ -81,12 +72,8 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpointWithSuffix(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $general_utils = GeneralUtils::fromEnv();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setGeneralUtils($general_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => '.pdf']);

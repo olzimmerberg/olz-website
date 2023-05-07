@@ -64,7 +64,6 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetRegistrationEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

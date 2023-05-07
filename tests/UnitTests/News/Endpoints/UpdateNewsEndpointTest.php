@@ -17,6 +17,9 @@ class FakeUpdateNewsEndpointNewsRepository {
         if ($where === ['id' => 123]) {
             $entry = new NewsEntry();
             $entry->setId(123);
+            $datetime = new \DateTime('2020-03-13 19:30:00');
+            $entry->setDate($datetime);
+            $entry->setTime($datetime);
             return $entry;
         }
         if ($where === ['id' => 9999]) {

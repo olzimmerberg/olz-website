@@ -323,11 +323,17 @@ class OlzTermineList extends OlzComponent {
             }
             // Karte zeigen
             if ($has_olz_location && $datum >= $heute) {
-                $link .= "<div id='map_{$id}'><a href='http://map.search.ch/{$xkoord},{$ykoord}' target='_blank' onclick=\"olz.toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
+                $lv95_e = $xkoord + 2000000;
+                $lv95_n = $ykoord + 1000000;
+                $swisstopo_url = "https://map.geo.admin.ch/?lang=de&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.bav.haltestellen-oev&E={$lv95_e}&N={$lv95_n}&zoom=8&crosshair=marker";
+                $link .= "<div id='map_{$id}'><a href='{$swisstopo_url}' target='_blank' onclick=\"olz.toggleMap('{$id}',{$xkoord},{$ykoord});return false;\" class='linkmap'>Karte zeigen</a></div>";
             }
             // SOLV-Karte zeigen
             elseif ($has_solv_location && $datum >= $heute) {
-                $link .= "<div id='map_{$id}'><a href='http://map.search.ch/".$row_solv["coord_x"].",".$row_solv["coord_y"]."' target='_blank' onclick=\"olz.toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
+                $lv95_e = $row_solv["coord_x"] + 2000000;
+                $lv95_n = $row_solv["coord_y"] + 1000000;
+                $swisstopo_url = "https://map.geo.admin.ch/?lang=de&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.bav.haltestellen-oev&E={$lv95_e}&N={$lv95_n}&zoom=8&crosshair=marker";
+                $link .= "<div id='map_{$id}'><a href='{$swisstopo_url}' target='_blank' onclick=\"olz.toggleMap('{$id}',".$row_solv["coord_x"].",".$row_solv["coord_y"].");return false;\" class='linkmap'>Karte zeigen</a></div>";
             }
             // Anmeldungs-Link zeigen
             if ($go2ol > "" and $datum >= $heute) {

@@ -13,7 +13,6 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -102,9 +101,8 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointWrongUsername(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new DeleteUserEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -128,7 +126,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointCannotDelete(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = true;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -140,7 +138,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -197,7 +194,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointCanDelete(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
         $news_repo->has_news = false;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -209,7 +206,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

@@ -120,11 +120,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -205,11 +204,10 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointIchCommand(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

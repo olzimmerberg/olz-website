@@ -9,6 +9,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository {
     public $subscriptions_to_find;
@@ -47,10 +48,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testUnsubscribeFromNotificationEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -77,7 +77,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testCancelEmailConfigReminderEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $user = new User();
         $subscription = new NotificationSubscription();
@@ -88,7 +88,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $subscription->setNotificationTypeArgs('{"cancelled":false}');
         $notification_subscription_repo->subscriptions_to_find = [$subscription];
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -110,10 +109,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testUnsubscribeFromAllNotificationsEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -139,8 +137,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testUnsubscribeButNotUserGivenEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
-        $endpoint->setEntityManager($entity_manager);
+        $entity_manager = WithUtilsCache::get('entityManager');
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -159,10 +156,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testUnsubscribeButNoNotificationTypeGivenEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -181,8 +177,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testInvalidActionEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
-        $endpoint->setEntityManager($entity_manager);
+        $entity_manager = WithUtilsCache::get('entityManager');
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'invalid',
@@ -200,8 +195,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testInvalidTokenEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
-        $endpoint->setEntityManager($entity_manager);
+        $entity_manager = WithUtilsCache::get('entityManager');
 
         $result = $endpoint->call(['token' => json_encode('')]);
 
@@ -217,10 +211,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -242,10 +235,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testResetPasswordNoSuchUserEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -263,10 +255,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testResetButInvalidPasswordEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -284,10 +275,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testVerifyEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -307,10 +297,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testVerifyEmailReactionEndpointInvalidToken(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -331,10 +320,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testVerifyEmailReactionEndpointEmailMismatch(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -355,10 +343,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
     public function testVerifyEmailReactionEndpointNoSuchUser(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',

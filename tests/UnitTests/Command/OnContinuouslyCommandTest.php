@@ -8,6 +8,7 @@ use Olz\Command\OnContinuouslyCommand;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,13 +39,12 @@ class OnContinuouslyCommandForTest extends OnContinuouslyCommand {
  */
 final class OnContinuouslyCommandTest extends UnitTestCase {
     public function testOnContinuouslyCommandTooSoonToSendDailyEmails(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $command = new OnContinuouslyCommandForTest();
-        $command->setEntityManager($entity_manager);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -63,13 +63,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyCommandFirstDailyNotifications(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = null;
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $command = new OnContinuouslyCommandForTest();
-        $command->setEntityManager($entity_manager);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -92,12 +91,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyCommandSendDailyNotifications(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $command = new OnContinuouslyCommandForTest();
-        $command->setEntityManager($entity_manager);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 

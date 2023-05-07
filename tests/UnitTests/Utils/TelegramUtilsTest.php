@@ -10,6 +10,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\TelegramUtils;
+use Olz\Utils\WithUtilsCache;
 
 $iso_now = '2020-03-13 19:30:00';
 
@@ -22,14 +23,6 @@ $generated_pin_1 = '00000001';
 $generated_pin_2 = '00000002';
 // The $generated_pin_2 expiration has been updated, now the first available PIN is this.
 $generated_pin_3 = '00000003';
-
-class FakeTelegramUtilsEntityManager extends Fake\FakeEntityManager {
-    public function __construct() {
-        $this->repositories = [
-            TelegramLink::class => new FakeTelegramUtilsTelegramLinkRepository(),
-        ];
-    }
-}
 
 class FakeTelegramUtilsTelegramLinkRepository {
     public function findBy($where) {
@@ -154,10 +147,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testSetNewPinForLink(): void {
         global $iso_now, $generated_pin_1;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
         $telegram_link = new TelegramLink();
 
         $telegram_utils->setNewPinForLink($telegram_link);
@@ -170,10 +163,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testStartChatForUser(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $user = new User();
         $user->setId(1);
@@ -195,10 +188,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testStartAnonymousChat(): void {
         global $iso_now, $expired_pin;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $telegram_link = $telegram_utils->startAnonymousChat(2, 2);
 
@@ -228,10 +221,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testLinkChatUsingPin(): void {
         global $iso_now, $valid_pin, $expired_pin, $inexistent_pin;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $telegram_chat_id = 1;
         $telegram_user_id = 10;
@@ -267,10 +260,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testLinkUserUsingPin(): void {
         global $iso_now, $valid_pin, $expired_pin, $inexistent_pin;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $user = new User();
         $user->setId(1);
@@ -317,10 +310,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testGetFreshPinForUser(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $user = new User();
         $user->setId(4);
@@ -340,10 +333,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testGetFreshPinForChat(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $telegram_chat_id = 1;
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
@@ -376,10 +369,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testIsAnonymousChat(): void {
         global $iso_now;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $this->assertSame(false, $telegram_utils->isAnonymousChat(1));
         $this->assertSame(true, $telegram_utils->isAnonymousChat(2));
@@ -391,10 +384,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testGetChatState(): void {
         global $iso_now;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $this->assertSame([], $telegram_utils->getChatState(1));
         $this->assertSame([], $telegram_utils->getChatState(2));
@@ -406,10 +399,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testSetChatState(): void {
         global $iso_now;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
 
         $telegram_utils->setChatState(1, ['test' => true]);
         $telegram_utils->setChatState(2, ['test' => 2]);
@@ -426,7 +419,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testSendConfiguration(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -448,7 +442,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testSendConfigurationError(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -472,7 +467,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testCallTelegramApi(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -489,7 +485,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testCallTelegramApiEmpty(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -510,7 +507,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testCallTelegramApiNotOk(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -531,10 +529,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testCallTelegramApiBlocked(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -562,7 +560,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testCallTelegramApiWithError(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
@@ -581,7 +580,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testRenderMarkdown(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
-        $entity_manager = new FakeTelegramUtilsEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[TelegramLink::class] = new FakeTelegramUtilsTelegramLinkRepository();
         $date_utils = new FixedDateUtils($iso_now);
         $telegram_utils = new DeterministicTelegramUtils();
 

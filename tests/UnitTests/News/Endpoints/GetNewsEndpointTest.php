@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\GetNewsEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -69,11 +68,10 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new GetNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -110,11 +108,10 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new GetNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/news/');

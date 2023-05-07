@@ -55,14 +55,13 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testGetRegistrationEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $registration_repo = new FakeGetRegistrationEndpointRegistrationRepository();
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeGetRegistrationEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetRegistrationEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,

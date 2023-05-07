@@ -8,6 +8,7 @@ use Olz\Command\SyncSolvCommand\SolvEventsSyncer;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeSolvEventsSyncerSolvEventRepository {
     public $modifiedEvent;
@@ -67,13 +68,12 @@ class FakeSolvEventsSyncerSolvFetcher {
  */
 final class SolvEventsSyncerTest extends UnitTestCase {
     public function testSolvEventsSyncer(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_event_repo = new FakeSolvEventsSyncerSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSolvEventsSyncerSolvFetcher();
 
         $job = new SolvEventsSyncer();
-        $job->setEntityManager($entity_manager);
         $job->setSolvFetcher($solv_fetcher);
 
         $job->syncSolvEventsForYear('2020');

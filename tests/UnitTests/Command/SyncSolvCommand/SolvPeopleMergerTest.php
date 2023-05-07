@@ -9,6 +9,7 @@ use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeSolvPeopleMergerSolvPersonRepository {
     public $targetPerson = [];
@@ -60,14 +61,13 @@ class FakeSolvPeopleMergerSolvResultRepository {
  */
 final class SolvPeopleMergerTest extends UnitTestCase {
     public function testSolvPeopleMerger(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_person_repo = new FakeSolvPeopleMergerSolvPersonRepository();
         $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
         $solv_result_repo = new FakeSolvPeopleMergerSolvResultRepository();
         $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
 
         $job = new SolvPeopleMerger();
-        $job->setEntityManager($entity_manager);
 
         $job->mergeSolvPeople();
 

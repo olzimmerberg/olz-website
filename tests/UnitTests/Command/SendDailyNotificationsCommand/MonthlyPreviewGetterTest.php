@@ -8,9 +8,9 @@ use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeMonthlyPreviewGetterSolvEventRepository {
     public function matching($criteria) {
@@ -76,11 +76,10 @@ class FakeMonthlyPreviewGetterTerminRepository {
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
 
         $job = new MonthlyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getMonthlyPreviewNotification([]);
@@ -91,11 +90,10 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
 
         $job = new MonthlyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getMonthlyPreviewNotification([]);
@@ -106,11 +104,10 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
 
         $job = new MonthlyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getMonthlyPreviewNotification([]);
@@ -121,7 +118,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetter(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
@@ -131,7 +128,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new MonthlyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getMonthlyPreviewNotification([]);
@@ -163,7 +159,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyMonthlyPreviewGetter(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_event_repo = new FakeMonthlyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
@@ -173,7 +169,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new MonthlyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getMonthlyPreviewNotification([]);

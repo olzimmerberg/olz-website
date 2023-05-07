@@ -20,9 +20,8 @@ use Olz\Utils\WithUtilsCache;
 final class EntityUtilsTest extends UnitTestCase {
     public function testCreateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $entity_utils = new EntityUtils();
-        $entity_utils->setEntityManager($entity_manager);
         $entity = new OlzEntity();
 
         $entity_utils->createOlzEntity(
@@ -46,9 +45,8 @@ final class EntityUtilsTest extends UnitTestCase {
 
     public function testUpdateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $entity_utils = new EntityUtils();
-        $entity_utils->setEntityManager($entity_manager);
         $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();
         $entity->setOnOff(1);

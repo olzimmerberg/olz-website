@@ -8,7 +8,6 @@ use Olz\Entity\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Termine\Endpoints\UpdateTerminEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -83,13 +82,12 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateTerminEndpointNoSuchEntity(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -107,13 +105,12 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateTerminEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');

@@ -8,6 +8,7 @@ use Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint;
 use Olz\Entity\Quiz\SkillCategory;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeRegisterSkillCategoriesEndpointSkillCategoryRepository {
     public function findOneBy($where) {
@@ -32,11 +33,10 @@ final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
     }
 
     public function testRegisterSkillCategoriesEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $skill_category_repo = new FakeRegisterSkillCategoriesEndpointSkillCategoryRepository();
         $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
         $endpoint = new RegisterSkillCategoriesEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'skillCategories' => [

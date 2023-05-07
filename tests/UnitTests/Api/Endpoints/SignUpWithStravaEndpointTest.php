@@ -9,6 +9,7 @@ use Olz\Entity\AuthRequest;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeSignUpWithStravaEndpointAuthRequestRepository {
@@ -41,9 +42,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithoutInput(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithStravaEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         try {
             $result = $endpoint->call([
                 'stravaUser' => null,
@@ -89,11 +89,10 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithValidData(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithStravaEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);

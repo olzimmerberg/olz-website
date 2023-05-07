@@ -47,10 +47,9 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testCreateRegistrationEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateRegistrationEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'meta' => [

@@ -448,7 +448,7 @@ class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
  */
 final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $telegram_link_repo = new FakeSendDailyNotificationsCommandTelegramLinkRepository();
@@ -466,7 +466,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new SendDailyNotificationsCommand();
-        $job->setEntityManager($entity_manager);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
         $job->setEmailConfigurationReminderGetter($email_configuration_reminder_getter);

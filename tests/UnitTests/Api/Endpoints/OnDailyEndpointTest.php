@@ -34,12 +34,11 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointThrottled(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         try {
@@ -55,12 +54,11 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointNoThrottlingRecord(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $throttling_repo->last_daily_notifications = null;
         try {
@@ -76,12 +74,11 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointUnlimitedCron(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         WithUtilsCache::get('envUtils')->has_unlimited_cron = true;
@@ -98,12 +95,11 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointWrongToken(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $result = $endpoint->call([
@@ -121,12 +117,11 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

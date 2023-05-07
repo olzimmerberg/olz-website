@@ -52,6 +52,7 @@ class UnitTestCase extends TestCase {
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
             'devDataUtils' => new Fake\FakeDevDataUtils(),
             'emailUtils' => new Fake\FakeEmailUtils(),
+            'entityManager' => new Fake\FakeEntityManager(),
             'entityUtils' => new Fake\FakeEntityUtils(),
             'envUtils' => new Fake\FakeEnvUtils(),
             'generalUtils' => new Fake\DeterministicGeneralUtils(),

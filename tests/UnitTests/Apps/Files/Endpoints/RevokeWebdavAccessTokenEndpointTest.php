@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 
 use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -37,12 +36,11 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
     }
 
     public function testRevokeWebdavAccessTokenEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $access_token_repo = new FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([]);
 

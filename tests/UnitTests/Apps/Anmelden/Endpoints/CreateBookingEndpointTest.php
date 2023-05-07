@@ -48,7 +48,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
     }
 
     public function testCreateBookingEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $registration_repo = new FakeCreateBookingEndpointRegistrationRepository();
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
@@ -56,7 +56,6 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateBookingEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'meta' => [

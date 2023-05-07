@@ -10,6 +10,7 @@ use Olz\Exceptions\InvalidCredentialsException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -66,13 +67,11 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithCorrectCredentials(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
         $user = Fake\FakeUsers::adminUser();
-        $auth_utils->authenticate_user = $user;
+        WithUtilsCache::get('authUtils')->authenticate_user = $user;
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -107,11 +106,9 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->authenticate_with_error = new InvalidCredentialsException('test');
+        WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test');
         $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setLog($logger);
@@ -133,11 +130,9 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointCanNotAuthenticate(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->authenticate_with_error = new AuthBlockedException('test');
+        WithUtilsCache::get('authUtils')->authenticate_with_error = new AuthBlockedException('test');
         $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setLog($logger);

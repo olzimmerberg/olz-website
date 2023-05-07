@@ -8,6 +8,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Termine\Endpoints\EditTerminEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeEditTerminEndpointTerminRepository {
@@ -61,11 +62,9 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -83,14 +82,12 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointNoSuchEntity(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 
@@ -109,8 +106,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointMinimal(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
@@ -119,7 +115,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
@@ -162,8 +157,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointMaximal(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
@@ -172,7 +166,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

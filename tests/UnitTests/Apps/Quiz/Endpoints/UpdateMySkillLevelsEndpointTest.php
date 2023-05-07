@@ -9,6 +9,7 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeUpdateMySkillLevelsEndpointSkillRepository {
@@ -49,11 +50,9 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query['any'] = false;
+        WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -71,9 +70,8 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateMySkillLevelsEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query['any'] = true;
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
         $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeUpdateMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
@@ -82,7 +80,6 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());

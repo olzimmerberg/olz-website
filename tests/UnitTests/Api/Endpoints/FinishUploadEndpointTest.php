@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\FinishUploadEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -20,11 +21,9 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointUnauthorized(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -40,12 +39,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointInvalidId(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -66,12 +63,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointMissingFirstPart(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -94,12 +89,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointNoBase64(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -123,12 +116,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpointMissingOtherParts(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -154,12 +145,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     }
 
     public function testFinishUploadEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 

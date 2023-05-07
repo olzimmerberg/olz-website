@@ -9,6 +9,7 @@ use Olz\Entity\User;
 use Olz\Termine\Endpoints\CreateTerminEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -49,12 +50,10 @@ final class CreateTerminEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -72,14 +71,12 @@ final class CreateTerminEndpointTest extends UnitTestCase {
 
     public function testCreateTerminEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

@@ -9,6 +9,7 @@ use Olz\Entity\User;
 use Olz\News\Endpoints\CreateNewsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -23,12 +24,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -70,8 +69,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
     public function testCreateNewsEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = [
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
             'all' => false,
             'kaderblog' => false,
@@ -81,7 +79,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

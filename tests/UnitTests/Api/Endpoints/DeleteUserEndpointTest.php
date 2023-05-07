@@ -102,10 +102,8 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
     public function testDeleteUserEndpointWrongUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $auth_utils = new Fake\FakeAuthUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -141,12 +139,10 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $auth_utils = new Fake\FakeAuthUtils();
         $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -216,12 +212,10 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $auth_utils = new Fake\FakeAuthUtils();
         $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();

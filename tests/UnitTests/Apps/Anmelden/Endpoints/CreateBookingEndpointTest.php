@@ -9,6 +9,7 @@ use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeCreateBookingEndpointRegistrationRepository {
     public function findOneBy($where) {
@@ -52,13 +53,11 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateBookingEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());

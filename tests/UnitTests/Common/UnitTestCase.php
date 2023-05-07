@@ -47,6 +47,7 @@ class UnitTestCase extends TestCase {
 
         Fake\FakeFactory::reset();
         WithUtilsCache::setAll([
+            'authUtils' => new Fake\FakeAuthUtils(),
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
         ]);
 

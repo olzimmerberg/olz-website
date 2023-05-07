@@ -9,6 +9,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
     public function findBy($where) {
@@ -35,14 +36,12 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 
@@ -127,14 +126,12 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 

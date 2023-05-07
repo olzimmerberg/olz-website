@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Commands\Endpoints;
 use Olz\Apps\Commands\Endpoints\ExecuteCommandEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -21,14 +22,12 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
     }
 
     public function testExecuteCommandEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = [
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'commands' => false,
             'command_fake' => false,
         ];
         $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -44,15 +43,13 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
     }
 
     public function testExecuteCommandEndpointNoOutput(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = [
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'commands' => true,
             'command_fake' => false,
         ];
         $logger = Fake\FakeLogger::create();
         $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
@@ -65,8 +62,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
     }
 
     public function testExecuteCommandEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = [
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'commands' => false,
             'command_fake' => true,
         ];
@@ -74,7 +70,6 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
         $symfony_utils = new Fake\FakeSymfonyUtils();
         $symfony_utils->output = 'fake output';
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 

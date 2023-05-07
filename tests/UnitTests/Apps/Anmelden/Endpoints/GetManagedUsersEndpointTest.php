@@ -8,6 +8,7 @@ use Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeGetManagedUsersEndpointUserRepository extends Fake\FakeUserRepository {
@@ -35,11 +36,9 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
     }
 
     public function testGetManagedUsersEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -51,16 +50,14 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
     }
 
     public function testGetManagedUsersEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetManagedUsersEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);

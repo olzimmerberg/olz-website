@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Statistics\Endpoints;
 use Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -24,10 +25,8 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => true];
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
-        $endpoint->setAuthUtils($auth_utils);
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -47,10 +46,8 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppStatisticsCredentialsEndpointNotAuthorized(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -69,9 +66,7 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppStatisticsCredentialsEndpointNotAuthenticated(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => false];
-        $endpoint->setAuthUtils($auth_utils);
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint->setLog($logger);
 
         try {

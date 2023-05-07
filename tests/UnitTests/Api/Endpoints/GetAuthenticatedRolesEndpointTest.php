@@ -26,10 +26,8 @@ final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedRolesEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedRolesEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(null);

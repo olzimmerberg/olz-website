@@ -8,6 +8,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\EditNewsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeEditNewsEndpointNewsRepository {
@@ -51,11 +52,9 @@ final class EditNewsEndpointTest extends UnitTestCase {
     }
 
     public function testEditNewsEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -73,14 +72,12 @@ final class EditNewsEndpointTest extends UnitTestCase {
     }
 
     public function testEditNewsEndpointNoSuchEntity(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 
@@ -99,8 +96,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
     }
 
     public function testEditNewsEndpointNoEntityAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -108,7 +104,6 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_utils->can_update_olz_entity = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
@@ -128,8 +123,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
     }
 
     public function testEditNewsEndpointMinimal(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -138,7 +132,6 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);
@@ -178,8 +171,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
     }
 
     public function testEditNewsEndpointMaximal(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -188,7 +180,6 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

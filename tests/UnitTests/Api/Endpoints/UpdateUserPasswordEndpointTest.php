@@ -25,9 +25,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
-        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -59,9 +57,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
-        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -96,9 +92,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
-        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -133,9 +127,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
-        $auth_utils = new Fake\FakeAuthUtils();
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [

@@ -8,6 +8,7 @@ use Olz\Api\Endpoints\UpdateOlzTextEndpoint;
 use Olz\Entity\OlzText;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeUpdateOlzTextEndpointOlzTextRepository {
     public $olz_text;
@@ -38,12 +39,10 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['olz_text_1' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => false];
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 
@@ -60,14 +59,12 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpointNoEntry(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['olz_text_3' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_3' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 
@@ -88,14 +85,12 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateOlzTextEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['olz_text_1' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 

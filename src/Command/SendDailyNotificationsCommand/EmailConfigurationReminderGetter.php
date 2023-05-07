@@ -22,7 +22,7 @@ class EmailConfigurationReminderGetter {
 
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
-        $service_url = "{$base_href}{$code_href}service.php";
+        $newsletter_url = "{$base_href}{$code_href}apps/newsletter";
 
         $title = "Kein Newsletter abonniert";
         $text = <<<ZZZZZZZZZZ
@@ -33,7 +33,7 @@ class EmailConfigurationReminderGetter {
         
         **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        In diesem Fall musst du dich auf der Website [*einloggen*]({$service_url}#login-dialog), und unter ["Service"]({$service_url}) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website [*einloggen*]({$newsletter_url}#login-dialog), und im ["Newsletter"-App]({$newsletter_url}) (ist auch unter "Service" zu finden) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
         Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `%%userEmail%%` registriert.
         

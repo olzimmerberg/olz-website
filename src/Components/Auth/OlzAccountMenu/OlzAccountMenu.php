@@ -70,7 +70,7 @@ class OlzAccountMenu extends OlzComponent {
             </a>
             ZZZZZZZZZZ;
         } else {
-            $out .= <<<ZZZZZZZZZZ
+            $out .= <<<'ZZZZZZZZZZ'
             <a
                 id='login-menu-item'
                 class='dropdown-item'
@@ -79,24 +79,6 @@ class OlzAccountMenu extends OlzComponent {
                 role='button'
             >
                 Login
-            </a>
-            <a
-                id='sign-up-menu-item'
-                class='dropdown-item'
-                href='{$this->envUtils()->getCodeHref()}konto_passwort.php'
-                role='button'
-            >
-                Konto erstellen
-            </a>
-            <a
-                id='external-sign-up-menu-item'
-                class='dropdown-item feature external-login'
-                href='#'
-                role='button'
-                data-bs-toggle='modal'
-                data-bs-target='#sign-up-modal'
-            >
-                Konto erstellen (extern)
             </a>
             ZZZZZZZZZZ;
         }

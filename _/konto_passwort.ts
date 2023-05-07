@@ -70,9 +70,9 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             cookieConsentGiven,
         );
         const fieldResults: OlzRequestFieldResult<'signUpWithPassword'> = {
-            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
-            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
-            username: getRequired(getStringOrNull(getFormField(f, 'username'))),
+            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'), {trim: true})),
+            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'), {trim: true})),
+            username: getRequired(getStringOrNull(getFormField(f, 'username'), {trim: true})),
             password: password,
             email: getEmail(getFormField(f, 'email')),
             phone: getPhone(getFormField(f, 'phone')),

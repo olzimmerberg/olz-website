@@ -87,9 +87,9 @@ export async function olzProfileActuallyUpdateUser(userId: number, form: HTMLFor
         }
         const fieldResults: OlzRequestFieldResult<'updateUser'> = {
             id: validFieldResult('', userId),
-            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'))),
-            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'))),
-            username: getRequired(getStringOrNull(getFormField(f, 'username'))),
+            firstName: getRequired(getStringOrNull(getFormField(f, 'first-name'), {trim: true})),
+            lastName: getRequired(getStringOrNull(getFormField(f, 'last-name'), {trim: true})),
+            username: getRequired(getStringOrNull(getFormField(f, 'username'), {trim: true})),
             phone: getPhone(getFormField(f, 'phone')),
             email: getRequired(getEmail(getFormField(f, 'email'))),
             gender: getGender(getFormField(f, 'gender')),

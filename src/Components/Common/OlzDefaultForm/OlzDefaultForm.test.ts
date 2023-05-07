@@ -602,6 +602,13 @@ describe('getStringOrEmpty', () => {
         expect(getStringOrEmpty(validFieldResult('fieldId', '')))
             .toEqual(validFieldResult('fieldId', ''));
     });
+
+    it('works with trimming', () => {
+        expect(getStringOrEmpty(validFieldResult('fieldId', ' '), {trim: true}))
+            .toEqual(validFieldResult('fieldId', ''));
+        expect(getStringOrEmpty(validFieldResult('fieldId', ' '), {trim: false}))
+            .toEqual(validFieldResult('fieldId', ' '));
+    });
 });
 
 describe('getStringOrNull', () => {
@@ -617,6 +624,13 @@ describe('getStringOrNull', () => {
             .toEqual(validFieldResult('fieldId', null));
         expect(getStringOrNull(validFieldResult('fieldId', '')))
             .toEqual(validFieldResult('fieldId', null));
+    });
+
+    it('works with trimming', () => {
+        expect(getStringOrNull(validFieldResult('fieldId', ' '), {trim: true}))
+            .toEqual(validFieldResult('fieldId', null));
+        expect(getStringOrNull(validFieldResult('fieldId', ' '), {trim: false}))
+            .toEqual(validFieldResult('fieldId', ' '));
     });
 });
 

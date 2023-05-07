@@ -545,21 +545,26 @@ export function getRequired<T>(
 
 export function getStringOrEmpty<T>(
     input: FieldResult<T|null|undefined>,
+    options?: {trim?: boolean},
 ): FieldResult<string> {
     if (!input.value) {
         return {...input, value: ''};
     }
-    const newValue = `${input.value}`;
+    const newValue = options?.trim ? `${input.value}`.trim() : `${input.value}`;
     return {...input, value: newValue};
 }
 
 export function getStringOrNull<T>(
     input: FieldResult<T|null|undefined>,
+    options?: {trim?: boolean},
 ): FieldResult<string|null> {
     if (!input.value) {
         return {...input, value: null};
     }
-    const newValue = `${input.value}`;
+    const newValue = options?.trim ? `${input.value}`.trim() : `${input.value}`;
+    if (!newValue) {
+        return {...input, value: null};
+    }
     return {...input, value: newValue};
 }
 

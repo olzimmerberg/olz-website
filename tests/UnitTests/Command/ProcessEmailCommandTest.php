@@ -86,14 +86,12 @@ class FakeProcessEmailCommandMail {
 final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithError(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $email_utils = new Fake\FakeEmailUtils();
-        $email_utils->client->exception = true;
+        WithUtilsCache::get('emailUtils')->client->exception = true;
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -102,21 +100,19 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(false, $email_utils->client->is_connected);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame(false, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandWithMailToWrongDomain(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -127,23 +123,21 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
 
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandNoSuchUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-such-username@olzimmerberg.ch');
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -153,23 +147,21 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-permission@olzimmerberg.ch');
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -179,16 +171,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandToUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone@olzimmerberg.ch',
             new Attribute('to', []),
@@ -199,13 +190,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html',
             'Test text',
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -215,7 +205,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $user_repo = $entity_manager->repositories[User::class];
@@ -228,13 +218,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 'body' => 'Test html',
                 'altBody' => 'Test text',
             ],
-        ], $email_utils->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandToOldUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone-old@olzimmerberg.ch',
             new Attribute('to', []),
@@ -245,13 +234,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html',
             'Test text'
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -261,7 +249,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone-old@olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $user_repo = $entity_manager->repositories[User::class];
@@ -274,20 +262,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 'body' => 'Test html',
                 'altBody' => 'Test text',
             ],
-        ], $email_utils->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-role-permission@olzimmerberg.ch');
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -297,16 +283,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandToRole(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'somerole@olzimmerberg.ch',
             new Attribute('to', []),
@@ -317,13 +302,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html',
             'Test text'
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -334,7 +318,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $role_repo = $entity_manager->repositories[Role::class];
@@ -348,13 +332,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 'altBody' => 'Test text',
             ];
         }, $role_repo->fakeProcessEmailCommandRole->getUsers()->toArray());
-        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
+        $this->assertSame($expected_emails, WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandToOldRole(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'somerole-old@olzimmerberg.ch',
             new Attribute('to', []),
@@ -365,13 +348,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html',
             'Test text'
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -382,7 +364,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $role_repo = $entity_manager->repositories[Role::class];
@@ -396,13 +378,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 'altBody' => 'Test text',
             ];
         }, $role_repo->fakeProcessEmailCommandRole->getUsers()->toArray());
-        $this->assertSame($expected_emails, $email_utils->olzMailer->emails_sent);
+        $this->assertSame($expected_emails, WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandSendingError(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             'someone@olzimmerberg.ch',
             new Attribute('to', []),
@@ -413,13 +394,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Provoke error',
             'Provoke error',
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -429,17 +409,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'CRITICAL Error forwarding email from someone@olzimmerberg.ch to someone@gmail.com: Provoked Mailer Error',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame(null, $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
-        $this->assertSame([], $email_utils->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     public function testProcessEmailCommandToMultiple(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12,
             null,
             new Attribute('to', [
@@ -453,13 +432,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html',
             'Test text'
         );
-        $email_utils->client->folders['INBOX'] = [$mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
-        $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -471,7 +449,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $logger->handler->getPrettyRecords());
-        $this->assertSame(true, $email_utils->client->is_connected);
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $user_repo = $entity_manager->repositories[User::class];
@@ -496,7 +474,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 'altBody' => 'Test text',
             ],
             ...$expected_role_emails,
-        ], $email_utils->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
 
     // TODO: Multiple mails?

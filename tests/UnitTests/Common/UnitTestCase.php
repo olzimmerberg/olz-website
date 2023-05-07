@@ -49,7 +49,15 @@ class UnitTestCase extends TestCase {
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+            'devDataUtils' => new Fake\FakeDevDataUtils(),
+            'emailUtils' => new Fake\FakeEmailUtils(),
+            'entityUtils' => new Fake\FakeEntityUtils(),
             'envUtils' => new Fake\FakeEnvUtils(),
+            'generalUtils' => new Fake\DeterministicGeneralUtils(),
+            'idUtils' => new Fake\FakeIdUtils(),
+            'symfonyUtils' => new Fake\FakeSymfonyUtils(),
+            'telegramUtils' => new Fake\FakeTelegramUtils(),
+            'uploadUtils' => new Fake\DeterministicUploadUtils(),
         ]);
 
         $this->setUpAt = microtime(true);

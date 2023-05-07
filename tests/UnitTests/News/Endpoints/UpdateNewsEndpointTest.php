@@ -84,12 +84,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -131,12 +129,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = false;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -178,14 +174,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
-        $upload_utils = new Fake\FakeUploadUtils();
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -251,7 +243,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [$news_entry, 1, 1, 1],
-        ], $entity_utils->update_olz_entity_calls);
+        ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;
 
@@ -264,6 +256,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 ['uploaded_file.pdf', 'inexistent.txt'],
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
             ],
-        ], $upload_utils->move_uploads_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }
 }

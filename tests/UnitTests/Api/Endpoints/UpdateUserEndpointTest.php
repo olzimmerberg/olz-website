@@ -174,7 +174,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
-        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -333,7 +332,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
-        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -381,7 +379,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
-        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -435,7 +432,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
-        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
@@ -477,7 +473,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
-        $endpoint->setEmailUtils(new Fake\FakeEmailUtils());
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [

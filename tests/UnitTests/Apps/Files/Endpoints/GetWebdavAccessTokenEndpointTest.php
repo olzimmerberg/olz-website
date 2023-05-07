@@ -8,7 +8,6 @@ use Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 
 class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
@@ -51,11 +50,9 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
-        $general_utils = GeneralUtils::fromEnv();
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);

@@ -62,12 +62,10 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -94,12 +92,10 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

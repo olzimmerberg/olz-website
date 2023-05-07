@@ -51,12 +51,9 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     public function testCreateRegistrationEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -113,6 +110,6 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
             [$registration, 1, 1, 1],
             [$registration_info_1, 1, 1, 1],
             [$registration_info_2, 1, 1, 1],
-        ], $entity_utils->create_olz_entity_calls);
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
     }
 }

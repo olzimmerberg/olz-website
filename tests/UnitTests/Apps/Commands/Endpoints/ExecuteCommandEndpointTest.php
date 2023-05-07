@@ -48,9 +48,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'command_fake' => false,
         ];
         $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => null]);
@@ -58,7 +56,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
         $this->assertSame(['output' => "(no output)"], $result);
         $this->assertSame([
             ['fake', 'fake'],
-        ], $symfony_utils->commandsCalled);
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 
     public function testExecuteCommandEndpoint(): void {
@@ -67,10 +65,8 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'command_fake' => true,
         ];
         $logger = Fake\FakeLogger::create();
-        $symfony_utils = new Fake\FakeSymfonyUtils();
-        $symfony_utils->output = 'fake output';
+        WithUtilsCache::get('symfonyUtils')->output = 'fake output';
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setSymfonyUtils($symfony_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => 'foo bar']);
@@ -78,6 +74,6 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
         $this->assertSame(['output' => "fake output\n"], $result);
         $this->assertSame([
             ['fake', 'fake foo bar'],
-        ], $symfony_utils->commandsCalled);
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

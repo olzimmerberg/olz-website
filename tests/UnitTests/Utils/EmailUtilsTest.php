@@ -8,7 +8,6 @@ use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
-use Olz\Utils\GeneralUtils;
 use Webklex\PHPIMAP\Client;
 
 class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
@@ -122,10 +121,8 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testgetImapClient(): void {
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         $client = $email_utils->getImapClient();
@@ -138,10 +135,8 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
@@ -154,10 +149,8 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
@@ -165,11 +158,9 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testCreateSendmailEmail(): void {
         $env_utils = new FakeEnvUtilsForSendmail();
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
@@ -224,10 +215,8 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateSmtpEmail(): void {
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
@@ -282,10 +271,8 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
         // Ignore HTML

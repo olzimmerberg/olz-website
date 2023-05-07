@@ -52,8 +52,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -94,8 +92,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo->subscriptions_to_find = [$subscription];
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -123,8 +119,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -154,8 +148,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -180,8 +172,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -204,8 +194,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -227,8 +215,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode('')]);
@@ -250,8 +236,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -279,8 +263,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -304,8 +286,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -329,8 +309,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -356,8 +334,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -384,8 +360,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
@@ -412,8 +386,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $email_utils = new Fake\FakeEmailUtils();
-        $endpoint->setEmailUtils($email_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([

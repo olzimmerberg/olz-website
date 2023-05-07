@@ -55,13 +55,9 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
     public function testCreateWeeklyPictureEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateWeeklyPictureEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -108,7 +104,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [$weekly_picture, 1, 1, 1],
-        ], $entity_utils->create_olz_entity_calls);
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 
@@ -121,6 +117,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
                 ['inexistent.jpg'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
-        ], $upload_utils->move_uploads_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }
 }

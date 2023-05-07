@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\GeneralUtils;
 use Olz\Utils\UploadUtils;
 
 /**
@@ -19,8 +18,6 @@ final class UploadUtilsTest extends UnitTestCase {
     protected function setUp(): void {
         parent::setUp();
         $upload_utils = new UploadUtils();
-        $general_utils = new GeneralUtils();
-        $upload_utils->setGeneralUtils($general_utils);
         $this->uploadUtils = $upload_utils;
     }
 

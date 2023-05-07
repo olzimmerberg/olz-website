@@ -22,7 +22,6 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
 
     public function testLinkTelegramEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $telegram_utils = new Fake\FakeTelegramUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new LinkTelegramEndpoint();
         $session = new MemorySession();
@@ -33,7 +32,6 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
         ];
         $endpoint->setSession($session);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);

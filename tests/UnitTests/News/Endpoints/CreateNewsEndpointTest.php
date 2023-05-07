@@ -72,13 +72,9 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'all' => false,
             'kaderblog' => false,
         ];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -147,7 +143,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [$news_entry, 1, 1, 1],
-        ], $entity_utils->create_olz_entity_calls);
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 
@@ -160,6 +156,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 ['uploaded_file.pdf', 'inexistent.txt'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
-        ], $upload_utils->move_uploads_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }
 }

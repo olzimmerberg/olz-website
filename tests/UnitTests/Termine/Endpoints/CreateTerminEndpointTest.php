@@ -70,13 +70,9 @@ final class CreateTerminEndpointTest extends UnitTestCase {
     public function testCreateTerminEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -120,7 +116,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         // TODO: Enable when Termine is migrated to OlzEntity
         // $this->assertSame([
         //     [$termin, 1, 1, 1],
-        // ], $entity_utils->create_olz_entity_calls);
+        // ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 
@@ -129,6 +125,6 @@ final class CreateTerminEndpointTest extends UnitTestCase {
                 ['uploaded_file.pdf', 'inexistent.txt'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/termine/{$id}/",
             ],
-        ], $upload_utils->move_uploads_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }
 }

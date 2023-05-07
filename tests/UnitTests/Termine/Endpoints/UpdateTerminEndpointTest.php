@@ -89,12 +89,10 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -117,14 +115,10 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
-        $upload_utils = new Fake\FakeUploadUtils();
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
@@ -168,7 +162,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         // TODO: Enable when Termine is migrated to OlzEntity
         // $this->assertSame([
         //     [$termin, 1, 1, 1],
-        // ], $entity_utils->update_olz_entity_calls);
+        // ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;
 
@@ -177,6 +171,6 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
                 ['uploaded_file.pdf', 'inexistent.txt'],
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/termine/{$id}/",
             ],
-        ], $upload_utils->move_uploads_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }
 }

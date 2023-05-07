@@ -62,12 +62,10 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = false;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -89,12 +87,10 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -121,12 +117,10 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_utils = new Fake\FakeEntityUtils();
-        $entity_utils->can_update_olz_entity = true;
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

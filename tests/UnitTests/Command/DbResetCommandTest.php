@@ -21,11 +21,9 @@ final class DbResetCommandTest extends UnitTestCase {
     public function testDbResetCommandOnProd(): void {
         $env_backup = $_ENV;
         $_ENV = [...$_ENV, 'APP_ENV' => 'prod'];
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         WithUtilsCache::get('envUtils')->app_env = 'prod';
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'content']);
         $output = new BufferedOutput();
@@ -40,16 +38,14 @@ final class DbResetCommandTest extends UnitTestCase {
             "Command Olz\\Command\\DbResetCommand not allowed in app env prod.\n",
             $output->fetch(),
         );
-        $this->assertSame([], $dev_data_utils->commands_called);
+        $this->assertSame([], WithUtilsCache::get('devDataUtils')->commands_called);
 
         $_ENV = $env_backup;
     }
 
     public function testDbResetCommandModeContent(): void {
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'content']);
         $output = new BufferedOutput();
@@ -67,14 +63,12 @@ final class DbResetCommandTest extends UnitTestCase {
         );
         $this->assertSame([
             'resetDbContent',
-        ], $dev_data_utils->commands_called);
+        ], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 
     public function testDbResetCommandModeStructure(): void {
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'structure']);
         $output = new BufferedOutput();
@@ -92,14 +86,12 @@ final class DbResetCommandTest extends UnitTestCase {
         );
         $this->assertSame([
             'resetDbStructure',
-        ], $dev_data_utils->commands_called);
+        ], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 
     public function testDbResetCommandModeFull(): void {
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'full']);
         $output = new BufferedOutput();
@@ -117,14 +109,12 @@ final class DbResetCommandTest extends UnitTestCase {
         );
         $this->assertSame([
             'fullResetDb',
-        ], $dev_data_utils->commands_called);
+        ], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 
     public function testDbResetCommandInvalidMode(): void {
-        $dev_data_utils = new Fake\FakeDevDataUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setDevDataUtils($dev_data_utils);
         $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'invalid']);
         $output = new BufferedOutput();
@@ -140,6 +130,6 @@ final class DbResetCommandTest extends UnitTestCase {
             "Invalid mode: invalid.\n",
             $output->fetch(),
         );
-        $this->assertSame([], $dev_data_utils->commands_called);
+        $this->assertSame([], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 }

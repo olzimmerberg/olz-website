@@ -77,12 +77,9 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
-        $entity_utils = new Fake\FakeEntityUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

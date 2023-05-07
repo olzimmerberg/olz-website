@@ -22,6 +22,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
@@ -38,6 +39,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointInvalidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
 
@@ -58,6 +60,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointMissingFirstPart(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -80,6 +83,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointNoBase64(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -103,6 +107,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpointMissingOtherParts(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -128,6 +133,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
     public function testFinishUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new FinishUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');

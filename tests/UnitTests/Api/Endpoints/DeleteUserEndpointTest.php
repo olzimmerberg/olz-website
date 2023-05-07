@@ -103,6 +103,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     public function testDeleteUserEndpointWrongUsername(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new DeleteUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -138,6 +139,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -206,6 +208,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

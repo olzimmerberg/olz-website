@@ -26,6 +26,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
     public function testLoginEndpointWithoutInput(): void {
         $endpoint = new LoginEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -43,6 +44,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
     public function testLoginEndpointWithNullInput(): void {
         $endpoint = new LoginEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -67,6 +69,7 @@ final class LoginEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->authenticate_user = $user;
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LoginEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $endpoint->setSession($session);
 
@@ -101,6 +104,7 @@ final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointWithInvalidCredentials(): void {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test');
         $endpoint = new LoginEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $endpoint->setSession($session);
 
@@ -123,6 +127,7 @@ final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointCanNotAuthenticate(): void {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new AuthBlockedException('test');
         $endpoint = new LoginEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $endpoint->setSession($session);
 

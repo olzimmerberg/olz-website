@@ -39,9 +39,12 @@ final class OlzDeleteEntityEndpointTest extends UnitTestCase {
     public function testOlzDeleteEntityEndpointInternalId(): void {
         $endpoint = new OlzDeleteEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 5,
         ]);
+
         $this->assertSame([
             'status' => 'OK',
         ], $result);
@@ -50,9 +53,12 @@ final class OlzDeleteEntityEndpointTest extends UnitTestCase {
     public function testOlzDeleteEntityEndpointExternalId(): void {
         $endpoint = new OlzDeleteEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 'external-id',
         ]);
+
         $this->assertSame([
             'status' => 'OK',
         ], $result);

@@ -41,6 +41,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_EMAIL,
@@ -128,6 +129,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_TELEGRAM,

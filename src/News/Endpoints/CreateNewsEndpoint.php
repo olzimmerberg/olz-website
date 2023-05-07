@@ -121,6 +121,40 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         }
         $this->uploadUtils()->moveUploads($input_data['fileIds'], $news_entry_files_path);
 
+        if ($format === 'anonymous') {
+            $anonymous_user = new User();
+            $anonymous_user->setEmail($input_data['authorEmail']);
+            $anonymous_user->setFirstName($input_data['authorName']);
+            $anonymous_user->setLastName('');
+
+            $delete_news_token = urlencode($this->emailUtils()->encryptEmailReactionToken([
+                'action' => 'delete_news',
+                'news_id' => $news_entry_id,
+            ]));
+            $base_url = $this->envUtils()->getBaseHref();
+            $code_href = $this->envUtils()->getCodeHref();
+            $news_url = "{$base_url}{$code_href}news/{$news_entry_id}";
+            $delete_news_url = "{$base_url}{$code_href}email_reaktion.php?token={$delete_news_token}";
+            $text = <<<ZZZZZZZZZZ
+            Hallo {$anonymous_user->getFirstName()},
+
+            Du hast soeben auf [{$base_url}]({$base_url}) einen [anonymen Forumseintrag]({$news_url}) erstellt.
+    
+            Falls du deinen Eintrag wieder *löschen* willst, klicke [hier]({$delete_news_url}) oder auf folgenden Link:
+    
+            {$delete_news_url}
+    
+            ZZZZZZZZZZ;
+            $config = [
+                'no_unsubscribe' => true,
+            ];
+
+            $this->emailUtils()->setLogger($this->log());
+            $email = $this->emailUtils()->createEmail();
+            $email->configure($anonymous_user, "[OLZ] Dein Forumseintrag", $text, $config);
+            $email->send();
+        }
+
         return [
             'status' => 'OK',
             'id' => $news_entry_id,

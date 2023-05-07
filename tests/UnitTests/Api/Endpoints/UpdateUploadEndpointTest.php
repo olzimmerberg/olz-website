@@ -22,6 +22,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
@@ -39,6 +40,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpointInvalidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new UpdateUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
 
@@ -60,6 +62,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     public function testUpdateUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new UpdateUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');

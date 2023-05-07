@@ -39,6 +39,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     public function testDeleteNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -61,6 +62,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -83,6 +85,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 123,
@@ -110,6 +113,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 9999,

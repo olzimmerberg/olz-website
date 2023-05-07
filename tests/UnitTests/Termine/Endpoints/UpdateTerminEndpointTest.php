@@ -68,6 +68,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
     public function testUpdateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new UpdateTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call(self::VALID_INPUT);
@@ -88,6 +89,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -111,6 +113,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');

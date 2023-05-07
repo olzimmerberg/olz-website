@@ -63,6 +63,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     public function testEditTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new EditTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -84,6 +85,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new EditTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -106,6 +108,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 12,
@@ -150,6 +153,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');

@@ -41,6 +41,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     public function testUpdateNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -83,6 +84,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -125,6 +127,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -167,6 +170,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');

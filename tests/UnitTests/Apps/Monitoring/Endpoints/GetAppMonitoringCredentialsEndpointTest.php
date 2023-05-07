@@ -25,6 +25,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 
@@ -42,6 +43,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppMonitoringCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $result = $endpoint->call([]);

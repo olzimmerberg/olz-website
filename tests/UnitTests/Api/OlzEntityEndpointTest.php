@@ -49,18 +49,24 @@ final class OlzEntityEndpointTest extends UnitTestCase {
     public function testOlzEntityEndpointInternalId(): void {
         $endpoint = new OlzEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 5,
         ]);
+
         $this->assertSame(['data' => 'test'], $result);
     }
 
     public function testOlzEntityEndpointExternalId(): void {
         $endpoint = new OlzEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 'external-id',
         ]);
+
         $this->assertSame(['data' => 'test'], $result);
     }
 }

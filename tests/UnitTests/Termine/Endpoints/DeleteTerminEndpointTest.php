@@ -39,6 +39,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
     public function testDeleteTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new DeleteTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -61,6 +62,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 123,
@@ -88,6 +90,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 9999,

@@ -82,6 +82,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointNotAnyPermission(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
         $endpoint = new GetMySkillLevelsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -106,6 +107,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'skillFilter' => null,
@@ -134,6 +136,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'skillFilter' => [

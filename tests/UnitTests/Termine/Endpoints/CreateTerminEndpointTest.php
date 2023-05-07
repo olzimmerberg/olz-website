@@ -52,6 +52,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
     public function testCreateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new CreateTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call(self::VALID_INPUT);
@@ -69,6 +70,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $endpoint = new CreateTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');

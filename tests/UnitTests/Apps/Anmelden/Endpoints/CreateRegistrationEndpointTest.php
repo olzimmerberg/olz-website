@@ -24,6 +24,7 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     public function testCreateRegistrationEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new CreateRegistrationEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -50,6 +51,7 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateRegistrationEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'meta' => [

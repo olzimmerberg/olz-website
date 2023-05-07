@@ -25,6 +25,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -54,6 +55,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -86,6 +88,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -118,6 +121,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

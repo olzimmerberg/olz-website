@@ -36,6 +36,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
     public function testGetWebdavAccessTokenEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => false];
         $endpoint = new GetWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 
@@ -49,6 +50,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 

@@ -56,6 +56,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateBookingEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'meta' => [

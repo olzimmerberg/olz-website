@@ -41,6 +41,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => false];
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 1,
@@ -60,6 +61,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 3,
@@ -83,6 +85,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $endpoint = new UpdateOlzTextEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 1,

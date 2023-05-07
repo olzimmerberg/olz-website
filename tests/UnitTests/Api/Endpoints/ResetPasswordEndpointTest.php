@@ -12,7 +12,6 @@ use PhpTypeScriptApi\HttpError;
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
     public function __construct() {
-        parent::__construct();
         $this->setServer(['REMOTE_ADDR' => '1.2.3.4']);
     }
 
@@ -34,6 +33,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointWithoutInput(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -50,6 +50,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointWithNullInput(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -69,6 +70,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpoint(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
@@ -112,6 +114,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
@@ -135,6 +138,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointInvalidUser(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
@@ -155,6 +159,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
+        $endpoint->runtimeSetup();
         $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;

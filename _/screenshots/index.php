@@ -37,7 +37,7 @@ foreach ($generated_contents as $screenshot_path) {
 }
 
 $main_index = json_decode(
-    file_get_contents("{$main_href}screenshots/index.json.php"), true);
+    @file_get_contents("{$main_href}screenshots/index.json.php") ?? '', true);
 if ($main_index === null) {
     echo '<div>No JSON screenshot index on main</div>';
 } elseif (!isset($main_index['screenshot_paths'])) {

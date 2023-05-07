@@ -64,6 +64,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointWrongUsername(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -91,6 +92,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointInvalidNewUsername(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -127,6 +129,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -164,6 +167,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -222,6 +226,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -279,6 +284,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -313,6 +319,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -357,6 +364,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             };
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -407,6 +415,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             };
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -445,6 +454,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

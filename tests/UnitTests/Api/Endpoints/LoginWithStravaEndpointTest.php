@@ -77,6 +77,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
         $endpoint = new LoginWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setStravaUtils($strava_utils);
         try {
             $result = $endpoint->call(['code' => null]);
@@ -117,6 +118,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
         $endpoint = new LoginWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -187,6 +189,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
         $endpoint = new LoginWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
@@ -237,6 +240,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
         $endpoint = new LoginWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);

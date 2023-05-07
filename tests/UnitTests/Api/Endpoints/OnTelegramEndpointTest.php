@@ -74,6 +74,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $content_json = json_encode(['json' => 'input']);
         $request = new Request($get_params, [], [], [], [], [], $content_json);
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
         $parsed_input = $endpoint->parseInput($request);
         $this->assertSame([
             'authenticityCode' => 'some-token',
@@ -83,6 +84,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -102,6 +104,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -124,6 +127,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -143,6 +147,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -162,6 +167,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartAnonymousChat(): void {
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         WithUtilsCache::get('telegramUtils')->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -187,6 +193,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointNoChatId(): void {
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         WithUtilsCache::get('telegramUtils')->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -208,6 +215,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

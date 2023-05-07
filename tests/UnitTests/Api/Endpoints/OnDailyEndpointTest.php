@@ -27,6 +27,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $get_params = ['authenticityCode' => 'some-token'];
         $request = new Request($get_params);
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
         $parsed_input = $endpoint->parseInput($request);
         $this->assertSame([
             'authenticityCode' => 'some-token',
@@ -39,6 +40,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         try {
@@ -59,6 +61,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
 
         $throttling_repo->last_daily_notifications = null;
         try {
@@ -79,6 +82,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         WithUtilsCache::get('envUtils')->has_unlimited_cron = true;
@@ -100,6 +104,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $result = $endpoint->call([
@@ -122,6 +127,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

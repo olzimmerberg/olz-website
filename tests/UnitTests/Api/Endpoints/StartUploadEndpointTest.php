@@ -22,6 +22,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new StartUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -35,6 +36,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpointAbort(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new StartUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -52,6 +54,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new StartUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -66,6 +69,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
     public function testStartUploadEndpointWithSuffix(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new StartUploadEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['suffix' => '.pdf']);
 

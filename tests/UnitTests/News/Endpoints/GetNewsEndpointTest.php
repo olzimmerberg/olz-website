@@ -51,6 +51,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
     public function testGetNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -72,6 +73,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new GetNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 12,
@@ -112,6 +114,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new GetNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/news/');

@@ -25,6 +25,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
 
     public function testSwitchUserEndpointWithoutInput(): void {
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -40,6 +41,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
 
     public function testSwitchUserEndpointWithNullInput(): void {
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([
                 'userId' => null,
@@ -60,6 +62,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'parent',
@@ -97,6 +100,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'child1',
@@ -134,6 +138,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'child1',
@@ -171,6 +176,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'parent',
@@ -210,6 +216,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'parent',

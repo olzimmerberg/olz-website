@@ -28,6 +28,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetPrefillValuesEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -46,6 +47,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'userId' => null,
@@ -76,6 +78,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'userId' => 1,
@@ -105,6 +108,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([

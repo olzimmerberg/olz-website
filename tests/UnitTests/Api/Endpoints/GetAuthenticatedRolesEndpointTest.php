@@ -26,6 +26,7 @@ final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedRolesEndpoint(): void {
         $endpoint = new GetAuthenticatedRolesEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(null);
 
@@ -52,6 +53,7 @@ final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
     public function testGetAuthenticatedRolesEndpointUnauthenticated(): void {
         $auth_utils = new FakeGetAuthenticatedRolesEndpointAuthUtils();
         $endpoint = new GetAuthenticatedRolesEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setAuthUtils($auth_utils);
 
         $result = $endpoint->call(null);

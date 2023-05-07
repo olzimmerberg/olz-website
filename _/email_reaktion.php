@@ -40,6 +40,9 @@ if ($reaction_data) {
     if ($reaction_data['action'] == 'verify_email') {
         $question = "<p>Willst du <b>deine E-Mail-Adresse bestätigen?</b></p>";
     }
+    if ($reaction_data['action'] == 'delete_news') {
+        $question = "<p>Willst du wirklich <b>deinen anonymen Forumseintrag löschen?</b></p>";
+    }
     if ($question) {
         echo <<<ZZZZZZZZZZ
         {$question}

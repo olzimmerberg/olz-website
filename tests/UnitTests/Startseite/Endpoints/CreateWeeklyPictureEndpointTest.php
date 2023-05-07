@@ -26,6 +26,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
     public function testCreateWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => false];
         $endpoint = new CreateWeeklyPictureEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -54,6 +55,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
         $endpoint = new CreateWeeklyPictureEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');

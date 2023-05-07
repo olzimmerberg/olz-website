@@ -39,6 +39,7 @@ class FakeEditNewsEndpointNewsRepository {
         throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
     }
 }
+
 /**
  * @internal
  *
@@ -53,6 +54,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
     public function testEditNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -74,6 +76,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new EditNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -96,6 +99,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new EditNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -118,6 +122,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 12,
@@ -159,6 +164,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditNewsEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');

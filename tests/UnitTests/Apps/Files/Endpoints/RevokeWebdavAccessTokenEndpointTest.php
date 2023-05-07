@@ -29,6 +29,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
     public function testRevokeWebdavAccessTokenEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => false];
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 
@@ -41,6 +42,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 

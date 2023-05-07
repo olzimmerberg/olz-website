@@ -23,6 +23,7 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
     public function testLinkTelegramEndpoint(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LinkTelegramEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

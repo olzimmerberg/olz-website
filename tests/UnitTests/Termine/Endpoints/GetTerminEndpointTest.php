@@ -60,6 +60,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
     public function testGetTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -81,6 +82,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'id' => 12,
@@ -124,6 +126,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
+        $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');

@@ -40,6 +40,8 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
     public function testOlzUpdateEntityEndpointInternalId(): void {
         $endpoint = new OlzUpdateEntityConcreteEndpoint();
         $endpoint->uses_external_id = false;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 5,
             'meta' => [
@@ -49,6 +51,7 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
             ],
             'data' => 'some-data',
         ]);
+
         $this->assertSame([
             'status' => 'OK',
             'id' => 5,
@@ -58,6 +61,8 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
     public function testOlzUpdateEntityEndpointExternalId(): void {
         $endpoint = new OlzUpdateEntityConcreteEndpoint();
         $endpoint->uses_external_id = true;
+        $endpoint->runtimeSetup();
+
         $result = $endpoint->call([
             'id' => 'external-id',
             'meta' => [
@@ -67,6 +72,7 @@ final class OlzUpdateEntityEndpointTest extends UnitTestCase {
             ],
             'data' => 'some-data',
         ]);
+
         $this->assertSame([
             'status' => 'OK',
             'id' => 'external-id',

@@ -71,6 +71,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
     public function testSearchTransportConnectionEndpointGetCenterOfOriginStations(): void {
         $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint->runtimeSetup();
         // sic!
         $this->assertSame([
             'x' => 47.296817499999996,
@@ -80,6 +81,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
     public function testSearchTransportConnectionEndpointGetMostPeripheralOriginStations(): void {
         $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint->runtimeSetup();
         $this->assertSame([
             'Richterswil',
             'Wädenswil',
@@ -119,6 +121,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         ];
         $latest_departure_by_station_id = [];
         $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint->runtimeSetup();
         $this->assertSame(
             2,
             $endpoint->testOnlyGetJoiningStationFromConnection(
@@ -132,6 +135,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
 
         $result = $endpoint->call([
@@ -281,6 +285,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
 
         $result = $endpoint->call([
@@ -332,6 +337,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
 
         $result = $endpoint->call([
@@ -392,6 +398,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
 
         $result = $endpoint->call([
@@ -416,6 +423,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new SearchTransportConnectionEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'destination' => 'Flumserberg Tannenheim',

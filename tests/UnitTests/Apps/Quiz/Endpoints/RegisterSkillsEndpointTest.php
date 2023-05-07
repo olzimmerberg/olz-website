@@ -52,6 +52,7 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
         $skill_repo = new FakeRegisterSkillsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $endpoint = new RegisterSkillsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'skills' => [

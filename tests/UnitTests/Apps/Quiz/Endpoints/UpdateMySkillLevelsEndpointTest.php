@@ -52,6 +52,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
         $endpoint = new UpdateMySkillLevelsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
@@ -76,6 +77,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new UpdateMySkillLevelsEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'updates' => [

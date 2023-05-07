@@ -38,6 +38,7 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
     public function testGetManagedUsersEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetManagedUsersEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([]);
@@ -54,6 +55,7 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
         $user_repo = new FakeGetManagedUsersEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetManagedUsersEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 

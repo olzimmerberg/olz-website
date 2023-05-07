@@ -21,6 +21,7 @@ final class LogoutEndpointTest extends UnitTestCase {
 
     public function testLogoutEndpoint(): void {
         $endpoint = new LogoutEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

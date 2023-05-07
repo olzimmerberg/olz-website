@@ -26,6 +26,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $get_params = ['authenticityCode' => 'some-token'];
         $request = new Request($get_params);
         $endpoint = new OnContinuouslyEndpoint();
+        $endpoint->runtimeSetup();
         $parsed_input = $endpoint->parseInput($request);
         $this->assertSame([
             'authenticityCode' => 'some-token',
@@ -34,6 +35,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
     public function testOnContinuouslyEndpointWrongToken(): void {
         $endpoint = new OnContinuouslyEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
 
         try {
@@ -53,6 +55,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
 
     public function testOnContinuouslyEndpoint(): void {
         $endpoint = new OnContinuouslyEndpoint();
+        $endpoint->runtimeSetup();
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
 
         $result = $endpoint->call([

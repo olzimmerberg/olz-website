@@ -50,6 +50,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $endpoint = new GetLogsEndpoint();
+        $endpoint->runtimeSetup();
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
@@ -117,6 +118,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint = new GetLogsEndpoint();
+        $endpoint->runtimeSetup();
 
         try {
             $result = $endpoint->call([

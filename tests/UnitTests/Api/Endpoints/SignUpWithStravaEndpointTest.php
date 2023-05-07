@@ -44,6 +44,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     public function testSignUpWithStravaEndpointWithoutInput(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         try {
             $result = $endpoint->call([
                 'stravaUser' => null,
@@ -93,6 +94,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithStravaEndpoint();
+        $endpoint->runtimeSetup();
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);

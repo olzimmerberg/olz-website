@@ -29,6 +29,7 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
     public function testGetAuthenticatedUserEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         $endpoint = new GetAuthenticatedUserEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(null);
 
@@ -48,6 +49,7 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserEndpointUnauthenticated(): void {
         $endpoint = new GetAuthenticatedUserEndpoint();
+        $endpoint->runtimeSetup();
 
         $result = $endpoint->call(null);
 

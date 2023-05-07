@@ -8,6 +8,7 @@ use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {
@@ -27,11 +28,9 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
     }
 
     public function testRevokeWebdavAccessTokenEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['webdav' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
@@ -43,11 +42,9 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['webdav' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $logger = Fake\FakeLogger::create();
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setLog($logger);
 

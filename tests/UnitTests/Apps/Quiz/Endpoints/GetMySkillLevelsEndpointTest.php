@@ -9,6 +9,7 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeGetMySkillLevelsEndpointSkillRepository {
@@ -79,11 +80,9 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testGetMySkillLevelsEndpointNotAnyPermission(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query['any'] = false;
+        WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -101,9 +100,8 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testGetMySkillLevelsEndpointAll(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query['any'] = true;
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
         $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
@@ -111,7 +109,6 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);
@@ -135,9 +132,8 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testGetMySkillLevelsEndpointCategoryIdIn(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query['any'] = true;
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
         $entity_manager = new Fake\FakeEntityManager();
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
@@ -145,7 +141,6 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetMySkillLevelsEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);

@@ -8,6 +8,7 @@ use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeGetPrefillValuesEndpointUserRepository extends Fake\FakeUserRepository {
@@ -25,11 +26,9 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -43,16 +42,14 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
@@ -80,16 +77,14 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointManagedUser(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
@@ -117,15 +112,13 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointOtherUser(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);

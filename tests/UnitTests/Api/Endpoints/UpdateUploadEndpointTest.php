@@ -8,6 +8,7 @@ use Olz\Api\Endpoints\UpdateUploadEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\UploadUtils;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -21,11 +22,9 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpointUnauthorized(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -42,12 +41,10 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpointInvalidId(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -69,13 +66,11 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUploadEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new UploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUploadEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);

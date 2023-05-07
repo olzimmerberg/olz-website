@@ -10,6 +10,7 @@ use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeFetcher {
     public function fetchConnection($request_data) {
@@ -128,12 +129,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample1(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
         $endpoint->setLog($logger);
 
@@ -281,12 +280,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample2(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
         $endpoint->setLog($logger);
 
@@ -336,12 +333,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointExample3(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
         $endpoint->setLog($logger);
 
@@ -400,12 +395,10 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointFailingRequest(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
         $endpoint->setLog($logger);
 
@@ -429,11 +422,9 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

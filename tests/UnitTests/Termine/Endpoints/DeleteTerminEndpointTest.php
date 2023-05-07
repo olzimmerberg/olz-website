@@ -8,6 +8,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Termine\Endpoints\DeleteTerminEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeDeleteTerminEndpointTerminRepository {
@@ -37,11 +38,9 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminEndpointNoAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -62,13 +61,11 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);
@@ -96,13 +93,11 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $entity_utils = new Fake\FakeEntityUtils();
         $entity_utils->can_update_olz_entity = true;
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setLog($logger);

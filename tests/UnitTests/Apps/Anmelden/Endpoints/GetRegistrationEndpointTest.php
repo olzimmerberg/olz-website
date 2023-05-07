@@ -9,6 +9,7 @@ use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeGetRegistrationEndpointRegistrationRepository {
     public function findOneBy($where) {
@@ -59,11 +60,9 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeGetRegistrationEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetRegistrationEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());
         $endpoint->setLog($logger);

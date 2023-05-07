@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Youtube\Endpoints;
 use Olz\Apps\Youtube\Endpoints\GetAppYoutubeCredentialsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -23,11 +24,9 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppYoutubeCredentialsEndpoint(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => true];
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -47,10 +46,8 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppYoutubeCredentialsEndpointNotAuthorized(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 

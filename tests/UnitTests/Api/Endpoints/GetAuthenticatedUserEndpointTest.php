@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\GetAuthenticatedUserEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeGetAuthenticatedUserEndpointAuthUtils {
     public function getCurrentUser() {
@@ -26,11 +27,9 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedUserEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(null);
@@ -50,10 +49,8 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedUserEndpointUnauthenticated(): void {
-        $auth_utils = new FakeGetAuthenticatedUserEndpointAuthUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call(null);

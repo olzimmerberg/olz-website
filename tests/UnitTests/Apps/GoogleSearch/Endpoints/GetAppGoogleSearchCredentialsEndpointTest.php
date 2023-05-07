@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\GoogleSearch\Endpoints;
 use Olz\Apps\GoogleSearch\Endpoints\GetAppGoogleSearchCredentialsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -21,13 +22,11 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppGoogleSearchCredentialsEndpoint(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => true];
-        $auth_utils->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
@@ -45,12 +44,10 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppGoogleSearchCredentialsEndpointNotAuthorized(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
         $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 

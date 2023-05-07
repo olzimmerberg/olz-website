@@ -10,6 +10,7 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EntityUtils;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -18,11 +19,9 @@ use Olz\Utils\EntityUtils;
  */
 final class EntityUtilsTest extends UnitTestCase {
     public function testCreateOlzEntity(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         $entity_manager = new Fake\FakeEntityManager();
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setEntityManager($entity_manager);
         $entity = new OlzEntity();
 
@@ -46,11 +45,9 @@ final class EntityUtilsTest extends UnitTestCase {
     }
 
     public function testUpdateOlzEntity(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         $entity_manager = new Fake\FakeEntityManager();
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity_utils->setEntityManager($entity_manager);
         $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();
@@ -80,10 +77,8 @@ final class EntityUtilsTest extends UnitTestCase {
     }
 
     public function testCanUpdateOlzEntityAllPermissions(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity = new OlzEntity();
 
         $result = $entity_utils->canUpdateOlzEntity(
@@ -93,11 +88,9 @@ final class EntityUtilsTest extends UnitTestCase {
     }
 
     public function testCanUpdateOlzEntityIsOwner(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity = new OlzEntity();
         $entity->setOwnerUser(Fake\FakeUsers::defaultUser());
 
@@ -108,11 +101,9 @@ final class EntityUtilsTest extends UnitTestCase {
     }
 
     public function testCanUpdateOlzEntityIsCreatedBy(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity = new OlzEntity();
         $entity->setCreatedByUser(Fake\FakeUsers::defaultUser());
 
@@ -123,10 +114,8 @@ final class EntityUtilsTest extends UnitTestCase {
     }
 
     public function testCanUpdateOlzEntityNoEntityAccess(): void {
-        $auth_utils = new Fake\FakeAuthUtils();
-        $auth_utils->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
-        $entity_utils->setAuthUtils($auth_utils);
         $entity = new OlzEntity();
 
         $result = $entity_utils->canUpdateOlzEntity(

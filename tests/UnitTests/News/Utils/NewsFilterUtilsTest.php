@@ -16,9 +16,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class NewsFilterUtilsTest extends UnitTestCase {
     public function testGetDefaultFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame([
             'format' => 'alle',
             'datum' => '2020',
@@ -27,9 +25,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testIsValidFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame(false, $news_utils->isValidFilter([]));
         $this->assertSame(false, $news_utils->isValidFilter(['foo' => 'bar']));
         $this->assertSame(true, $news_utils->isValidFilter([
@@ -55,16 +51,12 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testDefaultFilterIsValid(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame(true, $news_utils->isValidFilter($news_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFiltersForSitemap(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'format' => 'alle',
@@ -220,9 +212,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiFormatFilterOptions(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'selected' => true,
@@ -370,9 +360,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiDateRangeFilterOptionsExclArchive(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'selected' => true,
@@ -596,9 +584,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetSqlFromFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame("'1'='0'", $news_utils->getSqlFromFilter([]));
         $this->assertSame(
             "(YEAR(n.datum) = '2020') AND ('1' = '1')",
@@ -651,9 +637,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetTitleFromFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $this->assertSame("News", $news_utils->getTitleFromFilter([]));
         $this->assertSame(
             "News",
@@ -793,9 +777,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetIsNotArchivedCriteria(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
-        $news_utils->setDateUtils($date_utils);
         $criteria_expression = $news_utils->getIsNotArchivedCriteria();
         $this->assertSame('datum', $criteria_expression->getField());
         $this->assertSame(

@@ -63,7 +63,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entity_manager);
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([
@@ -125,7 +124,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entity_manager);
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([]);

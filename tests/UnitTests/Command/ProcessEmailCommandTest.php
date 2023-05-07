@@ -9,7 +9,6 @@ use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Webklex\PHPIMAP\Address;
@@ -90,14 +89,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $email_utils->client->exception = true;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -119,14 +116,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -152,14 +147,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-such-username@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -184,14 +177,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-permission@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -226,14 +217,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text',
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -278,14 +267,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -320,14 +307,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $email_utils = new Fake\FakeEmailUtils();
         $mail = new FakeProcessEmailCommandMail(12, 'no-role-permission@olzimmerberg.ch');
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -362,14 +347,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -416,14 +399,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -470,14 +451,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Provoke error',
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -516,14 +495,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         $email_utils->client->folders['INBOX'] = [$mail];
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setAuthUtils($auth_utils);
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);

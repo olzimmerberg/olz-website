@@ -10,7 +10,6 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 
 class FakeDeadlineWarningGetterSolvEventRepository {
     public $has_no_deadlines = false;
@@ -78,12 +77,10 @@ class FakeDeadlineWarningGetterTerminRepository {
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setDateUtils($date_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 10]);
 
@@ -98,7 +95,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo->has_no_deadlines = true;
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
@@ -106,7 +102,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
@@ -120,7 +115,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
@@ -128,7 +122,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);

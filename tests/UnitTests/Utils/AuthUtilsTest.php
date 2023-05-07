@@ -9,7 +9,6 @@ use Olz\Entity\AuthRequest;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
 
 class FakeAuthUtilsAccessTokenRepository {
@@ -230,7 +229,6 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateValidAccessToken(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
@@ -243,7 +241,6 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
 
         $auth_utils = new AuthUtils();
-        $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -313,7 +310,6 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateExpiredAccessToken(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
@@ -326,7 +322,6 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
 
         $auth_utils = new AuthUtils();
-        $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -642,7 +637,6 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetCurrentUserFromToken(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
@@ -650,7 +644,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
-        $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setLog($logger);
@@ -672,7 +665,6 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetTokenUser(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $access_token_repo = new FakeAuthUtilsAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
@@ -680,7 +672,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
-        $auth_utils->setDateUtils($date_utils);
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setLog($logger);

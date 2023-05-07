@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 use Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -60,7 +59,6 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setIdUtils(new Fake\FakeIdUtils());

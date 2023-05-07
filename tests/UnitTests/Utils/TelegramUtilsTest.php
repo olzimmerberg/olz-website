@@ -160,7 +160,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
         $telegram_link = new TelegramLink();
@@ -179,7 +178,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 
@@ -207,7 +205,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 
@@ -243,7 +240,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 
@@ -285,7 +281,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 
@@ -338,7 +333,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 
@@ -364,7 +358,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         $date_utils = new FixedDateUtils($iso_now);
         $logger = Fake\FakeLogger::create();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setDateUtils($date_utils);
         $telegram_utils->setEntityManager($entity_manager);
         $telegram_utils->setLog($logger);
 

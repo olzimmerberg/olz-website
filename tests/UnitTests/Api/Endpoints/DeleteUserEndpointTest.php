@@ -15,7 +15,6 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
 
 class FakeDeleteUserEndpointNewsEntryRepository {
@@ -143,13 +142,11 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         $auth_utils = new Fake\FakeAuthUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
@@ -220,13 +217,11 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         $auth_utils = new Fake\FakeAuthUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $env_utils = new Fake\FakeEnvUtils();
         $env_utils->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();

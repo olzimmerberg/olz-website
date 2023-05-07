@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\CleanTempDirectoryCommand;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -54,7 +53,6 @@ class FakeCleanTempDirectoryCommand extends CleanTempDirectoryCommand {
 final class CleanTempDirectoryCommandTest extends UnitTestCase {
     public function testCleanTempDirectoryCommandErrorOpening(): void {
         $env_utils = new Fake\FakeEnvUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
@@ -64,7 +62,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new FakeCleanTempDirectoryCommand();
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->opendir_override_result = false;
         $job->setLog($logger);
@@ -82,7 +79,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
 
     public function testCleanTempDirectoryCommandRemovesEverything(): void {
         $env_utils = new Fake\FakeEnvUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
@@ -95,7 +91,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new FakeCleanTempDirectoryCommand();
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->setLog($logger);
         $job->run($input, $output);
@@ -115,7 +110,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
 
     public function testCleanTempDirectoryCommandRemoveNotYet(): void {
         $env_utils = new Fake\FakeEnvUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $data_path = $env_utils->getDataPath();
         $temp_path = "{$data_path}temp/";
@@ -128,7 +122,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new FakeCleanTempDirectoryCommand();
-        $job->setDateUtils($date_utils);
         $job->setEnvUtils($env_utils);
         $job->filemtime_response = strtotime('2020-03-13 19:30:00');
         $job->setLog($logger);

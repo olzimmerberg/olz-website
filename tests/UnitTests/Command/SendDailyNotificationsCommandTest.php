@@ -11,7 +11,6 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -458,7 +457,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $email_utils = new Fake\FakeEmailUtils();
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsCommandDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsCommandDeadlineWarningGetter();
@@ -471,7 +469,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new SendDailyNotificationsCommand();
-        $job->setDateUtils($date_utils);
         $job->setEmailUtils($email_utils);
         $job->setEntityManager($entity_manager);
         $job->setEnvUtils($env_utils);
@@ -676,21 +673,15 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             ]],
         ], $telegram_utils->telegramApiCalls);
         $this->assertSame($entity_manager, $daily_summary_getter->entityManager());
-        $this->assertSame($date_utils, $daily_summary_getter->dateUtils());
         $this->assertSame($env_utils, $daily_summary_getter->envUtils());
         $this->assertSame($entity_manager, $deadline_warning_getter->entityManager());
-        $this->assertSame($date_utils, $deadline_warning_getter->dateUtils());
         $this->assertSame($env_utils, $deadline_warning_getter->envUtils());
         $this->assertSame($entity_manager, $monthly_preview_getter->entityManager());
-        $this->assertSame($date_utils, $monthly_preview_getter->dateUtils());
         $this->assertSame($env_utils, $monthly_preview_getter->envUtils());
-        $this->assertSame($date_utils, $telegram_configuration_reminder_getter->dateUtils());
         $this->assertSame($env_utils, $telegram_configuration_reminder_getter->envUtils());
         $this->assertSame($entity_manager, $weekly_preview_getter->entityManager());
-        $this->assertSame($date_utils, $weekly_preview_getter->dateUtils());
         $this->assertSame($env_utils, $weekly_preview_getter->envUtils());
         $this->assertSame($entity_manager, $weekly_summary_getter->entityManager());
-        $this->assertSame($date_utils, $weekly_summary_getter->dateUtils());
         $this->assertSame($env_utils, $weekly_summary_getter->envUtils());
     }
 }

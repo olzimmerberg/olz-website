@@ -9,7 +9,6 @@ use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
@@ -70,12 +69,10 @@ final class LoginEndpointTest extends UnitTestCase {
         $auth_utils = new Fake\FakeAuthUtils();
         $user = Fake\FakeUsers::adminUser();
         $auth_utils->authenticate_user = $user;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);

@@ -9,7 +9,6 @@ use Olz\Entity\User;
 use Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -66,7 +65,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateWeeklyPictureEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

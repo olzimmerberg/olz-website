@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common;
 
 use Olz\Tests\Fake;
+use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\Translator;
@@ -45,7 +46,9 @@ class UnitTestCase extends TestCase {
         mkdir($data_path);
 
         Fake\FakeFactory::reset();
-        WithUtilsCache::reset();
+        WithUtilsCache::setAll([
+            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+        ]);
 
         $this->setUpAt = microtime(true);
     }

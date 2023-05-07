@@ -131,10 +131,8 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointExample1(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Winterthur',
@@ -150,7 +148,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], array_map(function ($line) {
             return substr($line, 0, 60);
-        }, $logger->handler->getPrettyRecords()));
+        }, $this->getLogs()));
 
         $this->assertSame('OK', $result['status']);
         $this->assertSame(8, count($result['suggestions']));
@@ -282,10 +280,8 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointExample2(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Flumserberg Tannenheim',
@@ -327,7 +323,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], array_map(function ($line) {
             return substr($line, 0, 60);
-        }, $logger->handler->getPrettyRecords()));
+        }, $this->getLogs()));
         $this->assertSame('OK', $result['status']);
         $this->assertSame(0, count($result['suggestions']));
     }
@@ -335,10 +331,8 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointExample3(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Chur',
@@ -381,7 +375,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], array_map(function ($line) {
             return substr($line, 0, 60);
-        }, $logger->handler->getPrettyRecords()));
+        }, $this->getLogs()));
 
         $this->assertSame('OK', $result['status']);
         // $this->assertSame(8, count($result['suggestions']));
@@ -397,10 +391,8 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointFailingRequest(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->setTransportApiFetcher($fake_transport_api_fetcher);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'inexistent',
@@ -411,7 +403,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             'INFO Valid user request',
             'ERROR Exception: Unmocked request: from_8503207_to_inexistent_at_2021-10-01T13-15 in',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords(function ($record, $level_name, $message) {
+        ], $this->getLogs(function ($record, $level_name, $message) {
             $cropped_message = substr($message, 0, 78);
             return "{$level_name} {$cropped_message}";
         }));
@@ -423,9 +415,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
 
     public function testSearchTransportConnectionEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SearchTransportConnectionEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'destination' => 'Flumserberg Tannenheim',
@@ -435,7 +425,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'ERROR',
             'suggestions' => null,

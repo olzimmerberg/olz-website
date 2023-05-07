@@ -52,14 +52,13 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
@@ -78,14 +77,13 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
             'blog' => true,
@@ -138,14 +136,13 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWithNoContent(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklySummaryNotification([]);
 
         $this->assertSame(null, $notification);

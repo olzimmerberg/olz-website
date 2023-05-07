@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\DbResetCommand;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
@@ -22,9 +21,7 @@ final class DbResetCommandTest extends UnitTestCase {
         $env_backup = $_ENV;
         $_ENV = [...$_ENV, 'APP_ENV' => 'prod'];
         WithUtilsCache::get('envUtils')->app_env = 'prod';
-        $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'content']);
         $output = new BufferedOutput();
 
@@ -32,7 +29,7 @@ final class DbResetCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "NOTICE Command Olz\\Command\\DbResetCommand not allowed in app env prod.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(
             "Command Olz\\Command\\DbResetCommand not allowed in app env prod.\n",
@@ -44,9 +41,7 @@ final class DbResetCommandTest extends UnitTestCase {
     }
 
     public function testDbResetCommandModeContent(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'content']);
         $output = new BufferedOutput();
 
@@ -55,7 +50,7 @@ final class DbResetCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbResetCommand...",
             "INFO Successfully ran command Olz\\Command\\DbResetCommand.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(
             "Database content reset successful.\n",
@@ -67,9 +62,7 @@ final class DbResetCommandTest extends UnitTestCase {
     }
 
     public function testDbResetCommandModeStructure(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'structure']);
         $output = new BufferedOutput();
 
@@ -78,7 +71,7 @@ final class DbResetCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbResetCommand...",
             "INFO Successfully ran command Olz\\Command\\DbResetCommand.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(
             "Database structure reset successful.\n",
@@ -90,9 +83,7 @@ final class DbResetCommandTest extends UnitTestCase {
     }
 
     public function testDbResetCommandModeFull(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'full']);
         $output = new BufferedOutput();
 
@@ -101,7 +92,7 @@ final class DbResetCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbResetCommand...",
             "INFO Successfully ran command Olz\\Command\\DbResetCommand.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(
             "Database full reset successful.\n",
@@ -113,9 +104,7 @@ final class DbResetCommandTest extends UnitTestCase {
     }
 
     public function testDbResetCommandInvalidMode(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new DbResetCommand();
-        $command->setLog($logger);
         $input = new ArrayInput(['mode' => 'invalid']);
         $output = new BufferedOutput();
 
@@ -124,7 +113,7 @@ final class DbResetCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbResetCommand...",
             "NOTICE Command Olz\\Command\\DbResetCommand called with invalid arguments.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(
             "Invalid mode: invalid.\n",

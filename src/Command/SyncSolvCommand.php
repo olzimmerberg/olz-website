@@ -63,9 +63,11 @@ class SyncSolvCommand extends OlzCommand {
     private function syncSolvEvents() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_day = intval($this->dateUtils()->getCurrentDateInFormat('d'));
-        $events_syncer = $this->solvEventsSyncer ?? new SolvEventsSyncer(
-            $this->entityManager(), $this->solvFetcher);
-        $events_syncer->setLogger($this->log());
+        $events_syncer = $this->solvEventsSyncer ?? null;
+        if (!$events_syncer) {
+            $events_syncer = new SolvEventsSyncer();
+            $events_syncer->setSolvFetcher($this->solvFetcher);
+        }
         try {
             $events_syncer->syncSolvEventsForYear($current_year);
         } catch (\Throwable $th) {
@@ -93,9 +95,11 @@ class SyncSolvCommand extends OlzCommand {
 
     private function syncSolvResults() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
-        $results_syncer = $this->solvResultsSyncer ?? new SolvResultsSyncer(
-            $this->entityManager(), $this->solvFetcher);
-        $results_syncer->setLogger($this->log());
+        $results_syncer = $this->solvResultsSyncer ?? null;
+        if (!$results_syncer) {
+            $results_syncer = new SolvResultsSyncer();
+            $results_syncer->setSolvFetcher($this->solvFetcher);
+        }
         try {
             $results_syncer->syncSolvResultsForYear($current_year);
         } catch (\Throwable $th) {
@@ -104,15 +108,13 @@ class SyncSolvCommand extends OlzCommand {
     }
 
     private function assignSolvPeople() {
-        $people_assigner = $this->solvPeopleAssigner ?? new SolvPeopleAssigner(
-            $this->entityManager());
+        $people_assigner = $this->solvPeopleAssigner ?? new SolvPeopleAssigner();
         $people_assigner->setLogger($this->log());
         $people_assigner->assignSolvPeople();
     }
 
     private function mergeSolvPeople() {
-        $people_merger = $this->solvPeopleMerger ?? new SolvPeopleMerger(
-            $this->entityManager());
+        $people_merger = $this->solvPeopleMerger ?? new SolvPeopleMerger();
         $people_merger->setLogger($this->log());
         $people_merger->mergeSolvPeople();
     }

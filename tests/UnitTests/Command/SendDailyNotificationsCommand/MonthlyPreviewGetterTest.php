@@ -78,48 +78,45 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
-        $logger = Fake\FakeLogger::create();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
-        $logger = Fake\FakeLogger::create();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
-        $logger = Fake\FakeLogger::create();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 
@@ -130,14 +127,13 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -161,7 +157,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         ZZZZZZZZZZ;
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame('Monatsvorschau April', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -173,18 +169,17 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 }

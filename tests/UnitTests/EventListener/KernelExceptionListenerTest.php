@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\EventListener;
 
 use Olz\EventListener\KernelExceptionListener;
 use Olz\Kernel;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -36,14 +35,12 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
         $listener = new KernelExceptionListenerForTest();
-        $logger = Fake\FakeLogger::create();
-        $listener->setLog($logger);
 
         $listener->onKernelException($exception_event);
 
         $this->assertSame([
             'INFO Handling HttpExceptionInterface fake-internal-error...',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testOnKernelOtherException(): void {
@@ -53,14 +50,12 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
         $listener = new KernelExceptionListenerForTest();
-        $logger = Fake\FakeLogger::create();
-        $listener->setLog($logger);
 
         $listener->onKernelException($exception_event);
 
         $this->assertSame([
             'WARNING Non-HttpExceptionInterface exception: fake-exception',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testOnKernelRecursiveException(): void {
@@ -72,13 +67,11 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $listener = new KernelExceptionListenerForTest();
         $listener->testOnlySetIsHandlingException($throwable_1);
-        $logger = Fake\FakeLogger::create();
-        $listener->setLog($logger);
 
         $listener->onKernelException($exception_event_2);
 
         $this->assertSame([
             'WARNING Was already handling exception fake-exception-1, but now also fake-exception-2.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 }

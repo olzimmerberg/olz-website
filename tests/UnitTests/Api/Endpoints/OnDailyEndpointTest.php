@@ -38,10 +38,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         try {
@@ -50,7 +48,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 'ERROR Throttled user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(429, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
@@ -61,10 +59,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = null;
         try {
@@ -73,7 +69,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 'WARNING Bad user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
@@ -84,10 +80,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         WithUtilsCache::get('envUtils')->has_unlimited_cron = true;
@@ -97,7 +91,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 'WARNING Bad user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
@@ -108,10 +102,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -122,7 +114,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
@@ -133,10 +125,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'on_daily';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnDailyEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -145,7 +135,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
         $this->assertSame([

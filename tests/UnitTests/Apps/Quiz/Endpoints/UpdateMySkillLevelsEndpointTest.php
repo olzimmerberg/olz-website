@@ -51,9 +51,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
 
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -64,7 +62,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -77,10 +75,8 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'updates' => [
@@ -96,7 +92,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame([

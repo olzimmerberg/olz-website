@@ -42,10 +42,8 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
 
     public function testSignUpWithStravaEndpointWithoutInput(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'stravaUser' => null,
@@ -71,7 +69,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'WARNING Bad user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame([
                 'stravaUser' => [['.' => ['Feld darf nicht leer sein.']]],
                 'accessToken' => [['.' => ['Feld darf nicht leer sein.']]],
@@ -94,13 +92,11 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'stravaUser' => 'fakeStravaUser',
@@ -126,7 +122,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
         ], $result);

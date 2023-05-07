@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\StartUploadEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -22,9 +21,7 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -32,14 +29,12 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testStartUploadEndpointAbort(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -51,14 +46,12 @@ final class StartUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Could not start upload. Finding unique ID failed. Maximum number of loops exceeded.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testStartUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => null]);
 
@@ -67,14 +60,12 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testStartUploadEndpointWithSuffix(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['suffix' => '.pdf']);
 
@@ -83,6 +74,6 @@ final class StartUploadEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 }

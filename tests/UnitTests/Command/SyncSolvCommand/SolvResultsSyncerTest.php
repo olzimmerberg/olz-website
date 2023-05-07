@@ -8,8 +8,6 @@ use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
-use Olz\Utils\WithUtilsCache;
 
 class FakeSolvResultsSyncerSolvEventRepository {
     public $eventWithResults;
@@ -168,18 +166,15 @@ class FakeSolvResultsSyncerSolvFetcher {
  */
 final class SolvResultsSyncerTest extends UnitTestCase {
     public function testSolvResultsSyncer(): void {
-        WithUtilsCache::setAll([
-            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
-        ]);
-
         $entity_manager = new Fake\FakeEntityManager();
         $solv_event_repo = new FakeSolvResultsSyncerSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSolvResultsSyncerSolvFetcher();
-        $logger = Fake\FakeLogger::create();
 
-        $job = new SolvResultsSyncer($entity_manager, $solv_fetcher);
-        $job->setLogger($logger);
+        $job = new SolvResultsSyncer();
+        $job->setEntityManager($entity_manager);
+        $job->setSolvFetcher($solv_fetcher);
+
         $job->syncSolvResultsForYear('2020');
 
         $flushed = $entity_manager->flushed_persisted;

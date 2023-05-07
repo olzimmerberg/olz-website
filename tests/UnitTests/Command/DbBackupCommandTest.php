@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\DbBackupCommand;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
@@ -19,9 +18,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class DbBackupCommandTest extends UnitTestCase {
     public function testDbBackupCommandSuccess(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new DbBackupCommand();
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -30,7 +27,7 @@ final class DbBackupCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\DbBackupCommand...",
             "INFO Successfully ran command Olz\\Command\\DbBackupCommand.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame([

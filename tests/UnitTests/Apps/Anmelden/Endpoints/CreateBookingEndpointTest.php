@@ -55,10 +55,8 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateBookingEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'meta' => [

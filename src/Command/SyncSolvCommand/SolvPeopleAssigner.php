@@ -4,35 +4,30 @@ namespace Olz\Command\SyncSolvCommand;
 
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
+use Olz\Utils\WithUtilsTrait;
 
 class SolvPeopleAssigner {
-    use \Psr\Log\LoggerAwareTrait;
-
-    protected $entityManager;
-
-    public function __construct($entityManager) {
-        $this->entityManager = $entityManager;
-    }
+    use WithUtilsTrait;
 
     public function assignSolvPeople() {
-        $solv_result_repo = $this->entityManager->getRepository(SolvResult::class);
+        $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
         $solv_results = $solv_result_repo->getUnassignedSolvResults();
         foreach ($solv_results as $solv_result) {
             $person = $solv_result_repo->getExactPersonId($solv_result);
             if ($person == 0) {
-                $this->logger->info("Person not exactly matched:");
-                $this->logger->info(json_encode($solv_result, JSON_PRETTY_PRINT));
+                $this->log()->info("Person not exactly matched:");
+                $this->log()->info(json_encode($solv_result, JSON_PRETTY_PRINT));
                 $person = $this->findOrCreateSolvPerson($solv_result);
             }
             if ($person != 0) {
                 $solv_result->setPerson($person);
-                $this->entityManager->flush();
+                $this->entityManager()->flush();
             }
         }
     }
 
     private function findOrCreateSolvPerson($solv_result) {
-        $solv_result_repo = $this->entityManager->getRepository(SolvResult::class);
+        $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
         $solv_result_data = $solv_result_repo->getAllAssignedSolvResultPersonData();
 
         $person_id = $this->getMatchingPerson(
@@ -50,13 +45,13 @@ class SolvPeopleAssigner {
         $solv_person->setBirthYear($solv_result->getBirthYear());
         $solv_person->setDomicile($solv_result->getDomicile());
         $solv_person->setMember(1);
-        $this->entityManager->persist($solv_person);
-        $this->entityManager->flush();
+        $this->entityManager()->persist($solv_person);
+        $this->entityManager()->flush();
         $insert_id = $solv_person->getId();
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
-        $this->logger->info("Created new person (id {$insert_id}):");
-        $this->logger->info($person_str);
+        $this->log()->info("Created new person (id {$insert_id}):");
+        $this->log()->info($person_str);
         return $insert_id;
     }
 
@@ -75,20 +70,20 @@ class SolvPeopleAssigner {
         $least_difference = $closest_matches['difference'];
         $person_infos_with_least_difference = $closest_matches['matches'];
         $pretty_matches = json_encode($person_infos_with_least_difference, JSON_PRETTY_PRINT);
-        $this->logger->info("Closest matches (difference {$least_difference}): {$pretty_matches}");
+        $this->log()->info("Closest matches (difference {$least_difference}): {$pretty_matches}");
         if ($least_difference >= 3) {
-            $this->logger->info(" => No matching person found (difference too high).");
+            $this->log()->info(" => No matching person found (difference too high).");
             if ($least_difference < 6) {
-                $this->logger->notice("Unclear case. Maybe update logic?");
+                $this->log()->notice("Unclear case. Maybe update logic?");
             }
             return null;
         }
         $unambiguous_person = $this->getUnambiguousPerson($person_infos_with_least_difference);
         if ($unambiguous_person === null) {
-            $this->logger->info(" => No matching person found (closest matches contain different persons).");
+            $this->log()->info(" => No matching person found (closest matches contain different persons).");
             return null;
         }
-        $this->logger->info(" => Matching person found: {$unambiguous_person}.");
+        $this->log()->info(" => Matching person found: {$unambiguous_person}.");
         return $unambiguous_person;
     }
 

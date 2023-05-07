@@ -25,9 +25,7 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithoutInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -39,14 +37,12 @@ final class LoginEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testLoginEndpointWithNullInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -62,7 +58,7 @@ final class LoginEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
@@ -70,12 +66,10 @@ final class LoginEndpointTest extends UnitTestCase {
         $user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->authenticate_user = $user;
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -97,7 +91,7 @@ final class LoginEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $user->getLastLoginAt()->format('Y-m-d H:i:s')
@@ -107,11 +101,9 @@ final class LoginEndpointTest extends UnitTestCase {
 
     public function testLoginEndpointWithInvalidCredentials(): void {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test');
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'wrooong',
@@ -126,16 +118,14 @@ final class LoginEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testLoginEndpointCanNotAuthenticate(): void {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new AuthBlockedException('test');
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginEndpoint();
         $session = new MemorySession();
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -150,6 +140,6 @@ final class LoginEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 }

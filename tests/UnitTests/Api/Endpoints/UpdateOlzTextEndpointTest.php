@@ -41,10 +41,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
     public function testUpdateOlzTextEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => false];
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 1,
@@ -54,7 +52,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'ERROR'], $result);
     }
 
@@ -63,10 +61,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 3,
@@ -76,7 +72,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame('New **content**!', $entity_manager->persisted[0]->getText());
@@ -89,10 +85,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 1,
@@ -102,7 +96,7 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $olz_text = $entity_manager->getRepository(OlzText::class)->olz_text;
         $this->assertSame(1, $olz_text->getId());

@@ -51,9 +51,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
 
     public function testGetNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -64,7 +62,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -74,10 +72,8 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -86,7 +82,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -117,10 +113,8 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeGetNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/news/');
@@ -141,7 +135,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 123,
             'meta' => [

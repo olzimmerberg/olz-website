@@ -84,18 +84,16 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call(['code' => null]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'WARNING Bad user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame([
                 'code' => [['.' => ['Feld darf nicht leer sein.']]],
             ], $httperr->getPrevious()->getValidationErrors());
@@ -125,21 +123,19 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'tokenType' => null,
             'expiresAt' => null,
@@ -196,21 +192,19 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'fake-code']);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'NOT_REGISTERED',
             'tokenType' => 'fake_token_type',
@@ -247,21 +241,19 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $strava_utils->setClientSecret('fake-client-secret');
         $strava_utils->setRedirectUrl('fake-redirect-url');
         $strava_utils->setStravaFetcher($strava_fetcher);
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LoginWithStravaEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setStravaUtils($strava_utils);
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['code' => 'invalid-code']);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'tokenType' => null,
             'expiresAt' => null,

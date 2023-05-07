@@ -12,6 +12,7 @@ use PhpTypeScriptApi\HttpError;
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
     public function __construct() {
+        parent::__construct();
         $this->setServer(['REMOTE_ADDR' => '1.2.3.4']);
     }
 
@@ -32,9 +33,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointWithoutInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -45,14 +44,12 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testResetPasswordEndpointWithNullInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'usernameOrEmail' => null,
@@ -66,18 +63,16 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testResetPasswordEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -113,17 +108,15 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Password reset email sent to user (2).",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $vorstand_user = Fake\FakeUsers::vorstandUser();
         $vorstand_user->setFirstName('provoke_error');
@@ -139,17 +132,15 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "CRITICAL Error sending password reset email to user (3): Provoked Mailer Error",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testResetPasswordEndpointInvalidUser(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -162,17 +153,15 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "NOTICE Password reset for unknown user: invalid.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicResetPasswordEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -184,6 +173,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 }

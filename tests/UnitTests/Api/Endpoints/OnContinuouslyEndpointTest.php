@@ -33,9 +33,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyEndpointWrongToken(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLog($logger);
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
 
         try {
@@ -47,16 +45,14 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
         }
     }
 
     public function testOnContinuouslyEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnContinuouslyEndpoint();
-        $endpoint->setLog($logger);
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
 
         $result = $endpoint->call([
@@ -66,7 +62,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['olz:on-continuously', ''],

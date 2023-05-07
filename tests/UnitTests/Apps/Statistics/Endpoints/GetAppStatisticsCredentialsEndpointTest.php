@@ -22,11 +22,9 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppStatisticsCredentialsEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -38,14 +36,12 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Statistics credentials access by admin.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testGetAppStatisticsCredentialsEndpointNotAuthorized(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -55,15 +51,13 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testGetAppStatisticsCredentialsEndpointNotAuthenticated(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -73,7 +67,7 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 }

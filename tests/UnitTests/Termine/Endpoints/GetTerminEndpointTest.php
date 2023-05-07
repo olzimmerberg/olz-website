@@ -60,9 +60,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetTerminEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -73,7 +71,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -83,10 +81,8 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -95,7 +91,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -129,10 +125,8 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');
@@ -147,7 +141,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 123,
             'meta' => [

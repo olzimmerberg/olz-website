@@ -39,9 +39,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
 
     public function testDeleteTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -52,7 +50,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -63,10 +61,8 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 123,
@@ -75,7 +71,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertSame([
             'status' => 'OK',
@@ -93,10 +89,8 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 9999,
@@ -105,7 +99,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertSame([
             'status' => 'ERROR',

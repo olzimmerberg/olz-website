@@ -40,10 +40,8 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_EMAIL,
@@ -68,7 +66,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [
@@ -130,10 +128,8 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_TELEGRAM,
@@ -158,7 +154,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [

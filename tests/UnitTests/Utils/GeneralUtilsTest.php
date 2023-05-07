@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
 
@@ -33,9 +32,7 @@ final class GeneralUtilsTest extends UnitTestCase {
     }
 
     public function testEncryptDecryptData(): void {
-        $logger = Fake\FakeLogger::create();
         $general_utils = new GeneralUtils();
-        $general_utils->setLog($logger);
         $key = 'asdf';
 
         $token = $general_utils->encrypt($key, ['test' => 'data']);
@@ -48,9 +45,7 @@ final class GeneralUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidToken(): void {
-        $logger = Fake\FakeLogger::create();
         $general_utils = new GeneralUtils();
-        $general_utils->setLog($logger);
         $key = 'asdf';
 
         $this->assertSame(null, $general_utils->decrypt($key, ''));

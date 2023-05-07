@@ -9,7 +9,6 @@ use Olz\Apps\Logs\Utils\GzLogFile;
 use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Apps\Logs\Utils\LogrotateLogsChannel;
 use Olz\Apps\Logs\Utils\PlainLogFile;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
@@ -73,7 +72,6 @@ class LogrotateLogsChannelForTest extends LogrotateLogsChannel {
  */
 final class LogrotateLogsChannelTest extends UnitTestCase {
     public function testLogrotateLogsChannelTargetDate(): void {
-        $logger = Fake\FakeLogger::create();
         $channel = new LogrotateLogsChannelForTest();
         $session = new MemorySession();
         $session->session_storage = [
@@ -82,7 +80,6 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $channel->setSession($session);
-        $channel->setLog($logger);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
@@ -129,7 +126,7 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
             'DEBUG log_file_before data-path/syslog/syslog.processed.2',
             'DEBUG log_file_after data-path/syslog/syslog.processed',
             'DEBUG log_file_after data-path/syslog/syslog',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",

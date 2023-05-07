@@ -63,9 +63,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
     public function testEditTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -76,7 +74,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -86,10 +84,8 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -100,7 +96,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -111,10 +107,8 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -123,7 +117,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -158,10 +152,8 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $termin_repo = new FakeEditTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');
@@ -178,7 +170,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 123,
             'meta' => [

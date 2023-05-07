@@ -24,7 +24,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -34,7 +33,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -47,7 +45,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING Bad user request',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame([
                 'newPassword' => ['Das neue Passwort muss mindestens 8 Zeichen lang sein.'],
             ], $httperr->getPrevious()->getValidationErrors());
@@ -56,7 +54,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -66,7 +63,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'not_admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -77,7 +73,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OTHER_USER'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -91,7 +87,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -101,7 +96,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -112,7 +106,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -126,7 +120,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
 
     public function testUpdateUserPasswordEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -136,7 +129,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -147,7 +139,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());

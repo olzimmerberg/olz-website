@@ -68,9 +68,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
 
     public function testUpdateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(self::VALID_INPUT);
@@ -79,7 +77,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -90,10 +88,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -105,7 +101,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -116,10 +112,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
@@ -131,7 +125,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $user_repo = $entity_manager->repositories[User::class];
         $role_repo = $entity_manager->repositories[Role::class];

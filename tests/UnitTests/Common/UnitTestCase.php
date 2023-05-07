@@ -46,6 +46,7 @@ class UnitTestCase extends TestCase {
         mkdir($data_path);
 
         Fake\FakeFactory::reset();
+        $logger = Fake\FakeLogger::create();
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
@@ -55,6 +56,8 @@ class UnitTestCase extends TestCase {
             'envUtils' => new Fake\FakeEnvUtils(),
             'generalUtils' => new Fake\DeterministicGeneralUtils(),
             'idUtils' => new Fake\FakeIdUtils(),
+            'log' => $logger,
+            'logger' => $logger,
             'symfonyUtils' => new Fake\FakeSymfonyUtils(),
             'telegramUtils' => new Fake\FakeTelegramUtils(),
             'uploadUtils' => new Fake\DeterministicUploadUtils(),
@@ -82,5 +85,9 @@ class UnitTestCase extends TestCase {
             });
             self::$shutdownFunctionRegistered = true;
         }
+    }
+
+    protected function getLogs($formatter = null) {
+        return WithUtilsCache::get('log')->handler->getPrettyRecords($formatter);
     }
 }

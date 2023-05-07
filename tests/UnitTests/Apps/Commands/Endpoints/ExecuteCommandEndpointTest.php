@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Commands\Endpoints;
 
 use Olz\Apps\Commands\Endpoints\ExecuteCommandEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -26,9 +25,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'commands' => false,
             'command_fake' => false,
         ];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(['command' => 'fake', 'argv' => 'foo bar']);
@@ -38,7 +35,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
@@ -47,9 +44,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'commands' => true,
             'command_fake' => false,
         ];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => null]);
 
@@ -64,10 +59,8 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'commands' => false,
             'command_fake' => true,
         ];
-        $logger = Fake\FakeLogger::create();
         WithUtilsCache::get('symfonyUtils')->output = 'fake output';
         $endpoint = new ExecuteCommandEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => 'foo bar']);
 

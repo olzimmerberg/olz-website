@@ -65,10 +65,10 @@ final class SolvPeopleMergerTest extends UnitTestCase {
         $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
         $solv_result_repo = new FakeSolvPeopleMergerSolvResultRepository();
         $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
-        $logger = Fake\FakeLogger::create();
 
-        $job = new SolvPeopleMerger($entity_manager);
-        $job->setLogger($logger);
+        $job = new SolvPeopleMerger();
+        $job->setEntityManager($entity_manager);
+
         $job->mergeSolvPeople();
 
         $flushed = $entity_manager->flushed_persisted;

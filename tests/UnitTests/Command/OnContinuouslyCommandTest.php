@@ -43,10 +43,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
         $command->setEntityManager($entity_manager);
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -55,7 +53,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
             "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame([], $throttling_repo->recorded_occurrences);
@@ -70,10 +68,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = null;
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
         $command->setEntityManager($entity_manager);
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -82,7 +78,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
             "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame(
@@ -100,10 +96,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
         $command->setEntityManager($entity_manager);
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -112,7 +106,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
             "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame(

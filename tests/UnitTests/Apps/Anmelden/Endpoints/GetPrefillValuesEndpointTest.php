@@ -27,9 +27,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -47,10 +45,8 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'userId' => null,
@@ -80,10 +76,8 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'userId' => 1,
@@ -112,10 +106,8 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([

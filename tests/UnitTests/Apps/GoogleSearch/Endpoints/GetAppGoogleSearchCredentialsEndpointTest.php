@@ -24,9 +24,7 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppGoogleSearchCredentialsEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -38,14 +36,12 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO GoogleSearch credentials access by admin.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testGetAppGoogleSearchCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -55,7 +51,7 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 }

@@ -103,7 +103,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
     public function testDeleteUserEndpointWrongUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -113,14 +112,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'wrong_user',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 1]);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([
             'auth' => 'ftp',
@@ -141,7 +139,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -151,14 +148,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 2]);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -212,7 +208,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -222,7 +217,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'user',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['id' => 1]);
 
@@ -230,7 +224,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'INFO Valid user request',
             'WARNING Removing user user (ID:1).',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $default_user = $entity_manager->getRepository(User::class)->default_user;
         $this->assertSame(8, count($entity_manager->removed));

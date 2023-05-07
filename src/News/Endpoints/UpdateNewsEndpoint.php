@@ -66,8 +66,6 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         $news_entry->setAuthorRole($author_role);
         $news_entry->setAuthorName($input_data['authorName']);
         $news_entry->setAuthorEmail($input_data['authorEmail']);
-        $news_entry->setDate($now);
-        $news_entry->setTime($now);
         $news_entry->setTitle($input_data['title']);
         $news_entry->setTeaser($input_data['teaser']);
         $news_entry->setContent($input_data['content']);

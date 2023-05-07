@@ -82,9 +82,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -96,16 +94,14 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
         }
     }
 
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -115,7 +111,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -127,10 +123,8 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -140,7 +134,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -149,9 +143,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -161,7 +153,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -170,9 +162,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointStartAnonymousChat(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setLog($logger);
 
         WithUtilsCache::get('telegramUtils')->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -183,7 +173,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],
@@ -197,9 +187,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testOnTelegramEndpointNoChatId(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
-        $endpoint->setLog($logger);
 
         WithUtilsCache::get('telegramUtils')->isAnonymousChat = true;
         $result = $endpoint->call([
@@ -211,7 +199,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             'INFO Valid user request',
             'NOTICE Telegram message without chat_id',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
     }
@@ -220,10 +208,8 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',
@@ -233,7 +219,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
             ['sendChatAction', ['chat_id' => 17089367, 'action' => 'typing']],

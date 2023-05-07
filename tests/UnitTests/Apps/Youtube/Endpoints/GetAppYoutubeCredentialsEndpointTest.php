@@ -22,11 +22,9 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
     }
 
     public function testGetAppYoutubeCredentialsEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -38,14 +36,12 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Youtube credentials access by admin.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testGetAppYoutubeCredentialsEndpointNotAuthorized(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -55,7 +51,7 @@ final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 }

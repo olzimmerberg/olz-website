@@ -41,9 +41,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
 
     public function testUpdateNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -74,7 +72,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -85,10 +83,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -119,7 +115,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -130,10 +126,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -164,7 +158,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -175,10 +169,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
@@ -215,7 +207,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $user_repo = $entity_manager->repositories[User::class];
         $role_repo = $entity_manager->repositories[Role::class];

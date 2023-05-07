@@ -34,18 +34,16 @@ class TestOnlyEmailUtils extends EmailUtils {
 final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $email_utils->sendEmailVerificationEmail($user, 'valid-recaptcha');
 
         $this->assertSame([
             "INFO Email verification email sent to user (1).",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $expected_email = <<<'ZZZZZZZZZZ'
         **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
 
@@ -70,12 +68,10 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
@@ -84,7 +80,7 @@ final class EmailUtilsTest extends UnitTestCase {
         } catch (RecaptchaDeniedException $exc) {
             $this->assertSame([
                 "WARNING reCaptcha token was invalid",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(
                 'ReCaptcha Token ist ungültig',
                 $exc->getMessage()
@@ -97,12 +93,10 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailFailsSending(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $logger = Fake\FakeLogger::create();
         $olz_mailer = new Fake\FakeOlzMailer();
         $olz_mailer->provoke_error = true;
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->fake_olz_mailer = $olz_mailer;
-        $email_utils->setLog($logger);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
@@ -111,7 +105,7 @@ final class EmailUtilsTest extends UnitTestCase {
         } catch (\Exception $exc) {
             $this->assertSame([
                 "CRITICAL Error sending email verification email to user (1): Provoked Mailer Error",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(
                 'Error sending email verification email to user (1): Provoked Mailer Error',
                 $exc->getMessage()
@@ -121,9 +115,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testgetImapClient(): void {
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setLog($logger);
 
         $client = $email_utils->getImapClient();
 
@@ -135,9 +127,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setLog($logger);
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
 
@@ -149,19 +139,15 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setLog($logger);
 
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
     }
 
     public function testCreateSendmailEmail(): void {
         $env_utils = new FakeEnvUtilsForSendmail();
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
         $email_utils->setEnvUtils($env_utils);
-        $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
 
@@ -215,9 +201,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateSmtpEmail(): void {
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setLog($logger);
 
         $mailer = $email_utils->createEmail();
 
@@ -271,9 +255,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setLog($logger);
 
         // Ignore HTML
         $html = $email_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");

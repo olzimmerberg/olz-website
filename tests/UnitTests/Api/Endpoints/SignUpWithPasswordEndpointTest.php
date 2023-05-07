@@ -63,10 +63,8 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithoutInput(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'firstName' => null,
@@ -90,7 +88,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'firstName' => [['.' => ['Feld darf nicht leer sein.']]],
@@ -103,14 +101,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             ...self::VALID_INPUT,
@@ -125,14 +121,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -145,7 +139,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (invalid@)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
@@ -155,14 +149,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -175,7 +167,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
@@ -185,14 +177,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithOlzimmerbergEmail(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -205,7 +195,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
@@ -217,14 +207,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -237,7 +225,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Feld darf nicht leer sein.'],
@@ -249,14 +237,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -269,7 +255,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Feld darf nicht leer sein.'],
@@ -281,14 +267,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -296,7 +280,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
         ], $result);
@@ -323,7 +307,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -331,7 +314,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             ...self::VALID_INPUT,
@@ -342,7 +324,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
         ], $result);
@@ -360,14 +342,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $existing_user->setId(123);
         $user_repo->userToBeFound = $existing_user;
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -375,7 +355,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
         ], $result);
@@ -407,14 +387,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $existing_user->setPasswordHash('some-hash');
         $user_repo->userToBeFound = $existing_user;
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(self::VALID_INPUT);
@@ -424,7 +402,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
                 [
@@ -455,14 +433,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             return null;
         };
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -470,7 +446,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
         ], $result);
@@ -507,14 +483,12 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             return null;
         };
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call(self::VALID_INPUT);
@@ -524,7 +498,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
                 [
@@ -545,7 +519,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->setEntityManager($entity_manager);
@@ -553,7 +526,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -562,7 +534,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
             "ERROR Error sending fake verification email",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK_NO_EMAIL_VERIFICATION',
         ], $result);

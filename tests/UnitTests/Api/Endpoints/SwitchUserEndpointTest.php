@@ -23,9 +23,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointWithoutInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([]);
             $this->fail('Exception expected.');
@@ -35,14 +33,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testSwitchUserEndpointWithNullInput(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
-        $endpoint->setLog($logger);
         try {
             $result = $endpoint->call([
                 'userId' => null,
@@ -54,7 +50,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
@@ -62,7 +58,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -75,7 +70,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user_id' => 4,
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'userId' => 5, // child1
@@ -95,14 +89,13 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testSwitchUserEndpointCanSwitchBetweenChildren(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -115,7 +108,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user_id' => 4,
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'userId' => 6, // child2
@@ -135,14 +127,13 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testSwitchUserEndpointCanSwitchToParent(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -155,7 +146,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user_id' => 4,
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'userId' => 4, // child2
@@ -175,14 +165,13 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testSwitchUserEndpointCannotSwitchToInexistentUser(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -195,7 +184,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user_id' => 4,
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -208,7 +196,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame([
                 'auth' => 'parent',
                 'root' => 'parent',
@@ -224,7 +212,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new SwitchUserEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -237,7 +224,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user_id' => 4,
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -250,7 +236,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame([
                 'auth' => 'parent',
                 'root' => 'parent',

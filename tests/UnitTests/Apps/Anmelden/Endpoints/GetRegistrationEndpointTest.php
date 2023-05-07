@@ -61,10 +61,8 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
         $registration_info_repo = new FakeGetRegistrationEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetRegistrationEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,

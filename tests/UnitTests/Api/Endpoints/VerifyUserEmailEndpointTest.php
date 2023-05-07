@@ -26,10 +26,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         $user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->current_user = $user;
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -39,17 +37,15 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([['user' => $user]], WithUtilsCache::get('emailUtils')->email_verification_emails_sent);
     }
 
     public function testVerifyUserEmailEndpointWithoutInput(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([]);
@@ -58,16 +54,14 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testVerifyUserEmailEndpointWithNullInput(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -78,16 +72,14 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
     public function testVerifyUserEmailEndpointUnauthenticated(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -99,7 +91,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 401",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 
@@ -107,10 +99,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new RecaptchaDeniedException('test');
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'recaptchaToken' => 'invalid-recaptcha-token',
@@ -120,7 +110,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Error sending fake verification email",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'DENIED'], $result);
         $this->assertSame([], WithUtilsCache::get('emailUtils')->email_verification_emails_sent);
     }
@@ -129,10 +119,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'recaptchaToken' => 'fake-recaptcha-token',
@@ -142,7 +130,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Error sending fake verification email",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([], WithUtilsCache::get('emailUtils')->email_verification_emails_sent);
     }

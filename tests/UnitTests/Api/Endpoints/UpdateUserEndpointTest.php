@@ -63,7 +63,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointWrongUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -73,14 +72,13 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'wrong_user',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(self::VALID_INPUT);
 
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([
             'auth' => 'ftp',
@@ -93,7 +91,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -103,7 +100,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(array_merge(
@@ -115,7 +111,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
@@ -132,7 +128,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
 
     public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -142,7 +137,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(array_merge(
@@ -154,7 +148,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
@@ -172,7 +166,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -182,7 +175,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -193,7 +185,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -233,7 +225,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointSameEmail(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -243,7 +234,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             ...self::VALID_INPUT,
@@ -253,7 +243,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());
@@ -293,7 +283,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointEmailUpdateWithoutRecaptcha(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -303,7 +292,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(self::VALID_INPUT);
@@ -312,7 +300,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'recaptchaToken' => ['Bei einer E-Mail-Änderung muss ein ReCaptcha Token angegeben werden.'],
@@ -330,7 +318,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointWithInvalidRecaptcha(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -340,7 +327,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -351,7 +337,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'DENIED'], $result);
         $this->assertSame([
             'auth' => 'ftp',
@@ -377,7 +363,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 return null;
             };
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -387,7 +372,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
@@ -400,7 +384,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
@@ -430,7 +414,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 return null;
             };
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -440,7 +423,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
@@ -453,7 +435,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING Bad user request",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
@@ -471,7 +453,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     public function testUpdateUserEndpointRemoveAvatar(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
@@ -481,7 +462,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setLog($logger);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -493,7 +473,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = $entity_manager->getRepository(User::class)->admin_user;
         $this->assertSame(2, $admin_user->getId());

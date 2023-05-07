@@ -49,9 +49,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointTargetDate(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
-        $endpoint->setLog($logger);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
@@ -97,7 +95,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             'DEBUG log_file_before data-path/logs/merged-2020-03-12.log',
             'DEBUG log_file_after data-path/logs/merged-2020-03-14.log',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",
@@ -118,9 +116,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
     public function testGetLogsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetLogsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([
@@ -139,7 +135,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'INFO Valid user request',
                 'WARNING HTTP error 403',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
         }
     }

@@ -78,12 +78,11 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
-        $logger = Fake\FakeLogger::create();
 
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklyPreviewNotification([]);
 
         $this->assertSame(null, $notification);
@@ -96,14 +95,13 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklyPreviewNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -127,7 +125,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
         ZZZZZZZZZZ;
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame('Vorschau auf die Woche vom 23. März', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -139,18 +137,17 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setLogger($logger);
+
         $notification = $job->getWeeklyPreviewNotification([]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 }

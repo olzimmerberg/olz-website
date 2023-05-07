@@ -28,16 +28,14 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
 
     public function testGetAuthenticatedUserEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(null);
 
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'user' => [
                 'id' => 1,
@@ -49,16 +47,14 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
     }
 
     public function testGetAuthenticatedUserEndpointUnauthenticated(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAuthenticatedUserEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(null);
 
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['user' => null], $result);
     }
 }

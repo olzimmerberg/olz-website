@@ -87,19 +87,17 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithError(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('emailUtils')->client->exception = true;
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(false, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
     }
@@ -108,20 +106,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -133,20 +129,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $mail = new FakeProcessEmailCommandMail(12, 'no-such-username@olzimmerberg.ch');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
@@ -157,20 +151,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $mail = new FakeProcessEmailCommandMail(12, 'no-permission@olzimmerberg.ch');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
@@ -191,20 +183,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text',
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone@olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
@@ -235,20 +225,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO Email forwarded from someone-old@olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
@@ -269,20 +257,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $mail = new FakeProcessEmailCommandMail(12, 'no-role-permission@olzimmerberg.ch');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
@@ -303,13 +289,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -317,7 +301,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
@@ -349,13 +333,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -363,7 +345,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole-old@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
@@ -395,20 +377,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Provoke error',
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'CRITICAL Error forwarding email from someone@olzimmerberg.ch to someone@gmail.com: Provoked Mailer Error',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame(null, $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
@@ -433,13 +413,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text'
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $logger = Fake\FakeLogger::create();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $job = new ProcessEmailCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -448,7 +426,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);

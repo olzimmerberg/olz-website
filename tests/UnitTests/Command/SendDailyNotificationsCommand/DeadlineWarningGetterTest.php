@@ -77,11 +77,10 @@ class FakeDeadlineWarningGetterTerminRepository {
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setLogger($logger);
+
         $notification = $job->getDeadlineWarningNotification(['days' => 10]);
 
         $this->assertSame(null, $notification);
@@ -95,13 +94,12 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo->has_no_deadlines = true;
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setLogger($logger);
+
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $this->assertSame(null, $notification);
@@ -113,13 +111,12 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entity_manager);
-        $job->setLogger($logger);
+
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'

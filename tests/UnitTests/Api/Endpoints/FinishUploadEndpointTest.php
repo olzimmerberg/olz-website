@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\FinishUploadEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -22,9 +21,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
@@ -35,14 +32,12 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testFinishUploadEndpointInvalidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
 
@@ -56,15 +51,13 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Could not finish upload. Invalid ID: 'invalid'.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
     }
 
     public function testFinishUploadEndpointMissingFirstPart(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -79,16 +72,14 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA is missing the first part.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
     }
 
     public function testFinishUploadEndpointNoBase64(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -104,16 +95,14 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA does not have base64 header.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
     }
 
     public function testFinishUploadEndpointMissingOtherParts(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -129,7 +118,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA is missing parts 1, 2.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));
@@ -138,9 +127,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
@@ -157,7 +144,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
         $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));

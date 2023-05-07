@@ -51,9 +51,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
 
     public function testCreateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call(self::VALID_INPUT);
@@ -62,7 +60,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -70,10 +68,8 @@ final class CreateTerminEndpointTest extends UnitTestCase {
     public function testCreateTerminEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new CreateTerminEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
@@ -85,7 +81,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $user_repo = $entity_manager->repositories[User::class];
         $role_repo = $entity_manager->repositories[Role::class];

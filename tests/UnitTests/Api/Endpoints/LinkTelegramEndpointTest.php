@@ -22,7 +22,6 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
 
     public function testLinkTelegramEndpoint(): void {
         $entity_manager = new Fake\FakeEntityManager();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new LinkTelegramEndpoint();
         $session = new MemorySession();
         $session->session_storage = [
@@ -32,14 +31,13 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
         ];
         $endpoint->setSession($session);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'botName' => 'bot-name',
             'pin' => 'correct-pin',

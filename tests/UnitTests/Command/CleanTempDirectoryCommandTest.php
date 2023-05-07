@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\CleanTempDirectoryCommand;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -53,7 +52,6 @@ class FakeCleanTempDirectoryCommand extends CleanTempDirectoryCommand {
  */
 final class CleanTempDirectoryCommandTest extends UnitTestCase {
     public function testCleanTempDirectoryCommandErrorOpening(): void {
-        $logger = Fake\FakeLogger::create();
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
@@ -63,21 +61,19 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
 
         $job = new FakeCleanTempDirectoryCommand();
         $job->opendir_override_result = false;
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertSame([
             'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
             'WARNING Failed to open directory data-path/temp',
             'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
         $this->assertEqualsCanonicalizing([], $job->unlink_calls);
     }
 
     public function testCleanTempDirectoryCommandRemovesEverything(): void {
-        $logger = Fake\FakeLogger::create();
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
@@ -89,7 +85,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new FakeCleanTempDirectoryCommand();
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertEqualsCanonicalizing([
@@ -102,11 +97,10 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
             'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testCleanTempDirectoryCommandRemoveNotYet(): void {
-        $logger = Fake\FakeLogger::create();
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
@@ -119,7 +113,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
 
         $job = new FakeCleanTempDirectoryCommand();
         $job->filemtime_response = strtotime('2020-03-13 19:30:00');
-        $job->setLog($logger);
         $job->run($input, $output);
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);
@@ -127,6 +120,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand...',
             'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanTempDirectoryCommand.',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 }

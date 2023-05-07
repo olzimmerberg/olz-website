@@ -24,9 +24,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppMonitoringCredentialsEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
 
@@ -38,14 +36,12 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Monitoring credentials access by admin.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testGetAppMonitoringCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppMonitoringCredentialsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $result = $endpoint->call([]);
@@ -55,7 +51,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
         }
     }
 }

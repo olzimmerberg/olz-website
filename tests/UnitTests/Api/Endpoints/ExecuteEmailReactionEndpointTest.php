@@ -46,13 +46,11 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeFromNotificationEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -67,7 +65,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=, notification_type=weekly_summary, notification_type_args={}, ).",
             "NOTICE 2 email notification subscriptions removed.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(2, count($entity_manager->removed));
         $this->assertSame(1, $entity_manager->removed[0]->getId());
@@ -78,7 +76,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testCancelEmailConfigReminderEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
@@ -92,7 +89,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $notification_subscription_repo->subscriptions_to_find = [$subscription];
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -105,7 +101,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=, notification_type=email_config_reminder, notification_type_args={\"cancelled\":false}, ).",
             "NOTICE 1 email notification subscriptions removed.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
@@ -113,13 +109,11 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeFromAllNotificationsEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -133,7 +127,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=, notification_type=weekly_summary, notification_type_args={}, ).",
             "NOTICE 2 email notification subscriptions removed.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(2, count($entity_manager->removed));
         $this->assertSame(1, $entity_manager->removed[0]->getId());
@@ -144,11 +138,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeButNotUserGivenEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -159,20 +151,18 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid user 0 to unsubscribe from email notifications.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
     }
 
     public function testUnsubscribeButNoNotificationTypeGivenEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeExecuteEmailReactionEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
@@ -183,18 +173,16 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid email notification type to unsubscribe from.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
     }
 
     public function testInvalidActionEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'invalid',
@@ -204,18 +192,16 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Unknown email reaction action: invalid.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
     }
 
     public function testInvalidTokenEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode('')]);
 
@@ -223,20 +209,18 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid email reaction token: \"\"",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
     }
 
     public function testResetPasswordEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -247,7 +231,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame(0, count($entity_manager->flushed_removed));
@@ -257,13 +241,11 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordNoSuchUserEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -275,18 +257,16 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid user 9999 to reset password.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
     }
 
     public function testResetButInvalidPasswordEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'reset_password',
@@ -298,18 +278,16 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR New password is too short.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
     }
 
     public function testVerifyEmailReactionEndpoint(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -321,20 +299,18 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame(true, $entity_manager->flushed);
         $this->assertSame(true, $user_repo->default_user->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointInvalidToken(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -347,20 +323,18 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid email verification token invalid for user 1 (token: defaulttoken).",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(false, $entity_manager->flushed);
         $this->assertSame(false, $user_repo->default_user->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointEmailMismatch(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -373,20 +347,18 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Trying to verify email (another@email.ch) for user 1 (email: default-user@olzimmerberg.ch).",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(false, $entity_manager->flushed);
         $this->assertSame(false, $user_repo->default_user->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointNoSuchUser(): void {
-        $logger = Fake\FakeLogger::create();
         $endpoint = new ExecuteEmailReactionEndpoint();
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
@@ -399,7 +371,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "ERROR Invalid user 9999 to verify email.",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $this->assertSame(false, $entity_manager->flushed);
     }

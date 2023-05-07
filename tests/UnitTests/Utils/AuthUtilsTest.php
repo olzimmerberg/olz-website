@@ -67,7 +67,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -75,7 +74,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -99,14 +97,13 @@ final class AuthUtilsTest extends UnitTestCase {
             "INFO User login successful: admin-old",
             "INFO   Auth: all verified_email",
             "INFO   Root: karten",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testAuthenticateWithWrongUsername(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -114,7 +111,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -141,14 +137,13 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Login attempt with invalid credentials from IP: 1.2.3.4 (user: wrooong).",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testAuthenticateWithWrongPassword(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -156,7 +151,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -183,7 +177,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Login attempt with invalid credentials from IP: 1.2.3.4 (user: admin).",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testAuthenticateCanNotAuthenticate(): void {
@@ -191,7 +185,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_authenticate = false;
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -199,7 +192,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -226,7 +218,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Login attempt from blocked IP: 1.2.3.4 (user: admin).",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testValidateValidAccessToken(): void {
@@ -235,7 +227,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -243,7 +234,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -263,7 +253,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "INFO Token validation successful: 1",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testValidateInvalidAccessToken(): void {
@@ -272,7 +262,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -280,7 +269,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -307,7 +295,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Invalid access token validation from IP: 1.2.3.4.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testValidateExpiredAccessToken(): void {
@@ -316,7 +304,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -324,7 +311,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -351,7 +337,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Expired access token validation from IP: 1.2.3.4.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testValidateAccessTokenCanNotValidate(): void {
@@ -361,7 +347,6 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $auth_request_repo->can_validate_access_token = false;
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -369,7 +354,6 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -396,7 +380,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ], $auth_request_repo->auth_requests);
         $this->assertSame([
             "NOTICE Access token validation from blocked IP: 1.2.3.4.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
     }
 
     public function testResolveUsername(): void {
@@ -643,11 +627,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getCurrentUser());
     }
@@ -671,11 +653,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getTokenUser());
     }
@@ -686,11 +666,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
-        $logger = Fake\FakeLogger::create();
         $auth_utils = new AuthUtils();
         $auth_utils->setEntityManager($entity_manager);
         $auth_utils->setGetParams(['access_token' => 'invalid-token']);
-        $auth_utils->setLog($logger);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(null, $auth_utils->getTokenUser());
     }

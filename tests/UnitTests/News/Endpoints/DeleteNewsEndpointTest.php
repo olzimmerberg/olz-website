@@ -39,9 +39,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
 
     public function testDeleteNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -52,7 +50,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -63,10 +61,8 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -77,7 +73,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -88,10 +84,8 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 123,
@@ -100,7 +94,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertSame([
             'status' => 'OK',
@@ -118,10 +112,8 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 9999,
@@ -130,7 +122,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         $this->assertSame([
             'status' => 'ERROR',

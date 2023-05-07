@@ -50,10 +50,8 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
         $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
         $skill_repo = new FakeRegisterSkillsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new RegisterSkillsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'skills' => [
@@ -75,7 +73,7 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Valid user response',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'idByName' => [
                 'Child Category 1 Skill' => 'Skill:11',

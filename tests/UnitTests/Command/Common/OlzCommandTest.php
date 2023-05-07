@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\Common;
 
 use Olz\Command\Common\OlzCommand;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
@@ -45,10 +44,8 @@ class OlzCommandForTest extends OlzCommand {
  */
 final class OlzCommandTest extends UnitTestCase {
     public function testOlzCommandDisallowedAppEnv(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->allowedAppEnvs = [];
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -56,7 +53,7 @@ final class OlzCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "NOTICE Command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest not allowed in app env test.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(
             "Command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest not allowed in app env test.\n",
@@ -66,9 +63,7 @@ final class OlzCommandTest extends UnitTestCase {
 
     public function testOlzCommandInconsistentAppEnv(): void {
         WithUtilsCache::get('envUtils')->app_env = 'not_test';
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -76,16 +71,14 @@ final class OlzCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "ERROR Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame("Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).\n", $output->fetch());
     }
 
     public function testOlzCommandSuccessCode(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::SUCCESS;
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -95,16 +88,14 @@ final class OlzCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("Test handle\n", $output->fetch());
     }
 
     public function testOlzCommandFailureCode(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::FAILURE;
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -114,16 +105,14 @@ final class OlzCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "NOTICE Failed running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame("Test handle\n", $output->fetch());
     }
 
     public function testOlzCommandInvalidCode(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = Command::INVALID;
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -133,16 +122,14 @@ final class OlzCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "NOTICE Command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest called with invalid arguments.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame("Test handle\n", $output->fetch());
     }
 
     public function testOlzCommandUnknownCode(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->returnCode = 90684597;
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -152,16 +139,14 @@ final class OlzCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "WARNING Command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest finished with unknown status 90684597.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(90684597, $return_code);
         $this->assertSame("Test handle\n", $output->fetch());
     }
 
     public function testOlzCommandError(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForTest();
         $command->failWithError = new \Exception('test error');
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -171,7 +156,7 @@ final class OlzCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest...",
             "INFO Test handle",
             "ERROR Error running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: test error.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame("Test handle\nError running command Olz\\Tests\\UnitTests\\Command\\Common\\OlzCommandForTest: test error.\n", $output->fetch());
     }

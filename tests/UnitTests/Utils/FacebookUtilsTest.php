@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FacebookUtils;
 use Olz\Utils\FixedDateUtils;
-use Olz\Utils\WithUtilsCache;
 
 $sample_facebook_token_response = [
     "token_type" => "Bearer",
@@ -101,10 +100,6 @@ final class FacebookUtilsTest extends UnitTestCase {
     }
 
     public function testGetTokenDataForCode(): void {
-        WithUtilsCache::setAll([
-            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
-        ]);
-
         $this->assertSame([
             'token_type' => 'Bearer',
             'expires_at' => 1584149400,

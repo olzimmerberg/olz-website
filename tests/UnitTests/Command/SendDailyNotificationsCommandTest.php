@@ -455,7 +455,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $logger = Fake\FakeLogger::create();
         $daily_summary_getter = new FakeSendDailyNotificationsCommandDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsCommandDeadlineWarningGetter();
         $email_configuration_reminder_getter = new FakeSendDailyNotificationsEmailConfigurationReminderGetter();
@@ -468,7 +467,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
 
         $job = new SendDailyNotificationsCommand();
         $job->setEntityManager($entity_manager);
-        $job->setLog($logger);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
         $job->setEmailConfigurationReminderGetter($email_configuration_reminder_getter);
@@ -546,7 +544,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Getting notification for '{\"cancelled\":true}'...",
             "INFO Nothing to send.",
             "INFO Successfully ran command Olz\\Command\\SendDailyNotificationsCommand.",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
 
         global $user1, $user2;
         $this->assertSame([

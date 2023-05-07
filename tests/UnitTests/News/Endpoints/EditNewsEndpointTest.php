@@ -53,9 +53,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -66,7 +64,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -76,10 +74,8 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -90,7 +86,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -101,10 +97,8 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         try {
             $endpoint->call([
@@ -115,7 +109,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -126,10 +120,8 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -138,7 +130,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -170,10 +162,8 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $logger = Fake\FakeLogger::create();
         $endpoint = new EditNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');
@@ -195,7 +185,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             'id' => 123,
             'meta' => [

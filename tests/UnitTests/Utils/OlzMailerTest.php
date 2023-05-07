@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\OlzMailer;
 
@@ -29,9 +28,7 @@ class OlzMailerForTest extends OlzMailer {
  */
 final class OlzMailerTest extends UnitTestCase {
     public function testConfigure(): void {
-        $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest(true);
-        $mailer->setLog($logger);
 
         $user = new User();
         $user->setEmail('fake-user@olzimmerberg.ch');
@@ -40,7 +37,7 @@ final class OlzMailerTest extends UnitTestCase {
         $mailer->configure($user, 'Tèśt', "äsdf\n1234", ['notification_type' => 'monthly_preview']);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             ['fake-user@olzimmerberg.ch', 'Fake User'],
         ], $mailer->getToAddresses());
@@ -76,9 +73,7 @@ final class OlzMailerTest extends UnitTestCase {
     }
 
     public function testSend(): void {
-        $logger = Fake\FakeLogger::create();
         $mailer = new OlzMailerForTest(true);
-        $mailer->setLog($logger);
 
         try {
             $mailer->send();
@@ -87,7 +82,7 @@ final class OlzMailerTest extends UnitTestCase {
             $this->assertSame([
                 'WARNING You must provide at least one recipient email address.',
                 'CRITICAL You must provide at least one recipient email address.',
-            ], $logger->handler->getPrettyRecords());
+            ], $this->getLogs());
             $this->assertSame('You must provide at least one recipient email address.', $exc->getMessage());
             $this->assertSame(true, $mailer->waited_some_time);
         }

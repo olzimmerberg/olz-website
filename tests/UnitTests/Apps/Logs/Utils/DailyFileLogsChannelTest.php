@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Utils;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Apps\Logs\Utils\DailyFileLogsChannel;
 use Olz\Apps\Logs\Utils\PlainLogFile;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
@@ -57,7 +56,6 @@ class DailyFileLogsChannelForTest extends DailyFileLogsChannel {
  */
 final class DailyFileLogsChannelTest extends UnitTestCase {
     public function testDailyFileLogsChannelTargetDate(): void {
-        $logger = Fake\FakeLogger::create();
         $channel = new DailyFileLogsChannelForTest();
         $session = new MemorySession();
         $session->session_storage = [
@@ -66,7 +64,6 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $channel->setSession($session);
-        $channel->setLog($logger);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
@@ -107,7 +104,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         $this->assertSame([
             'DEBUG log_file_before data-path/logs/2020-03-12.log',
             'DEBUG log_file_after data-path/logs/2020-03-14.log',
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([
             ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),
             "[2020-03-13 12:00:00] tick 2020-03-13\n",

@@ -8,7 +8,6 @@ use Olz\Command\OnContinuouslyCommand;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,7 +46,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
-        $command->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $command->setEntityManager($entity_manager);
         $command->setEnvUtils($env_utils);
         $command->setLog($logger);
@@ -77,7 +75,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
-        $command->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $command->setEntityManager($entity_manager);
         $command->setEnvUtils($env_utils);
         $command->setLog($logger);
@@ -110,7 +107,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new OnContinuouslyCommandForTest();
-        $command->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $command->setEntityManager($entity_manager);
         $command->setEnvUtils($env_utils);
         $command->setLog($logger);

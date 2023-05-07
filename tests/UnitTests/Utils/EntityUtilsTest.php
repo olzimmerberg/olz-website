@@ -10,7 +10,6 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EntityUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -21,11 +20,9 @@ final class EntityUtilsTest extends UnitTestCase {
     public function testCreateOlzEntity(): void {
         $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
-        $entity_utils->setDateUtils($date_utils);
         $entity_utils->setEntityManager($entity_manager);
         $entity = new OlzEntity();
 
@@ -51,11 +48,9 @@ final class EntityUtilsTest extends UnitTestCase {
     public function testUpdateOlzEntity(): void {
         $auth_utils = new Fake\FakeAuthUtils();
         $auth_utils->current_user = Fake\FakeUsers::defaultUser();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $entity_manager = new Fake\FakeEntityManager();
         $entity_utils = new EntityUtils();
         $entity_utils->setAuthUtils($auth_utils);
-        $entity_utils->setDateUtils($date_utils);
         $entity_utils->setEntityManager($entity_manager);
         $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();

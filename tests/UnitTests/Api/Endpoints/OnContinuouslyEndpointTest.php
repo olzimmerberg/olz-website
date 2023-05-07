@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\OnContinuouslyEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -37,7 +36,6 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         $symfony_utils = new Fake\FakeSymfonyUtils();
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->setLog($logger);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
         $endpoint->setSymfonyUtils($symfony_utils);
 

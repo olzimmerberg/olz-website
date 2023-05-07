@@ -16,9 +16,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class TermineFilterUtilsTest extends UnitTestCase {
     public function testGetDefaultFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             'typ' => 'alle',
             'datum' => 'bevorstehend',
@@ -27,9 +25,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testIsValidFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame(false, $termine_utils->isValidFilter([]));
         $this->assertSame(false, $termine_utils->isValidFilter(['foo' => 'bar']));
         $this->assertSame(true, $termine_utils->isValidFilter([
@@ -55,16 +51,12 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testDefaultFilterIsValid(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame(true, $termine_utils->isValidFilter($termine_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFiltersForSitemap(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'typ' => 'alle',
@@ -280,9 +272,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiTypeFilterOptions(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'selected' => true,
@@ -418,9 +408,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiDateRangeFilterOptionsExclArchive(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
                 'selected' => true,
@@ -764,9 +752,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetSqlFromFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame("'1'='0'", $termine_utils->getSqlFromFilter([]));
         $this->assertSame(
             "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND ('1' = '1')",
@@ -827,9 +813,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetTitleFromFilter(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $this->assertSame("Termine", $termine_utils->getTitleFromFilter([]));
         $this->assertSame(
             "Bevorstehende Termine",
@@ -945,9 +929,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetIsNotArchivedCriteria(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $termine_utils = new TermineFilterUtils();
-        $termine_utils->setDateUtils($date_utils);
         $criteria_expression = $termine_utils->getIsNotArchivedCriteria();
         $this->assertSame('datum', $criteria_expression->getField());
         $this->assertSame(

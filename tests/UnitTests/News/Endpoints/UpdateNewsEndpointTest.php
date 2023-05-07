@@ -10,7 +10,6 @@ use Olz\Entity\User;
 use Olz\News\Endpoints\UpdateNewsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use PhpTypeScriptApi\HttpError;
 
 class FakeUpdateNewsEndpointNewsRepository {
@@ -198,7 +197,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNewsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
         $endpoint->setEnvUtils($env_utils);

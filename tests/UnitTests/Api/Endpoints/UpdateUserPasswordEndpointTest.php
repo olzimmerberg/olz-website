@@ -8,7 +8,6 @@ use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\MemorySession;
 use PhpTypeScriptApi\HttpError;
 
@@ -135,10 +134,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $logger = Fake\FakeLogger::create();
         $auth_utils = new Fake\FakeAuthUtils();
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [

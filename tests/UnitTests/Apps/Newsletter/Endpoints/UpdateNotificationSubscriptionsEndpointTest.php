@@ -9,7 +9,6 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 
 class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
     public function findBy($where) {
@@ -41,12 +40,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -135,12 +132,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00');
         $logger = Fake\FakeLogger::create();
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->setAuthUtils($auth_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setDateUtils($date_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

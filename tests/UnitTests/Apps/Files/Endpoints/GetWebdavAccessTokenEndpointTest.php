@@ -8,7 +8,6 @@ use Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 
 class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
@@ -58,7 +57,6 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
         $endpoint->setAuthUtils($auth_utils);
-        $endpoint->setDateUtils(new FixedDateUtils('2020-03-13 19:30:00'));
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setLog($logger);

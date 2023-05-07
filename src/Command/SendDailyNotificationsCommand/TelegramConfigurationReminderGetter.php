@@ -22,7 +22,7 @@ class TelegramConfigurationReminderGetter {
 
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
-        $service_url = "{$base_href}{$code_href}service.php";
+        $newsletter_url = "{$base_href}{$code_href}apps/newsletter";
 
         $title = "Keine Push-Nachrichten abonniert";
         $text = <<<ZZZZZZZZZZ
@@ -33,7 +33,7 @@ class TelegramConfigurationReminderGetter {
         
         **Du möchtest eigentlich Push-Nachrichten erhalten?**
         
-        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"]({$service_url}) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App]({$newsletter_url}) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
         
         
         **Du möchtest gar keine Push-Nachrichten erhalten?**

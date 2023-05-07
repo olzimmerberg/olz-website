@@ -65,7 +65,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
 
         **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        In diesem Fall musst du dich auf der Website [*einloggen*](http://fake-base-url/_/service.php#login-dialog), und unter ["Service"](http://fake-base-url/_/service.php) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website [*einloggen*](http://fake-base-url/_/apps/newsletter#login-dialog), und im ["Newsletter"-App](http://fake-base-url/_/apps/newsletter) (ist auch unter "Service" zu finden) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
         Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@staging.olzimmerberg.ch` registriert.
 

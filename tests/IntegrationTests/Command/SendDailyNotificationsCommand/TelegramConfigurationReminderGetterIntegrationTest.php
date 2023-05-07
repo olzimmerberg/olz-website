@@ -39,7 +39,7 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
 
         **Du möchtest eigentlich Push-Nachrichten erhalten?**
         
-        In diesem Fall musst du dich auf der Website *einloggen*, und unter ["Service"](http://integration-test.host/service.php) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App](http://integration-test.host/apps/newsletter) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
 
 
         **Du möchtest gar keine Push-Nachrichten erhalten?**

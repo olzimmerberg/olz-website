@@ -40,7 +40,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
 
         **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
         
-        In diesem Fall musst du dich auf der Website [*einloggen*](http://integration-test.host/service.php#login-dialog), und unter ["Service"](http://integration-test.host/service.php) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
+        In diesem Fall musst du dich auf der Website [*einloggen*](http://integration-test.host/apps/newsletter#login-dialog), und im ["Newsletter"-App](http://integration-test.host/apps/newsletter) (ist auch unter "Service" zu finden) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
         Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@staging.olzimmerberg.ch` registriert.
 

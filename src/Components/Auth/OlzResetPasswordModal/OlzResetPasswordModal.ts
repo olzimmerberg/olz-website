@@ -61,7 +61,7 @@ async function olzResetPasswordModalActuallyReset(form: HTMLFormElement): Promis
             recaptchaConsentGiven,
         );
         const fieldResults: OlzRequestFieldResult<'resetPassword'> = {
-            usernameOrEmail: getRequired(getStringOrNull(getFormField(f, 'username-or-email'))),
+            usernameOrEmail: getRequired(getStringOrNull(getFormField(f, 'username-or-email'), {trim: true})),
             recaptchaToken: getRequired(validFieldResult('', token)),
         };
         if (!isFieldResultOrDictThereofValid(fieldResults) || !isFieldResultOrDictThereofValid(recaptchaConsentGiven)) {

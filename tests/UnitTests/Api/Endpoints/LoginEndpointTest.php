@@ -65,9 +65,8 @@ final class LoginEndpointTest extends UnitTestCase {
     public function testLoginEndpointWithCorrectCredentials(): void {
         $user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->authenticate_user = $user;
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LoginEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $endpoint->setSession($session);
 

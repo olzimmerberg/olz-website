@@ -67,7 +67,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new SyncSolvCommand();
-        $job->setEntityManager($entity_manager);
         $job->setSolvFetcher($solv_fetcher);
         $job->setSolvEventsSyncer($solv_events_syncer);
         $job->setSolvResultsSyncer($solv_results_syncer);
@@ -99,7 +98,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
 
         $job = new SyncSolvCommand();
         $job->setDateUtils($date_utils);
-        $job->setEntityManager($entity_manager);
         $job->setSolvFetcher($solv_fetcher);
         $job->setSolvEventsSyncer($solv_events_syncer);
         $job->setSolvResultsSyncer($solv_results_syncer);

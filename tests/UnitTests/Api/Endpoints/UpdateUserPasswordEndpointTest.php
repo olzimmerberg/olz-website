@@ -6,9 +6,9 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -23,9 +23,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -53,9 +52,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -86,9 +84,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -119,9 +116,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserPasswordEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

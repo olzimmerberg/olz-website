@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\UpdateOlzTextEndpoint;
 use Olz\Entity\OlzText;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -40,9 +39,8 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
 
     public function testUpdateOlzTextEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => false];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 1,
@@ -58,11 +56,10 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
 
     public function testUpdateOlzTextEndpointNoEntry(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_3' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 3,
@@ -82,11 +79,10 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
 
     public function testUpdateOlzTextEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $olz_text_repo = new FakeUpdateOlzTextEndpointOlzTextRepository();
         $entity_manager->repositories[OlzText::class] = $olz_text_repo;
         $endpoint = new UpdateOlzTextEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 1,

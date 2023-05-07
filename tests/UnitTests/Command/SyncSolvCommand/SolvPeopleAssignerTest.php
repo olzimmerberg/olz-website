@@ -10,14 +10,6 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
-class FakeSolvPeopleAssignerEntityManager extends Fake\FakeEntityManager {
-    public function __construct() {
-        $this->repositories = [
-            SolvResult::class => new FakeSolvPeopleAssignerSolvResultRepository(),
-        ];
-    }
-}
-
 class FakeSolvPeopleAssignerSolvResultRepository {
     public $testRunnerResult;
     public $typoResult;
@@ -90,10 +82,10 @@ class FakeSolvPeopleAssignerSolvResultRepository {
  */
 final class SolvPeopleAssignerTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {
-        $entity_manager = new FakeSolvPeopleAssignerEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
 
         $job = new SolvPeopleAssigner();
-        $job->setEntityManager($entity_manager);
 
         $this->assertSame(0, $job->getDifferenceBetweenPersonInfo(
             'Test', '07', 'Uster',
@@ -133,10 +125,10 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
     }
 
     public function testGetClosestMatchesOfPersonInfo(): void {
-        $entity_manager = new FakeSolvPeopleAssignerEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
 
         $job = new SolvPeopleAssigner();
-        $job->setEntityManager($entity_manager);
 
         $this->assertSame([
             'difference' => 0,
@@ -192,10 +184,10 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
     }
 
     public function testGetUnambiguousPerson(): void {
-        $entity_manager = new FakeSolvPeopleAssignerEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
 
         $job = new SolvPeopleAssigner();
-        $job->setEntityManager($entity_manager);
 
         $this->assertSame(null, $job->getUnambiguousPerson([
             ['person' => 1],
@@ -219,10 +211,10 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
     }
 
     public function testGetMatchingPerson(): void {
-        $entity_manager = new FakeSolvPeopleAssignerEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
 
         $job = new SolvPeopleAssigner();
-        $job->setEntityManager($entity_manager);
 
         // There is one perfect match.
         $this->assertSame(2, $job->getMatchingPerson(
@@ -339,10 +331,10 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
     }
 
     public function testSolvPeopleAssigner(): void {
-        $entity_manager = new FakeSolvPeopleAssignerEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
 
         $job = new SolvPeopleAssigner();
-        $job->setEntityManager($entity_manager);
 
         $job->assignSolvPeople();
 

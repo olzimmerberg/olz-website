@@ -42,11 +42,10 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'userId' => null,
@@ -73,11 +72,10 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpointManagedUser(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'userId' => 1,
@@ -103,11 +101,10 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpointOtherUser(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([

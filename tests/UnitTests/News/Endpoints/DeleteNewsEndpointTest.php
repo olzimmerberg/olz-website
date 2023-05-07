@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\DeleteNewsEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -56,13 +55,12 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpointNoEntityAccess(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -79,13 +77,12 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 123,
@@ -107,13 +104,12 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsEndpointInexistent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDeleteNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 9999,

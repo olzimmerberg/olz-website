@@ -25,9 +25,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     public function testVerifyUserEmailEndpoint(): void {
         $user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->current_user = $user;
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -43,9 +42,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointWithoutInput(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([]);
@@ -59,9 +57,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointWithNullInput(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -77,9 +74,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointUnauthenticated(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -98,9 +94,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     public function testVerifyUserEmailEndpointInvalidRecaptchaToken(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new RecaptchaDeniedException('test');
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'recaptchaToken' => 'invalid-recaptcha-token',
@@ -118,9 +113,8 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     public function testVerifyUserEmailEndpointErrorSending(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'recaptchaToken' => 'fake-recaptcha-token',

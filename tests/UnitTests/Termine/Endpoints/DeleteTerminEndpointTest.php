@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Endpoints\DeleteTerminEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -56,13 +55,12 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 123,
@@ -84,13 +82,12 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminEndpointInexistent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeDeleteTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 9999,

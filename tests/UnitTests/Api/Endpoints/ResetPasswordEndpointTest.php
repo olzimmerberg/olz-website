@@ -69,10 +69,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpoint(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -113,10 +112,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $vorstand_user = Fake\FakeUsers::vorstandUser();
         $vorstand_user->setFirstName('provoke_error');
@@ -137,10 +135,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointInvalidUser(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -158,10 +155,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $user_repo = new Fake\FakeUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $endpoint->setEntityManager($entity_manager);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([

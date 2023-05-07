@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Endpoints\GetTerminEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -78,11 +77,10 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -122,11 +120,10 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');

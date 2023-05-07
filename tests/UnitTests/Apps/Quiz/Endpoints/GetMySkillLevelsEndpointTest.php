@@ -100,13 +100,12 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointAll(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'skillFilter' => null,
@@ -129,13 +128,12 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointCategoryIdIn(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
         $entity_manager->repositories[Skill::class] = $skill_repo;
         $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
         $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'skillFilter' => [

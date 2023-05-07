@@ -8,9 +8,9 @@ use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeWeeklyPreviewGetterSolvEventRepository {
     public function matching($criteria) {
@@ -76,11 +76,10 @@ class FakeWeeklyPreviewGetterTerminRepository {
  */
 final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
 
         $job = new WeeklyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklyPreviewNotification([]);
@@ -89,7 +88,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testWeeklyPreviewGetter(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
@@ -99,7 +98,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new WeeklyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklyPreviewNotification([]);
@@ -131,7 +129,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testEmptyWeeklyPreviewGetter(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeWeeklyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
@@ -141,7 +139,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new WeeklyPreviewGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklyPreviewNotification([]);

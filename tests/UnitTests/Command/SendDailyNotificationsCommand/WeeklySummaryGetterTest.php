@@ -8,9 +8,9 @@ use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeWeeklySummaryGetterNewsRepository {
     public function matching($criteria) {
@@ -50,13 +50,12 @@ class FakeWeeklySummaryGetterTerminRepository {
  */
 final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklySummaryNotification([
@@ -71,7 +70,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithAllContent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeWeeklySummaryGetterNewsRepository();
         $termin_repo = new FakeWeeklySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -81,7 +80,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklySummaryNotification([
@@ -134,13 +132,12 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithNoContent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
         $user = new User();
         $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
-        $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
 
         $notification = $job->getWeeklySummaryNotification([]);

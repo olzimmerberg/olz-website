@@ -8,8 +8,8 @@ use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 class FakeDeadlineWarningGetterSolvEventRepository {
     public $has_no_deadlines = false;
@@ -76,10 +76,9 @@ class FakeDeadlineWarningGetterTerminRepository {
  */
 final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
 
         $job = new DeadlineWarningGetter();
-        $job->setEntityManager($entity_manager);
 
         $notification = $job->getDeadlineWarningNotification(['days' => 10]);
 
@@ -87,7 +86,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetterWhenThereIsNoDeadline(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $solv_event_repo->has_no_deadlines = true;
@@ -98,7 +97,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
-        $job->setEntityManager($entity_manager);
 
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
@@ -106,7 +104,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetter(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $solv_event_repo = new FakeDeadlineWarningGetterSolvEventRepository();
         $termin_repo = new FakeDeadlineWarningGetterTerminRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
@@ -115,7 +113,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
-        $job->setEntityManager($entity_manager);
 
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 

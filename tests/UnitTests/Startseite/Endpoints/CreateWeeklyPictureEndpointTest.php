@@ -51,10 +51,9 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
     }
 
     public function testCreateWeeklyPictureEndpoint(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
         $endpoint = new CreateWeeklyPictureEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');

@@ -37,11 +37,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
 
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_EMAIL,
@@ -125,11 +124,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
 
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'deliveryType' => NotificationSubscription::DELIVERY_TELEGRAM,

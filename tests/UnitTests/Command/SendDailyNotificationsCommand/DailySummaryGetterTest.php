@@ -8,9 +8,9 @@ use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 
 class FakeDailySummaryGetterNewsRepository {
     public function matching($criteria) {
@@ -50,7 +50,7 @@ class FakeDailySummaryGetterTerminRepository {
  */
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeDailySummaryGetterNewsRepository();
         $termin_repo = new FakeDailySummaryGetterTerminRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -60,7 +60,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
-        $job->setEntityManager($entity_manager);
 
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
@@ -112,13 +111,12 @@ final class DailySummaryGetterTest extends UnitTestCase {
     }
 
     public function testDailySummaryGetterWithNoContent(): void {
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
-        $job->setEntityManager($entity_manager);
 
         $notification = $job->getDailySummaryNotification([]);
 

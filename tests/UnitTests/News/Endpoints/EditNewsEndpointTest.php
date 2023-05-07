@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\EditNewsEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -71,11 +70,10 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointNoSuchEntity(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -93,12 +91,11 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointNoEntityAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         try {
             $endpoint->call([
@@ -116,12 +113,11 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         $result = $endpoint->call([
             'id' => 12,
@@ -158,12 +154,11 @@ final class EditNewsEndpointTest extends UnitTestCase {
 
     public function testEditNewsEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = new Fake\FakeEntityManager();
+        $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeEditNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditNewsEndpoint();
-        $endpoint->setEntityManager($entity_manager);
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');

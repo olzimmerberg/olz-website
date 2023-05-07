@@ -78,7 +78,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -86,7 +85,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklySummaryNotification([
             'aktuell' => true,
@@ -140,7 +138,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWithNoContent(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -148,7 +145,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklySummaryNotification([]);
 

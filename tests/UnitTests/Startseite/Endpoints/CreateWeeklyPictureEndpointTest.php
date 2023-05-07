@@ -25,10 +25,8 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
     public function testCreateWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => false];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateWeeklyPictureEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -58,13 +56,11 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
         $entity_utils = new Fake\FakeEntityUtils();
-        $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateWeeklyPictureEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 

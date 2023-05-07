@@ -19,11 +19,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 final class DbDumpCommandTest extends UnitTestCase {
     public function testDbDumpCommandSuccess(): void {
         $dev_data_utils = new Fake\FakeDevDataUtils();
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $command = new DbDumpCommand();
         $command->setDevDataUtils($dev_data_utils);
-        $command->setEnvUtils($env_utils);
         $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();

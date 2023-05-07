@@ -25,10 +25,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
     public function testCreateNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {
@@ -75,13 +73,11 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'kaderblog' => false,
         ];
         $entity_utils = new Fake\FakeEntityUtils();
-        $env_utils = new Fake\FakeEnvUtils();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setEntityManager($entity_manager);
         $endpoint->setEntityUtils($entity_utils);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
 

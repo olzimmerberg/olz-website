@@ -55,11 +55,9 @@ final class GetManagedUsersEndpointTest extends UnitTestCase {
         $entity_manager = new Fake\FakeEntityManager();
         $user_repo = new FakeGetManagedUsersEndpointUserRepository();
         $entity_manager->repositories[User::class] = $user_repo;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetManagedUsersEndpoint();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);

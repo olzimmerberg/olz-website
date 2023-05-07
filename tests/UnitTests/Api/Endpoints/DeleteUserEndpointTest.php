@@ -16,6 +16,7 @@ use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 
 class FakeDeleteUserEndpointNewsEntryRepository {
     public $has_news = true;
@@ -139,12 +140,10 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',
@@ -212,12 +211,10 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
         $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
-        $env_utils = new Fake\FakeEnvUtils();
-        $env_utils->fake_data_path = 'fake-data-path/';
+        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $logger = Fake\FakeLogger::create();
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($env_utils);
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'ftp',

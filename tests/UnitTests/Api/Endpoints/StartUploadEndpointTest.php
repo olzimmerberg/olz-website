@@ -38,12 +38,10 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpointAbort(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
@@ -63,12 +61,10 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);
@@ -85,12 +81,10 @@ final class StartUploadEndpointTest extends UnitTestCase {
 
     public function testStartUploadEndpointWithSuffix(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = GeneralUtils::fromEnv();
         $upload_utils = new Fake\FakeUploadUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new StartUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setGeneralUtils($general_utils);
         $endpoint->setUploadUtils($upload_utils);
         $endpoint->setLog($logger);

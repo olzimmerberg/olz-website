@@ -75,14 +75,12 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
     public function testLogrotateLogsChannelTargetDate(): void {
         $logger = Fake\FakeLogger::create();
         $channel = new LogrotateLogsChannelForTest();
-        $env_utils = new Fake\FakeEnvUtils();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
             'root' => '',
             'user' => 'admin',
         ];
-        $channel->setEnvUtils($env_utils);
         $channel->setSession($session);
         $channel->setLog($logger);
 

@@ -40,10 +40,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpointInvalidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
@@ -64,10 +62,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpointMissingFirstPart(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
@@ -90,10 +86,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpointNoBase64(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
@@ -117,10 +111,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpointMissingOtherParts(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
@@ -146,10 +138,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
 
     public function testFinishUploadEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new FinishUploadEndpoint();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         mkdir(__DIR__.'/../../tmp/temp/', 0777, true);

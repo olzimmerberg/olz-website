@@ -10,6 +10,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 
 class FakeAuthUtilsAccessTokenRepository {
     public function findOneBy($where) {
@@ -802,9 +803,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarNoUser(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $auth_utils = new AuthUtils();
-        $auth_utils->setEnvUtils($env_utils);
         $this->assertSame(
             '/_/icns/user.php?initials=%3F',
             $auth_utils->getUserAvatar(null)
@@ -812,12 +811,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarHasAvatar(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $auth_utils = new AuthUtils();
-        $auth_utils->setEnvUtils($env_utils);
         $user = Fake\FakeUsers::adminUser();
 
-        $data_path = $env_utils->getDataPath();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
         mkdir(dirname($user_image_path), 0777, true);
         file_put_contents($user_image_path, '');
@@ -829,9 +826,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarNoAvatar(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $auth_utils = new AuthUtils();
-        $auth_utils->setEnvUtils($env_utils);
         $user = Fake\FakeUsers::adminUser();
         $this->assertSame(
             '/_/icns/user.php?initials=AI',

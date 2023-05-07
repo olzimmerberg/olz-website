@@ -96,7 +96,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -104,7 +103,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklyPreviewNotification([]);
 
@@ -141,7 +139,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $solv_event_repo = new FakeWeeklyPreviewGetterSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -149,7 +146,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getWeeklyPreviewNotification([]);
 

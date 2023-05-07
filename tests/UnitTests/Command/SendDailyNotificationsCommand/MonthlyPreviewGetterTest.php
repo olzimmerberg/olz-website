@@ -130,7 +130,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -138,7 +137,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 
@@ -175,7 +173,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $termin_repo = new FakeMonthlyPreviewGetterTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -183,7 +180,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entity_manager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getMonthlyPreviewNotification([]);
 

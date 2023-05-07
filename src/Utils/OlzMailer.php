@@ -6,17 +6,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class OlzMailer extends PHPMailer {
     use \Psr\Log\LoggerAwareTrait;
+    use WithUtilsTrait;
 
-    public const UTILS = [];
-
-    private $emailUtils;
-    private $envUtils;
-
-    public function __construct($emailUtils, $envUtils, $enable_exceptions) {
-        parent::__construct($enable_exceptions);
-        $this->emailUtils = $emailUtils;
-        $this->envUtils = $envUtils;
-    }
+    public const UTILS = [
+        'emailUtils',
+        'envUtils',
+        'log',
+    ];
 
     public function configure($user, $title, $text, $config = []) {
         $user_email = $user->getEmail();
@@ -25,7 +21,7 @@ class OlzMailer extends PHPMailer {
         $user_full_name = $user->getFullName();
         $user_first_name = $user->getFirstName();
         $this->addAddress($user_email, $user_full_name);
-        $html_text = $this->emailUtils->renderMarkdown($text);
+        $html_text = $this->emailUtils()->renderMarkdown($text);
         $this->isHTML(true);
         if ($config['no_header'] ?? false) {
             $html_header = "";
@@ -43,20 +39,20 @@ class OlzMailer extends PHPMailer {
             $text_unsubscribe = "";
         } else {
             if (!isset($config['notification_type'])) {
-                $this->logger->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
+                $this->log()->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
             }
-            $unsubscribe_this_token = urlencode($this->emailUtils->encryptEmailReactionToken([
+            $unsubscribe_this_token = urlencode($this->emailUtils()->encryptEmailReactionToken([
                 'action' => 'unsubscribe',
                 'user' => $user_id,
                 'notification_type' => $config['notification_type'] ?? null,
             ]));
-            $unsubscribe_all_token = urlencode($this->emailUtils->encryptEmailReactionToken([
+            $unsubscribe_all_token = urlencode($this->emailUtils()->encryptEmailReactionToken([
                 'action' => 'unsubscribe',
                 'user' => $user_id,
                 'notification_type_all' => true,
             ]));
-            $base_url = $this->envUtils->getBaseHref();
-            $code_href = $this->envUtils->getCodeHref();
+            $base_url = $this->envUtils()->getBaseHref();
+            $code_href = $this->envUtils()->getCodeHref();
             $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
             $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
             $html_unsubscribe = <<<ZZZZZZZZZZ
@@ -88,12 +84,12 @@ class OlzMailer extends PHPMailer {
         try {
             parent::send();
         } catch (\Exception $e) {
-            $this->logger->warning("{$this->ErrorInfo}");
+            $this->log()->warning("{$this->ErrorInfo}");
             $this->waitSomeTime();
             try {
                 parent::send();
             } catch (\Exception $e) {
-                $this->logger->critical("{$this->ErrorInfo}");
+                $this->log()->critical("{$this->ErrorInfo}");
                 throw $e;
             }
         }

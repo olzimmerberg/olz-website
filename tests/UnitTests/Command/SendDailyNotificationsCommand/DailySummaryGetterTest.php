@@ -56,14 +56,12 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
@@ -117,14 +115,12 @@ final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithNoContent(): void {
         $entity_manager = new Fake\FakeEntityManager();
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([]);
 

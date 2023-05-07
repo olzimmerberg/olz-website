@@ -39,8 +39,8 @@ class UnitTestCase extends TestCase {
 
         date_default_timezone_set('UTC');
 
-        $general_utils = new GeneralUtils();
         $env_utils = new Fake\FakeEnvUtils();
+        $general_utils = new GeneralUtils();
         $data_path = $env_utils->getDataPath();
         $general_utils->removeRecursive($data_path);
         mkdir($data_path);
@@ -49,6 +49,7 @@ class UnitTestCase extends TestCase {
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+            'envUtils' => new Fake\FakeEnvUtils(),
         ]);
 
         $this->setUpAt = microtime(true);

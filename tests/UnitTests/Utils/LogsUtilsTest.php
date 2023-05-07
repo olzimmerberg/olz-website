@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\LogsUtils;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -16,12 +17,10 @@ use Olz\Utils\LogsUtils;
  */
 final class LogsUtilsTest extends UnitTestCase {
     public function testLogsUtilsGetLogger(): void {
-        $env_utils = new Fake\FakeEnvUtils();
-        $data_path = $env_utils->getDataPath();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $logs_path = "{$data_path}logs/";
         $this->assertSame(false, is_dir($logs_path));
         $logs_utils = new LogsUtils();
-        $logs_utils->setEnvUtils($env_utils);
 
         $logger = $logs_utils->getLogger('test');
         $logger->debug('just for test');

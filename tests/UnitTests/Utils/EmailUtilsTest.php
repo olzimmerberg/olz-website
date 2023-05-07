@@ -122,11 +122,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testgetImapClient(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
@@ -140,11 +138,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testEmailReactionToken(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
@@ -158,11 +154,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptInvalidEmailReactionToken(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
@@ -230,11 +224,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testCreateSmtpEmail(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 
@@ -290,11 +282,9 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $logger = Fake\FakeLogger::create();
         $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
         $email_utils->setGeneralUtils($general_utils);
         $email_utils->setLog($logger);
 

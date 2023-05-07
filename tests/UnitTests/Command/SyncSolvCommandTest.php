@@ -60,7 +60,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
     public function testSyncSolvCommand(): void {
         $entity_manager = null;
         $solv_fetcher = null;
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $solv_events_syncer = new FakeSolvEventsSyncer();
         $solv_results_syncer = new FakeSolvResultsSyncer();
@@ -71,7 +70,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
 
         $job = new SyncSolvCommand();
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setSolvFetcher($solv_fetcher);
         $job->setLog($logger);
         $job->setSolvEventsSyncer($solv_events_syncer);
@@ -95,7 +93,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
         $entity_manager = null;
         $solv_fetcher = null;
         $date_utils = new FixedDateUtils('2020-04-01 19:30:00');
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $solv_events_syncer = new FakeSolvEventsSyncer();
         $solv_results_syncer = new FakeSolvResultsSyncer();
@@ -107,7 +104,6 @@ final class SyncSolvCommandTest extends UnitTestCase {
         $job = new SyncSolvCommand();
         $job->setDateUtils($date_utils);
         $job->setEntityManager($entity_manager);
-        $job->setEnvUtils($env_utils);
         $job->setSolvFetcher($solv_fetcher);
         $job->setLog($logger);
         $job->setSolvEventsSyncer($solv_events_syncer);

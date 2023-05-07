@@ -36,9 +36,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
         $listener = new KernelExceptionListenerForTest();
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        $listener->setEnvUtils($env_utils);
         $listener->setLog($logger);
 
         $listener->onKernelException($exception_event);
@@ -55,9 +53,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
         $listener = new KernelExceptionListenerForTest();
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        $listener->setEnvUtils($env_utils);
         $listener->setLog($logger);
 
         $listener->onKernelException($exception_event);
@@ -76,9 +72,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $listener = new KernelExceptionListenerForTest();
         $listener->testOnlySetIsHandlingException($throwable_1);
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
-        $listener->setEnvUtils($env_utils);
         $listener->setLog($logger);
 
         $listener->onKernelException($exception_event_2);

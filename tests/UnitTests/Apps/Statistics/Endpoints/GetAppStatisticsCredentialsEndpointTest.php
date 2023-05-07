@@ -24,10 +24,8 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppStatisticsCredentialsEndpoint(): void {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $env_utils = new Fake\FakeEnvUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([]);
@@ -47,8 +45,6 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
         $logger = Fake\FakeLogger::create();
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $env_utils = new Fake\FakeEnvUtils();
-        $endpoint->setEnvUtils($env_utils);
         $endpoint->setLog($logger);
 
         try {

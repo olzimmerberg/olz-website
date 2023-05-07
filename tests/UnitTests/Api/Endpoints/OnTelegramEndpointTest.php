@@ -82,11 +82,9 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointWrongAuthenticityCode(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         try {
@@ -107,11 +105,9 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithCorrectPin(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -132,7 +128,6 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
@@ -140,7 +135,6 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -161,11 +155,9 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithErrorLinkingPin(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([
@@ -186,11 +178,9 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartAnonymousChat(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $telegram_utils->isAnonymousChat = true;
@@ -217,11 +207,9 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointNoChatId(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $telegram_utils->isAnonymousChat = true;
@@ -241,7 +229,6 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointIchCommand(): void {
         $telegram_utils = new Fake\FakeTelegramUtils();
-        $server_config = new Fake\FakeEnvUtils();
         $entity_manager = new Fake\FakeEntityManager();
         $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
@@ -249,7 +236,6 @@ final class OnTelegramEndpointTest extends UnitTestCase {
         $endpoint = new OnTelegramEndpoint();
         $endpoint->setTelegramUtils($telegram_utils);
         $endpoint->setEntityManager($entity_manager);
-        $endpoint->setEnvUtils($server_config);
         $endpoint->setLog($logger);
 
         $result = $endpoint->call([

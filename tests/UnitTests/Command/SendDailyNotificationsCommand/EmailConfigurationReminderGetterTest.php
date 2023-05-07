@@ -50,7 +50,6 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
         $the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
         $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
-        $env_utils = new Fake\FakeEnvUtils();
         $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
@@ -58,7 +57,6 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
 
         $job = new EmailConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils($env_utils);
         $job->setLogger($logger);
         $notification = $job->getNotification(['cancelled' => false]);
 

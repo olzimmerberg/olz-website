@@ -33,6 +33,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             'username' => $_SESSION['user'] ?? null,
             'id' => $_SESSION['user_id'] ?? null,
         ]);
+        $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
 
         if (!isset($refresh)) {
             $refresh = '';
@@ -79,6 +80,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             window.olzCodeHref = {$code_href_json};
             window.olzDataHref = {$data_href_json};
             window.olzUser = {$user_json};
+            window.olzIsoNow = {$iso_now_json};
         </script>
         <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
         </head>";

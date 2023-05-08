@@ -1,4 +1,4 @@
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDateFromSwissFormat, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDate, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
 export function olzSignUpRecaptchaConsent(value: boolean): void {
@@ -77,7 +77,7 @@ async function olzKontoActuallySignUpWithPassword(form: HTMLFormElement): Promis
             email: getEmail(getFormField(f, 'email')),
             phone: getPhone(getFormField(f, 'phone')),
             gender: getGender(getFormField(f, 'gender')),
-            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            birthdate: getIsoDate(getFormField(f, 'birthdate')),
             street: getFormField(f, 'street'),
             postalCode: getFormField(f, 'postal-code'),
             city: getFormField(f, 'city'),

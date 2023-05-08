@@ -1,7 +1,7 @@
 import React from 'react';
 import {OlzApiResponses} from '../../../../Api/client';
 import {OlzTransportSuggestion} from '../../../../Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getFormField, getIsoDateTimeFromSwissFormat, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getFormField, getIsoDateTime, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
 
 const handleResponse: HandleResponseFunction<'searchTransportConnection'> = (response) => {
@@ -17,7 +17,7 @@ export function olzOevSearchConnection(
     const getDataForRequestFn: GetDataForRequestFunction<'searchTransportConnection'> = (f) => {
         const fieldResults: OlzRequestFieldResult<'searchTransportConnection'> = {
             destination: getRequired(getStringOrNull(getFormField(f, 'destination'))),
-            arrival: getRequired(getIsoDateTimeFromSwissFormat(getFormField(f, 'arrival'))),
+            arrival: getRequired(getIsoDateTime(getFormField(f, 'arrival'))),
         };
         const nach = getFormField(f, 'destination').value;
         const ankunft = getFormField(f, 'arrival').value;

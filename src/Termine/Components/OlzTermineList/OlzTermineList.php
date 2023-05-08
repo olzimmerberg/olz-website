@@ -176,6 +176,21 @@ class OlzTermineList extends OlzComponent {
         }
 
         $out .= OlzTermineFilter::render();
+
+        $has_access = $this->authUtils()->hasPermission('termine');
+        if ($has_access) {
+            $out .= <<<'ZZZZZZZZZZ'
+            <button
+                id='create-termin-button'
+                class='btn btn-secondary create-termin-container'
+                onclick='return olz.initOlzEditTerminModal()'
+            >
+                <img src='icns/new_white_16.svg' class='noborder' />
+                Neuer Termin
+            </button>
+            ZZZZZZZZZZ;
+        }
+
         $out .= "<h1>{$termine_list_title}</h1>";
 
         // -------------------------------------------------------------
@@ -312,15 +327,8 @@ class OlzTermineList extends OlzComponent {
             $has_location = $has_olz_location || $has_solv_location;
 
             // Dateicode einfügen
-            preg_match_all("/<datei([0-9]+)(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $link, $matches);
-            for ($i = 0; $i < count($matches[0]); $i++) {
-                $tmptext = $matches[4][$i];
-                if (mb_strlen($tmptext) < 1) {
-                    $tmptext = "Datei ".$matches[1][$i];
-                }
-                $tmp_html = $file_utils->olzFile($db_table, $id, intval($matches[1][$i]), $tmptext);
-                $link = str_replace($matches[0][$i], $tmp_html, $link);
-            }
+            $link = $file_utils->replaceFileTags($link, 'termine', $id);
+
             // Karte zeigen
             if ($has_olz_location && $datum >= $heute) {
                 $lv95_e = $xkoord + 2000000;

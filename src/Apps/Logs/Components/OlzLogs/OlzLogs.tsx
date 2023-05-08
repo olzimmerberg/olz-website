@@ -3,6 +3,7 @@ import React from 'react';
 import {olzApi} from '../../../../Api/client';
 import {OlzLogLevel, OlzLogsQuery} from '../../../../Api/client/generated_olz_api_types';
 import {OlzInfiniteScroll, OlzInfiniteScrollProps} from '../OlzInfiniteScroll/OlzInfiniteScroll';
+import {isoNow} from '../../../../Utils/constants';
 
 import './OlzLogs.scss';
 
@@ -58,13 +59,12 @@ const getTokenQuery = (
 } : null);
 
 export const OlzLogs = (): React.ReactElement => {
-    const now = (window as unknown as {olzLogsNow: string}).olzLogsNow;
     const channels = (window as unknown as {
         olzLogsChannels: {[id: string]: string}
     }).olzLogsChannels;
 
     const [channel, setChannel] = React.useState<string>(Object.keys(channels)[0]);
-    const [date, setDate] = React.useState<string>(now);
+    const [date, setDate] = React.useState<string>(isoNow);
     const [logLevel, setLogLevel] = React.useState<string>('levels-all');
     const [textSearch, setTextSearch] = React.useState<string>('');
 

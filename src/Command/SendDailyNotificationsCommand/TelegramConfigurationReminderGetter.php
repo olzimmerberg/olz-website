@@ -15,7 +15,6 @@ class TelegramConfigurationReminderGetter {
             return null;
         }
         $day_of_month = intval($this->dateUtils()->getCurrentDateInFormat('j'));
-        $total_days_of_month = intval($this->dateUtils()->getCurrentDateInFormat('t'));
         if ($day_of_month !== self::DAY_OF_MONTH) {
             return null;
         }

@@ -35,9 +35,9 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $termin = new Termin();
         $this->entityUtils()->createOlzEntity($termin, $input['meta']);
         $termin->setStartsOn(new \DateTime($input_data['startDate']));
-        $termin->setStartTime($input_data['startTime']);
+        $termin->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
         $termin->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
-        $termin->setEndTime($input_data['endTime']);
+        $termin->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
         $termin->setTitle($input_data['title']);
         $termin->setText($input_data['text']);
         $termin->setLink($input_data['link']);
@@ -48,6 +48,8 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $termin->setTypes($types_for_db);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
+        // TODO: Should be removed
+        $termin->setTeilnehmer(0);
 
         $this->entityManager()->persist($termin);
         $this->entityManager()->flush();

@@ -119,9 +119,9 @@ export type OlzRegistrationInfo = {
     'isOptional': boolean,
     'title': string,
     'description': string,
-    'options': Array<{
-    'text': string,
-}>|null,
+    'options': {
+    'text': Array<string>,
+}|null,
 };
 
 export type OlzLogsQuery = {

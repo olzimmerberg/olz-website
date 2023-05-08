@@ -17,18 +17,15 @@ class AnmeldenConstants {
                 'isOptional' => new FieldTypes\BooleanField(),
                 'title' => new FieldTypes\StringField(['allow_empty' => false]),
                 'description' => new FieldTypes\StringField(['allow_empty' => true]),
-                'options' => new FieldTypes\ArrayField([
-                    'item_field' => self::getOptionField(),
+                'options' => new FieldTypes\ChoiceField([
+                    'field_map' => [
+                        // Each option is described by some text.
+                        'text' => new FieldTypes\ArrayField([
+                            'item_field' => new FieldTypes\StringField(),
+                        ]),
+                    ],
                     'allow_null' => true,
                 ]),
-            ],
-        ]);
-    }
-
-    public static function getOptionField() {
-        return new FieldTypes\ChoiceField([
-            'field_map' => [
-                'text' => new FieldTypes\StringField(),
             ],
         ]);
     }

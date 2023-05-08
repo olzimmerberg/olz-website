@@ -39,11 +39,7 @@ export const OlzRegistrationView = (): React.ReactElement => {
                         isOptional: false,
                         title: 'Menü',
                         description: 'Allergien bitte unter "Bemerkungen".',
-                        options: [
-                            {text: 'Fleisch'},
-                            {text: 'Vegetarisch'},
-                            {text: 'Fisch'},
-                        ],
+                        options: {text: ['Fleisch', 'Vegetarisch', 'Fisch']},
                     },
                     {
                         type: 'string',

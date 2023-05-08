@@ -2,6 +2,7 @@ interface TypedWindow {
     olzCodeHref: unknown;
     olzDataHref: unknown;
     olzUser: unknown;
+    olzIsoNow: unknown;
 }
 
 interface UserConstant {
@@ -25,3 +26,7 @@ export const dataHref: string = typeof typedWindow.olzDataHref === 'string'
 /* istanbul ignore next */
 export const user: UserConstant = typeof typedWindow.olzUser === 'object'
     ? typedWindow.olzUser as UserConstant : {};
+
+/* istanbul ignore next */
+export const isoNow: string = typeof typedWindow.olzIsoNow === 'string'
+    ? typedWindow.olzIsoNow as string : new Date().toISOString();

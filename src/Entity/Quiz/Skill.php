@@ -21,7 +21,7 @@ class Skill extends OlzEntity {
     #[ORM\JoinTable(name: 'quiz_skills_categories')]
     #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id')]
-    #[ORM\ManyToMany(targetEntity: 'SkillCategory', inversedBy: 'skills')]
+    #[ORM\ManyToMany(targetEntity: SkillCategory::class, inversedBy: 'skills')]
     private $categories;
 
     public function __construct() {

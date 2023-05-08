@@ -108,7 +108,7 @@ class User {
     public $notes;
 
     #[ORM\JoinTable(name: 'users_roles')]
-    #[ORM\ManyToMany(targetEntity: 'Role', inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     private $roles;
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]

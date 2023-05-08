@@ -46,7 +46,7 @@ class Role {
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     public $can_have_child_roles;
 
-    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
     private $users;
 
     public function __construct() {

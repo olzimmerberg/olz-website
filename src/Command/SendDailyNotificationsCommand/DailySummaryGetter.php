@@ -25,8 +25,8 @@ class DailySummaryGetter {
         $yesterday_at_cut_off = new \DateTime($this->yesterday->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $termine_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->lte('modified', $today_at_cut_off),
-                Criteria::expr()->gt('modified', $yesterday_at_cut_off),
+                Criteria::expr()->lte('last_modified_at', $today_at_cut_off),
+                Criteria::expr()->gt('last_modified_at', $yesterday_at_cut_off),
                 Criteria::expr()->eq('newsletter', 1),
                 Criteria::expr()->eq('on_off', 1),
             ))

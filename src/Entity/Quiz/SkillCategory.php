@@ -16,14 +16,14 @@ class SkillCategory extends OlzEntity {
     #[ORM\GeneratedValue]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: 'SkillCategory')]
+    #[ORM\ManyToOne(targetEntity: SkillCategory::class)]
     #[ORM\JoinColumn(name: 'parent_category_id', referencedColumnName: 'id', nullable: true)]
     private $parent_category;
 
     #[ORM\Column(type: 'string', nullable: false)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: 'Skill', mappedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy: 'categories')]
     private $skills;
 
     public function __construct() {

@@ -4,6 +4,7 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
+use Olz\Entity\User;
 use Olz\Repository\BookingRepository;
 
 #[ORM\Table(name: 'anmelden_bookings')]
@@ -14,11 +15,11 @@ class Booking extends OlzEntity {
     #[ORM\GeneratedValue]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: 'Registration')]
+    #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
     private $registration;
 
-    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
 

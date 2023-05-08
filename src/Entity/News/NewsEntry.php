@@ -4,6 +4,8 @@ namespace Olz\Entity\News;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
+use Olz\Entity\Role;
+use Olz\Entity\User;
 use Olz\Repository\News\NewsRepository;
 
 #[ORM\Table(name: 'aktuell')]
@@ -45,11 +47,11 @@ class NewsEntry extends OlzEntity {
     #[ORM\Column(type: 'string', nullable: true)]
     private $autor_email;
 
-    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'author_user_id', referencedColumnName: 'id', nullable: true)]
     private $author_user;
 
-    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\Role')]
+    #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'author_role_id', referencedColumnName: 'id', nullable: true)]
     private $author_role;
     // TODO: typ -> format

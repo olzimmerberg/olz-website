@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230508092141
+-- MIGRATION: DoctrineMigrations\Version20230508102943
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -630,7 +630,6 @@ CREATE TABLE `termine` (
   `datum_off` date DEFAULT NULL,
   `zeit` time DEFAULT '00:00:00',
   `zeit_end` time DEFAULT '00:00:00',
-  `teilnehmer` int(11) NOT NULL DEFAULT 0,
   `titel` longtext DEFAULT NULL,
   `go2ol` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
@@ -642,8 +641,6 @@ CREATE TABLE `termine` (
   `ykoord` int(11) DEFAULT NULL,
   `solv_uid` int(11) DEFAULT NULL,
   `ical_uid` varchar(255) DEFAULT NULL,
-  `modified` datetime NOT NULL DEFAULT current_timestamp(),
-  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `deadline` datetime DEFAULT NULL,
   `owner_user_id` int(11) DEFAULT NULL,
@@ -652,16 +649,28 @@ CREATE TABLE `termine` (
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `participants_registration_id` int(11) DEFAULT NULL,
+  `volunteers_registration_id` int(11) DEFAULT NULL,
+  `num_participants` int(11) DEFAULT NULL,
+  `min_participants` int(11) DEFAULT NULL,
+  `max_participants` int(11) DEFAULT NULL,
+  `num_volunteers` int(11) DEFAULT NULL,
+  `min_volunteers` int(11) DEFAULT NULL,
+  `max_volunteers` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `datum_on_off_index` (`datum`,`on_off`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),
   KEY `IDX_168C0A8F7D182D95` (`created_by_user_id`),
   KEY `IDX_168C0A8F1A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_168C0A8F80299162` (`participants_registration_id`),
+  KEY `IDX_168C0A8F6D54E666` (`volunteers_registration_id`),
   CONSTRAINT `FK_168C0A8F1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_168C0A8F7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_168C0A8F6D54E666` FOREIGN KEY (`volunteers_registration_id`) REFERENCES `anmelden_registrations` (`id`),
+  CONSTRAINT `FK_168C0A8F7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

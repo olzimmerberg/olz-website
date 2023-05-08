@@ -41,7 +41,7 @@ class NotificationSubscription {
     #[ORM\Column(type: 'string', nullable: false)]
     private $delivery_type;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
 

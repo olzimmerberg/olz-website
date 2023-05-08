@@ -27,10 +27,9 @@ class DeleteTerminEndpoint extends OlzDeleteEntityEndpoint {
             return ['status' => 'ERROR'];
         }
 
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // if (!$this->entityUtils()->canUpdateOlzEntity($termin, null)) {
-        //     throw new HttpError(403, "Kein Zugriff!");
-        // }
+        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null)) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
 
         $this->entityManager()->remove($termin);
         $this->entityManager()->flush();

@@ -37,7 +37,6 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'solvId' => null,
             'go2olId' => null,
             'types' => [],
-            'onOff' => true,
             'coordinateX' => null,
             'coordinateY' => null,
             'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
@@ -106,14 +105,12 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertSame(false, $termin->getNewsletter());
         $this->assertSame(null, $termin->getSolvId());
         $this->assertSame(null, $termin->getGo2olId());
-        $this->assertSame(true, $termin->getOnOff());
         $this->assertSame(null, $termin->getCoordinateX());
         $this->assertSame(null, $termin->getCoordinateY());
 
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // $this->assertSame([
-        //     [$termin, 1, 1, 1],
-        // ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
+        $this->assertSame([
+            [$termin, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 

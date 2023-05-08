@@ -26,10 +26,9 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         if (!$termin) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // if (!$this->entityUtils()->canUpdateOlzEntity($termin, $input['meta'])) {
-        //     throw new HttpError(403, "Kein Zugriff!");
-        // }
+        if (!$this->entityUtils()->canUpdateOlzEntity($termin, $input['meta'])) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
 
         $current_user = $this->authUtils()->getCurrentUser();
         $data_path = $this->envUtils()->getDataPath();
@@ -39,8 +38,7 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
 
         $types_for_db = $this->getTypesForDb($input_data['types']);
 
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // $this->entityUtils()->updateOlzEntity($termin, $input['meta'] ?? []);
+        $this->entityUtils()->updateOlzEntity($termin, $input['meta'] ?? []);
         $termin->setStartsOn(new \DateTime($input_data['startDate']));
         $termin->setStartTime($input_data['startTime']);
         $termin->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
@@ -53,7 +51,6 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         $termin->setSolvId($input_data['solvId']);
         $termin->setGo2olId($input_data['go2olId']);
         $termin->setTypes($types_for_db);
-        $termin->setOnOff($input_data['onOff']);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
 

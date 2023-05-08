@@ -56,7 +56,6 @@ class GetTerminEndpoint extends OlzGetEntityEndpoint {
                 'solvId' => $termin->getSolvId(),
                 'go2olId' => $termin->getGo2olId(),
                 'types' => $types_for_api,
-                'onOff' => $termin->getOnOff(),
                 'coordinateX' => $termin->getCoordinateX(),
                 'coordinateY' => $termin->getCoordinateY(),
                 'fileIds' => $file_ids,

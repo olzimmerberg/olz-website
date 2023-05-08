@@ -42,10 +42,9 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
         if (!$termin) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // if (!$this->entityUtils()->canUpdateOlzEntity($termin, null)) {
-        //     throw new HttpError(403, "Kein Zugriff!");
-        // }
+        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null)) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
         $data_path = $this->envUtils()->getDataPath();
 
         $types_for_api = $this->getTypesForApi($termin->getTypes() ?? '');
@@ -85,7 +84,6 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
                 'solvId' => $termin->getSolvId(),
                 'go2olId' => $termin->getGo2olId(),
                 'types' => $types_for_api,
-                'onOff' => $termin->getOnOff(),
                 'coordinateX' => $termin->getCoordinateX(),
                 'coordinateY' => $termin->getCoordinateY(),
                 'fileIds' => $file_ids,

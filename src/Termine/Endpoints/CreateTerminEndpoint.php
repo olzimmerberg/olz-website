@@ -33,8 +33,7 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $termin = new Termin();
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // $this->entityUtils()->createOlzEntity($termin, $input['meta']);
+        $this->entityUtils()->createOlzEntity($termin, $input['meta']);
         $termin->setStartsOn(new \DateTime($input_data['startDate']));
         $termin->setStartTime($input_data['startTime']);
         $termin->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
@@ -47,7 +46,6 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $termin->setSolvId($input_data['solvId']);
         $termin->setGo2olId($input_data['go2olId']);
         $termin->setTypes($types_for_db);
-        $termin->setOnOff($input_data['onOff']);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
 

@@ -15,7 +15,7 @@ class RegistrationInfo extends OlzEntity {
     #[ORM\GeneratedValue]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: 'Registration')]
+    #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
     private $registration;
 

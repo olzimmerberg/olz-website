@@ -18,7 +18,7 @@ class GoogleLink {
     #[ORM\Column(type: 'text', nullable: false)]
     private $refresh_token;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $user;
 

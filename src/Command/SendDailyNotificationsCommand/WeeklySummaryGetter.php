@@ -31,8 +31,8 @@ class WeeklySummaryGetter {
         $last_week_at_cut_off = new \DateTime($this->lastWeek->format('Y-m-d').' '.self::CUT_OFF_TIME);
         $termine_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->lte('modified', $today_at_cut_off),
-                Criteria::expr()->gt('modified', $last_week_at_cut_off),
+                Criteria::expr()->lte('last_modified_at', $today_at_cut_off),
+                Criteria::expr()->gt('last_modified_at', $last_week_at_cut_off),
                 Criteria::expr()->eq('newsletter', 1),
                 Criteria::expr()->eq('on_off', 1),
             ))

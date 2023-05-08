@@ -3,6 +3,7 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
@@ -33,8 +34,31 @@ class Termin extends OlzEntity {
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $deadline;
 
-    #[ORM\Column(type: 'integer', options: ['default' => 0])]
-    private $teilnehmer;
+    #[ORM\ManyToOne(targetEntity: Registration::class)]
+    #[ORM\JoinColumn(name: 'participants_registration_id', referencedColumnName: 'id')]
+    private $participants_registration;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $num_participants;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $min_participants;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $max_participants;
+
+    #[ORM\ManyToOne(targetEntity: Registration::class)]
+    #[ORM\JoinColumn(name: 'volunteers_registration_id', referencedColumnName: 'id')]
+    private $volunteers_registration;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $num_volunteers;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $min_volunteers;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $max_volunteers;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private $newsletter;
@@ -69,10 +93,6 @@ class Termin extends OlzEntity {
     #[ORM\Column(type: 'string', nullable: true)]
     private $ical_uid;
 
-    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $modified; // ON UPDATE current_timestamp(),
-    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`),
     // KEY `on_off` (`on_off`),

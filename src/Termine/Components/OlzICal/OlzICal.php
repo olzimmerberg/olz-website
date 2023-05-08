@@ -57,8 +57,8 @@ class OlzICal extends OlzComponent {
         "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum).
         "\r\nDTEND;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum_end).
         "\r\nDTSTAMP:".date('Ymd\THis\Z').
-        "\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['modified'])).
-        "\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created'])).
+        "\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['last_modified_at'])).
+        "\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created_at'])).
         "\r\nSUMMARY:".$row['titel'].
         "\r\nDESCRIPTION:".str_replace("\r\n", "\\n", $row['text']).
         "\\n".$_links;

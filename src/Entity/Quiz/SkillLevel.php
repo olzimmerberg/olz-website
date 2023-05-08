@@ -4,6 +4,7 @@ namespace Olz\Entity\Quiz;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\OlzEntity;
+use Olz\Entity\User;
 use Olz\Repository\SkillLevelRepository;
 
 #[ORM\Table(name: 'quiz_skill_levels')]
@@ -15,11 +16,11 @@ class SkillLevel extends OlzEntity {
     #[ORM\GeneratedValue]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: '\Olz\Entity\User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: 'Skill')]
+    #[ORM\ManyToOne(targetEntity: Skill::class)]
     #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id', nullable: true)]
     private $skill;
 

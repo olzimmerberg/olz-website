@@ -199,7 +199,6 @@ onchange='Titel_angleichen()' class='dropdown'>
 <option value='7'>[Link PDF]</option>
 </select>
 <input name='help_set_link' value='' style='width: 56%;' type='text'>", "", " rows='4'", ],
-        ["teilnehmer", "TeilnehmerInnen", "number", "", "", "", "", ""],
         ["xkoord", "X-Koordinate", "number", "", "", "<input type='button' name='' onclick='olz.koordinaten()' value='Analysieren' title='Versucht automatisch X- und Y-Koordinate aus der Eingabe zu eruieren\nBsp: Eingabe: \"	263925 / 699025\" > Ausgabe: X=\"699025\", Y=\"699025\"' class='dropdown' style='width: 44%;margin-left:10px;'>", "width:150px;", ""],
         ["ykoord", "Y-Koordinate", "number", "", "", "", "width:150px;", ""],
         ["on_off", "Aktiv", "boolean", "1", "", "", "", ""],

@@ -10,7 +10,7 @@ use Olz\Repository\AccessTokenRepository;
 #[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
 #[ORM\Entity(repositoryClass: AccessTokenRepository::class)]
 class AccessToken {
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private $user;
 

@@ -3,12 +3,13 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'datum_on_off_index', columns: ['datum', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
-class Termin {
+class Termin extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -55,9 +56,6 @@ class Termin {
 
     #[ORM\Column(type: 'string', nullable: true)]
     private $typ;
-
-    #[ORM\Column(type: 'integer', options: ['default' => 0])]
-    private $on_off;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $xkoord;

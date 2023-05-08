@@ -53,7 +53,6 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'solvId' => null,
             'go2olId' => null,
             'types' => ['training', 'weekend'],
-            'onOff' => true,
             'coordinateX' => null,
             'coordinateY' => null,
             'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
@@ -149,14 +148,12 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertSame(false, $termin->getNewsletter());
         $this->assertSame(null, $termin->getSolvId());
         $this->assertSame(null, $termin->getGo2olId());
-        $this->assertSame(true, $termin->getOnOff());
         $this->assertSame(null, $termin->getCoordinateX());
         $this->assertSame(null, $termin->getCoordinateY());
 
-        // TODO: Enable when Termine is migrated to OlzEntity
-        // $this->assertSame([
-        //     [$termin, 1, 1, 1],
-        // ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
+        $this->assertSame([
+            [$termin, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;
 

@@ -232,14 +232,4 @@ class Termin extends OlzEntity {
     public function setNewsletter($new_newsletter) {
         $this->newsletter = $new_newsletter;
     }
-
-    // @deprecated Should be removed
-    public function getTeilnehmer() {
-        return $this->teilnehmer;
-    }
-
-    // @deprecated Should be removed
-    public function setTeilnehmer($new_teilnehmer) {
-        $this->teilnehmer = $new_teilnehmer;
-    }
 }

@@ -80,13 +80,13 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
 
         $same_username_user = $user_repo->findOneBy(['username' => $username]);
         $same_email_user = $user_repo->findOneBy(['email' => $email]);
-        if ($same_username_user) {
+        if ($username && $same_username_user) {
             if ($same_username_user->getPasswordHash()) {
                 throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $user = $same_username_user;
-        } elseif ($same_email_user) {
+        } elseif ($email && $same_email_user) {
             if ($same_email_user->getPasswordHash()) {
                 throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }

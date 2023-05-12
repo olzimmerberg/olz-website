@@ -48,8 +48,6 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $termin->setTypes($types_for_db);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
-        // TODO: Should be removed
-        $termin->setTeilnehmer(0);
 
         $this->entityManager()->persist($termin);
         $this->entityManager()->flush();

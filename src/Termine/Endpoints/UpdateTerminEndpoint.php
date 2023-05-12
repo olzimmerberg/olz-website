@@ -40,9 +40,9 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
 
         $this->entityUtils()->updateOlzEntity($termin, $input['meta'] ?? []);
         $termin->setStartsOn(new \DateTime($input_data['startDate']));
-        $termin->setStartTime($input_data['startTime']);
+        $termin->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
         $termin->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
-        $termin->setEndTime($input_data['endTime']);
+        $termin->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
         $termin->setTitle($input_data['title']);
         $termin->setText($input_data['text']);
         $termin->setLink($input_data['link']);

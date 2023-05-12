@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import {olzApi} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');
@@ -84,7 +84,7 @@ export function olzKontoSignUpWithStrava(form: HTMLFormElement): boolean {
             email: getRequired(getEmail(getFormField(f, 'email'))),
             phone: getPhone(getFormField(f, 'phone')),
             gender: getGender(getFormField(f, 'gender')),
-            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            birthdate: getIsoDate(getFormField(f, 'birthdate')),
             street: getRequired(getFormField(f, 'street')),
             postalCode: getRequired(getFormField(f, 'postal-code')),
             city: getRequired(getFormField(f, 'city')),

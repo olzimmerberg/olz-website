@@ -7,6 +7,8 @@ require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $termine_url = '/termine.php';
+$termine_id_5_url = "{$termine_url}?id=5";
+$termine_id_7_url = "{$termine_url}?id=7";
 
 function test_termine($driver, $base_url) {
     global $termine_url;
@@ -44,7 +46,7 @@ function test_termine($driver, $base_url) {
 }
 
 function test_termine_readonly($driver, $base_url) {
-    global $termine_url;
+    global $termine_url, $termine_id_5_url, $termine_id_7_url;
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');
 
@@ -57,4 +59,10 @@ function test_termine_readonly($driver, $base_url) {
     );
     click($filter_type_training);
     take_pageshot($driver, 'termine_past');
+
+    $driver->get("{$base_url}{$termine_id_5_url}");
+    take_pageshot($driver, 'termine_not_migrated');
+
+    $driver->get("{$base_url}{$termine_id_7_url}");
+    take_pageshot($driver, 'termine_migrated');
 }

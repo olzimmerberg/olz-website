@@ -345,6 +345,10 @@ class DevDataUtils {
         $this->mkdir("{$data_path}files/termine");
         $this->mkdir("{$data_path}files/termine/2");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
+        $this->mkdir("{$data_path}files/termine/5");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/001.pdf");
+        $this->mkdir("{$data_path}files/termine/7");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
 
         // Build img/
         $this->mkdir("{$data_path}img");

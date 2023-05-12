@@ -5,12 +5,17 @@ import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export const SWISS_DATETIME_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\W+([0-9]{2}):([0-9]{2})(:([0-9]{2}))?\s*$/;
+export const ISO_DATETIME_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,2})\W+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
+export const SWISS_DATETIME_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\W+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
+export const ISO_DATE_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,2})\s*$/;
 export const SWISS_DATE_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/;
+export const TIME_REGEX = /^\s*([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
 
 export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
     'switzerland': 'CH',
     'schweiz': 'CH',
+    'che': 'CH',
+    'sui': 'CH',
 };
 
 // Reusable: Field result
@@ -419,7 +424,7 @@ export function getGender(
     }
 }
 
-export function getIsoDateFromSwissFormat(
+export function getIsoDateTime(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<string|null> {
     if (!isValidFieldResult(input)) {
@@ -428,11 +433,21 @@ export function getIsoDateFromSwissFormat(
     if (!input.value || input.value === '') {
         return {...input, value: null};
     }
-    const res = SWISS_DATE_REGEX.exec(input.value);
-    if (!res) {
-        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY sein.']);
+    let timestamp = null;
+    const swissMatch = SWISS_DATETIME_REGEX.exec(input.value);
+    const isoMatch = ISO_DATETIME_REGEX.exec(input.value);
+    if (swissMatch) {
+        timestamp = Date.parse(
+            `${swissMatch[3]}-${swissMatch[2]}-${swissMatch[1]} ${swissMatch[4]}:${swissMatch[5]}:${swissMatch[7] ? swissMatch[7] : '00'}`,
+        );
+    } else if (isoMatch) {
+        timestamp = Date.parse(
+            `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]} ${isoMatch[4]}:${isoMatch[5]}:${isoMatch[7] ? isoMatch[7] : '00'}`,
+        );
+    } else {
+        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY SS:MM[:SS] sein.']);
     }
-    const timestamp = Date.parse(`${res[3]}-${res[2]}-${res[1]} 12:00:00`);
+
     if (!timestamp) {
         return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
     }
@@ -440,7 +455,70 @@ export function getIsoDateFromSwissFormat(
     const year = String(dateObject.getFullYear()).padStart(4, '0');
     const month = String(dateObject.getMonth() + 1).padStart(2, '0');
     const day = String(dateObject.getDate()).padStart(2, '0');
-    const newValue = `${year}-${month}-${day} 12:00:00`;
+    const hours = String(dateObject.getHours()).padStart(2, '0');
+    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+    const newValue = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return {...input, value: newValue};
+}
+
+export function getIsoDate(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
+    if (!input.value || input.value === '') {
+        return {...input, value: null};
+    }
+    let timestamp = null;
+    const swissMatch = SWISS_DATE_REGEX.exec(input.value);
+    const isoMatch = ISO_DATE_REGEX.exec(input.value);
+    if (swissMatch) {
+        timestamp = Date.parse(
+            `${swissMatch[3]}-${swissMatch[2]}-${swissMatch[1]} 12:00:00`,
+        );
+    } else if (isoMatch) {
+        timestamp = Date.parse(
+            `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]} 12:00:00`,
+        );
+    } else {
+        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY sein.']);
+    }
+    if (!timestamp) {
+        return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
+    }
+    const dateObject = new Date(timestamp);
+    const year = String(dateObject.getFullYear()).padStart(4, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const newValue = `${year}-${month}-${day}`;
+    return {...input, value: newValue};
+}
+
+export function getIsoTime(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<string|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
+    if (!input.value || input.value === '') {
+        return {...input, value: null};
+    }
+    const res = TIME_REGEX.exec(input.value);
+    if (!res) {
+        return recordErrorMessages(input, ['Die Zeit muss im Format HH:MM:SS sein.']);
+    }
+    const today = new Date().toISOString().substring(0, 10);
+    const timestamp = Date.parse(`${today} ${res[1]}:${res[2]}:${res[4] ? res[4] : '00'}`);
+    if (!timestamp) {
+        return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
+    }
+    const dateObject = new Date(timestamp);
+    const hours = String(dateObject.getHours()).padStart(2, '0');
+    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
+    const newValue = `${hours}:${minutes}:${seconds}`;
     return {...input, value: newValue};
 }
 
@@ -462,37 +540,6 @@ export function getInteger(
     }
     const number = Number(trimmed);
     return {...input, value: number};
-}
-
-export function getIsoDateTimeFromSwissFormat(
-    input: FieldResult<string|null|undefined>,
-): FieldResult<string|null> {
-    if (!isValidFieldResult(input)) {
-        return input;
-    }
-    if (!input.value || input.value === '') {
-        return {...input, value: null};
-    }
-    const res = SWISS_DATETIME_REGEX.exec(input.value);
-    if (!res) {
-        return recordErrorMessages(input, ['Das Datum muss im Format TT.MM.YYYY SS:MM[:SS] sein.']);
-    }
-    const parsedSeconds = res[6] ?? '';
-    const timestamp = Date.parse(
-        `${res[3]}-${res[2]}-${res[1]} ${res[4]}:${res[5]}${parsedSeconds}`,
-    );
-    if (!timestamp) {
-        return recordErrorMessages(input, [`"${input.value}" ist ein ungültiges Datum.`]);
-    }
-    const dateObject = new Date(timestamp);
-    const year = String(dateObject.getFullYear()).padStart(4, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    const hours = String(dateObject.getHours()).padStart(2, '0');
-    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
-    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
-    const newValue = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    return {...input, value: newValue};
 }
 
 export function getPassword(

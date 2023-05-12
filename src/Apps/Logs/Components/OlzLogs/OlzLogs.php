@@ -38,8 +38,6 @@ class OlzLogs extends OlzComponent {
 
         $out .= "<div class='content-full olz-logs'>";
         if ($user && $user->getPermissions() == 'all') {
-            $iso_now = $this->dateUtils()->getIsoNow();
-            $esc_now = json_encode($iso_now);
             $channels_data = [];
             foreach (LogsDefinitions::getLogsChannels() as $channel) {
                 $channels_data[$channel::getId()] = $channel::getName();
@@ -47,7 +45,6 @@ class OlzLogs extends OlzComponent {
             $esc_channels = json_encode($channels_data);
             $out .= <<<ZZZZZZZZZZ
                 <script>
-                    window.olzLogsNow = {$esc_now};
                     window.olzLogsChannels = {$esc_channels};
                 </script>
                 <div id='react-root'></div>

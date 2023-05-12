@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {ValidationError} from '../../../../src/Api/client';
-import {EMAIL_REGEX, FieldResult, isFieldResult, validFieldResult, invalidFieldResult, FieldResultOrDictThereof, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getDataForRequest, camelCaseToDashCase, getAsserted, getCountryCode, getEmail, getFormField, getGender, getIsoDateFromSwissFormat, getIsoDateTimeFromSwissFormat, getPassword, getPhone, getRequired, getStringOrEmpty, getStringOrNull} from './OlzDefaultForm';
+import {EMAIL_REGEX, FieldResult, isFieldResult, validFieldResult, invalidFieldResult, FieldResultOrDictThereof, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getDataForRequest, camelCaseToDashCase, getAsserted, getCountryCode, getEmail, getFormField, getGender, getIsoDateTime, getIsoDate, getIsoTime, getPassword, getPhone, getRequired, getStringOrEmpty, getStringOrNull} from './OlzDefaultForm';
 
 describe('EMAIL_REGEX', () => {
     it('matches real email adresses', () => {
@@ -448,59 +448,122 @@ describe('getGender', () => {
     });
 });
 
-describe('getIsoDateFromSwissFormat', () => {
+describe('getIsoDateTime', () => {
     it('returns null for nullish user inputs', () => {
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '')))
-            .toEqual(validFieldResult('date', null));
+        expect(getIsoDateTime(validFieldResult('datetime', '')))
+            .toEqual(validFieldResult('datetime', null));
     });
 
-    it('returns date for correct user inputs', () => {
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '13.1.2006')))
-            .toEqual(validFieldResult('date', '2006-01-13 12:00:00'));
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '13. 1. 2006')))
-            .toEqual(validFieldResult('date', '2006-01-13 12:00:00'));
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', ' 13. 1. 2006 \t')))
-            .toEqual(validFieldResult('date', '2006-01-13 12:00:00'));
+    it('returns datetime for correct swiss user inputs', () => {
+        expect(getIsoDateTime(validFieldResult('datetime', '13.01.2006 18:03')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
+        expect(getIsoDateTime(validFieldResult('datetime', '13.1.2006 18:03')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
+        expect(getIsoDateTime(validFieldResult('datetime', '13. 1. 2006 18:43:36')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:43:36'));
+        expect(getIsoDateTime(validFieldResult('datetime', ' 13. 1. 2006 \t 18:03 \t')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
+    });
+
+    it('returns datetime for correct ISO user inputs', () => {
+        expect(getIsoDateTime(validFieldResult('datetime', '2006-01-13 18:03:00')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
+        expect(getIsoDateTime(validFieldResult('datetime', '2006-1-13 18:03')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
+        expect(getIsoDateTime(validFieldResult('datetime', '2006 - 1 - 13 18:43:36')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:43:36'));
+        expect(getIsoDateTime(validFieldResult('datetime', ' 2006-\t1-13 \t 18:03 \t')))
+            .toEqual(validFieldResult('datetime', '2006-01-13 18:03:00'));
     });
 
     it('returns validation error for invalid user inputs', () => {
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', 'not.a.date')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], 'not.a.date'));
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '2006.01.13')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '2006.01.13'));
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '01/13/2006')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '01/13/2006'));
-        expect(getIsoDateFromSwissFormat(validFieldResult('date', '32.1.2006')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '32.1.2006'));
+        expect(getIsoDateTime(validFieldResult('datetime', 'not.a.date')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], 'not.a.date'));
+        expect(getIsoDateTime(validFieldResult('datetime', '2006.01.13 18:36')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '2006.01.13 18:36'));
+        expect(getIsoDateTime(validFieldResult('datetime', '01/13/2006 18:04')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '01/13/2006 18:04'));
+        expect(getIsoDateTime(validFieldResult('datetime', '32.1.2006 18:03')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '32.1.2006 18:03'));
+        expect(getIsoDateTime(validFieldResult('datetime', '30.1.2006 24:67')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '30.1.2006 24:67'));
+        expect(getIsoDateTime(validFieldResult('datetime', '13.01.06 18:03')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '13.01.06 18:03'));
+        expect(getIsoDateTime(validFieldResult('datetime', '13.01. 18:03')))
+            .toEqual(invalidFieldResult('datetime', [new ValidationError('', {})], '13.01. 18:03'));
     });
 });
 
-describe('getIsoDateTimeFromSwissFormat', () => {
+describe('getIsoDate', () => {
     it('returns null for nullish user inputs', () => {
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '')))
+        expect(getIsoDate(validFieldResult('date', '')))
             .toEqual(validFieldResult('date', null));
     });
 
-    it('returns date for correct user inputs', () => {
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '13.1.2006 18:03')))
-            .toEqual(validFieldResult('date', '2006-01-13 18:03:00'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '13. 1. 2006 18:43:36')))
-            .toEqual(validFieldResult('date', '2006-01-13 18:43:36'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', ' 13. 1. 2006 \t 18:03 \t')))
-            .toEqual(validFieldResult('date', '2006-01-13 18:03:00'));
+    it('returns date for correct swiss user inputs', () => {
+        expect(getIsoDate(validFieldResult('date', '13.01.2006')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', '13.1.2006')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', '13. 1. 2006')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', ' 13. 1. 2006 \t')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+    });
+
+    it('returns date for correct ISO user inputs', () => {
+        expect(getIsoDate(validFieldResult('date', '2006-01-13')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', '2006-1-13')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', '2006 - 1 - 13')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
+        expect(getIsoDate(validFieldResult('date', ' 2006-\t1-13 \t')))
+            .toEqual(validFieldResult('date', '2006-01-13'));
     });
 
     it('returns validation error for invalid user inputs', () => {
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', 'not.a.date')))
+        expect(getIsoDate(validFieldResult('date', 'not.a.date')))
             .toEqual(invalidFieldResult('date', [new ValidationError('', {})], 'not.a.date'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '2006.01.13 18:36')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '2006.01.13 18:36'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '01/13/2006 18:04')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '01/13/2006 18:04'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '32.1.2006 18:03')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '32.1.2006 18:03'));
-        expect(getIsoDateTimeFromSwissFormat(validFieldResult('date', '30.1.2006 24:67')))
-            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '30.1.2006 24:67'));
+        expect(getIsoDate(validFieldResult('date', '2006.01.13')))
+            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '2006.01.13'));
+        expect(getIsoDate(validFieldResult('date', '01/13/2006')))
+            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '01/13/2006'));
+        expect(getIsoDate(validFieldResult('date', '32.1.2006')))
+            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '32.1.2006'));
+        expect(getIsoDateTime(validFieldResult('date', '13.01.06')))
+            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '13.01.06'));
+        expect(getIsoDateTime(validFieldResult('date', '13.01.')))
+            .toEqual(invalidFieldResult('date', [new ValidationError('', {})], '13.01.'));
+    });
+});
+
+describe('getIsoTime', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(getIsoTime(validFieldResult('time', '')))
+            .toEqual(validFieldResult('time', null));
+    });
+
+    it('returns date for correct user inputs', () => {
+        expect(getIsoTime(validFieldResult('time', '18:03')))
+            .toEqual(validFieldResult('time', '18:03:00'));
+        expect(getIsoTime(validFieldResult('time', '18:3')))
+            .toEqual(validFieldResult('time', '18:03:00'));
+        expect(getIsoTime(validFieldResult('time', ' 8:\t20 \t')))
+            .toEqual(validFieldResult('time', '08:20:00'));
+        expect(getIsoTime(validFieldResult('time', '18:43:36')))
+            .toEqual(validFieldResult('time', '18:43:36'));
+        expect(getIsoTime(validFieldResult('time', ' \t 18:03 \t')))
+            .toEqual(validFieldResult('time', '18:03:00'));
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(getIsoTime(validFieldResult('time', 'not:a:time')))
+            .toEqual(invalidFieldResult('time', [new ValidationError('', {})], 'not:a:time'));
+        expect(getIsoTime(validFieldResult('time', '25:36')))
+            .toEqual(invalidFieldResult('time', [new ValidationError('', {})], '25:36'));
+        expect(getIsoTime(validFieldResult('time', '18:61')))
+            .toEqual(invalidFieldResult('time', [new ValidationError('', {})], '18:61'));
     });
 });
 

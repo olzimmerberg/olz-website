@@ -1,5 +1,5 @@
 import {olzApi} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDateFromSwissFormat, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {olzConfirm} from '../src/Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
@@ -93,7 +93,7 @@ export async function olzProfileActuallyUpdateUser(userId: number, form: HTMLFor
             phone: getPhone(getFormField(f, 'phone')),
             email: getRequired(getEmail(getFormField(f, 'email'))),
             gender: getGender(getFormField(f, 'gender')),
-            birthdate: getIsoDateFromSwissFormat(getFormField(f, 'birthdate')),
+            birthdate: getIsoDate(getFormField(f, 'birthdate')),
             street: getFormField(f, 'street'),
             postalCode: getFormField(f, 'postal-code'),
             city: getFormField(f, 'city'),

@@ -88,7 +88,7 @@ class FileUtils {
                 );
             } else {
                 // TODO: Delete this monster-logic!
-                $is_blog = $id >= 6400 && $id < 6700;
+                $is_blog = $db_table !== 'termine' && $id >= 6400 && $id < 6700;
                 $new_html = $this->olzFile(
                     $is_blog ? 'blog' : ($db_table == 'news' ? 'aktuell' : $db_table),
                     $is_blog ? $id - 6400 : $id,

@@ -120,7 +120,6 @@ class OlzTermineDetail extends OlzComponent {
         if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $out .= OlzTerminDetail::render([
                 'id' => $id,
-                'can_edit' => $zugriff,
                 'is_preview' => (($do ?? null) == 'vorschau'),
             ]);
         }

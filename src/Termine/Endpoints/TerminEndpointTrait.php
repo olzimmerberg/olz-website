@@ -22,7 +22,7 @@ trait TerminEndpointTrait {
                 'link' => new FieldTypes\StringField(['allow_empty' => true]),
                 'deadline' => new FieldTypes\DateTimeField(['allow_null' => true]),
                 'newsletter' => new FieldTypes\BooleanField([]),
-                'solvId' => new FieldTypes\StringField(['allow_null' => true]),
+                'solvId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'go2olId' => new FieldTypes\StringField(['allow_null' => true]),
                 'types' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),

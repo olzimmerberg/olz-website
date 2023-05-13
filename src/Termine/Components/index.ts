@@ -1,3 +1,3 @@
 export * from './OlzEditTerminModal/OlzEditTerminModal';
-import './OlzTerminDetail/OlzTerminDetail.scss';
+export * from './OlzTerminDetail/OlzTerminDetail';
 import './OlzTermineList/OlzTermineList.scss';

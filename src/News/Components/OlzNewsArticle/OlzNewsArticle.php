@@ -59,7 +59,7 @@ class OlzNewsArticle extends OlzComponent {
 
             $datum = $this->dateUtils()->olzDate("tt.mm.jj", $datum);
 
-            $is_owner = $user && intval($row['owner_user_id']) === intval($user->getId());
+            $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
             $has_all_permissions = $this->authUtils()->hasPermission('all');
             $can_edit = $is_owner || $has_all_permissions;
             $edit_admin = '';

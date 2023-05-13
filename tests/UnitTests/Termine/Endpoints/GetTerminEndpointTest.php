@@ -35,7 +35,7 @@ class FakeGetTerminEndpointTerminRepository {
             $termin->setCoordinateX(684835);
             $termin->setCoordinateY(237021);
             $termin->setDeadline(new \DateTime('2020-03-13 18:00:00'));
-            $termin->setSolvId('cor1');
+            $termin->setSolvId(11012);
             $termin->setGo2olId('deprecated');
             $termin->setNewsletter(true);
             $termin->setOnOff(true);
@@ -158,7 +158,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'link' => '<a href="test-anlass.ch">Home</a>',
                 'deadline' => '2020-03-13 18:00:00',
                 'newsletter' => true,
-                'solvId' => 'cor1',
+                'solvId' => 11012,
                 'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
                 'coordinateX' => 684835,

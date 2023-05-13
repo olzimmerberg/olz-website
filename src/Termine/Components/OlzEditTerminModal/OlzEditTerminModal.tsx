@@ -26,7 +26,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [link, setLink] = React.useState<string>(props.data?.link ?? '');
     const [deadline, setDeadline] = React.useState<string>(props.data?.deadline ?? '');
     const [hasNewsletter, setHasNewsletter] = React.useState<boolean>(props.data?.newsletter ?? false);
-    const [solvId, setSolvId] = React.useState<string>(props.data?.solvId ?? '');
+    const [solvId, setSolvId] = React.useState<string>(props.data?.solvId ? String(props.data?.solvId) : '');
     const [go2olId, setGo2olId] = React.useState<string>(props.data?.go2olId ?? '');
     const [types, setTypes] = React.useState<Set<string>>(new Set(props.data?.types));
     const [coordinateX, setCoordinateX] = React.useState<string>(props.data?.coordinateX ? String(props.data?.coordinateX) : '');
@@ -57,7 +57,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         link: getStringOrEmpty(getFormField(f, 'link')),
                         deadline: getIsoDateTime(getFormField(f, 'deadline')),
                         newsletter: validFieldResult('', hasNewsletter),
-                        solvId: getStringOrNull(getFormField(f, 'solv-id')),
+                        solvId: getInteger(getFormField(f, 'solv-id')),
                         go2olId: getStringOrNull(getFormField(f, 'go2ol-id')),
                         types: validFieldResult('', Array.from(types)),
                         coordinateX: getInteger(getFormField(f, 'coordinate-x')),
@@ -103,7 +103,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         link: getStringOrEmpty(getFormField(f, 'link')),
                         deadline: getIsoDateTime(getFormField(f, 'deadline')),
                         newsletter: validFieldResult('', hasNewsletter),
-                        solvId: getStringOrNull(getFormField(f, 'solv-id')),
+                        solvId: getInteger(getFormField(f, 'solv-id')),
                         go2olId: getStringOrNull(getFormField(f, 'go2ol-id')),
                         types: validFieldResult('', Array.from(types)),
                         coordinateX: getInteger(getFormField(f, 'coordinate-x')),
@@ -139,7 +139,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         }
 
         return false;
-    }, [startDate, startTime, fileIds]);
+    }, [startDate, startTime, endDate, endTime, hasNewsletter, types, fileIds]);
 
     const dialogTitle = (props.id === undefined
         ? 'Termin-Eintrag erstellen'

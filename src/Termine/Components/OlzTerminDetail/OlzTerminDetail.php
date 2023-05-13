@@ -13,6 +13,9 @@ class OlzTerminDetail extends OlzComponent {
 
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
+        $user = $this->authUtils()->getCurrentUser();
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_path = $this->envUtils()->getDataPath();
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
         $file_utils = FileUtils::fromEnv();
@@ -20,7 +23,6 @@ class OlzTerminDetail extends OlzComponent {
         $button_name = 'button'.$db_table;
         $id = $args['id'];
         $arg_row = $args['row'] ?? null;
-        $can_edit = $args['can_edit'] ?? false;
         $is_preview = $args['is_preview'] ?? false;
         $out = "";
 
@@ -91,6 +93,34 @@ class OlzTerminDetail extends OlzComponent {
 
             $out .= "<div class='olz-termin-detail'>";
 
+            $is_migrated = (bool) ($row['last_modified_by_user_id'] ?? false);
+            $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
+            $has_termine_permissions = $this->authUtils()->hasPermission('termine');
+            $can_edit = $is_owner || $has_termine_permissions;
+            if ($is_migrated && $can_edit && !$is_preview) {
+                $json_id = json_encode(intval($id));
+                $out .= <<<ZZZZZZZZZZ
+                <div>
+                    <button
+                        id='edit-news-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editTermin({$json_id})'
+                    >
+                        <img src='{$code_href}icns/edit_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-news-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteTermin({$json_id})'
+                    >
+                        <img src='{$code_href}icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
+            }
+
             // Karte zeigen
             if ($has_olz_location) {
                 $out .= OlzLocationMap::render([
@@ -113,7 +143,7 @@ class OlzTerminDetail extends OlzComponent {
 
             // Date & Title
             $edit_admin = '';
-            if ($can_edit && $typ != 'meldeschluss' && !$is_preview) {
+            if (!$is_migrated && $can_edit && $typ != 'meldeschluss' && !$is_preview) {
                 // Berbeiten-/Duplizieren-Button
                 $edit_admin = "<a href='termine.php?id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
             }

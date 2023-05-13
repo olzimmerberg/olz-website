@@ -11,7 +11,7 @@ $termine_id_5_url = "{$termine_url}?id=5";
 $termine_id_7_url = "{$termine_url}?id=7";
 
 function test_termine($driver, $base_url) {
-    global $termine_url;
+    global $termine_url, $termine_id_5_url, $termine_id_7_url;
     tick('termine');
 
     test_termine_readonly($driver, $base_url);
@@ -39,6 +39,12 @@ function test_termine($driver, $base_url) {
     click($save_button);
     take_pageshot($driver, 'termine_new_finished');
 
+    $driver->get("{$base_url}{$termine_id_5_url}");
+    take_pageshot($driver, 'termine_not_migrated');
+
+    $driver->get("{$base_url}{$termine_id_7_url}");
+    take_pageshot($driver, 'termine_migrated');
+
     logout($driver, $base_url);
 
     reset_dev_data();
@@ -46,7 +52,7 @@ function test_termine($driver, $base_url) {
 }
 
 function test_termine_readonly($driver, $base_url) {
-    global $termine_url, $termine_id_5_url, $termine_id_7_url;
+    global $termine_url;
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');
 
@@ -59,10 +65,4 @@ function test_termine_readonly($driver, $base_url) {
     );
     click($filter_type_training);
     take_pageshot($driver, 'termine_past');
-
-    $driver->get("{$base_url}{$termine_id_5_url}");
-    take_pageshot($driver, 'termine_not_migrated');
-
-    $driver->get("{$base_url}{$termine_id_7_url}");
-    take_pageshot($driver, 'termine_migrated');
 }

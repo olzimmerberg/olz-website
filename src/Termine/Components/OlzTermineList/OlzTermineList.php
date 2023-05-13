@@ -229,7 +229,8 @@ class OlzTermineList extends OlzComponent {
                 t.xkoord as xkoord,
                 t.ykoord as ykoord,
                 t.go2ol as go2ol,
-                t.solv_uid as solv_uid
+                t.solv_uid as solv_uid,
+                t.last_modified_by_user_id as last_modified_by_user_id
             FROM termine t
             WHERE {$sql_where}
         ) UNION ALL (
@@ -249,7 +250,8 @@ class OlzTermineList extends OlzComponent {
                 NULL as xkoord,
                 NULL as ykoord,
                 t.go2ol as go2ol,
-                t.solv_uid as solv_uid
+                t.solv_uid as solv_uid,
+                t.last_modified_by_user_id as last_modified_by_user_id
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
             WHERE se.deadline IS NOT NULL AND {$sql_where}
         ) UNION ALL (
@@ -269,7 +271,8 @@ class OlzTermineList extends OlzComponent {
                 NULL as xkoord,
                 NULL as ykoord,
                 t.go2ol as go2ol,
-                t.solv_uid as solv_uid
+                t.solv_uid as solv_uid,
+                t.last_modified_by_user_id as last_modified_by_user_id
             FROM termine t
             WHERE t.deadline IS NOT NULL AND {$sql_where}
         )
@@ -325,6 +328,8 @@ class OlzTermineList extends OlzComponent {
             $location_name = $has_olz_location ? null :
                 ($has_solv_location ? $row_solv['location'] : null);
             $has_location = $has_olz_location || $has_solv_location;
+
+            $is_migrated = (bool) ($row['last_modified_by_user_id'] ?? false);
 
             // Dateicode einfügen
             $link = $file_utils->replaceFileTags($link, 'termine', $id);
@@ -389,7 +394,7 @@ class OlzTermineList extends OlzComponent {
             }
             $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
-            if ($zugriff && $typ != 'meldeschluss' && (($do ?? null) != 'vorschau')) {
+            if (!$is_migrated && $zugriff && $typ != 'meldeschluss' && (($do ?? null) != 'vorschau')) {
                 // Berbeiten-/Duplizieren-Button
                 $edit_admin = "<a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?filter={$enc_current_filter}&id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
             } else {

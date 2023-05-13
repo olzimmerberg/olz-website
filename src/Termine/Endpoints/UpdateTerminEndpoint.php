@@ -46,7 +46,7 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         $termin->setTitle($input_data['title']);
         $termin->setText($input_data['text']);
         $termin->setLink($input_data['link']);
-        $termin->setDeadline($input_data['deadline']);
+        $termin->setDeadline($input_data['deadline'] ? new \DateTime($input_data['deadline']) : null);
         $termin->setNewsletter($input_data['newsletter']);
         $termin->setSolvId($input_data['solvId']);
         $termin->setGo2olId($input_data['go2olId']);

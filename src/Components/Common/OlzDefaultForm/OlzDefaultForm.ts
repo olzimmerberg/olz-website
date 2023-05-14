@@ -334,7 +334,7 @@ export function showErrorOnField(
     formInput: Element,
     errorMessage: string,
 ): void {
-    formInput.classList.add('is-invalid');
+    formInput.classList?.add('is-invalid');
     formInput.setAttribute('title', errorMessage);
     formInput.setAttribute('data-bs-toggle', 'tooltip');
     if (formInput.parentElement) {
@@ -343,7 +343,7 @@ export function showErrorOnField(
 }
 
 export function clearErrorOnField(formInput: Element): void {
-    formInput.classList.remove('is-invalid');
+    formInput.classList?.remove('is-invalid');
     formInput.removeAttribute('data-bs-toggle');
     formInput.removeAttribute('title');
     new window.bootstrap.Tooltip(formInput).dispose();

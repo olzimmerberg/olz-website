@@ -32,7 +32,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
             'email' => new FieldTypes\StringField(['allow_empty' => false]),
             'phone' => new FieldTypes\StringField(['allow_null' => true]),
             'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            'birthdate' => new FieldTypes\DateTimeField(['allow_null' => true]),
+            'birthdate' => new FieldTypes\DateField(['allow_null' => true]),
             'street' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'postalCode' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
             'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
@@ -84,7 +84,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
             throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse."]]);
         }
 
-        $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate']) : null;
+        $new_birthdate = $input['birthdate'] ? new \DateTime($input['birthdate'].' 12:00:00') : null;
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         if ($is_username_updated) {

@@ -60,7 +60,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'email' => 'admin-user@staging.olzimmerberg.ch',
             'phone' => '+410123456',
             'gender' => 'M',
-            'birthdate' => '2000-01-01 00:00:00',
+            'birthdate' => '2000-01-01',
             'street' => 'Data Hwy. 42',
             'postalCode' => '19216811',
             'city' => 'Test',

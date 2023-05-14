@@ -62,7 +62,7 @@ class OlzPanini2024 extends OlzComponent {
                 window.olzPanini2024LastName = {$esc_last_name};
                 window.olzPanini2024Picture = {$esc_panini_2024_picture};
             </script>
-            <div id='react-root' class='content-full'>
+            <div id='react-root'>
                 Lädt...
             </div>
             ZZZZZZZZZZ;

@@ -25,16 +25,16 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
         $panini_2024_picture_field = new FieldTypes\ObjectField([
             'field_structure' => [
                 'id' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'line1' => new FieldTypes\StringField(['allow_null' => false]),
-                'line2' => new FieldTypes\StringField(['allow_null' => false]),
-                'residence' => new FieldTypes\StringField(['allow_null' => false]),
+                'line1' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'line2' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'residence' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
                 'uploadId' => new FieldTypes\StringField(['allow_null' => false]),
                 'onOff' => new FieldTypes\BooleanField(['allow_null' => false]),
-                'info1' => new FieldTypes\StringField(['allow_null' => false]),
-                'info2' => new FieldTypes\StringField(['allow_null' => false]),
-                'info3' => new FieldTypes\StringField(['allow_null' => false]),
-                'info4' => new FieldTypes\StringField(['allow_null' => false]),
-                'info5' => new FieldTypes\StringField(['allow_null' => false]),
+                'info1' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'info2' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'info3' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'info4' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
+                'info5' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
             ],
         ]);
         return new FieldTypes\ObjectField(['field_structure' => [

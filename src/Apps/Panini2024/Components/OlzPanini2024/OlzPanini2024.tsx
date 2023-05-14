@@ -182,7 +182,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         <label htmlFor='panini-residence-input'>Wohnort</label>
                         <input
                             type='text'
-                            name='data--residence'
+                            name='data--residence-other'
                             value={residence}
                             onChange={(e) => setResidence(e.target.value)}
                             className='form-control'

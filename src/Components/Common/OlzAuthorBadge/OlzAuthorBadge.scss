@@ -11,7 +11,6 @@
         border: 1px solid rgb(75,75,75);
     }
 
-    &.level-role,
     &.level-user {
         color: rgb(0,150,0);
         border: 1px solid rgb(0,150,0);
@@ -19,6 +18,18 @@
         &.has-popup:hover {
             color: rgb(0,75,0);
             border: 1px solid rgb(0,75,0);    
+        }
+    }
+
+    &.level-role {
+        background-color: rgb(0,150,0);
+        color: rgb(255,255,255);
+        border: 1px solid rgb(0,150,0);
+
+        &.has-popup:hover {
+            background-color: rgb(0,100,0);
+            color: rgb(255,255,255);
+            border: 1px solid rgb(0,100,0);
         }
     }
 }

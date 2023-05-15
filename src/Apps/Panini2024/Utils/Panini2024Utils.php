@@ -1,0 +1,113 @@
+<?php
+
+namespace Olz\Apps\Panini2024\Utils;
+
+use Olz\Entity\Panini2024\Panini2024Picture;
+use Olz\Utils\WithUtilsTrait;
+
+class Panini2024Utils {
+    use WithUtilsTrait;
+
+    public const DPI = 1200;
+    public const PANINI_SHORT = 40.8; // mm (50.8mm, 5mm margin)
+    public const PANINI_LONG = 56; // mm (70mm, 7mm margin)
+    public const MM_PER_INCH = 25.4;
+
+    public function renderSingle($id) {
+        $entity_manager = $this->dbUtils()->getEntityManager();
+        $data_path = $this->envUtils()->getDataPath();
+        $panini_path = "{$data_path}panini_data/";
+        $masks_path = "{$panini_path}masks/";
+
+        $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
+        $picture = $panini_repo->findOneBy(['id' => $id]);
+        $is_landscape = $picture->getIsLandscape();
+        $has_top = $picture->getHasTop();
+        $suffix = $is_landscape ? 'L' : 'P';
+        $img_src = $picture->getImgSrc();
+        $img_style = $picture->getImgStyle();
+        $line1 = $picture->getLine1();
+        $line2 = $picture->getLine2();
+        $association = $picture->getAssociation();
+        $res_wid_percent = preg_match('/width\:\s*([\-0-9\.]+)%/i', $img_style, $matches);
+        $img_wid_percent = floatval($res_wid_percent ? $matches[1] : 100);
+        $res_top_percent = preg_match('/top\:\s*([\-0-9\.]+)%/i', $img_style, $matches);
+        $img_top_percent = floatval($res_top_percent ? $matches[1] : 100);
+        $res_left_percent = preg_match('/left\:\s*([\-0-9\.]+)%/i', $img_style, $matches);
+        $img_left_percent = floatval($res_left_percent ? $matches[1] : 100);
+
+        $ident = json_encode([
+            $is_landscape,
+            $has_top,
+            $img_src,
+            $img_style,
+            $line1,
+            $line2,
+            $association,
+            md5(file_get_contents(__FILE__)),
+        ]);
+        $md5 = md5($ident);
+        $cache_file = "{$panini_path}cache/{$id}-{$md5}.jpg";
+        if (is_file($cache_file)) {
+            $this->log()->info("Read from cache: {$id}-{$md5}.jpg");
+            return file_get_contents($cache_file);
+        }
+
+        $wid = round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
+            * self::DPI / self::MM_PER_INCH);
+        $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
+            * self::DPI / self::MM_PER_INCH);
+        $img = imagecreatetruecolor($wid, $hei);
+
+        // Payload
+        $folder = (intval($id) >= 1000) ? 'portraits/' : '';
+        $payload_path = "{$panini_path}{$folder}{$img_src}";
+        $payload_img = imagecreatefromjpeg($payload_path);
+        $payload_wid = imagesx($payload_img);
+        $payload_hei = imagesy($payload_img);
+        imagecopyresampled(
+            $img, $payload_img,
+            round($img_left_percent * $wid / 100), round($img_top_percent * $hei / 100),
+            0, 0,
+            round($wid * $img_wid_percent / 100), round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
+            $payload_wid, $payload_hei,
+        );
+
+        // Masks
+        $bottom_mask = imagecreatefrompng("{$masks_path}bottom{$suffix}.png");
+        imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
+        if ($has_top) {
+            $top_mask = imagecreatefrompng("{$masks_path}top{$suffix}.png");
+            imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
+        }
+
+        // Text
+        $size = 110;
+        $yellow = imagecolorallocate($img, 255, 255, 0);
+        $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
+        $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
+        $box = imagettfbbox($size, 0, $font_path, $line1);
+        $textwid = $box[2] + $box[0];
+        $x = ($line2 ? $wid - 50 - $textwid : $wid / 2 - $textwid / 2);
+        $y = $hei - ($is_landscape ? 100 : ($line2 ? 240 : 155));
+        imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line1);
+        imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
+        if ($line2) {
+            $box = imagettfbbox($size, 0, $font_path, $line2);
+            $textwid = $box[2] + $box[0];
+            $x = $wid - 50 - $textwid;
+            $y = $hei - 70;
+            imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line2);
+            imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line2);
+        }
+
+        ob_start();
+        imagejpeg($img);
+        $image_data = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($img);
+        file_put_contents($cache_file, $image_data);
+        $this->log()->info("Written to cache: {$id}-{$md5}.jpg");
+        return $image_data;
+    }
+}

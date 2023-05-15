@@ -4,6 +4,7 @@ namespace Olz\Apps\Panini2024\Utils;
 
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Utils\WithUtilsTrait;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Panini2024Utils {
     use WithUtilsTrait;
@@ -12,6 +13,22 @@ class Panini2024Utils {
     public const PANINI_SHORT = 40.8; // mm (50.8mm, 5mm margin)
     public const PANINI_LONG = 56; // mm (70mm, 7mm margin)
     public const MM_PER_INCH = 25.4;
+    public const ASSOCIATION_MAP = [
+        'Adliswil' => 'wappen/adliswil.jpg',
+        'Einsiedeln' => 'wappen/einsiedeln.jpg',
+        'Hirzel' => 'wappen/hirzel.jpg',
+        'Horgen' => 'wappen/horgen.jpg',
+        'Hütten' => 'wappen/huetten.jpg',
+        'Kilchberg' => 'wappen/kilchberg.jpg',
+        'Langnau am Albis' => 'wappen/langnau_am_albis.jpg',
+        'Oberrieden' => 'wappen/oberrieden.jpg',
+        'Richterswil' => 'wappen/richterswil.jpg',
+        'Rüschlikon' => 'wappen/rueschlikon.jpg',
+        'Schönenberg' => 'wappen/schoenenberg.jpg',
+        'Thalwil' => 'wappen/thalwil.jpg',
+        'Wädenswil' => 'wappen/waedenswil.jpg',
+        'Zürich' => 'wappen/zuerich.jpg',
+    ];
 
     public function renderSingle($id) {
         $entity_manager = $this->dbUtils()->getEntityManager();
@@ -21,6 +38,7 @@ class Panini2024Utils {
 
         $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
         $picture = $panini_repo->findOneBy(['id' => $id]);
+        $owner = $picture->getOwnerUser();
         $is_landscape = $picture->getIsLandscape();
         $has_top = $picture->getHasTop();
         $suffix = $is_landscape ? 'L' : 'P';
@@ -35,6 +53,13 @@ class Panini2024Utils {
         $img_top_percent = floatval($res_top_percent ? $matches[1] : 100);
         $res_left_percent = preg_match('/left\:\s*([\-0-9\.]+)%/i', $img_style, $matches);
         $img_left_percent = floatval($res_left_percent ? $matches[1] : 100);
+
+        $has_panini = $this->authUtils()->hasPermission('panini2024');
+        $current_user = $this->authUtils()->getCurrentUser();
+        $is_mine = $owner && $current_user && $owner->getId() === $current_user->getId();
+        if (!$has_panini && !$is_mine) {
+            throw new AccessDeniedHttpException("Kein Zugriff");
+        }
 
         $ident = json_encode([
             $is_landscape,
@@ -81,20 +106,35 @@ class Panini2024Utils {
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
         }
 
+        // Association
+        $association_file = self::ASSOCIATION_MAP[$association] ?? null;
+        if ($association_file) {
+            $association_img = imagecreatefromjpeg("{$panini_path}{$association_file}");
+            $association_wid = imagesx($association_img);
+            $association_hei = imagesy($association_img);
+            imagecopyresampled(
+                $img, $association_img,
+                $wid / 32, $wid / 32,
+                0, 0,
+                $wid / 6, $wid / 6,
+                $association_wid, $association_hei,
+            );
+        }
+
         // Text
         $size = 110;
         $yellow = imagecolorallocate($img, 255, 255, 0);
         $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
         $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
         $box = imagettfbbox($size, 0, $font_path, $line1);
-        $textwid = $box[2] + $box[0];
+        $textwid = $box[2];
         $x = ($line2 ? $wid - 50 - $textwid : $wid / 2 - $textwid / 2);
         $y = $hei - ($is_landscape ? 100 : ($line2 ? 240 : 155));
         imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line1);
         imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
         if ($line2) {
             $box = imagettfbbox($size, 0, $font_path, $line2);
-            $textwid = $box[2] + $box[0];
+            $textwid = $box[2];
             $x = $wid - 50 - $textwid;
             $y = $hei - 70;
             imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line2);

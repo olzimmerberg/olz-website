@@ -19,8 +19,8 @@ function drawTop(
     const barHei = isLandscape ? 350 : 500;
     const stripeHei = isLandscape ? 35 : 50;
     const p0 = [wid + 50, barHei];
-    const p1 = [wid / 2, barHei * 1.2];
-    const p2 = [wid / 4, barHei * 0.8];
+    const p1 = [wid * 3 / 4, barHei * 1.2];
+    const p2 = [wid / 2, barHei * 0.8];
     const p3 = [-50, barHei * 1.2];
 
     // Green Box

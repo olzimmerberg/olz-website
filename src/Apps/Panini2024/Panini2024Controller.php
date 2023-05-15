@@ -50,7 +50,6 @@ class Panini2024Controller extends AbstractController {
         $out = Panini2024Utils::fromEnv()->renderSingle($id);
         $response = new Response($out);
         $response->headers->set('Content-Type', 'image/jpeg');
-        $response->headers->set('Content-Disposition', "attachment; filename=panini-{$id}.jpg");
         return $response;
     }
 }

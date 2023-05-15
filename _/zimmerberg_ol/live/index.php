@@ -12,6 +12,8 @@ if ($today === '2022-10-02') {
     header("Location: {$link_sunday}");
     exit('Umleitung...');
 }
+echo "<html><head><title>Zimmerberg OL live</title><meta name='viewport' content='width=device-width, initial-scale=1.0'/></head><body>";
 echo "<h2>Zurzeit ({$today}) sind wir nicht live!</h2>";
 echo "<p><a href='{$link_saturday}'>Live-Resultate für Samstag</a></p>";
 echo "<p><a href='{$link_sunday}'>Live-Resultate für Sonntag</a></p>";
+echo "</body></html>";

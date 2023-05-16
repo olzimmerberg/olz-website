@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Panini2024\Utils;
 
+use Fpdf\Fpdf;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -149,5 +150,101 @@ class Panini2024Utils {
         file_put_contents($cache_file, $image_data);
         $this->log()->info("Written to cache: {$id}-{$md5}.jpg");
         return $image_data;
+    }
+
+    public function renderRandom($num, $options) {
+        $entity_manager = $this->dbUtils()->getEntityManager();
+        $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
+        $all_ids = array_map(function ($picture) {
+            return $picture->getId();
+        }, $panini_repo->findAll());
+        $ids_len = count($all_ids);
+        $pages = [];
+        for ($p = 0; $p < $num; $p++) {
+            $ids = [];
+            for ($i = 0; $i < 12; $i++) {
+                $ids[] = $all_ids[random_int(0, $ids_len - 1)];
+            }
+            $pages[] = ['ids' => $ids];
+        }
+        return $this->renderPages($pages, $options);
+    }
+
+    public function renderPages($pages, $options) {
+        $data_path = $this->envUtils()->getDataPath();
+        $temp_path = "{$data_path}temp/";
+        if (!is_dir($temp_path)) {
+            mkdir($temp_path, 0777, true);
+        }
+
+        $grid = (bool) ($options['grid'] ?? false);
+        $x_step = 70;
+        $x_margin = 7;
+        $x_offset = 0;
+        $y_step = 50.8;
+        $y_offset = 21.5;
+        $y_margin = 5;
+
+        foreach ($pages as $page) {
+            $ids = $page['ids'] ?? [];
+            foreach ($ids as $id) {
+                $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
+                $img = imagecreatefromstring($this->renderSingle($id));
+                $wid = imagesx($img);
+                $hei = imagesy($img);
+                if ($hei > $wid) {
+                    $img = imagerotate($img, 90, 0);
+                }
+                imagejpeg($img, $temp_file_path);
+                imagedestroy($img);
+                gc_collect_cycles();
+            }
+        }
+
+        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        foreach ($pages as $page) {
+            $ids = $page['ids'] ?? [];
+            $pdf->AddPage();
+
+            if ($grid) {
+                $pdf->SetDrawColor(0, 0, 0);
+                $pdf->SetLineWidth(0.1);
+                for ($x = 1; $x < 3; $x++) {
+                    $pdf->Line(
+                        $x_offset + $x_step * $x,
+                        $y_offset + $y_step * 0,
+                        $x_offset + $x_step * $x,
+                        $y_offset + $y_step * 5,
+                    );
+                }
+                for ($y = 0; $y < 6; $y++) {
+                    $pdf->Line(
+                        $x_offset + $x_step * 0,
+                        $y_offset + $y_step * $y,
+                        $x_offset + $x_step * 3,
+                        $y_offset + $y_step * $y,
+                    );
+                }
+            }
+
+            $index = 0;
+            for ($y = 0; $y < 5; $y++) {
+                for ($x = 0; $x < 3; $x++) {
+                    if ($y !== 2) {
+                        $id = $ids[$index] ?? 0;
+                        $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
+                        $pdf->Image(
+                            $temp_file_path,
+                            $x_offset + $x_margin + $x_step * $x,
+                            $y_offset + $y_margin + $y_step * $y,
+                            $x_step - $x_margin * 2,
+                        );
+                        $index++;
+                    }
+                }
+            }
+        }
+        return $pdf->Output();
     }
 }

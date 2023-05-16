@@ -52,4 +52,42 @@ class Panini2024Controller extends AbstractController {
         $response->headers->set('Content-Type', 'image/jpeg');
         return $response;
     }
+
+    #[Route('/apps/panini24/pdf/{spec}.pdf')]
+    public function random(
+        Request $request,
+        LoggerInterface $logger,
+        string $spec,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = null;
+        $random_res = preg_match('/^random-([0-9]+)(-grid)?$/i', $spec, $random_matches);
+        if ($random_res) {
+            $num = intval($random_matches[1]);
+            $options = [
+                'grid' => ($random_matches[2] ?? '') === '-grid',
+            ];
+            $pdf_out = Panini2024Utils::fromEnv()->renderRandom($num, $options);
+        }
+        $list_res = preg_match('/^([0-9]+,){11}[0-9]+(-grid)?$/i', $spec, $list_matches);
+        if ($list_res) {
+            $ids = array_map(function ($idstr) {
+                return intval($idstr);
+            }, explode(',', $list_matches[0]));
+            $options = [
+                'grid' => ($list_matches[2] ?? '') === '-grid',
+            ];
+            $pdf_out = Panini2024Utils::fromEnv()->renderPages([
+                ['ids' => $ids],
+            ], $options);
+        }
+        if (!$pdf_out) {
+            return new Response("Must adhere to spec: random-N | ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID");
+        }
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
 }

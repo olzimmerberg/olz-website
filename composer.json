@@ -81,6 +81,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/migrations": "^3.0",
     "doctrine/orm": "^2.6.2",
+    "fpdf/fpdf": "^1.85",
     "ifsnop/mysqldump-php": "^2.9",
     "league/commonmark": "^2.1",
     "league/flysystem": "^3.2",

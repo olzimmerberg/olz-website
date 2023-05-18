@@ -247,6 +247,20 @@ class TelegramUtils {
         } catch (\Throwable $th) {
             $this->log()->error("Telegram API: Could not 'setMyCommands'");
         }
+
+        $base_url = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
+        $authenticity_code = $this->envUtils()->getTelegramAuthenticityCode();
+        $query = "authenticityCode={$authenticity_code}";
+        $url = "{$base_url}{$code_href}api/onTelegram?{$query}";
+        try {
+            $response = $this->callTelegramApi('setWebhook', [
+                'url' => $url,
+            ]);
+            $response_json = json_encode($response);
+        } catch (\Throwable $th) {
+            $this->log()->error("Telegram API: Could not 'setWebhook'");
+        }
     }
 
     public function callTelegramApi($command, $args) {
@@ -280,7 +294,7 @@ class TelegramUtils {
             $this->log()->error("Telegram API response was not OK: {$response_json}");
             throw new \Exception($response_json);
         }
-        $this->log()->info("Telegram API call successful", [$command, $args, $response]);
+        $this->log()->info("Telegram API {$command} call successful", [$args, $response]);
         return $response;
     }
 

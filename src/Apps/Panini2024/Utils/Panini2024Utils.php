@@ -88,6 +88,7 @@ class Panini2024Utils {
         $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
             * self::DPI / self::MM_PER_INCH);
         $img = imagecreatetruecolor($wid, $hei);
+        gc_collect_cycles();
 
         // Payload
         $folder = (intval($id) >= 1000) ? 'portraits/' : '';
@@ -102,6 +103,7 @@ class Panini2024Utils {
             round($wid * $img_wid_percent / 100), round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
             $payload_wid, $payload_hei,
         );
+        gc_collect_cycles();
 
         // Masks
         $bottom_mask = imagecreatefrompng("{$masks_path}bottom{$suffix}.png");
@@ -110,6 +112,7 @@ class Panini2024Utils {
             $top_mask = imagecreatefrompng("{$masks_path}top{$suffix}.png");
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
         }
+        gc_collect_cycles();
 
         // Association
         $association_file = self::ASSOCIATION_MAP[$association] ?? null;
@@ -166,6 +169,7 @@ class Panini2024Utils {
                     }
                 }
             }
+            gc_collect_cycles();
         }
 
         // Text

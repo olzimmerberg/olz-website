@@ -35,20 +35,20 @@ jobs:
     name: Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-    - name: Get composer cache directory
+    - name: Get PHP (composer) cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Cache dependencies
-      uses: actions/cache@v1
+    - name: Cache PHP (composer) dependencies
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
-    - name: Install dependencies
+    - name: Install PHP (composer) dependencies
       run: composer install --dev --prefer-dist
     - name: PHP System Tests
       env:

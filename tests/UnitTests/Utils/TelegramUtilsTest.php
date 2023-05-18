@@ -433,9 +433,13 @@ final class TelegramUtilsTest extends UnitTestCase {
                 'commands' => '[{"command":"\/ich","description":"Wer bin ich?"}]',
                 'scope' => '{"type":"all_private_chats"}',
             ], 'fake-bot-token'],
+            ['setWebhook', [
+                'url' => 'http://fake-base-url/_/api/onTelegram?authenticityCode=some-token',
+            ], 'fake-bot-token'],
         ], $telegram_fetcher->sentCommands);
         $this->assertSame([
-            "INFO Telegram API call successful",
+            "INFO Telegram API setMyCommands call successful",
+            "INFO Telegram API setWebhook call successful",
         ], $this->getLogs());
     }
 
@@ -457,10 +461,15 @@ final class TelegramUtilsTest extends UnitTestCase {
                 'commands' => '[{"command":"\/ich","description":"Wer bin ich?"}]',
                 'scope' => '{"type":"all_private_chats"}',
             ], 'fake-bot-token'],
+            ['setWebhook', [
+                'url' => 'http://fake-base-url/_/api/onTelegram?authenticityCode=some-token',
+            ], 'fake-bot-token'],
         ], $telegram_fetcher->sentCommands);
         $this->assertSame([
             "ERROR Telegram API response was not OK: {\"ok\":false}",
             "ERROR Telegram API: Could not 'setMyCommands'",
+            "ERROR Telegram API response was not OK: {\"ok\":false}",
+            "ERROR Telegram API: Could not 'setWebhook'",
         ], $this->getLogs());
     }
 
@@ -478,7 +487,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $this->assertSame(['result' => 'interesting'], $result);
         $this->assertSame([
-            "INFO Telegram API call successful",
+            "INFO Telegram API fakeCommand call successful",
         ], $this->getLogs());
     }
 

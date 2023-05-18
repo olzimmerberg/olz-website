@@ -6,13 +6,14 @@ use Fpdf\Fpdf;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Panini2024Utils {
     use WithUtilsTrait;
 
     public const DPI = 1200;
-    public const PANINI_SHORT = 40.8; // mm (50.8mm, 5mm margin)
-    public const PANINI_LONG = 56; // mm (70mm, 7mm margin)
+    public const PANINI_SHORT = 42.8; // mm (50.8mm, 4mm margin)
+    public const PANINI_LONG = 59; // mm (70mm, 5.5mm margin)
     public const MM_PER_INCH = 25.4;
     public const ASSOCIATION_MAP = [
         'Adliswil' => 'wappen/adliswil.jpg',
@@ -39,6 +40,9 @@ class Panini2024Utils {
 
         $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
         $picture = $panini_repo->findOneBy(['id' => $id]);
+        if (!$picture) {
+            throw new NotFoundHttpException("Kein solches Panini vorhanden");
+        }
         $owner = $picture->getOwnerUser();
         $is_landscape = $picture->getIsLandscape();
         $has_top = $picture->getHasTop();
@@ -110,16 +114,58 @@ class Panini2024Utils {
         // Association
         $association_file = self::ASSOCIATION_MAP[$association] ?? null;
         if ($association_file) {
-            $association_img = imagecreatefromjpeg("{$panini_path}{$association_file}");
-            $association_wid = imagesx($association_img);
-            $association_hei = imagesy($association_img);
+            $association_mask = imagecreatefrompng("{$masks_path}association{$suffix}.png");
+            imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
+
+            $offset = 49;
+            $size = 402;
+
+            $flag_mask = imagecreatetruecolor($size, $size);
+            $flag_mask_orig = imagecreatefrompng("{$masks_path}flag.png");
             imagecopyresampled(
-                $img, $association_img,
-                $wid / 32, $wid / 32,
+                $flag_mask, $flag_mask_orig,
                 0, 0,
-                $wid / 6, $wid / 6,
-                $association_wid, $association_hei,
+                0, 0,
+                $size, $size,
+                imagesx($flag_mask_orig), imagesy($flag_mask_orig),
             );
+
+            $association_img = imagecreatetruecolor($size, $size);
+            $association_img_orig = imagecreatefromjpeg("{$panini_path}{$association_file}");
+            imagecopyresampled(
+                $association_img, $association_img_orig,
+                0, 0,
+                0, 0,
+                $size, $size,
+                imagesx($association_img_orig), imagesy($association_img_orig),
+            );
+
+            for ($x = 0; $x < $size; $x++) {
+                for ($y = 0; $y < $size; $y++) {
+                    $mask = imagecolorsforindex($flag_mask,
+                        imagecolorat($flag_mask, $x, $y));
+                    if ($mask['red'] > 0) {
+                        $ratio = floatval($mask['red']) / 255.0;
+                        $src = imagecolorsforindex($association_img,
+                            imagecolorat($association_img, $x, $y));
+                        $src_r = floatval($src['red']);
+                        $src_g = floatval($src['green']);
+                        $src_b = floatval($src['blue']);
+                        $dst = imagecolorsforindex($img,
+                            imagecolorat($img, $x + $offset, $y + $offset));
+                        $dst_r = floatval($dst['red']);
+                        $dst_g = floatval($dst['green']);
+                        $dst_b = floatval($dst['blue']);
+                        $color = imagecolorallocate(
+                            $img,
+                            intval($src_r * $ratio + $dst_r * (1 - $ratio)),
+                            intval($src_g * $ratio + $dst_g * (1 - $ratio)),
+                            intval($src_b * $ratio + $dst_b * (1 - $ratio)),
+                        );
+                        imagesetpixel($img, $x + $offset, $y + $offset, $color);
+                    }
+                }
+            }
         }
 
         // Text
@@ -129,21 +175,21 @@ class Panini2024Utils {
         $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
         $box = imagettfbbox($size, 0, $font_path, $line1);
         $textwid = $box[2];
-        $x = ($line2 ? $wid - 50 - $textwid : $wid / 2 - $textwid / 2);
+        $x = ($line2 ? $wid - 100 - $textwid : $wid / 2 - $textwid / 2);
         $y = $hei - ($is_landscape ? 100 : ($line2 ? 240 : 155));
         imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line1);
         imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
         if ($line2) {
             $box = imagettfbbox($size, 0, $font_path, $line2);
             $textwid = $box[2];
-            $x = $wid - 50 - $textwid;
+            $x = $wid - 100 - $textwid;
             $y = $hei - 70;
             imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line2);
             imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line2);
         }
 
         ob_start();
-        imagejpeg($img);
+        imagejpeg($img, null, 90);
         $image_data = ob_get_contents();
         ob_end_clean();
         imagedestroy($img);
@@ -179,11 +225,11 @@ class Panini2024Utils {
 
         $grid = (bool) ($options['grid'] ?? false);
         $x_step = 70;
-        $x_margin = 7;
+        $x_margin = 5.5;
         $x_offset = 0;
         $y_step = 50.8;
         $y_offset = 21.5;
-        $y_margin = 5;
+        $y_margin = 4;
 
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];

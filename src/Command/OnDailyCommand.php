@@ -30,6 +30,13 @@ class OnDailyCommand extends OlzCommand {
             $output,
         );
 
+        // TODO: Remove this again!
+        $this->callCommand(
+            'olz:send-test-email',
+            new ArrayInput([]),
+            $output,
+        );
+
         return Command::SUCCESS;
     }
 }

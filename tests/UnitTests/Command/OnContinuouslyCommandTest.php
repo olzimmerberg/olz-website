@@ -59,6 +59,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email',
+            'messenger:stop-workers',
+            'messenger:consume',
         ], $command->commandsCalled);
     }
 
@@ -87,6 +89,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([
             'olz:process-email',
             'olz:send-daily-notifications',
+            'messenger:stop-workers',
+            'messenger:consume',
         ], $command->commandsCalled);
     }
 
@@ -114,6 +118,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame([
             'olz:process-email',
             'olz:send-daily-notifications',
+            'messenger:stop-workers',
+            'messenger:consume',
         ], $command->commandsCalled);
     }
 }

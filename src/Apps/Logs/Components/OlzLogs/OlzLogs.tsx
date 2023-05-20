@@ -16,7 +16,8 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
     let match: RegExpExecArray|null;
     const isoRegex = /^\s*(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*$/i;
     if (/^\s*(now|jetzt)\s*$/i.exec(dateArg)) {
-        targetDate = (new Date()).toISOString();
+        const nowIso = (new Date()).toISOString();
+        targetDate = `${nowIso.substring(0, 10)} ${nowIso.substring(11, 19)}`;
     } else if (/^\s*(today|heute)\s*$/i.exec(dateArg)) {
         const todayIso = (new Date()).toISOString().substring(0, 10);
         firstDate = `${todayIso} 00:00:00`;

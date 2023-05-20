@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230508102943
+-- MIGRATION: DoctrineMigrations\Version20230520202843
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -91,7 +91,8 @@ VALUES
     ('DoctrineMigrations\\Version20230402173341', '2023-04-02 20:32:38', '17'),
     ('DoctrineMigrations\\Version20230407141618', '2023-04-08 00:06:31', '27'),
     ('DoctrineMigrations\\Version20230508092141', '2023-05-08 09:23:00', '727'),
-    ('DoctrineMigrations\\Version20230508102943', '2023-05-08 10:46:34', '441');
+    ('DoctrineMigrations\\Version20230508102943', '2023-05-08 10:46:34', '441'),
+    ('DoctrineMigrations\\Version20230520202843', '2023-05-20 20:34:55', '44');
 
 -- Table downloads
 
@@ -124,6 +125,8 @@ VALUES
     ('3', '1', '0', 'Horgen Dorfkern', '687900', '234700', '2011', '1:2\'000', 'Horgen', '8', 'stadt', 'horgen_dorfkern_2011_2000.jpg');
 
 -- Table links
+
+-- Table messenger_messages
 
 -- Table notification_subscriptions
 INSERT INTO notification_subscriptions

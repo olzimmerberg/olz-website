@@ -21,7 +21,6 @@ class OlzTermineDetail extends OlzComponent {
         global $db_table, $id;
 
         require_once __DIR__.'/../../../../_/config/date.php';
-        require_once __DIR__.'/../../../../_/config/paths.php';
 
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();

@@ -6,10 +6,20 @@ use Olz\Apps\Results\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\HttpUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzResults extends OlzComponent {
     public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
+
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_path = $this->envUtils()->getDataPath();
+        $http_utils = HttpUtils::fromEnv();
+        $http_utils->setLog($this->log());
+        $http_utils->validateGetParams([
+            'file' => new FieldTypes\StringField(['allow_null' => true]),
+        ], $_GET);
 
         $out = '';
 
@@ -31,7 +41,6 @@ class OlzResults extends OlzComponent {
         } else {
             $out .= "<div class='content-full'>";
             $out .= "<ul>";
-            $data_path = $this->envUtils()->getDataPath();
             $contents = scandir("{$data_path}results");
             foreach ($contents as $entry) {
                 if (preg_match('/\.xml$/', $entry) && !preg_match('/\.bak\./', $entry)) {

@@ -9,8 +9,6 @@ use Olz\Entity\User;
 
 class OlzOrganigramm extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../_/config/paths.php';
-
         $has_all_permissions = $this->authUtils()->hasPermission('all');
 
         $entityManager = $this->dbUtils()->getEntityManager();

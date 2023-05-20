@@ -4,7 +4,9 @@
 // Zeigt Informationen zur OLZ Trophy an.
 // =============================================================================
 
-require_once __DIR__.'/config/paths.php';
+use Olz\Utils\EnvUtils;
+
+$data_path = EnvUtils::fromEnv()->getDataPath();
 
 ?>
 

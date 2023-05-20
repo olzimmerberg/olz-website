@@ -12,15 +12,14 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzICal extends OlzComponent {
     public function getHtml($args = []): string {
-        global $base_href, $code_href;
-
         require_once __DIR__.'/../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../_/config/paths.php';
         require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $db = $this->dbUtils()->getDb();
         $jahr = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         // Termine abfragen
         $sql = "SELECT * FROM termine WHERE (datum >= '{$jahr}-01-01') AND on_off=1";

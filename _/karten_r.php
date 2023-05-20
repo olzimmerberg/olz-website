@@ -6,10 +6,12 @@
 
 use Olz\Components\Schema\OlzMapData\OlzMapData;
 use Olz\Utils\DbUtils;
-
-require_once __DIR__.'/config/paths.php';
+use Olz\Utils\EnvUtils;
 
 $db = DbUtils::fromEnv()->getDb();
+$env_utils = EnvUtils::fromEnv();
+$data_path = $env_utils->getDataPath();
+$data_href = $env_utils->getDataHref();
 
 $karten_typ = [
     'OL-Karten' => 'ol',
@@ -113,12 +115,12 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         // $thumb_name = strtolower(str_replace(array("ä","ö","ü","-"," ","/"),array("ae","oe","ue","_","_","_"),$name)."_".$jahr."_".preg_replace("[^0-9]", "",substr($massstab,2))).".jpg";
         // if (file_exists("img/karten/".$thumb_name)){
         if ($thumb > "") {
-            $img_info_gross = getimagesize($data_path."img/karten/".$thumb);
+            $img_info_gross = getimagesize("{$data_path}img/karten/{$thumb}");
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
             $img_href = "{$data_href}img/karten/{$thumb}";
-            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='/assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
-        // $map = "<img src='/assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
+            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='{$data_href}assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
+        // $map = "<img src='{$data_href}assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
         } else {
             $map = '';
         }
@@ -131,7 +133,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $icon = 'orienteering_scool_16.svg';
         }
         if ($typ != $tmp_typ) {
-            echo $tmp_tag."<h2><img src='/assets/icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";
+            echo $tmp_tag."<h2><img src='{$data_href}assets/icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";
         }
         echo OlzMapData::render([
             'name' => $name,

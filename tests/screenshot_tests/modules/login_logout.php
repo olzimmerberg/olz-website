@@ -58,6 +58,7 @@ function test_login_logout_readonly($driver, $base_url) {
         WebDriverBy::cssSelector('#login-button')
     );
     click($login_button_elem);
+    sleep(1);
 
     $driver->get("{$base_url}{$startseite_url}");
     $driver->navigate()->refresh();

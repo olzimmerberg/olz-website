@@ -5,8 +5,8 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 
-require_once __DIR__.'/../config/paths.php';
 require_once __DIR__.'/../config/date.php';
 
 // ----------------------------------
@@ -67,7 +67,7 @@ function olz_monate($datum) {
 // FUNKTION Button-Menu
 // ----------------------------------
 function olz_buttons($name, $buttons, $off) {
-    global $code_href;
+    $code_href = EnvUtils::fromEnv()->getCodeHref();
     // Icons: 0=neu, 1=edit, 2=Abbrechen, 3=Vorschau
     $icons = ["new_16.svg", "edit_16.svg", "cancel_16.svg", "preview_16.svg", "save_16.svg", "delete_16.svg"];
     $html_menu = [];

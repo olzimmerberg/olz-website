@@ -42,7 +42,6 @@ echo "<style>
 }
 </style>";
 
-require_once __DIR__.'/config/paths.php';
 require_once __DIR__.'/tickers.php';
 
 $entityManager = DbUtils::fromEnv()->getEntityManager();
@@ -62,7 +61,7 @@ ob_start();
 termine_ticker([
     "eintrag_laenge" => 80,
     "eintrag_anzahl" => 3,
-    "titel" => "Unsere nächsten 3 Trainings. Komm vorbei!",
+    "titel" => "",
     "sql_where" => " AND typ LIKE '%training%'",
     "heute_highlight" => false,
 ]);
@@ -259,7 +258,7 @@ echo <<<ZZZZZZZZZZ
 </div>
 <div class='text'>
     <h1>Pack die Chance!</h1>
-    <p class='slogan'>Komm an eines unserer speziellen <a href='/pdf/2022_schnuppertrainings.pdf' target='_blank' class='linkpdf'>Schnuppertrainings 2022</a>, oder einfach an ein normales Training:</p>
+    <p class='slogan'>Komm doch einfach an eines unserer nächsten Trainings:</p>
     {$next_three_trainings}
 </div>
 
@@ -287,7 +286,7 @@ echo <<<ZZZZZZZZZZ
 ZZZZZZZZZZ;
 
 function get_tile($img_name, $options = []) {
-    global $data_href;
+    $data_href = EnvUtils::fromEnv()->getDataHref();
     $img = <<<ZZZZZZZZZZ
     <picture>
         <source

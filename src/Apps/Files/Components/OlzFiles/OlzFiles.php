@@ -16,6 +16,8 @@ class OlzFiles extends OlzComponent {
 
         require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
 
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
@@ -37,7 +39,6 @@ class OlzFiles extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $base_href = $this->envUtils()->getBaseHref();
         $iframe_url = "{$base_href}/apps/files/artgris/?conf=default&tree=0";
 
         // TODO: Remove link to old view

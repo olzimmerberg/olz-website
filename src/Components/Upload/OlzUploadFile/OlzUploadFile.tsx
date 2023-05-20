@@ -1,6 +1,7 @@
 import React from 'react';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
+import {dataHref} from '../../../Utils/constants';
 
 import './OlzUploadFile.scss';
 
@@ -34,7 +35,7 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
         }, [props.uploadFile]);
         const copyButton = (
             <button className='button' type='button' onClick={onCopy}>
-                <img src='/assets/icns/copy_16.svg' alt='Cp' />
+                <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
             </button>
         );
         const deleteButton = props.onDelete ? (
@@ -43,7 +44,7 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
                     props.onDelete(uploadedFile.uploadId);
                 }
             }}>
-                <img src='/assets/icns/delete_16.svg' alt='Lö' />
+                <img src={`${dataHref}assets/icns/delete_16.svg`} alt='Lö' />
             </button>
         ) : undefined;
         return (

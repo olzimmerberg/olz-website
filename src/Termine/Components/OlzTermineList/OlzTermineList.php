@@ -26,6 +26,7 @@ class OlzTermineList extends OlzComponent {
 
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
+        $data_href = $this->envUtils()->getDataHref();
         $file_utils = FileUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
@@ -179,13 +180,13 @@ class OlzTermineList extends OlzComponent {
 
         $has_access = $this->authUtils()->hasPermission('termine');
         if ($has_access) {
-            $out .= <<<'ZZZZZZZZZZ'
+            $out .= <<<ZZZZZZZZZZ
             <button
                 id='create-termin-button'
                 class='btn btn-secondary create-termin-container'
                 onclick='return olz.initOlzEditTerminModal()'
             >
-                <img src='/assets/icns/new_white_16.svg' class='noborder' />
+                <img src='{$data_href}assets/icns/new_white_16.svg' class='noborder' />
                 Neuer Termin
             </button>
             ZZZZZZZZZZ;

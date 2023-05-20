@@ -2,5 +2,5 @@
 
 set -e
 
-./vendor/bin/doctrine "$@"
+bin/console "$@"
 exit $?

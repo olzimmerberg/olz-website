@@ -1,7 +1,6 @@
 coverage/
 deploy/
 jsbuild/
-_/config/vendor/
 _/library/
 node_modules/
 php-coverage/

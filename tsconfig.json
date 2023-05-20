@@ -30,6 +30,6 @@
   "exclude": [
     "node_modules",
     "public/jsbuild",
-    "_/config/vendor"
+    "vendor"
   ]
 }

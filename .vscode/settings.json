@@ -8,7 +8,7 @@
     "search.exclude": {
         "coverage/**": true,
         "php-coverage/**": true,
-        "_/config/vendor/**": true,
+        "vendor/**": true,
         "_/library/**": true,
         "tools/remote_config/vendor/**": true,
         "tests/**/data/**/*.txt": true,

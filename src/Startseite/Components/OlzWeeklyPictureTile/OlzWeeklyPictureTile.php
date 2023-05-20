@@ -32,7 +32,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
                 onclick='return olz.initOlzEditWeeklyPictureModal()'
             >
                 <img
-                    src='{$data_href}icns/new_white_16.svg'
+                    src='{$data_href}assets/icns/new_white_16.svg'
                     alt='+'
                     class='header-link-icon'
                     title='Neues Bild der Woche'

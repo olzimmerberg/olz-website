@@ -22,7 +22,7 @@ class OlzUserInfoWithPopup extends OlzComponent {
         }
         if ($mode == 'name_picture') {
             $image_base_path = "img/users/{$user->getId()}";
-            $img_html = "<img src='{$code_href}icns/user.jpg' alt=''>";
+            $img_html = "<img src='{$data_href}assets/icns/user.jpg' alt=''>";
             if (is_file("{$data_path}{$image_base_path}.jpg")) {
                 $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt=''>";
                 if (is_file("{$data_path}{$image_base_path}@2x.jpg")) {

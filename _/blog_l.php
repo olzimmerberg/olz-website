@@ -161,7 +161,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $ext = strtolower(end(explode(".", $file1)));
             $icon = $fm_cfg['icons']['ext'][$ext];
             if ($icon != "" and $ext !== 'pdf') {
-                $icon = "<img src='icns/".$icon."' class='noborder' style='margin-right:4px;vertical-align:middle;'>";
+                $icon = "<img src='/assets/icns/".$icon."' class='noborder' style='margin-right:4px;vertical-align:middle;'>";
             } else {
                 $icon = "";
             }
@@ -179,7 +179,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $ext = strtolower(end(explode(".", $file2)));
             $icon = $fm_cfg['icons']['ext'][$ext];
             if ($icon != "" and $ext !== 'pdf') {
-                $icon = "<img src='icns/".$icon."' class='noborder' style='margin-right:4px;vertical-align:middle;'>";
+                $icon = "<img src='/assets/icns/".$icon."' class='noborder' style='margin-right:4px;vertical-align:middle;'>";
             } else {
                 $icon = "";
             }

@@ -8,8 +8,8 @@ use Olz\Utils\HtmlUtils;
 
 class OlzEditableText extends OlzComponent {
     public function getHtml($args = []): string {
-        global $code_href;
-        require_once __DIR__.'/../../../../_/config/paths.php';
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
 
         $olz_text_id = intval($args['olz_text_id'] ?? 0);
         if ($olz_text_id > 0) {
@@ -48,7 +48,7 @@ class OlzEditableText extends OlzComponent {
                         onclick='olz.olzEditableTextEdit(this)'
                         class='btn btn-link olz-edit-button'
                     >
-                        <img src='{$code_href}icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
+                        <img src='{$data_href}assets/icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
                     </button>
                     {$sanitized_html}
                 </div>

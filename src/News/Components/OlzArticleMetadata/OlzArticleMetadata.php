@@ -6,8 +6,11 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzArticleMetadata extends OlzComponent {
     public function getHtml($args = []): string {
-        global $data_path, $data_href, $base_href, $code_href;
         $db = $this->dbUtils()->getDb();
+        $data_path = $this->envUtils()->getDataPath();
+        $data_href = $this->envUtils()->getDataHref();
+        $base_href = $this->envUtils()->getBaseHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $id = intval($args['id']);
         $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";

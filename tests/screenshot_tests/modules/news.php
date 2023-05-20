@@ -67,7 +67,7 @@ function test_create_aktuell_new($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')
     );
-    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
     sendKeys($image_upload_input, $image_path);
     $driver->wait()->until(function () use ($driver) {
         $image_uploaded = $driver->findElements(
@@ -157,7 +157,7 @@ function test_create_kaderblog_new($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')
     );
-    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
     sendKeys($image_upload_input, $image_path);
     $driver->wait()->until(function () use ($driver) {
         $image_uploaded = $driver->findElements(
@@ -294,7 +294,7 @@ function test_create_forum_new($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')
     );
-    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
     sendKeys($image_upload_input, $image_path);
     $driver->wait()->until(function () use ($driver) {
         $image_uploaded = $driver->findElements(
@@ -368,7 +368,7 @@ function test_create_galerie_new($driver, $base_url) {
     $image_upload_input = $driver->findElement(
         WebDriverBy::cssSelector('#news-images-upload input[type=file]')
     );
-    $image_path = realpath(__DIR__.'/../../../public/icns/schilf.jpg');
+    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
     sendKeys($image_upload_input, $image_path);
     $driver->wait()->until(function () use ($driver) {
         $image_uploaded = $driver->findElements(

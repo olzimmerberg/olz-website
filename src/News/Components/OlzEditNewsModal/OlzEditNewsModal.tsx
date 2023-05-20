@@ -8,7 +8,7 @@ import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAut
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
 import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
-import {codeHref} from '../../../Utils/constants';
+import {codeHref, dataHref} from '../../../Utils/constants';
 
 import './OlzEditNewsModal.scss';
 
@@ -157,7 +157,7 @@ const FORMATTING_NOTES_FOR_USERS = (<>
             <td>&lt;DATEI=xTVapfgrlx4U5Mgv90tyYb6C.pdf text=&quot;OL Karte&quot;&gt;</td>
             <td><a style={{
                 paddingLeft: '17px',
-                backgroundImage: `url(${codeHref}icns/link_image_16.svg)`,
+                backgroundImage: `url(${dataHref}assets/icns/link_image_16.svg)`,
                 backgroundRepeat: 'no-repeat',
             }}>OL Karte</a></td>
         </tr>
@@ -166,7 +166,7 @@ const FORMATTING_NOTES_FOR_USERS = (<>
             <td>&lt;DATEI=LT61cBGv7p77I7fY1undEkwP.pdf text=&quot;Ausschreibung als PDF&quot;&gt;</td>
             <td><a style={{
                 paddingLeft: '17px',
-                backgroundImage: `url(${codeHref}icns/link_pdf_16.svg)`,
+                backgroundImage: `url(${dataHref}assets/icns/link_pdf_16.svg)`,
                 backgroundRepeat: 'no-repeat',
             }}>Ausschreibung als PDF</a></td>
         </tr>

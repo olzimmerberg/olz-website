@@ -75,7 +75,7 @@ function olz_buttons($name, $buttons, $off) {
         if (is_array($tmp_button)) {
             $button = $tmp_button[0];
             $icon_nr = $tmp_button[1];
-            $icon = "<img src=\"".$code_href."icns/".$icons[$icon_nr]."\" class=\"noborder\" style='vertical-align:middle;padding-left:2px;' alt=''>";
+            $icon = "<img src=\"{$code_href}assets/icns/".$icons[$icon_nr]."\" class=\"noborder\" style='vertical-align:middle;padding-left:2px;' alt=''>";
         } else {
             $button = $tmp_button;
             $icon = "";

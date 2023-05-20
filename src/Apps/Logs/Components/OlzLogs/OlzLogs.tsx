@@ -145,7 +145,7 @@ export const OlzLogs = (): React.ReactElement => {
             </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>
-                    <img src='/icns/calendar.svg' className='noborder icon' />
+                    <img src='/assets/icns/calendar.svg' className='noborder icon' />
                 </div>
                 <input
                     type='text'
@@ -179,7 +179,7 @@ export const OlzLogs = (): React.ReactElement => {
             </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>
-                    <img src='/icns/magnifier_16.svg' className='noborder icon' />
+                    <img src='/assets/icns/magnifier_16.svg' className='noborder icon' />
                 </div>
                 <input
                     type='text'

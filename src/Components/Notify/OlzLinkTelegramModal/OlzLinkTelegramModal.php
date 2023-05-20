@@ -9,6 +9,7 @@ class OlzLinkTelegramModal extends OlzComponent {
     public function getHtml($args = []): string {
         $user_agent_utils = UserAgentUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
 
         $install_instructions = [
             "<li>Installiere die Telegram-App auf deinem Smartphone</li>",
@@ -39,7 +40,7 @@ class OlzLinkTelegramModal extends OlzComponent {
                     <div class='modal-body'>
                         <center>
                             <div class='telegram-circle'>
-                                <img src='{$code_href}icns/login_telegram.svg' alt=''>
+                                <img src='{$data_href}assets/icns/login_telegram.svg' alt=''>
                             </div>
                         </center>
                         <ol class='todo-list'>

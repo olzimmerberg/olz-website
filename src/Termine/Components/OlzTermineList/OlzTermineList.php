@@ -185,7 +185,7 @@ class OlzTermineList extends OlzComponent {
                 class='btn btn-secondary create-termin-container'
                 onclick='return olz.initOlzEditTerminModal()'
             >
-                <img src='icns/new_white_16.svg' class='noborder' />
+                <img src='/assets/icns/new_white_16.svg' class='noborder' />
                 Neuer Termin
             </button>
             ZZZZZZZZZZ;

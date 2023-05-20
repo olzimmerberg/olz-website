@@ -8,7 +8,7 @@ import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {getBase64FromCanvas, getCanvasOfSize, getCroppedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
-import {codeHref} from '../../../../src/Utils/constants';
+import {dataHref} from '../../../../src/Utils/constants';
 
 const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 10.0;
@@ -148,7 +148,7 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps): 
         <div className="dropzone" {...getRootProps()}>
             <input {...getInputProps()} />
             <img
-                src={`${codeHref}icns/link_image_16.svg`}
+                src={`${dataHref}assets/icns/link_image_16.svg`}
                 alt=""
                 className="noborder"
                 width="32"

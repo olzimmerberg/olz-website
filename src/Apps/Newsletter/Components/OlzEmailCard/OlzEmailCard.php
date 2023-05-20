@@ -10,6 +10,7 @@ use Olz\Entity\User;
 class OlzEmailCard extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $user = $this->authUtils()->getCurrentUser();
@@ -73,7 +74,7 @@ class OlzEmailCard extends OlzComponent {
             return <<<ZZZZZZZZZZ
             <div class="email-card card text-white bg-email mb-2">
                 <h5 class="card-header">
-                    <img src='{$code_href}icns/login_mail.svg' alt=''>
+                    <img src='{$data_href}assets/icns/login_mail.svg' alt=''>
                     E-Mail Newsletter
                 </h5>
                 <div class="card-body">

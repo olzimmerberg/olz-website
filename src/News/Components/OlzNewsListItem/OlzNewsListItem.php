@@ -23,6 +23,7 @@ class OlzNewsListItem extends OlzComponent {
         $image_utils = ImageUtils::fromEnv();
 
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
 
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
@@ -35,7 +36,7 @@ class OlzNewsListItem extends OlzComponent {
         $datum = $news_entry->getDate();
         $format = $news_entry->getFormat();
         $icon_basename = self::$iconBasenameByFormat[$format];
-        $icon = "{$code_href}icns/{$icon_basename}";
+        $icon = "{$data_href}assets/icns/{$icon_basename}";
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
         $author_name = $news_entry->getAuthorName();
@@ -170,9 +171,9 @@ class OlzNewsListItem extends OlzComponent {
             $thumbnail = $image_utils->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
             $content = <<<ZZZZZZZZZZ
             <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
-            <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
+            <span style='display:block;background-image:url(/assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
             <span style='display:block;text-align:center;'>{$thumbnail}</span>\n
-            <span style='display:block;background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
+            <span style='display:block;background-image:url(/assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
             </div>
             ZZZZZZZZZZ;
             $out .= OlzPostingListItem::render([

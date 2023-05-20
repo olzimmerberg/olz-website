@@ -34,7 +34,7 @@ class OlzMenu extends OlzComponent {
         // BACK-BUTTON
         $back_link = $args['back_link'] ?? null;
         if ($back_link !== null) {
-            $out .= "<a href='{$back_link}' class='menu-link font-size-large' id='back-link'><div class='menutag' style='color:#000000;background-color:#00c500;border-bottom:1px solid #5feb1f;' onmouseover='document.getElementById(\"menuback\").style.backgroundColor = &quot;#3fe200&quot;;' onmouseout='document.getElementById(\"menuback\").style.backgroundColor = &quot;#00c500&quot;;' id='menuback'><img src='{$data_href}icns/back_16.svg' alt='&lt;' class='noborder back-icon'>Zurück</div></a>";
+            $out .= "<a href='{$back_link}' class='menu-link font-size-large' id='back-link'><div class='menutag' style='color:#000000;background-color:#00c500;border-bottom:1px solid #5feb1f;' onmouseover='document.getElementById(\"menuback\").style.backgroundColor = &quot;#3fe200&quot;;' onmouseout='document.getElementById(\"menuback\").style.backgroundColor = &quot;#00c500&quot;;' id='menuback'><img src='{$data_href}assets/icns/back_16.svg' alt='&lt;' class='noborder back-icon'>Zurück</div></a>";
         }
 
         // LIVE-RESULTATE
@@ -60,16 +60,16 @@ class OlzMenu extends OlzComponent {
         </div>
         <div class='platform-links'>
         <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' class='platform-link'>
-            <img src='{$code_href}icns/github_16.svg' alt='g' class='noborder' />
+            <img src='{$data_href}assets/icns/github_16.svg' alt='g' class='noborder' />
         </a>
         <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' class='platform-link'>
-            <img src='{$code_href}icns/youtube_16.svg' alt='Y' class='noborder' />
+            <img src='{$data_href}assets/icns/youtube_16.svg' alt='Y' class='noborder' />
         </a>
         <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' class='platform-link'>
-            <img src='{$code_href}icns/facebook_16.svg' alt='f' class='noborder' />
+            <img src='{$data_href}assets/icns/facebook_16.svg' alt='f' class='noborder' />
         </a>
         <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' class='platform-link'>
-            <img src='{$code_href}icns/strava_16.svg' alt='s' class='noborder' />
+            <img src='{$data_href}assets/icns/strava_16.svg' alt='s' class='noborder' />
         </a>
         </div>
         </div>";

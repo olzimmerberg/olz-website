@@ -79,7 +79,7 @@ class OlzNewsList extends OlzComponent {
             class='btn btn-secondary{$class}'
             {$properties}
         >
-            <img src='icns/new_white_16.svg' class='noborder' />
+            <img src='/assets/icns/new_white_16.svg' class='noborder' />
             Neuer Eintrag
         </button>
         ZZZZZZZZZZ;

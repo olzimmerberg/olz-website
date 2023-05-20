@@ -2,12 +2,20 @@
 
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
+
+$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLog($logger);
+$http_utils->validateGetParams([], $_GET);
+
 echo OlzHeader::render([
     'title' => "Trophy",
     'description' => "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.",

@@ -7,12 +7,22 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
+
+$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLog($logger);
+$http_utils->validateGetParams([
+    'von' => new FieldTypes\StringField(['allow_null' => true]),
+], $_GET);
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
@@ -269,7 +279,7 @@ echo <<<ZZZZZZZZZZ
     <p class='slogan'>Hast du Fragen zum Training oder zu unserem OL-Klub?</p>
     {$contact_information}
     <p class='important'>Wir freuen uns, von dir zu hören!</p>
-    <p class='description'>Tipp: Vielleicht findest du auch bei den <a href='fragen_und_antworten.php'>FAQs</a> eine Antwort auf deine Frage.</p>
+    <p class='description'>Tipp: Vielleicht findest du auch bei den <a href='{$code_href}fragen_und_antworten.php'>FAQs</a> eine Antwort auf deine Frage.</p>
 </div>
 
 </div>

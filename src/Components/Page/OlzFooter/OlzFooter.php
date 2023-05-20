@@ -12,15 +12,17 @@ use Olz\Components\Notify\OlzLinkTelegramModal\OlzLinkTelegramModal;
 
 class OlzFooter extends OlzComponent {
     public function getHtml($args = []): string {
+        $code_href = $this->envUtils()->getCodeHref();
+
         $out = '';
 
         $out .= "<div style='clear:both;'>&nbsp;</div>";
         $out .= "</div>"; // site-background
 
         $out .= "<div class='footer'>";
-        $out .= "<a href='fuer_einsteiger.php?von=footer'>Für Einsteiger</a>";
-        $out .= "<a href='fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
-        $out .= "<a href='datenschutz.php'>Datenschutz</a>";
+        $out .= "<a href='{$code_href}fuer_einsteiger.php?von=footer'>Für Einsteiger</a>";
+        $out .= "<a href='{$code_href}fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
+        $out .= "<a href='{$code_href}datenschutz.php'>Datenschutz</a>";
         $out .= "</div>"; // footer
 
         $out .= "</div>"; // site-container

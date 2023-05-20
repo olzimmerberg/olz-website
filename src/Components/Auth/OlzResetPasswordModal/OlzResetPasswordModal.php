@@ -25,7 +25,7 @@ class OlzResetPasswordModal extends OlzComponent {
                                 <label for='reset-password-username-input'>
                                     Benutzername oder E-Mail
                                     <a
-                                        href='fragen_und_antworten.php#benutzername-email-herausfinden'
+                                        href='{$code_href}fragen_und_antworten.php#benutzername-email-herausfinden'
                                         class='help-link'
                                     >
                                         Vergessen?

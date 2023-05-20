@@ -37,6 +37,20 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         }
 
+        $this->callCommand(
+            'messenger:stop-workers',
+            new ArrayInput([]),
+            $output,
+        );
+        $this->callCommand(
+            'messenger:consume',
+            new ArrayInput([
+                'receivers' => ['async'],
+                '--no-reset' => '--no-reset',
+            ]),
+            $output,
+        );
+
         return Command::SUCCESS;
     }
 

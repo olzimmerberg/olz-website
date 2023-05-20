@@ -132,8 +132,8 @@ class Deploy extends AbstractDefaultDeploy {
         if (!$fs->exists($install_path)) {
             $fs->mkdir($install_path);
         }
+        $fs->mirror(__DIR__.'/assets', "{$public_path}/assets");
         $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
-        $fs->mirror(__DIR__.'/assets', "{$install_path}/assets");
         $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
         $index_path = "{$install_path}/index.php";
         $index_contents = file_get_contents(__DIR__.'/public/index.php');

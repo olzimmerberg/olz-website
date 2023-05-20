@@ -17,6 +17,10 @@ class OlzEmailCard extends OlzComponent {
         if ($user) {
             $user_email = $user->getEmail();
             $has_email = $user_email !== null && strlen($user_email) > 0;
+            $is_email_verified = (
+                $user->isEmailVerified()
+                || $this->authUtils()->hasPermission('verified_email', $user)
+            );
 
             $notification_subscription_repo = $entityManager->getRepository(NotificationSubscription::class);
             $subscriptions = $notification_subscription_repo->findBy(['user' => $user, 'delivery_type' => 'email']);
@@ -31,6 +35,18 @@ class OlzEmailCard extends OlzComponent {
                             class="btn btn-light btn-sm"
                         >
                             E-Mail Adresse eintragen
+                        </a>
+                    </p>
+                ZZZZZZZZZZ;
+            } elseif (!$is_email_verified) {
+                $content = <<<ZZZZZZZZZZ
+                    <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
+                    <p class="card-text text-end">
+                        <a 
+                            href="{$code_href}profil.php"
+                            class="btn btn-light btn-sm"
+                        >
+                            E-Mail Adresse bestätigen
                         </a>
                     </p>
                 ZZZZZZZZZZ;

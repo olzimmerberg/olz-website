@@ -13,13 +13,28 @@ class OlzAccountMenu extends OlzComponent {
         $user = $this->authUtils()->getCurrentUser();
         $image_path = $this->authUtils()->getUserAvatar($user);
         $code_href = $this->envUtils()->getCodeHref();
+        $should_verify_email = (
+            $user
+            && !$user->getParentUserId()
+            && !$user->isEmailVerified()
+            && !$this->authUtils()->hasPermission('verified_email', $user)
+        );
+        $show_profile_notification_dot = $should_verify_email;
+        $show_notification_dot = $user && $show_profile_notification_dot;
 
         $out .= "<a href='#' role='button' id='account-menu-link' data-bs-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
+        if ($show_notification_dot) {
+            $out .= "<div class='notification-dot'></div>";
+        }
         $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {
-            $out .= "<a class='dropdown-item' href='{$code_href}profil.php'>Profil</a>";
+            $out .= "<a class='dropdown-item' href='{$code_href}profil.php'>";
+            if ($show_profile_notification_dot) {
+                $out .= "<div class='notification-dot'></div>";
+            }
+            $out .= "Profil</a>";
 
             $entityManager = $this->dbUtils()->getEntityManager();
             $user_repo = $entityManager->getRepository(User::class);

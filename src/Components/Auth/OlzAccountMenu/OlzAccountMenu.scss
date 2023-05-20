@@ -1,6 +1,17 @@
 #account-menu-link {
     display: block;
     float: right;
+
+    .notification-dot {
+        background-color: #f00;
+        border-radius: 5px;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 10px;
+        height: 10px;
+        transition: width 0.5s, height 0.5s, border 0.5s;
+    }
 }
 
 .account-thumbnail {
@@ -18,14 +29,35 @@
     }
 }
 
-.header-bar.minified .account-thumbnail {
-    border: 2px solid rgb(255, 255, 255);
-    border-radius: 32px;
-    height: 32px;
-    margin: 3px;
-    width: 32px;
-}
-
 .account-menu-container .dropdown-menu {
     box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.6);
+
+    .notification-dot {
+        background-color: #f00;
+        border-radius: 4px;
+        float: right;
+        width: 8px;
+        height: 8px;
+        margin-top: 0.5em;
+    }
+}
+
+.header-bar.minified {
+    .account-thumbnail {
+        border: 2px solid rgb(255, 255, 255);
+        border-radius: 32px;
+        height: 32px;
+        margin: 3px;
+        width: 32px;
+    }
+
+    #account-menu-link {
+        .notification-dot {
+            border-radius: 3px;
+            top: 5px;
+            right: 5px;
+            width: 6px;
+            height: 6px;
+        }
+    }
 }

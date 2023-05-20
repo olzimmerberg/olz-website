@@ -12,7 +12,6 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 use Olz\Utils\HttpUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzStartseite extends OlzComponent {
     public function getHtml($args = []): string {
@@ -24,9 +23,7 @@ class OlzStartseite extends OlzComponent {
 
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ], $_GET);
+        $http_utils->validateGetParams([], $_GET);
 
         $out = '';
 

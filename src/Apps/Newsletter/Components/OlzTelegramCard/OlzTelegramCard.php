@@ -9,12 +9,9 @@ use Olz\Entity\TelegramLink;
 
 class OlzTelegramCard extends OlzComponent {
     public function getHtml($args = []): string {
-        global $code_href;
-
-        require_once __DIR__.'/../../../../../_/config/paths.php';
-
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
+        $code_href = $this->envUtils()->getCodeHref();
 
         if ($user) {
             $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);
@@ -26,7 +23,7 @@ class OlzTelegramCard extends OlzComponent {
             $form = OlzNotificationSubscriptionsForm::render(['subscriptions' => $subscriptions]);
 
             if (!$has_telegram_link) {
-                $content = <<<'ZZZZZZZZZZ'
+                $content = <<<ZZZZZZZZZZ
                     <p class="card-text">Mit der Chat-App Telegram halten wir dich immer auf dem Laufenden!</p>
                     <p class="card-text text-end">
                         <a 
@@ -39,7 +36,7 @@ class OlzTelegramCard extends OlzComponent {
                             Aktivieren
                         </a>
                     </p>
-                    <p class="card-text"><a href='fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
+                    <p class="card-text"><a href='{$code_href}fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
@@ -57,7 +54,7 @@ class OlzTelegramCard extends OlzComponent {
                         </p>
                         <div id='telegram-notifications-success-message' class='alert alert-success' role='alert'></div>
                         <div id='telegram-notifications-error-message' class='alert alert-danger' role='alert'></div>
-                        <p class="card-text"><a href='fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
+                        <p class="card-text"><a href='{$code_href}fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
                     </form>
                 ZZZZZZZZZZ;
             }

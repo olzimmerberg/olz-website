@@ -9,10 +9,7 @@ use Olz\Entity\User;
 
 class OlzEmailCard extends OlzComponent {
     public function getHtml($args = []): string {
-        global $code_href;
-
-        require_once __DIR__.'/../../../../../_/config/paths.php';
-
+        $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);
         $user = $this->authUtils()->getCurrentUser();
@@ -26,11 +23,11 @@ class OlzEmailCard extends OlzComponent {
             $form = OlzNotificationSubscriptionsForm::render(['subscriptions' => $subscriptions]);
 
             if (!$has_email) {
-                $content = <<<'ZZZZZZZZZZ'
+                $content = <<<ZZZZZZZZZZ
                     <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
                     <p class="card-text text-end">
                         <a 
-                            href="/profil.php"
+                            href="{$code_href}profil.php"
                             class="btn btn-light btn-sm"
                         >
                             E-Mail Adresse eintragen

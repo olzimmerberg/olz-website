@@ -12,13 +12,14 @@ class OlzAccountMenu extends OlzComponent {
         $auth_user = $this->authUtils()->getCurrentAuthUser();
         $user = $this->authUtils()->getCurrentUser();
         $image_path = $this->authUtils()->getUserAvatar($user);
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out .= "<a href='#' role='button' id='account-menu-link' data-bs-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
         $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {
-            $out .= "<a class='dropdown-item' href='{$this->envUtils()->getCodeHref()}profil.php'>Profil</a>";
+            $out .= "<a class='dropdown-item' href='{$code_href}profil.php'>Profil</a>";
 
             $entityManager = $this->dbUtils()->getEntityManager();
             $user_repo = $entityManager->getRepository(User::class);

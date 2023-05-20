@@ -4,6 +4,8 @@ use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\HttpUtils;
+use Olz\Utils\LogsUtils;
 
 require_once __DIR__.'/config/init.php';
 require_once __DIR__.'/config/paths.php';
@@ -11,6 +13,12 @@ require_once __DIR__.'/config/paths.php';
 session_start_if_cookie_set();
 
 require_once __DIR__.'/admin/olz_functions.php';
+
+$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
+$http_utils = HttpUtils::fromEnv();
+$http_utils->setLog($logger);
+$http_utils->validateGetParams([], $_GET);
+
 echo OlzHeader::render([
     'title' => "OLZ-Konto mit Passwort",
     'description' => "OLZ-Login mit Passwort.",

@@ -29,8 +29,7 @@ class UpdateResultsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        require_once __DIR__.'/../../../_/config/paths.php';
-
+        $data_path = $this->envUtils()->getDataPath();
         $filename = $input['file'];
         $is_filename_ok = preg_match('/^[a-z0-9\-\.]+$/', $filename);
         if (!$is_filename_ok) {

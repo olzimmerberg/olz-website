@@ -146,7 +146,6 @@ class DevDataUtils {
     }
 
     public function migrateTo($version = 'latest') {
-        global $code_href;
         $cwd = getcwd();
         $target_dir = realpath(__DIR__."/../../");
         chdir($target_dir);

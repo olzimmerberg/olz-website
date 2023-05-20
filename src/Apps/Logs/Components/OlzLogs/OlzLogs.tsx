@@ -3,7 +3,7 @@ import React from 'react';
 import {olzApi} from '../../../../Api/client';
 import {OlzLogLevel, OlzLogsQuery} from '../../../../Api/client/generated_olz_api_types';
 import {OlzInfiniteScroll, OlzInfiniteScrollProps} from '../OlzInfiniteScroll/OlzInfiniteScroll';
-import {isoNow} from '../../../../Utils/constants';
+import {dataHref, isoNow} from '../../../../Utils/constants';
 
 import './OlzLogs.scss';
 
@@ -145,7 +145,7 @@ export const OlzLogs = (): React.ReactElement => {
             </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>
-                    <img src='/assets/icns/calendar.svg' className='noborder icon' />
+                    <img src={`${dataHref}assets/icns/calendar.svg`} className='noborder icon' />
                 </div>
                 <input
                     type='text'
@@ -179,7 +179,7 @@ export const OlzLogs = (): React.ReactElement => {
             </select>
             <div className='input-group input-group-sm'>
                 <div className='input-group-prepend input-group-text input-group-text-sm'>
-                    <img src='/assets/icns/magnifier_16.svg' className='noborder icon' />
+                    <img src={`${dataHref}assets/icns/magnifier_16.svg`} className='noborder icon' />
                 </div>
                 <input
                     type='text'

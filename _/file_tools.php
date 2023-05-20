@@ -4,11 +4,11 @@
 // Funktionen für Datei-Upload, z.B. PDFs in Aktuell-Einträgen.
 // =============================================================================
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
-require_once __DIR__.'/config/paths.php';
 
 global $tables_file_dirs, $mime_extensions, $extension_icons;
 
@@ -23,6 +23,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "thumb") {
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         session_write_close();
         $db_table = $_GET["db_table"];
         if (!isset($tables_file_dirs[$db_table])) {
@@ -92,6 +94,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "info") {
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $db_table = $_GET["db_table"];
         if (!isset($tables_file_dirs[$db_table])) {
             echo "Invalid db_table";
@@ -121,6 +125,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "uploadpart") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         // Data sanitization & initialization
         $db_table = $_GET["db_table"];
         if (!isset($tables_file_dirs[$db_table])) {
@@ -216,6 +222,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "change") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $db_table = $_GET["db_table"];
         if (!isset($tables_file_dirs[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);

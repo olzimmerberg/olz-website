@@ -1,5 +1,7 @@
 <?php
 
+use Olz\Utils\EnvUtils;
+
 /*
  * phpWebFileManager - simple file management PHP script
  *
@@ -88,6 +90,9 @@ else
 	{$fm_cfg['dir']['root'] = $root;
 	}*/
 //$fm_cfg['dir']['root']  = '';
+
+$data_path = EnvUtils::fromEnv()->getDataPath();
+
 $fm_cfg['dir']['root'] = $data_path."OLZimmerbergAblage";
 $fm_cfg['dir']['start'] = $data_path.'OLZimmerbergAblage'; // = http://olzimmerberg.ch/html/OLZimmerbergAblage
 
@@ -119,7 +124,7 @@ $fm_cfg['url']['root'] = '';
 
 // This should also works on Apache webservers
 // $fm_cfg['url']['icons'] = '/icns/small/';
-$fm_cfg['url']['icons'] = 'icns/';
+$fm_cfg['url']['icons'] = '/assets/icns/';
 
 /*
  * File create & upload constants

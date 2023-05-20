@@ -28,11 +28,15 @@ try {
     // ignore
 }
 $screenshots_dir = __DIR__.'/../screenshots';
-foreach (scandir($screenshots_dir) as $entry) {
-    $file_path = "{$screenshots_dir}/{$entry}";
-    if (is_file($file_path)) {
-        $remote_file_path = "{$remote_screenshots_path}/{$entry}";
-        $file_contents = file_get_contents($file_path);
-        $remote_fs->write($remote_file_path, $file_contents);
+try {
+    foreach (scandir($screenshots_dir) as $entry) {
+        $file_path = "{$screenshots_dir}/{$entry}";
+        if (is_file($file_path)) {
+            $remote_file_path = "{$remote_screenshots_path}/{$entry}";
+            $file_contents = file_get_contents($file_path);
+            $remote_fs->write($remote_file_path, $file_contents);
+        }
     }
+} catch (\Throwable $th) {
+    exit(1);
 }

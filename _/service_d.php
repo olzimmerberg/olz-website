@@ -6,9 +6,11 @@
 
 use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
 
 $db = DbUtils::fromEnv()->getDb();
+$data_href = EnvUtils::fromEnv()->getDataHref();
 $file_utils = FileUtils::fromEnv();
 
 echo "<form name='Formularl' method='post' action='service.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>";
@@ -112,7 +114,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $url = $row['url'];
         $on_off = $row['on_off'];
         if ($zugriff and (($do ?? null) != 'vorschau')) {
-            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='/assets/icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='/assets/icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='{$data_href}assets/icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='{$data_href}assets/icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
@@ -237,7 +239,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $on_off = $row['on_off'];
         $file1 = $row['file1'] ?? '';
         if ($zugriff and (($do ?? null) != 'vorschau')) {
-            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='/assets/icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='/assets/icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
+            $edit_admin = "<a href='service.php?id={$id_tmp}&amp;{$button_name}=up' style='margin-right:4px;'><img src='{$data_href}assets/icns/up_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&amp;{$button_name}=down' style='margin-right:4px;'><img src='{$data_href}assets/icns/down_16.svg' class='noborder'></a><a href='service.php?id={$id_tmp}&{$button_name}=start' class='linkedit'>&nbsp;</a>";
         } else {
             $edit_admin = "";
         }
@@ -253,7 +255,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
         $ext = strtolower(end($var));
         $icon = $fm_cfg['icons']['ext'][$ext] ?? '';
         if ($ext != "" and $ext !== 'pdf') {
-            $icon = "<img src='/assets/icns/".$icon."' class='noborder' style='margin-right:6px;vertical-align:middle;'>";
+            $icon = "<img src='{$data_href}assets/icns/".$icon."' class='noborder' style='margin-right:6px;vertical-align:middle;'>";
         } else {
             $icon = "";
         }

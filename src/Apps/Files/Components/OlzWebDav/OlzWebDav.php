@@ -9,8 +9,7 @@ use Sabre\DAV;
 
 class OlzWebDav extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/paths.php';
-
+        $data_path = $this->envUtils()->getDataPath();
         error_reporting(0);
 
         // Hack: Use weird path-token-authentication

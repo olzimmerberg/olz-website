@@ -4,15 +4,11 @@
 // Funktionen für Bild-Upload, z.B. Bilder in Aktuell-Einträgen.
 // =============================================================================
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\ImageUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
-require_once __DIR__.'/config/paths.php';
-
-global $tables_img_dirs;
-
-$tables_img_dirs = ImageUtils::TABLES_IMG_DIRS;
 
 if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     if (!isset($_GET["request"])) {
@@ -21,13 +17,15 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "thumb") {
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         session_write_close();
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo "Invalid db_table";
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $id = intval($_GET['id']);
         $index = $_GET['index'];
         $imgfile = $data_path.$db_imgpath."/".$id."/img/".$index;
@@ -85,12 +83,14 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 
     if ($_GET["request"] == "info") {
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo "Invalid db_table";
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $id = intval($_GET["id"]);
         for ($i = 1; true; $i++) {
             $imgfile = $data_path.$db_imgpath."/".$id."/img/".str_pad($i, 3, "0", STR_PAD_LEFT).".jpg";
@@ -103,9 +103,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "uploadresized") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         // Data sanitization & initialization
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);
             return;
         }
@@ -114,7 +116,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             echo json_encode([0, "!permission"]);
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $upload_utils = UploadUtils::fromEnv();
         $content = $upload_utils->deobfuscateUpload(str_replace(" ", "+", $_POST["content"]));
         $res = preg_match("/\\;base64\\,(.+)$/", $content, $matches);
@@ -202,9 +204,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "change") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $index = intval($_POST["index"]);
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);
             return;
         }
@@ -213,7 +217,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             echo json_encode([0, "!permission"]);
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         if ($_POST["delete"] == 1) {
             @unlink($data_path.$db_imgpath."/".$id."/img/".str_pad($index, 3, "0", STR_PAD_LEFT).".jpg");
             if (is_dir($data_path.$db_imgpath."/".$id."/thumb")) {
@@ -249,8 +253,10 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "reorder") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);
             return;
         }
@@ -259,7 +265,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             echo json_encode([0, "!permission"]);
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $from = intval($_POST["from"]);
         if ($from <= 0) {
             echo json_encode([0, "!from"]);
@@ -315,8 +321,10 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
     if ($_GET["request"] == "merge") {
         session_start();
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+
         $db_table = $_GET["db_table"];
-        if (!isset($tables_img_dirs[$db_table])) {
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             echo json_encode([0, "!tables_dirs-dbtable"]);
             return;
         }
@@ -326,7 +334,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             echo json_encode([0, "!permission"]);
             return;
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $newindex = 0;
         for ($i = 0; true; $i++) {
             if (!is_file($data_path.$db_imgpath."/".$id."/img/".str_pad($i + 1, 3, "0", STR_PAD_LEFT).".jpg")) {
@@ -351,11 +359,11 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
 
 if (!function_exists('olz_images_edit')) {
     function olz_images_edit($db_table, $id) {
-        global $data_path, $tables_img_dirs;
-        if (!isset($tables_img_dirs[$db_table])) {
+        $data_path = EnvUtils::fromEnv()->getDataPath();
+        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
             return "Ungültige db_table (in olz_images_edit)";
         }
-        $db_imgpath = $tables_img_dirs[$db_table];
+        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         for ($i = 1; true; $i++) {
             $imgfile = $data_path.$db_imgpath."/".$id."/img/".str_pad($i, 3, "0", STR_PAD_LEFT).".jpg";
             if (!is_file($imgfile)) {

@@ -6,8 +6,10 @@
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 
 $db = DbUtils::fromEnv()->getDb();
+$data_href = EnvUtils::fromEnv()->getDataHref();
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
 
@@ -30,12 +32,12 @@ while ($row = mysqli_fetch_array($result)) {
         $icon = 'orienteering_scool_16.svg';
     }
 
-    $pois .= "theMap.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"/assets/icns/".$icon."\" }));\n";
+    $pois .= "theMap.addPOI(new SearchChPOI({ center:[{$center_x},{$center_y}], title:\"\",html:\"{$name}\", maxzoom:128, icon:\"{$data_href}assets/icns/{$icon}\" }));\n";
 }
 
 echo "<script type=\"text/javascript\">
     var theMap = new SearchChMap({ center:[687500,237000], controls:\"zoom,type\", type:'aerial', circle:0, poigroups:\"\", zoom:32 });\n
-    ".$pois."\n"."function goto(x,y,z,name) {
+    {$pois}\nfunction goto(x,y,z,name) {
     var x=x;
     var x0 = Number(window.localStorage.getItem('x0'));
     var y=y;
@@ -56,7 +58,7 @@ echo "<script type=\"text/javascript\">
     window.localStorage.setItem('y0', y);
 
     // Add a custom POI
-    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"/assets/icns/orienteering_forest_16.svg\" }));\n
+    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"{$data_href}assets/icns/orienteering_forest_16.svg\" }));\n
     setTimeout(\"theMap.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
     }
 </script>";

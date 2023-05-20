@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__.'/../config/paths.php';
+use Olz\Utils\EnvUtils;
 
+$code_href = EnvUtils::fromEnv()->getCodeHref();
 $main_href = 'https://olzimmerberg.ch/';
 
 echo "<style>\n";

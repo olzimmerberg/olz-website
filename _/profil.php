@@ -35,7 +35,8 @@ echo "<div class='content-full profile'>";
 if ($user) {
     $email_verification_banner = '';
     if (
-        !$user->isEmailVerified()
+        !$user->getParentUserId()
+        && !$user->isEmailVerified()
         && !$auth_utils->hasPermission('verified_email', $user)
     ) {
         if ($user->getEmailVerificationToken()) {
@@ -143,6 +144,8 @@ if ($user) {
     ZZZZZZZZZZ;
     echo OlzProfileForm::render([
         'show_avatar' => true,
+        'required_email' => $user->getParentUserId() ? false : true,
+        'show_password' => false,
         'show_change_password' => true,
         'first_name' => $user->getFirstName(),
         'last_name' => $user->getLastName(),

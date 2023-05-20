@@ -145,7 +145,7 @@ if (!$Gefunden) {
 }
 $db->query("UPDATE event SET counter_hit_lan = (counter_hit_lan+1) WHERE (name_kurz = '{$event}')");
 
-echo "<body style='height:99%; background-repeat:repeat; background-image:url(olzimmerberg.ch/icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
+echo "<body style='height:99%; background-repeat:repeat; background-image:url(olzimmerberg.ch/assets/icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
 
 // -------------------------------------------
 // EINSTELLUNGEN

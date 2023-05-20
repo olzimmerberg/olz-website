@@ -749,7 +749,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testGetUserAvatarNoUser(): void {
         $auth_utils = new AuthUtils();
         $this->assertSame(
-            '/_/icns/user.php?initials=%3F',
+            '/data-href/assets/icns/user.php?initials=%3F',
             $auth_utils->getUserAvatar(null)
         );
     }
@@ -773,7 +773,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $user = Fake\FakeUsers::adminUser();
         $this->assertSame(
-            '/_/icns/user.php?initials=AI',
+            '/data-href/assets/icns/user.php?initials=AI',
             $auth_utils->getUserAvatar($user)
         );
     }

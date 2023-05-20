@@ -23,7 +23,9 @@ final class MarkdownTest extends UnitTestCase {
         $git_paths = preg_split('/\s+/', $output);
         $markdown_paths = [];
         foreach ($git_paths as $git_path) {
-            if (preg_match('/\.md$/', $git_path)) {
+            $repo_root = __DIR__.'/../../';
+            $path = "{$repo_root}{$git_path}";
+            if (preg_match('/\.md$/', $git_path) && is_file($path)) {
                 $markdown_paths[] = $git_path;
             }
         }

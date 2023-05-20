@@ -243,10 +243,10 @@ class AuthUtils {
     public function getUserAvatar(?User $user) {
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
-        $data_path = $env_utils->getDataPath();
         $data_href = $env_utils->getDataHref();
+        $data_path = $env_utils->getDataPath();
         if (!$user) {
-            return "{$code_href}icns/user.php?initials=".urlencode('?');
+            return "{$data_href}assets/icns/user.php?initials=".urlencode('?');
         }
         $user_image_path = "img/users/{$user->getId()}.jpg";
         if (is_file("{$data_path}{$user_image_path}")) {
@@ -255,6 +255,6 @@ class AuthUtils {
         $first_initial = $user->getFirstName()[0] ?? '?';
         $last_initial = $user->getLastName()[0] ?? '?';
         $initials = strtoupper("{$first_initial}{$last_initial}");
-        return "{$code_href}icns/user.php?initials={$initials}";
+        return "{$data_href}assets/icns/user.php?initials={$initials}";
     }
 }

@@ -158,7 +158,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
         $content_to_show = $youtube_match ? "<a href='".$content."'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $content;
         echo "<tr class='galerie-kopf'><td>&nbsp;</td><td colspan='".($breite - 2)."'>".$content_to_show."</td><td>&nbsp;</td></tr>";
         echo "<tr class='foto'><td colspan='{$breite}' style='background-color:#000000;padding:0px;margin:0px;height:100%;'>";
-        echo "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
+        echo "<div style='background-image:url(/assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
         if (is_file($pfad.$movie)) {
             include __DIR__.'/library/flv_info/flvinfo.php';
             $flvinfo = new FLVInfo();
@@ -200,7 +200,7 @@ if ($db_edit == "0" or ($do ?? null) == 'vorschau') {
                 echo "Weder lokales Video noch YouTube Link vorhanden";
             }
         }
-        echo "<div style='background-image:url(icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
+        echo "<div style='background-image:url(/assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
         echo "</td></tr>";
     }
     echo "</table></div>";

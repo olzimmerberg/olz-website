@@ -9,6 +9,7 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 class Olz500ServerInternalError extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -21,10 +22,10 @@ class Olz500ServerInternalError extends OlzComponent {
         <div class='error-image-container-500'>
             <img
                 srcset='
-                    {$code_href}icns/error_system@2x.jpg 2x,
-                    {$code_href}icns/error_system.jpg 1x
+                    {$data_href}assets/icns/error_system@2x.jpg 2x,
+                    {$data_href}assets/icns/error_system.jpg 1x
                 '
-                src='{$code_href}icns/error_system.jpg'
+                src='{$data_href}assets/icns/error_system.jpg'
                 alt='Fehlerhafter Posten'
                 class='error-image-500'
             />

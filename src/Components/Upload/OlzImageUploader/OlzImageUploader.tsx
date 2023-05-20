@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import {codeHref} from '../../../../src/Utils/constants';
+import {dataHref} from '../../../../src/Utils/constants';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
@@ -119,7 +119,7 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
             <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img
-                    src={`${codeHref}icns/link_image_16.svg`}
+                    src={`${dataHref}assets/icns/link_image_16.svg`}
                     alt=""
                     className="noborder"
                     width="32"

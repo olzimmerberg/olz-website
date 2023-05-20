@@ -16,7 +16,7 @@ class OlzOrganizationData extends OlzComponent {
             'sport' => 'Orientierungslauf',
             'identifier' => 'https://olzimmerberg.ch',
             'url' => 'https://olzimmerberg.ch',
-            'logo' => 'https://olzimmerberg.ch/icns/olz_logo_mit_hintergrund.svg',
+            'logo' => 'https://olzimmerberg.ch/assets/icns/olz_logo_mit_hintergrund.svg',
             'name' => 'OL Zimmerberg',
             'alternateName' => 'OLZ',
             'description' => 'Die OL Zimmerberg (Orientierungsläufer*innen Zimmerberg) sind ein Orientierungslauf-Sportverein in der Region um den Zimmerberg am linken Zürichseeufer und im Sihltal. Unsere Mitglieder kommen aus Kilchberg, Rüschlikon, Thalwil, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Gattikon, Adliswil und nahe gelegenen Teilen der Stadt Zürich (Wollishofen, Enge, Leimbach, Friesenberg).',

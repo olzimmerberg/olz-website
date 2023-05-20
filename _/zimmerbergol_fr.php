@@ -1,4 +1,4 @@
-<a href='#top' name='ausschreibung'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Annonce 2ème CO nationale (CO sprint)  / 12. Zimmerberg-OL**, Dimanche 12 mai 2019</h3></a>
+<a href='#top' name='ausschreibung'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='/assets/icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Annonce 2ème CO nationale (CO sprint)  / 12. Zimmerberg-OL**, Dimanche 12 mai 2019</h3></a>
 <table class='liste'>
     <tr><td style='width:20%;'><b>Organisation</b></td><td style='width:80%;'>OL Zimmerberg</td></tr>
     <tr>
@@ -212,7 +212,7 @@ Catégories ouvertes: CHF 14.--/19.--/28.-- selon l'âge
 </td></tr>
 -->
 </table>
-<a href='#top' name='ausschreibung_ss'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Annonce Relais Sprint pour tous</h3></a>
+<a href='#top' name='ausschreibung_ss'><h3 style='margin-top:30px;margin-bottom:10px;'><img src='/assets/icns/top_16.svg' class='noborder' style='height:18px;float:right;margin-right:5px;'>Annonce Relais Sprint pour tous</h3></a>
 <table class='liste'>
     <tr><td style='width:20%;'><b>Organisation</b></td><td style='width:80%;'>OL Zimmerberg</td></tr>
     <tr>

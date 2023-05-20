@@ -30,7 +30,7 @@ while ($row = mysqli_fetch_array($result)) {
         $icon = 'orienteering_scool_16.svg';
     }
 
-    $pois .= "theMap.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"icns/".$icon."\" }));\n";
+    $pois .= "theMap.addPOI(new SearchChPOI({ center:[".$center_x.",".$center_y."], title:\"\",html:\"".$name."\", maxzoom:128, icon:\"/assets/icns/".$icon."\" }));\n";
 }
 
 echo "<script type=\"text/javascript\">
@@ -56,7 +56,7 @@ echo "<script type=\"text/javascript\">
     window.localStorage.setItem('y0', y);
 
     // Add a custom POI
-    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"icns/orienteering_forest_16.svg\" }));\n
+    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"/assets/icns/orienteering_forest_16.svg\" }));\n
     setTimeout(\"theMap.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
     }
 </script>";

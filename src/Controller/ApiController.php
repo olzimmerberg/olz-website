@@ -6,8 +6,8 @@ use Olz\Api\OlzApi;
 use Olz\Utils\LogsUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController {
@@ -16,7 +16,7 @@ class ApiController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
         string $endpoint_name
-    ): JsonResponse {
+    ): Response {
         $olz_api = OlzApi::getInstance();
 
         $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
@@ -32,7 +32,7 @@ class ApiController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
         string $endpoint_name
-    ): JsonResponse {
+    ): Response {
         $olz_api = OlzApi::getInstance();
 
         $logger = LogsUtils::fromEnv()->getLogger('OlzApi');

@@ -45,7 +45,7 @@ if (trim(strip_tags($banner)) !== '') {
     $banner = "<div class='banner'>{$banner}</div>";
     $banner_icon = <<<'ZZZZZZZZZZ'
     <a href="#wichtig" class="banner-icon">
-        <img src="/icns/cancel_16.svg" alt="!"/>
+        <img src="/assets/icns/cancel_16.svg" alt="!"/>
     </a>
     ZZZZZZZZZZ;
 }

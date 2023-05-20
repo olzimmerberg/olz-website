@@ -12,6 +12,7 @@ class OlzTelegramCard extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
 
         if ($user) {
             $telegram_link_repo = $entityManager->getRepository(TelegramLink::class);
@@ -62,7 +63,7 @@ class OlzTelegramCard extends OlzComponent {
             return <<<ZZZZZZZZZZ
             <div class="telegram-card card text-white bg-telegram mb-2">
                 <h5 class="card-header">
-                    <img src='{$code_href}icns/login_telegram.svg' alt=''>
+                    <img src='{$data_href}assets/icns/login_telegram.svg' alt=''>
                     Nachrichten-Push
                 </h5>
                 <div class="card-body">

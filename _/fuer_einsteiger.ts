@@ -1,4 +1,4 @@
-import {codeHref} from '../src/Utils/constants';
+import {dataHref} from '../src/Utils/constants';
 
 export function highlight_menu(e: Event): void {
     const menuContainerElem = document.getElementById('menu-container');
@@ -25,7 +25,7 @@ export function highlight_menu(e: Event): void {
     pointer.style.left = `${rect.left + rect.width}px`;
     pointer.style.height = '100px';
     pointer.style.border = '0px';
-    pointer.src = `${codeHref}icns/arrow_red.svg`;
+    pointer.src = `${dataHref}assets/icns/arrow_red.svg`;
     pointer.id = `highlight_menu_${href}`;
     document.documentElement.appendChild(pointer);
     window.setTimeout(() => highlight_menu_ani(href ?? '', 0), 100);

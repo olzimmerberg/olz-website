@@ -6,25 +6,26 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RedirectController extends AbstractController {
     #[Route('/_/{file}.php')]
-    public function php(Request $request, string $file): RedirectResponse {
+    public function php(Request $request, string $file): Response {
         $query_string = $request->getQueryString();
         $url = $query_string ? "/{$file}.php?{$query_string}" : "/{$file}.php";
         return new RedirectResponse($url, 308);
     }
 
     #[Route('/{file}.php/index.php')]
-    public function phpPhp(Request $request, string $file): RedirectResponse {
+    public function phpPhp(Request $request, string $file): Response {
         $query_string = $request->getQueryString();
         $url = $query_string ? "/{$file}.php?{$query_string}" : "/{$file}.php";
         return new RedirectResponse($url, 308);
     }
 
     #[Route('/_/{file}.php/index.php')]
-    public function underscorePhpPhp(Request $request, string $file): RedirectResponse {
+    public function underscorePhpPhp(Request $request, string $file): Response {
         $query_string = $request->getQueryString();
         $url = $query_string ? "/{$file}.php?{$query_string}" : "/{$file}.php";
         return new RedirectResponse($url, 308);
@@ -34,7 +35,7 @@ class RedirectController extends AbstractController {
     public function underscoreIndex(
         Request $request,
         LoggerInterface $logger,
-    ): RedirectResponse {
+    ): Response {
         $query_string = $request->getQueryString();
         $url = $query_string ? "/?{$query_string}" : '/';
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_index']);
@@ -45,7 +46,7 @@ class RedirectController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
         string $folder,
-    ): RedirectResponse {
+    ): Response {
         $query_string = $request->getQueryString();
         $html_exists = is_file("./_/{$folder}/index.html");
         if ($html_exists) {

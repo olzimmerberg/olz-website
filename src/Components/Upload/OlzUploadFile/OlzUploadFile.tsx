@@ -34,7 +34,7 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
         }, [props.uploadFile]);
         const copyButton = (
             <button className='button' type='button' onClick={onCopy}>
-                <img src='icns/copy_16.svg' alt='Cp' />
+                <img src='/assets/icns/copy_16.svg' alt='Cp' />
             </button>
         );
         const deleteButton = props.onDelete ? (
@@ -43,7 +43,7 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
                     props.onDelete(uploadedFile.uploadId);
                 }
             }}>
-                <img src='icns/delete_16.svg' alt='Lö' />
+                <img src='/assets/icns/delete_16.svg' alt='Lö' />
             </button>
         ) : undefined;
         return (

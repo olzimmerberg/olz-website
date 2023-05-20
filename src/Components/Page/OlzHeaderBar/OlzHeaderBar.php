@@ -42,12 +42,12 @@ class OlzHeaderBar extends OlzComponent {
 
         if ($back_link !== null) {
             $out .= "<a href='{$back_link}' id='menu-switch' />";
-            $out .= "<img src='{$code_href}icns/menu_back.svg' alt='' class='menu-back noborder' />";
+            $out .= "<img src='{$data_href}assets/icns/menu_back.svg' alt='' class='menu-back noborder' />";
             $out .= "</a>";
         } else {
             $out .= "<div id='menu-switch' onclick='olz.toggleMenu()' />";
-            $out .= "<img src='{$code_href}icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-            $out .= "<img src='{$code_href}icns/menu_close.svg' alt='' class='menu-close noborder' />";
+            $out .= "<img src='{$data_href}assets/icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
+            $out .= "<img src='{$data_href}assets/icns/menu_close.svg' alt='' class='menu-close noborder' />";
             $out .= "</div>";
         }
 
@@ -57,9 +57,9 @@ class OlzHeaderBar extends OlzComponent {
 
         // TODO: Remove switch as soon as Safari properly supports SVGs.
         if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'] ?? '')) {
-            $out .= "<img srcset='{$code_href}icns/olz_logo@2x.png 2x, {$code_href}icns/olz_logo.png 1x' src='{$code_href}icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
+            $out .= "<img srcset='{$data_href}assets/icns/olz_logo@2x.png 2x, {$data_href}assets/icns/olz_logo.png 1x' src='{$data_href}assets/icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
         } else {
-            $out .= "<img src='{$code_href}icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
+            $out .= "<img src='{$data_href}assets/icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
         }
         $out .= "<div style='flex-grow:1;'></div>";
 

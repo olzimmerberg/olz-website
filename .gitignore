@@ -5,7 +5,7 @@
 /docs/coverage
 /public/*
 !/public/.htaccess
-!/public/icns
+!/public/assets
 !/public/index.php
 /screenshots
 /src/Utils/data/tmp/*

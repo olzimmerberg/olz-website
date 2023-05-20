@@ -26,7 +26,7 @@ class OlzMailer extends PHPMailer {
         if ($config['no_header'] ?? false) {
             $html_header = "";
         } else {
-            $this->AddEmbeddedImage(__DIR__.'/../../public/icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
+            $this->AddEmbeddedImage(__DIR__.'/../../assets/icns/olz_logo_schwarzweiss_300.png', 'olz_logo');
             $html_header = <<<'ZZZZZZZZZZ'
             <div style="text-align: right; float: right;">
                 <img src="cid:olz_logo" alt="" style="width:150px;" />

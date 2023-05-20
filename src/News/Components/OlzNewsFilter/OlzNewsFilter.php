@@ -22,7 +22,7 @@ class OlzNewsFilter extends OlzComponent {
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $icon = $option['icon'];
-            $icon_html = $icon ? "<img src='{$data_href}icns/{$icon}' alt='' class='format-filter-icon'>" : '';
+            $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
             $ident = $option['ident'];
             return "<a href='?filter={$enc_json_filter}' id='filter-format-{$ident}' class='format-filter'{$selected}>
                 {$icon_html}{$name}

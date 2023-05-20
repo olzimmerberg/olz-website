@@ -165,7 +165,7 @@ if ($zugriff == "1") {
             $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
 
             if ($newsletter) {
-                $icn_newsletter = "<img src='icns/mail2.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
+                $icn_newsletter = "<img src='/assets/icns/mail2.gif' class='noborder' style='margin-left:4px;vertical-align:top;' title='Newsletter-Benachrichtigung' alt=''>";
             } else {
                 $icn_newsletter = "";
             }
@@ -260,7 +260,7 @@ if ($zugriff == "1") {
     /*
     if ($_SESSION["termine_helper"]=="compare") {
         echo "<table class='liste'>
-<tr><td style='background-color:#cccccc;'></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='favicon.gif' alt='' class='noborder'> OLZ</h3></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='icns/orienteering_forest_16.svg' alt='' class='noborder'> SOLV</h3></td></tr>";
+<tr><td style='background-color:#cccccc;'></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='favicon.gif' alt='' class='noborder'> OLZ</h3></td><td style='background-color:#cccccc; width:40%; text-align:center;'><h3><img src='/assets/icns/orienteering_forest_16.svg' alt='' class='noborder'> SOLV</h3></td></tr>";
         $sql_tmp = "";
         if (isset($ids) && is_array($ids)) {
             $_SESSION["termine_helper_compare_limit"] = count($ids);

@@ -57,7 +57,7 @@ echo "<style type=\"text/css\">
 ?>
 </head>
 <?php
-echo "<body style='height:99%; background-repeat:repeat; background-image:url(../icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
+echo "<body style='height:99%; background-repeat:repeat; background-image:url(/assets/icns/mainbg.png);width:".$breite."px;margin:0 auto;'>";
 echo "1";
 ?>
 <table><tr>

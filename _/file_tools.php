@@ -54,9 +54,9 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         }
         if ($is_migrated) {
             preg_match("/^[0-9A-Za-z_\\-]{24}\\.(\\S{1,10})$/", $index, $matches);
-            $thumbfile = __DIR__."/../public/icns/link_".$extension_icons[$matches[1]]."_16.svg";
+            $thumbfile = __DIR__."/../assets/icns/link_".$extension_icons[$matches[1]]."_16.svg";
             if (!is_file($thumbfile)) {
-                $thumbfile = __DIR__."/../public/icns/link_any_16.svg";
+                $thumbfile = __DIR__."/../assets/icns/link_any_16.svg";
             }
             header("Cache-Control: max-age=86400");
             header("Content-Type: image/svg+xml");
@@ -72,9 +72,9 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             for ($i = 0; $i < count($files); $i++) {
                 if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                     if (intval($matches[1]) == $index) {
-                        $thumbfile = __DIR__."/../public/icns/link_".$extension_icons[$matches[2]]."_16.svg";
+                        $thumbfile = __DIR__."/../assets/icns/link_".$extension_icons[$matches[2]]."_16.svg";
                         if (!is_file($thumbfile)) {
-                            $thumbfile = __DIR__."/../public/icns/link_any_16.svg";
+                            $thumbfile = __DIR__."/../assets/icns/link_any_16.svg";
                         }
                         header("Cache-Control: max-age=86400");
                         header("Content-Type: image/svg+xml");

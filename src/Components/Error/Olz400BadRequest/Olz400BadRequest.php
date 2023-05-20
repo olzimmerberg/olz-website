@@ -9,6 +9,7 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 class Olz400BadRequest extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -21,10 +22,10 @@ class Olz400BadRequest extends OlzComponent {
         <div class='error-image-container-400'>
             <img
                 srcset='
-                    {$code_href}icns/error_schilf@2x.jpg 2x,
-                    {$code_href}icns/error_schilf.jpg 1x
+                    {$data_href}assets/icns/error_schilf@2x.jpg 2x,
+                    {$data_href}assets/icns/error_schilf.jpg 1x
                 '
-                src='{$code_href}icns/error_schilf.jpg'
+                src='{$data_href}assets/icns/error_schilf.jpg'
                 alt='Schilf'
                 class='error-image-400'
             />

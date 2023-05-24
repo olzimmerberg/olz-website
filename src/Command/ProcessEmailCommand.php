@@ -27,6 +27,11 @@ class ProcessEmailCommand extends OlzCommand {
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
         try {
+            $this->client->createFolder('INBOX.Processing');
+        } catch (ImapServerErrorException $exc) {
+            // ignore when folder already exists
+        }
+        try {
             $this->client->createFolder('INBOX.Processed');
         } catch (ImapServerErrorException $exc) {
             // ignore when folder already exists
@@ -190,6 +195,11 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function forwardEmailToUser($mail, $user, $address): bool {
+        // TODO: Launch for everyone
+        if ($user->getUsername() === 'simon.hatt') {
+            $mail->move($folder_path = 'INBOX.Processing');
+        }
+
         $forward_address = $user->getEmail();
         $from = $mail->from->first();
         $from_name = $from->personal;

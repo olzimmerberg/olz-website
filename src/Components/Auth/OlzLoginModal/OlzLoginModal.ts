@@ -27,7 +27,7 @@ $(() => {
             if (passwordValue) {
                 olzLoginModalLogin();
             }
-        }, 1);
+        }, 100);
     }
 
     loginModalElem.addEventListener('shown.bs.modal', () => {

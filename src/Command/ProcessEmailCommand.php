@@ -27,12 +27,12 @@ class ProcessEmailCommand extends OlzCommand {
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
         try {
-            $this->client->createFolder('INBOX.Processing');
+            $this->client->createFolder('INBOX.Processed');
         } catch (ImapServerErrorException $exc) {
             // ignore when folder already exists
         }
         try {
-            $this->client->createFolder('INBOX.Processed');
+            $this->client->createFolder('INBOX.Failed');
         } catch (ImapServerErrorException $exc) {
             // ignore when folder already exists
         }
@@ -115,6 +115,12 @@ class ProcessEmailCommand extends OlzCommand {
     protected function processMail($mail, $is_processed): bool {
         $mail_uid = $mail->uid;
 
+        if ($mail->getFlags()->has('flagged')) {
+            $this->log()->warning("E-Mail {$mail_uid} has failed processing.");
+            $mail->move($folder_path = 'INBOX.Failed');
+            return true;
+        }
+
         $original_to = $mail->x_original_to;
         if ($original_to) {
             return $this->processMailToAddress($mail, $original_to);
@@ -195,10 +201,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function forwardEmailToUser($mail, $user, $address): bool {
-        // TODO: Launch for everyone
-        if ($user->getUsername() === 'simon.hatt') {
-            $mail->move($folder_path = 'INBOX.Processing');
-        }
+        $mail->setFlag('flagged');
 
         $forward_address = $user->getEmail();
         $from = $mail->from->first();
@@ -219,9 +222,15 @@ class ProcessEmailCommand extends OlzCommand {
                 'no_header' => true,
                 'no_unsubscribe' => true,
             ]);
-            // This is probably dangerous (Might get us on spamming lists?):
-            // $email->setFrom($from_address, $from_name);
-            $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_label} (via OLZ)");
+            // TODO: Launch for everyone
+            if ($user->getUsername() === 'simon.hatt') {
+                // This is probably dangerous (Might get us on spamming lists?):
+                // $email->setFrom($from_address, $from_name);
+                $email->Sender = $this->envUtils()->getSmtpFrom();
+                $email->setFrom($from_address, $from_name, false);
+            } else {
+                $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_label} (via OLZ)");
+            }
             $email->addReplyTo($from_address, $from_name);
 
             $email->Body = $html ? $html : '(leer)';
@@ -273,6 +282,8 @@ class ProcessEmailCommand extends OlzCommand {
                     unlink($upload_path);
                 }
             }
+
+            $mail->unsetFlag('flagged');
             return true;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();

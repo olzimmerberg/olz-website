@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Webklex\PHPIMAP\Address;
 use Webklex\PHPIMAP\Attribute;
+use Webklex\PHPIMAP\Support\FlagCollection;
 
 class FakeProcessEmailAddress {
     public function __construct(
@@ -62,6 +63,16 @@ class FakeProcessEmailCommandMail {
 
     public function getHTMLBody(): string {
         return $this->textHtml;
+    }
+
+    public function getFlags() {
+        return new FlagCollection();
+    }
+
+    public function setFlag($flag) {
+    }
+
+    public function unsetFlag($flag) {
     }
 
     public function hasAttachments() {

@@ -58,6 +58,7 @@ final class EmailUtilsTest extends UnitTestCase {
             [
                 'user' => $user,
                 'from' => null,
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] E-Mail bestätigen',
                 'body' => $expected_email,
@@ -156,9 +157,9 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('text/plain', $mailer->ContentType);
         $this->assertSame('base64', $mailer->Encoding);
         $this->assertSame('', $mailer->ErrorInfo);
-        $this->assertSame('fake@olzimmerberg.ch', $mailer->From);
+        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->From);
         $this->assertSame('OL Zimmerberg', $mailer->FromName);
-        $this->assertSame('fake@olzimmerberg.ch', $mailer->Sender);
+        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Sender);
         $this->assertSame('', $mailer->Subject);
         $this->assertSame('', $mailer->Body);
         $this->assertSame('', $mailer->AltBody);
@@ -210,9 +211,9 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('text/plain', $mailer->ContentType);
         $this->assertSame('base64', $mailer->Encoding);
         $this->assertSame('', $mailer->ErrorInfo);
-        $this->assertSame('fake@olzimmerberg.ch', $mailer->From);
+        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->From);
         $this->assertSame('OL Zimmerberg', $mailer->FromName);
-        $this->assertSame('fake@olzimmerberg.ch', $mailer->Sender);
+        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Sender);
         $this->assertSame('', $mailer->Subject);
         $this->assertSame('', $mailer->Body);
         $this->assertSame('', $mailer->AltBody);
@@ -231,7 +232,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame(true, $mailer->SMTPAutoTLS);
         $this->assertSame(true, $mailer->SMTPAuth);
         $this->assertSame([], $mailer->SMTPOptions);
-        $this->assertSame('fake@olzimmerberg.ch', $mailer->Username);
+        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Username);
         $this->assertSame('1234', $mailer->Password);
         $this->assertSame('', $mailer->AuthType);
         $this->assertSame(300, $mailer->Timeout);

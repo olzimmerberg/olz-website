@@ -99,6 +99,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             [
                 'user' => Fake\FakeUsers::adminUser(),
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] Passwort zurücksetzen',
                 'body' => $expected_text,

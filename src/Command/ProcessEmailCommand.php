@@ -207,7 +207,12 @@ class ProcessEmailCommand extends OlzCommand {
         $from = $mail->from->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        $from_label = $from_name ? "{$from_name} <{$from_address}>" : "{$from_address}";
+        $ccs = array_map(function ($cc) {
+            return $cc->personal ? "{$cc->personal} <{$cc->mail}>" : $cc->mail;
+        }, $mail->cc->toArray());
+        $bccs = array_map(function ($bcc) {
+            return $bcc->personal ? "{$bcc->personal} <{$bcc->mail}>" : $bcc->mail;
+        }, $mail->bcc->toArray());
         $subject = $mail->subject->first();
         $mail->parseBody();
         $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
@@ -222,16 +227,20 @@ class ProcessEmailCommand extends OlzCommand {
                 'no_header' => true,
                 'no_unsubscribe' => true,
             ]);
+
+            $email->Sender = $this->envUtils()->getSmtpFrom();
+            $email->setFrom($from_address, $from_name, false);
+            $email->addReplyTo($from_address, $from_name);
+
             // TODO: Launch for everyone
             if ($user->getUsername() === 'simon.hatt') {
-                // This is probably dangerous (Might get us on spamming lists?):
-                // $email->setFrom($from_address, $from_name);
-                $email->Sender = $this->envUtils()->getSmtpFrom();
-                $email->setFrom($from_address, $from_name, false);
-            } else {
-                $email->setFrom($this->envUtils()->getSmtpFrom(), "{$from_label} (via OLZ)");
+                foreach ($ccs as $cc) {
+                    $mail->addCustomHeader('Cc', $cc);
+                }
+                foreach ($bccs as $bcc) {
+                    $mail->addCustomHeader('Bcc', $bcc);
+                }
             }
-            $email->addReplyTo($from_address, $from_name);
 
             $email->Body = $html ? $html : '(leer)';
             $email->AltBody = $text ? $text : '(leer)';

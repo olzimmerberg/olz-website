@@ -207,7 +207,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'user' => $user_repo->fakeProcessEmailCommandUser,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',
@@ -248,7 +249,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'user' => $user_repo->fakeProcessEmailCommandUser,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',
@@ -311,7 +313,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $expected_emails = array_map(function ($user) {
             return [
                 'user' => $user,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',
@@ -354,7 +357,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $expected_emails = array_map(function ($user) {
             return [
                 'user' => $user,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',
@@ -434,7 +438,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $expected_role_emails = array_map(function ($user) {
             return [
                 'user' => $user,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',
@@ -444,7 +449,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'user' => $user_repo->fakeProcessEmailCommandUser,
-                'from' => ['fake@olzimmerberg.ch', 'From Name <from@from-domain.com> (via OLZ)'],
+                'from' => ['from@from-domain.com', 'From Name'],
+                'sender' => 'fake@staging.olzimmerberg.ch',
                 'replyTo' => ['from@from-domain.com', 'From Name'],
                 'subject' => 'Test subject',
                 'body' => 'Test html',

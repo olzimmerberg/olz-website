@@ -68,6 +68,12 @@ class FakeProcessEmailCommandMail {
         return $this->textHtml;
     }
 
+    public function getAttributes() {
+        return [
+            new Attribute('fake_attribute', 'fake_attribute value'),
+        ];
+    }
+
     public function getFlags() {
         return new FlagCollection();
     }
@@ -177,19 +183,19 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             [
                 'user' => null,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '<>',
+                'sender' => '',
                 'replyTo' => null,
                 'headers' => [
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage(null, 'no-such-username@staging.olzimmerberg.ch'),
+                'body' => $job->getBounceMessage($mail, 'no-such-username@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -219,19 +225,19 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             [
                 'user' => null,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '<>',
+                'sender' => '',
                 'replyTo' => null,
                 'headers' => [
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage(null, 'no-permission@staging.olzimmerberg.ch'),
+                'body' => $job->getBounceMessage($mail, 'no-permission@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -351,19 +357,19 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             [
                 'user' => null,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '<>',
+                'sender' => '',
                 'replyTo' => null,
                 'headers' => [
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage(null, 'no-role-permission@staging.olzimmerberg.ch'),
+                'body' => $job->getBounceMessage($mail, 'no-role-permission@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -810,5 +816,36 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
         $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+    }
+
+    public function testProcessEmailCommandEmailToSmtpFrom(): void {
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $mail = new FakeProcessEmailCommandMail(12,
+            'fake@staging.olzimmerberg.ch',
+            new Attribute('to', []),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+
+        $job = new ProcessEmailCommand();
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO E-Mail 12 to inexistent user/role username: fake',
+            'NOTICE sendBounceEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
+        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertSame([], $mail->flag_actions);
+        $this->assertSame([
+            // no bounce email!
+        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 }

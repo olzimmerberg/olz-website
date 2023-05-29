@@ -31,7 +31,7 @@ final class OlzMailerTest extends UnitTestCase {
         $mailer = new OlzMailerForTest(true);
 
         $user = new User();
-        $user->setEmail('fake-user@olzimmerberg.ch');
+        $user->setEmail('fake-user@staging.olzimmerberg.ch');
         $user->setFirstName('Fake');
         $user->setLastName('User');
         $mailer->configure($user, 'Tèśt', "äsdf\n1234", ['notification_type' => 'monthly_preview']);
@@ -39,7 +39,7 @@ final class OlzMailerTest extends UnitTestCase {
         $this->assertSame([
         ], $this->getLogs());
         $this->assertSame([
-            ['fake-user@olzimmerberg.ch', 'Fake User'],
+            ['fake-user@staging.olzimmerberg.ch', 'Fake User'],
         ], $mailer->getToAddresses());
         $this->assertSame([], $mailer->getCcAddresses());
         $this->assertSame([], $mailer->getBccAddresses());

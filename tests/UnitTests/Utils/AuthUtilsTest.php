@@ -398,7 +398,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $auth_utils = new AuthUtils();
 
-        $result = $auth_utils->resolveUsernameOrEmail('vorstand@staging.olzimmerberg.ch');
+        $result = $auth_utils->resolveUsernameOrEmail('vorstand@olzimmerberg.ch');
         $this->assertSame(Fake\FakeUsers::vorstandUser(), $result);
     }
 

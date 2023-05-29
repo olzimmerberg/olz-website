@@ -88,56 +88,56 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testSanitize(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "E-Mail")</script>',
-            $html_utils->sanitize('e.mail+test@olzimmerberg.ch')
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            $html_utils->sanitize('e.mail+test@staging.olzimmerberg.ch')
         );
     }
 
     public function testReplacePureEmailAdresses(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "E-Mail")</script>',
-            $html_utils->replaceEmailAdresses('e.mail+test@olzimmerberg.ch')
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            $html_utils->replaceEmailAdresses('e.mail+test@staging.olzimmerberg.ch')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "E-Mail")</script>.',
-            $html_utils->replaceEmailAdresses('Mail: e.mail+test@olzimmerberg.ch.')
+            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mail: e.mail+test@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "E-Mail")</script>, <script>olz.MailTo("e.mail", "olzimmerberg.ch", "E-Mail")</script>.',
-            $html_utils->replaceEmailAdresses('Mails: e.mail+test@olzimmerberg.ch, e.mail@olzimmerberg.ch.')
+            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mails: e.mail+test@staging.olzimmerberg.ch, e.mail@staging.olzimmerberg.ch.')
         );
     }
 
     public function testReplaceMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Test")</script>',
-            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@olzimmerberg.ch">Test</a>')
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test")</script>',
+            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Contact me")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@olzimmerberg.ch" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Contact me")</script> <script>olz.MailTo("e.mail", "olzimmerberg.ch", "Contact me")</script>!',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@olzimmerberg.ch">Contact me</a>!')
+            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me")</script> <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me")</script>!',
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@staging.olzimmerberg.ch">Contact me</a>!')
         );
     }
 
     public function testReplaceMailToLinksWithSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Test", "test")</script>',
-            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@olzimmerberg.ch?subject=test">Test</a>')
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test", "test")</script>',
+            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=test">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Contact me", "another%20test")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "olzimmerberg.ch", "Contact me", "another%20test")</script>, <script>olz.MailTo("e.mail", "olzimmerberg.ch", "Contact me", "another%20test")</script>!',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@olzimmerberg.ch?subject=another%20test">Contact me</a>!')
+            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>!',
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
     }
 }

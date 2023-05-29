@@ -171,6 +171,7 @@ class ProcessEmailCommand extends OlzCommand {
             $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
             if (!$has_role_email_permission) {
                 $this->log()->warning("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
+                $this->sendBounceEmail($mail, $address);
                 return true;
             }
             $role_users = $role->getUsers();
@@ -192,11 +193,13 @@ class ProcessEmailCommand extends OlzCommand {
             $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
             if (!$has_user_email_permission) {
                 $this->log()->warning("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                $this->sendBounceEmail($mail, $address);
                 return true;
             }
             return $this->forwardEmailToUser($mail, $user, $address);
         }
         $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
+        $this->sendBounceEmail($mail, $address);
         return true;
     }
 
@@ -310,5 +313,37 @@ class ProcessEmailCommand extends OlzCommand {
             },
             '',
         );
+    }
+
+    protected function sendBounceEmail($mail, $address) {
+        $this->emailUtils()->setLogger($this->log());
+        $email = $this->emailUtils()->createEmail();
+
+        $email->Sender = '<>';
+        $email->setFrom($this->envUtils()->getSmtpFrom(), 'OLZ Bot', false);
+
+        $from = $mail->from->first();
+        $from_name = $from->personal;
+        $from_address = $from->mail;
+        $email->addAddress($from_address, $from_name);
+
+        $email->isHTML(false);
+        $email->Subject = "Undelivered Mail Returned to Sender";
+        $email->Body = $this->getBounceMessage($mail, $address);
+        $email->send();
+    }
+
+    public function getBounceMessage($mail, $address) {
+        $base_href = $this->envUtils()->getBaseHref();
+        return <<<ZZZZZZZZZZ
+        This is the mail system at host {$base_href}.
+
+        I'm sorry to have to inform you that your message could not
+        be delivered to one or more recipients. It's attached below.
+
+                        The mail system
+
+        <{$address}>: 550 sorry, no mailbox here by that name
+        ZZZZZZZZZZ;
     }
 }

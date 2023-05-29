@@ -306,7 +306,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
             'user' => 1,
-            'email' => 'default-user@olzimmerberg.ch',
+            'email' => 'default-user@staging.olzimmerberg.ch',
             'token' => 'defaulttoken',
         ])]);
 
@@ -328,7 +328,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
             'user' => 1,
-            'email' => 'default-user@olzimmerberg.ch',
+            'email' => 'default-user@staging.olzimmerberg.ch',
             'token' => 'invalid',
         ])]);
 
@@ -357,7 +357,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "ERROR Trying to verify email (another@email.ch) for user 1 (email: default-user@olzimmerberg.ch).",
+            "ERROR Trying to verify email (another@email.ch) for user 1 (email: default-user@staging.olzimmerberg.ch).",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
@@ -373,7 +373,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'verify_email',
             'user' => 9999,
-            'email' => 'default-user@olzimmerberg.ch',
+            'email' => 'default-user@staging.olzimmerberg.ch',
             'token' => 'defaulttoken',
         ])]);
 

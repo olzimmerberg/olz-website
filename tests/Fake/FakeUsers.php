@@ -132,7 +132,7 @@ class FakeUsers extends FakeFactory {
                 $default_user->setFirstName('Default');
                 $default_user->setLastName('User');
                 $default_user->setUsername('user');
-                $default_user->setEmail('default-user@olzimmerberg.ch');
+                $default_user->setEmail('default-user@staging.olzimmerberg.ch');
                 $default_user->setEmailIsVerified(false);
                 $default_user->setEmailVerificationToken('defaulttoken');
                 $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));

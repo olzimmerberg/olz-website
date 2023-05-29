@@ -71,7 +71,7 @@ class FakeEnvUtils {
     }
 
     public function getImapUsername() {
-        return 'imap@olzimmerberg.ch';
+        return 'imap@staging.olzimmerberg.ch';
     }
 
     public function getImapPassword() {

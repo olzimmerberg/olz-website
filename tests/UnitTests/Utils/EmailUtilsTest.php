@@ -60,9 +60,11 @@ final class EmailUtilsTest extends UnitTestCase {
                 'from' => null,
                 'sender' => null,
                 'replyTo' => null,
+                'headers' => [],
                 'subject' => '[OLZ] E-Mail bestätigen',
                 'body' => $expected_email,
                 'altBody' => $expected_email,
+                'attachments' => [],
             ],
         ], $olz_mailer->emails_sent);
     }

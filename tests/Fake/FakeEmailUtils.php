@@ -13,11 +13,10 @@ class FakeEmailUtils {
     public $send_email_verification_email_error;
 
     public $client;
-    public $olzMailer;
+    public $olzMailers = [];
 
     public function __construct() {
         $this->client = new FakeImapClient();
-        $this->olzMailer = new FakeOlzMailer();
     }
 
     public function sendEmailVerificationEmail($user) {
@@ -35,8 +34,9 @@ class FakeEmailUtils {
     }
 
     public function createEmail() {
-        $mailer = $this->olzMailer;
+        $mailer = new FakeOlzMailer();
         $mailer->setFrom('fake@staging.olzimmerberg.ch', 'OL Zimmerberg');
+        $this->olzMailers[] = $mailer;
         return $mailer;
     }
 
@@ -51,6 +51,17 @@ class FakeEmailUtils {
 
     public function renderMarkdown($markdown) {
         return $markdown;
+    }
+
+    public function testOnlyEmailsSent() {
+        $emails_sent = [];
+        foreach ($this->olzMailers as $mailer) {
+            $emails_sent = [
+                ...$emails_sent,
+                ...$mailer->emails_sent,
+            ];
+        }
+        return $emails_sent;
     }
 }
 

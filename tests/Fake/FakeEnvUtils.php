@@ -87,7 +87,7 @@ class FakeEnvUtils {
     }
 
     public function getSmtpUsername() {
-        return 'fake@olzimmerberg.ch';
+        return 'fake@staging.olzimmerberg.ch';
     }
 
     public function getSmtpPassword() {
@@ -103,7 +103,7 @@ class FakeEnvUtils {
     }
 
     public function getSmtpFrom() {
-        return 'fake@olzimmerberg.ch';
+        return 'fake@staging.olzimmerberg.ch';
     }
 
     public function getEmailReactionKey() {

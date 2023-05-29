@@ -14,6 +14,8 @@ class FakeOlzMailer {
     public $from;
     public $reply_to;
 
+    public $Sender;
+
     public function configure($user, $title, $text) {
         $this->user = $user;
         $this->Subject = $title;
@@ -40,6 +42,7 @@ class FakeOlzMailer {
         $this->emails_sent[] = [
             'user' => $this->user,
             'from' => $this->from,
+            'sender' => $this->Sender,
             'replyTo' => $this->reply_to,
             'subject' => $this->Subject,
             'body' => $this->Body,

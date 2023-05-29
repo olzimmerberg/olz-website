@@ -600,6 +600,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             [
                 'user' => $user1,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] MP title',
                 'body' => 'MP text First',
@@ -608,6 +609,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             [
                 'user' => $user1,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] DW title {"days":3}',
                 'body' => 'DW text First',
@@ -616,6 +618,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             [
                 'user' => $user1,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] DS title',
                 'body' => 'DS text First',
@@ -624,6 +627,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             [
                 'user' => $user2,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] WS title',
                 'body' => 'WS text Second',
@@ -632,6 +636,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             [
                 'user' => $user1,
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
+                'sender' => null,
                 'replyTo' => null,
                 'subject' => '[OLZ] ECR title {"cancelled":false}',
                 'body' => 'ECR text First',

@@ -49,9 +49,9 @@ final class EmailUtilsTest extends UnitTestCase {
 
         Hallo Default,
 
-        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJZeXZQZUExMzhzb2hQZkE4d1Y4anBnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY1Flb0hMXzdaQTI3VWZLOGJic00wMU5ZYlF0NXA3Z2xOZkRZbjY2NVBKSENseFJLblkwUSJ9) oder auf folgenden Link:
+        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ) oder auf folgenden Link:
 
-        http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJZeXZQZUExMzhzb2hQZkE4d1Y4anBnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY1Flb0hMXzdaQTI3VWZLOGJic00wMU5ZYlF0NXA3Z2xOZkRZbjY2NVBKSENseFJLblkwUSJ9
+        http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ
 
         ZZZZZZZZZZ;
         $this->assertSame([
@@ -117,7 +117,7 @@ final class EmailUtilsTest extends UnitTestCase {
         }
     }
 
-    public function testgetImapClient(): void {
+    public function testGetImapClient(): void {
         $email_utils = new EmailUtils();
 
         $client = $email_utils->getImapClient();
@@ -125,7 +125,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame(true, $client instanceof Client);
         $this->assertSame('127.0.0.1', $client->host);
         $this->assertSame(143, $client->port);
-        $this->assertSame('imap@olzimmerberg.ch', $client->username);
+        $this->assertSame('imap@staging.olzimmerberg.ch', $client->username);
         $this->assertSame('123456', $client->password);
     }
 

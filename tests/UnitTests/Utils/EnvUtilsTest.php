@@ -61,16 +61,16 @@ final class EnvUtilsTest extends UnitTestCase {
             'imap_host' => 'localhost',
             'imap_port' => '143',
             'imap_flags' => '/notls',
-            'imap_username' => 'fake-user@olzimmerberg.ch',
+            'imap_username' => 'fake-user@staging.olzimmerberg.ch',
             'imap_password' => '1234',
 
             'smtp_host' => 'localhost',
             'smtp_port' => '465',
-            'smtp_username' => 'fake-user@olzimmerberg.ch',
+            'smtp_username' => 'fake-user@staging.olzimmerberg.ch',
             'smtp_password' => '1234',
             'smtp_secure' => 'ssl',
             'smtp_debug' => 0,
-            'smtp_from' => 'fake-user@olzimmerberg.ch',
+            'smtp_from' => 'fake-user@staging.olzimmerberg.ch',
 
             'app_google_search_username' => 'fake-user@gmail.com',
             'app_google_search_password' => 'zxcv',
@@ -114,15 +114,15 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('localhost', $env_utils->getImapHost());
         $this->assertSame('143', $env_utils->getImapPort());
         $this->assertSame('/notls', $env_utils->getImapFlags());
-        $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getImapUsername());
+        $this->assertSame('fake-user@staging.olzimmerberg.ch', $env_utils->getImapUsername());
         $this->assertSame('1234', $env_utils->getImapPassword());
         $this->assertSame('localhost', $env_utils->getSmtpHost());
         $this->assertSame('465', $env_utils->getSmtpPort());
-        $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpUsername());
+        $this->assertSame('fake-user@staging.olzimmerberg.ch', $env_utils->getSmtpUsername());
         $this->assertSame('1234', $env_utils->getSmtpPassword());
         $this->assertSame('ssl', $env_utils->getSmtpSecure());
         $this->assertSame(0, $env_utils->getSmtpDebug());
-        $this->assertSame('fake-user@olzimmerberg.ch', $env_utils->getSmtpFrom());
+        $this->assertSame('fake-user@staging.olzimmerberg.ch', $env_utils->getSmtpFrom());
         $this->assertSame('fake-user@gmail.com', $env_utils->getAppGoogleSearchUsername());
         $this->assertSame('zxcv', $env_utils->getAppGoogleSearchPassword());
         $this->assertSame('fake-user', $env_utils->getAppMonitoringUsername());

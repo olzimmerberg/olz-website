@@ -29,6 +29,10 @@ class FakeOlzMailer {
         $this->from = [$address, $name];
     }
 
+    public function addAddress($address, $name) {
+        $this->headers[] = ['To', "{$name} <{$address}>"];
+    }
+
     public function addReplyTo($address, $name) {
         $this->reply_to = [$address, $name];
     }
@@ -39,6 +43,9 @@ class FakeOlzMailer {
 
     public function addAttachment($path, $name) {
         $this->attachments[] = [$path, $name];
+    }
+
+    public function isHTML($is_html) {
     }
 
     public function send() {

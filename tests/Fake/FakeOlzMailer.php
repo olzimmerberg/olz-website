@@ -13,6 +13,8 @@ class FakeOlzMailer {
     public $AltBody;
     public $from;
     public $reply_to;
+    public $headers = [];
+    public $attachments = [];
 
     public $Sender;
 
@@ -31,6 +33,14 @@ class FakeOlzMailer {
         $this->reply_to = [$address, $name];
     }
 
+    public function addCustomHeader($key, $value) {
+        $this->headers[] = [$key, $value];
+    }
+
+    public function addAttachment($path, $name) {
+        $this->attachments[] = [$path, $name];
+    }
+
     public function send() {
         $title_provokes_error = str_contains(
             $this->Subject, 'provoke_error');
@@ -44,9 +54,11 @@ class FakeOlzMailer {
             'from' => $this->from,
             'sender' => $this->Sender,
             'replyTo' => $this->reply_to,
+            'headers' => $this->headers,
             'subject' => $this->Subject,
             'body' => $this->Body,
             'altBody' => $this->AltBody,
+            'attachments' => $this->attachments,
         ];
     }
 }

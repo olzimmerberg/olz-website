@@ -101,11 +101,13 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
                 'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
                 'sender' => null,
                 'replyTo' => null,
+                'headers' => [],
                 'subject' => '[OLZ] Passwort zurücksetzen',
                 'body' => $expected_text,
                 'altBody' => $expected_text,
+                'attachments' => [],
             ],
-        ], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
+        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
         $this->assertSame([
             "INFO Valid user request",
             "INFO Password reset email sent to user (2).",
@@ -129,7 +131,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame(['status' => 'ERROR'], $result);
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
         $this->assertSame([
             "INFO Valid user request",
             "CRITICAL Error sending password reset email to user (3): Provoked Mailer Error",

@@ -158,7 +158,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
 
         ZZZZZZZZZZ;
-        $emails_sent = WithUtilsCache::get('emailUtils')->olzMailer->emails_sent;
+        $emails_sent = WithUtilsCache::get('emailUtils')->testOnlyEmailsSent();
         $this->assertSame(1, count($emails_sent));
         $this->assertSame('Anonymous', $emails_sent[0]['user']->getFirstName());
         $this->assertSame('', $emails_sent[0]['user']->getLastName());
@@ -261,6 +261,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
 
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->olzMailer->emails_sent);
+        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 }

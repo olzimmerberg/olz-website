@@ -316,17 +316,21 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function sendBounceEmail($mail, $address) {
-        $this->emailUtils()->setLogger($this->log());
-        $email = $this->emailUtils()->createEmail();
-
-        $email->Sender = '<>';
-        $email->setFrom($this->envUtils()->getSmtpFrom(), 'OLZ Bot', false);
-
+        $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->from->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        $email->addAddress($from_address, $from_name);
+        if ("{$address}" === "{$smtp_from}" || "{$address}" === "{$from_address}") {
+            $this->log()->notice("sendBounceEmail: Avoiding email loop for {$address}");
+            return;
+        }
 
+        $this->emailUtils()->setLogger($this->log());
+        $email = $this->emailUtils()->createEmail();
+
+        $email->Sender = '';
+        $email->setFrom($smtp_from, 'OLZ Bot', false);
+        $email->addAddress($from_address, $from_name);
         $email->isHTML(false);
         $email->Subject = "Undelivered Mail Returned to Sender";
         $email->Body = $this->getBounceMessage($mail, $address);
@@ -335,6 +339,21 @@ class ProcessEmailCommand extends OlzCommand {
 
     public function getBounceMessage($mail, $address) {
         $base_href = $this->envUtils()->getBaseHref();
+
+        $all_attributes = '';
+        foreach ($mail->getAttributes() as $key => $value) {
+            $padded_name = str_pad($key, 18, ' ', STR_PAD_LEFT);
+            $all_attributes .= "{$padded_name}: {$value}\n";
+        }
+
+        $mail->parseBody();
+        $body = '(no body)';
+        if ($mail->hasHTMLBody()) {
+            $body = $mail->getHTMLBody();
+        } elseif ($mail->hasTextBody()) {
+            $body = $mail->getTextBody();
+        }
+
         return <<<ZZZZZZZZZZ
         This is the mail system at host {$base_href}.
 
@@ -344,6 +363,12 @@ class ProcessEmailCommand extends OlzCommand {
                         The mail system
 
         <{$address}>: 550 sorry, no mailbox here by that name
+
+        ------ This is a copy of the message, including all the headers. ------
+
+        {$all_attributes}
+
+        {$body}
         ZZZZZZZZZZ;
     }
 }

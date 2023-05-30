@@ -38,7 +38,7 @@ export const OlzStatistics = (): React.ReactElement => {
         });
     }, []);
 
-    const onMonthIdentChange = React.useCallback((e) => {
+    const onMonthIdentChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
         const newMonthIdent = select.options[select.selectedIndex].value;
         setMonthIdent(newMonthIdent);

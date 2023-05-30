@@ -114,7 +114,7 @@ export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps): React.
     }, [uploadedFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        accept: 'image/jpeg, image/png',
+        accept: {'image/*': ['.png', '.jpg', '.jpeg']},
         onDrop,
     });
 

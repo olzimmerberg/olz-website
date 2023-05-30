@@ -93,7 +93,7 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps): 
     };
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        accept: 'image/jpeg, image/png',
+        accept: {'image/*': ['.png', '.jpg', '.jpeg']},
         onDrop,
     });
 

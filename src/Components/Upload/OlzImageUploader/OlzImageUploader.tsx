@@ -102,7 +102,7 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        accept: 'image/jpeg, image/png',
+        accept: {'image/*': ['.png', '.jpg', '.jpeg']},
         maxFiles: 1,
         onDrop,
     });

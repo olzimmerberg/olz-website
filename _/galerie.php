@@ -47,6 +47,7 @@ if (isset($_GET['id'])) {
     }
     $aktuell_id = $id + 1200;
     $new_url = "{$code_href}news/{$aktuell_id}";
+    http_response_code(301);
     header("Location: {$new_url}");
 } else {
     $news_filter_utils = NewsFilterUtils::fromEnv();
@@ -54,6 +55,7 @@ if (isset($_GET['id'])) {
     $filter['format'] = 'galerie';
     $enc_json_filter = urlencode(json_encode($filter));
     $new_url = "{$code_href}news?filter={$enc_json_filter}";
+    http_response_code(301);
     header("Location: {$new_url}");
 }
 

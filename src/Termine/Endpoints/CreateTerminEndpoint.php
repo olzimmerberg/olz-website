@@ -29,6 +29,7 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $input_data = $input['data'];
 
         $types_for_db = $this->getTypesForDb($input_data['types']);
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
@@ -48,11 +49,22 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         $termin->setTypes($types_for_db);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
+        $termin->setImageIds($valid_image_ids);
 
         $this->entityManager()->persist($termin);
         $this->entityManager()->flush();
 
         $termin_id = $termin->getId();
+
+        $termin_img_path = "{$data_path}img/termine/{$termin_id}/";
+        if (!is_dir("{$termin_img_path}img/")) {
+            mkdir("{$termin_img_path}img/", 0777, true);
+        }
+        if (!is_dir("{$termin_img_path}thumb/")) {
+            mkdir("{$termin_img_path}thumb/", 0777, true);
+        }
+        $this->uploadUtils()->moveUploads($valid_image_ids, "{$termin_img_path}img/");
+        // TODO: Generate default thumbnails.
 
         $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
         if (!is_dir("{$termin_files_path}")) {

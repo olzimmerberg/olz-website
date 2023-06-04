@@ -39,6 +39,7 @@ class FakeEditTerminEndpointTerminRepository {
             $termin->setSolvId(11012);
             $termin->setGo2olId('deprecated');
             $termin->setNewsletter(true);
+            $termin->setImageIds(['img1.jpg', 'img2.png']);
             $termin->setOnOff(true);
             return $termin;
         }
@@ -140,6 +141,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'types' => [],
                 'coordinateX' => null,
                 'coordinateY' => null,
+                'imageIds' => [],
                 'fileIds' => [],
             ],
         ], $result);
@@ -156,6 +158,11 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/termine/');
+        mkdir(__DIR__.'/../../tmp/img/termine/123/');
+        mkdir(__DIR__.'/../../tmp/img/termine/123/img/');
+        file_put_contents(__DIR__.'/../../tmp/img/termine/123/img/img1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termine/123/img/img2.png', '');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');
         mkdir(__DIR__.'/../../tmp/files/termine/123/');
@@ -192,6 +199,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'types' => ['training', 'weekends'],
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
+                'imageIds' => ['img1.jpg', 'img2.png'],
                 'fileIds' => ['file1.pdf', 'file2.pdf'],
             ],
         ], $result);

@@ -5,7 +5,7 @@ import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzMetaData, OlzTerminData} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getInteger, getIsoDateTime, getIsoDate, getIsoTime, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
-// import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
+import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
 import {isoNow} from '../../../Utils/constants';
 
 import './OlzEditTerminModal.scss';
@@ -32,7 +32,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [coordinateX, setCoordinateX] = React.useState<string>(props.data?.coordinateX ? String(props.data?.coordinateX) : '');
     const [coordinateY, setCoordinateY] = React.useState<string>(props.data?.coordinateY ? String(props.data?.coordinateY) : '');
     const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
-    // const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
+    const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
 
     const onSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
         event.preventDefault();
@@ -62,6 +62,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         types: validFieldResult('', Array.from(types)),
                         coordinateX: getInteger(getFormField(f, 'coordinate-x')),
                         coordinateY: getInteger(getFormField(f, 'coordinate-y')),
+                        imageIds: validFieldResult('', imageIds),
                         fileIds: validFieldResult('', fileIds),
                     },
                 };
@@ -108,6 +109,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         types: validFieldResult('', Array.from(types)),
                         coordinateX: getInteger(getFormField(f, 'coordinate-x')),
                         coordinateY: getInteger(getFormField(f, 'coordinate-y')),
+                        imageIds: validFieldResult('', imageIds),
                         fileIds: validFieldResult('', fileIds),
                     },
                 };
@@ -139,7 +141,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         }
 
         return false;
-    }, [startDate, startTime, endDate, endTime, hasNewsletter, types, fileIds]);
+    }, [startDate, startTime, endDate, endTime, hasNewsletter, types, imageIds, fileIds]);
 
     const dialogTitle = (props.id === undefined
         ? 'Termin-Eintrag erstellen'
@@ -239,7 +241,8 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor='termin-deadline-input'>Meldeschluss</label>
-                                <textarea
+                                <input
+                                    type='text'
                                     name='deadline'
                                     value={deadline}
                                     onChange={(e) => setDeadline(e.target.value)}
@@ -256,7 +259,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     onChange={(e) => setHasNewsletter(e.target.checked)}
                                     id='termin-has-newsletter-input'
                                 />
-                                <label htmlFor='termin-has-newsletter-input'>Newsletter</label>
+                                <label htmlFor='termin-has-newsletter-input'>Newsletter für Änderung</label>
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
@@ -283,7 +286,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                 </div>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-types-container'>Typen</label>
+                                <label htmlFor='termin-types-container'>Typ</label>
                                 <div id='termin-types-container'>
                                     <span className='types-option'>
                                         <input
@@ -416,13 +419,13 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     />
                                 </div>
                             </div>
-                            {/* <div id='termin-images-upload'>
+                            <div id='termin-images-upload'>
                                 <b>Bilder</b>
                                 <OlzMultiImageUploader
                                     initialUploadIds={imageIds}
                                     onUploadIdsChange={setImageIds}
                                 />
-                            </div> */}
+                            </div>
                             <div id='termin-files-upload'>
                                 <b>Dateien</b>
                                 <OlzMultiFileUploader

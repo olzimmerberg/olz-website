@@ -81,6 +81,10 @@ class Termin extends OlzEntity {
     #[ORM\Column(type: 'string', nullable: true)]
     private $typ;
 
+    #[ORM\ManyToOne(targetEntity: TerminLocation::class)]
+    #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'id', nullable: true)]
+    private $location;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     private $xkoord;
 
@@ -92,6 +96,9 @@ class Termin extends OlzEntity {
 
     #[ORM\Column(type: 'string', nullable: true)]
     private $ical_uid;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $image_ids;
 
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`),
@@ -217,12 +224,12 @@ class Termin extends OlzEntity {
         $this->ykoord = $new_ykoord;
     }
 
-    public function getOnOff() {
-        return $this->on_off;
+    public function getLocation() {
+        return $this->location;
     }
 
-    public function setOnOff($new_on_off) {
-        $this->on_off = $new_on_off;
+    public function setLocation(TerminLocation $new_location) {
+        $this->location = $new_location;
     }
 
     public function getNewsletter() {
@@ -231,5 +238,16 @@ class Termin extends OlzEntity {
 
     public function setNewsletter($new_newsletter) {
         $this->newsletter = $new_newsletter;
+    }
+
+    public function getImageIds() {
+        if ($this->image_ids == null) {
+            return null;
+        }
+        return json_decode($this->image_ids, true);
+    }
+
+    public function setImageIds($new_image_ids) {
+        $this->image_ids = json_encode($new_image_ids);
     }
 }

@@ -39,6 +39,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'types' => [],
             'coordinateX' => null,
             'coordinateY' => null,
+            'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
             'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
         ],
     ];
@@ -75,6 +76,9 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');
+        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
+        mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/termine/');
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -115,6 +119,10 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.png'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/termine/{$id}/img/",
+            ],
             [
                 ['uploaded_file.pdf', 'inexistent.txt'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/termine/{$id}/",

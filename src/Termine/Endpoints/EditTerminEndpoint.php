@@ -49,6 +49,14 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
 
         $types_for_api = $this->getTypesForApi($termin->getTypes() ?? '');
 
+        $image_ids = $termin->getImageIds();
+        $termin_img_path = "{$data_path}img/termine/{$entity_id}/";
+        foreach ($image_ids ?? [] as $image_id) {
+            $image_path = "{$termin_img_path}img/{$image_id}";
+            $temp_path = "{$data_path}temp/{$image_id}";
+            copy($image_path, $temp_path);
+        }
+
         $file_ids = [];
         $termin_files_path = "{$data_path}files/termine/{$entity_id}/";
         if (!is_dir("{$termin_files_path}")) {
@@ -86,6 +94,7 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
                 'types' => $types_for_api,
                 'coordinateX' => $termin->getCoordinateX(),
                 'coordinateY' => $termin->getCoordinateY(),
+                'imageIds' => $termin->getImageIds() ?? [],
                 'fileIds' => $file_ids,
             ],
         ];

@@ -80,6 +80,7 @@ export type OlzTerminData = {
     'types': Array<string>,
     'coordinateX': number|null,
     'coordinateY': number|null,
+    'imageIds': Array<string>,
     'fileIds': Array<string>,
 };
 
@@ -98,6 +99,7 @@ export type OlzTerminDataOrNull = {
     'types': Array<string>,
     'coordinateX': number|null,
     'coordinateY': number|null,
+    'imageIds': Array<string>,
     'fileIds': Array<string>,
 }|null;
 

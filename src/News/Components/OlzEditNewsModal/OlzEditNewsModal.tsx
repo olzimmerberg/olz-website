@@ -193,8 +193,8 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
     const [content, setContent] = React.useState<string>(props.data?.content ?? '');
     const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
-    const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
     const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
+    const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
     const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
     const [isWaitingForCaptcha, setIsWaitingForCaptcha] = React.useState<boolean>(false);
 

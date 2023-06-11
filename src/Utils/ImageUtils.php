@@ -16,6 +16,7 @@ class ImageUtils {
         'galerie' => 'img/galerie/',
         'kaderblog' => 'img/blog/',
         'news' => 'img/news/',
+        'termine' => 'img/termine/',
         'video' => 'img/galerie/',
         'weekly_picture' => 'img/weekly_picture/',
     ];

@@ -173,7 +173,7 @@ class OlzTermineList extends OlzComponent {
         // -------------------------------------------------------------
         // MENÜ
         if ($zugriff) {
-            $out .= "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span class='linkint'><a href='termine_tools.php'>Termine-Tools</a></span></div>";
+            $out .= "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Neuer Eintrag", "0"]], "")." <span style='font-weight:bold; color:#f00;'>&lt;== Bitte nicht mehr verwenden! 'Neuer Termin' unten benutzen. Bei Problemen:</span> <script>olz.MailTo('website', 'olzimmerberg.ch', 'sysadmin', 'Termine-Problem')</script></div>";
         }
 
         $out .= OlzTermineFilter::render();

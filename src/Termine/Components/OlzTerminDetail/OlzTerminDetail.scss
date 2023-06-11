@@ -3,6 +3,57 @@
 }
 
 .olz-termin-detail {
+    .preview {
+        position: relative;
+        height: 240px;
+        
+        a[data-src] img,
+        .olz-location-map-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+    }
+
+    .date-calendar {
+        position: absolute;
+        bottom: 0;
+
+        .date-img {
+            border: 0;
+            width: 150px;
+        }
+
+        .weekday {
+            position: absolute;
+            top: 14%;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .day {
+            position: absolute;
+            top: 35%;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 42px;
+            color: #444;
+        }
+
+        .month {
+            position: absolute;
+            top: 70%;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #444;
+        }
+    }
+
     .olz-location-map-link {
         display: block;
         margin: 0 -10px;
@@ -10,5 +61,10 @@
 
     .olz-location-map-img {
         width: 100%;
+    }
+
+    .links a {
+        display: block;
+        margin-top: 6px;
     }
 }

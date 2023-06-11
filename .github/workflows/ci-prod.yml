@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:latest
+        image: mariadb:10
         ports:
           - 3306
         env:
@@ -87,7 +87,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     services:
       mariadb:
-        image: mariadb:latest
+        image: mariadb:10
         ports:
           - 3306
         env:

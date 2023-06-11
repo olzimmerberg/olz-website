@@ -29,6 +29,9 @@ trait TerminEndpointTrait {
                 ]),
                 'coordinateX' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'coordinateY' => new FieldTypes\IntegerField(['allow_null' => true]),
+                'imageIds' => new FieldTypes\ArrayField([
+                    'item_field' => new FieldTypes\StringField([]),
+                ]),
                 'fileIds' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
                 ]),

@@ -58,6 +58,7 @@ class GetTerminEndpoint extends OlzGetEntityEndpoint {
                 'types' => $types_for_api,
                 'coordinateX' => $termin->getCoordinateX(),
                 'coordinateY' => $termin->getCoordinateY(),
+                'imageIds' => $termin->getImageIds() ?? [],
                 'fileIds' => $file_ids,
             ],
         ];

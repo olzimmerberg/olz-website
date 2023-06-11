@@ -37,6 +37,7 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $types_for_db = $this->getTypesForDb($input_data['types']);
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 
         $this->entityUtils()->updateOlzEntity($termin, $input['meta'] ?? []);
         $termin->setStartsOn(new \DateTime($input_data['startDate']));
@@ -53,11 +54,16 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         $termin->setTypes($types_for_db);
         $termin->setCoordinateX($input_data['coordinateX']);
         $termin->setCoordinateY($input_data['coordinateY']);
+        $termin->setImageIds($valid_image_ids);
 
         $this->entityManager()->persist($termin);
         $this->entityManager()->flush();
 
         $termin_id = $termin->getId();
+
+        $termin_img_path = "{$data_path}img/termine/{$termin_id}/";
+        $this->uploadUtils()->moveUploads($valid_image_ids, "{$termin_img_path}img/");
+        // TODO: Generate default thumbnails.
 
         $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
         $this->uploadUtils()->moveUploads($input_data['fileIds'], $termin_files_path);

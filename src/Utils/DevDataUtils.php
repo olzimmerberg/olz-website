@@ -418,6 +418,7 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/karten");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
+
         $this->mkdir("{$data_path}img/news");
         $this->mkdir("{$data_path}img/news/3");
         $this->mkdir("{$data_path}img/news/3/img");
@@ -474,6 +475,11 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/6403");
         $this->mkdir("{$data_path}img/news/6403/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6403/img/MIGRATED0000000064030001.jpg", 800, 600);
+
+        $this->mkdir("{$data_path}img/termine");
+        $this->mkdir("{$data_path}img/termine/5");
+        $this->mkdir("{$data_path}img/termine/5/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termine/5/img/Ffpi3PK5wBjKfN4etpvGK3ti.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/users");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);

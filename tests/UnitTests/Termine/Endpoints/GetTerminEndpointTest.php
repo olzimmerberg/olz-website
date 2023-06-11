@@ -38,6 +38,7 @@ class FakeGetTerminEndpointTerminRepository {
             $termin->setSolvId(11012);
             $termin->setGo2olId('deprecated');
             $termin->setNewsletter(true);
+            $termin->setImageIds(['img1.jpg', 'img2.png']);
             $termin->setOnOff(true);
             return $termin;
         }
@@ -114,6 +115,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'types' => [],
                 'coordinateX' => null,
                 'coordinateY' => null,
+                'imageIds' => [],
                 'fileIds' => [],
             ],
         ], $result);
@@ -163,6 +165,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'types' => ['training', 'weekends'],
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
+                'imageIds' => ['img1.jpg', 'img2.png'],
                 'fileIds' => ['file1.pdf', 'file2.pdf'],
             ],
         ], $result);

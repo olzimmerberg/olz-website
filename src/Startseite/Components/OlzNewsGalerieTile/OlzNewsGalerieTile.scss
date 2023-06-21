@@ -24,10 +24,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-weight: bold;
             background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
             text-shadow: 1px 1px 3px #000;
+
+            .title {
+                font-weight: bold;
+            }
         }
 
         .images {

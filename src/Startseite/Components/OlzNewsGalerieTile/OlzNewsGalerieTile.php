@@ -90,7 +90,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
                 <a href='{$code_href}news/{$id}'>
                     <div class='overlay'>
                         <img src='{$icon}' alt='{$format}' class='link-icon'>
-                        {$title}
+                        {$date} <span class='title'>{$title}</span>
                     </div>
                     <div class='images'>
                         {$images}

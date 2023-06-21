@@ -7,6 +7,14 @@
         min-height: 36px;
         line-height: 18px;
         min-width: 55%;
+
+        .date {
+            align-self: flex-end;
+            color: #007521;
+            font-size: 9px;
+            margin-left: 6px;
+            margin-right: -4px;
+        }
     
         &.flex {
             display: inline-flex;

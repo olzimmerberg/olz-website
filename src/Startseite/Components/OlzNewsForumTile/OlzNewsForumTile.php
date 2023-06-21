@@ -92,8 +92,9 @@ class OlzNewsForumTile extends AbstractOlzTile {
                     {$image_left}
                     <img src='{$icon}' alt='{$format}' class='link-icon'>
                     <a href='{$code_href}news/{$id}'>
-                        {$title}
+                        <span class='title'>{$title}</span>
                     </a>
+                    <span class='date'>{$date}</span>
                     {$image_right}
                 </div>
             </li>

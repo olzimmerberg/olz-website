@@ -94,11 +94,12 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             }
 
             $out .= <<<ZZZZZZZZZZ
-            <li class='flex min-two-lines'>
+            <li class='flex min-two-lines aktuell-kaderblog-tile'>
                 {$image_left}
                 <img src='{$icon}' alt='{$format}' class='link-icon'>
                 <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
-                    {$title}
+                    <span class='title'>{$title}</span>
+                    <span class='date'>({$date})</span>
                 </a>
                 {$image_right}
             </li>

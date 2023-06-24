@@ -19,31 +19,17 @@ class OlzNewsArticle extends OlzComponent {
         $data_path = $this->envUtils()->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
-        // TODO: Remove once migrated
-        $galerie_id = $id - 1200;
-        $arg_row = $args['row'] ?? null;
-        $is_preview = $args['is_preview'] ?? false;
+
         $out = "";
         $user = $this->authUtils()->getCurrentUser();
 
         $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
-        $row = mysqli_fetch_array($result);
-        if (mysqli_num_rows($result) > 0) {
-            $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row["datum"]));
-        }
-        $jahr = $_SESSION[$db_table.'jahr_'];
-
-        $result = $db->query($sql);
 
         // Aktuelle Nachricht
         while ($row = mysqli_fetch_array($result)) {
-            if ($is_preview) {
-                $row = $arg_row;
-            } else {
-                $id_tmp = intval($row['id']);
-                $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id_tmp}'");
-            }
+            $id_tmp = intval($row['id']);
+            $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id_tmp}'");
             if (!$row) {
                 continue;
             }
@@ -52,7 +38,6 @@ class OlzNewsArticle extends OlzComponent {
             $titel = $row['titel'];
             $text = $row['text'];
             $textlang = \olz_br($row['textlang']);
-            // $textlang = str_replace(array("\n\n","\n"),array("<p>","<br>"),$row['textlang']);
             $autor = ($row['autor'] > '') ? $row['autor'] : "..";
             $datum = $row['datum'];
 
@@ -64,7 +49,7 @@ class OlzNewsArticle extends OlzComponent {
             $has_all_permissions = $this->authUtils()->hasPermission('all');
             $can_edit = $is_owner || $has_all_permissions;
             $edit_admin = '';
-            if ($can_edit && !$is_preview) {
+            if ($can_edit) {
                 $json_id = json_encode(intval($id_tmp));
                 $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
                 $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
@@ -91,19 +76,9 @@ class OlzNewsArticle extends OlzComponent {
             }
 
             // Bildercode einfügen
-            if ($is_preview) {
-                $text = $image_utils->replaceImageTags(
-                    $text,
-                    $id,
-                    $image_ids,
-                    "gallery[myset]",
-                    " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
-                );
-            } else {
-                preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text, $matches);
-                for ($i = 0; $i < count($matches[0]); $i++) {
-                    $text = str_replace($matches[0][$i], '', $text);
-                }
+            preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text, $matches);
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                $text = str_replace($matches[0][$i], '', $text);
             }
             $textlang = $image_utils->replaceImageTags(
                 $textlang,
@@ -125,7 +100,7 @@ class OlzNewsArticle extends OlzComponent {
                 'html_input' => 'allow', // TODO: Do NOT allow!
             ]);
 
-            $out .= "<h2>{$edit_admin}{$titel}</h2>";
+            $out .= "<h1>{$edit_admin}{$titel}</h1>";
 
             if ($format === 'aktuell') {
                 $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";

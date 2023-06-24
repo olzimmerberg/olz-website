@@ -91,7 +91,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
                 <div class='flex bubble'>
                     {$image_left}
                     <img src='{$icon}' alt='{$format}' class='link-icon'>
-                    <a href='{$code_href}news/{$id}'>
+                    <a href='{$code_href}news/{$id}' class='title-link'>
                         <span class='title'>{$title}</span>
                     </a>
                     <span class='date'>{$date}</span>

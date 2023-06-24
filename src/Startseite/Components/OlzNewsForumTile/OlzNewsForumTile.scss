@@ -8,6 +8,11 @@
         line-height: 18px;
         min-width: 55%;
 
+        .title-link {
+            flex-grow: 1;
+            text-align: left;
+        }
+
         .date {
             align-self: flex-end;
             color: #007521;

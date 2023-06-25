@@ -11,6 +11,7 @@
     float: none;
     height: 100%;
     width: auto;
+    padding: 0 10px 10px;
 
     &.optional {
         display: none;
@@ -32,6 +33,7 @@
     .content-right {
         float: right;
         width: 300px;
+        padding: 0;
 
         &.optional {
             display: block;

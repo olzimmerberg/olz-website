@@ -211,7 +211,7 @@ p,
 ul,
 div.thumb,
 .paragraf {
-    margin: 4px 6px 8px 8px;
+    margin: 4px 0 8px 0;
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
@@ -363,6 +363,10 @@ h3,
 .galerie-kopf td,
 .accordion-title {
     font-weight: bold;
+}
+
+h1 {
+    font-size: 32px;
 }
 
 h2,

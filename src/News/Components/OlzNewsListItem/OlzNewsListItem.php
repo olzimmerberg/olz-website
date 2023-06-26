@@ -31,8 +31,6 @@ class OlzNewsListItem extends OlzComponent {
         $out = "";
 
         $id = $news_entry->getId();
-        // TODO: Remove once migrated
-        $galerie_id = $id - 1200;
         $datum = $news_entry->getDate();
         $format = $news_entry->getFormat();
         $icon_basename = self::$iconBasenameByFormat[$format];

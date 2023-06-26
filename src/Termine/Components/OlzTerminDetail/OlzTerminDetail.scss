@@ -15,43 +15,9 @@
         }
     }
 
-    .date-calendar {
+    .date-calendar-container {
         position: absolute;
         bottom: 0;
-
-        .date-img {
-            border: 0;
-            width: 150px;
-        }
-
-        .weekday {
-            position: absolute;
-            top: 14%;
-            width: 100%;
-            text-align: center;
-            font-size: 18px;
-            color: #fff;
-        }
-
-        .day {
-            position: absolute;
-            top: 35%;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-            font-size: 42px;
-            color: #444;
-        }
-
-        .month {
-            position: absolute;
-            top: 70%;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-            color: #444;
-        }
     }
 
     .olz-location-map-link {

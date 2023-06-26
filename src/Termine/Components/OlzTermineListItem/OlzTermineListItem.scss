@@ -1,0 +1,66 @@
+.olz-termine-list-item {
+    border-radius: 3px;
+    clear: left;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+
+    &:hover {
+        background-color: #d4e7ce;
+        text-decoration: none;
+    }
+
+    .link {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .content {
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+
+        a,
+        .olz-author-badge {
+            pointer-events: all;
+        }
+    }
+
+    .date {
+        flex: 0 0 92px;
+        text-align: center;
+
+        .date-calendars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .title-text-container {
+        flex: 1 0 100px;
+        margin-left: 8px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

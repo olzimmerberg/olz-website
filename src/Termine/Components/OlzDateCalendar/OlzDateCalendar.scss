@@ -1,0 +1,66 @@
+.olz-date-calendar {
+    position: relative;
+    width: 150px;
+    height: 150px;
+
+    .date-img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .weekday {
+        position: absolute;
+        top: 14%;
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        color: #fff;
+    }
+
+    .day {
+        position: absolute;
+        top: 35%;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 42px;
+        color: #444;
+    }
+
+    .month {
+        position: absolute;
+        top: 70%;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+        color: #444;
+    }
+
+    &.size-s {
+        width: 42px;
+        height: 42px;
+
+        .weekday {
+            top: 6%;
+            font-size: 10px;
+            text-shadow: 0 0 2px #000;
+        }
+
+        .day {
+            top: 27%;
+            font-size: 16px;
+            text-shadow: 0 0 2px #fff;
+        }
+
+        .month {
+            top: 72%;
+            font-size: 5px;
+            text-shadow: 0 0 2px #fff;
+        }
+    }
+}

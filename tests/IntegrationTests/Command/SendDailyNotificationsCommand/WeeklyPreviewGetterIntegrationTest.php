@@ -40,6 +40,7 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
         **Termine**
         
+        - 16.08. - 17.08.: [24h-OL](http://integration-test.host/termine.php?id=12)
         - 18.08.: [Training 1](http://integration-test.host/termine.php?id=3)
         - 22.08.: [Grossanlass](http://integration-test.host/termine.php?id=10)
 

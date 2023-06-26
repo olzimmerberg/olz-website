@@ -5,6 +5,7 @@ namespace Olz\Termine\Components\OlzTerminDetail;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
+use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
@@ -122,25 +123,17 @@ class OlzTerminDetail extends OlzComponent {
                 ]);
             }
             // Date Calendar Icon
-            $weekday = $date_utils->olzDate("W", $datum);
-            $day = $date_utils->olzDate("t", $datum);
-            $month = $date_utils->olzDate("MM", $datum);
-            $out .= <<<ZZZZZZZZZZ
-            <div class='date-calendar'>
-                <img src='{$data_href}assets/icns/date_calendar.svg' alt='' class='date-img'>
-                <div class='weekday'>{$weekday}</div>
-                <div class='day'>{$day}</div>
-                <div class='month'>{$month}</div>
-            </div>
-            ZZZZZZZZZZ;
+            $out .= "<div class='date-calendar-container'>";
+            $out .= OlzDateCalendar::render(['date' => $datum]);
+            $out .= "</div>";
+
             $out .= "</div>";
 
             // Editing Tools
-            $is_migrated = (bool) ($row['last_modified_by_user_id'] ?? false);
             $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
             $has_termine_permissions = $this->authUtils()->hasPermission('termine');
             $can_edit = $is_owner || $has_termine_permissions;
-            if ($is_migrated && $can_edit && !$is_preview) {
+            if ($can_edit && !$is_preview) {
                 $json_id = json_encode(intval($id));
                 $out .= <<<ZZZZZZZZZZ
                 <div>
@@ -165,11 +158,6 @@ class OlzTerminDetail extends OlzComponent {
             }
 
             // Date & Title
-            $edit_admin = '';
-            if (!$is_migrated && $can_edit && $typ != 'meldeschluss' && !$is_preview) {
-                // Berbeiten-/Duplizieren-Button
-                $edit_admin = "<a href='termine.php?id={$id}&{$button_name}=start' class='linkedit' title='Termin bearbeiten'>&nbsp;</a><a href='termine.php?id={$id}&{$button_name}=duplicate' class='linkedit2 linkduplicate' title='Termin duplizieren'>&nbsp;</a>";
-            }
             if ($datum_end == "0000-00-00" || !$datum_end) {
                 $datum_end = $datum;
             }
@@ -193,13 +181,16 @@ class OlzTerminDetail extends OlzComponent {
                 // SOLV-Übersicht-Link zeigen
                 $datum_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
             }
-            $out .= "<h2>{$edit_admin} {$datum_tmp}</h2>";
+            $out .= "<h2>{$datum_tmp}</h2>";
             $out .= "<h1>{$titel}</h1>";
 
             // Text
             $text = \olz_br(olz_mask_email($text, "", ""));
             if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
                 $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
+            }
+            if ($typ != 'meldeschluss' && isset($row['deadline']) && $row['deadline'] && $row['deadline'] != "0000-00-00") {
+                $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row['deadline']);
             }
             $out .= "<div>".$text."</div>";
 

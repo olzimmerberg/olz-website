@@ -1,4 +1,4 @@
-#edit-news-button {
+#edit-termin-button {
     margin-right: 8px;
 }
 
@@ -18,6 +18,12 @@
     .date-calendar-container {
         position: absolute;
         bottom: 0;
+    }
+
+    .type-icon {
+        border: 0;
+        height: 20px;
+        margin: 0 0 0 14px;
     }
 
     .olz-location-map-link {

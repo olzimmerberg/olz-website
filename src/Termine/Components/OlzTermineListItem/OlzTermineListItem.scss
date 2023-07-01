@@ -58,6 +58,12 @@
         text-overflow: ellipsis;
     }
 
+    .type-icon {
+        border: 0;
+        height: 16px;
+        margin: 0 0 0 10px;
+    }
+
     .text {
         white-space: nowrap;
         overflow: hidden;

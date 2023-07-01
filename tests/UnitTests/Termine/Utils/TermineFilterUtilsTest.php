@@ -282,6 +282,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Alle Termine",
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -292,6 +293,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Jahresprogramm",
+                'icon' => 'termine_type_programm_20.svg',
                 'ident' => 'programm',
             ],
             [
@@ -302,6 +304,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Weekends",
+                'icon' => 'termine_type_weekend_20.svg',
                 'ident' => 'weekend',
             ],
             [
@@ -312,6 +315,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Trainings",
+                'icon' => 'termine_type_training_20.svg',
                 'ident' => 'training',
             ],
             [
@@ -322,6 +326,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Wettkämpfe",
+                'icon' => 'termine_type_ol_20.svg',
                 'ident' => 'ol',
             ],
             [
@@ -332,6 +337,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Vereinsanlässe",
+                'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
             ],
         ], $termine_utils->getUiTypeFilterOptions([
@@ -348,6 +354,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Alle Termine",
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -358,6 +365,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Jahresprogramm",
+                'icon' => 'termine_type_programm_20.svg',
                 'ident' => 'programm',
             ],
             [
@@ -368,6 +376,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Weekends",
+                'icon' => 'termine_type_weekend_20.svg',
                 'ident' => 'weekend',
             ],
             [
@@ -378,6 +387,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Trainings",
+                'icon' => 'termine_type_training_20.svg',
                 'ident' => 'training',
             ],
             [
@@ -388,6 +398,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Wettkämpfe",
+                'icon' => 'termine_type_ol_20.svg',
                 'ident' => 'ol',
             ],
             [
@@ -398,6 +409,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Vereinsanlässe",
+                'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
             ],
         ], $termine_utils->getUiTypeFilterOptions([

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230611163952
+-- MIGRATION: DoctrineMigrations\Version20230701122001
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -692,7 +692,7 @@ CREATE TABLE `termine` (
   CONSTRAINT `FK_168C0A8F6D54E666` FOREIGN KEY (`volunteers_registration_id`) REFERENCES `anmelden_registrations` (`id`),
   CONSTRAINT `FK_168C0A8F7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

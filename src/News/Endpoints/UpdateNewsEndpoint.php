@@ -28,7 +28,7 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         if (!$news_entry) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, $input['meta'])) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, $input['meta'], 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

@@ -42,7 +42,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         if (!$news_entry) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null)) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null, 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();

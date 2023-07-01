@@ -85,6 +85,17 @@ final class EntityUtilsTest extends UnitTestCase {
         $this->assertSame(true, $result);
     }
 
+    public function testCanUpdateOlzEntityEditPermission(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['edit_permission' => true];
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity, [], 'edit_permission');
+
+        $this->assertSame(true, $result);
+    }
+
     public function testCanUpdateOlzEntityIsOwner(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];

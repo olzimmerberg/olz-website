@@ -27,7 +27,7 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
             return ['status' => 'ERROR'];
         }
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null)) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null, 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

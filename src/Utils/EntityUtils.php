@@ -68,12 +68,16 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    public function canUpdateOlzEntity(OlzEntity $entity, $meta_arg) {
+    public function canUpdateOlzEntity(
+        OlzEntity $entity,
+        $meta_arg,
+        $edit_permission = 'all',
+    ) {
         $meta = $meta_arg ?? [];
         $auth_utils = $this->authUtils();
         $current_user = $auth_utils->getCurrentUser();
 
-        if ($auth_utils->hasPermission('all')) {
+        if ($auth_utils->hasPermission($edit_permission)) {
             return true;
         }
 

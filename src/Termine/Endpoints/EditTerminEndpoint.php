@@ -42,7 +42,7 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
         if (!$termin) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null)) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();

@@ -29,7 +29,11 @@ class FakeEntityUtils {
         ];
     }
 
-    public function canUpdateOlzEntity(OlzEntity $entity, $input) {
+    public function canUpdateOlzEntity(
+        OlzEntity $entity,
+        $meta_arg,
+        $edit_permission = 'all',
+    ) {
         if ($this->can_update_olz_entity === null) {
             throw new \Exception("FakeEntityUtils::canUpdateOlzEntity not mocked");
         }

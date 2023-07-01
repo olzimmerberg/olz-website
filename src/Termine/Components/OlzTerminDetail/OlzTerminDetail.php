@@ -112,7 +112,7 @@ class OlzTerminDetail extends OlzComponent {
             if ($image_ids && count($image_ids) > 0) {
                 $out .= $image_utils->olzImage(
                     'termine', $id, $image_ids[0], 840);
-            // Karte zeigen
+                // Karte zeigen
             } elseif ($has_olz_location) {
                 $out .= OlzLocationMap::render([
                     'xkoord' => $xkoord,
@@ -121,7 +121,7 @@ class OlzTerminDetail extends OlzComponent {
                     'width' => 840,
                     'height' => 240,
                 ]);
-            // SOLV-Karte zeigen
+                // SOLV-Karte zeigen
             } elseif ($has_solv_location) {
                 $out .= OlzLocationMap::render([
                     'xkoord' => $row_solv['coord_x'],
@@ -247,7 +247,7 @@ class OlzTerminDetail extends OlzComponent {
                     'width' => 720,
                     'height' => 420,
                 ]);
-            // SOLV-Karte zeigen
+                // SOLV-Karte zeigen
             } elseif ($has_solv_location) {
                 $out .= OlzLocationMap::render([
                     'xkoord' => $row_solv['coord_x'],

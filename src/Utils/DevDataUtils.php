@@ -326,26 +326,22 @@ class DevDataUtils {
 
         // Build files/
         $this->mkdir("{$data_path}files");
-        $this->mkdir("{$data_path}files/aktuell");
-        $this->mkdir("{$data_path}files/aktuell/3");
-        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/aktuell/3/001.pdf");
-        $this->mkdir("{$data_path}files/blog");
-        $this->mkdir("{$data_path}files/blog/1");
-        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/1/001.pdf");
-        $this->mkdir("{$data_path}files/blog/3");
-        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/blog/3/001.pdf");
         $this->mkdir("{$data_path}files/downloads");
         $this->mkdir("{$data_path}files/news");
+        $this->mkdir("{$data_path}files/news/3");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/3/MIGRATED0000000000030001.pdf");
         $this->mkdir("{$data_path}files/news/4");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/4/xMpu3ExjfBKa8Cp35bcmsDgq.pdf");
         $this->mkdir("{$data_path}files/news/10");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/10/gAQa_kYXqXTP1_DKKU1s1pGr.csv");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/10/8kCalo9sQtu2mrgrmMjoGLUW.pdf");
+        $this->mkdir("{$data_path}files/news/6403");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/6403/MIGRATED0000000064030001.pdf");
         $this->mkdir("{$data_path}files/termine");
         $this->mkdir("{$data_path}files/termine/2");
-        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/001.pdf");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/MIGRATED0000000000020001.pdf");
         $this->mkdir("{$data_path}files/termine/5");
-        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/001.pdf");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/MIGRATED0000000000050001.pdf");
         $this->mkdir("{$data_path}files/termine/7");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
 

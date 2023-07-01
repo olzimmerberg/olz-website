@@ -7,8 +7,6 @@ class TransportApiFetcher {
      * Fetch a public transport connection.
      *
      * API docs: https://transport.opendata.ch/docs.html#connections
-     *
-     * @param mixed $request_data
      */
     public function fetchConnection($request_data) {
         $transport_api_connection_url = 'https://transport.opendata.ch/v1/connections';

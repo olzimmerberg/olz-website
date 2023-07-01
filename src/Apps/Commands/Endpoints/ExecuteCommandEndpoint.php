@@ -39,6 +39,7 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
 
         $argv = $input['argv'] ? preg_split('/\s+/', $input['argv']) : [];
         $command_input = new ArgvInput(['bin/console', $command_name, ...$argv]);
+        $command_input->setInteractive(false);
         $command_output = new BufferedOutput();
         try {
             $this->symfonyUtils()->callCommand($command_name, $command_input, $command_output);

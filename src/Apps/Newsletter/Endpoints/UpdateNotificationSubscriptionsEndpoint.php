@@ -4,7 +4,6 @@ namespace Olz\Apps\Newsletter\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {

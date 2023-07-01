@@ -43,7 +43,13 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
             $types = explode(' ', $row['type']);
-            $icon_basename = self::$iconBasenameByType[$types[0]] ?? '';
+            $icon_basename = array_reduce($types, function ($carry, $item) {
+                if ($carry) {
+                    return $carry;
+                }
+                return self::$iconBasenameByType[$item] ?? '';
+            }, '');
+            $icon_basename = $icon_basename ? $icon_basename : 'termine_type_null_20.svg';
             $icon = "{$data_href}assets/icns/{$icon_basename}";
             $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
             $out .= "<li><a href='{$code_href}termine.php?id={$id}'>

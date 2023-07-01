@@ -15,11 +15,11 @@ class TermineFilterUtils {
 
     public const ALL_TYPE_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle Termine"],
-        ['ident' => 'programm', 'name' => "Jahresprogramm"],
-        ['ident' => 'weekend', 'name' => "Weekends"],
-        ['ident' => 'training', 'name' => "Trainings"],
-        ['ident' => 'ol', 'name' => "Wettkämpfe"],
-        ['ident' => 'club', 'name' => "Vereinsanlässe"],
+        ['ident' => 'programm', 'name' => "Jahresprogramm", 'icon' => 'termine_type_programm_20.svg'],
+        ['ident' => 'weekend', 'name' => "Weekends", 'icon' => 'termine_type_weekend_20.svg'],
+        ['ident' => 'training', 'name' => "Trainings", 'icon' => 'termine_type_training_20.svg'],
+        ['ident' => 'ol', 'name' => "Wettkämpfe", 'icon' => 'termine_type_ol_20.svg'],
+        ['ident' => 'club', 'name' => "Vereinsanlässe", 'icon' => 'termine_type_club_20.svg'],
     ];
 
     public const ALL_ARCHIVE_OPTIONS = [
@@ -89,6 +89,7 @@ class TermineFilterUtils {
                 'selected' => $type_option['ident'] === $filter['typ'],
                 'new_filter' => $new_filter,
                 'name' => $type_option['name'],
+                'icon' => $type_option['icon'] ?? null,
                 'ident' => $type_option['ident'],
             ];
         }, TermineFilterUtils::ALL_TYPE_OPTIONS);

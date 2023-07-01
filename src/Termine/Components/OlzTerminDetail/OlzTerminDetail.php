@@ -10,6 +10,14 @@ use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
 class OlzTerminDetail extends OlzComponent {
+    protected static $iconBasenameByType = [
+        'programm' => 'termine_type_programm_20.svg',
+        'weekend' => 'termine_type_weekend_20.svg',
+        'ol' => 'termine_type_ol_20.svg',
+        'training' => 'termine_type_training_20.svg',
+        'club' => 'termine_type_club_20.svg',
+    ];
+
     public function getHtml($args = []): string {
         global $heute;
 
@@ -57,6 +65,7 @@ class OlzTerminDetail extends OlzComponent {
             $link = $row['link'] ?? '';
             $event_link = $row['solv_event_link'] ?? '';
             $typ = $row['typ'] ?? '';
+            $types = explode(' ', $typ);
             $on_off = $row['on_off'] ?? '';
             $newsletter = $row['newsletter'] ?? '';
             $xkoord = $row['xkoord'] ?? '';
@@ -138,7 +147,7 @@ class OlzTerminDetail extends OlzComponent {
                 $out .= <<<ZZZZZZZZZZ
                 <div>
                     <button
-                        id='edit-news-button'
+                        id='edit-termin-button'
                         class='btn btn-primary'
                         onclick='return olz.editTermin({$json_id})'
                     >
@@ -146,7 +155,7 @@ class OlzTerminDetail extends OlzComponent {
                         Bearbeiten
                     </button>
                     <button
-                        id='delete-news-button'
+                        id='delete-termin-button'
                         class='btn btn-danger'
                         onclick='return olz.deleteTermin({$json_id})'
                     >
@@ -181,8 +190,13 @@ class OlzTerminDetail extends OlzComponent {
                 // SOLV-Übersicht-Link zeigen
                 $datum_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
             }
+            $type_imgs = implode('', array_map(function ($type) use ($data_href) {
+                $icon_basename = self::$iconBasenameByType[$type] ?? '';
+                $icon = "{$data_href}assets/icns/{$icon_basename}";
+                return "<img src='{$icon}' alt='' class='type-icon'>";
+            }, $types));
             $out .= "<h2>{$datum_tmp}</h2>";
-            $out .= "<h1>{$titel}</h1>";
+            $out .= "<h1>{$titel} {$type_imgs}</h1>";
 
             // Text
             $text = \olz_br(olz_mask_email($text, "", ""));

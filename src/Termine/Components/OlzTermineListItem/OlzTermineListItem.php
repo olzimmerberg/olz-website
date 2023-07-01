@@ -3,19 +3,21 @@
 namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Utils\FileUtils;
-use Olz\Utils\HtmlUtils;
 
 class OlzTermineListItem extends OlzComponent {
-    public function getHtml($args = []): string {
-        $html_utils = HtmlUtils::fromEnv();
-        $file_utils = FileUtils::fromEnv();
+    protected static $iconBasenameByType = [
+        'programm' => 'termine_type_programm_20.svg',
+        'weekend' => 'termine_type_weekend_20.svg',
+        'ol' => 'termine_type_ol_20.svg',
+        'training' => 'termine_type_training_20.svg',
+        'club' => 'termine_type_club_20.svg',
+    ];
 
-        $code_href = $this->envUtils()->getCodeHref();
+    public function getHtml($args = []): string {
+        $file_utils = FileUtils::fromEnv();
         $data_href = $this->envUtils()->getDataHref();
-        $data_path = $this->envUtils()->getDataPath();
 
         $out = '';
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
@@ -34,6 +36,11 @@ class OlzTermineListItem extends OlzComponent {
         $image_ids = $args['image_ids'];
 
         $link = "termine.php?filter={$enc_current_filter}&id={$id}";
+        $type_imgs = implode('', array_map(function ($type) use ($data_href) {
+            $icon_basename = self::$iconBasenameByType[$type] ?? '';
+            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            return "<img src='{$icon}' alt='' class='type-icon'>";
+        }, $types));
         $start_icon = OlzDateCalendar::render([
             'date' => $start_date,
             'size' => 'S',
@@ -62,19 +69,12 @@ class OlzTermineListItem extends OlzComponent {
                     <div class='time-text'>{$time_text}</div>
                 </div>
                 <div class='title-text-container'>
-                    <div class='title'>{$title}</div>
+                    <div class='title'>{$title} {$type_imgs}</div>
                     <div class='text'>{$text} {$links}</div>
                 </div>
             </div>
         </div>
         ZZZZZZZZZZ;
-        // OlzPostingListItem::render([
-        //     'icon' => $icon,
-        //     'date' => $start_date,
-        //     'author' => null,
-        //     'title' => $title,
-        //     'link' => $link,
-        // ]);
         return $out;
     }
 

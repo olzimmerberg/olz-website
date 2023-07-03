@@ -6,14 +6,8 @@
    viewBox="0 0 16 16"
    width="16"
    version="1.1">
-  <path
-     d="M 10.799998,8.3999996 H 8.3999987 V 10.800001 H 7.5999982 V 8.3999996 H 5.1999987 v -0.8 h 2.3999995 v -2.4 h 0.8000005 v 2.4 h 2.3999993 z"
-     id="path4"
-     style="fill-opacity: 1;
-    fill-rule: nonzero;
-    stroke: #fff;
-    stroke-opacity: 1;
-    stroke-width: 0.7;" />
+  <path d="M 4.5,8.0 h 7.0" style="stroke:#fff;stroke-width:2;" />
+  <path d="M 8.0,4.5 v 7.0" style="stroke:#fff;stroke-width:2;" />
   <ellipse
      style="fill: none;
     stroke: #fff;

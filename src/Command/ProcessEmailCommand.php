@@ -118,6 +118,7 @@ class ProcessEmailCommand extends OlzCommand {
         if ($mail->getFlags()->has('flagged')) {
             $this->log()->warning("E-Mail {$mail_uid} has failed processing.");
             $mail->move($folder_path = 'INBOX.Failed');
+            $mail->unsetFlag('seen');
             return true;
         }
 
@@ -325,16 +326,20 @@ class ProcessEmailCommand extends OlzCommand {
             return;
         }
 
-        $this->emailUtils()->setLogger($this->log());
-        $email = $this->emailUtils()->createEmail();
+        try {
+            $this->emailUtils()->setLogger($this->log());
+            $email = $this->emailUtils()->createEmail();
 
-        $email->Sender = '';
-        $email->setFrom($smtp_from, 'OLZ Bot', false);
-        $email->addAddress($from_address, $from_name);
-        $email->isHTML(false);
-        $email->Subject = "Undelivered Mail Returned to Sender";
-        $email->Body = $this->getBounceMessage($mail, $address);
-        $email->send();
+            $email->Sender = '';
+            $email->setFrom($smtp_from, 'OLZ Bot', false);
+            $email->addAddress($from_address, $from_name);
+            $email->isHTML(false);
+            $email->Subject = "Undelivered Mail Returned to Sender";
+            $email->Body = $this->getBounceMessage($mail, $address);
+            $email->send();
+        } catch (\Throwable $th) {
+            $this->log()->error("Failed to send bounce email to {$from_address}", [$th]);
+        }
     }
 
     public function getBounceMessage($mail, $address) {

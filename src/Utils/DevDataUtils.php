@@ -3,6 +3,8 @@
 namespace Olz\Utils;
 
 use Ifsnop\Mysqldump\Mysqldump;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class DevDataUtils {
     use WithUtilsTrait;
@@ -11,6 +13,7 @@ class DevDataUtils {
         'envUtils',
         'generalUtils',
         'log',
+        'symfonyUtils',
     ];
 
     private $enqueuedForTouch = [];
@@ -146,12 +149,15 @@ class DevDataUtils {
     }
 
     public function migrateTo($version = 'latest') {
-        $cwd = getcwd();
-        $target_dir = realpath(__DIR__."/../../");
-        chdir($target_dir);
-        $command = "./bin/console doctrine:migrations:migrate '{$version}' --no-interaction";
-        exec($command, $output, $code);
-        chdir($cwd);
+        $input = new ArrayInput([
+            'version' => $version,
+            '--no-interaction' => true,
+        ]);
+        $input->setInteractive(false);
+        $output = new BufferedOutput();
+        $this->symfonyUtils()->callCommand(
+            'doctrine:migrations:migrate', $input, $output);
+        return $output->fetch();
     }
 
     public function getDbBackup($key) {

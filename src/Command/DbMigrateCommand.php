@@ -15,7 +15,8 @@ class DbMigrateCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $this->devDataUtils()->migrateTo('latest');
+        $out = $this->devDataUtils()->migrateTo('latest');
+        $output->write($out);
         return Command::SUCCESS;
     }
 }

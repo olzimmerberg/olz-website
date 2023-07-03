@@ -11,6 +11,16 @@ require_once __DIR__.'/vendor/autoload.php';
 class Deploy extends AbstractDefaultDeploy {
     use \Psr\Log\LoggerAwareTrait;
 
+    protected $bot_access_token;
+
+    public function initFromEnv() {
+        parent::initFromEnv();
+
+        $access_token = $this->getEnvironmentVariable('BOT_ACCESS_TOKEN');
+
+        $this->bot_access_token = $access_token;
+    }
+
     protected function populateFolder() {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
@@ -132,6 +142,9 @@ class Deploy extends AbstractDefaultDeploy {
         if (!$fs->exists($install_path)) {
             $fs->mkdir($install_path);
         }
+        if ($this->environment === 'staging') {
+            file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
+        }
         $fs->mirror(__DIR__.'/assets', "{$public_path}/assets");
         $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
         $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
@@ -146,9 +159,6 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove($index_path);
         }
         file_put_contents($index_path, $updated_index_contents);
-        if ($this->environment === 'staging') {
-            file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
-        }
         if ($fs->exists("{$public_path}/jsbuild")) {
             $fs->rename("{$public_path}/jsbuild", "{$public_path}/old_jsbuild");
         }
@@ -157,11 +167,36 @@ class Deploy extends AbstractDefaultDeploy {
             $fs->remove("{$public_path}/old_jsbuild");
         }
         $this->logger->info("Install done.");
+        return [
+            'staging_token' => $staging_token,
+        ];
+    }
+
+    protected function afterDeploy($result) {
+        $public_url = $this->getRemotePublicUrl();
+        $staging_token = $result['staging_token'];
         if ($this->environment === 'staging') {
+            $execute_command_url = "{$public_url}/{$staging_token}/api/executeCommand?access_token={$this->bot_access_token}";
+            $this->logger->info("Clear cache...");
+            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"cache:clear\",\"argv\":null}");
+            $this->logger->info($output);
+            $this->logger->info("Clear cache done.");
+
             $this->logger->info("Reset database...");
-            $output = file_get_contents("{$public_url}/{$staging_token}/api/executeCommand?access_token=public_dev_data_access_token&request={\"command\":\"olz:db-reset\",\"argv\":\"full\"}");
+            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"olz:db-reset\",\"argv\":\"full\"}");
             $this->logger->info($output);
             $this->logger->info("Database reset done.");
+        } elseif ($this->environment === 'prod') {
+            $execute_command_url = "{$public_url}/api/executeCommand?access_token={$this->bot_access_token}";
+            $this->logger->info("Clear cache...");
+            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"cache:clear\",\"argv\":null}");
+            $this->logger->info($output);
+            $this->logger->info("Clear cache done.");
+
+            $this->logger->info("Execute migrations...");
+            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"olz:db-migrate\",\"argv\":null}");
+            $this->logger->info($output);
+            $this->logger->info("Execute migrations done.");
         }
     }
 }

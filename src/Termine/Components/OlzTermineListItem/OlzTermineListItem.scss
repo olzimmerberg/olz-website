@@ -35,7 +35,7 @@
     }
 
     .date {
-        flex: 0 0 92px;
+        flex: 0 0 90px;
         text-align: center;
 
         .date-calendars {
@@ -47,15 +47,13 @@
 
     .title-text-container {
         flex: 1 0 100px;
+        overflow: hidden;
         margin-left: 8px;
     }
 
     .title {
         font-weight: bold;
         font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .type-icon {

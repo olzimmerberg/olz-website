@@ -1,4 +1,5 @@
-function hideFlaky() {
+/* eslint-disable wrap-iife, func-names */
+(function () {
     const flakyElements = document.querySelectorAll('.test-flaky');
     for (let i = 0; i < flakyElements.length; i++) {
         const rect = flakyElements[i].getBoundingClientRect();
@@ -24,5 +25,4 @@ function hideFlaky() {
     for (let i = 0; i < textareaElements.length; i++) {
         textareaElements[i].setAttribute('spellcheck', 'false');
     }
-}
-hideFlaky();
+})();

@@ -27,7 +27,7 @@ class IntegrationTestCase extends KernelTestCase {
     protected $setUpAt;
 
     protected function setUp(): void {
-        global $_SERVER, $entityManager;
+        global $kernel, $_SERVER, $entityManager;
         $this->previous_server = $_SERVER;
         $_SERVER = [
             'DOCUMENT_ROOT' => realpath(__DIR__.'/../document-root/'),
@@ -36,14 +36,15 @@ class IntegrationTestCase extends KernelTestCase {
             'PHP_SELF' => 'fake-php-self',
         ];
         WithUtilsCache::reset();
+
+        $kernel = self::bootKernel();
+        $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
             $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
         }
-
-        $kernel = self::bootKernel();
-        $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
 
         $this->setUpAt = microtime(true);
     }

@@ -329,7 +329,6 @@ class ProcessEmailCommand extends OlzCommand {
         try {
             $this->emailUtils()->setLogger($this->log());
             $email = $this->emailUtils()->createEmail();
-
             $email->Sender = '';
             $email->setFrom($smtp_from, 'OLZ Bot', false);
             $email->addAddress($from_address, $from_name);

@@ -25,6 +25,7 @@ class FakeDevDataUtils {
 
     public function migrateTo($version = 'latest') {
         $this->commands_called[] = ['migrateTo', $version];
+        return 'fake output';
     }
 
     public function getDbBackup($key) {

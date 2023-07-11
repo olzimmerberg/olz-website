@@ -192,6 +192,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.STAGING_HOSTTECH_FTP_PASSWORD }}
+        BOT_ACCESS_TOKEN: public_dev_data_access_token
       run: php ./Deploy.php --target=hosttech --environment=staging --username="$USERNAME"
 
   upload-screenshots:

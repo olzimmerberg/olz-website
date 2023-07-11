@@ -197,6 +197,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.PROD_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.PROD_HOSTTECH_FTP_PASSWORD }}
+        BOT_ACCESS_TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
       run: php ./Deploy.php --target=hosttech --environment=prod --username="$USERNAME"
 
   upload-screenshots:

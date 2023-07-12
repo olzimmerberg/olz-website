@@ -1,10 +1,18 @@
 .olz-author-badge {
+    display: inline-flex;
+    align-items: center;
     color: rgb(100,100,100);
     border: 1px solid rgb(150,150,150);
     border-radius: 12px;
     font-size: 12px;
     font-weight: normal;
     padding: 0 5px;
+
+    .author-icon {
+        border: 0;
+        height: 14px;
+        margin: 0 -2px 0 4px;
+    }
 
     &.has-popup:hover {
         color: rgb(50,50,50);
@@ -22,14 +30,14 @@
     }
 
     &.level-role {
-        background-color: rgb(0,150,0);
-        color: rgb(255,255,255);
+        background-color: rgba(0,150,0, 0.1);
+        color: rgb(0,150,0);
         border: 1px solid rgb(0,150,0);
 
         &.has-popup:hover {
-            background-color: rgb(0,100,0);
-            color: rgb(255,255,255);
-            border: 1px solid rgb(0,100,0);
+            background-color: rgba(0,75,0, 0.1);
+            color: rgb(0,75,0);
+            border: 1px solid rgb(0,75,0);    
         }
     }
 }

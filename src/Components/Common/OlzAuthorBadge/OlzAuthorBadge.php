@@ -15,14 +15,19 @@ class OlzAuthorBadge extends OlzComponent {
         $name = $args['name'] ?? null;
         $email = $args['email'] ?? null;
 
+        $data_href = $this->envUtils()->getDataHref();
+
+        $icon = null;
         $level = null;
         $label = '?';
         $popup = null;
         if ($user && $role) {
+            $icon = 'author_role_20.svg';
             $level = 'role';
             $label = "{$user->getFirstName()} {$user->getLastName()}, {$role->getName()}";
             $popup = OlzRoleInfoCard::render(['role' => $role, 'user' => $user]);
         } elseif ($role) {
+            $icon = 'author_role_20.svg';
             $level = 'role';
             $label = "{$role->getName()}";
             $popup = OlzRoleInfoCard::render(['role' => $role]);
@@ -49,9 +54,10 @@ class OlzAuthorBadge extends OlzComponent {
 
         $popup_class = $popup ? 'has-popup' : 'no-popup';
 
+        $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='author-icon'>" : '';
         $trigger = <<<ZZZZZZZZZZ
         <span class='olz-author-badge level-{$level} {$popup_class}'>
-            {$label}
+            {$label}{$icon_html}
         </span>
         ZZZZZZZZZZ;
         if ($popup) {

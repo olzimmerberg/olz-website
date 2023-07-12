@@ -1,5 +1,6 @@
 import 'bootstrap';
 import React from 'react';
+import {dataHref} from '../../../Utils/constants';
 import {olzApi} from '../../../Api/client';
 import {OlzAuthenticatedRole, OlzAuthenticatedUser} from '../../../Api/client/generated_olz_api_types';
 
@@ -105,7 +106,11 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
                             ? `${authenticatedUser.firstName} ${authenticatedUser.lastName}, ${role_.name}`
                             : `${role_.name}`
                     )}
-
+                    <img
+                        src={`${dataHref}assets/icns/author_role_20.svg`}
+                        alt=''
+                        className='author-icon'
+                    />
                 </span>
             </button>
         ));

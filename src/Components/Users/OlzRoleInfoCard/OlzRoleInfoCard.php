@@ -21,7 +21,7 @@ class OlzRoleInfoCard extends OlzComponent {
             $img_html = "<img src='{$image_path}' alt='' class='image'>";
         }
 
-        $out = "<div class='olz-role-info-card bg-green'>";
+        $out = "<div class='olz-role-info-card'>";
         $out .= "<div class='role-name-container'><a href='{$code_href}verein.php?ressort={$role->getUsername()}' class='linkint'>{$role->getName()}</a></div>";
         $out .= "<div class='image-container'>{$img_html}</div>";
         $out .= "<div class='user-name-container'>{$user->getFullName()}</div>";

@@ -1,6 +1,5 @@
 .olz-role-info-card {
-    background-color: rgb(0, 150, 0);
-    background-image: linear-gradient(rgb(0, 200, 0), rgb(0, 100, 0));
+    background-color: #d4e7ce;
     border: 1px solid rgb(0, 75, 0);
     border-radius: 10px;
     box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.5);
@@ -11,7 +10,6 @@
         font-size: 14px;
         font-weight: bold;
         padding: 10px 10px 0;
-        text-shadow: 1px 1px 3px #000;
     }
 
     .image-container {
@@ -19,7 +17,7 @@
     }
 
     .image {
-        border: 3px solid rgb(255, 240, 0);
+        border: 3px solid rgb(255, 255, 255);
         border-radius: 63px;
         box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
         height: 63px;
@@ -30,16 +28,13 @@
     }
 
     .user-name-container {
-        color: rgb(255, 240, 0);
         font-size: 14px;
         padding: 0 10px 10px;
-        text-shadow: 1px 1px 3px #000;
     }
 
     .email-container {
         font-size: 12px;
         padding: 0 10px 10px;
-        text-shadow: 1px 1px 3px #000;
     }
 }
 

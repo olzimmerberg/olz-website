@@ -85,9 +85,14 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.Re
     };
 
     const onDelete = React.useCallback((uploadId: string) => {
-        setUploadedFiles(uploadedFiles.filter(
+        const newUploadedFiles = uploadedFiles.filter(
             (uploadedFile) => uploadedFile.uploadId !== uploadId,
-        ));
+        );
+        setUploadedFiles(newUploadedFiles);
+        const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
+        if (props.onUploadIdsChange) {
+            props.onUploadIdsChange(uploadIds);
+        }
     }, [uploadedFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});

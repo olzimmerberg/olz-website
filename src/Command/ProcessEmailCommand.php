@@ -119,6 +119,7 @@ class ProcessEmailCommand extends OlzCommand {
             $this->log()->warning("E-Mail {$mail_uid} has failed processing.");
             $mail->move($folder_path = 'INBOX.Failed');
             $mail->unsetFlag('seen');
+            $this->sendReportEmail($mail, null, 431);
             return true;
         }
 
@@ -172,7 +173,7 @@ class ProcessEmailCommand extends OlzCommand {
             $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
             if (!$has_role_email_permission) {
                 $this->log()->warning("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
-                $this->sendBounceEmail($mail, $address);
+                $this->sendReportEmail($mail, $address, 550);
                 return true;
             }
             $role_users = $role->getUsers();
@@ -194,13 +195,13 @@ class ProcessEmailCommand extends OlzCommand {
             $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
             if (!$has_user_email_permission) {
                 $this->log()->warning("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
-                $this->sendBounceEmail($mail, $address);
+                $this->sendReportEmail($mail, $address, 550);
                 return true;
             }
             return $this->forwardEmailToUser($mail, $user, $address);
         }
         $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
-        $this->sendBounceEmail($mail, $address);
+        $this->sendReportEmail($mail, $address, 550);
         return true;
     }
 
@@ -316,13 +317,13 @@ class ProcessEmailCommand extends OlzCommand {
         );
     }
 
-    protected function sendBounceEmail($mail, $address) {
+    protected function sendReportEmail($mail, $address, $smtp_code) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->from->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         if ("{$address}" === "{$smtp_from}" || "{$address}" === "{$from_address}") {
-            $this->log()->notice("sendBounceEmail: Avoiding email loop for {$address}");
+            $this->log()->notice("sendReportEmail: Avoiding email loop for {$address}");
             return;
         }
 
@@ -334,45 +335,59 @@ class ProcessEmailCommand extends OlzCommand {
             $email->addAddress($from_address, $from_name);
             $email->isHTML(false);
             $email->Subject = "Undelivered Mail Returned to Sender";
-            $email->Body = $this->getBounceMessage($mail, $address);
+            $email->Body = $this->getReportMessage($smtp_code, $mail, $address);
             $email->send();
         } catch (\Throwable $th) {
             $this->log()->error("Failed to send bounce email to {$from_address}", [$th]);
         }
     }
 
-    public function getBounceMessage($mail, $address) {
+    public function getReportMessage($smtp_code, $mail, $address) {
         $base_href = $this->envUtils()->getBaseHref();
+        $message_by_code = [
+            431 => "{$smtp_code} Not enough storage or out of memory",
+            550 => "<{$address}>: {$smtp_code} sorry, no mailbox here by that name",
+        ];
 
-        $all_attributes = '';
-        foreach ($mail->getAttributes() as $key => $value) {
-            $padded_name = str_pad($key, 18, ' ', STR_PAD_LEFT);
-            $all_attributes .= "{$padded_name}: {$value}\n";
-        }
+        $error_message = $message_by_code[$smtp_code] ?? "{$smtp_code} Unknown error";
 
-        $mail->parseBody();
-        $body = '(no body)';
-        if ($mail->hasHTMLBody()) {
-            $body = $mail->getHTMLBody();
-        } elseif ($mail->hasTextBody()) {
-            $body = $mail->getTextBody();
-        }
-
-        return <<<ZZZZZZZZZZ
+        $report_message = <<<ZZZZZZZZZZ
         This is the mail system at host {$base_href}.
 
         I'm sorry to have to inform you that your message could not
-        be delivered to one or more recipients. It's attached below.
+        be delivered to one or more recipients.
 
                         The mail system
 
-        <{$address}>: 550 sorry, no mailbox here by that name
-
-        ------ This is a copy of the message, including all the headers. ------
-
-        {$all_attributes}
-
-        {$body}
+        {$error_message}
         ZZZZZZZZZZ;
+
+        if ($smtp_code === 550) {
+            $all_attributes = '';
+            foreach ($mail->getAttributes() as $key => $value) {
+                $padded_name = str_pad($key, 18, ' ', STR_PAD_LEFT);
+                $all_attributes .= "{$padded_name}: {$value}\n";
+            }
+
+            $mail->parseBody();
+            $body = '(no body)';
+            if ($mail->hasHTMLBody()) {
+                $body = $mail->getHTMLBody();
+            } elseif ($mail->hasTextBody()) {
+                $body = $mail->getTextBody();
+            }
+
+            return <<<ZZZZZZZZZZ
+            {$report_message}
+
+            ------ This is a copy of the message, including all the headers. ------
+
+            {$all_attributes}
+
+            {$body}
+            ZZZZZZZZZZ;
+        }
+
+        return $report_message;
     }
 }

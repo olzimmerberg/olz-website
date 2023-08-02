@@ -6,6 +6,7 @@ class FileUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'envUtils',
+        'log',
     ];
 
     public const TABLES_FILE_DIRS = [
@@ -107,30 +108,37 @@ class FileUtils {
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         if (!isset($this::TABLES_FILE_DIRS[$db_table])) {
-            return "Ungültige db_table (in olzFile)";
+            $message = "Ungültige db_table: {$db_table} (in olzFile)";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
         $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
         $db_filepath = $this::TABLES_FILE_DIRS[$db_table];
         $file_dir = "{$data_path}{$db_filepath}/{$id}";
-        if (is_dir($file_dir)) {
-            if ($is_migrated) {
+        if (!is_dir($file_dir)) {
+            $message = "!is_dir {$db_filepath}/{$id}";
+            $this->log()->error($message);
+            return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
+        }
+        if ($is_migrated) {
+            if (is_file("{$file_dir}/{$index}")) {
                 $filemtime = filemtime("{$file_dir}/{$index}");
                 $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
                 return "<a href='{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}'{$style}>{$text}</a>";
             }
-            $files = scandir($file_dir);
-            for ($i = 0; $i < count($files); $i++) {
-                if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
-                    if (intval($matches[1]) == $index) {
-                        $filemtime = filemtime("{$file_dir}/{$files[$i]}");
-                        $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
-                        return "<a href='{$data_href}{$db_filepath}/{$id}/{$matches[0]}?modified={$filemtime}'{$style}>{$text}</a>";
-                    }
+        }
+        $files = scandir($file_dir);
+        for ($i = 0; $i < count($files); $i++) {
+            if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
+                if (intval($matches[1]) == $index && is_file("{$file_dir}/{$files[$i]}")) {
+                    $filemtime = @filemtime("{$file_dir}/{$files[$i]}");
+                    $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools.php?request=thumb&db_table={$db_table}&id={$id}&index={$index}&dim=16); background-repeat:no-repeat;'" : "");
+                    return "<a href='{$data_href}{$db_filepath}/{$id}/{$matches[0]}?modified={$filemtime}'{$style}>{$text}</a>";
                 }
             }
-        } else {
-            return "<span style='color:#ff0000; font-style:italic;'>!is_dir {$db_filepath}/{$id}</span>";
         }
-        return "<span style='color:#ff0000; font-style:italic;'>Datei nicht vorhanden (in olzFile)</span>";
+        $message = "Datei nicht vorhanden (in olzFile): {$db_filepath}/{$id}/{$index}";
+        $this->log()->error($message);
+        return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
     }
 }

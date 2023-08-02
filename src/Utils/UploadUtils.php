@@ -107,6 +107,18 @@ class UploadUtils {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0777, true);
         }
+        $existing_file_names = scandir($new_base_path);
+        foreach ($existing_file_names as $file_name) {
+            if (substr($file_name, 0, 1) !== '.') {
+                $file_path = "{$new_base_path}{$file_name}";
+                if (is_file($file_path)) {
+                    $this->log()->info("Deleting existing upload: {$file_path}.");
+                    unlink($file_path);
+                } else {
+                    $this->log()->notice("Cannot delete existing upload: {$file_path}.");
+                }
+            }
+        }
         $data_path = $this->envUtils()->getDataPath();
         foreach ($upload_ids as $upload_id) {
             if (!$this->isUploadId($upload_id)) {

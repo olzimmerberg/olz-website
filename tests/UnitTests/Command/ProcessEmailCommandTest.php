@@ -195,7 +195,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage($mail, 'no-such-username@staging.olzimmerberg.ch'),
+                'body' => $job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -237,7 +237,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage($mail, 'no-permission@staging.olzimmerberg.ch'),
+                'body' => $job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -369,7 +369,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                     ['To', 'From Name <from@from-domain.com>'],
                 ],
                 'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getBounceMessage($mail, 'no-role-permission@staging.olzimmerberg.ch'),
+                'body' => $job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch'),
                 'altBody' => null,
                 'attachments' => [],
             ],
@@ -837,7 +837,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'INFO E-Mail 12 to inexistent user/role username: fake',
-            'NOTICE sendBounceEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
+            'NOTICE sendReportEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -847,5 +847,32 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             // no bounce email!
         ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+    }
+
+    public function testProcessEmailCommandGet431ReportMessage(): void {
+        $mail = new FakeProcessEmailCommandMail(1);
+        $job = new ProcessEmailCommand();
+        $this->assertStringContainsString(
+            '431 Not enough storage or out of memory',
+            $job->getReportMessage(431, $mail, 'no-such-username@staging.olzimmerberg.ch'),
+        );
+    }
+
+    public function testProcessEmailCommandGet550ReportMessage(): void {
+        $mail = new FakeProcessEmailCommandMail(1);
+        $job = new ProcessEmailCommand();
+        $this->assertStringContainsString(
+            '<no-such-username@staging.olzimmerberg.ch>: 550 sorry, no mailbox here by that name',
+            $job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch'),
+        );
+    }
+
+    public function testProcessEmailCommandGetOtherReportMessage(): void {
+        $mail = new FakeProcessEmailCommandMail(1);
+        $job = new ProcessEmailCommand();
+        $this->assertStringContainsString(
+            '123456 Unknown error',
+            $job->getReportMessage(123456, $mail, 'no-such-username@staging.olzimmerberg.ch'),
+        );
     }
 }

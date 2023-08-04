@@ -53,7 +53,7 @@ class OlzPanini2024 extends OlzComponent {
                     'infos' => $picture->getInfos(),
                 ]);
                 $portraits_path = "{$data_path}panini_data/portraits/";
-                $portrait_path = "{$portraits_path}{$picture->getImgSrc()}";
+                $portrait_path = "{$portraits_path}{$picture->getId()}/{$picture->getImgSrc()}";
                 $temp_path = "{$data_path}temp/{$picture->getImgSrc()}";
                 copy($portrait_path, $temp_path);
             }

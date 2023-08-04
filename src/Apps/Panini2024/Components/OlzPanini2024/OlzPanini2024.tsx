@@ -118,7 +118,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 <div id='panini-picture-upload'>
                     <b>Action-Bildli</b>
                     <OlzImageUploader
-                        maxImageSize={3000}
+                        maxImageSize={2500}
                         initialUploadId={uploadId}
                         onUploadIdChange={(newUploadId) => {
                             setUploadId(newUploadId ?? undefined);

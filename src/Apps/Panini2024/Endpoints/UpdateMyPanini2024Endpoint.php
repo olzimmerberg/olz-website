@@ -87,7 +87,9 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
         $this->entityManager()->persist($picture);
         $this->entityManager()->flush();
 
-        $portraits_path = "{$data_path}panini_data/portraits/";
+        $panini_id = $picture->getId();
+
+        $portraits_path = "{$data_path}panini_data/portraits/{$panini_id}/";
         $valid_upload_id = $this->uploadUtils()->getValidUploadId($input_data['uploadId']);
         if ($valid_upload_id) {
             $this->uploadUtils()->moveUploads([$valid_upload_id], $portraits_path);

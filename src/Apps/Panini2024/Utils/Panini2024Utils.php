@@ -91,7 +91,7 @@ class Panini2024Utils {
         gc_collect_cycles();
 
         // Payload
-        $folder = (intval($id) >= 1000) ? 'portraits/' : '';
+        $folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
         $payload_path = "{$panini_path}{$folder}{$img_src}";
         $payload_img = imagecreatefromjpeg($payload_path);
         $payload_wid = imagesx($payload_img);

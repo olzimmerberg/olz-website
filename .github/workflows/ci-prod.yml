@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:10
+        image: mariadb:latest
         ports:
           - 3306
         env:
@@ -32,7 +32,7 @@ jobs:
           MYSQL_PASSWORD: db-password
           MYSQL_DATABASE: db-schema
           MYSQL_ROOT_PASSWORD: db-password
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
     - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2
@@ -87,7 +87,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     services:
       mariadb:
-        image: mariadb:10
+        image: mariadb:latest
         ports:
           - 3306
         env:
@@ -95,7 +95,7 @@ jobs:
           MYSQL_PASSWORD: db-password
           MYSQL_DATABASE: db-schema_test
           MYSQL_ROOT_PASSWORD: db-password
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
     - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2

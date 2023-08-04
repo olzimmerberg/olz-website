@@ -103,7 +103,7 @@ class UploadUtils {
         return $stored_upload_ids;
     }
 
-    public function moveUploads($upload_ids, $new_base_path) {
+    public function overwriteUploads($upload_ids, $new_base_path) {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0777, true);
         }

@@ -107,11 +107,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [
-                ['uploaded_image.jpg'],
-                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
-            ],
-            [
-                ['inexistent.jpg'],
+                ['uploaded_image.jpg', 'inexistent.jpg'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);

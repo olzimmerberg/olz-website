@@ -84,11 +84,11 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         $news_entry_id = $news_entry->getId();
 
         $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
-        $this->uploadUtils()->moveUploads($valid_image_ids, "{$news_entry_img_path}img/");
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$news_entry_img_path}img/");
         // TODO: Generate default thumbnails.
 
         $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
-        $this->uploadUtils()->moveUploads($input_data['fileIds'], $news_entry_files_path);
+        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $news_entry_files_path);
 
         return [
             'status' => 'OK',

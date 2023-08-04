@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Panini2024Utils {
     use WithUtilsTrait;
 
-    public const DPI = 1200;
+    public const DPI = 900;
     public const PANINI_SHORT = 42.8; // mm (50.8mm, 4mm margin)
     public const PANINI_LONG = 59; // mm (70mm, 5.5mm margin)
     public const MM_PER_INCH = 25.4;

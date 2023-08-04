@@ -21,7 +21,7 @@ class DeterministicUploadUtils extends UploadUtils {
         return $upload_id;
     }
 
-    public function moveUploads($upload_ids, $new_base_path) {
+    public function overwriteUploads($upload_ids, $new_base_path) {
         $this->move_uploads_calls[] = [$upload_ids, $new_base_path];
     }
 }

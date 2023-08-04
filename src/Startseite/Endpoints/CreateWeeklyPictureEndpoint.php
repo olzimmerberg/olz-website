@@ -47,10 +47,11 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
         $weekly_picture_img_path = "{$data_path}img/weekly_picture/{$weekly_picture_id}/";
         mkdir("{$weekly_picture_img_path}img/", 0777, true);
         mkdir("{$weekly_picture_img_path}thumb/", 0777, true);
-        $this->uploadUtils()->moveUploads([$valid_image_id], "{$weekly_picture_img_path}img/");
+        $valid_image_ids = [$valid_image_id];
         if ($valid_alternative_image_id) {
-            $this->uploadUtils()->moveUploads([$valid_alternative_image_id], "{$weekly_picture_img_path}img/");
+            $valid_image_ids[] = $valid_alternative_image_id;
         }
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$weekly_picture_img_path}img/");
         // TODO: Generate default thumbnails.
 
         return [

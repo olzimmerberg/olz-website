@@ -63,14 +63,14 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
         if (!is_dir("{$termin_img_path}thumb/")) {
             mkdir("{$termin_img_path}thumb/", 0777, true);
         }
-        $this->uploadUtils()->moveUploads($valid_image_ids, "{$termin_img_path}img/");
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_img_path}img/");
         // TODO: Generate default thumbnails.
 
         $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
         if (!is_dir("{$termin_files_path}")) {
             mkdir("{$termin_files_path}", 0777, true);
         }
-        $this->uploadUtils()->moveUploads($input_data['fileIds'], $termin_files_path);
+        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_files_path);
 
         return [
             'status' => 'OK',

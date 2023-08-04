@@ -62,11 +62,11 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
         $termin_id = $termin->getId();
 
         $termin_img_path = "{$data_path}img/termine/{$termin_id}/";
-        $this->uploadUtils()->moveUploads($valid_image_ids, "{$termin_img_path}img/");
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_img_path}img/");
         // TODO: Generate default thumbnails.
 
         $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
-        $this->uploadUtils()->moveUploads($input_data['fileIds'], $termin_files_path);
+        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_files_path);
 
         return [
             'status' => 'OK',

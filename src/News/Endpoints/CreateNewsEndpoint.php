@@ -112,14 +112,14 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         if (!is_dir("{$news_entry_img_path}thumb/")) {
             mkdir("{$news_entry_img_path}thumb/", 0777, true);
         }
-        $this->uploadUtils()->moveUploads($valid_image_ids, "{$news_entry_img_path}img/");
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$news_entry_img_path}img/");
         // TODO: Generate default thumbnails.
 
         $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
         if (!is_dir("{$news_entry_files_path}")) {
             mkdir("{$news_entry_files_path}", 0777, true);
         }
-        $this->uploadUtils()->moveUploads($input_data['fileIds'], $news_entry_files_path);
+        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $news_entry_files_path);
 
         if ($format === 'anonymous') {
             $anonymous_user = new User();

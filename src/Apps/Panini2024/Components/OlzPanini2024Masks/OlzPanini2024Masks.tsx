@@ -1,9 +1,10 @@
 import React from 'react';
+import {DPI, MM_PER_INCH, PANINI_SHORT, PANINI_LONG} from '../../Utils/panini2024Utils';
 
 import './OlzPanini2024Masks.scss';
 
-const CANVAS_WID = 2022;
-const CANVAS_HEI = 2787;
+const PIXEL_SHORT = Math.round(PANINI_SHORT * DPI / MM_PER_INCH);
+const PIXEL_LONG = Math.round(PANINI_LONG * DPI / MM_PER_INCH);
 
 interface MaskConfig {
     isLandscape: boolean;
@@ -13,11 +14,10 @@ interface MaskConfig {
 function drawTop(
     ctx: CanvasRenderingContext2D,
     wid: number,
-    _hei: number,
-    isLandscape: boolean,
+    hei: number,
 ): void {
-    const barHei = isLandscape ? 350 : 500;
-    const stripeHei = isLandscape ? 35 : 50;
+    const barHei = hei * 0.175;
+    const stripeHei = hei * 0.0175;
     const p0 = [wid + 50, barHei];
     const p1 = [wid * 3 / 4, barHei * 1.2];
     const p2 = [wid / 2, barHei * 0.8];
@@ -73,10 +73,10 @@ function drawTop(
         p0[0], p0[1] + stripeHei,
     );
     ctx.fillStyle = 'rgb(0,0,0)';
-    ctx.shadowBlur = 50;
+    ctx.shadowBlur = stripeHei;
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 25;
+    ctx.shadowOffsetY = stripeHei / 2;
     ctx.fill();
 }
 
@@ -84,10 +84,9 @@ function drawBottom(
     ctx: CanvasRenderingContext2D,
     wid: number,
     hei: number,
-    isLandscape: boolean,
 ): void {
-    const barHei = isLandscape ? 350 : 500;
-    const stripeHei = isLandscape ? 35 : 50;
+    const barHei = hei * 0.175;
+    const stripeHei = hei * 0.0175;
     const p0 = [wid + 50, hei - barHei];
     const p1 = [wid / 2, hei - barHei * 0.8];
     const p2 = [wid / 4, hei - barHei * 1.2];
@@ -125,10 +124,10 @@ function drawBottom(
         p0[0], p0[1] - stripeHei,
     );
     ctx.fillStyle = 'rgb(255,255,0)';
-    ctx.shadowBlur = 50;
+    ctx.shadowBlur = stripeHei;
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = -25;
+    ctx.shadowOffsetY = -stripeHei / 2;
     ctx.fill();
 
     // Black Stripe
@@ -152,13 +151,55 @@ function drawBottom(
 
 function drawAssociation(
     ctx: CanvasRenderingContext2D,
-    _wid: number,
-    _hei: number,
-    _isLandscape: boolean,
+    wid: number,
+    hei: number,
 ): void {
-    const offX = 50;
-    const offY = 50;
-    const scale = 40;
+    const offset = (wid + hei) * 0.01;
+    associationStencilPath(ctx, wid, hei);
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.shadowBlur = offset;
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = offset / 2;
+    ctx.fill();
+    ctx.shadowBlur = offset;
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = -offset / 2;
+    ctx.fill();
+    ctx.shadowBlur = offset;
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowOffsetX = offset / 2;
+    ctx.shadowOffsetY = 0;
+    ctx.fill();
+    ctx.shadowBlur = offset;
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowOffsetX = -offset / 2;
+    ctx.shadowOffsetY = 0;
+    ctx.fill();
+}
+
+function drawAssociationStencil(
+    ctx: CanvasRenderingContext2D,
+    wid: number,
+    hei: number,
+): void {
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, wid, hei);
+    associationStencilPath(ctx, wid, hei);
+    ctx.fillStyle = 'rgb(255,255,255)';
+    ctx.fill();
+}
+
+function associationStencilPath(
+    ctx: CanvasRenderingContext2D,
+    wid: number,
+    hei: number,
+): void {
+    const offset = (wid + hei) * 0.01;
+    const offX = offset;
+    const offY = offset;
+    const scale = (wid + hei) * 0.009;
     ctx.beginPath();
     // m 0.200343,5.0 c
     // -0.467757,2.833449 1.186392,4.778136 4.014549,4.778136
@@ -195,65 +236,40 @@ function drawAssociation(
         offX + scale * (curX - 5.602551), offY + scale * (curY + 4.843462),
     );
     ctx.closePath();
-    ctx.fillStyle = 'rgb(0,0,0)';
-    ctx.shadowBlur = 50;
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 25;
-    ctx.fill();
-    ctx.shadowBlur = 50;
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = -25;
-    ctx.fill();
-    ctx.shadowBlur = 50;
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
-    ctx.shadowOffsetX = 25;
-    ctx.shadowOffsetY = 0;
-    ctx.fill();
-    ctx.shadowBlur = 50;
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
-    ctx.shadowOffsetX = -25;
-    ctx.shadowOffsetY = 0;
-    ctx.fill();
 }
 
-const MASKS_CONFIG: {[mask: string]: MaskConfig} = {
+export const MASKS_CONFIG: {[mask: string]: MaskConfig} = {
     topP: {
         isLandscape: false,
-        draw: (ctx, wid, hei) => {
-            drawTop(ctx, wid, hei, false);
-        },
+        draw: drawTop,
     },
     topL: {
         isLandscape: true,
-        draw: (ctx, wid, hei) => {
-            drawTop(ctx, wid, hei, true);
-        },
+        draw: drawTop,
     },
     bottomP: {
         isLandscape: false,
-        draw: (ctx, wid, hei) => {
-            drawBottom(ctx, wid, hei, false);
-        },
+        draw: drawBottom,
     },
     bottomL: {
         isLandscape: true,
-        draw: (ctx, wid, hei) => {
-            drawBottom(ctx, wid, hei, true);
-        },
+        draw: drawBottom,
     },
     associationP: {
         isLandscape: false,
-        draw: (ctx, wid, hei) => {
-            drawAssociation(ctx, wid, hei, false);
-        },
+        draw: drawAssociation,
     },
     associationL: {
         isLandscape: true,
-        draw: (ctx, wid, hei) => {
-            drawAssociation(ctx, wid, hei, true);
-        },
+        draw: drawAssociation,
+    },
+    associationStencilP: {
+        isLandscape: false,
+        draw: drawAssociationStencil,
+    },
+    associationStencilL: {
+        isLandscape: true,
+        draw: drawAssociationStencil,
     },
 };
 
@@ -267,9 +283,16 @@ export const OlzPanini2024Masks = (
     console.log(props);
     const config = MASKS_CONFIG[props.mask];
 
+    if (!config) {
+        return <div>Invalid mask: {props.mask}</div>;
+    }
+
     const [imgSrc, setImgSrc] = React.useState<string>('');
 
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
+    const wid = config.isLandscape ? PIXEL_LONG : PIXEL_SHORT;
+    const hei = config.isLandscape ? PIXEL_SHORT : PIXEL_LONG;
+    const fileName = `${props.mask}_${wid}x${hei}.png`;
 
     React.useEffect(() => {
         const cnv = canvasRef.current;
@@ -288,15 +311,20 @@ export const OlzPanini2024Masks = (
     }, [config, canvasRef]);
 
     return (<>
-        <canvas
-            ref={canvasRef}
-            width={config.isLandscape ? CANVAS_HEI : CANVAS_WID}
-            height={config.isLandscape ? CANVAS_WID : CANVAS_HEI}
-            className='mask-canvas'
-        />
-        <img
-            src={imgSrc}
-            className='mask-img'
-        />
+        <div>
+            <a href={imgSrc} download={fileName}>{fileName}</a>
+        </div>
+        <div>
+            <canvas
+                ref={canvasRef}
+                width={wid}
+                height={hei}
+                className='mask-canvas'
+            />
+            <img
+                src={imgSrc}
+                className='mask-img'
+            />
+        </div>
     </>);
 };

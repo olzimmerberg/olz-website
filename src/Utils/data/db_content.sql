@@ -151,6 +151,11 @@ VALUES
     ('23', '⚠️ Abgesagt! ⚠️', '1');
 
 -- Table panini24
+INSERT INTO panini24
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `line1`, `line2`, `association`, `img_src`, `img_style`, `is_landscape`, `has_top`, `on_off`, `created_at`, `last_modified_at`, `infos`)
+VALUES
+    ('1001', '1', NULL, '1', '1', 'Armin 😂', 'Admin 🤣', 'Thalwil', 'vptD8fzvXIhv_6X32Zkw2s5s.jpg', 'width:200%; top:0%; left:-50%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"SchlADMINg\",\"Die Registrierung der Domain olzimmerberg.ch\",\"\\u00dcber die Website\",\"2006\",\"Admins! Admins! Admins!\"]'),
+    ('1002', '1', NULL, '1', '1', 'Volker', 'Vorstand', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]');
 
 -- Table quiz_categories
 INSERT INTO quiz_categories

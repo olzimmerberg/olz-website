@@ -46,7 +46,7 @@ class Panini2024Utils {
         $owner = $picture->getOwnerUser();
         $is_landscape = $picture->getIsLandscape();
         $has_top = $picture->getHasTop();
-        $suffix = $is_landscape ? 'L' : 'P';
+        $lp_suffix = $is_landscape ? 'L' : 'P';
         $img_src = $picture->getImgSrc();
         $img_style = $picture->getImgStyle();
         $line1 = $picture->getLine1();
@@ -88,6 +88,7 @@ class Panini2024Utils {
         $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
             * self::DPI / self::MM_PER_INCH);
         $img = imagecreatetruecolor($wid, $hei);
+        $suffix = "{$lp_suffix}_{$wid}x{$hei}";
         gc_collect_cycles();
 
         // Payload
@@ -108,30 +109,24 @@ class Panini2024Utils {
         // Masks
         $bottom_mask = imagecreatefrompng("{$masks_path}bottom{$suffix}.png");
         imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
+        gc_collect_cycles();
         if ($has_top) {
             $top_mask = imagecreatefrompng("{$masks_path}top{$suffix}.png");
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
+            gc_collect_cycles();
         }
-        gc_collect_cycles();
 
         // Association
         $association_file = self::ASSOCIATION_MAP[$association] ?? null;
         if ($association_file) {
             $association_mask = imagecreatefrompng("{$masks_path}association{$suffix}.png");
             imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
+            gc_collect_cycles();
 
-            $offset = 49;
-            $size = 402;
+            $offset = round(($wid + $hei) * 0.01) - 1;
+            $size = round(($wid + $hei) * 0.09) + 1;
 
-            $flag_mask = imagecreatetruecolor($size, $size);
-            $flag_mask_orig = imagecreatefrompng("{$masks_path}flag.png");
-            imagecopyresampled(
-                $flag_mask, $flag_mask_orig,
-                0, 0,
-                0, 0,
-                $size, $size,
-                imagesx($flag_mask_orig), imagesy($flag_mask_orig),
-            );
+            $flag_mask = imagecreatefrompng("{$masks_path}associationStencil{$suffix}.png");
 
             $association_img = imagecreatetruecolor($size, $size);
             $association_img_orig = imagecreatefromjpeg("{$panini_path}{$association_file}");
@@ -146,7 +141,7 @@ class Panini2024Utils {
             for ($x = 0; $x < $size; $x++) {
                 for ($y = 0; $y < $size; $y++) {
                     $mask = imagecolorsforindex($flag_mask,
-                        imagecolorat($flag_mask, $x, $y));
+                        imagecolorat($flag_mask, $x + $offset, $y + $offset));
                     if ($mask['red'] > 0) {
                         $ratio = floatval($mask['red']) / 255.0;
                         $src = imagecolorsforindex($association_img,
@@ -166,6 +161,7 @@ class Panini2024Utils {
                             intval($src_b * $ratio + $dst_b * (1 - $ratio)),
                         );
                         imagesetpixel($img, $x + $offset, $y + $offset, $color);
+                        imagecolordeallocate($img, $color);
                     }
                 }
             }
@@ -173,24 +169,26 @@ class Panini2024Utils {
         }
 
         // Text
-        $size = 110;
+        $size = $hei * 0.04;
         $yellow = imagecolorallocate($img, 255, 255, 0);
         $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
+        $shoff = $size / 10;
         $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
         $box = imagettfbbox($size, 0, $font_path, $line1);
         $textwid = $box[2];
-        $x = ($line2 ? $wid - 100 - $textwid : $wid / 2 - $textwid / 2);
-        $y = $hei - ($is_landscape ? 100 : ($line2 ? 240 : 155));
-        imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line1);
+        $x = ($line2 ? $wid * 0.95 - $textwid : $wid / 2 - $textwid / 2);
+        $y = $hei * ($is_landscape ? 0.95 : ($line2 ? 0.915 : 0.945));
+        imagettftext($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line1);
         imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
         if ($line2) {
             $box = imagettfbbox($size, 0, $font_path, $line2);
             $textwid = $box[2];
-            $x = $wid - 100 - $textwid;
-            $y = $hei - 70;
-            imagettftext($img, $size, 0, $x + 10, $y + 10, $shady, $font_path, $line2);
+            $x = $wid * 0.95 - $textwid;
+            $y = $hei * 0.975;
+            imagettftext($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line2);
             imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line2);
         }
+        gc_collect_cycles();
 
         ob_start();
         imagejpeg($img, null, 90);

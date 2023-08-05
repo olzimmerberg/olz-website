@@ -314,6 +314,7 @@ class DevDataUtils {
         $general_utils->removeRecursive("{$data_path}movies");
         $general_utils->removeRecursive("{$data_path}olz_mitglieder");
         $general_utils->removeRecursive("{$data_path}OLZimmerbergAblage");
+        $general_utils->removeRecursive("{$data_path}panini_data");
         $general_utils->removeRecursive("{$data_path}pdf");
         $general_utils->removeRecursive("{$data_path}results");
         $general_utils->removeRecursive("{$data_path}temp");
@@ -508,6 +509,25 @@ class DevDataUtils {
         $this->mkdir("{$dokumente_path}/karten/wald");
         $this->copy("{$sample_path}sample-document.pdf", "{$dokumente_path}/karten/wald/buchstabenwald.pdf");
 
+        // Build panini_data/
+        $this->mkdir("{$data_path}panini_data");
+        $this->mkdir("{$data_path}panini_data/cache");
+        $this->mkdir("{$data_path}panini_data/fonts");
+        $this->mkdir("{$data_path}panini_data/fonts/OpenSans");
+        $this->copy("{$sample_path}sample-font.ttf", "{$data_path}panini_data/fonts/OpenSans/OpenSans-SemiBold.ttf");
+        $this->mkdir("{$data_path}panini_data/masks");
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/topP_1517x2091.png", 1517, 2091);
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/bottomP_1517x2091.png", 1517, 2091);
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/associationP_1517x2091.png", 1517, 2091);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/masks/associationStencilP_1517x2091.png", 1517, 2091);
+        $this->mkdir("{$data_path}panini_data/wappen");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/wappen/thalwil.jpg", 100, 100);
+        $this->mkdir("{$data_path}panini_data/portraits");
+        $this->mkdir("{$data_path}panini_data/portraits/1001");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/1001/vptD8fzvXIhv_6X32Zkw2s5s.jpg", 800, 600);
+        $this->mkdir("{$data_path}panini_data/portraits/1002");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/1002/LkGdXukqgYEdnWpuFHfrJkr7.jpg", 800, 600);
+
         // Build pdf/
         $this->mkdir("{$data_path}pdf");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}pdf/trainingsprogramm.pdf");
@@ -565,15 +585,31 @@ class DevDataUtils {
             $info = getimagesize($source_path);
             $source_width = $info[0];
             $source_height = $info[1];
-            $source = imagecreatefromjpeg($source_path);
+            try {
+                $source = imagecreatefromjpeg($source_path);
+            } catch (\Throwable $th) {
+                $source = imagecreatefrompng($source_path);
+            }
             $destination = imagecreatetruecolor($width, $height);
+            imagealphablending($destination, false);
             imagesavealpha($destination, true);
-            imagecopyresampled($destination, $source, 0, 0, 0, 0, $width, $height, $source_width, $source_height);
-            $black = imagecolorallocate($destination, 255, 0, 0);
+            imagecopyresampled(
+                $destination, $source,
+                0, 0,
+                0, 0,
+                $width, $height,
+                $source_width, $source_height,
+            );
+            $red = imagecolorallocate($destination, 255, 0, 0);
             $hash = intval(substr(md5($destination_relative_path), 0, 1), 16);
             $x = floor($hash / 4) * $width / 4;
             $y = floor($hash % 4) * $height / 4;
-            imagefilledrectangle($destination, $x, $y, $x + $width / 4, $y + $height / 4, $black);
+            imagefilledrectangle(
+                $destination,
+                round($x), round($y),
+                round($x + $width / 4), round($y + $height / 4),
+                $red
+            );
             if (preg_match('/\.jpg$/', $destination_relative_path)) {
                 imagejpeg($destination, $tmp_path, 90);
             } else {

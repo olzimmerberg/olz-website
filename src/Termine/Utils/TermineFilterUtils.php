@@ -20,6 +20,7 @@ class TermineFilterUtils {
         ['ident' => 'training', 'name' => "Trainings", 'icon' => 'termine_type_training_20.svg'],
         ['ident' => 'ol', 'name' => "Wettkämpfe", 'icon' => 'termine_type_ol_20.svg'],
         ['ident' => 'club', 'name' => "Vereinsanlässe", 'icon' => 'termine_type_club_20.svg'],
+        ['ident' => 'meldeschluss', 'name' => "Meldeschlüsse", 'icon' => 'termine_type_meldeschluss_20.svg'],
     ];
 
     public const ALL_ARCHIVE_OPTIONS = [
@@ -135,23 +136,17 @@ class TermineFilterUtils {
         return $options;
     }
 
-    public function getSqlFromFilter($filter) {
+    public function getSqlDateRangeFilter($filter, $tbl = 't') {
         if (!$this->isValidFilter($filter)) {
             return "'1'='0'";
         }
-        $date_range_filter = $this->getSqlDateRangeFilter($filter);
-        $type_filter = $this->getSqlTypeFilter($filter);
-        return "({$date_range_filter}) AND ({$type_filter})";
-    }
-
-    private function getSqlDateRangeFilter($filter) {
         $today = $this->dateUtils()->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
-            return "(t.datum >= '{$today}') OR (t.datum_end >= '{$today}')";
+            return "({$tbl}.datum >= '{$today}') OR ({$tbl}.datum_end >= '{$today}')";
         }
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
-            return "YEAR(t.datum) = '{$sane_year}'";
+            return "YEAR({$tbl}.datum) = '{$sane_year}'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -159,24 +154,30 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getSqlTypeFilter($filter) {
+    public function getSqlTypeFilter($filter, $tbl = 't') {
+        if (!$this->isValidFilter($filter)) {
+            return "'1'='0'";
+        }
         if ($filter['typ'] === 'alle') {
             return "'1' = '1'";
         }
         if ($filter['typ'] === 'programm') {
-            return "t.typ LIKE '%programm%'";
+            return "{$tbl}.typ LIKE '%programm%'";
         }
         if ($filter['typ'] === 'weekend') {
-            return "t.typ LIKE '%weekend%'";
+            return "{$tbl}.typ LIKE '%weekend%'";
         }
         if ($filter['typ'] === 'training') {
-            return "t.typ LIKE '%training%'";
+            return "{$tbl}.typ LIKE '%training%'";
         }
         if ($filter['typ'] === 'ol') {
-            return "t.typ LIKE '%ol%'";
+            return "{$tbl}.typ LIKE '%ol%'";
         }
         if ($filter['typ'] === 'club') {
-            return "t.typ LIKE '%club%'";
+            return "{$tbl}.typ LIKE '%club%'";
+        }
+        if ($filter['typ'] === 'meldeschluss') {
+            return "{$tbl}.typ LIKE '%meldeschluss%'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.

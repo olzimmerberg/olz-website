@@ -268,6 +268,41 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                 'datum' => '2016',
                 'archiv' => 'ohne',
             ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2021',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2019',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2018',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2017',
+                'archiv' => 'ohne',
+            ],
+            [
+                'typ' => 'meldeschluss',
+                'datum' => '2016',
+                'archiv' => 'ohne',
+            ],
         ], $termine_utils->getAllValidFiltersForSitemap());
     }
 
@@ -340,6 +375,17 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                 'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
             ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'typ' => 'meldeschluss',
+                    'datum' => 'bevorstehend',
+                    'archiv' => 'ohne',
+                ],
+                'name' => "Meldeschlüsse",
+                'icon' => 'termine_type_meldeschluss_20.svg',
+                'ident' => 'meldeschluss',
+            ],
         ], $termine_utils->getUiTypeFilterOptions([
             'typ' => 'alle',
             'datum' => 'bevorstehend',
@@ -411,6 +457,17 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                 'name' => "Vereinsanlässe",
                 'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
+            ],
+            [
+                'selected' => false,
+                'new_filter' => [
+                    'typ' => 'meldeschluss',
+                    'datum' => '2020',
+                    'archiv' => 'mit',
+                ],
+                'name' => "Meldeschlüsse",
+                'icon' => 'termine_type_meldeschluss_20.svg',
+                'ident' => 'meldeschluss',
             ],
         ], $termine_utils->getUiTypeFilterOptions([
             'typ' => 'training',
@@ -763,62 +820,91 @@ final class TermineFilterUtilsTest extends UnitTestCase {
         ], $termine_utils->getDateRangeOptions(['archiv' => 'mit']));
     }
 
-    public function testGetSqlFromFilter(): void {
+    public function testGetSqlDateRangeFilter(): void {
         $termine_utils = new TermineFilterUtils();
-        $this->assertSame("'1'='0'", $termine_utils->getSqlFromFilter([]));
+        $this->assertSame("'1'='0'", $termine_utils->getSqlDateRangeFilter([]));
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND ('1' = '1')",
-            $termine_utils->getSqlFromFilter([
+            "(t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')",
+            $termine_utils->getSqlDateRangeFilter([
                 'typ' => 'alle',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%programm%')",
-            $termine_utils->getSqlFromFilter([
+            "(t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')",
+            $termine_utils->getSqlDateRangeFilter([
                 'typ' => 'programm',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%weekend%')",
-            $termine_utils->getSqlFromFilter([
+            "YEAR(t.datum) = '2020'",
+            $termine_utils->getSqlDateRangeFilter([
+                'typ' => 'alle',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+    }
+
+    public function testGetSqlTypeFilter(): void {
+        $termine_utils = new TermineFilterUtils();
+        $this->assertSame("'1'='0'", $termine_utils->getSqlTypeFilter([]));
+        $this->assertSame(
+            "'1' = '1'",
+            $termine_utils->getSqlTypeFilter([
+                'typ' => 'alle',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "t.typ LIKE '%programm%'",
+            $termine_utils->getSqlTypeFilter([
+                'typ' => 'programm',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "t.typ LIKE '%weekend%'",
+            $termine_utils->getSqlTypeFilter([
                 'typ' => 'weekend',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%training%')",
-            $termine_utils->getSqlFromFilter([
+            "t.typ LIKE '%training%'",
+            $termine_utils->getSqlTypeFilter([
                 'typ' => 'training',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%ol%')",
-            $termine_utils->getSqlFromFilter([
+            "t.typ LIKE '%ol%'",
+            $termine_utils->getSqlTypeFilter([
                 'typ' => 'ol',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "((t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')) AND (t.typ LIKE '%club%')",
-            $termine_utils->getSqlFromFilter([
+            "t.typ LIKE '%club%'",
+            $termine_utils->getSqlTypeFilter([
                 'typ' => 'club',
                 'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );
         $this->assertSame(
-            "(YEAR(t.datum) = '2020') AND ('1' = '1')",
-            $termine_utils->getSqlFromFilter([
-                'typ' => 'alle',
-                'datum' => '2020',
+            "t.typ LIKE '%meldeschluss%'",
+            $termine_utils->getSqlTypeFilter([
+                'typ' => 'meldeschluss',
+                'datum' => 'bevorstehend',
                 'archiv' => 'ohne',
             ])
         );

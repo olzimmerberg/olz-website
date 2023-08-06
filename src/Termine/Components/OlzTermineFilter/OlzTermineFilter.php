@@ -22,9 +22,9 @@ class OlzTermineFilter extends OlzComponent {
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $icon = $option['icon'];
-            $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
+            $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='type-filter-icon'>" : '';
             $ident = $option['ident'];
-            return "<a href='termine.php?filter={$enc_json_filter}' id='filter-type-{$ident}'{$selected}>
+            return "<a href='termine.php?filter={$enc_json_filter}' id='filter-type-{$ident}' class='type-filter'{$selected}>
                 {$icon_html}{$name}
             </a>";
         }, $type_options));

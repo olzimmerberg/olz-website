@@ -16,6 +16,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         'ol' => 'termine_type_ol_20.svg',
         'training' => 'termine_type_training_20.svg',
         'club' => 'termine_type_club_20.svg',
+        'meldeschluss' => 'termine_type_meldeschluss_20.svg',
     ];
 
     public function getRelevance(?User $user): float {

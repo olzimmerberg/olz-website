@@ -16,16 +16,16 @@ class OlzCustomTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
         $olz_text_id = self::OLZ_TEXT_ID;
         $has_access = $this->authUtils()->hasPermission("olz_text_{$olz_text_id}");
-        $is_empty = self::getContent() === null;
+        $is_empty = $this->getContent() === null;
         return (!$has_access && $is_empty) ? 0.0 : 0.9;
     }
 
     public function getHtml($args = []): string {
-        $content = self::getContent();
+        $content = $this->getContent();
         return "<h2>Wichtig</h2><div>{$content}</div>";
     }
 
-    protected static function getContent(): ?string {
+    protected function getContent(): ?string {
         $content = OlzEditableText::render(['olz_text_id' => self::OLZ_TEXT_ID]);
         if (trim(strip_tags($content)) === '') {
             return null;

@@ -193,7 +193,11 @@ jobs:
         USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.STAGING_HOSTTECH_FTP_PASSWORD }}
         BOT_ACCESS_TOKEN: public_dev_data_access_token
-      run: php ./Deploy.php --target=hosttech --environment=staging --username="$USERNAME"
+      uses: nick-fields/retry@v2
+      with:
+        timeout_minutes: 10
+        max_attempts: 3
+        command: php ./Deploy.php --target=hosttech --environment=staging --username="$USERNAME"
 
   upload-screenshots:
     name: Upload screenshots to staging.olzimmerberg.ch
@@ -220,4 +224,8 @@ jobs:
       env:
         USERNAME: ${{ secrets.STAGING_HOSTTECH_FTP_USERNAME }}
         PASSWORD: ${{ secrets.STAGING_HOSTTECH_FTP_PASSWORD }}
-      run: php ./ci/screenshot-upload.php --target=hosttech --environment=staging --username="$USERNAME"
+      uses: nick-fields/retry@v2
+      with:
+        timeout_minutes: 10
+        max_attempts: 3
+        command: php ./ci/screenshot-upload.php --target=hosttech --environment=staging --username="$USERNAME"

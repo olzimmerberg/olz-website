@@ -19,8 +19,11 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
         $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
+        $plus_one_month = \DateInterval::createFromDateString("+1 months");
+        $in_one_month = (new \DateTime($today))->add($plus_one_month)->format('Y-m-d');
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -49,7 +52,10 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 t.titel as title,
                 t.id as id
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-            WHERE se.deadline IS NOT NULL AND se.deadline >= '{$today}'
+            WHERE 
+                se.deadline IS NOT NULL
+                AND se.deadline >= '{$today}'
+                AND se.deadline <= '{$in_one_month}'
         ) UNION ALL (
             SELECT
                 DATE(t.deadline) as deadline,
@@ -57,7 +63,10 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 t.titel as title,
                 t.id as id
             FROM termine t
-            WHERE t.deadline IS NOT NULL AND t.deadline >= '{$now}'
+            WHERE
+                t.deadline IS NOT NULL
+                AND t.deadline >= '{$now}'
+                AND t.deadline <= '{$in_one_month}'
         )
         ORDER BY deadline ASC
         LIMIT 7
@@ -67,7 +76,12 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             $deadline = date('d.m.', strtotime($row['deadline']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
-            $out .= "<li><a href='{$code_href}termine.php?id={$id}' class='linkint'><b>{$deadline}</b>: Für {$title} vom {$date}</a></li>";
+            $icon_basename = 'termine_type_meldeschluss_20.svg';
+            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+            $out .= "<li><a href='{$code_href}termine.php?id={$id}'>
+              {$icon_img} <b>{$deadline}</b>: Für {$title} vom {$date}
+            </a></li>";
         }
         $out .= "</ul>";
         return $out;

@@ -11,26 +11,26 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
-    private static $termine_utils;
-    private static $db;
-    private static $this_year;
+    private $termine_utils;
+    private $db;
+    private $this_year;
 
     public function getRelevance(?User $user): float {
         return 0.8;
     }
 
     public function getHtml($args = []): string {
-        self::$termine_utils = TermineFilterUtils::fromEnv();
-        self::$db = $this->dbUtils()->getDb();
-        self::$this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $this->termine_utils = TermineFilterUtils::fromEnv();
+        $this->db = $this->dbUtils()->getDb();
+        $this->this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 
         $out = "<h2>Termine</h2>";
 
         $out .= "<ul class='links'>";
-        $out .= self::renderAllUpcomingList();
-        $out .= self::renderProgramList();
-        $out .= self::renderWeekendsList();
-        $out .= self::renderUpcomingTrainingsList();
+        $out .= $this->renderAllUpcomingList();
+        $out .= $this->renderProgramList();
+        $out .= $this->renderWeekendsList();
+        $out .= $this->renderUpcomingTrainingsList();
         $out .= "</ul>";
 
         return $out;
@@ -38,7 +38,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     protected function renderAllUpcomingList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = self::$termine_utils->getDefaultFilter();
+        $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
@@ -51,14 +51,14 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     protected function renderProgramList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = self::$termine_utils->getDefaultFilter();
+        $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'programm';
         $filter['datum'] = 'bevorstehend';
-        $num_imminent = self::getNumberOfEntries($filter);
-        $filter['datum'] = strval(self::$this_year + 1);
-        $num_next_year = self::getNumberOfEntries($filter);
+        $num_imminent = $this->getNumberOfEntries($filter);
+        $filter['datum'] = strval($this->this_year + 1);
+        $num_next_year = $this->getNumberOfEntries($filter);
         if ($num_imminent > 0 || $num_next_year === 0) {
-            $filter['datum'] = strval(self::$this_year);
+            $filter['datum'] = strval($this->this_year);
         }
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
@@ -71,14 +71,14 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     protected function renderWeekendsList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = self::$termine_utils->getDefaultFilter();
+        $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'weekend';
         $filter['datum'] = 'bevorstehend';
-        $num_imminent = self::getNumberOfEntries($filter);
-        $filter['datum'] = strval(self::$this_year + 1);
-        $num_next_year = self::getNumberOfEntries($filter);
+        $num_imminent = $this->getNumberOfEntries($filter);
+        $filter['datum'] = strval($this->this_year + 1);
+        $num_next_year = $this->getNumberOfEntries($filter);
         if ($num_imminent > 0 || $num_next_year === 0) {
-            $filter['datum'] = strval(self::$this_year);
+            $filter['datum'] = strval($this->this_year);
         }
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
@@ -91,7 +91,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     protected function renderUpcomingTrainingsList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = self::$termine_utils->getDefaultFilter();
+        $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'training';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
@@ -103,8 +103,10 @@ class OlzTermineListsTile extends AbstractOlzTile {
     }
 
     protected function getNumberOfEntries($filter) {
-        $filter_sql = self::$termine_utils->getSqlFromFilter($filter);
-        $res = self::$db->query("SELECT t.id FROM termine t WHERE {$filter_sql}");
+        $date_filter = $this->termine_utils->getSqlDateRangeFilter($filter);
+        $type_filter = $this->termine_utils->getSqlTypeFilter($filter);
+        $filter_sql = "({$date_filter}) AND ({$type_filter})";
+        $res = $this->db->query("SELECT t.id FROM termine t WHERE {$filter_sql}");
         return $res->num_rows;
     }
 }

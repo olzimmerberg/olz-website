@@ -131,13 +131,14 @@ function test_termine_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');
 
-    $filter_date_2020 = $driver->findElement(
-        WebDriverBy::cssSelector('#filter-date-2020')
-    );
-    $filter_date_2020->click();
     $filter_type_training = $driver->findElement(
         WebDriverBy::cssSelector('#filter-type-training')
     );
     click($filter_type_training);
+    $filter_date_2020 = $driver->findElement(
+        WebDriverBy::cssSelector('#filter-date-2020')
+    );
+    $filter_date_2020->click();
+
     take_pageshot($driver, 'termine_past');
 }

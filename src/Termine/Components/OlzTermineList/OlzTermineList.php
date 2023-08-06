@@ -86,19 +86,20 @@ class OlzTermineList extends OlzComponent {
 
         // -------------------------------------------------------------
         //  VORSCHAU - LISTE
-        $filter_where = $termine_utils->getSqlFromFilter($current_filter);
-        $sql_where = <<<ZZZZZZZZZZ
+        $date_filter = $termine_utils->getSqlDateRangeFilter($current_filter);
+        $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
+        $inner_sql_where = <<<ZZZZZZZZZZ
         (
             (t.datum_off>='{$date_utils->getIsoToday()}')
             OR (t.datum_off='0000-00-00')
             OR t.datum_off IS NULL
         )
         AND (t.on_off = '1')
-        AND {$filter_where}
+        AND {$date_filter}
         ZZZZZZZZZZ;
 
         $sql = <<<ZZZZZZZZZZ
-        (
+        SELECT * FROM ((
             SELECT
                 'termin' as item_type,
                 t.datum as datum,
@@ -120,7 +121,7 @@ class OlzTermineList extends OlzComponent {
                 t.last_modified_by_user_id as last_modified_by_user_id,
                 t.image_ids as image_ids
             FROM termine t
-            WHERE {$sql_where}
+            WHERE ({$inner_sql_where})
         ) UNION ALL (
             SELECT
                 'solv_deadline' as item_type,
@@ -143,7 +144,7 @@ class OlzTermineList extends OlzComponent {
                 t.last_modified_by_user_id as last_modified_by_user_id,
                 t.image_ids as image_ids
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-            WHERE se.deadline IS NOT NULL AND {$sql_where}
+            WHERE (se.deadline IS NOT NULL) AND ({$inner_sql_where})
         ) UNION ALL (
             SELECT
                 'olz_deadline' as item_type,
@@ -151,7 +152,7 @@ class OlzTermineList extends OlzComponent {
                 NULL as datum_end,
                 TIME(t.deadline) as zeit,
                 NULL as zeit_end,
-                CONCAT('Meldeschluss für ', t.titel) as titel,
+                CONCAT('Meldeschluss t für ', t.titel) as titel,
                 '' as text,
                 '' as link,
                 '' as solv_event_link,
@@ -166,9 +167,10 @@ class OlzTermineList extends OlzComponent {
                 t.last_modified_by_user_id as last_modified_by_user_id,
                 t.image_ids as image_ids
             FROM termine t
-            WHERE t.deadline IS NOT NULL AND {$sql_where}
-        )
-        ORDER BY datum ASC
+            WHERE (t.deadline IS NOT NULL) AND ({$inner_sql_where})
+        )) AS c
+        WHERE ({$type_filter})
+        ORDER BY c.datum ASC
         ZZZZZZZZZZ;
 
         $result = $db->query($sql);

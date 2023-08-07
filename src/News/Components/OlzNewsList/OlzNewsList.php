@@ -45,8 +45,9 @@ class OlzNewsList extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $enc_json_filter = urlencode(json_encode($current_filter));
         $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}";
+        $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out .= OlzHeader::render([
-            'title' => "Aktuell",
+            'title' => $news_list_title,
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => !$allow_robots,
             'canonical_url' => $canonical_url,
@@ -112,7 +113,6 @@ class OlzNewsList extends OlzComponent {
             $out .= "</div>";
         }
 
-        $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out .= "<h1>{$news_list_title}</h1>";
 
         $filter_where = $news_utils->getSqlFromFilter($current_filter);

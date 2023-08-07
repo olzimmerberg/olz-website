@@ -21,23 +21,9 @@ class OlzUserInfoWithPopup extends OlzComponent {
             return OlzPopup::render(['trigger' => $trigger, 'popup' => $popup]);
         }
         if ($mode == 'name_picture') {
-            $image_base_path = "img/users/{$user->getId()}";
-            $img_html = "<img src='{$data_href}assets/icns/user.jpg' alt=''>";
-            if (is_file("{$data_path}{$image_base_path}.jpg")) {
-                $img_html = "<img src='{$data_href}{$image_base_path}.jpg' alt=''>";
-                if (is_file("{$data_path}{$image_base_path}@2x.jpg")) {
-                    $img_html = <<<ZZZZZZZZZZ
-                    <img
-                        srcset='
-                            {$data_href}{$image_base_path}@2x.jpg 2x,
-                            {$data_href}{$image_base_path}.jpg 1x
-                        '
-                        src='{$data_href}{$image_base_path}.jpg'
-                        alt=''
-                    >
-                    ZZZZZZZZZZ;
-                }
-            }
+            $image_path = $this->authUtils()->getUserAvatar($user);
+            $img_html = "<img src='{$image_path}' alt='' class='image'>";
+
             $trigger = "<div class='olz-user-info-with-popup'>{$img_html}<br>{$user->getFullName()}</div>";
             $popup = OlzUserInfoCard::render(['user' => $user]);
             return OlzPopup::render(['trigger' => $trigger, 'popup' => $popup]);

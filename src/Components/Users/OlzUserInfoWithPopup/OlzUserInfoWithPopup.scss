@@ -1,6 +1,17 @@
 .olz-user-info-with-popup {
     color: rgb(0, 120, 0);
     text-align: center;
+
+    .image {
+        border: 3px solid rgb(255, 255, 255);
+        border-radius: 84px;
+        box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
+        height: 84px;
+        margin: 5px;
+        object-fit: cover;
+        transition: width 0.5s, height 0.5s, margin 0.5s;
+        width: 84px;
+    }
 }
 
 .olz-user-info-with-popup:hover {

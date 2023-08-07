@@ -152,7 +152,7 @@ class OlzTerminDetail extends OlzComponent {
                         class='btn btn-primary'
                         onclick='return olz.editTermin({$json_id})'
                     >
-                        <img src='{$data_href}assets/icns/edit_16.svg' class='noborder' />
+                        <img src='{$data_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                     <button

@@ -60,7 +60,7 @@ class OlzNewsArticle extends OlzComponent {
                         class='btn btn-primary'
                         onclick='return olz.editNewsArticle({$json_id}, {$json_mode})'
                     >
-                        <img src='{$data_href}assets/icns/edit_16.svg' class='noborder' />
+                        <img src='{$data_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                     <button

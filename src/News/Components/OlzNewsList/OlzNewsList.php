@@ -119,6 +119,8 @@ class OlzNewsList extends OlzComponent {
         $sql = <<<ZZZZZZZZZZ
         SELECT
             id,
+            owner_user_id,
+            owner_role_id,
             datum,
             zeit,
             typ,
@@ -152,12 +154,18 @@ class OlzNewsList extends OlzComponent {
                     break;
                 }
                 // TODO: Directly use doctrine to run the DB query.
+                $owner_user = $row['owner_user_id'] ?
+                $user_repo->findOneBy(['id' => $row['owner_user_id']]) : null;
+                $owner_role = $row['owner_role_id'] ?
+                $role_repo->findOneBy(['id' => $row['owner_role_id']]) : null;
                 $author_user = $row['author_user_id'] ?
                 $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
                 $author_role = $row['author_role_id'] ?
                 $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
 
                 $news_entry = new NewsEntry();
+                $news_entry->setOwnerUser($owner_user);
+                $news_entry->setOwnerRole($owner_role);
                 $news_entry->setDate($row['datum']);
                 $news_entry->setFormat($row['typ']);
                 $news_entry->setAuthorUser($author_user);

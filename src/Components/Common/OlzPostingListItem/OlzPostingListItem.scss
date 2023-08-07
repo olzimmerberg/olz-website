@@ -27,6 +27,7 @@
         z-index: 1;
 
         a,
+        button,
         .olz-author-badge {
             pointer-events: all;
         }
@@ -37,10 +38,6 @@
         font-weight: bold;
         line-height: 14px;
         margin-top: 2px;
-    }
-
-    .author {
-        margin-right: 8px;
     }
 
     .date {

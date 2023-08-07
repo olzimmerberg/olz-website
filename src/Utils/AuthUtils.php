@@ -22,6 +22,7 @@ class AuthUtils {
 
     protected $cached_permission_map_by_user = [];
     protected $cached_permission_map_by_role = [];
+    protected $cached_users = [];
 
     public function authenticate($username_or_email, $password) {
         $ip_address = $this->server()['REMOTE_ADDR'];
@@ -204,14 +205,28 @@ class AuthUtils {
 
     public function getSessionUser() {
         $username = $this->session()->get('user');
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        return $user_repo->findOneBy(['username' => $username]);
+        return $this->getUserByUsername($username);
     }
 
     public function getSessionAuthUser() {
         $auth_username = $this->session()->get('auth_user');
+        return $this->getUserByUsername($auth_username);
+    }
+
+    private function getUserByUsername(?string $username) {
+        if (!$username) {
+            return null;
+        }
+        $cached_user = $this->cached_users[$username] ?? null;
+        if ($cached_user) {
+            return $cached_user;
+        }
         $user_repo = $this->entityManager()->getRepository(User::class);
-        return $user_repo->findOneBy(['username' => $auth_username]);
+        $fetched_user = $user_repo->findOneBy(['username' => $username]);
+        if ($fetched_user) {
+            $this->cached_users[$username] = $fetched_user;
+        }
+        return $fetched_user;
     }
 
     public function getAuthenticatedRoles() {

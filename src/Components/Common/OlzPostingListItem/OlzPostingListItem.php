@@ -8,13 +8,12 @@ class OlzPostingListItem extends OlzComponent {
     public function getHtml($args = []): string {
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";
-        $author = $args['author'] ?? null;
+        $author = $args['author'] ?? "";
         $title = $args['title'] ?? "";
         $text = $args['text'] ?? "";
         $link = $args['link'] ?? "";
 
         $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $date);
-        $pretty_author = $author ? "<span class='author'>{$author}</span> " : "";
 
         return <<<ZZZZZZZZZZ
         <div class='olz-posting-list-item'>
@@ -27,7 +26,7 @@ class OlzPostingListItem extends OlzComponent {
                     <img src='{$icon}' class='icon' alt='' />
                     {$title}
                 </div>
-                <div class='text'>{$pretty_author}{$text}</div>
+                <div class='text'>{$author}{$text}</div>
             </div>
         </div>
         ZZZZZZZZZZ;

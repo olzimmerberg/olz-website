@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
@@ -527,24 +527,35 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     );
 };
 
+let editNewsModalRoot: ReturnType<typeof createRoot>|null = null;
+
 export function initOlzEditNewsModal(
     mode: OlzEditNewsModalMode,
     id?: number,
     meta?: OlzMetaData,
     data?: OlzNewsData,
 ): boolean {
-    ReactDOM.render(
+    const rootElem = document.getElementById('edit-news-react-root');
+    if (!rootElem) {
+        return false;
+    }
+    if (editNewsModalRoot) {
+        editNewsModalRoot.unmount();
+    }
+    editNewsModalRoot = createRoot(rootElem);
+    editNewsModalRoot.render(
         <OlzEditNewsModal
             mode={mode}
             id={id}
             meta={meta}
             data={data}
         />,
-        document.getElementById('edit-news-react-root'),
     );
-    const modal = document.getElementById('edit-news-modal');
-    if (modal) {
-        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-    }
+    window.setTimeout(() => {
+        const modal = document.getElementById('edit-news-modal');
+        if (modal) {
+            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+        }
+    }, 1);
     return false;
 }

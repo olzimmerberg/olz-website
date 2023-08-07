@@ -152,7 +152,7 @@ class OlzTermineList extends OlzComponent {
                 NULL as datum_end,
                 TIME(t.deadline) as zeit,
                 NULL as zeit_end,
-                CONCAT('Meldeschluss t für ', t.titel) as titel,
+                CONCAT('Meldeschluss für ', t.titel) as titel,
                 '' as text,
                 '' as link,
                 '' as solv_event_link,

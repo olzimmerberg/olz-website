@@ -22,8 +22,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $data_href = $this->envUtils()->getDataHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
-        $plus_one_month = \DateInterval::createFromDateString("+1 months");
-        $in_one_month = (new \DateTime($today))->add($plus_one_month)->format('Y-m-d');
+        $plus_two_weeks = \DateInterval::createFromDateString("+2 weeks");
+        $in_two_weeks = (new \DateTime($today))->add($plus_two_weeks)->format('Y-m-d');
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -55,7 +55,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             WHERE 
                 se.deadline IS NOT NULL
                 AND se.deadline >= '{$today}'
-                AND se.deadline <= '{$in_one_month}'
+                AND se.deadline <= '{$in_two_weeks}'
         ) UNION ALL (
             SELECT
                 DATE(t.deadline) as deadline,
@@ -66,7 +66,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             WHERE
                 t.deadline IS NOT NULL
                 AND t.deadline >= '{$now}'
-                AND t.deadline <= '{$in_one_month}'
+                AND t.deadline <= '{$in_two_weeks}'
         )
         ORDER BY deadline ASC
         LIMIT 7

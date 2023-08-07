@@ -82,11 +82,34 @@ class OlzNewsListItem extends OlzComponent {
             'email' => $author_email,
         ]);
 
+        $user = $this->authUtils()->getCurrentUser();
+        $owner_user = $news_entry->getOwnerUser();
+        $is_owner = $user && $owner_user && intval($owner_user->getId() ?? 0) === intval($user->getId());
+        $has_all_permissions = $this->authUtils()->hasPermission('all');
+        $can_edit = $is_owner || $has_all_permissions;
+        $edit_admin = '';
+        if ($can_edit) {
+            $json_id = json_encode(intval($id));
+            $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
+            $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
+            $edit_admin = <<<ZZZZZZZZZZ
+            <button
+                id='edit-news-button'
+                class='btn btn-secondary-outline btn-sm'
+                onclick='return olz.newsListItemEditNewsArticle({$json_id}, {$json_mode})'
+            >
+                <img src='{$data_href}assets/icns/edit_16.svg' class='noborder' />
+            </button>
+            ZZZZZZZZZZ;
+        }
+
+        $author_row = "<div class='author-row'>{$author_badge}{$edit_admin}</div>";
+
         if ($format === 'aktuell') {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'text' => $html_utils->renderMarkdown($teaser, [
                     'html_input' => 'allow', // TODO: Do NOT allow!
@@ -109,7 +132,7 @@ class OlzNewsListItem extends OlzComponent {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'text' => $thumb.$html_utils->renderMarkdown(
                     self::truncateText($content),
@@ -135,7 +158,7 @@ class OlzNewsListItem extends OlzComponent {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'text' => $thumb.$html_utils->renderMarkdown(
                     self::truncateText($content),
@@ -160,7 +183,7 @@ class OlzNewsListItem extends OlzComponent {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'text' => "<table><tr class='thumbs'>{$thumbs}</tr></table>",
                 'link' => $link,
@@ -177,7 +200,7 @@ class OlzNewsListItem extends OlzComponent {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'text' => $content,
                 'link' => $link,
@@ -186,7 +209,7 @@ class OlzNewsListItem extends OlzComponent {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $datum,
-                'author' => $author_badge,
+                'author' => $author_row,
                 'title' => $title,
                 'link' => $link,
             ]);

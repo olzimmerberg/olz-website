@@ -16,7 +16,6 @@ class RobotsController extends AbstractController {
     ): Response {
         $out = <<<'ZZZZZZZZZZ'
         User-agent: *
-        Disallow: /apps/resultate/
         Disallow: /downloads/
         Disallow: /files/
         Disallow: /img/
@@ -26,6 +25,8 @@ class RobotsController extends AbstractController {
         Disallow: /trainingphotos/
         User-agent: Googlebot-Image
         Disallow: /
+        Allow: /assets/
+        Allow: /favicon.ico
         Allow: /img/fuer_einsteiger/
 
         Sitemap: https://olzimmerberg.ch/sitemap.php

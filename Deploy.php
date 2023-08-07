@@ -145,7 +145,6 @@ class Deploy extends AbstractDefaultDeploy {
         if ($this->environment === 'staging') {
             file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
         }
-        $fs->mirror(__DIR__.'/assets', "{$public_path}/assets");
         $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
         $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
         $index_path = "{$install_path}/index.php";

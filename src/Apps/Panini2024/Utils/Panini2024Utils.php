@@ -95,24 +95,29 @@ class Panini2024Utils {
         $folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
         $payload_path = "{$panini_path}{$folder}{$img_src}";
         $payload_img = imagecreatefromjpeg($payload_path);
-        $payload_wid = imagesx($payload_img);
-        $payload_hei = imagesy($payload_img);
-        imagecopyresampled(
-            $img, $payload_img,
-            round($img_left_percent * $wid / 100), round($img_top_percent * $hei / 100),
-            0, 0,
-            round($wid * $img_wid_percent / 100), round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
-            $payload_wid, $payload_hei,
-        );
-        gc_collect_cycles();
+        if ($payload_img) {
+            $payload_wid = imagesx($payload_img);
+            $payload_hei = imagesy($payload_img);
+            imagecopyresampled(
+                $img, $payload_img,
+                round($img_left_percent * $wid / 100), round($img_top_percent * $hei / 100),
+                0, 0,
+                round($wid * $img_wid_percent / 100), round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
+                $payload_wid, $payload_hei,
+            );
+            imagedestroy($payload_img);
+            gc_collect_cycles();
+        }
 
         // Masks
         $bottom_mask = imagecreatefrompng("{$masks_path}bottom{$suffix}.png");
         imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
+        imagedestroy($bottom_mask);
         gc_collect_cycles();
         if ($has_top) {
             $top_mask = imagecreatefrompng("{$masks_path}top{$suffix}.png");
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
+            imagedestroy($top_mask);
             gc_collect_cycles();
         }
 
@@ -121,6 +126,7 @@ class Panini2024Utils {
         if ($association_file) {
             $association_mask = imagecreatefrompng("{$masks_path}association{$suffix}.png");
             imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
+            imagedestroy($association_mask);
             gc_collect_cycles();
 
             $offset = round(($wid + $hei) * 0.01) - 1;
@@ -137,6 +143,8 @@ class Panini2024Utils {
                 $size, $size,
                 imagesx($association_img_orig), imagesy($association_img_orig),
             );
+            imagedestroy($association_img_orig);
+            gc_collect_cycles();
 
             for ($x = 0; $x < $size; $x++) {
                 for ($y = 0; $y < $size; $y++) {
@@ -165,6 +173,8 @@ class Panini2024Utils {
                     }
                 }
             }
+            imagedestroy($flag_mask);
+            imagedestroy($association_img);
             gc_collect_cycles();
         }
 

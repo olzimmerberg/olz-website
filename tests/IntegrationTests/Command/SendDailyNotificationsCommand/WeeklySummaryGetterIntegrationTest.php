@@ -69,8 +69,8 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         **Aktualisierte Termine**
         
-        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/termine.php?id=1)
-        - 06.06.: [Brunch OL](http://integration-test.host/termine.php?id=2)
+        - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/termine/1)
+        - 06.06.: [Brunch OL](http://integration-test.host/termine/2)
         
         
         ZZZZZZZZZZ;

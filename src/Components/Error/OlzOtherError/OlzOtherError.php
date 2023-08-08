@@ -10,7 +10,6 @@ class OlzOtherError extends OlzComponent {
     public function getHtml($args = []): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -23,10 +22,10 @@ class OlzOtherError extends OlzComponent {
         <div class='error-image-container-xxx'>
             <img
                 srcset='
-                    {$data_href}assets/icns/error_system@2x.jpg 2x,
-                    {$data_href}assets/icns/error_system.jpg 1x
+                    {$code_href}assets/icns/error_system@2x.jpg 2x,
+                    {$code_href}assets/icns/error_system.jpg 1x
                 '
-                src='{$data_href}assets/icns/error_system.jpg'
+                src='{$code_href}assets/icns/error_system.jpg'
                 alt='Fehlerhafter Posten'
                 class='error-image-xxx'
             />

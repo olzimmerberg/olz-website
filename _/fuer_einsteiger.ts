@@ -1,4 +1,4 @@
-import {dataHref} from '../src/Utils/constants';
+import {codeHref, dataHref} from '../src/Utils/constants';
 
 export function highlight_menu(e: Event): void {
     const menuContainerElem = document.getElementById('menu-container');
@@ -11,7 +11,10 @@ export function highlight_menu(e: Event): void {
         return;
     }
     const target = e.currentTarget as HTMLElement;
-    const href = target.getAttribute('href');
+    let href = target.getAttribute('href');
+    if (href?.substring(0, codeHref.length) === codeHref) {
+        href = href?.substring(codeHref.length);
+    }
     const elem = document.getElementById(`menu_a_page_${href}`);
     if (!elem) {
         return;
@@ -42,7 +45,10 @@ export function highlight_menu_ani(href: string, stepArg: number): void {
 
 export function unhighlight_menu(e: Event): void {
     const target = e.currentTarget as HTMLElement;
-    const href = target.getAttribute('href');
+    let href = target.getAttribute('href');
+    if (href?.substring(0, codeHref.length) === codeHref) {
+        href = href?.substring(codeHref.length);
+    }
     const elem = document.getElementById(`highlight_menu_${href}`);
     if (elem && elem.parentElement) {
         elem.parentElement.removeChild(elem);

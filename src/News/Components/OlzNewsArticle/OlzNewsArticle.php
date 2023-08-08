@@ -15,7 +15,6 @@ class OlzNewsArticle extends OlzComponent {
         $html_utils = HtmlUtils::fromEnv();
 
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         $db_table = 'aktuell';
         $id = $args['id'];
@@ -60,7 +59,7 @@ class OlzNewsArticle extends OlzComponent {
                         class='btn btn-primary'
                         onclick='return olz.editNewsArticle({$json_id}, {$json_mode})'
                     >
-                        <img src='{$data_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                     <button
@@ -68,7 +67,7 @@ class OlzNewsArticle extends OlzComponent {
                         class='btn btn-danger'
                         onclick='return olz.deleteNewsArticle({$json_id})'
                     >
-                        <img src='{$data_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
                         Löschen
                     </button>
                 </div>
@@ -155,14 +154,14 @@ class OlzNewsArticle extends OlzComponent {
 
                 $content_to_show = $youtube_match ? "<a href='{$textlang}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $textlang;
                 $out .= "<div class='video-container'>";
-                $out .= "<div style='background-image:url({$data_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
+                $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
                 if ($youtube_match != null) {
                     $out .= "<iframe width='560' height='315' src='https://www.youtube.com/embed/{$youtube_match}' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
                 } else {
                     $this->log()->error("Invalid YouTube link (ID:{$id}): {$youtube_url}");
                     $out .= "Fehlerhafter YouTube-Link!";
                 }
-                $out .= "<div style='background-image:url({$data_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
+                $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
                 $out .= "</div>";
             } else {
                 $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";

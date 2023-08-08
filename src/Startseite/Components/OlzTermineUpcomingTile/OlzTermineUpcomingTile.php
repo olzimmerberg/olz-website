@@ -26,7 +26,6 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $today = $this->dateUtils()->getIsoToday();
 
         $out = "<h2>Bevorstehende Termine</h2>";
@@ -51,9 +50,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
                 return self::$iconBasenameByType[$item] ?? '';
             }, '');
             $icon_basename = $icon_basename ? $icon_basename : 'termine_type_null_20.svg';
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
-            $out .= "<li><a href='{$code_href}termine.php?id={$id}'>
+            $out .= "<li><a href='{$code_href}termine/{$id}'>
                 {$icon_img} <b>{$date}</b>: {$title}
             </a></li>";
         }

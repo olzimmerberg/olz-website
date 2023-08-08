@@ -5,11 +5,13 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 
 global $_DATE;
 
 require_once __DIR__.'/config/date.php';
 
+$code_href = EnvUtils::fromEnv()->getCodeHref();
 $db = DbUtils::fromEnv()->getDb();
 
 $length_a = 40;
@@ -67,7 +69,7 @@ if ($sql1 > "") {// TERMINE
         $jahr = date("Y", $datum);
         $datum = $_DATE->olzDate("t. MM jjjj", $datum);
         cutout($text);
-        $result_termine .= "<tr><td><a href=\"termine.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"termine.php?id={$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_termine .= "<tr><td><a href=\"{$code_href}termine/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"{$code_href}termine/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     // AKTUELL

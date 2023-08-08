@@ -120,7 +120,7 @@ class WeeklySummaryGetter {
         }
 
         if ($args['termine'] ?? false) {
-            $termine_url = "{$base_href}{$code_href}termine.php";
+            $termine_url = "{$base_href}{$code_href}termine";
             $termine_text = '';
             $termin_repo = $this->entityManager()->getRepository(Termin::class);
             $termine = $termin_repo->matching($termine_criteria);
@@ -133,7 +133,7 @@ class WeeklySummaryGetter {
                     : $starts_on->format('d.m.');
                 $title = $termin->getTitle();
                 if (strlen(trim($title)) > 0) {
-                    $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}?id={$id})\n";
+                    $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}/{$id})\n";
                 }
             }
             if (strlen($termine_text) > 0) {

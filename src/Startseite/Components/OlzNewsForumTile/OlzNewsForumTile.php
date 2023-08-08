@@ -26,7 +26,6 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -47,7 +46,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $forum_url = $this->getNewsUrl('forum');
         $out = <<<ZZZZZZZZZZ
         <h2><a href='{$forum_url}'>
-            <img src='{$data_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
             Forum
         </a> {$newsletter_link}</h2>
         ZZZZZZZZZZ;
@@ -69,7 +68,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
             $image_ids = $news_entry->getImageIds();
 
             $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $image = '';
             $is_image_right = ($index % 2) === 1;
             if (count($image_ids ?? []) > 0) {

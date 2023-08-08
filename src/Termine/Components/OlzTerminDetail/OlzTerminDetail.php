@@ -26,7 +26,6 @@ class OlzTerminDetail extends OlzComponent {
 
         $user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
@@ -152,7 +151,7 @@ class OlzTerminDetail extends OlzComponent {
                         class='btn btn-primary'
                         onclick='return olz.editTermin({$json_id})'
                     >
-                        <img src='{$data_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                     <button
@@ -160,7 +159,7 @@ class OlzTerminDetail extends OlzComponent {
                         class='btn btn-danger'
                         onclick='return olz.deleteTermin({$json_id})'
                     >
-                        <img src='{$data_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
                         Löschen
                     </button>
                 </div>
@@ -191,9 +190,9 @@ class OlzTerminDetail extends OlzComponent {
                 // SOLV-Übersicht-Link zeigen
                 $datum_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
             }
-            $type_imgs = implode('', array_map(function ($type) use ($data_href) {
+            $type_imgs = implode('', array_map(function ($type) {
                 $icon_basename = self::$iconBasenameByType[$type] ?? '';
-                $icon = "{$data_href}assets/icns/{$icon_basename}";
+                $icon = "{$code_href}assets/icns/{$icon_basename}";
                 return "<img src='{$icon}' alt='' class='type-icon'>";
             }, $types));
             $out .= "<h2>{$datum_tmp}</h2>";

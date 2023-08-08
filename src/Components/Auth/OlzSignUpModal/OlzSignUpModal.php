@@ -17,7 +17,6 @@ class OlzSignUpModal extends OlzComponent {
         $facebook_url = $facebook_utils->getAuthUrl();
 
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         return <<<ZZZZZZZZZZ
         <div class='modal fade' id='sign-up-modal' tabindex='-1' aria-labelledby='sign-up-modal-label' aria-hidden='true'>
@@ -30,19 +29,19 @@ class OlzSignUpModal extends OlzComponent {
                     <div class='modal-body'>
                         <div class='feature external-login mb-3'>
                             <a href='{$strava_url}' class='login-button strava-button'>
-                                <img src='{$data_href}assets/icns/login_strava.svg' alt=''>
+                                <img src='{$code_href}assets/icns/login_strava.svg' alt=''>
                                 Strava
                             </a>
                             <a href='{$google_url}' class='login-button google-button'>
-                                <img src='{$data_href}assets/icns/login_google.svg' alt=''>
+                                <img src='{$code_href}assets/icns/login_google.svg' alt=''>
                                 Google
                             </a>
                             <a href='{$facebook_url}' class='login-button facebook-button'>
-                                <img src='{$data_href}assets/icns/login_facebook.svg' alt=''>
+                                <img src='{$code_href}assets/icns/login_facebook.svg' alt=''>
                                 Facebook
                             </a>
                             <a href='{$code_href}konto_passwort.php' class='login-button password-button'>
-                                <img src='{$data_href}assets/icns/login_password.svg' alt=''>
+                                <img src='{$code_href}assets/icns/login_password.svg' alt=''>
                                 Passwort
                             </a>
                         </div>

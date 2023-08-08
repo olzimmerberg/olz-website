@@ -22,7 +22,6 @@ class OlzNewsList extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
         $db_table = 'aktuell';
 
-        $data_href = $this->envUtils()->getDataHref();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([
@@ -81,7 +80,7 @@ class OlzNewsList extends OlzComponent {
             class='btn btn-secondary{$class}'
             {$properties}
         >
-            <img src='{$data_href}assets/icns/new_white_16.svg' class='noborder' />
+            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
             Neuer Eintrag
         </button>
         ZZZZZZZZZZ;

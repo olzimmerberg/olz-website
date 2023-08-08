@@ -33,7 +33,6 @@ $entityManager = DbUtils::fromEnv()->getEntityManager();
 $user = $auth_utils->getCurrentUser();
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
-$data_href = $env_utils->getDataHref();
 
 echo "<div class='content-full profile'>";
 if ($user) {
@@ -97,7 +96,7 @@ if ($user) {
             data-bs-target='#link-telegram-modal'
             class='login-button telegram-button{$telegram_button_class}'
         >
-            <img src='{$data_href}assets/icns/login_telegram.svg' alt=''>
+            <img src='{$code_href}assets/icns/login_telegram.svg' alt=''>
             Nachrichten-Push via Telegram
         </a>
         <a
@@ -107,7 +106,7 @@ if ($user) {
             data-bs-target='#link-strava-modal'
             class='login-button strava-button{$strava_button_class}'
         >
-            <img src='{$data_href}assets/icns/login_strava.svg' alt=''>
+            <img src='{$code_href}assets/icns/login_strava.svg' alt=''>
             Login mit Strava
         </a>
     </div>
@@ -119,7 +118,7 @@ if ($user) {
             class='btn btn-danger'
             onclick='return olz.olzProfileDeleteUser({$esc_id})'
         >
-            <img src='{$data_href}assets/icns/delete_white_16.svg' class='noborder' />
+            <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
             Konto löschen
         </button>
         <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>

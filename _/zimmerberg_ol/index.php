@@ -10,6 +10,7 @@ $img_root = "/img/zol_2022/";
 $auth_utils = AuthUtils::fromEnv();
 $entityManager = DbUtils::fromEnv()->getEntityManager();
 $env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
 $data_path = $env_utils->getDataPath();
 $css_path = "{$data_path}jsbuild/zimmerberg_ol/main.min.css";
 $js_path = "{$data_path}jsbuild/zimmerberg_ol/main.min.js";
@@ -43,9 +44,9 @@ $banner = $olz_text ? ($olz_text->getText() ?? '') : '';
 $banner_icon = '';
 if (trim(strip_tags($banner)) !== '') {
     $banner = "<div class='banner'>{$banner}</div>";
-    $banner_icon = <<<'ZZZZZZZZZZ'
+    $banner_icon = <<<ZZZZZZZZZZ
     <a href="#wichtig" class="banner-icon">
-        <img src="/assets/icns/cancel_16.svg" alt="!"/>
+        <img src="{$code_href}assets/icns/cancel_16.svg" alt="!"/>
     </a>
     ZZZZZZZZZZ;
 }

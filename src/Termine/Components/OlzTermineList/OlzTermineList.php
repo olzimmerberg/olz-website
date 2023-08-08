@@ -26,7 +26,7 @@ class OlzTermineList extends OlzComponent {
 
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $file_utils = FileUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
@@ -41,7 +41,7 @@ class OlzTermineList extends OlzComponent {
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $enc_json_filter = urlencode(json_encode($termine_utils->getDefaultFilter()));
-            $http_utils->redirect("termine.php?filter={$enc_json_filter}", 308);
+            $http_utils->redirect("?filter={$enc_json_filter}", 308);
         }
 
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
@@ -76,7 +76,7 @@ class OlzTermineList extends OlzComponent {
                 class='btn btn-secondary create-termin-container'
                 onclick='return olz.initOlzEditTerminModal()'
             >
-                <img src='{$data_href}assets/icns/new_white_16.svg' class='noborder' />
+                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
                 Neuer Termin
             </button>
             ZZZZZZZZZZ;

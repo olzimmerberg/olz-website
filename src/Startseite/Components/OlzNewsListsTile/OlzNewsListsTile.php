@@ -16,35 +16,35 @@ class OlzNewsListsTile extends AbstractOlzTile {
     }
 
     public function getHtml($args = []): string {
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = "<h2>News</h2>";
         $out .= "<ul class='links'>";
         $aktuell_url = $this->getNewsUrl('aktuell');
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$aktuell_url}'>
-            <img src='{$data_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
             <b>Aktuell</b>
         </a></li>
         ZZZZZZZZZZ;
         $kaderblog_url = $this->getNewsUrl('kaderblog');
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$kaderblog_url}'>
-            <img src='{$data_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
             <b>Kaderblog</b>
         </a></li>
         ZZZZZZZZZZ;
         $forum_url = $this->getNewsUrl('forum');
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$forum_url}'>
-            <img src='{$data_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
             <b>Forum</b>
         </a></li>
         ZZZZZZZZZZ;
         $galerie_url = $this->getNewsUrl('galerie');
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$galerie_url}'>
-            <img src='{$data_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
             <b>Galerie</b>
         </a></li>
         ZZZZZZZZZZ;

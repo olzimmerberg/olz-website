@@ -9,7 +9,6 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 class Olz404NotFound extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -22,10 +21,10 @@ class Olz404NotFound extends OlzComponent {
         <div class='error-image-container-404'>
             <img
                 srcset='
-                    {$data_href}assets/icns/error_schilf@2x.jpg 2x,
-                    {$data_href}assets/icns/error_schilf.jpg 1x
+                    {$code_href}assets/icns/error_schilf@2x.jpg 2x,
+                    {$code_href}assets/icns/error_schilf.jpg 1x
                 '
-                src='{$data_href}assets/icns/error_schilf.jpg'
+                src='{$code_href}assets/icns/error_schilf.jpg'
                 alt='Schilf'
                 class='error-image-404'
             />

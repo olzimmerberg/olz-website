@@ -23,7 +23,10 @@ $http_utils->validateGetParams([
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $news_filter_utils = NewsFilterUtils::fromEnv();
-$filter = $news_filter_utils->getDefaultFilter();
+$filter = json_decode($_GET['filter'] ?? '{}', true);
+if (!$news_filter_utils->isValidFilter($filter)) {
+    $filter = $news_filter_utils->getDefaultFilter();
+}
 $enc_json_filter = urlencode(json_encode($filter));
 
 $id = $_GET['id'] ?? null;

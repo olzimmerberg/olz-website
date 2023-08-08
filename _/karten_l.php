@@ -9,7 +9,7 @@ use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 $db = DbUtils::fromEnv()->getDb();
-$data_href = EnvUtils::fromEnv()->getDataHref();
+$code_href = EnvUtils::fromEnv()->getCodeHref();
 
 echo '<script type="text/javascript" src="https://map.search.ch/api/map.js?lang=en"></script>';
 
@@ -32,7 +32,7 @@ while ($row = mysqli_fetch_array($result)) {
         $icon = 'orienteering_scool_16.svg';
     }
 
-    $pois .= "theMap.addPOI(new SearchChPOI({ center:[{$center_x},{$center_y}], title:\"\",html:\"{$name}\", maxzoom:128, icon:\"{$data_href}assets/icns/{$icon}\" }));\n";
+    $pois .= "theMap.addPOI(new SearchChPOI({ center:[{$center_x},{$center_y}], title:\"\",html:\"{$name}\", maxzoom:128, icon:\"{$code_href}assets/icns/{$icon}\" }));\n";
 }
 
 echo "<script type=\"text/javascript\">
@@ -58,7 +58,7 @@ echo "<script type=\"text/javascript\">
     window.localStorage.setItem('y0', y);
 
     // Add a custom POI
-    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"{$data_href}assets/icns/orienteering_forest_16.svg\" }));\n
+    //theMap.addPOI(new SearchChPOI({ center:[x,y], title:\"\",html:name, maxzoom:512, icon:\"{$code_href}assets/icns/orienteering_forest_16.svg\" }));\n
     setTimeout(\"theMap.go({center:[\"+x+\",\"+y+\"], zoom:\"+z+\", animated:true})\", 2000);
     }
 </script>";

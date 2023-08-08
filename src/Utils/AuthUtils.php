@@ -262,7 +262,7 @@ class AuthUtils {
         $data_path = $env_utils->getDataPath();
         if (!$user) {
             $initials_enc = urlencode('?');
-            return "{$data_href}assets/user_initials_{$initials_enc}.svg";
+            return "{$code_href}assets/user_initials_{$initials_enc}.svg";
         }
         $user_image_path = "img/users/{$user->getId()}.jpg";
         if (is_file("{$data_path}{$user_image_path}")) {
@@ -271,6 +271,6 @@ class AuthUtils {
         $first_initial = mb_substr($user->getFirstName() ?? '?', 0, 1);
         $last_initial = mb_substr($user->getLastName() ?? '?', 0, 1);
         $initials_enc = urlencode(strtoupper("{$first_initial}{$last_initial}"));
-        return "{$data_href}assets/user_initials_{$initials_enc}.svg";
+        return "{$code_href}assets/user_initials_{$initials_enc}.svg";
     }
 }

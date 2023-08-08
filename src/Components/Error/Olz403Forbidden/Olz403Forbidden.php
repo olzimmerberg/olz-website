@@ -9,7 +9,6 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 class Olz403Forbidden extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -22,10 +21,10 @@ class Olz403Forbidden extends OlzComponent {
         <div class='error-image-container-403'>
             <img
                 srcset='
-                    {$data_href}assets/icns/error_tape@2x.jpg 2x,
-                    {$data_href}assets/icns/error_tape.jpg 1x
+                    {$code_href}assets/icns/error_tape@2x.jpg 2x,
+                    {$code_href}assets/icns/error_tape.jpg 1x
                 '
-                src='{$data_href}assets/icns/error_tape.jpg'
+                src='{$code_href}assets/icns/error_tape.jpg'
                 alt='Anonymer Läufer'
                 class='error-image-403'
             />

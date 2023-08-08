@@ -10,6 +10,7 @@ use Olz\Utils\EnvUtils;
 
 $db = DbUtils::fromEnv()->getDb();
 $env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
 $data_path = $env_utils->getDataPath();
 $data_href = $env_utils->getDataHref();
 
@@ -119,8 +120,8 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $img_width = $img_info_gross[0];
             $img_height = $img_info_gross[1];
             $img_href = "{$data_href}img/karten/{$thumb}";
-            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='{$data_href}assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
-            // $map = "<img src='{$data_href}assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
+            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
+            // $map = "<img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
         } else {
             $map = '';
         }
@@ -133,7 +134,7 @@ if (($db_edit == "0") or (($do ?? null) == 'vorschau')) {
             $icon = 'orienteering_scool_16.svg';
         }
         if ($typ != $tmp_typ) {
-            echo $tmp_tag."<h2><img src='{$data_href}assets/icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";
+            echo $tmp_tag."<h2><img src='{$code_href}assets/icns/".$icon."' class='noborder' style='margin-right:10px;vertical-align:bottom;'>".array_search($typ, $karten_typ)."</h2><table class='liste'>";
         }
         echo OlzMapData::render([
             'name' => $name,

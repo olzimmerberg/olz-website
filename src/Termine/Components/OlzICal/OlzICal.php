@@ -39,8 +39,8 @@ class OlzICal extends OlzComponent {
             $links = $row['link'];
             $dom = new \DOMDocument();
             $dom->loadHTML($links || ' ');
-            $_links = "OLZ-Termin: {$base_href}{$code_href}termine.php?id=".$row['id'];
-            $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine.php?id=".$row['id'];
+            $_links = "OLZ-Termin: {$base_href}{$code_href}termine/".$row['id'];
+            $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine/".$row['id'];
             foreach ($dom->getElementsByTagName("a") as $a) {
                 $text = $a->textContent;
                 $url = $a->getAttribute("href");

@@ -50,10 +50,31 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => null]);
 
-        $this->assertSame(['output' => "(no output)"], $result);
+        $this->assertSame([
+            'error' => false,
+            'output' => "(no output)",
+        ], $result);
         $this->assertSame([
             ['fake', 'fake'],
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
+    }
+
+    public function testExecuteCommandEndpointError(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
+            'commands' => false,
+            'command_fake' => true,
+        ];
+        WithUtilsCache::get('symfonyUtils')->error = new \Exception('fake');
+        $endpoint = new ExecuteCommandEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call(['command' => 'fake', 'argv' => 'foo bar']);
+
+        $this->assertSame([
+            'error' => true,
+            'output' => "\nfake",
+        ], $result);
+        $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 
     public function testExecuteCommandEndpoint(): void {
@@ -67,7 +88,10 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['command' => 'fake', 'argv' => 'foo bar']);
 
-        $this->assertSame(['output' => "fake output\n"], $result);
+        $this->assertSame([
+            'error' => false,
+            'output' => "fake output\n",
+        ], $result);
         $this->assertSame([
             ['fake', 'fake foo bar'],
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);

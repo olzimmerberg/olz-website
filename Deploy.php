@@ -145,6 +145,7 @@ class Deploy extends AbstractDefaultDeploy {
         if ($this->environment === 'staging') {
             file_put_contents("{$install_path}/_TOKEN_DIR_WILL_BE_REMOVED.txt", '');
         }
+        $fs->mirror(__DIR__.'/assets', "{$public_path}/assets");
         $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
         $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
         $index_path = "{$install_path}/index.php";
@@ -174,28 +175,34 @@ class Deploy extends AbstractDefaultDeploy {
     protected function afterDeploy($result) {
         $public_url = $this->getRemotePublicUrl();
         $staging_token = $result['staging_token'];
+        $prefix = ($this->environment === 'staging')
+            ? "{$public_url}/{$staging_token}"
+            : "{$public_url}";
+        $execute_command_url = "{$prefix}/api/executeCommand?access_token={$this->bot_access_token}";
+
+        $execute_command = function ($command, $argv = null) use ($execute_command_url) {
+            $this->logger->info("Executing \"{$command}\"...");
+            $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]));
+            $output = file_get_contents("{$execute_command_url}&request={$request}");
+            $data = json_decode($output, true) ?? [];
+            $is_error = ($data['error'] ?? true) && (bool) $data['output'];
+            if ($is_error) {
+                $this->logger->error($output);
+                $this->logger->error("Executing \"{$command}\" done.");
+                throw new \Exception($output);
+            }
+            $this->logger->info($data['output']);
+            $this->logger->info("Executing \"{$command}\" done.");
+        };
         if ($this->environment === 'staging') {
-            $execute_command_url = "{$public_url}/{$staging_token}/api/executeCommand?access_token={$this->bot_access_token}";
-            $this->logger->info("Clear cache...");
-            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"cache:clear\",\"argv\":null}");
-            $this->logger->info($output);
-            $this->logger->info("Clear cache done.");
-
-            $this->logger->info("Reset database...");
-            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"olz:db-reset\",\"argv\":\"full\"}");
-            $this->logger->info($output);
-            $this->logger->info("Database reset done.");
+            // Add doctrine:cache:clear-metadata?
+            // Add doctrine:cache:clear-query?
+            // Add doctrine:cache:clear-result?
+            $execute_command('cache:clear');
+            $execute_command('olz:db-reset', 'full');
         } elseif ($this->environment === 'prod') {
-            $execute_command_url = "{$public_url}/api/executeCommand?access_token={$this->bot_access_token}";
-            $this->logger->info("Clear cache...");
-            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"cache:clear\",\"argv\":null}");
-            $this->logger->info($output);
-            $this->logger->info("Clear cache done.");
-
-            $this->logger->info("Execute migrations...");
-            $output = file_get_contents("{$execute_command_url}&request={\"command\":\"olz:db-migrate\",\"argv\":null}");
-            $this->logger->info($output);
-            $this->logger->info("Execute migrations done.");
+            $execute_command('cache:clear');
+            $execute_command('olz:db-migrate');
         }
     }
 }

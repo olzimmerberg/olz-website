@@ -12,10 +12,9 @@ class OlzRoleInfoCard extends OlzComponent {
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
 
-        $img_html = "<img src='{$data_href}assets/icns/role.svg' alt='' class='logo'>";
+        $img_html = "<img src='{$code_href}assets/icns/role.svg' alt='' class='logo'>";
         if ($user) {
             $image_path = $this->authUtils()->getUserAvatar($user);
             $img_html = "<img src='{$image_path}' alt='' class='image'>";

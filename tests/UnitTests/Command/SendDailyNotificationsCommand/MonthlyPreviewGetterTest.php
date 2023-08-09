@@ -140,15 +140,15 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         **Termine**
         
-        - 13.04.: [Test Termin](http://fake-base-url/_/termine.php?id=1)
-        - 20.04. - 30.04.: [End of Month](http://fake-base-url/_/termine.php?id=2)
+        - 13.04.: [Test Termin](http://fake-base-url/_/termine/1)
+        - 20.04. - 30.04.: [End of Month](http://fake-base-url/_/termine/2)
 
 
         **Meldeschlüsse**
 
-        - 13.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
-        - 14.04.: Meldeschluss für '[Test Termin mit OLZ-Meldeschluss](http://fake-base-url/_/termine.php?id=3)'
-        - 15.04.: Meldeschluss für '[End of Month mit OLZ-Meldeschluss](http://fake-base-url/_/termine.php?id=4)'
+        - 13.04.: Meldeschluss für '[Termin mit Meldeschluss](http://fake-base-url/_/termine/3)'
+        - 14.04.: Meldeschluss für '[Test Termin mit OLZ-Meldeschluss](http://fake-base-url/_/termine/3)'
+        - 15.04.: Meldeschluss für '[End of Month mit OLZ-Meldeschluss](http://fake-base-url/_/termine/4)'
         
 
         ZZZZZZZZZZ;

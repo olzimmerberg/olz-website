@@ -122,8 +122,8 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         
         **Aktualisierte Termine**
         
-        - 20.03.: [4. Lauf Zürcher Nacht-OL Serie](http://fake-base-url/_/termine.php?id=1)
-        - 22.03. - 23.03.: [2. Nationaler OL (Langdistanz)](http://fake-base-url/_/termine.php?id=2)
+        - 20.03.: [4. Lauf Zürcher Nacht-OL Serie](http://fake-base-url/_/termine/1)
+        - 22.03. - 23.03.: [2. Nationaler OL (Langdistanz)](http://fake-base-url/_/termine/2)
 
 
         ZZZZZZZZZZ;

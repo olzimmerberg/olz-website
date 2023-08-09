@@ -28,7 +28,6 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $db = $this->dbUtils()->getDb();
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -62,7 +61,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $out .= <<<ZZZZZZZZZZ
             <li><a href='{$code_href}news/{$id}'>
                 <img src='{$icon}' alt='{$format}' class='link-icon'>

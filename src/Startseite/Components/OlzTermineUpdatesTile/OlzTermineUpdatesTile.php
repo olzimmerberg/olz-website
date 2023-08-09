@@ -50,7 +50,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
             $modified = date('d.m.', strtotime($row['last_modified_at']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
-            $out .= "<li><a href='{$code_href}termine.php?id={$id}' class='linkint'><b>{$modified}</b>: Änderung an {$title} vom {$date}</a></li>";
+            $out .= "<li><a href='{$code_href}termine/{$id}' class='linkint'><b>{$modified}</b>: Änderung an {$title} vom {$date}</a></li>";
         }
         $out .= "</ul>";
 

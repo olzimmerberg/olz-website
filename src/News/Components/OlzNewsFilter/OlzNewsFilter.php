@@ -10,19 +10,19 @@ class OlzNewsFilter extends OlzComponent {
         global $_GET;
 
         $news_utils = NewsFilterUtils::fromEnv();
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
         $out = "";
         $out .= "<div style='padding:4px 3px 10px 3px;'>";
 
         $out .= "<b>Format: </b>";
         $type_options = $news_utils->getUiFormatFilterOptions($current_filter);
-        $out .= implode(" | ", array_map(function ($option) use ($data_href) {
+        $out .= implode(" | ", array_map(function ($option) use ($code_href) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $icon = $option['icon'];
-            $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
+            $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
             $ident = $option['ident'];
             return "<a href='?filter={$enc_json_filter}' id='filter-format-{$ident}' class='format-filter'{$selected}>
                 {$icon_html}{$name}

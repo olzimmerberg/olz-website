@@ -1,19 +1,27 @@
 <?php
 
-use Olz\Termine\Components\OlzTermineDetail\OlzTermineDetail;
-use Olz\Termine\Components\OlzTermineList\OlzTermineList;
+use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Utils\EnvUtils;
 
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
-require_once __DIR__.'/admin/olz_functions.php';
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
+$termine_filter_utils = TermineFilterUtils::fromEnv();
+$filter = json_decode($_GET['filter'] ?? '{}', true);
+if (!$termine_filter_utils->isValidFilter($filter)) {
+    $filter = $termine_filter_utils->getDefaultFilter();
+}
+$enc_json_filter = urlencode(json_encode($filter));
 
-$db_table = 'termine';
 $id = $_GET['id'] ?? null;
 
 if ($id === null) {
-    echo OlzTermineList::render();
+    $new_url = "{$code_href}termine?filter={$enc_json_filter}";
+    header("Location: {$new_url}");
 } else {
-    echo OlzTermineDetail::render();
+    $new_url = "{$code_href}termine/{$id}?filter={$enc_json_filter}";
+    header("Location: {$new_url}");
 }

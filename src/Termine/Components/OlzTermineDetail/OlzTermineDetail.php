@@ -18,9 +18,14 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineDetail extends OlzComponent {
     public function getHtml($args = []): string {
-        global $db_table, $id;
+        global $_GET;
 
+        require_once __DIR__.'/../../../../_/config/init.php';
         require_once __DIR__.'/../../../../_/config/date.php';
+
+        session_start_if_cookie_set();
+
+        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
@@ -32,6 +37,8 @@ class OlzTermineDetail extends OlzComponent {
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),
             'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
         ], $_GET);
+        $db_table = 'termine';
+        $id = $args['id'] ?? null;
 
         $termine_utils = TermineFilterUtils::fromEnv();
         $termin_repo = $entityManager->getRepository(Termin::class);
@@ -48,7 +55,7 @@ class OlzTermineDetail extends OlzComponent {
         $num_news_entries = $news_entries->count();
         $no_robots = $num_news_entries !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}termine.php?id={$id}";
+        $canonical_url = "https://{$host}{$code_href}termine/{$id}";
 
         $out = '';
 
@@ -69,7 +76,7 @@ class OlzTermineDetail extends OlzComponent {
         $title = $row['titel'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
-            'back_link' => "{$code_href}termine.php?filter={$back_filter}",
+            'back_link' => "{$code_href}termine?filter={$back_filter}",
             'title' => "{$title} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $no_robots,
@@ -77,13 +84,12 @@ class OlzTermineDetail extends OlzComponent {
         ]);
 
         $id_edit = $_SESSION['id_edit'] ?? ''; // TODO: Entfernen?
-        $out .= <<<ZZZZZZZZZZ
+        $out .= <<<'ZZZZZZZZZZ'
         <div class='content-right optional'>
             <div style='padding:4px 3px 10px 3px;'>
             </div>
         </div>
         <div class='content-middle'>
-        <form name='Formularl' method='post' action='termine.php?id={$id}' enctype='multipart/form-data'>
         ZZZZZZZZZZ;
 
         // -------------------------------------------------------------
@@ -123,8 +129,7 @@ class OlzTermineDetail extends OlzComponent {
             ]);
         }
 
-        $out .= "</form>
-        </div>";
+        $out .= "</div>";
 
         $out .= OlzFooter::render();
 

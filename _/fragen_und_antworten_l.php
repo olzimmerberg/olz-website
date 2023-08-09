@@ -8,15 +8,17 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 
 require_once __DIR__.'/tickers.php';
 
+$code_href = EnvUtils::fromEnv()->getCodeHref();
 $entityManager = DbUtils::fromEnv()->getEntityManager();
 $role_repo = $entityManager->getRepository(Role::class);
 $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
 $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
 
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
 <h1>Fragen & Antworten (FAQ)</h1>
 <h3>Was ist OL?</h3>
 <div>
@@ -26,20 +28,20 @@ Das erklären wir dir in unserem kurzen Youtube Video:<br><br>
 <h3>Was tun?</h3>
 <div>
 Am besten kommst du in eines unserer <b>Trainings</b> (mit <a href='https://youtu.be/PjsDAQM1kxA' target='_blank' class='linkext'>Youtube Video</a> zur Vorbereitung).<br>
-Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Kinder und Jugendliche. Wann genau diese stattfinden, verraten wir dir bei den <a href='termine.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Terminen</a>.
+Jährlich organisieren wir ein <b>OL-Lager</b> und ein <b>Tageslager</b> für Kinder und Jugendliche. Wann genau diese stattfinden, verraten wir dir bei den <a href='{$code_href}termine' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Terminen</a>.
 </div>
 <br>
 <h3>Wann finden diese Trainings statt?</h3>
 <div>
-Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='termine.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Termine-Seite</a></b> bekannt gegeben. <br>Auf der rechten Seite bei den <a href='termine.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Terminen</a> findest du auch diese <b>Übersicht über unsere Trainings</b>:
+Alle Anlässe und damit auch die Trainings werden bei uns auf der <b><a href='{$code_href}termine' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Termine-Seite</a></b> bekannt gegeben. <br>Auf der rechten Seite bei den <a href='{$code_href}termine' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Terminen</a> findest du auch diese <b>Übersicht über unsere Trainings</b>:
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>
 ZZZZZZZZZZ;
 echo OlzEditableText::render(['olz_text_id' => 1]);
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
 </div>
 <div>
-Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='termine.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Termine-Seite</a>.
+Wir haben dir hier noch die nächsten 3 Trainings herausgesucht. Diese findest du natürlich auch auf der <a href='{$code_href}termine' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Termine-Seite</a>.
 </div>
 <div style='border:1px solid black; margin:5px; padding:0px;'>
 ZZZZZZZZZZ;
@@ -102,7 +104,7 @@ $aktuariat_assignees = $aktuariat_role->getUsers();
 foreach ($aktuariat_assignees as $aktuariat_assignee) {
     echo OlzUserInfoCard::render(['user' => $aktuariat_assignee]);
 }
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
 </div>
 </div>
 <br>
@@ -113,7 +115,7 @@ Ja. Sie schreiben sogar manchmal Beiträge im <b><a href='blog.php' onmouseover=
 <br>
 <h3>Wo kann ich Berichte von vergangenen Anlässen nachlesen?</h3>
 <div>
-Auf der <b><a href='news' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>News-Seite</a></b>.
+Auf der <b><a href='{$code_href}news' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>News-Seite</a></b>.
 </div>
 <br>
 <h3>Wer ist im Vorstand der OL Zimmerberg?</h3>

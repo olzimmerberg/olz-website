@@ -20,7 +20,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         $out = "";
 
         $has_access = $this->authUtils()->hasPermission('weekly_picture');
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $mgmt_html = '';
         if ($has_access) {
@@ -32,7 +32,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
                 onclick='return olz.initOlzEditWeeklyPictureModal()'
             >
                 <img
-                    src='{$data_href}assets/icns/new_white_16.svg'
+                    src='{$code_href}assets/icns/new_white_16.svg'
                     alt='+'
                     class='header-link-icon'
                     title='Neues Bild der Woche'

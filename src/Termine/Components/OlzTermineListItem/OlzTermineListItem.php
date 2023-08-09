@@ -18,7 +18,7 @@ class OlzTermineListItem extends OlzComponent {
 
     public function getHtml($args = []): string {
         $file_utils = FileUtils::fromEnv();
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = '';
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
@@ -36,10 +36,10 @@ class OlzTermineListItem extends OlzComponent {
         $types = $args['types'];
         $image_ids = $args['image_ids'];
 
-        $link = "termine.php?filter={$enc_current_filter}&id={$id}";
-        $type_imgs = implode('', array_map(function ($type) use ($data_href) {
+        $link = "{$code_href}termine/{$id}?filter={$enc_current_filter}";
+        $type_imgs = implode('', array_map(function ($type) use ($code_href) {
             $icon_basename = self::$iconBasenameByType[$type] ?? '';
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             return "<img src='{$icon}' alt='' class='type-icon'>";
         }, $types));
         $start_icon = OlzDateCalendar::render([

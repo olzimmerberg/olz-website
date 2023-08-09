@@ -19,7 +19,6 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
         $plus_two_weeks = \DateInterval::createFromDateString("+2 weeks");
@@ -77,9 +76,9 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
             $icon_basename = 'termine_type_meldeschluss_20.svg';
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
-            $out .= "<li><a href='{$code_href}termine.php?id={$id}'>
+            $out .= "<li><a href='{$code_href}termine/{$id}'>
               {$icon_img} <b>{$deadline}</b>: Für {$title} vom {$date}
             </a></li>";
         }

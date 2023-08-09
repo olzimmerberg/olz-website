@@ -6,9 +6,9 @@ require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$termine_url = '/termine.php';
-$termine_id_7_url = "{$termine_url}?id=7";
-$termine_id_13_url = "{$termine_url}?id=13";
+$termine_url = '/termine';
+$termine_id_7_url = "{$termine_url}/7";
+$termine_id_13_url = "{$termine_url}/13";
 
 function test_termine($driver, $base_url) {
     global $termine_url, $termine_id_7_url, $termine_id_13_url;

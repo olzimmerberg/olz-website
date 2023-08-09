@@ -23,7 +23,7 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}news", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}blog.php", 'daily', '0.4');
-        $out .= self::getEntry("{$base_url}termine.php", 'daily', '0.6');
+        $out .= self::getEntry("{$base_url}termine", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}karten.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}material.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}service.php", 'monthly', '0.3');
@@ -38,7 +38,7 @@ class OlzSitemap extends OlzComponent {
 
         $termine_ids = $entityManager->getRepository(Termin::class)->getAllActiveIds();
         foreach ($termine_ids as $termine_id) {
-            $out .= self::getEntry("{$base_url}termine.php?id={$termine_id}", 'monthly', '0.2');
+            $out .= self::getEntry("{$base_url}termine/{$termine_id}", 'monthly', '0.2');
         }
 
         $verein_ressorts = $entityManager->getRepository(Role::class)->getAllActiveRessorts();
@@ -57,7 +57,7 @@ class OlzSitemap extends OlzComponent {
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
             $enc_json_filter = urlencode(json_encode($termine_filter));
-            $out .= self::getEntry("{$base_url}termine.php?filter={$enc_json_filter}", 'monthly', '0.2');
+            $out .= self::getEntry("{$base_url}termine?filter={$enc_json_filter}", 'monthly', '0.2');
         }
 
         $out .= "</urlset>\n";

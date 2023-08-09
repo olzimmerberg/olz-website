@@ -6,11 +6,13 @@
 // =============================================================================
 
 use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 
 require_once __DIR__.'/config/date.php';
 
 function termine_ticker($settings) {
     global $_DATE;
+    $code_href = EnvUtils::fromEnv()->getCodeHref();
     $db = DbUtils::fromEnv()->getDb();
 
     $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;
@@ -117,7 +119,7 @@ function termine_ticker($settings) {
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p{$class_heute}><a href='termine.php#id".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>";
 }

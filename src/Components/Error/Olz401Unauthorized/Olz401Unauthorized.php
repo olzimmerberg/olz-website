@@ -9,7 +9,6 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 class Olz401Unauthorized extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
@@ -22,10 +21,10 @@ class Olz401Unauthorized extends OlzComponent {
         <div class='error-image-container-401'>
             <img
                 srcset='
-                    {$data_href}assets/icns/error_anonymous@2x.jpg 2x,
-                    {$data_href}assets/icns/error_anonymous.jpg 1x
+                    {$code_href}assets/icns/error_anonymous@2x.jpg 2x,
+                    {$code_href}assets/icns/error_anonymous.jpg 1x
                 '
-                src='{$data_href}assets/icns/error_anonymous.jpg'
+                src='{$code_href}assets/icns/error_anonymous.jpg'
                 alt='Anonymer Läufer'
                 class='error-image-401'
             />

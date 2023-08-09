@@ -28,7 +28,6 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -50,12 +49,12 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $video_url = $this->getNewsUrl('video');
         $out = <<<ZZZZZZZZZZ
         <h2><a href='{$galerie_url}'>
-            <img src='{$data_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
             Galerie
         </a>
         &nbsp;&amp;&nbsp;
         <a href='{$video_url}'>
-            <img src='{$data_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
+            <img src='{$code_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
             Video
         </a> {$newsletter_link}</h2>
         ZZZZZZZZZZ;
@@ -77,7 +76,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $image_ids = $news_entry->getImageIds() ?? [];
 
             $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$data_href}assets/icns/{$icon_basename}";
+            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $images = "";
             for ($i = 0; $i < min(count($image_ids), 5); $i++) {
                 $olz_image = $image_utils->olzImage(

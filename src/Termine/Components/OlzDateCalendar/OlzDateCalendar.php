@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzDateCalendar extends OlzComponent {
     public function getHtml($args = []): string {
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $date = $args['date'];
         $size = strtolower($args['size'] ?? 'M');
@@ -17,7 +17,7 @@ class OlzDateCalendar extends OlzComponent {
 
         return <<<ZZZZZZZZZZ
         <div class='olz-date-calendar size-{$size}'>
-            <img src='{$data_href}assets/icns/date_calendar.svg' alt='' class='date-img'>
+            <img src='{$code_href}assets/icns/date_calendar.svg' alt='' class='date-img'>
             <div class='weekday'>{$weekday}</div>
             <div class='day'>{$day}</div>
             <div class='month'>{$month}</div>

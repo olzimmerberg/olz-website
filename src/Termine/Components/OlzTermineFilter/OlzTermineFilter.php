@@ -10,33 +10,33 @@ class OlzTermineFilter extends OlzComponent {
         global $_GET;
 
         $termine_utils = TermineFilterUtils::fromEnv();
-        $data_href = $this->envUtils()->getDataHref();
+        $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
         $out = "";
         $out .= "<div style='padding:4px 3px 10px 3px;'>";
 
         $out .= "<b>Termin-Typ: </b>";
         $type_options = $termine_utils->getUiTypeFilterOptions($current_filter);
-        $out .= implode(" | ", array_map(function ($option) use ($data_href) {
+        $out .= implode(" | ", array_map(function ($option) use ($code_href) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $icon = $option['icon'];
-            $icon_html = $icon ? "<img src='{$data_href}assets/icns/{$icon}' alt='' class='type-filter-icon'>" : '';
+            $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='type-filter-icon'>" : '';
             $ident = $option['ident'];
-            return "<a href='termine.php?filter={$enc_json_filter}' id='filter-type-{$ident}' class='type-filter'{$selected}>
+            return "<a href='{$code_href}termine?filter={$enc_json_filter}' id='filter-type-{$ident}' class='type-filter'{$selected}>
                 {$icon_html}{$name}
             </a>";
         }, $type_options));
 
         $out .= "<br /><b>Datum: </b>";
         $date_range_options = $termine_utils->getUiDateRangeFilterOptions($current_filter);
-        $out .= implode(" | ", array_map(function ($option) {
+        $out .= implode(" | ", array_map(function ($option) use ($code_href) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $ident = $option['ident'];
-            return "<a href='termine.php?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
+            return "<a href='{$code_href}termine?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
         }, $date_range_options));
 
         $out .= "<br /><b>Archiv: </b>";

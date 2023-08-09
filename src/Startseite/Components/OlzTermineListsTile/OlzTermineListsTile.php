@@ -43,7 +43,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
             <b>Nächste Termine</b>
         </a></li>
         ZZZZZZZZZZ;
@@ -63,7 +63,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
             <b>Jahresprogramm {$year}</b>
         </a></li>
         ZZZZZZZZZZ;
@@ -83,7 +83,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $enc_json_filter = urlencode(json_encode($filter));
         $year = $filter['datum'];
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
             <b>Weekends {$year}</b>
         </a></li>
         ZZZZZZZZZZ;
@@ -96,7 +96,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine.php?filter={$enc_json_filter}' class='linkint'>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
             <b>Nächste Trainings</b>
         </a></li>
         ZZZZZZZZZZ;

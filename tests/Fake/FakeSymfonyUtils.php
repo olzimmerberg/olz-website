@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FakeSymfonyUtils {
+    public $error;
     public $output;
     public $commandsCalled = [];
 
@@ -16,6 +17,9 @@ class FakeSymfonyUtils {
         InputInterface $input,
         OutputInterface $output,
     ): void {
+        if ($this->error) {
+            throw $this->error;
+        }
         if ($this->output) {
             $output->writeln($this->output);
         }

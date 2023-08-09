@@ -15,6 +15,7 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
 
     public function getResponseField() {
         return new FieldTypes\ObjectField(['field_structure' => [
+            'error' => new FieldTypes\BooleanField(['allow_null' => false]),
             'output' => new FieldTypes\StringField(['allow_null' => false]),
         ]]);
     }
@@ -45,11 +46,13 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
             $this->symfonyUtils()->callCommand($command_name, $command_input, $command_output);
             $output = $command_output->fetch();
             return [
+                'error' => false,
                 'output' => $output ? $output : '(no output)',
             ];
         } catch (\Throwable $th) {
             $output = $command_output->fetch();
             return [
+                'error' => true,
                 'output' => $output."\n".$th->getMessage(),
             ];
         }

@@ -664,6 +664,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'data': OlzRegistrationData,
         },
     executeCommand: {
+            'error': boolean,
             'output': string,
         },
     getWebdavAccessToken: {

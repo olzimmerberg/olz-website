@@ -66,7 +66,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             WHERE n.on_off = '1' and n.typ IN ('galerie', 'video')
             ORDER BY n.datum DESC, n.zeit DESC
         ZZZZZZZZZZ);
-        $query->setMaxResults(4);
+        $query->setMaxResults(3);
         $index = 0;
         foreach ($query->getResult() as $news_entry) {
             $id = $news_entry->getId();
@@ -78,9 +78,9 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $icon_basename = self::$iconBasenameByFormat[$format];
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $images = "";
-            for ($i = 0; $i < min(count($image_ids), 5); $i++) {
+            for ($i = 0; $i < min(count($image_ids), 3); $i++) {
                 $olz_image = $image_utils->olzImage(
-                    'news', $id, $image_ids[$i], 55, null, ' class="noborder"');
+                    'news', $id, $image_ids[$i], 80, null, ' class="noborder"');
                 $images .= "{$olz_image}";
             }
 

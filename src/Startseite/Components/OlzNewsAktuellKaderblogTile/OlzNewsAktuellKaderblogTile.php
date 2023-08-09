@@ -65,7 +65,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             WHERE n.on_off = '1' and n.typ IN ('aktuell', 'kaderblog')
             ORDER BY n.datum DESC, n.zeit DESC
         ZZZZZZZZZZ);
-        $query->setMaxResults(5);
+        $query->setMaxResults(4);
         $index = 0;
         foreach ($query->getResult() as $news_entry) {
             $id = $news_entry->getId();
@@ -81,7 +81,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             if (count($image_ids ?? []) > 0) {
                 $class = $is_image_right ? 'right' : 'left';
                 $olz_image = $image_utils->olzImage(
-                    'news', $id, $image_ids[0] ?? null, 55, null, ' class="noborder"');
+                    'news', $id, $image_ids[0] ?? null, 80, 'image', ' class="noborder"');
                 $image = "<div class='link-image-{$class}'>{$olz_image}</div>";
             }
             $image_left = '';

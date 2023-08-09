@@ -73,7 +73,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
             $is_image_right = ($index % 2) === 1;
             if (count($image_ids ?? []) > 0) {
                 $olz_image = $image_utils->olzImage(
-                    'news', $id, $image_ids[0] ?? null, 55, null, ' class="noborder"');
+                    'news', $id, $image_ids[0] ?? null, 80, 'image', ' class="noborder"');
                 $image = "{$olz_image}";
             }
             $image_left = '';

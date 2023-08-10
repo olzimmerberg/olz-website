@@ -1,6 +1,9 @@
 .olz-posting-list-item {
-    .author-row {
-        display: flex;
-        align-items: center;
+    .edit-news-list-button {
+        margin: -5px 0;
+
+        img {
+            display: block;
+        }
     }
 }

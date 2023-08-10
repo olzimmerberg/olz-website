@@ -25,6 +25,7 @@ class OlzTermineListItem extends OlzComponent {
 
         $item_type = $args['item_type'];
         $id = $args['id'];
+        $owner_user_id = $args['owner_user_id'];
         $start_date = $args['start_date'];
         $start_time = $args['start_time'];
         $end_date = $args['end_date'];
@@ -61,6 +62,23 @@ class OlzTermineListItem extends OlzComponent {
         ) : null;
         $links = $file_utils->replaceFileTags($links, 'termine', $id);
 
+        $user = $this->authUtils()->getCurrentUser();
+        $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());
+        $has_all_permissions = $this->authUtils()->hasPermission('all');
+        $can_edit = $is_owner || $has_all_permissions;
+        $edit_admin = '';
+        if ($can_edit) {
+            $json_id = json_encode(intval($id));
+            $edit_admin = <<<ZZZZZZZZZZ
+            <button
+                class='btn btn-secondary-outline btn-sm edit-termin-list-button'
+                onclick='return olz.termineListItemEditTermin({$json_id})'
+            >
+                <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+            </button>
+            ZZZZZZZZZZ;
+        }
+
         $out .= <<<ZZZZZZZZZZ
         <div class='olz-termine-list-item'>
             <a class='link' href='{$link}'></a>
@@ -70,7 +88,7 @@ class OlzTermineListItem extends OlzComponent {
                     <div class='time-text'>{$time_text}</div>
                 </div>
                 <div class='title-text-container'>
-                    <div class='title'>{$title} {$type_imgs}</div>
+                    <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
                     <div class='text'>{$text} {$links}</div>
                 </div>
             </div>

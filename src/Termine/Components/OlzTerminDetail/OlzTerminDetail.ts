@@ -9,7 +9,6 @@ export function editTermin(
 ): boolean {
     olzApi.call('editTermin', {id: terminId})
         .then((response) => {
-            console.log(response);
             initOlzEditTerminModal(response.id, response.meta, response.data);
         });
     return false;

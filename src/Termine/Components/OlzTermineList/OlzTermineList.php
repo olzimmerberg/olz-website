@@ -102,6 +102,7 @@ class OlzTermineList extends OlzComponent {
         SELECT * FROM ((
             SELECT
                 'termin' as item_type,
+                t.owner_user_id as owner_user_id,
                 t.datum as datum,
                 t.datum_end as datum_end,
                 t.zeit as zeit,
@@ -125,6 +126,7 @@ class OlzTermineList extends OlzComponent {
         ) UNION ALL (
             SELECT
                 'solv_deadline' as item_type,
+                t.owner_user_id as owner_user_id,
                 se.deadline as datum,
                 NULL as datum_end,
                 '00:00:00' as zeit,
@@ -148,6 +150,7 @@ class OlzTermineList extends OlzComponent {
         ) UNION ALL (
             SELECT
                 'olz_deadline' as item_type,
+                t.owner_user_id as owner_user_id,
                 DATE(t.deadline) as datum,
                 NULL as datum_end,
                 TIME(t.deadline) as zeit,
@@ -187,6 +190,7 @@ class OlzTermineList extends OlzComponent {
             $out .= OlzTermineListItem::render([
                 'item_type' => $row['item_type'],
                 'id' => $row['id'],
+                'owner_user_id' => $row['owner_user_id'],
                 'start_date' => $row['datum'],
                 'start_time' => $row['zeit'],
                 'end_date' => $row['datum_end'],

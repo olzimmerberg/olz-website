@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {OlzApiResponses} from '../../../../src/Api/client';
 import {OlzMetaData, OlzTerminData} from '../../../../src/Api/client/generated_olz_api_types';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getInteger, getIsoDateTime, getIsoDate, getIsoTime, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
@@ -453,22 +453,33 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     );
 };
 
+let editTerminModalRoot: ReturnType<typeof createRoot>|null = null;
+
 export function initOlzEditTerminModal(
     id?: number,
     meta?: OlzMetaData,
     data?: OlzTerminData,
 ): boolean {
-    ReactDOM.render(
+    const rootElem = document.getElementById('edit-termin-react-root');
+    if (!rootElem) {
+        return false;
+    }
+    if (editTerminModalRoot) {
+        editTerminModalRoot.unmount();
+    }
+    editTerminModalRoot = createRoot(rootElem);
+    editTerminModalRoot.render(
         <OlzEditTerminModal
             id={id}
             meta={meta}
             data={data}
         />,
-        document.getElementById('edit-termin-react-root'),
     );
-    const modal = document.getElementById('edit-termin-modal');
-    if (modal) {
-        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-    }
+    window.setTimeout(() => {
+        const modal = document.getElementById('edit-termin-modal');
+        if (modal) {
+            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+        }
+    }, 1);
     return false;
 }

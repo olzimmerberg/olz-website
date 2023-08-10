@@ -190,7 +190,7 @@ class OlzTerminDetail extends OlzComponent {
                 // SOLV-Übersicht-Link zeigen
                 $datum_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
             }
-            $type_imgs = implode('', array_map(function ($type) {
+            $type_imgs = implode('', array_map(function ($type) use ($code_href) {
                 $icon_basename = self::$iconBasenameByType[$type] ?? '';
                 $icon = "{$code_href}assets/icns/{$icon_basename}";
                 return "<img src='{$icon}' alt='' class='type-icon'>";

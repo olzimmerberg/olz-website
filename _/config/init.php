@@ -9,6 +9,9 @@ setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de_DE.UTF8');
 // Character encoding
 mb_internal_encoding('UTF-8');
 
+// Time zone
+date_default_timezone_set('Europe/Zurich');
+
 // Session security
 if (!headers_sent()) {
     ini_set('session.gc_maxlifetime', 2419200); // keep one month

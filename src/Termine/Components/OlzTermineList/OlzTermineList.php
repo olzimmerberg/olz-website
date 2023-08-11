@@ -19,9 +19,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
     public function getHtml($args = []): string {
-        global $db_table, $monate, $heute;
-
-        require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
         $db = $this->dbUtils()->getDb();
@@ -58,13 +55,13 @@ class OlzTermineList extends OlzComponent {
 
         $enc_current_filter = urlencode(json_encode($current_filter));
 
-        $out .= "
+        $sidebar = OlzTermineSidebar::render();
+        $out .= <<<ZZZZZZZZZZ
         <div class='content-right optional'>
-        <div>";
-        $out .= OlzTermineSidebar::render();
-        $out .= "</div>
+            <div>{$sidebar}</div>
         </div>
-        <div class='content-middle'>";
+        <div class='content-middle'>
+        ZZZZZZZZZZ;
 
         $out .= OlzTermineFilter::render();
 

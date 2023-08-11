@@ -4,13 +4,11 @@
 // Kann auf der Website nach einem Suchbegriff suchen.
 // =============================================================================
 
+use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-global $_DATE;
-
-require_once __DIR__.'/config/date.php';
-
+$date_utils = AbstractDateUtils::fromEnv();
 $code_href = EnvUtils::fromEnv()->getCodeHref();
 $db = DbUtils::fromEnv()->getDb();
 
@@ -67,7 +65,7 @@ if ($sql1 > "") {// TERMINE
         $text = strip_tags($row['text']);
         $id = $row['id'];
         $jahr = date("Y", $datum);
-        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
+        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_termine .= "<tr><td><a href=\"{$code_href}termine/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"{$code_href}termine/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -85,7 +83,7 @@ if ($sql1 > "") {// TERMINE
         $titel = strip_tags($row['titel']);
         $text = strip_tags($row['text']).strip_tags($row['textlang']);
         $id = $row['id'];
-        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
+        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_aktuell .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -103,7 +101,7 @@ if ($sql1 > "") {// TERMINE
         $titel = strip_tags($row['name']);
         $text = strip_tags($row['eintrag']);
         $id = $row['id'];
-        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
+        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_forum .= "<tr><td><a href=\"forum.php#id{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"forum.php#id{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
@@ -121,7 +119,7 @@ if ($sql1 > "") {// TERMINE
         $datum_ = $row['datum'];
         $titel = strip_tags($row['titel']);
         $id = $row['id'];
-        $datum = $_DATE->olzDate("t. MM jjjj", $datum);
+        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
         cutout($text);
         $result_galerie .= "<tr><td><a href=\"galerie.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"galerie.php?id={$id}\" class=\"linkint\">".$titel."</a></b></td></tr>";
     }

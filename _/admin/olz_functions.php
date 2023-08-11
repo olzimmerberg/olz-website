@@ -7,8 +7,6 @@
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-require_once __DIR__.'/../config/date.php';
-
 // ----------------------------------
 // EMAILADRESSE MASKIEREN
 // ----------------------------------
@@ -47,20 +45,6 @@ function is_ganzzahl($string) {
     $tmp = $string;
     settype($string, 'integer');
     return $string."x" == $tmp."x";
-}
-
-// ----------------------------------
-// FUNKTION MONATS-ZWISCHENTITEL
-// ----------------------------------
-function olz_monate($datum) {
-    global $monat, $_DATE;
-    $monatstitel = '';
-    $entry_month = $_DATE->olzDate("M", $datum);
-    if ($monat != $entry_month) {
-        $monatstitel = "<tr><td colspan='3' style='border:0px; padding:10px 0px 0px 0px;'><a name=monat".$entry_month."></a><h3 class='tablebar'>".$_DATE->olzDate("MM jjjj", $datum)."</h3></td></tr>\n";
-    }
-    $monat = $entry_month;
-    return $monatstitel;
 }
 
 // ----------------------------------

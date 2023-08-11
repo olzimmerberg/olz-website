@@ -5,13 +5,12 @@
 // TODO(simon): Was davon ist in Gebrauch? Was soll geschehen?
 // =============================================================================
 
+use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
-require_once __DIR__.'/config/date.php';
-
 function termine_ticker($settings) {
-    global $_DATE;
+    $date_utils = AbstractDateUtils::fromEnv();
     $code_href = EnvUtils::fromEnv()->getCodeHref();
     $db = DbUtils::fromEnv()->getDb();
 
@@ -22,7 +21,7 @@ function termine_ticker($settings) {
     $heute_highlight = isset($settings["heute_highlight"]) ? $settings["heute_highlight"] : true;
     // Konstanten
     $db_table = "termine";
-    $heute = olz_current_date("Y-m-d");
+    $heute = $date_utils->getCurrentDateInFormat("Y-m-d");
     echo "<div class='layout'>";
     echo "<h4 class='tablebar'>".$titel."</h4>";
     // Tabelle auslesen
@@ -32,7 +31,7 @@ function termine_ticker($settings) {
     // TEST uu/1.4.2011
     // Was, wenn ein mehrtägiger Event vor x Tagen begonnen hat? simon/23.5.2011
     $pulse = "";
-    $wotag = olz_current_date("w");
+    $wotag = $date_utils->getCurrentDateInFormat("w");
     if ($wotag == 0) {
         $wotag = 7;
     }
@@ -53,9 +52,9 @@ function termine_ticker($settings) {
         if ($diff < 0.95) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
             $case_tmp = 1;
             if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '(bis '.$_DATE->olzDate('WW t.m.', $datum_end).')';
+                $datum_end = '(bis '.$date_utils->olzDate('WW t.m.', $datum_end).')';
             } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '(bis '.$_DATE->olzDate('WW', $datum_end).')';
+                $datum_end = '(bis '.$date_utils->olzDate('WW', $datum_end).')';
             } else {
                 $datum_end = '';
             }
@@ -66,24 +65,24 @@ function termine_ticker($settings) {
         } elseif ($diff < (7.95 - $wotag)) {
             $case_tmp = 2;
             if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '-'.$_DATE->olzDate('WW (t.m.)', $datum_end);
+                $datum_end = '-'.$date_utils->olzDate('WW (t.m.)', $datum_end);
             } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '-'.$_DATE->olzDate('WW', $datum_end);
+                $datum_end = '-'.$date_utils->olzDate('WW', $datum_end);
             } else {
                 $datum_end = '';
             }
-            // $datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$_DATE->olzDate('W',$datum_end) : '' ;
-            $datum = $_DATE->olzDate('WW', $datum_tmp).$datum_end.":";
+            // $datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$date_utils->olzDate('W',$datum_end) : '' ;
+            $datum = $date_utils->olzDate('WW', $datum_tmp).$datum_end.":";
         } elseif ($diff < (14.95 - $wotag)) {
             $case_tmp = 3;
-            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.$_DATE->olzDate('t.m.(W)', $datum_end) : '';
-            $datum = $_DATE->olzDate('W, t.m.', $datum_tmp).$datum_end;
+            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.$date_utils->olzDate('t.m.(W)', $datum_end) : '';
+            $datum = $date_utils->olzDate('W, t.m.', $datum_tmp).$datum_end;
         } elseif ($flag == 1) {
             $case_tmp = 4;
-            $datum = $_DATE->olzDate('t.m.', $datum_tmp);
+            $datum = $date_utils->olzDate('t.m.', $datum_tmp);
         } else {
             $case_tmp = 5;
-            $datum = $_DATE->olzDate('t.m.', $datum_tmp);
+            $datum = $date_utils->olzDate('t.m.', $datum_tmp);
         }
         if ($case_tmp < 4) {
             $flag = 0;
@@ -98,7 +97,6 @@ function termine_ticker($settings) {
         $titel = strip_tags(str_replace("<br>", ", ", $row['titel']));
         $text = strip_tags(str_replace("<br>", ", ", $row['text']));
         $id_tmp = $row['id'];
-        // $datum_tmp = zeitintervall(strtotime($datum_tmp));
         $datum_tmp = $datum;
         if ($titel == "") {
             $titel = $text;
@@ -122,35 +120,4 @@ function termine_ticker($settings) {
         echo "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
     }
     echo "</div>";
-}
-
-function zeitintervall($datum) {
-    global $wochentage_lang;
-    require_once __DIR__.'/config/date.php';
-    $today = strtotime(olz_current_date("Y-m-d"));
-    $towday = date("w", $today);
-    if ($towday == 0) {
-        $towday = 7;
-    }
-    $tage = round(($datum - $today) / 86400, 0);
-    $wday = date("w", $datum);
-    if ($wday == 0) {
-        $wday = 7;
-    }
-    if ($tage == -1) {
-        return "Gestern";
-    }
-    if ($tage == 0) {
-        return "Heute";
-    }
-    if ($tage == 1) {
-        return "Morgen";
-    }
-    if ($tage > -7 && $tage < 0) {
-        return "Letzten ".$wochentage_lang[$wday];
-    }
-    if ($tage < (15 - $wday)) {
-        return $wochentage_lang[$wday]; // (($towday<$wday)?"Diesen ":"Nächsten ")
-    }
-    return $_DATE->olzDate("tt.mm.", $datum);
 }

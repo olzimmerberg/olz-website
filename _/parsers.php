@@ -5,14 +5,14 @@
 // TODO(simon): DEPRECATED?
 // =============================================================================
 
+use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 
-require_once __DIR__.'/config/date.php';
-
 function solvdataforyear($year) {
+    $date_utils = AbstractDateUtils::fromEnv();
     $db = DbUtils::fromEnv()->getDb();
     if (!$year) {
-        $year = olz_current_date("Y");
+        $year = $date_utils->getCurrentDateInFormat("Y");
     }
     $url = "https://o-l.ch/cgi-bin/fixtures?&year=".$year."&kind=&csv=1";
     $file = iconv('ISO-8859-1', 'UTF-8', load_url($url));
@@ -94,8 +94,9 @@ function go2oldata() {
 }
 
 function load_url($url) {
+    $date_utils = AbstractDateUtils::fromEnv();
     $res = preg_match("/^https?\\:\\/\\/([^\\/]+)/", $url, $matches);
-    $filename = "temp/".md5($url)."-".olz_current_date("Y-m-d")."-".$matches[1].".txt";
+    $filename = "temp/".md5($url)."-".$date_utils->getCurrentDateInFormat("Y-m-d")."-".$matches[1].".txt";
     if (is_file($filename)) {
         $file = file_get_contents($filename);
     } else {

@@ -134,18 +134,13 @@ class DevDataUtils {
     }
 
     public function getCurrentMigration() {
-        $db = $this->dbUtils()->getDb();
-
-        $migrations_config = require __DIR__.'/../../_/config/migrations.php';
-        $migrations_table_name = $migrations_config['table_storage']['table_name'];
-
-        $current_migration_result = $db->query("
-            SELECT version
-            FROM `{$migrations_table_name}`
-            ORDER BY `version` DESC
-            LIMIT 1");
-        $current_migration = $current_migration_result->fetch_assoc()['version'];
-        return $current_migration;
+        $input = new ArrayInput(['--no-interaction' => true]);
+        $input->setInteractive(false);
+        $output = new BufferedOutput();
+        $this->symfonyUtils()->callCommand(
+            'doctrine:migrations:current', $input, $output);
+        $is_match = preg_match('/^\s*([a-zA-Z0-9\\\\]+)(\s|$)/', $output->fetch(), $matches);
+        return $is_match ? $matches[1] ?? null : null;
     }
 
     public function migrateTo($version = 'latest') {

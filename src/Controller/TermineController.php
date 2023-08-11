@@ -2,7 +2,7 @@
 
 namespace Olz\Controller;
 
-use Olz\Termine\Components\OlzTermineDetail\OlzTermineDetail;
+use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class TermineController extends AbstractController {
         LoggerInterface $logger,
         int $id,
     ): Response {
-        $out = OlzTermineDetail::render(['id' => $id]);
+        $out = OlzTerminDetail::render(['id' => $id]);
         return new Response($out);
     }
 }

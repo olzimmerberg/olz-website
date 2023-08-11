@@ -2,12 +2,19 @@
 
 namespace Olz\Termine\Components\OlzTerminDetail;
 
+use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
+use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
+use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FileUtils;
+use Olz\Utils\HttpUtils;
 use Olz\Utils\ImageUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminDetail extends OlzComponent {
     protected static $iconBasenameByType = [
@@ -20,41 +27,73 @@ class OlzTerminDetail extends OlzComponent {
     ];
 
     public function getHtml($args = []): string {
-        global $heute;
+        global $_GET;
 
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
+        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
-        $user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
-        $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();
+        $today = $date_utils->getIsoToday();
+        $db = $this->dbUtils()->getDb();
+        $entityManager = $this->dbUtils()->getEntityManager();
+        $http_utils = HttpUtils::fromEnv();
+        $http_utils->setLog($this->log());
         $file_utils = FileUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
-        $db_table = 'termine';
-        $button_name = 'button'.$db_table;
-        $id = $args['id'];
-        $arg_row = $args['row'] ?? null;
-        $is_preview = $args['is_preview'] ?? false;
+        $user = $this->authUtils()->getCurrentUser();
+        $validated_get_params = $http_utils->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+            'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
+        ], $_GET);
+        $id = $args['id'] ?? null;
+
+        $termine_utils = TermineFilterUtils::fromEnv();
+        $termin_repo = $entityManager->getRepository(Termin::class);
+        $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                $is_not_archived,
+                Criteria::expr()->eq('id', $id),
+            ))
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+        ;
+        $termine = $termin_repo->matching($criteria);
+        $num_termine = $termine->count();
+        $no_robots = $num_termine !== 1;
+        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+        $canonical_url = "https://{$host}{$code_href}termine/{$id}";
+        $termin = $termine[0];
+
         $out = "";
 
-        $sql = "SELECT * FROM {$db_table} WHERE (id = '{$id}') ORDER BY datum DESC";
-        $result = $db->query($sql);
-        $row = mysqli_fetch_array($result);
-        if (mysqli_num_rows($result) > 0) {
-            $_SESSION[$db_table.'jahr_'] = date("Y", strtotime($row["datum"]));
-        }
-        $jahr = $_SESSION[$db_table.'jahr_'];
+        $title = $termin->getTitle() ?? '';
+        $back_filter = urlencode($_GET['filter'] ?? '{}');
+        $out .= OlzHeader::render([
+            'back_link' => "{$code_href}termine?filter={$back_filter}",
+            'title' => "{$title} - Termine",
+            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'norobots' => $no_robots,
+            'canonical_url' => $canonical_url,
+        ]);
 
+        $out .= <<<'ZZZZZZZZZZ'
+        <div class='content-right optional'>
+            <div style='padding:4px 3px 10px 3px;'>
+            </div>
+        </div>
+        <div class='content-middle'>
+        ZZZZZZZZZZ;
+
+        $sql = "SELECT * FROM termine WHERE (id = '{$id}') ORDER BY datum DESC";
         $result = $db->query($sql);
 
         // Aktuelle Nachricht
         while ($row = mysqli_fetch_array($result)) {
-            if ($is_preview) {
-                $row = $arg_row;
-            } else {
-                $id = intval($row['id']);
-            }
+            $id = intval($row['id']);
 
             $datum = $row['datum'] ?? '';
             $datum_end = $row['datum_end'] ?? '';
@@ -142,7 +181,7 @@ class OlzTerminDetail extends OlzComponent {
             $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
             $has_termine_permissions = $this->authUtils()->hasPermission('termine');
             $can_edit = $is_owner || $has_termine_permissions;
-            if ($can_edit && !$is_preview) {
+            if ($can_edit) {
                 $json_id = json_encode(intval($id));
                 $out .= <<<ZZZZZZZZZZ
                 <div>
@@ -210,22 +249,22 @@ class OlzTerminDetail extends OlzComponent {
 
             // Link
             $link = $file_utils->replaceFileTags($link, 'termine', $id);
-            if ($go2ol > "" and $datum >= $heute) {
+            if ($go2ol > "" and $datum >= $today) {
                 $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-            } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $heute) {
+            } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $today) {
                 $link .= "<div class='linkext'><a href='https://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-            } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $heute) {
+            } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $today) {
                 $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
             }
             if (strpos($link, 'Ausschreibung') == 0 and ($row['solv_event_link'] ?? '') > "") {
                 $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
                 $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
             }
-            if ($solv_uid > 0 and $datum <= $heute and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
+            if ($solv_uid > 0 and $datum <= $today and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
                 // Ranglisten-Link zeigen
                 $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
             }
-            if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $heute) {
+            if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $today) {
                 // SOLV-Ausschreibungs-Link zeigen
                 $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
                 $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
@@ -260,6 +299,11 @@ class OlzTerminDetail extends OlzComponent {
 
             $out .= "</div>";
         }
+
+        $out .= "</div>";
+
+        $out .= OlzFooter::render();
+
         return $out;
     }
 }

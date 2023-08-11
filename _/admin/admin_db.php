@@ -10,6 +10,7 @@
 
 use Olz\Termine\Components\OlzICal\OlzICal;
 use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
 
 $db = DbUtils::fromEnv()->getDb();
@@ -39,6 +40,11 @@ require_once __DIR__.'/../file_tools.php';
 $layout = "2";
 $_SESSION['edit']['table'] = $db_table;
 $tmp_folder = "temp";
+
+function olz_current_date($format) {
+    $date_utils = AbstractDateUtils::fromEnv();
+    return $date_utils->getCurrentDateInFormat($format);
+}
 
 $markup_notice = (
     "Hinweise:<br>"

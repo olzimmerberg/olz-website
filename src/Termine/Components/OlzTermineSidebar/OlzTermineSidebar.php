@@ -11,20 +11,15 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
 class OlzTermineSidebar extends OlzComponent {
     public function getHtml($args = []): string {
-        global $heute;
-
-        require_once __DIR__.'/../../../../_/config/date.php';
-
         $db = $this->dbUtils()->getDb();
+        $today = $this->dateUtils()->getIsoToday();
 
         $out = "<h2>Trainings</h2>";
 
         // NÄCHSTES TRAINIG
-        // Konstanten
-        $db_table = "termine";
 
         // Tabelle auslesen
-        $sql = "select * from {$db_table} WHERE ((datum_end >= '{$heute}') OR (datum_end = '0000-00-00') OR (datum_end IS NULL)) AND (datum >= '{$heute}') AND (typ LIKE '%training%') AND (on_off = '1') ORDER BY datum ASC";
+        $sql = "select * from termine WHERE ((datum_end >= '{$today}') OR (datum_end = '0000-00-00') OR (datum_end IS NULL)) AND (datum >= '{$today}') AND (typ LIKE '%training%') AND (on_off = '1') ORDER BY datum ASC";
         // $out .= $sql;
         $result = $db->query($sql);
 

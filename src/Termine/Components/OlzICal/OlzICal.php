@@ -13,7 +13,6 @@ use Olz\Components\Common\OlzComponent;
 class OlzICal extends OlzComponent {
     public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../_/config/date.php';
         require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $db = $this->dbUtils()->getDb();

@@ -25,7 +25,6 @@ class OlzNewsDetail extends OlzComponent {
         global $_GET, $_POST, $_SERVER;
 
         require_once __DIR__.'/../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../_/config/date.php';
 
         session_start_if_cookie_set();
 

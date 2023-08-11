@@ -2,7 +2,8 @@
 
 namespace Facebook\WebDriver;
 
-require_once __DIR__.'/../../../_/config/date.php';
+use Olz\Utils\AbstractDateUtils;
+
 require_once __DIR__.'/../utils/screenshot.php';
 
 $startseite_url = '/';
@@ -19,8 +20,9 @@ function test_live_results($driver, $base_url) {
 
 function test_live_results_readonly($driver, $base_url) {
     global $live_file_path, $startseite_url;
+    $date_utils = AbstractDateUtils::fromEnv();
     $live_file_content = json_encode([
-        'last_updated_at' => olz_current_date('Y-m-d H:i:s'),
+        'last_updated_at' => $date_utils->getIsoNow(),
         'file' => 'results.xml',
     ]);
     file_put_contents($live_file_path, $live_file_content);

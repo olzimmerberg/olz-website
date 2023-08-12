@@ -54,6 +54,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         $author_name = $news_entry->getAuthorName();
         $author_email = $news_entry->getAuthorEmail();
         $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
+        $external_url = $news_entry->getExternalUrl();
         $termin_id = $news_entry->getTermin();
 
         $image_ids = $news_entry->getImageIds();
@@ -95,7 +96,7 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
                 'title' => $news_entry->getTitle(),
                 'teaser' => $news_entry->getTeaser(),
                 'content' => $news_entry->getContent(),
-                'externalUrl' => $news_entry->getExternalUrl(),
+                'externalUrl' => $external_url ? $external_url : null,
                 'tags' => $tags_for_api,
                 'terminId' => $termin_id ? $termin_id : null,
                 'imageIds' => $image_ids,

@@ -12,18 +12,43 @@ use PhpTypeScriptApi\HttpError;
 
 class FakeGetTerminEndpointTerminRepository {
     public function findOneBy($where) {
+        // Minimal
         if ($where === ['id' => 12]) {
             $termin = new Termin();
             $termin->setId(12);
             $termin->setStartsOn(new \DateTime('2020-03-13'));
             $termin->setTitle("Fake title");
+            $termin->setText("");
             $termin->setNewsletter(false);
             $termin->setOnOff(true);
             return $termin;
         }
+        // Empty
         if ($where === ['id' => 123]) {
             $termin = new Termin();
             $termin->setId(123);
+            $termin->setStartsOn(new \DateTime('0000-01-01'));
+            $termin->setStartTime(new \DateTime('00:00:00'));
+            $termin->setEndsOn(new \DateTime('0000-01-01'));
+            $termin->setEndTime(new \DateTime('00:00:00'));
+            $termin->setTitle("Cannot be empty");
+            $termin->setText("");
+            $termin->setLink('');
+            $termin->setTypes('');
+            $termin->setCoordinateX(0);
+            $termin->setCoordinateY(0);
+            $termin->setDeadline(new \DateTime('0000-01-01 00:00:00'));
+            $termin->setSolvId('');
+            $termin->setGo2olId('');
+            $termin->setNewsletter(false);
+            $termin->setImageIds([]);
+            $termin->setOnOff(false);
+            return $termin;
+        }
+        // Maximal
+        if ($where === ['id' => 1234]) {
+            $termin = new Termin();
+            $termin->setId(1234);
             $termin->setStartsOn(new \DateTime('2020-03-13'));
             $termin->setStartTime(new \DateTime('19:30:00'));
             $termin->setEndsOn(new \DateTime('2020-03-16'));
@@ -121,19 +146,13 @@ final class GetTerminEndpointTest extends UnitTestCase {
         ], $result);
     }
 
-    public function testGetTerminEndpointMaximal(): void {
+    public function testGetTerminEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = WithUtilsCache::get('entityManager');
         $termin_repo = new FakeGetTerminEndpointTerminRepository();
         $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
         $endpoint->runtimeSetup();
-
-        mkdir(__DIR__.'/../../tmp/files/');
-        mkdir(__DIR__.'/../../tmp/files/termine/');
-        mkdir(__DIR__.'/../../tmp/files/termine/123/');
-        file_put_contents(__DIR__.'/../../tmp/files/termine/123/file1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/termine/123/file2.pdf', '');
 
         $result = $endpoint->call([
             'id' => 123,
@@ -145,6 +164,56 @@ final class GetTerminEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame([
             'id' => 123,
+            'meta' => [
+                'ownerUserId' => null,
+                'ownerRoleId' => null,
+                'onOff' => false,
+            ],
+            'data' => [
+                'startDate' => '0000-01-01',
+                'startTime' => '00:00:00',
+                'endDate' => '0000-01-01',
+                'endTime' => '00:00:00',
+                'title' => 'Cannot be empty',
+                'text' => '',
+                'link' => '',
+                'deadline' => '0000-01-01 00:00:00',
+                'newsletter' => false,
+                'solvId' => null,
+                'go2olId' => null,
+                'types' => [],
+                'coordinateX' => 0,
+                'coordinateY' => 0,
+                'imageIds' => [],
+                'fileIds' => [],
+            ],
+        ], $result);
+    }
+
+    public function testGetTerminEndpointMaximal(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $termin_repo = new FakeGetTerminEndpointTerminRepository();
+        $entity_manager->repositories[Termin::class] = $termin_repo;
+        $endpoint = new GetTerminEndpoint();
+        $endpoint->runtimeSetup();
+
+        mkdir(__DIR__.'/../../tmp/files/');
+        mkdir(__DIR__.'/../../tmp/files/termine/');
+        mkdir(__DIR__.'/../../tmp/files/termine/1234/');
+        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file2.pdf', '');
+
+        $result = $endpoint->call([
+            'id' => 1234,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame([
+            'id' => 1234,
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,

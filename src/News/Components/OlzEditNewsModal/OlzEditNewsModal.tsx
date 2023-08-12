@@ -375,7 +375,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                         <label htmlFor='news-author-input'>Autor</label>
                                         <div id='news-author-input'>
                                             <OlzAuthenticatedUserRoleChooser
-                                                nullLabel={authorUserId ? '(unverändert)' : 'Bitte wählen...'}
+                                                nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
                                                 userId={authorUserId}
                                                 roleId={authorRoleId}
                                                 onUserIdChange={(e) => setAuthorUserId(e.detail)}

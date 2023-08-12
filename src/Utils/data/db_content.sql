@@ -313,7 +313,8 @@ VALUES
     ('9', '2020-08-04', NULL, NULL, '18:30:00', '20:00:00', 'Training -1', '', '', '', '', 'training', '1', '0', '0', '0', '', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('10', '2020-08-22', NULL, NULL, '00:00:00', '00:00:00', 'Grossanlass', 'gal', 'Mit allem drum und dran!', NULL, NULL, 'programm ol', '1', NULL, NULL, '12345', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('11', '2020-09-13', '2020-09-19', NULL, '00:00:00', '00:00:00', 'Mehrtägeler', 'sow', 'Mir werdeds schaffe!', NULL, NULL, 'programm weekend ol', '1', NULL, NULL, '123456', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('12', '2020-08-16', '2020-08-17', NULL, '17:00:00', '17:00:00', '24h-OL', '24h', 'Dauert genau 24h', NULL, NULL, 'programm ol', '1', NULL, NULL, '1234567', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    ('12', '2020-08-16', '2020-08-17', NULL, '17:00:00', '17:00:00', '24h-OL', '24h', 'Dauert genau 24h', NULL, NULL, 'programm ol', '1', NULL, NULL, '1234567', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('1001', '2006-01-13', NULL, NULL, '18:00:00', '18:00:00', 'Gründungsversammlung OL Zimmerberg', NULL, 'wir gründen uns!', NULL, NULL, 'programm club', '1', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Table throttlings
 

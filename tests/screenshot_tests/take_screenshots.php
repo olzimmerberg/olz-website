@@ -101,6 +101,7 @@ $blocks = [
         init_test_block($driver);
 
         // no specific order
+        test_termine($driver, $base_url);
         test_konto_passwort($driver, $base_url);
         test_app_files($driver, $base_url);
         test_fuer_einsteiger($driver, $base_url);
@@ -115,7 +116,6 @@ $blocks = [
         test_service($driver, $base_url);
         test_newsletter($driver, $base_url);
         test_weekly_picture($driver, $base_url);
-        test_termine($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

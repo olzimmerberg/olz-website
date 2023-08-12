@@ -8,10 +8,10 @@ require_once __DIR__.'/../utils/wrappers.php';
 
 $termine_url = '/termine';
 $termine_id_7_url = "{$termine_url}/7";
-$termine_id_13_url = "{$termine_url}/13";
+$termine_id_1002_url = "{$termine_url}/1002";
 
 function test_termine($driver, $base_url) {
-    global $termine_url, $termine_id_7_url, $termine_id_13_url;
+    global $termine_url, $termine_id_7_url, $termine_id_1002_url;
     tick('termine');
 
     test_termine_readonly($driver, $base_url);
@@ -114,7 +114,7 @@ function test_termine($driver, $base_url) {
     );
     click($save_button);
     sleep(4);
-    $driver->get("{$base_url}{$termine_id_13_url}");
+    $driver->get("{$base_url}{$termine_id_1002_url}");
     take_pageshot($driver, 'termine_new_finished');
 
     $driver->get("{$base_url}{$termine_id_7_url}");

@@ -31,8 +31,8 @@ function getComparableEmail(Email $email): string {
     $cc = arr2str($email->getCc());
     $bcc = arr2str($email->getBcc());
     $subject = $email->getSubject();
-    $text_body = $email->getTextBody();
-    $html_body = $email->getHtmlBody();
+    $text_body = $email->getTextBody() ?? '(no text body)';
+    $html_body = $email->getHtmlBody() ?? '(no html body)';
     $attachments = implode('', array_map(function (DataPart $data_part) {
         return "\n".$data_part->getFilename();
     }, $email->getAttachments()));
@@ -186,7 +186,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
         ], $this->getLogs());
         $this->assertSame(false, WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 
     public function testProcessEmailCommandWithMailToWrongDomain(): void {
@@ -210,7 +209,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 
     public function testProcessEmailCommandNoSuchUser(): void {
@@ -225,7 +223,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $mailer->expects($this->exactly(0))->method('send');
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $job = new ProcessEmailCommand($mailer);
         $job->run($input, $output);
@@ -240,20 +245,22 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
-            [
-                'user' => null,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '',
-                'replyTo' => null,
-                'headers' => [
-                    ['To', 'From Name <from@from-domain.com>'],
-                ],
-                'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch'),
-                'altBody' => null,
-                'attachments' => [],
-            ],
-        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+            <<<ZZZZZZZZZZ
+            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+            Reply-To: 
+            To: "From Name" <from@from-domain.com>
+            Cc: 
+            Bcc: 
+            Subject: Undelivered Mail Returned to Sender
+
+            {$job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch')}
+
+            (no html body)
+
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return getComparableEmail($email);
+        }, $artifacts['email']));
     }
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
@@ -268,7 +275,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $mailer->expects($this->exactly(0))->method('send');
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $job = new ProcessEmailCommand($mailer);
         $job->run($input, $output);
@@ -283,20 +297,22 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
-            [
-                'user' => null,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '',
-                'replyTo' => null,
-                'headers' => [
-                    ['To', 'From Name <from@from-domain.com>'],
-                ],
-                'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch'),
-                'altBody' => null,
-                'attachments' => [],
-            ],
-        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+            <<<ZZZZZZZZZZ
+            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+            Reply-To: 
+            To: "From Name" <from@from-domain.com>
+            Cc: 
+            Bcc: 
+            Subject: Undelivered Mail Returned to Sender
+
+            {$job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch')}
+
+            (no html body)
+
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return getComparableEmail($email);
+        }, $artifacts['email']));
     }
 
     public function testProcessEmailCommandToUser(): void {
@@ -445,6 +461,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $job = new ProcessEmailCommand($mailer);
         $job->run($input, $output);
@@ -459,20 +483,22 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
-            [
-                'user' => null,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OLZ Bot'],
-                'sender' => '',
-                'replyTo' => null,
-                'headers' => [
-                    ['To', 'From Name <from@from-domain.com>'],
-                ],
-                'subject' => 'Undelivered Mail Returned to Sender',
-                'body' => $job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch'),
-                'altBody' => null,
-                'attachments' => [],
-            ],
-        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+            <<<ZZZZZZZZZZ
+            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+            Reply-To: 
+            To: "From Name" <from@from-domain.com>
+            Cc: 
+            Bcc: 
+            Subject: Undelivered Mail Returned to Sender
+
+            {$job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch')}
+
+            (no html body)
+
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return getComparableEmail($email);
+        }, $artifacts['email']));
     }
 
     public function testProcessEmailCommandToRole(): void {
@@ -694,7 +720,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(null, $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 
     public function testProcessEmailCommandToMultiple(): void {
@@ -1150,7 +1175,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(null, $mail->moved_to);
         $this->assertSame(true, $mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 
     public function testProcessEmailCommandEmailToSmtpFrom(): void {
@@ -1181,9 +1205,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertSame(false, $mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
-        $this->assertSame([
-            // no bounce email!
-        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {

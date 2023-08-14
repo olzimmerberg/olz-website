@@ -29,7 +29,7 @@ class SendTestEmailCommand extends OlzCommand {
             return Command::FAILURE;
         }
         $base_href = $this->envUtils()->getBaseHref();
-        $to = 'simon.hatt@olzimmerberg.ch';
+        $to = 'simon+olztestemail@hatt.style';
         $subject = 'Test mail';
         $content = "A test mail has been sent from {$base_href}!";
         $message = new SendEmailMessage($to, $subject, $content);

@@ -51,4 +51,38 @@ class FakeRoles extends FakeFactory {
             }
         );
     }
+
+    public static function someRole($fresh = false) {
+        return self::getFake(
+            'some_role',
+            $fresh,
+            function () {
+                $some_role = new Role();
+                $some_role->setId(1);
+                $some_role->setUsername('somerole');
+                $some_role->setName('Some Role');
+                $some_role->setPermissions('');
+                $some_role->addUser(FakeUsers::adminUser());
+                $some_role->addUser(FakeUsers::vorstandUser());
+                return $some_role;
+            }
+        );
+    }
+
+    public static function someOldRole($fresh = false) {
+        return self::getFake(
+            'some_old_role',
+            $fresh,
+            function () {
+                $some_role = new Role();
+                $some_role->setId(2);
+                $some_role->setUsername('somerole-old');
+                $some_role->setName('Some Old Role');
+                $some_role->setPermissions('');
+                $some_role->addUser(FakeUsers::adminUser());
+                $some_role->addUser(FakeUsers::vorstandUser());
+                return $some_role;
+            }
+        );
+    }
 }

@@ -9,11 +9,25 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
+use Webklex\PHPIMAP\Message;
+use Webklex\PHPIMAP\Support\MessageCollection;
 
 #[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
+    public function __construct(
+        private MailerInterface $mailer,
+    ) {
+        parent::__construct();
+    }
+
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }
@@ -63,15 +77,15 @@ class ProcessEmailCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    protected function getProcessedMails() {
+    protected function getProcessedMails(): MessageCollection {
         return $this->getMails('INBOX.Processed');
     }
 
-    protected function getInboxMails() {
+    protected function getInboxMails(): MessageCollection {
         return $this->getMails('INBOX');
     }
 
-    protected function getMails($folder_path) {
+    protected function getMails($folder_path): MessageCollection {
         try {
             $folder = $this->client->getFolderByPath($folder_path);
             $query = $folder->messages();
@@ -80,17 +94,17 @@ class ProcessEmailCommand extends OlzCommand {
             return $query->all()->get();
         } catch (ResponseException $exc) {
             if (!preg_match('/Empty response/i', $exc->getMessage())) {
-                $this->log()->critical("ResponseException in getInboxMails.", [$exc]);
+                $this->log()->critical("ResponseException in getMails: {$exc->getMessage()}", [$exc]);
                 throw $exc;
             }
-            return [];
+            return new MessageCollection([]);
         } catch (\Exception $exc) {
-            $this->log()->critical("Exception in getInboxMails.", [$exc]);
+            $this->log()->critical("Exception in getMails: {$exc->getMessage()}", [$exc]);
             throw $exc;
         }
     }
 
-    protected function deleteOldProcessedMails($processed_mails) {
+    protected function deleteOldProcessedMails(MessageCollection $processed_mails): void {
         $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
         foreach ($processed_mails as $mail) {
             $message_timestamp = $mail->date->first()->timestamp;
@@ -101,7 +115,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function getIsMessageIdProcessed($processed_mails) {
+    protected function getIsMessageIdProcessed(MessageCollection $processed_mails): array {
         $is_message_id_processed = [];
         foreach ($processed_mails as $mail) {
             $message_id = $mail->message_id ? $mail->message_id->first() : null;
@@ -112,7 +126,7 @@ class ProcessEmailCommand extends OlzCommand {
         return $is_message_id_processed;
     }
 
-    protected function processMail($mail, $is_processed): bool {
+    protected function processMail(Message $mail, bool $is_processed): bool {
         $mail_uid = $mail->uid;
 
         if ($mail->getFlags()->has('flagged')) {
@@ -154,7 +168,7 @@ class ProcessEmailCommand extends OlzCommand {
         return $all_successful;
     }
 
-    protected function processMailToAddress($mail, $address): bool {
+    protected function processMailToAddress(Message $mail, string $address): bool {
         $mail_uid = $mail->uid;
 
         $is_match = preg_match('/^([\S]+)@(staging\.)?olzimmerberg\.ch$/', $address, $matches);
@@ -205,16 +219,25 @@ class ProcessEmailCommand extends OlzCommand {
         return true;
     }
 
-    protected function forwardEmailToUser($mail, $user, $address): bool {
+    protected function forwardEmailToUser(Message $mail, User $user, string $address): bool {
         $mail->setFlag('flagged');
 
         $forward_address = $user->getEmail();
         $from = $mail->from->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        $to = $this->getMailList($mail->to->toArray());
-        $cc = $this->getMailList($mail->cc->toArray());
-        $bcc = $this->getMailList($mail->bcc->toArray());
+        $to = array_map(
+            function ($item) { return $this->getAddress($item); },
+            $mail->to->toArray(),
+        );
+        $cc = array_map(
+            function ($item) { return $this->getAddress($item); },
+            $mail->cc->toArray(),
+        );
+        $bcc = array_map(
+            function ($item) { return $this->getAddress($item); },
+            $mail->bcc->toArray(),
+        );
         $subject = $mail->subject->first();
         $mail->parseBody();
         $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
@@ -224,28 +247,18 @@ class ProcessEmailCommand extends OlzCommand {
         }
         try {
             $this->emailUtils()->setLogger($this->log());
-            $email = $this->emailUtils()->createEmail();
-            $email->configure($user, $subject, /* text= */ '', [
-                'no_header' => true,
-                'no_unsubscribe' => true,
-            ]);
 
-            $email->Sender = $this->envUtils()->getSmtpFrom();
-            $email->setFrom($from_address, $from_name, false);
-            $email->addReplyTo($from_address, $from_name);
-
-            if ($to) {
-                $email->addCustomHeader('To', $to);
-            }
-            if ($cc) {
-                $email->addCustomHeader('Cc', $cc);
-            }
-            if ($bcc) {
-                $email->addCustomHeader('Bcc', $bcc);
-            }
-
-            $email->Body = $html ? $html : '(leer)';
-            $email->AltBody = $text ? $text : '(leer)';
+            $email = (new Email())
+                ->from(new Address($from_address, $from_name))
+                ->replyTo(new Address($from_address, $from_name))
+                ->to(...$to)
+                ->cc(...$cc)
+                ->bcc(...$bcc)
+                // ->priority(Email::PRIORITY_HIGH)
+                ->subject($subject)
+                ->text($text ? $text : '(leer)')
+                ->html($html ? $html : '(leer)')
+            ;
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {
@@ -276,7 +289,7 @@ class ProcessEmailCommand extends OlzCommand {
                     }
                     $this->log()->info("Saving attachment {$attachment->name} to {$upload_id}...");
                     if ($attachment->save($temp_path, $upload_id)) {
-                        $email->addAttachment($upload_path, $attachment->name);
+                        $email = $email->addPart(new DataPart(new File($upload_path), $attachment->name));
                     } else {
                         throw new \Exception("Could not save attachment {$attachment->name} to {$upload_id}.");
                     }
@@ -285,7 +298,14 @@ class ProcessEmailCommand extends OlzCommand {
                 }
             }
 
-            $email->send();
+            $default_envelope = Envelope::create($email);
+            $sender = $default_envelope->getSender();
+            // TODO: Remove if not needed
+            $alternative_sender = new Address($this->envUtils()->getSmtpFrom());
+            $envelope = new Envelope($sender, [$this->emailUtils()->getUserAddress($user)]);
+
+            $this->mailer->send($email, $envelope);
+
             $this->log()->info("Email forwarded from {$address} to {$forward_address}");
 
             foreach ($upload_paths as $upload_path) {
@@ -303,21 +323,14 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function getMailList(array $list): string {
-        return array_reduce(
-            $list,
-            function ($carry, $item) {
-                $carry_comma = $carry ? "{$carry}, " : $carry;
-                if ($item->personal) {
-                    return "{$carry_comma}{$item->personal} <{$item->mail}>";
-                }
-                return "{$carry_comma}{$item->mail}";
-            },
-            '',
-        );
+    protected function getAddress(\Webklex\PHPIMAP\Address $item): Address {
+        if ($item->personal) {
+            return new Address($item->mail, $item->personal);
+        }
+        return new Address($item->mail);
     }
 
-    protected function sendReportEmail($mail, $address, $smtp_code) {
+    protected function sendReportEmail(Message $mail, string $address, int $smtp_code) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->from->first();
         $from_name = $from->personal;
@@ -342,7 +355,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    public function getReportMessage($smtp_code, $mail, $address) {
+    public function getReportMessage(int $smtp_code, Message $mail, string $address) {
         $base_href = $this->envUtils()->getBaseHref();
         $message_by_code = [
             431 => "{$smtp_code} Not enough storage or out of memory",

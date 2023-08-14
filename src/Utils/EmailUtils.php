@@ -6,7 +6,10 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
+use Olz\Entity\User;
 use Olz\Exceptions\RecaptchaDeniedException;
+use Symfony\Component\Mime\Address;
+use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\ClientManager;
 
 class EmailUtils {
@@ -67,7 +70,7 @@ class EmailUtils {
         return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(6));
     }
 
-    public function getImapClient() {
+    public function getImapClient(): Client {
         $env_utils = $this->envUtils();
         $imap_host = $env_utils->getImapHost();
         $imap_port = $env_utils->getImapPort();
@@ -117,6 +120,12 @@ class EmailUtils {
         $mail->setLogger($this->log());
 
         return $mail;
+    }
+
+    public function getUserAddress(User $user): Address {
+        $user_email = $user->getEmail();
+        $user_full_name = $user->getFullName();
+        return new Address($user_email, $user_full_name);
     }
 
     public function encryptEmailReactionToken($data) {

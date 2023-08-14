@@ -341,17 +341,16 @@ class ProcessEmailCommand extends OlzCommand {
         }
 
         try {
-            $this->emailUtils()->setLogger($this->log());
-            $email = $this->emailUtils()->createEmail();
-            $email->Sender = '';
-            $email->setFrom($smtp_from, 'OLZ Bot', false);
-            $email->addAddress($from_address, $from_name);
-            $email->isHTML(false);
-            $email->Subject = "Undelivered Mail Returned to Sender";
-            $email->Body = $this->getReportMessage($smtp_code, $mail, $address);
-            $email->send();
+            $email = (new Email())
+                ->from(new Address($smtp_from, 'OLZ Bot'))
+                ->to(new Address($from_address, $from_name))
+                // ->priority(Email::PRIORITY_HIGH)
+                ->subject("Undelivered Mail Returned to Sender")
+                ->text($this->getReportMessage($smtp_code, $mail, $address))
+            ;
+            $this->mailer->send($email);
         } catch (\Throwable $th) {
-            $this->log()->error("Failed to send bounce email to {$from_address}", [$th]);
+            $this->log()->error("Failed to send bounce email to {$from_address}: {$th->getMessage()}", [$th]);
         }
     }
 

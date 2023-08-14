@@ -6,6 +6,10 @@ namespace Olz\Tests\Fake;
 
 use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
+use Webklex\PHPIMAP\Client;
+use Webklex\PHPIMAP\Folder;
+use Webklex\PHPIMAP\Query\WhereQuery;
+use Webklex\PHPIMAP\Support\MessageCollection;
 
 class FakeEmailUtils extends EmailUtils {
     use \Psr\Log\LoggerAwareTrait;
@@ -30,7 +34,7 @@ class FakeEmailUtils extends EmailUtils {
         $this->email_verification_emails_sent[] = ['user' => $user, 'token' => $token];
     }
 
-    public function getImapClient() {
+    public function getImapClient(): Client {
         return $this->client;
     }
 
@@ -66,52 +70,68 @@ class FakeEmailUtils extends EmailUtils {
     }
 }
 
-class FakeImapClient {
+class FakeImapClient extends Client {
     public $exception = false;
     public $folders = [];
     public $is_connected = false;
 
-    public function createFolder($name) {
+    public function __construct() {
     }
 
-    public function connect() {
+    public function createFolder(string $folder_path, bool $expunge = true, bool $utf7 = false): Folder {
+        return new Folder($this, $folder_path, '/', []);
+    }
+
+    public function connect(): Client {
         if ($this->exception) {
             throw new \Exception("Failed at something");
         }
         $this->is_connected = true;
+        return $this;
     }
 
-    public function getFolderByPath($path) {
-        return new FakeImapFolder($this->folders[$path] ?? []);
+    public function getFolderByPath($folder_path, bool $utf7 = false, bool $soft_fail = false): Folder {
+        return new FakeImapFolder($this, $this->folders[$folder_path] ?? []);
     }
 }
 
-class FakeImapFolder {
-    public $should_leave_unread = false;
-    public $should_fetch_body = true;
-
+class FakeImapFolder extends Folder {
     public function __construct(
+        protected Client $client,
         public $mails = [],
     ) {
     }
 
-    public function messages() {
+    public function messages(array $extensions = []): WhereQuery {
+        return new FakeWhereQuery($this->client, $this->mails);
+    }
+}
+
+class FakeWhereQuery extends WhereQuery {
+    public $should_leave_unread = false;
+    public $should_fetch_body = true;
+
+    public function __construct(
+        protected Client $client,
+        public $mails = [],
+    ) {
+    }
+
+    public function leaveUnread(): WhereQuery {
+        $this->should_leave_unread = true;
         return $this;
     }
 
-    public function leaveUnread() {
-        $this->should_leave_unread = true;
-    }
-
-    public function setFetchBody($value) {
+    public function setFetchBody($value): WhereQuery {
         $this->should_fetch_body = $value;
+        return $this;
     }
 
     public function all() {
         return $this;
     }
 
-    public function get() {
-        return $this->mails;
+    public function get(): MessageCollection {
+        return new MessageCollection($this->mails ?? []);
     }
 }

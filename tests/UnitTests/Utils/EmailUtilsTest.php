@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Olz\Entity\User;
 use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -19,10 +20,6 @@ class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
 class TestOnlyEmailUtils extends EmailUtils {
     public function testOnlyGetRandomEmailVerificationToken() {
         return $this->getRandomEmailVerificationToken();
-    }
-
-    public function testOnlyGetRandomIvForAlgo($algo) {
-        return $this->getRandomIvForAlgo($algo);
     }
 }
 
@@ -255,6 +252,28 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('', $mailer->DKIM_private_string);
         $this->assertSame('', $mailer->action_function);
         $this->assertSame('', $mailer->XMailer);
+    }
+
+    public function testGetUserAddressWithoutName(): void {
+        $email_utils = new EmailUtils();
+        $user = new User();
+        $user->setEmail('fake@staging.olzimmerberg.ch');
+        $this->assertSame(
+            'fake@staging.olzimmerberg.ch',
+            $email_utils->getUserAddress($user)->toString(),
+        );
+    }
+
+    public function testGetUserAddressWithName(): void {
+        $email_utils = new EmailUtils();
+        $user = new User();
+        $user->setEmail('fake@staging.olzimmerberg.ch');
+        $user->setFirstName('First');
+        $user->setLastName('Last');
+        $this->assertSame(
+            '"First Last" <fake@staging.olzimmerberg.ch>',
+            $email_utils->getUserAddress($user)->toString(),
+        );
     }
 
     public function testRenderMarkdown(): void {

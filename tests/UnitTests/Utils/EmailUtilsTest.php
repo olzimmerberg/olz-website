@@ -9,6 +9,7 @@ use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
+use Symfony\Component\Mime\Email;
 use Webklex\PHPIMAP\Client;
 
 class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
@@ -252,6 +253,50 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame('', $mailer->DKIM_private_string);
         $this->assertSame('', $mailer->action_function);
         $this->assertSame('', $mailer->XMailer);
+    }
+
+    public function testBuildOlzEmail(): void {
+        $email_utils = new EmailUtils();
+
+        $user = new User();
+        $user->setEmail('fake-user@staging.olzimmerberg.ch');
+        $user->setFirstName('Fake');
+        $user->setLastName('User');
+        $email = new Email();
+
+        $email = $email_utils->buildOlzEmail($email, $user, 'Tèśt', [
+            'notification_type' => 'monthly_preview',
+        ]);
+
+        $this->assertSame([
+        ], $this->getLogs());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "Fake User" <fake-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: 
+
+            Tèśt
+
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9
+
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            <p>Tèśt</p>
+
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9">Keine E-Mails von OL Zimmerberg mehr</a>
+
+            olz_logo
+            ZZZZZZZZZZ, $email_utils->getComparableEmail($email));
     }
 
     public function testGetUserAddressWithoutName(): void {

@@ -13,53 +13,11 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Part\DataPart;
 use Webklex\PHPIMAP\Address as ImapAddress;
 use Webklex\PHPIMAP\Attribute;
 use Webklex\PHPIMAP\Message;
 use Webklex\PHPIMAP\Support\AttachmentCollection;
 use Webklex\PHPIMAP\Support\FlagCollection;
-
-function arr2str(array $arr): string {
-    return implode(', ', array_map(function ($item) { return $item->toString(); }, $arr));
-}
-
-function getComparableEmail(Email $email): string {
-    $from = arr2str($email->getFrom());
-    $reply_to = arr2str($email->getReplyTo());
-    $to = arr2str($email->getTo());
-    $cc = arr2str($email->getCc());
-    $bcc = arr2str($email->getBcc());
-    $subject = $email->getSubject();
-    $text_body = $email->getTextBody() ?? '(no text body)';
-    $html_body = $email->getHtmlBody() ?? '(no html body)';
-    $attachments = implode('', array_map(function (DataPart $data_part) {
-        return "\n".$data_part->getFilename();
-    }, $email->getAttachments()));
-
-    return <<<ZZZZZZZZZZ
-    From: {$from}
-    Reply-To: {$reply_to}
-    To: {$to}
-    Cc: {$cc}
-    Bcc: {$bcc}
-    Subject: {$subject}
-
-    {$text_body}
-
-    {$html_body}
-    {$attachments}
-    ZZZZZZZZZZ;
-}
-
-function getComparableEnvelope(Envelope $envelope): string {
-    $sender = $envelope->getSender()->toString();
-    $recipients = arr2str($envelope->getRecipients());
-    return <<<ZZZZZZZZZZ
-    Sender: {$sender}
-    Recipients: {$recipients}
-    ZZZZZZZZZZ;
-}
 
 class FakeProcessEmailAddress {
     public function __construct(
@@ -259,7 +217,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
     }
 
@@ -311,7 +269,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
     }
 
@@ -370,7 +328,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -378,7 +336,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: someone@gmail.com
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -437,7 +395,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -445,7 +403,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: someone-old@gmail.com
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -497,7 +455,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
     }
 
@@ -572,7 +530,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -584,7 +542,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: vorstand-user@staging.olzimmerberg.ch
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -659,7 +617,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -671,7 +629,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: vorstand-user@staging.olzimmerberg.ch
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -695,7 +653,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer
             ->expects($this->exactly(1))
             ->method('send')
-            ->will($this->throwException(new \Exception('mocked-error')))
             ->with(
                 $this->callback(function (Email $email) use (&$artifacts) {
                     $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -706,6 +663,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                     return true;
                 }),
             )
+            ->will($this->throwException(new \Exception('mocked-error')))
         ;
 
         $job = new ProcessEmailCommand($mailer);
@@ -814,7 +772,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -830,7 +788,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: vorstand-user@staging.olzimmerberg.ch
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -923,7 +881,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -939,7 +897,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: vorstand-user@staging.olzimmerberg.ch
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -1042,7 +1000,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -1058,7 +1016,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: vorstand-user@staging.olzimmerberg.ch
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 
@@ -1127,7 +1085,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Attachment2.docx
             ZZZZZZZZZZ,
         ], array_map(function ($email) {
-            return getComparableEmail($email);
+            return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -1135,7 +1093,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             Recipients: someone@gmail.com
             ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
-            return getComparableEnvelope($envelope);
+            return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
     }
 

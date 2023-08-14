@@ -8,6 +8,7 @@ use Olz\Tests\Fake;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
+use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Translator;
 use PHPUnit\Framework\TestCase;
 
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
  * @coversNothing
  */
 class UnitTestCase extends TestCase {
+    use WithUtilsTrait;
+
     private $previous_document_root;
 
     protected $previous_server;

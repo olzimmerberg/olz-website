@@ -19,7 +19,6 @@ class OlzMailer extends PHPMailer {
         // TODO: Check if verified?
         $user_id = $user->getId();
         $user_full_name = $user->getFullName();
-        $user_first_name = $user->getFirstName();
         $this->addAddress($user_email, $user_full_name);
         $html_text = $this->emailUtils()->renderMarkdown($text);
         $this->isHTML(true);

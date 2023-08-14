@@ -19,6 +19,10 @@
         <!-- ###+ symfony/messenger ### -->
         <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=1"/>
         <!-- ###- symfony/messenger ### -->
+
+        <!-- ###+ symfony/mailer ### -->
+        <env name="MAILER_DSN" value="null://null"/>
+        <!-- ###- symfony/mailer ### -->
     </php>
 
     <testsuites>

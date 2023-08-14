@@ -2,7 +2,7 @@
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
     "editor.rulers": [
-        80
+        100
     ],
     "editor.tabSize": 4,
     "search.exclude": {
@@ -14,4 +14,47 @@
         "tests/**/data/**/*.txt": true,
         "**/jsbuild/**": true,
     },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.tabSize": 4,
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4,
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.tabSize": 4,
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.tabSize": 4,
+    },
+    "[php]": {
+        "editor.defaultFormatter": "DEVSENSE.phptools-vscode",
+        "editor.tabSize": 4,
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.tabSize": 4,
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4,
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4,
+    },
+    "[xml]": {
+        "editor.tabSize": 4,
+    },
+    "[yaml]": {
+        "editor.tabSize": 4,
+    },
+    "json.format.enable": true,
+    "json.validate.enable": true,
+    "php.suggest.basic": true,
+    "php.validate.enable": true,
+    "php-cs-fixer.config": ".php-cs-fixer.php",
 }

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\OlzEntity;
+use Olz\Utils\EntityUtils;
 
-class FakeEntityUtils {
+class FakeEntityUtils extends EntityUtils {
     public $create_olz_entity_calls = [];
     public $update_olz_entity_calls = [];
     public $can_update_olz_entity;

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Monolog\Logger;
+use Olz\Utils\EnvUtils;
 
-class FakeEnvUtils {
+class FakeEnvUtils extends EnvUtils {
     public $app_env = 'test';
     public $has_unlimited_cron = false;
     public $fake_data_path;

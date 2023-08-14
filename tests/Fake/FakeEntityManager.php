@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Doctrine\ORM\EntityManager;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 
-class FakeEntityManager {
+class FakeEntityManager extends EntityManager {
     public const AUTO_INCREMENT_ID = 270;
 
     public $persisted = [];
@@ -46,7 +47,7 @@ class FakeEntityManager {
         $this->removed[] = $object;
     }
 
-    public function flush() {
+    public function flush($entity = null) {
         $this->flushed = true;
         $this->flushed_persisted = $this->persisted;
         $this->flushed_removed = $this->removed;

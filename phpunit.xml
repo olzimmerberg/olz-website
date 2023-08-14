@@ -16,6 +16,10 @@
         <!-- ###+ symfony/messenger ### -->
         <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=1"/>
         <!-- ###- symfony/messenger ### -->
+
+        <!-- ###+ symfony/mailer ### -->
+        <env name="MAILER_DSN" value="null://null"/>
+        <!-- ###- symfony/mailer ### -->
     </php>
     <testsuites>
         <testsuite name="Unit Tests">
@@ -43,9 +47,17 @@
         <report>
             <!-- <clover outputFile="php-coverage/clover.xml"/> -->
             <!-- <crap4j outputFile="php-coverage/crap4j.xml" threshold="50"/> -->
-            <html outputDirectory="php-coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+            <html
+                outputDirectory="php-coverage/html-coverage"
+                lowUpperBound="50"
+                highLowerBound="90"
+            />
             <!-- <php outputFile="php-coverage/coverage.php"/> -->
-            <text outputFile="php-coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="false"/>
+            <text
+                outputFile="php-coverage/coverage.txt"
+                showUncoveredFiles="false"
+                showOnlySummary="false"
+            />
             <!-- <xml outputDirectory="php-coverage/xml-coverage"/> -->
         </report>
     </coverage>

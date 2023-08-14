@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\TelegramLink;
+use Olz\Utils\TelegramUtils;
 
-class FakeTelegramUtils {
+class FakeTelegramUtils extends TelegramUtils {
     public $isAnonymousChat = false;
     public $configurationSent = false;
     public $telegramApiCalls = [];
@@ -15,7 +16,8 @@ class FakeTelegramUtils {
         return $markdown;
     }
 
-    public function startAnonymousChat($chat_id, $user_id) {
+    public function startAnonymousChat($chat_id, $user_id): TelegramLink {
+        return new TelegramLink();
     }
 
     public function linkChatUsingPin($pin, $chat_id, $user_id) {
@@ -33,11 +35,11 @@ class FakeTelegramUtils {
         return 'freshpin';
     }
 
-    public function getTelegramPinChars() {
+    public function getTelegramPinChars(): string {
         return 'abcdefghijklmnopqrstuvwxyz';
     }
 
-    public function getTelegramPinLength() {
+    public function getTelegramPinLength(): int {
         return 8;
     }
 

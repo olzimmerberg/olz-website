@@ -6,8 +6,9 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\GetAuthenticatedRolesEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\AuthUtils;
 
-class FakeGetAuthenticatedRolesEndpointAuthUtils {
+class FakeGetAuthenticatedRolesEndpointAuthUtils extends AuthUtils {
     public function getAuthenticatedRoles() {
         return null;
     }

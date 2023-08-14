@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Utils\SymfonyUtils;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FakeSymfonyUtils {
+class FakeSymfonyUtils extends SymfonyUtils {
     public $error;
     public $output;
     public $commandsCalled = [];

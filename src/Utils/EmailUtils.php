@@ -68,11 +68,12 @@ class EmailUtils {
     }
 
     public function getImapClient() {
-        $imap_host = $this->envUtils()->getImapHost();
-        $imap_port = $this->envUtils()->getImapPort();
-        $imap_flags = $this->envUtils()->getImapFlags();
-        $imap_username = $this->envUtils()->getImapUsername();
-        $imap_password = $this->envUtils()->getImapPassword();
+        $env_utils = $this->envUtils();
+        $imap_host = $env_utils->getImapHost();
+        $imap_port = $env_utils->getImapPort();
+        $imap_flags = $env_utils->getImapFlags();
+        $imap_username = $env_utils->getImapUsername();
+        $imap_password = $env_utils->getImapPassword();
 
         $cm = new ClientManager();
         return $cm->make([
@@ -91,8 +92,9 @@ class EmailUtils {
         //    https://github.com/Webklex/php-imap
     }
 
+    /** @deprecated TODO: Replace with symfony mailer */
     public function createEmail() {
-        $mail = new OlzMailer($this, $this->envUtils(), true);
+        $mail = new OlzMailer(true);
 
         if ($this->envUtils()->getSmtpHost() !== null) {
             $mail->SMTPDebug = $this->envUtils()->getSmtpDebug();

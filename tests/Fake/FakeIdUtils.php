@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeIdUtils {
+use Olz\Utils\IdUtils;
+
+class FakeIdUtils extends IdUtils {
     public function toExternalId($internal_id, $type = '') {
         return "{$type}:{$internal_id}";
     }

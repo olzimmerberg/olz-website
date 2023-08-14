@@ -39,7 +39,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $this->assertSame([['user' => $user]], WithUtilsCache::get('emailUtils')->email_verification_emails_sent);
+        $this->assertSame([['user' => $user, 'token' => 'fake-recaptcha-token']], WithUtilsCache::get('emailUtils')->email_verification_emails_sent);
     }
 
     public function testVerifyUserEmailEndpointWithoutInput(): void {

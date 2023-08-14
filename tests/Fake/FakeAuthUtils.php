@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeAuthUtils {
+use Olz\Utils\AuthUtils;
+
+class FakeAuthUtils extends AuthUtils {
     public $current_user;
     public $authenticate_user;
     public $authenticate_with_error;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
 
-class FakeEmailUtils {
+class FakeEmailUtils extends EmailUtils {
     use \Psr\Log\LoggerAwareTrait;
 
     public $email_verification_emails_sent = [];
@@ -19,14 +20,14 @@ class FakeEmailUtils {
         $this->client = new FakeImapClient();
     }
 
-    public function sendEmailVerificationEmail($user) {
+    public function sendEmailVerificationEmail($user, $token) {
         if ($this->send_email_verification_email_error !== null) {
             if ($this->logger) {
                 $this->logger->error('Error sending fake verification email');
             }
             throw $this->send_email_verification_email_error;
         }
-        $this->email_verification_emails_sent[] = ['user' => $user];
+        $this->email_verification_emails_sent[] = ['user' => $user, 'token' => $token];
     }
 
     public function getImapClient() {

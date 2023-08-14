@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeDevDataUtils {
+use Olz\Utils\DevDataUtils;
+
+class FakeDevDataUtils extends DevDataUtils {
     public $commands_called = [];
 
     public function fullResetDb() {

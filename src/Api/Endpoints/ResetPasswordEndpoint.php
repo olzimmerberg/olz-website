@@ -5,10 +5,20 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class ResetPasswordEndpoint extends OlzEndpoint {
+    private MailerInterface $mailer;
+
     public static function getIdent() {
         return 'ResetPasswordEndpoint';
+    }
+
+    #[Required]
+    public function setMailer(MailerInterface $mailer): void {
+        $this->mailer = $mailer;
     }
 
     public function getResponseField() {
@@ -73,10 +83,12 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         ];
 
         try {
-            $this->emailUtils()->setLogger($this->log());
-            $email = $this->emailUtils()->createEmail();
-            $email->configure($user, "[OLZ] Passwort zurücksetzen", $text, $config);
-            $email->send();
+            $email = (new Email())
+                // ->priority(Email::PRIORITY_HIGH)
+                ->subject("[OLZ] Passwort zurücksetzen")
+            ;
+            $email = $this->emailUtils()->buildOlzEmail($email, $user, $text, $config);
+            $this->mailer->send($email);
             $this->log()->info("Password reset email sent to user ({$user_id}).");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();

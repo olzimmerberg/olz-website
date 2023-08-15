@@ -8,7 +8,11 @@ use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use Olz\Entity\User;
 use Olz\Exceptions\RecaptchaDeniedException;
+use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\ClientManager;
 
@@ -122,10 +126,112 @@ class EmailUtils {
         return $mail;
     }
 
+    public function buildOlzEmail(Email $email, User $user, string $text, array $config): Email {
+        // TODO: Check if verified?
+        $user_id = $user->getId();
+        $email = $email->to($this->getUserAddress($user));
+        $html_text = $this->renderMarkdown($text);
+        $html_header = "";
+        if (!($config['no_header'] ?? false)) {
+            $email = $email->addPart((new DataPart(new File(__DIR__.'/../../assets/icns/olz_logo_schwarzweiss_300.png'), 'olz_logo', 'image/png'))->asInline());
+            $html_header = <<<'ZZZZZZZZZZ'
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            ZZZZZZZZZZ;
+        }
+        $html_unsubscribe = "";
+        $text_unsubscribe = "";
+        if (!($config['no_unsubscribe'] ?? false)) {
+            if (!isset($config['notification_type'])) {
+                $this->log()->warning("E-Mail has no notification_type (to user: {$user_id}): {$html_text}");
+            }
+            $unsubscribe_this_token = urlencode($this->encryptEmailReactionToken([
+                'action' => 'unsubscribe',
+                'user' => $user_id,
+                'notification_type' => $config['notification_type'] ?? null,
+            ]));
+            $unsubscribe_all_token = urlencode($this->encryptEmailReactionToken([
+                'action' => 'unsubscribe',
+                'user' => $user_id,
+                'notification_type_all' => true,
+            ]));
+            $base_url = $this->envUtils()->getBaseHref();
+            $code_href = $this->envUtils()->getCodeHref();
+            $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
+            $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
+            $html_unsubscribe = <<<ZZZZZZZZZZ
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
+            ZZZZZZZZZZ;
+            $text_unsubscribe = <<<ZZZZZZZZZZ
+
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: {$unsubscribe_this_url}
+            Keine E-Mails von OL Zimmerberg mehr: {$unsubscribe_all_url}
+            ZZZZZZZZZZ;
+        }
+        $email = $email->text(<<<ZZZZZZZZZZ
+            {$text}
+            {$text_unsubscribe}
+            ZZZZZZZZZZ);
+        return $email->html(<<<ZZZZZZZZZZ
+            {$html_header}
+            {$html_text}
+            {$html_unsubscribe}
+            ZZZZZZZZZZ);
+    }
+
     public function getUserAddress(User $user): Address {
         $user_email = $user->getEmail();
         $user_full_name = $user->getFullName();
         return new Address($user_email, $user_full_name);
+    }
+
+    public function getComparableEmail(Email $email): string {
+        $from = $this->arr2str($email->getFrom());
+        $reply_to = $this->arr2str($email->getReplyTo());
+        $to = $this->arr2str($email->getTo());
+        $cc = $this->arr2str($email->getCc());
+        $bcc = $this->arr2str($email->getBcc());
+        $subject = $email->getSubject();
+        $text_body = $email->getTextBody() ?? '(no text body)';
+        $html_body = $email->getHtmlBody() ?? '(no html body)';
+        $attachments = implode('', array_map(function (DataPart $data_part) {
+            return "\n".$data_part->getFilename();
+        }, $email->getAttachments()));
+
+        return <<<ZZZZZZZZZZ
+        From: {$from}
+        Reply-To: {$reply_to}
+        To: {$to}
+        Cc: {$cc}
+        Bcc: {$bcc}
+        Subject: {$subject}
+
+        {$text_body}
+
+        {$html_body}
+        {$attachments}
+        ZZZZZZZZZZ;
+    }
+
+    public function getComparableEnvelope(Envelope $envelope): string {
+        $sender = $envelope->getSender()->toString();
+        $recipients = $this->arr2str($envelope->getRecipients());
+        return <<<ZZZZZZZZZZ
+        Sender: {$sender}
+        Recipients: {$recipients}
+        ZZZZZZZZZZ;
+    }
+
+    protected function arr2str(array $arr): string {
+        return implode(', ', array_map(function ($item) {
+            return $item->toString();
+        }, $arr));
     }
 
     public function encryptEmailReactionToken($data) {

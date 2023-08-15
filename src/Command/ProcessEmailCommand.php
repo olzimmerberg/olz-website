@@ -300,8 +300,6 @@ class ProcessEmailCommand extends OlzCommand {
 
             $default_envelope = Envelope::create($email);
             $sender = $default_envelope->getSender();
-            // TODO: Remove if not needed
-            $alternative_sender = new Address($this->envUtils()->getSmtpFrom());
             $envelope = new Envelope($sender, [$this->emailUtils()->getUserAddress($user)]);
 
             $this->mailer->send($email, $envelope);

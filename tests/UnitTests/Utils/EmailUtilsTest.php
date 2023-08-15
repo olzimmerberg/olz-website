@@ -9,6 +9,7 @@ use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Webklex\PHPIMAP\Client;
 
@@ -32,10 +33,18 @@ class TestOnlyEmailUtils extends EmailUtils {
 final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $olz_mailer = new Fake\FakeOlzMailer();
+        $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         $email_utils = new Fake\DeterministicEmailUtils();
-        $email_utils->fake_olz_mailer = $olz_mailer;
+        $email_utils->setMailer($mailer);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $email_utils->sendEmailVerificationEmail($user, 'valid-recaptcha');
 
@@ -53,26 +62,34 @@ final class EmailUtilsTest extends UnitTestCase {
 
         ZZZZZZZZZZ;
         $this->assertSame([
-            [
-                'user' => $user,
-                'from' => null,
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] E-Mail bestätigen',
-                'body' => $expected_email,
-                'altBody' => $expected_email,
-                'attachments' => [],
-            ],
-        ], $olz_mailer->emails_sent);
+            <<<ZZZZZZZZZZ
+            From: 
+            Reply-To: 
+            To: "Default User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] E-Mail bestätigen
+
+            {$expected_email}
+
+
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            {$expected_email}
+
+
+            olz_logo
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
     }
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $olz_mailer = new Fake\FakeOlzMailer();
-        $olz_mailer->provoke_error = true;
         $email_utils = new Fake\DeterministicEmailUtils();
-        $email_utils->fake_olz_mailer = $olz_mailer;
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         try {
@@ -86,7 +103,6 @@ final class EmailUtilsTest extends UnitTestCase {
                 'ReCaptcha Token ist ungültig',
                 $exc->getMessage()
             );
-            $this->assertSame([], $olz_mailer->emails_sent);
         } catch (\Throwable $th) {
             $this->fail('RecaptchaDeniedException expected');
         }
@@ -94,24 +110,27 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailFailsSending(): void {
         $user = Fake\FakeUsers::defaultUser();
-        $olz_mailer = new Fake\FakeOlzMailer();
-        $olz_mailer->provoke_error = true;
+        $mailer = $this->createStub(MailerInterface::class);
         $email_utils = new Fake\DeterministicEmailUtils();
-        $email_utils->fake_olz_mailer = $olz_mailer;
+        $email_utils->setMailer($mailer);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $mailer
+            ->expects($this->exactly(1))
+            ->method('send')
+            ->will($this->throwException(new \Exception('mocked-error')))
+        ;
 
         try {
             $email_utils->sendEmailVerificationEmail($user, 'valid-recaptcha');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame([
-                "CRITICAL Error sending email verification email to user (1): Provoked Mailer Error",
+                "CRITICAL Error sending email verification email to user (1): mocked-error",
             ], $this->getLogs());
             $this->assertSame(
-                'Error sending email verification email to user (1): Provoked Mailer Error',
+                'Error sending email verification email to user (1): mocked-error',
                 $exc->getMessage()
             );
-            $this->assertSame([], $olz_mailer->emails_sent);
         }
     }
 

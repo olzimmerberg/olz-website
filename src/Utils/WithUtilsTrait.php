@@ -5,9 +5,22 @@ namespace Olz\Utils;
 use Doctrine\ORM\EntityManager;
 use PhpTypeScriptApi\Fields\FieldUtils;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 trait WithUtilsTrait {
+    // --- OLZ dependency injection ---
+
     use \Psr\Log\LoggerAwareTrait;
+
+    // --- Symfony dependency injection ---
+
+    protected MailerInterface $mailer;
+
+    #[Required]
+    public function setMailer(MailerInterface $mailer): void {
+        $this->mailer = $mailer;
+    }
 
     public static $ALL_UTILS = [
         'authUtils',

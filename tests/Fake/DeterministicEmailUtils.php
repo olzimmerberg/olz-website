@@ -18,6 +18,10 @@ class DeterministicEmailUtils extends EmailUtils {
         return $this->fake_olz_mailer;
     }
 
+    public function renderMarkdown($markdown) {
+        return $markdown;
+    }
+
     protected function getRandomEmailVerificationToken() {
         return 'veryrandom';
     }

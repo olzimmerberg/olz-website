@@ -136,7 +136,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -154,7 +155,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -190,7 +192,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -242,7 +245,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -301,7 +305,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -368,7 +373,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -428,7 +434,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -488,7 +495,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -575,7 +583,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -649,24 +658,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
         $mailer
             ->expects($this->exactly(1))
             ->method('send')
-            ->with(
-                $this->callback(function (Email $email) use (&$artifacts) {
-                    $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
-                    return true;
-                }),
-                $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                    $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
-                    return true;
-                }),
-            )
             ->will($this->throwException(new \Exception('mocked-error')))
         ;
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -713,7 +712,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -822,7 +822,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -941,7 +942,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1054,7 +1056,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1120,7 +1123,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1150,7 +1154,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         // no bounce email!
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1168,7 +1173,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandGet431ReportMessage(): void {
         $mailer = $this->createStub(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $this->assertStringContainsString(
             '431 Not enough storage or out of memory',
             $job->getReportMessage(431, $mail, 'no-such-username@staging.olzimmerberg.ch'),
@@ -1178,7 +1184,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandGet550ReportMessage(): void {
         $mailer = $this->createStub(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $this->assertStringContainsString(
             '<no-such-username@staging.olzimmerberg.ch>: 550 sorry, no mailbox here by that name',
             $job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch'),
@@ -1188,7 +1195,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandGetOtherReportMessage(): void {
         $mailer = $this->createStub(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand($mailer);
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
         $this->assertStringContainsString(
             '123456 Unknown error',
             $job->getReportMessage(123456, $mail, 'no-such-username@staging.olzimmerberg.ch'),

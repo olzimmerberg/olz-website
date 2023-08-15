@@ -58,9 +58,9 @@ class EmailUtils {
         ];
 
         try {
-            $email = $this->createEmail();
-            $email->configure($user, "[OLZ] E-Mail bestätigen", $text, $config);
-            $email->send();
+            $email = (new Email())->subject("[OLZ] E-Mail bestätigen");
+            $email = $this->buildOlzEmail($email, $user, $text, $config);
+            $this->mailer->send($email);
             $this->log()->info("Email verification email sent to user ({$user_id}).");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();

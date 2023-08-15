@@ -10,7 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\Envelope;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
@@ -22,12 +21,6 @@ use Webklex\PHPIMAP\Support\MessageCollection;
 
 #[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
-    public function __construct(
-        private MailerInterface $mailer,
-    ) {
-        parent::__construct();
-    }
-
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }
@@ -254,7 +247,6 @@ class ProcessEmailCommand extends OlzCommand {
                 ->to(...$to)
                 ->cc(...$cc)
                 ->bcc(...$bcc)
-                // ->priority(Email::PRIORITY_HIGH)
                 ->subject($subject)
                 ->text($text ? $text : '(leer)')
                 ->html($html ? $html : '(leer)')
@@ -342,7 +334,6 @@ class ProcessEmailCommand extends OlzCommand {
             $email = (new Email())
                 ->from(new Address($smtp_from, 'OLZ Bot'))
                 ->to(new Address($from_address, $from_name))
-                // ->priority(Email::PRIORITY_HIGH)
                 ->subject("Undelivered Mail Returned to Sender")
                 ->text($this->getReportMessage($smtp_code, $mail, $address))
             ;

@@ -14,7 +14,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class OlzApiTest extends UnitTestCase {
     public function testOlzApiHasEndpoints(): void {
-        $olz_api = OlzApi::getInstance();
+        $olz_api = OlzApi::getShallowInstance();
         $this->assertGreaterThan(0, count($olz_api->getEndpointNames()));
     }
 

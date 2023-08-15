@@ -16,7 +16,7 @@ use PhpTypeScriptApi\Endpoint;
  */
 final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {
-        $olz_api = OlzApi::getInstance();
+        $olz_api = OlzApi::getShallowInstance();
 
         foreach ($olz_api->getEndpointNames() as $endpoint_name) {
             $endpoint = $olz_api->getEndpointByName($endpoint_name);

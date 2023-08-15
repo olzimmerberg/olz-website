@@ -15,10 +15,9 @@ class ApiController extends AbstractController {
     public function index(
         Request $request,
         LoggerInterface $logger,
+        OlzApi $olz_api,
         string $endpoint_name
     ): Response {
-        $olz_api = OlzApi::getInstance();
-
         $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
         $olz_api->setLogger($logger);
 
@@ -31,10 +30,9 @@ class ApiController extends AbstractController {
     public function oldIndex(
         Request $request,
         LoggerInterface $logger,
+        OlzApi $olz_api,
         string $endpoint_name
     ): Response {
-        $olz_api = OlzApi::getInstance();
-
         $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
         $olz_api->setLogger($logger);
 

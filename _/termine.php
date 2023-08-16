@@ -20,8 +20,10 @@ $id = $_GET['id'] ?? null;
 
 if ($id === null) {
     $new_url = "{$code_href}termine?filter={$enc_json_filter}";
+    http_response_code(301);
     header("Location: {$new_url}");
 } else {
     $new_url = "{$code_href}termine/{$id}?filter={$enc_json_filter}";
+    http_response_code(301);
     header("Location: {$new_url}");
 }

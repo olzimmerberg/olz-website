@@ -42,7 +42,7 @@ class MonitorBackupCommand extends OlzCommand {
                 $this->checkWorkflowRun($workflow_run);
                 $has_successful = true;
             } catch (\Throwable $th) {
-                $errors .= "  ".var_export($th, true)."\n";
+                $errors .= "  ".$th->getMessage()."\n";
             }
         }
         if ($has_successful) {

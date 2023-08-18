@@ -17,6 +17,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mime\Email;
 
 require_once __DIR__.'/../../_/config/init.php';
 
@@ -431,10 +432,9 @@ class SendDailyNotificationsCommand extends OlzCommand {
         switch ($delivery_type) {
             case NotificationSubscription::DELIVERY_EMAIL:
                 try {
-                    $this->emailUtils()->setLogger($this->log());
-                    $email = $this->emailUtils()->createEmail();
-                    $email->configure($user, "[OLZ] {$title}", $text, $config);
-                    $email->send();
+                    $email = (new Email())->subject("[OLZ] {$title}");
+                    $email = $this->emailUtils()->buildOlzEmail($email, $user, $text, $config);
+                    $this->mailer->send($email);
                     $this->log()->info("Email sent to user ({$user_id}): {$title}");
                 } catch (\Throwable $th) {
                     $th_class = get_class($th);

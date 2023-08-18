@@ -11,6 +11,8 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * @internal
@@ -65,6 +67,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointAnonymous(): void {
+        $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => false,
@@ -72,8 +75,17 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'kaderblog' => false,
         ];
         $endpoint = new CreateNewsEndpoint();
+        $endpoint->setMailer($mailer);
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $endpoint->runtimeSetup();
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $result = $endpoint->call([
             'meta' => [
@@ -103,11 +115,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            "INFO Forumseintrag email sent to anonymous@staging.olzimmerberg.ch.",
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
@@ -158,19 +169,34 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
 
         ZZZZZZZZZZ;
-        $emails_sent = WithUtilsCache::get('emailUtils')->testOnlyEmailsSent();
-        $this->assertSame(1, count($emails_sent));
-        $this->assertSame('Anonymous', $emails_sent[0]['user']->getFirstName());
-        $this->assertSame('', $emails_sent[0]['user']->getLastName());
-        $this->assertSame('anonymous@staging.olzimmerberg.ch', $emails_sent[0]['user']->getEmail());
-        $this->assertSame(['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'], $emails_sent[0]['from']);
-        $this->assertSame(null, $emails_sent[0]['replyTo']);
-        $this->assertSame('[OLZ] Dein Forumseintrag', $emails_sent[0]['subject']);
-        $this->assertSame($expected_text, $emails_sent[0]['body']);
-        $this->assertSame($expected_text, $emails_sent[0]['altBody']);
+        $this->assertSame([
+            <<<ZZZZZZZZZZ
+            From: 
+            Reply-To: 
+            To: "Anonymous" <anonymous@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] Dein Forumseintrag
+
+            {$expected_text}
+
+
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            {$expected_text}
+
+
+            olz_logo
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
     }
 
     public function testCreateNewsEndpoint(): void {
+        $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
@@ -178,7 +204,9 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'kaderblog' => false,
         ];
         $endpoint = new CreateNewsEndpoint();
+        $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
+        $mailer->expects($this->exactly(0))->method('send');
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
@@ -260,7 +288,5 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
-
-        $this->assertSame([], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
     }
 }

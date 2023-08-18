@@ -15,6 +15,8 @@ use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 $user1 = Fake\FakeUsers::defaultUser(true);
 $user1->setId(1);
@@ -347,7 +349,9 @@ class FakeSendDailyNotificationsCommandDailySummaryGetter {
         if ($args['no_notification'] ?? false) {
             return null;
         }
-        return new Notification('DS title', 'DS text %%userFirstName%%');
+        return new Notification('DS title', 'DS text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_DAILY_SUMMARY,
+        ]);
     }
 }
 
@@ -362,7 +366,9 @@ class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
             return null;
         }
         $args_str = json_encode($args);
-        return new Notification("DW title {$args_str}", 'DW text %%userFirstName%%');
+        return new Notification("DW title {$args_str}", 'DW text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_DEADLINE_WARNING,
+        ]);
     }
 }
 
@@ -377,7 +383,9 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
             return null;
         }
         $args_str = json_encode($args);
-        return new Notification("ECR title {$args_str}", 'ECR text %%userFirstName%%');
+        return new Notification("ECR title {$args_str}", 'ECR text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        ]);
     }
 }
 
@@ -391,7 +399,9 @@ class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
         if ($args['no_notification'] ?? false) {
             return null;
         }
-        return new Notification('MP title', 'MP text %%userFirstName%%');
+        return new Notification('MP title', 'MP text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+        ]);
     }
 }
 
@@ -406,7 +416,9 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
             return null;
         }
         $args_str = json_encode($args);
-        return new Notification("TCR title {$args_str}", 'TCR text %%userFirstName%%');
+        return new Notification("TCR title {$args_str}", 'TCR text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+        ]);
     }
 }
 
@@ -420,7 +432,9 @@ class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
         if ($args['no_notification'] ?? false) {
             return null;
         }
-        return new Notification('WP title', 'WP text %%userFirstName%%');
+        return new Notification('WP title', 'WP text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+        ]);
     }
 }
 
@@ -435,9 +449,13 @@ class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
             return null;
         }
         if ($args['provoke_error'] ?? false) {
-            return new Notification('provoke_error', 'provoke_error');
+            return new Notification('provoke_error', 'provoke_error', [
+                'notification_type' => NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+            ]);
         }
-        return new Notification('WS title', 'WS text %%userFirstName%%');
+        return new Notification('WS title', 'WS text %%userFirstName%%', [
+            'notification_type' => NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+        ]);
     }
 }
 
@@ -448,6 +466,7 @@ class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
  */
 final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
+        $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
@@ -464,8 +483,20 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $weekly_summary_getter = new FakeSendDailyNotificationsCommandWeeklySummaryGetter();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
+        $artifacts = [];
+        $mailer->expects($this->exactly(6))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                if (str_contains($email->getSubject(), 'provoke')) {
+                    throw new \Exception("provoked");
+                }
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            null,
+        );
 
         $job = new SendDailyNotificationsCommand();
+        $job->setMailer($mailer);
         $job->setDailySummaryGetter($daily_summary_getter);
         $job->setDeadlineWarningGetter($deadline_warning_getter);
         $job->setEmailConfigurationReminderGetter($email_configuration_reminder_getter);
@@ -527,7 +558,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",
             "INFO Sending notification provoke_error over email to user (2)...",
-            "CRITICAL Error sending email to user (2): [Exception] Provoked Mailer Error",
+            "CRITICAL Error sending email to user (2): [Exception] provoked",
             "INFO Sending 'invalid-type' notifications...",
             "CRITICAL Unknown notification type 'invalid-type'",
             "INFO Sending 'telegram_config_reminder' notifications...",
@@ -596,63 +627,142 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             $entity_manager->removed
         ));
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
+
         $this->assertSame([
-            [
-                'user' => $user1,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] MP title',
-                'body' => 'MP text First',
-                'altBody' => 'MP text First',
-                'attachments' => [],
-            ],
-            [
-                'user' => $user1,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] DW title {"days":3}',
-                'body' => 'DW text First',
-                'altBody' => 'DW text First',
-                'attachments' => [],
-            ],
-            [
-                'user' => $user1,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] DS title',
-                'body' => 'DS text First',
-                'altBody' => 'DS text First',
-                'attachments' => [],
-            ],
-            [
-                'user' => $user2,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] WS title',
-                'body' => 'WS text Second',
-                'altBody' => 'WS text Second',
-                'attachments' => [],
-            ],
-            [
-                'user' => $user1,
-                'from' => ['fake@staging.olzimmerberg.ch', 'OL Zimmerberg'],
-                'sender' => null,
-                'replyTo' => null,
-                'headers' => [],
-                'subject' => '[OLZ] ECR title {"cancelled":false}',
-                'body' => 'ECR text First',
-                'altBody' => 'ECR text First',
-                'attachments' => [],
-            ],
-        ], WithUtilsCache::get('emailUtils')->testOnlyEmailsSent());
+            <<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "First User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] MP title
+
+            MP text First
+            
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+            
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            MP text First
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+            
+            olz_logo
+            ZZZZZZZZZZ,
+            <<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "First User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] DW title {"days":3}
+
+            DW text First
+            
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+            
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            DW text First
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+            
+            olz_logo
+            ZZZZZZZZZZ,
+            <<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "First User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] DS title
+
+            DS text First
+            
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+            
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            DS text First
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+            
+            olz_logo
+            ZZZZZZZZZZ,
+            <<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "Second User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] WS title
+
+            WS text Second
+            
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+            
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            WS text Second
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+            
+            olz_logo
+            ZZZZZZZZZZ,
+            <<<'ZZZZZZZZZZ'
+            From: 
+            Reply-To: 
+            To: "First User" <default-user@staging.olzimmerberg.ch>
+            Cc: 
+            Bcc: 
+            Subject: [OLZ] ECR title {"cancelled":false}
+
+            ECR text First
+            
+            ---
+            Abmelden?
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+            
+            <div style="text-align: right; float: right;">
+                <img src="cid:olz_logo" alt="" style="width:150px;" />
+            </div>
+            <br /><br /><br />
+            ECR text First
+            <br /><br />
+            <hr style="border: 0; border-top: 1px solid black;">
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+            
+            olz_logo
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
+
         $this->assertSame([
             ['sendMessage', [
                 'chat_id' => '11111',

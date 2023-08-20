@@ -8,6 +8,7 @@ use Olz\Entity\Role;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\Mime\Email;
 
 class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
     use NewsEndpointTrait;
@@ -149,10 +150,15 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
                 'no_unsubscribe' => true,
             ];
 
-            $this->emailUtils()->setLogger($this->log());
-            $email = $this->emailUtils()->createEmail();
-            $email->configure($anonymous_user, "[OLZ] Dein Forumseintrag", $text, $config);
-            $email->send();
+            try {
+                $email = (new Email())->subject("[OLZ] Dein Forumseintrag");
+                $email = $this->emailUtils()->buildOlzEmail($email, $anonymous_user, $text, $config);
+                $this->mailer->send($email);
+                $this->log()->info("Forumseintrag email sent to {$anonymous_user->getEmail()}.");
+            } catch (\Exception $exc) {
+                $message = $exc->getMessage();
+                $this->log()->critical("Error sending Forumseintrag email to {$anonymous_user->getEmail()}.: {$message}");
+            }
         }
 
         return [

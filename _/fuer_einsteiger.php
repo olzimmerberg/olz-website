@@ -22,6 +22,7 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLog($logger);
 $http_utils->validateGetParams([
     'von' => new FieldTypes\StringField(['allow_null' => true]),
+    'fbclid' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
 $env_utils = EnvUtils::fromEnv();

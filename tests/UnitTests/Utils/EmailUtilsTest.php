@@ -9,8 +9,12 @@ use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
+use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Client;
 
 class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
@@ -164,116 +168,6 @@ final class EmailUtilsTest extends UnitTestCase {
         $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
     }
 
-    public function testCreateSendmailEmail(): void {
-        $env_utils = new FakeEnvUtilsForSendmail();
-        $email_utils = new EmailUtils();
-        $email_utils->setEnvUtils($env_utils);
-
-        $mailer = $email_utils->createEmail();
-
-        $this->assertSame(null, $mailer->Priority);
-        $this->assertSame('UTF-8', $mailer->CharSet);
-        $this->assertSame('text/plain', $mailer->ContentType);
-        $this->assertSame('base64', $mailer->Encoding);
-        $this->assertSame('', $mailer->ErrorInfo);
-        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->From);
-        $this->assertSame('OL Zimmerberg', $mailer->FromName);
-        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Sender);
-        $this->assertSame('', $mailer->Subject);
-        $this->assertSame('', $mailer->Body);
-        $this->assertSame('', $mailer->AltBody);
-        $this->assertSame('', $mailer->Ical);
-        $this->assertSame(0, $mailer->WordWrap);
-        $this->assertSame('sendmail', $mailer->Mailer);
-        $this->assertSame(true, $mailer->UseSendmailOptions);
-        $this->assertSame('', $mailer->ConfirmReadingTo);
-        $this->assertSame('', $mailer->Hostname);
-        $this->assertSame('', $mailer->MessageID);
-        $this->assertSame('', $mailer->MessageDate);
-        $this->assertSame('localhost', $mailer->Host);
-        $this->assertSame(25, $mailer->Port);
-        $this->assertSame('', $mailer->Helo);
-        $this->assertSame('', $mailer->SMTPSecure);
-        $this->assertSame(true, $mailer->SMTPAutoTLS);
-        $this->assertSame(false, $mailer->SMTPAuth);
-        $this->assertSame([], $mailer->SMTPOptions);
-        $this->assertSame('', $mailer->Username);
-        $this->assertSame('', $mailer->Password);
-        $this->assertSame('', $mailer->AuthType);
-        $this->assertSame(300, $mailer->Timeout);
-        $this->assertSame('', $mailer->dsn);
-        $this->assertSame(0, $mailer->SMTPDebug);
-        $this->assertSame('echo', $mailer->Debugoutput);
-        $this->assertSame(false, $mailer->SMTPKeepAlive);
-        $this->assertSame(false, $mailer->SingleTo);
-        $this->assertSame(false, $mailer->do_verp);
-        $this->assertSame(false, $mailer->AllowEmpty);
-        $this->assertSame('', $mailer->DKIM_selector);
-        $this->assertSame('', $mailer->DKIM_identity);
-        $this->assertSame('', $mailer->DKIM_passphrase);
-        $this->assertSame('', $mailer->DKIM_domain);
-        $this->assertSame(true, $mailer->DKIM_copyHeaderFields);
-        $this->assertSame([], $mailer->DKIM_extraHeaders);
-        $this->assertSame('', $mailer->DKIM_private);
-        $this->assertSame('', $mailer->DKIM_private_string);
-        $this->assertSame('', $mailer->action_function);
-        $this->assertSame('', $mailer->XMailer);
-    }
-
-    public function testCreateSmtpEmail(): void {
-        $email_utils = new EmailUtils();
-
-        $mailer = $email_utils->createEmail();
-
-        $this->assertSame(null, $mailer->Priority);
-        $this->assertSame('UTF-8', $mailer->CharSet);
-        $this->assertSame('text/plain', $mailer->ContentType);
-        $this->assertSame('base64', $mailer->Encoding);
-        $this->assertSame('', $mailer->ErrorInfo);
-        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->From);
-        $this->assertSame('OL Zimmerberg', $mailer->FromName);
-        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Sender);
-        $this->assertSame('', $mailer->Subject);
-        $this->assertSame('', $mailer->Body);
-        $this->assertSame('', $mailer->AltBody);
-        $this->assertSame('', $mailer->Ical);
-        $this->assertSame(0, $mailer->WordWrap);
-        $this->assertSame('smtp', $mailer->Mailer);
-        $this->assertSame(true, $mailer->UseSendmailOptions);
-        $this->assertSame('', $mailer->ConfirmReadingTo);
-        $this->assertSame('', $mailer->Hostname);
-        $this->assertSame('', $mailer->MessageID);
-        $this->assertSame('', $mailer->MessageDate);
-        $this->assertSame('localhost', $mailer->Host);
-        $this->assertSame(25, $mailer->Port);
-        $this->assertSame('', $mailer->Helo);
-        $this->assertSame('tls', $mailer->SMTPSecure);
-        $this->assertSame(true, $mailer->SMTPAutoTLS);
-        $this->assertSame(true, $mailer->SMTPAuth);
-        $this->assertSame([], $mailer->SMTPOptions);
-        $this->assertSame('fake@staging.olzimmerberg.ch', $mailer->Username);
-        $this->assertSame('1234', $mailer->Password);
-        $this->assertSame('', $mailer->AuthType);
-        $this->assertSame(300, $mailer->Timeout);
-        $this->assertSame('', $mailer->dsn);
-        $this->assertSame(3, $mailer->SMTPDebug);
-        $this->assertSame('echo', $mailer->Debugoutput);
-        $this->assertSame(false, $mailer->SMTPKeepAlive);
-        $this->assertSame(false, $mailer->SingleTo);
-        $this->assertSame(false, $mailer->do_verp);
-        $this->assertSame(false, $mailer->AllowEmpty);
-        $this->assertSame('', $mailer->DKIM_selector);
-        $this->assertSame('', $mailer->DKIM_identity);
-        $this->assertSame('', $mailer->DKIM_passphrase);
-        $this->assertSame('', $mailer->DKIM_domain);
-        $this->assertSame(true, $mailer->DKIM_copyHeaderFields);
-        $this->assertSame([], $mailer->DKIM_extraHeaders);
-        $this->assertSame('', $mailer->DKIM_private);
-        $this->assertSame('', $mailer->DKIM_private_string);
-        $this->assertSame('', $mailer->action_function);
-        $this->assertSame('', $mailer->XMailer);
-    }
-
     public function testBuildOlzEmail(): void {
         $email_utils = new EmailUtils();
 
@@ -338,6 +232,60 @@ final class EmailUtilsTest extends UnitTestCase {
             '"First Last" <fake@staging.olzimmerberg.ch>',
             $email_utils->getUserAddress($user)->toString(),
         );
+    }
+
+    public function testGetComparableEmail(): void {
+        $email_utils = new EmailUtils();
+        $email = (new Email())
+            ->from(new Address('fake-from@staging.olzimmerberg.ch', 'Fake From'))
+            ->replyTo(new Address('fake-reply-to@staging.olzimmerberg.ch', 'Fake Reply-To'))
+            ->to(
+                new Address('to1@staging.olzimmerberg.ch', 'Fake To1'),
+                new Address('to2@staging.olzimmerberg.ch', 'Fake To2'),
+            )
+            ->cc(
+                new Address('cc1@staging.olzimmerberg.ch', 'Fake Cc1'),
+                new Address('cc2@staging.olzimmerberg.ch', 'Fake Cc2'),
+            )
+            ->bcc(
+                new Address('bcc1@staging.olzimmerberg.ch', 'Fake Bcc1'),
+                new Address('bcc2@staging.olzimmerberg.ch', 'Fake Bcc2'),
+            )
+            ->subject('Fake Subject')
+            ->text('Fake Text')
+            ->html('Fake HTML')
+            ->addPart((new DataPart(new File(__DIR__.'/../../../assets/icns/olz_logo_schwarzweiss_300.png'), 'olz_logo', 'image/png'))->asInline())
+        ;
+
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+        From: "Fake From" <fake-from@staging.olzimmerberg.ch>
+        Reply-To: "Fake Reply-To" <fake-reply-to@staging.olzimmerberg.ch>
+        To: "Fake To1" <to1@staging.olzimmerberg.ch>, "Fake To2" <to2@staging.olzimmerberg.ch>
+        Cc: "Fake Cc1" <cc1@staging.olzimmerberg.ch>, "Fake Cc2" <cc2@staging.olzimmerberg.ch>
+        Bcc: "Fake Bcc1" <bcc1@staging.olzimmerberg.ch>, "Fake Bcc2" <bcc2@staging.olzimmerberg.ch>
+        Subject: Fake Subject
+        
+        Fake Text
+        
+        Fake HTML
+
+        olz_logo
+        ZZZZZZZZZZ, $email_utils->getComparableEmail($email));
+    }
+
+    public function testGetComparableEnvelope(): void {
+        $email_utils = new EmailUtils();
+        $envelope = new Envelope(
+            new Address('fake-sender@staging.olzimmerberg.ch', 'Fake Sender'),
+            [
+                new Address('recipient1@staging.olzimmerberg.ch', 'Fake Recipient1'),
+                new Address('recipient2@staging.olzimmerberg.ch', 'Fake Recipient2'),
+            ],
+        );
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+        Sender: "Fake Sender" <fake-sender@staging.olzimmerberg.ch>
+        Recipients: recipient1@staging.olzimmerberg.ch, recipient2@staging.olzimmerberg.ch
+        ZZZZZZZZZZ, $email_utils->getComparableEnvelope($envelope));
     }
 
     public function testRenderMarkdown(): void {

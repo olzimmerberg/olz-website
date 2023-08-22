@@ -18,7 +18,6 @@ class FakeEmailUtils extends EmailUtils {
     public $send_email_verification_email_error;
 
     public $client;
-    public $olzMailers = [];
 
     public function __construct() {
         $this->client = new FakeImapClient();
@@ -38,13 +37,6 @@ class FakeEmailUtils extends EmailUtils {
         return $this->client;
     }
 
-    public function createEmail() {
-        $mailer = new FakeOlzMailer();
-        $mailer->setFrom('fake@staging.olzimmerberg.ch', 'OL Zimmerberg');
-        $this->olzMailers[] = $mailer;
-        return $mailer;
-    }
-
     public function encryptEmailReactionToken($data) {
         $general_utils = new GeneralUtils();
         return $general_utils->base64EncodeUrl(json_encode($data));
@@ -56,17 +48,6 @@ class FakeEmailUtils extends EmailUtils {
 
     public function renderMarkdown($markdown) {
         return $markdown;
-    }
-
-    public function testOnlyEmailsSent() {
-        $emails_sent = [];
-        foreach ($this->olzMailers as $mailer) {
-            $emails_sent = [
-                ...$emails_sent,
-                ...$mailer->emails_sent,
-            ];
-        }
-        return $emails_sent;
     }
 }
 

@@ -99,33 +99,6 @@ class EmailUtils {
         //    https://github.com/Webklex/php-imap
     }
 
-    /** @deprecated TODO: Replace with symfony mailer */
-    public function createEmail() {
-        $mail = new OlzMailer(true);
-
-        if ($this->envUtils()->getSmtpHost() !== null) {
-            $mail->SMTPDebug = $this->envUtils()->getSmtpDebug();
-            $mail->isSMTP();
-            $mail->Host = $this->envUtils()->getSmtpHost();
-            $mail->SMTPAuth = ($this->envUtils()->getSmtpUsername() !== null);
-            $mail->Username = $this->envUtils()->getSmtpUsername();
-            $mail->Password = $this->envUtils()->getSmtpPassword();
-            $mail->SMTPSecure = $this->envUtils()->getSmtpSecure();
-            $mail->Port = intval($this->envUtils()->getSmtpPort());
-        } else {
-            $mail->isSendmail();
-        }
-
-        $mail->CharSet = 'UTF-8';
-        $mail->Encoding = 'base64';
-
-        $mail->setFrom($this->envUtils()->getSmtpFrom(), 'OL Zimmerberg');
-
-        $mail->setLogger($this->log());
-
-        return $mail;
-    }
-
     public function buildOlzEmail(Email $email, User $user, string $text, array $config): Email {
         // TODO: Check if verified?
         $user_id = $user->getId();

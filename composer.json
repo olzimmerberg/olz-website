@@ -86,7 +86,6 @@
     "league/flysystem": "^3.2",
     "league/flysystem-ftp": "^3.0",
     "monolog/monolog": "^3.2",
-    "phpmailer/phpmailer": "^6.8",
     "psr/log": "^3.0",
     "sabre/dav": "^4.3",
     "symfony/apache-pack": "^1.0",

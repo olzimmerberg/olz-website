@@ -43,7 +43,7 @@ class OlzTerminDetail extends OlzComponent {
         $file_utils = FileUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
-        $validated_get_params = $http_utils->validateGetParams([
+        $http_utils->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),
             'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
@@ -57,6 +57,7 @@ class OlzTerminDetail extends OlzComponent {
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
                 Criteria::expr()->eq('id', $id),
+                Criteria::expr()->eq('on_off', 1),
             ))
             ->setFirstResult(0)
             ->setMaxResults(1)
@@ -67,11 +68,15 @@ class OlzTerminDetail extends OlzComponent {
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         $canonical_url = "https://{$host}{$code_href}termine/{$id}";
 
-        $out = "";
+        $out = '';
 
-        $sql = "SELECT * FROM termine WHERE (id = '{$id}') ORDER BY datum DESC";
+        $sql = "SELECT * FROM termine WHERE (id = '{$id}') AND (on_off = '1') ORDER BY datum DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
+
+        if (!$row) {
+            $http_utils->dieWithHttpError(404);
+        }
 
         $title = $row['titel'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
@@ -101,7 +106,6 @@ class OlzTerminDetail extends OlzComponent {
         $event_link = $row['solv_event_link'] ?? '';
         $typ = $row['typ'] ?? '';
         $types = explode(' ', $typ);
-        $on_off = $row['on_off'] ?? '';
         $newsletter = $row['newsletter'] ?? '';
         $xkoord = $row['xkoord'] ?? '';
         $ykoord = $row['ykoord'] ?? '';

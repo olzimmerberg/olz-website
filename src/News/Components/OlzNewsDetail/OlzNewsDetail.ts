@@ -2,9 +2,9 @@ import {olzApi} from '../../../../src/Api/client';
 import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../OlzEditNewsModal/OlzEditNewsModal';
 import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
-import './OlzNewsArticle.scss';
+import './OlzNewsDetail.scss';
 
-export function editNewsArticle(
+export function editNews(
     newsId: number,
     mode: OlzEditNewsModalMode,
 ): boolean {
@@ -17,7 +17,12 @@ export function editNewsArticle(
 
 export function deleteNewsArticle(newsId: number): boolean {
     olzConfirm('Wirklich löschen?').then(() => {
-        olzApi.call('deleteNews', {id: newsId});
+        olzApi.call('deleteNews', {id: newsId}).then(() => {
+            window.setTimeout(() => {
+                // TODO: This could probably be done more smoothly!
+                window.location.reload();
+            }, 1000);
+        });
     });
     return false;
 }

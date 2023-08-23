@@ -99,11 +99,12 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
-        $this->assertSame(1, count($entity_manager->removed));
-        $this->assertSame(1, count($entity_manager->flushed_removed));
-        $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
-        $news_entry = $entity_manager->removed[0];
+        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $news_entry = $entity_manager->persisted[0];
         $this->assertSame(123, $news_entry->getId());
+        $this->assertSame(0, $news_entry->getOnOff());
     }
 
     public function testDeleteNewsEndpointInexistent(): void {

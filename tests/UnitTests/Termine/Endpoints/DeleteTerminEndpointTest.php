@@ -76,11 +76,12 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
-        $this->assertSame(1, count($entity_manager->removed));
-        $this->assertSame(1, count($entity_manager->flushed_removed));
-        $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
-        $termin = $entity_manager->removed[0];
+        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $termin = $entity_manager->persisted[0];
         $this->assertSame(123, $termin->getId());
+        $this->assertSame(0, $termin->getOnOff());
     }
 
     public function testDeleteTerminEndpointInexistent(): void {

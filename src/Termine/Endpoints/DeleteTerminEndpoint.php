@@ -31,8 +31,10 @@ class DeleteTerminEndpoint extends OlzDeleteEntityEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityManager()->remove($termin);
+        $termin->setOnOff(0);
+        $this->entityManager()->persist($termin);
         $this->entityManager()->flush();
+
         return ['status' => 'OK'];
     }
 }

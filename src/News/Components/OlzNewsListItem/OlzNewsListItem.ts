@@ -3,7 +3,7 @@ import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../OlzEditNewsModal/Ol
 
 import './OlzNewsListItem.scss';
 
-export function newsListItemEditNewsArticle(
+export function newsListItemEditNews(
     newsId: number,
     mode: OlzEditNewsModalMode,
 ): boolean {

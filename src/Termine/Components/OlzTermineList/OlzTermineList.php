@@ -87,12 +87,12 @@ class OlzTermineList extends OlzComponent {
         $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
         $inner_sql_where = <<<ZZZZZZZZZZ
         (
-            (t.datum_off>='{$date_utils->getIsoToday()}')
+            (t.datum_off >= '{$date_utils->getIsoToday()}')
             OR (t.datum_off='0000-00-00')
-            OR t.datum_off IS NULL
+            OR (t.datum_off IS NULL)
         )
         AND (t.on_off = '1')
-        AND {$date_filter}
+        AND ({$date_filter})
         ZZZZZZZZZZ;
 
         $sql = <<<ZZZZZZZZZZ

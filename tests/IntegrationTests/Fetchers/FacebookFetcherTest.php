@@ -27,9 +27,9 @@ final class FacebookFetcherTest extends IntegrationTestCase {
         $this->assertArrayHasKey('type', $content['error']);
         $this->assertArrayHasKey('code', $content['error']);
         $this->assertArrayHasKey('fbtrace_id', $content['error']);
-        $this->assertSame('Missing redirect_uri parameter.', $content['error']['message']);
+        $this->assertSame('Missing client_id parameter.', $content['error']['message']);
         $this->assertSame('OAuthException', $content['error']['type']);
-        $this->assertSame(191, $content['error']['code']);
+        $this->assertSame(101, $content['error']['code']);
     }
 
     public function testFetchUserData(): void {

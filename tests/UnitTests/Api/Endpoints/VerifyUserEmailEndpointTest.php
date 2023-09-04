@@ -109,6 +109,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "ERROR Error sending fake verification email",
+            "NOTICE Recaptcha denied for user (ID:1)",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'DENIED'], $result);
@@ -129,6 +130,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "ERROR Error sending fake verification email",
+            "ERROR Error verifying email for user (ID:1)",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'ERROR'], $result);

@@ -40,8 +40,10 @@ class VerifyUserEmailEndpoint extends OlzEndpoint {
         try {
             $this->emailUtils()->sendEmailVerificationEmail($user, $token);
         } catch (RecaptchaDeniedException $exc) {
+            $this->log()->notice("Recaptcha denied for user (ID:{$user->getId()})");
             return ['status' => 'DENIED'];
         } catch (\Throwable $th) {
+            $this->log()->error("Error verifying email for user (ID:{$user->getId()})", [$th]);
             return ['status' => 'ERROR'];
         }
         $this->entityManager()->flush();

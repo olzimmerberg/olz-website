@@ -22,6 +22,7 @@ use Olz\Utils\TelegramUtils;
 use Olz\Utils\UploadUtils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldUtils;
+use Symfony\Component\Mailer\MailerInterface;
 
 class WithUtilsTraitIntegrationClassWithUtilsTrait {
     use WithUtilsTrait;
@@ -102,6 +103,8 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
         ];
         $instance = new WithUtilsTraitIntegrationClassWithUtilsTrait();
+        $mailer = $this->createStub(MailerInterface::class);
+        $instance->setMailer($mailer);
         $this->assertGreaterThan(0, count($all_utils));
         foreach ($all_utils as $util_name) {
             $value_from_env = $instance->{$util_name}();

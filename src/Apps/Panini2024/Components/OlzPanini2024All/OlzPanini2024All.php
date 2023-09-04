@@ -59,10 +59,10 @@ class OlzPanini2024All extends OlzComponent {
                 $line1 = $picture->getLine1();
                 $line2 = $picture->getLine2();
                 $owner_user = $picture->getOwnerUser();
-                $user_html = OlzUserInfoWithPopup::render([
+                $user_html = $owner_user ? OlzUserInfoWithPopup::render([
                     'user' => $owner_user,
                     'mode' => 'name',
-                ]);
+                ]) : '-';
                 $association = $picture->getAssociation();
                 $infos = $picture->getInfos();
                 $infos_emojis = '';

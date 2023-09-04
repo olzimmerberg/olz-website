@@ -97,7 +97,9 @@ trait WithUtilsTrait {
     }
 
     public function createEmailUtils() {
-        return EmailUtils::fromEnv();
+        $emailUtils = EmailUtils::fromEnv();
+        $emailUtils->setMailer($this->mailer);
+        return $emailUtils;
     }
 
     public function setEmailUtils(EmailUtils $emailUtils) {

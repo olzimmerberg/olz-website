@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {OlzPanini2024, OlzPanini2024Masks, MASKS_CONFIG} from './Components/index';
 
+export {showPaniniPicture} from './Components/index';
+
 const elem = document.getElementById('react-root');
 if (elem) {
     ReactDOM.render(

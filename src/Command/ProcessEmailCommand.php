@@ -31,6 +31,8 @@ class ProcessEmailCommand extends OlzCommand {
     protected $client;
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
+        ini_set('memory_limit', '500M');
+
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
         try {
@@ -254,7 +256,6 @@ class ProcessEmailCommand extends OlzCommand {
 
             $upload_paths = [];
             if ($mail->hasAttachments()) {
-                ini_set('memory_limit', '500M');
                 $attachments = $mail->getAttachments();
                 $data_path = $this->envUtils()->getDataPath();
                 $temp_path = "{$data_path}temp/";

@@ -98,7 +98,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
                 <img src='{$icon}' alt='{$format}' class='link-icon'>
                 <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
                     <span class='title'>{$title}</span>
-                    <span class='date'>({$date})</span>
+                    <span class='secondary'>({$date})</span>
                 </a>
                 {$image_right}
             </li>

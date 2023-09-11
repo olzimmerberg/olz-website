@@ -83,8 +83,7 @@ class OlzTermineList extends OlzComponent {
 
         // -------------------------------------------------------------
         //  VORSCHAU - LISTE
-        $date_filter = $termine_utils->getSqlDateRangeFilter($current_filter);
-        $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
+        $inner_date_filter = $termine_utils->getSqlDateRangeFilter($current_filter, 't');
         $inner_sql_where = <<<ZZZZZZZZZZ
         (
             (t.datum_off >= '{$date_utils->getIsoToday()}')
@@ -92,8 +91,11 @@ class OlzTermineList extends OlzComponent {
             OR (t.datum_off IS NULL)
         )
         AND (t.on_off = '1')
-        AND ({$date_filter})
+        AND ({$inner_date_filter})
         ZZZZZZZZZZ;
+        $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
+        $outer_date_filter = $termine_utils->getSqlDateRangeFilter($current_filter, 'c');
+        $outer_sql_where = "({$type_filter}) AND ({$outer_date_filter})";
 
         $sql = <<<ZZZZZZZZZZ
         SELECT * FROM ((
@@ -169,7 +171,7 @@ class OlzTermineList extends OlzComponent {
             FROM termine t
             WHERE (t.deadline IS NOT NULL) AND ({$inner_sql_where})
         )) AS c
-        WHERE ({$type_filter})
+        WHERE ({$outer_sql_where})
         ORDER BY c.datum ASC
         ZZZZZZZZZZ;
 

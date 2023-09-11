@@ -51,7 +51,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
         **Meldeschlüsse**
 
-        - 17.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine/10)'
+        - 10.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine/10)'
         - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
         - 24.08.: Meldeschluss für '[Training 2](http://integration-test.host/termine/4)'
         - 31.08.: Meldeschluss für '[Training 3](http://integration-test.host/termine/6)'

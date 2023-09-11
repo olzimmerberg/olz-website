@@ -38,66 +38,94 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     protected function renderAllUpcomingList() {
         $code_href = $this->envUtils()->getCodeHref();
+        $icon = "{$code_href}assets/icns/termine_type_all_20.svg";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
         $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter));
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
-            <b>Nächste Termine</b>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+            {$icon_img} <b>Nächste Termine</b>
         </a></li>
         ZZZZZZZZZZ;
     }
 
     protected function renderProgramList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = $this->termine_utils->getDefaultFilter();
-        $filter['typ'] = 'programm';
-        $filter['datum'] = 'bevorstehend';
-        $num_imminent = $this->getNumberOfEntries($filter);
-        $filter['datum'] = strval($this->this_year + 1);
-        $num_next_year = $this->getNumberOfEntries($filter);
-        if ($num_imminent > 0 || $num_next_year === 0) {
-            $filter['datum'] = strval($this->this_year);
+        $icon = "{$code_href}assets/icns/termine_type_programm_20.svg";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+        $this_year = $this->this_year;
+        $next_year = $this->this_year + 1;
+        $imminent_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'programm',
+            'datum' => 'bevorstehend',
+        ];
+        $this_year_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'programm',
+            'datum' => strval($this_year),
+        ];
+        $next_year_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'programm',
+            'datum' => strval($next_year),
+        ];
+        $num_imminent = $this->getNumberOfEntries($imminent_filter);
+        $num_next_year = $this->getNumberOfEntries($next_year_filter);
+        $out = '';
+        if ($num_imminent > 0) {
+            $num_this_year = $this->getNumberOfEntries($this_year_filter);
+            $enc_json_filter = urlencode(json_encode($this_year_filter));
+            $out .= <<<ZZZZZZZZZZ
+            <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+                {$icon_img} <b>Jahresprogramm {$this_year}</b><span class='secondary'>({$num_this_year})</span>
+            </a></li>
+            ZZZZZZZZZZ;
         }
-        $enc_json_filter = urlencode(json_encode($filter));
-        $year = $filter['datum'];
-        return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
-            <b>Jahresprogramm {$year}</b>
-        </a></li>
-        ZZZZZZZZZZ;
+        if ($num_next_year > 0) {
+            $enc_json_filter = urlencode(json_encode($next_year_filter));
+            $out .= <<<ZZZZZZZZZZ
+            <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+                {$icon_img} <b>Jahresprogramm {$next_year}</b><span class='secondary'>({$num_next_year})</span>
+            </a></li>
+            ZZZZZZZZZZ;
+        }
+        return $out;
     }
 
     protected function renderWeekendsList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = $this->termine_utils->getDefaultFilter();
-        $filter['typ'] = 'weekend';
-        $filter['datum'] = 'bevorstehend';
-        $num_imminent = $this->getNumberOfEntries($filter);
-        $filter['datum'] = strval($this->this_year + 1);
-        $num_next_year = $this->getNumberOfEntries($filter);
-        if ($num_imminent > 0 || $num_next_year === 0) {
-            $filter['datum'] = strval($this->this_year);
-        }
-        $enc_json_filter = urlencode(json_encode($filter));
-        $year = $filter['datum'];
+        $icon = "{$code_href}assets/icns/termine_type_weekend_20.svg";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+        $imminent_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'weekend',
+            'datum' => 'bevorstehend',
+        ];
+        $num_imminent = $this->getNumberOfEntries($imminent_filter);
+        $enc_json_filter = urlencode(json_encode($imminent_filter));
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
-            <b>Weekends {$year}</b>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+            {$icon_img} <b>Bevorstehende Weekends</b><span class='secondary'>({$num_imminent})</span>
         </a></li>
         ZZZZZZZZZZ;
     }
 
     protected function renderUpcomingTrainingsList() {
         $code_href = $this->envUtils()->getCodeHref();
-        $filter = $this->termine_utils->getDefaultFilter();
-        $filter['typ'] = 'training';
-        $filter['datum'] = 'bevorstehend';
-        $enc_json_filter = urlencode(json_encode($filter));
+        $icon = "{$code_href}assets/icns/termine_type_training_20.svg";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+        $imminent_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'training',
+            'datum' => 'bevorstehend',
+        ];
+        $enc_json_filter = urlencode(json_encode($imminent_filter));
         return <<<ZZZZZZZZZZ
-        <li><a href='{$code_href}termine?filter={$enc_json_filter}' class='linkint'>
-            <b>Nächste Trainings</b>
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+            {$icon_img} <b>Nächste Trainings</b>
         </a></li>
         ZZZZZZZZZZ;
     }

@@ -277,6 +277,41 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $artifacts['email']));
     }
 
+    public function testProcessEmailCommandRfcComplianceException(): void {
+        $mailer = $this->createStub(MailerInterface::class);
+        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
+        $mail = new FakeProcessEmailCommandMail(12,
+            'someone@staging.olzimmerberg.ch',
+            new Attribute('to', [
+                getAddress('non-rfc-compliant-email', ''),
+            ]),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('subject', 'Test subject'),
+            'Test html',
+            'Test text',
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'NOTICE Email from someone@staging.olzimmerberg.ch to someone@gmail.com is not RFC-compliant: Email "non-rfc-compliant-email" does not comply with addr-spec of RFC 2822.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
+        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertSame(['+flagged'], $mail->flag_actions);
+    }
+
     public function testProcessEmailCommandToUser(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
@@ -218,29 +219,29 @@ class ProcessEmailCommand extends OlzCommand {
         $mail->setFlag('flagged');
 
         $forward_address = $user->getEmail();
-        $from = $mail->from->first();
-        $from_name = $from->personal;
-        $from_address = $from->mail;
-        $to = array_map(
-            function ($item) { return $this->getAddress($item); },
-            $mail->to->toArray(),
-        );
-        $cc = array_map(
-            function ($item) { return $this->getAddress($item); },
-            $mail->cc->toArray(),
-        );
-        $bcc = array_map(
-            function ($item) { return $this->getAddress($item); },
-            $mail->bcc->toArray(),
-        );
-        $subject = $mail->subject->first();
-        $mail->parseBody();
-        $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
-        $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
-        if (!$html) {
-            $html = nl2br($text);
-        }
         try {
+            $from = $mail->from->first();
+            $from_name = $from->personal;
+            $from_address = $from->mail;
+            $to = array_map(
+                function ($item) { return $this->getAddress($item); },
+                $mail->to->toArray(),
+            );
+            $cc = array_map(
+                function ($item) { return $this->getAddress($item); },
+                $mail->cc->toArray(),
+            );
+            $bcc = array_map(
+                function ($item) { return $this->getAddress($item); },
+                $mail->bcc->toArray(),
+            );
+            $subject = $mail->subject->first();
+            $mail->parseBody();
+            $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
+            $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
+            if (!$html) {
+                $html = nl2br($text);
+            }
             $this->emailUtils()->setLogger($this->log());
 
             $email = (new Email())
@@ -307,9 +308,13 @@ class ProcessEmailCommand extends OlzCommand {
 
             $mail->unsetFlag('flagged');
             return true;
+        } catch (RfcComplianceException $exc) {
+            $message = $exc->getMessage();
+            $this->log()->notice("Email from {$address} to {$forward_address} is not RFC-compliant: {$message}", [$exc]);
+            return true;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
-            $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}");
+            $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}", [$exc]);
             return false;
         }
     }

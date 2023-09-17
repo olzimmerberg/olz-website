@@ -43,6 +43,11 @@ class OlzApi extends Api {
         \Olz\Termine\Endpoints\EditTerminEndpoint $editTerminEndpoint,
         \Olz\Termine\Endpoints\UpdateTerminEndpoint $updateTerminEndpoint,
         \Olz\Termine\Endpoints\DeleteTerminEndpoint $deleteTerminEndpoint,
+        \Olz\Termine\Endpoints\CreateTerminLocationEndpoint $createTerminLocationEndpoint,
+        \Olz\Termine\Endpoints\GetTerminLocationEndpoint $getTerminLocationEndpoint,
+        \Olz\Termine\Endpoints\EditTerminLocationEndpoint $editTerminLocationEndpoint,
+        \Olz\Termine\Endpoints\UpdateTerminLocationEndpoint $updateTerminLocationEndpoint,
+        \Olz\Termine\Endpoints\DeleteTerminLocationEndpoint $deleteTerminLocationEndpoint,
     ) {
         $this->registerEndpoint('onDaily', $onDailyEndpoint);
         $this->registerEndpoint('onContinuously', $onContinuouslyEndpoint);
@@ -86,6 +91,14 @@ class OlzApi extends Api {
         $this->registerEndpoint('editTermin', $editTerminEndpoint);
         $this->registerEndpoint('updateTermin', $updateTerminEndpoint);
         $this->registerEndpoint('deleteTermin', $deleteTerminEndpoint);
+
+        // Termin Locations
+
+        $this->registerEndpoint('createTerminLocation', $createTerminLocationEndpoint);
+        $this->registerEndpoint('getTerminLocation', $getTerminLocationEndpoint);
+        $this->registerEndpoint('editTerminLocation', $editTerminLocationEndpoint);
+        $this->registerEndpoint('updateTerminLocation', $updateTerminLocationEndpoint);
+        $this->registerEndpoint('deleteTerminLocation', $deleteTerminLocationEndpoint);
 
         OlzApps::registerAllEndpoints($this);
     }
@@ -136,6 +149,11 @@ class OlzApi extends Api {
             new \Olz\Termine\Endpoints\EditTerminEndpoint(),
             new \Olz\Termine\Endpoints\UpdateTerminEndpoint(),
             new \Olz\Termine\Endpoints\DeleteTerminEndpoint(),
+            new \Olz\Termine\Endpoints\CreateTerminLocationEndpoint(),
+            new \Olz\Termine\Endpoints\GetTerminLocationEndpoint(),
+            new \Olz\Termine\Endpoints\EditTerminLocationEndpoint(),
+            new \Olz\Termine\Endpoints\UpdateTerminLocationEndpoint(),
+            new \Olz\Termine\Endpoints\DeleteTerminLocationEndpoint(),
         );
     }
 }

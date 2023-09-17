@@ -522,6 +522,25 @@ export function getIsoTime(
     return {...input, value: newValue};
 }
 
+export function getNumber(
+    input: FieldResult<string|null|undefined>,
+): FieldResult<number|null> {
+    if (!isValidFieldResult(input)) {
+        return input;
+    }
+    if (!input.value) {
+        return {...input, value: null};
+    }
+    const number = Number(input.value);
+    if (!isFinite(number)) {
+        return recordErrorMessages(
+            {...input, value: null},
+            ['Wert muss eine Zahl sein.'],
+        );
+    }
+    return {...input, value: number};
+}
+
 export function getInteger(
     input: FieldResult<string|null|undefined>,
 ): FieldResult<number|null> {

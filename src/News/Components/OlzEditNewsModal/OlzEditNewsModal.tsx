@@ -308,7 +308,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 window.setTimeout(() => {
                     // TODO: This could probably be done more smoothly!
                     window.location.reload();
-                }, 3000);
+                }, 1000);
                 return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
             };
 

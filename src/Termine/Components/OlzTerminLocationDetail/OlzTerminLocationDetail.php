@@ -47,9 +47,28 @@ class OlzTerminLocationDetail extends OlzComponent {
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
         ]);
 
-        $out .= <<<'ZZZZZZZZZZ'
-        <div class='content-right optional'>
+        // Creation Tools
+        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
+        $creation_tools = '';
+        if ($has_termine_permissions) {
+            $creation_tools .= <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='create-termin-location-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditTerminLocationModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuen Ort hinzufügen
+                </button>
+            </div>
+            ZZZZZZZZZZ;
+        }
+
+        $out .= <<<ZZZZZZZZZZ
+        <div class='content-right'>
             <div style='padding:4px 3px 10px 3px;'>
+                {$creation_tools}
             </div>
         </div>
         <div class='content-middle'>

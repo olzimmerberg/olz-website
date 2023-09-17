@@ -86,7 +86,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
             window.setTimeout(() => {
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();
-            }, 3000);
+            }, 1000);
             return 'Panini-Bildli erfolgreich geändert. Bitte warten...';
         };
 

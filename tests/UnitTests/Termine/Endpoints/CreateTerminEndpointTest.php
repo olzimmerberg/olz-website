@@ -111,6 +111,10 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertSame(null, $termin->getGo2olId());
         $this->assertSame(null, $termin->getCoordinateX());
         $this->assertSame(null, $termin->getCoordinateY());
+        $this->assertSame(
+            ['uploaded_image.jpg', 'inexistent.png'],
+            $termin->getImageIds(),
+        );
 
         $this->assertSame([
             [$termin, 1, 1, 1],

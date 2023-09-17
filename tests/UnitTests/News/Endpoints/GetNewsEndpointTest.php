@@ -20,6 +20,7 @@ class FakeGetNewsEndpointNewsRepository {
             $entry->setTitle("Fake title");
             $entry->setTeaser("");
             $entry->setContent("");
+            $entry->setOnOff(1);
             return $entry;
         }
         // Empty
@@ -35,6 +36,7 @@ class FakeGetNewsEndpointNewsRepository {
             $entry->setTags('');
             $entry->setTermin('');
             $entry->setExternalUrl('');
+            $entry->setOnOff(0);
             return $entry;
         }
         // Maximal
@@ -49,6 +51,7 @@ class FakeGetNewsEndpointNewsRepository {
             $entry->setContent("Fake content");
             $entry->setTags(' test unit ');
             $entry->setImageIds(['pictureA.jpg', 'pictureB.jpg']);
+            $entry->setOnOff(1);
             return $entry;
         }
         $where_json = json_encode($where);
@@ -107,7 +110,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
-                'onOff' => false,
+                'onOff' => true,
             ],
             'data' => [
                 'format' => 'aktuell',
@@ -201,7 +204,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
-                'onOff' => false,
+                'onOff' => true,
             ],
             'data' => [
                 'format' => 'aktuell',

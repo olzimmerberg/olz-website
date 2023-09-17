@@ -24,10 +24,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
 
         $registration = new Registration();
         $this->entityUtils()->createOlzEntity($registration, $input['meta']);
-        $registration->setTitle($input_data['title']);
-        $registration->setDescription($input_data['description']);
-        $registration->setOpensAt($input_data['opensAt'] ? new \DateTime($input_data['opensAt']) : null);
-        $registration->setClosesAt($input_data['closesAt'] ? new \DateTime($input_data['closesAt']) : null);
+        $this->updateEntityWithData($registration, $input['data']);
 
         $this->entityManager()->persist($registration);
 

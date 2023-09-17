@@ -49,13 +49,6 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
 
         $owner_user = $news_entry->getOwnerUser();
         $owner_role = $news_entry->getOwnerRole();
-        $author_user = $news_entry->getAuthorUser();
-        $author_role = $news_entry->getAuthorRole();
-        $author_name = $news_entry->getAuthorName();
-        $author_email = $news_entry->getAuthorEmail();
-        $tags_for_api = $this->getTagsForApi($news_entry->getTags() ?? '');
-        $external_url = $news_entry->getExternalUrl();
-        $termin_id = $news_entry->getTermin();
 
         $image_ids = $news_entry->getImageIds();
         $news_entry_img_path = "{$data_path}img/news/{$entity_id}/";
@@ -65,7 +58,6 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
             copy($image_path, $temp_path);
         }
 
-        $file_ids = [];
         $news_entry_files_path = "{$data_path}files/news/{$entity_id}/";
         if (!is_dir("{$news_entry_files_path}")) {
             mkdir("{$news_entry_files_path}", 0777, true);
@@ -73,7 +65,6 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         $files_path_entries = scandir($news_entry_files_path);
         foreach ($files_path_entries as $file_id) {
             if (substr($file_id, 0, 1) != '.') {
-                $file_ids[] = $file_id;
                 $file_path = "{$news_entry_files_path}{$file_id}";
                 $temp_path = "{$data_path}temp/{$file_id}";
                 copy($file_path, $temp_path);
@@ -81,27 +72,9 @@ class EditNewsEndpoint extends OlzEntityEndpoint {
         }
 
         return [
-            'id' => $entity_id,
-            'meta' => [
-                'ownerUserId' => $owner_user ? $owner_user->getId() : null,
-                'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
-                'onOff' => $news_entry->getOnOff() ? true : false,
-            ],
-            'data' => [
-                'format' => $news_entry->getFormat(),
-                'authorUserId' => $author_user ? $author_user->getId() : null,
-                'authorRoleId' => $author_role ? $author_role->getId() : null,
-                'authorName' => $author_name ? $author_name : null,
-                'authorEmail' => $author_email ? $author_email : null,
-                'title' => $news_entry->getTitle(),
-                'teaser' => $news_entry->getTeaser(),
-                'content' => $news_entry->getContent(),
-                'externalUrl' => $external_url ? $external_url : null,
-                'tags' => $tags_for_api,
-                'terminId' => $termin_id ? $termin_id : null,
-                'imageIds' => $image_ids,
-                'fileIds' => $file_ids,
-            ],
+            'id' => $news_entry->getId(),
+            'meta' => $news_entry->getMetaData(),
+            'data' => $this->getEntityData($news_entry),
         ];
     }
 }

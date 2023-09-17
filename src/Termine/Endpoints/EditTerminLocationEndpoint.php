@@ -4,15 +4,15 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzEntityEndpoint;
 use Olz\Entity\OlzEntity;
-use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLocation;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class EditTerminEndpoint extends OlzEntityEndpoint {
-    use TerminEndpointTrait;
+class EditTerminLocationEndpoint extends OlzEntityEndpoint {
+    use TerminLocationEndpointTrait;
 
     public static function getIdent() {
-        return 'EditTerminEndpoint';
+        return 'EditTerminLocationEndpoint';
     }
 
     public function getResponseField() {
@@ -36,42 +36,29 @@ class EditTerminEndpoint extends OlzEntityEndpoint {
         }
 
         $entity_id = $input['id'];
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termin = $termin_repo->findOneBy(['id' => $entity_id]);
+        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
+        $termin_location = $termin_location_repo->findOneBy(['id' => $entity_id]);
 
-        if (!$termin) {
+        if (!$termin_location) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null, 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($termin_location, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();
 
-        $image_ids = $termin->getImageIds();
-        $termin_img_path = "{$data_path}img/termine/{$entity_id}/";
+        $image_ids = $termin_location->getImageIds();
+        $termin_location_img_path = "{$data_path}img/termin_locations/{$entity_id}/";
         foreach ($image_ids ?? [] as $image_id) {
-            $image_path = "{$termin_img_path}img/{$image_id}";
+            $image_path = "{$termin_location_img_path}img/{$image_id}";
             $temp_path = "{$data_path}temp/{$image_id}";
             copy($image_path, $temp_path);
         }
 
-        $termin_files_path = "{$data_path}files/termine/{$entity_id}/";
-        if (!is_dir("{$termin_files_path}")) {
-            mkdir("{$termin_files_path}", 0777, true);
-        }
-        $files_path_entries = scandir($termin_files_path);
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $file_path = "{$termin_files_path}{$file_id}";
-                $temp_path = "{$data_path}temp/{$file_id}";
-                copy($file_path, $temp_path);
-            }
-        }
-
         return [
-            'id' => $termin->getId(),
-            'meta' => $termin->getMetaData(),
-            'data' => $this->getEntityData($termin),
+            'id' => $termin_location->getId(),
+            'meta' => $termin_location->getMetaData(),
+            'data' => $this->getEntityData($termin_location),
         ];
     }
 }

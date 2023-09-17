@@ -2,9 +2,13 @@
 
 namespace Olz\Termine\Endpoints;
 
+use Olz\Entity\Termine\Termin;
+use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 trait TerminEndpointTrait {
+    use WithUtilsTrait;
+
     public function usesExternalId(): bool {
         return false;
     }
@@ -39,6 +43,87 @@ trait TerminEndpointTrait {
             'allow_null' => $allow_null,
         ]);
     }
+
+    public function getEntityData(Termin $entity): array {
+        $data_path = $this->envUtils()->getDataPath();
+
+        $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
+
+        $file_ids = [];
+        $termin_files_path = "{$data_path}files/termine/{$entity->getId()}/";
+        $files_path_entries = is_dir($termin_files_path)
+            ? scandir($termin_files_path) : [];
+        foreach ($files_path_entries as $file_id) {
+            if (substr($file_id, 0, 1) != '.') {
+                $file_ids[] = $file_id;
+            }
+        }
+
+        return [
+            'startDate' => $entity->getStartsOn()->format('Y-m-d'),
+            'startTime' => $entity->getStartTime() ? $entity->getStartTime()->format('H:i:s') : null,
+            'endDate' => $entity->getEndsOn() ? $entity->getEndsOn()->format('Y-m-d') : null,
+            'endTime' => $entity->getEndTime() ? $entity->getEndTime()->format('H:i:s') : null,
+            'title' => $entity->getTitle(),
+            'text' => $entity->getText() ?? '',
+            'link' => $entity->getLink() ?? '',
+            'deadline' => $entity->getDeadline() ? $entity->getDeadline()->format('Y-m-d H:i:s') : null,
+            'newsletter' => $entity->getNewsletter(),
+            'solvId' => $entity->getSolvId() ? $entity->getSolvId() : null,
+            'go2olId' => $entity->getGo2olId() ? $entity->getGo2olId() : null,
+            'types' => $types_for_api,
+            'coordinateX' => $entity->getCoordinateX(),
+            'coordinateY' => $entity->getCoordinateY(),
+            'imageIds' => $entity->getImageIds() ?? [],
+            'fileIds' => $file_ids,
+        ];
+    }
+
+    public function updateEntityWithData(Termin $entity, array $input_data): void {
+        $types_for_db = $this->getTypesForDb($input_data['types']);
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+
+        $entity->setStartsOn(new \DateTime($input_data['startDate']));
+        $entity->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
+        $entity->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
+        $entity->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
+        $entity->setTitle($input_data['title']);
+        $entity->setText($input_data['text']);
+        $entity->setLink($input_data['link']);
+        $entity->setDeadline($input_data['deadline'] ? new \DateTime($input_data['deadline']) : null);
+        $entity->setNewsletter($input_data['newsletter']);
+        $entity->setSolvId($input_data['solvId']);
+        $entity->setGo2olId($input_data['go2olId']);
+        $entity->setTypes($types_for_db);
+        $entity->setCoordinateX($input_data['coordinateX']);
+        $entity->setCoordinateY($input_data['coordinateY']);
+        $entity->setImageIds($valid_image_ids);
+    }
+
+    public function persistUploads(Termin $entity, array $input_data): void {
+        $data_path = $this->envUtils()->getDataPath();
+
+        $termin_id = $entity->getId();
+        $valid_image_ids = $entity->getImageIds();
+
+        $termin_img_path = "{$data_path}img/termine/{$termin_id}/";
+        if (!is_dir("{$termin_img_path}img/")) {
+            mkdir("{$termin_img_path}img/", 0777, true);
+        }
+        if (!is_dir("{$termin_img_path}thumb/")) {
+            mkdir("{$termin_img_path}thumb/", 0777, true);
+        }
+        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_img_path}img/");
+        // TODO: Generate default thumbnails.
+
+        $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
+        if (!is_dir("{$termin_files_path}")) {
+            mkdir("{$termin_files_path}", 0777, true);
+        }
+        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_files_path);
+    }
+
+    // ---
 
     protected function getTypesForDb($types) {
         return ' '.implode(' ', $types ?? []).' ';

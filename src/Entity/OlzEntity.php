@@ -88,6 +88,16 @@ class OlzEntity {
         $this->last_modified_by_user = $new_last_modified_by_user;
     }
 
+    public function getMetaData() {
+        $owner_user = $this->getOwnerUser();
+        $owner_role = $this->getOwnerRole();
+        return [
+            'ownerUserId' => $owner_user ? $owner_user->getId() : null,
+            'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
+            'onOff' => $this->getOnOff() ? true : false,
+        ];
+    }
+
     public static function getMetaField(bool $allow_null) {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzMetaDataOrNull' : 'OlzMetaData',

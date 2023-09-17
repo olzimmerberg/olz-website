@@ -4,6 +4,7 @@ namespace Olz\Controller;
 
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
+use Olz\Termine\Components\OlzTerminLocationDetail\OlzTerminLocationDetail;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,16 @@ class TermineController extends AbstractController {
         int $id,
     ): Response {
         $out = OlzTerminDetail::render(['id' => $id]);
+        return new Response($out);
+    }
+
+    #[Route('/termine/orte/{id}', requirements: ['id' => '\d+'])]
+    public function terminLocationDetail(
+        Request $request,
+        LoggerInterface $logger,
+        int $id,
+    ): Response {
+        $out = OlzTerminLocationDetail::render(['id' => $id]);
         return new Response($out);
     }
 }

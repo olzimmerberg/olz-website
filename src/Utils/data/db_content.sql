@@ -297,6 +297,12 @@ VALUES
 -- Table termin_infos
 
 -- Table termin_locations
+INSERT INTO termin_locations
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `details`, `latitude`, `longitude`, `image_ids`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', NULL, NULL, NULL, NULL, 'Chilbiplatz (Thalwil)', '**Infrastruktur:** keine, Garderoben im Freien, keine WCs vorhanden\n\n**öV:** Bus bis \"Thalwil, Chilbiplatz\", oder Zug bis \"Thalwil\", dann 10 min Fussmarsch\n\n**Parkplätze:** auf dem Chilbiplatz', '47.288245737451', '8.5627673724772', '[\"2ZiW6T9biPNjEERzj5xjLRDz.jpg\"]', '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
+    ('2', NULL, NULL, NULL, NULL, 'Stumpenhölzlimooshütte (Landforst)', NULL, '47.267405813501', '8.5698615816165', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
+    ('3', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, '47.288737009648', '8.5510643251822', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06');
 
 -- Table termine
 INSERT INTO termine
@@ -304,10 +310,10 @@ INSERT INTO termine
 VALUES
     ('1', '2020-01-02', NULL, NULL, '00:00:00', '00:00:00', 'Berchtoldstag 🥈', '', '', '', '', '', '1', '0', '0', '0', '', '1', NULL, NULL, NULL, NULL, NULL, '2019-02-22 01:17:09', '2020-01-01 17:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('2', '2020-06-06', NULL, NULL, '10:15:00', '12:30:00', 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä!', '<DATEI=MIGRATED0000000000020001.pdf text=\"Infos\">', 'http://127.0.0.1:30270/', 'club', '1', '685000', '236100', '0', '', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('3', '2020-08-18', NULL, NULL, '18:30:00', '20:00:00', 'Training 1', '', '', '', '', 'training', '1', '684376', '236945', '0', '', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('4', '2020-08-25', NULL, NULL, '18:30:00', '20:00:00', 'Training 2', '', '', '', '', 'training', '1', '683498', '236660', '0', '', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('3', '2020-08-18', NULL, NULL, '18:30:00', '20:00:00', 'Training 1', '', '', '', '', 'training', '1', NULL, NULL, '0', '', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+    ('4', '2020-08-25', NULL, NULL, '18:30:00', '20:00:00', 'Training 2', '', '', '', '', 'training', '1', '683498', '236660', '0', '', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL),
     ('5', '2020-08-26', '2020-08-26', NULL, '18:00:00', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz', '<a href=\"/trophy.php\" class=\"linkint\">OLZ Trophy</a>\r\n<a href=\"https://forms.gle/ixS1ZD22PmbdeYcy6\" class=\"linkext\">Anmeldung</a>\r\n<DATEI=MIGRATED0000000000050001.pdf text=\"Ausschreibung\">', NULL, 'ol', '1', '0', '0', '0', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2019-11-20 09:04:26', '2020-08-24 22:40:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]'),
-    ('6', '2020-09-01', NULL, NULL, '18:30:00', '20:00:00', 'Training 3', '', '', '', '', 'training', '1', '0', '0', '0', '', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('6', '2020-09-01', NULL, NULL, '18:30:00', '20:00:00', 'Training 3', '', '', '', '', 'training', '1', '684376', '236945', '0', '', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('7', '2020-09-08', NULL, NULL, '18:00:00', '19:30:00', 'Training 4', '', '', '<DATEI=Kzt5p5g6cjM5k9CXdVaSsGFx.pdf text=\"Details\">', '', 'training', '1', '0', '0', '0', '', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('8', '2020-08-11', NULL, NULL, '18:30:00', '20:00:00', 'Training 0', '', '', '', '', 'training', '1', '0', '0', '0', '', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     ('9', '2020-08-04', NULL, NULL, '18:30:00', '20:00:00', 'Training -1', '', '', '', '', 'training', '1', '0', '0', '0', '', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),

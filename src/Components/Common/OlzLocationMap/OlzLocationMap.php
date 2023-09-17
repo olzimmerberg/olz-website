@@ -6,15 +6,26 @@ use Olz\Components\Common\OlzComponent;
 
 class OlzLocationMap extends OlzComponent {
     public function getHtml($args = []): string {
-        $xkoord = $args['xkoord'];
-        $ykoord = $args['ykoord'];
+        $xkoord = $args['xkoord'] ?? null;
+        $ykoord = $args['ykoord'] ?? null;
+        $latitude = $args['latitude'] ?? null;
+        $longitude = $args['longitude'] ?? null;
         $zoom = $args['zoom'] ?? 13;
         $width = $args['width'] ?? 400;
         $height = $args['height'] ?? 300;
 
-        require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
-        $lat = number_format(CHtoWGSlat($xkoord, $ykoord), 6, '.', '');
-        $lng = number_format(CHtoWGSlng($xkoord, $ykoord), 6, '.', '');
+        $lat = null;
+        $lng = null;
+        if ($latitude !== null && $longitude !== null) {
+            $lat = number_format($latitude, 6, '.', '');
+            $lng = number_format($longitude, 6, '.', '');
+        } elseif ($xkoord !== null && $ykoord !== null) {
+            require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
+            $lat = number_format(CHtoWGSlat($xkoord, $ykoord), 6, '.', '');
+            $lng = number_format(CHtoWGSlng($xkoord, $ykoord), 6, '.', '');
+        } else {
+            throw new \Exception("Either xkoord/ykoord or latitude/longitude must be set in OlzLocationMap");
+        }
 
         $mapbox_access_token = 'pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q';
         $mapbox_base_url = 'https://api.mapbox.com/styles/v1/allestuetsmerweh/ckgf9qdzm1pn319ohqghudvbz/static';

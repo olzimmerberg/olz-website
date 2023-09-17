@@ -14,6 +14,8 @@ use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
+use Olz\Utils\HtmlUtils;
+use Olz\Utils\HttpUtils;
 use Olz\Utils\IdUtils;
 use Olz\Utils\StandardSession;
 use Olz\Utils\StravaUtils;
@@ -75,6 +77,12 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             'getParams' => function ($value) {
                 global $_GET;
                 return $value === $_GET;
+            },
+            'htmlUtils' => function ($value) {
+                return $value instanceof HtmlUtils;
+            },
+            'httpUtils' => function ($value) {
+                return $value instanceof HttpUtils;
             },
             'idUtils' => function ($value) {
                 return $value instanceof IdUtils;

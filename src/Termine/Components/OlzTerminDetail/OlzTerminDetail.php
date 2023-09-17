@@ -111,26 +111,51 @@ class OlzTerminDetail extends OlzComponent {
         $ykoord = $row['ykoord'] ?? '';
         $go2ol = $row['go2ol'] ?? '';
         $solv_uid = $row['solv_uid'] ?? '';
+        $termin_location_id = $row['location_id'] ?? '';
         $row_solv = false;
         if ($solv_uid) {
             $sane_solv_uid = intval($solv_uid);
             $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
             $row_solv = $result_solv->fetch_assoc();
         }
+        $row_location = false;
+        if ($termin_location_id) {
+            $sane_termin_location_id = intval($termin_location_id);
+            $result_location = $db->query("SELECT * FROM termin_locations WHERE id='{$sane_termin_location_id}'");
+            $row_location = $result_location->fetch_assoc();
+        }
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);
+        $has_termin_location = (
+            $typ != 'meldeschluss'
+            && $row_location
+            && $row_location['latitude'] > 0
+            && $row_location['longitude'] > 0
+        );
         $has_solv_location = (
             $typ != 'meldeschluss'
             && $row_solv
             && $row_solv['coord_x'] > 0
             && $row_solv['coord_y'] > 0
         );
-        $lat = $has_olz_location ? CHtoWGSlat($xkoord, $ykoord) :
-            ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
-        $lng = $has_olz_location ? CHtoWGSlng($xkoord, $ykoord) :
-            ($has_solv_location ? CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']) : null);
-        $location_name = $has_olz_location ? null :
-            ($has_solv_location ? $row_solv['location'] : null);
-        $has_location = $has_olz_location || $has_solv_location;
+        $lat = null;
+        $lng = null;
+        $location_name = null;
+        if ($has_solv_location) {
+            $lat = CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']);
+            $lng = CHtoWGSlng($row_solv['coord_x'], $row_solv['coord_y']);
+            $location_name = $row_solv['location'];
+        }
+        if ($has_termin_location) {
+            $lat = $row_location['latitude'];
+            $lng = $row_location['longitude'];
+            $location_name = $row_location['name'];
+        }
+        if ($has_olz_location) {
+            $lat = CHtoWGSlat($xkoord, $ykoord);
+            $lng = CHtoWGSlng($xkoord, $ykoord);
+            $location_name = null;
+        }
+        $has_location = $has_olz_location || $has_termin_location || $has_solv_location;
         $image_ids = json_decode($row['image_ids'] ?? 'null', true);
 
         $out .= OlzEventData::render([
@@ -152,19 +177,10 @@ class OlzTerminDetail extends OlzComponent {
             $out .= $image_utils->olzImage(
                 'termine', $id, $image_ids[0], 840);
             // Karte zeigen
-        } elseif ($has_olz_location) {
+        } elseif ($has_location) {
             $out .= OlzLocationMap::render([
-                'xkoord' => $xkoord,
-                'ykoord' => $ykoord,
-                'zoom' => 13,
-                'width' => 840,
-                'height' => 240,
-            ]);
-            // SOLV-Karte zeigen
-        } elseif ($has_solv_location) {
-            $out .= OlzLocationMap::render([
-                'xkoord' => $row_solv['coord_x'],
-                'ykoord' => $row_solv['coord_y'],
+                'latitude' => $lat,
+                'longitude' => $lng,
                 'zoom' => 13,
                 'width' => 840,
                 'height' => 240,
@@ -278,19 +294,19 @@ class OlzTerminDetail extends OlzComponent {
         $out .= "<div class='links'>".$link."</div>";
 
         // Karte zeigen
-        if ($has_olz_location) {
+        if ($has_location) {
+            if ($location_name !== null) {
+                $location_maybe_link = $location_name;
+                if ($has_termin_location) {
+                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location_id}?filter={$back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
+                }
+                $out .= "<h3>Ort: {$location_maybe_link}</h3>";
+            } else {
+                $out .= "<h3>Ort</h3>";
+            }
             $out .= OlzLocationMap::render([
-                'xkoord' => $xkoord,
-                'ykoord' => $ykoord,
-                'zoom' => 13,
-                'width' => 720,
-                'height' => 420,
-            ]);
-            // SOLV-Karte zeigen
-        } elseif ($has_solv_location) {
-            $out .= OlzLocationMap::render([
-                'xkoord' => $row_solv['coord_x'],
-                'ykoord' => $row_solv['coord_y'],
+                'latitude' => $lat,
+                'longitude' => $lng,
                 'zoom' => 13,
                 'width' => 720,
                 'height' => 420,

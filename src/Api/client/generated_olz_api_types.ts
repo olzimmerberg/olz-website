@@ -13,6 +13,13 @@ export type OlzAuthenticatedRole = {
     'username': string,
 };
 
+export type OlzSearchableEntityTypes = 'TerminLocation';
+
+export type OlzEntityResult = {
+    'id': number,
+    'title': string,
+};
+
 export type OlzMetaData = {
     'ownerUserId': number|null,
     'ownerRoleId': number|null,
@@ -78,6 +85,7 @@ export type OlzTerminData = {
     'solvId': number|null,
     'go2olId': string|null,
     'types': Array<string>,
+    'locationId': number|null,
     'coordinateX': number|null,
     'coordinateY': number|null,
     'imageIds': Array<string>,
@@ -97,6 +105,7 @@ export type OlzTerminDataOrNull = {
     'solvId': number|null,
     'go2olId': string|null,
     'types': Array<string>,
+    'locationId': number|null,
     'coordinateX': number|null,
     'coordinateY': number|null,
     'imageIds': Array<string>,
@@ -222,6 +231,7 @@ export type OlzApiEndpoint =
     'startUpload'|
     'updateUpload'|
     'finishUpload'|
+    'searchEntities'|
     'createNews'|
     'getNews'|
     'editNews'|
@@ -380,6 +390,11 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     finishUpload: {
             'id': string,
             'numberOfParts': number,
+        },
+    searchEntities: {
+            'entityType': OlzSearchableEntityTypes,
+            'query': string|null,
+            'id': number|null,
         },
     createNews: {
             'custom': {
@@ -618,6 +633,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     finishUpload: {
             'status': 'OK'|'ERROR',
+        },
+    searchEntities: {
+            'result': Array<OlzEntityResult>,
         },
     createNews: {
             'status': 'OK'|'DENIED'|'ERROR',

@@ -32,6 +32,7 @@ class OlzApi extends Api {
         Endpoints\StartUploadEndpoint $startUploadEndpoint,
         Endpoints\UpdateUploadEndpoint $updateUploadEndpoint,
         Endpoints\FinishUploadEndpoint $finishUploadEndpoint,
+        Endpoints\SearchEntitiesEndpoint $searchEntitiesEndpoint,
         \Olz\News\Endpoints\CreateNewsEndpoint $createNewsEndpoint,
         \Olz\News\Endpoints\GetNewsEndpoint $getNewsEndpoint,
         \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
@@ -71,6 +72,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('startUpload', $startUploadEndpoint);
         $this->registerEndpoint('updateUpload', $updateUploadEndpoint);
         $this->registerEndpoint('finishUpload', $finishUploadEndpoint);
+        $this->registerEndpoint('searchEntities', $searchEntitiesEndpoint);
 
         // News
 
@@ -138,6 +140,7 @@ class OlzApi extends Api {
             new Endpoints\StartUploadEndpoint(),
             new Endpoints\UpdateUploadEndpoint(),
             new Endpoints\FinishUploadEndpoint(),
+            new Endpoints\SearchEntitiesEndpoint(),
             new \Olz\News\Endpoints\CreateNewsEndpoint(),
             new \Olz\News\Endpoints\GetNewsEndpoint(),
             new \Olz\News\Endpoints\EditNewsEndpoint(),

@@ -3,7 +3,7 @@
 namespace Olz\Entity\Panini2024;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Panini2024\Panini2024PictureRepository;
 
 #[ORM\Table(name: 'panini24')]

@@ -3,7 +3,7 @@
 namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\RegistrationRepository;
 
 #[ORM\Table(name: 'anmelden_registrations')]

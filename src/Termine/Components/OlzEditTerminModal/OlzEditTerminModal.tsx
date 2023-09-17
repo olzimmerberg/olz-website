@@ -9,6 +9,7 @@ import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUpl
 import {isoNow} from '../../../Utils/constants';
 
 import './OlzEditTerminModal.scss';
+import { OlzEntityChooser } from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
 
 interface OlzEditTerminModalProps {
     id?: number;
@@ -29,6 +30,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [solvId, setSolvId] = React.useState<string>(props.data?.solvId ? String(props.data?.solvId) : '');
     const [go2olId, setGo2olId] = React.useState<string>(props.data?.go2olId ?? '');
     const [types, setTypes] = React.useState<Set<string>>(new Set(props.data?.types));
+    const [locationId, setLocationId] = React.useState<number|null>(props.data?.locationId ?? null);
     const [coordinateX, setCoordinateX] = React.useState<string>(props.data?.coordinateX ? String(props.data?.coordinateX) : '');
     const [coordinateY, setCoordinateY] = React.useState<string>(props.data?.coordinateY ? String(props.data?.coordinateY) : '');
     const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
@@ -60,8 +62,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         solvId: getInteger(getFormField(f, 'solv-id')),
                         go2olId: getStringOrNull(getFormField(f, 'go2ol-id')),
                         types: validFieldResult('', Array.from(types)),
-                        coordinateX: getInteger(getFormField(f, 'coordinate-x')),
-                        coordinateY: getInteger(getFormField(f, 'coordinate-y')),
+                        locationId: validFieldResult('', locationId),
+                        coordinateX: locationId ? validFieldResult('', 0) : getInteger(getFormField(f, 'coordinate-x')),
+                        coordinateY: locationId ? validFieldResult('', 0) : getInteger(getFormField(f, 'coordinate-y')),
                         imageIds: validFieldResult('', imageIds),
                         fileIds: validFieldResult('', fileIds),
                     },
@@ -107,8 +110,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         solvId: getInteger(getFormField(f, 'solv-id')),
                         go2olId: getStringOrNull(getFormField(f, 'go2ol-id')),
                         types: validFieldResult('', Array.from(types)),
-                        coordinateX: getInteger(getFormField(f, 'coordinate-x')),
-                        coordinateY: getInteger(getFormField(f, 'coordinate-y')),
+                        locationId: validFieldResult('', locationId),
+                        coordinateX: locationId ? validFieldResult('', 0) : getInteger(getFormField(f, 'coordinate-x')),
+                        coordinateY: locationId ? validFieldResult('', 0) : getInteger(getFormField(f, 'coordinate-y')),
                         imageIds: validFieldResult('', imageIds),
                         fileIds: validFieldResult('', fileIds),
                     },
@@ -141,7 +145,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         }
 
         return false;
-    }, [startDate, startTime, endDate, endTime, hasNewsletter, types, imageIds, fileIds]);
+    }, [startDate, startTime, endDate, endTime, hasNewsletter, types, locationId, imageIds, fileIds]);
 
     const dialogTitle = (props.id === undefined
         ? 'Termin-Eintrag erstellen'
@@ -397,28 +401,43 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-coordinate-x-input'>X-Koordinate</label>
-                                    <input
-                                        type='text'
-                                        name='coordinate-x'
-                                        value={coordinateX || ''}
-                                        onChange={(e) => setCoordinateX(e.target.value)}
-                                        className='form-control'
-                                        id='termin-coordinate-x-input'
+                                    <b>Ort</b>
+                                    <OlzEntityChooser
+                                        entityType={'TerminLocation'}
+                                        entityId={locationId}
+                                        onEntityIdChange={(e) => setLocationId(e.detail)}
+                                        nullLabel={'Kein Termin-Ort ausgewählt'}
                                     />
                                 </div>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-coordinate-y-input'>Y-Koordinate</label>
-                                    <input
-                                        type='text'
-                                        name='coordinate-y'
-                                        value={coordinateY || ''}
-                                        onChange={(e) => setCoordinateY(e.target.value)}
-                                        className='form-control'
-                                        id='termin-coordinate-y-input'
-                                    />
                                 </div>
                             </div>
+                            {locationId === null ? (
+                                <div className='row'>
+                                    <div className='col mb-3'>
+                                        <label htmlFor='termin-coordinate-x-input'>X-Koordinate</label>
+                                        <input
+                                            type='text'
+                                            name='coordinate-x'
+                                            value={coordinateX || ''}
+                                            onChange={(e) => setCoordinateX(e.target.value)}
+                                            className='form-control'
+                                            id='termin-coordinate-x-input'
+                                        />
+                                    </div>
+                                    <div className='col mb-3'>
+                                        <label htmlFor='termin-coordinate-y-input'>Y-Koordinate</label>
+                                        <input
+                                            type='text'
+                                            name='coordinate-y'
+                                            value={coordinateY || ''}
+                                            onChange={(e) => setCoordinateY(e.target.value)}
+                                            className='form-control'
+                                            id='termin-coordinate-y-input'
+                                        />
+                                    </div>
+                                </div>
+                            ) : null}
                             <div id='termin-images-upload'>
                                 <b>Bilder</b>
                                 <OlzMultiImageUploader

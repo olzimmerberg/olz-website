@@ -53,6 +53,7 @@ final class TerminEndpointTraitTest extends UnitTestCase {
             'go2olId',
             'imageIds',
             'link',
+            'locationId',
             'newsletter',
             'solvId',
             'startDate',

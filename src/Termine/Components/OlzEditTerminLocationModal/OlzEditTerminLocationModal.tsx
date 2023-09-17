@@ -22,7 +22,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     const [longitude, setLongitude] = React.useState<string>(props.data?.longitude ? String(props.data?.longitude) : '');
     const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
 
-    const onSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
+    const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
         event.preventDefault();
         const form = event.currentTarget;
 

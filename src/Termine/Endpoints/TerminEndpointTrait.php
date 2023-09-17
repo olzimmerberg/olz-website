@@ -3,6 +3,7 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLocation;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -31,6 +32,7 @@ trait TerminEndpointTrait {
                 'types' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
                 ]),
+                'locationId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'coordinateX' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'coordinateY' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'imageIds' => new FieldTypes\ArrayField([
@@ -61,17 +63,18 @@ trait TerminEndpointTrait {
 
         return [
             'startDate' => $entity->getStartsOn()->format('Y-m-d'),
-            'startTime' => $entity->getStartTime() ? $entity->getStartTime()->format('H:i:s') : null,
-            'endDate' => $entity->getEndsOn() ? $entity->getEndsOn()->format('Y-m-d') : null,
-            'endTime' => $entity->getEndTime() ? $entity->getEndTime()->format('H:i:s') : null,
+            'startTime' => $entity->getStartTime()?->format('H:i:s'),
+            'endDate' => $entity->getEndsOn()?->format('Y-m-d'),
+            'endTime' => $entity->getEndTime()?->format('H:i:s'),
             'title' => $entity->getTitle(),
             'text' => $entity->getText() ?? '',
             'link' => $entity->getLink() ?? '',
-            'deadline' => $entity->getDeadline() ? $entity->getDeadline()->format('Y-m-d H:i:s') : null,
+            'deadline' => $entity->getDeadline()?->format('Y-m-d H:i:s'),
             'newsletter' => $entity->getNewsletter(),
             'solvId' => $entity->getSolvId() ? $entity->getSolvId() : null,
             'go2olId' => $entity->getGo2olId() ? $entity->getGo2olId() : null,
             'types' => $types_for_api,
+            'locationId' => $entity->getLocation()?->getId(),
             'coordinateX' => $entity->getCoordinateX(),
             'coordinateY' => $entity->getCoordinateY(),
             'imageIds' => $entity->getImageIds() ?? [],
@@ -82,6 +85,8 @@ trait TerminEndpointTrait {
     public function updateEntityWithData(Termin $entity, array $input_data): void {
         $types_for_db = $this->getTypesForDb($input_data['types']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
+        $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
         $entity->setStartsOn(new \DateTime($input_data['startDate']));
         $entity->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
@@ -95,6 +100,7 @@ trait TerminEndpointTrait {
         $entity->setSolvId($input_data['solvId']);
         $entity->setGo2olId($input_data['go2olId']);
         $entity->setTypes($types_for_db);
+        $entity->setLocation($termin_location);
         $entity->setCoordinateX($input_data['coordinateX']);
         $entity->setCoordinateY($input_data['coordinateY']);
         $entity->setImageIds($valid_image_ids);

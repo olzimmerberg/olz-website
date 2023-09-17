@@ -3,7 +3,7 @@
 namespace Olz\Entity\Startseite;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Startseite\WeeklyPictureRepository;
 
 #[ORM\Table(name: 'weekly_picture')]

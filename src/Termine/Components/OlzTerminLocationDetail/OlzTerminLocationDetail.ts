@@ -1,0 +1,1 @@
+import './OlzTerminLocationDetail.scss';

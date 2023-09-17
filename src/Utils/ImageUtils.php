@@ -17,6 +17,7 @@ class ImageUtils {
         'kaderblog' => 'img/blog/',
         'news' => 'img/news/',
         'termine' => 'img/termine/',
+        'termin_locations' => 'img/termin_locations/',
         'video' => 'img/galerie/',
         'weekly_picture' => 'img/weekly_picture/',
     ];

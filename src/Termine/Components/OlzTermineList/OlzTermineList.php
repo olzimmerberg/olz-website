@@ -119,7 +119,8 @@ class OlzTermineList extends OlzComponent {
                 t.go2ol as go2ol,
                 t.solv_uid as solv_uid,
                 t.last_modified_by_user_id as last_modified_by_user_id,
-                t.image_ids as image_ids
+                t.image_ids as image_ids,
+                t.location_id as location_id
             FROM termine t
             WHERE ({$inner_sql_where})
         ) UNION ALL (
@@ -143,7 +144,8 @@ class OlzTermineList extends OlzComponent {
                 t.go2ol as go2ol,
                 t.solv_uid as solv_uid,
                 t.last_modified_by_user_id as last_modified_by_user_id,
-                t.image_ids as image_ids
+                t.image_ids as image_ids,
+                NULL as location_id
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
             WHERE (se.deadline IS NOT NULL) AND ({$inner_sql_where})
         ) UNION ALL (
@@ -167,7 +169,8 @@ class OlzTermineList extends OlzComponent {
                 t.go2ol as go2ol,
                 t.solv_uid as solv_uid,
                 t.last_modified_by_user_id as last_modified_by_user_id,
-                t.image_ids as image_ids
+                t.image_ids as image_ids,
+                NULL as location_id
             FROM termine t
             WHERE (t.deadline IS NOT NULL) AND ({$inner_sql_where})
         )) AS c
@@ -200,6 +203,7 @@ class OlzTermineList extends OlzComponent {
                 'solv_uid' => $row['solv_uid'],
                 'types' => explode(' ', $row['typ']),
                 'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
+                'location_id' => $row['location_id'],
             ]);
         }
         $out .= "</div>";

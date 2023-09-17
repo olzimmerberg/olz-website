@@ -18,6 +18,8 @@ use Olz\Utils\DbUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
+use Olz\Utils\HtmlUtils;
+use Olz\Utils\HttpUtils;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
 use Olz\Utils\UploadUtils;
@@ -55,6 +57,8 @@ final class WithUtilsTraitTest extends UnitTestCase {
             'fieldUtils' => function () { return new FieldUtils(); },
             'generalUtils' => function () { return new GeneralUtils(); },
             'getParams' => function () { return []; },
+            'htmlUtils' => function () { return new HtmlUtils(); },
+            'httpUtils' => function () { return new HttpUtils(); },
             'idUtils' => function () { return new FakeIdUtils(); },
             'log' => function () { return new Logger('fake'); },
             'server' => function () { throw new BrokenTestCase(); },

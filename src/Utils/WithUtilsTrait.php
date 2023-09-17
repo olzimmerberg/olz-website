@@ -34,6 +34,8 @@ trait WithUtilsTrait {
         'fieldUtils',
         'generalUtils',
         'getParams',
+        'htmlUtils',
+        'httpUtils',
         'idUtils',
         'log',
         'server',
@@ -177,6 +179,30 @@ trait WithUtilsTrait {
 
     public function setGetParams(array $getParams) {
         WithUtilsCache::set('getParams', $getParams);
+    }
+
+    public function htmlUtils(): HtmlUtils {
+        return $this->getOrCreate('htmlUtils');
+    }
+
+    public function createHtmlUtils() {
+        return HtmlUtils::fromEnv();
+    }
+
+    public function setHtmlUtils(HtmlUtils $htmlUtils) {
+        WithUtilsCache::set('htmlUtils', $htmlUtils);
+    }
+
+    public function httpUtils(): HttpUtils {
+        return $this->getOrCreate('httpUtils');
+    }
+
+    public function createHttpUtils() {
+        return HttpUtils::fromEnv();
+    }
+
+    public function setHttpUtils(HttpUtils $httpUtils) {
+        WithUtilsCache::set('httpUtils', $httpUtils);
     }
 
     public function idUtils(): IdUtils {

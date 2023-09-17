@@ -17,6 +17,7 @@ class OlzTermineListItem extends OlzComponent {
     ];
 
     public function getHtml($args = []): string {
+        $db = $this->dbUtils()->getDb();
         $file_utils = FileUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
 
@@ -36,6 +37,7 @@ class OlzTermineListItem extends OlzComponent {
         $solv_uid = $args['solv_uid'];
         $types = $args['types'];
         $image_ids = $args['image_ids'];
+        $termin_location_id = $args['location_id'];
 
         $link = "{$code_href}termine/{$id}?filter={$enc_current_filter}";
         $type_imgs = implode('', array_map(function ($type) use ($code_href) {
@@ -61,6 +63,13 @@ class OlzTermineListItem extends OlzComponent {
                 : "{$start_time_text}"
         ) : null;
         $links = $file_utils->replaceFileTags($links, 'termine', $id);
+        if ($termin_location_id) {
+            $sane_termin_location_id = intval($termin_location_id);
+            $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
+            $row_location = $result_location->fetch_assoc();
+            $location_name = $row_location['name'];
+            $links = "<a href='{$code_href}termine/orte/{$termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$links}";
+        }
 
         $user = $this->authUtils()->getCurrentUser();
         $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());

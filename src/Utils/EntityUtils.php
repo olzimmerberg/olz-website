@@ -14,7 +14,7 @@ class EntityUtils {
         'entityManager',
     ];
 
-    public function createOlzEntity(OlzEntity $entity, $input) {
+    public function createOlzEntity(OlzEntity $entity, array $input) {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
@@ -43,7 +43,7 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    public function updateOlzEntity(OlzEntity $entity, $input) {
+    public function updateOlzEntity(OlzEntity $entity, array $input) {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
@@ -70,8 +70,8 @@ class EntityUtils {
 
     public function canUpdateOlzEntity(
         OlzEntity $entity,
-        $meta_arg,
-        $edit_permission = 'all',
+        array|null $meta_arg,
+        string $edit_permission = 'all',
     ) {
         $meta = $meta_arg ?? [];
         $auth_utils = $this->authUtils();

@@ -19,9 +19,8 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $entity_id = $input['id'];
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termin = $termin_repo->findOneBy(['id' => $entity_id]);
+        $termin = $termin_repo->findOneBy(['id' => $input['id']]);
 
         if (!$termin) {
             throw new HttpError(404, "Nicht gefunden.");
@@ -30,47 +29,16 @@ class UpdateTerminEndpoint extends OlzUpdateEntityEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $current_user = $this->authUtils()->getCurrentUser();
-        $data_path = $this->envUtils()->getDataPath();
-        $input_data = $input['data'];
-
-        $now = new \DateTime($this->dateUtils()->getIsoNow());
-
-        $types_for_db = $this->getTypesForDb($input_data['types']);
-        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
-
         $this->entityUtils()->updateOlzEntity($termin, $input['meta'] ?? []);
-        $termin->setStartsOn(new \DateTime($input_data['startDate']));
-        $termin->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
-        $termin->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
-        $termin->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
-        $termin->setTitle($input_data['title']);
-        $termin->setText($input_data['text']);
-        $termin->setLink($input_data['link']);
-        $termin->setDeadline($input_data['deadline'] ? new \DateTime($input_data['deadline']) : null);
-        $termin->setNewsletter($input_data['newsletter']);
-        $termin->setSolvId($input_data['solvId']);
-        $termin->setGo2olId($input_data['go2olId']);
-        $termin->setTypes($types_for_db);
-        $termin->setCoordinateX($input_data['coordinateX']);
-        $termin->setCoordinateY($input_data['coordinateY']);
-        $termin->setImageIds($valid_image_ids);
+        $this->updateEntityWithData($termin, $input['data']);
 
         $this->entityManager()->persist($termin);
         $this->entityManager()->flush();
-
-        $termin_id = $termin->getId();
-
-        $termin_img_path = "{$data_path}img/termine/{$termin_id}/";
-        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_img_path}img/");
-        // TODO: Generate default thumbnails.
-
-        $termin_files_path = "{$data_path}files/termine/{$termin_id}/";
-        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_files_path);
+        $this->persistUploads($termin, $input['data']);
 
         return [
             'status' => 'OK',
-            'id' => $termin_id,
+            'id' => $termin->getId(),
         ];
     }
 }

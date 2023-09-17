@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Role;
-use Olz\Entity\Termine\Termin;
-use Olz\Entity\User;
-use Olz\Termine\Endpoints\UpdateTerminEndpoint;
+use Olz\Entity\Termine\TerminLocation;
+use Olz\Termine\Endpoints\UpdateTerminLocationEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeUpdateTerminEndpointTerminRepository {
+class FakeUpdateTerminLocationEndpointTerminLocationRepository {
     public function findOneBy($where) {
         if ($where === ['id' => 123]) {
-            $entry = new Termin();
+            $entry = new TerminLocation();
             $entry->setId(123);
             return $entry;
         }
@@ -30,9 +28,9 @@ class FakeUpdateTerminEndpointTerminRepository {
 /**
  * @internal
  *
- * @covers \Olz\Termine\Endpoints\UpdateTerminEndpoint
+ * @covers \Olz\Termine\Endpoints\UpdateTerminLocationEndpoint
  */
-final class UpdateTerminEndpointTest extends UnitTestCase {
+final class UpdateTerminLocationEndpointTest extends UnitTestCase {
     public const VALID_INPUT = [
         'id' => 123,
         'meta' => [
@@ -41,33 +39,22 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
-            'startDate' => '2020-03-13',
-            'startTime' => null,
-            'endDate' => null,
-            'endTime' => null,
-            'title' => 'Test event',
-            'text' => 'some info',
-            'link' => '<a href="test-anlass.ch">Home</a>',
-            'deadline' => null,
-            'newsletter' => false,
-            'solvId' => null,
-            'go2olId' => null,
-            'types' => ['training', 'weekend'],
-            'coordinateX' => null,
-            'coordinateY' => null,
+            'name' => 'Test location',
+            'details' => 'some location info',
+            'latitude' => 47.2790953,
+            'longitude' => 8.5591936,
             'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
-            'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
         ],
     ];
 
-    public function testUpdateTerminEndpointIdent(): void {
-        $endpoint = new UpdateTerminEndpoint();
-        $this->assertSame('UpdateTerminEndpoint', $endpoint->getIdent());
+    public function testUpdateTerminLocationEndpointIdent(): void {
+        $endpoint = new UpdateTerminLocationEndpoint();
+        $this->assertSame('UpdateTerminLocationEndpoint', $endpoint->getIdent());
     }
 
-    public function testUpdateTerminEndpointNoAccess(): void {
+    public function testUpdateTerminLocationEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $endpoint = new UpdateTerminEndpoint();
+        $endpoint = new UpdateTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
         try {
@@ -82,13 +69,13 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testUpdateTerminEndpointNoSuchEntity(): void {
+    public function testUpdateTerminLocationEndpointNoSuchEntity(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
+        $termin_location_repo = new FakeUpdateTerminLocationEndpointTerminLocationRepository();
+        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $endpoint = new UpdateTerminEndpoint();
+        $endpoint = new UpdateTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
         try {
@@ -106,22 +93,19 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testUpdateTerminEndpoint(): void {
+    public function testUpdateTerminLocationEndpoint(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeUpdateTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
+        $termin_location_repo = new FakeUpdateTerminLocationEndpointTerminLocationRepository();
+        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $endpoint = new UpdateTerminEndpoint();
+        $endpoint = new UpdateTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
-        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
-        mkdir(__DIR__.'/../../tmp/files/');
-        mkdir(__DIR__.'/../../tmp/files/termine/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
         mkdir(__DIR__.'/../../tmp/img/');
-        mkdir(__DIR__.'/../../tmp/img/termine/');
+        mkdir(__DIR__.'/../../tmp/img/termin_locations/');
 
         $result = $endpoint->call(self::VALID_INPUT);
 
@@ -130,8 +114,6 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => 123,
@@ -139,28 +121,18 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin = $entity_manager->persisted[0];
-        $this->assertSame(123, $termin->getId());
-        $this->assertSame('2020-03-13', $termin->getStartsOn()->format('Y-m-d'));
-        $this->assertSame(null, $termin->getStartTime());
-        $this->assertSame(null, $termin->getEndsOn());
-        $this->assertSame(null, $termin->getEndTime());
-        $this->assertSame('Test event', $termin->getTitle());
-        $this->assertSame('some info', $termin->getText());
-        $this->assertSame('<a href="test-anlass.ch">Home</a>', $termin->getLink());
-        $this->assertSame(null, $termin->getDeadline());
-        $this->assertSame(false, $termin->getNewsletter());
-        $this->assertSame(null, $termin->getSolvId());
-        $this->assertSame(null, $termin->getGo2olId());
-        $this->assertSame(null, $termin->getCoordinateX());
-        $this->assertSame(null, $termin->getCoordinateY());
+        $termin_location = $entity_manager->persisted[0];
+        $this->assertSame(123, $termin_location->getId());
+        $this->assertSame('Test location', $termin_location->getName());
+        $this->assertSame('some location info', $termin_location->getDetails());
+        $this->assertSame(47.2790953, $termin_location->getLatitude());
+        $this->assertSame(8.5591936, $termin_location->getLongitude());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
-            $termin->getImageIds(),
+            $termin_location->getImageIds(),
         );
-
         $this->assertSame([
-            [$termin, 1, 1, 1],
+            [$termin_location, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;
@@ -168,11 +140,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertSame([
             [
                 ['uploaded_image.jpg', 'inexistent.png'],
-                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termine/{$id}/img/",
-            ],
-            [
-                ['uploaded_file.pdf', 'inexistent.txt'],
-                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/termine/{$id}/",
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termin_locations/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
     }

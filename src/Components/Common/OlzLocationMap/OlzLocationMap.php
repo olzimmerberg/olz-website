@@ -16,11 +16,13 @@ class OlzLocationMap extends OlzComponent {
 
         $lat = null;
         $lng = null;
+        require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
         if ($latitude !== null && $longitude !== null) {
             $lat = number_format($latitude, 6, '.', '');
             $lng = number_format($longitude, 6, '.', '');
+            $xkoord = WGStoCHy($latitude, $longitude);
+            $ykoord = WGStoCHx($latitude, $longitude);
         } elseif ($xkoord !== null && $ykoord !== null) {
-            require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
             $lat = number_format(CHtoWGSlat($xkoord, $ykoord), 6, '.', '');
             $lng = number_format(CHtoWGSlng($xkoord, $ykoord), 6, '.', '');
         } else {

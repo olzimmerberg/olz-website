@@ -43,7 +43,7 @@ const handleResponse: HandleResponseFunction<'resetPassword'> = (response) => {
     window.setTimeout(() => {
         // This removes Google's injected reCaptcha script again
         window.location.href = '/';
-    }, 3000);
+    }, 1000);
     return 'E-Mail versendet. Bitte warten...';
 };
 

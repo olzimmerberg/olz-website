@@ -33,7 +33,7 @@ const handleResponse: HandleResponseFunction<'signUpWithPassword'> = (response) 
     window.setTimeout(() => {
         // This removes Google's injected reCaptcha script again
         window.location.href = 'profil.php';
-    }, 3000);
+    }, 1000);
     if (response.status === 'OK_NO_EMAIL_VERIFICATION') {
         return 'Benutzerkonto erfolgreich erstellt. E-Mail bitte manuell bestätigen! Bitte warten...';
     }

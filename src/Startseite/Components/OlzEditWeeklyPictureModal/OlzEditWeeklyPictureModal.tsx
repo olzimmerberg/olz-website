@@ -56,7 +56,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
             //         bootstrap.Modal.getInstance(
             //             document.getElementById('edit-weekly-picture-modal')
             //         ).hide();
-            //     }, 3000);
+            //     }, 1000);
             //     return 'weekly-picture-Eintrag erfolgreich geändert. Bitte warten...';
             // }
 
@@ -95,7 +95,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                     if (modalElem) {
                         bootstrap.Modal.getInstance(modalElem)?.hide();
                     }
-                }, 3000);
+                }, 1000);
                 return 'weekly-picture-Eintrag erfolgreich erstellt. Bitte warten...';
             };
 

@@ -128,7 +128,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 window.setTimeout(() => {
                     // TODO: This could probably be done more smoothly!
                     window.location.reload();
-                }, 3000);
+                }, 1000);
                 return 'Termin-Eintrag erfolgreich erstellt. Bitte warten...';
             };
 

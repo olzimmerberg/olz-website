@@ -103,6 +103,22 @@ export type OlzTerminDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
+export type OlzTerminLocationData = {
+    'name': string,
+    'details': string,
+    'latitude': number,
+    'longitude': number,
+    'imageIds': Array<string>,
+};
+
+export type OlzTerminLocationDataOrNull = {
+    'name': string,
+    'details': string,
+    'latitude': number,
+    'longitude': number,
+    'imageIds': Array<string>,
+}|null;
+
 export type OlzBookingData = {
     'registrationId': string,
     'values': {[key: string]: unknown},
@@ -217,6 +233,11 @@ export type OlzApiEndpoint =
     'editTermin'|
     'updateTermin'|
     'deleteTermin'|
+    'createTerminLocation'|
+    'getTerminLocation'|
+    'editTerminLocation'|
+    'updateTerminLocation'|
+    'deleteTerminLocation'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -401,6 +422,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzTerminDataOrNull,
         },
     deleteTermin: {
+            'id': number,
+        },
+    createTerminLocation: {
+            'meta': OlzMetaData,
+            'data': OlzTerminLocationData,
+        },
+    getTerminLocation: {
+            'id': number,
+        },
+    editTerminLocation: {
+            'id': number,
+        },
+    updateTerminLocation: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzTerminLocationDataOrNull,
+        },
+    deleteTerminLocation: {
             'id': number,
         },
     createBooking: {
@@ -624,6 +663,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteTermin: {
+            'status': 'OK'|'ERROR',
+        },
+    createTerminLocation: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getTerminLocation: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminLocationData,
+        },
+    editTerminLocation: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminLocationData,
+        },
+    updateTerminLocation: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteTerminLocation: {
             'status': 'OK'|'ERROR',
         },
     createBooking: {

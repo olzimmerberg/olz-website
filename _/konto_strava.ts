@@ -67,7 +67,7 @@ const handleResponse: HandleResponseFunction<'signUpWithStrava'> = (response) =>
     window.setTimeout(() => {
         // TODO: This could probably be done more smoothly!
         window.location.href = '/';
-    }, 3000);
+    }, 1000);
     return 'Benutzerkonto erfolgreich erstellt.';
 };
 

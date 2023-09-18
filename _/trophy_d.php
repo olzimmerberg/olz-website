@@ -4,12 +4,19 @@
 // Zeigt Informationen zur OLZ Trophy an.
 // =============================================================================
 
+use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Utils\EnvUtils;
 
 $code_href = EnvUtils::fromEnv()->getCodeHref();
 $data_path = EnvUtils::fromEnv()->getDataPath();
 
 ?>
+
+<style>
+td.trophy-map-container .olz-location-map-render {
+    height: 300px;
+}
+</style>
 
 <h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2023</h2>
 <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
@@ -97,7 +104,11 @@ for ($i = 0; $i < count($etappen); $i++) {
     <tr><td></td><td><a href='{$code_href}termine/".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
     <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("{$data_path}results/{$etappe[12]}.xml") ? "</td></tr>
     <tr><td></td><td><a href='/apps/resultate/?file=".$etappe[12].".xml' class='linkint'>Resultate</a>" : "")."</td></tr>
-    </table></div></td><td style='width:20%; padding:5px 0px 5px 10px;'>".($etappe[4] != 0 ? "<script>document.write(olz.getMapHtml(".$etappe[4].",".$etappe[5]."))</script>" : "")."</td></tr>";
+    </table></div></td><td style='width:40%; padding:5px 0px 5px 10px;' class='trophy-map-container'>".($etappe[4] != 0 ? OlzLocationMap::render([
+        'xkoord' => $etappe[4],
+        'ykoord' => $etappe[5],
+        'zoom' => 13,
+    ]) : "")."</td></tr>";
     if (isset($_SESSION['auth']) && ($_SESSION['auth'] ?? null) == 'all' && $etappe[12]) {
         if (isset($_FILES["resultate_upload_".$etappe[13]])) {
             move_uploaded_file(

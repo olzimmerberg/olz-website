@@ -30,9 +30,9 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}datenschutz.php", 'monthly', '0.1');
         $out .= self::getEntry("{$base_url}trophy.php", 'monthly', '0.5');
 
-        $aktuell_ids = $entityManager->getRepository(NewsEntry::class)->getAllActiveIds();
-        foreach ($aktuell_ids as $aktuell_id) {
-            $out .= self::getEntry("{$base_url}news/{$aktuell_id}", 'monthly', '0.3');
+        $news_ids = $entityManager->getRepository(NewsEntry::class)->getAllActiveIds();
+        foreach ($news_ids as $news_id) {
+            $out .= self::getEntry("{$base_url}news/{$news_id}", 'monthly', '0.3');
         }
 
         $termine_ids = $entityManager->getRepository(Termin::class)->getAllActiveIds();

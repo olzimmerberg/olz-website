@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230918214135
+-- MIGRATION: DoctrineMigrations\Version20230918231338
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,58 +27,6 @@ CREATE TABLE `access_tokens` (
   KEY `user_id_index` (`user_id`),
   CONSTRAINT `FK_58D184BCA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `aktuell` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `format` longtext NOT NULL,
-  `published_date` date NOT NULL,
-  `published_time` time DEFAULT NULL,
-  `title` longtext NOT NULL,
-  `teaser` longtext DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
-  `author_name` varchar(255) DEFAULT NULL,
-  `author_email` varchar(255) DEFAULT NULL,
-  `termin` int(11) NOT NULL,
-  `external_url` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
-  `bild1` longtext DEFAULT NULL,
-  `bild1_breite` int(11) DEFAULT NULL,
-  `bild1_text` longtext DEFAULT NULL,
-  `bild2` longtext DEFAULT NULL,
-  `bild2_breite` int(11) DEFAULT NULL,
-  `bild3` longtext DEFAULT NULL,
-  `bild3_breite` int(11) DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `counter` int(11) NOT NULL DEFAULT 0,
-  `author_user_id` int(11) DEFAULT NULL,
-  `author_role_id` int(11) DEFAULT NULL,
-  `owner_user_id` int(11) DEFAULT NULL,
-  `owner_role_id` int(11) DEFAULT NULL,
-  `created_by_user_id` int(11) DEFAULT NULL,
-  `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `tags` longtext NOT NULL DEFAULT '',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `image_ids` longtext DEFAULT NULL,
-  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`),
-  KEY `IDX_417D7104E2544CD6` (`author_user_id`),
-  KEY `IDX_417D71049339BDEF` (`author_role_id`),
-  KEY `IDX_417D71042B18554A` (`owner_user_id`),
-  KEY `IDX_417D71045A75A473` (`owner_role_id`),
-  KEY `IDX_417D71047D182D95` (`created_by_user_id`),
-  KEY `IDX_417D71041A04EF5A` (`last_modified_by_user_id`),
-  KEY `published_index` (`published_date`,`published_time`),
-  CONSTRAINT `FK_417D71041A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_417D71042B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_417D71045A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_417D71047D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_417D71049339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_417D7104E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -189,32 +137,6 @@ CREATE TABLE `auth_requests` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blog` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `counter` int(11) NOT NULL DEFAULT 0,
-  `datum` date DEFAULT NULL,
-  `autor` longtext DEFAULT NULL,
-  `titel` longtext DEFAULT NULL,
-  `text` longtext DEFAULT NULL,
-  `bild1` longtext DEFAULT NULL,
-  `bild2` longtext DEFAULT NULL,
-  `on_off` int(11) DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `dummy` int(11) DEFAULT NULL,
-  `file1` longtext DEFAULT NULL,
-  `file1_name` longtext DEFAULT NULL,
-  `file2` longtext DEFAULT NULL,
-  `file2_name` longtext DEFAULT NULL,
-  `bild1_breite` int(11) DEFAULT NULL,
-  `bild2_breite` int(11) DEFAULT NULL,
-  `linkext` longtext DEFAULT NULL,
-  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `counter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `page` varchar(255) DEFAULT NULL,
@@ -262,43 +184,6 @@ CREATE TABLE `facebook_links` (
   KEY `user_id_index` (`user_id`),
   CONSTRAINT `FK_3444E616A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `forum` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `email` varchar(255) NOT NULL,
-  `eintrag` longtext NOT NULL,
-  `uid` varchar(255) NOT NULL DEFAULT '',
-  `datum` date DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
-  `on_off` int(11) DEFAULT NULL,
-  `allow_html` int(11) DEFAULT NULL,
-  `name2` varchar(255) NOT NULL DEFAULT '',
-  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`),
-  KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `galerie` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `termin` int(11) NOT NULL,
-  `titel` longtext NOT NULL,
-  `datum` date DEFAULT NULL,
-  `datum_end` date DEFAULT NULL,
-  `autor` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 0,
-  `typ` longtext DEFAULT NULL,
-  `counter` int(11) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `datum_on_off_index` (`datum`,`on_off`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -363,6 +248,58 @@ CREATE TABLE `messenger_messages` (
   KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
   KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `author_user_id` int(11) DEFAULT NULL,
+  `author_role_id` int(11) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `termin` int(11) NOT NULL,
+  `published_date` date NOT NULL,
+  `published_time` time DEFAULT NULL,
+  `newsletter` tinyint(1) NOT NULL DEFAULT 1,
+  `title` longtext NOT NULL,
+  `teaser` longtext DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `image_ids` longtext DEFAULT NULL,
+  `external_url` longtext DEFAULT NULL,
+  `author_name` varchar(255) DEFAULT NULL,
+  `author_email` varchar(255) DEFAULT NULL,
+  `format` longtext NOT NULL,
+  `tags` longtext NOT NULL DEFAULT '',
+  `bild1` longtext DEFAULT NULL,
+  `bild1_breite` int(11) DEFAULT NULL,
+  `bild1_text` longtext DEFAULT NULL,
+  `bild2` longtext DEFAULT NULL,
+  `bild2_breite` int(11) DEFAULT NULL,
+  `bild3` longtext DEFAULT NULL,
+  `bild3_breite` int(11) DEFAULT NULL,
+  `zeit` time DEFAULT NULL,
+  `counter` int(11) NOT NULL DEFAULT 0,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_1DD39950E2544CD6` (`author_user_id`),
+  KEY `IDX_1DD399509339BDEF` (`author_role_id`),
+  KEY `IDX_1DD399502B18554A` (`owner_user_id`),
+  KEY `IDX_1DD399505A75A473` (`owner_role_id`),
+  KEY `IDX_1DD399507D182D95` (`created_by_user_id`),
+  KEY `IDX_1DD399501A04EF5A` (`last_modified_by_user_id`),
+  KEY `published_index` (`published_date`,`published_time`),
+  CONSTRAINT `FK_1DD399501A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1DD399502B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1DD399505A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_1DD399507D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1DD399509339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_1DD39950E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -1,7 +1,7 @@
 <?php
 
 // =============================================================================
-// Aktuelle Berichte von offiziellen Vereinsorganen.
+// Alle Neuigkeiten rund um die OL Zimmerberg
 // =============================================================================
 
 namespace Olz\News\Components\OlzNewsDetail;
@@ -72,7 +72,7 @@ class OlzNewsDetail extends OlzComponent {
 
         $out = '';
 
-        $sql = "SELECT * FROM aktuell WHERE (id = '{$id}') AND (on_off = '1') ORDER BY published_date DESC";
+        $sql = "SELECT * FROM news WHERE (id = '{$id}') AND (on_off = '1') ORDER BY published_date DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
 
@@ -84,7 +84,7 @@ class OlzNewsDetail extends OlzComponent {
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",
-            'title' => "{$title} - Aktuell",
+            'title' => "{$title} - News",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $no_robots,
             'canonical_url' => $canonical_url,
@@ -117,7 +117,7 @@ class OlzNewsDetail extends OlzComponent {
         <div class='content-middle'>
         ZZZZZZZZZZ;
 
-        $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
+        $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
         $format = $row['format'];
         $title = $row['title'];

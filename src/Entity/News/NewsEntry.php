@@ -8,7 +8,7 @@ use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Repository\News\NewsRepository;
 
-#[ORM\Table(name: 'aktuell')]
+#[ORM\Table(name: 'news')]
 #[ORM\Index(name: 'published_index', columns: ['published_date', 'published_time'])]
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
 class NewsEntry extends OlzEntity {

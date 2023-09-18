@@ -1,7 +1,7 @@
 <?php
 
 // =============================================================================
-// Funktionen für Bild-Upload, z.B. Bilder in Aktuell-Einträgen.
+// Funktionen für Bild-Upload, z.B. Bilder in News-Einträgen.
 // =============================================================================
 
 use Olz\Utils\EnvUtils;

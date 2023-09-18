@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230918214135
+-- MIGRATION: DoctrineMigrations\Version20230918231338
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -14,27 +14,6 @@ VALUES
     ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL),
     ('3', '42', 'access', 'public_dev_data_access_token', '2023-04-22 14:00:00', NULL);
 
--- Table aktuell
-INSERT INTO aktuell
-    (`id`, `format`, `published_date`, `published_time`, `title`, `teaser`, `content`, `author_name`, `author_email`, `termin`, `external_url`, `on_off`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `tags`, `created_at`, `last_modified_at`, `image_ids`, `newsletter`)
-VALUES
-    ('3', 'aktuell', '2020-01-01', '00:00:00', 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 <DATEI=MIGRATED0000000000030001.pdf text=\"Neujahrsansprache als PDF\">', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die <DATEI=MIGRATED0000000000030001.pdf text=\"Neujahrsansprache als PDF\">', 'prä', NULL, '0', '', '1', '', '0', '', '', '0', '', '0', '00:00:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2021-06-28 16:37:03', '2021-06-28 16:37:03', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', '1'),
-    ('4', 'aktuell', '2020-03-16', NULL, 'Neues System für News-Einträge online!', '<BILD1>Heute ging ein neues System für **News-Einträge online**. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"Motivationsschreiben\">.', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle *OL-Zimmerberg-Mitglieder* von Interesse. Deshalb **vereinheitlichen** wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"diesem Schreiben\"> zusammengefasst.\n\n<BILD1>', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '25', '1', NULL, NULL, NULL, '  ', '2020-03-16 14:51:00', '2020-03-16 14:51:00', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', '1'),
-    ('5', 'aktuell', '2020-08-15', NULL, 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint *gut anzukommen*. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, '1', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[]', '1'),
-    ('6', 'galerie', '2020-01-02', NULL, 'Berchtoldstagsgalerie 2020', '', '', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '3', NULL, '3', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', '1'),
-    ('7', 'video', '2020-08-15', NULL, 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '2', '26', '2', NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', '1'),
-    ('8', 'forum', '2020-01-15', '16:51:00', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', NULL, NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '1', '5', '1', NULL, '1', '1', '  ', '2020-01-15 16:51:00', '2020-01-15 16:51:00', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', '1'),
-    ('9', 'forum', '2020-01-06', '16:51:00', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', 'Anonymous', 'anonymous@gmail.com', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-01-06 16:51:00', '2020-01-06 16:51:00', '[]', '1'),
-    ('10', 'kaderblog', '2020-08-15', '16:51:00', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '<BILD1>Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- <DATEI=gAQa_kYXqXTP1_DKKU1s1pGr.csv text=\"Beweisstück A\">\n- <DATEI=8kCalo9sQtu2mrgrmMjoGLUW.pdf text=\"Beweisstück B\">\n\n<BILD2>', NULL, NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '9', '50', '9', NULL, '9', '9', '  ', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', '1'),
-    ('1202', 'galerie', '2020-01-01', NULL, 'Neujahrsgalerie 📷 2020', '', '', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-15 14:51:00', '2020-08-15 14:51:00', '[\"MIGRATED0000000012020001.jpg\",\"MIGRATED0000000012020002.jpg\",\"MIGRATED0000000012020003.jpg\",\"MIGRATED0000000012020004.jpg\",\"MIGRATED0000000012020005.jpg\"]', '1'),
-    ('1203', 'video', '2020-08-13', NULL, 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, '  ', '2020-08-13 14:51:00', '2020-08-13 14:51:00', '[\"MIGRATED0000000012030001.jpg\"]', '1'),
-    ('2901', 'forum', '2020-01-01', '21:45:37', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', 'Bruno 😃 Beispielmitglied', 'beispiel@olzimmerberg.ch', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '21:45:37', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-01 21:45:37', '2020-01-01 21:45:37', '[]', '0'),
-    ('2902', 'forum', '2020-01-03', '18:42:01', 'Verspätete Neujahrsgrüsse', '', 'Has vergesse, aber au vo *mier* no Guets Nois!', 'Erwin Exempel', 'beispiel@olzimmerberg.ch', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '18:42:01', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-03 18:42:01', '2020-01-03 18:42:01', '[]', '0'),
-    ('2903', 'forum', '2020-01-06', '06:07:08', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', 'Drei Könige', 'beispiel@olzimmerberg.ch', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '06:07:08', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-06 06:07:08', '2020-01-06 06:07:08', '[]', '0'),
-    ('6401', 'kaderblog', '2019-01-01', '15:15:15', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n<BILD1>\n<BILD2>\n<DL1>\n<DL2>', 'Gold Junge', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2019-01-01 15:15:15', '2019-01-01 15:15:15', '[\"MIGRATED0000000064010001.jpg\",\"MIGRATED0000000064010002.jpg\"]', '0'),
-    ('6402', 'kaderblog', '2019-08-15', '15:15:15', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', 'Eliteläuferin', NULL, '0', 'https://www.external-blog.com/entry/1234', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2019-08-15 15:15:15', '2019-08-15 15:15:15', '[]', '0'),
-    ('6403', 'kaderblog', '2020-01-01', '15:15:15', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI=MIGRATED0000000064030001.pdf text=\"Extrem Harte Trainingsstrategie\">', 'Gold Junge', NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', NULL, NULL, NULL, NULL, NULL, NULL, '', '2020-01-01 15:15:15', '2020-01-01 15:15:15', '[\"MIGRATED0000000064030001.jpg\"]', '0');
-
 -- Table anmelden_bookings
 
 -- Table anmelden_registration_infos
@@ -43,14 +22,6 @@ VALUES
 
 -- Table auth_requests
 -- (auth_requests omitted)
-
--- Table blog
-INSERT INTO blog
-    (`id`, `counter`, `datum`, `autor`, `titel`, `text`, `bild1`, `bild2`, `on_off`, `zeit`, `dummy`, `file1`, `file1_name`, `file2`, `file2_name`, `bild1_breite`, `bild2_breite`, `linkext`, `newsletter`)
-VALUES
-    ('1', '0', '2019-01-01', 'Gold Junge', 'Saisonstart 2019!', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n<BILD1>\n<BILD2>\n<DL1>\n<DL2>', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1'),
-    ('2', '0', '2019-08-15', 'Eliteläuferin', 'Neuer Eintrag auf meinem externen Blog', 'Kleiner Teaser', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'https://www.external-blog.com/entry/1234', '1'),
-    ('3', '0', '2020-01-01', 'Gold Junge', 'Saisonstart 2020!', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI1 text=\"Extrem Harte Trainingsstrategie\">', NULL, NULL, '1', '15:15:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1');
 
 -- Table counter
 -- (counter omitted)
@@ -96,27 +67,12 @@ VALUES
     ('DoctrineMigrations\\Version20230611163952', '2023-06-11 16:45:10', '879'),
     ('DoctrineMigrations\\Version20230701122001', '2023-07-01 12:47:09', '10'),
     ('DoctrineMigrations\\Version20230918192344', '2023-09-18 21:37:49', '2264'),
-    ('DoctrineMigrations\\Version20230918214135', '2023-09-18 23:43:01', '300');
+    ('DoctrineMigrations\\Version20230918214135', '2023-09-18 23:43:01', '300'),
+    ('DoctrineMigrations\\Version20230918231338', '2023-09-19 18:09:29', '1270');
 
 -- Table downloads
 
 -- Table facebook_links
-
--- Table forum
-INSERT INTO forum
-    (`id`, `name`, `email`, `eintrag`, `uid`, `datum`, `zeit`, `on_off`, `allow_html`, `name2`, `newsletter`)
-VALUES
-    ('1', 'Guets Nois! 🎉', 'beispiel@olzimmerberg.ch', 'Hoi zäme, au vo mier no Guets Nois! 🎉', 'hd35lm6glq', '2020-01-01', '21:45:37', '1', '0', 'Bruno 😃 Beispielmitglied', '1'),
-    ('2', 'Verspätete Neujahrsgrüsse', 'beispiel@olzimmerberg.ch', 'Has vergesse, aber au vo mier no Guets Nois!', 'bQjNZ2sy', '2020-01-03', '18:42:01', '1', '0', 'Erwin Exempel', '1'),
-    ('3', 'Hallo', 'beispiel@olzimmerberg.ch', 'Mir hend paar OL-Usrüschtigs-Gegeständ us ferne Länder mitbracht, schriibed doch es Mail wenn er öppis devoo wetted', 'bQjNZ2sy', '2020-01-06', '06:07:08', '1', '0', 'Drei Könige', '1');
-
--- Table galerie
-INSERT INTO galerie
-    (`id`, `termin`, `titel`, `datum`, `datum_end`, `autor`, `on_off`, `typ`, `counter`, `content`)
-VALUES
-    ('1', '0', 'Neujahrsgalerie 📷 2020', '2020-01-01', NULL, 'sh😄', '1', 'foto', '0', ''),
-    ('2', '0', 'Berchtoldstagsgalerie 2020', '2020-01-02', NULL, 'sh', '1', 'foto', '0', ''),
-    ('3', '0', 'Test Video', '2020-08-15', NULL, 'admin', '1', 'movie', '2', 'https://youtu.be/JVL0vgcnM6c');
 
 -- Table google_links
 
@@ -131,6 +87,27 @@ VALUES
 -- Table links
 
 -- Table messenger_messages
+
+-- Table news
+INSERT INTO news
+    (`id`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `termin`, `published_date`, `published_time`, `newsletter`, `title`, `teaser`, `content`, `image_ids`, `external_url`, `author_name`, `author_email`, `format`, `tags`, `bild1`, `bild1_breite`, `bild1_text`, `bild2`, `bild2_breite`, `bild3`, `bild3_breite`, `zeit`, `counter`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('3', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '00:00:00', '1', 'Frohes neues Jahr! 🎆', '<BILD1>Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 <DATEI=MIGRATED0000000000030001.pdf text=\"Neujahrsansprache als PDF\">', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n<BILD2>\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die <DATEI=MIGRATED0000000000030001.pdf text=\"Neujahrsansprache als PDF\">', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', '', 'prä', NULL, 'aktuell', '', '', '0', '', '', '0', '', '0', '00:00:00', '0', '1', '2021-06-28 16:37:03', '2021-06-28 16:37:03'),
+    ('4', '1', '25', '1', NULL, NULL, NULL, '0', '2020-03-16', NULL, '1', 'Neues System für News-Einträge online!', '<BILD1>Heute ging ein neues System für **News-Einträge online**. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"Motivationsschreiben\">.', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle *OL-Zimmerberg-Mitglieder* von Interesse. Deshalb **vereinheitlichen** wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in <DATEI=xMpu3ExjfBKa8Cp35bcmsDgq.pdf text=\"diesem Schreiben\"> zusammengefasst.\n\n<BILD1>', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', NULL, '', NULL, 'aktuell', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-03-16 14:51:00', '2020-03-16 14:51:00'),
+    ('5', '1', NULL, '1', NULL, NULL, NULL, '0', '2020-08-15', NULL, '1', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint *gut anzukommen*. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', '[]', NULL, '', NULL, 'aktuell', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
+    ('6', '3', NULL, '3', NULL, NULL, NULL, '0', '2020-01-02', NULL, '1', 'Berchtoldstagsgalerie 2020', '', '', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', NULL, '', NULL, 'galerie', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
+    ('7', '2', '26', '2', NULL, NULL, NULL, '0', '2020-08-15', NULL, '1', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', NULL, '', NULL, 'video', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
+    ('8', '1', '5', '1', NULL, '1', '1', '0', '2020-01-15', '16:51:00', '1', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', NULL, NULL, NULL, 'forum', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '1', '2020-01-15 16:51:00', '2020-01-15 16:51:00'),
+    ('9', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-06', '16:51:00', '1', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', '[]', NULL, 'Anonymous', 'anonymous@gmail.com', 'forum', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '1', '2020-01-06 16:51:00', '2020-01-06 16:51:00'),
+    ('10', '9', '50', '9', NULL, '9', '9', '0', '2020-08-15', '16:51:00', '1', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '<BILD1>Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- <DATEI=gAQa_kYXqXTP1_DKKU1s1pGr.csv text=\"Beweisstück A\">\n- <DATEI=8kCalo9sQtu2mrgrmMjoGLUW.pdf text=\"Beweisstück B\">\n\n<BILD2>', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', NULL, NULL, NULL, 'kaderblog', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '16:51:00', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('1202', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', NULL, '1', 'Neujahrsgalerie 📷 2020', '', '', '[\"MIGRATED0000000012020001.jpg\",\"MIGRATED0000000012020002.jpg\",\"MIGRATED0000000012020003.jpg\",\"MIGRATED0000000012020004.jpg\",\"MIGRATED0000000012020005.jpg\"]', NULL, '', NULL, 'galerie', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
+    ('1203', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-08-13', NULL, '1', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '[\"MIGRATED0000000012030001.jpg\"]', NULL, '', NULL, 'video', '  ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', '2020-08-13 14:51:00', '2020-08-13 14:51:00'),
+    ('2901', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '21:45:37', '0', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', '[]', NULL, 'Bruno 😃 Beispielmitglied', 'beispiel@olzimmerberg.ch', 'forum', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '21:45:37', '0', '1', '2020-01-01 21:45:37', '2020-01-01 21:45:37'),
+    ('2902', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-03', '18:42:01', '0', 'Verspätete Neujahrsgrüsse', '', 'Has vergesse, aber au vo *mier* no Guets Nois!', '[]', NULL, 'Erwin Exempel', 'beispiel@olzimmerberg.ch', 'forum', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '18:42:01', '0', '1', '2020-01-03 18:42:01', '2020-01-03 18:42:01'),
+    ('2903', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-06', '06:07:08', '0', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', '[]', NULL, 'Drei Könige', 'beispiel@olzimmerberg.ch', 'forum', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '06:07:08', '0', '1', '2020-01-06 06:07:08', '2020-01-06 06:07:08'),
+    ('6401', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2019-01-01', '15:15:15', '0', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n<BILD1>\n<BILD2>\n<DL1>\n<DL2>', '[\"MIGRATED0000000064010001.jpg\",\"MIGRATED0000000064010002.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', '1', '2019-01-01 15:15:15', '2019-01-01 15:15:15'),
+    ('6402', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2019-08-15', '15:15:15', '0', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', '[]', 'https://www.external-blog.com/entry/1234', 'Eliteläuferin', NULL, 'kaderblog', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', '1', '2019-08-15 15:15:15', '2019-08-15 15:15:15'),
+    ('6403', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '15:15:15', '0', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '<BILD1> Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: <DATEI=MIGRATED0000000064030001.pdf text=\"Extrem Harte Trainingsstrategie\">', '[\"MIGRATED0000000064030001.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15:15:15', '0', '1', '2020-01-01 15:15:15', '2020-01-01 15:15:15');
 
 -- Table notification_subscriptions
 INSERT INTO notification_subscriptions

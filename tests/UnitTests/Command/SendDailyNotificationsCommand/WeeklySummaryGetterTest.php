@@ -16,13 +16,13 @@ class FakeWeeklySummaryGetterNewsRepository {
     public function matching($criteria) {
         $aktuell1 = new NewsEntry();
         $aktuell1->setId(1);
-        $aktuell1->setDate(new \DateTime('2020-03-12'));
-        $aktuell1->setTime(new \DateTime('22:00:00'));
+        $aktuell1->setPublishedDate(new \DateTime('2020-03-12'));
+        $aktuell1->setPublishedTime(new \DateTime('22:00:00'));
         $aktuell1->setTitle('Bericht vom Lauftraining');
         $aktuell2 = new NewsEntry();
         $aktuell2->setId(2);
-        $aktuell2->setDate(new \DateTime('2020-03-13'));
-        $aktuell2->setTime(new \DateTime('16:00:00'));
+        $aktuell2->setPublishedDate(new \DateTime('2020-03-13'));
+        $aktuell2->setPublishedTime(new \DateTime('16:00:00'));
         $aktuell2->setTitle('MV nicht abgesagt!');
         return [$aktuell1, $aktuell2];
     }
@@ -32,12 +32,12 @@ class FakeWeeklySummaryGetterTerminRepository {
     public function matching($criteria) {
         $termin1 = new Termin();
         $termin1->setId(1);
-        $termin1->setStartsOn(new \DateTime('2020-03-20'));
+        $termin1->setStartDate(new \DateTime('2020-03-20'));
         $termin1->setTitle('4. Lauf Zürcher Nacht-OL Serie');
         $termin2 = new Termin();
         $termin2->setId(2);
-        $termin2->setStartsOn(new \DateTime('2020-03-22'));
-        $termin2->setEndsOn(new \DateTime('2020-03-23'));
+        $termin2->setStartDate(new \DateTime('2020-03-22'));
+        $termin2->setEndDate(new \DateTime('2020-03-23'));
         $termin2->setTitle('2. Nationaler OL (Langdistanz)');
         return [$termin1, $termin2];
     }

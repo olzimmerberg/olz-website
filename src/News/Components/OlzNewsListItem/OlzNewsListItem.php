@@ -30,7 +30,7 @@ class OlzNewsListItem extends OlzComponent {
         $out = "";
 
         $id = $news_entry->getId();
-        $datum = $news_entry->getDate();
+        $datum = $news_entry->getPublishedDate();
         $format = $news_entry->getFormat();
         $icon_basename = self::$iconBasenameByFormat[$format];
         $icon = "{$code_href}assets/icns/{$icon_basename}";

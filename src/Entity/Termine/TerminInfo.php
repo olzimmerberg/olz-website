@@ -34,39 +34,39 @@ class TerminInfo {
         return $this->id;
     }
 
-    public function setId($new_id) {
-        $this->id = $new_id;
+    public function setId($new_value) {
+        $this->id = $new_value;
     }
 
     public function getTermin() {
         return $this->termin;
     }
 
-    public function setTermin(Termin $new_termin) {
-        $this->termin = $new_termin;
+    public function setTermin(Termin $new_value) {
+        $this->termin = $new_value;
     }
 
     public function getLanguage() {
         return $this->language;
     }
 
-    public function setLanguage($new_language) {
-        $this->language = $new_language;
+    public function setLanguage($new_value) {
+        $this->language = $new_value;
     }
 
     public function getName() {
         return $this->name;
     }
 
-    public function setName($new_name) {
-        $this->name = $new_name;
+    public function setName($new_value) {
+        $this->name = $new_value;
     }
 
     public function getContent() {
         return $this->content;
     }
 
-    public function setContent($new_content) {
-        $this->content = $new_content;
+    public function setContent($new_value) {
+        $this->content = $new_value;
     }
 }

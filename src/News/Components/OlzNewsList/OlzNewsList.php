@@ -165,7 +165,7 @@ class OlzNewsList extends OlzComponent {
                 $news_entry = new NewsEntry();
                 $news_entry->setOwnerUser($owner_user);
                 $news_entry->setOwnerRole($owner_role);
-                $news_entry->setDate($row['datum']);
+                $news_entry->setPublishedDate($row['datum']);
                 $news_entry->setFormat($row['typ']);
                 $news_entry->setAuthorUser($author_user);
                 $news_entry->setAuthorRole($author_role);

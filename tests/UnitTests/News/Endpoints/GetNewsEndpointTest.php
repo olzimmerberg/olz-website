@@ -27,8 +27,8 @@ class FakeGetNewsEndpointNewsRepository {
         if ($where === ['id' => 123]) {
             $entry = new NewsEntry();
             $entry->setId(123);
-            $entry->setDate('0000-01-01');
-            $entry->setTime('00:00:00');
+            $entry->setPublishedDate('0000-01-01');
+            $entry->setPublishedTime('00:00:00');
             $entry->setFormat('aktuell');
             $entry->setTitle("Cannot be empty");
             $entry->setTeaser("");
@@ -43,8 +43,8 @@ class FakeGetNewsEndpointNewsRepository {
         if ($where === ['id' => 1234]) {
             $entry = new NewsEntry();
             $entry->setId(1234);
-            $entry->setDate('2020-03-13');
-            $entry->setTime('18:00:00');
+            $entry->setPublishedDate('2020-03-13');
+            $entry->setPublishedTime('18:00:00');
             $entry->setFormat('aktuell');
             $entry->setTitle("Fake title");
             $entry->setTeaser("Fake teaser");

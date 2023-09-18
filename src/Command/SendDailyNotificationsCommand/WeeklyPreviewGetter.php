@@ -68,8 +68,8 @@ class WeeklyPreviewGetter {
         $termine_text = "";
         foreach ($termine as $termin) {
             $id = $termin->getId();
-            $starts_on = $termin->getStartsOn();
-            $ends_on = $termin->getEndsOn();
+            $starts_on = $termin->getStartDate();
+            $ends_on = $termin->getEndDate();
             $date = ($ends_on && $ends_on > $starts_on)
                 ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
                 : $starts_on->format('d.m.');

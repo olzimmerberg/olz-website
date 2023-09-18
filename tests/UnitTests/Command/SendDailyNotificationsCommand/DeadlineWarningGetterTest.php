@@ -38,7 +38,7 @@ class FakeDeadlineWarningGetterTerminRepository {
         if ($where == ['solv_uid' => 1111, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(1);
-            $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+            $termin->setStartDate(new \DateTime('2020-04-13 19:30:00'));
             $termin->setTitle('Test Termin');
             $termin->setOnOff(1);
             return $termin;
@@ -46,8 +46,8 @@ class FakeDeadlineWarningGetterTerminRepository {
         if ($where == ['solv_uid' => 2222, 'on_off' => 1]) {
             $range_termin = new Termin();
             $range_termin->setId(2);
-            $range_termin->setStartsOn(new \DateTime('2020-04-20'));
-            $range_termin->setEndsOn(new \DateTime('2020-04-30'));
+            $range_termin->setStartDate(new \DateTime('2020-04-20'));
+            $range_termin->setEndDate(new \DateTime('2020-04-30'));
             $range_termin->setTitle('End of Month');
             $range_termin->setOnOff(1);
             return $range_termin;
@@ -61,7 +61,7 @@ class FakeDeadlineWarningGetterTerminRepository {
         }
         $termin = new Termin();
         $termin->setId(270);
-        $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+        $termin->setStartDate(new \DateTime('2020-04-13 19:30:00'));
         $termin->setDeadline(new \DateTime('2020-04-06'));
         $termin->setTitle('OLZ Termin');
         $termin->setOnOff(1);

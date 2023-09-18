@@ -35,7 +35,7 @@ trait WeeklyPictureEndpointTrait {
         $valid_image_id = $this->uploadUtils()->getValidUploadId($input_data['imageId']);
         $valid_alternative_image_id = $this->uploadUtils()->getValidUploadId($input_data['alternativeImageId'] ?? null);
 
-        $entity->setDate($now);
+        $entity->setPublishedDate($now);
         $entity->setText($input_data['text']);
         $entity->setImageId($valid_image_id);
         $entity->setAlternativeImageId($valid_alternative_image_id);

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230701122001
+-- MIGRATION: DoctrineMigrations\Version20230918192344
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,12 +33,21 @@ CREATE TABLE `access_tokens` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `aktuell` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `format` longtext NOT NULL,
+  `published_date` date NOT NULL,
+  `published_time` time DEFAULT NULL,
+  `title` longtext NOT NULL,
+  `teaser` longtext DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `author_name` varchar(255) DEFAULT NULL,
+  `author_email` varchar(255) DEFAULT NULL,
   `termin` int(11) NOT NULL,
   `datum` date NOT NULL,
   `titel` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
   `textlang` longtext DEFAULT NULL,
   `link` longtext DEFAULT NULL,
+  `external_url` longtext DEFAULT NULL,
   `autor` varchar(255) DEFAULT NULL,
   `typ` longtext NOT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
@@ -71,6 +80,7 @@ CREATE TABLE `aktuell` (
   KEY `IDX_417D71045A75A473` (`owner_role_id`),
   KEY `IDX_417D71047D182D95` (`created_by_user_id`),
   KEY `IDX_417D71041A04EF5A` (`last_modified_by_user_id`),
+  KEY `published_index` (`published_date`,`published_time`),
   CONSTRAINT `FK_417D71041A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_417D71042B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_417D71045A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
@@ -642,6 +652,11 @@ CREATE TABLE `telegram_links` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termine` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `start_date` date NOT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `title` longtext DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `datum_end` date DEFAULT NULL,
   `datum_off` date DEFAULT NULL,
@@ -713,6 +728,46 @@ CREATE TABLE `termin_infos` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_labels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `name` varchar(127) NOT NULL,
+  `details` longtext DEFAULT NULL,
+  `icon` longtext DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_A3B090E02B18554A` (`owner_user_id`),
+  KEY `IDX_A3B090E05A75A473` (`owner_role_id`),
+  KEY `IDX_A3B090E07D182D95` (`created_by_user_id`),
+  KEY `IDX_A3B090E01A04EF5A` (`last_modified_by_user_id`),
+  KEY `name_index` (`name`),
+  CONSTRAINT `FK_A3B090E01A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A3B090E02B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A3B090E05A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_A3B090E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_label_map` (
+  `termin_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
+  PRIMARY KEY (`termin_id`,`label_id`),
+  KEY `IDX_6A8B53A8CA0B7C00` (`termin_id`),
+  KEY `IDX_6A8B53A833B92F39` (`label_id`),
+  CONSTRAINT `FK_6A8B53A833B92F39` FOREIGN KEY (`label_id`) REFERENCES `termin_labels` (`id`),
+  CONSTRAINT `FK_6A8B53A8CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termin_locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_user_id` int(11) DEFAULT NULL,
@@ -738,6 +793,106 @@ CREATE TABLE `termin_locations` (
   CONSTRAINT `FK_DA22EA1D5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_DA22EA1D7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_notifications` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `termin_id` int(11) NOT NULL,
+  `recipient_user_id` int(11) DEFAULT NULL,
+  `recipient_role_id` int(11) DEFAULT NULL,
+  `fires_at` datetime NOT NULL,
+  `title` longtext NOT NULL,
+  `content` longtext DEFAULT NULL,
+  `recipient_termin_owners` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_volunteers` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_participants` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `IDX_23876048B15EFB97` (`recipient_user_id`),
+  KEY `IDX_23876048C0330AAE` (`recipient_role_id`),
+  KEY `termin_index` (`termin_id`),
+  KEY `fires_at_index` (`fires_at`),
+  CONSTRAINT `FK_23876048B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_23876048C0330AAE` FOREIGN KEY (`recipient_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_23876048CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_notification_templates` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `termin_template_id` int(11) NOT NULL,
+  `recipient_user_id` int(11) DEFAULT NULL,
+  `recipient_role_id` int(11) DEFAULT NULL,
+  `fires_earlier_seconds` int(11) DEFAULT NULL,
+  `title` longtext NOT NULL,
+  `content` longtext DEFAULT NULL,
+  `recipient_termin_owners` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_volunteers` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_participants` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `IDX_43613C90B15EFB97` (`recipient_user_id`),
+  KEY `IDX_43613C90C0330AAE` (`recipient_role_id`),
+  KEY `termin_template_index` (`termin_template_id`),
+  CONSTRAINT `FK_43613C90324A4BBA` FOREIGN KEY (`termin_template_id`) REFERENCES `termin_templates` (`id`),
+  CONSTRAINT `FK_43613C90B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_43613C90C0330AAE` FOREIGN KEY (`recipient_role_id`) REFERENCES `roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `location_id` int(11) DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `duration_seconds` int(11) DEFAULT NULL,
+  `deadline_earlier_seconds` int(11) DEFAULT NULL,
+  `deadline_time` time DEFAULT NULL,
+  `min_participants` int(11) DEFAULT NULL,
+  `max_participants` int(11) DEFAULT NULL,
+  `min_volunteers` int(11) DEFAULT NULL,
+  `max_volunteers` int(11) DEFAULT NULL,
+  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
+  `title` longtext DEFAULT NULL,
+  `text` longtext DEFAULT NULL,
+  `link` longtext DEFAULT NULL,
+  `types` varchar(255) DEFAULT NULL,
+  `image_ids` longtext DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_A2ECDD2964D218E` (`location_id`),
+  KEY `IDX_A2ECDD292B18554A` (`owner_user_id`),
+  KEY `IDX_A2ECDD295A75A473` (`owner_role_id`),
+  KEY `IDX_A2ECDD297D182D95` (`created_by_user_id`),
+  KEY `IDX_A2ECDD291A04EF5A` (`last_modified_by_user_id`),
+  CONSTRAINT `FK_A2ECDD291A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A2ECDD292B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A2ECDD295A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_A2ECDD2964D218E` FOREIGN KEY (`location_id`) REFERENCES `termin_locations` (`id`),
+  CONSTRAINT `FK_A2ECDD297D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_template_label_map` (
+  `termin_template_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL,
+  PRIMARY KEY (`termin_template_id`,`label_id`),
+  KEY `IDX_D1B03BE2324A4BBA` (`termin_template_id`),
+  KEY `IDX_D1B03BE233B92F39` (`label_id`),
+  CONSTRAINT `FK_D1B03BE2324A4BBA` FOREIGN KEY (`termin_template_id`) REFERENCES `termin_templates` (`id`),
+  CONSTRAINT `FK_D1B03BE233B92F39` FOREIGN KEY (`label_id`) REFERENCES `termin_labels` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

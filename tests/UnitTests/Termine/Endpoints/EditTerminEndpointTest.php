@@ -17,7 +17,7 @@ class FakeEditTerminEndpointTerminRepository {
         if ($where === ['id' => 12]) {
             $termin = new Termin();
             $termin->setId(12);
-            $termin->setStartsOn(new \DateTime('2020-03-13'));
+            $termin->setStartDate(new \DateTime('2020-03-13'));
             $termin->setTitle("Fake title");
             $termin->setText("");
             $termin->setNewsletter(false);
@@ -28,9 +28,9 @@ class FakeEditTerminEndpointTerminRepository {
         if ($where === ['id' => 123]) {
             $termin = new Termin();
             $termin->setId(123);
-            $termin->setStartsOn(new \DateTime('0000-01-01'));
+            $termin->setStartDate(new \DateTime('0000-01-01'));
             $termin->setStartTime(new \DateTime('00:00:00'));
-            $termin->setEndsOn(new \DateTime('0000-01-01'));
+            $termin->setEndDate(new \DateTime('0000-01-01'));
             $termin->setEndTime(new \DateTime('00:00:00'));
             $termin->setTitle("Cannot be empty");
             $termin->setText("");
@@ -57,9 +57,9 @@ class FakeEditTerminEndpointTerminRepository {
             $termin_location->setLongitude(8.5591936);
             $termin = new Termin();
             $termin->setId(1234);
-            $termin->setStartsOn(new \DateTime('2020-03-13'));
+            $termin->setStartDate(new \DateTime('2020-03-13'));
             $termin->setStartTime(new \DateTime('19:30:00'));
-            $termin->setEndsOn(new \DateTime('2020-03-16'));
+            $termin->setEndDate(new \DateTime('2020-03-16'));
             $termin->setEndTime(new \DateTime('12:00:00'));
             $termin->setTitle("Fake title");
             $termin->setText("Fake content");

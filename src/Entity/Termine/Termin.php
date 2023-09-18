@@ -8,33 +8,13 @@ use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
-#[ORM\Index(name: 'datum_on_off_index', columns: ['datum', 'on_off'])]
+#[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
 class Termin extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
     private $id;
-
-    // @deprecated Use start_date
-    #[ORM\Column(type: 'date', nullable: true)]
-    private $datum;
-
-    // @deprecated Use end_date
-    #[ORM\Column(type: 'date', nullable: true)]
-    private $datum_end;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'date', nullable: true)]
-    private $datum_off;
-
-    // @deprecated Use start_time
-    #[ORM\Column(type: 'time', nullable: true, options: ['default' => '00:00:00'])]
-    private $zeit;
-
-    // @deprecated Use end_time
-    #[ORM\Column(type: 'time', nullable: true, options: ['default' => '00:00:00'])]
-    private $zeit_end;
 
     #[ORM\Column(type: 'date', nullable: false)]
     private $start_date;
@@ -80,10 +60,6 @@ class Termin extends OlzEntity {
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private $newsletter;
 
-    // @deprecated Use title
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $titel;
-
     #[ORM\Column(type: 'text', nullable: true)]
     private $title;
 
@@ -95,10 +71,6 @@ class Termin extends OlzEntity {
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $link;
-
-    // @deprecated Use solv_uid
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $solv_event_link;
 
     // @deprecated Use labels
     #[ORM\Column(type: 'string', nullable: true)]
@@ -123,10 +95,6 @@ class Termin extends OlzEntity {
     #[ORM\Column(type: 'integer', nullable: true)]
     private $solv_uid;
 
-    // @deprecated No replacement
-    #[ORM\Column(type: 'string', nullable: true)]
-    private $ical_uid;
-
     #[ORM\Column(type: 'text', nullable: true)]
     private $image_ids;
 
@@ -149,7 +117,6 @@ class Termin extends OlzEntity {
     }
 
     public function setStartDate($new_value) {
-        $this->datum = $new_value;
         $this->start_date = $new_value;
     }
 
@@ -158,7 +125,6 @@ class Termin extends OlzEntity {
     }
 
     public function setStartTime($new_value) {
-        $this->zeit = $new_value;
         $this->start_time = $new_value;
     }
 
@@ -167,7 +133,6 @@ class Termin extends OlzEntity {
     }
 
     public function setEndDate($new_value) {
-        $this->datum_end = $new_value;
         $this->end_date = $new_value;
     }
 
@@ -176,7 +141,6 @@ class Termin extends OlzEntity {
     }
 
     public function setEndTime($new_value) {
-        $this->zeit_end = $new_value;
         $this->end_time = $new_value;
     }
 
@@ -193,7 +157,6 @@ class Termin extends OlzEntity {
     }
 
     public function setTitle($new_value) {
-        $this->titel = $new_value;
         $this->title = $new_value;
     }
 

@@ -17,15 +17,15 @@ function termine_ticker($settings) {
     $textlaenge_def = isset($settings["eintrag_laenge"]) ? intval($settings["eintrag_laenge"]) : 80;
     $listenlaenge = isset($settings["eintrag_anzahl"]) ? intval($settings["eintrag_anzahl"]) : 8;
     $sql_where = isset($settings["sql_where"]) ? $settings["sql_where"] : "";
-    $titel = isset($settings["titel"]) ? $settings["titel"] : "Termine";
+    $title = isset($settings["titel"]) ? $settings["titel"] : "Termine";
     $heute_highlight = isset($settings["heute_highlight"]) ? $settings["heute_highlight"] : true;
     // Konstanten
     $db_table = "termine";
     $heute = $date_utils->getCurrentDateInFormat("Y-m-d");
     echo "<div class='layout'>";
-    echo "<h4 class='tablebar'>".$titel."</h4>";
+    echo "<h4 class='tablebar'>".$title."</h4>";
     // Tabelle auslesen
-    $sql = "select * from {$db_table} WHERE ((datum >= '{$heute}') OR (datum_end >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY datum ASC LIMIT {$listenlaenge}";
+    $sql = "SELECT * FROM {$db_table} WHERE ((start_date >= '{$heute}') OR (end_date >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY start_date ASC LIMIT {$listenlaenge}";
     $result = $db->query($sql);
 
     // TEST uu/1.4.2011
@@ -40,73 +40,73 @@ function termine_ticker($settings) {
 
     $case = null;
     while ($row = mysqli_fetch_array($result)) {
-        $datum_tmp = $row['datum'];
-        $datum_end = $row['datum_end'];
-        $timestamp_tmp = $datum_tmp ? strtotime($datum_tmp) : 0;
+        $start_date = $row['start_date'];
+        $end_date = $row['end_date'];
+        $timestamp_start = $start_date ? strtotime($start_date) : 0;
         $timestamp_heute = $heute ? strtotime($heute) : 0;
-        $timestamp_end = $datum_end ? strtotime($datum_end) : 0;
-        $diff = ($timestamp_tmp - $timestamp_heute) / 86400;
-        $diff_end = ($timestamp_end - $timestamp_tmp) / 86400;
-        $time = $diff * 86400;
+        $timestamp_end = $end_date ? strtotime($end_date) : 0;
+        $diff_start = ($timestamp_start - $timestamp_heute) / 86400;
+        $diff_end = ($timestamp_end - $timestamp_start) / 86400;
+        $time = $diff_start * 86400;
         $class_heute = "";
-        if ($diff < 0.95) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
+        if ($diff_start < 0.95) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
             $case_tmp = 1;
-            if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '(bis '.$date_utils->olzDate('WW t.m.', $datum_end).')';
-            } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '(bis '.$date_utils->olzDate('WW', $datum_end).')';
+            if (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 6) {
+                $end_date = '(bis '.$date_utils->olzDate('WW t.m.', $end_date).')';
+            } elseif (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 0) {
+                $end_date = '(bis '.$date_utils->olzDate('WW', $end_date).')';
             } else {
-                $datum_end = '';
+                $end_date = '';
             }
-            $datum = $datum_end;
+            $datum = $end_date;
             if ($heute_highlight) {
                 $class_heute = " class='heute'";
             }
-        } elseif ($diff < (7.95 - $wotag)) {
+        } elseif ($diff_start < (7.95 - $wotag)) {
             $case_tmp = 2;
-            if (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 6) {
-                $datum_end = '-'.$date_utils->olzDate('WW (t.m.)', $datum_end);
-            } elseif (($datum_end != '0000-00-00' and $datum_end !== null) and $diff_end > 0) {
-                $datum_end = '-'.$date_utils->olzDate('WW', $datum_end);
+            if (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 6) {
+                $end_date = '-'.$date_utils->olzDate('WW (t.m.)', $end_date);
+            } elseif (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 0) {
+                $end_date = '-'.$date_utils->olzDate('WW', $end_date);
             } else {
-                $datum_end = '';
+                $end_date = '';
             }
-            // $datum_end = ($datum_end!='0000-00-00' AND $datum_end!=$datum_tmp) ? '-'.$date_utils->olzDate('W',$datum_end) : '' ;
-            $datum = $date_utils->olzDate('WW', $datum_tmp).$datum_end.":";
-        } elseif ($diff < (14.95 - $wotag)) {
+            // $end_date = ($end_date!='0000-00-00' AND $end_date!=$start_date) ? '-'.$date_utils->olzDate('W',$end_date) : '' ;
+            $datum = $date_utils->olzDate('WW', $start_date).$end_date.":";
+        } elseif ($diff_start < (14.95 - $wotag)) {
             $case_tmp = 3;
-            $datum_end = (($datum_end != '0000-00-00' and $datum_end !== null) and $datum_end != $datum_tmp) ? '-'.$date_utils->olzDate('t.m.(W)', $datum_end) : '';
-            $datum = $date_utils->olzDate('W, t.m.', $datum_tmp).$datum_end;
+            $end_date = (($end_date != '0000-00-00' and $end_date !== null) and $end_date != $start_date) ? '-'.$date_utils->olzDate('t.m.(W)', $end_date) : '';
+            $datum = $date_utils->olzDate('W, t.m.', $start_date).$end_date;
         } elseif ($flag == 1) {
             $case_tmp = 4;
-            $datum = $date_utils->olzDate('t.m.', $datum_tmp);
+            $datum = $date_utils->olzDate('t.m.', $start_date);
         } else {
             $case_tmp = 5;
-            $datum = $date_utils->olzDate('t.m.', $datum_tmp);
+            $datum = $date_utils->olzDate('t.m.', $start_date);
         }
         if ($case_tmp < 4) {
             $flag = 0;
         }
-        // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<div class='tablebar'>".str_replace("[x]",$diff,$sections[$case_tmp-1])."</div>";
+        // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) echo "<div class='tablebar'>".str_replace("[x]",$diff_start,$sections[$case_tmp-1])."</div>";
         if ($case != $case_tmp and strlen($sections[$case_tmp - 1]) > 0) {
-            echo "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", $diff, $sections[$case_tmp - 1])."</h2>";
+            echo "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", $diff_start, $sections[$case_tmp - 1])."</h2>";
         }
         $case = $case_tmp;
         // ENDE TEST
 
-        $titel = strip_tags(str_replace("<br>", ", ", $row['titel']));
+        $title = strip_tags(str_replace("<br>", ", ", $row['title']));
         $text = strip_tags(str_replace("<br>", ", ", $row['text']));
         $id_tmp = $row['id'];
-        $datum_tmp = $datum;
-        if ($titel == "") {
-            $titel = $text;
+        $start_date = $datum;
+        if ($title == "") {
+            $title = $text;
         } elseif ($text != "") {
-            $titel = $titel." - ".$text;
+            $title = $title." - ".$text;
         }
         $mehr = "";
-        if ($textlaenge_def < strlen($datum_tmp) + strlen($titel)) {
-            $titel = mb_substr($titel, 0, $textlaenge_def - strlen($datum_tmp));
-            $titel = mb_substr($titel, 0, mb_strrpos($titel, " "));
+        if ($textlaenge_def < strlen($start_date) + strlen($title)) {
+            $title = mb_substr($title, 0, $textlaenge_def - strlen($start_date));
+            $title = mb_substr($title, 0, mb_strrpos($title, " "));
             $mehr = " ...";
         }
 
@@ -117,7 +117,7 @@ function termine_ticker($settings) {
             $pulse .= "\"terminticker".$id_tmp."\"";
         }
 
-        echo "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$datum_tmp."</span> ".$titel.$mehr."</a></p>";
+        echo "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$start_date."</span> ".$title.$mehr."</a></p>";
     }
     echo "</div>";
 }

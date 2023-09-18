@@ -587,7 +587,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
         $news_utils = new NewsFilterUtils();
         $this->assertSame("'1'='0'", $news_utils->getSqlFromFilter([]));
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND ('1' = '1')",
+            "(YEAR(n.published_date) = '2020') AND ('1' = '1')",
             $news_utils->getSqlFromFilter([
                 'format' => 'alle',
                 'datum' => '2020',
@@ -595,7 +595,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%aktuell%')",
+            "(YEAR(n.published_date) = '2020') AND (n.format LIKE '%aktuell%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'aktuell',
                 'datum' => '2020',
@@ -603,7 +603,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%kaderblog%')",
+            "(YEAR(n.published_date) = '2020') AND (n.format LIKE '%kaderblog%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'kaderblog',
                 'datum' => '2020',
@@ -611,7 +611,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%forum%')",
+            "(YEAR(n.published_date) = '2020') AND (n.format LIKE '%forum%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'forum',
                 'datum' => '2020',
@@ -619,7 +619,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%galerie%')",
+            "(YEAR(n.published_date) = '2020') AND (n.format LIKE '%galerie%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'galerie',
                 'datum' => '2020',
@@ -627,7 +627,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(YEAR(n.datum) = '2020') AND (n.typ LIKE '%video%')",
+            "(YEAR(n.published_date) = '2020') AND (n.format LIKE '%video%')",
             $news_utils->getSqlFromFilter([
                 'format' => 'video',
                 'datum' => '2020',
@@ -779,7 +779,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     public function testGetIsNotArchivedCriteria(): void {
         $news_utils = new NewsFilterUtils();
         $criteria_expression = $news_utils->getIsNotArchivedCriteria();
-        $this->assertSame('datum', $criteria_expression->getField());
+        $this->assertSame('published_date', $criteria_expression->getField());
         $this->assertSame(
             '2016-01-01',
             $criteria_expression->getValue()->getValue()->format('Y-m-d')

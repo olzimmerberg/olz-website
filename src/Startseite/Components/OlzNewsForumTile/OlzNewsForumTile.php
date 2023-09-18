@@ -55,8 +55,8 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
             SELECT n
             FROM Olz:News\NewsEntry n
-            WHERE n.on_off = '1' and n.typ IN ('forum')
-            ORDER BY n.datum DESC, n.zeit DESC
+            WHERE n.on_off = '1' and n.format IN ('forum')
+            ORDER BY n.published_date DESC, n.published_time DESC
         ZZZZZZZZZZ);
         $query->setMaxResults(5);
         $index = 0;

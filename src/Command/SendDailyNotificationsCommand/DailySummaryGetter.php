@@ -30,7 +30,7 @@ class DailySummaryGetter {
                 Criteria::expr()->eq('newsletter', 1),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
+            ->orderBy(['start_date' => Criteria::ASC, 'start_time' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -162,21 +162,20 @@ class DailySummaryGetter {
     protected function getNewsCriteria(array $formats) {
         return Criteria::create()
             ->where(Criteria::expr()->andX(
-                // TODO: typ -> format
-                Criteria::expr()->in('typ', $formats),
+                Criteria::expr()->in('format', $formats),
                 Criteria::expr()->orX(
                     Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $this->today),
-                        Criteria::expr()->lte('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                        Criteria::expr()->eq('published_date', $this->today),
+                        Criteria::expr()->lte('published_time', new \DateTime(self::CUT_OFF_TIME)),
                     ),
                     Criteria::expr()->andX(
-                        Criteria::expr()->eq('datum', $this->yesterday),
-                        Criteria::expr()->gt('zeit', new \DateTime(self::CUT_OFF_TIME)),
+                        Criteria::expr()->eq('published_date', $this->yesterday),
+                        Criteria::expr()->gt('published_time', new \DateTime(self::CUT_OFF_TIME)),
                     ),
                 ),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['datum' => Criteria::ASC, 'zeit' => Criteria::ASC])
+            ->orderBy(['published_date' => Criteria::ASC, 'published_time' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

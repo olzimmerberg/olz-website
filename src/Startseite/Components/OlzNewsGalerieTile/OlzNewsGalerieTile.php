@@ -63,8 +63,8 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
             SELECT n
             FROM Olz:News\NewsEntry n
-            WHERE n.on_off = '1' and n.typ IN ('galerie', 'video')
-            ORDER BY n.datum DESC, n.zeit DESC
+            WHERE n.on_off = '1' and n.format IN ('galerie', 'video')
+            ORDER BY n.published_date DESC, n.published_time DESC
         ZZZZZZZZZZ);
         $query->setMaxResults(3);
         $index = 0;

@@ -31,13 +31,13 @@ for ($n = 0; $n < 3; $n++) {
         $or = " AND ";
     }
     if ($search_key > "") {
-        $sql1 .= $or."((titel LIKE '%{$search_key}%') OR (text LIKE '%{$search_key}%'))";
+        $sql1 .= $or."((title LIKE '%{$search_key}%') OR (text LIKE '%{$search_key}%'))";
     }
     if ($search_key > "") {
         $sql2 .= $or."((name LIKE '%{$search_key}%') OR (eintrag LIKE '%{$search_key}%'))";
     }
     if ($search_key > "") {
-        $sql3 .= $or."(titel LIKE '%{$search_key}%')";
+        $sql3 .= $or."(title LIKE '%{$search_key}%')";
     }
     if ($search_key > "") {
         $search .= $or."{$search_key}";
@@ -51,7 +51,7 @@ $result_aktuell = '';
 $result_galerie = '';
 $result_forum = '';
 if ($sql1 > "") {// TERMINE
-    $sql = "select * from termine WHERE ({$sql1}) AND (on_off = 1) ORDER BY datum DESC";
+    $sql = "select * from termine WHERE ({$sql1}) AND (on_off = 1) ORDER BY start_date DESC";
     $result = $db->query($sql);
     $num = mysqli_num_rows($result);
     if ($num > 0) {
@@ -60,18 +60,18 @@ if ($sql1 > "") {// TERMINE
 
     for ($i = 0; $i < $num; $i++) {
         $row = mysqli_fetch_array($result);
-        $datum = strtotime($row['datum']);
-        $titel = strip_tags($row['titel']);
+        $start_date = strtotime($row['start_date']);
+        $title = strip_tags($row['title']);
         $text = strip_tags($row['text']);
         $id = $row['id'];
-        $jahr = date("Y", $datum);
-        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
+        $jahr = date("Y", $start_date);
+        $start_date = $date_utils->olzDate("t. MM jjjj", $start_date);
         cutout($text);
-        $result_termine .= "<tr><td><a href=\"{$code_href}termine/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"{$code_href}termine/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_termine .= "<tr><td><a href=\"{$code_href}termine/{$id}\" class=\"linkint\"><b>{$start_date}</b></a></td><td><b><a href=\"{$code_href}termine/{$id}\" class=\"linkint\">".$title."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
     // AKTUELL
-    $result = $db->query("select * from aktuell WHERE ({$sql1}) AND (on_off = 1) ORDER BY datum DESC");
+    $result = $db->query("select * from aktuell WHERE ({$sql1}) AND (on_off = 1) ORDER BY published_date DESC");
     $num = mysqli_num_rows($result);
     if ($num > 0) {
         $result_aktuell = "<tr><td colspan='2'><h3 class='tablebar'>Aktuell...</h3></td></tr>";
@@ -79,52 +79,16 @@ if ($sql1 > "") {// TERMINE
 
     for ($i = 0; $i < $num; $i++) {
         $row = mysqli_fetch_array($result);
-        $datum = strtotime($row['datum']);
-        $titel = strip_tags($row['titel']);
-        $text = strip_tags($row['text']).strip_tags($row['textlang']);
+        $published_date = strtotime($row['published_date']);
+        $title = strip_tags($row['title']);
+        $text = strip_tags($row['teaser']).strip_tags($row['content']);
         $id = $row['id'];
-        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
+        $published_date = $date_utils->olzDate("t. MM jjjj", $published_date);
         cutout($text);
-        $result_aktuell .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_aktuell .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$published_date}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$title."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
-    // FORUM
-    $result = $db->query("select * from forum WHERE ({$sql2}) AND (on_off = 1) ORDER BY datum DESC");
-    $num = mysqli_num_rows($result);
-    if ($num > 0) {
-        $result_forum = "<tr><td colspan='2'><h3 class='tablebar'>Forum...</h3></td></tr>";
-    }
-
-    for ($i = 0; $i < $num; $i++) {
-        $row = mysqli_fetch_array($result);
-        $datum = strtotime($row['datum']);
-        $titel = strip_tags($row['name']);
-        $text = strip_tags($row['eintrag']);
-        $id = $row['id'];
-        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
-        cutout($text);
-        $result_forum .= "<tr><td><a href=\"forum.php#id{$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"forum.php#id{$id}\" class=\"linkint\">".$titel."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
-    }
-
-    // GALERIE
-    $result = $db->query("select * from galerie WHERE {$sql3} AND (on_off = 1) ORDER BY datum DESC");
-    $num = mysqli_num_rows($result);
-    if ($num > 0) {
-        $result_galerie = "<tr><td colspan='2'><h3 class='tablebar'>Galerien...</h3></td></tr>";
-    }
-
-    for ($i = 0; $i < $num; $i++) {
-        $row = mysqli_fetch_array($result);
-        $datum = strtotime($row['datum']);
-        $datum_ = $row['datum'];
-        $titel = strip_tags($row['titel']);
-        $id = $row['id'];
-        $datum = $date_utils->olzDate("t. MM jjjj", $datum);
-        cutout($text);
-        $result_galerie .= "<tr><td><a href=\"galerie.php?id={$id}\" class=\"linkint\"><b>{$datum}</b></a></td><td><b><a href=\"galerie.php?id={$id}\" class=\"linkint\">".$titel."</a></b></td></tr>";
-    }
-
-    $text = $result_termine.$result_aktuell.$result_galerie.$result_forum;
+    $text = $result_termine.$result_aktuell;
     // HIGHLITE
     for ($n = 0; $n < 3; $n++) {
         $search_key = $search_words[$n] ?? '';

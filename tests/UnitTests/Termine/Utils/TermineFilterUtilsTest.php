@@ -824,7 +824,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
         $termine_utils = new TermineFilterUtils();
         $this->assertSame("'1'='0'", $termine_utils->getSqlDateRangeFilter([]));
         $this->assertSame(
-            "(t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')",
+            "(t.start_date >= '2020-03-13') OR (t.end_date >= '2020-03-13')",
             $termine_utils->getSqlDateRangeFilter([
                 'typ' => 'alle',
                 'datum' => 'bevorstehend',
@@ -832,7 +832,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "(t.datum >= '2020-03-13') OR (t.datum_end >= '2020-03-13')",
+            "(t.start_date >= '2020-03-13') OR (t.end_date >= '2020-03-13')",
             $termine_utils->getSqlDateRangeFilter([
                 'typ' => 'programm',
                 'datum' => 'bevorstehend',
@@ -840,7 +840,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "YEAR(t.datum) = '2020'",
+            "YEAR(t.start_date) = '2020'",
             $termine_utils->getSqlDateRangeFilter([
                 'typ' => 'alle',
                 'datum' => '2020',
@@ -1029,7 +1029,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     public function testGetIsNotArchivedCriteria(): void {
         $termine_utils = new TermineFilterUtils();
         $criteria_expression = $termine_utils->getIsNotArchivedCriteria();
-        $this->assertSame('datum', $criteria_expression->getField());
+        $this->assertSame('start_date', $criteria_expression->getField());
         $this->assertSame(
             '2016-01-01',
             $criteria_expression->getValue()->getValue()->format('Y-m-d')

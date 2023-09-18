@@ -13,7 +13,7 @@ class OlzArticleMetadata extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $id = intval($args['id']);
-        $sql = "SELECT autor, titel, datum, zeit FROM aktuell WHERE id='{$id}'";
+        $sql = "SELECT author_name, title, published_date, published_time FROM aktuell WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
             throw new \Exception("No such entry");
@@ -21,11 +21,11 @@ class OlzArticleMetadata extends OlzComponent {
         $row = $res->fetch_assoc();
         $url = "{$base_href}{$code_href}news/{$id}";
         $json_url = json_encode($url);
-        $html_author = $row['autor'];
+        $html_author = $row['author_name'];
         $json_author = json_encode($html_author);
-        $html_title = $row['titel'];
+        $html_title = $row['title'];
         $json_title = json_encode($html_title);
-        $iso_date = $row['datum'].'T'.$row['zeit'];
+        $iso_date = $row['published_date'].'T'.$row['published_time'];
         $json_iso_date = json_encode($iso_date);
         $images = [];
         $image_index = 1;

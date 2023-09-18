@@ -136,7 +136,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getPublishedDate() {
-        return $this->datum;
+        return $this->published_date;
     }
 
     public function setPublishedDate($new_value) {
@@ -145,7 +145,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getPublishedTime() {
-        return $this->zeit;
+        return $this->published_time;
     }
 
     public function setPublishedTime($new_value) {
@@ -154,7 +154,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getFormat() {
-        return $this->typ;
+        return $this->format;
     }
 
     public function setFormat($new_value) {
@@ -163,7 +163,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getAuthorName() {
-        return $this->autor;
+        return $this->author_name;
     }
 
     public function setAuthorName($new_value) {
@@ -172,7 +172,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getAuthorEmail() {
-        return $this->autor_email;
+        return $this->author_email;
     }
 
     public function setAuthorEmail($new_value) {
@@ -197,7 +197,7 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getTitle() {
-        return $this->titel;
+        return $this->title;
     }
 
     public function setTitle($new_value) {
@@ -206,19 +206,21 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getTeaser() {
-        return $this->text;
+        return $this->teaser;
     }
 
     public function setTeaser($new_value) {
         $this->text = $new_value;
+        $this->teaser = $new_value;
     }
 
     public function getContent() {
-        return $this->textlang;
+        return $this->content;
     }
 
     public function setContent($new_value) {
         $this->textlang = $new_value;
+        $this->content = $new_value;
     }
 
     public function getImageIds() {
@@ -241,11 +243,12 @@ class NewsEntry extends OlzEntity {
     }
 
     public function getExternalUrl() {
-        return $this->link;
+        return $this->external_url;
     }
 
     public function setExternalUrl($new_value) {
         $this->link = $new_value;
+        $this->external_url = $new_value;
     }
 
     public function getTermin() {

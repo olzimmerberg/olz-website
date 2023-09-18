@@ -145,7 +145,7 @@ class Termin extends OlzEntity {
     }
 
     public function getStartDate() {
-        return $this->datum;
+        return $this->start_date;
     }
 
     public function setStartDate($new_value) {
@@ -154,7 +154,7 @@ class Termin extends OlzEntity {
     }
 
     public function getStartTime() {
-        return $this->zeit;
+        return $this->start_time;
     }
 
     public function setStartTime($new_value) {
@@ -163,7 +163,7 @@ class Termin extends OlzEntity {
     }
 
     public function getEndDate() {
-        return $this->datum_end;
+        return $this->end_date;
     }
 
     public function setEndDate($new_value) {
@@ -172,7 +172,7 @@ class Termin extends OlzEntity {
     }
 
     public function getEndTime() {
-        return $this->zeit_end;
+        return $this->end_time;
     }
 
     public function setEndTime($new_value) {
@@ -189,7 +189,7 @@ class Termin extends OlzEntity {
     }
 
     public function getTitle() {
-        return $this->titel;
+        return $this->title;
     }
 
     public function setTitle($new_value) {

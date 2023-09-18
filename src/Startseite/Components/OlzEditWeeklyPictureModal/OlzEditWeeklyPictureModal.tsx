@@ -95,6 +95,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                     if (modalElem) {
                         bootstrap.Modal.getInstance(modalElem)?.hide();
                     }
+                    window.location.reload();
                 }, 1000);
                 return 'weekly-picture-Eintrag erfolgreich erstellt. Bitte warten...';
             };
@@ -149,7 +150,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                             <div className='error-message alert alert-danger' role='alert'></div>
                         </div>
                         <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
+                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' id='cancel-button'>Abbrechen</button>
                             <button type='submit' className='btn btn-primary' id='submit-button'>Speichern</button>
                         </div>
                     </form>

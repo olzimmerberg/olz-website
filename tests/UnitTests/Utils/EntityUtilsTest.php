@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Tests\Fake;

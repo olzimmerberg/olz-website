@@ -3,8 +3,8 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzEntityEndpoint;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

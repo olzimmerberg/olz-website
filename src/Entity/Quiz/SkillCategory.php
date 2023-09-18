@@ -3,7 +3,7 @@
 namespace Olz\Entity\Quiz;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\SkillCategoryRepository;
 
 #[ORM\Table(name: 'quiz_categories')]

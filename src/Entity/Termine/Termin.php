@@ -4,7 +4,7 @@ namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Anmelden\Registration;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
@@ -228,7 +228,7 @@ class Termin extends OlzEntity {
         return $this->location;
     }
 
-    public function setLocation(TerminLocation $new_location) {
+    public function setLocation(?TerminLocation $new_location) {
         $this->location = $new_location;
     }
 

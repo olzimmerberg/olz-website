@@ -344,8 +344,12 @@ class ProcessEmailCommand extends OlzCommand {
                 ->text($this->getReportMessage($smtp_code, $mail, $address))
             ;
             $this->mailer->send($email);
+        } catch (RfcComplianceException $exc) {
+            $message = $exc->getMessage();
+            $this->log()->notice("sendReportEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);
+            return true;
         } catch (\Throwable $th) {
-            $this->log()->error("Failed to send bounce email to {$from_address}: {$th->getMessage()}", [$th]);
+            $this->log()->error("Failed to send report email to {$from_address}: {$th->getMessage()}", [$th]);
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Olz\Api;
 
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 abstract class OlzCreateEntityEndpoint extends OlzEntityEndpoint {

@@ -3,7 +3,7 @@
 namespace Olz\Entity\News;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Role;
 use Olz\Entity\User;
 use Olz\Repository\News\NewsRepository;

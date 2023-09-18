@@ -80,13 +80,13 @@ class UploadUtils {
 
     public function getValidUploadId($upload_id) {
         if (!$this->isUploadId($upload_id)) {
-            $this->log()->warning("Upload ID {$upload_id} is invalid.");
+            $this->log()->warning("Upload ID \"{$upload_id}\" is invalid.");
             return null;
         }
         $data_path = $this->envUtils()->getDataPath();
         $upload_path = "{$data_path}temp/{$upload_id}";
         if (!is_file($upload_path)) {
-            $this->log()->warning("Upload file {$upload_path} does not exist.");
+            $this->log()->warning("Upload file \"{$upload_path}\" does not exist.");
             return null;
         }
         return $upload_id;
@@ -122,12 +122,12 @@ class UploadUtils {
         $data_path = $this->envUtils()->getDataPath();
         foreach ($upload_ids as $upload_id) {
             if (!$this->isUploadId($upload_id)) {
-                $this->log()->warning("Upload ID {$upload_id} is invalid.");
+                $this->log()->warning("Upload ID \"{$upload_id}\" is invalid.");
                 continue;
             }
             $upload_path = "{$data_path}temp/{$upload_id}";
             if (!is_file($upload_path)) {
-                $this->log()->warning("Upload file {$upload_path} does not exist.");
+                $this->log()->warning("Upload file \"{$upload_path}\" does not exist.");
                 continue;
             }
             $destination_path = "{$new_base_path}{$upload_id}";

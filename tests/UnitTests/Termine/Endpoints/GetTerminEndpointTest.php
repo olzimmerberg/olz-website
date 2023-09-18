@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Endpoints\GetTerminEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -35,6 +36,7 @@ class FakeGetTerminEndpointTerminRepository {
             $termin->setText("");
             $termin->setLink('');
             $termin->setTypes('');
+            $termin->setLocation(null);
             $termin->setCoordinateX(0);
             $termin->setCoordinateY(0);
             $termin->setDeadline(new \DateTime('0000-01-01 00:00:00'));
@@ -47,6 +49,12 @@ class FakeGetTerminEndpointTerminRepository {
         }
         // Maximal
         if ($where === ['id' => 1234]) {
+            $termin_location = new TerminLocation();
+            $termin_location->setId(1234);
+            $termin_location->setName('Fake location');
+            $termin_location->setDetails('Fake location details');
+            $termin_location->setLatitude(47.2790953);
+            $termin_location->setLongitude(8.5591936);
             $termin = new Termin();
             $termin->setId(1234);
             $termin->setStartsOn(new \DateTime('2020-03-13'));
@@ -57,6 +65,7 @@ class FakeGetTerminEndpointTerminRepository {
             $termin->setText("Fake content");
             $termin->setLink('<a href="test-anlass.ch">Home</a>');
             $termin->setTypes(' training weekends ');
+            $termin->setLocation($termin_location);
             $termin->setCoordinateX(684835);
             $termin->setCoordinateY(237021);
             $termin->setDeadline(new \DateTime('2020-03-13 18:00:00'));
@@ -138,6 +147,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'solvId' => null,
                 'go2olId' => null,
                 'types' => [],
+                'locationId' => null,
                 'coordinateX' => null,
                 'coordinateY' => null,
                 'imageIds' => [],
@@ -182,6 +192,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'solvId' => null,
                 'go2olId' => null,
                 'types' => [],
+                'locationId' => null,
                 'coordinateX' => 0,
                 'coordinateY' => 0,
                 'imageIds' => [],
@@ -232,6 +243,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'solvId' => 11012,
                 'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
+                'locationId' => 1234,
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
                 'imageIds' => ['img1.jpg', 'img2.png'],

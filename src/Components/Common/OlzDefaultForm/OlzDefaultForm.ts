@@ -230,7 +230,7 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         request = getDataForRequest(getDataForRequestFn, form);
     } catch (unk: unknown) {
         const err = getErrorOrThrow(unk);
-        let errorMessage = err.message ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
+        let errorMessage = (err.message ?? null) ? `Fehlerhafte Eingabe: ${err.message}` : 'Fehlerhafte Eingabe';
         if (err instanceof ValidationError) {
             const additionalErrors = showValidationErrors<T>(err, form);
             if (additionalErrors.length > 0) {
@@ -242,6 +242,8 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
         return Promise.reject(new Error('Die Anfrage konnte nicht gesendet werden.'));
     }
 
+    $(form).find('#submit-button').prop('disabled', true);
+    $(form).find('#cancel-button').prop('disabled', true);
     return olzApi.call(endpoint, request)
         .then((response: OlzApiResponses[T]) => {
             try {
@@ -250,6 +252,8 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
                 $(form).find('.success-message').text(successMessage);
                 $(form).find('.error-message').text('');
                 clearValidationErrors(form);
+                $(form).find('#submit-button').prop('disabled', false);
+                $(form).find('#cancel-button').prop('disabled', false);
             } catch (unk: unknown) {
                 const err = getErrorOrThrow(unk);
                 $(form).find('.success-message').text('');
@@ -270,6 +274,8 @@ export function olzDefaultFormSubmit<T extends OlzApiEndpoint>(
             }
             $(form).find('.success-message').text('');
             $(form).find('.error-message').text(errorMessage);
+            $(form).find('#submit-button').prop('disabled', false);
+            $(form).find('#cancel-button').prop('disabled', false);
             return Promise.reject(err);
         });
 }

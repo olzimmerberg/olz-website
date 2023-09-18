@@ -3,7 +3,7 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzEntityEndpoint;
-use Olz\Entity\OlzEntity;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Termine\TerminLocation;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;

@@ -9,7 +9,6 @@ use Olz\Entity\User;
 use Olz\Repository\News\NewsRepository;
 
 #[ORM\Table(name: 'aktuell')]
-#[ORM\Index(name: 'datum_index', columns: ['datum'])]
 #[ORM\Index(name: 'published_index', columns: ['published_date', 'published_time'])]
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
 class NewsEntry extends OlzEntity {
@@ -21,10 +20,6 @@ class NewsEntry extends OlzEntity {
     #[ORM\Column(type: 'integer', nullable: false)]
     private $termin;
 
-    // @deprecated Use `published_date`
-    #[ORM\Column(type: 'date', nullable: false)]
-    private $datum;
-
     #[ORM\Column(type: 'date', nullable: false)]
     private $published_date;
 
@@ -33,15 +28,6 @@ class NewsEntry extends OlzEntity {
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 1])]
     private $newsletter;
-    // @deprecated Use `title`
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $titel;
-    // @deprecated Use `teaser`
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $text;
-    // @deprecated Use `content`
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $textlang;
 
     #[ORM\Column(type: 'text', nullable: false)]
     private $title;
@@ -54,15 +40,6 @@ class NewsEntry extends OlzEntity {
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $image_ids;
-    // @deprecated Use `external_url`
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $link;
-    // @deprecated Use `author_name`
-    #[ORM\Column(type: 'string', nullable: true)]
-    private $autor;
-    // @deprecated Use `author_email`
-    #[ORM\Column(type: 'string', nullable: true)]
-    private $autor_email;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $external_url;
@@ -80,9 +57,6 @@ class NewsEntry extends OlzEntity {
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'author_role_id', referencedColumnName: 'id', nullable: true)]
     private $author_role;
-    // @deprecated Use format
-    #[ORM\Column(type: 'text', nullable: false)]
-    private $typ;
 
     #[ORM\Column(type: 'text', nullable: false)]
     private $format;
@@ -140,7 +114,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setPublishedDate($new_value) {
-        $this->datum = $new_value;
         $this->published_date = $new_value;
     }
 
@@ -149,7 +122,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setPublishedTime($new_value) {
-        $this->zeit = $new_value;
         $this->published_time = $new_value;
     }
 
@@ -158,7 +130,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setFormat($new_value) {
-        $this->typ = $new_value;
         $this->format = $new_value;
     }
 
@@ -167,7 +138,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setAuthorName($new_value) {
-        $this->autor = $new_value;
         $this->author_name = $new_value;
     }
 
@@ -176,7 +146,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setAuthorEmail($new_value) {
-        $this->autor_email = $new_value;
         $this->author_email = $new_value;
     }
 
@@ -201,7 +170,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setTitle($new_value) {
-        $this->titel = $new_value;
         $this->title = $new_value;
     }
 
@@ -210,7 +178,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setTeaser($new_value) {
-        $this->text = $new_value;
         $this->teaser = $new_value;
     }
 
@@ -219,7 +186,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setContent($new_value) {
-        $this->textlang = $new_value;
         $this->content = $new_value;
     }
 
@@ -247,7 +213,6 @@ class NewsEntry extends OlzEntity {
     }
 
     public function setExternalUrl($new_value) {
-        $this->link = $new_value;
         $this->external_url = $new_value;
     }
 

@@ -10,11 +10,12 @@ const percentCoverage = (percent) => ({
 const jestConfig = {
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
-        '^.+\\.[t|j]sx?$': 'babel-jest',
+        '^.+\\.jsx?$': 'babel-jest',
     },
     testEnvironment: 'jsdom',
     testRegex: '.*/.*\\.test\\.tsx?',
     testPathIgnorePatterns: ['node_modules/', 'lib/', 'vendor/'],
+    transformIgnorePatterns: ['node_modules/(?!ol)'],
     collectCoverage: true,
     maxConcurrency: 1,
     setupFiles: ['<rootDir>/jestEnv.js'],

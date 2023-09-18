@@ -11,6 +11,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationsList extends OlzComponent {
     public function getHtml($args = []): string {
+        $code_href = $this->envUtils()->getCodeHref();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $validated_get_params = $http_utils->validateGetParams([
@@ -21,6 +22,7 @@ class OlzTerminLocationsList extends OlzComponent {
         $out = '';
 
         $out .= OlzHeader::render([
+            'back_link' => "{$code_href}termine",
             'title' => 'Termin-Orte',
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
         ]);
@@ -35,12 +37,12 @@ class OlzTerminLocationsList extends OlzComponent {
             ];
         }, $termin_locations);
         $locations_json = json_encode($locations_data);
-        $out .= "<script>window.olzTerminLocationsList = {$locations_json};</script>";
 
-        $out .= <<<'ZZZZZZZZZZ'
+        $out .= <<<ZZZZZZZZZZ
         <div class='content-full'>
             <h1>Termin-Orte</h1>
-            <div id='map'></div>
+            <div id='olz-termin-locations-map'></div>
+            <script>olz.olzTerminLocationsMapRender({$locations_json});</script>
         </div>
         ZZZZZZZZZZ;
 

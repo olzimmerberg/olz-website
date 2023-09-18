@@ -14,32 +14,29 @@ import TextStyle from 'ol/style/Text';
 import {transform} from 'ol/proj';
 
 import 'ol/ol.css';
-import './OlzTerminLocationsList.scss';
 
-interface TerminListLocation {
-    name: string;
-    lat: number;
-    lng: number;
-}
-
-export function olzTerminLocationsMapRender(
-    olzTerminLocationsList: TerminListLocation[],
+export function olzLocationMapRender(
+    hash: string,
+    name: string,
+    lat: number,
+    lng: number,
 ): void {
     new Map({
-        target: 'olz-termin-locations-map',
+        target: `olz-location-map-render-${hash}`,
         layers: [
             new TileLayer({
                 source: new XYZ({
                     url: 'https://tile.osm.ch/switzerland/{z}/{x}/{y}.png',
-                    // url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 }),
             }),
             new VectorLayer({
                 source: new VectorSource({
-                    features: olzTerminLocationsList.map((location) => new Feature({
-                        geometry: new Point(transform([location.lng, location.lat], 'EPSG:4326', 'EPSG:3857')),
-                        label: location.name,
-                    })),
+                    features: [
+                        new Feature({
+                            geometry: new Point(transform([lng, lat], 'EPSG:4326', 'EPSG:3857')),
+                            label: name,
+                        }),
+                    ],
                 }),
                 style: (feature, scale) => new Style({
                     image: new CircleStyle({
@@ -65,8 +62,9 @@ export function olzTerminLocationsMapRender(
         ],
         view: new View({
             projection: 'EPSG:3857',
-            center: transform([8.57, 47.27], 'EPSG:4326', 'EPSG:3857'),
-            zoom: 11,
+            center: transform([lng, lat], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 13,
         }),
+        interactions: [],
     });
 }

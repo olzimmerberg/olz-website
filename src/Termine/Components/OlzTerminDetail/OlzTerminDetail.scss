@@ -7,12 +7,21 @@
         position: relative;
         height: 240px;
         
-        a[data-src] img,
-        .olz-location-map-img {
+        a[data-src] img {
             width: 100%;
             height: 240px;
             object-fit: cover;
         }
+
+        .olz-location-map-link {
+            pointer-events: none;
+    
+            .olz-location-map-render {
+                width: 100%;
+                height: 240px;
+                filter: blur(1px) grayscale(35%);
+            }
+        }    
     }
 
     .date-calendar-container {
@@ -29,6 +38,11 @@
     .olz-location-map-link {
         display: block;
         margin: 0 -10px;
+
+        .olz-location-map-render {
+            width: 100%;
+            height: 420px;
+        }
     }
 
     .olz-location-map-img {

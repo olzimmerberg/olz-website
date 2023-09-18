@@ -182,8 +182,6 @@ class OlzTerminDetail extends OlzComponent {
                 'latitude' => $lat,
                 'longitude' => $lng,
                 'zoom' => 13,
-                'width' => 840,
-                'height' => 240,
             ]);
         }
         // Date Calendar Icon
@@ -305,11 +303,10 @@ class OlzTerminDetail extends OlzComponent {
                 $out .= "<h3>Ort</h3>";
             }
             $out .= OlzLocationMap::render([
+                'name' => $location_name ?? '',
                 'latitude' => $lat,
                 'longitude' => $lng,
                 'zoom' => 13,
-                'width' => 720,
-                'height' => 420,
             ]);
         }
 

@@ -11,8 +11,7 @@ class OlzLocationMap extends OlzComponent {
         $latitude = $args['latitude'] ?? null;
         $longitude = $args['longitude'] ?? null;
         $zoom = $args['zoom'] ?? 13;
-        $width = $args['width'] ?? 400;
-        $height = $args['height'] ?? 300;
+        $name = $args['name'] ?? '';
 
         $lat = null;
         $lng = null;
@@ -29,9 +28,12 @@ class OlzLocationMap extends OlzComponent {
             throw new \Exception("Either xkoord/ykoord or latitude/longitude must be set in OlzLocationMap");
         }
 
-        $mapbox_access_token = 'pk.eyJ1IjoiYWxsZXN0dWV0c21lcndlaCIsImEiOiJHbG9tTzYwIn0.kaEGNBd9zMvc0XkzP70r8Q';
-        $mapbox_base_url = 'https://api.mapbox.com/styles/v1/allestuetsmerweh/ckgf9qdzm1pn319ohqghudvbz/static';
-        $mapbox_url = "{$mapbox_base_url}/pin-l+009000({$lng},{$lat})/{$lng},{$lat},{$zoom},0/{$width}x{$height}?access_token={$mapbox_access_token}";
+        $random = microtime(true).rand();
+        $hash = md5("{$lat}/{$lng}/{$random}");
+        $enc_hash = json_encode($hash);
+        $enc_name = json_encode($name);
+        $enc_lat = json_encode($lat);
+        $enc_lng = json_encode($lng);
 
         $lv95_e = $xkoord + 2000000;
         $lv95_n = $ykoord + 1000000;
@@ -42,10 +44,14 @@ class OlzLocationMap extends OlzComponent {
             target='_blank'
             class='olz-location-map-link'
         >
-            <img
-                src='{$mapbox_url}'
-                class='olz-location-map-img test-flaky'
-            />
+            <div
+                id='olz-location-map-render-{$hash}'
+                class='olz-location-map-render test-flaky'
+            >
+            </div>
+            <script>
+                olz.olzLocationMapRender({$enc_hash}, {$enc_name}, {$enc_lat}, {$enc_lng});
+            </script>
         </a>
         ZZZZZZZZZZ;
     }

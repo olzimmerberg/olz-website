@@ -2,9 +2,10 @@
     .olz-location-map-link {
         display: block;
         margin: 0 -10px;
-    }
 
-    .olz-location-map-img {
-        width: 100%;
+        .olz-location-map-render {
+            width: 100%;
+            height: 420px;
+        }
     }
 }

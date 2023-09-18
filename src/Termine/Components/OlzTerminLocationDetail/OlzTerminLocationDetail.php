@@ -69,6 +69,11 @@ class OlzTerminLocationDetail extends OlzComponent {
         <div class='content-right'>
             <div style='padding:4px 3px 10px 3px;'>
                 {$creation_tools}
+                <p>
+                    <a href='{$code_href}termine/orte' class='linkint'>
+                        Alle Termin-Orte
+                    </a>
+                </p>
             </div>
         </div>
         <div class='content-middle'>
@@ -113,11 +118,10 @@ class OlzTerminLocationDetail extends OlzComponent {
         $out .= "<h1>{$name}</h1>";
 
         $out .= OlzLocationMap::render([
+            'name' => $name,
             'latitude' => $latitude,
             'longitude' => $longitude,
             'zoom' => 13,
-            'width' => 720,
-            'height' => 420,
         ]);
 
         $details_html = $this->htmlUtils()->renderMarkdown($details);

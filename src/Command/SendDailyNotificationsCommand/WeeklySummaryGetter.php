@@ -54,7 +54,7 @@ class WeeklySummaryGetter {
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $aktuell->getDate(), $aktuell->getTime());
+                    $aktuell->getPublishedDate(), $aktuell->getPublishedTime());
                 $title = $aktuell->getTitle();
                 $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
@@ -72,7 +72,7 @@ class WeeklySummaryGetter {
             foreach ($blogs as $blog) {
                 $id = $blog->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $blog->getDate(), $blog->getTime());
+                    $blog->getPublishedDate(), $blog->getPublishedTime());
                 $title = $blog->getTitle();
                 $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
@@ -90,7 +90,7 @@ class WeeklySummaryGetter {
             foreach ($forums as $forum) {
                 $id = $forum->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $forum->getDate(), $forum->getTime());
+                    $forum->getPublishedDate(), $forum->getPublishedTime());
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
                     $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
@@ -110,7 +110,7 @@ class WeeklySummaryGetter {
             foreach ($galeries as $galerie) {
                 $id = $galerie->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $galerie->getDate(), $galerie->getTime());
+                    $galerie->getPublishedDate(), $galerie->getPublishedTime());
                 $title = $galerie->getTitle();
                 $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
@@ -126,8 +126,8 @@ class WeeklySummaryGetter {
             $termine = $termin_repo->matching($termine_criteria);
             foreach ($termine as $termin) {
                 $id = $termin->getId();
-                $starts_on = $termin->getStartsOn();
-                $ends_on = $termin->getEndsOn();
+                $starts_on = $termin->getStartDate();
+                $ends_on = $termin->getEndDate();
                 $pretty_date = ($ends_on && $ends_on > $starts_on)
                     ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
                     : $starts_on->format('d.m.');

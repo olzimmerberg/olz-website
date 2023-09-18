@@ -116,8 +116,8 @@ trait NewsEndpointTrait {
         $entity->setAuthorRole($author_role);
         $entity->setAuthorName($input_data['authorName']);
         $entity->setAuthorEmail($input_data['authorEmail']);
-        $entity->setDate($now);
-        $entity->setTime($now);
+        $entity->setPublishedDate($now);
+        $entity->setPublishedTime($now);
         $entity->setTitle($input_data['title']);
         $entity->setTeaser($input_data['teaser']);
         $entity->setContent($input_data['content']);

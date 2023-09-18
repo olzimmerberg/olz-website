@@ -18,8 +18,8 @@ class FakeUpdateNewsEndpointNewsRepository {
             $entry = new NewsEntry();
             $entry->setId(123);
             $datetime = new \DateTime('2020-03-13 19:30:00');
-            $entry->setDate($datetime);
-            $entry->setTime($datetime);
+            $entry->setPublishedDate($datetime);
+            $entry->setPublishedTime($datetime);
             return $entry;
         }
         if ($where === ['id' => 9999]) {
@@ -227,8 +227,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getTime()->format('H:i:s'));
+        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());

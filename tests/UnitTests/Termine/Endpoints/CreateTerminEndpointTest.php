@@ -114,9 +114,9 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin->getId());
-        $this->assertSame('2020-03-13', $termin->getStartsOn()->format('Y-m-d'));
+        $this->assertSame('2020-03-13', $termin->getStartDate()->format('Y-m-d'));
         $this->assertSame(null, $termin->getStartTime());
-        $this->assertSame(null, $termin->getEndsOn());
+        $this->assertSame(null, $termin->getEndDate());
         $this->assertSame(null, $termin->getEndTime());
         $this->assertSame('Test event', $termin->getTitle());
         $this->assertSame('some info', $termin->getText());

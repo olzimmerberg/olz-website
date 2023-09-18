@@ -75,19 +75,19 @@ class Blog {
         $this->id = $new_id;
     }
 
-    public function getDate() {
+    public function getPublishedDate() {
         return $this->datum;
     }
 
-    public function setDate($new_datum) {
+    public function setPublishedDate($new_datum) {
         $this->datum = $new_datum;
     }
 
-    public function getTime() {
+    public function getPublishedTime() {
         return $this->zeit;
     }
 
-    public function setTime($new_zeit) {
+    public function setPublishedTime($new_zeit) {
         $this->zeit = $new_zeit;
     }
 

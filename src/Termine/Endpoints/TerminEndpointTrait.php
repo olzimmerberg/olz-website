@@ -62,9 +62,9 @@ trait TerminEndpointTrait {
         }
 
         return [
-            'startDate' => $entity->getStartsOn()->format('Y-m-d'),
+            'startDate' => $entity->getStartDate()->format('Y-m-d'),
             'startTime' => $entity->getStartTime()?->format('H:i:s'),
-            'endDate' => $entity->getEndsOn()?->format('Y-m-d'),
+            'endDate' => $entity->getEndDate()?->format('Y-m-d'),
             'endTime' => $entity->getEndTime()?->format('H:i:s'),
             'title' => $entity->getTitle(),
             'text' => $entity->getText() ?? '',
@@ -88,9 +88,9 @@ trait TerminEndpointTrait {
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
-        $entity->setStartsOn(new \DateTime($input_data['startDate']));
+        $entity->setStartDate(new \DateTime($input_data['startDate']));
         $entity->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
-        $entity->setEndsOn($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
+        $entity->setEndDate($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);
         $entity->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);

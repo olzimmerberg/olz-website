@@ -35,25 +35,25 @@ class FakeMonthlyPreviewGetterTerminRepository {
         if (preg_match('/deadline/', var_export($criteria, true))) {
             $termin = new Termin();
             $termin->setId(3);
-            $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+            $termin->setStartDate(new \DateTime('2020-04-13 19:30:00'));
             $termin->setDeadline(new \DateTime('2020-04-14 23:59:59'));
             $termin->setTitle('Test Termin mit OLZ-Meldeschluss');
             $range_termin = new Termin();
             $range_termin->setId(4);
-            $range_termin->setStartsOn(new \DateTime('2020-04-20'));
-            $range_termin->setEndsOn(new \DateTime('2020-04-30'));
+            $range_termin->setStartDate(new \DateTime('2020-04-20'));
+            $range_termin->setEndDate(new \DateTime('2020-04-30'));
             $range_termin->setDeadline(new \DateTime('2020-04-15 23:59:59'));
             $range_termin->setTitle('End of Month mit OLZ-Meldeschluss');
             return [$termin, $range_termin];
         }
         $termin = new Termin();
         $termin->setId(1);
-        $termin->setStartsOn(new \DateTime('2020-04-13 19:30:00'));
+        $termin->setStartDate(new \DateTime('2020-04-13 19:30:00'));
         $termin->setTitle('Test Termin');
         $range_termin = new Termin();
         $range_termin->setId(2);
-        $range_termin->setStartsOn(new \DateTime('2020-04-20'));
-        $range_termin->setEndsOn(new \DateTime('2020-04-30'));
+        $range_termin->setStartDate(new \DateTime('2020-04-20'));
+        $range_termin->setEndDate(new \DateTime('2020-04-30'));
         $range_termin->setTitle('End of Month');
         return [$termin, $range_termin];
     }
@@ -62,7 +62,7 @@ class FakeMonthlyPreviewGetterTerminRepository {
         if ($where == ['solv_uid' => 123, 'on_off' => 1]) {
             $termin = new Termin();
             $termin->setId(3);
-            $termin->setStartsOn(new \DateTime('2020-04-18 19:30:00'));
+            $termin->setStartDate(new \DateTime('2020-04-18 19:30:00'));
             $termin->setTitle('Termin mit Meldeschluss');
             return $termin;
         }

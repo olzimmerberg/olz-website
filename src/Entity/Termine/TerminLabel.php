@@ -5,12 +5,12 @@ namespace Olz\Entity\Termine;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
-use Olz\Repository\Termine\TerminLocationRepository;
+use Olz\Repository\Termine\TerminLabelRepository;
 
-#[ORM\Table(name: 'termin_locations')]
+#[ORM\Table(name: 'termin_labels')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
-#[ORM\Entity(repositoryClass: TerminLocationRepository::class)]
-class TerminLocation extends OlzEntity implements SearchableInterface {
+#[ORM\Entity(repositoryClass: TerminLabelRepository::class)]
+class TerminLabel extends OlzEntity implements SearchableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -22,14 +22,14 @@ class TerminLocation extends OlzEntity implements SearchableInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private $details;
 
-    #[ORM\Column(type: 'float', nullable: false)]
-    private $latitude;
-
-    #[ORM\Column(type: 'float', nullable: false)]
-    private $longitude;
-
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_ids;
+    private $icon;
+
+    #[ORM\ManyToMany(targetEntity: Termin::class, mappedBy: 'labels')]
+    private $termine;
+
+    #[ORM\ManyToMany(targetEntity: TerminTemplate::class, mappedBy: 'labels')]
+    private $termin_templates;
 
     public function getId() {
         return $this->id;
@@ -55,31 +55,12 @@ class TerminLocation extends OlzEntity implements SearchableInterface {
         $this->details = $new_value;
     }
 
-    public function getLatitude() {
-        return $this->latitude;
+    public function getIcon() {
+        return $this->icon;
     }
 
-    public function setLatitude($new_value) {
-        $this->latitude = $new_value;
-    }
-
-    public function getLongitude() {
-        return $this->longitude;
-    }
-
-    public function setLongitude($new_value) {
-        $this->longitude = $new_value;
-    }
-
-    public function getImageIds() {
-        if ($this->image_ids == null) {
-            return null;
-        }
-        return json_decode($this->image_ids, true);
-    }
-
-    public function setImageIds($new_value) {
-        $this->image_ids = json_encode($new_value);
+    public function setIcon($new_value) {
+        $this->icon = $new_value;
     }
 
     public static function getIdFieldNameForSearch(): string {

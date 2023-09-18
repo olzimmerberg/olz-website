@@ -132,8 +132,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('anonymous@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame(null, $news_entry->getAuthorUser());
         $this->assertSame(null, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getTime()->format('H:i:s'));
+        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
@@ -262,8 +262,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
         $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getTime()->format('H:i:s'));
+        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());

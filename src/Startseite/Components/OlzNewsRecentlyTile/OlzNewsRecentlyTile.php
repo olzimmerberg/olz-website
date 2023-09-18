@@ -57,7 +57,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $query->setMaxResults(7);
         foreach ($query->getResult() as $news_entry) {
             $id = $news_entry->getId();
-            $date = $news_entry->getDate()->format('d.m.');
+            $date = $news_entry->getPublishedDate()->format('d.m.');
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $icon_basename = self::$iconBasenameByFormat[$format];

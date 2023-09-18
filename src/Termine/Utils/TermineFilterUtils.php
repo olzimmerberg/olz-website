@@ -142,11 +142,11 @@ class TermineFilterUtils {
         }
         $today = $this->dateUtils()->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
-            return "({$tbl}.datum >= '{$today}') OR ({$tbl}.datum_end >= '{$today}')";
+            return "({$tbl}.start_date >= '{$today}') OR ({$tbl}.end_date >= '{$today}')";
         }
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
-            return "YEAR({$tbl}.datum) = '{$sane_year}'";
+            return "YEAR({$tbl}.start_date) = '{$sane_year}'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -263,6 +263,6 @@ class TermineFilterUtils {
     public function getIsNotArchivedCriteria() {
         $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
-        return Criteria::expr()->gte('datum', new \DateTime($beginning_of_years_ago));
+        return Criteria::expr()->gte('start_date', new \DateTime($beginning_of_years_ago));
     }
 }

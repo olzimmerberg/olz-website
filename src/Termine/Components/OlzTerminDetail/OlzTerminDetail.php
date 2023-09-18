@@ -70,7 +70,7 @@ class OlzTerminDetail extends OlzComponent {
 
         $out = '';
 
-        $sql = "SELECT * FROM termine WHERE (id = '{$id}') AND (on_off = '1') ORDER BY datum DESC";
+        $sql = "SELECT * FROM termine WHERE (id = '{$id}') AND (on_off = '1') ORDER BY start_date DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
 
@@ -78,7 +78,7 @@ class OlzTerminDetail extends OlzComponent {
             $http_utils->dieWithHttpError(404);
         }
 
-        $title = $row['titel'] ?? '';
+        $title = $row['title'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}termine?filter={$back_filter}",
@@ -96,14 +96,13 @@ class OlzTerminDetail extends OlzComponent {
         <div class='content-middle'>
         ZZZZZZZZZZ;
 
-        $datum = $row['datum'] ?? '';
-        $datum_end = $row['datum_end'] ?? '';
-        $zeit = $row['zeit'] ?? '';
-        $zeit_end = $row['zeit_end'] ?? '';
-        $titel = $row['titel'] ?? '';
+        $start_date = $row['start_date'] ?? '';
+        $end_date = $row['end_date'] ?? '';
+        $start_time = $row['start_time'] ?? '';
+        $end_time = $row['end_time'] ?? '';
+        $title = $row['title'] ?? '';
         $text = $row['text'] ?? '';
         $link = $row['link'] ?? '';
-        $event_link = $row['solv_event_link'] ?? '';
         $typ = $row['typ'] ?? '';
         $types = explode(' ', $typ);
         $newsletter = $row['newsletter'] ?? '';
@@ -159,9 +158,9 @@ class OlzTerminDetail extends OlzComponent {
         $image_ids = json_decode($row['image_ids'] ?? 'null', true);
 
         $out .= OlzEventData::render([
-            'name' => $titel,
-            'start_date' => $date_utils->olzDate('jjjj-mm-tt', $datum),
-            'end_date' => $datum_end ? $date_utils->olzDate('jjjj-mm-tt', $datum_end) : null,
+            'name' => $title,
+            'start_date' => $date_utils->olzDate('jjjj-mm-tt', $start_date),
+            'end_date' => $end_date ? $date_utils->olzDate('jjjj-mm-tt', $end_date) : null,
             'location' => $has_location ? [
                 'lat' => $lat,
                 'lng' => $lng,
@@ -186,7 +185,7 @@ class OlzTerminDetail extends OlzComponent {
         }
         // Date Calendar Icon
         $out .= "<div class='date-calendar-container'>";
-        $out .= OlzDateCalendar::render(['date' => $datum]);
+        $out .= OlzDateCalendar::render(['date' => $start_date]);
         $out .= "</div>";
 
         $out .= "</div>";
@@ -220,36 +219,36 @@ class OlzTerminDetail extends OlzComponent {
         }
 
         // Date & Title
-        if ($datum_end == "0000-00-00" || !$datum_end) {
-            $datum_end = $datum;
+        if ($end_date == "0000-00-00" || !$end_date) {
+            $end_date = $start_date;
         }
-        if (($datum_end == $datum) or ($datum_end == "0000-00-00") or !$datum_end) {
-            $datum_tmp = $date_utils->olzDate("t. MM ", $datum).$date_utils->olzDate(" (W)", $datum);
+        if (($end_date == $start_date) or ($end_date == "0000-00-00") or !$end_date) {
+            $start_date_tmp = $date_utils->olzDate("t. MM ", $start_date).$date_utils->olzDate(" (W)", $start_date);
             // Tagesanlass
-            if ($zeit != "00:00:00") {
-                $datum_tmp .= " ".date("H:i", strtotime($zeit));
-                if ($zeit_end != "00:00:00") {
-                    $datum_tmp .= " &ndash; ".date("H:i", strtotime($zeit_end));
+            if ($start_time != "00:00:00") {
+                $start_date_tmp .= " ".date("H:i", strtotime($start_time));
+                if ($end_time != "00:00:00") {
+                    $start_date_tmp .= " &ndash; ".date("H:i", strtotime($end_time));
                 }
             }
-        } elseif ($date_utils->olzDate("m", $datum) == $date_utils->olzDate("m", $datum_end)) {
+        } elseif ($date_utils->olzDate("m", $start_date) == $date_utils->olzDate("m", $end_date)) {
             // Mehrtägig innerhalb Monat
-            $datum_tmp = $date_utils->olzDate("t.-", $datum).$date_utils->olzDate("t. ", $datum_end).$date_utils->olzDate("MM", $datum).$date_utils->olzDate(" (W-", $datum).$date_utils->olzDate("W)", $datum_end);
+            $start_date_tmp = $date_utils->olzDate("t.-", $start_date).$date_utils->olzDate("t. ", $end_date).$date_utils->olzDate("MM", $start_date).$date_utils->olzDate(" (W-", $start_date).$date_utils->olzDate("W)", $end_date);
         } else {
             // Mehrtägig monatsübergreifend
-            $datum_tmp = $date_utils->olzDate("t.m.-", $datum).$date_utils->olzDate("t.m. ", $datum_end).$date_utils->olzDate("jjjj", $datum).$date_utils->olzDate(" (W-", $datum).$date_utils->olzDate("W)", $datum_end);
+            $start_date_tmp = $date_utils->olzDate("t.m.-", $start_date).$date_utils->olzDate("t.m. ", $end_date).$date_utils->olzDate("jjjj", $start_date).$date_utils->olzDate(" (W-", $start_date).$date_utils->olzDate("W)", $end_date);
         }
         if ($row_solv) {
             // SOLV-Übersicht-Link zeigen
-            $datum_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
+            $start_date_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
         $type_imgs = implode('', array_map(function ($type) use ($code_href) {
             $icon_basename = self::$iconBasenameByType[$type] ?? '';
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             return "<img src='{$icon}' alt='' class='type-icon'>";
         }, $types));
-        $out .= "<h2>{$datum_tmp}</h2>";
-        $out .= "<h1>{$titel} {$type_imgs}</h1>";
+        $out .= "<h2>{$start_date_tmp}</h2>";
+        $out .= "<h1>{$title} {$type_imgs}</h1>";
 
         // Text
         $text = \olz_br(olz_mask_email($text, "", ""));
@@ -263,22 +262,18 @@ class OlzTerminDetail extends OlzComponent {
 
         // Link
         $link = $file_utils->replaceFileTags($link, 'termine', $id);
-        if ($go2ol > "" and $datum >= $today) {
+        if ($go2ol > "" and $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 1 and $datum >= $today) {
+        } elseif ($row_solv && $row_solv['entryportal'] == 1 and $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 2 and $datum >= $today) {
+        } elseif ($row_solv && $row_solv['entryportal'] == 2 and $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
         }
-        if (strpos($link, 'Ausschreibung') == 0 and ($row['solv_event_link'] ?? '') > "") {
-            $class = strpos($row['solv_event_link'], ".pdf") > 0 ? 'linkpdf' : 'linkext';
-            $link .= "<div class='{$class}'><a href='".$row['solv_event_link']."' target='_blank'>Ausschreibung</a></div>";
-        }
-        if ($solv_uid > 0 and $datum <= $today and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
+        if ($solv_uid > 0 and $start_date <= $today and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
             // Ranglisten-Link zeigen
             $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
         }
-        if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $datum <= $today) {
+        if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $start_date <= $today) {
             // SOLV-Ausschreibungs-Link zeigen
             $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
             $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";

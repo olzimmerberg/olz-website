@@ -39,7 +39,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'
-            SELECT t.id, t.datum as date, t.titel as title, t.last_modified_at
+            SELECT t.id, t.start_date as date, t.title as title, t.last_modified_at
             FROM termine t
             WHERE t.on_off = '1' AND t.newsletter = '1'
             ORDER BY t.last_modified_at DESC

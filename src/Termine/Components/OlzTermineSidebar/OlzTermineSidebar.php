@@ -19,23 +19,23 @@ class OlzTermineSidebar extends OlzComponent {
         // NÄCHSTES TRAINIG
 
         // Tabelle auslesen
-        $sql = "select * from termine WHERE ((datum_end >= '{$today}') OR (datum_end = '0000-00-00') OR (datum_end IS NULL)) AND (datum >= '{$today}') AND (typ LIKE '%training%') AND (on_off = '1') ORDER BY datum ASC";
+        $sql = "SELECT * FROM termine WHERE ((end_date >= '{$today}') OR (end_date = '0000-00-00') OR (end_date IS NULL)) AND (start_date >= '{$today}') AND (typ LIKE '%training%') AND (on_off = '1') ORDER BY start_date ASC";
         // $out .= $sql;
         $result = $db->query($sql);
 
         $row = mysqli_fetch_array($result);
         if ($row) {
-            $datum = strtotime($row['datum']);
-            $titel = $row['titel'];
+            $start_date = strtotime($row['start_date']);
+            $title = $row['title'];
             $text = $row['text'];
             $id_training = $row['id'];
 
-            $datum = $this->dateUtils()->olzDate("t. MM", $datum);
-            if ($titel == "") {
-                $titel = substr(str_replace("<br>", " ", $text), 0, $textlaenge);
+            $start_date = $this->dateUtils()->olzDate("t. MM", $start_date);
+            if ($title == "") {
+                $title = substr(str_replace("<br>", " ", $text), 0, 100);
             }
 
-            $out .= "<p><b>Nächstes Training: </b>{$datum}<br>{$titel}, {$text}</p>";
+            $out .= "<p><b>Nächstes Training: </b>{$start_date}<br>{$title}, {$text}</p>";
         }
         $out .= OlzEditableText::render(['olz_text_id' => 1]);
         $out .= "<h2>Downloads und Links</h2>";

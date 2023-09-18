@@ -52,7 +52,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
             SELECT n
             FROM Olz:News\NewsEntry n
             WHERE n.on_off = '1'
-            ORDER BY n.datum DESC, n.zeit DESC
+            ORDER BY n.published_date DESC, n.published_time DESC
         ZZZZZZZZZZ);
         $query->setMaxResults(7);
         foreach ($query->getResult() as $news_entry) {

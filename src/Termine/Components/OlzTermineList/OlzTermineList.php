@@ -85,12 +85,7 @@ class OlzTermineList extends OlzComponent {
         //  VORSCHAU - LISTE
         $inner_date_filter = $termine_utils->getSqlDateRangeFilter($current_filter, 't');
         $inner_sql_where = <<<ZZZZZZZZZZ
-        (
-            (t.datum_off >= '{$date_utils->getIsoToday()}')
-            OR (t.datum_off='0000-00-00')
-            OR (t.datum_off IS NULL)
-        )
-        AND (t.on_off = '1')
+        (t.on_off = '1')
         AND ({$inner_date_filter})
         ZZZZZZZZZZ;
         $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
@@ -102,14 +97,13 @@ class OlzTermineList extends OlzComponent {
             SELECT
                 'termin' as item_type,
                 t.owner_user_id as owner_user_id,
-                t.datum as datum,
-                t.datum_end as datum_end,
-                t.zeit as zeit,
-                t.zeit_end as zeit_end,
-                t.titel as titel,
+                t.start_date as start_date,
+                t.start_time as start_time,
+                t.end_date as end_date,
+                t.end_time as end_time,
+                t.title as title,
                 t.text as text,
                 t.link as link,
-                t.solv_event_link as solv_event_link,
                 t.id as id,
                 t.typ as typ,
                 t.on_off as on_off,
@@ -127,14 +121,13 @@ class OlzTermineList extends OlzComponent {
             SELECT
                 'solv_deadline' as item_type,
                 t.owner_user_id as owner_user_id,
-                se.deadline as datum,
-                NULL as datum_end,
-                '00:00:00' as zeit,
-                NULL as zeit_end,
-                CONCAT('Meldeschluss für ', t.titel) as titel,
+                se.deadline as start_date,
+                '00:00:00' as start_time,
+                NULL as end_date,
+                NULL as end_time,
+                CONCAT('Meldeschluss für ', t.title) as title,
                 '' as text,
                 '' as link,
-                '' as solv_event_link,
                 t.id as id,
                 'meldeschluss' as typ,
                 t.on_off as on_off,
@@ -152,14 +145,13 @@ class OlzTermineList extends OlzComponent {
             SELECT
                 'olz_deadline' as item_type,
                 t.owner_user_id as owner_user_id,
-                DATE(t.deadline) as datum,
-                NULL as datum_end,
-                TIME(t.deadline) as zeit,
-                NULL as zeit_end,
-                CONCAT('Meldeschluss für ', t.titel) as titel,
+                DATE(t.deadline) as start_date,
+                TIME(t.deadline) as start_time,
+                NULL as end_date,
+                NULL as end_time,
+                CONCAT('Meldeschluss für ', t.title) as title,
                 '' as text,
                 '' as link,
-                '' as solv_event_link,
                 t.id as id,
                 'meldeschluss' as typ,
                 t.on_off as on_off,
@@ -175,14 +167,14 @@ class OlzTermineList extends OlzComponent {
             WHERE (t.deadline IS NOT NULL) AND ({$inner_sql_where})
         )) AS c
         WHERE ({$outer_sql_where})
-        ORDER BY c.datum ASC
+        ORDER BY c.start_date ASC
         ZZZZZZZZZZ;
 
         $result = $db->query($sql);
 
         $last_month = null;
         while ($row = $result->fetch_assoc()) {
-            $this_month = substr($row['datum'], 0, 7);
+            $this_month = substr($row['start_date'], 0, 7);
             if ($this_month !== $last_month) {
                 $pretty_month = $this->dateUtils()->olzDate("MM jjjj", "{$this_month}-01");
                 $out .= "<h3 class='tablebar'>{$pretty_month}</h3>";
@@ -193,11 +185,11 @@ class OlzTermineList extends OlzComponent {
                 'item_type' => $row['item_type'],
                 'id' => $row['id'],
                 'owner_user_id' => $row['owner_user_id'],
-                'start_date' => $row['datum'],
-                'start_time' => $row['zeit'],
-                'end_date' => $row['datum_end'],
-                'end_time' => $row['zeit_end'],
-                'title' => $row['titel'],
+                'start_date' => $row['start_date'],
+                'start_time' => $row['start_time'],
+                'end_date' => $row['end_date'],
+                'end_time' => $row['end_time'],
+                'title' => $row['title'],
                 'text' => $row['text'],
                 'link' => $row['link'],
                 'solv_uid' => $row['solv_uid'],

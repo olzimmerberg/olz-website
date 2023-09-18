@@ -72,7 +72,7 @@ class OlzNewsDetail extends OlzComponent {
 
         $out = '';
 
-        $sql = "SELECT * FROM aktuell WHERE (id = '{$id}') AND (on_off = '1') ORDER BY datum DESC";
+        $sql = "SELECT * FROM aktuell WHERE (id = '{$id}') AND (on_off = '1') ORDER BY published_date DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
 
@@ -80,7 +80,7 @@ class OlzNewsDetail extends OlzComponent {
             $http_utils->dieWithHttpError(404);
         }
 
-        $title = $row['titel'] ?? '';
+        $title = $row['title'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",
@@ -93,13 +93,13 @@ class OlzNewsDetail extends OlzComponent {
             ],
         ]);
 
-        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $row['datum']);
+        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $row['published_date']);
         $author_user = $row['author_user_id'] ?
             $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
         $author_role = $row['author_role_id'] ?
             $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
-        $author_name = $row['autor'];
-        $author_email = $row['autor_email'];
+        $author_name = $row['author_name'];
+        $author_email = $row['author_email'];
         $pretty_author = OlzAuthorBadge::render([
             'user' => $author_user,
             'role' => $author_role,
@@ -119,16 +119,15 @@ class OlzNewsDetail extends OlzComponent {
 
         $db->query("UPDATE `aktuell` SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $format = $row['typ'];
-        $titel = $row['titel'];
-        $text = $row['text'];
-        $textlang = \olz_br($row['textlang']);
-        $autor = ($row['autor'] > '') ? $row['autor'] : "..";
-        $datum = $row['datum'];
+        $format = $row['format'];
+        $title = $row['title'];
+        $teaser = $row['teaser'];
+        $content = \olz_br($row['content']);
+        $published_date = $row['published_date'];
 
         $image_ids = json_decode($row['image_ids'] ?? 'null', true);
 
-        $datum = $this->dateUtils()->olzDate("tt.mm.jj", $datum);
+        $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 
         $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
         $has_all_permissions = $this->authUtils()->hasPermission('all');
@@ -161,12 +160,12 @@ class OlzNewsDetail extends OlzComponent {
         }
 
         // Bildercode einfügen
-        preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text, $matches);
+        preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $teaser, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
-            $text = str_replace($matches[0][$i], '', $text);
+            $teaser = str_replace($matches[0][$i], '', $teaser);
         }
-        $textlang = $image_utils->replaceImageTags(
-            $textlang,
+        $content = $image_utils->replaceImageTags(
+            $content,
             $id,
             $image_ids,
             "gallery[myset]",
@@ -174,21 +173,21 @@ class OlzNewsDetail extends OlzComponent {
         );
 
         // Dateicode einfügen
-        $text = $file_utils->replaceFileTags($text, 'aktuell', $id);
-        $textlang = $file_utils->replaceFileTags($textlang, 'aktuell', $id);
+        $teaser = $file_utils->replaceFileTags($teaser, 'aktuell', $id);
+        $content = $file_utils->replaceFileTags($content, 'aktuell', $id);
 
         // Markdown
-        $text = $html_utils->renderMarkdown($text, [
+        $teaser = $html_utils->renderMarkdown($teaser, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
-        $textlang = $html_utils->renderMarkdown($textlang, [
+        $content = $html_utils->renderMarkdown($content, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
 
-        $out .= "<h1>{$edit_admin}{$titel}</h1>";
+        $out .= "<h1>{$edit_admin}{$title}</h1>";
 
         if ($format === 'aktuell') {
-            $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
+            $out .= "<div class='lightgallery'><p><b>{$teaser}</b><p>{$content}</p></div>\n";
         } elseif ($format === 'kaderblog') {
             $gallery = '';
             $num_images = count($image_ids);
@@ -202,7 +201,7 @@ class OlzNewsDetail extends OlzComponent {
                 }
                 $gallery .= "</div>";
             }
-            $out .= "<p>{$textlang}</p>{$gallery}\n";
+            $out .= "<p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'forum') {
             $gallery = '';
             $num_images = count($image_ids);
@@ -216,7 +215,7 @@ class OlzNewsDetail extends OlzComponent {
                 }
                 $gallery .= "</div>";
             }
-            $out .= "<p><b>{$text}</b><p>{$textlang}</p>{$gallery}\n";
+            $out .= "<p><b>{$teaser}</b><p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'galerie') {
             $out .= "<div class='lightgallery gallery-container'>";
             $size = count($image_ids);
@@ -227,7 +226,7 @@ class OlzNewsDetail extends OlzComponent {
             }
             $out .= "</div>\n";
         } elseif ($format === 'video') {
-            $youtube_url = $row['textlang'];
+            $youtube_url = $row['content'];
             $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $youtube_url, $matches0);
             $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $youtube_url, $matches1);
             $youtube_match = null;
@@ -238,7 +237,7 @@ class OlzNewsDetail extends OlzComponent {
                 $youtube_match = $matches1[2];
             }
 
-            $content_to_show = $youtube_match ? "<a href='{$textlang}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $textlang;
+            $content_to_show = $youtube_match ? "<a href='{$content}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $content;
             $out .= "<div class='video-container'>";
             $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
             if ($youtube_match != null) {
@@ -250,7 +249,7 @@ class OlzNewsDetail extends OlzComponent {
             $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
             $out .= "</div>";
         } else {
-            $out .= "<div class='lightgallery'><p><b>{$text}</b><p>{$textlang}</p></div>\n";
+            $out .= "<div class='lightgallery'><p><b>{$teaser}</b><p>{$content}</p></div>\n";
         }
         $out .= "</div>";
 

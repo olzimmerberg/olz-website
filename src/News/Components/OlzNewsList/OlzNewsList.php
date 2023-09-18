@@ -120,23 +120,23 @@ class OlzNewsList extends OlzComponent {
             id,
             owner_user_id,
             owner_role_id,
-            datum,
-            zeit,
-            typ,
+            published_date,
+            published_time,
+            format,
             author_user_id,
             author_role_id,
-            autor,
-            autor_email,
-            titel,
-            text,
-            textlang,
+            author_name,
+            author_email,
+            title,
+            teaser,
+            content,
             image_ids
         FROM aktuell n
         WHERE
             {$filter_where}
             AND n.on_off='1'
-            AND n.typ NOT LIKE 'box%'
-        ORDER BY datum DESC, zeit DESC
+            AND n.format NOT LIKE 'box%'
+        ORDER BY published_date DESC, published_time DESC
         ZZZZZZZZZZ;
         $res = $db->query($sql);
 
@@ -165,15 +165,15 @@ class OlzNewsList extends OlzComponent {
                 $news_entry = new NewsEntry();
                 $news_entry->setOwnerUser($owner_user);
                 $news_entry->setOwnerRole($owner_role);
-                $news_entry->setPublishedDate($row['datum']);
-                $news_entry->setFormat($row['typ']);
+                $news_entry->setPublishedDate($row['published_date']);
+                $news_entry->setFormat($row['format']);
                 $news_entry->setAuthorUser($author_user);
                 $news_entry->setAuthorRole($author_role);
-                $news_entry->setAuthorName($row['autor']);
-                $news_entry->setAuthorEmail($row['autor_email']);
-                $news_entry->setTitle($row['titel']);
-                $news_entry->setTeaser($row['text']);
-                $news_entry->setContent($row['textlang']);
+                $news_entry->setAuthorName($row['author_name']);
+                $news_entry->setAuthorEmail($row['author_email']);
+                $news_entry->setTitle($row['title']);
+                $news_entry->setTeaser($row['teaser']);
+                $news_entry->setContent($row['content']);
                 $news_entry->setId($row['id']);
                 $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 

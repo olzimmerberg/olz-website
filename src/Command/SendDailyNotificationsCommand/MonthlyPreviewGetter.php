@@ -60,11 +60,11 @@ class MonthlyPreviewGetter {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->gt('datum', $today),
-                Criteria::expr()->lt('datum', $end_of_timespan),
+                Criteria::expr()->gt('start_date', $today),
+                Criteria::expr()->lt('start_date', $end_of_timespan),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['datum' => Criteria::ASC])
+            ->orderBy(['start_date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -134,7 +134,7 @@ class MonthlyPreviewGetter {
                     Criteria::expr()->eq('on_off', 1),
                 )
             )
-            ->orderBy(['datum' => Criteria::ASC])
+            ->orderBy(['start_date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

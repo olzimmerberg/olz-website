@@ -147,7 +147,7 @@ class NewsFilterUtils {
         $today = $this->dateUtils()->getIsoToday();
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
-            return "YEAR(n.datum) = '{$sane_year}'";
+            return "YEAR(n.published_date) = '{$sane_year}'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -160,24 +160,19 @@ class NewsFilterUtils {
             return "'1' = '1'";
         }
         if ($filter['format'] === 'aktuell') {
-            // TODO: typ -> format
-            return "n.typ LIKE '%aktuell%'";
+            return "n.format LIKE '%aktuell%'";
         }
         if ($filter['format'] === 'kaderblog') {
-            // TODO: typ -> format
-            return "n.typ LIKE '%kaderblog%'";
+            return "n.format LIKE '%kaderblog%'";
         }
         if ($filter['format'] === 'forum') {
-            // TODO: typ -> format
-            return "n.typ LIKE '%forum%'";
+            return "n.format LIKE '%forum%'";
         }
         if ($filter['format'] === 'galerie') {
-            // TODO: typ -> format
-            return "n.typ LIKE '%galerie%'";
+            return "n.format LIKE '%galerie%'";
         }
         if ($filter['format'] === 'video') {
-            // TODO: typ -> format
-            return "n.typ LIKE '%video%'";
+            return "n.format LIKE '%video%'";
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -258,6 +253,6 @@ class NewsFilterUtils {
     public function getIsNotArchivedCriteria() {
         $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
-        return Criteria::expr()->gte('datum', new \DateTime($beginning_of_years_ago));
+        return Criteria::expr()->gte('published_date', new \DateTime($beginning_of_years_ago));
     }
 }

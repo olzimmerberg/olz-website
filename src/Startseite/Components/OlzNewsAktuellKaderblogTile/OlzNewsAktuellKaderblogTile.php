@@ -62,8 +62,8 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
             SELECT n
             FROM Olz:News\NewsEntry n
-            WHERE n.on_off = '1' and n.typ IN ('aktuell', 'kaderblog')
-            ORDER BY n.datum DESC, n.zeit DESC
+            WHERE n.on_off = '1' and n.format IN ('aktuell', 'kaderblog')
+            ORDER BY n.published_date DESC, n.published_time DESC
         ZZZZZZZZZZ);
         $query->setMaxResults(4);
         $index = 0;

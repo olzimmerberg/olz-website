@@ -21,7 +21,7 @@ class OlzICal extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         // Termine abfragen
-        $sql = "SELECT * FROM termine WHERE (datum >= '{$jahr}-01-01') AND on_off=1";
+        $sql = "SELECT * FROM termine WHERE (start_date >= '{$jahr}-01-01') AND on_off=1";
         $result = $db->query($sql);
 
         // ical-Kalender
@@ -49,15 +49,15 @@ class OlzICal extends OlzComponent {
             $_links .= ($row['solv_uid'] > 0) ? "\\nSOLV-Termin: https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
             $_attach .= ($row['solv_uid'] > 0) ? "\r\nATTACH;FMTTYPE=text/html:https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row['solv_uid'] : "";
 
-            $datum = $row['datum'];
-            $datum_end = ($row['datum_end'] > "0000-00-00") ? $row['datum_end'] : $datum;
+            $start_date = $row['start_date'];
+            $end_date = ($row['end_date'] > "0000-00-00") ? $row['end_date'] : $start_date;
             $ical .=
-        "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum).
-        "\r\nDTEND;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $datum_end).
+        "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $start_date).
+        "\r\nDTEND;VALUE=DATE:".$this->dateUtils()->olzDate('jjjjmmtt', $end_date).
         "\r\nDTSTAMP:".date('Ymd\THis\Z').
         "\r\nLAST-MODIFIED:".date('Ymd\THis\Z', strtotime($row['last_modified_at'])).
         "\r\nCREATED:".date('Ymd\THis\Z', strtotime($row['created_at'])).
-        "\r\nSUMMARY:".$row['titel'].
+        "\r\nSUMMARY:".$row['title'].
         "\r\nDESCRIPTION:".str_replace("\r\n", "\\n", $row['text']).
         "\\n".$_links;
             $ical .=

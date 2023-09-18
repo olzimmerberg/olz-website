@@ -66,7 +66,7 @@ class DeadlineWarningGetter {
                     Criteria::expr()->eq('on_off', 1),
                 )
             )
-            ->orderBy(['datum' => Criteria::ASC])
+            ->orderBy(['start_date' => Criteria::ASC])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

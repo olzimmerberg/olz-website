@@ -47,8 +47,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         (
             SELECT
                 se.deadline as deadline,
-                t.datum as date,
-                t.titel as title,
+                t.start_date as date,
+                t.title as title,
                 t.id as id
             FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
             WHERE 
@@ -58,8 +58,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         ) UNION ALL (
             SELECT
                 DATE(t.deadline) as deadline,
-                t.datum as date,
-                t.titel as title,
+                t.start_date as date,
+                t.title as title,
                 t.id as id
             FROM termine t
             WHERE

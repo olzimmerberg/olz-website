@@ -73,6 +73,7 @@
     "jquery-ui": "^1.13.2",
     "lightgallery": "^2",
     "lodash": "^4.17.21",
+    "ol": "^8.1.0",
     "php-typescript-api": "^2.0",
     "popper.js": "^1.16.1",
     "react": "^18",

@@ -16,11 +16,10 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsList extends OlzComponent {
     public function getHtml($args = []): string {
-        global $db_table, $_SESSION;
+        global $_SESSION;
 
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
-        $db_table = 'aktuell';
 
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
@@ -131,7 +130,7 @@ class OlzNewsList extends OlzComponent {
             teaser,
             content,
             image_ids
-        FROM aktuell n
+        FROM news n
         WHERE
             {$filter_where}
             AND n.on_off='1'

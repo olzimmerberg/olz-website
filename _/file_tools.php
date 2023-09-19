@@ -1,7 +1,7 @@
 <?php
 
 // =============================================================================
-// Funktionen für Datei-Upload, z.B. PDFs in Aktuell-Einträgen.
+// Funktionen für Datei-Upload, z.B. PDFs in News-Einträgen.
 // =============================================================================
 
 use Olz\Utils\EnvUtils;

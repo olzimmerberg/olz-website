@@ -47,9 +47,7 @@ for ($n = 0; $n < 3; $n++) {
 echo "<h2>Suchresultate (Suche nach: {$search})</h2>";
 
 $result_termine = '';
-$result_aktuell = '';
-$result_galerie = '';
-$result_forum = '';
+$result_news = '';
 if ($sql1 > "") {// TERMINE
     $sql = "select * from termine WHERE ({$sql1}) AND (on_off = 1) ORDER BY start_date DESC";
     $result = $db->query($sql);
@@ -70,11 +68,11 @@ if ($sql1 > "") {// TERMINE
         $result_termine .= "<tr><td><a href=\"{$code_href}termine/{$id}\" class=\"linkint\"><b>{$start_date}</b></a></td><td><b><a href=\"{$code_href}termine/{$id}\" class=\"linkint\">".$title."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
-    // AKTUELL
-    $result = $db->query("select * from aktuell WHERE ({$sql1}) AND (on_off = 1) ORDER BY published_date DESC");
+    // NEWS
+    $result = $db->query("SELECT * FROM news WHERE ({$sql1}) AND (on_off = 1) ORDER BY published_date DESC");
     $num = mysqli_num_rows($result);
     if ($num > 0) {
-        $result_aktuell = "<tr><td colspan='2'><h3 class='tablebar'>Aktuell...</h3></td></tr>";
+        $result_news = "<tr><td colspan='2'><h3 class='tablebar'>News...</h3></td></tr>";
     }
 
     for ($i = 0; $i < $num; $i++) {
@@ -85,10 +83,10 @@ if ($sql1 > "") {// TERMINE
         $id = $row['id'];
         $published_date = $date_utils->olzDate("t. MM jjjj", $published_date);
         cutout($text);
-        $result_aktuell .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$published_date}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$title."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
+        $result_news .= "<tr><td><a href=\"news/{$id}\" class=\"linkint\"><b>{$published_date}</b></a></td><td><b><a href=\"news/{$id}\" class=\"linkint\">".$title."</a></b><br>{$prefix}".$text."{$suffix}</td></tr>";
     }
 
-    $text = $result_termine.$result_aktuell;
+    $text = $result_termine.$result_news;
     // HIGHLITE
     for ($n = 0; $n < 3; $n++) {
         $search_key = $search_words[$n] ?? '';

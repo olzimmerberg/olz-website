@@ -13,7 +13,7 @@ class OlzArticleMetadata extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $id = intval($args['id']);
-        $sql = "SELECT author_name, title, published_date, published_time FROM aktuell WHERE id='{$id}'";
+        $sql = "SELECT author_name, title, published_date, published_time FROM news WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
             throw new \Exception("No such entry");

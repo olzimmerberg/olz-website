@@ -55,4 +55,75 @@ final class AbstractDateUtilsTest extends UnitTestCase {
         $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
         $this->assertSame([2020, 2019, 2018, 2017, 2016, 2015], $date_utils->getYearsForAccordion());
     }
+
+    public function testFormatDateTimeRange(): void {
+        $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
+
+        $date = ['2020-03-13', null, null, null];
+        $time = ['2020-03-13', '18:00:00', null, null];
+        $time_range_within_day_1 = ['2020-03-13', '18:00:00', null, '19:30:00'];
+        $time_range_within_day_2 = ['2020-03-13', '18:00:00', '2020-03-13', '19:30:00'];
+        $date_range_within_month = ['2020-03-13', null, '2020-03-16', null];
+        $time_range_within_month_1 = ['2020-03-13', '15:00:00', '2020-03-16', null];
+        $time_range_within_month_2 = ['2020-03-13', '15:00:00', '2020-03-16', '09:00:00'];
+        $date_range_within_year = ['2020-03-13', null, '2020-05-11', null];
+        $time_range_within_year_1 = ['2020-03-13', '15:00:00', '2020-05-11', null];
+        $time_range_within_year_2 = ['2020-03-13', '15:00:00', '2020-05-11', '09:00:00'];
+        $date_range_across_years = ['2020-03-16', null, '2021-03-16', null];
+        $time_range_across_years_1 = ['2020-03-16', '12:34:56', '2021-03-16', null];
+        $time_range_across_years_2 = ['2020-03-16', '12:34:56', '2021-03-16', '23:59:59'];
+
+        $this->assertSame(
+            'Freitag, 13. März 2020',
+            $date_utils->formatDateTimeRange(...$date),
+        );
+        $this->assertSame(
+            'Freitag, 13. März 2020 18:00',
+            $date_utils->formatDateTimeRange(...$time),
+        );
+        $this->assertSame(
+            'Freitag, 13. März 2020 18:00 – 19:30',
+            $date_utils->formatDateTimeRange(...$time_range_within_day_1),
+        );
+        $this->assertSame(
+            'Freitag, 13. März 2020 18:00 – 19:30',
+            $date_utils->formatDateTimeRange(...$time_range_within_day_2),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. – 16. März 2020',
+            $date_utils->formatDateTimeRange(...$date_range_within_month),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. – 16. März 2020 15:00',
+            $date_utils->formatDateTimeRange(...$time_range_within_month_1),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. – 16. März 2020 15:00 – 09:00',
+            $date_utils->formatDateTimeRange(...$time_range_within_month_2),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. März – 11. Mai 2020',
+            $date_utils->formatDateTimeRange(...$date_range_within_year),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. März – 11. Mai 2020 15:00',
+            $date_utils->formatDateTimeRange(...$time_range_within_year_1),
+        );
+        $this->assertSame(
+            'Freitag – Montag, 13. März – 11. Mai 2020 15:00 – 09:00',
+            $date_utils->formatDateTimeRange(...$time_range_within_year_2),
+        );
+        $this->assertSame(
+            'Montag – Dienstag, 16. – 16. März 2020',
+            $date_utils->formatDateTimeRange(...$date_range_across_years),
+        );
+        $this->assertSame(
+            'Montag – Dienstag, 16. – 16. März 2020 12:34',
+            $date_utils->formatDateTimeRange(...$time_range_across_years_1),
+        );
+        $this->assertSame(
+            'Montag – Dienstag, 16. – 16. März 2020 12:34 – 23:59',
+            $date_utils->formatDateTimeRange(...$time_range_across_years_2),
+        );
+    }
 }

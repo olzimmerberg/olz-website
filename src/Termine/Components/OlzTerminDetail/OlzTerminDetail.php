@@ -219,35 +219,18 @@ class OlzTerminDetail extends OlzComponent {
         }
 
         // Date & Title
-        if ($end_date == "0000-00-00" || !$end_date) {
-            $end_date = $start_date;
-        }
-        if (($end_date == $start_date) or ($end_date == "0000-00-00") or !$end_date) {
-            $start_date_tmp = $date_utils->olzDate("t. MM ", $start_date).$date_utils->olzDate(" (W)", $start_date);
-            // Tagesanlass
-            if ($start_time != "00:00:00") {
-                $start_date_tmp .= " ".date("H:i", strtotime($start_time));
-                if ($end_time != "00:00:00") {
-                    $start_date_tmp .= " &ndash; ".date("H:i", strtotime($end_time));
-                }
-            }
-        } elseif ($date_utils->olzDate("m", $start_date) == $date_utils->olzDate("m", $end_date)) {
-            // Mehrtägig innerhalb Monat
-            $start_date_tmp = $date_utils->olzDate("t.-", $start_date).$date_utils->olzDate("t. ", $end_date).$date_utils->olzDate("MM", $start_date).$date_utils->olzDate(" (W-", $start_date).$date_utils->olzDate("W)", $end_date);
-        } else {
-            // Mehrtägig monatsübergreifend
-            $start_date_tmp = $date_utils->olzDate("t.m.-", $start_date).$date_utils->olzDate("t.m. ", $end_date).$date_utils->olzDate("jjjj", $start_date).$date_utils->olzDate(" (W-", $start_date).$date_utils->olzDate("W)", $end_date);
-        }
+        $pretty_date = $this->dateUtils()->formatDateTimeRange($start_date, $start_time, $end_date, $end_time, $format = 'long');
+        $maybe_solv_link = '';
         if ($row_solv) {
             // SOLV-Übersicht-Link zeigen
-            $start_date_tmp .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
+            $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
         $type_imgs = implode('', array_map(function ($type) use ($code_href) {
             $icon_basename = self::$iconBasenameByType[$type] ?? '';
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             return "<img src='{$icon}' alt='' class='type-icon'>";
         }, $types));
-        $out .= "<h2>{$start_date_tmp}</h2>";
+        $out .= "<h2>{$pretty_date}{$maybe_solv_link}</h2>";
         $out .= "<h1>{$title} {$type_imgs}</h1>";
 
         // Text

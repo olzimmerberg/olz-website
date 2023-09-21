@@ -14,6 +14,7 @@ import TextStyle from 'ol/style/Text';
 import {transform} from 'ol/proj';
 
 import 'ol/ol.css';
+import './OlzLocationMap.scss';
 
 export function olzLocationMapRender(
     hash: string,

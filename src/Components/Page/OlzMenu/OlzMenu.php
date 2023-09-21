@@ -59,8 +59,8 @@ class OlzMenu extends OlzComponent {
                 id='site-search'
                 title='Suche auf olzimmerberg.ch'
                 value='Suchen...' 
-                onfocus='this.form.anfrage.style.color = \\"#006516\\"; this.form.anfrage.value = \\"\\";'
-                onblur='this.form.anfrage.style.color = \\"#888888\\"; this.form.anfrage.value = \\"Suchen...\\";'
+                onfocus='this.form.anfrage.style.color = "#006516"; this.form.anfrage.value = "";'
+                onblur='this.form.anfrage.style.color = "#888888"; this.form.anfrage.value = "Suchen...";'
             />
         </form>
         ZZZZZZZZZZ;

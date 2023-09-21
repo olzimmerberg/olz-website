@@ -51,9 +51,19 @@ class OlzMenu extends OlzComponent {
         }
         $out .= self::getMenu($menu, "mainmenu", $code_href);
 
-        $out .= "<form name='Suche' method='get' action='suche.php'>
-        <input type='text' name='anfrage' id='site-search' title='Suche auf olzimmerberg.ch' value='Suchen...' onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\"; ' onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\"; '>
-        </form>";
+        $out .= <<<ZZZZZZZZZZ
+        <form name='Suche' method='get' action='{$code_href}suche.php'>
+            <input
+                type='text'
+                name='anfrage'
+                id='site-search'
+                title='Suche auf olzimmerberg.ch'
+                value='Suchen...' 
+                onfocus='this.form.anfrage.style.color = \"#006516\"; this.form.anfrage.value = \"\";'
+                onblur='this.form.anfrage.style.color = \"#888888\"; this.form.anfrage.value = \"Suchen...\";'
+            />
+        </form>
+        ZZZZZZZZZZ;
         $out .= "<div class='sysadmin-mail'>
         <script type='text/javascript'>olz.MailTo(\"website\", \"olzimmerberg.ch\", \"sysadmin\", \"Homepage%20OL%20Zimmerberg\");</script>
         </div>

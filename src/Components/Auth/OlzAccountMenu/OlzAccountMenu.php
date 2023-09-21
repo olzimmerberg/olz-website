@@ -30,6 +30,10 @@ class OlzAccountMenu extends OlzComponent {
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {
+            if (!$auth_user) {
+                $this->log()->warning("User is set (ID:{$user->getId()}), but auth_user is not.");
+            }
+
             $out .= "<a class='dropdown-item' href='{$code_href}profil.php'>";
             if ($show_profile_notification_dot) {
                 $out .= "<div class='notification-dot'></div>";

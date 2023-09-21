@@ -79,10 +79,13 @@ class OlzTerminDetail extends OlzComponent {
         }
 
         $title = $row['title'] ?? '';
+        $termin_year = date('Y', strtotime($row['start_date']));
+        $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $maybe_date = ($termin_year !== $this_year) ? " {$termin_year}" : '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}termine?filter={$back_filter}",
-            'title' => "{$title} - Termine",
+            'title' => "{$title}{$maybe_date} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $no_robots,
             'canonical_url' => $canonical_url,

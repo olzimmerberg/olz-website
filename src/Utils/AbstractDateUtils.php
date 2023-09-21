@@ -105,6 +105,38 @@ abstract class AbstractDateUtils {
             $format);
     }
 
+    public function formatDateTimeRange($start_date, $start_time, $end_date, $end_time, $format = 'long') {
+        if (!$end_date) {
+            $end_date = $start_date;
+        }
+        $out = '';
+        // Date
+        if ($end_date == $start_date) {
+            // Eintägig
+            $out = $this->olzDate('WW, t. MM jjjj', $start_date);
+        } else {
+            $weekday_prefix = $this->olzDate('WW', $start_date).' – '.$this->olzDate('WW', $end_date).', ';
+            if ($this->olzDate('m', $start_date) == $this->olzDate('m', $end_date)) {
+                // Mehrtägig, innerhalb Monat
+                $out = $weekday_prefix.$this->olzDate('t.', $start_date).' – '.$this->olzDate('t. ', $end_date).$this->olzDate('MM jjjj', $start_date);
+            } elseif ($this->olzDate('jjjj', $start_date) == $this->olzDate('jjjj', $end_date)) {
+                // Mehrtägig, innerhalb Jahr
+                $out = $weekday_prefix.$this->olzDate('t. MM', $start_date).' – '.$this->olzDate('t. MM jjjj', $end_date);
+            } else {
+                // Mehrtägig, jahresübergreifend
+                $out = $weekday_prefix.$this->olzDate('t. MM jjjj', $start_date).' – '.$this->olzDate('t. MM jjjj', $end_date);
+            }
+        }
+        // Time
+        if ($start_time) {
+            $out .= ' '.date('H:i', strtotime($start_time));
+            if ($end_time) {
+                $out .= ' – '.date('H:i', strtotime($end_time));
+            }
+        }
+        return $out;
+    }
+
     public function getYearsForAccordion() {
         global $_GET, $_SESSION;
         $this_year = intval($this->getCurrentDateInFormat('Y'));

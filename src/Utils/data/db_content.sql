@@ -294,6 +294,12 @@ VALUES
 -- Table termin_template_label_map
 
 -- Table termin_templates
+INSERT INTO termin_templates
+    (`id`, `location_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `start_time`, `duration_seconds`, `deadline_earlier_seconds`, `deadline_time`, `min_participants`, `max_participants`, `min_volunteers`, `max_volunteers`, `newsletter`, `title`, `text`, `link`, `types`, `image_ids`, `on_off`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', '3', '2', '47', '2', '2', '18:15:00', '5400', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'Hallentraining Brand', 'für alle ab 14 Jahren', NULL, ' training ', '[\"bv3KeYVKDJNg3MTyjhSQsDRx.jpg\"]', '1', '2023-10-02 17:03:21', '2023-10-02 17:03:21'),
+    ('2', NULL, '2', '46', '2', '2', '18:30:00', '5400', '172800', '23:59:59', NULL, NULL, NULL, NULL, '0', 'Kartentraining: <<< TODO >>>', 'Karte: <<< TODO >>>\r\nOrganisator: <<< TODO >>>', '<DATEI=qjhUey6Lc6svXsmUcSaguWkJ.pdf text=\"Datei\"><a href=\"https://solv.ch\" class=\"linkint\">Link</a>', ' training ', NULL, '1', '2023-10-02 17:06:51', '2023-10-02 17:06:51'),
+    ('3', NULL, '2', '10', '2', '2', '09:00:00', '108000', '604800', '23:59:59', NULL, NULL, NULL, NULL, '1', '<<< TODO >>> Weekend', NULL, NULL, ' programm weekend club ', NULL, '1', '2023-10-02 18:20:53', '2023-10-02 18:20:53');
 
 -- Table termine
 INSERT INTO termine

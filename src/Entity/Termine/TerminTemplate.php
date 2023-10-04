@@ -4,11 +4,12 @@ namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\SearchableInterface;
 use Olz\Repository\Termine\TerminTemplateRepository;
 
 #[ORM\Table(name: 'termin_templates')]
 #[ORM\Entity(repositoryClass: TerminTemplateRepository::class)]
-class TerminTemplate extends OlzEntity {
+class TerminTemplate extends OlzEntity implements SearchableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -200,5 +201,21 @@ class TerminTemplate extends OlzEntity {
 
     public function setImageIds($new_value) {
         $this->image_ids = json_encode($new_value);
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId();
+    }
+
+    public static function getFieldNamesForSearch(): array {
+        return ['title'];
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getTitle();
     }
 }

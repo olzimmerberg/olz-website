@@ -346,6 +346,9 @@ class DevDataUtils {
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/MIGRATED0000000000050001.pdf");
         $this->mkdir("{$data_path}files/termine/7");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
+        $this->mkdir("{$data_path}files/termin_templates");
+        $this->mkdir("{$data_path}files/termin_templates/2");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termin_templates/2/qjhUey6Lc6svXsmUcSaguWkJ.pdf");
 
         // Build img/
         $this->mkdir("{$data_path}img");
@@ -483,6 +486,11 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/termin_locations/1");
         $this->mkdir("{$data_path}img/termin_locations/1/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termin_locations/1/img/2ZiW6T9biPNjEERzj5xjLRDz.jpg", 800, 600);
+
+        $this->mkdir("{$data_path}img/termin_templates");
+        $this->mkdir("{$data_path}img/termin_templates/1");
+        $this->mkdir("{$data_path}img/termin_templates/1/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termin_templates/1/img/bv3KeYVKDJNg3MTyjhSQsDRx.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/users");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);

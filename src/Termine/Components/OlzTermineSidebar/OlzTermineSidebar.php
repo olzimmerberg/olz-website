@@ -13,8 +13,16 @@ class OlzTermineSidebar extends OlzComponent {
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
         $today = $this->dateUtils()->getIsoToday();
+        $code_href = $this->envUtils()->getCodeHref();
 
-        $out = "<h2>Trainings</h2>";
+        $out = '';
+
+        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
+        if ($has_termine_permissions) {
+            $out .= "<div><b><a href='{$code_href}termine/orte' class='linkmap'>Termin-Orte</a></b></div>";
+            $out .= "<div><b><a href='{$code_href}termine/vorlagen' class='linkint'>Termin-Vorlagen</a></b></div>";
+        }
+        $out .= "<h2>Trainings</h2>";
 
         // NÄCHSTES TRAINIG
 

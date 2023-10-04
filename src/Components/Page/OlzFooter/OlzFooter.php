@@ -43,6 +43,7 @@ class OlzFooter extends OlzComponent {
         $out .= "<div id='edit-news-react-root'></div>";
         $out .= "<div id='edit-termin-react-root'></div>";
         $out .= "<div id='edit-termin-location-react-root'></div>";
+        $out .= "<div id='edit-termin-template-react-root'></div>";
         $out .= "<div id='edit-weekly-picture-react-root'></div>";
         $out .= "<div id='update-user-avatar-react-root'></div>";
 

@@ -17,7 +17,12 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
     const [entityResults, setEntityResults] = React.useState<OlzEntityResult[]|null>(null);
     const [currentEntityTitle, setCurrentEntityTitle] = React.useState<string|null>(null);
 
-    const buttonLabel = currentEntityTitle ?? props.nullLabel ?? 'Bitte wählen';
+    const nullLabel = props.nullLabel ?? 'Bitte wählen';
+    const buttonLabel = currentEntityTitle ?? nullLabel;
+
+    React.useEffect(() => {
+        setCurrentEntityTitle(null);
+    }, [props.entityId]);
 
     React.useEffect(() => {
         if (props.entityId && !currentEntityTitle) {
@@ -64,7 +69,6 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                     props.onEntityIdChange(new CustomEvent('entityIdChange', {
                         detail: entity?.id ?? null,
                     }));
-                    setCurrentEntityTitle(entity?.title);
                 }}
                 key={`entity-${entity.id}`}
             >
@@ -97,7 +101,6 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                         props.onEntityIdChange(new CustomEvent('entityIdChange', {
                             detail: null,
                         }));
-                        setCurrentEntityTitle(null);
                     }}
                     key={'entity-none'}
                 >

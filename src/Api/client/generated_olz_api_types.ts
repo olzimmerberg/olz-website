@@ -13,7 +13,7 @@ export type OlzAuthenticatedRole = {
     'username': string,
 };
 
-export type OlzSearchableEntityTypes = 'TerminLocation';
+export type OlzSearchableEntityTypes = 'TerminLocation'|'TerminTemplate';
 
 export type OlzEntityResult = {
     'id': number,
@@ -126,6 +126,36 @@ export type OlzTerminLocationDataOrNull = {
     'latitude': number,
     'longitude': number,
     'imageIds': Array<string>,
+}|null;
+
+export type OlzTerminTemplateData = {
+    'startTime': string|null,
+    'durationSeconds': number|null,
+    'title': string,
+    'text': string,
+    'link': string,
+    'deadlineEarlierSeconds': number|null,
+    'deadlineTime': string|null,
+    'newsletter': boolean,
+    'types': Array<string>,
+    'locationId': number|null,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+};
+
+export type OlzTerminTemplateDataOrNull = {
+    'startTime': string|null,
+    'durationSeconds': number|null,
+    'title': string,
+    'text': string,
+    'link': string,
+    'deadlineEarlierSeconds': number|null,
+    'deadlineTime': string|null,
+    'newsletter': boolean,
+    'types': Array<string>,
+    'locationId': number|null,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
 }|null;
 
 export type OlzBookingData = {
@@ -248,6 +278,11 @@ export type OlzApiEndpoint =
     'editTerminLocation'|
     'updateTerminLocation'|
     'deleteTerminLocation'|
+    'createTerminTemplate'|
+    'getTerminTemplate'|
+    'editTerminTemplate'|
+    'updateTerminTemplate'|
+    'deleteTerminTemplate'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -455,6 +490,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzTerminLocationDataOrNull,
         },
     deleteTerminLocation: {
+            'id': number,
+        },
+    createTerminTemplate: {
+            'meta': OlzMetaData,
+            'data': OlzTerminTemplateData,
+        },
+    getTerminTemplate: {
+            'id': number,
+        },
+    editTerminTemplate: {
+            'id': number,
+        },
+    updateTerminTemplate: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzTerminTemplateDataOrNull,
+        },
+    deleteTerminTemplate: {
             'id': number,
         },
     createBooking: {
@@ -702,6 +755,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteTerminLocation: {
+            'status': 'OK'|'ERROR',
+        },
+    createTerminTemplate: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getTerminTemplate: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminTemplateData,
+        },
+    editTerminTemplate: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminTemplateData,
+        },
+    updateTerminTemplate: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteTerminTemplate: {
             'status': 'OK'|'ERROR',
         },
     createBooking: {

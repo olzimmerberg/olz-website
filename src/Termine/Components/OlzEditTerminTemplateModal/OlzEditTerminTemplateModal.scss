@@ -1,0 +1,30 @@
+#edit-termin-template-modal {
+    .modal-dialog {
+        max-width: 1280px;
+        width: 95%;
+    }
+
+    #termin-template-text-input {
+        height: 150px;
+    }
+
+    #termin-template-link-input {
+        height: 150px;
+    }
+
+    #termin-template-has-newsletter-input {
+        margin-right: 10px;
+    }
+
+    #termin-template-types-container {
+        margin-top: 10px;
+    }
+
+    .types-option {
+        margin-right: 30px;
+
+        input {
+            margin-right: 10px;
+        }
+    }
+}

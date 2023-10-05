@@ -6,12 +6,14 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminTemplate;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class SearchEntitiesEndpoint extends OlzEndpoint {
     public const SUPPORTED_ENTITY_TYPES = [
         'TerminLocation' => TerminLocation::class,
+        'TerminTemplate' => TerminTemplate::class,
     ];
 
     public static function getIdent() {

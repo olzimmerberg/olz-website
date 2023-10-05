@@ -8,12 +8,12 @@ class OlzDateCalendar extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 
-        $date = $args['date'];
+        $date = $args['date'] ?? null;
         $size = strtolower($args['size'] ?? 'M');
 
-        $weekday = $this->dateUtils()->olzDate("W", $date);
-        $day = $this->dateUtils()->olzDate("t", $date);
-        $month = $this->dateUtils()->olzDate("MM", $date);
+        $weekday = $args['weekday'] ?? $this->dateUtils()->olzDate("W", $date);
+        $day = $args['day'] ?? $this->dateUtils()->olzDate("t", $date);
+        $month = $args['month'] ?? $this->dateUtils()->olzDate("MM", $date);
 
         return <<<ZZZZZZZZZZ
         <div class='olz-date-calendar size-{$size}'>

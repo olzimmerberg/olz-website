@@ -9,7 +9,7 @@ export function editTermin(
 ): boolean {
     olzApi.call('editTermin', {id: terminId})
         .then((response) => {
-            initOlzEditTerminModal(response.id, response.meta, response.data);
+            initOlzEditTerminModal(response.id, undefined, response.meta, response.data);
         });
     return false;
 }

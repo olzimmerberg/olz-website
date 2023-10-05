@@ -18,6 +18,7 @@ class FileUtils {
         'kaderblog' => 'files/blog/',
         'news' => 'files/news/',
         'termine' => 'files/termine/',
+        'termin_templates' => 'files/termin_templates/',
         'video' => null,
     ];
 

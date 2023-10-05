@@ -799,7 +799,7 @@ CREATE TABLE `termin_templates` (
   CONSTRAINT `FK_A2ECDD295A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_A2ECDD2964D218E` FOREIGN KEY (`location_id`) REFERENCES `termin_locations` (`id`),
   CONSTRAINT `FK_A2ECDD297D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

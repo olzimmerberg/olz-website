@@ -44,7 +44,8 @@ class OlzTerminLocationDetail extends OlzComponent {
         $out .= OlzHeader::render([
             'back_link' => $back_link,
             'title' => "{$title} - Orte",
-            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
+            'norobots' => true,
         ]);
 
         // Creation Tools

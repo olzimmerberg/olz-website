@@ -25,6 +25,7 @@ class OlzTerminLocationsList extends OlzComponent {
             'back_link' => "{$code_href}termine",
             'title' => 'Termin-Orte',
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
+            'norobots' => true,
         ]);
 
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);

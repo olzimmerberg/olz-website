@@ -28,8 +28,9 @@ class OlzTerminTemplatesList extends OlzComponent {
 
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}termine",
-            'title' => 'Termin-Orte',
-            'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
+            'title' => 'Termin-Vorlagen',
+            'description' => "Vorlagen, um OL Zimmerberg-Termine zu erstellen.",
+            'norobots' => true,
         ]);
 
         $out .= <<<ZZZZZZZZZZ

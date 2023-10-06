@@ -49,7 +49,8 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $out .= OlzHeader::render([
             'back_link' => $back_link,
             'title' => "{$title} - Vorlagen",
-            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'description' => "Vorlagen, um OL Zimmerberg-Termine zu erstellen.",
+            'norobots' => true,
         ]);
 
         // Creation Tools

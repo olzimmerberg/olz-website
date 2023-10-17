@@ -26,6 +26,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
+        $news_filter_utils = NewsFilterUtils::fromEnv();
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -43,8 +44,8 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
-        $aktuell_url = $this->getNewsUrl('aktuell');
-        $kaderblog_url = $this->getNewsUrl('kaderblog');
+        $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
+        $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
         <h2><a href='{$aktuell_url}'>
             <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
@@ -108,17 +109,5 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $out .= "</ul>";
 
         return $out;
-    }
-
-    private function getNewsUrl($format = null) {
-        $code_href = $this->envUtils()->getCodeHref();
-
-        $news_filter_utils = NewsFilterUtils::fromEnv();
-        $filter = $news_filter_utils->getDefaultFilter();
-        if ($format) {
-            $filter['format'] = $format;
-        }
-        $enc_json_filter = urlencode(json_encode($filter));
-        return "{$code_href}news?filter={$enc_json_filter}";
     }
 }

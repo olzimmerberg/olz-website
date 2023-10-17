@@ -7,13 +7,12 @@ use Olz\Components\Common\OlzComponent;
 class OlzArticleMetadata extends OlzComponent {
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
-        $data_path = $this->envUtils()->getDataPath();
         $data_href = $this->envUtils()->getDataHref();
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
 
         $id = intval($args['id']);
-        $sql = "SELECT author_name, title, published_date, published_time FROM news WHERE id='{$id}'";
+        $sql = "SELECT author_name, title, published_date, published_time, image_ids FROM news WHERE id='{$id}'";
         $res = $db->query($sql);
         if ($res->num_rows == 0) {
             throw new \Exception("No such entry");
@@ -27,17 +26,9 @@ class OlzArticleMetadata extends OlzComponent {
         $json_title = json_encode($html_title);
         $iso_date = $row['published_date'].'T'.$row['published_time'];
         $json_iso_date = json_encode($iso_date);
-        $images = [];
-        $image_index = 1;
-        while (true) {
-            $fixed_width_index = str_pad("{$image_index}", 3, "0", STR_PAD_LEFT);
-            $image_relative_path = "img/aktuell/{$id}/img/{$fixed_width_index}.jpg";
-            if (!is_file("{$data_path}{$image_relative_path}")) {
-                break;
-            }
-            $images[] = "{$data_href}{$image_relative_path}";
-            $image_index++;
-        }
+        $images = array_map(function ($image_id) use ($base_href, $data_href, $id) {
+            return "{$base_href}{$data_href}img/news/{$id}/img/{$image_id}";
+        }, json_decode($row['image_ids'] ?? '[]', true));
         $json_images = json_encode($images);
         return <<<ZZZZZZZZZZ
         <script type="application/ld+json">

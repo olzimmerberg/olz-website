@@ -18,11 +18,11 @@ final class FileUtilsTest extends UnitTestCase {
         $file_utils = new FileUtils();
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
-        $file_path = "{$data_path}files/aktuell/123/001.pdf";
+        $file_path = "{$data_path}files/downloads/123/001.pdf";
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("<a href='/data-href/files/aktuell//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools.php?request=thumb&db_table=aktuell&id=123&index=1&dim=16); background-repeat:no-repeat;'>Test</a>", $file_utils->olzFile('aktuell', 123, 1, "Test"));
+        $this->assertSame("<a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools.php?request=thumb&db_table=downloads&id=123&index=1&dim=16); background-repeat:no-repeat;'>Test</a>", $file_utils->olzFile('downloads', 123, 1, "Test"));
     }
 
     public function testOlzFileMigrated(): void {
@@ -40,11 +40,11 @@ final class FileUtilsTest extends UnitTestCase {
         $file_utils = new FileUtils();
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
-        $file_path = "{$data_path}files/aktuell/123/001.pdf";
+        $file_path = "{$data_path}files/downloads/123/001.pdf";
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("test <a href='/data-href/files/aktuell//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools.php?request=thumb&db_table=aktuell&id=123&index=1&dim=16); background-repeat:no-repeat;'>Datei</a> text", $file_utils->replaceFileTags('test <DATEI1 text="Datei"> text', 'aktuell', 123));
+        $this->assertSame("test <a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools.php?request=thumb&db_table=downloads&id=123&index=1&dim=16); background-repeat:no-repeat;'>Datei</a> text", $file_utils->replaceFileTags('test <DATEI1 text="Datei"> text', 'downloads', 123));
     }
 
     public function testReplaceFileTagsMigrated(): void {

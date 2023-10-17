@@ -9,6 +9,7 @@ class NewsFilterUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'dateUtils',
+        'envUtils',
     ];
 
     public const ARCHIVE_YEARS_THRESHOLD = 4;
@@ -254,5 +255,17 @@ class NewsFilterUtils {
         $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('published_date', new \DateTime($beginning_of_years_ago));
+    }
+
+    public function getUrl($filter_override = []) {
+        $code_href = $this->envUtils()->getCodeHref();
+
+        $default_filter = $this->getDefaultFilter();
+        $filter = [
+            ...$default_filter,
+            ...$filter_override,
+        ];
+        $enc_json_filter = urlencode(json_encode($filter));
+        return "{$code_href}news?filter={$enc_json_filter}";
     }
 }

@@ -43,7 +43,8 @@ if ($id === null) {
     http_response_code(301);
     header("Location: {$new_url}");
 } else {
-    $new_url = "{$code_href}news/{$id}?filter={$enc_json_filter}";
+    $news_id = $id + 1200;
+    $new_url = "{$code_href}news/{$news_id}?filter={$enc_json_filter}";
     http_response_code(301);
     header("Location: {$new_url}");
 }

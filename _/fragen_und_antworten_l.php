@@ -7,6 +7,7 @@
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
+use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
@@ -14,9 +15,13 @@ require_once __DIR__.'/tickers.php';
 
 $code_href = EnvUtils::fromEnv()->getCodeHref();
 $entityManager = DbUtils::fromEnv()->getEntityManager();
+$news_filter_utils = NewsFilterUtils::fromEnv();
 $role_repo = $entityManager->getRepository(Role::class);
 $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
 $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
+$forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
+$galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
+$kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
 
 echo <<<ZZZZZZZZZZ
 <h1>Fragen & Antworten (FAQ)</h1>
@@ -72,13 +77,13 @@ $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
     echo OlzUserInfoCard::render(['user' => $buessli_assignee]);
 }
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
 </div>
 </div>
 <br>
 <h3>Wie reise ich zum OL?</h3>
 <div>
-Bei manchen Läufen wird im <b><a href='forum.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Forum</a></b> ein <b>Zug</b> bestimmt, mit dem die meisten anreisen werden.<br>
+Bei manchen Läufen wird im <b><a href='{$forum_url}' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Forum</a></b> ein <b>Zug</b> bestimmt, mit dem die meisten anreisen werden.<br>
 Unser <b>Clubbüssli</b> fährt auch zu manchen Anlässen. Ob es zum nächsten OL fährt, erfährst du bei:
 <div style='padding-left:50px;'>
 ZZZZZZZZZZ;
@@ -86,13 +91,13 @@ $buessli_assignees = $buessli_role->getUsers();
 foreach ($buessli_assignees as $buessli_assignee) {
     echo OlzUserInfoCard::render(['user' => $buessli_assignee]);
 }
-echo <<<'ZZZZZZZZZZ'
+echo <<<ZZZZZZZZZZ
 </div>
 </div>
 <br>
 <h3>Wie erkenne ich andere OL Zimmerberg Mitglieder?</h3>
 <div>
-An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausendfach in den <b><a href='galerie.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Galerien</a></b> zu sehen ist.
+An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausendfach in den <b><a href='{$galerie_url}' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Galerien</a></b> zu sehen ist.
 </div>
 <br>
 <h3>Wie werde ich OL Zimmerberg Mitglied?</h3>
@@ -110,7 +115,7 @@ echo <<<ZZZZZZZZZZ
 <br>
 <h3>Gibt es auch schnelle Läufer in der OL Zimmerberg?</h3>
 <div>
-Ja. Sie schreiben sogar manchmal Beiträge im <b><a href='blog.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Kaderblog</a></b>.
+Ja. Sie schreiben sogar manchmal Beiträge im <b><a href='{$kaderblog_url}' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Kaderblog</a></b>.
 </div>
 <br>
 <h3>Wo kann ich Berichte von vergangenen Anlässen nachlesen?</h3>

@@ -17,31 +17,32 @@ class OlzNewsListsTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
+        $news_filter_utils = NewsFilterUtils::fromEnv();
 
         $out = "<h2>News</h2>";
         $out .= "<ul class='links'>";
-        $aktuell_url = $this->getNewsUrl('aktuell');
+        $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$aktuell_url}'>
             <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
             <b>Aktuell</b>
         </a></li>
         ZZZZZZZZZZ;
-        $kaderblog_url = $this->getNewsUrl('kaderblog');
+        $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$kaderblog_url}'>
             <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
             <b>Kaderblog</b>
         </a></li>
         ZZZZZZZZZZ;
-        $forum_url = $this->getNewsUrl('forum');
+        $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$forum_url}'>
             <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
             <b>Forum</b>
         </a></li>
         ZZZZZZZZZZ;
-        $galerie_url = $this->getNewsUrl('galerie');
+        $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
         $out .= <<<ZZZZZZZZZZ
         <li><a href='{$galerie_url}'>
             <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
@@ -50,17 +51,5 @@ class OlzNewsListsTile extends AbstractOlzTile {
         ZZZZZZZZZZ;
         $out .= "</ul>";
         return $out;
-    }
-
-    private function getNewsUrl($format = null) {
-        $code_href = $this->envUtils()->getCodeHref();
-
-        $news_filter_utils = NewsFilterUtils::fromEnv();
-        $filter = $news_filter_utils->getDefaultFilter();
-        if ($format) {
-            $filter['format'] = $format;
-        }
-        $enc_json_filter = urlencode(json_encode($filter));
-        return "{$code_href}news?filter={$enc_json_filter}";
     }
 }

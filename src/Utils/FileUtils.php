@@ -10,16 +10,10 @@ class FileUtils {
     ];
 
     public const TABLES_FILE_DIRS = [
-        'aktuell' => 'files/aktuell/',
-        'blog' => 'files/blog/',
         'downloads' => 'files/downloads/',
-        'forum' => null,
-        'galerie' => null,
-        'kaderblog' => 'files/blog/',
         'news' => 'files/news/',
         'termine' => 'files/termine/',
         'termin_templates' => 'files/termin_templates/',
-        'video' => null,
     ];
 
     public const MIME_EXTENSIONS = [

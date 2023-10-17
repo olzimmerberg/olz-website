@@ -22,10 +22,10 @@ class OlzNewsForumTile extends AbstractOlzTile {
     }
 
     public function getHtml($args = []): string {
-        $db = $this->dbUtils()->getDb();
         $entity_manager = $this->dbUtils()->getEntityManager();
         $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
+        $news_filter_utils = NewsFilterUtils::fromEnv();
 
         $newsletter_link = '';
         $newsletter_app = OlzApps::getApp('Newsletter');
@@ -43,7 +43,8 @@ class OlzNewsForumTile extends AbstractOlzTile {
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
-        $forum_url = $this->getNewsUrl('forum');
+        $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
+
         $out = <<<ZZZZZZZZZZ
         <h2><a href='{$forum_url}'>
             <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
@@ -104,17 +105,5 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $out .= "</ul>";
 
         return $out;
-    }
-
-    private function getNewsUrl($format = null) {
-        $code_href = $this->envUtils()->getCodeHref();
-
-        $news_filter_utils = NewsFilterUtils::fromEnv();
-        $filter = $news_filter_utils->getDefaultFilter();
-        if ($format) {
-            $filter['format'] = $format;
-        }
-        $enc_json_filter = urlencode(json_encode($filter));
-        return "{$code_href}news?filter={$enc_json_filter}";
     }
 }

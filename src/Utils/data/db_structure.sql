@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20230918231338
+-- MIGRATION: DoctrineMigrations\Version20231018165331
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -273,14 +273,6 @@ CREATE TABLE `news` (
   `author_email` varchar(255) DEFAULT NULL,
   `format` longtext NOT NULL,
   `tags` longtext NOT NULL DEFAULT '',
-  `bild1` longtext DEFAULT NULL,
-  `bild1_breite` int(11) DEFAULT NULL,
-  `bild1_text` longtext DEFAULT NULL,
-  `bild2` longtext DEFAULT NULL,
-  `bild2_breite` int(11) DEFAULT NULL,
-  `bild3` longtext DEFAULT NULL,
-  `bild3_breite` int(11) DEFAULT NULL,
-  `zeit` time DEFAULT NULL,
   `counter` int(11) NOT NULL DEFAULT 0,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),

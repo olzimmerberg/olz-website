@@ -64,38 +64,6 @@ class NewsEntry extends OlzEntity {
     #[ORM\Column(type: 'text', nullable: false, options: ['default' => ''])]
     private $tags;
 
-    // @deprecated No replacement
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $bild1;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $bild1_breite;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $bild1_text;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $bild2;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $bild2_breite;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $bild3;
-
-    // @deprecated No replacement
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $bild3_breite;
-
-    // @deprecated Use `published_time`
-    #[ORM\Column(type: 'time', nullable: true)]
-    private $zeit;
-
     #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
     private $counter;
     // PRIMARY KEY (`id`),

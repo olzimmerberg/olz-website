@@ -125,7 +125,7 @@ Auf der <b><a href='{$code_href}news' onmouseover='olz.highlight_menu(event)' on
 <br>
 <h3>Wer ist im Vorstand der OL Zimmerberg?</h3>
 <div>
-Porträts unseres Vorstandes sind auf der <b><a href='verein.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Vereins-Seite</a></b> zu finden.
+Porträts unseres Vorstandes sind auf der <b><a href='{$code_href}verein' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>Vereins-Seite</a></b> zu finden.
 </div>
 <br>
 <h3 id='forumsregeln'>Welche Regeln gelten für das Forum?</h3>

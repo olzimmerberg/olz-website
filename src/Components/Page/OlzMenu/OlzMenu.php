@@ -25,7 +25,7 @@ class OlzMenu extends OlzComponent {
             ["Material & Kleider", "material.php", 'large'],
             ["", "", ''],
             ["Service", "service.php", 'large'],
-            ["Verein", "verein.php", 'large'],
+            ["Verein", "verein", 'large'],
         ];
 
         $out .= "<div id='menu' class='menu'>";

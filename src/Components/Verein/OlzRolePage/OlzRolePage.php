@@ -3,19 +3,42 @@
 namespace Olz\Components\Verein\OlzRolePage;
 
 use Olz\Components\Common\OlzComponent;
+use Olz\Components\Page\OlzFooter\OlzFooter;
+use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 use Olz\Utils\HtmlUtils;
+use Olz\Utils\HttpUtils;
 
 class OlzRolePage extends OlzComponent {
     public function getHtml($args = []): string {
         $is_member = $this->authUtils()->hasPermission('member');
 
         $entityManager = $this->dbUtils()->getEntityManager();
+        $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $entityManager->getRepository(Role::class);
         $html_utils = HtmlUtils::fromEnv();
 
-        $role = $args['role'];
+        $role_username = $args['ressort'];
+        $role_repo = $entityManager->getRepository(Role::class);
+        $role = $role_repo->findOneBy(['username' => $role_username]);
+
+        if (!$role) {
+            HttpUtils::fromEnv()->dieWithHttpError(404);
+        }
+
+        // TODO: Remove again, after all ressort descriptions have been updated.
+        // This is just temporary logic!
+        $no_robots = ($role->getGuide() === '');
+
+        $role_description = $role->getDescription();
+        $end_of_first_line = strpos($role_description, "\n");
+        $first_line = $end_of_first_line
+            ? substr($role_description, 0, $end_of_first_line)
+            : $role_description;
+        $description_html = $html_utils->renderMarkdown($first_line);
+        $role_short_description = strip_tags($description_html);
+
         $role_id = $role->getId();
         $role_name = $role->getName();
         $role_description = $role->getDescription();
@@ -33,14 +56,22 @@ class OlzRolePage extends OlzComponent {
         }
 
         $out = "";
+
+        $out .= OlzHeader::render([
+            'back_link' => "{$code_href}verein",
+            'title' => "{$role->getName()} - Verein",
+            'description' => "{$role_short_description} - Ressort {$role->getName()} der OL Zimmerberg.",
+            'norobots' => $no_robots,
+        ]);
+
         $out .= "<div class='content-full olz-role-page'>";
         $out .= "<nav aria-label='breadcrumb'>";
         $out .= "<ol class='breadcrumb'>";
-        $out .= "<li class='breadcrumb-item'><a href='verein.php'>OL Zimmerberg</a></li>";
+        $out .= "<li class='breadcrumb-item'><a href='{$code_href}verein'>OL Zimmerberg</a></li>";
         foreach ($parent_chain as $breadcrumb) {
             $username = $breadcrumb->getUsername();
             $name = $breadcrumb->getName();
-            $out .= "<li class='breadcrumb-item'><a href='verein.php?ressort={$username}'>{$name}</a></li>";
+            $out .= "<li class='breadcrumb-item'><a href='{$code_href}verein/{$username}'>{$name}</a></li>";
         }
         $out .= "<li class='breadcrumb-item active' aria-current='page'>{$role_name}</li>";
         $out .= "</ol>";
@@ -77,7 +108,7 @@ class OlzRolePage extends OlzComponent {
             foreach ($child_roles as $child_role) {
                 $child_role_name = $child_role->getName();
                 $child_role_username = $child_role->getUsername();
-                $out .= "<p><a href='verein.php?ressort={$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></p>";
+                $out .= "<p><a href='{$code_href}verein/{$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></p>";
             }
         }
 
@@ -88,6 +119,8 @@ class OlzRolePage extends OlzComponent {
         }
 
         $out .= "</div>";
+        $out .= OlzFooter::render();
+
         return $out;
     }
 }

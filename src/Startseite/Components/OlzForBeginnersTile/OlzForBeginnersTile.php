@@ -22,7 +22,7 @@ class OlzForBeginnersTile extends AbstractOlzTile {
         $out .= "<ul class='links'>";
         $out .= "<li><a href='{$code_href}fuer_einsteiger.php?von=startseite' class='linkint'>Für Einsteiger</a></li>";
         $out .= "<li><a href='{$code_href}fragen_und_antworten.php' class='linkint'>Häufige Fragen (FAQ)</a></li>";
-        $out .= "<li><a href='{$code_href}verein.php' class='linkint'>Unser Verein</a></li>";
+        $out .= "<li><a href='{$code_href}verein' class='linkint'>Unser Verein</a></li>";
         $out .= "</ul>";
         return $out;
     }

@@ -26,7 +26,7 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}karten.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}material.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}service.php", 'monthly', '0.3');
-        $out .= self::getEntry("{$base_url}verein.php", 'monthly', '0.5');
+        $out .= self::getEntry("{$base_url}verein", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}datenschutz.php", 'monthly', '0.1');
         $out .= self::getEntry("{$base_url}trophy.php", 'monthly', '0.5');
 
@@ -42,7 +42,7 @@ class OlzSitemap extends OlzComponent {
 
         $verein_ressorts = $entityManager->getRepository(Role::class)->getAllActiveRessorts();
         foreach ($verein_ressorts as $verein_ressort) {
-            $out .= self::getEntry("{$base_url}verein.php?ressort={$verein_ressort}", 'monthly', '0.5');
+            $out .= self::getEntry("{$base_url}verein/{$verein_ressort}", 'monthly', '0.5');
         }
 
         $news_utils = NewsFilterUtils::fromEnv();

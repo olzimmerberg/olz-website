@@ -204,7 +204,7 @@ class ProcessEmailCommand extends OlzCommand {
         if ($user != null) {
             $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
             if (!$has_user_email_permission) {
-                $this->log()->warning("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
+                $this->log()->notice("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
                 $this->sendReportEmail($mail, $address, 550);
                 return true;
             }

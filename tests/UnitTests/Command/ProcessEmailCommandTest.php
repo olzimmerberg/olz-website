@@ -251,7 +251,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'WARNING E-Mail 12 to user with no user_email permission: no-permission',
+            'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);

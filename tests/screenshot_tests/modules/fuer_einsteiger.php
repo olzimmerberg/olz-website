@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$fuer_einsteiger_url = '/fuer_einsteiger.php';
+$fuer_einsteiger_url = '/fuer_einsteiger';
 
 function test_fuer_einsteiger($driver, $base_url) {
     global $fuer_einsteiger_url;

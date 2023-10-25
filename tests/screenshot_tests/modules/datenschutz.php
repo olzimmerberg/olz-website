@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/../utils/screenshot.php';
 
-$datenschutz_url = '/datenschutz.php';
+$datenschutz_url = '/datenschutz';
 
 function test_datenschutz($driver, $base_url) {
     global $datenschutz_url;

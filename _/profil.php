@@ -121,7 +121,7 @@ if ($user) {
             <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
             Konto löschen
         </button>
-        <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='datenschutz.php' class='linkint' target='_blank'>Datenschutz</a></p>
+        <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='{$code_href}datenschutz' class='linkint' target='_blank'>Datenschutz</a></p>
         <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
     </div>
     <div class='after-data-protection-section'></div>

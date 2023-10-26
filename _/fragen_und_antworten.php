@@ -1,7 +1,6 @@
 <?php
 
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
@@ -16,16 +15,8 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLog($logger);
 $http_utils->validateGetParams([], $_GET);
 
-echo OlzHeader::render([
-    'title' => "Fragen & Antworten",
-    'description' => "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.",
-]);
-
-echo "<div class='content-right'>";
-include __DIR__.'/fragen_und_antworten_r.php';
-echo "</div>
-<div class='content-middle'>";
-include __DIR__.'/fragen_und_antworten_l.php';
-echo "</div>";
-
-echo OlzFooter::render();
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
+$new_url = "{$code_href}fragen_und_antworten";
+http_response_code(301);
+header("Location: {$new_url}");

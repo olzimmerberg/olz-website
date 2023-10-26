@@ -20,9 +20,9 @@ class OlzFooter extends OlzComponent {
         $out .= "</div>"; // site-background
 
         $out .= "<div class='footer'>";
-        $out .= "<a href='{$code_href}fuer_einsteiger.php?von=footer'>Für Einsteiger</a>";
-        $out .= "<a href='{$code_href}fragen_und_antworten.php'>Fragen &amp; Antworten (FAQ)</a>";
-        $out .= "<a href='{$code_href}datenschutz.php'>Datenschutz</a>";
+        $out .= "<a href='{$code_href}fuer_einsteiger?von=footer'>Für Einsteiger</a>";
+        $out .= "<a href='{$code_href}fragen_und_antworten'>Fragen &amp; Antworten (FAQ)</a>";
+        $out .= "<a href='{$code_href}datenschutz'>Datenschutz</a>";
         $out .= "</div>"; // footer
 
         $out .= "</div>"; // site-container

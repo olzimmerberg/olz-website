@@ -23,7 +23,7 @@ class OlzVerifyUserEmailModal extends OlzComponent {
                         <div class='modal-body'>
                             <p><b>Wir schicken dir ein E-Mail mit dem Betreff "[OLZ] E-Mail bestätigen". Es enthält einen Link, mit dem du dann deine E-Mail-Adresse bestätigen kannst.</b></p>
                             <br/>
-                            <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzVerifyUserEmailRecaptchaConsent(this.checked)'> Ich akzeptiere, dass beim Bestätigen der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
+                            <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzVerifyUserEmailRecaptchaConsent(this.checked)'> Ich akzeptiere, dass beim Bestätigen der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
                             <div class='error-message alert alert-danger' role='alert'></div>
                             <div class='success-message alert alert-success' role='alert'></div>
                         </div>

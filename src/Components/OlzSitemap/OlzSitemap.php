@@ -18,8 +18,8 @@ class OlzSitemap extends OlzComponent {
 
         $base_url = 'https://olzimmerberg.ch/';
 
-        $out .= self::getEntry("{$base_url}fuer_einsteiger.php", 'daily', '1.0');
-        $out .= self::getEntry("{$base_url}fragen_und_antworten.php", 'daily', '0.8');
+        $out .= self::getEntry("{$base_url}fuer_einsteiger", 'daily', '1.0');
+        $out .= self::getEntry("{$base_url}fragen_und_antworten", 'daily', '0.8');
         $out .= self::getEntry("{$base_url}", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}news", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}termine", 'daily', '0.6');
@@ -27,7 +27,7 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}material.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}service.php", 'monthly', '0.3');
         $out .= self::getEntry("{$base_url}verein", 'monthly', '0.5');
-        $out .= self::getEntry("{$base_url}datenschutz.php", 'monthly', '0.1');
+        $out .= self::getEntry("{$base_url}datenschutz", 'monthly', '0.1');
         $out .= self::getEntry("{$base_url}trophy.php", 'monthly', '0.5');
 
         $news_ids = $entityManager->getRepository(NewsEntry::class)->getAllActiveIds();

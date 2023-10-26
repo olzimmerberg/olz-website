@@ -36,7 +36,7 @@ class OlzTelegramCard extends OlzComponent {
                             Aktivieren
                         </a>
                     </p>
-                    <p class="card-text"><a href='{$code_href}fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
+                    <p class="card-text"><a href='{$code_href}fragen_und_antworten#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
                 ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
@@ -54,7 +54,7 @@ class OlzTelegramCard extends OlzComponent {
                         </p>
                         <div id='telegram-notifications-success-message' class='alert alert-success' role='alert'></div>
                         <div id='telegram-notifications-error-message' class='alert alert-danger' role='alert'></div>
-                        <p class="card-text"><a href='{$code_href}fragen_und_antworten.php#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
+                        <p class="card-text"><a href='{$code_href}fragen_und_antworten#weshalb-telegram-push' class='linkwhite'>Weshalb Telegram?</a></p>
                     </form>
                 ZZZZZZZZZZ;
             }

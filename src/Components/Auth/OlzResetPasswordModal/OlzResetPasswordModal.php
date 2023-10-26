@@ -25,7 +25,7 @@ class OlzResetPasswordModal extends OlzComponent {
                                 <label for='reset-password-username-input'>
                                     Benutzername oder E-Mail
                                     <a
-                                        href='{$code_href}fragen_und_antworten.php#benutzername-email-herausfinden'
+                                        href='{$code_href}fragen_und_antworten#benutzername-email-herausfinden'
                                         class='help-link'
                                     >
                                         Vergessen?
@@ -39,7 +39,7 @@ class OlzResetPasswordModal extends OlzComponent {
                                     autofocus
                                 />
                             </div>
-                            <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzResetPasswordRecaptchaConsent(this.checked)'> Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz.php' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
+                            <p><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzResetPasswordRecaptchaConsent(this.checked)'> Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden. <a href='{$code_href}datenschutz' target='_blank'>Weitere Informationen zum Datenschutz</a></p>
                             <div class='error-message alert alert-danger' role='alert'></div>
                             <div class='success-message alert alert-success' role='alert'></div>
                         </div>

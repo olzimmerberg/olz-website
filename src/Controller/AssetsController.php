@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AssetsController extends AbstractController {
-    #[Route('/assets/icns')]
+    #[Route('/assets/icns/')]
     public function assetsIcnsIndex(
         Request $request,
         LoggerInterface $logger,

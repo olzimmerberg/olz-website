@@ -1,5 +1,6 @@
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getFormField, getRequired, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
+import { codeHref } from '../../../Utils/constants';
 
 export function olzVerifyUserEmailRecaptchaConsent(value: boolean): void {
     if (value) {
@@ -32,7 +33,7 @@ const handleResponse: HandleResponseFunction<'verifyUserEmail'> = (response) => 
     }
     window.setTimeout(() => {
         // This removes Google's injected reCaptcha script again
-        window.location.href = 'profil.php';
+        window.location.href = `${codeHref}profil`;
     }, 1000);
     return 'E-Mail versendet. Bitte warten...';
 };

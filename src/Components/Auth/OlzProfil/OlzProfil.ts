@@ -1,7 +1,9 @@
-import {olzApi} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {olzConfirm} from '../src/Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
-import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
+import {olzApi} from '../../../Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData, FieldResult} from '../../Common/OlzDefaultForm/OlzDefaultForm';
+import {olzConfirm} from '../../Common/OlzConfirmationDialog/OlzConfirmationDialog';
+import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
+
+import './OlzProfil.scss';
 
 export function olzProfileDeleteUser(userId: number): boolean {
     olzConfirm(

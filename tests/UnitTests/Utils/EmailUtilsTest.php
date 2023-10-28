@@ -60,9 +60,9 @@ final class EmailUtilsTest extends UnitTestCase {
 
         Hallo Default,
 
-        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ) oder auf folgenden Link:
+        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ) oder auf folgenden Link:
 
-        http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ
+        http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ
 
         ZZZZZZZZZZ;
         $this->assertSame([
@@ -195,8 +195,8 @@ final class EmailUtilsTest extends UnitTestCase {
 
             ---
             Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9
+            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9
+            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9
 
             <div style="text-align: right; float: right;">
                 <img src="cid:olz_logo" alt="" style="width:150px;" />
@@ -206,7 +206,7 @@ final class EmailUtilsTest extends UnitTestCase {
 
             <br /><br />
             <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion.php?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9">Keine E-Mails von OL Zimmerberg mehr</a>
+            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJJemJPZlNkX01pcER3X29mNG13WFZ3IiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVmVhMWRlNVRNNXJOSjBJZ0tLOFNEdXNCZ085ayJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIwTUROYWljSElnQUt0ZzZURDk2QlVnIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEhZdkdHbUY4UUxCOUwzai1RbmpSSlJlOVZNSUZiOGJSOW9nVEtyQlRYZHZaaHpVbWR2eVZOS2FhVkJQWVRldG1ZNXFsUXpLbyJ9">Keine E-Mails von OL Zimmerberg mehr</a>
 
             olz_logo
             ZZZZZZZZZZ, $email_utils->getComparableEmail($email));

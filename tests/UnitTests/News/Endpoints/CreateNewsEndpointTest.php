@@ -164,9 +164,9 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         Du hast soeben auf [http://fake-base-url](http://fake-base-url) einen [anonymen Forumseintrag](http://fake-base-url/_/news/270) erstellt.
 
-        Falls du deinen Eintrag wieder *löschen* willst, klicke [hier](http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0) oder auf folgenden Link:
+        Falls du deinen Eintrag wieder *löschen* willst, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0) oder auf folgenden Link:
 
-        http://fake-base-url/_/email_reaktion.php?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
+        http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
 
         ZZZZZZZZZZ;
         $this->assertSame([

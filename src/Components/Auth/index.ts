@@ -9,6 +9,7 @@ import './OlzVerifyUserEmailModal/OlzVerifyUserEmailModal.scss';
 
 export * from './OlzAccountMenu/OlzAccountMenu';
 export * from './OlzChangePasswordModal/OlzChangePasswordModal';
+export * from './OlzEmailReaktion/OlzEmailReaktion';
 export * from './OlzLoginModal/OlzLoginModal';
 export * from './OlzProfileForm/OlzProfileForm';
 export * from './OlzResetPasswordModal/OlzResetPasswordModal';

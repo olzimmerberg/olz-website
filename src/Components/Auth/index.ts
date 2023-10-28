@@ -11,6 +11,7 @@ export * from './OlzAccountMenu/OlzAccountMenu';
 export * from './OlzChangePasswordModal/OlzChangePasswordModal';
 export * from './OlzEmailReaktion/OlzEmailReaktion';
 export * from './OlzLoginModal/OlzLoginModal';
+export * from './OlzProfil/OlzProfil';
 export * from './OlzProfileForm/OlzProfileForm';
 export * from './OlzResetPasswordModal/OlzResetPasswordModal';
 export * from './OlzSignUpModal/OlzSignUpModal';

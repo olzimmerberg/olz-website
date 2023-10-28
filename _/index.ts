@@ -9,13 +9,11 @@ import lgVideo from 'lightgallery/plugins/video';
 import './index.scss';
 import './konto_passwort.scss';
 import './konto_strava.scss';
-import './profil.scss';
 import './webftp.scss';
 
 export * from './features/index';
 export * from './konto_passwort';
 export * from './konto_strava';
-export * from './profil';
 export * from './scripts/index';
 export * from './styles/index';
 export * from './webftp';

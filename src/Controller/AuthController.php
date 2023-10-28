@@ -3,6 +3,7 @@
 namespace Olz\Controller;
 
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
+use Olz\Components\Auth\OlzProfil\OlzProfil;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,15 @@ class AuthController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = OlzEmailReaktion::render();
+        return new Response($out);
+    }
+
+    #[Route('/profil')]
+    public function profil(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzProfil::render();
         return new Response($out);
     }
 }

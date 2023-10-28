@@ -1,4 +1,5 @@
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getCountryCode, getEmail, getFormField, validFieldResult, getGender, getInteger, getIsoDate, getPassword, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import { codeHref } from '../src/Utils/constants';
 import {loadRecaptchaToken, loadRecaptcha} from '../src/Utils/recaptchaUtils';
 
 export function olzSignUpRecaptchaConsent(value: boolean): void {
@@ -32,7 +33,7 @@ const handleResponse: HandleResponseFunction<'signUpWithPassword'> = (response) 
     }
     window.setTimeout(() => {
         // This removes Google's injected reCaptcha script again
-        window.location.href = 'profil.php';
+        window.location.href = `${codeHref}profil`;
     }, 1000);
     if (response.status === 'OK_NO_EMAIL_VERIFICATION') {
         return 'Benutzerkonto erfolgreich erstellt. E-Mail bitte manuell bestätigen! Bitte warten...';

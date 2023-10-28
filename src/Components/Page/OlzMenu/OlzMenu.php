@@ -22,7 +22,7 @@ class OlzMenu extends OlzComponent {
             ["Termine", "termine", 'large'],
             ["", "", ''],
             ["Karten", "karten.php", 'large'],
-            ["Material & Kleider", "material.php", 'large'],
+            ["Material & Kleider", "material", 'large'],
             ["", "", ''],
             ["Service", "service.php", 'large'],
             ["Verein", "verein", 'large'],

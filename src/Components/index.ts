@@ -3,6 +3,7 @@ export * from './Auth/index';
 export * from './Common/index';
 export * from './Error/index';
 export * from './Notify/index';
+export * from './OtherPages/index';
 export * from './Page/index';
 export * from './Upload/index';
 export * from './Users/index';

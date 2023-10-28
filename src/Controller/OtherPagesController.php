@@ -5,6 +5,7 @@ namespace Olz\Controller;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFragenUndAntworten\OlzFragenUndAntworten;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
+use Olz\Components\OtherPages\OlzTrophy\OlzTrophy;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,15 @@ class OtherPagesController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = OlzFuerEinsteiger::render();
+        return new Response($out);
+    }
+
+    #[Route('/trophy')]
+    public function trophy(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzTrophy::render();
         return new Response($out);
     }
 }

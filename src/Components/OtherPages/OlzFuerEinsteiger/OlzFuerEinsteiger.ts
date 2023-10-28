@@ -1,4 +1,6 @@
-import {codeHref, dataHref} from '../src/Utils/constants';
+import {codeHref, dataHref} from '../../../Utils/constants';
+
+import './OlzFuerEinsteiger.scss';
 
 export function highlight_menu(e: Event): void {
     const menuContainerElem = document.getElementById('menu-container');

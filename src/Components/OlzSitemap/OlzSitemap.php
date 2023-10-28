@@ -28,7 +28,7 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}service.php", 'monthly', '0.3');
         $out .= self::getEntry("{$base_url}verein", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}datenschutz", 'monthly', '0.1');
-        $out .= self::getEntry("{$base_url}trophy.php", 'monthly', '0.5');
+        $out .= self::getEntry("{$base_url}trophy", 'monthly', '0.5');
 
         $news_ids = $entityManager->getRepository(NewsEntry::class)->getAllActiveIds();
         foreach ($news_ids as $news_id) {

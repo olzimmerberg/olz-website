@@ -73,7 +73,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             $base_url = $this->envUtils()->getBaseHref();
             $code_href = $this->envUtils()->getCodeHref();
             $news_url = "{$base_url}{$code_href}news/{$news_entry->getId()}";
-            $delete_news_url = "{$base_url}{$code_href}email_reaktion.php?token={$delete_news_token}";
+            $delete_news_url = "{$base_url}{$code_href}email_reaktion?token={$delete_news_token}";
             $text = <<<ZZZZZZZZZZ
             Hallo {$anonymous_user->getFirstName()},
 

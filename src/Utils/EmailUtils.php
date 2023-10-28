@@ -42,7 +42,7 @@ class EmailUtils {
         ]));
         $base_url = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
-        $verify_email_url = "{$base_url}{$code_href}email_reaktion.php?token={$verify_email_token}";
+        $verify_email_url = "{$base_url}{$code_href}email_reaktion?token={$verify_email_token}";
         $text = <<<ZZZZZZZZZZ
         **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
 
@@ -132,8 +132,8 @@ class EmailUtils {
             ]));
             $base_url = $this->envUtils()->getBaseHref();
             $code_href = $this->envUtils()->getCodeHref();
-            $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_this_token}";
-            $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion.php?token={$unsubscribe_all_token}";
+            $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion?token={$unsubscribe_this_token}";
+            $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion?token={$unsubscribe_all_token}";
             $html_unsubscribe = <<<ZZZZZZZZZZ
             <br /><br />
             <hr style="border: 0; border-top: 1px solid black;">

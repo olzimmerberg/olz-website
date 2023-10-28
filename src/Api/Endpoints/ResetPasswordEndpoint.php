@@ -55,7 +55,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         ]));
         $base_url = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
-        $reset_password_url = "{$base_url}{$code_href}email_reaktion.php?token={$reset_password_token}";
+        $reset_password_url = "{$base_url}{$code_href}email_reaktion?token={$reset_password_token}";
         $text = <<<ZZZZZZZZZZ
         **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
 

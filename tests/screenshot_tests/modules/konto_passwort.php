@@ -6,7 +6,7 @@ require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$konto_passwort_url = '/konto_passwort.php';
+$konto_passwort_url = '/konto_passwort';
 $webftp_url = '/webftp.php';
 
 function test_konto_passwort($driver, $base_url) {

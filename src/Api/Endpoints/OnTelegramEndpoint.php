@@ -94,7 +94,7 @@ class OnTelegramEndpoint extends OlzEndpoint {
             $this->telegramUtils()->callTelegramApi('sendMessage', [
                 'chat_id' => $message_chat_id,
                 'parse_mode' => 'HTML',
-                'text' => "<b>Willkommen bei der OL Zimmerberg!</b>\n\nDamit dieser Chat zu irgendwas zu gebrauchen ist, musst du <a href=\"https://olzimmerberg.ch/konto_telegram.php?pin={$pin}\">hier dein OLZ-Konto verlinken</a>.\n\nDieser Link wird nach 10 Minuten ungültig; wähle /start, um einen neuen Link zu erhalten.",
+                'text' => "<b>Willkommen bei der OL Zimmerberg!</b>\n\nDamit dieser Chat zu irgendwas zu gebrauchen ist, musst du <a href=\"https://olzimmerberg.ch/konto_telegram?pin={$pin}\">hier dein OLZ-Konto verlinken</a>.\n\nDieser Link wird nach 10 Minuten ungültig; wähle /start, um einen neuen Link zu erhalten.",
                 'disable_web_page_preview' => true,
             ]);
             return [];

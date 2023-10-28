@@ -17,7 +17,7 @@ class StravaUtils {
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
-        $redirect_url = $base_href.$code_href.'konto_strava.php';
+        $redirect_url = "{$base_href}{$code_href}konto_strava";
         $strava_fetcher = new StravaFetcher();
 
         $instance = new self();

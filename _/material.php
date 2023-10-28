@@ -1,7 +1,6 @@
 <?php
 
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 
@@ -16,17 +15,8 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->setLog($logger);
 $http_utils->validateGetParams([], $_GET);
 
-echo OlzHeader::render([
-    'title' => "Material & Kleider",
-    'description' => "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.",
-]);
-
-echo "<div class='content-full'>
-<form name='Formularl' method='post' action='material.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
-<div>";
-include __DIR__.'/material_d.php';
-echo "</div>
-</form>
-</div>";
-
-echo OlzFooter::render();
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
+$new_url = "{$code_href}material";
+http_response_code(301);
+header("Location: {$new_url}");

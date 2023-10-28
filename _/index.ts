@@ -7,13 +7,9 @@ import lightGallery from 'lightgallery';
 import lgVideo from 'lightgallery/plugins/video';
 
 import './index.scss';
-import './konto_passwort.scss';
-import './konto_strava.scss';
 import './webftp.scss';
 
 export * from './features/index';
-export * from './konto_passwort';
-export * from './konto_strava';
 export * from './scripts/index';
 export * from './styles/index';
 export * from './webftp';

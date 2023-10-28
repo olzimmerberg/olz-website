@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
-import {olzApi} from '../src/Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../src/Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {olzApi} from '../../../Api/client';
+import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getCountryCode, getEmail, getFormField, getGender, getInteger, getIsoDate, getPhone, getRequired, getStringOrNull, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
 
 export function olzKontoLoginWithStrava(code: string): boolean {
     $('#sign-up-with-strava-login-status').attr('class', 'alert alert-secondary');

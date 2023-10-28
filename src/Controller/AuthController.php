@@ -3,6 +3,9 @@
 namespace Olz\Controller;
 
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
+use Olz\Components\Auth\OlzKontoPasswort\OlzKontoPasswort;
+use Olz\Components\Auth\OlzKontoStrava\OlzKontoStrava;
+use Olz\Components\Auth\OlzKontoTelegram\OlzKontoTelegram;
 use Olz\Components\Auth\OlzProfil\OlzProfil;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +20,33 @@ class AuthController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = OlzEmailReaktion::render();
+        return new Response($out);
+    }
+
+    #[Route('/konto_passwort')]
+    public function kontoPasswort(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzKontoPasswort::render();
+        return new Response($out);
+    }
+
+    #[Route('/konto_strava')]
+    public function kontoStrava(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzKontoStrava::render();
+        return new Response($out);
+    }
+
+    #[Route('/konto_telegram')]
+    public function kontoTelegram(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzKontoTelegram::render();
         return new Response($out);
     }
 

@@ -165,7 +165,7 @@ class OlzProfil extends OlzComponent {
             <hr />
             <a
                 class='btn btn-secondary'
-                href='{$code_href}konto_passwort.php'
+                href='{$code_href}konto_passwort'
                 role='button'
             >
                 Familienmitglied hinzufügen

@@ -25,7 +25,7 @@ class OlzSitemap extends OlzComponent {
         $out .= self::getEntry("{$base_url}termine", 'daily', '0.6');
         $out .= self::getEntry("{$base_url}karten.php", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}material", 'monthly', '0.5');
-        $out .= self::getEntry("{$base_url}service.php", 'monthly', '0.3');
+        $out .= self::getEntry("{$base_url}service", 'monthly', '0.3');
         $out .= self::getEntry("{$base_url}verein", 'monthly', '0.5');
         $out .= self::getEntry("{$base_url}datenschutz", 'monthly', '0.1');
         $out .= self::getEntry("{$base_url}trophy", 'monthly', '0.5');

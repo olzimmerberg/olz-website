@@ -11,6 +11,7 @@ use Olz\Utils\DbUtils;
 
 class OlzMaterial extends OlzComponent {
     public function getHtml($args = []): string {
+        $code_href = $this->envUtils()->getCodeHref();
         $out = '';
 
         $out .= OlzHeader::render([
@@ -105,8 +106,8 @@ class OlzMaterial extends OlzComponent {
             $out .= OlzUserInfoCard::render(['user' => $sportident_assignee]);
         }
 
-        $out .= <<<'ZZZZZZZZZZ'
-        <div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der <a href='service.php' class='linkint'>Service-Seite</a> zu finden.</div>
+        $out .= <<<ZZZZZZZZZZ
+        <div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der <a href='{$code_href}service' class='linkint'>Service-Seite</a> zu finden.</div>
         <div><b>Verlorenes, beschädigtes Material: </b>Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.</div>
 
         <h2>Dienstleistungen</h2>

@@ -1,7 +1,6 @@
 <?php
 
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -21,13 +20,8 @@ $http_utils->validateGetParams([
     'buttondownloads' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
-echo OlzHeader::render([
-    'title' => "Service",
-    'description' => "Diverse Online-Tools rund um OL und die OL Zimmerberg.",
-]);
-
-echo "<div class='content-full'>";
-include __DIR__.'/service_d.php';
-echo "</div>";
-
-echo OlzFooter::render();
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
+$new_url = "{$code_href}service";
+http_response_code(301);
+header("Location: {$new_url}");

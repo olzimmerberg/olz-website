@@ -52,7 +52,7 @@ class OlzMenu extends OlzComponent {
         $out .= self::getMenu($menu, "mainmenu", $code_href);
 
         $out .= <<<ZZZZZZZZZZ
-        <form name='Suche' method='get' action='{$code_href}suche.php'>
+        <form name='Suche' method='get' action='{$code_href}suche'>
             <input
                 type='text'
                 name='anfrage'

@@ -12,4 +12,4 @@ $http_utils->setLog($logger);
 $http_utils->validateGetParams([], $_GET);
 
 // TODO: Delete; Both index.php and startseite.php are obsolete!
-$http_utils->redirect("{$env_utils->getCodeHref()}startseite.php", 308);
+$http_utils->redirect("{$env_utils->getCodeHref()}startseite", 308);

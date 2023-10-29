@@ -16,6 +16,7 @@ export * from './webftp';
 
 export * from '../src/Apps/index';
 export * from '../src/Components/index';
+export * from '../src/Karten/index';
 export * from '../src/News/index';
 export * from '../src/Startseite/index';
 export * from '../src/Termine/index';

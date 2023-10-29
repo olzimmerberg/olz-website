@@ -77,12 +77,12 @@ class OlzFragenUndAntworten extends OlzComponent {
             "sql_where" => " AND typ LIKE '%training%'",
             "heute_highlight" => false,
         ]);
-        $out .= <<<'ZZZZZZZZZZ'
+        $out .= <<<ZZZZZZZZZZ
         </div>
         <br>
         <h3>Wo finden die OL-Trainings statt?</h3>
         <div>
-        Meistens in der Region Zimmerberg, auf <b><a href='karten.php' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>unseren Karten</a></b>.
+        Meistens in der Region Zimmerberg, auf <b><a href='{$code_href}karten' onmouseover='olz.highlight_menu(event)' onmouseout='olz.unhighlight_menu(event)' class='linkint'>unseren Karten</a></b>.
         </div>
         <br>
         <h3>Wie reise ich zu einem Training?</h3>

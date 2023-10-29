@@ -6,6 +6,7 @@ use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFragenUndAntworten\OlzFragenUndAntworten;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
+use Olz\Components\OtherPages\OlzService\OlzService;
 use Olz\Components\OtherPages\OlzTrophy\OlzTrophy;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +48,15 @@ class OtherPagesController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = OlzMaterial::render();
+        return new Response($out);
+    }
+
+    #[Route('/service')]
+    public function service(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzService::render();
         return new Response($out);
     }
 

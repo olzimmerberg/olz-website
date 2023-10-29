@@ -6,7 +6,7 @@ require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
-$service_url = '/service.php';
+$service_url = '/service';
 
 function test_downloads($driver, $base_url) {
     global $service_url;

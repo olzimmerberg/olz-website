@@ -142,6 +142,5 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([
             ['olz:on-daily', ''],
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
-        $this->assertSame(true, WithUtilsCache::get('telegramUtils')->configurationSent);
     }
 }

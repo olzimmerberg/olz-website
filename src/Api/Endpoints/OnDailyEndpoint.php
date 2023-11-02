@@ -62,8 +62,6 @@ class OnDailyEndpoint extends OlzEndpoint {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_daily', $this->dateUtils()->getIsoNow());
 
-        $this->telegramUtils()->sendConfiguration();
-
         $command_input = new ArrayInput([]);
         $command_output = new BufferedOutput();
         $this->symfonyUtils()->callCommand('olz:on-daily', $command_input, $command_output);

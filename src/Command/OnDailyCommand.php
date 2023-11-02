@@ -25,6 +25,11 @@ class OnDailyCommand extends OlzCommand {
             $output,
         );
         $this->callCommand(
+            'olz:send-telegram-configuration',
+            new ArrayInput([]),
+            $output,
+        );
+        $this->callCommand(
             'olz:sync-solv',
             new ArrayInput([]),
             $output,

@@ -4,7 +4,8 @@ import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, 
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 
 $(() => {
-    $('#reset-password-modal').on('shown.bs.modal', () => {
+    const resetPasswordModal = document.getElementById('reset-password-modal');
+    resetPasswordModal?.addEventListener('shown.bs.modal', () => {
         $('#reset-password-username-input').trigger('focus');
     });
 });

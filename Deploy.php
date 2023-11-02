@@ -200,6 +200,7 @@ class Deploy extends AbstractDefaultDeploy {
             // Add doctrine:cache:clear-result?
             $execute_command('cache:clear');
             $execute_command('olz:db-reset', 'full');
+            $execute_command('olz:send-telegram-configuration');
         } elseif ($this->environment === 'prod') {
             $execute_command('cache:clear');
             $execute_command('olz:db-migrate');

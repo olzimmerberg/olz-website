@@ -4,7 +4,8 @@ import * as bootstrap from 'bootstrap';
 import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, HandleResponseFunction, getAsserted, getFormField, getPassword, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../Common/OlzDefaultForm/OlzDefaultForm';
 
 $(() => {
-    $('#change-password-modal').on('shown.bs.modal', () => {
+    const changePasswordModal = document.getElementById('change-password-modal');
+    changePasswordModal?.addEventListener('shown.bs.modal', () => {
         $('#change-password-old-input').trigger('focus');
     });
 });

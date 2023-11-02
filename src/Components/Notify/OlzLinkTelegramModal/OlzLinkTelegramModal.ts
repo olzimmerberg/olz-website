@@ -3,7 +3,8 @@ import $ from 'jquery';
 import {olzApi} from '../../../../src/Api/client';
 
 $(() => {
-    $('#link-telegram-modal').on('shown.bs.modal', () => {
+    const linkTelegramModal = document.getElementById('link-telegram-modal');
+    linkTelegramModal?.addEventListener('shown.bs.modal', () => {
         olzLinkTelegramModalGetChatLink();
     });
 });
@@ -17,11 +18,11 @@ export function olzLinkTelegramModalGetChatLink(): void {
         {},
     )
         .then((response) => {
-            const chatLink = `https://t.me/${response.botName}`;
-            const chatLinkPin = `${chatLink}?start=${response.pin}`;
+            const chatLinkDesktop = `https://web.telegram.org/k/#@${response.botName}`;
+            const chatLinkMobile = `https://t.me/${response.botName}?start=${response.pin}`;
             const chatMessage = `/start ${response.pin}`;
-            $('#telegram-chat-link').attr('href', chatLink);
-            $('#telegram-chat-link-pin').attr('href', chatLinkPin);
+            $('#telegram-chat-link-desktop').attr('href', chatLinkDesktop);
+            $('#telegram-chat-link-mobile').attr('href', chatLinkMobile);
             $('#telegram-chat-message').val(chatMessage);
             $('.chat-link-wait').hide();
             $('.chat-link-ready').show();

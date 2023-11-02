@@ -40,11 +40,13 @@ export const OlzGoogleSearch = (): React.ReactElement => {
             <OlzCopyableCredential
                 label='Benutername'
                 value={username}
+                className='test-flaky'
             />
             <wbr />
             <OlzCopyableCredential
                 label='Passwort'
                 value={password}
+                className='test-flaky'
             />
         </div>
         <div className='buttons'>
@@ -62,11 +64,13 @@ export const OlzGoogleSearch = (): React.ReactElement => {
             <OlzCopyableCredential
                 label='Benutername'
                 value={username}
+                className='test-flaky'
             />
             <wbr />
             <OlzCopyableCredential
                 label='Passwort'
                 value={password}
+                className='test-flaky'
             />
         </div>
         <div className='buttons'>

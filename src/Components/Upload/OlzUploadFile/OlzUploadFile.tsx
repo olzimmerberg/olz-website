@@ -49,8 +49,8 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
         ) : undefined;
         return (
             <div className='olz-upload-file uploaded' title={uploadedInfo}>
-                <div className='uploaded-file-container'>
-                    <div className='info test-flaky'>
+                <div className='uploaded-file-container test-flaky'>
+                    <div className='info'>
                         {uploadedInfo}
                     </div>
                     {copyButton}

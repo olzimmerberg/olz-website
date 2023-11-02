@@ -5,6 +5,7 @@ import './OlzCopyableCredential.scss';
 interface OlzCopyableCredentialProps {
     label: string;
     value: string;
+    className?: string;
 }
 
 export const OlzCopyableCredential = (props: OlzCopyableCredentialProps): React.ReactElement => (
@@ -17,7 +18,7 @@ export const OlzCopyableCredential = (props: OlzCopyableCredentialProps): React.
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
                 e.currentTarget.select();
             }}
-            className='credential-output'
+            className={`credential-output ${props.className ?? ''}`}
         />
     </span>
 );

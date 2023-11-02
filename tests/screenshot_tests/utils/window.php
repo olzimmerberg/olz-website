@@ -13,30 +13,40 @@ function set_window_size($driver, $width, $height) {
     $driver->manage()->window()->setSize($size_to_set);
 }
 
+$modal = "[...document.querySelectorAll('.modal')].filter(i => i.style.display === 'block')[0]";
+$window_or_modal = "";
+
 function get_window_width($driver) {
-    return $driver->executeScript('return window.innerWidth', []);
+    global $modal;
+    return $driver->executeScript("return window.innerWidth", []);
 }
 
 function get_window_height($driver) {
-    return $driver->executeScript('return window.innerHeight', []);
+    global $modal;
+    return $driver->executeScript("return window.innerHeight", []);
 }
 
 function window_scroll_to($driver, $x, $y) {
-    $driver->executeScript("window.scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
+    global $modal;
+    $driver->executeScript("({$modal} ?? window).scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
 }
 
 function get_window_scroll_x($driver) {
-    return $driver->executeScript('return window.scrollX', []);
+    global $modal;
+    return $driver->executeScript("return ({$modal}?.scrollLeft ?? window.scrollX)", []);
 }
 
 function get_window_scroll_y($driver) {
-    return $driver->executeScript('return window.scrollY', []);
+    global $modal;
+    return $driver->executeScript("return ({$modal}?.scrollTop ?? window.scrollY)", []);
 }
 
 function get_body_width($driver) {
-    return $driver->executeScript('return document.body.offsetWidth', []);
+    global $modal;
+    return $driver->executeScript("return ({$modal}?.children[0]?.offsetWidth ?? document.body.offsetWidth)", []);
 }
 
 function get_body_height($driver) {
-    return $driver->executeScript('return document.body.offsetHeight', []);
+    global $modal;
+    return $driver->executeScript("return ({$modal}?.children[0]?.offsetHeight ?? document.body.offsetHeight)", []);
 }

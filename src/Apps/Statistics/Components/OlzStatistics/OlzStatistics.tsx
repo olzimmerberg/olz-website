@@ -63,7 +63,7 @@ export const OlzStatistics = (): React.ReactElement => {
             </select>
         </div>
         <iframe
-            className='statistics-iframe'
+            className='statistics-iframe test-flaky'
             src={`${statisticsUrl}${monthIdent}/index.html`}
         >
         </iframe>

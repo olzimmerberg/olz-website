@@ -7,3 +7,7 @@
 .olz-override-root * {
     transition: none !important;
 }
+
+.olz-override-root .modal {
+    position: absolute;
+}

@@ -44,17 +44,21 @@ export const OlzStatistics = (): React.ReactElement => {
         setMonthIdent(newMonthIdent);
     }, []);
 
-    if (!username || !password) {
-        return (
-            <div>Lädt...</div>
-        );
-    }
-
-    const statisticsUrl = getOlzStatisticsUrl(username, password);
-
     const options = monthIdents.map((value) => (
         <option value={value} selected={value === monthIdent}>{value}</option>
     ));
+
+    let iframeElem = (<div className='statistics-iframe test-flaky'>Lädt...</div>);
+    if (username && password) {
+        const statisticsUrl = getOlzStatisticsUrl(username, password);
+        iframeElem = (
+            <iframe
+                className='statistics-iframe test-flaky'
+                src={`${statisticsUrl}${monthIdent}/index.html`}
+            >
+            </iframe>
+        );
+    }
 
     return (<>
         <div className='statistics-header'>
@@ -62,10 +66,6 @@ export const OlzStatistics = (): React.ReactElement => {
                 {options}
             </select>
         </div>
-        <iframe
-            className='statistics-iframe test-flaky'
-            src={`${statisticsUrl}${monthIdent}/index.html`}
-        >
-        </iframe>
+        {iframeElem}
     </>);
 };

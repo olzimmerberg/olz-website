@@ -1,13 +1,49 @@
 import React from 'react';
+import {useHash} from 'react-use';
 
 import {olzApi} from '../../../../Api/client';
 import {OlzLogLevel, OlzLogsQuery} from '../../../../Api/client/generated_olz_api_types';
-import {OlzInfiniteScroll, OlzInfiniteScrollProps} from '../OlzInfiniteScroll/OlzInfiniteScroll';
+import {OlzInfiniteScroll} from '../OlzInfiniteScroll/OlzInfiniteScroll';
 import {dataHref, isoNow} from '../../../../Utils/constants';
 
 import './OlzLogs.scss';
 
 const MAX_LINE_LENGTH = 5000;
+
+const serializeHash = (channel: string, date: string, logLevel: string, textSearch: string) => {
+    const encChannel = encodeURIComponent(channel);
+    const encDate = encodeURIComponent(date);
+    const encLogLevel = encodeURIComponent(logLevel);
+    const encTextSearch = encodeURIComponent(textSearch);
+    return `#${encChannel}/${encDate}/${encLogLevel}/${encTextSearch}`;
+};
+
+const deserializeHash = (hash: string) => {
+    const hashArray = hash.substring(1).split('/');
+    if (hashArray.length !== 4) {
+        return undefined;
+    }
+    return hashArray.map(decodeURIComponent);
+};
+
+const elementFromHash = (
+    hash: string,
+    setHash: (newHash: string) => void,
+    index: number,
+    defaultValue: string,
+) => {
+    const initialValue = deserializeHash(hash)?.[index] ?? defaultValue;
+    const [value, setValue] = React.useState(initialValue);
+    return [
+        value,
+        (newValue: string) => {
+            setValue(newValue);
+            const arr = deserializeHash(hash) ?? ['', '', '', ''];
+            arr[index] = newValue;
+            setHash(serializeHash(arr[0], arr[1], arr[2], arr[3]));
+        },
+    ] as const;
+};
 
 const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery => {
     let targetDate: string|null = null;
@@ -59,73 +95,80 @@ const getTokenQuery = (
     pageToken,
 } : null);
 
+const renderItem = (line: string) => {
+    if (line === '---') {
+        return (
+            <div className='log-line' id='initial-position'>
+                <div id='initial-scroll'></div>
+                {line}
+            </div>
+        );
+    }
+
+    const mustCrop = line.length > MAX_LINE_LENGTH;
+    const croppedLine = mustCrop
+        ? `${line.substring(0, MAX_LINE_LENGTH - 1)}\u{2026}`
+        : line;
+    const shouldGreyOut = shouldLineBeGreyedOut(line);
+    if (shouldGreyOut) {
+        return (
+            <div className='log-line greyed-out'>
+                {croppedLine}
+            </div>
+        );
+    }
+
+    const formattingRegex = /^(.*\s+)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
+    const match = formattingRegex.exec(croppedLine);
+    if (!match) {
+        return (<div className='log-line level-unknown'>{croppedLine}</div>);
+    }
+    const lineLogLevel = match[3].toLowerCase();
+    return (
+        <div className={`log-line level-${lineLogLevel}`}>
+            {match[1]}
+            <span className='log-channel'>
+                {match[2]}
+            </span>
+                .
+            <span className='log-level'>
+                {match[3]}
+            </span>
+            {match[4]}
+        </div>
+    );
+};
+
 export const OlzLogs = (): React.ReactElement => {
     const channels = (window as unknown as {
         olzLogsChannels: {[id: string]: string}
     }).olzLogsChannels;
 
-    const [channel, setChannel] = React.useState<string>(Object.keys(channels)[0]);
-    const [date, setDate] = React.useState<string>(isoNow);
-    const [logLevel, setLogLevel] = React.useState<string>('levels-all');
-    const [textSearch, setTextSearch] = React.useState<string>('');
+    const [hash, setHash] = useHash();
+
+    const [channel, setChannel] = elementFromHash(hash, setHash, 0, Object.keys(channels)[0]);
+    const [date, setDate] = elementFromHash(hash, setHash, 1, isoNow);
+    const [logLevel, setLogLevel] = elementFromHash(hash, setHash, 2, 'levels-all');
+    const [textSearch, setTextSearch] = elementFromHash(hash, setHash, 3, '');
+
+    React.useEffect(() => {
+        if (hash.substring(1).split('/').length !== 4) {
+            setHash(serializeHash(channel, date, logLevel, textSearch));
+        }
+    }, []);
 
     const initialQuery = getQuery(channel, date, logLevel, textSearch);
 
-    const fetch: OlzInfiniteScrollProps<string, OlzLogsQuery>['fetch'] =
-        async (query: OlzLogsQuery) => {
-            const response = await olzApi.call(
-                'getLogs',
-                {query},
-            );
-            return {
-                items: response.content,
-                prevQuery: getTokenQuery(initialQuery, response.pagination.previous),
-                nextQuery: getTokenQuery(initialQuery, response.pagination.next),
-            };
-        };
-
-    const renderItem = (line: string) => {
-        if (line === '---') {
-            return (
-                <div className='log-line' id='initial-position'>
-                    <div id='initial-scroll'></div>
-                    {line}
-                </div>
-            );
-        }
-
-        const mustCrop = line.length > MAX_LINE_LENGTH;
-        const croppedLine = mustCrop
-            ? `${line.substring(0, MAX_LINE_LENGTH - 1)}\u{2026}`
-            : line;
-        const shouldGreyOut = shouldLineBeGreyedOut(line);
-        if (shouldGreyOut) {
-            return (
-                <div className='log-line greyed-out'>
-                    {croppedLine}
-                </div>
-            );
-        }
-
-        const formattingRegex = /^(.*\s+)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
-        const match = formattingRegex.exec(croppedLine);
-        if (!match) {
-            return (<div className='log-line level-unknown'>{croppedLine}</div>);
-        }
-        const lineLogLevel = match[3].toLowerCase();
-        return (
-            <div className={`log-line level-${lineLogLevel}`}>
-                {match[1]}
-                <span className='log-channel'>
-                    {match[2]}
-                </span>
-                    .
-                <span className='log-level'>
-                    {match[3]}
-                </span>
-                {match[4]}
-            </div>
+    const fetch = async (query: OlzLogsQuery) => {
+        const response = await olzApi.call(
+            'getLogs',
+            {query},
         );
+        return {
+            items: response.content,
+            prevQuery: getTokenQuery(initialQuery, response.pagination.previous),
+            nextQuery: getTokenQuery(initialQuery, response.pagination.next),
+        };
     };
 
     return (<>
@@ -141,7 +184,7 @@ export const OlzLogs = (): React.ReactElement => {
                 }}
             >
                 {Object.keys(channels).map((id) => (
-                    <option value={id}>{channels[id]}</option>
+                    <option value={id} key={id}>{channels[id]}</option>
                 ))}
             </select>
             <div className='input-group input-group-sm'>

@@ -61,9 +61,12 @@ export const OlzInfiniteScroll = <Item, Query>(
             return;
         }
         setIsPrevLoading(true);
-        props.fetch(prevQuery)
+        const query = prevQuery;
+        props.fetch(query)
             .then((result) => {
-                // TODO: Drop the result if it's already outdated!
+                if (query !== prevQuery) {
+                    return; // Drop the result; it's already outdated!
+                }
                 setItems([...result.items, ...items]);
                 setPrevQuery(result.prevQuery);
                 setTimeout(() => {
@@ -86,9 +89,12 @@ export const OlzInfiniteScroll = <Item, Query>(
             return;
         }
         setIsNextLoading(true);
-        props.fetch(nextQuery)
+        const query = nextQuery;
+        props.fetch(query)
             .then((result) => {
-                // TODO: Drop the result if it's already outdated!
+                if (query !== nextQuery) {
+                    return; // Drop the result; it's already outdated!
+                }
                 setItems([...items, ...result.items]);
                 setNextQuery(result.nextQuery);
                 setTimeout(() => {

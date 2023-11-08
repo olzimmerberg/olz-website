@@ -45,11 +45,13 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
         try {
             $this->symfonyUtils()->callCommand($command_name, $command_input, $command_output);
             $output = $command_output->fetch();
+            $this->log()->info("Command {$command_name} successfully executed via endpoint.");
             return [
                 'error' => false,
                 'output' => $output ? $output : '(no output)',
             ];
         } catch (\Throwable $th) {
+            $this->log()->notice("Failed to execute command {$command_name} via endpoint.");
             $output = $command_output->fetch();
             return [
                 'error' => true,

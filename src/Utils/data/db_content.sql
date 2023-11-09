@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20231018165331
+-- MIGRATION: DoctrineMigrations\Version20231114221915
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -69,9 +69,16 @@ VALUES
     ('DoctrineMigrations\\Version20230918192344', '2023-09-18 21:37:49', '2264'),
     ('DoctrineMigrations\\Version20230918214135', '2023-09-18 23:43:01', '300'),
     ('DoctrineMigrations\\Version20230918231338', '2023-09-19 18:09:29', '1270'),
-    ('DoctrineMigrations\\Version20231018165331', '2023-10-18 18:55:14', '72');
+    ('DoctrineMigrations\\Version20231018165331', '2023-10-18 18:55:14', '72'),
+    ('DoctrineMigrations\\Version20231114221915', '2023-11-14 23:26:53', '1546');
 
 -- Table downloads
+INSERT INTO downloads
+    (`id`, `name`, `position`, `file_id`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', 'Statuten', '0', 'MIGRATED0000000000010001.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('2', '---', '1', NULL, '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('3', 'Spesenreglement', '2', 'XV4x94BJaf2JCPWvB8DDqTyt.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table facebook_links
 
@@ -86,6 +93,12 @@ VALUES
     ('3', '1', '0', 'Horgen Dorfkern', '687900', '234700', '2011', '1:2\'000', 'Horgen', '8', 'stadt', 'horgen_dorfkern_2011_2000.jpg');
 
 -- Table links
+INSERT INTO links
+    (`id`, `name`, `url`, `position`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
+VALUES
+    ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('2', '---', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table messenger_messages
 

@@ -26,6 +26,36 @@ export type OlzMetaData = {
     'onOff': boolean,
 };
 
+export type OlzDownloadData = {
+    'name': string,
+    'position': number|null,
+    'fileId': string|null,
+};
+
+export type OlzMetaDataOrNull = {
+    'ownerUserId': number|null,
+    'ownerRoleId': number|null,
+    'onOff': boolean,
+}|null;
+
+export type OlzDownloadDataOrNull = {
+    'name': string,
+    'position': number|null,
+    'fileId': string|null,
+}|null;
+
+export type OlzLinkData = {
+    'position': number|null,
+    'name': string,
+    'url': string,
+};
+
+export type OlzLinkDataOrNull = {
+    'position': number|null,
+    'name': string,
+    'url': string,
+}|null;
+
 export type OlzNewsData = {
     'format': OlzNewsFormat,
     'authorUserId': number|null,
@@ -43,12 +73,6 @@ export type OlzNewsData = {
 };
 
 export type OlzNewsFormat = 'aktuell'|'kaderblog'|'forum'|'galerie'|'video'|'anonymous';
-
-export type OlzMetaDataOrNull = {
-    'ownerUserId': number|null,
-    'ownerRoleId': number|null,
-    'onOff': boolean,
-}|null;
 
 export type OlzNewsDataOrNull = {
     'format': OlzNewsFormat,
@@ -262,6 +286,16 @@ export type OlzApiEndpoint =
     'updateUpload'|
     'finishUpload'|
     'searchEntities'|
+    'createDownload'|
+    'getDownload'|
+    'editDownload'|
+    'updateDownload'|
+    'deleteDownload'|
+    'createLink'|
+    'getLink'|
+    'editLink'|
+    'updateLink'|
+    'deleteLink'|
     'createNews'|
     'getNews'|
     'editNews'|
@@ -430,6 +464,42 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'entityType': OlzSearchableEntityTypes,
             'query': string|null,
             'id': number|null,
+        },
+    createDownload: {
+            'meta': OlzMetaData,
+            'data': OlzDownloadData,
+        },
+    getDownload: {
+            'id': number,
+        },
+    editDownload: {
+            'id': number,
+        },
+    updateDownload: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzDownloadDataOrNull,
+        },
+    deleteDownload: {
+            'id': number,
+        },
+    createLink: {
+            'meta': OlzMetaData,
+            'data': OlzLinkData,
+        },
+    getLink: {
+            'id': number,
+        },
+    editLink: {
+            'id': number,
+        },
+    updateLink: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzLinkDataOrNull,
+        },
+    deleteLink: {
+            'id': number,
         },
     createNews: {
             'custom': {
@@ -689,6 +759,48 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     searchEntities: {
             'result': Array<OlzEntityResult>,
+        },
+    createDownload: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getDownload: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzDownloadData,
+        },
+    editDownload: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzDownloadData,
+        },
+    updateDownload: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteDownload: {
+            'status': 'OK'|'ERROR',
+        },
+    createLink: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getLink: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzLinkData,
+        },
+    editLink: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzLinkData,
+        },
+    updateLink: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteLink: {
+            'status': 'OK'|'ERROR',
         },
     createNews: {
             'status': 'OK'|'DENIED'|'ERROR',

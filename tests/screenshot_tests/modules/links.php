@@ -18,29 +18,24 @@ function test_links($driver, $base_url) {
     $driver->get("{$base_url}{$service_url}");
 
     $new_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonlinks-neuer-eintrag')
+        WebDriverBy::cssSelector('#create-link-button')
     );
     click($new_button);
     $name_input = $driver->findElement(
-        WebDriverBy::cssSelector('#linksname')
+        WebDriverBy::cssSelector('#link-name-input')
     );
     sendKeys($name_input, 'OLZ');
     $url_input = $driver->findElement(
-        WebDriverBy::cssSelector('#linksurl')
+        WebDriverBy::cssSelector('#link-url-input')
     );
     sendKeys($url_input, 'https://olzimmerberg.ch');
     take_pageshot($driver, 'links_new_edit');
 
-    $preview_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonlinks-vorschau')
-    );
-    click($preview_button);
-    take_pageshot($driver, 'links_new_preview');
-
     $save_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonlinks-speichern')
+        WebDriverBy::cssSelector('#submit-button')
     );
     click($save_button);
+    sleep(4);
     take_pageshot($driver, 'links_new_finished');
 
     logout($driver, $base_url);

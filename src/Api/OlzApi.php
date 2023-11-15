@@ -33,6 +33,16 @@ class OlzApi extends Api {
         Endpoints\UpdateUploadEndpoint $updateUploadEndpoint,
         Endpoints\FinishUploadEndpoint $finishUploadEndpoint,
         Endpoints\SearchEntitiesEndpoint $searchEntitiesEndpoint,
+        \Olz\Service\Endpoints\CreateDownloadEndpoint $createDownloadEndpoint,
+        \Olz\Service\Endpoints\GetDownloadEndpoint $getDownloadEndpoint,
+        \Olz\Service\Endpoints\EditDownloadEndpoint $editDownloadEndpoint,
+        \Olz\Service\Endpoints\UpdateDownloadEndpoint $updateDownloadEndpoint,
+        \Olz\Service\Endpoints\DeleteDownloadEndpoint $deleteDownloadEndpoint,
+        \Olz\Service\Endpoints\CreateLinkEndpoint $createLinkEndpoint,
+        \Olz\Service\Endpoints\GetLinkEndpoint $getLinkEndpoint,
+        \Olz\Service\Endpoints\EditLinkEndpoint $editLinkEndpoint,
+        \Olz\Service\Endpoints\UpdateLinkEndpoint $updateLinkEndpoint,
+        \Olz\Service\Endpoints\DeleteLinkEndpoint $deleteLinkEndpoint,
         \Olz\News\Endpoints\CreateNewsEndpoint $createNewsEndpoint,
         \Olz\News\Endpoints\GetNewsEndpoint $getNewsEndpoint,
         \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
@@ -78,6 +88,22 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateUpload', $updateUploadEndpoint);
         $this->registerEndpoint('finishUpload', $finishUploadEndpoint);
         $this->registerEndpoint('searchEntities', $searchEntitiesEndpoint);
+
+        // Downloads
+
+        $this->registerEndpoint('createDownload', $createDownloadEndpoint);
+        $this->registerEndpoint('getDownload', $getDownloadEndpoint);
+        $this->registerEndpoint('editDownload', $editDownloadEndpoint);
+        $this->registerEndpoint('updateDownload', $updateDownloadEndpoint);
+        $this->registerEndpoint('deleteDownload', $deleteDownloadEndpoint);
+
+        // Links
+
+        $this->registerEndpoint('createLink', $createLinkEndpoint);
+        $this->registerEndpoint('getLink', $getLinkEndpoint);
+        $this->registerEndpoint('editLink', $editLinkEndpoint);
+        $this->registerEndpoint('updateLink', $updateLinkEndpoint);
+        $this->registerEndpoint('deleteLink', $deleteLinkEndpoint);
 
         // News
 
@@ -154,6 +180,16 @@ class OlzApi extends Api {
             new Endpoints\UpdateUploadEndpoint(),
             new Endpoints\FinishUploadEndpoint(),
             new Endpoints\SearchEntitiesEndpoint(),
+            new \Olz\Service\Endpoints\CreateDownloadEndpoint(),
+            new \Olz\Service\Endpoints\GetDownloadEndpoint(),
+            new \Olz\Service\Endpoints\EditDownloadEndpoint(),
+            new \Olz\Service\Endpoints\UpdateDownloadEndpoint(),
+            new \Olz\Service\Endpoints\DeleteDownloadEndpoint(),
+            new \Olz\Service\Endpoints\CreateLinkEndpoint(),
+            new \Olz\Service\Endpoints\GetLinkEndpoint(),
+            new \Olz\Service\Endpoints\EditLinkEndpoint(),
+            new \Olz\Service\Endpoints\UpdateLinkEndpoint(),
+            new \Olz\Service\Endpoints\DeleteLinkEndpoint(),
             new \Olz\News\Endpoints\CreateNewsEndpoint(),
             new \Olz\News\Endpoints\GetNewsEndpoint(),
             new \Olz\News\Endpoints\EditNewsEndpoint(),

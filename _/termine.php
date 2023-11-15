@@ -11,19 +11,20 @@ $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $termine_filter_utils = TermineFilterUtils::fromEnv();
 $filter = json_decode($_GET['filter'] ?? '{}', true);
-if (!$termine_filter_utils->isValidFilter($filter)) {
-    $filter = $termine_filter_utils->getDefaultFilter();
+$filter_param = '';
+if ($termine_filter_utils->isValidFilter($filter)) {
+    $enc_json_filter = urlencode(json_encode($filter));
+    $filter_param = "?filter={$enc_json_filter}";
 }
-$enc_json_filter = urlencode(json_encode($filter));
 
 $id = $_GET['id'] ?? null;
 
 if ($id === null) {
-    $new_url = "{$code_href}termine?filter={$enc_json_filter}";
+    $new_url = "{$code_href}termine{$filter_param}";
     http_response_code(301);
     header("Location: {$new_url}");
 } else {
-    $new_url = "{$code_href}termine/{$id}?filter={$enc_json_filter}";
+    $new_url = "{$code_href}termine/{$id}{$filter_param}";
     http_response_code(301);
     header("Location: {$new_url}");
 }

@@ -32,7 +32,7 @@ $_SESSION['edit']['vorschau']: '1'= speichern aus Vorschau
 $_SESSION['edit']['button']: letzter Klick
 */
 
-global $tables_img_dirs, $tables_file_dirs, $data_path;
+global $data_path;
 
 require_once __DIR__.'/../image_tools.php';
 require_once __DIR__.'/../file_tools.php';
@@ -401,30 +401,6 @@ if (($do ?? null) == "getdata") {
 // Eintrag löschen
 // -------------------------------------------------------------
 if (($do ?? null) == "delete") {
-    // Bilder löschen
-    if (isset($tables_img_dirs[$db_table])) {
-        $db_imgpath = $tables_img_dirs[$db_table];
-        if (is_dir($db_imgpath."/".$id."/img")) {
-            $imgs = scandir($db_imgpath."/".$id."/img");
-            for ($i = 0; $i < count($imgs); $i++) {
-                if ($imgs[$i] != ".." && $imgs[$i] != ".") {
-                    @unlink($db_imgpath."/".$id."/img/".$imgs[$i]);
-                }
-            }
-            @rmdir($db_imgpath."/".$id."/img");
-        }
-        if (is_dir($db_imgpath."/".$id."/thumb")) {
-            $imgs = scandir($db_imgpath."/".$id."/thumb");
-            for ($i = 0; $i < count($imgs); $i++) {
-                if ($imgs[$i] != ".." && $imgs[$i] != ".") {
-                    @unlink($db_imgpath."/".$id."/thumb/".$imgs[$i]);
-                }
-            }
-            @rmdir($db_imgpath."/".$id."/thumb");
-        }
-        @rmdir($db_imgpath."/".$id);
-    }
-
     $sql = "DELETE FROM {$db_table} WHERE (id = '".$_SESSION[$db_table."id"]."')";
     $result = $db->query($sql);
     $ds_count = -1;
@@ -749,55 +725,6 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
         } elseif ($feld_typ == "hidden") { // Input-Typ 'hidden'
             $html_hidden .= "<input type='hidden' id='".$feld_name."' name='".$feld_name."' value='".stripslashes($feld_wert)."'>\n";
         }
-        /*
-        elseif ($feld_typ == "image") //Input-Typ 'image'
-            {if ($feld_stil=="") $feld_stil = "style='width:95%;'";
-            $x=0;
-            $laenge = $tmp_feld[2][3];
-            if ($laenge==0) $laenge = 1;
-            for ( $x = 0; $x < $laenge; $x++ )
-                {if (is_array($feld_wert)) $feld_wert = $feld_wert[$x];
-                $feld_bezeichnung_tmp = $feld_bezeichnung." ".($x+1);
-                $html_input .= "<tr><td$bez_style><b>".$feld_bezeichnung.":</b>".$tmp_code;
-                if ($feld_wert!="" AND file_exists($img_folder.'/'.$feld_wert))
-                    {$html_input .= "<input type='hidden' name='$feld_name' value='$feld_wert'><img src='$img_folder/$feld_wert' width='110px' style='margin-right:10px;'>".olz_buttons("button".$db_table,array(array($feld_bezeichnung." entfernen","")),"");
-                    }
-                else
-                    {if ($feld_wert!="") $html_input .= "<div class='error'>Datei ".$feld_wert." nicht gefunden.</div>";
-                    $html_input .= "<input type='file' name='".$feld_name."' class='button'>";
-                    }
-                $html_input .= $feld_spezial.$$var_alert.$feld_kommentar."</td></tr>\n";
-                }
-            }
-        elseif ($feld_typ == "file") //Input-Typ 'file'
-            {include 'library/phpWebFileManager/icons.inc.php';
-            $ext = end(explode(".",$feld_wert));
-            $ext = $fm_cfg['icons']['ext'][$ext];
-            if ($ext!="") $icon = "<img src='icons/".$ext."' class='noborder' style='margin-right:10px;vertical-align:middle;'>";
-            else $icon = "";
-            if ($feld_stil=="") $feld_stil = "style='width:95%;'";
-            if (is_array($feld_wert)) $feld_wert = $feld_wert[$x];
-            $feld_bezeichnung_tmp = $feld_bezeichnung." ".($x+1);
-            $html_input .= "<tr><td$bez_style><b>".$feld_bezeichnung.":</b>".$tmp_code;
-            if (file_exists($def_folder."/".$feld_wert)) $file_folder = $def_folder;
-            elseif (file_exists($tmp_folder."/".$feld_wert)) $file_folder = $tmp_folder;
-            else $file_folder = "";
-            if ($feld_wert!="" AND file_exists($file_folder."/".$feld_wert))
-                {$html_input .= "<input type='hidden' name='$feld_name' value='$feld_wert'>$icon<a href='$file_folder/$feld_wert' style='vertical-align:bottom;margin-right:20px;'>$feld_wert</a>".olz_buttons("button".$db_table,array(array($feld_bezeichnung." entfernen","2")),"");
-                }
-            else
-                {if ($feld_wert!="") $html_input .= "<div class='error'>Datei ".$feld_wert." nicht gefunden.</div>";
-                $html_input .= "<input type='file' name='".$feld_name."' style='width:100%;'>";
-                }
-            $html_input .= $feld_spezial.$$var_alert.$feld_kommentar."</td></tr>\n";
-            }
-        */
-    }
-    if (isset($tables_img_dirs[$db_table])) {
-        $html_input .= "<tr><td colspan='2' style='padding:0px 5px 0px 5px;' class='tablebar'>Bilder</td></tr><tr><td colspan='2'>".olz_images_edit($db_table, $id)."</td></tr>";
-    }
-    if (isset($tables_file_dirs[$db_table])) {
-        $html_input .= "<tr><td colspan='2' style='padding:0px 5px 0px 5px;' class='tablebar'>Dateien</td></tr><tr><td colspan='2'>".olz_files_edit($db_table, $id)."</td></tr>";
     }
 
     if (isset($_SESSION['edit']['replace'])) {
@@ -806,10 +733,7 @@ if (($do ?? null) == 'edit') {// Eingabe-Formular aufbauen
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Löschen", "5"], ["Abbrechen", "2"]], "")."</div>";
     } elseif (($_SESSION['edit']['modus'] ?? null) == "neuedit") {
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Vorschau", "3"], ["Abbrechen", "2"]], "")."</div>";
-    }
-    /*elseif ($db_table=="galerie")
-        {$html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table,array(array("Abbrechen","2"),array("Speichern","4")),"")."</div>";}*/
-    else {
+    } else {
         $html_menu = "<div class='buttonbar'>".olz_buttons("button".$db_table, [["Vorschau", "3"], ["Löschen", "5"], ["Abbrechen", "2"]], "")."</div>";
     }
 

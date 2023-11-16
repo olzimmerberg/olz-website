@@ -15,7 +15,6 @@ function login($driver, $base_url, $username, $password) {
         'password' => $password,
         'rememberMe' => false,
     ]);
-    $esc_password = json_encode($password);
     $get_params = "?request={$esc_request}";
     $driver->get("{$base_url}{$login_api_url}{$get_params}");
     $driver->navigate()->refresh();

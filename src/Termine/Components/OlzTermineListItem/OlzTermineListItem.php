@@ -4,6 +4,7 @@ namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
+use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FileUtils;
 
 class OlzTermineListItem extends OlzComponent {
@@ -20,9 +21,15 @@ class OlzTermineListItem extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $file_utils = FileUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
+        $termine_utils = TermineFilterUtils::fromEnv();
 
         $out = '';
-        $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
+        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
+        $filter_arg = '';
+        if ($current_filter !== $termine_utils->getDefaultFilter()) {
+            $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
+            $filter_arg = "?filter={$enc_current_filter}";
+        }
 
         $item_type = $args['item_type'];
         $id = $args['id'];
@@ -39,7 +46,7 @@ class OlzTermineListItem extends OlzComponent {
         $image_ids = $args['image_ids'];
         $termin_location_id = $args['location_id'];
 
-        $link = "{$code_href}termine/{$id}?filter={$enc_current_filter}";
+        $link = "{$code_href}termine/{$id}{$filter_arg}";
         $type_imgs = implode('', array_map(function ($type) use ($code_href) {
             $icon_basename = self::$iconBasenameByType[$type] ?? '';
             $icon = "{$code_href}assets/icns/{$icon_basename}";
@@ -68,7 +75,7 @@ class OlzTermineListItem extends OlzComponent {
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
             $row_location = $result_location->fetch_assoc();
             $location_name = $row_location['name'];
-            $links = "<a href='{$code_href}termine/orte/{$termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$links}";
+            $links = "<a href='{$code_href}termine/orte/{$termin_location_id}{$filter_arg}' class='linkmap'>{$location_name}</a> {$links}";
         }
 
         $user = $this->authUtils()->getCurrentUser();

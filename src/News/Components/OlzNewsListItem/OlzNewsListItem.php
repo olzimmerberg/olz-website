@@ -5,6 +5,7 @@ namespace Olz\News\Components\OlzNewsListItem;
 use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
+use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\ImageUtils;
 
@@ -21,13 +22,19 @@ class OlzNewsListItem extends OlzComponent {
     public function getHtml($args = []): string {
         $html_utils = HtmlUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
+        $news_utils = NewsFilterUtils::fromEnv();
 
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 
-        $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
         $news_entry = $args['news_entry'];
-        $out = "";
+        $out = '';
+        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
+        $filter_arg = '';
+        if ($current_filter !== $news_utils->getDefaultFilter()) {
+            $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
+            $filter_arg = "?filter={$enc_current_filter}";
+        }
 
         $id = $news_entry->getId();
         $published_date = $news_entry->getPublishedDate();
@@ -41,7 +48,7 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "news/{$id}?filter={$enc_current_filter}";
+        $link = "news/{$id}{$filter_arg}";
 
         $image_ids = $news_entry->getImageIds();
 

@@ -2,10 +2,16 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import {OlzApi, OlzApiResponses} from '../../../src/Api/client/index';
-import {MAX_PART_LENGTH, TestOnlyUpdateUploadRequest, TestOnlyUploadRequest, TestOnlyFileUpload, Uploader} from '../../../src/Utils/Uploader';
+import {TestOnlyUpdateUploadRequest, TestOnlyUploadRequest, TestOnlyFileUpload, Uploader} from '../../../src/Utils/Uploader';
 import {FakeOlzApi} from '../../Fake/FakeOlzApi';
 
+const MAX_PART_LENGTH = 4;
+const MAX_CONCURRENT_REQUESTS = 2;
+
 class UploaderForUnitTest extends Uploader {
+    protected maxPartLength = MAX_PART_LENGTH;
+    protected maxConcurrentRequests = MAX_CONCURRENT_REQUESTS;
+
     public processHasBeenCalledTimes = 0;
 
     public setOlzApi(olzApi: OlzApi) {
@@ -35,7 +41,7 @@ class UploaderForUnitTest extends Uploader {
 
 const NEW_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'default-id',
-    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
     parts: [
         {status: 'READY'},
         {status: 'READY'},
@@ -46,7 +52,7 @@ const NEW_UPLOAD: TestOnlyFileUpload = {
 
 const DEFAULT_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'default-id',
-    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
     parts: [
         {status: 'DONE'},
         {status: 'UPLOADING'},
@@ -57,7 +63,7 @@ const DEFAULT_UPLOAD: TestOnlyFileUpload = {
 
 const UPLOADED_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'uploaded-id',
-    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
     parts: [
         {status: 'DONE'},
         {status: 'DONE'},
@@ -68,7 +74,7 @@ const UPLOADED_UPLOAD: TestOnlyFileUpload = {
 
 const FINISHING_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'finishing-id',
-    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
     parts: [
         {status: 'DONE'},
         {status: 'DONE'},
@@ -79,7 +85,7 @@ const FINISHING_UPLOAD: TestOnlyFileUpload = {
 
 const FINISHED_UPLOAD: TestOnlyFileUpload = {
     uploadId: 'finished-id',
-    base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
     parts: [
         {status: 'DONE'},
         {status: 'DONE'},
@@ -87,6 +93,18 @@ const FINISHED_UPLOAD: TestOnlyFileUpload = {
     ],
     status: 'DONE',
 };
+
+const HUGE_UPLOAD: TestOnlyFileUpload = {
+    uploadId: 'huge-id',
+    base64Content: 'a'.repeat(MAX_PART_LENGTH * 1024),
+    parts: [
+        {status: 'DONE'},
+        {status: 'UPLOADING'},
+        ...Array(1022).fill(0).map((_) => ({status: 'READY' as const})),
+    ],
+    status: 'UPLOADING',
+};
+
 
 describe('Uploader', () => {
     it('getInstance', () => {
@@ -110,7 +128,7 @@ describe('Uploader', () => {
             uploader.setOlzApi(fakeOlzApi);
 
             // Start request
-            const promise = uploader.upload('a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32), 'upload.txt');
+            const promise = uploader.upload('a'.repeat(MAX_PART_LENGTH * 2.5), 'upload.txt');
 
             let promiseIsResolvedWith: string|null = null;
             promise.then((uploadId: string) => {
@@ -123,7 +141,7 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'READY'},
                     {status: 'READY'},
@@ -138,21 +156,51 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'UPLOADING'},
                     {status: 'UPLOADING'},
-                    {status: 'UPLOADING'},
+                    {status: 'READY'}, // Max. 2 concurrent
                 ],
                 status: 'UPLOADING',
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(1);
 
+            // Wait for request response
             await Promise.resolve();
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                parts: [
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'READY'},
+                ],
+                status: 'UPLOADING',
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                parts: [
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                ],
+                status: 'UPLOADING',
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+
+            // Wait for request response
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -166,7 +214,7 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -176,11 +224,12 @@ describe('Uploader', () => {
             }]);
             expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
+            // Wait for (inexistent) request response
             await Promise.resolve();
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -212,7 +261,7 @@ describe('Uploader', () => {
             uploader.setOlzApi(fakeOlzApi);
 
             // Start request
-            const promise = uploader.add('a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32), 'add.txt');
+            const promise = uploader.add('a'.repeat(MAX_PART_LENGTH * 2.5), 'add.txt');
 
             expect(uploader.getUploadQueue()).toEqual([]);
 
@@ -221,7 +270,7 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'READY'},
                     {status: 'READY'},
@@ -235,11 +284,11 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'UPLOADING'},
                     {status: 'UPLOADING'},
-                    {status: 'UPLOADING'},
+                    {status: 'READY'}, // Max. 2 concurrent
                 ],
                 status: 'UPLOADING',
             }]);
@@ -249,7 +298,35 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                parts: [
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'READY'},
+                ],
+                status: 'UPLOADING',
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                parts: [
+                    {status: 'DONE'},
+                    {status: 'DONE'},
+                    {status: 'UPLOADING'},
+                ],
+                status: 'UPLOADING',
+            }]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([{
+                uploadId: 'new-id',
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -263,7 +340,7 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -277,7 +354,7 @@ describe('Uploader', () => {
 
             expect(uploader.getUploadQueue()).toEqual([{
                 uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH + MAX_PART_LENGTH + 32),
+                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
                 parts: [
                     {status: 'DONE'},
                     {status: 'DONE'},
@@ -326,19 +403,13 @@ describe('Uploader', () => {
                         part: 1,
                         content: (state.nextRequests[1] as TestOnlyUpdateUploadRequest).content,
                     },
-                    {
-                        type: 'UPDATE',
-                        id: 'default-id',
-                        part: 2,
-                        content: (state.nextRequests[2] as TestOnlyUpdateUploadRequest).content,
-                    },
                 ],
                 numberOfRunningRequests: 0,
                 uploadIds: ['default-id'],
                 uploadsById: {
                     'default-id': {
                         progress: 0,
-                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
+                        size: MAX_PART_LENGTH * 2.5,
                     },
                 },
             });
@@ -363,8 +434,8 @@ describe('Uploader', () => {
                 uploadIds: ['default-id'],
                 uploadsById: {
                     'default-id': {
-                        progress: 0.375,
-                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
+                        progress: 1.5 / 4, // 3 parts + finishing
+                        size: MAX_PART_LENGTH * 2.5,
                     },
                 },
             });
@@ -388,8 +459,8 @@ describe('Uploader', () => {
                 uploadIds: ['uploaded-id'],
                 uploadsById: {
                     'uploaded-id': {
-                        progress: 0.75,
-                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
+                        progress: 3 / 4, // 3 parts + finishing
+                        size: MAX_PART_LENGTH * 2.5,
                     },
                 },
             });
@@ -407,8 +478,8 @@ describe('Uploader', () => {
                 uploadIds: ['finishing-id'],
                 uploadsById: {
                     'finishing-id': {
-                        progress: 0.75,
-                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
+                        progress: 3 / 4, // 3 parts + finishing
+                        size: MAX_PART_LENGTH * 2.5,
                     },
                 },
             });
@@ -426,8 +497,40 @@ describe('Uploader', () => {
                 uploadIds: ['finished-id'],
                 uploadsById: {
                     'finished-id': {
-                        progress: 0.75,
-                        size: MAX_PART_LENGTH + MAX_PART_LENGTH + 32,
+                        progress: 3 / 4, // 3 parts + finishing
+                        size: MAX_PART_LENGTH * 2.5,
+                    },
+                },
+            });
+        });
+
+        it('works for huge upload', () => {
+            const uploader = new UploaderForUnitTest();
+            uploader.setUploadQueue([
+                HUGE_UPLOAD,
+            ]);
+            const state = uploader.getState();
+            expect(state).toEqual({
+                nextRequests: [
+                    {
+                        type: 'UPDATE',
+                        id: 'huge-id',
+                        part: 2,
+                        content: (state.nextRequests[0] as TestOnlyUpdateUploadRequest).content,
+                    },
+                    {
+                        type: 'UPDATE',
+                        id: 'huge-id',
+                        part: 3,
+                        content: (state.nextRequests[1] as TestOnlyUpdateUploadRequest).content,
+                    },
+                ],
+                numberOfRunningRequests: 1,
+                uploadIds: ['huge-id'],
+                uploadsById: {
+                    'huge-id': {
+                        progress: 1.5 / 1025, // 1024 parts + finishing
+                        size: MAX_PART_LENGTH * 1024,
                     },
                 },
             });

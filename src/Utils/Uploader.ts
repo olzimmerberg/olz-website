@@ -4,9 +4,6 @@ import {EventTarget} from './EventTarget';
 import {assertUnreachable} from './generalUtils';
 import {obfuscateForUpload} from './uploadUtils';
 
-const MAX_CONCURRENT_REQUESTS = 5;
-export const MAX_PART_LENGTH = 1024 * 32;
-
 type FileUploadId = string;
 
 interface FileUpload {
@@ -54,6 +51,9 @@ interface FinishUploadRequest {
 export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     private static instance: Uploader|null = null;
 
+    protected maxPartLength = 1024 * 32;
+    protected maxConcurrentRequests = 5;
+
     protected olzApi = new OlzApi();
 
     protected uploadQueue: FileUpload[] = [];
@@ -79,7 +79,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 if (!uploadId) {
                     throw new Error('olzApi.startUpload did not return an id');
                 }
-                const numParts = Math.ceil(base64Content.length / MAX_PART_LENGTH);
+                const numParts = Math.ceil(base64Content.length / this.maxPartLength);
                 const parts: FileUploadPart[] = range(numParts).map(() => ({
                     status: 'READY',
                 }));
@@ -102,7 +102,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
             return;
         }
         const state = this.getState();
-        const numberOfRequestsToStart = MAX_CONCURRENT_REQUESTS - state.numberOfRunningRequests;
+        const numberOfRequestsToStart = this.maxConcurrentRequests - state.numberOfRunningRequests;
         for (let requestIndex = 0; requestIndex < numberOfRequestsToStart; requestIndex++) {
             const requestAtIndex = state.nextRequests[requestIndex];
             if (requestAtIndex) {
@@ -173,16 +173,19 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 const partAtIndex = uploadAtIndex.parts[partIndex];
                 switch (partAtIndex.status) {
                     case 'READY': {
-                        const partContent = uploadAtIndex.base64Content.substr(
-                            partIndex * MAX_PART_LENGTH, MAX_PART_LENGTH,
-                        );
-                        const obfuscatedContent = obfuscateForUpload(partContent);
-                        nextRequests.push({
-                            type: 'UPDATE',
-                            id: uploadAtIndex.uploadId,
-                            part: partIndex,
-                            content: obfuscatedContent,
-                        });
+                        if (nextRequests.length < this.maxConcurrentRequests) {
+                            const partContent = uploadAtIndex.base64Content.substring(
+                                partIndex * this.maxPartLength,
+                                (partIndex + 1) * this.maxPartLength,
+                            );
+                            const obfuscatedContent = obfuscateForUpload(partContent);
+                            nextRequests.push({
+                                type: 'UPDATE',
+                                id: uploadAtIndex.uploadId,
+                                part: partIndex,
+                                content: obfuscatedContent,
+                            });
+                        }
                         break;
                     }
                     case 'UPLOADING': {
@@ -200,11 +203,13 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 }
             }
             if (uploadAtIndex.status === 'UPLOADING' && numDoneParts === numParts) {
-                nextRequests.push({
-                    type: 'FINISH',
-                    id: uploadAtIndex.uploadId,
-                    numberOfParts: numParts,
-                });
+                if (nextRequests.length < this.maxConcurrentRequests) {
+                    nextRequests.push({
+                        type: 'FINISH',
+                        id: uploadAtIndex.uploadId,
+                        numberOfParts: numParts,
+                    });
+                }
             }
             uploadIds.push(uploadAtIndex.uploadId);
             uploadsById[uploadAtIndex.uploadId] = {

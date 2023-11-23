@@ -14,8 +14,8 @@
     outline: none;
     padding: 20px;
     transition: border 0.24s ease-in-out;
-}
-  
-.dropzone:focus {
-    border-color: #2196f3;
+
+    &:focus {
+        border-color: #2196f3;
+    }    
 }

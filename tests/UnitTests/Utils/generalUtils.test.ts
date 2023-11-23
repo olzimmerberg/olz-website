@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {assertUnreachable, getErrorOrThrow, isDefined} from '../../../src/Utils/generalUtils';
+import {assertUnreachable, getErrorOrThrow, isDefined, timeout} from '../../../src/Utils/generalUtils';
 
 describe('assertUnreachable', () => {
     it('works if it is unreachable', () => {
@@ -48,6 +48,22 @@ describe('isDefined', () => {
     it('filters array', () => {
         const array: Array<number|undefined|null> = [undefined, 1, null, 4];
         expect(array.filter(isDefined)).toEqual([1, 4]);
+    });
+});
+
+describe('timeout', () => {
+    it('waits for 0 ms', async () => {
+        let check = false;
+        setTimeout(() => { check = true; }, 0);
+        await timeout(0);
+        expect(check).toEqual(true);
+    });
+
+    it('waits for 1 ms', async () => {
+        let check = false;
+        setTimeout(() => { check = true; }, 1);
+        await timeout(1);
+        expect(check).toEqual(true);
     });
 });
 

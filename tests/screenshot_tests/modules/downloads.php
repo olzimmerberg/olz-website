@@ -21,19 +21,25 @@ function test_downloads($driver, $base_url) {
         WebDriverBy::cssSelector('#create-download-button')
     );
     click($new_button);
+
     $name_input = $driver->findElement(
-        WebDriverBy::cssSelector('#download-name-input')
+        WebDriverBy::cssSelector('#edit-download-modal #name-input')
     );
     sendKeys($name_input, 'Neues Jahresprogramm');
 
+    $position_input = $driver->findElement(
+        WebDriverBy::cssSelector('#edit-download-modal #position-input')
+    );
+    sendKeys($position_input, '0');
+
     $file_upload_input = $driver->findElement(
-        WebDriverBy::cssSelector('#download-file-upload input[type=file]')
+        WebDriverBy::cssSelector('#edit-download-modal #file-upload input[type=file]')
     );
     $document_path = realpath(__DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf');
     sendKeys($file_upload_input, $document_path);
     $driver->wait()->until(function () use ($driver) {
         $file_uploaded = $driver->findElements(
-            WebDriverBy::cssSelector('#download-file-upload .olz-upload-file.uploaded')
+            WebDriverBy::cssSelector('#edit-download-modal #file-upload .olz-upload-file.uploaded')
         );
         return count($file_uploaded) == 1;
     });

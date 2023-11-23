@@ -344,8 +344,10 @@ a.text {
     color: #999;
 }
 
-.error {
-    color: #e11 !important;
+.error,
+.is-invalid {
+    color: var(--bs-form-invalid-border-color) !important;
+    border-color: var(--bs-form-invalid-border-color) !important;
 }
 
 .dropdown,

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {isDefined} from '../../../../src/Utils/generalUtils';
@@ -9,24 +10,41 @@ import {serializeUploadFile} from '../utils';
 import {dataHref} from '../../../../src/Utils/constants';
 
 import '../../../../_/styles/dropzone.scss';
-import './OlzMultiFileUploader.scss';
+import './OlzMultiFileField.scss';
 
 const uploader = Uploader.getInstance();
 
-interface OlzMultiFileUploaderProps {
-    initialUploadIds?: string[];
-    onUploadIdsChange?: (uploadIds: string[]) => unknown;
+interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<Values>> {
+    title?: string;
+    name: Name;
+    rules?: UseControllerProps<Values, Name>['rules'];
+    errors?: FieldErrors<Values>;
+    control: Control<Values, Name>;
+    setIsLoading: (isLoading: boolean) => void;
 }
 
-/** @deprecated Use react-hook-form and OlzMultiFileField. */
-export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.ReactElement => {
-    const initialUploadedFiles: UploadedFile[] = props.initialUploadIds?.map(
-        (uploadId) => ({uploadState: 'UPLOADED', uploadId}),
-    ) || [];
+export const OlzMultiFileField = <
+    Values extends FieldValues,
+    Name extends Path<Values>
+>(props: OlzMultiFileFieldProps<Values, Name>): React.ReactElement => {
+    const errorMessage = props.errors?.[props.name]?.message;
+    const errorClassName = errorMessage ? ' is-invalid' : '';
+
+    const {field} = useController({
+        name: props.name,
+        control: props.control,
+        rules: props.rules,
+    });
+
     const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
-    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(initialUploadedFiles);
+    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(() => field.value.map(
+        (uploadId: string) => ({uploadState: 'UPLOADED', uploadId}),
+    ));
 
     React.useEffect(() => {
+        if (uploadingFiles.length === 0) {
+            return () => undefined;
+        }
         const clock = setInterval(() => {
             const state = uploader.getState();
             const newUploadingFiles = uploadingFiles.map((uploadingFile) => {
@@ -59,14 +77,17 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.Re
                 const newUploadedFiles = [...uploadedFiles, newUploadedFile];
                 setUploadedFiles(newUploadedFiles);
                 const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
-                if (props.onUploadIdsChange) {
-                    props.onUploadIdsChange(uploadIds);
-                }
+                field.onChange(uploadIds);
             }
         };
         uploader.addEventListener('uploadFinished', callback);
         return () => uploader.removeEventListener('uploadFinished', callback);
     }, [uploadingFiles, uploadedFiles]);
+
+    React.useEffect(() => {
+        const hasUploadingFiles = uploadingFiles.length > 0;
+        props.setIsLoading(hasUploadingFiles);
+    }, [uploadingFiles]);
 
     const onDrop = async (acceptedFiles: File[]) => {
         const newUploadingFiles = [...uploadingFiles];
@@ -91,17 +112,16 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.Re
         );
         setUploadedFiles(newUploadedFiles);
         const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
-        if (props.onUploadIdsChange) {
-            props.onUploadIdsChange(uploadIds);
-        }
+        field.onChange(uploadIds);
     }, [uploadedFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
-    return (
-        <div className='olz-multi-file-uploader'>
+    return (<>
+        <label htmlFor={`${props.name}-input`}>{props.title}</label>
+        <div className='olz-multi-file-field'>
             <div className='state'>
                 {uploadFiles.map((uploadFile) => <OlzUploadFile
                     key={serializeUploadFile(uploadFile)}
@@ -109,7 +129,7 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.Re
                     onDelete={onDelete}
                 />)}
             </div>
-            <div className="dropzone" {...getRootProps()}>
+            <div className={`dropzone${errorClassName}`} {...getRootProps()}>
                 <input {...getInputProps()} />
                 <img
                     src={`${dataHref}assets/icns/link_any_16.svg`}
@@ -125,5 +145,6 @@ export const OlzMultiFileUploader = (props: OlzMultiFileUploaderProps): React.Re
                 }
             </div>
         </div>
-    );
+        {errorMessage && <p className='error'>{String(errorMessage)}</p>}
+    </>);
 };

@@ -13,6 +13,12 @@ export function isDefined<T>(value: T|undefined|null): value is T {
     return value !== null && value !== undefined;
 }
 
+export function timeout(milliseconds: number): Promise<void> {
+    return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
 /* istanbul ignore next */
 export function loadScript(src: string): Promise<void> {
     return new Promise((resolve, reject) => {

@@ -1,11 +1,54 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {createRoot} from 'react-dom/client';
-import {OlzApiResponses} from '../../../../src/Api/client';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzLinkData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getInteger} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
+import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {timeout} from '../../../Utils/generalUtils';
 
 import './OlzEditLinkModal.scss';
+
+interface OlzEditLinkForm {
+    name: string;
+    position: string;
+    url: string;
+}
+
+const resolver: Resolver<OlzEditLinkForm> = async (values) => {
+    const errors: FieldErrors<OlzEditLinkForm> = {};
+    if (!values.name) {
+        errors.name = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    if (isNaN(Number(values.position))) {
+        errors.position = {type: 'validate', message: 'Muss eine Ganzzahl sein.'};
+    }
+    if (!values.url) {
+        errors.url = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    return {
+        values: Object.keys(errors).length > 0 ? {} : values,
+        errors,
+    };
+};
+
+function getFormFromApi(apiData?: OlzLinkData): OlzEditLinkForm {
+    return {
+        name: apiData?.name ?? '',
+        position: apiData?.position !== undefined ? String(apiData.position) : '',
+        url: apiData?.url ?? '',
+    };
+}
+
+function getApiFromForm(formData: OlzEditLinkForm): OlzLinkData {
+    return {
+        name: formData.name,
+        position: Number(formData.position),
+        url: formData.url,
+    };
+}
+
+// ---
 
 interface OlzEditLinkModalProps {
     id?: number;
@@ -14,92 +57,34 @@ interface OlzEditLinkModalProps {
 }
 
 export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactElement => {
-    const [name, setName] = React.useState<string>(props.data?.name ?? '');
-    const [position, setPosition] = React.useState<string>(props.data?.position !== undefined ? String(props.data.position) : '');
-    const [url, setUrl] = React.useState<string>(props.data?.url ?? '');
+    const {register, handleSubmit, formState: {errors}} = useForm<OlzEditLinkForm>({
+        resolver,
+        defaultValues: getFormFromApi(props.data),
+    });
 
-    const onSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
-        event.preventDefault();
-        const form = event.currentTarget;
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-        if (props.id) {
-            const getDataForRequestFn: GetDataForRequestFunction<'updateLink'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'updateLink'> = {
-                    id: getRequired(validFieldResult('', props.id)),
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        name: getStringOrEmpty(getFormField(f, 'name')),
-                        position: getInteger(getFormField(f, 'position')),
-                        url: getStringOrEmpty(getFormField(f, 'url')),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleUpdateResponse = (_response: OlzApiResponses['updateLink']): string|void => {
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'Link erfolgreich geändert. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'updateLink',
-                getDataForRequestFn,
-                form,
-                handleUpdateResponse,
-            );
-        } else {
-            const getDataForRequestFn: GetDataForRequestFunction<'createLink'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'createLink'> = {
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        name: getStringOrEmpty(getFormField(f, 'name')),
-                        position: getInteger(getFormField(f, 'position')),
-                        url: getStringOrEmpty(getFormField(f, 'url')),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleCreateResponse = (response: OlzApiResponses['createLink']): string|void => {
-                if (response.status === 'ERROR') {
-                    throw new Error(`Fehler beim Erstellen des Links: ${response.status}`);
-                } else if (response.status !== 'OK') {
-                    throw new Error(`Antwort: ${response.status}`);
-                }
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'Link erfolgreich erstellt. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'createLink',
-                getDataForRequestFn,
-                form,
-                handleCreateResponse,
-            );
+    const onSubmit: SubmitHandler<OlzEditLinkForm> = async (values) => {
+        const meta: OlzMetaData = {
+            ownerUserId: null,
+            ownerRoleId: null,
+            onOff: true,
+        };
+        const data = getApiFromForm(values);
+        const [err, response] = await (props.id
+            ? olzApi.getResult('updateLink', {id: props.id, meta, data})
+            : olzApi.getResult('createLink', {meta, data}));
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
         }
 
-        return false;
-    }, []);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
 
     const dialogTitle = props.id === undefined ? 'Link erstellen' : 'Link bearbeiten';
 
@@ -107,7 +92,7 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
         <div className='modal fade' id='edit-link-modal' tabIndex={-1} aria-labelledby='edit-link-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
-                    <form className='default-form' onSubmit={onSubmit}>
+                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-link-modal-label'>
                                 {dialogTitle}
@@ -116,40 +101,36 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
                         </div>
                         <div className='modal-body'>
                             <div className='mb-3'>
-                                <label htmlFor='link-name-input'>Name (--- für Trennlinie)</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Name (--- für Trennlinie)'
                                     name='name'
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className='form-control'
-                                    id='link-name-input'
+                                    options={{required: 'Name darf nicht leer sein!'}}
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='link-position-input'>Position</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Position'
                                     name='position'
-                                    value={position}
-                                    onChange={(e) => setPosition(e.target.value)}
-                                    className='form-control'
-                                    id='link-position-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='link-url-input'>URL (--- für Trennlinie)</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='URL (--- für Trennlinie)'
                                     name='url'
-                                    value={url}
-                                    onChange={(e) => setUrl(e.target.value)}
-                                    className='form-control'
-                                    id='link-url-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
-                            <div className='success-message alert alert-success' role='alert'></div>
-                            <div className='error-message alert alert-danger' role='alert'></div>
+                            <div className='success-message alert alert-success' role='alert'>
+                                {successMessage}
+                            </div>
+                            <div className='error-message alert alert-danger' role='alert'>
+                                {errorMessage}
+                            </div>
                         </div>
                         <div className='modal-footer'>
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>

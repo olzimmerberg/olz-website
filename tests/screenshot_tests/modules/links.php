@@ -21,14 +21,22 @@ function test_links($driver, $base_url) {
         WebDriverBy::cssSelector('#create-link-button')
     );
     click($new_button);
+
     $name_input = $driver->findElement(
-        WebDriverBy::cssSelector('#link-name-input')
+        WebDriverBy::cssSelector('#edit-link-modal #name-input')
     );
     sendKeys($name_input, 'OLZ');
+
+    $position_input = $driver->findElement(
+        WebDriverBy::cssSelector('#edit-link-modal #position-input')
+    );
+    sendKeys($position_input, '0');
+
     $url_input = $driver->findElement(
-        WebDriverBy::cssSelector('#link-url-input')
+        WebDriverBy::cssSelector('#edit-link-modal #url-input')
     );
     sendKeys($url_input, 'https://olzimmerberg.ch');
+
     take_pageshot($driver, 'links_new_edit');
 
     $save_button = $driver->findElement(

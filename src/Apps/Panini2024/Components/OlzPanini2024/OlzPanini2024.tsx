@@ -1,7 +1,11 @@
 import React from 'react';
-import {OlzApiResponses} from '../../../../Api/client';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {OlzImageUploader} from '../../../../Components/Upload/OlzImageUploader/OlzImageUploader';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../../Api/client';
+import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzImageField} from '../../../../Components/Upload/OlzImageField/OlzImageField';
+import {OlzPanini2024PictureData} from '../../../../Api/client/generated_olz_api_types';
+import {timeout} from '../../../../Utils/generalUtils';
+import {initReact} from '../../../../Utils/reactUtils';
 
 import './OlzPanini2024.scss';
 
@@ -21,6 +25,54 @@ const RESIDENCES = [
     'Wädenswil',
     'Zürich',
 ];
+
+interface OlzEditPaniniForm {
+    id: number|null;
+    onOff: boolean;
+    uploadId: string|undefined;
+    line1: string
+    line2: string;
+    residenceOption: string|undefined;
+    residence: string|undefined;
+    info1: string;
+    info2: string;
+    info3: string;
+    info4: string;
+    info5: string;
+}
+
+const resolver: Resolver<OlzEditPaniniForm> = async (values) => {
+    const errors: FieldErrors<OlzEditPaniniForm> = {};
+    if (!values.uploadId) {
+        errors.uploadId = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    if (values.residenceOption === 'OTHER' && !values.residence) {
+        errors.residence = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    return {
+        values: Object.keys(errors).length > 0 ? {} : values,
+        errors,
+    };
+};
+
+function getApiFromForm(formData: OlzEditPaniniForm): OlzPanini2024PictureData {
+    const calculatedResidence = formData.residenceOption === 'OTHER' ? formData.residence : formData.residenceOption;
+    return {
+        id: formData.id,
+        onOff: formData.onOff,
+        uploadId: formData.uploadId ?? '',
+        line1: formData.line1,
+        line2: formData.line2,
+        residence: calculatedResidence ?? '',
+        info1: formData.info1,
+        info2: formData.info2,
+        info3: formData.info3,
+        info4: formData.info4,
+        info5: formData.info5,
+    };
+}
+
+// ---
 
 export const OlzPanini2024 = (): React.ReactElement => {
     const existingFirstName = (window as unknown as {olzPanini2024FirstName: string}).olzPanini2024FirstName;
@@ -46,61 +98,46 @@ export const OlzPanini2024 = (): React.ReactElement => {
         }
     }
 
-    const [onOff, setOnOff] = React.useState<boolean>(true);
-    const [uploadId, setUploadId] = React.useState<string|undefined>(existingPicture?.imgSrc ?? undefined);
-    const [line1, setLine1] = React.useState<string>(existingPicture?.line1 ?? existingFirstName ?? '');
-    const [line2, setLine2] = React.useState<string>(existingPicture?.line2 ?? existingLastName ?? '');
-    const [residenceOption, setResidenceOption] = React.useState<string|undefined>(existingResidenceOption);
-    const [residence, setResidence] = React.useState<string|undefined>(existingResidence);
-    const [info1, setInfo1] = React.useState<string>(existingPicture?.infos[0] ?? '');
-    const [info2, setInfo2] = React.useState<string>(existingPicture?.infos[1] ?? '');
-    const [info3, setInfo3] = React.useState<string>(existingPicture?.infos[2] ?? '');
-    const [info4, setInfo4] = React.useState<string>(existingPicture?.infos[3] ?? '');
-    const [info5, setInfo5] = React.useState<string>(existingPicture?.infos[4] ?? '');
+    const {register, handleSubmit, formState: {errors}, watch, control} = useForm<OlzEditPaniniForm>({
+        resolver,
+        defaultValues: {
+            id: existingPicture?.id ?? null,
+            onOff: true,
+            uploadId: existingPicture?.imgSrc ?? undefined,
+            line1: existingPicture?.line1 ?? existingFirstName ?? '',
+            line2: existingPicture?.line2 ?? existingLastName ?? '',
+            residenceOption: existingResidenceOption,
+            residence: existingResidence,
+            info1: existingPicture?.infos[0] ?? '',
+            info2: existingPicture?.infos[1] ?? '',
+            info3: existingPicture?.infos[2] ?? '',
+            info4: existingPicture?.infos[3] ?? '',
+            info5: existingPicture?.infos[4] ?? '',
+        },
+    });
 
-    const handleSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const calculatedResidence = residenceOption === 'OTHER' ? residence : residenceOption;
-        const getDataForRequestFn: GetDataForRequestFunction<'updateMyPanini2024'> = () => {
-            const fieldResults: OlzRequestFieldResult<'updateMyPanini2024'> = {
-                data: {
-                    id: validFieldResult('id', existingPicture?.id ?? null),
-                    onOff: validFieldResult('data--on-off', onOff),
-                    uploadId: getRequired(validFieldResult('data--upload-id', uploadId)),
-                    line1: validFieldResult('data--line1', line1),
-                    line2: validFieldResult('data--line2', line2),
-                    residence: getRequired(validFieldResult('data--residence', calculatedResidence)),
-                    info1: validFieldResult('data--info1', info1),
-                    info2: validFieldResult('data--info2', info2),
-                    info3: validFieldResult('data--info3', info3),
-                    info4: validFieldResult('data--info4', info4),
-                    info5: validFieldResult('data--info5', info5),
-                },
-            };
-            if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-            }
-            return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-        };
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-        const handleUpdateResponse = (_response: OlzApiResponses['updateMyPanini2024']): string|void => {
-            window.setTimeout(() => {
-                // TODO: This could probably be done more smoothly!
-                window.location.reload();
-            }, 1000);
-            return 'Panini-Bildli erfolgreich geändert. Bitte warten...';
-        };
+    const onSubmit: SubmitHandler<OlzEditPaniniForm> = async (values) => {
+        const data = getApiFromForm(values);
+        const [err, response] = await olzApi.getResult('updateMyPanini2024', {data});
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
+        }
 
-        olzDefaultFormSubmit(
-            'updateMyPanini2024',
-            getDataForRequestFn,
-            event.currentTarget,
-            handleUpdateResponse,
-        );
-    }, [onOff, uploadId, line1, line2, residenceOption, residence, info1, info2, info3, info4, info5]);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
+
+    const residenceOption = watch('residenceOption');
 
     return (<>
-        <form className='default-form' onSubmit={handleSubmit}>
+        <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
             <div className='alert alert-warning' role='alert'>
                 {isReadOnly
                     ? 'Die Deadline ist abgelaufen. Du kannst die Daten nicht mehr bearbeiten, da die Bildli bereits im Druck sind. 🫤'
@@ -110,10 +147,8 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 <div className='col mb-3'>
                     <input
                         type='checkbox'
-                        name='on-off'
                         value='yes'
-                        checked={onOff}
-                        onChange={(e) => setOnOff(e.target.checked)}
+                        {...register('onOff')}
                         disabled={isReadOnly}
                         id='panini-on-off-input'
                     />
@@ -123,40 +158,34 @@ export const OlzPanini2024 = (): React.ReactElement => {
             </div>
             <div className='row'>
                 <div id='panini-picture-upload'>
-                    <b>Action-Bildli</b>
-                    <OlzImageUploader
+                    <OlzImageField
+                        title='Action-Bildli'
+                        name='uploadId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsLoading}
                         maxImageSize={2500}
-                        initialUploadId={uploadId}
-                        onUploadIdChange={(newUploadId) => {
-                            setUploadId(newUploadId ?? undefined);
-                        }}
                         disabled={isReadOnly}
                     />
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-line1-input'>Vorname</label>
-                    <input
-                        type='text'
-                        name='data--line1'
-                        value={line1}
-                        onChange={(e) => setLine1(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-line1-input'
+                    <OlzTextField
+                        title='Vorname'
+                        name='line1'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-line2-input'>Name</label>
-                    <input
-                        type='text'
-                        name='data--line2'
-                        value={line2}
-                        onChange={(e) => setLine2(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-line2-input'
+                    <OlzTextField
+                        title='Name'
+                        name='line2'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
@@ -164,15 +193,9 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 <div className='col mb-3'>
                     <label htmlFor='panini-residence-select'>Wohnort</label>
                     <select
-                        name='data--residence'
                         className='form-control form-select'
                         id='panini-residence-select'
-                        defaultValue={residenceOption ?? 'UNDEFINED'}
-                        onChange={(e) => {
-                            const select = e.target;
-                            const newResidenceOption = select.options[select.selectedIndex].value;
-                            setResidenceOption(newResidenceOption);
-                        }}
+                        {...register('residenceOption')}
                         disabled={isReadOnly}
                     >
                         <option disabled value='UNDEFINED'>
@@ -190,102 +213,80 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 </div>
                 <div className='col mb-3'>
                     {residenceOption === 'OTHER' ? (<>
-                        <label htmlFor='panini-residence-input'>Wohnort</label>
-                        <input
-                            type='text'
-                            name='data--residence-other'
-                            value={residence}
-                            onChange={(e) => setResidence(e.target.value)}
-                            disabled={isReadOnly}
-                            className='form-control'
-                            id='panini-residence-input'
+                        <OlzTextField
+                            title='Wohnort'
+                            name='residence'
+                            options={{disabled: isReadOnly}}
+                            errors={errors}
+                            register={register}
                         />
                     </>) : null}
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-info1-input'>Lieblings OL Karte</label>
-                    <input
-                        type='text'
-                        name='data--info1'
-                        value={info1}
-                        onChange={(e) => setInfo1(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-info1-input'
+                    <OlzTextField
+                        title='Lieblings OL Karte'
+                        name='info1'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-info2-input'>
-                    Mein Highlight aus 18 Jahren OL Zimmerberg
-                    </label>
-                    <input
-                        type='text'
-                        name='data--info2'
-                        value={info2}
-                        onChange={(e) => setInfo2(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-info2-input'
+                    <OlzTextField
+                        title='Mein Highlight aus 18 Jahren OL Zimmerberg'
+                        name='info2'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-info3-input'>
-                    Wie bist du zum OL gekommen?
-                    </label>
-                    <input
-                        type='text'
-                        name='data--info3'
-                        value={info3}
-                        onChange={(e) => setInfo3(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-info3-input'
+                    <OlzTextField
+                        title='Wie bist du zum OL gekommen?'
+                        name='info3'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-info4-input'>
-                    Seit wann machst du OL?
-                    </label>
-                    <input
-                        type='text'
-                        name='data--info4'
-                        value={info4}
-                        onChange={(e) => setInfo4(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-info4-input'
+                    <OlzTextField
+                        title='Seit wann machst du OL?'
+                        name='info4'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='panini-info5-input'>
-                    Mein Motto / Was ich schon immer sagen wollte
-                    </label>
-                    <input
-                        type='text'
-                        name='data--info5'
-                        value={info5}
-                        onChange={(e) => setInfo5(e.target.value)}
-                        disabled={isReadOnly}
-                        className='form-control'
-                        id='panini-info5-input'
+                    <OlzTextField
+                        title='Mein Motto / Was ich schon immer sagen wollte'
+                        name='info1'
+                        options={{disabled: isReadOnly}}
+                        errors={errors}
+                        register={register}
                     />
                 </div>
             </div>
-            <div className='success-message alert alert-success' role='alert'></div>
-            <div className='error-message alert alert-danger' role='alert'></div>
+            <div className='success-message alert alert-success' role='alert'>
+                {successMessage}
+            </div>
+            <div className='error-message alert alert-danger' role='alert'>
+                {errorMessage}
+            </div>
             <button
                 type='submit'
-                disabled={isReadOnly}
+                disabled={isReadOnly || isLoading}
                 className='btn btn-primary'
                 id='submit-button'
             >
@@ -303,3 +304,10 @@ export const OlzPanini2024 = (): React.ReactElement => {
         </ul>
     </>);
 };
+
+export function initOlzPanini(): boolean {
+    initReact('panini-react-root', (
+        <OlzPanini2024 />
+    ));
+    return false;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
 import {dataHref} from '../../../../src/Utils/constants';
 import {readBase64} from '../../../../src/Utils/fileUtils';
@@ -9,25 +10,44 @@ import {UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';
 
 import '../../../../_/styles/dropzone.scss';
-import './OlzImageUploader.scss';
+import './OlzImageField.scss';
 
 const MAX_IMAGE_SIZE = 800;
 
 const uploader = Uploader.getInstance();
 
-interface OlzImageUploaderProps {
-    initialUploadId?: string|null;
-    onUploadIdChange?: (uploadId: string|null) => unknown;
+interface OlzImageFieldProps<Values extends FieldValues, Name extends Path<Values>> {
+    title?: string;
+    name: Name;
+    rules?: UseControllerProps<Values, Name>['rules'];
+    errors?: FieldErrors<Values>;
+    control: Control<Values, Name>;
+    setIsLoading: (isLoading: boolean) => void;
     maxImageSize?: number;
     disabled?: boolean;
 }
 
-/** @deprecated Use react-hook-form and OlzImageField. */
-export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactElement => {
-    const initialUploadedFile: UploadedFile|null = props.initialUploadId && {uploadState: 'UPLOADED', uploadId: props.initialUploadId} || null;
+export const OlzImageField = <
+Values extends FieldValues,
+Name extends Path<Values>
+>(props: OlzImageFieldProps<Values, Name>): React.ReactElement => {
+    const errorMessage = props.errors?.[props.name]?.message;
+    const errorClassName = errorMessage ? ' is-invalid' : '';
+    const disabledClassName = props.disabled ? ' disabled' : '';
+
+    const {field} = useController({
+        name: props.name,
+        control: props.control,
+        rules: props.rules,
+    });
+
+    const initialUploadedFile: UploadedFile|null = field.value && {uploadState: 'UPLOADED', uploadId: field.value} || null;
     const [file, setFile] = React.useState<UploadedFile|UploadingFile|null>(initialUploadedFile);
 
     React.useEffect(() => {
+        if (file?.uploadState !== 'UPLOADING') {
+            return () => undefined;
+        }
         const clock = setInterval(() => {
             const state = uploader.getState();
             if (!file?.uploadId) {
@@ -56,12 +76,15 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
                 uploadId: file.uploadId,
             };
             setFile(uploadedFile);
-            if (props.onUploadIdChange) {
-                props.onUploadIdChange(file.uploadId);
-            }
+            field.onChange(file.uploadId);
         };
         uploader.addEventListener('uploadFinished', callback);
         return () => uploader.removeEventListener('uploadFinished', callback);
+    }, [file]);
+
+    React.useEffect(() => {
+        const isUploadingFile = file?.uploadState === 'UPLOADING';
+        props.setIsLoading(isUploadingFile);
     }, [file]);
 
     const onDrop = async (acceptedFiles: File[]) => {
@@ -95,12 +118,12 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
         } catch (err: unknown) {
             console.error(`${acceptedFile.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
             setFile(null);
-
         }
     };
 
     const onDelete = React.useCallback(() => {
         setFile(null);
+        field.onChange(null);
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
@@ -110,8 +133,9 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
         onDrop,
     });
 
-    return (
-        <div className={`olz-image-uploader${props.disabled ? ' disabled' : ''}`}>
+    return (<>
+        <label htmlFor={`${props.name}-input`}>{props.title}</label>
+        <div className={`olz-image-field${disabledClassName}`}>
             <div className='state'>
                 {file ? <OlzUploadImage
                     key={serializeUploadFile(file)}
@@ -119,7 +143,7 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
                     onDelete={onDelete}
                 /> : []}
             </div>
-            <div className={`dropzone${props.disabled ? ' disabled' : ''}`} {...getRootProps()}>
+            <div className={`dropzone${disabledClassName}${errorClassName}`} {...getRootProps()}>
                 <input {...getInputProps()} disabled={props.disabled} />
                 <img
                     src={`${dataHref}assets/icns/link_image_16.svg`}
@@ -135,5 +159,6 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
                 }
             </div>
         </div>
-    );
+        {errorMessage && <p className='error'>{String(errorMessage)}</p>}
+    </>);
 };

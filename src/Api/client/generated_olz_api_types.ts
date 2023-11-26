@@ -251,14 +251,17 @@ export type OlzOriginInfo = {
 };
 
 export type OlzPanini2024PictureData = {
-    'id': number,
+    'id': number|null,
     'line1': string,
-    'line2': string|null,
-    'association': string|null,
-    'imgSrc': string,
-    'imgStyle': string,
-    'isLandscape': boolean,
-    'hasTop': boolean,
+    'line2': string,
+    'residence': string,
+    'uploadId': string,
+    'onOff': boolean,
+    'info1': string,
+    'info2': string,
+    'info3': string,
+    'info4': string,
+    'info5': string,
 };
 
 // eslint-disable-next-line no-shadow
@@ -638,19 +641,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         }|null,
         },
     updateMyPanini2024: {
-            'data': {
-            'id': number|null,
-            'line1': string,
-            'line2': string,
-            'residence': string,
-            'uploadId': string,
-            'onOff': boolean,
-            'info1': string,
-            'info2': string,
-            'info3': string,
-            'info4': string,
-            'info5': string,
-        },
+            'data': OlzPanini2024PictureData,
         },
     getMySkillLevels: {
             'skillFilter': {

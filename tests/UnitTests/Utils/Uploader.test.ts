@@ -369,6 +369,26 @@ describe('Uploader', () => {
             expect(uploader.getUploadQueue()).toEqual([]);
             expect(uploader.processHasBeenCalledTimes).toEqual(5);
         });
+
+        it('fails', async () => {
+            const uploader = new UploaderForUnitTest();
+            const fakeOlzApi = new FakeOlzApi();
+            fakeOlzApi.mock('startUpload', () => Promise.resolve({status: 'ERROR', id: null}));
+            uploader.setOlzApi(fakeOlzApi);
+
+            // Start request
+            const promise = uploader.add('a'.repeat(MAX_PART_LENGTH * 2.5), 'add.txt');
+
+            expect(uploader.getUploadQueue()).toEqual([]);
+
+            try {
+                // Wait for request response
+                await promise;
+                fail('Error expected');
+            } catch (err: unknown) {
+                expect(err).not.toEqual(undefined);
+            }
+        });
     });
 
     describe('getState', () => {
@@ -713,6 +733,25 @@ describe('Uploader', () => {
                 ...UPLOADED_UPLOAD,
                 status: 'UPLOADING',
             });
+        });
+
+        it('fails for inexistent request', async () => {
+            const uploader = new UploaderForUnitTest();
+            const fakeOlzApi = new FakeOlzApi();
+            uploader.setOlzApi(fakeOlzApi);
+            const uploadQueue: TestOnlyFileUpload[] = [];
+            uploader.setUploadQueue(uploadQueue);
+
+            try {
+                uploader.testOnlyProcessRequest({
+                    type: 'FINISH',
+                    id: 'inexistent-upload-id',
+                    numberOfParts: 3,
+                });
+                fail('Error expected');
+            } catch (err: unknown) {
+                expect(err).not.toEqual(undefined);
+            }
         });
     });
 });

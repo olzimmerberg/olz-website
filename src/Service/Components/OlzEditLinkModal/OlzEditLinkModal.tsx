@@ -1,11 +1,11 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {createRoot} from 'react-dom/client';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzLinkData} from '../../../../src/Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditLinkModal.scss';
 
@@ -149,28 +149,18 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
     );
 };
 
-let editLinkModalRoot: ReturnType<typeof createRoot>|null = null;
-
 export function initOlzEditLinkModal(
     id?: number,
     meta?: OlzMetaData,
     data?: OlzLinkData,
 ): boolean {
-    const rootElem = document.getElementById('edit-link-react-root');
-    if (!rootElem) {
-        return false;
-    }
-    if (editLinkModalRoot) {
-        editLinkModalRoot.unmount();
-    }
-    editLinkModalRoot = createRoot(rootElem);
-    editLinkModalRoot.render(
+    initReact('edit-link-react-root', (
         <OlzEditLinkModal
             id={id}
             meta={meta}
             data={data}
-        />,
-    );
+        />
+    ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-link-modal');
         if (modal) {

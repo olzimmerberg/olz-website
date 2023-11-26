@@ -1,12 +1,49 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {OlzApiResponses} from '../../../../src/Api/client';
-import {OlzWeeklyPictureData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getStringOrEmpty, getFormField, getRequired, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {OlzImageUploader} from '../../../Components/Upload/OlzImageUploader/OlzImageUploader';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../Api/client';
+import {OlzMetaData, OlzWeeklyPictureData} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
+import {timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditWeeklyPictureModal.scss';
+
+interface OlzEditWeeklyPictureForm {
+    text: string;
+    imageId: string|undefined;
+    alternativeImageId: string|null|undefined;
+}
+
+const resolver: Resolver<OlzEditWeeklyPictureForm> = async (values) => {
+    const errors: FieldErrors<OlzEditWeeklyPictureForm> = {};
+    if (!values.imageId) {
+        errors.imageId = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    return {
+        values: Object.keys(errors).length > 0 ? {} : values,
+        errors,
+    };
+};
+
+function getFormFromApi(apiData?: OlzWeeklyPictureData): OlzEditWeeklyPictureForm {
+    return {
+        text: apiData?.text ?? '',
+        imageId: apiData?.imageId,
+        alternativeImageId: apiData?.alternativeImageId,
+    };
+}
+
+function getApiFromForm(formData: OlzEditWeeklyPictureForm): OlzWeeklyPictureData {
+    return {
+        text: formData.text,
+        imageId: formData.imageId ?? '',
+        alternativeImageId: formData.alternativeImageId ?? null,
+    };
+}
+
+// ---
 
 interface OlzEditWeeklyPictureModalProps {
     id?: number;
@@ -14,144 +51,94 @@ interface OlzEditWeeklyPictureModalProps {
 }
 
 export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps): React.ReactElement => {
-    const [text, setText] = React.useState<string>(props.data?.text ?? '');
-    const [imageId, setImageId] = React.useState<string|null>(props.data?.imageId ?? null);
-    const [alternativeImageId, setAlternativeImageId] = React.useState<string|null>(props.data?.alternativeImageId ?? null);
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditWeeklyPictureForm>({
+        resolver,
+        defaultValues: getFormFromApi(props.data),
+    });
 
-    const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
-        event.preventDefault();
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-        if (props.id) {
-            console.error('Not implemented');
-            // const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
-            //     const fieldResults: OlzRequestFieldResult<'updateNews'> = {
-            //         id: validFieldResult('', props.id),
-            //         meta: {
-            //             ownerUserId: validFieldResult('', null),
-            //             ownerRoleId: validFieldResult('', null),
-            //             onOff: validFieldResult('', true),
-            //         },
-            //         data: {
-            //             author: getStringOrNull(getFormField(f, 'author')),
-            //             authorUserId: validFieldResult('', null),
-            //             authorRoleId: validFieldResult('', null),
-            //             title: getStringOrEmpty(getFormField(f, 'title')),
-            //             teaser: getStringOrEmpty(getFormField(f, 'teaser')),
-            //             content: getStringOrEmpty(getFormField(f, 'content')),
-            //             externalUrl: getStringOrNull(getFormField(f, 'external-url')),
-            //             tags: validFieldResult('', []),
-            //             terminId: validFieldResult('', null),
-            //             imageIds: validFieldResult('', imageIds),
-            //             fileIds: validFieldResult('', fileIds),
-            //         },
-            //     };
-            //     if (!isFieldResultOrDictThereofValid(fieldResults)) {
-            //         return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-            //     }
-            //     return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            // };
-
-            // const handleUpdateResponse = (response: OlzApiResponses['updateNews']): string|void => {
-            //     window.setTimeout(() => {
-            //         bootstrap.Modal.getInstance(
-            //             document.getElementById('edit-weekly-picture-modal')
-            //         ).hide();
-            //     }, 1000);
-            //     return 'weekly-picture-Eintrag erfolgreich geändert. Bitte warten...';
-            // }
-
-            // olzDefaultFormSubmit(
-            //     'updateNews',
-            //     getDataForRequestFn,
-            //     event.currentTarget,
-            //     handleUpdateResponse,
-            // );
-        } else {
-            const getDataForRequestFn: GetDataForRequestFunction<'createWeeklyPicture'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'createWeeklyPicture'> = {
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        text: getStringOrEmpty(getFormField(f, 'text')),
-                        imageId: getRequired(validFieldResult('', imageId)),
-                        alternativeImageId: validFieldResult('', alternativeImageId),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleCreateResponse = (response: OlzApiResponses['createWeeklyPicture']): string|void => {
-                if (response.status !== 'OK') {
-                    throw new Error(`Fehler beim Erstellen des weekly-picture-Eintrags: ${response.status}`);
-                }
-                window.setTimeout(() => {
-                    const modalElem = document.getElementById('edit-weekly-picture-modal');
-                    if (modalElem) {
-                        bootstrap.Modal.getInstance(modalElem)?.hide();
-                    }
-                    window.location.reload();
-                }, 1000);
-                return 'weekly-picture-Eintrag erfolgreich erstellt. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'createWeeklyPicture',
-                getDataForRequestFn,
-                event.currentTarget,
-                handleCreateResponse,
-            );
+    const onSubmit: SubmitHandler<OlzEditWeeklyPictureForm> = async (values) => {
+        const meta: OlzMetaData = {
+            ownerUserId: null,
+            ownerRoleId: null,
+            onOff: true,
+        };
+        const data = getApiFromForm(values);
+        const [err, response] = await olzApi.getResult('createWeeklyPicture', {meta, data});
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
         }
 
-        return false;
-    }, [imageId, alternativeImageId]);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
 
     return (
         <div className='modal fade' id='edit-weekly-picture-modal' tabIndex={-1} aria-labelledby='edit-weekly-picture-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
-                    <form className='default-form' onSubmit={onSubmit}>
+                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-weekly-picture-modal-label'>Bild der Woche bearbeiten</h5>
                             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                         </div>
                         <div className='modal-body'>
                             <div className='mb-3'>
-                                <label htmlFor='weekly-picture-text-input'>Text</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Text'
                                     name='text'
-                                    value={text}
-                                    onChange={(e) => setText(e.target.value)}
-                                    className='form-control'
-                                    id='weekly-picture-text-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
-                            <div id='weekly-picture-images-upload'>
-                                <b>Bild</b>
-                                <OlzImageUploader
-                                    initialUploadId={imageId}
-                                    onUploadIdChange={setImageId}
+                            <div id='image-upload'>
+                                <OlzImageField
+                                    title='Bild'
+                                    name='imageId'
+                                    errors={errors}
+                                    control={control}
+                                    setIsLoading={setIsLoading}
                                 />
                             </div>
-                            <div id='weekly-picture-files-upload'>
-                                <b>Alternatives Bild</b>
-                                <OlzImageUploader
-                                    initialUploadId={alternativeImageId}
-                                    onUploadIdChange={setAlternativeImageId}
+                            <div id='alternative-image-upload'>
+                                <OlzImageField
+                                    title='Alternatives Bild'
+                                    name='alternativeImageId'
+                                    errors={errors}
+                                    control={control}
+                                    setIsLoading={setIsLoading}
                                 />
                             </div>
-                            <div className='success-message alert alert-success' role='alert'></div>
-                            <div className='error-message alert alert-danger' role='alert'></div>
+                            <div className='success-message alert alert-success' role='alert'>
+                                {successMessage}
+                            </div>
+                            <div className='error-message alert alert-danger' role='alert'>
+                                {errorMessage}
+                            </div>
                         </div>
                         <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' id='cancel-button'>Abbrechen</button>
-                            <button type='submit' className='btn btn-primary' id='submit-button'>Speichern</button>
+                            <button
+                                type='button'
+                                className='btn btn-secondary'
+                                data-bs-dismiss='modal'
+                                id='cancel-button'
+                            >
+                                Abbrechen
+                            </button>
+                            <button
+                                type='submit'
+                                className='btn btn-primary'
+                                id='submit-button'
+                                disabled={isLoading}
+                            >
+                                Speichern
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -161,13 +148,14 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
 };
 
 export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictureData): boolean {
-    ReactDOM.render(
-        <OlzEditWeeklyPictureModal id={id} data={data} />,
-        document.getElementById('edit-weekly-picture-react-root'),
-    );
-    const modal = document.getElementById('edit-weekly-picture-modal');
-    if (modal) {
-        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-    }
+    initReact('edit-weekly-picture-react-root', (
+        <OlzEditWeeklyPictureModal id={id} data={data} />
+    ));
+    window.setTimeout(() => {
+        const modal = document.getElementById('edit-weekly-picture-modal');
+        if (modal) {
+            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+        }
+    }, 1);
     return false;
 }

@@ -33,6 +33,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
         imgSrc: string,
         infos: string[],
     }}).olzPanini2024Picture;
+    const isReadOnly = (window as unknown as {olzPanini2024IsReadOnly: boolean}).olzPanini2024IsReadOnly;
 
     let existingResidenceOption = undefined;
     let existingResidence = undefined;
@@ -100,6 +101,11 @@ export const OlzPanini2024 = (): React.ReactElement => {
 
     return (<>
         <form className='default-form' onSubmit={handleSubmit}>
+            <div className='alert alert-warning' role='alert'>
+                {isReadOnly
+                    ? 'Die Deadline ist abgelaufen. Du kannst die Daten nicht mehr bearbeiten, da die Bildli bereits im Druck sind. 🫤'
+                    : 'Ab 30. November 2023 kannst du die Daten nicht mehr ändern!'}
+            </div>
             <div className='row'>
                 <div className='col mb-3'>
                     <input
@@ -108,6 +114,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         value='yes'
                         checked={onOff}
                         onChange={(e) => setOnOff(e.target.checked)}
+                        disabled={isReadOnly}
                         id='panini-on-off-input'
                     />
                 &nbsp;
@@ -123,6 +130,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         onUploadIdChange={(newUploadId) => {
                             setUploadId(newUploadId ?? undefined);
                         }}
+                        disabled={isReadOnly}
                     />
                 </div>
             </div>
@@ -134,6 +142,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--line1'
                         value={line1}
                         onChange={(e) => setLine1(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-line1-input'
                     />
@@ -145,6 +154,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--line2'
                         value={line2}
                         onChange={(e) => setLine2(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-line2-input'
                     />
@@ -163,6 +173,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                             const newResidenceOption = select.options[select.selectedIndex].value;
                             setResidenceOption(newResidenceOption);
                         }}
+                        disabled={isReadOnly}
                     >
                         <option disabled value='UNDEFINED'>
                         Bitte wählen...
@@ -185,6 +196,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                             name='data--residence-other'
                             value={residence}
                             onChange={(e) => setResidence(e.target.value)}
+                            disabled={isReadOnly}
                             className='form-control'
                             id='panini-residence-input'
                         />
@@ -199,6 +211,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--info1'
                         value={info1}
                         onChange={(e) => setInfo1(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-info1-input'
                     />
@@ -214,6 +227,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--info2'
                         value={info2}
                         onChange={(e) => setInfo2(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-info2-input'
                     />
@@ -229,6 +243,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--info3'
                         value={info3}
                         onChange={(e) => setInfo3(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-info3-input'
                     />
@@ -244,6 +259,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--info4'
                         value={info4}
                         onChange={(e) => setInfo4(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-info4-input'
                     />
@@ -259,6 +275,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='data--info5'
                         value={info5}
                         onChange={(e) => setInfo5(e.target.value)}
+                        disabled={isReadOnly}
                         className='form-control'
                         id='panini-info5-input'
                     />
@@ -268,6 +285,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
             <div className='error-message alert alert-danger' role='alert'></div>
             <button
                 type='submit'
+                disabled={isReadOnly}
                 className='btn btn-primary'
                 id='submit-button'
             >

@@ -16,9 +16,10 @@ const MAX_IMAGE_SIZE = 800;
 const uploader = Uploader.getInstance();
 
 interface OlzImageUploaderProps {
-    maxImageSize?: number;
     initialUploadId?: string|null;
     onUploadIdChange?: (uploadId: string|null) => unknown;
+    maxImageSize?: number;
+    disabled?: boolean;
 }
 
 export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactElement => {
@@ -103,12 +104,13 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: {'image/*': ['.png', '.jpg', '.jpeg']},
+        disabled: props.disabled,
         maxFiles: 1,
         onDrop,
     });
 
     return (
-        <div className='olz-image-uploader'>
+        <div className={`olz-image-uploader${props.disabled ? ' disabled' : ''}`}>
             <div className='state'>
                 {file ? <OlzUploadImage
                     key={serializeUploadFile(file)}
@@ -116,8 +118,8 @@ export const OlzImageUploader = (props: OlzImageUploaderProps): React.ReactEleme
                     onDelete={onDelete}
                 /> : []}
             </div>
-            <div className="dropzone" {...getRootProps()}>
-                <input {...getInputProps()} />
+            <div className={`dropzone${props.disabled ? ' disabled' : ''}`} {...getRootProps()}>
+                <input {...getInputProps()} disabled={props.disabled} />
                 <img
                     src={`${dataHref}assets/icns/link_image_16.svg`}
                     alt=""

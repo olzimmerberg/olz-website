@@ -3,6 +3,7 @@
 namespace Olz\Apps\Panini2024\Endpoints;
 
 use Olz\Api\OlzEndpoint;
+use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -52,6 +53,12 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
         $panini_repo = $this->entityManager()->getRepository(Panini2024Picture::class);
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
         $data_path = $this->envUtils()->getDataPath();
+        $deadline_datetime = new \DateTime(Panini2024Constants::UPDATE_DEADLINE);
+
+        $has_admin_access = $this->authUtils()->hasPermission('all');
+        if ($now_datetime > $deadline_datetime && !$has_admin_access) {
+            throw new HttpError(400, "Zu spät!");
+        }
 
         $input_data = $input['data'];
         $id = $input_data['id'];

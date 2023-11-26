@@ -71,7 +71,7 @@ class OlzPanini2024 extends OlzComponent {
                 window.olzPanini2024Picture = {$esc_panini_2024_picture};
                 window.olzPanini2024IsReadOnly = {$esc_is_read_only};
             </script>
-            <div id='react-root'>
+            <div id='panini-react-root'>
                 Lädt...
             </div>
             ZZZZZZZZZZ;

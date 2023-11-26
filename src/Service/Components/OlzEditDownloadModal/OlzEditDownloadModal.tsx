@@ -1,12 +1,12 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {createRoot} from 'react-dom/client';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzDownloadData} from '../../../Api/client/generated_olz_api_types';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditDownloadModal.scss';
 
@@ -154,28 +154,18 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
     );
 };
 
-let editDownloadModalRoot: ReturnType<typeof createRoot>|null = null;
-
 export function initOlzEditDownloadModal(
     id?: number,
     meta?: OlzMetaData,
     data?: OlzDownloadData,
 ): boolean {
-    const rootElem = document.getElementById('edit-download-react-root');
-    if (!rootElem) {
-        return false;
-    }
-    if (editDownloadModalRoot) {
-        editDownloadModalRoot.unmount();
-    }
-    editDownloadModalRoot = createRoot(rootElem);
-    editDownloadModalRoot.render(
+    initReact('edit-download-react-root', (
         <OlzEditDownloadModal
             id={id}
             meta={meta}
             data={data}
-        />,
-    );
+        />
+    ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-download-modal');
         if (modal) {

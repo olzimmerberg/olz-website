@@ -42,7 +42,7 @@ class OlzPanini2024Masks extends OlzComponent {
             <script>
                 window.olzPanini2024Mask = {$enc_mask};
             </script>
-            <div id='react-root-masks'>
+            <div id='panini-react-root-masks'>
                 Lädt...
             </div>
             ZZZZZZZZZZ;

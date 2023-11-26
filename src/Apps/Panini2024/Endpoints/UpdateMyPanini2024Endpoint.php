@@ -37,6 +37,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
                 'info4' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
                 'info5' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
             ],
+            'export_as' => 'OlzPanini2024PictureData',
         ]);
         return new FieldTypes\ObjectField(['field_structure' => [
             'data' => $panini_2024_picture_field,

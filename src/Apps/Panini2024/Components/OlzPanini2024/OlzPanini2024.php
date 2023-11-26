@@ -3,6 +3,7 @@
 namespace Olz\Apps\Panini2024\Components\OlzPanini2024;
 
 use Olz\Apps\Panini2024\Metadata;
+use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
@@ -26,6 +27,11 @@ class OlzPanini2024 extends OlzComponent {
         $http_utils->validateGetParams([], $_GET);
         $data_path = $this->envUtils()->getDataPath();
         $metadata = new Metadata();
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $deadline_datetime = new \DateTime(Panini2024Constants::UPDATE_DEADLINE);
+
+        $has_admin_access = $this->authUtils()->hasPermission('all');
+        $is_read_only = ($now_datetime > $deadline_datetime && !$has_admin_access);
 
         $out = '';
 
@@ -41,6 +47,7 @@ class OlzPanini2024 extends OlzComponent {
             $esc_first_name = json_encode($current_user->getFirstName());
             $esc_last_name = json_encode($current_user->getLastName());
             $esc_panini_2024_picture = json_encode(null);
+            $esc_is_read_only = json_encode($is_read_only);
             $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
             $picture = $panini_repo->findOneBy(['owner_user' => $current_user]);
             if ($picture) {
@@ -62,6 +69,7 @@ class OlzPanini2024 extends OlzComponent {
                 window.olzPanini2024FirstName = {$esc_first_name};
                 window.olzPanini2024LastName = {$esc_last_name};
                 window.olzPanini2024Picture = {$esc_panini_2024_picture};
+                window.olzPanini2024IsReadOnly = {$esc_is_read_only};
             </script>
             <div id='react-root'>
                 Lädt...

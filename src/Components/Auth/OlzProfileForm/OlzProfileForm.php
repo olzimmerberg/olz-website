@@ -48,13 +48,14 @@ class OlzProfileForm extends OlzComponent {
         $required_password_class = $required_password ? '' : ' hidden';
 
         $user = $this->authUtils()->getCurrentUser();
-        $image_path = $this->authUtils()->getUserAvatar($user);
+        $image_paths = $this->authUtils()->getUserAvatar($user);
+        $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
 
         return <<<ZZZZZZZZZZ
     <div class='olz-profile-form'>
         <div class='row{$avatar_class}'>
             <div class='col mb-3 avatar-container'>
-                <img src='{$image_path}' alt='avatar' id='avatar-img' />
+                <img {$image_src_html} alt='avatar' id='avatar-img' />
                 <button
                     type='button'
                     class='btn btn-secondary'

@@ -749,7 +749,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testGetUserAvatarNoUser(): void {
         $auth_utils = new AuthUtils();
         $this->assertSame(
-            '/_/assets/user_initials_%3F.svg',
+            ['1x' => '/_/assets/user_initials_%3F.svg'],
             $auth_utils->getUserAvatar(null)
         );
     }
@@ -764,7 +764,27 @@ final class AuthUtilsTest extends UnitTestCase {
         file_put_contents($user_image_path, '');
 
         $this->assertSame(
-            "/data-href/img/users/{$user->getId()}.jpg",
+            ['1x' => "/data-href/img/users/{$user->getId()}.jpg"],
+            $auth_utils->getUserAvatar($user)
+        );
+    }
+
+    public function testGetUserAvatarHasHighResolutionAvatar(): void {
+        $auth_utils = new AuthUtils();
+        $user = Fake\FakeUsers::adminUser();
+
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
+        $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
+        $user_image_2x_path = "{$data_path}img/users/{$user->getId()}@2x.jpg";
+        mkdir(dirname($user_image_path), 0777, true);
+        file_put_contents($user_image_path, '');
+        file_put_contents($user_image_2x_path, '');
+
+        $this->assertSame(
+            [
+                '2x' => "/data-href/img/users/{$user->getId()}@2x.jpg",
+                '1x' => "/data-href/img/users/{$user->getId()}.jpg",
+            ],
             $auth_utils->getUserAvatar($user)
         );
     }
@@ -773,7 +793,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $user = Fake\FakeUsers::adminUser();
         $this->assertSame(
-            '/_/assets/user_initials_AI.svg',
+            ['1x' => '/_/assets/user_initials_AI.svg'],
             $auth_utils->getUserAvatar($user)
         );
     }
@@ -784,7 +804,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $user->setFirstName("Özdemir");
         $user->setLastName(null);
         $this->assertSame(
-            '/_/assets/user_initials_%C3%96%3F.svg',
+            ['1x' => '/_/assets/user_initials_%C3%96%3F.svg'],
             $auth_utils->getUserAvatar($user)
         );
     }

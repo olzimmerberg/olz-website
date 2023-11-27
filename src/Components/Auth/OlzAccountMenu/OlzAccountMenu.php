@@ -11,7 +11,7 @@ class OlzAccountMenu extends OlzComponent {
 
         $auth_user = $this->authUtils()->getCurrentAuthUser();
         $user = $this->authUtils()->getCurrentUser();
-        $image_path = $this->authUtils()->getUserAvatar($user);
+        $image_paths = $this->authUtils()->getUserAvatar($user);
         $code_href = $this->envUtils()->getCodeHref();
         $should_verify_email = (
             $user
@@ -26,7 +26,8 @@ class OlzAccountMenu extends OlzComponent {
         if ($show_notification_dot) {
             $out .= "<div class='notification-dot'></div>";
         }
-        $out .= "<img src='{$image_path}' alt='' class='account-thumbnail' />";
+        $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
+        $out .= "<img {$image_src_html} alt='' class='account-thumbnail' />";
         $out .= "</a>";
         $out .= "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='account-menu-link'>";
         if ($user) {

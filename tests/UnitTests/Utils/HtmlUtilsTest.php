@@ -140,4 +140,26 @@ final class HtmlUtilsTest extends UnitTestCase {
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
     }
+
+    public function testGetImageSrcHtml(): void {
+        $html_utils = new HtmlUtils();
+        $this->assertSame(
+            '',
+            $html_utils->getImageSrcHtml([])
+        );
+        $this->assertSame(
+            "src='fake-image.jpg'",
+            $html_utils->getImageSrcHtml(['1x' => 'fake-image.jpg'])
+        );
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+            srcset='
+                fake-image.jpg 1x,
+                fake-image@2x.jpg 2x
+            '
+            src='fake-image.jpg'
+            ZZZZZZZZZZ,
+            $html_utils->getImageSrcHtml(['1x' => 'fake-image.jpg', '2x' => 'fake-image@2x.jpg'])
+        );
+    }
 }

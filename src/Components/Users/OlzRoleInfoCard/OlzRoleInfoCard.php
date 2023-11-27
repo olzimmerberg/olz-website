@@ -16,8 +16,9 @@ class OlzRoleInfoCard extends OlzComponent {
 
         $img_html = "<img src='{$code_href}assets/icns/role.svg' alt='' class='logo'>";
         if ($user) {
-            $image_path = $this->authUtils()->getUserAvatar($user);
-            $img_html = "<img src='{$image_path}' alt='' class='image'>";
+            $image_paths = $this->authUtils()->getUserAvatar($user);
+            $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
+            $img_html = "<img {$image_src_html} alt='' class='image'>";
         }
 
         $out = "<div class='olz-role-info-card'>";

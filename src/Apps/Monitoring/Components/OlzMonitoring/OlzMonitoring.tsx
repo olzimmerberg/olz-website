@@ -30,7 +30,7 @@ export const OlzMonitoring = (): React.ReactElement => {
             />
         </div>
         <iframe
-            className='monitoring-iframe'
+            className='monitoring-iframe test-flaky'
             src={OLZ_MONITORING_URL}
         >
         </iframe>

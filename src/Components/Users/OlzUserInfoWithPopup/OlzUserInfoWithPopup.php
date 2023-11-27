@@ -11,18 +11,15 @@ class OlzUserInfoWithPopup extends OlzComponent {
         $user = $args['user'];
         $mode = $args['mode'] ?? 'name';
 
-        $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
-        $data_path = $this->envUtils()->getDataPath();
-
         if ($mode == 'name') {
             $trigger = "<div class='olz-user-info-with-popup'>{$user->getFullName()}</div>";
             $popup = OlzUserInfoCard::render(['user' => $user]);
             return OlzPopup::render(['trigger' => $trigger, 'popup' => $popup]);
         }
         if ($mode == 'name_picture') {
-            $image_path = $this->authUtils()->getUserAvatar($user);
-            $img_html = "<img src='{$image_path}' alt='' class='image'>";
+            $image_paths = $this->authUtils()->getUserAvatar($user);
+            $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
+            $img_html = "<img {$image_src_html} alt='' class='image'>";
 
             $trigger = "<div class='olz-user-info-with-popup'>{$img_html}<br>{$user->getFullName()}</div>";
             $popup = OlzUserInfoCard::render(['user' => $user]);

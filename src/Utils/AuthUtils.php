@@ -255,22 +255,30 @@ class AuthUtils {
         return strlen($password) >= 8;
     }
 
-    public function getUserAvatar(?User $user) {
+    public function getUserAvatar(?User $user): array {
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
         $data_href = $env_utils->getDataHref();
         $data_path = $env_utils->getDataPath();
         if (!$user) {
             $initials_enc = urlencode('?');
-            return "{$code_href}assets/user_initials_{$initials_enc}.svg";
+            return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
+        }
+        $user_images = [];
+        $user_image_path_2x = "img/users/{$user->getId()}@2x.jpg";
+        if (is_file("{$data_path}{$user_image_path_2x}")) {
+            $user_images['2x'] = "{$data_href}{$user_image_path_2x}";
         }
         $user_image_path = "img/users/{$user->getId()}.jpg";
         if (is_file("{$data_path}{$user_image_path}")) {
-            return "{$data_href}{$user_image_path}";
+            $user_images['1x'] = "{$data_href}{$user_image_path}";
+        }
+        if (count($user_images) > 0) {
+            return $user_images;
         }
         $first_initial = mb_substr($user->getFirstName() ?? '?', 0, 1);
         $last_initial = mb_substr($user->getLastName() ?? '?', 0, 1);
         $initials_enc = urlencode(strtoupper("{$first_initial}{$last_initial}"));
-        return "{$code_href}assets/user_initials_{$initials_enc}.svg";
+        return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
     }
 }

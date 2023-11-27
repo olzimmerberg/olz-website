@@ -14,8 +14,9 @@ class OlzUserInfoCard extends OlzComponent {
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
 
-        $image_path = $this->authUtils()->getUserAvatar($user);
-        $img_html = "<img src='{$image_path}' alt='' class='image'>";
+        $image_paths = $this->authUtils()->getUserAvatar($user);
+        $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
+        $img_html = "<img {$image_src_html} alt='' class='image'>";
 
         $out = "<div class='olz-user-info-card'>";
         $out .= "<div class='image-container'>{$img_html}</div>";

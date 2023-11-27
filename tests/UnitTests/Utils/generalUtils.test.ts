@@ -1,6 +1,40 @@
 /* eslint-env jasmine */
 
-import {assertUnreachable, getErrorOrThrow, isDefined, timeout} from '../../../src/Utils/generalUtils';
+import {assert, assertUnreachable, getErrorOrThrow, isDefined, timeout} from '../../../src/Utils/generalUtils';
+
+describe('assert', () => {
+    it('works for value', () => {
+        expect(assert('test')).toEqual('test');
+    });
+
+    it('throws for null', () => {
+        expect(() => assert(null)).toThrow();
+    });
+
+    it('throws for undefined', () => {
+        expect(() => assert(undefined)).toThrow();
+    });
+
+    it('works for {}', () => {
+        expect(assert({})).toEqual({});
+    });
+
+    it('works for []', () => {
+        expect(assert([])).toEqual([]);
+    });
+
+    it('works for ""', () => {
+        expect(assert('')).toEqual('');
+    });
+
+    it('works for 0', () => {
+        expect(assert(0)).toEqual(0);
+    });
+
+    it('works for false', () => {
+        expect(assert(false)).toEqual(false);
+    });
+});
 
 describe('assertUnreachable', () => {
     it('works if it is unreachable', () => {

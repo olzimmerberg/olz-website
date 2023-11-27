@@ -1,7 +1,10 @@
 import React from 'react';
 import {FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister} from 'react-hook-form';
 
+type OlzTextFieldMode = 'text-input'|'textarea';
+
 interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values>> {
+    mode?: OlzTextFieldMode;
     title?: string;
     name: Name;
     options?: RegisterOptions<Values, Name>;
@@ -15,14 +18,30 @@ export const OlzTextField = <
 >(props: OlzTextFieldProps<Values, Name>): React.ReactElement => {
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
+    const inputId = `${props.name}-input`;
+    const className = `form-control${errorClassName}`;
+    const labelComponent = <label htmlFor={inputId}>{props.title}</label>;
+    const errorComponent = errorMessage && <p className='error'>{String(errorMessage)}</p>;
+
+    if (props?.mode === 'textarea') {
+        return (<>
+            {labelComponent}
+            <textarea
+                {...props.register(props.name, props.options)}
+                className={className}
+                id={inputId}
+            />
+            {errorComponent}
+        </>);
+    }
     return (<>
-        <label htmlFor={`${props.name}-input`}>{props.title}</label>
+        {labelComponent}
         <input
             type='text'
             {...props.register(props.name, props.options)}
-            className={`form-control${errorClassName}`}
-            id={`${props.name}-input`}
+            className={className}
+            id={inputId}
         />
-        {errorMessage && <p className='error'>{String(errorMessage)}</p>}
+        {errorComponent}
     </>);
 };

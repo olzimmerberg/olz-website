@@ -3,18 +3,21 @@ import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Pa
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../../src/Utils/fileUtils';
 import {isDefined} from '../../../../src/Utils/generalUtils';
+import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
 import {Uploader} from '../../../../src/Utils/Uploader';
-import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
+import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';
 import {dataHref} from '../../../../src/Utils/constants';
 
 import '../../../../_/styles/dropzone.scss';
-import './OlzMultiFileField.scss';
+import './OlzMultiImageField.scss';
+
+const MAX_IMAGE_SIZE = 800;
 
 const uploader = Uploader.getInstance();
 
-interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<Values>> {
+interface OlzMultiImageFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     title?: string;
     name: Name;
     rules?: UseControllerProps<Values, Name>['rules'];
@@ -24,10 +27,10 @@ interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<V
     disabled?: boolean;
 }
 
-export const OlzMultiFileField = <
+export const OlzMultiImageField = <
     Values extends FieldValues,
     Name extends Path<Values>
->(props: OlzMultiFileFieldProps<Values, Name>): React.ReactElement => {
+>(props: OlzMultiImageFieldProps<Values, Name>): React.ReactElement => {
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
     const disabledClassName = props.disabled ? ' disabled' : '';
@@ -99,12 +102,27 @@ export const OlzMultiFileField = <
             newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
             // eslint-disable-next-line no-await-in-loop
             const base64Content = await readBase64(file);
-            const suffix = file.name.split('.').slice(-1)[0];
-            // eslint-disable-next-line no-await-in-loop
-            const uploadId = await uploader.add(base64Content, `.${suffix}`);
-            const evenNewerUploadingFiles = [...newUploadingFiles];
-            evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
-            setUploadingFiles(evenNewerUploadingFiles);
+            if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
+                console.error(`${file.name} ist ein beschädigtes Bild, bitte wähle ein korrektes Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+                continue; // eslint-disable-line no-continue
+            }
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                const img = await loadImageFromBase64(base64Content);
+                const canvas = getResizedCanvas(img, MAX_IMAGE_SIZE);
+                const resizedBase64 = getBase64FromCanvas(canvas);
+                if (!resizedBase64) {
+                    continue; // eslint-disable-line no-continue
+                }
+                // eslint-disable-next-line no-await-in-loop
+                const uploadId = await uploader.add(resizedBase64, '.jpg');
+                const evenNewerUploadingFiles = [...newUploadingFiles];
+                evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
+                setUploadingFiles(evenNewerUploadingFiles);
+            } catch (err: unknown) {
+                console.error(`${file.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
+                continue; // eslint-disable-line no-continue
+            }
         }
     };
 
@@ -118,6 +136,7 @@ export const OlzMultiFileField = <
     }, [uploadedFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
+        accept: {'image/*': ['.png', '.jpg', '.jpeg']},
         disabled: props.disabled,
         onDrop,
     });
@@ -126,9 +145,9 @@ export const OlzMultiFileField = <
 
     return (<>
         <label htmlFor={`${props.name}-field`}>{props.title}</label>
-        <div id={`${props.name}-field`} className={`olz-multi-file-field${disabledClassName}`}>
+        <div id={`${props.name}-field`} className={`olz-multi-image-field${disabledClassName}`}>
             <div className='state'>
-                {uploadFiles.map((uploadFile) => <OlzUploadFile
+                {uploadFiles.map((uploadFile) => <OlzUploadImage
                     key={serializeUploadFile(uploadFile)}
                     uploadFile={uploadFile}
                     onDelete={onDelete}
@@ -137,7 +156,7 @@ export const OlzMultiFileField = <
             <div className={`dropzone${errorClassName}`} {...getRootProps()}>
                 <input {...getInputProps()} disabled={props.disabled} id={`${props.name}-input`} />
                 <img
-                    src={`${dataHref}assets/icns/link_any_16.svg`}
+                    src={`${dataHref}assets/icns/link_image_16.svg`}
                     alt=""
                     className="noborder"
                     width="32"
@@ -145,8 +164,8 @@ export const OlzMultiFileField = <
                 />
                 {
                     isDragActive ?
-                        <div>Dateien hierhin ziehen...</div> :
-                        <div>Dateien hierhin ziehen, oder Klicken, um Dateien auszuwählen</div>
+                        <div>Bilder hierhin ziehen...</div> :
+                        <div>Bilder hierhin ziehen, oder Klicken, um Bilder auszuwählen</div>
                 }
             </div>
         </div>

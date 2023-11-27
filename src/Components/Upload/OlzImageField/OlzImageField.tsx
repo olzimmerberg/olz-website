@@ -134,8 +134,8 @@ Name extends Path<Values>
     });
 
     return (<>
-        <label htmlFor={`${props.name}-input`}>{props.title}</label>
-        <div className={`olz-image-field${disabledClassName}`}>
+        <label htmlFor={`${props.name}-field`}>{props.title}</label>
+        <div id={`${props.name}-field`} className={`olz-image-field${disabledClassName}`}>
             <div className='state'>
                 {file ? <OlzUploadImage
                     key={serializeUploadFile(file)}
@@ -144,7 +144,7 @@ Name extends Path<Values>
                 /> : []}
             </div>
             <div className={`dropzone${disabledClassName}${errorClassName}`} {...getRootProps()}>
-                <input {...getInputProps()} disabled={props.disabled} />
+                <input {...getInputProps()} disabled={props.disabled} id={`${props.name}-input`} />
                 <img
                     src={`${dataHref}assets/icns/link_image_16.svg`}
                     alt=""

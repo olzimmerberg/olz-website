@@ -21,6 +21,7 @@ interface OlzMultiImageUploaderProps {
     onUploadIdsChange?: (uploadIds: string[]) => unknown;
 }
 
+/** @deprecated Use react-hook-form and OlzMultiImageField. */
 export const OlzMultiImageUploader = (props: OlzMultiImageUploaderProps): React.ReactElement => {
     const initialUploadedFiles: UploadedFile[] = props.initialUploadIds?.map(
         (uploadId) => ({uploadState: 'UPLOADED', uploadId}),

@@ -1,16 +1,79 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import {OlzApiResponses} from '../../../../src/Api/client';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getStringOrNull, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {OlzAuthenticatedUserRoleChooser} from '../../../Components/Common/OlzAuthenticatedUserRoleChooser/OlzAuthenticatedUserRoleChooser';
-import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
-import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
+import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
+import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 import {codeHref, dataHref} from '../../../Utils/constants';
+import {assert, timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditNewsModal.scss';
+
+interface OlzEditNewsForm {
+    format: OlzNewsFormat|undefined;
+    authorUserId: number|null;
+    authorRoleId: number|null;
+    authorName: string|null;
+    authorEmail: string|null;
+    title: string;
+    teaser: string;
+    content: string;
+    externalUrl: string;
+    imageIds: string[];
+    fileIds: string[];
+}
+
+const resolver: Resolver<OlzEditNewsForm> = async (values) => {
+    const errors: FieldErrors<OlzEditNewsForm> = {};
+    if (!values.format) {
+        errors.format = {type: 'required', message: 'Darf nicht leer sein.'};
+    }
+    return {
+        values: Object.keys(errors).length > 0 ? {} : values,
+        errors,
+    };
+};
+
+function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
+    return {
+        format: apiData?.format,
+        authorUserId: apiData?.authorUserId ?? null,
+        authorRoleId: apiData?.authorRoleId ?? null,
+        authorName: apiData?.authorName ?? null,
+        authorEmail: apiData?.authorEmail ?? null,
+        title: apiData?.title ?? '',
+        teaser: apiData?.teaser ?? '',
+        content: apiData?.content ?? '',
+        externalUrl: apiData?.externalUrl ?? '',
+        imageIds: apiData?.imageIds ?? [],
+        fileIds: apiData?.fileIds ?? [],
+    };
+}
+
+function getApiFromForm(formData: OlzEditNewsForm): OlzNewsData {
+    return {
+        format: assert(formData?.format),
+        authorUserId: formData?.authorUserId,
+        authorRoleId: formData?.authorRoleId,
+        authorName: formData?.authorName,
+        authorEmail: formData?.authorEmail,
+        title: formData?.title,
+        teaser: formData?.format === 'aktuell' ? formData?.teaser : '',
+        content: formData?.format !== 'galerie' ? formData?.content : '',
+        externalUrl: formData?.format === 'aktuell' ? (formData?.externalUrl || null) : null,
+        tags: [],
+        terminId: null,
+        imageIds: formData?.imageIds,
+        fileIds: formData?.fileIds,
+    };
+}
+
+// ---
 
 export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog';
 
@@ -115,9 +178,6 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
     },
 };
 
-const isValidFromat = (value: unknown): value is OlzNewsFormat =>
-    CONFIG_BY_FORMAT[value as OlzNewsFormat] !== undefined;
-
 const FORMATS_BY_MODE: {[mode in OlzEditNewsModalMode]: OlzNewsFormat[]} = {
     anonymous: ['anonymous'],
     account: ['forum', 'aktuell', 'galerie', 'video'],
@@ -184,19 +244,20 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     const availableFormats = FORMATS_BY_MODE[props.mode];
     const defaultFormat = availableFormats.length === 1 ? availableFormats[0] : undefined;
 
-    const [format, setFormat] = React.useState<OlzNewsFormat|undefined>(props.data?.format ?? defaultFormat);
-    const [authorUserId, setAuthorUserId] = React.useState<number|null>(props.data?.authorUserId ?? null);
-    const [authorRoleId, setAuthorRoleId] = React.useState<number|null>(props.data?.authorRoleId ?? null);
-    const [authorName, setAuthorName] = React.useState<string|null>(props.data?.authorName ?? null);
-    const [authorEmail, setAuthorEmail] = React.useState<string|null>(props.data?.authorEmail ?? null);
-    const [title, setTitle] = React.useState<string>(props.data?.title ?? '');
-    const [teaser, setTeaser] = React.useState<string>(props.data?.teaser ?? '');
-    const [content, setContent] = React.useState<string>(props.data?.content ?? '');
-    const [externalUrl, setExternalUrl] = React.useState<string>(props.data?.externalUrl ?? '');
-    const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
-    const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
+    const defaultValues = getFormFromApi(props.data);
+    const {register, handleSubmit, formState: {errors}, control, watch} = useForm<OlzEditNewsForm>({
+        resolver,
+        defaultValues: {
+            ...defaultValues,
+            format: defaultValues.format ?? defaultFormat,
+        },
+    });
+
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
     const [isWaitingForCaptcha, setIsWaitingForCaptcha] = React.useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     React.useEffect(() => {
         if (!recaptchaConsentGiven) {
@@ -210,118 +271,35 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         });
     }, [recaptchaConsentGiven]);
 
+    const format = watch('format');
     const config = format ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
 
-    const onSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>): Promise<boolean> => {
-        event.preventDefault();
-        const form = event.currentTarget;
+    const onSubmit: SubmitHandler<OlzEditNewsForm> = async (values) => {
+        const meta: OlzMetaData = {
+            ownerUserId: null,
+            ownerRoleId: null,
+            onOff: true,
+        };
+        const data = getApiFromForm(values);
 
-        let token: string|null = null;
+        let recaptchaToken: string|null = null;
         if (config.hasCaptcha && recaptchaConsentGiven) {
-            token = await loadRecaptchaToken();
+            recaptchaToken = await loadRecaptchaToken();
         }
 
-        if (props.id) {
-            const getDataForRequestFn: GetDataForRequestFunction<'updateNews'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'updateNews'> = {
-                    id: getRequired(validFieldResult('', props.id)),
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        format: getRequired(validFieldResult('format', format)),
-                        authorUserId: validFieldResult('', authorUserId),
-                        authorRoleId: validFieldResult('', authorRoleId),
-                        authorName: validFieldResult('author-name', authorName),
-                        authorEmail: validFieldResult('author-email', authorEmail),
-                        title: getStringOrEmpty(getFormField(f, 'title')),
-                        teaser: format === 'aktuell' ? getStringOrEmpty(getFormField(f, 'teaser')) : validFieldResult('teaser', ''),
-                        content: format !== 'galerie' ? getStringOrEmpty(getFormField(f, 'content')) : validFieldResult('content', ''),
-                        externalUrl: format === 'aktuell' ? getStringOrNull(getFormField(f, 'external-url')) : validFieldResult('external-url', null),
-                        tags: validFieldResult('', []),
-                        terminId: validFieldResult('', null),
-                        imageIds: validFieldResult('', imageIds),
-                        fileIds: validFieldResult('', fileIds),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleUpdateResponse = (_response: OlzApiResponses['updateNews']): string|void => {
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'News-Eintrag erfolgreich geändert. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'updateNews',
-                getDataForRequestFn,
-                form,
-                handleUpdateResponse,
-            );
-        } else {
-            const getDataForRequestFn: GetDataForRequestFunction<'createNews'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'createNews'> = {
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        format: getRequired(validFieldResult('format', format)),
-                        authorUserId: validFieldResult('', authorUserId),
-                        authorRoleId: validFieldResult('', authorRoleId),
-                        authorName: validFieldResult('author-name', authorName),
-                        authorEmail: validFieldResult('author-email', authorEmail),
-                        title: getStringOrEmpty(getFormField(f, 'title')),
-                        teaser: format === 'aktuell' ? getStringOrEmpty(getFormField(f, 'teaser')) : validFieldResult('teaser', ''),
-                        content: format !== 'galerie' ? getStringOrEmpty(getFormField(f, 'content')) : validFieldResult('content', ''),
-                        externalUrl: format === 'aktuell' ? getStringOrNull(getFormField(f, 'external-url')) : validFieldResult('external-url', null),
-                        tags: validFieldResult('', []),
-                        terminId: validFieldResult('', null),
-                        imageIds: validFieldResult('', imageIds),
-                        fileIds: validFieldResult('', fileIds),
-                    },
-                    custom: {
-                        recaptchaToken: validFieldResult('', token),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleCreateResponse = (response: OlzApiResponses['createNews']): string|void => {
-                if (response.status === 'ERROR') {
-                    throw new Error(`Fehler beim Erstellen des News-Eintrags: ${response.status}`);
-                } else if (response.status !== 'OK') {
-                    throw new Error(`Antwort: ${response.status}`);
-                }
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'News-Eintrag erfolgreich erstellt. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'createNews',
-                getDataForRequestFn,
-                form,
-                handleCreateResponse,
-            );
+        const [err, response] = await (props.id
+            ? olzApi.getResult('updateNews', {id: props.id, meta, data})
+            : olzApi.getResult('createNews', {meta, data, custom: {recaptchaToken}}));
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
         }
 
-        return false;
-    }, [config, format, authorName, authorEmail, authorUserId, authorRoleId, fileIds, imageIds, recaptchaConsentGiven]);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
 
     const dialogTitle = props.mode === 'anonymous'
         ? 'Forumseintrag erstellen'
@@ -334,7 +312,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
-                    <form className='default-form' onSubmit={onSubmit}>
+                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-news-modal-label'>
                                 {dialogTitle}
@@ -345,61 +323,46 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                             {config.hasFreeFormAuthor ? (<>
                                 <div className='row'>
                                     <div className='col mb-3'>
-                                        <label htmlFor='news-author-name-input'>Autor</label>
-                                        <input
-                                            type='text'
-                                            name='author-name'
-                                            value={authorName || ''}
-                                            onChange={(e) => setAuthorName(e.target.value)}
-                                            className='form-control'
-                                            id='news-author-name-input'
+                                        <OlzTextField
+                                            title='Autor'
+                                            name='authorName'
+                                            errors={errors}
+                                            register={register}
                                         />
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='col mb-3'>
-                                        <label htmlFor='news-author-email-input'>E-Mail</label>
-                                        <input
-                                            type='text'
-                                            name='author-email'
-                                            value={authorEmail || ''}
-                                            onChange={(e) => setAuthorEmail(e.target.value)}
-                                            className='form-control'
-                                            id='news-author-email-input'
+                                        <OlzTextField
+                                            title='E-Mail'
+                                            name='authorEmail'
+                                            errors={errors}
+                                            register={register}
                                         />
                                     </div>
                                 </div>
                             </>) : (
                                 <div className='row'>
                                     <div className='col mb-3'>
-                                        <label htmlFor='news-author-input'>Autor</label>
-                                        <div id='news-author-input'>
-                                            <OlzAuthenticatedUserRoleChooser
-                                                nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
-                                                userId={authorUserId}
-                                                roleId={authorRoleId}
-                                                onUserIdChange={(e) => setAuthorUserId(e.detail)}
-                                                onRoleIdChange={(e) => setAuthorRoleId(e.detail)}
-                                            />
-                                        </div>
+                                        <OlzAuthenticatedUserRoleField
+                                            title='Autor'
+                                            userName='authorUserId'
+                                            roleName='authorRoleId'
+                                            errors={errors}
+                                            userControl={control}
+                                            roleControl={control}
+                                            setIsLoading={setIsLoading}
+                                            nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
+                                        />
                                     </div>
                                     {availableFormats.length > 1 ? (
                                         <div className='col mb-3'>
-                                            <label htmlFor='news-format-input'>Format</label>
+                                            <label htmlFor='format-input'>Format</label>
                                             <select
-                                                name='format'
                                                 className='form-control form-select'
-                                                id='news-format-input'
+                                                id='format-input'
+                                                {...register('format')}
                                                 defaultValue={format ?? 'UNDEFINED'}
-                                                onChange={(e) => {
-                                                    const select = e.target;
-                                                    const newFormatString = select.options[select.selectedIndex].value;
-                                                    let newFormat: OlzNewsFormat|undefined = undefined;
-                                                    if (isValidFromat(newFormatString)) {
-                                                        newFormat = newFormatString;
-                                                    }
-                                                    setFormat(newFormat);
-                                                }}
                                             >
                                                 <option disabled value='UNDEFINED'>
                                                     Bitte wählen...
@@ -415,69 +378,65 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                 </div>
                             )}
                             <div className='mb-3'>
-                                <label htmlFor='news-title-input'>Titel</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Titel'
                                     name='title'
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className='form-control'
-                                    id='news-title-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             {config.hasTeaser ? (
                                 <div className='mb-3'>
-                                    <label htmlFor='news-teaser-input'>Teaser</label>
-                                    <textarea
+                                    <OlzTextField
+                                        mode='textarea'
+                                        title='Teaser'
                                         name='teaser'
-                                        value={teaser}
-                                        onChange={(e) => setTeaser(e.target.value)}
-                                        className='form-control'
-                                        id='news-teaser-input'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                             ) : null}
                             {config.hasContent ? (
                                 <div className='mb-3'>
-                                    <label htmlFor='news-content-input'>{config.contentLabel}</label>
-                                    <textarea
+                                    <OlzTextField
+                                        mode='textarea'
+                                        title={config.contentLabel}
                                         name='content'
-                                        value={content}
-                                        onChange={(e) => setContent(e.target.value)}
-                                        className='form-control'
-                                        id='news-content-input'
+                                        errors={errors}
+                                        register={register}
                                     />
                                     {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
                                 </div>
                             ) : null}
                             {config.hasExternalLink ? (
                                 <div className='mb-3'>
-                                    <label htmlFor='news-external-url-input'>Externer Link</label>
-                                    <input
-                                        type='text'
-                                        name='external-url'
-                                        value={externalUrl}
-                                        onChange={(e) => setExternalUrl(e.target.value)}
-                                        className='form-control'
-                                        id='news-external-url-input'
+                                    <OlzTextField
+                                        title='Externer Link'
+                                        name='externalUrl'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                             ) : null}
                             {config.hasImages ? (
-                                <div id='news-images-upload'>
-                                    <b>Bilder</b>
-                                    <OlzMultiImageUploader
-                                        initialUploadIds={imageIds}
-                                        onUploadIdsChange={setImageIds}
+                                <div id='images-upload'>
+                                    <OlzMultiImageField
+                                        title='Bilder'
+                                        name='imageIds'
+                                        errors={errors}
+                                        control={control}
+                                        setIsLoading={setIsLoading}
                                     />
                                 </div>
                             ) : null}
                             {config.hasFiles ? (
-                                <div id='news-files-upload'>
-                                    <b>Dateien</b>
-                                    <OlzMultiFileUploader
-                                        initialUploadIds={fileIds}
-                                        onUploadIdsChange={setFileIds}
+                                <div id='files-upload'>
+                                    <OlzMultiFileField
+                                        title='Dateien'
+                                        name='fileIds'
+                                        errors={errors}
+                                        control={control}
+                                        setIsLoading={setIsLoading}
                                     />
                                 </div>
                             ) : null}
@@ -489,7 +448,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                         value='yes'
                                         checked={recaptchaConsentGiven}
                                         onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
-                                        id='news-recaptcha-consent-given-input'
+                                        id='recaptcha-consent-given-input'
                                     />
                                     &nbsp;
                                     <span className='required-field-asterisk'>*</span>
@@ -507,13 +466,24 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                 </a>
                                 {' einverstanden'}
                             </p>
-                            <div className='success-message alert alert-success' role='alert'></div>
-                            <div className='error-message alert alert-danger' role='alert'></div>
+                            <div className='success-message alert alert-success' role='alert'>
+                                {successMessage}
+                            </div>
+                            <div className='error-message alert alert-danger' role='alert'>
+                                {errorMessage}
+                            </div>
                         </div>
                         <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
+                            <button
+                                type='button'
+                                className='btn btn-secondary'
+                                data-bs-dismiss='modal'
+                            >
+                                Abbrechen
+                            </button>
                             <button
                                 type='submit'
+                                disabled={isLoading}
                                 className={isWaitingForCaptcha ? 'btn btn-secondary' : 'btn btn-primary'}
                                 id='submit-button'
                             >
@@ -527,30 +497,20 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     );
 };
 
-let editNewsModalRoot: ReturnType<typeof createRoot>|null = null;
-
 export function initOlzEditNewsModal(
     mode: OlzEditNewsModalMode,
     id?: number,
     meta?: OlzMetaData,
     data?: OlzNewsData,
 ): boolean {
-    const rootElem = document.getElementById('edit-news-react-root');
-    if (!rootElem) {
-        return false;
-    }
-    if (editNewsModalRoot) {
-        editNewsModalRoot.unmount();
-    }
-    editNewsModalRoot = createRoot(rootElem);
-    editNewsModalRoot.render(
+    initReact('edit-news-react-root', (
         <OlzEditNewsModal
             mode={mode}
             id={id}
             meta={meta}
             data={data}
-        />,
-    );
+        />
+    ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-news-modal');
         if (modal) {

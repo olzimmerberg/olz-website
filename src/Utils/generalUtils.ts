@@ -1,3 +1,10 @@
+export function assert<T>(value: T|null|undefined): T {
+    if (value === null || value === undefined) {
+        throw new Error('Non-null/undefined assertion failed');
+    }
+    return value;
+}
+
 export function assertUnreachable(value: never): never {
     throw new Error(`Unexpectedly reachable using value: ${value}`);
 }

@@ -1,21 +1,51 @@
 import 'bootstrap';
 import React from 'react';
+import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {dataHref} from '../../../Utils/constants';
 import {olzApi} from '../../../Api/client';
 import {OlzAuthenticatedRole, OlzAuthenticatedUser} from '../../../Api/client/generated_olz_api_types';
 
-import './OlzAuthenticatedUserRoleChooser.scss';
+import './OlzAuthenticatedUserRoleField.scss';
 
-interface OlzAuthenticatedUserRoleChooserProps {
-    userId: number|null;
-    roleId: number|null;
-    onUserIdChange: (e: CustomEvent<number|null>) => void;
-    onRoleIdChange: (e: CustomEvent<number|null>) => void;
+interface OlzAuthenticatedUserRoleFieldProps<
+    Values extends FieldValues,
+    UserName extends Path<Values>,
+    RoleName extends Path<Values>,
+> {
+    title?: string;
+    userName: UserName;
+    roleName: RoleName;
+    userRules?: UseControllerProps<Values, UserName>['rules'];
+    roleRules?: UseControllerProps<Values, RoleName>['rules'];
+    errors?: FieldErrors<Values>;
+    userControl: Control<Values, UserName>;
+    roleControl: Control<Values, RoleName>;
+    setIsLoading: (isLoading: boolean) => void;
+    disabled?: boolean;
     nullLabel?: string;
 }
 
-/** @deprecated Use react-hook-form and OlzAuthenticatedUserRoleField. */
-export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleChooserProps): React.ReactElement => {
+export const OlzAuthenticatedUserRoleField = <
+    Values extends FieldValues,
+    UserName extends Path<Values>,
+    RoleName extends Path<Values>,
+>(props: OlzAuthenticatedUserRoleFieldProps<Values, UserName, RoleName>): React.ReactElement => {
+    const userErrorMessage = props.errors?.[props.userName]?.message;
+    const roleErrorMessage = props.errors?.[props.roleName]?.message;
+    const errorClassName = (userErrorMessage || roleErrorMessage) ? ' is-invalid' : '';
+
+    const {field: userField} = useController({
+        name: props.userName,
+        control: props.userControl,
+        rules: props.userRules,
+    });
+
+    const {field: roleField} = useController({
+        name: props.roleName,
+        control: props.roleControl,
+        rules: props.roleRules,
+    });
+
     const [authenticatedUser, setAuthenticatedUser] = React.useState<OlzAuthenticatedUser|null>(null);
     const [authenticatedRoles, setAuthenticatedRoles] = React.useState<OlzAuthenticatedRole[]|null>(null);
 
@@ -30,8 +60,10 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
 
     let selectionClass = 'none-selected';
     let buttonLabel = props.nullLabel ?? 'Bitte wählen';
-    const user = props.userId && authenticatedUser?.id === props.userId ? authenticatedUser : null;
-    const role = props.roleId ? authenticatedRoles?.find((role_) => role_.id === props.roleId) : null;
+    const user = (userField.value && authenticatedUser?.id === userField.value)
+        ? authenticatedUser : null;
+    const role = roleField.value
+        ? authenticatedRoles?.find((role_) => role_.id === roleField.value) : null;
     if (user && role) {
         selectionClass = 'role-selected';
         buttonLabel = `${user.firstName} ${user.lastName}, ${role.name}`;
@@ -45,16 +77,13 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
 
     const userChoices = authenticatedUser ? (
         <button
-            className="dropdown-item user-choice"
-            id="user-index-0"
             type="button"
+            disabled={props.disabled}
+            id="user-index-0"
+            className="dropdown-item user-choice"
             onClick={() => {
-                props.onUserIdChange(new CustomEvent('userIdChange', {
-                    detail: authenticatedUser.id,
-                }));
-                props.onRoleIdChange(new CustomEvent('roleIdChange', {
-                    detail: null,
-                }));
+                userField.onChange(authenticatedUser.id);
+                roleField.onChange(null);
             }}
         >
             <span className='badge'>
@@ -74,16 +103,13 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             </button>
         ) : authenticatedRoles.map((role_, index) => (
             <button
-                className="dropdown-item role-choice"
-                id={`role-index-${index}`}
                 type="button"
+                disabled={props.disabled}
+                id={`role-index-${index}`}
+                className="dropdown-item role-choice"
                 onClick={() => {
-                    props.onUserIdChange(new CustomEvent('userIdChange', {
-                        detail: authenticatedUser?.id ?? null,
-                    }));
-                    props.onRoleIdChange(new CustomEvent('roleIdChange', {
-                        detail: role_.id,
-                    }));
+                    userField.onChange(authenticatedUser?.id ?? null);
+                    roleField.onChange(role_.id);
                 }}
                 key={`role-${role_.id}`}
             >
@@ -102,9 +128,23 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
             </button>
         ));
 
-    return (
-        <div className={selectionClass}>
-            <button className="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    return (<>
+        <label htmlFor={`${props.userName}-${props.roleName}-field`}>
+            {props.title}
+        </label>
+        <div
+            id={`${props.userName}-${props.roleName}-field`}
+            className={`${selectionClass}${errorClassName}`}
+        >
+            <button
+                type="button"
+                disabled={props.disabled}
+                id="dropdownMenuButton"
+                className="btn btn-outline-secondary dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+            >
                 {buttonLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -114,5 +154,7 @@ export const OlzAuthenticatedUserRoleChooser = (props: OlzAuthenticatedUserRoleC
                 {rolesChoices}
             </div>
         </div>
-    );
+        {userErrorMessage && <p className='error'>{String(userErrorMessage)}</p>}
+        {roleErrorMessage && <p className='error'>{String(roleErrorMessage)}</p>}
+    </>);
 };

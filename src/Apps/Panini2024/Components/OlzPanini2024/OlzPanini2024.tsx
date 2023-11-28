@@ -271,7 +271,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 <div className='col mb-3'>
                     <OlzTextField
                         title='Mein Motto / Was ich schon immer sagen wollte'
-                        name='info1'
+                        name='info5'
                         options={{disabled: isReadOnly}}
                         errors={errors}
                         register={register}

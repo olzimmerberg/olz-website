@@ -42,7 +42,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         }
 
         $out .= "<h2 class='weekly-picture-h2'>Bild der Woche {$mgmt_html}</h2>";
-        $out .= "<div class='center'>";
+        $out .= "<div class='weekly-picture-tile-container center'>";
 
         $entity_manager = $this->dbUtils()->getEntityManager();
 

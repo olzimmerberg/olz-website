@@ -1,13 +1,53 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import {OlzApiResponses} from '../../../../src/Api/client';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../../src/Api/client';
 import {OlzMetaData, OlzTerminLocationData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getNumber} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
+import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
+import {timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminLocationModal.scss';
-import { codeHref } from '../../../Utils/constants';
+
+interface OlzEditTerminLocationForm {
+    name: string;
+    details: string;
+    latitude: string;
+    longitude: string;
+    imageIds: string[];
+}
+
+const resolver: Resolver<OlzEditTerminLocationForm> = async (values) => {
+    const errors: FieldErrors<OlzEditTerminLocationForm> = {};
+    errors.name = validateNotEmpty(values.name);
+    errors.latitude = validateNumber(values.latitude);
+    errors.longitude = validateNumber(values.longitude);
+    return getResolverResult(errors, values);
+};
+
+function getFormFromApi(apiData?: OlzTerminLocationData): OlzEditTerminLocationForm {
+    return {
+        name: getFormString(apiData?.name),
+        details: getFormString(apiData?.details),
+        latitude: getFormNumber(apiData?.latitude),
+        longitude: getFormNumber(apiData?.longitude),
+        imageIds: apiData?.imageIds ?? [],
+    };
+}
+
+function getApiFromForm(formData: OlzEditTerminLocationForm): OlzTerminLocationData {
+    return {
+        name: getApiString(formData.name) ?? '',
+        details: getApiString(formData.details) ?? '',
+        latitude: getApiNumber(formData.latitude) ?? 0,
+        longitude: getApiNumber(formData.longitude) ?? 0,
+        imageIds: formData.imageIds,
+    };
+}
+
+// ---
 
 interface OlzEditTerminLocationModalProps {
     id?: number;
@@ -16,98 +56,36 @@ interface OlzEditTerminLocationModalProps {
 }
 
 export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProps): React.ReactElement => {
-    const [name, setName] = React.useState<string>(props.data?.name ?? '');
-    const [details, setDetails] = React.useState<string>(props.data?.details ?? '');
-    const [latitude, setLatitude] = React.useState<string>(props.data?.latitude ? String(props.data?.latitude) : '');
-    const [longitude, setLongitude] = React.useState<string>(props.data?.longitude ? String(props.data?.longitude) : '');
-    const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditTerminLocationForm>({
+        resolver,
+        defaultValues: getFormFromApi(props.data),
+    });
 
-    const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
-        event.preventDefault();
-        const form = event.currentTarget;
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-        if (props.id) {
-            const getDataForRequestFn: GetDataForRequestFunction<'updateTerminLocation'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'updateTerminLocation'> = {
-                    id: getRequired(validFieldResult('', props.id)),
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        name: getRequired(getFormField(f, 'name')),
-                        details: getStringOrEmpty(getFormField(f, 'details')),
-                        latitude: getRequired(getNumber(getFormField(f, 'latitude'))),
-                        longitude: getRequired(getNumber(getFormField(f, 'longitude'))),
-                        imageIds: validFieldResult('', imageIds),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
+    const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
+        const meta: OlzMetaData = {
+            ownerUserId: null,
+            ownerRoleId: null,
+            onOff: true,
+        };
+        const data = getApiFromForm(values);
 
-            const handleUpdateResponse = (_response: OlzApiResponses['updateTerminLocation']): string|void => {
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'Ort-Eintrag erfolgreich geändert. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'updateTerminLocation',
-                getDataForRequestFn,
-                form,
-                handleUpdateResponse,
-            );
-        } else {
-            const getDataForRequestFn: GetDataForRequestFunction<'createTerminLocation'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'createTerminLocation'> = {
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        name: getRequired(getFormField(f, 'name')),
-                        details: getStringOrEmpty(getFormField(f, 'details')),
-                        latitude: getRequired(getNumber(getFormField(f, 'latitude'))),
-                        longitude: getRequired(getNumber(getFormField(f, 'longitude'))),
-                        imageIds: validFieldResult('', imageIds),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleCreateResponse = (response: OlzApiResponses['createTerminLocation']): string|void => {
-                if (response.status === 'ERROR') {
-                    throw new Error(`Fehler beim Erstellen des Ort-Eintrags: ${response.status}`);
-                } else if (response.status !== 'OK') {
-                    throw new Error(`Antwort: ${response.status}`);
-                }
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.href = `${codeHref}termine/orte/${response.id}`;
-                }, 1000);
-                return 'Ort-Eintrag erfolgreich erstellt. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'createTerminLocation',
-                getDataForRequestFn,
-                form,
-                handleCreateResponse,
-            );
+        const [err, response] = await (props.id
+            ? olzApi.getResult('updateTerminLocation', {id: props.id, meta, data})
+            : olzApi.getResult('createTerminLocation', {meta, data}));
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
         }
 
-        return false;
-    }, [name, details, latitude, longitude, imageIds]);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
 
     const dialogTitle = (props.id === undefined
         ? 'Ort-Eintrag erstellen'
@@ -118,7 +96,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         <div className='modal fade' id='edit-termin-location-modal' tabIndex={-1} aria-labelledby='edit-termin-location-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
-                    <form className='default-form' onSubmit={onSubmit}>
+                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-termin-location-modal-label'>
                                 {dialogTitle}
@@ -127,64 +105,61 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
                         </div>
                         <div className='modal-body'>
                             <div className='mb-3'>
-                                <label htmlFor='termin-location-name-input'>Name</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Name'
                                     name='name'
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className='form-control'
-                                    id='termin-location-name-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-location-details-input'>Details</label>
-                                <textarea
+                                <OlzTextField
+                                    mode='textarea'
+                                    title='Details'
                                     name='details'
-                                    value={details}
-                                    onChange={(e) => setDetails(e.target.value)}
-                                    className='form-control'
-                                    id='termin-location-details-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-location-latitude-input'>Breite (Latitude)</label>
-                                    <input
-                                        type='text'
+                                    <OlzTextField
+                                        title='Breite (Latitude)'
                                         name='latitude'
-                                        value={latitude || ''}
-                                        onChange={(e) => setLatitude(e.target.value)}
-                                        className='form-control'
-                                        id='termin-location-latitude-input'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-location-longitude-input'>Länge (Longitude)</label>
-                                    <input
-                                        type='text'
+                                    <OlzTextField
+                                        title='Länge (Longitude)'
                                         name='longitude'
-                                        value={longitude || ''}
-                                        onChange={(e) => setLongitude(e.target.value)}
-                                        className='form-control'
-                                        id='termin-location-longitude-input'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                             </div>
-                            <div id='termin-location-images-upload'>
-                                <b>Bilder</b>
-                                <OlzMultiImageUploader
-                                    initialUploadIds={imageIds}
-                                    onUploadIdsChange={setImageIds}
+                            <div id='images-upload'>
+                                <OlzMultiImageField
+                                    title='Bilder'
+                                    name='imageIds'
+                                    errors={errors}
+                                    control={control}
+                                    setIsLoading={setIsLoading}
                                 />
                             </div>
-                            <div className='success-message alert alert-success' role='alert'></div>
-                            <div className='error-message alert alert-danger' role='alert'></div>
+                            <div className='success-message alert alert-success' role='alert'>
+                                {successMessage}
+                            </div>
+                            <div className='error-message alert alert-danger' role='alert'>
+                                {errorMessage}
+                            </div>
                         </div>
                         <div className='modal-footer'>
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
+                                disabled={isLoading}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >
@@ -198,28 +173,18 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     );
 };
 
-let editTerminLocationModalRoot: ReturnType<typeof createRoot>|null = null;
-
 export function initOlzEditTerminLocationModal(
     id?: number,
     meta?: OlzMetaData,
     data?: OlzTerminLocationData,
 ): boolean {
-    const rootElem = document.getElementById('edit-termin-location-react-root');
-    if (!rootElem) {
-        return false;
-    }
-    if (editTerminLocationModalRoot) {
-        editTerminLocationModalRoot.unmount();
-    }
-    editTerminLocationModalRoot = createRoot(rootElem);
-    editTerminLocationModalRoot.render(
+    initReact('edit-termin-location-react-root', (
         <OlzEditTerminLocationModal
             id={id}
             meta={meta}
             data={data}
-        />,
-    );
+        />
+    ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-termin-location-modal');
         if (modal) {

@@ -41,10 +41,15 @@ class OlzTerminTemplatesListItem extends OlzComponent {
             return "<img src='{$icon}' alt='' class='type-icon'>";
         }, $types));
 
-        $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");
-        $end_time = (clone $start_time)->add($duration_interval);
+        $duration_seconds_or_zero = $duration_seconds ?? 0;
+        $duration_interval = \DateInterval::createFromDateString(
+            "+{$duration_seconds_or_zero} seconds");
+        $start_time_or_midnight = $start_time ? (clone $start_time) : new \DateTime('00:00:00');
+        $end_time = $duration_seconds
+            ? $start_time_or_midnight->add($duration_interval) : null;
         $end_time_text = $this->getTimeText($end_time);
-        $day_diff = intval($end_time->format('d')) - intval($start_time->format('d'));
+        $day_diff = ($start_time && $end_time)
+            ? intval($end_time->format('d')) - intval($start_time->format('d')) : null;
         $start_icon = OlzDateCalendar::render([
             'weekday' => '',
             'day' => 'X',
@@ -65,7 +70,11 @@ class OlzTerminTemplatesListItem extends OlzComponent {
             $end_time_text
                 ? "{$start_time_text} &ndash; {$end_time_text}"
                 : "{$start_time_text}"
-        ) : null;
+        ) : (
+            $end_time_text
+                ? "? +{$end_time_text}"
+                : ''
+        );
         $text = $this->htmlUtils()->renderMarkdown($text ?? '');
         $links = $file_utils->replaceFileTags($links, 'termin_templates', $id);
         if ($termin_location) {

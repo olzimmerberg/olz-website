@@ -1,15 +1,93 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import {OlzApiResponses} from '../../../../src/Api/client';
+import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
+import {olzApi} from '../../../../src/Api/client';
 import {OlzMetaData, OlzTerminTemplateData} from '../../../../src/Api/client/generated_olz_api_types';
-import {olzDefaultFormSubmit, OlzRequestFieldResult, GetDataForRequestFunction, getRequired, getStringOrEmpty, getFormField, validFieldResult, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFormData, invalidFormData, getInteger, getIsoTime} from '../../../Components/Common/OlzDefaultForm/OlzDefaultForm';
-import {OlzEntityChooser} from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
-import {OlzMultiFileUploader} from '../../../Components/Upload/OlzMultiFileUploader/OlzMultiFileUploader';
-import {OlzMultiImageUploader} from '../../../Components/Upload/OlzMultiImageUploader/OlzMultiImageUploader';
-import {codeHref} from '../../../Utils/constants';
+import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
+import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
+import {isDefined, timeout} from '../../../Utils/generalUtils';
+import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminTemplateModal.scss';
+
+interface OlzEditTerminTemplateForm {
+    startTime: string;
+    durationSeconds: string;
+    title: string;
+    text: string;
+    link: string;
+    deadlineEarlierSeconds: string;
+    deadlineTime: string;
+    hasNewsletter: string;
+    hasTypeProgramm: string;
+    hasTypeWeekend: string;
+    hasTypeTraining: string;
+    hasTypeOl: string;
+    hasTypeClub: string;
+    locationId: number|null;
+    imageIds: string[];
+    fileIds: string[];
+}
+
+const resolver: Resolver<OlzEditTerminTemplateForm> = async (values) => {
+    const errors: FieldErrors<OlzEditTerminTemplateForm> = {};
+    [errors.startTime, values.startTime] = validateTimeOrNull(values.startTime);
+    errors.durationSeconds = validateIntegerOrNull(values.durationSeconds);
+    errors.deadlineEarlierSeconds = validateIntegerOrNull(values.deadlineEarlierSeconds);
+    [errors.deadlineTime, values.deadlineTime] = validateTimeOrNull(values.deadlineTime);
+    return getResolverResult(errors, values);
+};
+
+function getFormFromApi(apiData?: OlzTerminTemplateData): OlzEditTerminTemplateForm {
+    const typesSet = new Set(apiData?.types ?? []);
+    return {
+        startTime: getFormString(apiData?.startTime),
+        durationSeconds: getFormNumber(apiData?.durationSeconds),
+        title: getFormString(apiData?.title),
+        text: getFormString(apiData?.text),
+        link: getFormString(apiData?.link),
+        deadlineEarlierSeconds: getFormNumber(apiData?.deadlineEarlierSeconds),
+        deadlineTime: getFormString(apiData?.deadlineTime),
+        hasNewsletter: getFormBoolean(apiData?.newsletter),
+        hasTypeProgramm: getFormBoolean(typesSet.has('programm')),
+        hasTypeWeekend: getFormBoolean(typesSet.has('weekend')),
+        hasTypeTraining: getFormBoolean(typesSet.has('training')),
+        hasTypeOl: getFormBoolean(typesSet.has('ol')),
+        hasTypeClub: getFormBoolean(typesSet.has('club')),
+        locationId: apiData?.locationId ?? null,
+        fileIds: apiData?.fileIds ?? [],
+        imageIds: apiData?.imageIds ?? [],
+    };
+}
+
+function getApiFromForm(formData: OlzEditTerminTemplateForm): OlzTerminTemplateData {
+    const typesSet = new Set([
+        getApiBoolean(formData.hasTypeProgramm) ? 'programm' : undefined,
+        getApiBoolean(formData.hasTypeWeekend) ? 'weekend' : undefined,
+        getApiBoolean(formData.hasTypeTraining) ? 'training' : undefined,
+        getApiBoolean(formData.hasTypeOl) ? 'ol' : undefined,
+        getApiBoolean(formData.hasTypeClub) ? 'club' : undefined,
+    ].filter(isDefined));
+    return {
+        startTime: getApiString(formData.startTime),
+        durationSeconds: getApiNumber(formData.durationSeconds),
+        title: getApiString(formData.title) ?? '',
+        text: getApiString(formData.text) ?? '',
+        link: getApiString(formData.link) ?? '',
+        deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
+        deadlineTime: getApiString(formData.deadlineTime),
+        newsletter: getApiBoolean(formData.hasNewsletter),
+        types: Array.from(typesSet),
+        locationId: formData.locationId,
+        fileIds: formData.fileIds,
+        imageIds: formData.imageIds,
+    };
+}
+
+// ---
 
 interface OlzEditTerminTemplateModalProps {
     id?: number;
@@ -18,119 +96,36 @@ interface OlzEditTerminTemplateModalProps {
 }
 
 export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProps): React.ReactElement => {
-    const [startTime, setStartTime] = React.useState<string|null>(props.data?.startTime ?? null);
-    const [durationSeconds, setDurationSeconds] = React.useState<string>(String(props.data?.durationSeconds ?? ''));
-    const [title, setTitle] = React.useState<string>(props.data?.title ?? '');
-    const [text, setText] = React.useState<string>(props.data?.text ?? '');
-    const [link, setLink] = React.useState<string>(props.data?.link ?? '');
-    const [deadlineEarlierSeconds, setDeadlineEarlierSeconds] = React.useState<string>(String(props.data?.deadlineEarlierSeconds ?? ''));
-    const [deadlineTime, setDeadlineTime] = React.useState<string|null>(props.data?.deadlineTime ?? null);
-    const [hasNewsletter, setHasNewsletter] = React.useState<boolean>(props.data?.newsletter ?? false);
-    const [types, setTypes] = React.useState<Set<string>>(new Set(props.data?.types));
-    const [locationId, setLocationId] = React.useState<number|null>(props.data?.locationId ?? null);
-    const [fileIds, setFileIds] = React.useState<string[]>(props.data?.fileIds ?? []);
-    const [imageIds, setImageIds] = React.useState<string[]>(props.data?.imageIds ?? []);
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditTerminTemplateForm>({
+        resolver,
+        defaultValues: getFormFromApi(props.data),
+    });
 
-    const onSubmit = React.useCallback((event: React.FormEvent<HTMLFormElement>): boolean => {
-        event.preventDefault();
-        const form = event.currentTarget;
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = React.useState<string>('');
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-        if (props.id) {
-            const getDataForRequestFn: GetDataForRequestFunction<'updateTerminTemplate'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'updateTerminTemplate'> = {
-                    id: getRequired(validFieldResult('', props.id)),
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        startTime: getIsoTime(validFieldResult('', startTime)),
-                        durationSeconds: getInteger(validFieldResult('', durationSeconds)),
-                        title: getStringOrEmpty(getFormField(f, 'title')),
-                        text: getStringOrEmpty(getFormField(f, 'text')),
-                        link: getStringOrEmpty(getFormField(f, 'link')),
-                        deadlineEarlierSeconds: getInteger(validFieldResult('', deadlineEarlierSeconds)),
-                        deadlineTime: getIsoTime(validFieldResult('', deadlineTime)),
-                        newsletter: validFieldResult('', hasNewsletter),
-                        types: validFieldResult('', Array.from(types)),
-                        locationId: validFieldResult('', locationId),
-                        imageIds: validFieldResult('', imageIds),
-                        fileIds: validFieldResult('', fileIds),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
+    const onSubmit: SubmitHandler<OlzEditTerminTemplateForm> = async (values) => {
+        const meta: OlzMetaData = {
+            ownerUserId: null,
+            ownerRoleId: null,
+            onOff: true,
+        };
+        const data = getApiFromForm(values);
 
-            const handleUpdateResponse = (_response: OlzApiResponses['updateTerminTemplate']): string|void => {
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.reload();
-                }, 1000);
-                return 'Ort-Eintrag erfolgreich geändert. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'updateTerminTemplate',
-                getDataForRequestFn,
-                form,
-                handleUpdateResponse,
-            );
-        } else {
-            const getDataForRequestFn: GetDataForRequestFunction<'createTerminTemplate'> = (f) => {
-                const fieldResults: OlzRequestFieldResult<'createTerminTemplate'> = {
-                    meta: {
-                        ownerUserId: validFieldResult('', null),
-                        ownerRoleId: validFieldResult('', null),
-                        onOff: validFieldResult('', true),
-                    },
-                    data: {
-                        startTime: getIsoTime(validFieldResult('', startTime)),
-                        durationSeconds: getInteger(validFieldResult('', durationSeconds)),
-                        title: getStringOrEmpty(getFormField(f, 'title')),
-                        text: getStringOrEmpty(getFormField(f, 'text')),
-                        link: getStringOrEmpty(getFormField(f, 'link')),
-                        deadlineEarlierSeconds: getInteger(validFieldResult('', deadlineEarlierSeconds)),
-                        deadlineTime: getIsoTime(validFieldResult('', deadlineTime)),
-                        newsletter: validFieldResult('', hasNewsletter),
-                        types: validFieldResult('', Array.from(types)),
-                        locationId: validFieldResult('', locationId),
-                        imageIds: validFieldResult('', imageIds),
-                        fileIds: validFieldResult('', fileIds),
-                    },
-                };
-                if (!isFieldResultOrDictThereofValid(fieldResults)) {
-                    return invalidFormData(getFieldResultOrDictThereofErrors(fieldResults));
-                }
-                return validFormData(getFieldResultOrDictThereofValue(fieldResults));
-            };
-
-            const handleCreateResponse = (response: OlzApiResponses['createTerminTemplate']): string|void => {
-                if (response.status === 'ERROR') {
-                    throw new Error(`Fehler beim Erstellen des Ort-Eintrags: ${response.status}`);
-                } else if (response.status !== 'OK') {
-                    throw new Error(`Antwort: ${response.status}`);
-                }
-                window.setTimeout(() => {
-                    // TODO: This could probably be done more smoothly!
-                    window.location.href = `${codeHref}termine/vorlagen/${response.id}`;
-                }, 1000);
-                return 'Ort-Eintrag erfolgreich erstellt. Bitte warten...';
-            };
-
-            olzDefaultFormSubmit(
-                'createTerminTemplate',
-                getDataForRequestFn,
-                form,
-                handleCreateResponse,
-            );
+        const [err, response] = await (props.id
+            ? olzApi.getResult('updateTerminTemplate', {id: props.id, meta, data})
+            : olzApi.getResult('createTerminTemplate', {meta, data}));
+        if (err || response.status !== 'OK') {
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            return;
         }
 
-        return false;
-    }, [startTime, durationSeconds, deadlineEarlierSeconds, deadlineTime, hasNewsletter, types, locationId, imageIds, fileIds]);
+        // TODO: This could probably be done more smoothly!
+        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        await timeout(1000);
+        window.location.reload();
+    };
 
     const dialogTitle = (props.id === undefined
         ? 'Termin-Vorlage erstellen'
@@ -141,7 +136,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         <div className='modal fade' id='edit-termin-template-modal' tabIndex={-1} aria-labelledby='edit-termin-template-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
-                    <form className='default-form' onSubmit={onSubmit}>
+                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
                             <h5 className='modal-title' id='edit-termin-template-modal-label'>
                                 {dialogTitle}
@@ -151,242 +146,170 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                         <div className='modal-body'>
                             <div className='row'>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-template-start-time-input'>Beginn Zeit</label>
-                                    <input
-                                        type='text'
-                                        name='start-time'
-                                        value={startTime || ''}
-                                        onChange={(e) => setStartTime(e.target.value)}
-                                        className='form-control'
-                                        id='termin-template-start-time-input'
+                                    <OlzTextField
+                                        title='Beginn Zeit'
+                                        name='startTime'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-template-duration-seconds-input'>Dauer (in Sekunden)</label>
-                                    <input
-                                        type='text'
-                                        name='duration-seconds'
-                                        value={durationSeconds}
-                                        onChange={(e) => setDurationSeconds(e.target.value)}
-                                        className='form-control'
-                                        id='termin-template-duration-seconds-input'
+                                    <OlzTextField
+                                        title='Dauer (in Sekunden)'
+                                        name='durationSeconds'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-template-title-input'>Titel</label>
-                                <input
-                                    type='text'
+                                <OlzTextField
+                                    title='Titel'
                                     name='title'
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className='form-control'
-                                    id='termin-template-title-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-template-text-input'>Text</label>
-                                <textarea
+                                <OlzTextField
+                                    mode='textarea'
+                                    title='Text'
                                     name='text'
-                                    value={text}
-                                    onChange={(e) => setText(e.target.value)}
-                                    className='form-control'
-                                    id='termin-template-text-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-template-link-input'>Link</label>
-                                <textarea
+                                <OlzTextField
+                                    mode='textarea'
+                                    title='Link'
                                     name='link'
-                                    value={link}
-                                    onChange={(e) => setLink(e.target.value)}
-                                    className='form-control'
-                                    id='termin-template-link-input'
+                                    errors={errors}
+                                    register={register}
                                 />
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-template-deadline-earlier-seconds-input'>
-                                        Meldeschluss vorher (in Sekunden)
-                                    </label>
-                                    <input
-                                        type='text'
-                                        name='deadline-earlier-seconds'
-                                        value={deadlineEarlierSeconds || ''}
-                                        onChange={(e) => setDeadlineEarlierSeconds(e.target.value)}
-                                        className='form-control'
-                                        id='termin-template-deadline-earlier-seconds-input'
+                                    <OlzTextField
+                                        title='Meldeschluss vorher (in Sekunden)'
+                                        name='deadlineEarlierSeconds'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                                 <div className='col mb-3'>
-                                    <label htmlFor='termin-template-deadline-time-input'>
-                                        Meldeschluss Zeit
-                                    </label>
-                                    <input
-                                        type='text'
-                                        name='deadline-time'
-                                        value={deadlineTime || ''}
-                                        onChange={(e) => setDeadlineTime(e.target.value)}
-                                        className='form-control'
-                                        id='termin-template-deadline-time-input'
+                                    <OlzTextField
+                                        title='Meldeschluss Zeit'
+                                        name='deadlineTime'
+                                        errors={errors}
+                                        register={register}
                                     />
                                 </div>
                             </div>
                             <div className='mb-3'>
                                 <input
                                     type='checkbox'
-                                    name='has-newsletter'
                                     value='yes'
-                                    checked={hasNewsletter}
-                                    onChange={(e) => setHasNewsletter(e.target.checked)}
-                                    id='termin-template-has-newsletter-input'
+                                    {...register('hasNewsletter')}
+                                    id='hasNewsletter-input'
                                 />
-                                <label htmlFor='termin-template-has-newsletter-input'>Newsletter für Änderung</label>
+                                <label htmlFor='hasNewsletter-input'>Newsletter für Änderung</label>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor='termin-template-types-container'>Typ</label>
-                                <div id='termin-template-types-container'>
+                                <label htmlFor='types-container'>Typ</label>
+                                <div id='types-container'>
                                     <span className='types-option'>
                                         <input
                                             type='checkbox'
-                                            name='types-programm'
                                             value='yes'
-                                            checked={types.has('programm')}
-                                            onChange={(e) => {
-                                                const newTypes = new Set(types);
-                                                if (e.target.checked) {
-                                                    newTypes.add('programm');
-                                                } else {
-                                                    newTypes.delete('programm');
-                                                }
-                                                setTypes(newTypes);
-                                            }}
-                                            id='termin-template-types-programm-input'
+                                            {...register('hasTypeProgramm')}
+                                            id='hasTypeProgramm-input'
                                         />
-                                        <label htmlFor='termin-template-types-programm-input'>
-                                            Jahresprogramm
-                                        </label>
+                                        <label htmlFor='hasTypeProgramm-input'>Jahresprogramm</label>
                                     </span>
                                     <span className='types-option'>
                                         <input
                                             type='checkbox'
-                                            name='types-weekend'
                                             value='yes'
-                                            checked={types.has('weekend')}
-                                            onChange={(e) => {
-                                                const newTypes = new Set(types);
-                                                if (e.target.checked) {
-                                                    newTypes.add('weekend');
-                                                } else {
-                                                    newTypes.delete('weekend');
-                                                }
-                                                setTypes(newTypes);
-                                            }}
-                                            id='termin-template-types-weekend-input'
+                                            {...register('hasTypeWeekend')}
+                                            id='hasTypeWeekend-input'
                                         />
-                                        <label htmlFor='termin-template-types-weekend-input'>
-                                            Weekends
-                                        </label>
+                                        <label htmlFor='hasTypeWeekend-input'>Weekends</label>
                                     </span>
                                     <span className='types-option'>
                                         <input
                                             type='checkbox'
-                                            name='types-training'
                                             value='yes'
-                                            checked={types.has('training')}
-                                            onChange={(e) => {
-                                                const newTypes = new Set(types);
-                                                if (e.target.checked) {
-                                                    newTypes.add('training');
-                                                } else {
-                                                    newTypes.delete('training');
-                                                }
-                                                setTypes(newTypes);
-                                            }}
-                                            id='termin-template-types-training-input'
+                                            {...register('hasTypeTraining')}
+                                            id='hasTypeTraining-input'
                                         />
-                                        <label htmlFor='termin-template-types-training-input'>
-                                            Trainings
-                                        </label>
+                                        <label htmlFor='hasTypeTraining-input'>Trainings</label>
                                     </span>
                                     <span className='types-option'>
                                         <input
                                             type='checkbox'
-                                            name='types-ol'
                                             value='yes'
-                                            checked={types.has('ol')}
-                                            onChange={(e) => {
-                                                const newTypes = new Set(types);
-                                                if (e.target.checked) {
-                                                    newTypes.add('ol');
-                                                } else {
-                                                    newTypes.delete('ol');
-                                                }
-                                                setTypes(newTypes);
-                                            }}
-                                            id='termin-template-types-ol-input'
+                                            {...register('hasTypeOl')}
+                                            id='hasTypeOl-input'
                                         />
-                                        <label htmlFor='termin-template-types-ol-input'>
-                                            Wettkämpfe
-                                        </label>
+                                        <label htmlFor='hasTypeOl-input'>Wettkämpfe</label>
                                     </span>
                                     <span className='types-option'>
                                         <input
                                             type='checkbox'
-                                            name='types-club'
                                             value='yes'
-                                            checked={types.has('club')}
-                                            onChange={(e) => {
-                                                const newTypes = new Set(types);
-                                                if (e.target.checked) {
-                                                    newTypes.add('club');
-                                                } else {
-                                                    newTypes.delete('club');
-                                                }
-                                                setTypes(newTypes);
-                                            }}
-                                            id='termin-template-types-club-input'
+                                            {...register('hasTypeClub')}
+                                            id='hasTypeClub-input'
                                         />
-                                        <label htmlFor='termin-template-types-club-input'>
-                                            Vereinsanlässe
-                                        </label>
+                                        <label htmlFor='hasTypeClub-input'>Vereinsanlässe</label>
                                     </span>
                                 </div>
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
-                                    <b>Ort</b>
-                                    <OlzEntityChooser
-                                        entityType={'TerminLocation'}
-                                        entityId={locationId}
-                                        onEntityIdChange={(e) => setLocationId(e.detail)}
+                                    <OlzEntityField
+                                        title='Ort'
+                                        entityType='TerminLocation'
+                                        name='locationId'
+                                        errors={errors}
+                                        control={control}
+                                        setIsLoading={setIsLoading}
                                         nullLabel={'Kein Termin-Ort ausgewählt'}
                                     />
                                 </div>
                                 <div className='col mb-3'>
                                 </div>
                             </div>
-                            <div id='termin-template-images-upload'>
-                                <b>Bilder</b>
-                                <OlzMultiImageUploader
-                                    initialUploadIds={imageIds}
-                                    onUploadIdsChange={setImageIds}
+                            <div id='images-upload'>
+                                <OlzMultiImageField
+                                    title='Bilder'
+                                    name='imageIds'
+                                    errors={errors}
+                                    control={control}
+                                    setIsLoading={setIsLoading}
                                 />
                             </div>
-                            <div id='termin-template-files-upload'>
-                                <b>Dateien</b>
-                                <OlzMultiFileUploader
-                                    initialUploadIds={fileIds}
-                                    onUploadIdsChange={setFileIds}
+                            <div id='files-upload'>
+                                <OlzMultiFileField
+                                    title='Dateien'
+                                    name='fileIds'
+                                    errors={errors}
+                                    control={control}
+                                    setIsLoading={setIsLoading}
                                 />
                             </div>
-                            <div className='success-message alert alert-success' role='alert'></div>
-                            <div className='error-message alert alert-danger' role='alert'></div>
+                            <div className='success-message alert alert-success' role='alert'>
+                                {successMessage}
+                            </div>
+                            <div className='error-message alert alert-danger' role='alert'>
+                                {errorMessage}
+                            </div>
                         </div>
                         <div className='modal-footer'>
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
+                                disabled={isLoading}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >
@@ -400,28 +323,18 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     );
 };
 
-let editTerminTemplateModalRoot: ReturnType<typeof createRoot>|null = null;
-
 export function initOlzEditTerminTemplateModal(
     id?: number,
     meta?: OlzMetaData,
     data?: OlzTerminTemplateData,
 ): boolean {
-    const rootElem = document.getElementById('edit-termin-template-react-root');
-    if (!rootElem) {
-        return false;
-    }
-    if (editTerminTemplateModalRoot) {
-        editTerminTemplateModalRoot.unmount();
-    }
-    editTerminTemplateModalRoot = createRoot(rootElem);
-    editTerminTemplateModalRoot.render(
+    initReact('edit-termin-template-react-root', (
         <OlzEditTerminTemplateModal
             id={id}
             meta={meta}
             data={data}
-        />,
-    );
+        />
+    ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-termin-template-modal');
         if (modal) {

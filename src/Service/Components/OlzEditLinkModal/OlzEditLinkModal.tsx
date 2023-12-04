@@ -4,6 +4,7 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzLinkData} from '../../../../src/Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
 import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
@@ -17,34 +18,25 @@ interface OlzEditLinkForm {
 
 const resolver: Resolver<OlzEditLinkForm> = async (values) => {
     const errors: FieldErrors<OlzEditLinkForm> = {};
-    if (!values.name) {
-        errors.name = {type: 'required', message: 'Darf nicht leer sein.'};
-    }
-    if (isNaN(Number(values.position))) {
-        errors.position = {type: 'validate', message: 'Muss eine Ganzzahl sein.'};
-    }
-    if (!values.url) {
-        errors.url = {type: 'required', message: 'Darf nicht leer sein.'};
-    }
-    return {
-        values: Object.keys(errors).length > 0 ? {} : values,
-        errors,
-    };
+    errors.name = validateNotEmpty(values.position);
+    errors.position = validateInteger(values.position);
+    errors.url = validateNotEmpty(values.url);
+    return getResolverResult(errors, values);
 };
 
 function getFormFromApi(apiData?: OlzLinkData): OlzEditLinkForm {
     return {
-        name: apiData?.name ?? '',
-        position: apiData?.position !== undefined ? String(apiData.position) : '',
-        url: apiData?.url ?? '',
+        name: getFormString(apiData?.name),
+        position: getFormNumber(apiData?.position),
+        url: getFormString(apiData?.url),
     };
 }
 
 function getApiFromForm(formData: OlzEditLinkForm): OlzLinkData {
     return {
-        name: formData.name,
-        position: Number(formData.position),
-        url: formData.url,
+        name: getApiString(formData.name) ?? '',
+        position: getApiNumber(formData.position),
+        url: getApiString(formData.url) ?? '',
     };
 }
 

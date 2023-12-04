@@ -6,6 +6,7 @@ export function olzProfileFormUpdateAvatar(form: HTMLFormElement): boolean {
     const onChange = (e: OlzUpdateUserAvatarModalChangeEvent) => {
         form['avatar-id'].value = e.detail.uploadId;
         $('#avatar-img').attr('src', e.detail.dataUrl);
+        $('#avatar-img').attr('srcset', '');
     };
     initOlzUpdateUserAvatarModal(onChange);
     return false;

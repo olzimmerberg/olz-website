@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FilesController extends AbstractController {
-    #[Route('/apps/files/')]
+    #[Route('/apps/files')]
     public function index(
         Request $request,
         LoggerInterface $logger,

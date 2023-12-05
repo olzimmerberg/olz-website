@@ -1,21 +1,21 @@
 <?php
 
-namespace Olz\Apps\GoogleSearch;
+namespace Olz\Apps\SearchEngines;
 
-use Olz\Apps\GoogleSearch\Components\OlzGoogleSearch\OlzGoogleSearch;
+use Olz\Apps\SearchEngines\Components\OlzSearchEngines\OlzSearchEngines;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GoogleSearchController extends AbstractController {
+class SearchEnginesController extends AbstractController {
     #[Route('/apps/search_engines')]
     public function index(
         Request $request,
         LoggerInterface $logger
     ): Response {
-        $html_out = OlzGoogleSearch::render([]);
+        $html_out = OlzSearchEngines::render([]);
         return new Response($html_out);
     }
 }

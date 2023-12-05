@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Apps\GoogleSearch\Endpoints;
+namespace Olz\Tests\UnitTests\Apps\SearchEngines\Endpoints;
 
-use Olz\Apps\GoogleSearch\Endpoints\GetAppGoogleSearchCredentialsEndpoint;
+use Olz\Apps\SearchEngines\Endpoints\GetAppSearchEnginesCredentialsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -13,18 +13,18 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @internal
  *
- * @covers \Olz\Apps\GoogleSearch\Endpoints\GetAppGoogleSearchCredentialsEndpoint
+ * @covers \Olz\Apps\SearchEngines\Endpoints\GetAppSearchEnginesCredentialsEndpoint
  */
-final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
-    public function testGetAppGoogleSearchCredentialsEndpointIdent(): void {
-        $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
-        $this->assertSame('GetAppGoogleSearchCredentialsEndpoint', $endpoint->getIdent());
+final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
+    public function testGetAppSearchEnginesCredentialsEndpointIdent(): void {
+        $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
+        $this->assertSame('GetAppSearchEnginesCredentialsEndpoint', $endpoint->getIdent());
     }
 
-    public function testGetAppGoogleSearchCredentialsEndpoint(): void {
+    public function testGetAppSearchEnginesCredentialsEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
-        $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
+        $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
@@ -35,14 +35,14 @@ final class GetAppGoogleSearchCredentialsEndpointTest extends UnitTestCase {
         ], $result);
         $this->assertSame([
             "INFO Valid user request",
-            "INFO GoogleSearch credentials access by admin.",
+            "INFO SearchEngines credentials access by admin.",
             "INFO Valid user response",
         ], $this->getLogs());
     }
 
-    public function testGetAppGoogleSearchCredentialsEndpointNotAuthorized(): void {
+    public function testGetAppSearchEnginesCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
-        $endpoint = new GetAppGoogleSearchCredentialsEndpoint();
+        $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
         $endpoint->runtimeSetup();
 
         try {

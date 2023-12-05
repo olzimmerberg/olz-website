@@ -328,7 +328,6 @@ export type OlzApiEndpoint =
     'executeCommand'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
-    'getAppGoogleSearchCredentials'|
     'importTermine'|
     'getLogs'|
     'getAppMonitoringCredentials'|
@@ -341,6 +340,7 @@ export type OlzApiEndpoint =
     'registerSkillCategories'|
     'registerSkills'|
     'updateResults'|
+    'getAppSearchEnginesCredentials'|
     'getAppStatisticsCredentials'|
     'getAppYoutubeCredentials';
 
@@ -604,7 +604,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
-    getAppGoogleSearchCredentials: Record<string, never>,
     importTermine: Record<string, never>,
     getLogs: {
             'query': OlzLogsQuery,
@@ -669,6 +668,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'file': string,
             'content': string,
         },
+    getAppSearchEnginesCredentials: Record<string, never>,
     getAppStatisticsCredentials: Record<string, never>,
     getAppYoutubeCredentials: Record<string, never>,
 }
@@ -929,10 +929,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     revokeWebdavAccessToken: {
             'status': 'OK'|'ERROR',
         },
-    getAppGoogleSearchCredentials: {
-            'username': string,
-            'password': string,
-        },
     importTermine: Record<string, never>,
     getLogs: {
             'content': Array<string>,
@@ -972,6 +968,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     updateResults: {
             'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
+        },
+    getAppSearchEnginesCredentials: {
+            'username': string,
+            'password': string,
         },
     getAppStatisticsCredentials: {
             'username': string,

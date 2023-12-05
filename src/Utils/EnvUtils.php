@@ -62,8 +62,8 @@ class EnvUtils {
     private $smtp_debug = 0;
     private $smtp_from;
 
-    private $app_google_search_username;
-    private $app_google_search_password;
+    private $app_search_engines_username;
+    private $app_search_engines_password;
 
     private $app_monitoring_username;
     private $app_monitoring_password;
@@ -138,8 +138,8 @@ class EnvUtils {
         $this->smtp_debug = $config_dict['smtp_debug'] ?? $this->smtp_debug;
         $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
 
-        $this->app_google_search_username = $config_dict['app_google_search_username'] ?? $this->app_google_search_username;
-        $this->app_google_search_password = $config_dict['app_google_search_password'] ?? $this->app_google_search_password;
+        $this->app_search_engines_username = $config_dict['app_search_engines_username'] ?? $this->app_search_engines_username;
+        $this->app_search_engines_password = $config_dict['app_search_engines_password'] ?? $this->app_search_engines_password;
 
         $this->app_monitoring_username = $config_dict['app_monitoring_username'] ?? $this->app_monitoring_username;
         $this->app_monitoring_password = $config_dict['app_monitoring_password'] ?? $this->app_monitoring_password;
@@ -316,12 +316,12 @@ class EnvUtils {
         return $this->smtp_from;
     }
 
-    public function getAppGoogleSearchUsername() {
-        return $this->app_google_search_username;
+    public function getAppSearchEnginesUsername() {
+        return $this->app_search_engines_username;
     }
 
-    public function getAppGoogleSearchPassword() {
-        return $this->app_google_search_password;
+    public function getAppSearchEnginesPassword() {
+        return $this->app_search_engines_password;
     }
 
     public function getAppMonitoringUsername() {

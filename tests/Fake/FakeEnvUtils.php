@@ -123,11 +123,11 @@ class FakeEnvUtils extends EnvUtils {
         return 'fake-bot-token';
     }
 
-    public function getAppGoogleSearchUsername() {
+    public function getAppSearchEnginesUsername() {
         return 'fake@gmail.com';
     }
 
-    public function getAppGoogleSearchPassword() {
+    public function getAppSearchEnginesPassword() {
         return 'zxcv';
     }
 

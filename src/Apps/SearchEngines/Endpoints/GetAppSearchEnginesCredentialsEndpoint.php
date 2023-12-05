@@ -1,14 +1,14 @@
 <?php
 
-namespace Olz\Apps\GoogleSearch\Endpoints;
+namespace Olz\Apps\SearchEngines\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class GetAppGoogleSearchCredentialsEndpoint extends OlzEndpoint {
+class GetAppSearchEnginesCredentialsEndpoint extends OlzEndpoint {
     public static function getIdent() {
-        return 'GetAppGoogleSearchCredentialsEndpoint';
+        return 'GetAppSearchEnginesCredentialsEndpoint';
     }
 
     public function getResponseField() {
@@ -28,11 +28,11 @@ class GetAppGoogleSearchCredentialsEndpoint extends OlzEndpoint {
         }
 
         $user = $this->authUtils()->getCurrentUser();
-        $this->log()->info("GoogleSearch credentials access by {$user->getUsername()}.");
+        $this->log()->info("SearchEngines credentials access by {$user->getUsername()}.");
 
         return [
-            'username' => $this->envUtils()->getAppGoogleSearchUsername(),
-            'password' => $this->envUtils()->getAppGoogleSearchPassword(),
+            'username' => $this->envUtils()->getAppSearchEnginesUsername(),
+            'password' => $this->envUtils()->getAppSearchEnginesPassword(),
         ];
     }
 }

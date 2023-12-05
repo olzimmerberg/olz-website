@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Apps\GoogleSearch;
+namespace Olz\Apps\SearchEngines;
 
 use Olz\Apps\BaseAppMetadata;
 use Olz\Entity\User;
@@ -16,7 +16,7 @@ class Metadata extends BaseAppMetadata {
     }
 
     public function getHref(): string {
-        return 'apps/search_engines/';
+        return 'apps/search_engines';
     }
 
     public function isAccessibleToUser(?User $user): bool {

@@ -31,8 +31,8 @@ class GetAppYoutubeCredentialsEndpoint extends OlzEndpoint {
         $this->log()->info("Youtube credentials access by {$user->getUsername()}.");
 
         return [
-            'username' => $this->envUtils()->getAppGoogleSearchUsername(),
-            'password' => $this->envUtils()->getAppGoogleSearchPassword(),
+            'username' => $this->envUtils()->getAppSearchEnginesUsername(),
+            'password' => $this->envUtils()->getAppSearchEnginesPassword(),
         ];
     }
 }

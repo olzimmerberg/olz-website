@@ -17,7 +17,6 @@ final class OlzAppsTest extends UnitTestCase {
         'Anmelden',
         'Commands',
         'Files',
-        'GoogleSearch',
         'Import',
         'Logs',
         'Monitoring',
@@ -26,6 +25,7 @@ final class OlzAppsTest extends UnitTestCase {
         'Panini2024',
         'Quiz',
         'Results',
+        'SearchEngines',
         'Statistics',
         'Youtube',
     ];

@@ -16,7 +16,7 @@ class Metadata extends BaseAppMetadata {
     }
 
     public function getHref(): string {
-        return 'apps/commands/';
+        return 'apps/commands';
     }
 
     public function isAccessibleToUser(?User $user): bool {

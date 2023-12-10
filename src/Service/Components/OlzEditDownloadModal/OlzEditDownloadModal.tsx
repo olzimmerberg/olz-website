@@ -5,6 +5,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzDownloadData} from '../../../Api/client/generated_olz_api_types';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
 import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
@@ -18,34 +19,27 @@ interface OlzEditDownloadForm {
 
 const resolver: Resolver<OlzEditDownloadForm> = async (values) => {
     const errors: FieldErrors<OlzEditDownloadForm> = {};
-    if (!values.name) {
-        errors.name = {type: 'required', message: 'Darf nicht leer sein.'};
-    }
-    if (isNaN(Number(values.position))) {
-        errors.position = {type: 'validate', message: 'Muss eine Ganzzahl sein.'};
-    }
+    errors.name = validateNotEmpty(values.position);
+    errors.position = validateInteger(values.position);
     const requiredNumFileIds = values.name === '---' ? 0 : 1;
     if (values.fileIds?.length !== requiredNumFileIds) {
         errors.fileIds = {type: 'validate', message: `Genau ${requiredNumFileIds} Datei(en) erforderlich.`};
     }
-    return {
-        values: Object.keys(errors).length > 0 ? {} : values,
-        errors,
-    };
+    return getResolverResult(errors, values);
 };
 
 function getFormFromApi(apiData?: OlzDownloadData): OlzEditDownloadForm {
     return {
-        name: apiData?.name ?? '',
-        position: apiData?.position !== undefined ? String(apiData.position) : '',
+        name: getFormString(apiData?.name),
+        position: getFormNumber(apiData?.position),
         fileIds: apiData?.fileId ? [apiData.fileId] : [],
     };
 }
 
 function getApiFromForm(formData: OlzEditDownloadForm): OlzDownloadData {
     return {
-        name: formData.name,
-        position: Number(formData.position),
+        name: getApiString(formData.name) ?? '',
+        position: getApiNumber(formData.position),
         fileId: formData.fileIds?.[0] ?? null,
     };
 }

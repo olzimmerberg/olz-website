@@ -5,6 +5,5 @@ export * from './Error/index';
 export * from './Notify/index';
 export * from './OtherPages/index';
 export * from './Page/index';
-export * from './Upload/index';
 export * from './Users/index';
 export * from './Verein/index';

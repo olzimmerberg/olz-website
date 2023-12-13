@@ -962,6 +962,14 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
+            "Bevorstehende Meldeschlüsse",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'meldeschluss',
+                'datum' => 'bevorstehend',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
             "Termine 2020",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'alle',
@@ -1005,6 +1013,14 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             "Vereinsanlässe 2020",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'club',
+                'datum' => '2020',
+                'archiv' => 'ohne',
+            ])
+        );
+        $this->assertSame(
+            "Meldeschlüsse 2020",
+            $termine_utils->getTitleFromFilter([
+                'typ' => 'meldeschluss',
                 'datum' => '2020',
                 'archiv' => 'ohne',
             ])

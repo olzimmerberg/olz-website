@@ -12,6 +12,9 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 
 class OlzFragenUndAntworten extends OlzComponent {
+    public static $title = "Fragen & Antworten";
+    public static $description = "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -26,8 +29,8 @@ class OlzFragenUndAntworten extends OlzComponent {
         $out = '';
 
         $out .= OlzHeader::render([
-            'title' => "Fragen & Antworten",
-            'description' => "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.",
+            'title' => self::$title,
+            'description' => self::$description,
         ]);
 
         $out .= "<div class='content-right'>";

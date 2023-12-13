@@ -3,8 +3,6 @@
 namespace Olz\Components\Verein\OlzOrganigramm;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Role;
 
@@ -17,26 +15,8 @@ class OlzOrganigramm extends OlzComponent {
         $role_repo = $entityManager->getRepository(Role::class);
 
         $out = '';
-        $out .= OlzHeader::render([
-            'title' => "Verein",
-            'description' => "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.",
-        ]);
 
-        $out .= "<div class='content-full'><div id='organigramm'>";
-        $out .= <<<'ZZZZZZZZZZ'
-        <h2>Häufig gesucht</h2>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-5&quot;)' class='linkint'>Präsident</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-6&quot;)' class='linkint'>Mitgliederverwaltung</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-18&quot;)' class='linkint'>Kartenverkauf</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-19&quot;)' class='linkint'>Kleiderverkauf</a></b></div>
-        <div>
-            <br />
-            <div><b>PC-Konto</b></div>
-            <div><b>IBAN: </b>CH91 0900 0000 8525 6448 8</div>
-            <div><b>Empfänger: </b>OL Zimmerberg, 8800 Thalwil</div>
-        </div>
-        <h2>Organigramm OL Zimmerberg</h2>
-        ZZZZZZZZZZ;
+        $out .= '<h2>Organigramm OL Zimmerberg</h2>';
 
         $colwid = 111;
         $root_roles = $role_repo->getRolesWithParent(null);
@@ -90,9 +70,7 @@ class OlzOrganigramm extends OlzComponent {
             $out .= "</td>";
         }
         $out .= "</table></div>";
-        $out .= "</div></div>";
 
-        $out .= OlzFooter::render();
         return $out;
     }
 }

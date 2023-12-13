@@ -10,13 +10,16 @@ use Olz\Entity\Role;
 use Olz\Utils\DbUtils;
 
 class OlzMaterial extends OlzComponent {
+    public static $title = "Material & Kleider";
+    public static $description = "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.";
+
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $out = '';
 
         $out .= OlzHeader::render([
-            'title' => "Material & Kleider",
-            'description' => "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.",
+            'title' => self::$title,
+            'description' => self::$description,
         ]);
 
         $out .= "<div class='content-full'>

@@ -14,6 +14,9 @@ use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 use Olz\Utils\HttpUtils;
 
 class OlzStartseite extends OlzComponent {
+    public static $title = "Startseite";
+    public static $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../_/config/init.php';
 
@@ -28,7 +31,7 @@ class OlzStartseite extends OlzComponent {
         $out = '';
 
         $out .= OlzHeader::render([
-            'description' => "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.",
+            'description' => self::$description,
         ], $this);
 
         $banner_text = OlzEditableText::render(['olz_text_id' => 22], $this);

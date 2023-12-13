@@ -9,6 +9,9 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
 
 class OlzDatenschutz extends OlzComponent {
+    public static $title = "Datenschutz";
+    public static $description = "Die Datenschutzerklärung für die Website der OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
@@ -16,8 +19,8 @@ class OlzDatenschutz extends OlzComponent {
         $out = '';
 
         $out .= OlzHeader::render([
-            'title' => "Datenschutz",
-            'description' => "Die Datenschutzerklärung für die Website der OL Zimmerberg.",
+            'title' => self::$title,
+            'description' => self::$description,
         ]);
         $out .= "<div class='content-right'>
         <h2>Datenschutz-Verantwortliche</h2>

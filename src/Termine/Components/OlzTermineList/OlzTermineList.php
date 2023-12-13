@@ -18,6 +18,9 @@ use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
+    public static $title = "Termine";
+    public static $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
 
@@ -49,7 +52,7 @@ class OlzTermineList extends OlzComponent {
 
         $out .= OlzHeader::render([
             'title' => $termine_list_title,
-            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,
         ]);
 

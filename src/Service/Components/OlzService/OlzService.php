@@ -10,12 +10,15 @@ use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
 
 class OlzService extends OlzComponent {
+    public static $title = "Service";
+    public static $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         $out = '';
 
         $out .= OlzHeader::render([
-            'title' => "Service",
-            'description' => "Diverse Online-Tools rund um OL und die OL Zimmerberg.",
+            'title' => self::$title,
+            'description' => self::$description,
         ]);
 
         $out .= "<div class='content-full'>";

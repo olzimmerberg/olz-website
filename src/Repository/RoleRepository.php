@@ -2,6 +2,7 @@
 
 namespace Olz\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 
 class RoleRepository extends EntityRepository {
@@ -43,17 +44,17 @@ class RoleRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    public function getAllActiveRessorts() {
-        // TODO: Remove `WHERE r.guide != ''` again, after all ressort
+    public function getAllActive() {
+        // TODO: Remove guide != '' condition again, after all ressort
         // descriptions have been updated. This is just temporary logic!
-        $dql = "
-            SELECT r.username
-            FROM Olz:Role r
-            WHERE r.guide != ''";
-        $query = $this->getEntityManager()->createQuery($dql);
-        $result = $query->getResult();
-        return array_map(function ($obj) {
-            return $obj['username'];
-        }, $result);
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->gte('index_within_parent', 0), // Negative = hidden
+                Criteria::expr()->neq('guide', ''),
+            ))
+            ->setFirstResult(0)
+            ->setMaxResults(1000000)
+        ;
+        return $this->matching($criteria);
     }
 }

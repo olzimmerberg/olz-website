@@ -8,6 +8,9 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 
 class OlzTrophy extends OlzComponent {
+    public static $title = "Trophy";
+    public static $description = "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
@@ -15,8 +18,10 @@ class OlzTrophy extends OlzComponent {
 
         $out = '';
 
-        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}fuer_einsteiger";
+        $out .= OlzHeader::render([
+            'title' => self::$title,
+            'description' => self::$description,
+        ]);
 
         $etappen = [
             ["Dienstag, 18.04.2023", "Starts: 18:00 &ndash; 19:30", "Hirzel", "Schulhaus Heerenrainli", 688540, 230129,
@@ -75,11 +80,6 @@ class OlzTrophy extends OlzComponent {
                 "",
             ],
         ];
-
-        $out .= OlzHeader::render([
-            'title' => "Trophy",
-            'description' => "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.",
-        ]);
 
         $out .= "<div class='content-full'>
         <form name='Formularl' method='post' action='{$code_href}trophy#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>

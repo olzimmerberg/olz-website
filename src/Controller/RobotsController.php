@@ -29,7 +29,7 @@ class RobotsController extends AbstractController {
         Allow: /favicon.ico
         Allow: /img/fuer_einsteiger/
 
-        Sitemap: https://olzimmerberg.ch/sitemap.php
+        Sitemap: https://olzimmerberg.ch/sitemap.xml
         ZZZZZZZZZZ;
         $response = new Response($out);
         $response->headers->set('Content-Type', 'text/plain');

@@ -15,6 +15,9 @@ use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsList extends OlzComponent {
+    public static $title = "News";
+    public static $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
+
     public function getHtml($args = []): string {
         global $_SESSION;
 
@@ -46,7 +49,7 @@ class OlzNewsList extends OlzComponent {
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out .= OlzHeader::render([
             'title' => $news_list_title,
-            'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+            'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,
             'canonical_url' => $canonical_url,
         ]);

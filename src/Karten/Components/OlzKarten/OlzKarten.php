@@ -9,6 +9,9 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzMapData\OlzMapData;
 
 class OlzKarten extends OlzComponent {
+    public static $title = "Karten";
+    public static $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
+
     public function getHtml($args = []): string {
         global $_GET, $_POST, $_SESSION, $db_table, $funktion, $id;
 
@@ -22,8 +25,8 @@ class OlzKarten extends OlzComponent {
         $out = '';
 
         $out .= OlzHeader::render([
-            'title' => "Karten",
-            'description' => "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.",
+            'title' => self::$title,
+            'description' => self::$description,
         ]);
 
         $db_table = 'karten';

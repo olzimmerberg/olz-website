@@ -36,6 +36,7 @@ require_once __DIR__.'/modules/profil.php';
 require_once __DIR__.'/modules/resultate.php';
 require_once __DIR__.'/modules/suche.php';
 require_once __DIR__.'/modules/service.php';
+require_once __DIR__.'/modules/sitemap.php';
 require_once __DIR__.'/modules/startseite.php';
 require_once __DIR__.'/modules/termine.php';
 require_once __DIR__.'/modules/trophy.php';
@@ -75,6 +76,7 @@ $blocks = [
 
         // no specific order
         test_news($driver, $base_url);
+        test_sitemap($driver, $base_url);
 
         echo get_pretty_timing_report();
     },

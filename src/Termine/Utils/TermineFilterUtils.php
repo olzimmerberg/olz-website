@@ -228,6 +228,12 @@ class TermineFilterUtils {
             }
             return "Vereinsanlässe{$year_suffix}{$archive_title_suffix}";
         }
+        if ($filter['typ'] === 'meldeschluss') {
+            if ($is_upcoming) {
+                return "Bevorstehende Meldeschlüsse{$archive_title_suffix}";
+            }
+            return "Meldeschlüsse{$year_suffix}{$archive_title_suffix}";
+        }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
         return "Termine{$archive_title_suffix}";

@@ -14,6 +14,7 @@ class OlzAuthorBadge extends OlzComponent {
         $role = $args['role'] ?? null;
         $name = $args['name'] ?? null;
         $email = $args['email'] ?? null;
+        $mode = $args['mode'] ?? 'full'; // 'full' (with popup), 'badge', 'text'
 
         $code_href = $this->envUtils()->getCodeHref();
 
@@ -52,6 +53,10 @@ class OlzAuthorBadge extends OlzComponent {
             return "";
         }
 
+        if ($mode === 'text') {
+            return $label;
+        }
+
         $popup_class = $popup ? 'has-popup' : 'no-popup';
 
         $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='author-icon'>" : '';
@@ -60,6 +65,9 @@ class OlzAuthorBadge extends OlzComponent {
             {$label}{$icon_html}
         </span>
         ZZZZZZZZZZ;
+        if ($mode === 'badge') {
+            return $trigger;
+        }
         if ($popup) {
             return OlzPopup::render(['trigger' => $trigger, 'popup' => $popup]);
         }

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Olz\News\Utils\NewsFilterUtils;
 
 class NewsRepository extends EntityRepository {
-    public function getAllActiveIds() {
+    public function getAllActive() {
         $news_utils = NewsFilterUtils::fromEnv();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
@@ -18,11 +18,6 @@ class NewsRepository extends EntityRepository {
             ->setFirstResult(0)
             ->setMaxResults(1000000)
         ;
-        $news_entries = $this->matching($criteria);
-        $news_entry_ids = [];
-        foreach ($news_entries as $news_entry) {
-            $news_entry_ids[] = $news_entry->getId();
-        }
-        return $news_entry_ids;
+        return $this->matching($criteria);
     }
 }

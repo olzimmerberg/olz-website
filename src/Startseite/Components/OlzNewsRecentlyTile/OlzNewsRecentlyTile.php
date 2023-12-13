@@ -16,7 +16,6 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         'forum' => 'entry_type_forum_20.svg',
         'galerie' => 'entry_type_gallery_20.svg',
         'kaderblog' => 'entry_type_kaderblog_20.svg',
-        'movie' => 'entry_type_movie_20.svg',
         'video' => 'entry_type_movie_20.svg',
     ];
 

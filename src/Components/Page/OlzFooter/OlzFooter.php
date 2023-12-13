@@ -23,6 +23,7 @@ class OlzFooter extends OlzComponent {
         $out .= "<a href='{$code_href}fuer_einsteiger?von=footer'>Für Einsteiger</a>";
         $out .= "<a href='{$code_href}fragen_und_antworten'>Fragen &amp; Antworten (FAQ)</a>";
         $out .= "<a href='{$code_href}datenschutz'>Datenschutz</a>";
+        $out .= "<a href='{$code_href}sitemap'>Sitemap</a>";
         $out .= "</div>"; // footer
 
         $out .= "</div>"; // site-container

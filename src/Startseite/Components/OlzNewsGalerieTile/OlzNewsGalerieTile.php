@@ -15,7 +15,6 @@ use Olz\Utils\ImageUtils;
 class OlzNewsGalerieTile extends AbstractOlzTile {
     protected static $iconBasenameByFormat = [
         'galerie' => 'entry_type_gallery_white_20.svg',
-        'movie' => 'entry_type_movie_white_20.svg',
         'video' => 'entry_type_movie_white_20.svg',
     ];
 

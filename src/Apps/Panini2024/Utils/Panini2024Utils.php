@@ -12,9 +12,16 @@ class Panini2024Utils {
     use WithUtilsTrait;
 
     public const DPI = 900;
-    public const PANINI_SHORT = 42.8; // mm (50.8mm, 4mm margin)
-    public const PANINI_LONG = 59; // mm (70mm, 5.5mm margin)
     public const MM_PER_INCH = 25.4;
+
+    // This is the version with the self-printed foldable label paper:
+    // public const PANINI_SHORT = 42.8; // mm (50.8mm, 4mm margin)
+    // public const PANINI_LONG = 59; // mm (70mm, 5.5mm margin)
+
+    // This is the version with 4x4 pictures per A4, which need to be cut:
+    public const PANINI_SHORT = 45; // mm
+    public const PANINI_LONG = 65; // mm
+
     public const ASSOCIATION_MAP = [
         'Adliswil' => 'wappen/adliswil.jpg',
         'Einsiedeln' => 'wappen/einsiedeln.jpg',

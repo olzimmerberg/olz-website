@@ -6,4 +6,28 @@
     .olz-user-info-with-popup {
         text-align: start;
     }
+
+    .column {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 3px;
+
+        &.id {
+            text-align: right;
+            width: 35px;
+        }
+
+        &.infos {
+            width: 80px;
+        }
+
+        &.active {
+            width: 35px;
+        }
+
+        &.picture {
+            width: 300px;
+        }
+    }
 }

@@ -3,7 +3,7 @@
 set -e
 
 # Start webpack file watcher
-npm run webpack-watch &
+npm run webpack-watch || printf "\n\n\n\n   !!! Webpack watch failed !!!\n\n\n\n" &
 WEBPACK_WATCH_PID=$!
 echo "Webpack Watch PID: $WEBPACK_WATCH_PID"
 

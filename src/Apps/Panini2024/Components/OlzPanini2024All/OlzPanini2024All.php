@@ -43,15 +43,23 @@ class OlzPanini2024All extends OlzComponent {
             $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
             $pictures = $panini_repo->findAll();
             $out .= "<table>";
-            $out .= <<<'ZZZZZZZZZZ'
+            $ids = json_encode(array_map(function ($picture) {
+                return $picture->getId();
+            }, $pictures));
+            $out .= <<<ZZZZZZZZZZ
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>OLZ-Konto</th>
-                <th>Wappen</th>
-                <th>Infos</th>
-                <th>Aktiv</th>
-                <th>Bild</th>
+                <th class='column id'>ID</th>
+                <th class='column name'>Name</th>
+                <th class='column account'>OLZ-Konto</th>
+                <th class='column association'>Wappen</th>
+                <th class='column infos'>Infos</th>
+                <th class='column active'>Aktiv</th>
+                <th class='column picture'>
+                    Bild
+                    <button onclick='olzPanini2024.showPaniniPictures({$ids})'>
+                        alle anzeigen
+                    </button>
+                </th>
             </tr>
             ZZZZZZZZZZ;
             foreach ($pictures as $picture) {
@@ -77,13 +85,13 @@ class OlzPanini2024All extends OlzComponent {
                 $on_off_emoji = $on_off ? '✅' : '❌';
                 $out .= <<<ZZZZZZZZZZ
                 <tr>
-                    <td>{$id}</td>
-                    <td>{$line1}<br/>{$line2}</td>
-                    <td>{$user_html}</td>
-                    <td>{$association}</td>
-                    <td>{$infos_emojis}</td>
-                    <td>{$on_off_emoji}</td>
-                    <td id='panini-picture-{$id}'>
+                    <td class='column id'>{$id}</td>
+                    <td class='column name'>{$line1}<br/>{$line2}</td>
+                    <td class='column account'>{$user_html}</td>
+                    <td class='column association'>{$association}</td>
+                    <td class='column infos'>{$infos_emojis}</td>
+                    <td class='column active'>{$on_off_emoji}</td>
+                    <td class='column picture' id='panini-picture-{$id}'>
                         <button onclick='olzPanini2024.showPaniniPicture(&quot;{$id}&quot;)'>
                             anzeigen
                         </button>

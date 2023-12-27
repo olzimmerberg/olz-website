@@ -3,6 +3,7 @@
 namespace Olz\Apps\Panini2024\Components\OlzPanini2024All;
 
 use Olz\Apps\Panini2024\Metadata;
+use Olz\Apps\Panini2024\Utils\Panini2024Utils;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
@@ -72,6 +73,7 @@ class OlzPanini2024All extends OlzComponent {
                     'mode' => 'name',
                 ]) : '-';
                 $association = $picture->getAssociation();
+                $association_emoji = (Panini2024Utils::ASSOCIATION_MAP[$association] ?? 0) ? '✅' : '❌';
                 $infos = $picture->getInfos();
                 $infos_emojis = '';
                 for ($i = 0; $i < 5; $i++) {
@@ -88,7 +90,7 @@ class OlzPanini2024All extends OlzComponent {
                     <td class='column id'>{$id}</td>
                     <td class='column name'>{$line1}<br/>{$line2}</td>
                     <td class='column account'>{$user_html}</td>
-                    <td class='column association'>{$association}</td>
+                    <td class='column association'>{$association_emoji} {$association}</td>
                     <td class='column infos'>{$infos_emojis}</td>
                     <td class='column active'>{$on_off_emoji}</td>
                     <td class='column picture' id='panini-picture-{$id}'>

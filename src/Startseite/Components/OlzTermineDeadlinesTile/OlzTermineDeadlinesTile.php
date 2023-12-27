@@ -42,7 +42,6 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         }
         $out = "<h2>Meldeschlüsse {$newsletter_link}</h2>";
 
-        $out .= "<ul class='links'>";
         $res = $db->query(<<<ZZZZZZZZZZ
         (
             SELECT
@@ -70,6 +69,11 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         ORDER BY deadline ASC
         LIMIT 7
         ZZZZZZZZZZ);
+        if ($res->num_rows === 0) {
+            $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten zwei Wochen</i></center>";
+            return $out;
+        }
+        $out .= "<ul class='links'>";
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
             $deadline = date('d.m.', strtotime($row['deadline']));

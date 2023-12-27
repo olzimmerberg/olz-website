@@ -9,7 +9,7 @@ import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow} from '../../../Utils/constants';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateInteger, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
 import {isDefined, timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
@@ -47,9 +47,9 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     [errors.endTime, values.endTime] = validateTimeOrNull(values.endTime);
     errors.title = validateNotEmpty(values.title);
     [errors.deadline, values.deadline] = validateDateTimeOrNull(values.deadline);
-    errors.solvId = validateInteger(values.solvId);
-    errors.coordinateX = validateInteger(values.coordinateX);
-    errors.coordinateY = validateInteger(values.coordinateY);
+    errors.solvId = validateIntegerOrNull(values.solvId);
+    errors.coordinateX = validateIntegerOrNull(values.coordinateX);
+    errors.coordinateY = validateIntegerOrNull(values.coordinateY);
     return getResolverResult(errors, values);
 };
 

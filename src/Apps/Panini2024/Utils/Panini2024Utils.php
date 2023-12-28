@@ -93,6 +93,20 @@ class Panini2024Utils {
             throw new AccessDeniedHttpException("Kein Zugriff");
         }
 
+        $wid = round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
+        * self::DPI / self::MM_PER_INCH);
+        $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
+            * self::DPI / self::MM_PER_INCH);
+        $suffix = "{$lp_suffix}_{$wid}x{$hei}";
+        $payload_folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
+        $payload_path = "{$panini_path}{$payload_folder}{$img_src}";
+        $bottom_mask_path = "{$masks_path}bottom{$suffix}.png";
+        $top_mask_path = "{$masks_path}top{$suffix}.png";
+        $association_mask_path = "{$masks_path}association{$suffix}.png";
+        $flag_mask_path = "{$masks_path}associationStencil{$suffix}.png";
+        $association_file = self::ASSOCIATION_MAP[$association] ?? null;
+        $association_img_orig_path = "{$panini_path}{$association_file}";
+
         $ident = json_encode([
             $is_landscape,
             $has_top,
@@ -101,6 +115,12 @@ class Panini2024Utils {
             $line1,
             $line2,
             $association,
+            filemtime($payload_path),
+            filemtime($bottom_mask_path),
+            filemtime($top_mask_path),
+            filemtime($association_mask_path),
+            filemtime($flag_mask_path),
+            filemtime($association_img_orig_path),
             md5(file_get_contents(__FILE__)),
         ]);
         $md5 = md5($ident);
@@ -110,17 +130,10 @@ class Panini2024Utils {
             return file_get_contents($cache_file);
         }
 
-        $wid = round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
-            * self::DPI / self::MM_PER_INCH);
-        $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
-            * self::DPI / self::MM_PER_INCH);
         $img = imagecreatetruecolor($wid, $hei);
-        $suffix = "{$lp_suffix}_{$wid}x{$hei}";
         gc_collect_cycles();
 
         // Payload
-        $folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
-        $payload_path = "{$panini_path}{$folder}{$img_src}";
         $payload_img = imagecreatefromjpeg($payload_path);
         if ($payload_img) {
             $payload_wid = imagesx($payload_img);
@@ -137,21 +150,20 @@ class Panini2024Utils {
         }
 
         // Masks
-        $bottom_mask = imagecreatefrompng("{$masks_path}bottom{$suffix}.png");
+        $bottom_mask = imagecreatefrompng($bottom_mask_path);
         imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
         imagedestroy($bottom_mask);
         gc_collect_cycles();
         if ($has_top) {
-            $top_mask = imagecreatefrompng("{$masks_path}top{$suffix}.png");
+            $top_mask = imagecreatefrompng($top_mask_path);
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
             imagedestroy($top_mask);
             gc_collect_cycles();
         }
 
         // Association
-        $association_file = self::ASSOCIATION_MAP[$association] ?? null;
         if ($association_file) {
-            $association_mask = imagecreatefrompng("{$masks_path}association{$suffix}.png");
+            $association_mask = imagecreatefrompng($association_mask_path);
             imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
             imagedestroy($association_mask);
             gc_collect_cycles();
@@ -159,10 +171,10 @@ class Panini2024Utils {
             $offset = round(($wid + $hei) * 0.01) - 1;
             $size = round(($wid + $hei) * 0.09) + 1;
 
-            $flag_mask = imagecreatefrompng("{$masks_path}associationStencil{$suffix}.png");
+            $flag_mask = imagecreatefrompng($flag_mask_path);
 
             $association_img = imagecreatetruecolor($size, $size);
-            $association_img_orig = imagecreatefromjpeg("{$panini_path}{$association_file}");
+            $association_img_orig = imagecreatefromjpeg($association_img_orig_path);
             imagecopyresampled(
                 $association_img, $association_img_orig,
                 0, 0,

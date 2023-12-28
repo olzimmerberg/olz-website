@@ -23,20 +23,40 @@ class Panini2024Utils {
     public const PANINI_LONG = 65; // mm
 
     public const ASSOCIATION_MAP = [
+        'Au ZH' => 'wappen/waedenswil.jpg',
         'Adliswil' => 'wappen/adliswil.jpg',
-        'Einsiedeln' => 'wappen/einsiedeln.jpg',
         'Hirzel' => 'wappen/hirzel.jpg',
         'Horgen' => 'wappen/horgen.jpg',
-        'Hütten' => 'wappen/huetten.jpg',
         'Kilchberg' => 'wappen/kilchberg.jpg',
         'Langnau am Albis' => 'wappen/langnau_am_albis.jpg',
         'Oberrieden' => 'wappen/oberrieden.jpg',
         'Richterswil' => 'wappen/richterswil.jpg',
         'Rüschlikon' => 'wappen/rueschlikon.jpg',
-        'Schönenberg' => 'wappen/schoenenberg.jpg',
+        'Samstagern' => 'wappen/richterswil.jpg',
+        'Schönenberg' => 'wappen/waedenswil.jpg',
         'Thalwil' => 'wappen/thalwil.jpg',
         'Wädenswil' => 'wappen/waedenswil.jpg',
         'Zürich' => 'wappen/zuerich.jpg',
+
+        'Einsiedeln' => 'wappen/einsiedeln.jpg',
+        'Küsnacht ZH' => 'wappen/kuesnacht_zh.jpg',
+        'Oberwil' => 'wappen/daegerlen.jpg',
+        'Maur' => 'wappen/maur.jpg',
+        'Niederurnen GL' => 'wappen/niederurnen.jpg',
+        'Pfäffikon ZH' => 'wappen/pfaeffikon_zh.jpg',
+        'Basel' => 'wappen/basel.jpg',
+        'Hausen am Albis' => 'wappen/hausen_am_albis.jpg',
+        'Wollerau' => 'wappen/wollerau.jpg',
+        'Riedikon' => 'wappen/uster.jpg',
+        'Winterthur' => 'wappen/winterthur.jpg',
+        'Landquart GR' => 'wappen/landquart_gr.jpg',
+        'Wolhusen LU' => 'wappen/wolhusen_lu.jpg',
+        'Wetzikon' => 'wappen/wetzikon.jpg',
+        'Affoltern am Albis' => 'wappen/affoltern_am_albis.jpg',
+        'Greifensee' => 'wappen/greifensee.jpg',
+        'St. Gallen' => 'wappen/st_gallen.jpg',
+        'Bern' => 'wappen/bern.jpg',
+        'Seewen SZ' => 'wappen/seewen_sz.jpg',
     ];
 
     public function renderSingle($id) {
@@ -217,7 +237,7 @@ class Panini2024Utils {
         return $image_data;
     }
 
-    public function renderRandom($num, $options) {
+    public function render3x5Random($num, $options) {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
         $all_ids = array_map(function ($picture) {
@@ -232,10 +252,10 @@ class Panini2024Utils {
             }
             $pages[] = ['ids' => $ids];
         }
-        return $this->renderPages($pages, $options);
+        return $this->render3x5Pages($pages, $options);
     }
 
-    public function renderPages($pages, $options) {
+    public function render3x5Pages($pages, $options) {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
@@ -307,6 +327,94 @@ class Panini2024Utils {
                         );
                         $index++;
                     }
+                }
+            }
+        }
+        return $pdf->Output();
+    }
+
+    public function render4x4Random($num, $options) {
+        $entity_manager = $this->dbUtils()->getEntityManager();
+        $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
+        $all_ids = array_map(function ($picture) {
+            return $picture->getId();
+        }, $panini_repo->findAll());
+        $ids_len = count($all_ids);
+        $pages = [];
+        for ($p = 0; $p < $num; $p++) {
+            $ids = [];
+            for ($i = 0; $i < 16; $i++) {
+                $ids[] = $all_ids[random_int(0, $ids_len - 1)];
+            }
+            $pages[] = ['ids' => $ids];
+        }
+        return $this->render4x4Pages($pages, $options);
+    }
+
+    public function render4x4Pages($pages, $options) {
+        $data_path = $this->envUtils()->getDataPath();
+        $temp_path = "{$data_path}temp/";
+        if (!is_dir($temp_path)) {
+            mkdir($temp_path, 0777, true);
+        }
+
+        $grid = (bool) ($options['grid'] ?? false);
+        $x_step = 46;
+        $x_margin = 1;
+        $x_offset = 13;
+        $y_step = 66;
+        $y_offset = 16.5;
+        $y_margin = 1;
+
+        foreach ($pages as $page) {
+            $ids = $page['ids'] ?? [];
+            foreach ($ids as $id) {
+                $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
+                $img = imagecreatefromstring($this->renderSingle($id));
+                $wid = imagesx($img);
+                $hei = imagesy($img);
+                if ($hei < $wid) {
+                    $img = imagerotate($img, 90, 0);
+                }
+                imagejpeg($img, $temp_file_path);
+                imagedestroy($img);
+                gc_collect_cycles();
+            }
+        }
+
+        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        foreach ($pages as $page) {
+            $ids = $page['ids'] ?? [];
+            $pdf->AddPage();
+
+            if ($grid) {
+                $pdf->SetDrawColor(0, 0, 0);
+                $pdf->SetLineWidth(0.1);
+                for ($x = 0; $x < 5; $x++) {
+                    $line_x = $x_offset + $x_step * $x;
+                    $pdf->Line($line_x, 0, $line_x, $y_offset - 1);
+                    $pdf->Line($line_x, 297, $line_x, 297 - $y_offset + 1);
+                }
+                for ($y = 0; $y < 5; $y++) {
+                    $line_y = $y_offset + $y_step * $y;
+                    $pdf->Line(0, $line_y, $x_offset - 1, $line_y);
+                    $pdf->Line(210, $line_y, 210 - $x_offset + 1, $line_y);
+                }
+            }
+
+            $index = 0;
+            for ($y = 0; $y < 4; $y++) {
+                for ($x = 0; $x < 4; $x++) {
+                    $id = $ids[$index] ?? 0;
+                    $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
+                    $pdf->Image(
+                        $temp_file_path,
+                        $x_offset + $x_margin + $x_step * $x,
+                        $y_offset + $y_margin + $y_step * $y,
+                        $x_step - $x_margin * 2,
+                    );
+                    $index++;
                 }
             }
         }

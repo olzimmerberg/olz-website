@@ -53,8 +53,8 @@ class Panini2024Controller extends AbstractController {
         return $response;
     }
 
-    #[Route('/apps/panini24/pdf/{spec}.pdf')]
-    public function random(
+    #[Route('/apps/panini24/pdf/3x5/{spec}.pdf')]
+    public function pdf3x5(
         Request $request,
         LoggerInterface $logger,
         string $spec,
@@ -69,9 +69,9 @@ class Panini2024Controller extends AbstractController {
             $options = [
                 'grid' => ($random_matches[2] ?? '') === '-grid',
             ];
-            $pdf_out = Panini2024Utils::fromEnv()->renderRandom($num, $options);
+            $pdf_out = Panini2024Utils::fromEnv()->render3x5Random($num, $options);
         }
-        $list_res = preg_match('/^([0-9]+,){11}[0-9]+(-grid)?$/i', $spec, $list_matches);
+        $list_res = preg_match('/^((?:[0-9]+,){11}[0-9]+)(-grid)?$/i', $spec, $list_matches);
         if ($list_res) {
             $ids = array_map(function ($idstr) {
                 return intval($idstr);
@@ -79,12 +79,50 @@ class Panini2024Controller extends AbstractController {
             $options = [
                 'grid' => ($list_matches[2] ?? '') === '-grid',
             ];
-            $pdf_out = Panini2024Utils::fromEnv()->renderPages([
+            $pdf_out = Panini2024Utils::fromEnv()->render3x5Pages([
                 ['ids' => $ids],
             ], $options);
         }
         if (!$pdf_out) {
-            return new Response("Must adhere to spec: random-N | ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID");
+            return new Response("Must adhere to spec: (random-N | ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID) [-grid]");
+        }
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
+
+    #[Route('/apps/panini24/pdf/4x4/{spec}.pdf')]
+    public function pdf4x4(
+        Request $request,
+        LoggerInterface $logger,
+        string $spec,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = null;
+        $random_res = preg_match('/^random-([0-9]+)(-grid)?$/i', $spec, $random_matches);
+        if ($random_res) {
+            $num = intval($random_matches[1]);
+            $options = [
+                'grid' => ($random_matches[2] ?? '') === '-grid',
+            ];
+            $pdf_out = Panini2024Utils::fromEnv()->render4x4Random($num, $options);
+        }
+        $list_res = preg_match('/^((?:[0-9]+,){15}[0-9]+)(-grid)?$/i', $spec, $list_matches);
+        if ($list_res) {
+            $ids = array_map(function ($idstr) {
+                return intval($idstr);
+            }, explode(',', $list_matches[1]));
+            $options = [
+                'grid' => ($list_matches[2] ?? '') === '-grid',
+            ];
+            $pdf_out = Panini2024Utils::fromEnv()->render4x4Pages([
+                ['ids' => $ids],
+            ], $options);
+        }
+        if (!$pdf_out) {
+            return new Response("Must adhere to spec: (random-N | ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID,ID) [-grid]");
         }
         $response = new Response($pdf_out);
         $response->headers->set('Content-Type', 'application/pdf');

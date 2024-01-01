@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20231114221915
+-- MIGRATION: DoctrineMigrations\Version20240101225849
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -70,7 +70,8 @@ VALUES
     ('DoctrineMigrations\\Version20230918214135', '2023-09-18 23:43:01', '300'),
     ('DoctrineMigrations\\Version20230918231338', '2023-09-19 18:09:29', '1270'),
     ('DoctrineMigrations\\Version20231018165331', '2023-10-18 18:55:14', '72'),
-    ('DoctrineMigrations\\Version20231114221915', '2023-11-14 23:26:53', '1546');
+    ('DoctrineMigrations\\Version20231114221915', '2023-11-14 23:26:53', '1546'),
+    ('DoctrineMigrations\\Version20240101225849', '2024-01-01 23:59:31', '56');
 
 -- Table downloads
 INSERT INTO downloads
@@ -145,22 +146,22 @@ VALUES
 
 -- Table panini24
 INSERT INTO panini24
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `line1`, `line2`, `association`, `img_src`, `img_style`, `is_landscape`, `has_top`, `on_off`, `created_at`, `last_modified_at`, `infos`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `line1`, `line2`, `association`, `img_src`, `img_style`, `is_landscape`, `has_top`, `on_off`, `created_at`, `last_modified_at`, `infos`, `birthdate`, `num_mispunches`)
 VALUES
-    ('150', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'wappen/thalwil.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]'),
-    ('151', NULL, NULL, NULL, NULL, 'Andere Orte', NULL, NULL, 'wappen/other.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]'),
-    ('1001', '1', NULL, '1', '1', 'Armin 😂', 'Admin 🤣', 'Thalwil', 'vptD8fzvXIhv_6X32Zkw2s5s.jpg', 'width:200%; top:0%; left:-50%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"SchlADMINg\",\"Die Registrierung der Domain olzimmerberg.ch\",\"\\u00dcber die Website\",\"2006\",\"Admins! Admins! Admins!\"]'),
-    ('1002', '1', NULL, '1', '1', 'Volker', 'Vorstand', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1003', NULL, NULL, NULL, NULL, 'Fill', 'Up (3)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1004', NULL, NULL, NULL, NULL, 'Fill', 'Up (4)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1005', NULL, NULL, NULL, NULL, 'Fill', 'Up (5)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1006', NULL, NULL, NULL, NULL, 'Fill', 'Up (6)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1007', NULL, NULL, NULL, NULL, 'Fill', 'Up (7)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1008', NULL, NULL, NULL, NULL, 'Fill', 'Up (8)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1009', NULL, NULL, NULL, NULL, 'Fill', 'Up (9)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1010', NULL, NULL, NULL, NULL, 'Fill', 'Up (10)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1011', NULL, NULL, NULL, NULL, 'Fill', 'Up (11)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]'),
-    ('1012', NULL, NULL, NULL, NULL, 'Fill', 'Up (12)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]');
+    ('150', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'wappen/thalwil.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', NULL, NULL),
+    ('151', NULL, NULL, NULL, NULL, 'Andere Orte', NULL, NULL, 'wappen/other.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', NULL, NULL),
+    ('1001', '1', NULL, '1', '1', 'Armin 😂', 'Admin 🤣', 'Thalwil', 'vptD8fzvXIhv_6X32Zkw2s5s.jpg', 'width:200%; top:0%; left:-50%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"SchlADMINg\",\"Die Registrierung der Domain olzimmerberg.ch\",\"\\u00dcber die Website\",\"2006\",\"Admins! Admins! Admins!\"]', NULL, NULL),
+    ('1002', '1', NULL, '1', '1', 'Volker', 'Vorstand', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1003', NULL, NULL, NULL, NULL, 'Fill', 'Up (3)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1004', NULL, NULL, NULL, NULL, 'Fill', 'Up (4)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1005', NULL, NULL, NULL, NULL, 'Fill', 'Up (5)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1006', NULL, NULL, NULL, NULL, 'Fill', 'Up (6)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1007', NULL, NULL, NULL, NULL, 'Fill', 'Up (7)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1008', NULL, NULL, NULL, NULL, 'Fill', 'Up (8)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1009', NULL, NULL, NULL, NULL, 'Fill', 'Up (9)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1010', NULL, NULL, NULL, NULL, 'Fill', 'Up (10)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1011', NULL, NULL, NULL, NULL, 'Fill', 'Up (11)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
+    ('1012', NULL, NULL, NULL, NULL, 'Fill', 'Up (12)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL);
 
 -- Table quiz_categories
 INSERT INTO quiz_categories

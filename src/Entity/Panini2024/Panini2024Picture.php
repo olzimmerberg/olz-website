@@ -35,6 +35,12 @@ class Panini2024Picture extends OlzEntity {
     #[ORM\Column(type: 'boolean', nullable: false)]
     private $has_top;
 
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $birthdate;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $num_mispunches;
+
     #[ORM\Column(type: 'text', nullable: false)]
     private $infos;
 

@@ -128,4 +128,18 @@ class Panini2024Controller extends AbstractController {
         $response->headers->set('Content-Type', 'application/pdf');
         return $response;
     }
+
+    #[Route('/apps/panini24/pdf/book.pdf')]
+    public function pdfBook(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = Panini2024Utils::fromEnv()->renderBookPages();
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
 }

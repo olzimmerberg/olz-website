@@ -218,7 +218,7 @@ class Panini2024Utils {
         }
 
         // Text
-        $size = $hei * 0.04;
+        $size = ($hei + ($is_landscape ? $wid : $hei)) * 0.02;
         $yellow = imagecolorallocate($img, 255, 255, 0);
         $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
         $shoff = $size / 10;
@@ -429,6 +429,110 @@ class Panini2024Utils {
                     $index++;
                 }
             }
+        }
+        return $pdf->Output();
+    }
+
+    public function renderBookPages() {
+        $db = $this->dbUtils()->getDb();
+        $data_path = $this->envUtils()->getDataPath();
+        $panini_path = "{$data_path}panini_data/";
+        $temp_path = "{$data_path}temp/";
+        if (!is_dir($temp_path)) {
+            mkdir($temp_path, 0777, true);
+        }
+
+        $x_step = 46;
+        $x_margin = 1;
+        $x_offset = 13;
+        $y_step = 88;
+        $y_offset = 16.5;
+        $y_margin = 1;
+        $y_box = 22;
+
+        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        $font_dir_path = "{$panini_path}fonts/OpenSans/";
+        $pdf->AddFont('OpenSans', '', 'OpenSans-SemiBold.php', $font_dir_path);
+        $pdf->SetFont('OpenSans');
+
+        $placeholder_rows = [];
+
+        $result_associations = $db->query("SELECT *, (img_src = 'wappen/other.jpg') AS is_other FROM panini24 WHERE img_src LIKE 'wappen/%' ORDER BY is_other ASC, line1 ASC");
+        $esc_associations = [];
+        for ($i = 0; $i < $result_associations->num_rows; $i++) {
+            $row_association = $result_associations->fetch_assoc();
+            $placeholder_rows[] = $row_association;
+
+            if ($row_association['is_other']) {
+                $sql = implode("', '", $esc_associations);
+                $result_portraits = $db->query("SELECT * FROM panini24 WHERE association NOT IN ('{$sql}') ORDER BY line2 ASC, line1 ASC");
+                for ($j = 0; $j < $result_portraits->num_rows; $j++) {
+                    $row_portrait = $result_portraits->fetch_assoc();
+                    $placeholder_rows[] = $row_portrait;
+                }
+            } else {
+                $esc_association = $db->real_escape_string($row_association['line1']);
+                $esc_associations[] = $esc_association;
+                $result_portraits = $db->query("SELECT * FROM panini24 WHERE association = '{$esc_association}' ORDER BY line2 ASC, line1 ASC");
+                for ($j = 0; $j < $result_portraits->num_rows; $j++) {
+                    $row_portrait = $result_portraits->fetch_assoc();
+                    $placeholder_rows[] = $row_portrait;
+                }
+            }
+        }
+
+        $index = 0;
+        foreach ($placeholder_rows as $row) {
+            if (($index % 12) === 0) {
+                $pdf->AddPage();
+            }
+            $x_index = $index % 4;
+            $y_index = floor($index / 4) % 3;
+
+            $x = $x_offset + $x_margin + $x_step * $x_index;
+            $y = $y_offset + $y_margin + $y_step * $y_index;
+
+            $pdf->SetLineWidth(0.1);
+            $pdf->SetDrawColor(200, 200, 200);
+            $pdf->SetFillColor(255, 255, 255);
+            $pdf->Rect(
+                $x,
+                $y,
+                $x_step - $x_margin * 2,
+                $y_step - $y_box - $y_margin * 2,
+                'DF',
+            );
+
+            $pdf->SetTextColor(200, 200, 200);
+            $pdf->SetFontSize(10);
+            $pdf->Text(
+                $x + 1,
+                $y + $y_step - $y_box - $y_margin * 2 - 5,
+                $row['line1'],
+            );
+            $pdf->Text(
+                $x + 1,
+                $y + $y_step - $y_box - $y_margin * 2 - 1,
+                $row['line2'],
+            );
+
+            $pdf->SetLineWidth(0.1);
+            $pdf->SetDrawColor(0, 117, 33);
+            $pdf->SetFillColor(212, 231, 206);
+            $pdf->Rect(
+                $x,
+                $y + $y_step - $y_box - $y_margin,
+                $x_step - $x_margin * 2,
+                $y_box,
+                'F',
+            );
+            $line_y = $y + $y_step - $y_box - $y_margin;
+            $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
+            $line_y = $y + $y_step - $y_margin;
+            $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
+
+            $index++;
         }
         return $pdf->Output();
     }

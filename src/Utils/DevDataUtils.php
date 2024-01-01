@@ -527,6 +527,8 @@ class DevDataUtils {
         $this->mkdir("{$data_path}panini_data/fonts");
         $this->mkdir("{$data_path}panini_data/fonts/OpenSans");
         $this->copy("{$sample_path}sample-font.ttf", "{$data_path}panini_data/fonts/OpenSans/OpenSans-SemiBold.ttf");
+        $this->copy("{$sample_path}sample-font.php", "{$data_path}panini_data/fonts/OpenSans/OpenSans-SemiBold.php");
+        $this->copy("{$sample_path}sample-font.z", "{$data_path}panini_data/fonts/OpenSans/OpenSans-SemiBold.z");
         $this->mkdir("{$data_path}panini_data/masks");
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/topP_1517x2091.png", 1517, 2091);
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/bottomP_1517x2091.png", 1517, 2091);
@@ -538,6 +540,7 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/masks/associationStencilP_1594x2303.png", 1594, 2303);
         $this->mkdir("{$data_path}panini_data/wappen");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/wappen/thalwil.jpg", 100, 100);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/wappen/other.jpg", 100, 100);
         $this->mkdir("{$data_path}panini_data/portraits");
         $this->mkdir("{$data_path}panini_data/portraits/1001");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/1001/vptD8fzvXIhv_6X32Zkw2s5s.jpg", 800, 600);

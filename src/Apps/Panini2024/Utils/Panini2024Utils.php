@@ -2,7 +2,6 @@
 
 namespace Olz\Apps\Panini2024\Utils;
 
-use Fpdf\Fpdf;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -60,6 +59,9 @@ class Panini2024Utils {
     ];
 
     public function renderSingle($id) {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $entity_manager = $this->dbUtils()->getEntityManager();
         $data_path = $this->envUtils()->getDataPath();
         $panini_path = "{$data_path}panini_data/";
@@ -250,6 +252,9 @@ class Panini2024Utils {
     }
 
     public function render3x5Random($num, $options) {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $entity_manager = $this->dbUtils()->getEntityManager();
         $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
         $all_ids = array_map(function ($picture) {
@@ -268,6 +273,9 @@ class Panini2024Utils {
     }
 
     public function render3x5Pages($pages, $options) {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
@@ -298,7 +306,7 @@ class Panini2024Utils {
             }
         }
 
-        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf = new OlzFpdf('P', 'mm', 'A4');
         $pdf->AliasNbPages();
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
@@ -346,6 +354,9 @@ class Panini2024Utils {
     }
 
     public function render4x4Random($num, $options) {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $entity_manager = $this->dbUtils()->getEntityManager();
         $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
         $all_ids = array_map(function ($picture) {
@@ -364,6 +375,9 @@ class Panini2024Utils {
     }
 
     public function render4x4Pages($pages, $options) {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
@@ -394,7 +408,7 @@ class Panini2024Utils {
             }
         }
 
-        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf = new OlzFpdf('P', 'mm', 'A4');
         $pdf->AliasNbPages();
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
@@ -434,6 +448,9 @@ class Panini2024Utils {
     }
 
     public function renderBookPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
         $db = $this->dbUtils()->getDb();
         $data_path = $this->envUtils()->getDataPath();
         $panini_path = "{$data_path}panini_data/";
@@ -445,16 +462,17 @@ class Panini2024Utils {
         $x_step = 46;
         $x_margin = 1;
         $x_offset = 13;
-        $y_step = 88;
-        $y_offset = 16.5;
+        $y_step = 92;
+        $y_offset = 10.5;
         $y_margin = 1;
-        $y_box = 22;
+        $y_box = 26;
 
-        $pdf = new Fpdf('P', 'mm', 'A4');
+        $pdf = new OlzFpdf('P', 'mm', 'A4');
         $pdf->AliasNbPages();
         $font_dir_path = "{$panini_path}fonts/OpenSans/";
         $pdf->AddFont('OpenSans', '', 'OpenSans-SemiBold.php', $font_dir_path);
         $pdf->SetFont('OpenSans');
+        $pdf->SetAutoPageBreak(false);
 
         $placeholder_rows = [];
 
@@ -486,6 +504,23 @@ class Panini2024Utils {
         foreach ($placeholder_rows as $row) {
             if (($index % 12) === 0) {
                 $pdf->AddPage();
+                $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
+                $info = getimagesize($mainbg_path);
+                $wid_px = $info[0];
+                $hei_px = $info[1];
+                $dpi = 150;
+                $wid_mm = $wid_px / $dpi * self::MM_PER_INCH;
+                $hei_mm = $hei_px / $dpi * self::MM_PER_INCH;
+                for ($tile_x = 0; $tile_x < ceil(210 / $wid_mm); $tile_x++) {
+                    for ($tile_y = 0; $tile_y < ceil(297 / $hei_mm); $tile_y++) {
+                        $pdf->Image(
+                            $mainbg_path,
+                            $tile_x * $wid_mm,
+                            $tile_y * $hei_mm,
+                            $wid_mm,
+                        );
+                    }
+                }
             }
             $x_index = $index % 4;
             $y_index = floor($index / 4) % 3;
@@ -506,15 +541,23 @@ class Panini2024Utils {
 
             $pdf->SetTextColor(200, 200, 200);
             $pdf->SetFontSize(10);
-            $pdf->Text(
-                $x + 1,
-                $y + $y_step - $y_box - $y_margin * 2 - 5,
-                $row['line1'],
+            $line1 = mb_convert_encoding($row['line1'], 'ISO-8859-1', 'UTF-8');
+            $pdf->drawTextBox(
+                $line1,
+                $x,
+                $y + $y_step - $y_box - $y_margin * 2 - 9.5,
+                $x_step - $x_margin * 2,
+                5,
+                'R', 'T', false,
             );
-            $pdf->Text(
-                $x + 1,
-                $y + $y_step - $y_box - $y_margin * 2 - 1,
-                $row['line2'],
+            $line2 = mb_convert_encoding($row['line2'], 'ISO-8859-1', 'UTF-8');
+            $pdf->drawTextBox(
+                $line2,
+                $x,
+                $y + $y_step - $y_box - $y_margin * 2 - 5.2,
+                $x_step - $x_margin * 2,
+                5,
+                'R', 'T', false,
             );
 
             $pdf->SetLineWidth(0.1);
@@ -524,13 +567,64 @@ class Panini2024Utils {
                 $x,
                 $y + $y_step - $y_box - $y_margin,
                 $x_step - $x_margin * 2,
-                $y_box,
+                $y_box - $y_margin,
                 'F',
             );
             $line_y = $y + $y_step - $y_box - $y_margin;
             $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
-            $line_y = $y + $y_step - $y_margin;
+            $line_y = $y + $y_step - $y_margin * 2;
             $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
+
+            $pdf->SetTextColor(0, 117, 33);
+            $pdf->SetFontSize(11);
+            $birthday = '05.08.1992'; // TODO
+            $pdf->drawTextBox(
+                $birthday,
+                $x,
+                $y + $y_step - $y_box - $y_margin + 1,
+                $x_step * 0.7 - $x_margin * 2,
+                5,
+                'L', 'T', false,
+            );
+            $pdf->SetFontSize(14);
+            $num_mispunch = '123'; // TODO
+            $pdf->drawTextBox(
+                $num_mispunch,
+                $x + $x_step * 0.7,
+                $y + $y_step - $y_box - $y_margin + 1,
+                $x_step * 0.3 - $x_margin * 2,
+                5,
+                'R', 'T', false,
+            );
+            $pdf->SetFontSize(9);
+            $infos = json_decode($row['infos'], true);
+            $favourite_map = mb_convert_encoding($infos[0], 'ISO-8859-1', 'UTF-8');
+            $pdf->drawTextBox(
+                $favourite_map,
+                $x,
+                $y + $y_step - $y_box - $y_margin + 6,
+                $x_step - $x_margin * 2,
+                4,
+                'L', 'T', false,
+            );
+            $since_when = mb_convert_encoding($infos[3], 'ISO-8859-1', 'UTF-8');
+            $pdf->drawTextBox(
+                $since_when,
+                $x,
+                $y + $y_step - $y_box - $y_margin + 10,
+                $x_step - $x_margin * 2,
+                4,
+                'L', 'T', false,
+            );
+            $motto = mb_convert_encoding($infos[4], 'ISO-8859-1', 'UTF-8');
+            $pdf->drawTextBox(
+                $motto,
+                $x,
+                $y + $y_step - $y_box - $y_margin + 14,
+                $x_step - $x_margin * 2,
+                11,
+                'L', 'T', false,
+            );
 
             $index++;
         }

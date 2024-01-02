@@ -576,12 +576,20 @@ class Panini2024Utils {
             $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
 
             $pdf->SetFontSize(11);
-            $birthday = date('Y', strtotime($row['birthdate']));
-            if ($row['birthdate'] === null || strtotime($row['birthdate']) === 0) {
+            $birthday = $row['birthdate'] ?? '';
+            if (substr($birthday, 4) === '-00-00') {
+                $birthday = substr($birthday, 0, 4);
+            }
+            if ($row['birthdate'] === null) { // No information => ERROR!
                 $pdf->SetTextColor(255, 0, 0);
                 $birthday = '!!!';
+            } elseif (substr($birthday, 0, 4) === '0000') { // Year Zero => Do not show
+                $birthday = '';
             } else {
                 $pdf->SetTextColor(0, 117, 33);
+                if (strlen($birthday) === 10) {
+                    $birthday = date('d.m.Y', strtotime($birthday));
+                }
             }
             $pdf->drawTextBox(
                 $birthday,
@@ -594,9 +602,11 @@ class Panini2024Utils {
 
             $pdf->SetFontSize(14);
             $num_mispunch = strval($row['num_mispunches']);
-            if ($row['num_mispunches'] === null) {
+            if ($row['num_mispunches'] === null) { // No information => ERROR!
                 $pdf->SetTextColor(255, 0, 0);
                 $num_mispunch = '!!!';
+            } elseif (intval($row['num_mispunches']) < 0) { // Negative count => Do not show
+                $num_mispunch = '';
             } else {
                 $pdf->SetTextColor(0, 117, 33);
             }

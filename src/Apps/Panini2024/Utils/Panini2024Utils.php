@@ -575,9 +575,14 @@ class Panini2024Utils {
             $line_y = $y + $y_step - $y_margin * 2;
             $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
 
-            $pdf->SetTextColor(0, 117, 33);
             $pdf->SetFontSize(11);
-            $birthday = '05.08.1992'; // TODO
+            $birthday = date('Y', strtotime($row['birthdate']));
+            if ($row['birthdate'] === null || strtotime($row['birthdate']) === 0) {
+                $pdf->SetTextColor(255, 0, 0);
+                $birthday = '!!!';
+            } else {
+                $pdf->SetTextColor(0, 117, 33);
+            }
             $pdf->drawTextBox(
                 $birthday,
                 $x,
@@ -586,8 +591,15 @@ class Panini2024Utils {
                 5,
                 'L', 'T', false,
             );
+
             $pdf->SetFontSize(14);
-            $num_mispunch = '123'; // TODO
+            $num_mispunch = strval($row['num_mispunches']);
+            if ($row['num_mispunches'] === null) {
+                $pdf->SetTextColor(255, 0, 0);
+                $num_mispunch = '!!!';
+            } else {
+                $pdf->SetTextColor(0, 117, 33);
+            }
             $pdf->drawTextBox(
                 $num_mispunch,
                 $x + $x_step * 0.7,
@@ -596,6 +608,8 @@ class Panini2024Utils {
                 5,
                 'R', 'T', false,
             );
+
+            $pdf->SetTextColor(0, 117, 33);
             $pdf->SetFontSize(9);
             $infos = json_decode($row['infos'], true);
             $favourite_map = mb_convert_encoding($infos[0], 'ISO-8859-1', 'UTF-8');

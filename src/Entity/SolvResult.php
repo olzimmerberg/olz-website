@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\SolvResultRepository;
 
 #[ORM\Table(name: 'solv_results')]
-#[ORM\UniqueConstraint(name: 'person_run_unique', columns: ['person', 'event', 'class', 'name', 'birth_year', 'domicile', 'club'])]
 #[ORM\Entity(repositoryClass: SolvResultRepository::class)]
 class SolvResult {
     #[ORM\Id]

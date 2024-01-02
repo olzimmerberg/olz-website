@@ -191,7 +191,7 @@ class Deploy extends AbstractDefaultDeploy {
                 $this->logger->error("Executing \"{$command}\" done.");
                 throw new \Exception($output);
             }
-            $this->logger->info($data['output']);
+            $this->logger->info($data['output'] ?? '(output empty)');
             $this->logger->info("Executing \"{$command}\" done.");
         };
         if ($this->environment === 'staging') {

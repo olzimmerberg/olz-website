@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Monolog\Logger;
+use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake\FakeDevDataUtils;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeEntityUtils;
@@ -63,6 +64,7 @@ final class WithUtilsTraitTest extends UnitTestCase {
             'log' => function () { return new Logger('fake'); },
             'server' => function () { throw new BrokenTestCase(); },
             'session' => function () { return new MemorySession(); },
+            'solvFetcher' => function () { return new SolvFetcher(); },
             'stravaUtils' => function () { return new StravaUtils(); },
             'symfonyUtils' => function () { return new FakeSymfonyUtils(); },
             'telegramUtils' => function () { return new FakeTelegramUtils(); },

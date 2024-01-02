@@ -11,11 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class OlzCommand extends Command {
     use WithUtilsTrait;
 
+    protected ?OutputInterface $output = null;
+
     abstract protected function getAllowedAppEnvs(): array;
 
     abstract protected function handle(InputInterface $input, OutputInterface $output): int;
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
+        $this->output = $output;
         LogsUtils::activateLogger($this->log());
         try {
             $app_env = $this->getAppEnv();
@@ -27,9 +30,7 @@ abstract class OlzCommand extends Command {
                 }
             }
             if (!$allowed) {
-                $message = "Command {$this->getIdent()} not allowed in app env {$app_env}.";
-                $this->log()->notice($message);
-                $output->writeln($message);
+                $this->logAndOutput("Command {$this->getIdent()} not allowed in app env {$app_env}.", level: 'notice');
                 LogsUtils::deactivateLogger($this->log());
                 return Command::INVALID;
             }
@@ -45,9 +46,7 @@ abstract class OlzCommand extends Command {
                 $this->log()->warning("Command {$this->getIdent()} finished with unknown status {$status}.");
             }
         } catch (\Exception $exc) {
-            $message = "Error running command {$this->getIdent()}: {$exc->getMessage()}.";
-            $output->writeln($message);
-            $this->log()->error($message, [$exc]);
+            $this->logAndOutput("Error running command {$this->getIdent()}: {$exc->getMessage()}.", level: 'error');
             $status = Command::FAILURE;
         }
         LogsUtils::deactivateLogger($this->log());
@@ -63,19 +62,14 @@ abstract class OlzCommand extends Command {
         return $olz_app_env;
     }
 
-    protected function callCommand(
-        string $command_name,
-        InputInterface $input,
-        OutputInterface $output,
-    ): void {
-        $command = $this->getApplication()->find($command_name);
-        $return_code = $command->run($input, $output);
-        if ($return_code !== Command::SUCCESS) {
-            throw new \Exception("Command {$command_name} failed with code: {$return_code}");
-        }
-    }
-
     protected function getIdent(): string {
         return get_called_class();
+    }
+
+    protected function logAndOutput(string $message, array $context = [], $level = 'info') {
+        $this->log()->log($level, $message, $context);
+        if ($this->output !== null) {
+            $this->output->writeln($message);
+        }
     }
 }

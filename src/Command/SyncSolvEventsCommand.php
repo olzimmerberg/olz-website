@@ -1,38 +1,61 @@
 <?php
 
-namespace Olz\Command\SyncSolvCommand;
+namespace Olz\Command;
 
+use Olz\Command\Common\OlzCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Parsers\SolvEventParser;
-use Olz\Utils\WithUtilsTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class SolvEventsSyncer {
-    use WithUtilsTrait;
+#[AsCommand(name: 'olz:sync-solv-events')]
+class SyncSolvEventsCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
 
-    protected $solvFetcher;
+    protected function configure(): void {
+        $this->addArgument('year', InputArgument::REQUIRED, 'Year (YYYY; 1996 or later)');
+    }
+
     protected $solvEventParser;
 
     public function __construct() {
+        parent::__construct();
         $this->solvEventParser = new SolvEventParser();
     }
 
-    public function setSolvFetcher($solvFetcher) {
-        $this->solvFetcher = $solvFetcher;
+    public function setSolvEventParser($solvEventParser) {
+        $this->solvEventParser = $solvEventParser;
+    }
+
+    protected function handle(InputInterface $input, OutputInterface $output): int {
+        $year = $input->getArgument('year');
+        if (!preg_match('/^[0-9]{4}$/', $year) || intval($year) < 1996) {
+            $this->logAndOutput("Invalid year: {$year}. Must be in format YYYY and 1996 or later.", level: 'notice');
+            return Command::INVALID;
+        }
+        $year = intval($year);
+        $this->syncSolvEventsForYear($year);
+        return Command::SUCCESS;
     }
 
     public function syncSolvEventsForYear($year) {
-        $this->log()->info("Syncing SOLV events for {$year}...");
+        $this->logAndOutput("Syncing SOLV events for {$year}...");
 
-        $csv = $this->solvFetcher->fetchEventsCsvForYear($year);
+        $csv = $this->solvFetcher()->fetchEventsCsvForYear($year);
 
-        $csv_excerpt = substr($csv, 0, 255);
-        $csv_length = strlen($csv);
-        $this->log()->info("Successfully read CSV: {$csv_excerpt}... ({$csv_length}).");
+        $csv_excerpt = mb_substr($csv, 0, 255);
+        $csv_length = mb_strlen($csv);
+        $this->logAndOutput("Successfully read CSV: {$csv_excerpt}... ({$csv_length}).");
 
         $solv_events = $this->solvEventParser->parse_solv_events_csv($csv);
 
         $solv_event_count = count($solv_events);
-        $this->log()->info("Parsed {$solv_event_count} events out of CSV.");
+        $this->logAndOutput("Parsed {$solv_event_count} events out of CSV.");
 
         $this->importSolvEventsForYear($solv_events, $year);
     }
@@ -59,9 +82,9 @@ class SolvEventsSyncer {
                 try {
                     $this->entityManager()->persist($solv_event);
                     $this->entityManager()->flush();
-                    $this->log()->info("INSERTED {$solv_event->getSolvUid()}");
+                    $this->logAndOutput("INSERTED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
-                    $this->log()->info("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logAndOutput("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
                 }
             } elseif ($outdated) {
                 $existing_solv_event->setDate($solv_event->getDate());
@@ -83,9 +106,9 @@ class SolvEventsSyncer {
                 $existing_solv_event->setLastModification($solv_event->getLastModification());
                 try {
                     $this->entityManager()->flush();
-                    $this->log()->info("UPDATED {$solv_event->getSolvUid()}");
+                    $this->logAndOutput("UPDATED {$solv_event->getSolvUid()}");
                 } catch (\Exception $e) {
-                    $this->log()->info("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logAndOutput("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
                 }
             }
         }
@@ -93,9 +116,9 @@ class SolvEventsSyncer {
             if (!$still_exists) {
                 try {
                     $solv_event_repo->deleteBySolvUid($solv_uid);
-                    $this->log()->info("DELETED {$solv_uid}");
+                    $this->logAndOutput("DELETED {$solv_uid}");
                 } catch (\Exception $e) {
-                    $this->log()->info("DELETE FAILED {$solv_uid}: {$e}");
+                    $this->logAndOutput("DELETE FAILED {$solv_uid}: {$e}");
                 }
             }
         }

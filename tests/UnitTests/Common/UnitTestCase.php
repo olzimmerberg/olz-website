@@ -91,7 +91,7 @@ class UnitTestCase extends TestCase {
         }
     }
 
-    protected function getLogs($formatter = null) {
+    protected function getLogs(callable $formatter = null): array {
         return WithUtilsCache::get('log')->handler->getPrettyRecords($formatter);
     }
 }

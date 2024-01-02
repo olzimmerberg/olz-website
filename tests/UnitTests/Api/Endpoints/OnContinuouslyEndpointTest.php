@@ -68,7 +68,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame([], $result);
         $this->assertSame([
-            ['olz:on-continuously', ''],
+            'olz:on-continuously ',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

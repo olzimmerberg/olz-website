@@ -16,6 +16,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'Olz\Entity'
                 alias: Olz
+        report_fields_where_declared: true
 
 when@test:
     doctrine:

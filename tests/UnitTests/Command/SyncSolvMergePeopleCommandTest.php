@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
+namespace Olz\Tests\UnitTests\Command;
 
-use Olz\Command\SyncSolvCommand\SolvPeopleMerger;
+use Olz\Command\SyncSolvMergePeopleCommand;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSolvPeopleMergerSolvPersonRepository {
+class FakeSyncSolvMergePeopleCommandSolvPersonRepository {
     public $targetPerson = [];
     public $samePerson = [];
 
@@ -34,7 +36,7 @@ class FakeSolvPeopleMergerSolvPersonRepository {
     }
 }
 
-class FakeSolvPeopleMergerSolvResultRepository {
+class FakeSyncSolvMergePeopleCommandSolvResultRepository {
     public $merged = [];
 
     public function solvPersonHasResults($person_id) {
@@ -57,19 +59,28 @@ class FakeSolvPeopleMergerSolvResultRepository {
 /**
  * @internal
  *
- * @covers \Olz\Command\SyncSolvCommand\SolvPeopleMerger
+ * @covers \Olz\Command\SyncSolvMergePeopleCommand
  */
-final class SolvPeopleMergerTest extends UnitTestCase {
-    public function testSolvPeopleMerger(): void {
+final class SyncSolvMergePeopleCommandTest extends UnitTestCase {
+    public function testSyncSolvMergePeopleCommand(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $solv_person_repo = new FakeSolvPeopleMergerSolvPersonRepository();
+        $solv_person_repo = new FakeSyncSolvMergePeopleCommandSolvPersonRepository();
         $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
-        $solv_result_repo = new FakeSolvPeopleMergerSolvResultRepository();
+        $solv_result_repo = new FakeSyncSolvMergePeopleCommandSolvResultRepository();
         $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
 
-        $job = new SolvPeopleMerger();
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job->mergeSolvPeople();
+        $job = new SyncSolvMergePeopleCommand();
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\SyncSolvMergePeopleCommand...',
+            'INFO Merge person 2 into 1.',
+            'WARNING There are still results assigned to person 2.',
+            'INFO Successfully ran command Olz\Command\SyncSolvMergePeopleCommand.',
+        ], $this->getLogs());
 
         $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(0, count($flushed));

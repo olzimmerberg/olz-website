@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeFetcher {
+trait FakeFetcherTrait {
     protected function getMockedResponse($request_ident, $directory, $get_suggestion_fn = null) {
         $called_class = get_called_class();
         $file_path = $directory."/data/{$called_class}/{$request_ident}.txt";

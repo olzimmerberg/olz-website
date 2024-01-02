@@ -4,7 +4,6 @@ namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManager;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tests\Fake\FakeFetcher;
 use PhpTypeScriptApi\Fields\FieldUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -272,7 +271,7 @@ trait WithUtilsTrait {
         WithUtilsCache::set('session', $session);
     }
 
-    public function solvFetcher(): mixed { // SolvFetcher|FakeFetcher, but doctrine complains.
+    public function solvFetcher(): SolvFetcher {
         return $this->getOrCreate('solvFetcher');
     }
 
@@ -280,7 +279,7 @@ trait WithUtilsTrait {
         return new SolvFetcher();
     }
 
-    public function setSolvFetcher(mixed $solvFetcher) {
+    public function setSolvFetcher(SolvFetcher $solvFetcher) {
         WithUtilsCache::set('solvFetcher', $solvFetcher);
     }
 

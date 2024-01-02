@@ -272,7 +272,7 @@ trait WithUtilsTrait {
         WithUtilsCache::set('session', $session);
     }
 
-    public function solvFetcher(): SolvFetcher|FakeFetcher {
+    public function solvFetcher(): mixed { // SolvFetcher|FakeFetcher, but doctrine complains.
         return $this->getOrCreate('solvFetcher');
     }
 
@@ -280,7 +280,7 @@ trait WithUtilsTrait {
         return new SolvFetcher();
     }
 
-    public function setSolvFetcher(SolvFetcher|FakeFetcher $solvFetcher) {
+    public function setSolvFetcher(mixed $solvFetcher) {
         WithUtilsCache::set('solvFetcher', $solvFetcher);
     }
 

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240101225849
+-- MIGRATION: DoctrineMigrations\Version20240102172229
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -555,8 +555,7 @@ CREATE TABLE `solv_results` (
   `class_elevation` int(11) NOT NULL,
   `class_control_count` int(11) NOT NULL,
   `class_competitor_count` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `person_run_unique` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

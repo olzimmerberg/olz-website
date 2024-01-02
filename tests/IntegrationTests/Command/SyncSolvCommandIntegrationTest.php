@@ -17,7 +17,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeFetcher {
+class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeSolvFetcher {
     public function fetchEventsCsvForYear($year) {
         return $this->getMockedResponse(
             "solv_events_{$year}", __DIR__,

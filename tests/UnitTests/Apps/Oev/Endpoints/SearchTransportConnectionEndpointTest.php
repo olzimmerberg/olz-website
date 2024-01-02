@@ -12,7 +12,7 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
-class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeFetcher {
+class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeTransportApiFetcher {
     public function fetchConnection($request_data) {
         $from = str_replace(' ', '_', $request_data['from']);
         $to = str_replace(' ', '_', $request_data['to']);

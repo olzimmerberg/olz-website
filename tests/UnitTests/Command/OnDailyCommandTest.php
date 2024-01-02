@@ -6,28 +6,10 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\OnDailyCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class OnDailyCommandForTest extends OnDailyCommand {
-    public $commandsCalled = [];
-
-    public function callCommand(
-        string $command_name,
-        InputInterface $input,
-        OutputInterface $output,
-    ): void {
-        $this->commandsCalled[] = $command_name;
-    }
-}
 
 /**
  * @internal
@@ -36,23 +18,23 @@ class OnDailyCommandForTest extends OnDailyCommand {
  */
 final class OnDailyCommandTest extends UnitTestCase {
     public function testOnDailyCommandSuccess(): void {
-        $command = new OnDailyCommandForTest();
+        $command = new OnDailyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnDailyCommandForTest.",
+            "INFO Running command Olz\\Command\\OnDailyCommand...",
+            "INFO Successfully ran command Olz\\Command\\OnDailyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame([
-            'olz:clean-temp-directory',
-            'olz:send-telegram-configuration',
-            'olz:sync-solv',
-            'olz:send-test-email',
-        ], $command->commandsCalled);
+            'olz:clean-temp-directory ',
+            'olz:send-telegram-configuration ',
+            'olz:sync-solv ',
+            'olz:send-test-email ',
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

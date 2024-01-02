@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FakeSymfonyUtils extends SymfonyUtils {
     public $error;
     public $output;
-    public $commandsCalled = [];
+    public array $commandsCalled = [];
 
     public function callCommand(
         string $command_name,
@@ -24,6 +24,6 @@ class FakeSymfonyUtils extends SymfonyUtils {
         if ($this->output) {
             $output->writeln($this->output);
         }
-        $this->commandsCalled[] = [$command_name, "{$input}"];
+        $this->commandsCalled[] = "{$command_name} {$input}";
     }
 }

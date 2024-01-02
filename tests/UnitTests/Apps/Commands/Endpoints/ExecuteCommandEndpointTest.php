@@ -55,7 +55,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'output' => "(no output)",
         ], $result);
         $this->assertSame([
-            ['fake', 'fake'],
+            'fake fake',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 
@@ -93,7 +93,7 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
             'output' => "fake output\n",
         ], $result);
         $this->assertSame([
-            ['fake', 'fake foo bar'],
+            'fake fake foo bar',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

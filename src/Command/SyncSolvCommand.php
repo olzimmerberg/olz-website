@@ -3,13 +3,9 @@
 namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
-use Olz\Command\SyncSolvCommand\SolvEventsSyncer;
-use Olz\Command\SyncSolvCommand\SolvPeopleAssigner;
-use Olz\Command\SyncSolvCommand\SolvPeopleMerger;
-use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
-use Olz\Fetchers\SolvFetcher;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,37 +15,6 @@ $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 class SyncSolvCommand extends OlzCommand {
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
-    }
-
-    protected $solvFetcher;
-    protected $solvEventsSyncer;
-    protected $solvResultsSyncer;
-    protected $solvPeopleAssigner;
-    protected $solvPeopleMerger;
-
-    public function setSolvFetcher($solvFetcher) {
-        $this->solvFetcher = $solvFetcher;
-    }
-
-    public function setSolvEventsSyncer($solvEventsSyncer) {
-        $this->solvEventsSyncer = $solvEventsSyncer;
-    }
-
-    public function setSolvResultsSyncer($solvResultsSyncer) {
-        $this->solvResultsSyncer = $solvResultsSyncer;
-    }
-
-    public function setSolvPeopleAssigner($solvPeopleAssigner) {
-        $this->solvPeopleAssigner = $solvPeopleAssigner;
-    }
-
-    public function setSolvPeopleMerger($solvPeopleMerger) {
-        $this->solvPeopleMerger = $solvPeopleMerger;
-    }
-
-    public function __construct() {
-        parent::__construct();
-        $this->setSolvFetcher(new SolvFetcher());
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
@@ -63,59 +28,61 @@ class SyncSolvCommand extends OlzCommand {
     private function syncSolvEvents() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_day = intval($this->dateUtils()->getCurrentDateInFormat('d'));
-        $events_syncer = $this->solvEventsSyncer ?? null;
-        if (!$events_syncer) {
-            $events_syncer = new SolvEventsSyncer();
-            $events_syncer->setSolvFetcher($this->solvFetcher);
-        }
-        try {
-            $events_syncer->syncSolvEventsForYear($current_year);
-        } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(0) failed.", [$th]);
-        }
-        if ($current_day !== 1) { // Only do this once a month.
+        $this->syncSolvEventForYear($current_year);
+        if ($current_day !== 1) { // Only do the following once a month.
             return;
         }
+        $this->syncSolvEventForYear($current_year - 1);
+        $this->syncSolvEventForYear($current_year + 1);
+        $this->syncSolvEventForYear($current_year - 2);
+    }
+
+    private function syncSolvEventForYear(int $year): void {
         try {
-            $events_syncer->syncSolvEventsForYear($current_year - 1);
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-solv-events',
+                new ArrayInput(['year' => strval($year)]),
+                $this->output,
+            );
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(-1) failed.", [$th]);
-        }
-        try {
-            $events_syncer->syncSolvEventsForYear($current_year + 1);
-        } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(+1) failed.", [$th]);
-        }
-        try {
-            $events_syncer->syncSolvEventsForYear($current_year - 2);
-        } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvEventsForYear(-2) failed.", [$th]);
+            $this->logAndOutput("olz:sync-solv-events({$year}) failed.", [$th], level: 'warning');
         }
     }
 
     private function syncSolvResults() {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
-        $results_syncer = $this->solvResultsSyncer ?? null;
-        if (!$results_syncer) {
-            $results_syncer = new SolvResultsSyncer();
-            $results_syncer->setSolvFetcher($this->solvFetcher);
-        }
         try {
-            $results_syncer->syncSolvResultsForYear($current_year);
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-solv-results',
+                new ArrayInput(['year' => strval($current_year)]),
+                $this->output,
+            );
         } catch (\Throwable $th) {
-            $this->log()->warning("syncSolvResultsForYear failed.");
+            $this->logAndOutput("olz:sync-solv-results({$current_year}) failed.", [$th], level: 'warning');
         }
     }
 
     private function assignSolvPeople() {
-        $people_assigner = $this->solvPeopleAssigner ?? new SolvPeopleAssigner();
-        $people_assigner->setLogger($this->log());
-        $people_assigner->assignSolvPeople();
+        try {
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-solv-assign-people',
+                new ArrayInput([]),
+                $this->output,
+            );
+        } catch (\Throwable $th) {
+            $this->logAndOutput("olz:sync-solv-assign-people() failed.", [$th], level: 'warning');
+        }
     }
 
     private function mergeSolvPeople() {
-        $people_merger = $this->solvPeopleMerger ?? new SolvPeopleMerger();
-        $people_merger->setLogger($this->log());
-        $people_merger->mergeSolvPeople();
+        try {
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-solv-merge-people',
+                new ArrayInput([]),
+                $this->output,
+            );
+        } catch (\Throwable $th) {
+            $this->logAndOutput("olz:sync-solv-merge-people() failed.", [$th], level: 'warning');
+        }
     }
 }

@@ -140,7 +140,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         $this->assertSame([['on_daily', '2020-03-13 19:30:00']], $throttling_repo->recorded_occurrences);
         $this->assertSame([], $result);
         $this->assertSame([
-            ['olz:on-daily', ''],
+            'olz:on-daily ',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

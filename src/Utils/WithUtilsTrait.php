@@ -3,6 +3,8 @@
 namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManager;
+use Olz\Fetchers\SolvFetcher;
+use Olz\Tests\Fake\FakeFetcher;
 use PhpTypeScriptApi\Fields\FieldUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -40,6 +42,7 @@ trait WithUtilsTrait {
         'log',
         'server',
         'session',
+        'solvFetcher',
         'stravaUtils',
         'symfonyUtils',
         'telegramUtils',
@@ -267,6 +270,18 @@ trait WithUtilsTrait {
 
     public function setSession(AbstractSession $session) {
         WithUtilsCache::set('session', $session);
+    }
+
+    public function solvFetcher(): SolvFetcher|FakeFetcher {
+        return $this->getOrCreate('solvFetcher');
+    }
+
+    public function createSolvFetcher() {
+        return new SolvFetcher();
+    }
+
+    public function setSolvFetcher(SolvFetcher|FakeFetcher $solvFetcher) {
+        WithUtilsCache::set('solvFetcher', $solvFetcher);
     }
 
     public function stravaUtils(): StravaUtils {

@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
+namespace Olz\Tests\UnitTests\Command;
 
-use Olz\Command\SyncSolvCommand\SolvResultsSyncer;
+use Olz\Command\SyncSolvResultsCommand;
 use Olz\Entity\SolvEvent;
+use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSolvResultsSyncerSolvEventRepository {
+class FakeSyncSolvResultsCommandSolvEventRepository {
     public $eventWithResults;
     public $eventWithoutResults;
     public $updatedRankIdBySolvUid = [];
@@ -47,7 +50,7 @@ class FakeSolvResultsSyncerSolvEventRepository {
     }
 }
 
-class FakeSolvResultsSyncerSolvFetcher {
+class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
     public function fetchYearlyResultsJson($year) {
         switch ($year) {
             case '2020':
@@ -163,19 +166,30 @@ class FakeSolvResultsSyncerSolvFetcher {
 /**
  * @internal
  *
- * @covers \Olz\Command\SyncSolvCommand\SolvResultsSyncer
+ * @covers \Olz\Command\SyncSolvResultsCommand
  */
-final class SolvResultsSyncerTest extends UnitTestCase {
-    public function testSolvResultsSyncer(): void {
+final class SyncSolvResultsCommandTest extends UnitTestCase {
+    public function testSyncSolvResultsCommand(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $solv_event_repo = new FakeSolvResultsSyncerSolvEventRepository();
+        $solv_event_repo = new FakeSyncSolvResultsCommandSolvEventRepository();
         $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
-        $solv_fetcher = new FakeSolvResultsSyncerSolvFetcher();
+        $solv_fetcher = new FakeSyncSolvResultsCommandSolvFetcher();
 
-        $job = new SolvResultsSyncer();
+        $input = new ArrayInput(['year' => '2020']);
+        $output = new BufferedOutput();
+
+        $job = new SyncSolvResultsCommand();
         $job->setSolvFetcher($solv_fetcher);
+        $job->run($input, $output);
 
-        $job->syncSolvResultsForYear('2020');
+        $this->assertSame([
+            'INFO Running command Olz\Command\SyncSolvResultsCommand...',
+            'INFO Syncing SOLV results for 2020...',
+            'INFO Successfully read JSON: {"ResultLists":[{"UniqueID":20201,"EventDate":"2020-04-01","EventName":"Inserted Event","EventCity":"D\u00fcbendorf","EventMap":"D\u00fcbendorf","EventClub":"OLC Kapreolo","EventType":"reg","SubTitle":"Sprint","ResultListID":1234,"ResultType":0,"ResultMod... (543).',
+            'INFO Event with SOLV ID 20201 has new results.',
+            'INFO Number of results fetched & parsed: 3',
+            'INFO Successfully ran command Olz\Command\SyncSolvResultsCommand.',
+        ], $this->getLogs());
 
         $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(3, count($flushed));

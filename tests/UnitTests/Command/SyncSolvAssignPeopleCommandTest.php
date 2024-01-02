@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Command\SyncSolvCommand;
+namespace Olz\Tests\UnitTests\Command;
 
-use Olz\Command\SyncSolvCommand\SolvPeopleAssigner;
+use Olz\Command\SyncSolvAssignPeopleCommand;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSolvPeopleAssignerSolvResultRepository {
+class FakeSyncSolvAssignPeopleCommandSolvResultRepository {
     public $testRunnerResult;
     public $typoResult;
     public $differentResult;
@@ -78,14 +80,14 @@ class FakeSolvPeopleAssignerSolvResultRepository {
 /**
  * @internal
  *
- * @covers \Olz\Command\SyncSolvCommand\SolvPeopleAssigner
+ * @covers \Olz\Command\SyncSolvAssignPeopleCommand
  */
-final class SolvPeopleAssignerTest extends UnitTestCase {
+final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
     public function testGetDifferenceBetweenPersonInfo(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
+        $entity_manager->repositories[SolvResult::class] = new FakeSyncSolvAssignPeopleCommandSolvResultRepository();
 
-        $job = new SolvPeopleAssigner();
+        $job = new SyncSolvAssignPeopleCommand();
 
         $this->assertSame(0, $job->getDifferenceBetweenPersonInfo(
             'Test', '07', 'Uster',
@@ -126,9 +128,9 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
 
     public function testGetClosestMatchesOfPersonInfo(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
+        $entity_manager->repositories[SolvResult::class] = new FakeSyncSolvAssignPeopleCommandSolvResultRepository();
 
-        $job = new SolvPeopleAssigner();
+        $job = new SyncSolvAssignPeopleCommand();
 
         $this->assertSame([
             'difference' => 0,
@@ -185,9 +187,9 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
 
     public function testGetUnambiguousPerson(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
+        $entity_manager->repositories[SolvResult::class] = new FakeSyncSolvAssignPeopleCommandSolvResultRepository();
 
-        $job = new SolvPeopleAssigner();
+        $job = new SyncSolvAssignPeopleCommand();
 
         $this->assertSame(null, $job->getUnambiguousPerson([
             ['person' => 1],
@@ -212,9 +214,9 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
 
     public function testGetMatchingPerson(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
+        $entity_manager->repositories[SolvResult::class] = new FakeSyncSolvAssignPeopleCommandSolvResultRepository();
 
-        $job = new SolvPeopleAssigner();
+        $job = new SyncSolvAssignPeopleCommand();
 
         // There is one perfect match.
         $this->assertSame(2, $job->getMatchingPerson(
@@ -330,15 +332,18 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
         WithUtilsCache::get('log')->handler->resetRecords();
     }
 
-    public function testSolvPeopleAssigner(): void {
+    public function testSyncSolvAssignPeopleCommand(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[SolvResult::class] = new FakeSolvPeopleAssignerSolvResultRepository();
+        $entity_manager->repositories[SolvResult::class] = new FakeSyncSolvAssignPeopleCommandSolvResultRepository();
 
-        $job = new SolvPeopleAssigner();
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
 
-        $job->assignSolvPeople();
+        $job = new SyncSolvAssignPeopleCommand();
+        $job->run($input, $output);
 
         $this->assertSame([
+            'INFO Running command Olz\Command\SyncSolvAssignPeopleCommand...',
             'INFO Person not exactly matched:',
             'INFO {}',
             <<<'ZZZZZZZZZZ'
@@ -374,6 +379,7 @@ final class SolvPeopleAssignerTest extends UnitTestCase {
             'NOTICE Unclear case. Maybe update logic?',
             'INFO Created new person (id 270):',
             'INFO {}',
+            'INFO Successfully ran command Olz\Command\SyncSolvAssignPeopleCommand.',
         ], $this->getLogs());
 
         $solv_result_repo = $entity_manager->getRepository(SolvResult::class);

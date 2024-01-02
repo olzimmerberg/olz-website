@@ -11,9 +11,8 @@ use Olz\Entity\SolvResult;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\AbstractDateUtils;
 use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -59,15 +58,16 @@ final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
     public function testRun(): void {
         $this->withLockedDb(function () {
             $job = new SyncSolvCommand();
-            $env_utils = EnvUtils::fromEnv();
-            $date_utils = AbstractDateUtils::fromEnv();
             $logger = Fake\FakeLogger::create();
-            $job->setSolvFetcher(new FakeSyncSolvCommandIntegrationTestSolvFetcher());
+            WithUtilsCache::set('solvFetcher', new FakeSyncSolvCommandIntegrationTestSolvFetcher());
             $job->setLog($logger);
             $input = new ArrayInput([]);
             $output = new BufferedOutput();
 
             $result = $job->run($input, $output);
+
+            // Way too big to test.
+            // $this->assertSame([], $logger->handler->getPrettyRecords());
 
             $this->assertSame(Command::SUCCESS, $result);
 

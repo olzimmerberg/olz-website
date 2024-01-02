@@ -1,13 +1,25 @@
 <?php
 
-namespace Olz\Command\SyncSolvCommand;
+namespace Olz\Command;
 
+use Olz\Command\Common\OlzCommand;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
-use Olz\Utils\WithUtilsTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class SolvPeopleAssigner {
-    use WithUtilsTrait;
+#[AsCommand(name: 'olz:sync-solv-assign-people')]
+class SyncSolvAssignPeopleCommand extends OlzCommand {
+    protected function getAllowedAppEnvs(): array {
+        return ['dev', 'test', 'staging', 'prod'];
+    }
+
+    protected function handle(InputInterface $input, OutputInterface $output): int {
+        $this->assignSolvPeople();
+        return Command::SUCCESS;
+    }
 
     public function assignSolvPeople() {
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
@@ -15,8 +27,8 @@ class SolvPeopleAssigner {
         foreach ($solv_results as $solv_result) {
             $person = $solv_result_repo->getExactPersonId($solv_result);
             if ($person == 0) {
-                $this->log()->info("Person not exactly matched:");
-                $this->log()->info(json_encode($solv_result, JSON_PRETTY_PRINT));
+                $this->logAndOutput("Person not exactly matched:");
+                $this->logAndOutput(json_encode($solv_result, JSON_PRETTY_PRINT));
                 $person = $this->findOrCreateSolvPerson($solv_result);
             }
             if ($person != 0) {
@@ -50,8 +62,8 @@ class SolvPeopleAssigner {
         $insert_id = $solv_person->getId();
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
-        $this->log()->info("Created new person (id {$insert_id}):");
-        $this->log()->info($person_str);
+        $this->logAndOutput("Created new person (id {$insert_id}):");
+        $this->logAndOutput($person_str);
         return $insert_id;
     }
 
@@ -70,20 +82,20 @@ class SolvPeopleAssigner {
         $least_difference = $closest_matches['difference'];
         $person_infos_with_least_difference = $closest_matches['matches'];
         $pretty_matches = json_encode($person_infos_with_least_difference, JSON_PRETTY_PRINT);
-        $this->log()->info("Closest matches (difference {$least_difference}): {$pretty_matches}");
+        $this->logAndOutput("Closest matches (difference {$least_difference}): {$pretty_matches}");
         if ($least_difference >= 3) {
-            $this->log()->info(" => No matching person found (difference too high).");
+            $this->logAndOutput(" => No matching person found (difference too high).");
             if ($least_difference < 6) {
-                $this->log()->notice("Unclear case. Maybe update logic?");
+                $this->logAndOutput("Unclear case. Maybe update logic?", level: 'notice');
             }
             return null;
         }
         $unambiguous_person = $this->getUnambiguousPerson($person_infos_with_least_difference);
         if ($unambiguous_person === null) {
-            $this->log()->info(" => No matching person found (closest matches contain different persons).");
+            $this->logAndOutput(" => No matching person found (closest matches contain different persons).");
             return null;
         }
-        $this->log()->info(" => Matching person found: {$unambiguous_person}.");
+        $this->logAndOutput(" => Matching person found: {$unambiguous_person}.");
         return $unambiguous_person;
     }
 

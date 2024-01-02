@@ -20,7 +20,7 @@ class OnContinuouslyCommand extends OlzCommand {
         set_time_limit(4000);
         ignore_user_abort(true);
 
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'olz:process-email',
             new ArrayInput([]),
             $output,
@@ -30,19 +30,19 @@ class OnContinuouslyCommand extends OlzCommand {
             $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils()->getIsoNow());
 
-            $this->callCommand(
+            $this->symfonyUtils()->callCommand(
                 'olz:send-daily-notifications',
                 new ArrayInput([]),
                 $output,
             );
         }
 
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'messenger:stop-workers',
             new ArrayInput([]),
             $output,
         );
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'messenger:consume',
             new ArrayInput([
                 'receivers' => ['async'],

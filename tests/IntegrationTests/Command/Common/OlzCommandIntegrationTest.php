@@ -36,7 +36,7 @@ class OlzCommandForIntegrationTest extends OlzCommand {
         InputInterface $input,
         OutputInterface $output,
     ): void {
-        $this->callCommand($command_name, $input, $output);
+        $this->symfonyUtils()->callCommand($command_name, $input, $output);
     }
 
     public function getApplication(): Application {
@@ -63,13 +63,25 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
             'INFO Running command Olz\Command\TestCommand...',
             $logger->handler->getPrettyRecords()[0]
         );
+        $this->assertMatchesRegularExpression(
+            '/^INFO Data path\: .*\/IntegrationTests\/document-root\//',
+            $logger->handler->getPrettyRecords()[1]
+        );
         $this->assertSame(
             'INFO Successfully ran command Olz\Command\TestCommand.',
             $logger->handler->getPrettyRecords()[2]
         );
+        $output_string = $output->fetch();
         $this->assertMatchesRegularExpression(
             '/^Data path\: .*\/IntegrationTests\/document-root\//',
-            $output->fetch()
+            $output_string
+        );
+        $this->assertSame(
+            <<<ZZZZZZZZZZ
+            Running command Olz\\Command\\TestCommand...
+            {$output_string}Successfully ran command Olz\\Command\\TestCommand.
+            ZZZZZZZZZZ,
+            str_replace('INFO ', '', implode("\n", $logger->handler->getPrettyRecords()))
         );
     }
 }

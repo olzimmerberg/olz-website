@@ -11,26 +11,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class OnContinuouslyCommandForTest extends OnContinuouslyCommand {
-    public $commandsCalled = [];
-
-    public function callCommand(
-        string $command_name,
-        InputInterface $input,
-        OutputInterface $output,
-    ): void {
-        $this->commandsCalled[] = $command_name;
-    }
-}
 
 /**
  * @internal
@@ -44,24 +25,24 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $command = new OnContinuouslyCommandForTest();
+        $command = new OnContinuouslyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
         $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame([
-            'olz:process-email',
-            'messenger:stop-workers',
-            'messenger:consume',
-        ], $command->commandsCalled);
+            'olz:process-email ',
+            'messenger:stop-workers ',
+            'messenger:consume async --no-reset=--no-reset',
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 
     public function testOnContinuouslyCommandFirstDailyNotifications(): void {
@@ -70,15 +51,15 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'daily_notifications';
         $throttling_repo->last_daily_notifications = null;
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $command = new OnContinuouslyCommandForTest();
+        $command = new OnContinuouslyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
@@ -87,11 +68,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             $throttling_repo->recorded_occurrences
         );
         $this->assertSame([
-            'olz:process-email',
-            'olz:send-daily-notifications',
-            'messenger:stop-workers',
-            'messenger:consume',
-        ], $command->commandsCalled);
+            'olz:process-email ',
+            'olz:send-daily-notifications ',
+            'messenger:stop-workers ',
+            'messenger:consume async --no-reset=--no-reset',
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 
     public function testOnContinuouslyCommandSendDailyNotifications(): void {
@@ -99,15 +80,15 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $throttling_repo = new Fake\FakeThrottlingRepository();
         $throttling_repo->expected_event_name = 'daily_notifications';
         $entity_manager->repositories[Throttling::class] = $throttling_repo;
-        $command = new OnContinuouslyCommandForTest();
+        $command = new OnContinuouslyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $return_code = $command->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest...",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\OnContinuouslyCommandForTest.",
+            "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame("", $output->fetch());
@@ -116,10 +97,10 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             $throttling_repo->recorded_occurrences
         );
         $this->assertSame([
-            'olz:process-email',
-            'olz:send-daily-notifications',
-            'messenger:stop-workers',
-            'messenger:consume',
-        ], $command->commandsCalled);
+            'olz:process-email ',
+            'olz:send-daily-notifications ',
+            'messenger:stop-workers ',
+            'messenger:consume async --no-reset=--no-reset',
+        ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
     }
 }

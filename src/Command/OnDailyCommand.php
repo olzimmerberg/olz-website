@@ -19,24 +19,24 @@ class OnDailyCommand extends OlzCommand {
         set_time_limit(4000);
         ignore_user_abort(true);
 
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'olz:clean-temp-directory',
             new ArrayInput([]),
             $output,
         );
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'olz:send-telegram-configuration',
             new ArrayInput([]),
             $output,
         );
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'olz:sync-solv',
             new ArrayInput([]),
             $output,
         );
 
         // TODO: Remove this again!
-        $this->callCommand(
+        $this->symfonyUtils()->callCommand(
             'olz:send-test-email',
             new ArrayInput([]),
             $output,

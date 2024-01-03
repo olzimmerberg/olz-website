@@ -45,43 +45,57 @@ final class SolvResultParserTest extends UnitTestCase {
     public function testParseResultsInvalidJson(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('invalid-json');
-        $this->assertSame([], $solv_events_2018);
+        try {
+            $parser->parse_solv_yearly_results_json('invalid-json');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame(
+                "Invalid JSON in parse_solv_yearly_results_json (hackyly sanitized): Syntax error\n\ninvalid-json",
+                $exc->getMessage()
+            );
+        }
+    }
+
+    public function testParseResultsHackyInvalidJson(): void {
+        $parser = new SolvResultParser();
+
+        $result = $parser->parse_solv_yearly_results_json("{\"ResultLists\": [{\"UniqueID\": 1, \"ResultListID\": 1, \"name\": \"\t \n\"}]}");
+        $this->assertSame(['1' => ['result_list_id' => 1]], $result);
     }
 
     public function testParseResultsEmptyRootDict(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{}');
-        $this->assertSame([], $solv_events_2018);
+        $result = $parser->parse_solv_yearly_results_json('{}');
+        $this->assertSame([], $result);
     }
 
     public function testParseResultsListsNotAnArray(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": 3}');
-        $this->assertSame([], $solv_events_2018);
+        $result = $parser->parse_solv_yearly_results_json('{"ResultLists": 3}');
+        $this->assertSame([], $result);
     }
 
     public function testParseResultsListsEmpty(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": []}');
-        $this->assertSame([], $solv_events_2018);
+        $result = $parser->parse_solv_yearly_results_json('{"ResultLists": []}');
+        $this->assertSame([], $result);
     }
 
     public function testParseResultWithoutId(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": [{}]}');
-        $this->assertSame([], $solv_events_2018);
+        $result = $parser->parse_solv_yearly_results_json('{"ResultLists": [{}]}');
+        $this->assertSame([], $result);
     }
 
     public function testParseResultWithDuplicateId(): void {
         $parser = new SolvResultParser();
 
-        $solv_events_2018 = $parser->parse_solv_yearly_results_json('{"ResultLists": [{"UniqueID": 1, "ResultListID": 1}, {"UniqueID": 1, "ResultListID": 2}]}');
-        $this->assertSame(['1' => ['result_list_id' => 1]], $solv_events_2018);
+        $result = $parser->parse_solv_yearly_results_json('{"ResultLists": [{"UniqueID": 1, "ResultListID": 1}, {"UniqueID": 1, "ResultListID": 2}]}');
+        $this->assertSame(['1' => ['result_list_id' => 1]], $result);
     }
 
     public function testParseResultHtml3230(): void {

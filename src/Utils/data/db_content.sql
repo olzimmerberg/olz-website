@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240102172229
+-- MIGRATION: DoctrineMigrations\Version20240103010715
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -72,7 +72,8 @@ VALUES
     ('DoctrineMigrations\\Version20231018165331', '2023-10-18 18:55:14', '72'),
     ('DoctrineMigrations\\Version20231114221915', '2023-11-14 23:26:53', '1546'),
     ('DoctrineMigrations\\Version20240101225849', '2024-01-01 23:59:31', '56'),
-    ('DoctrineMigrations\\Version20240102172229', '2024-01-02 18:24:51', '68');
+    ('DoctrineMigrations\\Version20240102172229', '2024-01-02 18:24:51', '68'),
+    ('DoctrineMigrations\\Version20240103010715', '2024-01-03 19:28:27', '286');
 
 -- Table downloads
 INSERT INTO downloads

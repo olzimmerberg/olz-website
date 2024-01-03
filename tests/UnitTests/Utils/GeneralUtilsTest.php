@@ -127,6 +127,15 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertMatchesRegularExpression('/phpunit/', $general_utils->getPrettyTrace($trace));
     }
 
+    public function testMeasureLatency(): void {
+        $general_utils = new GeneralUtils();
+        [$result, $msg] = $general_utils->measureLatency(function () {
+            return 'test';
+        });
+        $this->assertSame('test', $result);
+        $this->assertMatchesRegularExpression('/took [0-9\.]+ms/', $msg);
+    }
+
     public function testGetRandomIvForAlgo(): void {
         $general_utils = new TestOnlyGeneralUtils();
         $this->assertMatchesRegularExpression(

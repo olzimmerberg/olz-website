@@ -52,7 +52,13 @@ class SyncSolvResultsCommand extends OlzCommand {
         $this->logAndOutput("Successfully read JSON: {$json_excerpt}... ({$json_length}).");
 
         $result_id_by_uid = $this->solvResultParser->parse_solv_yearly_results_json($json);
+        $num_results = count($result_id_by_uid);
+        $this->logAndOutput("Parsed JSON: {$num_results} results.");
+
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
+        $num_events = count($existing_solv_events);
+        $this->logAndOutput("SOLV events from DB: {$num_events} results.");
+
         $known_result_index = [];
         foreach ($existing_solv_events as $existing_solv_event) {
             $solv_uid = $existing_solv_event->getSolvUid();
@@ -65,7 +71,6 @@ class SyncSolvResultsCommand extends OlzCommand {
 
     private function importSolvResultsForYear($result_id_by_uid, $known_result_index) {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
-        $solv_uid_still_exists = []; // TODO: needed?
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
                 $this->logAndOutput("Event with SOLV ID {$solv_uid} has new results.");

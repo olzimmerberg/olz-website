@@ -14,4 +14,10 @@ class DeterministicGeneralUtils extends GeneralUtils {
         }
         return $iv;
     }
+
+    public function measureLatency(callable $fn) {
+        $result = $fn();
+        $msg = "took 1234ms";
+        return [$result, $msg];
+    }
 }

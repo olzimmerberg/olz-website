@@ -3,7 +3,10 @@ import './OlzPanini2024All.scss';
 export async function showPaniniPictures(ids: string[]): Promise<void> {
     for (const id of ids) {
         // eslint-disable-next-line no-await-in-loop
-        await showPaniniPicture(id).catch(() => undefined);
+        await showPaniniPicture(id) // try
+            .catch(() => showPaniniPicture(id)) // retry
+            .catch(() => showPaniniPicture(id)) // retry once more
+            .catch(() => undefined); // give up
     }
 }
 

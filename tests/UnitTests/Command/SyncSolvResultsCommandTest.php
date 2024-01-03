@@ -186,6 +186,8 @@ final class SyncSolvResultsCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\SyncSolvResultsCommand...',
             'INFO Syncing SOLV results for 2020...',
             'INFO Successfully read JSON: {"ResultLists":[{"UniqueID":20201,"EventDate":"2020-04-01","EventName":"Inserted Event","EventCity":"D\u00fcbendorf","EventMap":"D\u00fcbendorf","EventClub":"OLC Kapreolo","EventType":"reg","SubTitle":"Sprint","ResultListID":1234,"ResultType":0,"ResultMod... (543).',
+            'INFO Parsed JSON: 2 results.',
+            'INFO SOLV events from DB: 2 results.',
             'INFO Event with SOLV ID 20201 has new results.',
             'INFO Number of results fetched & parsed: 3',
             'INFO Successfully ran command Olz\Command\SyncSolvResultsCommand.',

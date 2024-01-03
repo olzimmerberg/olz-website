@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240102172229
+-- MIGRATION: DoctrineMigrations\Version20240103010715
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -519,7 +519,8 @@ CREATE TABLE `solv_events` (
   `start_link` longtext DEFAULT NULL,
   `rank_link` longtext DEFAULT NULL,
   `last_modification` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`solv_uid`)
+  PRIMARY KEY (`solv_uid`),
+  KEY `date_index` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -532,7 +533,8 @@ CREATE TABLE `solv_people` (
   `birth_year` longtext NOT NULL,
   `domicile` longtext NOT NULL,
   `member` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `same_as_index` (`same_as`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -555,7 +557,9 @@ CREATE TABLE `solv_results` (
   `class_elevation` int(11) NOT NULL,
   `class_control_count` int(11) NOT NULL,
   `class_competitor_count` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `person_name_index` (`person`,`name`),
+  KEY `event_index` (`event`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

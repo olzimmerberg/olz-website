@@ -92,6 +92,14 @@ class GeneralUtils {
         return $output;
     }
 
+    public function measureLatency(callable $fn) {
+        $before = microtime(true);
+        $result = $fn();
+        $duration = round((microtime(true) - $before) * 1000, 1);
+        $msg = "took {$duration}ms";
+        return [$result, $msg];
+    }
+
     // Tools
 
     public function removeRecursive($path) {

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\SolvPersonRepository;
 
 #[ORM\Table(name: 'solv_people')]
+#[ORM\Index(name: 'same_as_index', columns: ['same_as'])]
 #[ORM\Entity(repositoryClass: SolvPersonRepository::class)]
 class SolvPerson {
     #[ORM\Id]

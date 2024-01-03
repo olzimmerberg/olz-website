@@ -27,27 +27,39 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         foreach ($solv_results as $solv_result) {
             $person = $solv_result_repo->getExactPersonId($solv_result);
             if ($person == 0) {
-                $this->logAndOutput("Person not exactly matched:");
-                $this->logAndOutput(json_encode($solv_result, JSON_PRETTY_PRINT));
+                $this->logAndOutput("\n---\n");
+                $this->logAndOutput("Person not exactly matched: {$solv_result}");
                 $person = $this->findOrCreateSolvPerson($solv_result);
             }
             if ($person != 0) {
                 $solv_result->setPerson($person);
-                $this->entityManager()->flush();
+                $this->occasionallyFlush();
             }
         }
+        $this->forceFlush();
     }
 
     private function findOrCreateSolvPerson($solv_result) {
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
-        $solv_result_data = $solv_result_repo->getAllAssignedSolvResultPersonData();
-
-        $person_id = $this->getMatchingPerson(
-            $solv_result->getName(),
-            $solv_result->getBirthYear(),
-            $solv_result->getDomicile(),
-            $solv_result_data
+        [$solv_result_data, $msg] = $this->generalUtils()->measureLatency(
+            function () use ($solv_result_repo) {
+                return $solv_result_repo->getAllAssignedSolvResultPersonData();
+            }
         );
+        $this->logAndOutput("getAllAssignedSolvResultPersonData {$msg}");
+
+        [$person_id, $msg] = $this->generalUtils()->measureLatency(
+            function () use ($solv_result, $solv_result_data) {
+                return $this->getMatchingPerson(
+                    $solv_result->getName(),
+                    $solv_result->getBirthYear(),
+                    $solv_result->getDomicile(),
+                    $solv_result_data
+                );
+            }
+        );
+        $this->logAndOutput("getMatchingPerson {$msg}");
+
         if ($person_id !== null) {
             return $person_id;
         }
@@ -58,7 +70,8 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         $solv_person->setDomicile($solv_result->getDomicile());
         $solv_person->setMember(1);
         $this->entityManager()->persist($solv_person);
-        $this->entityManager()->flush();
+        // This is necessary, s.t. getExactPersonId works correctly for the next iteration.
+        $this->forceFlush();
         $insert_id = $solv_person->getId();
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
@@ -161,5 +174,23 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
             $domicile_difference = min($domicile_difference, 2);
         }
         return $name_difference + $birth_year_difference + $domicile_difference;
+    }
+
+    protected $num_updates = 0;
+    protected $flush_every = 1000;
+
+    protected function occasionallyFlush(): void {
+        $this->num_updates++;
+        if ($this->num_updates > $this->flush_every) {
+            $this->forceFlush();
+        }
+    }
+
+    protected function forceFlush(): void {
+        [, $msg] = $this->generalUtils()->measureLatency(function () {
+            $this->entityManager()->flush();
+            $this->num_updates = 0;
+        });
+        $this->logAndOutput("forceFlush {$msg}");
     }
 }

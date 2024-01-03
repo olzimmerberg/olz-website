@@ -29,9 +29,9 @@ class SolvResultRepository extends EntityRepository {
     public function getExactPersonId($solv_result) {
         $db = DbUtils::fromEnv()->getDb();
 
-        $sane_name = $db->escape_string($solv_result->getName());
-        $sane_birth_year = $db->escape_string($solv_result->getBirthYear());
-        $sane_domicile = $db->escape_string($solv_result->getDomicile());
+        $sane_name = $db->real_escape_string($solv_result->getName());
+        $sane_birth_year = $db->real_escape_string($solv_result->getBirthYear());
+        $sane_domicile = $db->real_escape_string($solv_result->getDomicile());
         $dql = "
             SELECT sr.person
             FROM Olz:SolvResult sr
@@ -42,6 +42,7 @@ class SolvResultRepository extends EntityRepository {
                 AND sr.person != '0'
         ";
         $query = $this->getEntityManager()->createQuery($dql);
+        $query->setMaxResults(1);
         try {
             $person_id = $query->getSingleScalarResult();
             return intval($person_id);

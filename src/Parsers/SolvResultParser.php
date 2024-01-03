@@ -12,7 +12,13 @@ class SolvResultParser {
     }
 
     public function parse_solv_yearly_results_json($json_content) {
-        $data = json_decode($json_content, true);
+        $hacky_sanitized_json = str_replace(["\n", "\t"], ['', '  '], $json_content);
+        if (!json_validate($hacky_sanitized_json, 512, JSON_INVALID_UTF8_IGNORE)) {
+            $msg = json_last_error_msg();
+            throw new \Exception("Invalid JSON in parse_solv_yearly_results_json (hackyly sanitized): {$msg}\n\n{$hacky_sanitized_json}");
+        }
+        $data = json_decode($hacky_sanitized_json, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
+
         if (!$data || !isset($data['ResultLists']) || !is_array($data['ResultLists'])) {
             return [];
         }

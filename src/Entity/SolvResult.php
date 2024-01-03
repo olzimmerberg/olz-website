@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Repository\SolvResultRepository;
 
 #[ORM\Table(name: 'solv_results')]
+#[ORM\Index(name: 'person_name_index', columns: ['person', 'name'])]
+#[ORM\Index(name: 'event_index', columns: ['event'])]
 #[ORM\Entity(repositoryClass: SolvResultRepository::class)]
 class SolvResult {
     #[ORM\Id]
@@ -57,6 +59,21 @@ class SolvResult {
 
     #[ORM\Column(type: 'integer', nullable: false)]
     private $class_competitor_count;
+
+    public function __toString(): string {
+        return <<<ZZZZZZZZZZ
+        SolvResult(
+            id:{$this->id},
+            event:{$this->event},
+            class:{$this->class},
+            person:{$this->person},
+            name:{$this->name},
+            birth_year:{$this->birth_year},
+            domicile:{$this->domicile},
+            club:{$this->club},
+        )
+        ZZZZZZZZZZ;
+    }
 
     private $valid_field_names = [
         'id' => true,

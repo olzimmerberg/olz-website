@@ -7,6 +7,7 @@ use Olz\Repository\SolvEventRepository;
 use Olz\Utils\WithUtilsTrait;
 
 #[ORM\Table(name: 'solv_events')]
+#[ORM\Index(name: 'date_index', columns: ['date'])]
 #[ORM\Entity(repositoryClass: SolvEventRepository::class)]
 class SolvEvent {
     use WithUtilsTrait;

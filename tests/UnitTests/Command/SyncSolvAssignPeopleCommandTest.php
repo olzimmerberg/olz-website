@@ -344,8 +344,20 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\SyncSolvAssignPeopleCommand...',
-            'INFO Person not exactly matched:',
-            'INFO {}',
+            "INFO \n---\n",
+            <<<'ZZZZZZZZZZ'
+            INFO Person not exactly matched: SolvResult(
+                id:2,
+                event:1,
+                class:H12,
+                person:,
+                name:Test Runer,
+                birth_year:08,
+                domicile:Zürich ZH,
+                club:OL Zimmerberg,
+            )
+            ZZZZZZZZZZ,
+            'INFO getAllAssignedSolvResultPersonData took 1234ms',
             <<<'ZZZZZZZZZZ'
             INFO Closest matches (difference 1): [
                 {
@@ -357,8 +369,21 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             ]
             ZZZZZZZZZZ,
             'INFO  => Matching person found: 1.',
-            'INFO Person not exactly matched:',
-            'INFO {}',
+            'INFO getMatchingPerson took 1234ms',
+            "INFO \n---\n",
+            <<<'ZZZZZZZZZZ'
+            INFO Person not exactly matched: SolvResult(
+                id:3,
+                event:1,
+                class:H12,
+                person:,
+                name:Test Winner,
+                birth_year:92,
+                domicile:Zürich ZH,
+                club:OL Zimmerberg,
+            )
+            ZZZZZZZZZZ,
+            'INFO getAllAssignedSolvResultPersonData took 1234ms',
             <<<'ZZZZZZZZZZ'
             INFO Closest matches (difference 4): [
                 {
@@ -377,8 +402,11 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             ZZZZZZZZZZ,
             'INFO  => No matching person found (difference too high).',
             'NOTICE Unclear case. Maybe update logic?',
+            'INFO getMatchingPerson took 1234ms',
+            'INFO forceFlush took 1234ms',
             'INFO Created new person (id 270):',
             'INFO {}',
+            'INFO forceFlush took 1234ms',
             'INFO Successfully ran command Olz\Command\SyncSolvAssignPeopleCommand.',
         ], $this->getLogs());
 

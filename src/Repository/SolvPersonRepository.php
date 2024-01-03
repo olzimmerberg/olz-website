@@ -19,7 +19,7 @@ class SolvPersonRepository extends EntityRepository {
         $sane_id = intval($id);
         $dql = "
             UPDATE Olz:SolvPerson sp
-            SET sp.same_as = NULL
+            SET sp.same_as IS NULL
             WHERE sp.id = '{$sane_id}'
         ";
         $query = $this->getEntityManager()->createQuery($dql);

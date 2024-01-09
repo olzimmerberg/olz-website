@@ -28,6 +28,7 @@ trait NewsEndpointTrait {
                 'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
                 'authorName' => new FieldTypes\StringField(['allow_null' => true]),
                 'authorEmail' => new FieldTypes\StringField(['allow_null' => true]),
+                'publishAt' => new FieldTypes\DateTimeField(['allow_null' => true]),
                 'title' => new FieldTypes\StringField([]),
                 'teaser' => new FieldTypes\StringField(['allow_empty' => true]),
                 'content' => new FieldTypes\StringField(['allow_empty' => true]),
@@ -55,6 +56,8 @@ trait NewsEndpointTrait {
         $author_role = $entity->getAuthorRole();
         $author_name = $entity->getAuthorName();
         $author_email = $entity->getAuthorEmail();
+        $published_date = $entity->getPublishedDate()->format('Y-m-d');
+        $published_time = $entity->getPublishedTime()?->format('H:i:s') ?? '00:00:00';
         $tags_for_api = $this->getTagsForApi($entity->getTags() ?? '');
         $external_url = $entity->getExternalUrl();
         $termin_id = $entity->getTermin();
@@ -75,6 +78,7 @@ trait NewsEndpointTrait {
             'authorRoleId' => $author_role ? $author_role->getId() : null,
             'authorName' => $author_name ? $author_name : null,
             'authorEmail' => $author_email ? $author_email : null,
+            'publishAt' => "{$published_date} {$published_time}",
             'title' => $entity->getTitle(),
             'teaser' => $entity->getTeaser(),
             'content' => $entity->getContent(),
@@ -109,6 +113,8 @@ trait NewsEndpointTrait {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
+        $publish_at = $input_data['publishAt'] ? new \DateTime($input_data['publishAt']) : $now;
+
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 
@@ -116,8 +122,8 @@ trait NewsEndpointTrait {
         $entity->setAuthorRole($author_role);
         $entity->setAuthorName($input_data['authorName']);
         $entity->setAuthorEmail($input_data['authorEmail']);
-        $entity->setPublishedDate($now);
-        $entity->setPublishedTime($now);
+        $entity->setPublishedDate($publish_at);
+        $entity->setPublishedTime($publish_at);
         $entity->setTitle($input_data['title']);
         $entity->setTeaser($input_data['teaser']);
         $entity->setContent($input_data['content']);

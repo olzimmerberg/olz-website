@@ -14,9 +14,12 @@ class FakeEditNewsEndpointNewsRepository {
     public function findOneBy($where) {
         // Minimal
         if ($where === ['id' => 12]) {
+            $published_at = new \DateTime('2020-03-13 18:00:00');
             $entry = new NewsEntry();
             $entry->setId(12);
             $entry->setFormat('aktuell');
+            $entry->setPublishedDate($published_at);
+            $entry->setPublishedTime($published_at);
             $entry->setTitle("Fake title");
             $entry->setTeaser("");
             $entry->setContent("");
@@ -24,11 +27,12 @@ class FakeEditNewsEndpointNewsRepository {
         }
         // Empty
         if ($where === ['id' => 123]) {
+            $published_at = new \DateTime('0000-01-01 00:00:00');
             $entry = new NewsEntry();
             $entry->setId(123);
-            $entry->setPublishedDate('0000-01-01');
-            $entry->setPublishedTime('00:00:00');
             $entry->setFormat('aktuell');
+            $entry->setPublishedDate($published_at);
+            $entry->setPublishedTime($published_at);
             $entry->setTitle("Cannot be empty");
             $entry->setTeaser("");
             $entry->setContent("");
@@ -39,11 +43,12 @@ class FakeEditNewsEndpointNewsRepository {
         }
         // Maximal
         if ($where === ['id' => 1234]) {
+            $published_at = new \DateTime('2020-03-13 18:00:00');
             $entry = new NewsEntry();
             $entry->setId(1234);
-            $entry->setPublishedDate('2020-03-13');
-            $entry->setPublishedTime('18:00:00');
             $entry->setFormat('aktuell');
+            $entry->setPublishedDate($published_at);
+            $entry->setPublishedTime($published_at);
             $entry->setTitle("Fake title");
             $entry->setTeaser("Fake teaser");
             $entry->setContent("Fake content");
@@ -164,6 +169,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => null,
                 'authorName' => null,
                 'authorEmail' => null,
+                'publishAt' => '2020-03-13 18:00:00',
                 'title' => 'Fake title',
                 'teaser' => '',
                 'content' => '',
@@ -206,6 +212,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => null,
                 'authorName' => null,
                 'authorEmail' => null,
+                'publishAt' => '0000-01-01 00:00:00',
                 'title' => 'Cannot be empty',
                 'teaser' => '',
                 'content' => '',
@@ -261,6 +268,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => null,
                 'authorName' => null,
                 'authorEmail' => null,
+                'publishAt' => '2020-03-13 18:00:00',
                 'title' => 'Fake title',
                 'teaser' => 'Fake teaser',
                 'content' => 'Fake content',
